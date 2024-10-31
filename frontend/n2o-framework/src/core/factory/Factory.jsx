@@ -1,38 +1,22 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 
-export function Factory(props, context) {
+import { FactoryContext } from './context'
+
+export function Factory(props) {
     const { src, level, security, children, ...rest } = props
     let { component = null } = props
 
-    if (!component) {
-        component = context.getComponent(src, level)
-    }
+    const { getComponent } = useContext(FactoryContext)
 
-    if (component) {
-        return React.createElement(component, rest, children)
-    }
+    if (!component) { component = getComponent(src, level) }
 
-    if (!src) {
-        return null
-    }
+    if (component) { return React.createElement(component, rest, children) }
 
-    // eslint-disable-next-line no-console
+    if (!src) { return null }
+
     console.error(`Фабрике не удалось найти компонент: ${src} в ${level}`)
 
     return null
-}
-
-Factory.propTypes = {
-    src: PropTypes.string,
-    level: PropTypes.string,
-    security: PropTypes.object,
-    children: PropTypes.any,
-    component: PropTypes.any,
-}
-
-Factory.contextTypes = {
-    getComponent: PropTypes.func,
 }
 
 export default Factory

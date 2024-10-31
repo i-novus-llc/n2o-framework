@@ -10,6 +10,7 @@ export interface Alert {
     placement: PLACEMENT
     stopped?: boolean
     modelLink?: string
+    time?: string
 }
 
 export interface Config {

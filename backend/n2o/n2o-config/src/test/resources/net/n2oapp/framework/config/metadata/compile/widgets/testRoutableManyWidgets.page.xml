@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1" query-id="testTable5Compile"/>
+    </datasources>
+    <regions>
+        <table id="table" datasource="ds1">
+            <columns>
+                <column text-field-id="test1"/>
+            </columns>
+            <pagination routable="true"/>
+        </table>
+        <form id="form"/>
+    </regions>
+</page>

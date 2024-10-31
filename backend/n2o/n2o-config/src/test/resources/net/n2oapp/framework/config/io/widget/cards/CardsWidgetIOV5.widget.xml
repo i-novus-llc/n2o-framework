@@ -17,5 +17,5 @@
             </block>
         </col>
     </content>
-    <pagination/>
+    <pagination routable="true"/>
 </cards>

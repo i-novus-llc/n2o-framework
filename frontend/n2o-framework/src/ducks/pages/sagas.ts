@@ -9,7 +9,7 @@ import {
     fork,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
-import { getLocation } from 'connected-react-router'
+import { getLocation, replace } from 'connected-react-router'
 import queryString from 'query-string'
 import { get, isEqual } from 'lodash'
 
@@ -33,8 +33,9 @@ import { DEFAULT_CONTEXT } from '../../utils/evalExpression'
 import { userSelector } from '../user/selectors'
 import { resolveMetadata } from '../../core/auth/resolveMetadata'
 import { AuthProvider } from '../../core/auth/Provider'
+import { DATASOURCE_PREFIX } from '../api/constants'
 
-import { pagesSelector } from './selectors'
+import { makePageByIdSelector, pagesSelector } from './selectors'
 import {
     metadataFail,
     metadataSuccess,
@@ -68,7 +69,7 @@ export function* getMetadata(
     let url: string = pageUrl
 
     try {
-        const { search } = yield select(getLocation)
+        const { search, pathname } = yield select(getLocation)
 
         let resolveProvider: { url: string, headersParams: object } = { url: '', headersParams: {} }
 
@@ -104,6 +105,23 @@ export function* getMetadata(
         if (metadata.id) {
             yield put(setStatus(metadata.id, 200))
             yield put(metadataSuccess(metadata.id, metadata, pageUrl))
+
+            const { queryMapping } = metadata?.routes || {}
+
+            // actions for the n2o/api from the page query mapping to the data source.
+            if (queryMapping) {
+                for (const key of Object.keys(queryMapping)) {
+                    const { get: action } = queryMapping[key]
+
+                    if (action) {
+                        const type = get(action, 'type', '')
+
+                        if (type.includes(DATASOURCE_PREFIX)) {
+                            yield put({ ...action })
+                        }
+                    }
+                }
+            }
         }
 
         // @ts-ignore проблемы с типизацией saga

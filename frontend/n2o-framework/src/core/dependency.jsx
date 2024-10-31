@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import has from 'lodash/has'
 import { connect } from 'react-redux'
@@ -81,13 +80,6 @@ export const dependency = (WrappedComponent) => {
                 </InitMetadataContext.Provider>
             )
         }
-    }
-
-    UniversalDependency.propTypes = {
-        isInit: PropTypes.bool,
-        visible: PropTypes.bool,
-        disabled: PropTypes.bool,
-        models: PropTypes.object,
     }
 
     const mapStateToProps = (state, props) => ({

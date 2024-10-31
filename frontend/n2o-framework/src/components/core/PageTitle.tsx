@@ -6,13 +6,13 @@ import propsResolver from '../../utils/propsResolver'
 
 import { useModel } from './hooks/useModel'
 
-interface PageTitleProps {
+interface Props {
     title?: string,
     htmlTitle?: string,
     className?: string,
     datasource?: string,
     modelPrefix?: ModelPrefix,
-    titleLayout: boolean,
+    titleLayout?: boolean,
 }
 
 /** Renders the main-title or html title of the page **/
@@ -23,7 +23,7 @@ export function PageTitle({
     className,
     datasource,
     titleLayout = true,
-}: PageTitleProps) {
+}: Props) {
     const model = useModel(datasource, modelPrefix)
 
     if (title) {
@@ -35,7 +35,8 @@ export function PageTitle({
             )
         }
 
-        return resolvedTitle
+        // eslint-disable-next-line react/jsx-no-useless-fragment
+        return <>{resolvedTitle}</>
     }
 
     if (htmlTitle) {

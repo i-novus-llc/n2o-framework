@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import map from 'lodash/map'
@@ -65,11 +64,6 @@ const mapDispatchToProps = dispatch => ({
         dispatch(hidePrompt(name))
     },
 })
-
-OverlayPages.propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    overlays: PropTypes.array,
-}
 
 OverlayPages.defaultProps = {
     overlays: {},

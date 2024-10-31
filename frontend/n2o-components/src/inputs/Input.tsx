@@ -29,7 +29,7 @@ import { TBaseInputProps, TBaseProps } from '../types'
  */
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Props = TBaseProps & TBaseInputProps<any> & {
+export type Props = TBaseProps & TBaseInputProps<any> & {
     autoFocus: boolean,
     checked: boolean,
     inputRef?: LegacyRef<HTMLInputElement>,

@@ -104,3 +104,11 @@ export type SubmitAction = DatasourceAction<{
     id: string
     provider?: SubmitProvider
 }, ActionMeta>
+
+export type MapParamPayload = {
+    ['paging.page']?: string
+    ['paging.size']?: string
+    id: string
+}
+
+export type MapParamAction = DatasourceAction<MapParamPayload, ActionMeta>

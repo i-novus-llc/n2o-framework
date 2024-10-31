@@ -9,6 +9,8 @@ import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
+
 /**
  * Валидатор события изменения модели данных
  */
@@ -27,5 +29,6 @@ public class OnChangeEventValidator extends TypedMetadataValidator<N2oOnChangeEv
                 String.format("Событие <on-change> ссылается на несуществующий источник данных '%s'", source.getDatasourceId()));
         if (ArrayUtils.isEmpty(source.getActions()))
             throw new N2oMetadataValidationException(String.format("В событии <on-change> %s не заданы действия", ValidationUtils.getIdOrEmptyString(source.getId())));
+        checkOnFailAction(source.getActions());
     }
 }

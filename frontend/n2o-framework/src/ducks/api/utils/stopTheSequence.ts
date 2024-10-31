@@ -2,7 +2,7 @@ import { insertDrawer, insertOverlay } from '../../overlays/store'
 import { openPagecreator } from '../page'
 import { Action } from '../../Action'
 
-const ERROR = 'завершает выполнение последовательности действий и последующие шаги не будут выполнены'
+export const ERROR = 'завершает выполнение последовательности действий и последующие шаги не будут выполнены'
 // The list of actions after which the sequence ends
 const ERRORS = {
     [insertOverlay.type]: `Открытие модального окна ${ERROR}`,
@@ -11,5 +11,11 @@ const ERRORS = {
 }
 
 export function stopTheSequence(action: Action) {
-    if (action?.meta?.operationId) { throw new Error(ERRORS[action.type]) }
+    if (action?.meta?.operationId) {
+        const { abortController } = action.meta
+
+        abortController?.abort()
+
+        throw new Error(ERRORS[action.type])
+    }
 }

@@ -359,6 +359,30 @@ n2o.api.action.invoke.method = POST
 
 <Sandbox height={250} projectId="uxcomponents_actions_submit"/>
 
+### &lt;on-fail&gt; {#on-fail}
+
+Действие, выполняемое в случае операции, завершившейся ошибкой
+
+**Тело**
+
+Список [действий](../xml/action) выполняемых в случае операции, завершившейся ошибкой
+
+**Пример**
+
+```xml
+<button label="Сохранить">
+    <invoke operation-id="create"/>
+    ...
+    <alert text="Данные сохранены" color="success"/>
+    <on-fail>
+        <alert text="Сохранение завершилось ошибкой" color="danger"/>
+        <close/>
+    </on-fail>
+</button>
+```
+
+<Sandbox height={250} projectId="uxcomponents_actions_on_fail"/>
+
 ### &lt;print&gt; {#print}
 
 Действие печати

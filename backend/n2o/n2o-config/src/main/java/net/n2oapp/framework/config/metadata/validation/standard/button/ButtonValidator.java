@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
+
 /**
  * Валидатор исходной модели кнопки
  */
@@ -23,6 +25,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
     @Override
     public void validate(N2oButton source, SourceProcessor p) {
         checkValidateDependenciesDatasource(source, p);
+        checkOnFailAction(source.getActions());
     }
 
     /**

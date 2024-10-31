@@ -1,5 +1,4 @@
 import React, { useContext, useMemo } from 'react'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
@@ -72,17 +71,4 @@ function TilesWidget(props) {
     )
 }
 
-TilesWidget.propTypes = {
-    ...widgetPropTypes,
-    tile: PropTypes.node,
-    colsSm: PropTypes.number,
-    colsMd: PropTypes.number,
-    colsLg: PropTypes.number,
-    width: PropTypes.number,
-    height: PropTypes.number,
-}
-
-/**
- * @type ConnectedWidget
- */
 export default WidgetHOC(WithActiveModel(TilesWidget))

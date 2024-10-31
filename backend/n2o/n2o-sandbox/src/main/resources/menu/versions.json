@@ -5,12 +5,20 @@
       "name": "7.28",
       "templates": [
         {
+          "templateId": "versions/7.28/pagination_routable",
+          "name": "Восстановление параметров пагинации по урл"
+        },
+        {
           "templateId": "versions/7.28/cached_datasource",
           "name": "Кэширующий датасурс"
         },
         {
           "templateId": "versions/7.28/listcell_with_cell",
           "name": "Ячейка со списком значений"
+        },
+        {
+          "templateId": "versions/7.28/on_fail_action",
+          "name": "Действие <on-fail>, выполняемое в случае операции, завершившейся ошибкой"
         }
       ]
     },

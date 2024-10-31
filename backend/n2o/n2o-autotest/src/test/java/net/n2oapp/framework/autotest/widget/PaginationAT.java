@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.widget;
 
 import com.codeborne.selenide.Selenide;
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -337,5 +338,70 @@ public class PaginationAT extends AutoTestBase {
         paging.nextShouldHaveLabel("Право");
         paging.nextShouldHaveIcon("fa fa-trash");
 
+    }
+
+    @Test
+    public void testRoutable() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/routable");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        table.shouldExists();
+        Paging paging = table.paging();
+        paging.selectPage("5");
+        paging.shouldHaveActivePage("5");
+        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test13");
+        Selenide.refresh();
+        table.shouldExists();
+        paging.shouldHaveActivePage("5");
+        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test13");
+        table.toolbar().topLeft().button("btn").click();
+        StandardPage open = N2oSelenide.page(StandardPage.class);
+        open.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
+        Selenide.back();
+        table.shouldExists();
+        paging.shouldHaveActivePage("5");
+        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test13");
+    }
+
+    @Test
+    public void testRoutableManyWidgets() {
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        TableWidget table2 = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
+        table.shouldExists();
+        Paging paging = table.paging();
+        Paging paging2 = table2.paging();
+        paging.selectPage("5");
+        paging.shouldHaveActivePage("5");
+        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test13");
+        paging2.selectPage("3");
+        paging2.shouldHaveActivePage("3");
+        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test9");
+        Selenide.refresh();
+        table.shouldExists();
+        paging.shouldHaveActivePage("5");
+        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test13");
+        paging2.shouldHaveActivePage("3");
+        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test9");
+        table.toolbar().topLeft().button("btn").click();
+        StandardPage open = N2oSelenide.page(StandardPage.class);
+        open.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
+        Selenide.back();
+        table.shouldExists();
+        paging.shouldHaveActivePage("5");
+        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test13");
+        paging2.shouldHaveActivePage("3");
+        table2.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test9");
     }
 }

@@ -1,3 +1,4 @@
+
 package net.n2oapp.framework.config.metadata.validation.standard.action;
 
 import net.n2oapp.framework.api.metadata.Source;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailActionNotExist;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
@@ -36,7 +38,10 @@ public class SwitchActionValidator extends TypedMetadataValidator<N2oSwitchActio
         }
 
         source.getValueCases().forEach(this::checkValue);
-        Arrays.stream(cases).forEach(p::validate);
+        Arrays.stream(cases).forEach(c -> {
+            checkOnFailActionNotExist(c.getActions(), "<switch>");
+            p.validate(c);
+        });
     }
 
     private void checkValue(N2oSwitchAction.Case valueCase) {

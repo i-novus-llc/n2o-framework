@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators, Dispatch } from 'redux'
-import { i18n } from 'i18next'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import keys from 'lodash/keys'
@@ -17,7 +16,6 @@ import numeral from 'numeral'
 import { ErrorContainer } from '../../core/error/Container'
 import { Block } from '../snippets/Block/Block'
 import { State } from '../../ducks/State'
-import { DataSourceState } from '../../ducks/datasource/DataSource'
 import {
     requestConfig as requestConfigAction,
     setReady as setReadyAction,

@@ -26,5 +26,5 @@ export function fetchCancel(fetchType: string, options: Record<string, unknown>)
 }
 
 export function fetchErrorContinue() {
-    return createActionHelper(FETCH_ERROR_CONTINUE)()
+    return createActionHelper(FETCH_ERROR_CONTINUE)({})
 }

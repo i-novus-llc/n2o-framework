@@ -1,5 +1,5 @@
 import React, { Component, FC } from 'react'
-import { Dispatch } from 'redux'
+import { AnyAction, Dispatch } from 'redux'
 import { connect, ReactReduxContext } from 'react-redux'
 import get from 'lodash/get'
 import isArray from 'lodash/isArray'

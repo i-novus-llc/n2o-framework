@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Действие &lt;on-fail&gt;, выполняемое в случае операции, завершившейся ошибкой">
+    <form>
+        <datasource object-id="test"/>
+        <fields>
+            <input-text id="name" label="Введите имя"/>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button label="Сохранить">
+                <!-- отключены сообщения по умолчанию, чтобы показать работу on-fail -->
+                <invoke operation-id="create" message-on-success="false" message-on-fail="false" />
+                <alert text="Данные сохранены" color="success"/>
+                <on-fail>
+                    <alert text="Действие завершилось ошибкой" color="danger"/>
+                </on-fail>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>
+

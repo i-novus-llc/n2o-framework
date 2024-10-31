@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.validation.event;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.validation.standard.event.OnChangeEventValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидации события изменения модели данных
  */
-public class OnChangeEventValidatorTest extends SourceValidationTestBase {
+class OnChangeEventValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -27,7 +28,7 @@ public class OnChangeEventValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack());
+        builder.packs(new N2oPagesPack(), new N2oActionsPack());
         builder.validators(new PageValidator(), new BasePageValidator(), new OnChangeEventValidator());
     }
 
@@ -59,5 +60,13 @@ public class OnChangeEventValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/event/actionsAreNotExist.page.xml"));
         assertEquals("В событии <on-change> 'withOutActions' не заданы действия", exception.getMessage());
+    }
+
+    @Test
+    void checkOnFailAction() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/event/checkOnFailAction.page.xml"));
+        assertEquals("Задано действие <on-fail> при отсутствующем действии <invoke>", exception.getMessage());
     }
 }

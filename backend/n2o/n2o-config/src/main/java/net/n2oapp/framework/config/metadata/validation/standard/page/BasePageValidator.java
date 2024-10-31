@@ -23,9 +23,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.config.metadata.validation.standard.PageValidationUtil.fillDatasourceIdsScopeByInlineDatasource;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
 /**
@@ -66,6 +68,9 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         MetaActions actionBarScope = new MetaActions(
                 p.safeStreamOf(actions).collect(Collectors.toMap(ActionBar::getId, Function.identity()))
         );
+        if (actions != null)
+            Stream.of(actions).forEach(actionbar ->
+                    checkOnFailAction(actionbar.getN2oActions()));
 
         checkDuplicateWidgetIdsInDatasources(widgets, datasourceIdsScope);
         fillDatasourceIdsScopeByInlineDatasource(widgets, datasourceIdsScope, p);

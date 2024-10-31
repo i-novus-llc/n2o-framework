@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
 import { pure } from 'recompose'
-import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
 import classNames from 'classnames'
 
@@ -83,16 +82,6 @@ function AdvancedTableFilterPopup({
             </div>
         </>
     )
-}
-
-AdvancedTableFilterPopup.propTypes = {
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    onChange: PropTypes.func,
-    component: PropTypes.any,
-    onSearchClick: PropTypes.func,
-    onResetClick: PropTypes.func,
-    componentProps: PropTypes.object,
-    error: PropTypes.object,
 }
 
 AdvancedTableFilterPopup.defaultProps = {

@@ -49,7 +49,8 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new SwitchActionElementIOV2(),
                 new IfBranchActionElementIOV2(),
                 new ElseIfBranchActionElementIOV2(),
-                new ElseBranchActionElementIOV2());
+                new ElseBranchActionElementIOV2(),
+                new OnFailActionElementIOV2());
         b.compilers(new ShowModalCompiler(),
                 new OpenDrawerCompiler(),
                 new InvokeActionCompiler(),

@@ -105,7 +105,7 @@ export const getLocation = createSelector(
  */
 export const getLocales = createSelector(
     globalSelector,
-    global => global.locales || {},
+    global => global.locales || [],
 )
 
 /**

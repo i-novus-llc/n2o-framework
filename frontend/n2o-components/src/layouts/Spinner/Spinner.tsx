@@ -11,7 +11,7 @@ export enum SpinnerType {
     inline = 'inline',
 }
 
-type Props = TBaseProps & {
+export type Props = TBaseProps & {
     children: ReactNode,
     color: string,
     loading: boolean,
@@ -20,6 +20,7 @@ type Props = TBaseProps & {
     title: string,
     transparent: boolean,
     type: SpinnerType
+    size?: string
 }
 
 type State = {

@@ -1,0 +1,12 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <button>
+            <on-fail>
+
+            </on-fail>
+            <on-fail>
+
+            </on-fail>
+        </button>
+    </fields>
+</form>

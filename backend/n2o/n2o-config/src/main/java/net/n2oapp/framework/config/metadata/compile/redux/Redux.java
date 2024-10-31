@@ -87,6 +87,18 @@ public abstract class Redux {
     }
 
     /**
+     * Создать ссылку параметров пагинации
+     *
+     * @param datasourceId Идентификатор источника данных
+     * @param paging       Тип параметра
+     * @return Ссылка на параметры пагинации
+     */
+    public static BindLink createRoutableLink(String datasourceId, RoutablePayload.Paging paging) {
+        return new BindLink("datasource." + datasourceId + ".paging." + paging.toString());
+    }
+
+
+    /**
      * Вызвать обновление поля в модели виджета
      *
      * @param widgetId Идентификатор виджета

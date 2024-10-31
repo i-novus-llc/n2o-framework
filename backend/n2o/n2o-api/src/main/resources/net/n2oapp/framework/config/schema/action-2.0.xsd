@@ -14,6 +14,7 @@
     <xs:element name="copy" type="copyDefinition"/>
     <xs:element name="edit-list" type="editListDefinition"/>
     <xs:element name="invoke" type="invokeActionDefinition"/>
+    <xs:element name="on-fail" type="onFailDefinition"/>
     <xs:element name="open-drawer" type="openDrawerDefinition"/>
     <xs:element name="open-page" type="openPageDefinition"/>
     <xs:element name="print" type="printDefinition"/>
@@ -49,6 +50,7 @@
             <xs:element name="switch" type="switchActionDefinition" minOccurs="0"/>
             <xs:group ref="ifElseDefinition" minOccurs="0"/>
             <xs:element name="action" type="customActionDefinition" minOccurs="0"/>
+            <xs:element name="on-fail" type="onFailDefinition" minOccurs="0"/>
             <xs:any namespace="##other">
                 <xs:annotation>
                     <xs:documentation>
@@ -1744,6 +1746,20 @@
         </xs:annotation>
         <xs:sequence>
             <xs:group ref="actionsGroup" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="onFailDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Действие, выполняемое в случае операции, завершившейся ошибкой
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="close" type="closeDefinition" minOccurs="0"/>
+            <xs:element name="clear" type="clearDefinition" minOccurs="0"/>
+            <xs:element name="refresh" type="refreshDefinition" minOccurs="0"/>
+            <xs:element name="alert" type="alertDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 

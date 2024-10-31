@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.validation.page;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидации страницы
  */
-public class PageValidatorTest extends SourceValidationTestBase {
+class PageValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -28,7 +29,7 @@ public class PageValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack());
         builder.validators(new PageValidator(), new BasePageValidator());
     }
 
@@ -86,5 +87,14 @@ public class PageValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/page/testEmptyToolbar.page.xml")
         );
         assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре страницы", exception.getMessage());
+    }
+
+    @Test
+    void testOnFailAction() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testOnFailAction.page.xml")
+        );
+        assertEquals("Не может быть более одного элемента <on-fail>", exception.getMessage());
     }
 }
