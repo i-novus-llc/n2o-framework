@@ -1,15 +1,13 @@
-import classNames from 'classnames'
 import React from 'react'
+import classNames from 'classnames'
 
 import InlineSpinner from '../Spinner/InlineSpinner'
 
-interface Props {
-    text?: string
+import { CommonAlertProps } from './types'
+
+interface Props extends CommonAlertProps {
     severity?: string
-    className?: string
-    style?: React.CSSProperties
     animate?: boolean
-    t(key: string): string
 }
 
 export const LoaderAlert = ({
@@ -32,7 +30,7 @@ export const LoaderAlert = ({
                 'n2o-alert--animated': animate,
             },
         )}
-        style={style}
+        style={style || {}}
     >
         <div className="n2o-alert-body-container">
             <InlineSpinner />

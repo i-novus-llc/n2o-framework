@@ -1,6 +1,7 @@
-import React, { CSSProperties } from 'react'
+import React from 'react'
 
-import { TextSegment, TimeStampSegment, CloseButtonSegment, StacktraceSegment } from './utils'
+import { TextSegment, TimeStampSegment, CloseButtonSegment, StacktraceSegment } from './helpers'
+import { CommonAlertProps } from './types'
 
 /**
  * AlertSection - можно складывать в единый блок
@@ -18,17 +19,11 @@ import { TextSegment, TimeStampSegment, CloseButtonSegment, StacktraceSegment } 
  </div>
  */
 
-interface Props {
-    text?: string
-    timestamp?: string
-    closeButton?: boolean
-    stacktraceVisible: boolean
+export interface Props extends CommonAlertProps {
+    stacktraceVisible?: boolean
     textClassName?: string
     isSimple?: boolean
-    onClick(): void
-    style?: CSSProperties
-    stacktrace: string
-    t(key: string): string
+    onClick?(e: React.MouseEvent<HTMLElement>): void
 }
 
 export const AlertSection = ({
@@ -43,7 +38,7 @@ export const AlertSection = ({
     isSimple,
     t,
 }: Props) => (
-    <div className="n2o-alert-segment w-100 d-flex flex-row flex-nowrap" style={style}>
+    <div className="n2o-alert-segment w-100 d-flex flex-row flex-nowrap" style={style || {}}>
         <TextSegment text={text} className={textClassName} />
         <TimeStampSegment timestamp={timestamp} text={text} />
         <CloseButtonSegment

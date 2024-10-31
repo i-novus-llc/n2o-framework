@@ -9,8 +9,8 @@ export interface Crumb {
 export type breadcrumb = Crumb[]
 
 export interface BreadcrumbContainer {
-    breadcrumb: breadcrumb
-    models: DataSourceModels,
+    breadcrumb?: breadcrumb
+    models?: DataSourceModels,
     modelPrefix?: ModelPrefix
-    datasource: string
+    datasource?: string
 }
