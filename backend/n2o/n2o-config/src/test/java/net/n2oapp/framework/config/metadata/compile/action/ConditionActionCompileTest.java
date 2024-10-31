@@ -110,6 +110,15 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
         assertThat(condition.getPayload().getCondition(), is("code == 'B'"));
         assertThat(condition.getPayload().getSuccess(), instanceOf(AlertAction.class));
 
+        //Последний if в кнопке b1
+        condition = (ConditionAction) ((MultiAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
+                .getToolbar().getButton("b1").getAction()).getPayload().getActions().get(2);
+        assertThat(condition.getPayload().getCondition(), is("code == 'C'"));
+        assertThat(condition.getPayload().getSuccess(), instanceOf(AlertAction.class));
+        condition = ((ConditionAction) condition.getPayload().getFail());
+        assertThat(condition.getPayload().getCondition(), is("code == 'D'"));
+        assertThat(condition.getPayload().getSuccess(), instanceOf(AlertAction.class));
+
 
         //Проверка использования датасорса страницы для if-else в тулбаре (при отсутствии своего ds и ds у кнопки, для if-else любой вложенности берется датасорс страницы)
         condition = (ConditionAction) page.getToolbar().getButton("b2").getAction();
