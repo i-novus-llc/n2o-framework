@@ -3,7 +3,7 @@ import { withTranslation } from 'react-i18next'
 
 import { LoaderAlert } from './LoaderAlert'
 import { DefaultAlert } from './DefaultAlert'
-import { AlertTypes } from './AlertsTypes'
+import { CommonAlertProps } from './types'
 
 /**
  * Компонент сообщения-алерта
@@ -20,7 +20,18 @@ import { AlertTypes } from './AlertsTypes'
  * @example <Alert onDismiss={this.onDismiss} title='Сообщение' text={this.text} />
  */
 
-function Alert(props) {
+export interface Props extends CommonAlertProps {
+    loader?: boolean
+    severity: string
+    href?: string
+    animate: boolean
+    onDismiss(): void
+    stopRemoving(): void
+    placement: string
+    visible: boolean
+}
+
+function Alert(props: Props) {
     const {
         loader,
         title: propsTitle,
@@ -47,22 +58,16 @@ function Alert(props) {
     }, [stacktraceVisible, stopRemoving])
 
     const formattingDetails = useCallback((stacktrace) => {
-        if (!stacktrace) {
-            return null
-        }
+        if (!stacktrace) { return null }
 
-        if (Array.isArray(stacktrace)) {
-            return stacktrace.join('\r\n')
-        }
+        if (Array.isArray(stacktrace)) { return stacktrace.join('\r\n') }
 
         return stacktrace
     }, [])
 
     const { visible } = props
 
-    if (!visible) {
-        return null
-    }
+    if (!visible) { return null }
 
     const text = propsText === 0 ? String(propsText) : propsText
 
@@ -116,7 +121,5 @@ Alert.defaultProps = {
     },
     placement: 'top',
 }
-
-Alert.propTypes = AlertTypes
 
 export default withTranslation()(Alert)

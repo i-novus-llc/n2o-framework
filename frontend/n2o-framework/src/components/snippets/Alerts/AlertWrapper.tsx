@@ -1,14 +1,14 @@
 import React, { ReactNode, CSSProperties } from 'react'
 import classNames from 'classnames'
 
-interface Props {
+export interface Props {
     children: ReactNode
     className?: string
     severity?: string
     animate?: boolean
     stacktrace?: boolean
     href?: string
-    style?: CSSProperties
+    style?: CSSProperties | null
     animationDirection?: 'default' | 'reversed'
 }
 
@@ -36,7 +36,7 @@ export const AlertWrapper = ({
                     'with-link': href,
                 },
             )}
-            style={style}
+            style={style || {}}
         >
             <a
                 href={href}

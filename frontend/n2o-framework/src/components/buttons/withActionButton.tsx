@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import isNil from 'lodash/isNil'
+import { Dispatch } from 'redux'
 
 import { validate as validateDatasource } from '../../core/validation/validate'
 import { ExpressionContext } from '../../core/Expression/Context'
@@ -36,12 +37,15 @@ type ActionButtonProps = ReduxButtonProps & {
 
 type UseActionProps = ButtonState & {
     validate?: string[]
+    actionCallback?(): void
     action?: Action
     model: ModelPrefix
     datasource: string
+    onClick?: EventHandler
+    dispatch?: Dispatch
 }
 
-type EventHandler = (event: MouseEvent, props: UseActionProps, state: GlobalState) => void
+export type EventHandler = (event: MouseEvent, props?: UseActionProps, state?: GlobalState) => void
 
 const emptyHandler = () => undefined
 
@@ -110,7 +114,7 @@ function useAction({ validate, ...rest }: UseActionProps, onClick: EventHandler)
     }
 }
 
-export default function withActionButton({ onClick = emptyHandler }: { onClick?: EventHandler } = {}) {
+export function withActionButton({ onClick = emptyHandler }: { onClick?: EventHandler } = {}) {
     return (WrappedComponent: Parameters<typeof ActionButton>[0]['Component']) => {
         function WithActionButton(props: ActionButtonProps) {
             const reduxProps = useReduxButton(props)
@@ -160,3 +164,5 @@ export default function withActionButton({ onClick = emptyHandler }: { onClick?:
         return WithActionButton
     }
 }
+
+export default withActionButton

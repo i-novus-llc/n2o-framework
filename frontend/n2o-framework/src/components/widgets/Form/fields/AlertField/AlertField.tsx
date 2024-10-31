@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
+import { withTranslation } from 'react-i18next'
 
-import { AlertTypes } from '../../../../snippets/Alerts/AlertsTypes'
 import { DefaultAlert } from '../../../../snippets/Alerts/DefaultAlert'
 import { setFieldVisible } from '../../../../../ducks/form/store'
-import { useFormContext } from '../../../../core/FormProvider/hooks/useFormContext'
+import { useFormContext } from '../../../../core/FormProvider'
+import { CommonAlertProps } from '../../../../snippets/Alerts/types'
 
 /**
  * Компонент - AlertField формы
@@ -23,6 +24,14 @@ import { useFormContext } from '../../../../core/FormProvider/hooks/useFormConte
  * @return {node|null}
  */
 
+export interface Props extends CommonAlertProps {
+    color: string
+    severity: string
+    href: string
+    id: string
+    visible: boolean
+}
+
 export function AlertField({
     title,
     text,
@@ -33,15 +42,14 @@ export function AlertField({
     closeButton,
     href,
     id,
+    t,
     visible = true,
-}) {
+}: Props) {
     const dispatch = useDispatch()
     const { formName } = useFormContext()
     const onClose = () => dispatch(setFieldVisible(formName, id, false))
 
-    if (!visible) {
-        return null
-    }
+    if (!visible) { return null }
 
     return (
         <DefaultAlert
@@ -50,14 +58,13 @@ export function AlertField({
             style={style}
             className={classNames('n2o-snippet n2o-alert-field', className)}
             severity={severity || color}
-            onClose={closeButton && onClose}
+            onClose={closeButton ? onClose : () => {}}
             closeButton={closeButton}
             href={href}
+            t={t}
             isField
         />
     )
 }
 
-AlertField.propTypes = AlertTypes
-
-export default AlertField
+export default withTranslation()(AlertField)

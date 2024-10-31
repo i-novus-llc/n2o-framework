@@ -1,44 +1,67 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { CSSProperties, ReactNode } from 'react'
 import classNames from 'classnames'
+import { Dispatch } from 'redux'
 
 import Alert from '../snippets/Alerts/Alert'
 import { PageTitle, PageTitle as DocumentTitle } from '../core/PageTitle'
 import { BreadcrumbContainer } from '../core/Breadcrumb/BreadcrumbContainer'
-import Toolbar from '../buttons/Toolbar'
+import Toolbar, { ToolbarProps } from '../buttons/Toolbar'
+import { ModelPrefix } from '../../core/datasource/const'
+import { breadcrumb } from '../core/Breadcrumb/const'
 
 import { usePageRegister } from './usePageRegister'
 
-/**
- * Стандартное наполнение страницы
- * @param metadata
- * @param toolbar
- * @param entityKey
- * @param error
- * @param children
- * @param disabled
- * @param dispatch
- * @return {*}
- * @constructor
- */
-function DefaultPage({
-    metadata = {},
+interface DefaultPageProps {
+    metadata?: {
+        style?: CSSProperties
+        className?: string
+        datasources?: string[]
+        id?: string
+        page: {
+            title?: string
+            htmlTitle?: string
+            datasource?: string
+            model: ModelPrefix
+        };
+        breadcrumb: breadcrumb
+    };
+    toolbar?: {
+        topLeft?: ToolbarProps
+        topCenter?: ToolbarProps
+        topRight?: ToolbarProps
+        bottomLeft?: ToolbarProps
+        bottomCenter?: ToolbarProps
+        bottomRight?: ToolbarProps
+    };
+    entityKey?: string;
+    error?: false | { [key: string]: string }
+    children?: ReactNode
+    disabled?: boolean
+    dispatch: Dispatch
+}
+
+const DefaultPage: React.FC<DefaultPageProps> = ({
+    metadata,
     toolbar,
     entityKey,
     error,
     children,
     disabled,
     dispatch,
-}) {
-    const { style, className, datasources, id: pageId, page = {}, breadcrumb } = metadata
-    const { title, htmlTitle, datasource, model: modelPrefix = 'resolve' } = page
+}) => {
+    const { style, className, datasources, id: pageId, page, breadcrumb } = metadata || {}
+    const { title, htmlTitle, datasource, model: modelPrefix } = page || {}
 
     usePageRegister(datasources, dispatch, pageId)
 
     return (
         <div className={classNames('n2o-page-body', className, { 'n2o-disabled-page': disabled })} style={style}>
             {error && <Alert {...error} visible />}
-            <DocumentTitle htmlTitle={htmlTitle} datasource={datasource} modelPrefix={modelPrefix} />
+            <DocumentTitle
+                htmlTitle={htmlTitle}
+                datasource={datasource}
+                modelPrefix={modelPrefix || ModelPrefix.active}
+            />
             <BreadcrumbContainer
                 breadcrumb={breadcrumb}
                 datasource={datasource}
@@ -65,20 +88,6 @@ function DefaultPage({
             }
         </div>
     )
-}
-
-DefaultPage.propTypes = {
-    metadata: PropTypes.object,
-    toolbar: PropTypes.object,
-    entityKey: PropTypes.string,
-    error: PropTypes.oneOfType([PropTypes.object, PropTypes.oneOf([false])]),
-    children: PropTypes.oneOfType([
-        PropTypes.node,
-        PropTypes.func,
-        PropTypes.element,
-    ]),
-    disabled: PropTypes.bool,
-    dispatch: PropTypes.func,
 }
 
 DefaultPage.defaultProps = {

@@ -1,12 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 
-interface TextSegmentProps {
-    text?: string
-    className?: string
-}
+import { CommonAlertProps, SegmentProps } from './types'
 
-export const TextSegment = ({ text, className }: TextSegmentProps) => {
+export const TextSegment = ({ text, className }: SegmentProps) => {
     if (!text) { return null }
 
     return (
@@ -16,21 +13,13 @@ export const TextSegment = ({ text, className }: TextSegmentProps) => {
     )
 }
 
-interface TimeStampSegmentProps {
-    timestamp?: string
-    text?: string
-}
-
-export const TimeStampSegment = ({ timestamp, text }: TimeStampSegmentProps) => {
+export const TimeStampSegment = ({ timestamp, text }: SegmentProps) => {
     if (!timestamp) { return null }
 
     return (
         <section className={classNames(
             'n2o-alert-segment__timestamp d-flex align-items-start justify-content-end text-right',
-            {
-                'w-50': text,
-                'w-100': !text,
-            },
+            { 'w-50': text, 'w-100': !text },
         )}
         >
             {timestamp}
@@ -38,25 +27,13 @@ export const TimeStampSegment = ({ timestamp, text }: TimeStampSegmentProps) => 
     )
 }
 
-interface CloseButtonSegmentProps {
-    closeButton?: boolean
-    onClick?(): void
-    text?: string
-    timestamp?: string
-    extended?: boolean
-}
-
-export const CloseButtonSegment = ({ closeButton, onClick, text, timestamp, extended }: CloseButtonSegmentProps) => {
+export const CloseButtonSegment = ({ closeButton, onClick, text, timestamp, extended }: SegmentProps) => {
     if (!closeButton) { return null }
 
     return (
         <section className={classNames(
             'n2o-alert-segment__icon-container d-flex justify-content-end',
-            {
-                'text-empty': !text,
-                'w-100': !text && !timestamp,
-                extended,
-            },
+            { 'text-empty': !text, 'w-100': !text && !timestamp, extended },
         )}
         >
             <i onClick={onClick} className="fa fa-close n2o-alert-segment__icon-close d-flex align-items-start" />
@@ -64,14 +41,7 @@ export const CloseButtonSegment = ({ closeButton, onClick, text, timestamp, exte
     )
 }
 
-interface StacktraceSegmentProps {
-    stacktrace?: string
-    onClick?(): void
-    stacktraceVisible: boolean
-    t(key: string): string
-}
-
-export const StacktraceSegment = ({ stacktrace, onClick, stacktraceVisible, t }: StacktraceSegmentProps) => {
+export const StacktraceSegment = ({ stacktrace, onClick, stacktraceVisible, t }: CommonAlertProps) => {
     if (!stacktrace) { return null }
 
     return (

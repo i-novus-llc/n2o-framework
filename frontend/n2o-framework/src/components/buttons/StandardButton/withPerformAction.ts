@@ -1,17 +1,17 @@
-import { compose } from 'recompose'
+import flowRight from 'lodash/flowRight'
 
-import withActionButton from '../withActionButton'
+import { withActionButton } from '../withActionButton'
 
-export const withPerformAction = compose(
+export const withPerformAction = flowRight(
     withActionButton({
         onClick: (e, props) => {
-            const { action, onClick, dispatch, actionCallback } = props
+            const { action, onClick, dispatch, actionCallback } = props || {}
 
             if (actionCallback) {
                 actionCallback()
             }
 
-            if (action) {
+            if (action && dispatch) {
                 dispatch(action)
             }
 
