@@ -1,46 +1,16 @@
-import React, { CSSProperties, ReactNode } from 'react'
+import React from 'react'
 import classNames from 'classnames'
-import { Dispatch } from 'redux'
 
 import Alert from '../snippets/Alerts/Alert'
 import { PageTitle, PageTitle as DocumentTitle } from '../core/PageTitle'
 import { BreadcrumbContainer } from '../core/Breadcrumb/BreadcrumbContainer'
-import Toolbar, { ToolbarProps } from '../buttons/Toolbar'
+import Toolbar from '../buttons/Toolbar'
 import { ModelPrefix } from '../../core/datasource/const'
-import { breadcrumb } from '../core/Breadcrumb/const'
 
+import { type DefaultPageProps } from './types'
 import { usePageRegister } from './usePageRegister'
 
-interface DefaultPageProps {
-    metadata?: {
-        style?: CSSProperties
-        className?: string
-        datasources?: string[]
-        id?: string
-        page: {
-            title?: string
-            htmlTitle?: string
-            datasource?: string
-            model: ModelPrefix
-        };
-        breadcrumb: breadcrumb
-    };
-    toolbar?: {
-        topLeft?: ToolbarProps
-        topCenter?: ToolbarProps
-        topRight?: ToolbarProps
-        bottomLeft?: ToolbarProps
-        bottomCenter?: ToolbarProps
-        bottomRight?: ToolbarProps
-    };
-    entityKey?: string;
-    error?: false | { [key: string]: string }
-    children?: ReactNode
-    disabled?: boolean
-    dispatch: Dispatch
-}
-
-const DefaultPage: React.FC<DefaultPageProps> = ({
+export const DefaultPage = ({
     metadata,
     toolbar,
     entityKey,
@@ -48,11 +18,11 @@ const DefaultPage: React.FC<DefaultPageProps> = ({
     children,
     disabled,
     dispatch,
-}) => {
+}: DefaultPageProps) => {
     const { style, className, datasources, id: pageId, page, breadcrumb } = metadata || {}
     const { title, htmlTitle, datasource, model: modelPrefix } = page || {}
 
-    usePageRegister(datasources, dispatch, pageId)
+    usePageRegister(dispatch, datasources, pageId)
 
     return (
         <div className={classNames('n2o-page-body', className, { 'n2o-disabled-page': disabled })} style={style}>

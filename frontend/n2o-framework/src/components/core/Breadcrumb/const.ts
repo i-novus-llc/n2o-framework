@@ -6,10 +6,10 @@ export interface Crumb {
     path?: string
 }
 
-export type breadcrumb = Crumb[]
+export type Breadcrumb = Crumb[]
 
 export interface BreadcrumbContainer {
-    breadcrumb?: breadcrumb
+    breadcrumb?: Breadcrumb
     models?: DataSourceModels,
     modelPrefix?: ModelPrefix
     datasource?: string
