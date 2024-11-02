@@ -9,7 +9,7 @@ import { type PageRegionsProps } from './types'
 /**
  * Стандартный рендер регионов
  */
-export function PageRegions({ id, regions, width, routable }: PageRegionsProps) {
+export function PageRegions({ id, regions = {}, width = {}, routable }: PageRegionsProps) {
     return (
         <>
             {
@@ -29,11 +29,6 @@ export function PageRegions({ id, regions, width, routable }: PageRegionsProps) 
         }
         </>
     )
-}
-
-PageRegions.defaultProps = {
-    regions: {},
-    width: {},
 }
 
 export default PageRegions

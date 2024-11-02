@@ -31,7 +31,7 @@ export interface Props extends CommonAlertProps {
     visible: boolean
 }
 
-function Alert(props: Props) {
+function AlertBody(props: Props) {
     const {
         loader,
         title: propsTitle,
@@ -106,7 +106,7 @@ function Alert(props: Props) {
         />
     )
 }
-Alert.defaultProps = {
+AlertBody.defaultProps = {
     text: '',
     title: '',
     severity: 'danger',
@@ -122,4 +122,5 @@ Alert.defaultProps = {
     placement: 'top',
 }
 
-export default withTranslation()(Alert)
+export const Alert = withTranslation()(AlertBody)
+export default Alert

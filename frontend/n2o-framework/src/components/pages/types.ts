@@ -24,6 +24,22 @@ export interface DefaultPageProps {
         }
         breadcrumb: Breadcrumb
         width: Record<string, string>
+        searchBar: {
+            className: string
+            datasource: string
+            fieldId: string
+            placeholder: string
+            throttleDelay: number
+            trigger: 'CHANGE' | 'CLICK'
+        }
+        toolbar?: {
+            topLeft?: ToolbarProps
+            topCenter?: ToolbarProps
+            topRight?: ToolbarProps
+            bottomLeft?: ToolbarProps
+            bottomCenter?: ToolbarProps
+            bottomRight?: ToolbarProps
+        }
     }
     toolbar?: {
         topLeft?: ToolbarProps
@@ -46,8 +62,14 @@ export interface PageRegionsProps {
         left?: RegionsState[]
         right?: RegionsState[]
     }
-    width: Record<string, string>
+    width?: Record<string, string>
     routable?: boolean
 }
 
 export type PageWithRegionsProps = DefaultPageProps & PageRegionsProps
+
+export type SearchablePageProps = PageWithRegionsProps & {
+    pageId: string
+    withToolbar: boolean
+    initSearchValue?: string
+}
