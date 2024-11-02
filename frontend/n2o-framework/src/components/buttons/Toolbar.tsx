@@ -26,6 +26,14 @@ export type ToolbarProps = Array<{
     buttons: Button[]
 }>
 
+export interface ToolbarMeta {
+    toolbar?: {
+        bottomLeft?: ToolbarProps
+        bottomCenter?: ToolbarProps
+        bottomRight?: ToolbarProps
+    }
+}
+
 interface Props {
     className?: string
     toolbar?: ToolbarProps

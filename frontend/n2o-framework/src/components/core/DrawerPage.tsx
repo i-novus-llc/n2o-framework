@@ -5,7 +5,7 @@ import flowRight from 'lodash/flowRight'
 
 import { Drawer, Props as DrawerProps } from '../snippets/Drawer/Drawer'
 import { Spinner, SpinnerType } from '../snippets/Spinner/Spinner'
-import Toolbar, { ToolbarProps } from '../buttons/Toolbar'
+import Toolbar, { type ToolbarProps } from '../buttons/Toolbar'
 
 import withOverlayMethods from './withOverlayMethods'
 import Page from './Page'
@@ -18,8 +18,8 @@ interface Props {
         bottomLeft?: ToolbarProps
         bottomCenter?: ToolbarProps
         bottomRight?: ToolbarProps
-    };
-    disabled?: boolean;
+    }
+    disabled?: boolean
     closeOverlay(prompt?: boolean): void
     footer?: ReactNode
     prompt: boolean
