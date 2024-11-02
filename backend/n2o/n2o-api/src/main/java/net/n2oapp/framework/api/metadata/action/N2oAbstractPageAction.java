@@ -73,7 +73,6 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String targetFieldId;
     private PageRef targetPage;
 
-    private Boolean createMore;
     @Deprecated
     private Boolean closeAfterSubmit;
     @Deprecated

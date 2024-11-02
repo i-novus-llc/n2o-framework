@@ -17,26 +17,17 @@ import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 public class N2oInvokeAction extends N2oAbstractMetaAction {
     private String operationId;
     private String objectId;
-    private String confirmationText;
-    private String bulkConfirmationText;
     private String route;
+    private RequestMethod method;
+    private Boolean submitAll;
+    private Boolean optimistic;
     private Boolean clearOnSuccess;
     private Boolean messageOnSuccess;
     private Boolean messageOnFail;
     private MessagePosition messagePosition;
     private MessagePlacement messagePlacement;
-    private Boolean optimistic;
-    private Boolean submitAll;
-    private RequestMethod method;
 
     private N2oFormParam[] formParams;
     private N2oParam[] pathParams;
     private N2oParam[] headerParams;
-
-    public N2oInvokeAction() {
-    }
-
-    public N2oInvokeAction(String actionId) {
-        this.operationId = actionId;
-    }
 }

@@ -12,12 +12,13 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 @Setter
 public class N2oPrintAction extends N2oAbstractAction implements N2oAction {
     private String url;
-    private N2oParam[] pathParams;
-    private N2oParam[] queryParams;
     private PrintType type;
     private Boolean keepIndent;
     private String documentTitle;
     private Boolean loader;
     private String loaderText;
     private Boolean base64;
+
+    private N2oParam[] pathParams;
+    private N2oParam[] queryParams;
 }

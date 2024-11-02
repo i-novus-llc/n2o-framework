@@ -40,8 +40,7 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
     }
 
     private String[] initPayloadPrefixes(N2oClearAction source, CompileProcessor p) {
-        return source.getModel() != null ?
-                source.getModel() :
-                new String[]{getLocalModel(p).getId()};
+        return castDefault(source.getModel(),
+                () -> new String[]{getLocalModel(p).getId()});
     }
 }

@@ -27,11 +27,11 @@ public class CopyActionElementIOV2 extends AbstractActionElementIOV2<N2oCopyActi
 
     @Override
     public void io(Element e, N2oCopyAction m, IOProcessor p) {
-        p.attributeEnum(e, "source-model", m::getSourceModel, m::setSourceModel, ReduxModel.class);
         p.attribute(e, "source-datasource", m::getSourceDatasourceId, m::setSourceDatasourceId);
+        p.attributeEnum(e, "source-model", m::getSourceModel, m::setSourceModel, ReduxModel.class);
         p.attribute(e, "source-field-id", m::getSourceFieldId, m::setSourceFieldId);
-        p.attributeEnum(e, "target-model", m::getTargetModel, m::setTargetModel, ReduxModel.class);
         p.attribute(e, "target-datasource", m::getTargetDatasourceId, m::setTargetDatasourceId);
+        p.attributeEnum(e, "target-model", m::getTargetModel, m::setTargetModel, ReduxModel.class);
         p.attribute(e, "target-field-id", m::getTargetFieldId, m::setTargetFieldId);
         p.attributeEnum(e, "target-page", m::getTargetPage, m::setTargetPage, PageRef.class);
         p.attributeBoolean(e, "close-on-success", m::getCloseOnSuccess, m::setCloseOnSuccess);

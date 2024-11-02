@@ -10,11 +10,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oOpenDrawer extends N2oAbstractPageAction {
-    private Boolean closable;
-    private Boolean backdrop;
     private String height;
     private String placement;
+    private Boolean closable;
+    private Boolean backdrop;
+    private Boolean closeOnEscape;
     private Boolean closeOnBackdrop;
     private Boolean fixedFooter;
-    private Boolean closeOnEscape;
 }

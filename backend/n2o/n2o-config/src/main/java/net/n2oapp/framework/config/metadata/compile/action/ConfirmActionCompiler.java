@@ -30,12 +30,16 @@ public class ConfirmActionCompiler extends AbstractActionCompiler<ConfirmAction,
         ConfirmAction compiled = new ConfirmAction();
         compileAction(compiled, source, p);
         compiled.setType(p.resolve(property("n2o.api.action.confirm.type"), String.class));
-        compiled.getPayload().setTitle(p.resolveJS(castDefault(source.getTitle(), () -> p.getMessage("n2o.api.action.confirm.title"))));
-        compiled.getPayload().setText(p.resolveJS(castDefault(source.getText(), () -> p.getMessage("n2o.api.action.confirm.text"))));
+        compiled.getPayload().setTitle(p.resolveJS(castDefault(source.getTitle(),
+                () -> p.getMessage("n2o.api.action.confirm.title"))));
+        compiled.getPayload().setText(p.resolveJS(castDefault(source.getText(),
+                () -> p.getMessage("n2o.api.action.confirm.text"))));
         compiled.getPayload().setClassName(source.getClassName());
         compiled.getPayload().setStyle(resolveStyles(source.getStyle()));
-        compiled.getPayload().setMode(castDefault(source.getType(),  p.resolve(property("n2o.api.action.confirm.mode"), ConfirmType.class)));
-        compiled.getPayload().setCloseButton(castDefault(source.getCloseButton(), p.resolve(property("n2o.api.action.confirm.close_button"), Boolean.class)));
+        compiled.getPayload().setMode(castDefault(source.getType(),
+                p.resolve(property("n2o.api.action.confirm.mode"), ConfirmType.class)));
+        compiled.getPayload().setCloseButton(castDefault(source.getCloseButton(),
+                p.resolve(property("n2o.api.action.confirm.close_button"), Boolean.class)));
         compiled.getPayload().setModel(getLocalModel(p));
         compiled.getPayload().setDatasource(getClientDatasourceId(getLocalDatasourceId(p), p));
         if (source.getConfirmButtons() != null && source.getConfirmButtons().length == 2) {
