@@ -11,18 +11,12 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 @Getter
 @Setter
 public class N2oConfirmAction extends N2oAbstractAction implements N2oAction{
-
     private String title;
-
     private String text;
-
-    private String className;
-
-    private String style;
-
     private ConfirmType type;
-
     private Boolean closeButton;
+    private String className;
+    private String style;
 
     private ConfirmButton[] confirmButtons;
 

@@ -17,10 +17,10 @@ public class ConfirmActionElementIOV2 extends AbstractActionElementIOV2<N2oConfi
         super.io(e, m, p);
         p.attribute(e,"title", m::getTitle, m::setTitle);
         p.attribute(e,"text", m::getText, m::setText);
-        p.attribute(e,"class", m::getClassName, m::setClassName);
-        p.attribute(e,"style", m::getStyle, m::setStyle);
         p.attributeEnum(e,"type", m::getType, m::setType, ConfirmType.class);
         p.attributeBoolean(e,"close-button", m::getCloseButton, m::setCloseButton);
+        p.attribute(e,"class", m::getClassName, m::setClassName);
+        p.attribute(e,"style", m::getStyle, m::setStyle);
         p.anyChildren(e, null, m::getConfirmButtons, m::setConfirmButtons, p.oneOf(N2oConfirmAction.ConfirmButton.class)
                         .add("ok", N2oConfirmAction.OkButton.class, this::button)
                         .add("cancel", N2oConfirmAction.CancelButton.class, this::button));

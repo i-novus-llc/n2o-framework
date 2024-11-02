@@ -17,13 +17,13 @@ public class OpenDrawerElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenDr
     @Override
     public void io(Element e, N2oOpenDrawer od, IOProcessor p) {
         super.io(e, od, p);
-        p.attributeBoolean(e, "closable", od::getClosable, od::setClosable);
-        p.attributeBoolean(e, "backdrop", od::getBackdrop, od::setBackdrop);
-        p.attributeBoolean(e, "close-on-escape", od::getCloseOnEscape, od::setCloseOnEscape);
-        p.attributeBoolean(e, "close-on-backdrop", od::getCloseOnBackdrop, od::setCloseOnBackdrop);
         p.attribute(e, "width", od::getWidth, od::setWidth);
         p.attribute(e, "height", od::getHeight, od::setHeight);
         p.attribute(e, "placement", od::getPlacement, od::setPlacement);
+        p.attributeBoolean(e, "backdrop", od::getBackdrop, od::setBackdrop);
+        p.attributeBoolean(e, "closable", od::getClosable, od::setClosable);
+        p.attributeBoolean(e, "close-on-escape", od::getCloseOnEscape, od::setCloseOnEscape);
+        p.attributeBoolean(e, "close-on-backdrop", od::getCloseOnBackdrop, od::setCloseOnBackdrop);
         p.attributeBoolean(e, "fixed-footer", od::getFixedFooter, od::setFixedFooter);
         p.attributeEnum(e, "submit-action-type", od::getSubmitActionType, od::setSubmitActionType, SubmitActionType.class);
         p.attributeEnum(e, "copy-model", od::getCopyModel, od::setCopyModel, ReduxModel.class);

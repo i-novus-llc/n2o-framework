@@ -22,14 +22,14 @@ public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oIn
         p.attribute(e, "operation-id", ia::getOperationId, ia::setOperationId);
         p.attribute(e, "object-id", ia::getObjectId, ia::setObjectId);
         p.attribute(e, "route", ia::getRoute, ia::setRoute);
+        p.attributeEnum(e, "method", ia::getMethod, ia::setMethod, RequestMethod.class);
+        p.attributeBoolean(e, "submit-all", ia::getSubmitAll, ia::setSubmitAll);
+        p.attributeBoolean(e, "optimistic", ia::getOptimistic, ia::setOptimistic);
         p.attributeBoolean(e, "clear-on-success", ia::getClearOnSuccess, ia::setClearOnSuccess);
         p.attributeBoolean(e, "message-on-success", ia::getMessageOnSuccess, ia::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", ia::getMessageOnFail, ia::setMessageOnFail);
         p.attributeEnum(e, "message-position", ia::getMessagePosition, ia::setMessagePosition, MessagePosition.class);
         p.attributeEnum(e, "message-placement", ia::getMessagePlacement, ia::setMessagePlacement, MessagePlacement.class);
-        p.attributeBoolean(e, "optimistic", ia::getOptimistic, ia::setOptimistic);
-        p.attributeBoolean(e, "submit-all", ia::getSubmitAll, ia::setSubmitAll);
-        p.attributeEnum(e, "method", ia::getMethod, ia::setMethod, RequestMethod.class);
 
         p.children(e, null, "form-param", ia::getFormParams, ia::setFormParams, N2oFormParam::new, this::formParam);
         p.children(e, null, "path-param", ia::getPathParams, ia::setPathParams, N2oParam::new, this::param);

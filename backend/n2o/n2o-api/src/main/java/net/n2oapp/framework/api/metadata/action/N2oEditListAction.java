@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.meta.action.editlist.ListOperationType;
 @Getter
 @Setter
 public class N2oEditListAction extends N2oAbstractAction {
-
     private ListOperationType operation;
     private String primaryKey;
     private String datasourceId;

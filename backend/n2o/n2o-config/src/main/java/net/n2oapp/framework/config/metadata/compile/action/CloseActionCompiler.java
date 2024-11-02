@@ -26,8 +26,6 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
 @Component
 public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, N2oCloseAction> {
 
-    private static final String DIALOG_PAGE_ID = "dialog";
-
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oCloseAction.class;
@@ -42,7 +40,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
 
     private static LinkActionImpl getLinkAction(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         N2oAnchor anchor = new N2oAnchor();
-        if (isRedirectable(source)) {
+        if (source.getRedirectUrl() != null) {
             anchor.setHref(source.getRedirectUrl());
             anchor.setTarget(source.getRedirectTarget());
         } else if (context instanceof PageContext pageContext) {
@@ -75,8 +73,6 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
         if (context instanceof ModalPageContext modalPageContext) {
             payload.setPageId(((PageContext) context).getClientPageId());
             payload.setPrompt(castDefault(source.getPrompt(), modalPageContext::getUnsavedDataPromptOnClose, () -> true));
-        } else {
-            payload.setPageId(DIALOG_PAGE_ID);
         }
 
         return payload;
@@ -86,22 +82,18 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
         MetaSaga meta = new MetaSaga();
         boolean isRefreshable = castDefault(source.getRefresh(),
                 () -> p.resolve(property("n2o.api.action.close.refresh_on_close"), Boolean.class));
-        if (Boolean.FALSE.equals(isRedirectable(source)) && (context instanceof ModalPageContext))
+        if (source.getRedirectUrl() == null && (context instanceof ModalPageContext))
             meta.setModalsToClose(1);
         if (isRefreshable) {
             meta.setRefresh(new RefreshSaga());
             if (context instanceof PageContext pageContext)
                 meta.getRefresh().setDatasources(pageContext.getRefreshClientDataSourceIds());
         }
-        if (isRedirectable(source)) {
+        if (source.getRedirectUrl() != null) {
             meta.setRedirect(new RedirectSaga());
             meta.getRedirect().setPath(source.getRedirectUrl());
             meta.getRedirect().setTarget(source.getRedirectTarget());
         }
         return meta;
-    }
-
-    private static boolean isRedirectable(N2oCloseAction source) {
-        return source.getRedirectUrl() != null;
     }
 }
