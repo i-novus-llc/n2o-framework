@@ -7,6 +7,15 @@ import { ToolbarProps } from '../buttons/Toolbar'
 import { type Breadcrumb } from '../core/Breadcrumb/const'
 import { State as RegionsState } from '../../ducks/regions/Regions'
 import { Widget } from '../../ducks/widgets/Widgets'
+import { type Props as ScrollContextProps } from '../snippets/ScrollContainer/ScrollContainer'
+
+export enum FIXED_PLACE {
+    TOP = 'top',
+    LEFT = 'left',
+    RIGHT = 'right',
+}
+
+export type Places = Record<FIXED_PLACE, CSSProperties & { fixed: boolean }>
 
 export interface DefaultPageProps {
     id?: string
@@ -40,6 +49,8 @@ export interface DefaultPageProps {
             bottomCenter?: ToolbarProps
             bottomRight?: ToolbarProps
         }
+        places?: Places
+        needScrollButton?: boolean
     }
     toolbar?: {
         topLeft?: ToolbarProps
@@ -61,6 +72,7 @@ export interface PageRegionsProps {
     regions: {
         left?: RegionsState[]
         right?: RegionsState[]
+        top?: RegionsState[]
     }
     width?: Record<string, string>
     routable?: boolean
@@ -72,4 +84,10 @@ export type SearchablePageProps = PageWithRegionsProps & {
     pageId: string
     withToolbar: boolean
     initSearchValue?: string
+}
+
+export type TopLeftRightPageProps = PageWithRegionsProps & {
+    style: CSSProperties
+    isFixed: boolean
+    scrollContext: ScrollContextProps
 }

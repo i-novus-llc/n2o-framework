@@ -3,13 +3,13 @@ import { isEqual, pick } from 'lodash'
 
 import { TBaseProps } from '../types'
 
-type State = Partial<{
+export type State = Partial<{
     clientHeight: number,
     clientWidth: number,
     left: number,
     scrollHeight: number,
     scrollLeft: number,
-    scrollTo(): void,
+    scrollTo(config: Record<string, unknown>): void,
     scrollTop: number,
     scrollWidth: number,
     top: number
