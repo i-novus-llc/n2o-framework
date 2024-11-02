@@ -59,6 +59,7 @@ export interface Region {
         tabId: string
     }
     visible: boolean
+    routable?: boolean
 }
 
 export type State = {

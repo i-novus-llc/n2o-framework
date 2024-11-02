@@ -41,7 +41,7 @@ function SearchablePage({
     const { title, htmlTitle, datasource, model: modelPrefix } = page
     const searchHandler = useMemo(() => debounce(onSearch, FILTER_DELAY), [onSearch])
 
-    usePageRegister(datasources, dispatch, pageId)
+    usePageRegister(dispatch, datasources, pageId)
 
     return (
         <div
