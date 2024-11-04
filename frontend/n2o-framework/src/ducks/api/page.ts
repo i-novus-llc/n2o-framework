@@ -51,7 +51,6 @@ export function* openPageEffect(action: Action<string, OpenPagePayload>) {
             throw new Error(INVALID_URL_MESSAGE)
         }
     } else {
-        // @ts-ignore import from js file
         const { url: dataProviderUrl } = dataProviderResolver(state, { url, pathMapping, queryMapping })
 
         compiledUrl = dataProviderUrl
@@ -64,15 +63,21 @@ export function* openPageEffect(action: Action<string, OpenPagePayload>) {
         compiledUrl = `${compiledUrl}${query}`
     }
 
+    if (typeof compiledUrl !== 'string') {
+        throw new Error('Compiled URL must be a string')
+    }
+
+    const encodedUrl = encodeURI(compiledUrl)
+
     if (target === 'application') {
         // @ts-ignore import from js file
-        yield put(push(compiledUrl))
+        yield put(push(encodedUrl))
     } else if (target === '_blank') {
         // @ts-ignore import from js file
-        window.open(compiledUrl)
+        window.open(encodedUrl)
     } else {
         // @ts-ignore import from js file
-        window.location = compiledUrl
+        window.location = encodedUrl
     }
 
     stopTheSequence(action)
