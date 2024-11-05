@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
  * Сервис для проверки наличия прав доступа у пользователя
  */
 public class SecurityProvider {
-    private PermissionApi permissionApi;
-    private boolean strictFiltering;
+    private final PermissionApi permissionApi;
+    private final boolean strictFiltering;
 
     public SecurityProvider(PermissionApi permissionApi, boolean strictFiltering) {
         this.permissionApi = permissionApi;

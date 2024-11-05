@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.CompiledRegionItem;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -20,11 +21,11 @@ import java.util.List;
  * Трансформатор доступа страницы
  */
 @Component
-public class PageAccessTransformer extends BaseAccessTransformer<StandardPage, CompileContext<?, ?>> {
+public class PageAccessTransformer extends BaseAccessTransformer<Page, CompileContext<?, ?>> {
 
     @Override
     public Class<? extends Compiled> getCompiledClass() {
-        return StandardPage.class;
+        return Page.class;
     }
 
     /**
@@ -36,11 +37,11 @@ public class PageAccessTransformer extends BaseAccessTransformer<StandardPage, C
      * @return Трансформированные метаданные стандартной страницы
      */
     @Override
-    public StandardPage transform(StandardPage compiled, CompileContext context, CompileProcessor p) {
+    public Page transform(Page compiled, CompileContext context, CompileProcessor p) {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
                 p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
-        if (compiled.getRegions() != null)
-            for (List<Region> regions : compiled.getRegions().values())
+        if (compiled instanceof StandardPage && ((StandardPage) compiled).getRegions() != null)
+            for (List<Region> regions : ((StandardPage) compiled).getRegions().values())
                 transform(regions);
         collectPageAccess(compiled, context.getSourceId((BindProcessor) p), accessSchema, p);
         return compiled;
@@ -52,6 +53,7 @@ public class PageAccessTransformer extends BaseAccessTransformer<StandardPage, C
      *
      * @param compiledList Список метаданных
      */
+    @SuppressWarnings("unchecked")
     private void transform(List<? extends CompiledRegionItem> compiledList) {
         for (CompiledRegionItem compiled : compiledList) {
             if (compiled instanceof TabsRegion)
