@@ -11,7 +11,7 @@ public interface PermissionApi {
     /**
      * Проверка наличия прав у пользователя
      * @param user контекст пользователя
-     * @param permissionId индефикатор прав доступа
+     * @param permissionId идентификатор прав доступа
      * @return наличие прав
      */
     boolean hasPermission(UserContext user, String permissionId);
@@ -19,7 +19,7 @@ public interface PermissionApi {
     /**
      * Проверка наличия роли у пользователя
      * @param user контекст пользователя
-     * @param roleId индефикатор роли
+     * @param roleId идентификатор роли
      * @return наличие роли
      */
     boolean hasRole(UserContext user, String roleId);
@@ -36,7 +36,7 @@ public interface PermissionApi {
      * Проверка соответствия имени пользователя одному из заданным в схеме доступа
      * @param user контекст пользователя
      * @param name имя пользователя
-     * @return соответствие юзернэйма одному из заданных
+     * @return соответствие имени пользователя одному из заданных
      */
     boolean hasUsername(UserContext user, String name);
 
