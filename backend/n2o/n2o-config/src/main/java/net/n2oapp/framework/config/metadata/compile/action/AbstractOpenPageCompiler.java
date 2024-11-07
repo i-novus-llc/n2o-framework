@@ -79,7 +79,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         param.setModel(castDefault(param.getModel(), () -> getModelFromComponentScope(p)));
         param.setDatasourceId(castDefault(param.getDatasourceId(), () -> getLocalDatasourceId(p)));
         if (param.getDatasourceId() == null && param.getValue() == null) {
-            throw new N2oException(String.format("datasource is not undefined for param %s of action %s", param.getName(), source.getId()));
+            throw new N2oException(String.format("Источник данных не определен для параметра %s действия %s", param.getName(), source.getId()));
         }
         param.setRefPageId(castDefault(param.getRefPageId(), () -> {
             PageScope pageScope = p.getScope(PageScope.class);
@@ -407,15 +407,15 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             return;
 
         if (routeParams == null)
-            throw new N2oException(String.format("path-param \"%s\" not used in route", pathParams[0].getName()));
+            throw new N2oException(String.format("Параметр пути '%s' не используется в маршруте", pathParams[0].getName()));
         if (pathParams == null)
-            throw new N2oException(String.format("path-param \"%s\" for route \"%s\" not set", routeParams.get(0), route));
+            throw new N2oException(String.format("Параметр пути '%s' для маршрута '%s' не установлен", routeParams.get(0), route));
 
         for (N2oParam pathParam : pathParams) {
             if (!routeParams.contains(pathParam.getName()))
-                throw new N2oException(String.format("route \"%s\" not contains path-param \"%s\"", route, pathParam.getName()));
+                throw new N2oException(String.format("Маршрут '%s' не содержит параметр пути '%s'", route, pathParam.getName()));
             if (routeScope != null && routeScope.getUrl() != null && RouteUtil.getParams(routeScope.getUrl()).contains(pathParam.getName()))
-                throw new N2oException(String.format("param \"%s\" duplicate in parent url ", pathParam.getName()));
+                throw new N2oException(String.format("Параметр пути '%s' дублируется в родительском 'url'", pathParam.getName()));
         }
     }
 

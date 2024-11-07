@@ -81,7 +81,7 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
     private void initDatasource(SwitchActionPayload payload, String datasourceId, CompileProcessor p) {
         payload.setDatasource(getClientDatasourceId(castDefault(datasourceId, () -> getLocalDatasourceId(p)), p));
         if (payload.getDatasource() == null) {
-            throw new N2oException(String.format("Datasource is undefined for switch action with value-field-id=%s",
+            throw new N2oException(String.format("Источник данных не определен для действия \"<switch>\" с атрибутом 'value-field-id = %s'",
                     payload.getValueFieldId()));
         }
     }

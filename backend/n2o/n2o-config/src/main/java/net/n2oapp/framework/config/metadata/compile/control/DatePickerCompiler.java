@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -28,7 +29,7 @@ public class DatePickerCompiler extends StandardFieldCompiler<DatePicker, N2oDat
         source.setDomain(p.resolve(property("n2o.api.control.date_time.domain"), String.class));
         Domain domain = Domain.getByName(source.getDomain());
         if (domain == null || domain.getJsFormat() == null)
-            throw new IllegalStateException("Wrong domain for control " + source.getId());
+            throw new N2oException("Несуществующее значение атрибута 'domain' для поля '" + source.getId() + "'");
         datePicker.setOutputFormat(domain.getJsFormat());
         datePicker.setDateFormat(castDefault(source.getDateFormat(), () -> p.resolve(property("n2o.api.control.date_time.date_format"), String.class)));
         datePicker.setTimeFormat(source.getTimeFormat());

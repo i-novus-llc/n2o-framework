@@ -78,7 +78,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         if (hasLink(source.getName()) && (source.getDatasourceId() == null &&
                 p.getScope(ComponentScope.class).unwrap(DatasourceIdAware.class).getDatasourceId() == null))
             throw new N2oException(
-                    String.format("Меню имеет плейсхолдер name=%s, но при этом не указан источник данных",
+                    String.format("Меню имеет плейсхолдер 'name=%s', но при этом не указан источник данных",
                             ValidationUtils.getIdOrEmptyString(source.getName())));
 
         compiled.setTitle(p.resolveJS(source.getName()));

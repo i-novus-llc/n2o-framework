@@ -37,7 +37,7 @@ public class IfBranchActionCompiler extends BaseConditionActionCompiler<N2oIfBra
     private void initDatasource(ConditionActionPayload payload, N2oIfBranchAction source, CompileProcessor p) {
         payload.setDatasource(getClientDatasourceId(castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p)), p.getScope(PageScope.class).getPageId()));
         if (payload.getDatasource() == null) {
-            throw new N2oException(String.format("Datasource is undefined for if-branch with test=\"%s\"",
+            throw new N2oException(String.format("Источник данных не определен для \"<if-branch>\" с атрибутом 'test=%s'",
                     source.getTest()));
         }
     }

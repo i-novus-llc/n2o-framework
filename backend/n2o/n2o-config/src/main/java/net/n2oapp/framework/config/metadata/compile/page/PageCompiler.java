@@ -124,7 +124,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
             return path;
 
         Integer nestingLevel = RouteUtil.getRelativeLevel(path);
-        N2oException noRouteException = new N2oException("No parent route found for path \"" + path + "\"");
+        N2oException noRouteException = new N2oException("Родительский маршрут не найден для пути '" + path + "'");
         List<String> parentRoutes = requireNonNullElseGet(context.getParentRoutes(), () -> {
             throw noRouteException;
         });

@@ -78,7 +78,7 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
             String datasourceId = castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p));
             ReduxModel reduxModel = castDefault(source.getModel(), () -> getLocalModel(p));
             if (datasourceId == null) {
-                throw new N2oException("Datasource not found for action <alert> with linked attributes");
+                throw new N2oException("Источник данных не найден для действия \"<alert>\" со связанными атрибутами");
             }
             message.setModelLink(new ModelLink(reduxModel, getClientDatasourceId(datasourceId, p)).getBindLink());
         }
@@ -92,7 +92,7 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
         try {
             return LocalDateTime.parse(source.getTime());
         } catch (DateTimeParseException e) {
-            throw new N2oException("Формат даты и времени, используемый в атрибуте time, не соответствует ISO_LOCAL_DATE_TIME");
+            throw new N2oException("Формат даты и времени, используемый в атрибуте 'time', не соответствует ISO_LOCAL_DATE_TIME");
         }
     }
 

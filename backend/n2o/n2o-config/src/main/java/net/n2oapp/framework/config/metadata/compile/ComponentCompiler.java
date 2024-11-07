@@ -22,7 +22,7 @@ public abstract class ComponentCompiler<D extends Component, S extends SourceCom
                 () -> p.resolve(property(getSrcProperty()), String.class)));
 
         if (compiled.getSrc() == null) {
-            throw new N2oException("Required src for N2O component");
+            throw new N2oException("Требуется указать 'src' для компонента");
         }
 
         compiled.setClassName(source.getCssClass());
