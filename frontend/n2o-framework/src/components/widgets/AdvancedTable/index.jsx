@@ -112,7 +112,7 @@ export const AdvancedTableContainer = (props) => {
 
     const { setActiveModel, setMultiModel, unsetMultiModel, updateDatasource } = useTableActionReactions(datasource)
     const onFilter = useChangeFilter(setFilter, datasource)
-    const onRowClickAction = useOnActionMethod(id, tableConfig?.body?.row?.click)
+    const onRowClickAction = useOnActionMethod(datasource, tableConfig?.body?.row?.click)
     const actionListener = useCallback((action, payload) => {
         switch (action) {
             case TableActions.toggleExpandRow: {
