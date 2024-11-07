@@ -152,7 +152,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
             if (column.getSortingDirection() != null) {
                 String fieldId = castDefault(column.getSortingFieldId(), column.getTextFieldId());
                 if (fieldId == null)
-                    throw new N2oException(String.format("В колонке <column> c id=%s задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'",
+                    throw new N2oException(String.format("В колонке \"<column>\" c 'id=%s' задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'",
                             column.getId()));
                 sortings.put(RouteUtil.normalizeParam(fieldId),
                         column.getSortingDirection().toString().toUpperCase()

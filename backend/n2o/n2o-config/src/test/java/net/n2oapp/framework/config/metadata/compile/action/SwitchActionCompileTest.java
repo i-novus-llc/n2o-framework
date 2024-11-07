@@ -102,6 +102,6 @@ public class SwitchActionCompileTest extends SourceCompileTestBase {
                 () -> compile("net/n2oapp/framework/config/metadata/compile/action/switch_action/testNested.page.xml")
                         .get(new PageContext("testNested"))
         );
-        assertThat(e.getMessage(), is("Datasource is undefined for switch action with value-field-id=test2"));
+        assertThat(e.getMessage(), is("Источник данных не определен для действия \"<switch>\" с атрибутом 'value-field-id = test2'"));
     }
 }

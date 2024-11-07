@@ -207,8 +207,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 activateAll = true;
             } else if (compiledOperation.getValidations().getBlackList() != null &&
                     compiledOperation.getValidations().getWhiteList() != null)
-                throw new N2oException("Whitelist is incompatible with blacklist");
-
+                throw new N2oException("Атрибут 'whitelist' несовместим с атрибутом 'blacklist'");
             List<Validation> validationList = new ArrayList<>();
             List<Validation> whiteListValidationList = new ArrayList<>();
 

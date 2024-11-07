@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -34,7 +35,7 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
         source.setDomain(p.resolve(property("n2o.api.control.date_interval.domain"), String.class));
         Domain domain = Domain.getByName(source.getDomain());
         if (domain == null || domain.getJsFormat() == null)
-            throw new IllegalStateException("Wrong domain for control " + source.getId());
+            throw new N2oException("Несуществующее значение атрибута 'domain' для поля '" + source.getId() + "'");
         dateInterval.setOutputFormat(domain.getJsFormat());
         dateInterval.setDateFormat(castDefault(source.getDateFormat(),
                 () -> p.resolve(property("n2o.api.control.date_interval.date_format"), String.class)));

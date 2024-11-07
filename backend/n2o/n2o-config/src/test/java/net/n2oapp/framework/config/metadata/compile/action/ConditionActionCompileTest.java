@@ -171,6 +171,6 @@ public class ConditionActionCompileTest extends SourceCompileTestBase {
                 () -> compile("net/n2oapp/framework/config/metadata/compile/action/condition/testNestedWithoutDatasource.page.xml")
                         .get(new PageContext("testNestedWithoutDatasource"))
         );
-        assertThat(e.getMessage(), is("Datasource is undefined for if-branch with test=\"name == 'test1'\""));
+        assertThat(e.getMessage(), is("Источник данных не определен для \"<if-branch>\" с атрибутом 'test=name == 'test1''"));
     }
 }

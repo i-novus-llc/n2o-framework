@@ -582,7 +582,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         N2oException exception = assertThrows(N2oException.class,
                 () -> compile("net/n2oapp/framework/config/metadata/compile/widgets/testSortingFieldId.widget.xml")
                         .get(new WidgetContext("testSortingFieldId")));
-        assertEquals("В колонке <column> c id=name задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'", exception.getMessage());
+        assertEquals("В колонке \"<column>\" c 'id=name' задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'", exception.getMessage());
     }
 
     @Test

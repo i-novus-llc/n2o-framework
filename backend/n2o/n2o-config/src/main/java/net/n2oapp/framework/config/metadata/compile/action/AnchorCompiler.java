@@ -74,7 +74,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
             String datasourceId = castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p));
             ReduxModel reduxModel = castDefault(source.getModel(), () -> getLocalModel(p));
             if (datasourceId == null) {
-                throw new N2oException("Datasource not found for action <a> with linked href " + source.getHref());
+                throw new N2oException("Источник данных не найден для действия \"<a>\" со связанным 'href' " + source.getHref());
             }
             linkAction.getPayload().setModelLink(new ModelLink(reduxModel, getClientDatasourceId(datasourceId, p)).getBindLink());
         } else

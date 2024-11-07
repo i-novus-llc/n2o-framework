@@ -78,7 +78,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 if (context instanceof PageContext pageContext) {
                     return pageContext.getParentLocalDatasourceId();
                 } else {
-                    throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", source.getId()));
+                    throw new N2oException(String.format("Поле '%s' имеет атрибут 'ref-page=parent', но PageContext не найден", source.getId()));
                 }
             }
             return null;
@@ -122,8 +122,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 dependency.setOn(onFields.toArray(String[]::new));
             } catch (ScriptParserException e) {
                 throw new N2oException(
-                        String.format("Unable to extract variables from expression '%s'. Try using field dependency " +
-                                        "with explicitly specifying variables in an attribute 'on'",
+                        String.format("Невозможно извлечь переменные из выражения '%s'. Попробуйте использовать зависимость полей " +
+                                        "с явным указанием переменных в атрибуте 'on'",
                                 StringUtils.unwrapLink(conditionGetter.get())));
             }
 
@@ -393,7 +393,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
         }
         if (objectValidation == null) {
-            throw new N2oException(String.format("Field %s contains validation reference for nonexistent validation!", fieldId));
+            throw new N2oException(String.format("Поле '%s' содержит ссылку на несуществующую валидацию", fieldId));
         }
         Validation validation = null;
         if (objectValidation instanceof ConstraintValidation constraint) {
@@ -545,7 +545,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 if (context instanceof PageContext pageContext) {
                     clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), pageContext.getParentClientPageId(), p);
                 } else
-                    throw new N2oException(String.format("Field %s has ref-page=\"parent\" but PageContext not found", source.getId()));
+                    throw new N2oException(String.format("Поле '%s' имеет атрибут 'ref-page=parent', но PageContext не найден", source.getId()));
         }
         ModelLink defaultValue;
         if (source.getRefFieldId() != null) {

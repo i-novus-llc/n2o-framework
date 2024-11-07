@@ -121,7 +121,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     private void compileLink(TabsRegion.Tab tab, ValidationType type, String linkCondition, ReduxModel model) {
         if (tab.getDatasource() == null)
             throw new N2oException(
-                    String.format("Для вкладки '%s' не может быть реализовано условие visible/enabled, т.к. не задан datasource",
+                    String.format("Для вкладки '%s' не может быть реализовано условие 'visible'/'enabled', т.к. не задан 'datasource'",
                             tab.getLabel()));
         Condition condition = new Condition();
         condition.setExpression(unwrapLink(linkCondition));

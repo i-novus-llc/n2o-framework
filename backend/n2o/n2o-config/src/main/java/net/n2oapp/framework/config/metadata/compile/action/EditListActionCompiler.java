@@ -45,7 +45,7 @@ public class EditListActionCompiler extends AbstractActionCompiler<EditListActio
                 () -> p.resolve(property("n2o.api.action.edit_list.primary_key"), String.class)));
         source.setItemDatasourceId(castDefault(source.getItemDatasourceId(), () -> getLocalDatasourceId(p)));
         if (source.getItemDatasourceId() == null) {
-            throw new N2oException("Item datasource is undefined for edit-list action");
+            throw new N2oException("Источник данных 'item-datasource' не определен для действия \"<edit-list>\"");
         }
 
         source.setItemModel(castDefault(source.getItemModel(), () -> getModelFromComponentScope(p)));

@@ -72,6 +72,6 @@ class EditListActionCompileTest extends SourceCompileTestBase {
                 () -> compile("net/n2oapp/framework/config/metadata/compile/action/edit_list/testEditListNullItemDatasource.page.xml")
                         .get(new PageContext("testEditListNullItemDatasource"))
         );
-        assertThat(e.getMessage(), is("Item datasource is undefined for edit-list action"));
+        assertThat(e.getMessage(), is("Источник данных 'item-datasource' не определен для действия \"<edit-list>\""));
     }
 }

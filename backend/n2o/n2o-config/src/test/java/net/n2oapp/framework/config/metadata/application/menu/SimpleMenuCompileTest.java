@@ -175,7 +175,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         N2oException exception = assertThrows(N2oException.class,
                 () -> compile("net/n2oapp/framework/config/metadata/menu/testValidateResolveNameNonDS.application.xml")
                         .get(new ApplicationContext("testValidateResolveNameNonDS")));
-        assertEquals("Меню имеет плейсхолдер name='{test}', но при этом не указан источник данных", exception.getMessage());
+        assertEquals("Меню имеет плейсхолдер 'name='{test}'', но при этом не указан источник данных", exception.getMessage());
     }
 
     @Test
@@ -183,7 +183,7 @@ public class SimpleMenuCompileTest extends SourceCompileTestBase {
         N2oException exception = assertThrows(N2oException.class,
                 ()-> compile("net/n2oapp/framework/config/metadata/menu/testValidateResolveNameDropdownNonDS.application.xml")
                         .get(new ApplicationContext("testValidateResolveNameDropdownNonDS")));
-        assertEquals("Меню имеет плейсхолдер name='{test}', но при этом не указан источник данных", exception.getMessage());
+        assertEquals("Меню имеет плейсхолдер 'name='{test}'', но при этом не указан источник данных", exception.getMessage());
     }
 
     @Test

@@ -190,7 +190,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         if (isNull(compiledObject))
             compiledObject = p.getScope(CompiledObject.class);
         if (isNull(compiledObject))
-            throw new N2oException(String.format("В действии <invoke> не указан идентификатор объекта 'object-id' для операции '%s'", source.getOperationId()));
+            throw new N2oException(String.format("В действии \"<invoke>\" не указан идентификатор объекта 'object-id' для операции '%s'", source.getOperationId()));
 
         return compiledObject;
     }
@@ -203,16 +203,16 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
             return;
 
         if (isNull(routeParams) || routeParams.isEmpty())
-            throw new N2oException(String.format("path-param '%s' not used in route", pathParams[0].getName()));
+            throw new N2oException(String.format("Параметр пути '%s' не используется в маршруте", pathParams[0].getName()));
         if (isNull(pathParams) || pathParams.length == 0)
-            throw new N2oException(String.format("path-param '%s' for route '%s' not set", route, routeParams.get(0)));
+            throw new N2oException(String.format("Параметр пути '%s' для маршрута '%s' не установлен", route, routeParams.get(0)));
 
         for (N2oParam pathParam : pathParams) {
             String paramName = pathParam.getName();
             if (routeParams.stream().noneMatch(p -> p.equals(paramName)))
-                throw new N2oException(String.format("route '%s' not contains path-param '%s'", route, paramName));
+                throw new N2oException(String.format("Маршрут '%s' не содержит параметр пути '%s'", route, paramName));
             if (nonNull(routeScope.getUrl()) && RouteUtil.getParams(routeScope.getUrl()).contains(paramName))
-                throw new N2oException(String.format("param '%s' duplicate in parent url ", paramName));
+                throw new N2oException(String.format("Параметр пути '%s' дублируется в родительском 'url'", paramName));
         }
     }
 
@@ -220,7 +220,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         String operationId = actionContextData.getOperationId();
         if (compiledObject.getOperations().keySet().stream().noneMatch(k -> k.equals(operationId)))
             throw new N2oException(
-                    String.format("Действие <invoke> ссылается на несуществующую операцию 'operation-id = %s' объекта '%s'",
+                    String.format("Действие \"<invoke>\" ссылается на несуществующую операцию 'operation-id = %s' объекта '%s'",
                             operationId,
                             compiledObject.getId())
             );

@@ -53,7 +53,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                 () -> p.resolve(Placeholders.property(getControlSrcProperty()), String.class)
         );
         if (isNull(src))
-            throw new N2oException("control src is required");
+            throw new N2oException("Требуется указать атрибут 'src'");
         control.setSrc(src);
         control.setId(source.getId());
         control.setPlaceholder(p.resolveJS(source.getPlaceholder()));

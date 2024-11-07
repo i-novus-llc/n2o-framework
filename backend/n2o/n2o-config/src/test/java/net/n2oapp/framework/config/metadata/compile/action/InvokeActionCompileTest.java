@@ -264,7 +264,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
                 () -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyRoute.page.xml")
                         .get(new PageContext("emptyRoute"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("path-param 'main_id' not used in route"))
+                e -> assertThat(e.getMessage(), is("Параметр пути 'main_id' не используется в маршруте"))
         );
     }
 
@@ -274,7 +274,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
                 () -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyPath.page.xml")
                         .get(new PageContext("emptyPath"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("path-param '/:main_id' for route 'main_id' not set"))
+                e -> assertThat(e.getMessage(), is("Параметр пути '/:main_id' для маршрута 'main_id' не установлен"))
         );
     }
 
@@ -284,7 +284,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
                 () -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyObjectId.page.xml")
                         .get(new PageContext("emptyObjectId"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("В действии <invoke> не указан идентификатор объекта 'object-id' для операции 'create'"))
+                e -> assertThat(e.getMessage(), is("В действии \"<invoke>\" не указан идентификатор объекта 'object-id' для операции 'create'"))
         );
     }
 
@@ -294,7 +294,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
                 () -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/multiplyPath.page.xml")
                         .get(new PageContext("multiplyPath"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("route '/:main_id' not contains path-param 't_id'"))
+                e -> assertThat(e.getMessage(), is("Маршрут '/:main_id' не содержит параметр пути 't_id'"))
         );
     }
 
@@ -352,7 +352,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
                 () -> compile("net/n2oapp/framework/config/metadata/compile/action/testCheckOperationIdExistence.page.xml")
                         .get(new PageContext("testCheckOperationIdExistence")),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("Действие <invoke> ссылается на несуществующую операцию 'operation-id = testOperation' объекта 'testActionContext'"))
+                e -> assertThat(e.getMessage(), is("Действие \"<invoke>\" ссылается на несуществующую операцию 'operation-id = testOperation' объекта 'testActionContext'"))
         );
     }
 }
