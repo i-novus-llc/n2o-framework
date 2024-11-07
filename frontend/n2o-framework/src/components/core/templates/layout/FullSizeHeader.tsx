@@ -3,17 +3,18 @@ import classNames from 'classnames'
 
 import { ScrollContainer } from '../../../snippets/ScrollContainer/ScrollContainer'
 
-import { propTypes } from './propTypes'
+import { LayoutProps } from './types'
 
 /**
  * Компонент с вёрсткой базового шаблона страницы с шапкой на всю ширину экрана
- * @param [header] Шапка страницы
+ * @param header Шапка страницы
  * @param content Контент страницы
- * @param {boolean} fixed Фиксированная ли навигация
- * @param [sidebar] Боковое меню
- * @param {'left'|'right'} side Расположение бокового меню
- * @param [footer] Подвал страницы
+ * @param fixed Фиксированная ли навигация
+ * @param sidebar Боковое меню
+ * @param side Расположение бокового меню
+ * @param footer Подвал страницы
  */
+
 export function Layout({
     className,
     header,
@@ -22,7 +23,7 @@ export function Layout({
     fixed,
     sidebar,
     footer,
-}) {
+}: LayoutProps) {
     const LayoutElement = fixed ? 'div' : ScrollContainer
     const ContainerElement = fixed ? ScrollContainer : 'div'
 
@@ -44,5 +45,3 @@ export function Layout({
         </LayoutElement>
     )
 }
-
-Layout.propTypes = propTypes

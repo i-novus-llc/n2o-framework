@@ -1,6 +1,6 @@
 import React from 'react'
 import Dropzone from 'react-dropzone'
-import cn from 'classnames'
+import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
 
@@ -41,7 +41,7 @@ function FileUploader({
             className={`n2o-file-uploader-container ${componentClass}-container`}
         >
             <Dropzone
-                className={cn('n2o-file-uploader-control', componentClass, {
+                className={classNames('n2o-file-uploader-control', componentClass, {
                     'd-none': !showControl,
                     [className]: className,
                     [uploaderClass]: uploaderClass,
