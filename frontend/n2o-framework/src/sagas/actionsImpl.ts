@@ -204,7 +204,7 @@ export function* handleInvoke(
     } = action.payload
 
     const state: State = yield select()
-    const optimistic = get(dataProvider, 'optimistic', false)
+    const optimistic = get(dataProvider, 'optimistic')
     const buttons = get(state, ['toolbar', pageId])
     const buttonIds = !optimistic && has(state, 'toolbar') ? keys(buttons) : []
     const model: FetchInvokeModel = yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
@@ -247,9 +247,8 @@ export function* handleInvoke(
         errorFields = get(response, 'meta.messages.fields', {})
 
         const meta = merge(action.meta?.success || {}, response.meta || {})
-        const { submitForm } = dataProvider
 
-        if (!optimistic && submitForm) {
+        if (optimistic === false) {
             const newModel = modelPrefix === ModelPrefix.selected ? response.data?.$list : response.data
 
             if (!isEqual(model, newModel)) {
