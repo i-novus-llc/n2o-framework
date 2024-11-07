@@ -19,7 +19,9 @@ export function post(url, file, onProgress, onUpload, onError, cancelSource) {
         .then((response) => { onUpload(response) })
         .catch((error) => {
             if (error?.response) {
-                const { statusText, status } = error.response
+                const { status } = error.response
+
+                const statusText = error.response.statusText || error.response.data?.statusText
 
                 onError(new Error(`${MESSAGE}: ${statusText || status}`))
 
