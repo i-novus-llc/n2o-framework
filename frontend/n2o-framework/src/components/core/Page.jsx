@@ -72,15 +72,6 @@ Page.contextTypes = {
     defaultPage: PropTypes.string,
 }
 
-Page.propTypes = {
-    metadata: PropTypes.object,
-    error: PropTypes.object,
-    loading: PropTypes.bool,
-    page: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    defaultTemplate: PropTypes.any,
-    rootPage: PropTypes.bool,
-}
-
 export { Page }
 
 const mapStateToProps = createStructuredSelector({

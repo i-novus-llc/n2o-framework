@@ -1,5 +1,5 @@
-import Template from './Template'
+import { Template } from './Template'
 import HeaderFooterTemplate from './HeaderFooterTemplate'
-import SidebarTemplate from './SidebarTemplate'
+import { SidebarTemplate } from './SidebarTemplate'
 
 export { Template, HeaderFooterTemplate, SidebarTemplate }

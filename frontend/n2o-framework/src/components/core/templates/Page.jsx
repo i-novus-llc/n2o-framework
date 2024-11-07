@@ -1,21 +1,29 @@
 import React, { useCallback, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
 
 import { Factory } from '../../../core/factory/Factory'
 import { TEMPLATES } from '../../../core/factory/factoryLevels'
 
-import { layoutContainerClasses } from './utils'
 import { Layout as FullSizeSidebar } from './layout/FullSizeSidebar'
 import { Layout as FullSizeHeader } from './layout/FullSizeHeader'
 
+const layoutContainerClasses = (header, sidebar, fullSizeHeader, fixed, side) => classNames(
+    'n2o-layout-container flex-grow-1',
+    { 'n2o-layout-with-header': !isEmpty(header),
+        'n2o-layout-with-sidebar': !isEmpty(sidebar),
+        'n2o-layout-full-size-header d-flex flex-column': fullSizeHeader,
+        'n2o-layout-full-size-sidebar d-flex': !fullSizeHeader,
+        'n2o-layout-fixed': fixed,
+        'flex-row-reverse': !fullSizeHeader && side === 'right' },
+)
+
 export function Page({
-    children: content,
+    children,
     layout: layoutProps,
-    header: headerProps,
-    sidebar: sidebarProps,
-    footer: footerProps,
+    header: headerProps = {},
+    sidebar: sidebarProps = {},
+    footer: footerProps = {},
 }) {
     const [sidebarOpened, setSidebarOpened] = useState(false)
 
@@ -62,27 +70,7 @@ export function Page({
             fixed={fixed}
             side={side}
         >
-            {content}
+            {children}
         </Layout>
     )
-}
-
-Page.defaultProps = {
-    header: {},
-    sidebar: {},
-    footer: {},
-}
-
-Page.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node,
-    ]),
-    layout: PropTypes.shape({
-        fullSizeHeader: PropTypes.bool,
-        fixed: PropTypes.bool,
-    }).isRequired,
-    header: PropTypes.object,
-    sidebar: PropTypes.object,
-    footer: PropTypes.object,
 }
