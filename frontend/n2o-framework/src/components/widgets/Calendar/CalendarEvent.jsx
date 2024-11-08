@@ -2,7 +2,6 @@ import React from 'react'
 import get from 'lodash/get'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
 
 import { eventLessHour, isAllDay } from './utils'
 
@@ -64,16 +63,6 @@ export function CalendarEvent({
             </div>
         </div>
     )
-}
-
-CalendarEvent.propTypes = {
-    style: PropTypes.object,
-    event: PropTypes.object,
-    accessors: PropTypes.object,
-    cellColorAccessor: PropTypes.any,
-    setResolve: PropTypes.func,
-    onSelectEvent: PropTypes.func,
-    dispatch: PropTypes.func,
 }
 
 export default CalendarEvent

@@ -1,9 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import listContainer from '../../controls/listContainer'
 
-// eslint-disable-next-line import/no-named-as-default
 import SearchBar from './SearchBar'
 
 function SearchBarContainer({
@@ -42,26 +40,6 @@ SearchBarContainer.defaultProps = {
     directionIconsInPopUp: 'left',
     onSearch: () => {},
     options: [],
-}
-
-SearchBarContainer.propTypes = {
-    /**
-     * данные в popUp(ссылки), при наличии dataProvider
-     */
-    options: PropTypes.array,
-    /**
-     * Направление иконок ссылок в popUp
-     */
-    directionIconsInPopUp: PropTypes.string,
-    icon: PropTypes.string,
-    urlFieldId: PropTypes.string,
-    labelFieldId: PropTypes.string,
-    descrFieldId: PropTypes.string,
-    iconFieldId: PropTypes.string,
-    fetchData: PropTypes.func,
-    onSearch: PropTypes.func,
-    trigger: PropTypes.any,
-    button: PropTypes.any,
 }
 
 export default listContainer(SearchBarContainer)

@@ -7,7 +7,6 @@ import {
     defaultProps,
     setDisplayName,
 } from 'recompose'
-import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import isFunction from 'lodash/isFunction'
 import classNames from 'classnames'
@@ -146,39 +145,6 @@ function PanelContainer({
             </Panel.Collapse>
         </Panel>
     )
-}
-
-PanelContainer.propTypes = {
-    handleKeyPress: PropTypes.func,
-    toggleCollapse: PropTypes.func,
-    changeActiveTab: PropTypes.func,
-    handleFullScreen: PropTypes.func,
-    activeTabState: PropTypes.string,
-    openState: PropTypes.bool,
-    fullScreenState: PropTypes.bool,
-    tabs: PropTypes.array,
-    toolbar: PropTypes.array,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    color: PropTypes.oneOf(Object.values(panelStyles)),
-    icon: PropTypes.string,
-    headerTitle: PropTypes.string,
-    footerTitle: PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
-    open: PropTypes.bool,
-    collapsible: PropTypes.bool,
-    hasTabs: PropTypes.bool,
-    fullScreen: PropTypes.bool,
-    children: PropTypes.node,
-    header: PropTypes.bool,
-    disabled: PropTypes.bool,
-    // eslint-disable-next-line react/no-unused-prop-types
-    isFullScreen: PropTypes.bool,
-    // eslint-disable-next-line react/no-unused-prop-types
-    onKeyPress: PropTypes.func,
-    innerRef: PropTypes.func,
-    // eslint-disable-next-line react/no-unused-prop-types
-    onVisibilityChange: PropTypes.func,
 }
 
 export default compose(

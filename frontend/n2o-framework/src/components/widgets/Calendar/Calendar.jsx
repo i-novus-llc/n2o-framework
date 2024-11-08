@@ -14,6 +14,7 @@ import { formatsMap, timeParser } from './utils' // Импортируем ло�
 dayjs.extend(localizedFormat)
 dayjs.extend(localeData)
 
+const localizer = dayjsLocalizer(dayjs)
 /**
  * Компонент Календарь
  * @reactProps {Array} events - массив объектов событий для отображения в календаре
@@ -36,14 +37,9 @@ dayjs.extend(localeData)
  * @reactProps {object} messages - переопределение названия кнопок действий (прим. messages: { month: 'Месяц', })
  */
 
-const localizer = dayjsLocalizer(dayjs)
-
 function Calendar({
     className,
-    events,
     defaultDate,
-    startAccessor,
-    endAccessor,
     titleAccessor,
     tooltipAccessor,
     defaultView,
@@ -59,7 +55,10 @@ function Calendar({
     resources,
     onSelectEvent,
     onSelectSlot,
-    configLocale,
+    events = [],
+    startAccessor = 'start',
+    endAccessor = 'end',
+    configLocale = 'ru',
 }) {
     const { t } = useTranslation()
 
@@ -110,92 +109,4 @@ function Calendar({
     )
 }
 
-Calendar.propTypes = {
-    /**
-     * класс таблицы
-     */
-    className: PropTypes.string,
-    /**
-     * массив объектов событий для отображения в календаре
-     */
-    events: PropTypes.array,
-    /**
-     * дата / время начала мероприятия
-     */
-    startAccessor: PropTypes.string,
-    /**
-     * дата / время окончания мероприятия
-     */
-    endAccessor: PropTypes.string,
-    /**
-     * аксессор для заголовка события, используемый для отображения информации о событии
-     */
-    titleAccessor: PropTypes.string,
-    /**
-     * аксессор для всплывающей подсказки
-     */
-    tooltipAccessor: PropTypes.string,
-    /**
-     * дата
-     */
-    defaultDate: PropTypes.string,
-    /**
-     * стили календаря
-     */
-    style: PropTypes.object,
-    /**
-     * шаг времени в календаре (15 = 1 час)
-     */
-    step: PropTypes.number,
-    /**
-     * массив имен встроенных представлений
-     */
-    views: PropTypes.array,
-    /**
-     *  форматы отображения дат
-     */
-    formats: PropTypes.object,
-    /**
-     * количество слотов в ячейке (шаге)
-     */
-    timeslots: PropTypes.number,
-    /**
-     * возможность выбрать даты путем выделения
-     */
-    selectable: PropTypes.bool,
-    /**
-     * ограничивает максимальное время просмотра дня и недели
-     */
-    maxDate: PropTypes.string,
-    /**
-     * ограничивает минимальное время просмотра дня и недели
-     */
-    minDate: PropTypes.string,
-    /**
-     * разбиение не по дням, а по каким либо сущностям
-     */
-    resources: PropTypes.array,
-    /**
-     * переопределение названия кнопок действий (прим. messages: { month: 'Месяц', })
-     */
-    messages: PropTypes.object,
-    configLocale: PropTypes.string,
-    defaultView: PropTypes.string,
-    t: PropTypes.func,
-    onSelectEvent: PropTypes.func,
-    onSelectSlot: PropTypes.func,
-    components: PropTypes.any,
-    minTime: PropTypes.any,
-    maxTime: PropTypes.any,
-}
-Calendar.defaultProps = {
-    startAccessor: 'start',
-    endAccessor: 'end',
-    events: [],
-    configLocale: 'ru',
-    t: () => {},
-}
-
-export default getContext({
-    configLocale: PropTypes.string,
-})(Calendar)
+export default getContext({ configLocale: PropTypes.string })(Calendar)

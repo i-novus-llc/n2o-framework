@@ -1,80 +1,68 @@
 import React from 'react'
 import classNames from 'classnames'
-import isString from 'lodash/isString'
-import { NavLink, NavItem, DropdownItem } from 'reactstrap'
+import { NavLink, NavItem } from 'reactstrap'
 import { BrowserRouter } from 'react-router-dom'
-
-const iconInPopUpClassName = (icon, directionIconsInPopUp) => classNames(icon, {
-    'n2o-search-bar__popup_icon-left': directionIconsInPopUp === 'left',
-    'n2o-search-bar__popup_icon-right': directionIconsInPopUp === 'right',
-})
 
 export const itemInSearchBarClassName = directionIconsInPopUp => classNames({
     'n2o-search-bar__popup_item-right': directionIconsInPopUp === 'right',
     'n2o-search-bar__popup_item-left': directionIconsInPopUp === 'left',
 })
 
-const renderIcon = (icon, directionIconsInPopUp) => (isString(icon) ? (
-    <i className={iconInPopUpClassName(icon, directionIconsInPopUp)} />
-) : (
-    icon
-))
+const Icon = ({ icon, directionIconsInPopUp }) => (typeof icon === 'string' ? (
+    <i className={classNames(icon, {
+        'n2o-search-bar__popup_icon-left': directionIconsInPopUp === 'left',
+        'n2o-search-bar__popup_icon-right': directionIconsInPopUp === 'right',
+    })}
+    />
+) : icon)
 
-export const renderDescription = (description, disabled) => (description && disabled ? (
-    <div className="dropdown-header n2o-search-bar__popup_desc-disabled">
-        {description}
-    </div>
-) : (
-    description && (
-        <div className="dropdown-header n2o-search-bar__popup_desc-disabled">
+export const Description = ({ description, disabled }) => {
+    if (!description) { return null }
+
+    return (
+        <div className={classNames('dropdown-header', { 'n2o-search-bar__popup_desc-disabled': disabled })}>
             {description}
         </div>
     )
-))
+}
 
-// eslint-disable-next-line react/prop-types
-export const RenderLink = ({ label, description, icon, href, ...props }) => {
-    // eslint-disable-next-line react/prop-types
-    const { linkType, disabled, directionIconsInPopUp } = props
-
-    return linkType === 'inner' ? (
-        <div className="n2o-search-bar__link-container">
-            {renderIcon(icon, directionIconsInPopUp)}
-            <div>
-                <BrowserRouter>
-                    <NavItem>
-                        <NavLink
-                            exact
-                            className="nav-link"
-                            to={href}
-                            title={description}
-                            activeClassName="active"
-                            disabled={disabled}
-                        >
-                            {label}
-                            {renderDescription(description, disabled)}
-                        </NavLink>
-                    </NavItem>
-                </BrowserRouter>
+export const RenderLink = ({ label, description, icon, href, linkType, disabled, directionIconsInPopUp }) => {
+    if (linkType === 'inner') {
+        return (
+            <div className="n2o-search-bar__link-container">
+                <Icon icon={icon} directionIconsInPopUp={directionIconsInPopUp} />
+                <div>
+                    <BrowserRouter>
+                        <NavItem>
+                            <NavLink
+                                exact
+                                className="nav-link"
+                                to={href}
+                                title={description}
+                                activeClassName="active"
+                                disabled={disabled}
+                            >
+                                {label}
+                                <Description description={description} disabled={disabled} />
+                            </NavLink>
+                        </NavItem>
+                    </BrowserRouter>
+                </div>
             </div>
-        </div>
-    ) : (
+        )
+    }
+
+    return (
         <div className="n2o-search-bar__link-container">
-            {renderIcon(icon, directionIconsInPopUp)}
+            <Icon icon={icon} directionIconsInPopUp={directionIconsInPopUp} />
             <div>
                 <BrowserRouter>
                     <NavLink href={href} title={description} disabled={disabled}>
                         {label}
-                        {renderDescription(description)}
+                        <Description description={description} disabled={disabled} />
                     </NavLink>
                 </BrowserRouter>
             </div>
         </div>
     )
-}
-
-export const renderDivider = (props) => {
-    const { separateLink } = props
-
-    return separateLink && separateLink === true && <DropdownItem divider />
 }
