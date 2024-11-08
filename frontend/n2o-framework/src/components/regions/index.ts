@@ -1,5 +1,4 @@
-/* eslint-disable import/no-named-as-default */
-import NoneRegion from './None/NoneRegion'
+import { NoneRegion } from './None/NoneRegion'
 import { TabsRegion } from './Tabs/Region'
 import ListRegion from './List/ListRegion'
 import PanelRegion from './Panel/PanelRegion'

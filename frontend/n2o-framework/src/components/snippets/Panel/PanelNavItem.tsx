@@ -1,7 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { ReactNode } from 'react'
 import classNames from 'classnames'
 import { Button } from 'reactstrap'
+
+export interface Props {
+    children: ReactNode
+    id: string
+    onClick(event: Event, id: string): void
+    className?: string
+    isToolBar?: boolean
+    active?: boolean
+    disabled?: boolean
+}
 
 /**
  * Компонент элемента меню для {@link Panel}
@@ -14,19 +23,17 @@ import { Button } from 'reactstrap'
  * @reactProps {node} children - элемент вставляемый в PanelNavItem
  */
 export function PanelNavItem({
+    children,
     id,
     onClick,
-    active,
-    disabled,
     className,
-    isToolBar,
-    children,
-}) {
-    const handleClick = (e) => {
-        e.preventDefault()
-        if (onClick) {
-            onClick(e, id)
-        }
+    isToolBar = false,
+    active = false,
+    disabled = false,
+}: Props) {
+    const handleClick = (event: MouseEvent) => {
+        event.preventDefault()
+        if (onClick) { onClick(event, id) }
     }
 
     return (
@@ -38,6 +45,7 @@ export function PanelNavItem({
                     { active },
                 )}
                 color={isToolBar ? 'primary' : 'link'}
+                // @ts-ignore не сходятся типы с reactstrap, проблема в event: MouseEvent
                 onClick={handleClick}
                 disabled={disabled}
                 size="sm"
@@ -46,22 +54,6 @@ export function PanelNavItem({
             </Button>
         </li>
     )
-}
-
-PanelNavItem.propTypes = {
-    id: PropTypes.string,
-    active: PropTypes.bool,
-    disabled: PropTypes.bool,
-    onClick: PropTypes.func,
-    className: PropTypes.string,
-    isToolBar: PropTypes.bool,
-    children: PropTypes.node,
-}
-
-PanelNavItem.defaultProps = {
-    active: false,
-    disabled: false,
-    isToolBar: false,
 }
 
 export default PanelNavItem

@@ -11,6 +11,7 @@ const itemsTypes = {
     menu: menuElementsTypes,
 }
 
+// TODO для инфо, удалить после рефакторинга ScrollSpyTypes на ts
 export const ScrollSpyTypes = {
     src: PropTypes.string,
     id: PropTypes.string,

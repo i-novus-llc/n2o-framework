@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import { Divider } from '@i-novus/n2o-components/lib/display/Divider/Divider'
 
-import { ScrollSpyTypes } from './ScrollSpyTypes'
 import { Title } from './Title'
 import { hasVisibleWidget } from './utils'
 
@@ -21,10 +20,6 @@ export function Menu({
             </div>
         </section>
     )
-}
-
-Menu.propTypes = {
-    ...ScrollSpyTypes,
 }
 
 function MenuList({ items, active, setActive, widgets }) {
@@ -59,8 +54,6 @@ function MenuList({ items, active, setActive, widgets }) {
         )
     })
 }
-
-MenuList.propTypes = ScrollSpyTypes
 
 function MenuItem({
     id,
@@ -105,8 +98,6 @@ function MenuItem({
     )
 }
 
-MenuItem.propTypes = ScrollSpyTypes
-
 function DropdownMenuItem({ title, active, setActive, widgets, items = [], nested = false }) {
     const [isOpen, setOpen] = useState(false)
 
@@ -139,5 +130,3 @@ function DropdownMenuItem({ title, active, setActive, widgets, items = [], neste
         </div>
     )
 }
-
-DropdownMenuItem.propTypes = ScrollSpyTypes

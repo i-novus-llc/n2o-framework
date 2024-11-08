@@ -3,11 +3,11 @@ import classNames from 'classnames'
 
 export type Props = {
     className?: string
-    dashed: boolean
+    dashed?: boolean
     position?: string
-    type: 'horizontal' | 'vertical'
+    type?: 'horizontal' | 'vertical'
     children?: ReactNode
-    style: CSSProperties
+    style?: CSSProperties
 }
 
 /**

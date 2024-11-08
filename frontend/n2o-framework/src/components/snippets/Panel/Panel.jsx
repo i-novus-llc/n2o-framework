@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Card, Collapse } from 'reactstrap'
 import classNames from 'classnames'
 
@@ -26,24 +25,28 @@ import { PanelTabBody } from './PanelTabBody'
 
 export function Panel({
     className,
-    isFullScreen,
     style,
     onToggle,
-    color,
     disabled,
     onKeyPress,
     children,
     innerRef,
     t,
+    isFullScreen = false,
+    color = panelStyles.DEFAULT,
 }) {
-    const panelClass = classNames('n2o-panel-region', className, 'text-dark', {
-        'panel-fullscreen': isFullScreen,
-        'n2o-disabled': disabled,
-    })
-
     return (
         <Card
-            className={panelClass}
+            className={classNames(
+                'n2o-panel-region',
+                className,
+                'text-dark',
+                {
+                    'panel-fullscreen': isFullScreen,
+                    'n2o-disabled': disabled,
+                },
+            )
+            }
             style={style}
             onToggle={onToggle}
             color={color}
@@ -53,29 +56,9 @@ export function Panel({
             innerRef={innerRef}
         >
             {children}
-            <div className="panel-fullscreen-help">
-                <span>{t('panelFullScreenHelp')}</span>
-            </div>
+            <div className="panel-fullscreen-help"><span>{t('panelFullScreenHelp')}</span></div>
         </Card>
     )
-}
-
-Panel.propTypes = {
-    className: PropTypes.string,
-    style: PropTypes.object,
-    color: PropTypes.string,
-    isFullScreen: PropTypes.bool,
-    disabled: PropTypes.bool,
-    onToggle: PropTypes.func,
-    onKeyPress: PropTypes.func,
-    children: PropTypes.node,
-    innerRef: PropTypes.func,
-    t: PropTypes.func,
-}
-
-Panel.defaultProps = {
-    isFullScreen: false,
-    color: panelStyles.DEFAULT,
 }
 
 Object.assign(Panel, {

@@ -1,10 +1,9 @@
 import React, { useLayoutEffect } from 'react'
 import { connect, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-import { compose, setDisplayName } from 'recompose'
 import classNames from 'classnames'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
+import flowRight from 'lodash/flowRight'
 
 import { Panel, Collapse } from '../../snippets/Collapse/Collapse'
 import withWidgetProps from '../withWidgetProps'
@@ -21,8 +20,20 @@ import { registerRegion, unregisterRegion } from '../../../ducks/regions/store'
  */
 
 function ListRegion(props) {
-    const { id: regionId, parent, collapsible, getWidgetProps, className, style, disabled, expand,
-        isVisible, hasSeparator, label, pageId, regionsState, content = [] } = props
+    const {
+        id: regionId,
+        parent,
+        getWidgetProps, className,
+        style, disabled,
+        isVisible,
+        label,
+        pageId,
+        regionsState,
+        collapsible = true,
+        expand = true,
+        hasSeparator = true,
+        content = [],
+    } = props
     const dispatch = useDispatch()
 
     useLayoutEffect(() => {
@@ -83,31 +94,8 @@ function ListRegion(props) {
     )
 }
 
-ListRegion.propTypes = {
-    className: PropTypes.string,
-    style: PropTypes.object,
-    content: PropTypes.array.isRequired,
-    pageId: PropTypes.string.isRequired,
-    forceRender: PropTypes.bool,
-    resolveVisibleDependency: PropTypes.func,
-    collapsible: PropTypes.bool,
-    isVisible: PropTypes.bool,
-    disabled: PropTypes.bool,
-    hasSeparator: PropTypes.bool,
-    getWidgetProps: PropTypes.func,
-    label: PropTypes.string,
-    expand: PropTypes.bool,
-}
-
-ListRegion.defaultProps = {
-    collapsible: true,
-    hasSeparator: true,
-    expand: true,
-}
-
 export { ListRegion }
-export default compose(
-    setDisplayName('ListRegion'),
+export default flowRight(
     withWidgetProps,
     // widgetsState - тригер, нужен для расчета видимости виджетов в регионе
     connect(({ regions, widgets }) => ({ regionsState: regions, widgetsState: widgets })),

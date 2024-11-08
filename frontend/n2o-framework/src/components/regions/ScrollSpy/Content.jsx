@@ -1,5 +1,4 @@
 import React, { useRef, useImperativeHandle, forwardRef, useCallback, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { debounce } from 'lodash'
 
 import { usePrevious } from '../../../utils/usePrevious'
@@ -86,10 +85,3 @@ export const Content = forwardRef(({
         </section>
     )
 })
-
-Content.propTypes = {
-    pageId: PropTypes.string,
-    active: PropTypes.string,
-    setActive: PropTypes.func,
-    items: PropTypes.array,
-}

@@ -4,10 +4,10 @@ import some from 'lodash/some'
 import isNil from 'lodash/isNil'
 import isArray from 'lodash/isArray'
 import map from 'lodash/map'
-import { compose, setDisplayName } from 'recompose'
+import flowRight from 'lodash/flowRight'
 
 import PanelShortHand from '../../snippets/Panel/PanelShortHand'
-import withRegionContainer from '../withRegionContainer'
+import { createRegionContainer } from '../withRegionContainer'
 import withWidgetProps from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
 
@@ -181,8 +181,7 @@ PanelRegion.defaultProps = {
 }
 
 export { PanelRegion }
-export default compose(
-    setDisplayName('PanelRegion'),
-    withRegionContainer({ listKey: 'panels' }),
+export default flowRight(
+    createRegionContainer({ listKey: 'panels' }),
     withWidgetProps,
 )(PanelRegion)

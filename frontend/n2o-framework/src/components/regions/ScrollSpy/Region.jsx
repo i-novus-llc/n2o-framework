@@ -1,15 +1,14 @@
 import React, { useRef, useCallback, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { compose, setDisplayName } from 'recompose'
+import flowRight from 'lodash/flowRight'
 
 import { getState } from '../../snippets/ScrollContainer/ScrollContainer'
 import withWidgetProps from '../withWidgetProps'
-import withRegionContainer from '../withRegionContainer'
+import { createRegionContainer } from '../withRegionContainer'
 import { widgetsSelector } from '../../../ducks/widgets/selectors'
 import { mapToNumeric } from '../../../tools/helpers'
 
-import { ScrollSpyTypes } from './ScrollSpyTypes'
 import { Menu } from './Menu'
 import { Content } from './Content'
 import { createStyle, mapContextItems } from './utils'
@@ -122,13 +121,10 @@ export function Region(
     )
 }
 
-Region.propTypes = ScrollSpyTypes
-
 const mapStateToProps = state => ({ widgets: widgetsSelector(state) })
 
-export default compose(
-    setDisplayName('ScrollSpy'),
-    withRegionContainer({ listKey: 'content' }),
+export default flowRight(
+    createRegionContainer({ listKey: 'content' }),
     withWidgetProps,
     connect(mapStateToProps),
 )(Region)

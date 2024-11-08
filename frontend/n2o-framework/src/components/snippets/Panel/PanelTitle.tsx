@@ -1,7 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { ReactNode } from 'react'
 
 import { Icon } from '../Icon/Icon'
+
+export interface Props {
+    icon: string
+    children: ReactNode
+    toggleCollapse(): void
+}
 
 /**
  * Компонент заголовка для {@link Panel}
@@ -10,18 +15,13 @@ import { Icon } from '../Icon/Icon'
  * @reactProps {function} toggleCollapse - открывает/закрывает панель
  */
 
-function PanelTitle({ icon, children, toggleCollapse }) {
+function PanelTitle({ icon, children, toggleCollapse }: Props) {
     return (
         <a className="n2o-panel-region__panel-title" onClick={toggleCollapse}>
             {icon && <Icon name={icon} className="p-0 mr-2" />}
             {children}
         </a>
     )
-}
-
-PanelTitle.propTypes = {
-    icon: PropTypes.string,
-    children: PropTypes.node,
 }
 
 export default PanelTitle
