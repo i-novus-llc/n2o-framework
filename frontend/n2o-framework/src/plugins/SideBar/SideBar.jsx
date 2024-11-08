@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
@@ -90,22 +89,22 @@ export function SideBar({
     activeId,
     visible,
     sidebarOpen,
-    controlled,
     onToggle,
     className,
     logo,
     subtitle,
-    menu,
-    extraMenu = {},
-    defaultState = sidebarView.mini,
-    toggledState = sidebarView.maxi,
     onMouseEnter,
     onMouseLeave,
-    side = 'left',
     isStaticView,
     datasources,
     datasource,
+    side = 'left',
+    menu = {},
+    extraMenu = {},
     models = {},
+    controlled = false,
+    defaultState = sidebarView.mini,
+    toggledState = sidebarView.maxi,
 }) {
     const sidebarRef = useRef()
     const currentVisible = controlled ? sidebarOpen : visible
@@ -183,60 +182,6 @@ export function SideBar({
             </div>
         </aside>
     )
-}
-
-SideBar.propTypes = {
-    /**
-     * ID активного элемента
-     */
-    activeId: PropTypes.string,
-    /**
-     * Настройки лого и брэнда
-     */
-    logo: PropTypes.object,
-    /**
-     * Флаг сжатия
-     */
-    visible: PropTypes.bool,
-    /**
-     * Флаг сжатия если controlled
-     */
-    sidebarOpen: PropTypes.bool,
-    /**
-     * Флаг включения режима controlled
-     */
-    controlled: PropTypes.bool,
-    /**
-     * Callback на переключение сжатия
-     */
-    onToggle: PropTypes.func,
-    /**
-     * Адрес ссылка бренда
-     */
-    subtitle: PropTypes.string,
-    side: PropTypes.string,
-    className: PropTypes.string,
-    menu: PropTypes.object,
-    extraMenu: PropTypes.array,
-    datasources: PropTypes.object,
-    datasource: PropTypes.string,
-    defaultState: PropTypes.string,
-    toggledState: PropTypes.string,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    isStaticView: PropTypes.bool,
-}
-
-SideBar.defaultProps = {
-    controlled: false,
-    menu: {},
-}
-
-LogoSection.propTypes = {
-    isMiniView: PropTypes.bool,
-    logo: PropTypes.object,
-    subtitle: PropTypes.string,
-    showContent: PropTypes.bool,
 }
 
 const mapStateToProps = (state, { datasource }) => ({

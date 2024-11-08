@@ -8,7 +8,6 @@ import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { WithActiveModel } from '../Widget/WithActiveModel'
 
-// eslint-disable-next-line import/no-named-as-default
 import CalendarContainer from './CalendarContainer'
 
 function CalendarWidget(props) {

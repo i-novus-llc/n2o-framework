@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Dropdown, DropdownToggle } from 'reactstrap'
 
 import { SearchBarPopUpList } from './SearchBarPopUpList'
@@ -33,11 +32,6 @@ export function SearchBarPopUp({
             />
         </Dropdown>
     )
-}
-
-SearchBarPopUp.propTypes = {
-    ...SearchBarPopUpList.propTypes,
-    dropdownOpen: PropTypes.bool,
 }
 
 export default SearchBarPopUp

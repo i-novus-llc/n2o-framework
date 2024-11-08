@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import isString from 'lodash/isString'
 import isEmpty from 'lodash/isEmpty'
@@ -107,77 +106,6 @@ function SearchBar({
             )}
         </div>
     )
-}
-
-SearchBar.propTypes = {
-    iconClear: PropTypes.bool,
-    innerValue: PropTypes.string,
-    onClick: PropTypes.func,
-    toggleDropdown: PropTypes.func,
-    onClear: PropTypes.func,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    onKeyDown: PropTypes.func,
-    onFocus: PropTypes.func,
-    onItemClick: PropTypes.func,
-    urlFieldId: PropTypes.string,
-    dropdownOpen: PropTypes.string,
-    iconFieldId: PropTypes.string,
-    labelFieldId: PropTypes.string,
-    descriptionFieldId: PropTypes.string,
-    /**
-     * Класс компонента
-     */
-    className: PropTypes.string,
-    /**
-     * Начальное состояние строки поиска
-     */
-    initialValue: PropTypes.string,
-    /**
-     * Значение компонента
-     */
-    value: PropTypes.string,
-    /**
-     * Placeholder контрола
-     */
-    placeholder: PropTypes.string,
-    /**
-     * Триггер запуска колбека поиска
-     */
-    trigger: PropTypes.oneOf([
-        SearchTrigger.CHANGE,
-        SearchTrigger.ENTER,
-        SearchTrigger.BUTTON,
-    ]),
-    /**
-     * Настройка кнопки
-     */
-    button: PropTypes.object,
-    /**
-     * Иконка
-     */
-    icon: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.node,
-        PropTypes.element,
-        PropTypes.string,
-    ]),
-    /**
-     * Коллбек поиска
-     */
-    onSearch: PropTypes.func,
-    /**
-     * Delay поиска при change триггере
-     */
-    throttleDelay: PropTypes.number,
-    /**
-     * данные и резолв для popUp
-     */
-    menu: PropTypes.array,
-    /**
-     * направление иконок и items в popUp: left(default), right
-     */
-    directionIconsInPopUp: PropTypes.string,
 }
 
 SearchBar.defaultProps = {

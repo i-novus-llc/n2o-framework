@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import some from 'lodash/some'
 import isNil from 'lodash/isNil'
 import isArray from 'lodash/isArray'
@@ -112,65 +111,6 @@ class PanelRegion extends React.Component {
             </PanelShortHand>
         )
     }
-}
-
-PanelRegion.propTypes = {
-    /**
-     * Список элементов
-     */
-    content: PropTypes.array.isRequired,
-    /**
-     * ID страницы
-     */
-    pageId: PropTypes.string.isRequired,
-    /**
-     * Класс
-     */
-    className: PropTypes.string,
-    /**
-     * Стили
-     */
-    style: PropTypes.object,
-    /**
-     * Цвет панели
-     */
-    color: PropTypes.string,
-    /** *
-     * Иконка панели
-     */
-    icon: PropTypes.string,
-    /**
-     * Текст заголовка
-     */
-    headerTitle: PropTypes.string,
-    /**
-     * Текст футера
-     */
-    footerTitle: PropTypes.string,
-    /**
-     * Флаг открытия панели
-     */
-    open: PropTypes.bool,
-    disabled: PropTypes.bool,
-    /**
-     * Флаг возможности скрывать содержимое панели
-     */
-    collapsible: PropTypes.bool,
-    /**
-     * Флаг наличия табов
-     */
-    hasTabs: PropTypes.bool,
-    /**
-     * Флаг открытия на весь экран
-     */
-    fullScreen: PropTypes.bool,
-    getWidget: PropTypes.func.isRequired,
-    resolveVisibleDependency: PropTypes.func,
-    dependency: PropTypes.object,
-    getWidgetProps: PropTypes.func,
-    changeActiveEntity: PropTypes.func,
-    activeEntity: PropTypes.any,
-    user: PropTypes.any,
 }
 
 PanelRegion.defaultProps = {
