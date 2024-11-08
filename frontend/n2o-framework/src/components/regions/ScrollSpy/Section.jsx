@@ -1,7 +1,6 @@
 import React, { forwardRef, useCallback } from 'react'
 import get from 'lodash/get'
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
 
 import { RegionContent } from '../RegionContent'
 
@@ -34,14 +33,6 @@ const Section = forwardRef(({ id, title, headlines, active, children }, forwarde
         </div>
     )
 })
-
-Section.propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string,
-    headlines: PropTypes.bool,
-    children: PropTypes.any,
-    active: PropTypes.string,
-}
 
 /**
  * Рекурсивная отрисовка вложенных друг в друга секций и регистрация рефок на них
@@ -88,15 +79,4 @@ export function SectionGroup({ id, title, headlines, content, menu: items, activ
             {contentElement}
         </Section>
     )
-}
-
-SectionGroup.propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string,
-    headlines: PropTypes.bool,
-    active: PropTypes.string,
-    setSectionRef: PropTypes.func.isRequired,
-    menu: PropTypes.array,
-    pageId: PropTypes.string,
-    content: PropTypes.shape(SectionGroup.propTypes),
 }

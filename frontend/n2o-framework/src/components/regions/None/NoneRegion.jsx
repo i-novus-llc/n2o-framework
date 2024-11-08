@@ -1,9 +1,8 @@
-import React, { useLayoutEffect } from 'react'
-import PropTypes from 'prop-types'
-import { compose, pure, setDisplayName } from 'recompose'
+import React, { useLayoutEffect, memo } from 'react'
 import map from 'lodash/map'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
+import isEqual from 'lodash/isEqual'
 
 import withWidgetProps from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
@@ -15,7 +14,16 @@ import { registerRegion, unregisterRegion } from '../../../ducks/regions/store'
  * @reactProps {string} pageId - идентификатор страницы
  */
 
-const NoneRegion = ({ id: regionId, content, className, style, pageId, disabled, parent }) => {
+function arePropsEqual(oldProps, newProps) {
+    // widgetsDatasource from withWidgetProps
+    return !isEqual(oldProps.widgetsDatasource, newProps.widgetsDatasource) ||
+        !isEqual(oldProps.content, newProps.content) ||
+        oldProps.disabled !== newProps.disabled ||
+        oldProps.visible !== newProps.visible
+}
+
+const NoneRegionBody = memo((props) => {
+    const { id: regionId, content, className, style, pageId, disabled, parent } = props
     const dispatch = useDispatch()
 
     useLayoutEffect(() => {
@@ -26,30 +34,19 @@ const NoneRegion = ({ id: regionId, content, className, style, pageId, disabled,
             visible: true,
         }))
 
-        return () => {
-            dispatch(unregisterRegion(regionId))
-        }
+        return () => { dispatch(unregisterRegion(regionId)) }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
         <div className={classNames('n2o-none-region', className, { 'n2o-disabled': disabled })} style={style}>
-            {map(content, (item, i) => <RegionContent key={`${i}-${item.id}`} content={[item]} pageId={pageId} parent={parent} />)}
+            {map(content, (item, i) => (
+                <RegionContent key={`${i}-${item.id}`} content={[item]} pageId={pageId} parent={parent} />
+            ))}
         </div>
     )
-}
+}, arePropsEqual)
 
-NoneRegion.propTypes = {
-    className: PropTypes.string,
-    pageId: PropTypes.string,
-    style: PropTypes.object,
-    disabled: PropTypes.bool,
-    content: PropTypes.any,
-}
-
-export { NoneRegion }
-export default compose(
-    setDisplayName('NoneRegion'),
-    pure,
-    withWidgetProps,
-)(NoneRegion)
+export const NoneRegion = withWidgetProps(NoneRegionBody)
+export default NoneRegion

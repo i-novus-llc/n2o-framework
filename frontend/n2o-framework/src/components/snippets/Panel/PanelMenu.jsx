@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { TabNav } from './TabNav'
@@ -18,12 +17,12 @@ import { PanelNavItem } from './PanelNavItem'
 
 function PanelMenu({
     children,
-    collapsible,
     onToggle,
-    fullScreen,
     onFullScreenClick,
     isOpen,
     fullScreenIcon,
+    fullScreen = false,
+    collapsible = false,
 }) {
     return (
         <div className="panel-block-flex">
@@ -52,21 +51,6 @@ function PanelMenu({
             </TabNav>
         </div>
     )
-}
-
-PanelMenu.propTypes = {
-    fullScreen: PropTypes.bool,
-    onFullScreenClick: PropTypes.func,
-    fullScreenIcon: PropTypes.string,
-    children: PropTypes.node,
-    collapsible: PropTypes.bool,
-    onToggle: PropTypes.func,
-    isOpen: PropTypes.bool,
-}
-
-PanelMenu.defaultProps = {
-    fullScreen: false,
-    collapsible: false,
 }
 
 export default PanelMenu
