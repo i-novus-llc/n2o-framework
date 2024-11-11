@@ -50,7 +50,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
     }
 
     @Test
-    public void testPathParam() {
+    void testPathParam() {
         setJsonPath("net/n2oapp/framework/autotest/page/title/params/path_params");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/test.query.xml"),
@@ -114,7 +114,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
     }
 
     @Test
-    public void testQueryParams() {
+    void testQueryParams() {
         setJsonPath("net/n2oapp/framework/autotest/page/title/params/query_params");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/test.query.xml"),
@@ -180,7 +180,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
     }
 
     @Test
-    public void testConstantParams() {
+    void testConstantParams() {
         setJsonPath("net/n2oapp/framework/autotest/page/title/params/constant_value");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/test.query.xml"),
@@ -224,6 +224,8 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
 
         Selenide.back();
 
+        tableWidget.shouldExists();
+        tableWidget.columns().rows().shouldHaveSize(4);
         tableWidget.columns().rows().row(2).click();
         openBtn.click();
 
