@@ -42,7 +42,7 @@ public class SwitchCaseActionAT extends AutoTestBase {
 
 
     @Test
-    public void testSwitchCaseInButton() {
+    void testSwitchCaseInButton() {
         setJsonPath("net/n2oapp/framework/autotest/action/switch_case/button");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/button/page1.page.xml"),
@@ -56,25 +56,28 @@ public class SwitchCaseActionAT extends AutoTestBase {
         Button button = table.toolbar().topLeft().button("Открыть");
 
         table.shouldExists();
+        table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(1).click();
         button.click();
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/type1");
         page.breadcrumb().crumb(0).click();
 
         table.shouldExists();
+        table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(3).click();
         button.click();
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/type2");
         page.breadcrumb().crumb(0).click();
 
         table.shouldExists();
+        table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(2).click();
         button.click();
         page.shouldHaveUrlMatches("https://example.com/");
     }
 
     @Test
-    public void testSwitchCaseInRowClick() {
+    void testSwitchCaseInRowClick() {
         setJsonPath("net/n2oapp/framework/autotest/action/switch_case/row_click");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/row_click/page1.page.xml"),
