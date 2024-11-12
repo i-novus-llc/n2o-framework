@@ -1,24 +1,33 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { CSSProperties } from 'react'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
 import classNames from 'classnames'
+import { Dispatch } from 'redux'
 
 import { Factory } from '../../../core/factory/Factory'
 import { CELLS } from '../../../core/factory/factoryLevels'
 import { useResolved } from '../../../core/Expression/useResolver'
+
+export interface Props {
+    component?: { src: string }
+    model: { id: string }
+    dispatch: Dispatch
+    onResolve(): void
+    className?: string
+    style?: CSSProperties
+    index: number
+    widgetId?: string
+    datasource: string
+    id?: string
+    key?: string | number
+}
+
 /**
  * Строка Cards
- * @reactProps {string} className - имя css класса
- * @reactProps {object} style - css стиль
- * @reactProps {object} model - Модель
  */
-function CardsCell(props) {
+export function CardsCell(props: Props) {
     const { component, model, dispatch, onResolve } = props
-    const resolvedProps = useResolved({
-        ...omit(props, ['model', 'dispatch', 'onResolve']),
-        ...omit(component, ['src']),
-    }, model)
+    const resolvedProps = useResolved({ ...omit(props, ['model', 'dispatch', 'onResolve']), ...omit(component, ['src']) }, model)
 
     return (
         <Factory
@@ -31,15 +40,6 @@ function CardsCell(props) {
             className={classNames('n2o-cards__cell', resolvedProps.className)}
         />
     )
-}
-
-CardsCell.propTypes = {
-    className: PropTypes.string,
-    style: PropTypes.string,
-    model: PropTypes.object,
-    component: PropTypes.object,
-    onResolve: PropTypes.func,
-    dispatch: PropTypes.func,
 }
 
 export default CardsCell

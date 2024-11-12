@@ -1,9 +1,7 @@
 import React, { useContext, useMemo } from 'react'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { FactoryContext } from '../../../core/factory/context'
 import WidgetLayout from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
@@ -12,7 +10,7 @@ import { WithActiveModel } from '../Widget/WithActiveModel'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 
-import CardsContainer from './CardsContainer'
+import { CardsContainer } from './CardsContainer'
 
 function CardsWidget(props) {
     const {
@@ -63,15 +61,4 @@ function CardsWidget(props) {
     )
 }
 
-CardsWidget.propTypes = {
-    ...widgetPropTypes,
-    cards: PropTypes.array,
-    align: PropTypes.string,
-    height: PropTypes.string,
-    verticalAlign: PropTypes.string,
-}
-
-/**
- * @type ConnectedWidget
- */
 export default WidgetHOC(WithActiveModel(CardsWidget))
