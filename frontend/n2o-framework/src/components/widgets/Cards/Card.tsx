@@ -1,28 +1,29 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
 
-import CardsCell from './CardsCell'
+import { CardsCell, type Props as CardCellProps } from './CardsCell'
 
-export function Card({ card, index, id, onResolve, dispatch, alignStyle, datasource, model = {} }) {
+type CommonProps = 'index' | 'datasource' | 'model' | 'dispatch' | 'onResolve' | 'id' | 'className'
+
+export interface Props extends Pick<CardCellProps, CommonProps> {
+    card: {
+        content: CardCellProps[]
+        col: string
+    }
+    alignStyle: CSSProperties
+}
+
+export function Card({ card, index, id, onResolve, dispatch, alignStyle, datasource, model }: Props) {
     const { content = [], col } = card
 
     return (
         <div className={classNames('n2o-cards__item', `col-${col}`)} style={alignStyle}>
             {content.map(({ component, className, style }) => {
-                if (!component) {
-                    return null
-                }
+                if (!component) { return null }
 
-                const wrapperClassName = classNames(
-                    'd-flex',
-                    className,
-                    {
-                        'n2o-cards__image': component.src === 'ImageCell',
-                    },
-                )
+                const wrapperClassName = classNames('d-flex', className, { 'n2o-cards__image': component?.src === 'ImageCell' })
 
-                const { id: key } = model
+                const { id: key } = model || {}
 
                 return (
                     <div className={wrapperClassName} style={style} key={component.src + index}>
@@ -41,15 +42,4 @@ export function Card({ card, index, id, onResolve, dispatch, alignStyle, datasou
             })}
         </div>
     )
-}
-
-Card.propTypes = {
-    card: PropTypes.object,
-    model: PropTypes.object,
-    index: PropTypes.number,
-    id: PropTypes.string,
-    onResolve: PropTypes.func,
-    dispatch: PropTypes.func,
-    alignStyle: PropTypes.object,
-    datasource: PropTypes.string,
 }

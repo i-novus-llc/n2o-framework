@@ -1,8 +1,27 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Card } from './Card'
+import { Card, type Props as CardProps } from './Card'
+
+type CommonProps = 'className' | 'id' | 'onResolve' | 'dispatch' | 'datasource'
+
+export interface Props extends Pick<CardProps, CommonProps> {
+    cards: Array<CardProps['card']>
+    data: Array<CardProps['model']>
+    align: 'top' | 'bottom'
+    height: string
+}
+
+const getJustifyContent = (align: Props['align']) => {
+    switch (align) {
+        case 'top':
+            return 'flex-start'
+        case 'bottom':
+            return 'flex-end'
+        default:
+            return 'center'
+    }
+}
 
 /**
  * Cards
@@ -21,23 +40,10 @@ export function Cards({
     onResolve,
     dispatch,
     align,
-    height,
     datasource,
-}) {
-    if (!data?.length || !cards?.length) {
-        return null
-    }
-
-    const getJustifyContent = (align) => {
-        switch (align) {
-            case 'top':
-                return 'flex-start'
-            case 'bottom':
-                return 'flex-end'
-            default:
-                return 'center'
-        }
-    }
+    height = '450px',
+}: Props) {
+    if (!data?.length || !cards?.length) { return null }
 
     return (
         <div className={classNames('n2o-cards__container col-12', className)}>
@@ -59,40 +65,6 @@ export function Cards({
             ))}
         </div>
     )
-}
-
-Cards.defaultProps = {
-    height: '450px',
-}
-
-Cards.propTypes = {
-    /**
-     * имя css класса карточки
-     */
-    className: PropTypes.string,
-    /**
-     * массив объектов cell из которых состоит виджет
-     */
-    cards: PropTypes.array,
-    /**
-     * данные объектов cell
-     */
-    data: PropTypes.array,
-    /**
-     * id виджета
-     */
-    id: PropTypes.number,
-    /**
-     * позиция элементов по горизонтали
-     */
-    align: PropTypes.string,
-    /**
-     * высота компонента
-     */
-    height: PropTypes.string,
-    onResolve: PropTypes.func,
-    dispatch: PropTypes.func,
-    datasource: PropTypes.string,
 }
 
 export default Cards
