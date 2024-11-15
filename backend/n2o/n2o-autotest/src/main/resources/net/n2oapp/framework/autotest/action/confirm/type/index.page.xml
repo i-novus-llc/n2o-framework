@@ -21,7 +21,9 @@
                 </set-value>
             </button>
             <button label="dialog">
-                <confirm text="confirm-text"/>
+                <if test="true">
+                    <confirm text="confirm-text"/>
+                </if>
                 <set-value to="test1">
                     return 'qwerty2'
                 </set-value>
