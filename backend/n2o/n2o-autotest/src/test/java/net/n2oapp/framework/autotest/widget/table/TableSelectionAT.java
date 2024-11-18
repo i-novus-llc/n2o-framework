@@ -12,6 +12,7 @@ import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -82,10 +83,11 @@ public class TableSelectionAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/index.page.xml"));
-        SimplePage page = open(SimplePage.class);
+        StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        TableWidget table = page.widget(TableWidget.class);
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+
         table.shouldExists();
         table.columns().headers().shouldHaveSize(2);
 
@@ -96,6 +98,17 @@ public class TableSelectionAT extends AutoTestBase {
         rows.shouldNotHaveSelectedRows();
 
         table.toolbar().topLeft().button("Открыть").shouldBeDisabled();
+
+        table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
+
+        table.shouldExists();
+        table.columns().headers().shouldHaveSize(2);
+        rows = table.columns().rows();
+        rows.shouldHaveSize(3);
+        rows.shouldNotHaveSelectedRows();
+        rows.row(1).click();
+        Alert alert = page.alerts(Alert.Placement.topLeft).alert(0);
+        alert.shouldExists();
     }
 
     @Test
