@@ -1,27 +1,46 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
-            <form id="first" object-id="test">
+            <form id="first">
+                <datasource object-id="test"/>
                 <fields>
                     <input-text id="value"/>
                 </fields>
             </form>
         </region>
         <region>
-            <form id="second" object-id="test">
+            <form id="second">
+                <datasource object-id="test"/>
                 <fields>
                     <input-text id="value"/>
                     <input-text id="value2"/>
                 </fields>
             </form>
         </region>
+        <region>
+            <form id="third">
+                <datasource object-id="test"/>
+                <fields>
+                    <row>
+                        <input-text id="name"/>
+                        <button label="Сохранить (submit-all='false')">
+                            <invoke submit-all="false" operation-id="submit" message-on-success="false">
+                                <form-param id="name" value="{name}"/>
+                            </invoke>
+                        </button>
+                        <output-text id="result"/>
+                        <output-text id="resultName"/>
+                    </row>
+                </fields>
+            </form>
+        </region>
     </regions>
     <toolbar>
         <button label="Сохранить" widget-id="first">
-            <invoke operation-id="create" route="/create">
-                <form-param id="form_value" value="{value}" ref-widget-id="first"/>
-                <form-param id="second_form" ref-widget-id="second"/>
+            <invoke operation-id="create" route="/create" object-id="test">
+                <form-param id="form_value" value="{value}" datasource="first"/>
+                <form-param id="second_form" datasource="second"/>
             </invoke>
         </button>
     </toolbar>
