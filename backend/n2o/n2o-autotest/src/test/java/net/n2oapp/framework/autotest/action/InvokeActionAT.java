@@ -4,6 +4,8 @@ import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.OutputText;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
@@ -69,6 +71,18 @@ public class InvokeActionAT extends AutoTestBase {
         Alert alert = page.alerts(Alert.Placement.top).alert(0);
         alert.shouldHaveColor(Colors.SUCCESS);
         alert.shouldHaveText("form_value=1 second_form.value=2 second_form.value2=3");
+
+        FormWidget thirdForm = page.regions().region(2, SimpleRegion.class).content().widget(0, FormWidget.class);
+        InputText input = thirdForm.fields().field("name").control(InputText.class);
+        input.click();
+        input.setValue("text");
+
+        ButtonField button = thirdForm.fields().field("Сохранить (submit-all='false')", ButtonField.class);
+        button.click();
+        OutputText result = thirdForm.fields().field("result").control(OutputText.class);
+        result.shouldHaveValue("SUCCESS");
+        OutputText resultName = thirdForm.fields().field("resultName").control(OutputText.class);
+        resultName.shouldHaveValue("text");
     }
 
     @Test

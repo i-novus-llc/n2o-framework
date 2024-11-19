@@ -15,5 +15,18 @@
                 <field id="second_form.value2"/>
             </out>
         </operation>
+
+        <operation id="submit">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <in>
+                <field id="name"/>
+            </in>
+            <out>
+                <field id="result" default-value="SUCCESS"/>
+                <field id="resultName" mapping="['name']"/>
+            </out>
+        </operation>
     </operations>
 </object>
