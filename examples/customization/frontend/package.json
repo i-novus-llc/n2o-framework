@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "n2o-framework": "7.16.0",
+    "n2o-framework": "7.21.0",
     "prop-types": "^15.8.1",
     "re-resizable": "^4.11.0",
     "react": "^16.8.6",
