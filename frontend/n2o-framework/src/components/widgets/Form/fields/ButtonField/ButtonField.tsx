@@ -1,7 +1,5 @@
 import React, { CSSProperties, ReactNode } from 'react'
-import classNames from 'classnames'
 
-// @ts-ignore import from js file
 import StandardButton from '../../../../buttons/StandardButton/StandardButton'
 import { FieldAlignmentBlock } from '../FieldAlignmentBlock'
 
@@ -14,19 +12,21 @@ interface Props {
     labelPosition?: 'top' | 'top-right' | 'top-left' | 'bottom'
 }
 
-export function ButtonField({ className, style, noLabelBlock, children, visible = true, ...rest }: Props) {
+export function ButtonField(props: Props) {
+    const { visible = true } = props
+
     if (!visible) { return null }
 
-    const { labelPosition } = rest
-
-    const isTopLabelPosition = labelPosition === 'top' || labelPosition === 'top-right' || labelPosition === 'top-left'
-    const isTopAlign = !noLabelBlock && isTopLabelPosition
+    const { noLabelBlock, children, labelPosition, ...rest } = props
+    const isTopAlign = !noLabelBlock && (labelPosition === 'top' || labelPosition === 'top-right' || labelPosition === 'top-left')
 
     return (
         <>
             <FieldAlignmentBlock visible={isTopAlign} />
-            <div style={style} className={classNames('n2o-button-field n2o-form-group', className)}>
-                {children || <StandardButton {...rest} className={className} />}
+            <div className="n2o-button-field n2o-form-group">
+                {children ||
+                    <StandardButton {...rest} labelPosition={labelPosition} />
+                }
                 <div className="n2o-validation-message" />
             </div>
         </>
