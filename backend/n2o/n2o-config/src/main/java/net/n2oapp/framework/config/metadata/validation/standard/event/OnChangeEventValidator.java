@@ -25,7 +25,7 @@ public class OnChangeEventValidator extends TypedMetadataValidator<N2oOnChangeEv
             throw new N2oMetadataValidationException("В событии <on-change> не задан атрибут 'datasource'");
         ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
                 String.format("Событие <on-change> ссылается на несуществующий источник данных '%s'", source.getDatasourceId()));
-        if (ArrayUtils.isEmpty(source.getActions()))
+        if (ArrayUtils.isEmpty(source.getActions()) && source.getActionId() == null)
             throw new N2oMetadataValidationException(String.format("В событии <on-change> %s не заданы действия", ValidationUtils.getIdOrEmptyString(source.getId())));
     }
 }
