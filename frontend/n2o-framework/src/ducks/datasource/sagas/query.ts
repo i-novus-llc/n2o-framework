@@ -51,19 +51,16 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
         if (!provider) { throw new Error('Can\'t request data with empty provider') }
         if (!components.length) { throw new Error('Unnecessary request for datasource with empty components list ') }
 
-        const filtersIsValid: boolean = yield call(
-            validate,
-            startValidate(
-                id,
-                // @ts-ignore поправить типы
-                ValidationsKey.FilterValidations,
-                ModelPrefix.filter,
-                undefined,
-                { touched: true },
-            ),
+        const validateByPrefix = (prefix: ModelPrefix) => startValidate(
+            // @ts-ignore поправить типы
+            id, ValidationsKey.FilterValidations, prefix, undefined, { touched: true },
         )
 
-        if (!filtersIsValid) { throw new Error('Invalid filters, request canceled') }
+        const filtersIsValid: boolean = yield call(validate, validateByPrefix(ModelPrefix.filter))
+        // Хак в WidgetFilters, пока явно не нажата кнопка «Найти», данные будут храниться в ModelPrefix.edit
+        const editFiltersIsValid: boolean = yield call(validate, validateByPrefix(ModelPrefix.edit))
+
+        if (!filtersIsValid || !editFiltersIsValid) { throw new Error('Invalid filters, request canceled') }
 
         const query = getQuery(provider.type)
 
