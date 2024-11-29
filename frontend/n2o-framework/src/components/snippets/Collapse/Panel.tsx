@@ -54,11 +54,13 @@ function PanelHeader({ header, help, description, badge }: PanelHeaderProps) {
 
 export type Props = {
     type: string
-    collapsible: boolean
+    collapsible?: boolean
     badge: BadgeProps
-    className: string
-    headerClass: string
+    className?: string
+    headerClass?: string
     children: ReactNode
+    showArrow?: boolean
+    forceRender?: boolean
 } & PanelHeaderProps
 
 export const Panel = ({

@@ -1,29 +1,36 @@
 import React from 'react'
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
 
 import { Panel, Collapse } from '../../../../snippets/Collapse/Collapse'
 import { withFieldsetHeader } from '../withFieldsetHeader'
+import { type FieldsetProps } from '../types'
 
-function CollapseFieldSet({
+export type Props = Pick<FieldsetProps,
+    'rows' | 'render' | 'disabled' | 'label' |
+    'help' | 'badge' | 'description' | 'type' |
+    'expand' | 'hasArrow' | 'hasSeparator'
+>
+
+function CollapseFieldSetBody({
     render,
-    rows,
     type,
     label,
     expand,
-    hasArrow,
-    hasSeparator,
     description,
     help,
-    disabled,
     badge,
-}) {
+    rows = [],
+    hasArrow = true,
+    hasSeparator = true,
+    disabled = false,
+}: Props) {
     const currentType = hasSeparator ? type : 'divider'
 
     return (
         <Collapse
             className={classNames({ 'n2o-disabled': disabled })}
             defaultActiveKey={expand ? '0' : null}
+            collapsible
         >
             <Panel
                 header={label}
@@ -40,25 +47,5 @@ function CollapseFieldSet({
     )
 }
 
-CollapseFieldSet.propTypes = {
-    rows: PropTypes.array,
-    type: PropTypes.string,
-    label: PropTypes.string,
-    expand: PropTypes.bool,
-    hasArrow: PropTypes.bool,
-    hasSeparator: PropTypes.bool,
-    render: PropTypes.func,
-    description: PropTypes.string,
-    help: PropTypes.string,
-    disabled: PropTypes.bool,
-    badge: PropTypes.object,
-}
-
-CollapseFieldSet.defaultProps = {
-    rows: [],
-    hasArrow: true,
-    hasSeparator: true,
-    disabled: false,
-}
-
-export default withFieldsetHeader(CollapseFieldSet)
+export const CollapseFieldSet = withFieldsetHeader(CollapseFieldSetBody)
+export default CollapseFieldSet

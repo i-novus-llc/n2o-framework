@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { ComponentType } from 'react'
 import classNames from 'classnames'
 
 import { useResolved } from '../../../../core/Expression/useResolver'
 
 import { FieldsetHeader } from './FieldsetHeader'
+import { type FieldsetProps } from './types'
 
-export function withFieldsetHeader(Component) {
+export type ComponentProps = ComponentType<Omit<FieldsetProps, | 'needDescription' | 'style' | 'needLabel'>>
+
+export function withFieldsetHeader(Component: ComponentProps) {
     function WithFieldsetHeaderComponent({
         className,
         style,
@@ -17,18 +20,18 @@ export function withFieldsetHeader(Component) {
         type,
         childrenLabel,
         enabled,
-        activeModel,
+        activeModel = {},
         render,
         visible,
         badge: badgeProps,
         ...rest
-    }) {
+    }: FieldsetProps) {
         const badge = useResolved(badgeProps, activeModel)
 
         return (
             <div className={classNames(className, { 'd-none': visible === false })} style={style}>
                 <FieldsetHeader
-                    visible={type !== 'line' && (needLabel || needDescription || badge)}
+                    visible={type !== 'line' && (needLabel || needDescription || Boolean(badge))}
                     label={label}
                     needLabel={needLabel}
                     description={description}
