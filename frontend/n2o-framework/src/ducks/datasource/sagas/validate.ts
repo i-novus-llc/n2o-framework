@@ -1,8 +1,13 @@
-import { put, select, delay, fork } from 'redux-saga/effects'
+import { delay, fork, put, select } from 'redux-saga/effects'
 import { isEmpty, isEqual, pick } from 'lodash'
 import { Task } from 'redux-saga'
 
-import { dataSourceErrors, dataSourceModelByPrefixSelector, dataSourceValidationSelector, dataSourcePageIdSelector } from '../selectors'
+import {
+    dataSourceErrors,
+    dataSourceModelByPrefixSelector,
+    dataSourcePageIdSelector,
+    dataSourceValidationSelector,
+} from '../selectors'
 import { failValidate, resetValidation } from '../store'
 import type { StartValidateAction } from '../Actions'
 import { hasError, validateModel } from '../../../core/validation/validateModel'
