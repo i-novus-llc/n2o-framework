@@ -1,6 +1,6 @@
 import { runSaga } from 'redux-saga'
 import { call } from 'redux-saga/effects'
-import { replace, push } from 'connected-react-router'
+import { replace } from 'connected-react-router'
 
 import { USER_LOGIN, USER_LOGOUT } from '../constants'
 import { FETCH_ERROR } from '../../../constants/fetch'

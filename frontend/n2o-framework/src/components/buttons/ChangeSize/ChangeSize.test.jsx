@@ -1,6 +1,5 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import sinon from 'sinon'
 
 import configureStore from '../../../store'
 import history from '../../../history'

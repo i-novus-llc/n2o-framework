@@ -2,7 +2,6 @@ import React from 'react'
 import { mount } from 'enzyme'
 import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
-import sinon from 'sinon'
 
 import ButtonsCell from '../ButtonsCell'
 import FactoryProvider from '../../../../../../core/factory/FactoryProvider'

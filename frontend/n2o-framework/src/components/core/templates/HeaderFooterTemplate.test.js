@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import mockStore from 'redux-mock-store'
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
 
 import HeaderFooterTemplate from './HeaderFooterTemplate'
 

@@ -11,7 +11,7 @@ type Props = TBaseProps & {
     text: string // флаг переноса текста
 }
 
-export function Text({ text, format, preLine, className, ...rest }: Props) {
+export function Text({ text, format, className, preLine = false, ...rest }: Props) {
     // @ts-ignore import from js file
     const parsedText = parseFormatter(text, format)
 
@@ -26,7 +26,3 @@ export function Text({ text, format, preLine, className, ...rest }: Props) {
         </span>
     )
 }
-
-Text.defaultProps = {
-    preLine: false,
-} as Props

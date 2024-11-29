@@ -1,5 +1,4 @@
 import React from 'react'
-import sinon from 'sinon'
 
 import {InputPassword} from '../../inputs/InputPassword'
 

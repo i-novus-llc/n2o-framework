@@ -2,7 +2,6 @@ import React, { useContext, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import { widgetPropTypes } from '../../../core/widget/propTypes'
 import WidgetLayout from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'

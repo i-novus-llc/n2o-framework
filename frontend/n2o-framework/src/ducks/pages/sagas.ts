@@ -9,7 +9,7 @@ import {
     fork,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
-import { getLocation, replace } from 'connected-react-router'
+import { getLocation } from 'connected-react-router'
 import queryString from 'query-string'
 import { get, isEqual } from 'lodash'
 
