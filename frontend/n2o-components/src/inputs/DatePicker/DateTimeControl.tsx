@@ -1,7 +1,6 @@
 import React, { ElementType, FocusEventHandler, KeyboardEvent } from 'react'
 import { findDOMNode } from 'react-dom'
 import every from 'lodash/every'
-import isUndefined from 'lodash/isUndefined'
 import isFunction from 'lodash/isFunction'
 import isNull from 'lodash/isNull'
 import dayjs, { Dayjs } from 'dayjs'

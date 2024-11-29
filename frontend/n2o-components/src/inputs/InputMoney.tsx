@@ -1,7 +1,6 @@
 import React from 'react'
 import cn from 'classnames'
 import isNaN from 'lodash/isNaN'
-import toNumber from 'lodash/toNumber'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import forOwn from 'lodash/forOwn'

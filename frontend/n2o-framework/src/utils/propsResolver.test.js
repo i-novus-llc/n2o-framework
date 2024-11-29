@@ -1,7 +1,6 @@
 /**
  * Created by emamoshin on 04.10.2017.
  */
-import Enzyme, { shallow, render, mount } from 'enzyme'
 
 import propsResolver from './propsResolver'
 

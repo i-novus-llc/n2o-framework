@@ -1,12 +1,7 @@
 import {
     email,
     required,
-    condition,
-    constraint,
     integer,
-    minLength,
-    maxLength,
-    match,
 } from './presets'
 
 describe('Проверка presets', () => {

@@ -1,4 +1,3 @@
-import React from 'react'
 import { channel, runSaga } from 'redux-saga'
 import {
     select,
@@ -12,7 +11,6 @@ import fetchMock from 'fetch-mock'
 
 import {
     metadataSuccess,
-    metadataFail,
     resetPage,
     setStatus,
 } from '../store'

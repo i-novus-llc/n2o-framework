@@ -1,16 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import renderer from 'react-test-renderer'
-import { Provider } from 'react-redux'
-import configureMockStore from 'redux-mock-store'
-import { withContext } from 'recompose'
-import PropTypes from 'prop-types'
-import { BrowserRouter } from 'react-router-dom'
 import sinon from 'sinon'
 
-import FactoryProvider from '../../core/factory/FactoryProvider'
-
-import DefaultBreadcrumb from './Breadcrumb/DefaultBreadcrumb'
 import { PageContainer } from './Page'
 
 const defaultProps = {
