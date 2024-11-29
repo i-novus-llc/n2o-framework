@@ -30,6 +30,7 @@ export type Props = {
     className: string
     children: ReactNode
     collapsible: boolean
+    defaultActiveKey: string | null
 }
 
 export const Collapse = ({ className, children, collapsible, ...rest }: Props) => {

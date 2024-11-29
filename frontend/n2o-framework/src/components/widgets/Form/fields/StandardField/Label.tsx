@@ -1,25 +1,35 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { CSSProperties } from 'react'
 import { Label as BootstrapLabel } from 'reactstrap'
 import classNames from 'classnames'
 
-import HelpPopover from './HelpPopover'
+import { HelpPopover } from './HelpPopover'
 import { Required } from './Required'
+
+export interface Props {
+    id?: string
+    value?: string
+    required?: boolean
+    className?: string
+    style?: CSSProperties
+    help?: string
+    needStub?: boolean
+    visible?: boolean
+}
 
 /**
  * Лейбел поля
  */
 
-const Label = ({
+export const Label = ({
     id,
     value,
     required,
-    className,
-    style,
     help,
+    className,
+    style = {},
     needStub = false,
     visible = true,
-}) => {
+}: Props) => {
     if (!visible || (!value && !needStub)) { return null }
 
     const newProps = {
@@ -29,38 +39,23 @@ const Label = ({
 
     if (React.isValidElement(value)) {
         return (
-            <div className="n2o-field-label">
+            <div id={id} className="n2o-field-label">
                 {React.cloneElement(value, newProps)}
                 <Required required={required} />
-                <HelpPopover id={id} help={help} />
+                <HelpPopover help={help} />
             </div>
         )
     }
 
     return (
-        <BootstrapLabel className={classNames('n2o-field-label', className)}>
+        <BootstrapLabel id={id} className={classNames('n2o-field-label', className)}>
             <section style={style}>
                 <span>{value}</span>
                 <Required required={required} />
             </section>
-            <HelpPopover id={id} help={help} />
+            <HelpPopover help={help} />
         </BootstrapLabel>
     )
-}
-
-Label.propTypes = {
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    required: PropTypes.bool,
-    className: PropTypes.string,
-    id: PropTypes.string,
-    help: PropTypes.string,
-    style: PropTypes.object,
-    needStub: PropTypes.bool,
-}
-
-Label.defaultProps = {
-    className: '',
-    style: {},
 }
 
 export default Label

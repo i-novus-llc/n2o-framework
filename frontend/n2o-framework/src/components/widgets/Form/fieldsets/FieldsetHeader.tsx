@@ -10,9 +10,9 @@ import { FactoryContext } from '../../../../core/factory/context'
 interface Props {
     visible: boolean
     badge?: BadgeProps
-    needLabel: boolean
-    needDescription: boolean
-    description: string
+    needLabel?: boolean
+    needDescription?: boolean
+    description?: string
     label: string
     help?: string
 }
