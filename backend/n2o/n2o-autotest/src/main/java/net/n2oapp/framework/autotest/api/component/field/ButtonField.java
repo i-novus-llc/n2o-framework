@@ -26,4 +26,9 @@ public interface ButtonField extends Field, Button {
      */
     void badgeShouldHavePosition(BadgePosition position);
 
+    /**
+     * Проверка стиля кнопки на соответствие
+     * @param style ожидаемый стиль кнопки
+     */
+    void shouldHaveStyle(String style);
 }

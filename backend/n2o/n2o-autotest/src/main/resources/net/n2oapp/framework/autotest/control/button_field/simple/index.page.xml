@@ -17,6 +17,7 @@
                     id="button1"
                     label="Кнопка-поле1"
                     color="{clicked ? 'danger' : 'success'}"
+                    style="text-decoration: underline"
             />
         </fields>
     </form>
