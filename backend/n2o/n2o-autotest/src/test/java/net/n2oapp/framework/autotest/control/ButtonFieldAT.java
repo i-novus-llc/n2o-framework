@@ -1,7 +1,5 @@
 package net.n2oapp.framework.autotest.control;
 
-import net.n2oapp.framework.autotest.BadgePosition;
-import net.n2oapp.framework.autotest.BadgeShape;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
@@ -56,6 +54,7 @@ public class ButtonFieldAT extends AutoTestBase {
         buttonField = page.widget(FormWidget.class).fields().field("Кнопка-поле1", ButtonField.class);
         buttonField.shouldExists();
         buttonField.shouldHaveColor(Colors.SUCCESS);
+        buttonField.shouldHaveStyle("text-decoration: underline;");
 
         Checkbox checkbox = page.widget(FormWidget.class).fields().field("Checkbox1").control(Checkbox.class);
         checkbox.shouldExists();

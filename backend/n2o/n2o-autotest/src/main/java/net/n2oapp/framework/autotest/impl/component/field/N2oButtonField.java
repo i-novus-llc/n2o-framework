@@ -41,6 +41,11 @@ public class N2oButtonField extends N2oField implements ButtonField {
     }
 
     @Override
+    public void shouldHaveStyle(String style) {
+        btn().shouldHave(Condition.attribute("style", style));
+    }
+
+    @Override
     public void hover() {
         element().hover();
     }
