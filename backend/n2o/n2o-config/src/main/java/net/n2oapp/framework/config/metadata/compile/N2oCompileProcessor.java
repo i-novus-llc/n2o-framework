@@ -213,6 +213,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         return mapAttributes(source);
     }
 
+    public CompileContext<?, ?> getContext() {
+        return context;
+    }
+
     @Override
     public <D extends Compiled> D getCompiled(CompileContext<D, ?> context) {
         return readCompilePipeline.get(context, new N2oCompileProcessor(this));
