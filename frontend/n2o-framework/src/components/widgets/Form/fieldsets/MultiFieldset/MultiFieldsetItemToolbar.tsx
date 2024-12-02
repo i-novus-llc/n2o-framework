@@ -1,6 +1,16 @@
 import React from 'react'
 import { Button } from 'reactstrap'
 
+export interface Props {
+    needCopyButton: boolean
+    needRemoveButton: boolean
+    disabled: boolean
+    index: number
+    canRemoveFirstItem: boolean
+    onRemoveField(index: number): void
+    onCopyField(index: number): void
+}
+
 /* FIXME сделать нормальный toolbar */
 export function MultiFieldsetItemToolbar({
     needCopyButton,
@@ -10,7 +20,7 @@ export function MultiFieldsetItemToolbar({
     canRemoveFirstItem,
     onRemoveField,
     onCopyField,
-}) {
+}: Props) {
     const onCopyClick = () => onCopyField(index)
     const onRemoveClick = () => onRemoveField(index)
 

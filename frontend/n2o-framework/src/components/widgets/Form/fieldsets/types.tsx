@@ -2,7 +2,11 @@ import { CSSProperties, ReactNode } from 'react'
 import { Props as BadgeProps } from '@i-novus/n2o-components/lib/display/Badge/Badge'
 
 export type Rows = string[]
-export type Render = (rows: Rows) => ReactNode
+export type Render = (rows: Rows, options?: {
+    parentName: string,
+    multiSetDisabled: boolean,
+}) => ReactNode
+export type FieldsetModel = Record<string, unknown> | Array<Record<string, unknown>>
 
 export interface FieldsetProps {
     className?: string
@@ -15,7 +19,7 @@ export interface FieldsetProps {
     type: string
     childrenLabel?: string
     enabled?: boolean
-    activeModel?: Record<string, unknown>
+    activeModel?: FieldsetModel
     render: Render
     visible?: boolean
     badge: BadgeProps
@@ -27,4 +31,13 @@ export interface FieldsetProps {
     hasArrow?: boolean
     hasSeparator?: boolean
     collapsible?: boolean
+    addButtonLabel?: string
+    canRemoveFirstItem?: boolean
+    primaryKey?: string
+    firstChildrenLabel?: string
+    name?: string
+    generatePrimaryKey?: boolean
+    needAddButton?: boolean
+    needRemoveAllButton?: boolean
+    removeAllButtonLabel?: string
 }
