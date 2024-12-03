@@ -10,9 +10,10 @@ import { WithActiveModel } from '../Widget/WithActiveModel'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 
-import TilesContainer from './TilesContainer'
+import { Tiles } from './Tiles'
+import { type TilesModel, TilesWidgetType } from './types'
 
-function TilesWidget(props) {
+function TilesWidget(props: TilesWidgetType) {
     const {
         id: widgetId,
         datasource,
@@ -30,11 +31,12 @@ function TilesWidget(props) {
         setPage,
         page,
         loading,
+        setResolve,
     } = props
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps])
     const { place = 'bottomLeft' } = paging
-    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as TilesModel[]
     const pagination = {
         [place]: (
             <N2OPagination
@@ -60,11 +62,14 @@ function TilesWidget(props) {
             style={style}
             loading={loading}
         >
-            <TilesContainer
+            <Tiles
                 {...props}
                 tile={tile}
                 tileWidth={width}
                 tileHeight={height}
+                data={datasourceModel}
+                onResolve={setResolve}
+                widgetId={widgetId}
             />
         </WidgetLayout>
     )

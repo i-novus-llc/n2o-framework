@@ -6,13 +6,16 @@ import classNames from 'classnames'
 import { Factory } from '../../../core/factory/Factory'
 import { CELLS } from '../../../core/factory/factoryLevels'
 import { useResolved } from '../../../core/Expression/useResolver'
+
+import { type TilesCellType } from './types'
+
 /**
  * Строка карточки
  * @reactProps {string} className - имя css класса
  * @reactProps {object} style - css стиль
  * @reactProps {object} model - Модель
  */
-function TilesCell(props) {
+export function TilesCell(props: TilesCellType) {
     const { component, model, style, className } = props
     const resolvedProps = useResolved(omit(component, ['src']), model)
 
