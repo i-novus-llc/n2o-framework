@@ -5,7 +5,6 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
@@ -57,12 +56,17 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
         @Override
         public RegionItems content() {
+            return content("nested-content");
+        }
+
+        @Override
+        public RegionItems content(String className) {
             SelenideElement elm = element().parent().parent().parent().$$(".tabs__content--single")
                     .findBy(Condition.cssClass("active"));
 
-            ElementsCollection nestingElements = elm.$$(".tabs__content--single.active .tabs__content--single.active > div > .nested-content");
-            ElementsCollection firstLevelElements = elm.$$(".tabs__content--single.active > div > .nested-content")
-                .filter(new WebElementCondition("shouldBeFirstLevelElement") {
+            ElementsCollection nestingElements = elm.$$(".tabs__content--single.active .tabs__content--single.active > div > ." + className);
+            ElementsCollection firstLevelElements = elm.$$(".tabs__content--single.active > div > ." + className)
+                    .filter(new WebElementCondition("shouldBeFirstLevelElement") {
                         @Nonnull
                         @Override
                         public CheckResult check(Driver driver, WebElement element) {
