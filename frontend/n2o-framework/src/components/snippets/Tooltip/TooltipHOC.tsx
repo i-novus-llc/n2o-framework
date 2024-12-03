@@ -9,6 +9,7 @@ export interface TooltipHocProps {
     tooltipDelay?: number
     className?: string
     trigger?: string
+    children?: { props?: { visible?: boolean } }
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -19,7 +20,10 @@ export function TooltipHOC<TProps extends TooltipHocProps>(Component: Function):
 
         const { hint, className, placement = 'bottom', tooltipDelay = 0, trigger = 'hover' } = props
 
-        if (!hint || !FactoryTooltip) { return <Component {...props} /> }
+        // eslint-disable-next-line react/destructuring-assignment
+        if (!hint || !FactoryTooltip || props?.children?.props?.visible === false) {
+            return <Component {...props} />
+        }
 
         return (
             <FactoryTooltip
