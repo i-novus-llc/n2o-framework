@@ -15,7 +15,12 @@ import java.time.Duration;
 public class N2oLineRegion extends N2oRegion implements LineRegion {
     @Override
     public RegionItems content() {
-        return N2oSelenide.collection(firstLevelElements(".rc-collapse-content-box", "div > .nested-content"), RegionItems.class);
+        return content("nested-content");
+    }
+
+    @Override
+    public RegionItems content(String className) {
+        return N2oSelenide.collection(firstLevelElements(".rc-collapse-content-box", "div > ." + className), RegionItems.class);
     }
 
     @Override

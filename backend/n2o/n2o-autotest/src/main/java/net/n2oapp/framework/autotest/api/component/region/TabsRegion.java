@@ -56,6 +56,12 @@ public interface TabsRegion extends Region {
         RegionItems content();
 
         /**
+         * @param className имя класса, по которому будет производиться поиск элементов региона.
+         * @return Элемент региона (виджет/регион), соответствующий указанному классу
+         */
+        RegionItems content(String className);
+
+        /**
          * Клик по вкладке
          */
         void click();

@@ -60,7 +60,11 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
         }
         @Override
         public RegionItems content() {
-            return N2oSelenide.collection(firstLevelElements(".n2o-scroll-spy-region__content", ".nested-content"), RegionItems.class);
+            return content("nested-content");
+        }
+        @Override
+        public RegionItems content(String className) {
+            return N2oSelenide.collection(firstLevelElements(".n2o-scroll-spy-region__content", "." + className), RegionItems.class);
         }
 
         @Override
