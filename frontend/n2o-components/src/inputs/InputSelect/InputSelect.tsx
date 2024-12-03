@@ -649,6 +649,7 @@ export class InputSelect extends React.Component<Props, State> {
                         })}
                         modifiers={{ offset: { enabled: true,
                             offset: `0 ${this.inputHeightRef?.current?.containerRef?.current.clientHeight}px` } }}
+                        positionFixed
                     >
                         <PopupList
                             scheduleUpdate={() => {}}
