@@ -339,7 +339,7 @@
         </xs:attribute>
         <xs:attribute name="normalize" type="xs:string">
             <xs:annotation>
-                <xs:documentation>SpEL выражение, применяемое к значению перед маппингом.</xs:documentation>
+                <xs:documentation>SpEL выражение, применяемое к значению после маппинга.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="mapping" type="xs:string">
@@ -367,7 +367,7 @@
         </xs:attribute>
         <xs:attribute name="normalize" type="xs:string">
             <xs:annotation>
-                <xs:documentation>SpEL выражение, применяемое к значению перед маппингом.</xs:documentation>
+                <xs:documentation>SpEL выражение, применяемое к значению после маппинга.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="mapping" type="xs:string">
@@ -392,7 +392,7 @@
             <xs:documentation>Исходящие параметры в случае ошибки операции.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="field" type="operationOutParameterField"/>
+            <xs:element name="field" type="operationFailOutParameterField"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -460,7 +460,7 @@
         </xs:attribute>
         <xs:attribute name="normalize" type="xs:string">
             <xs:annotation>
-                <xs:documentation>SpEL выражение, применяемое к значению перед маппингом.</xs:documentation>
+                <xs:documentation>SpEL выражение, применяемое к значению после маппинга.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="mapping" type="xs:string">
@@ -471,6 +471,27 @@
         <xs:attribute name="required" type="xs:boolean">
             <xs:annotation>
                 <xs:documentation>Обязательность параметра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="operationFailOutParameterField">
+        <xs:annotation>
+            <xs:documentation>Исходящий параметр операции в случае ошибки.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор параметра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="mapping" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Маппинг значения в сущность или провайдер данных.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="normalize" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>SpEL выражение, применяемое к значению после маппинга.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

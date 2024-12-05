@@ -24,6 +24,7 @@ public class N2oInvokeAction extends N2oAbstractMetaAction {
     private Boolean clearOnSuccess;
     private Boolean messageOnSuccess;
     private Boolean messageOnFail;
+    private Boolean useFailOut;
     private MessagePosition messagePosition;
     private MessagePlacement messagePlacement;
 
