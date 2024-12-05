@@ -37,6 +37,7 @@ public class ActionContext extends ObjectContext {
     private RefreshSaga refresh;
     private boolean messageOnSuccess = true;
     private boolean messageOnFail = true;
+    private boolean useFailOut;
     private MessagePosition messagePosition;
     private MessagePlacement messagePlacement;
     /**

@@ -2,27 +2,30 @@ package net.n2oapp.framework.engine.data;
 
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.dataset.DataSetUtil;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.api.data.validation.DialogValidation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.engine.exception.N2oSpelException;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import static net.n2oapp.framework.engine.util.MappingProcessor.normalizeValue;
+import static net.n2oapp.framework.engine.util.MappingProcessor.outMap;
 
 /**
  * Процессор действий
  */
 public class N2oOperationProcessor {
-
-    private InvocationProcessor invocationProcessor;
-    private OperationExceptionHandler exceptionHandler;
+    private final InvocationProcessor invocationProcessor;
+    private final OperationExceptionHandler exceptionHandler;
+    private static final ExpressionParser parser = new SpelExpressionParser();
 
     public N2oOperationProcessor(InvocationProcessor invocationProcessor,
                                  OperationExceptionHandler exceptionHandler) {
@@ -30,20 +33,11 @@ public class N2oOperationProcessor {
         this.exceptionHandler = exceptionHandler;
     }
 
-    public DataSet invoke(CompiledObject.Operation action, DataSet inDataSet) {
-        validateRequiredFields(action.getInParametersMap().values(), inDataSet);
-        return invoke(
-                action,
-                inDataSet,
-                action.getInParametersMap().values(),
-                action.getOutParametersMap().values()
-        );
-    }
-
     public DataSet invoke(CompiledObject.Operation operation,
                           DataSet inDataSet,
                           Collection<AbstractParameter> inParameters,
-                          Collection<AbstractParameter> outParameters) {
+                          Collection<AbstractParameter> outParameters,
+                          boolean useFailOut) {
         try {
             return invocationProcessor.invoke(
                     operation.getInvocation(),
@@ -52,47 +46,32 @@ public class N2oOperationProcessor {
                     outParameters
             );
         } catch (Exception e) {
-            inDataSet.putAll(getFailOutParameters(operation.getFailOutParametersMap(), e));
-            if (!CollectionUtils.isEmpty(operation.getFailOutParametersMap()) &&
-                    operation.getValidationList().stream().noneMatch(DialogValidation.class::isInstance)) {
-                return inDataSet;
-            } else {
-                throw exceptionHandler.handle(operation, inDataSet, e);
+            if (useFailOut) {
+                addFailOutParameters(operation.getFailOutParametersMap(), inDataSet, e);
+                if (!CollectionUtils.isEmpty(operation.getFailOutParametersMap()) &&
+                        operation.getValidationList().stream().noneMatch(DialogValidation.class::isInstance))
+                    return inDataSet;
             }
+
+            throw exceptionHandler.handle(operation, inDataSet, e);
         }
     }
 
-    /**
-     * Получение данных исключения по fail-out параметрам
-     *
-     * @param failOutParameters Параметры операции в случае ошибки
-     * @param e                 Исключение
-     * @return Данные исключения по fail-out параметрам
-     */
-    private DataSet getFailOutParameters(Map<String, ObjectSimpleField> failOutParameters, Exception e) {
-        if (CollectionUtils.isEmpty(failOutParameters))
-            return new DataSet();
+    private void addFailOutParameters(Map<String, ObjectSimpleField> failOutParameters, DataSet inDataSet, Exception exception) {
+        for (Map.Entry<String, ObjectSimpleField> entry : failOutParameters.entrySet()) {
+            Object result = null;
+            if (entry.getValue().getMapping() != null)
+                result = outMap(exception, entry.getValue().getMapping(), Object.class);
 
-        Map<String, String> failOutParamsMapping = failOutParameters.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getMapping()));
-        return DataSetUtil.extract(e, failOutParamsMapping);
-    }
+            if (result != null && entry.getValue().getNormalize() != null)
+                try {
+                    result = normalizeValue(result, entry.getValue().getNormalize(), null, parser, null);
+                } catch (N2oSpelException e) {
+                    e.setFieldId(entry.getKey());
+                    throw e;
+                }
 
-    private void validateRequiredFields(Collection<AbstractParameter> inParameters, DataSet inDataSet) {
-        if (inParameters == null || inParameters.isEmpty()) {
-            return;
-        }
-
-        List<String> requiredFields = inParameters.stream()
-                .filter(in -> in.getRequired() != null && in.getRequired())
-                .map(AbstractParameter::getId)
-                .collect(Collectors.toList());
-
-        boolean allMatch = requiredFields.stream()
-                .allMatch(inDataSet::containsKey);
-        if (!allMatch) {
-            throw new IllegalStateException(String.format("Action required fields[%s]",
-                    String.join(",", requiredFields)));
+            inDataSet.put(entry.getKey(), result);
         }
     }
 }

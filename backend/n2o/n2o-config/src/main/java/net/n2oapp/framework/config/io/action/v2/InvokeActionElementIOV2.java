@@ -25,6 +25,7 @@ public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oIn
         p.attributeBoolean(e, "clear-on-success", ia::getClearOnSuccess, ia::setClearOnSuccess);
         p.attributeBoolean(e, "message-on-success", ia::getMessageOnSuccess, ia::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", ia::getMessageOnFail, ia::setMessageOnFail);
+        p.attributeBoolean(e, "use-fail-out", ia::getUseFailOut, ia::setUseFailOut);
         p.attributeEnum(e, "message-position", ia::getMessagePosition, ia::setMessagePosition, MessagePosition.class);
         p.attributeEnum(e, "message-placement", ia::getMessagePlacement, ia::setMessagePlacement, MessagePlacement.class);
         p.attributeBoolean(e, "optimistic", ia::getOptimistic, ia::setOptimistic);

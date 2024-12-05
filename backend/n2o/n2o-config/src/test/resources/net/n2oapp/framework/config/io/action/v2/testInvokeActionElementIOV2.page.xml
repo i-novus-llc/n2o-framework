@@ -13,6 +13,7 @@
                     message-on-success="false"
                     message-position="fixed"
                     message-placement="top"
+                    use-fail-out="false"
                     redirect-url="/testUrl"
                     redirect-target="newWindow"
                     refresh-datasources="testWidget,ds2"

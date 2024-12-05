@@ -34,6 +34,7 @@ public class ActionRequestInfo<D> extends RequestInfo {
     private RefreshSaga refresh;
     private boolean messageOnSuccess = true;
     private boolean messageOnFail = true;
+    private boolean useFailOut;
 
     //mutable
     private Map<String, AbstractParameter> inParametersMap = new LinkedHashMap<>();
