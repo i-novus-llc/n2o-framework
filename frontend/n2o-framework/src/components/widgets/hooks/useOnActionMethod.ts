@@ -11,7 +11,9 @@ import { dataProviderResolver } from '../../../core/dataProviderResolver'
 
 type ActionFunc = (model: never) => void
 
-export const useOnActionMethod = <Action extends Record<string, never>>(modelsId: string, config?: Action) => {
+export type ClickAction = Record<string, never>
+
+export const useOnActionMethod = <Action extends ClickAction>(modelsId: string, config?: Action) => {
     const store = useStore()
     const dispatch = useDispatch()
 

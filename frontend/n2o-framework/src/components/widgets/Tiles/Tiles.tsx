@@ -3,8 +3,11 @@ import classNames from 'classnames'
 import map from 'lodash/map'
 import { withResizeDetector } from 'react-resize-detector'
 
-import calcCols from './utils'
-import TilesCell from './TilesCell'
+import { withWidgetHandlers } from '../hocs/withWidgetHandlers'
+
+import { calcCols } from './utils'
+import { TilesCell } from './TilesCell'
+import { type TilesType, type TilesModel } from './types'
 
 /**
  * Tiles
@@ -20,34 +23,31 @@ import TilesCell from './TilesCell'
  * @reactProps {string} datasource - datasource key
  */
 
-function Tiles({
+function TilesBody({
     tile,
     className,
     data,
-    id,
+    widgetId,
     colsSm,
     colsMd,
     colsLg,
     width,
-    tileWidth,
-    tileHeight,
     onResolve,
     dispatch,
     datasource,
-}) {
+    tileWidth = '260px',
+    tileHeight = '350px',
+}: TilesType) {
     const col = calcCols(colsSm, colsMd, colsLg, width)
 
-    const renderTilesItem = (element, index) => (
+    const renderTilesItem = (model: TilesModel, index: number) => (
         <div className={`col-${col} d-flex justify-content-center`}>
-            <div
-                className={classNames('n2o-tiles__item')}
-                style={{ width: tileWidth, minHeight: tileHeight }}
-            >
-                {map(tile, cell => (
+            <div className={classNames('n2o-tiles__item')} style={{ width: tileWidth, minHeight: tileHeight }}>
+                {tile.map(cell => (
                     <TilesCell
                         index={index}
-                        widgetId={id}
-                        model={element}
+                        widgetId={widgetId}
+                        model={model}
                         onResolve={onResolve}
                         dispatch={dispatch}
                         datasource={datasource}
@@ -60,20 +60,12 @@ function Tiles({
 
     return (
         <div className={classNames('n2o-tiles__container col-12', className)}>
-            {
-                data?.length
-                    ? map(data, (element, index) => renderTilesItem(element, index))
-                    : ''
-            }
+            {data?.length ? map(data, (model, index) => renderTilesItem(model, index)) : ''}
         </div>
     )
 }
 
-Tiles.defaultProps = {
-    tileWidth: '260px',
-    tileHeight: '350px',
-}
-
-export { Tiles }
-
-export default withResizeDetector(Tiles)
+export const Tiles = withWidgetHandlers(
+    withResizeDetector(TilesBody),
+)
+export default Tiles

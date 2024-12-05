@@ -1,5 +1,13 @@
-const getResolution = (width) => {
-    const mods = {
+type ResolutionType = 'mobile' | 'tablet' | 'desktop'
+
+interface Mods {
+    isMobile: boolean;
+    isTablet: boolean;
+    isDesktop: boolean;
+}
+
+function getResolution(width: number): Mods {
+    const mods: Mods = {
         isMobile: false,
         isTablet: false,
         isDesktop: false,
@@ -22,10 +30,10 @@ const getResolution = (width) => {
     return mods
 }
 
-export default function calcCols(sm, md, lg, width) {
+export function calcCols(sm: number, md: number, lg: number, width: number): number {
     const { isMobile, isTablet } = getResolution(width)
 
-    let col
+    let col: number
 
     if (isMobile) {
         col = sm
