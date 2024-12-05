@@ -187,25 +187,25 @@ public class InheritedDatasourceAT extends AutoTestBase {
         rub.setValue("5");
         rate.shouldHaveValue("2");
         dollar.shouldHaveValue("10");
-        rub.click();
-        rub.setValue("10");
-        rate.shouldHaveValue("2");
-        dollar.shouldHaveValue("20");
 
         submit.click();
+        rub.shouldHaveValue("10");
+        dollar.shouldHaveValue("20");
+
         rub.click();
-        rub.setValue("20");
+        rub.setValue("8");
         rate.shouldHaveValue("2");
-        dollar.shouldHaveValue("40");
+        dollar.shouldHaveValue("16");
+
         submit.click();
-        rub.shouldHaveValue("40");
+        rub.shouldHaveValue("16");
         rate.shouldHaveValue("2");
-        dollar.shouldHaveValue("80");
+        dollar.shouldHaveValue("32");
 
         rate.click();
         rate.setValue("3");
-        rub.shouldHaveValue("40");
-        dollar.shouldHaveValue("120");
+        rub.shouldHaveValue("16");
+        dollar.shouldHaveValue("48");
 
         rub.click();
         rub.clear();
@@ -213,7 +213,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
     }
 
     @Test
-    void testFetchValueSourceFiledID() {
+    void testFetchValueSourceFieldId() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field_fetch_value/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -227,12 +227,12 @@ public class InheritedDatasourceAT extends AutoTestBase {
         rub.setValue("5");
         dollar.shouldHaveValue("10");
         rub.click();
-        rub.setValue("10");
-        dollar.shouldHaveValue("20");
+        rub.setValue("7");
+        dollar.shouldHaveValue("14");
     }
 
     @Test
-    void testSubmitTargetFiledID() {
+    void testSubmitTargetFieldId() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/submit/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -247,10 +247,10 @@ public class InheritedDatasourceAT extends AutoTestBase {
         Button submit = page.toolbar().bottomRight().button("submit");
 
         rub.click();
-        rub.setValue("10");
-        dollar.shouldHaveValue("20");
+        rub.setValue("4");
+        dollar.shouldHaveValue("8");
         submit.click();
-        other.shouldHaveValue("4");
+        other.shouldHaveValue("1.6");
     }
 
     @Test
