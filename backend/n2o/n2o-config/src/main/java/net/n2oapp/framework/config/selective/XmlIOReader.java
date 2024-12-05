@@ -6,9 +6,7 @@ import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
-import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import org.custommonkey.xmlunit.Diff;
@@ -55,7 +53,6 @@ public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder
 
     public XmlIOReader() {
         super(new ReaderFactoryByMap());
-        ReaderJdomUtil.clearTextProcessing();
         this.persisterFactory = new PersisterFactoryByMap();
         this.persisterProcessor = new IOProcessorImpl(persisterFactory);
     }

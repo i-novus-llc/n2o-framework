@@ -37,11 +37,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.n2oapp.context</groupId>
-            <artifactId>static-context</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>net.n2oapp.filters</groupId>
             <artifactId>filters-reducer</artifactId>
         </dependency>
