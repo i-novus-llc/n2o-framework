@@ -187,25 +187,25 @@ public class InheritedDatasourceAT extends AutoTestBase {
         rub.setValue("5");
         rate.shouldHaveValue("2");
         dollar.shouldHaveValue("10");
-        rub.click();
-        rub.setValue("10");
-        rate.shouldHaveValue("2");
-        dollar.shouldHaveValue("20");
 
         submit.click();
+        rub.shouldHaveValue("10");
+        dollar.shouldHaveValue("20");
+
         rub.click();
-        rub.setValue("20");
+        rub.setValue("8");
         rate.shouldHaveValue("2");
-        dollar.shouldHaveValue("40");
+        dollar.shouldHaveValue("16");
+
         submit.click();
-        rub.shouldHaveValue("40");
+        rub.shouldHaveValue("16");
         rate.shouldHaveValue("2");
-        dollar.shouldHaveValue("80");
+        dollar.shouldHaveValue("32");
 
         rate.click();
         rate.setValue("3");
-        rub.shouldHaveValue("40");
-        dollar.shouldHaveValue("120");
+        rub.shouldHaveValue("16");
+        dollar.shouldHaveValue("48");
 
         rub.click();
         rub.clear();
