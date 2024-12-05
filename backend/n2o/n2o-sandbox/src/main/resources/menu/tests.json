@@ -1194,11 +1194,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field_fetch_value",
-          "name": "InheritedDatasourceAT. testFetchValueSourceFiledID"
+          "name": "InheritedDatasourceAT. testFetchValueSourceFieldId"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/submit",
-          "name": "InheritedDatasourceAT. testSubmitTargetFiledID"
+          "name": "InheritedDatasourceAT. testSubmitTargetFieldId"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_depend",
