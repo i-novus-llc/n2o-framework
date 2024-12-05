@@ -6,9 +6,11 @@ import get from 'lodash/get'
 import unset from 'lodash/unset'
 import { ButtonToolbar, ButtonGroup } from 'reactstrap'
 import classNames from 'classnames'
+import { Placement } from '@popperjs/core'
 
 import { Factory } from '../../core/factory/Factory'
 import { BUTTONS } from '../../core/factory/factoryLevels'
+import { TooltipHocProps } from '../snippets/Tooltip/TooltipHOC'
 
 interface Button {
     id: string
@@ -39,6 +41,8 @@ interface Props {
     toolbar?: ToolbarProps
     entityKey?: string
     onClick?(): void
+    placement?: Placement
+    hint?: TooltipHocProps['hint']
 }
 
 export const Toolbar = ({ className, entityKey, toolbar = [], onClick = () => {} }: Props) => {

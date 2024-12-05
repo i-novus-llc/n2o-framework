@@ -12,7 +12,7 @@ import { useTableActions } from '../../Table'
  * @param WrappedComponent
  * @returns {*}
  */
-export default function WithCell(WrappedComponent) {
+export function WithCell(WrappedComponent) {
     function WithCellComponent({
         action: defaultAction,
         datasource,
@@ -69,3 +69,5 @@ export default function WithCell(WrappedComponent) {
 
     return WithCellComponent
 }
+
+export default WithCell
