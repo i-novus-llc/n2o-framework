@@ -5,9 +5,9 @@ import { Position } from './enums'
 
 const badgeProps = ['position', 'shape', 'imagePosition', 'imageShape']
 
-export const isBadgeLeftPosition = (badgePosition: Position) => badgePosition === Position.Left
+export const isBadgeLeftPosition = (badgePosition: Position | string) => badgePosition === Position.Left
 
-export const isBadgeRightPosition = (badgePosition: Position) => badgePosition !== Position.Left
+export const isBadgeRightPosition = (badgePosition: Position | string) => badgePosition !== Position.Left
 
 export const resolveBadgeProps = (
     props: BadgeProps & {

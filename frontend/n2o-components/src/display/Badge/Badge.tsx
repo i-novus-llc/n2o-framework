@@ -8,16 +8,16 @@ import { Position, Shape } from './enums'
 import { isBadgeLeftPosition, isBadgeRightPosition } from './utils'
 
 export type Props = TBaseProps & Partial<{
-    children: ReactNode;
-    color: string;
-    hasMargin: boolean;
-    image: string;
-    imagePosition: Position;
-    imageShape: Shape;
-    position: Position;
-    shape: Shape;
-    style: CSSProperties;
-    text: string | number | ReactNode;
+    children: ReactNode
+    color: string
+    hasMargin: boolean
+    image: string
+    imagePosition: Position
+    imageShape: Shape
+    position: Position | string
+    shape: Shape
+    style: CSSProperties
+    text: string | number | ReactNode
 }>
 
 export const Badge = React.memo((props: Props) => {

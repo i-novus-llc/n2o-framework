@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import onClickOutside from 'react-onclickoutside'
 import map from 'lodash/map'
 import { Popper } from 'react-popper'
 
-class HintDropDownBody extends Component {
+import { type HintDropdownBodyProps } from './types'
+
+class HintDropDownBodyComponent extends Component<HintDropdownBodyProps> {
     handleClickOutside() {
         const { open, onToggleDropdown } = this.props
 
@@ -12,19 +13,12 @@ class HintDropDownBody extends Component {
     }
 
     render() {
-        const {
-            modifiers,
-            positionFixed,
-            menu,
-            createDropDownMenu,
-            open,
-        } = this.props
+        const { modifiers, menu, createDropDownMenu, open } = this.props
 
         return (
             <Popper
                 modifiers={modifiers}
                 strategy="fixed"
-                positionFixed={positionFixed}
             >
                 {({ ref, style, placement }) => open && (
                     <div
@@ -42,13 +36,5 @@ class HintDropDownBody extends Component {
     }
 }
 
-HintDropDownBody.propTypes = {
-    modifiers: PropTypes.object,
-    positionFixed: PropTypes.bool,
-    menu: PropTypes.array,
-    createDropDownMenu: PropTypes.func,
-    open: PropTypes.bool,
-    onToggleDropdown: PropTypes.func,
-}
-
-export default onClickOutside(HintDropDownBody)
+export const HintDropDownBody = onClickOutside(HintDropDownBodyComponent)
+export default HintDropDownBody
