@@ -36,7 +36,8 @@ public abstract class SetController implements ControllerTypeAware {
                     requestInfo.getOperation(),
                     inDataSet,
                     requestInfo.getInParametersMap().values(),
-                    requestInfo.getOutParametersMap().values());
+                    requestInfo.getOutParametersMap().values(),
+                    requestInfo.isUseFailOut());
         } catch (N2oSpelException e) {
             e.setOperationId(requestInfo.getOperation().getId());
             N2oSpelException n2oSpelException = new N2oSpelException(e, requestInfo.getObject().getId() + METADATA_FILE_EXTENSION);

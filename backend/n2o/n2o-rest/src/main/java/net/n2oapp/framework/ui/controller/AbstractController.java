@@ -92,6 +92,7 @@ public abstract class AbstractController {
         requestInfo.setRefresh(actionCtx.getRefresh());
         requestInfo.setMessageOnSuccess(actionCtx.isMessageOnSuccess());
         requestInfo.setMessageOnFail(actionCtx.isMessageOnFail());
+        requestInfo.setUseFailOut(actionCtx.isUseFailOut());
         requestInfo.setMessagePosition(actionCtx.getMessagePosition());
         requestInfo.setMessagePlacement(actionCtx.getMessagePlacement());
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
