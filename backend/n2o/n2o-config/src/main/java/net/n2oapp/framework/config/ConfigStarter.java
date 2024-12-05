@@ -52,18 +52,6 @@ public class ConfigStarter {
         this.configPaths = configPath;
     }
 
-    public void restart() {
-        if (!startingLock.writeLock().tryLock()) return;
-        try {
-            syncStop();
-            locker.unlock();
-            syncStart();
-        } finally {
-            startingLock.writeLock().unlock();
-        }
-        eventBus.publish(new N2oReadyEvent(this));
-    }
-
     public void start() {
         if (wasRunning) return;
         if (!startingLock.writeLock().tryLock()) return;

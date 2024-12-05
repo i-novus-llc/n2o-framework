@@ -142,7 +142,6 @@
     </build>
 
     <modules>
-        <module>static-context</module>
         <module>engine-factory</module>
         <module>register</module>
         <module>filters-reducer</module>

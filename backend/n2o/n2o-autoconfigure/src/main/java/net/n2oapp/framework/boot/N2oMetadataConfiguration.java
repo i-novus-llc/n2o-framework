@@ -12,14 +12,12 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.persister.MetadataPersister;
 import net.n2oapp.framework.config.reader.ConfigMetadataLockerImpl;
-import net.n2oapp.framework.config.reader.util.N2oJdomTextProcessing;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.framework.config.warmup.HeaderWarmUpper;
 import net.n2oapp.properties.io.PropertiesInfoCollector;
 import net.n2oapp.watchdir.WatchDir;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,8 +25,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
 import java.util.*;
@@ -94,13 +90,6 @@ public class N2oMetadataConfiguration {
     public MetadataRouter n2oRouter(MetadataEnvironment env) {
         return new N2oRouter(env, N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy().compile().transform());
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public N2oJdomTextProcessing n2oJdomTextProcessing(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor n2oMessageSourceAccessor,
-                                                       ConfigurableEnvironment environment) {
-        return new N2oJdomTextProcessing(n2oMessageSourceAccessor, environment);
     }
 
     @Bean

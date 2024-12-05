@@ -1,7 +1,5 @@
 package net.n2oapp.framework.config.register;
 
-import net.n2oapp.context.CacheTemplateByMapMock;
-import net.n2oapp.context.StaticSpringContext;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
@@ -15,7 +13,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.springframework.context.ApplicationContext;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,17 +21,16 @@ import java.nio.file.Path;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 /**
- * Тестирование статуса метеданной
+ * Тестирование статуса метаданной
  */
-public class InfoStatusTest {
+class InfoStatusTest {
 
     private SourceTypeRegister metaModelRegister;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         metaModelRegister = new N2oApplicationBuilder().packs(new N2oSourceTypesPack()).getEnvironment().getSourceTypeRegister();
         Properties properties = new Properties();
         String conthPath = "/config/path/";
@@ -42,15 +38,10 @@ public class InfoStatusTest {
         properties.setProperty("n2o.config.class.packages", "net.n2oapp.framework");
         TestStaticProperties testStaticProperties = new TestStaticProperties();
         testStaticProperties.setProperties(properties);
-        ApplicationContext applicationContext = mock(ApplicationContext.class);
-        StaticSpringContext staticSpringContext = new StaticSpringContext();
-        staticSpringContext.setApplicationContext(applicationContext);
-        staticSpringContext.setCacheTemplate(new CacheTemplateByMapMock());
-
     }
 
     @Test
-    void testSystemServer() throws Exception {
+    void testSystemServer() {
         //system path
         InfoConstructor info = new InfoConstructor(new ConfigId("page", metaModelRegister.get(N2oPage.class)));
         info.setLocalPath("page.page.xml");
