@@ -90,7 +90,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
     protected void initDefaults(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
         source.setRoute(castDefault(RouteUtil.normalize(source.getRoute()), "/" + source.getId()));
-        initSubmitMessageDefaults(source, p);
+        initSubmitMessageDefaults(source);
         source.setOptimistic(
                 castDefault(source.getOptimistic(),
                         () -> p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class))
@@ -103,9 +103,10 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         source.setClearOnSuccess(castDefault(source.getClearOnSuccess(), false));
     }
 
-    private void initSubmitMessageDefaults(N2oInvokeAction source, CompileProcessor p) {
+    private void initSubmitMessageDefaults(N2oInvokeAction source) {
         source.setMessageOnSuccess(castDefault(source.getMessageOnSuccess(), true));
         source.setMessageOnFail(castDefault(source.getMessageOnFail(), true));
+        source.setUseFailOut(castDefault(source.getUseFailOut(), true));
     }
 
     private String getMessageWidgetId(InvokeAction compiled, CompileContext<?, ?> context, boolean closeOnSuccess) {
@@ -149,6 +150,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         actionContextData.setMessagesForm(metaSaga.getFail().getMessageWidgetId());
         actionContextData.setMessageOnSuccess(source.getMessageOnSuccess());
         actionContextData.setMessageOnFail(source.getMessageOnFail());
+        actionContextData.setUseFailOut(source.getUseFailOut());
         actionContextData.setMessagePosition(source.getMessagePosition());
         actionContextData.setMessagePlacement(source.getMessagePlacement());
         actionContextData.setOperation(compiledObject.getOperations().get(source.getOperationId()));

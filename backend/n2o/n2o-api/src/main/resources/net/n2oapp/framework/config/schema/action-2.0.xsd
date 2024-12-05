@@ -749,6 +749,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="use-fail-out" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Использование параметров `<fail-out/>` после неудачного выполнения операции
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
