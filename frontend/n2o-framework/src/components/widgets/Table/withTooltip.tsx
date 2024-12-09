@@ -4,8 +4,8 @@ import get from 'lodash/get'
 import { Tooltip, TooltipHocProps } from '../../snippets/Tooltip/TooltipHOC'
 
 export interface Props extends TooltipHocProps {
-    model: Record<string, string>
-    tooltipFieldId: string
+    model: Record<string, string | boolean | number | Array<Record<string, unknown>>>
+    tooltipFieldId?: string
 }
 
 export function withTooltip<P extends Props>(Component: ComponentType<P>) {
@@ -15,7 +15,7 @@ export function withTooltip<P extends Props>(Component: ComponentType<P>) {
      * @param props
      */
     function Wrapper(props: P) {
-        const { model, placement, tooltipFieldId } = props
+        const { model, placement, tooltipFieldId = '' } = props
         const hint = get(model, tooltipFieldId, null) as Props['hint']
 
         if (!hint) { return <Component {...props} /> }

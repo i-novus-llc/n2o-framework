@@ -2,7 +2,7 @@ import React from 'react'
 
 import { SnippetRating, Props as SnippetRatingProps } from '../../snippets/SnippetRating/SnippetRating'
 
-const Rating = ({
+export const Rating = ({
     value,
     rating = 0,
     max = 5,

@@ -1,4 +1,4 @@
-function getNoun(number, one = '', few = '', many = '') {
+export function getNoun(number, one = '', few = '', many = '') {
     let n = Math.abs(number)
 
     n %= 100

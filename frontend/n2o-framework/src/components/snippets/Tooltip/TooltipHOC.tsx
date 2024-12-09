@@ -4,7 +4,7 @@ import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 
 export interface TooltipHocProps {
-    hint?: string | number | React.Component | null
+    hint?: string | number | React.Component | Element[] | ComponentType | JSX.Element[] | null
     placement?: string
     tooltipDelay?: number
     className?: string

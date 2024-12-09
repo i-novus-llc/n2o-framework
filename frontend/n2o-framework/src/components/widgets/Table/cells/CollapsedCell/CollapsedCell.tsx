@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import isString from 'lodash/isString'
 import get from 'lodash/get'
@@ -7,6 +6,8 @@ import get from 'lodash/get'
 import withTooltip from '../../withTooltip'
 import { EMPTY_ARRAY } from '../../../../../utils/emptyTypes'
 import propsResolver from '../../../../../utils/propsResolver'
+
+import { type Props } from './types'
 
 /**
  * CollapsedCell
@@ -16,18 +17,18 @@ import propsResolver from '../../../../../utils/propsResolver'
  * @reactProps {string} amountToGroup - количество элементов для группировки
  */
 
-function CollapsedCell({
+function CollapsedCellBody({
     model,
     fieldKey,
-    color,
-    amountToGroup,
     labelFieldId,
     content,
-    separator = null,
     forwardedRef,
-    visible,
+    color = 'secondary',
+    amountToGroup = 3,
+    visible = true,
     inline = true,
-}) {
+    separator = null,
+}: Props) {
     const [isCollapsed, setIsCollapsed] = useState(true)
 
     const separatorAsHtml = useMemo(() => {
@@ -83,12 +84,7 @@ function CollapsedCell({
     return (
         <div
             ref={forwardedRef}
-            className={classNames(
-                'collapse-cell-content',
-                {
-                    'collapse-cell-content--inline': inline,
-                },
-            )}
+            className={classNames('collapse-cell-content', { 'collapse-cell-content--inline': inline })}
         >
             {items.map((item, index, self) => (
                 // eslint-disable-next-line react/no-array-index-key
@@ -101,7 +97,7 @@ function CollapsedCell({
                 </div>
             ))}
 
-            {isButtonNeeded ? (
+            {isButtonNeeded && (
                 <button
                     type="button"
                     onClick={toggleIsCollapsed}
@@ -109,44 +105,14 @@ function CollapsedCell({
                 >
                     {isCollapsed ? 'еще' : 'скрыть'}
                 </button>
-            ) : null}
+            )}
         </div>
     )
 }
 
-CollapsedCell.propTypes = {
-    /**
-   * Модель даных
-   */
-    model: PropTypes.object.isRequired,
-    /**
-   * Ключ значения из модели
-   */
-    fieldKey: PropTypes.string.isRequired,
-    /**
-   * Цвет
-   */
-    color: PropTypes.string,
-    /**
-   * Количество элементов для группировки
-   */
-    amountToGroup: PropTypes.number,
-    /**
-   * Ключ label из модели
-   */
-    labelFieldId: PropTypes.string,
-    /**
-   * Флаг видимости
-   */
-    visible: PropTypes.bool,
-}
-
-CollapsedCell.defaultProps = {
-    amountToGroup: 3,
-    color: 'secondary',
-    visible: true,
-}
+const CollapsedCell = withTooltip(CollapsedCellBody)
 
 CollapsedCell.displayName = 'CollapsedCell'
 
-export default withTooltip(CollapsedCell)
+export { CollapsedCell }
+export default CollapsedCell

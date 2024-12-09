@@ -27,7 +27,7 @@ export type Props = TBaseProps & {
     rating: number | string,
     readonly: boolean,
     showTooltip: boolean,
-    value: number | string
+    value?: number | string
 }
 
 type RatingState = {

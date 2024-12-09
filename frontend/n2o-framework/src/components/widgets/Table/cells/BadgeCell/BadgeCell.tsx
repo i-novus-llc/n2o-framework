@@ -26,7 +26,7 @@ import { type Props } from './types'
  * @example
  * <BadgeCell model={model} filedKey={'name'} text="info"/>
  */
-function BadgeCell({
+function BadgeCellBody({
     id,
     fieldKey,
     text,
@@ -79,4 +79,5 @@ function BadgeCell({
     )
 }
 
-export default withTooltip(BadgeCell)
+export const BadgeCell = withTooltip(BadgeCellBody)
+export default BadgeCell

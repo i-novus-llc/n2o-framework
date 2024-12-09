@@ -3,11 +3,11 @@ import get from 'lodash/get'
 import set from 'lodash/set'
 
 import { WithCell } from '../../withCell'
-import Rating from '../../../../controls/Rating/Rating'
+import { Rating } from '../../../../controls/Rating/Rating'
 
 import { type Props } from './types'
 
-const RatingCell = ({
+const RatingCellBody = ({
     max,
     half,
     showTooltip,
@@ -37,11 +37,9 @@ const RatingCell = ({
             showTooltip={showTooltip}
             onChange={handleChange}
             readonly={readonly}
-            // TODO value isRequired, но не передавалось
-            value=""
         />
     )
 }
 
-export { RatingCell }
-export default WithCell(RatingCell)
+export const RatingCell = WithCell(RatingCellBody)
+export default RatingCell
