@@ -25,10 +25,4 @@ public interface ButtonField extends Field, Button {
      * @param position ожидаемая позиция бейджа
      */
     void badgeShouldHavePosition(BadgePosition position);
-
-    /**
-     * Проверка стиля кнопки на соответствие
-     * @param style ожидаемый стиль кнопки
-     */
-    void shouldHaveStyle(String style);
 }

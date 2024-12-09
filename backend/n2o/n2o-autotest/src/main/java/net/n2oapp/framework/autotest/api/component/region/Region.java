@@ -7,9 +7,4 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface Region extends Component {
 
-    /**
-     * Проверка стиля региона
-     * @param style ожидаемый стиль
-     */
-    void shouldHaveStyle(String style);
 }

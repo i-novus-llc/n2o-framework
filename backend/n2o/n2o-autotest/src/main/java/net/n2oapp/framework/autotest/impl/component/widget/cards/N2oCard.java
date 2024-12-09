@@ -57,10 +57,5 @@ public class N2oCard extends N2oComponent implements Card {
         public <T extends Cell> T cell(Class<T> componentClass) {
             return component(element(), componentClass);
         }
-
-        @Override
-        public void shouldHaveStyle(String style) {
-            element().shouldHave(Condition.attributeMatching("style", String.format(".*%s.*", style)));
-        }
     }
 }

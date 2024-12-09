@@ -91,12 +91,6 @@ public interface Page extends Component {
     void scrollDown();
 
     /**
-     * Проверка стиля страницы на соответствие
-     * @param style ожидаемый стиль страницы
-     */
-    void shouldHaveStyle(String style);
-
-    /**
      * Проверка макета на соответствие
      * @param layout ожидаемый макет
      */

@@ -47,11 +47,6 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
     }
 
     @Override
-    public void shouldHaveStyle(String style) {
-        element().shouldHave(Condition.attributeMatching("style", String.format(".*%s.*", style)));
-    }
-
-    @Override
     public void shouldHaveAlignment(String alignment) {
         element().shouldHave(Condition.attribute("align", alignment));
     }

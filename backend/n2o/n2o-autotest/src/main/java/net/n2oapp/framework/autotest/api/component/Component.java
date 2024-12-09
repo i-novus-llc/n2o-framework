@@ -37,6 +37,12 @@ public interface Component extends Element {
      */
     void shouldHaveCssClass(String cssClass);
 
+    /**
+     * Проверка стиля компонент на соответствие
+     * @param style ожидаемый стиль компонент
+     */
+    void shouldHaveStyle(String style);
+
     default SelenideElement should(WebElementCondition condition, Duration... duration) {
         if (duration.length > 1) {
             throw new N2oException("Expected duration length 1 or less, but received %d" + duration.length);
