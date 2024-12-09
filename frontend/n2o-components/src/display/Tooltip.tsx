@@ -36,6 +36,7 @@ export function Tooltip({ hint, className, placement, delay, trigger, children }
                 delay={delay}
                 popperClassName={classNames('tooltip-container', className)}
                 trigger={trigger}
+                positionFixed
                 flip
             >
                 {hint}
