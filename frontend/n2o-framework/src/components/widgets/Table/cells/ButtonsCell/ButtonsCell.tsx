@@ -67,10 +67,10 @@ function WithOnResolve(Component: ComponentType<ButtonCellProps>): ExtendedWithO
     }
 }
 
-export const ButtonCell = flowRight(
+export const ButtonsCell = flowRight(
     WithOnControlledTooltip,
     WithCell,
     WithOnResolve,
 )(ButtonsCellBody)
 
-export default ButtonCell
+export default ButtonsCell

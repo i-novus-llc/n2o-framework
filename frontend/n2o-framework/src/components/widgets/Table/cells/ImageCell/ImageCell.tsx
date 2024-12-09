@@ -1,21 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { compose, setDisplayName, withHandlers } from 'recompose'
+import React, { useCallback } from 'react'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
+import flowRight from 'lodash/flowRight'
 import classNames from 'classnames'
 
 import { useResolved } from '../../../../../core/Expression/useResolver'
 import { Image } from '../../../../snippets/Image/Image'
 import { ImageInfo } from '../../../../snippets/Image/ImageInfo'
-import withCell from '../../withCell'
-import withTooltip from '../../withTooltip'
+import { WithCell } from '../../withCell'
+import { withTooltip } from '../../withTooltip'
 import { ActionWrapper } from '../../../../buttons/StandardButton/ActionWrapper'
 import { DefaultCell } from '../DefaultCell'
 
-import ImageStatuses from './ImageStatuses'
-import imageShapes from './imageShapes'
+import { ImageStatuses } from './ImageStatuses'
+import { type ImageCellProps } from './types'
 
 /**
  * Ячейка таблицы с картинкой
@@ -31,14 +30,13 @@ import imageShapes from './imageShapes'
  * @reactProps {array} statuses - статусы, отображающиеся над img
  */
 
-function ImageCell({
+function ImageCellBody({
     title,
     fieldKey,
     style,
     className,
     model,
     id,
-    onClick,
     action,
     shape,
     visible,
@@ -52,9 +50,15 @@ function ImageCell({
     queryMapping,
     target,
     url,
-    statuses = [],
     forwardedRef,
-}) {
+    callAction,
+    statuses = [],
+}: ImageCellProps) {
+    const onClick = useCallback(() => {
+        if (callAction && model) {
+            callAction(model)
+        }
+    }, [callAction, model])
     const src = get(model, fieldKey)
 
     const hasStatuses = !isEmpty(statuses)
@@ -108,6 +112,7 @@ function ImageCell({
                     width={width}
                     height={height}
                     {...omit(resolvedProps, ['title', 'description'])}
+                    // @ts-ignore FIXME разобраться при чем тут resolvedProps.data Array type
                     src={resolvedProps.data || resolvedProps.url}
                 />
                 {hasStatuses && (
@@ -123,80 +128,20 @@ function ImageCell({
             </ActionWrapper>
             {hasInfo && (
                 <ActionWrapper {...wrapperProps}>
-                    <ImageInfo title={title} description={description} />
+                    <ImageInfo title={title} description={description || ''} />
                 </ActionWrapper>
             )}
         </DefaultCell>
     )
 }
 
-ImageCell.propTypes = {
-    /**
-     * ID ячейки
-     */
-    id: PropTypes.string.isRequired,
-    /**
-     * Модель данных
-     */
-    model: PropTypes.object.isRequired,
-    /**
-     * Тип формы изображенич
-     */
-    shape: PropTypes.oneOf(Object.values(imageShapes)),
-    /**
-     * Стили
-     */
-    style: PropTypes.object,
-    /**
-     * Класс
-     */
-    className: PropTypes.string,
-    /**
-     * Заголовок
-     */
-    title: PropTypes.string,
-    /**
-     * Описание
-     */
-    description: PropTypes.string,
-    /**
-     * Флаг видимости
-     */
-    visible: PropTypes.bool,
-    disabled: PropTypes.bool,
-    /**
-     * Позиция текста
-     */
-    textPosition: PropTypes.oneOf(['top', 'left', 'bottom', 'right']),
-    /**
-     * Ширина
-     */
-    width: PropTypes.string,
-    /**
-     * Статусы, отображающиеся над img
-     */
-    statuses: PropTypes.array,
-    fieldKey: PropTypes.string,
-    onClick: PropTypes.func,
-    action: PropTypes.string,
-    height: PropTypes.number,
-    data: PropTypes.object,
-    pathMapping: PropTypes.object,
-    queryMapping: PropTypes.object,
-    target: PropTypes.string,
-    url: PropTypes.string,
-}
+const ImageCell = flowRight(
+    WithCell,
+    withTooltip,
+    // @ts-ignore import from js file FIXME WithCell не типизирован
+)(ImageCellBody)
+
+ImageCell.displayName = 'ImageCell'
 
 export { ImageCell }
-export default compose(
-    setDisplayName('ImageCell'),
-    withCell,
-    withHandlers({
-        onClick: ({ callAction, model }) => () => {
-            if (callAction && model) {
-                callAction(model)
-            }
-        },
-    }),
-    withTooltip,
-)(ImageCell)
+export default ImageCell

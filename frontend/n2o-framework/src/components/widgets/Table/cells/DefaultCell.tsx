@@ -7,6 +7,7 @@ interface Props {
     disabled?: boolean
     forwardedRef?: React.Ref<HTMLDivElement>
     children?: React.ReactNode
+    onClick?(): void
 }
 
 export function DefaultCell({ className, forwardedRef, tag = 'div', disabled = false, ...rest }: Props) {

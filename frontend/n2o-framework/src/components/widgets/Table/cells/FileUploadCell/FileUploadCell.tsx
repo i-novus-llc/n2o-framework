@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { compose } from 'recompose'
+import flowRight from 'lodash/flowRight'
 import { withTranslation } from 'react-i18next'
 import { Button } from 'reactstrap'
 import classNames from 'classnames'
@@ -9,13 +8,16 @@ import FileUploader from '../../../../controls/FileUploader/FileUploader'
 import withFileUploader from '../../../../controls/FileUploader/withFileUploader'
 import { DefaultCell } from '../DefaultCell'
 
-function FileUploadCellComponent(props) {
+import { type Props } from './types'
+
+function FileUploadCellComponent(props: Props) {
     const { multi, files, t, showSize, label, uploadIcon, deleteIcon, className, disabled } = props
 
-    const isButtonVisible = !!(multi || files.length === 0)
+    const isButtonVisible = multi || files.length === 0
 
     return (
         <DefaultCell disabled={disabled} className={classNames('file-upload-cell-wrapper', { showSize }, className)}>
+            {/* @ts-ignore import from js file FIXME FileUploader не типизирован */ }
             <FileUploader
                 componentClass="file-upload-cell"
                 {...props}
@@ -34,28 +36,8 @@ function FileUploadCellComponent(props) {
     )
 }
 
-FileUploadCellComponent.propTypes = {
-    uploadUrl: PropTypes.string,
-    deleteUrl: PropTypes.string,
-    valueFieldId: PropTypes.string,
-    labelFieldId: PropTypes.string,
-    messageFieldId: PropTypes.string,
-    urlFieldId: PropTypes.string,
-    requestParam: PropTypes.string,
-    className: PropTypes.string,
-    showSize: PropTypes.bool,
-    multi: PropTypes.bool,
-    ajax: PropTypes.bool,
-    accept: PropTypes.string,
-    label: PropTypes.string,
-    uploadIcon: PropTypes.string,
-    deleteIcon: PropTypes.string,
-    files: PropTypes.array,
-    disabled: PropTypes.bool,
-    t: PropTypes.func,
-}
-
-const FileUploadCell = compose(
+const FileUploadCell = flowRight(
+    // @ts-ignore import from js file FIXME withFileUploader не типизирован
     withFileUploader,
     withTranslation(),
 )(FileUploadCellComponent)

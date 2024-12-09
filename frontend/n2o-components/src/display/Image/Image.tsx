@@ -5,20 +5,20 @@ import { TBaseProps } from '../../types'
 
 import { ImageInfo } from './ImageInfo'
 
-enum TextPosition {
+export enum TextPosition {
     bottom = 'bottom',
     left = 'left',
     right = 'right',
     top = 'top',
 }
 
-enum Shape {
+export enum Shape {
     circle = 'circle',
     rounded = 'rounded',
     square = 'square',
 }
 
-type Props = TBaseProps & {
+export type Props = TBaseProps & {
     description: string,
     height: number,
     id: string,

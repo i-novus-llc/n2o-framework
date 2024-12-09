@@ -1,16 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import onClickOutsideHOC from 'react-onclickoutside'
 
 import { triggerClassName } from './utils'
+import { type ListTextCellTriggerProps as Props } from './types'
 
-function Component({ label, labelDashed, forwardedRef }) {
+function Component({ label, labelDashed, forwardedRef }: Omit<Props, 'tooltipClose'>) {
     return <span ref={forwardedRef} className={triggerClassName(labelDashed)}>{label}</span>
 }
 
 const Extended = onClickOutsideHOC(Component)
 
-export function ListTextCellTrigger({ label, labelDashed, forwardedRef, tooltipClose }) {
+export function ListTextCellTrigger({ label, labelDashed, forwardedRef, tooltipClose }: Props) {
     return (
         <Extended
             label={label}
@@ -19,10 +19,4 @@ export function ListTextCellTrigger({ label, labelDashed, forwardedRef, tooltipC
             handleClickOutside={tooltipClose}
         />
     )
-}
-
-ListTextCellTrigger.propTypes = {
-    label: PropTypes.string,
-    forwardedRef: PropTypes.func,
-    labelDashed: PropTypes.bool,
 }
