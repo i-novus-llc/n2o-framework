@@ -13,11 +13,6 @@ import java.util.stream.StreamSupport;
  */
 public class N2oRegion extends N2oComponent implements Region {
 
-    @Override
-    public void shouldHaveStyle(String style) {
-        element().shouldHave(Condition.attribute("style", style));
-    }
-
     protected ElementsCollection firstLevelElements(String rootSelector, String childSelector) {
         String elementSelector = String.format("%s > %s", rootSelector, childSelector);
         ElementsCollection nestingElements = element().$$(String.format("%s %s", rootSelector, elementSelector));

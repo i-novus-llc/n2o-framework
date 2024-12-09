@@ -41,12 +41,6 @@ public interface TableHeader extends Component {
     void shouldBeSortedByDesc();
 
     /**
-     * Проверка стиля заголовка
-     * @param style ожидаемый стиль
-     */
-    void shouldHaveStyle(String style);
-
-    /**
      * Проверка выравнивания заголовка
      * @param alignment ожидаемое выравнивание
      */
