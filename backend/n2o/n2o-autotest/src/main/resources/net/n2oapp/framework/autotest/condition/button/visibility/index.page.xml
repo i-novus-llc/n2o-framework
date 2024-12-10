@@ -20,7 +20,7 @@
 
 
     <toolbar place="topLeft">
-        <button label="Кнопка" color="primary" icon="ps-icon-x">
+        <button label="Кнопка" color="primary" icon="ps-icon-x" description="text">
             <dependencies>
                 <visibility datasource="getHiddenUserId" model="resolve">
                     operatorId === assigneeId
