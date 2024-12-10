@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react'
+
 export const TOTAL = 'Всего записей:'
 export const TOTAL_TITLE = 'Узнать количество записей'
 
@@ -30,8 +32,8 @@ export type showCountType = 'always' | 'by-request' | 'never' | boolean
 type onSelectType = (page: number, options?: object) => void
 
 export interface Props {
-    className: string
-    style: object
+    className?: string
+    style?: CSSProperties
     showSinglePage: boolean
     showLast: boolean
     showCount: showCountType

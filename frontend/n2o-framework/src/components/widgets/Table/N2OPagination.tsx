@@ -1,9 +1,15 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
 import { FactoryContext } from '../../../core/factory/context'
-import { SNIPPETS } from '../../../core/factory/factoryLevels'
+import { FactoryLevels } from '../../../core/factory/factoryLevels'
+import { type Props as PaginationSnippetProps } from '../../snippets/Pagination/constants'
+import { DataSourceModels } from '../../../core/datasource/const'
+
+export interface Props extends PaginationSnippetProps {
+    datasource: DataSourceModels['datasource']
+    setPage: PaginationSnippetProps['onSelect']
+}
 
 /**
  * Компонент табличной пейджинации. По `widgetId` автоматически определяет все свойства для `Paging`
@@ -13,7 +19,7 @@ import { SNIPPETS } from '../../../core/factory/factoryLevels'
  * @reactProps {number} activePage
  * @reactProps {function} onChangePage
  */
-export const N2OPagination = (props) => {
+export const N2OPagination = (props: Props) => {
     const {
         datasource,
         setPage,
@@ -26,7 +32,9 @@ export const N2OPagination = (props) => {
     const showCount = propShowCount || !isEmpty(datasource)
     const calculatedHasNext = count ? hasNext : (!loading && hasNext)
 
-    const Pagination = getComponent('Pagination', SNIPPETS)
+    const Pagination = getComponent('Pagination', FactoryLevels.SNIPPETS)
+
+    if (!Pagination) { return null }
 
     return (
         <Pagination
@@ -41,28 +49,3 @@ export const N2OPagination = (props) => {
 }
 
 N2OPagination.displayName = 'N2OPagination'
-
-N2OPagination.propTypes = {
-    count: PropTypes.number,
-    size: PropTypes.number,
-    activePage: PropTypes.number,
-    setPage: PropTypes.func,
-    datasource: PropTypes.array,
-    layout: PropTypes.oneOf([
-        'bordered',
-        'flat',
-        'separated',
-        'flat-rounded',
-        'bordered-rounded',
-        'separated-rounded',
-    ]),
-    prev: PropTypes.bool,
-    prevIcon: PropTypes.string,
-    next: PropTypes.bool,
-    nextIcon: PropTypes.string,
-    last: PropTypes.bool,
-    lastIcon: PropTypes.string,
-    showCount: PropTypes.bool,
-    className: PropTypes.string,
-    style: PropTypes.object,
-}

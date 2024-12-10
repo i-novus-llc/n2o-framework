@@ -7,7 +7,7 @@
  * @param {function} [getDefault] функция для определения дефолтного значения.
  * @returns {string|function} ReactElement
  */
-function getElementType(Component, props, getDefault) {
+export function getElementType(Component, props, getDefault) {
     const { defaultProps = {} } = Component
 
     if (props.as && props.as !== defaultProps.as) { return props.as }

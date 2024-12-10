@@ -47,12 +47,17 @@ export interface TilesWidgetType extends Omit<TilesType, 'widgetId' | 'data' | '
     filter: Record<string, unknown>
     paging: {
         place: string
+        showSinglePage: boolean
+        showLast: boolean
+        showCount: boolean
+        maxPages: number
+        onSelect(page: number): void
     }
     height: string
     width: string
     size: number
     count: number
-    setPage(): void
+    setPage(page: number): void
     page: number
     loading: boolean
     setResolve(): void
