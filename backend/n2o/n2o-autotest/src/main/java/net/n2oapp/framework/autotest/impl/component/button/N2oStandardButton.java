@@ -19,7 +19,7 @@ public class N2oStandardButton extends N2oButton implements StandardButton {
 
     @Override
     public void shouldHaveDescription(String description, Duration... duration) {
-        should(Condition.text(description), duration);
+        element().shouldHave(Condition.attribute("hint", description));
     }
 
     @Override

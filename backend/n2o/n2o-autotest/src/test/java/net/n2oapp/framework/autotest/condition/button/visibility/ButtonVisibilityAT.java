@@ -71,11 +71,13 @@ public class ButtonVisibilityAT extends AutoTestBase {
                 .button("Кнопка");
 
         button.shouldBeVisible();
+        button.shouldHaveDescription("text");
 
         inputOne.clear();
         button.shouldBeHidden();
 
         inputTwo.clear();
         button.shouldBeVisible();
+        button.shouldHaveDescription("text");
     }
 }
