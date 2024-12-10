@@ -469,6 +469,10 @@
           "name": "TableFiltersValidationAT. testView"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/filters_validation/clear_validation_messages",
+          "name": "TableFiltersValidationAT. testClearValidationMessages"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation",
           "name": "TableFiltersValidationAT. testValidationFetch"
         },
