@@ -135,11 +135,7 @@ function ImageCellBody({
     )
 }
 
-const ImageCell = flowRight(
-    WithCell,
-    withTooltip,
-    // @ts-ignore import from js file FIXME WithCell не типизирован
-)(ImageCellBody)
+const ImageCell = flowRight(WithCell, withTooltip)(ImageCellBody)
 
 ImageCell.displayName = 'ImageCell'
 

@@ -1,8 +1,8 @@
 import { CSSProperties } from 'react'
 import { Dispatch } from 'redux'
 
-import { type ToolbarProps } from '../../buttons/Toolbar'
 import { type ClickAction } from '../hooks/useOnActionMethod'
+import { type Props as StandardWidgetProps } from '../StandardWidget'
 
 export type TilesModel = Record<string, unknown>
 
@@ -39,9 +39,11 @@ export interface TilesType {
     rowClick: ClickAction
 }
 
+export type StandardWidgetFilter = StandardWidgetProps['filter']
+
 export interface TilesWidgetType extends Omit<TilesType, 'widgetId' | 'data' | 'onResolve' | 'width'> {
     id: string
-    toolbar: ToolbarProps
+    toolbar: StandardWidgetProps['toolbar']
     disabled: boolean
     style: CSSProperties
     filter: Record<string, unknown>

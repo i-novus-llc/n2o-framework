@@ -87,11 +87,7 @@ function LinkCellBody({
     )
 }
 
-const LinkCell = flowRight(
-    WithCell,
-    withTooltip,
-    // FIXME withCell не типизирован, должно работать без as never
-)(LinkCellBody as never)
+const LinkCell = flowRight(WithCell, withTooltip)(LinkCellBody)
 
 LinkCell.displayName = 'LinkCell'
 

@@ -4,7 +4,7 @@ import { compose } from 'recompose'
 import get from 'lodash/get'
 
 import { Text } from '../../../../snippets/Text/Text'
-import withCell from '../../withCell'
+import { WithCell } from '../../withCell'
 import withTooltip from '../../withTooltip'
 import { DefaultCell } from '../DefaultCell'
 
@@ -89,7 +89,4 @@ Cell.defaultProps = {
 
 Cell.displayName = 'EditableCell'
 
-export const EditableCell = compose(
-    withCell,
-    withTooltip,
-)(Cell)
+export const EditableCell = compose(WithCell, withTooltip)(Cell)

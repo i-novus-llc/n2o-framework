@@ -7,7 +7,7 @@ type FieldType = { control: ControlType }
 type ColType = { fields: FieldType[] }
 type RowType = { cols: ColType[] }
 type Fieldset = { rows: RowType[] }
-type Fieldsets = Fieldset[]
+export type Fieldsets = Fieldset[]
 interface ReplaceOptions {
     replaced: string
     replace: string

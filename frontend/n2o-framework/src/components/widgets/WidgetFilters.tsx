@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types'
-import React, { useCallback, useEffect, useMemo, createContext } from 'react'
+import React, { useCallback, useEffect, useMemo, createContext, CSSProperties } from 'react'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import classNames from 'classnames'
 import difference from 'lodash/difference'
 import map from 'lodash/map'
 import unset from 'lodash/unset'
 import cloneDeep from 'lodash/cloneDeep'
-import { isEmpty, isEqual } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
@@ -19,7 +19,7 @@ import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
-import { modelLinkMapper } from './helpers'
+import { modelLinkMapper, type Fieldsets } from './helpers'
 
 export const WidgetFilterContext = createContext({
     formName: '',
@@ -27,7 +27,19 @@ export const WidgetFilterContext = createContext({
     reset() {},
 })
 
-const WidgetFilters = ({
+export interface Props {
+    widgetId: string
+    fieldsets: Fieldsets
+    fetchData?(paging: { page: number }, force?: boolean): void
+    fetchOnChange?: boolean
+    blackResetList?: string[]
+    filterFieldsets: Fieldsets
+    datasource: string
+    style?: CSSProperties
+    fetchOnClear?: boolean
+}
+
+export const WidgetFilters = ({
     widgetId,
     fieldsets,
     fetchData,
@@ -37,7 +49,7 @@ const WidgetFilters = ({
     datasource,
     style,
     fetchOnClear = true,
-}) => {
+}: Props) => {
     const { getState } = useStore()
     const dispatch = useDispatch()
     /*
@@ -71,21 +83,20 @@ const WidgetFilters = ({
         dispatch(dataSourceReset(datasource))
     }, [dispatch, datasource])
 
-    const search = useCallback((forceUpdate) => {
+    const search = useCallback((forceUpdate?: boolean) => {
         if (modelPrefix === ModelPrefix.edit) {
             dispatch(setModel(ModelPrefix.filter, datasource, reduxFormFilter))
         }
 
-        fetchData({ page: 1 }, forceUpdate)
+        if (fetchData) {
+            fetchData({ page: 1 }, forceUpdate)
+        }
     }, [dispatch, fetchData, datasource, modelPrefix, reduxFormFilter])
 
     const reset = useCallback(() => {
         const filterModel = getModelByPrefixAndNameSelector(modelPrefix, datasource)(getState())
         const newReduxForm = cloneDeep(filterModel)
-        const resetList = difference(
-            map(flatFields(fieldsets, []), 'id'),
-            blackResetList,
-        )
+        const resetList = difference(map(flatFields(fieldsets, []), 'id'), blackResetList || [])
 
         resetList.forEach((field) => { unset(newReduxForm, field) })
 
@@ -94,7 +105,7 @@ const WidgetFilters = ({
             dispatch(setModel(ModelPrefix.filter, datasource, newReduxForm))
         }
 
-        if (fetchOnClear) {
+        if (fetchOnClear && fetchData) {
             fetchData({ page: 1 }, true)
 
             return
@@ -107,7 +118,7 @@ const WidgetFilters = ({
     ])
 
     useEffect(() => {
-        if (fetchOnChange && reduxFormFilter) { fetchData({ page: 1 }) }
+        if (fetchOnChange && reduxFormFilter && fetchData) { fetchData({ page: 1 }) }
     }, [fetchData, reduxFormFilter, fetchOnChange])
 
     /*
@@ -120,6 +131,7 @@ const WidgetFilters = ({
             const model = getModelByPrefixAndNameSelector(ModelPrefix.edit, datasource)(getState())
 
             if (isEqual(filterModel, model) && !isEmpty(filterMessages)) {
+                // @ts-ignore FIXME TS2554: Expected 1 arguments, but got 4
                 dispatch(failValidate(datasource, filterMessages, ModelPrefix.edit, { touched: true }))
             }
         }
@@ -135,7 +147,7 @@ const WidgetFilters = ({
     }, [search])
 
     return (
-        <WidgetFilterContext.Provider value={{ search, reset }}>
+        <WidgetFilterContext.Provider value={{ search, reset, formName: widgetId }}>
             <div onKeyDown={onKeyDown} className={classNames('n2o-filter', { 'd-none': !visible })} style={style}>
                 <ReduxForm
                     name={widgetId}
@@ -148,16 +160,6 @@ const WidgetFilters = ({
             </div>
         </WidgetFilterContext.Provider>
     )
-}
-
-WidgetFilters.propTypes = {
-    widgetId: PropTypes.string,
-    fieldsets: PropTypes.array,
-    blackResetList: PropTypes.array,
-    fetchData: PropTypes.func,
-    fetchOnChange: PropTypes.bool,
-    datasource: PropTypes.string,
-    filterFieldsets: PropTypes.array,
 }
 
 export default WidgetFilters

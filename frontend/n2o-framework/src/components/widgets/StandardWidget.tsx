@@ -1,29 +1,45 @@
-import React, { Children, useCallback, useMemo } from 'react'
-import PropTypes from 'prop-types'
+import React, { Children, useCallback, useMemo, ReactNode, CSSProperties, memo } from 'react'
 import classNames from 'classnames'
-import { pure, compose } from 'recompose'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { isEmpty } from 'lodash'
+import { SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 
-import Toolbar from '../buttons/Toolbar'
+import Toolbar, { ToolbarProps } from '../buttons/Toolbar'
 import { Spinner } from '../snippets/Spinner/Spinner'
 import { dataSourceError } from '../../ducks/datasource/selectors'
 import { ErrorContainer } from '../../core/error/Container'
+import { State } from '../../ducks/State'
+import { type ErrorContainerProps } from '../../core/error/types'
 
-import WidgetFilters from './WidgetFilters'
+import { WidgetFilters, type Props as WidgetFiltersProps } from './WidgetFilters'
 
-const PLACES = {
-    top: 'top',
-    left: 'left',
-    right: 'right',
-    center: 'center',
-    topLeft: 'topLeft',
-    topRight: 'topRight',
-    topCenter: 'topCenter',
-    bottomLeft: 'bottomLeft',
-    bottomRight: 'bottomRight',
-    bottomCenter: 'bottomCenter',
+export enum PLACES {
+    top = 'top',
+    left = 'left',
+    right = 'right',
+    center = 'center',
+    topLeft = 'topLeft',
+    topRight = 'topRight',
+    topCenter = 'topCenter',
+    bottomLeft = 'bottomLeft',
+    bottomRight = 'bottomRight',
+    bottomCenter = 'bottomCenter',
+}
+
+export interface Props {
+    widgetId: string
+    toolbar: Record<string, ToolbarProps>
+    filter: { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] }
+    fetchData?: WidgetFiltersProps['fetchData']
+    datasource: string
+    pagination: Record<string, unknown>
+    disabled: boolean
+    className?: string
+    style?: CSSProperties
+    children: ReactNode
+    loading: boolean
+    error: ErrorContainerProps['error']
 }
 
 /**
@@ -34,13 +50,20 @@ const PLACES = {
  * @reactProps {boolean} disabled - флаг активности
  * @reactProps {node} children - элемент потомок компонента StandardWidget
  */
-const StandardWidget = (props) => {
-    const {
-        widgetId, toolbar, filter,
-        fetchData, datasource, pagination,
-        disabled, className, style,
-        children, loading, error,
-    } = props
+const StandardWidget = memo(({
+    widgetId,
+    fetchData,
+    datasource,
+    disabled,
+    className,
+    style,
+    children,
+    loading,
+    error,
+    filter = {} as never,
+    toolbar = {},
+    pagination = {},
+}: Props) => {
     const renderToolbar = useCallback((place) => {
         const paginationComponent = pagination[place]
         const currentToolbar = toolbar[place]
@@ -97,7 +120,7 @@ const StandardWidget = (props) => {
 
     const childrenWithError = Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-            return React.cloneElement(child, { errorComponent })
+            return React.cloneElement(child, { errorComponent } as never)
         }
 
         return child
@@ -122,7 +145,7 @@ const StandardWidget = (props) => {
                     </div>
                 ) : null}
                 <div className="n2o-standard-widget-layout-content">
-                    <Spinner loading={loading} type="cover">
+                    <Spinner loading={loading} type={SpinnerType.cover}>
                         {childrenWithError}
                     </Spinner>
                 </div>
@@ -139,31 +162,11 @@ const StandardWidget = (props) => {
             ) : null}
         </div>
     )
-}
-
-StandardWidget.defaultProps = {
-    toolbar: {},
-    filter: {},
-    pagination: {},
-}
-
-StandardWidget.propTypes = {
-    className: PropTypes.string,
-    style: PropTypes.object,
-    widgetId: PropTypes.string,
-    datasource: PropTypes.string,
-    toolbar: PropTypes.object,
-    filter: PropTypes.object,
-    error: PropTypes.object,
-    fetchData: PropTypes.func,
-    disabled: PropTypes.bool,
-    children: PropTypes.node,
-    loading: PropTypes.bool,
-    pagination: PropTypes.object,
-}
+})
 
 const mapStateToProps = createStructuredSelector({
-    error: (state, { datasource }) => {
+    // @ts-ignore TODO объеденить типы ErrorContainerProps['error'] и dataSourceError, убрать as never
+    error: (state: State, { datasource }: Props) => {
         if (state.datasource[datasource]) {
             return dataSourceError(datasource)(state)
         }
@@ -172,7 +175,5 @@ const mapStateToProps = createStructuredSelector({
     },
 })
 
-export default compose(
-    pure,
-    connect(mapStateToProps),
-)(StandardWidget)
+// @ts-ignore TODO объеденить типы ErrorContainerProps['error'] и dataSourceError, убрать as never
+export default connect(mapStateToProps)(StandardWidget)
