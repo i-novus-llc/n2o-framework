@@ -11,7 +11,7 @@ import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selec
 import { ModelPrefix } from '../../../core/datasource/const'
 
 import { Tiles } from './Tiles'
-import { type TilesModel, TilesWidgetType } from './types'
+import { type TilesModel, type TilesWidgetType, type StandardWidgetFilter } from './types'
 
 function TilesWidget(props: TilesWidgetType) {
     const {
@@ -34,7 +34,7 @@ function TilesWidget(props: TilesWidgetType) {
         setResolve,
     } = props
     const { resolveProps } = useContext(FactoryContext)
-    const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps])
+    const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps]) as StandardWidgetFilter
     const { place = 'bottomLeft' } = paging
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as TilesModel[]
     const pagination = {

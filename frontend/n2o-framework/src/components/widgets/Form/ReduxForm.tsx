@@ -32,6 +32,7 @@ type ReduxFormProps = {
     dirty?: boolean
     className?: string
     validationKey: ValidationsKey
+    fields?: string[]
 }
 
 const ReduxForm: FC<ReduxFormProps> & { Field: JSX.Element } = ({

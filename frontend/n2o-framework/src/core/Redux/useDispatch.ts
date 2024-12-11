@@ -8,7 +8,6 @@ import { mergeMeta } from './utils/mergeMeta'
 /**
  * Обёртка над dispatch, добавляющая контекст выполнения экспрешена в метаданные вызываемого action
  * Нужен для вызова action, которые тригерят саги, использующие резолв данных из модели
- * @returns {Function}
  */
 export function useDispatch() {
     const dispatch = useReduxDispatch()

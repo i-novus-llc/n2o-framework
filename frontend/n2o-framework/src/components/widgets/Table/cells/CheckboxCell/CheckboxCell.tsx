@@ -4,7 +4,7 @@ import set from 'lodash/set'
 import flowRight from 'lodash/flowRight'
 import { push } from 'connected-react-router'
 
-import withCell from '../../withCell'
+import { WithCell } from '../../withCell'
 import withTooltip from '../../withTooltip'
 import { Checkbox } from '../../../../controls/Checkbox/Checkbox'
 
@@ -77,11 +77,7 @@ function CheckboxCellBody({
     )
 }
 
-const CheckboxCell = flowRight(
-    withCell,
-    withTooltip,
-    // FIXME withCell не типизирован, должно работать без as never
-)(CheckboxCellBody as never)
+const CheckboxCell = flowRight(WithCell, withTooltip)(CheckboxCellBody)
 
 CheckboxCell.displayName = 'CheckboxCell'
 

@@ -11,7 +11,6 @@ import CardsWidget from './Cards/CardsWidget'
 export default {
     HtmlWidget,
     FormWidget,
-    EditForm: FormWidget,
     AdvancedTableWidget,
     ListWidget,
     TreeWidget,

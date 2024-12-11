@@ -52,7 +52,8 @@ export function ErrorContainer({
         return <>{error.toString()}</>
     }, [error, handlers, onReset])
 
-    if (!errorComponent) { return children }
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    if (!errorComponent) { return <>{children}</> }
 
     return (
         <div className="n2o-ErrorContainer">

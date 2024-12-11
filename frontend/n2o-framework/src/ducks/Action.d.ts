@@ -2,7 +2,7 @@ import { Action as ReduxAction } from 'redux'
 
 import { State } from './State'
 
-interface N2OMeta {
+export interface N2OMeta {
     operationId?: string
     target?: string
     key?: string
@@ -13,7 +13,7 @@ interface N2OMeta {
     abortController?: AbortController
 }
 
-interface N2OAction<
+export interface N2OAction<
     TType extends string = string,
     TPayload = unknown,
     TMeta extends N2OMeta = N2OMeta,

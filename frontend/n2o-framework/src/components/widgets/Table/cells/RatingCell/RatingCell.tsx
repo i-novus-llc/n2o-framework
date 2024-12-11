@@ -7,7 +7,7 @@ import { Rating } from '../../../../controls/Rating/Rating'
 
 import { type Props } from './types'
 
-const RatingCellBody = ({
+function RatingCellBody({
     max,
     half,
     showTooltip,
@@ -17,7 +17,7 @@ const RatingCellBody = ({
     callAction,
     visible = true,
     readonly = false,
-}: Props) => {
+}: Props) {
     const handleChange = useCallback(
         (rating) => {
             const data = set({ ...model }, fieldKey || id, rating)
