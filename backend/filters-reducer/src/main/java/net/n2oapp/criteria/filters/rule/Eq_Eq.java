@@ -1,8 +1,9 @@
 package net.n2oapp.criteria.filters.rule;
 
-import net.n2oapp.criteria.filters.Pair;
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.Rule;
 
 /**
@@ -10,10 +11,22 @@ import net.n2oapp.criteria.filters.rule.base.Rule;
  * Date: 18.11.2014
  * Time: 17:27
  */
+@Slf4j
 public class Eq_Eq implements Rule {
+
     @Override
     public Filter simplify(Filter left, Filter right) {
-        if (left.getValue().equals(right.getValue())) return left;
+        Object leftValue = left.getValue();
+        Object rightValue = right.getValue();
+        if (leftValue.equals(rightValue)) return left;
+
+        if (!leftValue.getClass().equals(rightValue.getClass()) && leftValue.toString().equals(rightValue.toString())) {
+            log.info("Не получилось объединить фильтры <eq> и <eq> со значениями {}, имеющие разные типы {} и {}",
+                    leftValue, leftValue.getClass().getSimpleName(), rightValue.getClass().getSimpleName());
+        } else {
+            log.info("Не получилось объединить фильтры <eq> и <eq> со значениями {} и {}",
+                    leftValue, rightValue);
+        }
         return null;
     }
 
