@@ -4,11 +4,9 @@ import { useSelector } from 'react-redux'
 import isBoolean from 'lodash/isBoolean'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
-import {
-    makeFieldByName, messageSelector,
-} from '../../../../ducks/form/selectors'
+import { makeFieldByName, messageSelector } from '../../../../ducks/form/selectors'
 import { registerFieldExtra, unRegisterExtraField } from '../../../../ducks/form/store'
 import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
 import { useFormContext } from '../../../core/FormProvider'
@@ -170,12 +168,7 @@ export default (Field) => {
 
         useAutosave(resolved.id, resolved.dataProvider)
 
-        return (
-            <Field
-                {...resolved}
-                {...message}
-            />
-        )
+        return <Field {...resolved} {...message} />
     }
 
     FieldContainer.propTypes = {

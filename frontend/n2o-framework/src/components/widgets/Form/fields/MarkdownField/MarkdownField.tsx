@@ -12,7 +12,7 @@ import { useHtmlResolver } from '../../../../../utils/useHtmlResolver'
 import { markdownFieldMapper } from './markdownFieldMapper'
 import { MarkdownFieldMappers, Actions, Model } from './helpers'
 
-interface MarkdownFieldProps {
+export interface MarkdownFieldProps {
     visible: boolean
     content: string
     // eslint-disable-next-line react/no-unused-prop-types

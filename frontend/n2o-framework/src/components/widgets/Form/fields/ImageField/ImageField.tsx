@@ -1,16 +1,32 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Action } from 'redux'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
-import isNil from 'lodash/isNil'
 import omit from 'lodash/omit'
 
-import { Image } from '../../../../snippets/Image/Image'
+import { Image, type Props as ImageProps } from '../../../../snippets/Image/Image'
 import { ImageInfo } from '../../../../snippets/Image/ImageInfo'
-import ImageStatuses from '../../../Table/cells/ImageCell/ImageStatuses'
+import { ImageStatuses } from '../../../Table/cells/ImageCell/ImageStatuses'
 import { ActionWrapper } from '../../../../buttons/StandardButton/ActionWrapper'
 import { useResolved } from '../../../../../core/Expression/useResolver'
+import { State } from '../../../../../ducks/State'
+import { type ImageStatusesType } from '../../../Table/cells/ImageCell/types'
+import { Mapping } from '../../../../../ducks/datasource/Provider'
+import { ModelPrefix } from '../../../../../core/datasource/const'
+
+export interface Props extends ImageProps {
+    model: Record<string, unknown>
+    url: string
+    data: string
+    pathMapping: Mapping
+    queryMapping: Mapping
+    target: string
+    action: Action
+    statuses: ImageStatusesType['statuses']
+    modelPrefix?: ModelPrefix
+    form?: string
+}
 
 /**
  * Компонент Image фомы
@@ -26,7 +42,7 @@ import { useResolved } from '../../../../../core/Expression/useResolver'
  * @reactProps {array} statuses - статусы, отображающиеся над img
  */
 
-function ImageField({
+function ImageFieldBody({
     id,
     url,
     data,
@@ -39,22 +55,15 @@ function ImageField({
     visible,
     model,
     className,
-    statuses = [],
     pathMapping,
     queryMapping,
     target,
     action,
-}) {
+    statuses,
+}: Props) {
     const hasStatuses = !isEmpty(statuses)
-    const hasInfo = title || description
 
-    const defaultImageProps = {
-        url,
-        data,
-        title,
-        description,
-    }
-
+    const defaultImageProps = { url, data, title, description }
     const resolvedProps = useResolved(defaultImageProps, model)
 
     return (
@@ -71,11 +80,7 @@ function ImageField({
                 action={action}
                 className="n2o-image-field__image"
             >
-                <div
-                    className={classNames('n2o-image-field', {
-                        'with-statuses': hasStatuses,
-                    })}
-                >
+                <div className={classNames('n2o-image-field', { 'with-statuses': hasStatuses })}>
                     <Image
                         id={id}
                         visible={visible}
@@ -92,50 +97,19 @@ function ImageField({
                         {...omit(resolvedProps, ['title', 'description'])}
                         src={resolvedProps.data || resolvedProps.url}
                     />
-                    {hasStatuses && (
-                        <ImageStatuses
-                            statuses={statuses}
-                            model={model}
-                            className="image-field-statuses"
-                        />
-                    )}
+                    {hasStatuses && <ImageStatuses statuses={statuses} model={model} className="image-field-statuses" />}
                 </div>
             </ActionWrapper>
-            {hasInfo && <ImageInfo title={title} description={description} />}
+            <ImageInfo title={title} description={description} />
         </div>
     )
 }
 
-const mapStateToProps = (state, { modelPrefix, form }) => {
-    const model =
-    isNil(modelPrefix) || isNil(form) ? {} : state.models[modelPrefix][form]
+const mapStateToProps = (state: State, { modelPrefix, form }: Props) => {
+    const model = (!modelPrefix || !form) ? {} : state.models[modelPrefix][form] as Record<string, unknown>
 
-    return {
-        model,
-    }
+    return { model }
 }
 
-export default connect(
-    mapStateToProps,
-    null,
-)(ImageField)
-
-ImageField.propTypes = {
-    id: PropTypes.string,
-    url: PropTypes.string,
-    data: PropTypes.array,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    textPosition: PropTypes.string,
-    width: PropTypes.string,
-    height: PropTypes.string,
-    visible: PropTypes.bool,
-    model: PropTypes.object,
-    className: PropTypes.string,
-    statuses: PropTypes.array,
-    shape: PropTypes.string,
-    pathMapping: PropTypes.object,
-    queryMapping: PropTypes.object,
-    action: PropTypes.object,
-    target: PropTypes.string,
-}
+export const ImageField = connect(mapStateToProps)(ImageFieldBody)
+export default ImageField

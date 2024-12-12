@@ -37,12 +37,14 @@ export interface MappingParam {
     value: string
 }
 
+export type Mapping = Record<string, MappingParam>
+
 export interface ServiceProvider extends Provider {
     type: ProviderType.service
     url: string
-    pathMapping: Record<string, MappingParam>
-    queryMapping: Record<string, MappingParam>
-    headerMapping: Record<string, MappingParam>
+    pathMapping: Mapping
+    queryMapping: Mapping
+    headerMapping: Mapping
     size: number
 }
 

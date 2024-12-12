@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { TBaseProps } from '../types'
 
-type Props = TBaseProps & {
+export type Props = TBaseProps & {
     html: string,
     id: string
 }

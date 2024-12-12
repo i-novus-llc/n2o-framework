@@ -49,11 +49,8 @@ export function Image({
     const imageStyle = height || width ? { height, width } : {}
     const hasInfo = title || description
 
-    if (!visible) {
-        return null
-    }
+    if (!visible) { return null }
 
-    // eslint-disable-next-line consistent-return
     return (
         <div id={id} className={classNames('n2o-image n2o-snippet', className)}>
             <div
@@ -62,9 +59,7 @@ export function Image({
                 })}
             >
                 <section
-                    className={classNames('n2o-image__image-container', {
-                        [shape]: shape,
-                    })}
+                    className={classNames('n2o-image__image-container', { [shape]: shape })}
                     style={{ ...style, ...propsStyle }}
                 >
                     <div
