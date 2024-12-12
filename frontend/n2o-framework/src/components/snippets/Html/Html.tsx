@@ -1,3 +1,3 @@
-import { Html } from '@i-novus/n2o-components/lib/display/Html'
+import { Html, type Props } from '@i-novus/n2o-components/lib/display/Html'
 
-export { Html }
+export { Html, type Props }

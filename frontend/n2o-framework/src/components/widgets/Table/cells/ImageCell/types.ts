@@ -13,7 +13,7 @@ export interface ImageStatusesType {
     statuses: Status[]
     className?: string
     model: Record<string, unknown>
-    onClick(): void
+    onClick?(): void
 }
 
 export interface ImageCellProps {

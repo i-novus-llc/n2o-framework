@@ -7,7 +7,7 @@ import { Required } from './Required'
 
 export interface Props {
     id?: string
-    value?: string
+    value?: string | null
     required?: boolean
     className?: string
     style?: CSSProperties
