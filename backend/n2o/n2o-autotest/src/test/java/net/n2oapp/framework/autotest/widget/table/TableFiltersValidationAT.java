@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -125,6 +126,38 @@ public class TableFiltersValidationAT extends AutoTestBase {
         inputText.setValue("test1");
         tableWidget.filters().toolbar().button("Найти").click();
         tableWidget.columns().rows().row(0).cell(0).shouldHaveText("test1");
+    }
+
+    @Test
+    void testClearValidationMessages() {
+        builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
+        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation/clear_validation_messages");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/clear_validation_messages/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/clear_validation_messages/test.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget.Filters filters = page.widget(TableWidget.class).filters();
+        StandardButton searchButton = filters.toolbar().button("Найти");
+        StandardButton resetButton = filters.toolbar().button("Сбросить");
+        InputText minPriceInput = filters.fields().field("Минимальная цена").control(InputText.class);
+        StandardField maxPriceField = filters.fields().field("Максимальная  цена");
+        InputText maxPriceInput = maxPriceField.control(InputText.class);
+
+        minPriceInput.setValue("200");
+        maxPriceInput.setValue("100");
+        maxPriceInput.pressEnter();
+        maxPriceField.shouldHaveValidationMessage(Condition.text("Значение 'после' меньше чем 'до'"));
+        resetButton.click();
+        maxPriceField.shouldHaveValidationMessage(Condition.empty);
+
+        maxPriceInput.setValue("100");
+        minPriceInput.setValue("200");
+        searchButton.click();
+        maxPriceField.shouldHaveValidationMessage(Condition.text("Значение 'после' меньше чем 'до'"));
+        resetButton.click();
+        maxPriceField.shouldHaveValidationMessage(Condition.empty);
     }
 
     private void verifyNeverGetDataInvocation(String errorMessage) {
