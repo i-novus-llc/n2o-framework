@@ -10,8 +10,15 @@ import { Position } from '../../snippets/Badge/enums'
 import { IconContainer, ICON_POSITIONS } from '../../snippets/IconContainer/IconContainer'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
+import { State } from '../../../ducks/State'
 
-const convertCounter = count => (count > 100 ? '99+' : count)
+import { type Props } from './types'
+
+const convertCounter = (count?: number) => {
+    if (!count) { return '' }
+
+    return count > 100 ? '99+' : count
+}
 
 const SimpleButtonBody = ({
     id,
@@ -20,20 +27,21 @@ const SimpleButtonBody = ({
     size,
     color,
     outline,
-    visible,
     disabled,
     count,
     children,
-    tag,
-    onClick,
-    rounded,
     className,
     badge,
     dataSourceIsLoading,
-    iconPosition,
     forwardedRef,
+    url,
+    visible = true,
+    tag = 'button',
+    onClick = () => {},
+    rounded = false,
+    iconPosition = ICON_POSITIONS.LEFT,
     ...rest
-}) => {
+}: Props) => {
     const { getComponent } = useContext(FactoryContext)
     const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
 
@@ -62,6 +70,7 @@ const SimpleButtonBody = ({
                     'with-icon': icon,
                     [`btn-badge-position--${position}`]: position,
                 })}
+                href={url}
                 {...rest}
             >
                 <IconContainer icon={icon} iconPosition={iconPosition}>
@@ -83,15 +92,8 @@ const SimpleButtonBody = ({
 }
 
 SimpleButtonBody.displayName = 'SimpleButtonBody'
-SimpleButtonBody.defaultProps = {
-    tag: 'button',
-    rounded: false,
-    visible: true,
-    iconPosition: ICON_POSITIONS.LEFT,
-    onClick: () => {},
-}
 
-const mapStateToProps = (state, { datasource }) => ({
+const mapStateToProps = (state: State, { datasource }: Props) => ({
     dataSourceIsLoading: datasource ? dataSourceLoadingSelector(datasource)(state) : false,
 })
 

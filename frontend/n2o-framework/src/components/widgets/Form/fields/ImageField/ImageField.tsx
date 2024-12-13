@@ -5,28 +5,14 @@ import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
 
-import { Image, type Props as ImageProps } from '../../../../snippets/Image/Image'
+import { Image } from '../../../../snippets/Image/Image'
 import { ImageInfo } from '../../../../snippets/Image/ImageInfo'
 import { ImageStatuses } from '../../../Table/cells/ImageCell/ImageStatuses'
 import { ActionWrapper } from '../../../../buttons/StandardButton/ActionWrapper'
 import { useResolved } from '../../../../../core/Expression/useResolver'
 import { State } from '../../../../../ducks/State'
-import { type ImageStatusesType } from '../../../Table/cells/ImageCell/types'
-import { Mapping } from '../../../../../ducks/datasource/Provider'
-import { ModelPrefix } from '../../../../../core/datasource/const'
 
-export interface Props extends ImageProps {
-    model: Record<string, unknown>
-    url: string
-    data: string
-    pathMapping: Mapping
-    queryMapping: Mapping
-    target: string
-    action: Action
-    statuses: ImageStatusesType['statuses']
-    modelPrefix?: ModelPrefix
-    form?: string
-}
+import { type Props } from './types'
 
 /**
  * Компонент Image фомы

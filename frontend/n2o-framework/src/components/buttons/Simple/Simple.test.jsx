@@ -2,7 +2,6 @@ import React from 'react'
 import sinon from 'sinon'
 
 import { SimpleButtonBody } from './Simple'
-import mappingProps from './mappingProps'
 
 const setup = (props) => {
     const wrapper = mount(<SimpleButtonBody {...props} />)
@@ -80,25 +79,5 @@ describe('<Simple />', () => {
 
         btn.simulate('click')
         expect(onClick.calledOnce).toBe(true)
-    })
-})
-
-describe('mappingProps', () => {
-    it('со всеми параметрами', () => {
-        const testData = {
-            id: 'id',
-            tag: 'tag',
-            label: 'label',
-            icon: 'icon',
-            size: 'size',
-            color: 'color',
-            outline: 'outline',
-            visible: 'visible',
-            disabled: 'disabled',
-            count: 'count',
-            onClick: () => null,
-        }
-
-        expect(mappingProps(testData)).toEqual(testData)
     })
 })

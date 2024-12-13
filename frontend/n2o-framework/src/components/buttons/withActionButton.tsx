@@ -13,6 +13,7 @@ import { State as GlobalState } from '../../ducks/State'
 import { Action } from '../../ducks/Action'
 import { ButtonState } from '../../ducks/toolbar/Toolbar'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
+import { Mapping } from '../../ducks/datasource/Provider'
 
 import { ActionButton } from './ActionButton'
 import { useReduxButton, ReduxButtonProps } from './useReduxButton'
@@ -25,7 +26,7 @@ type ButtonProps = {
     conditions: unknown
 }
 
-type ActionButtonProps = ReduxButtonProps & {
+export type ActionButtonProps = ReduxButtonProps & {
     id: string
     entityKey: string
     subMenu?: ButtonProps[]
@@ -35,14 +36,22 @@ type ActionButtonProps = ReduxButtonProps & {
     datasource: string
 }
 
-type UseActionProps = ButtonState & {
+// extra options when the button is a link
+export type ButtonLinkProps = {
+    url?: string & Location
+    pathMapping?: Mapping
+    queryMapping?: Mapping
+    target?: 'application' | '_blank' | '_self'
+    dispatch?: Dispatch
+}
+
+export type UseActionProps = ButtonState & ButtonLinkProps & {
     validate?: string[]
     actionCallback?(): void
     action?: Action
     model: ModelPrefix
-    datasource: string
+    datasource?: string
     onClick?: EventHandler
-    dispatch?: Dispatch
 }
 
 export type EventHandler = (event: MouseEvent, props?: UseActionProps, state?: GlobalState) => void

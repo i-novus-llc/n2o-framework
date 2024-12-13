@@ -1,11 +1,12 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, ReactNode } from 'react'
 import isEmpty from 'lodash/isEmpty'
 
-import { withLinkAction } from './withLinkAction'
+import { type ButtonLinkProps, type ActionButtonProps } from '../withActionButton'
+
 import { withPerformAction } from './withPerformAction'
 
 /**
- * Обёртки для ХОКа withLinkAction и PerformActionWrapper
+ * Обёртка для ХОКа PerformActionWrapper
  * Необходим т.к. текущая реализация логики открытия завязана на последовательность событий:
  * 1) callAction из withCell, который кладёт данные модели в стор
  * 2) onClick самого withLinkAction, который берёт из стора и формирует по ним ссылку для перехода
@@ -19,30 +20,17 @@ import { withPerformAction } from './withPerformAction'
  * @property children
  */
 
-export const LinkActionWrapper = withLinkAction(props => React.createElement('div', props))
-export const PerformActionWrapper = withPerformAction(props => React.createElement('div', props))
+export type Props = ButtonLinkProps & Pick<ActionButtonProps, 'action' | 'className'> & { children: ReactNode }
 
-export function ActionWrapper({ url, target, pathMapping, queryMapping, action, className, children }) {
+export const PerformActionWrapper = withPerformAction((props: Props) => React.createElement('div', props))
+
+export function ActionWrapper({ url, target, pathMapping, queryMapping, action, className, children }: Props) {
     let Wrapper = Fragment
     let wrapperProps = {}
 
-    if (url || target) {
-        Wrapper = LinkActionWrapper
-        wrapperProps = {
-            url,
-            pathMapping,
-            queryMapping,
-            target,
-            className,
-        }
-    }
-
-    if (!isEmpty(action)) {
+    if (!isEmpty(action || url)) {
         Wrapper = PerformActionWrapper
-        wrapperProps = {
-            action,
-            className,
-        }
+        wrapperProps = { url, target, queryMapping, pathMapping, action, className }
     }
 
     return <Wrapper {...wrapperProps}>{children}</Wrapper>
