@@ -2,6 +2,7 @@ import { CSSProperties, Ref } from 'react'
 import { Action } from 'redux'
 
 import { Shape, TextPosition } from '../../../../snippets/Image/Image'
+import { type Props as ActionWrapperProps } from '../../../../buttons/StandardButton/ActionWrapper'
 
 interface Status {
     src: string
@@ -16,14 +17,13 @@ export interface ImageStatusesType {
     onClick?(): void
 }
 
-export interface ImageCellProps {
+export interface ImageCellProps extends ActionWrapperProps {
     title: string
     fieldKey: string
     style?: CSSProperties
     className?: string
     model: Record<string, string>
     id: string
-    action: Action
     shape: Shape
     visible: boolean
     disabled: boolean
@@ -32,10 +32,6 @@ export interface ImageCellProps {
     width: string
     height: number
     data: Array<Record<string, unknown>>
-    pathMapping: Record<string, string>
-    queryMapping: Record<string, string>
-    target: string
-    url: string
     forwardedRef: Ref<HTMLDivElement>
     callAction(model: Record<string, string>): void
     statuses: Status[]
