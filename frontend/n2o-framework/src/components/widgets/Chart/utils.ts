@@ -3,7 +3,9 @@ import merge from 'lodash/merge'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
 
-export const COLORS = [
+import { type DataItem } from './types'
+
+export const COLORS: string[] = [
     '#9E2B0E',
     '#FF6E4A',
     '#A82255',
@@ -26,10 +28,9 @@ export const COLORS = [
     '#C99765',
 ]
 
-// eslint-disable-next-line consistent-return
-export const parseData = (data) => {
-    if (data.length) {
-        return data.map((item) => {
+export function parseData(data?: DataItem[]) {
+    if (data?.length) {
+        return data?.map((item) => {
             const { hasLabel, label } = item
 
             return {
@@ -39,12 +40,13 @@ export const parseData = (data) => {
             }
         })
     }
+
+    return []
 }
 
-// eslint-disable-next-line consistent-return
-export const setLineColors = (lines) => {
+export function setLineColors(lines: DataItem[]) {
     if (lines.length) {
-        let linesWithColor = []
+        let linesWithColor: DataItem[] = []
         const linesWithoutColor = filter(lines, ({ stroke }) => !stroke)
 
         if (linesWithoutColor.length) {
@@ -56,9 +58,16 @@ export const setLineColors = (lines) => {
 
         return merge(lines, linesWithColor)
     }
+
+    return []
 }
 
-export const createDomain = (yaxis) => {
+export interface YAxis {
+    min?: string | number
+    max?: string | number
+}
+
+export function createDomain(yaxis: YAxis): [string | number, string | number] {
     const yMin = get(yaxis, 'min')
     const yMax = get(yaxis, 'max')
 

@@ -1,27 +1,25 @@
 import React, { useContext, useMemo } from 'react'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
-import WidgetLayout from '../StandardWidget'
+import StandardWidget, { type Props as StandardWidgetProps } from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
-import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { mapToNumeric } from '../../../tools/helpers'
 
-import ChartType from './ChartType'
 import LineChart from './LineChart'
 import AreaChart from './AreaChart'
 import BarChart from './BarChart'
 import PieChart from './PieChart'
+import { CHART_TYPE, type DataItem, type ChartWidgetProps } from './types'
 
 const Charts = {
-    [ChartType.LINE]: LineChart,
-    [ChartType.AREA]: AreaChart,
-    [ChartType.BAR]: BarChart,
-    [ChartType.PIE]: PieChart,
+    [CHART_TYPE.LINE]: LineChart,
+    [CHART_TYPE.AREA]: AreaChart,
+    [CHART_TYPE.BAR]: BarChart,
+    [CHART_TYPE.PIE]: PieChart,
 }
 
 /**
@@ -38,10 +36,10 @@ function ChartWidget({
     className,
     style,
     loading,
-}) {
+}: ChartWidgetProps) {
     const { resolveProps } = useContext(FactoryContext)
-    const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
-    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+    const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps]) as StandardWidgetProps['filter']
+    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as DataItem[]
 
     const { type } = chart
 
@@ -57,7 +55,7 @@ function ChartWidget({
     )
 
     return (
-        <WidgetLayout
+        <StandardWidget
             disabled={disabled}
             widgetId={widgetId}
             toolbar={toolbar}
@@ -75,16 +73,8 @@ function ChartWidget({
                     data={datasourceModel}
                 />
             </div>
-        </WidgetLayout>
+        </StandardWidget>
     )
 }
 
-ChartWidget.propTypes = {
-    ...widgetPropTypes,
-    chart: PropTypes.arrayOf(PropTypes.shape({})),
-}
-
-/**
- * @type ConnectedWidget
- */
 export default WidgetHOC(ChartWidget)
