@@ -8,6 +8,8 @@ import { getTableParam } from '../../../ducks/table/selectors'
 import { VISIBLE_STATE, IS_DEFAULT_COLUMNS } from '../../../ducks/table/constants'
 import { useReduxButton } from '../useReduxButton'
 
+import { type Props, type TableContextProps } from './types'
+
 /**
  * Дропдаун для скрытия/показа колонок в таблице
  * @reactProps {string} entityKey - id виджета, размер которого меняется
@@ -17,9 +19,16 @@ import { useReduxButton } from '../useReduxButton'
  * <ToggleColumn entityKey='TestEntityKey'/>
  */
 
-export const ToggleColumn = (props) => {
+function getLabel(label: string, icon: string, columnId: string) {
+    if (!label && !icon) { return columnId }
+    if (!label) { return null }
+
+    return label
+}
+
+export const ToggleColumn = (props: Props) => {
     const { icon, label, entityKey: widgetId, defaultColumns = '', nested = false } = props
-    const { columnsState, changeColumnParam, switchTableParam } = useTableWidget()
+    const { columnsState, changeColumnParam, switchTableParam } = useTableWidget() as TableContextProps
 
     const { getState } = useStore()
 
@@ -44,13 +53,6 @@ export const ToggleColumn = (props) => {
     }, [columnsState.length])
 
     useReduxButton(props)
-
-    function getLabel(label, icon, columnId) {
-        if (!label && !icon) { return columnId }
-        if (!label) { return null }
-
-        return label
-    }
 
     return (
         <UncontrolledButtonDropdown direction={nested ? 'right' : 'down'}>
