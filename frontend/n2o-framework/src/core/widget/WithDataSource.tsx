@@ -1,32 +1,55 @@
-import React from 'react'
+import React, { ComponentType } from 'react'
 import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
 
-import { WithDataSourceTypes } from '../datasource/propTypes'
 import { WithDataSource as DataSourceHOC } from '../datasource/WithDataSource'
 import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../utils/emptyTypes'
 import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
 import { updatePaging } from '../../ducks/datasource/store'
 import { ModelPrefix } from '../datasource/const'
+import { State } from '../../ducks/State'
+import { type State as ModelsState } from '../../ducks/models/Models'
 
 import { FETCH_TYPE } from './const'
 import { DataSourceContext, METHODS } from './context'
 
-/**
- * @type {Function}
- */
-export const WithDatasourceLifeCycle = (Component) => {
-    class WithDatasourceLifeCycle extends React.Component {
+export type PropsFromComponent<P> = P extends ComponentType<infer U> ? U : never
+
+export interface BaseProps {
+    visible: boolean
+    dispatch: Dispatch
+    paging?: { showLast?: boolean }
+    datasource: string
+    updatePaging(datasource: string, options: { withCount: boolean }): void
+}
+
+export interface LifecycleProps {
+    isInit: boolean
+    fetchOnInit: boolean
+    fetchOnVisibility: boolean
+    register(): void
+    unregister(): void
+    fetchData(options?: Record<string, unknown>, force?: boolean): void
+    datasourceModelLength: number
+    fetch: 'always' | 'lazy' | 'never'
+}
+
+export type CombinedProps<P extends object> = PropsFromComponent<P> & BaseProps & LifecycleProps
+
+export const WithDatasourceLifeCycle = <P extends object>(Component: ComponentType<P>) => {
+    class WithDatasourceLifeCycle extends React.Component<CombinedProps<P>> {
         componentDidMount() {
             const { visible, dispatch, paging = {}, datasource } = this.props
 
             this.switchRegistration(visible)
 
             if (paging.showLast === false) {
+                // @ts-ignore FIXME updatePaging TS2554: Expected 1 arguments, but got 2
                 dispatch(updatePaging(datasource, { withCount: false }))
             }
         }
 
-        componentDidUpdate({ visible: prevVisible, isInit: prevInit }) {
+        componentDidUpdate({ visible: prevVisible, isInit: prevInit }: { visible: boolean, isInit: boolean }) {
             const { visible, isInit, fetchOnInit, fetchOnVisibility } = this.props
 
             if (isInit !== prevInit) {
@@ -44,9 +67,7 @@ export const WithDatasourceLifeCycle = (Component) => {
             }
         }
 
-        componentWillUnmount() {
-            this.switchRegistration(false)
-        }
+        componentWillUnmount() { this.switchRegistration(false) }
 
         render() {
             const methods = this.context
@@ -59,7 +80,7 @@ export const WithDatasourceLifeCycle = (Component) => {
             )
         }
 
-        switchRegistration = (connected) => {
+        switchRegistration = (connected: boolean) => {
             const { register, unregister } = this.props
 
             if (connected) {
@@ -69,7 +90,7 @@ export const WithDatasourceLifeCycle = (Component) => {
             }
         }
 
-        fetchData = (options, force) => {
+        fetchData = (options?: Record<string, unknown>, force?: boolean) => {
             const { fetchData, visible, datasourceModelLength, fetch } = this.props
             const isEmptyData = datasourceModelLength === 0
 
@@ -84,34 +105,31 @@ export const WithDatasourceLifeCycle = (Component) => {
         }
     }
 
-    WithDatasourceLifeCycle.propTypes = WithDataSourceTypes
-
     WithDatasourceLifeCycle.contextType = DataSourceContext
 
-    return WithDatasourceLifeCycle
+    // FIXME
+    return WithDatasourceLifeCycle as never
 }
 
-const mapStateToProps = (state, { datasource }) => ({
-    datasourceModelLength:
-        dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state)?.length || 0,
-})
+const mapStateToProps = (state: State, { datasource }: { datasource: string }) => {
+    const dataSourceModel = dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state) as ModelsState['datasource']
 
-const mapDispatchToProps = dispatch => ({ dispatch })
+    return { datasourceModelLength: dataSourceModel?.length || 0 }
+}
 
-const WithSource = Component => DataSourceHOC(
-    connect(mapStateToProps, mapDispatchToProps)(WithDatasourceLifeCycle(Component)),
+const mapDispatchToProps = (dispatch: Dispatch) => ({ dispatch })
+
+const WithSource = <P extends object>(Component: ComponentType<P>) => DataSourceHOC(
+    connect(mapStateToProps, mapDispatchToProps)(WithDatasourceLifeCycle(Component) as never),
 )
 
-export const WithDataSource = (Component) => {
+export const WithDataSource = <P extends object>(Component: ComponentType<P>) => {
     const WithDataSource = WithSource(Component)
 
-    return (props) => {
-        // eslint-disable-next-line react/prop-types
+    return (props: P & { datasource?: string; widget?: boolean }) => {
         const { datasource, widget = true } = props
 
-        if (datasource) {
-            return <WithDataSource {...props} />
-        }
+        if (datasource) { return <WithDataSource {...props} /> }
 
         const models = {
             datasource: EMPTY_ARRAY,
@@ -121,11 +139,7 @@ export const WithDataSource = (Component) => {
             filter: EMPTY_OBJECT,
         }
 
-        const extraProps = widget ? {
-            page: 1,
-            count: 0,
-            size: 0,
-        } : {}
+        const extraProps = widget ? { page: 1, count: 0, size: 0 } : {}
 
         // without datasource
         return <Component loading={false} {...props} {...extraProps} models={models} {...METHODS} />
