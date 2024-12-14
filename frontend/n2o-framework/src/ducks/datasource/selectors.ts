@@ -112,8 +112,6 @@ export const dataSourceAdditionalInfo = (sourceId: string) => createSelector(
 )
 
 export const dataSourceModelByPrefixSelector = (id: string, prefix: ModelPrefix) => createSelector(
-    [
-        modelsSelector,
-    ],
+    [modelsSelector],
     model => model[prefix][id],
 )

@@ -401,7 +401,8 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
         fetchError: (error: Error) => dispatch(fetchError(FETCH_CONTROL_VALUE, {}, error)),
     })
 
-    return connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(WithDataSource(WithFetchData))
+    // FIXME
+    return connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(WithDataSource(WithFetchData as never))
 }
 
 export default withFetchData

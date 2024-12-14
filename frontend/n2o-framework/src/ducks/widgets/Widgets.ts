@@ -29,6 +29,8 @@ export type Widget = {
         [key: string]: unknown
     }
     fetchOnVisibility?: boolean
+    dependency?: Record<string, unknown>
+    parent?: string
 }
 
 export type State = Record<string, Widget>
