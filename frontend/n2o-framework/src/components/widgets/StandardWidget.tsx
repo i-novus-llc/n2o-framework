@@ -30,11 +30,11 @@ export enum PLACES {
 export interface Props {
     widgetId: string
     toolbar: Record<string, ToolbarProps>
-    filter: { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] }
+    filter?: { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] }
     fetchData?: WidgetFiltersProps['fetchData']
     datasource: string
     pagination?: Record<string, unknown>
-    disabled: boolean
+    disabled?: boolean
     className?: string
     style?: CSSProperties
     children: ReactNode
