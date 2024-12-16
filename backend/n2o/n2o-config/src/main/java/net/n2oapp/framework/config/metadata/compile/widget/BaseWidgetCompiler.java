@@ -138,9 +138,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
                                            WidgetScope widgetScope, MetaActions metaActions,
                                            CompiledObject object, ValidationScope validationScope) {
+        compileMetaActions(source, context, p, p.getScope(PageIndexScope.class), metaActions, widgetScope, object, validationScope);
         compiled.setToolbar(compileToolbar(source, "n2o.api.widget.toolbar.place", context, p, object,
                 metaActions, widgetScope, validationScope));
-        compileMetaActions(source, context, p, p.getScope(PageIndexScope.class), metaActions, widgetScope, object, validationScope);
     }
 
     protected void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {

@@ -84,10 +84,6 @@ public class ClientDataProviderUtil {
         return null;
     }
 
-    public static String getClientWidgetIdByComponentScope(CompileProcessor p) {
-        return getClientDatasourceId(getWidgetIdByComponentScope(p), p);
-    }
-
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
                                                         CompileProcessor p, ReduxModel defaultModel,
                                                         String defaultClientDatasourceId) {
