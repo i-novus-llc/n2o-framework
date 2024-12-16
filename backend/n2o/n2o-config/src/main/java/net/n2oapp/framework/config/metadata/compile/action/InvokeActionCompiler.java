@@ -30,7 +30,7 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
+import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getWidgetIdByComponentScope;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -54,7 +54,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
 
         invokeAction.getPayload().setModel(getModelFromComponentScope(p));
         invokeAction.getPayload().setDatasource(getClientDatasourceId(getLocalDatasourceId(p), p));
-        invokeAction.getPayload().setWidgetId(getClientWidgetIdByComponentScope(p));
+        invokeAction.getPayload().setWidgetId(getClientDatasourceId(getWidgetIdByComponentScope(p), p));
         invokeAction.getPayload().setPageId(getPageId(p));
 
         invokeAction.getMeta().setSuccess(initSuccessMeta(invokeAction, source, context, p));
