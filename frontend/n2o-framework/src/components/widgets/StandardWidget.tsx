@@ -33,7 +33,7 @@ export interface Props {
     filter: { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] }
     fetchData?: WidgetFiltersProps['fetchData']
     datasource: string
-    pagination: Record<string, unknown>
+    pagination?: Record<string, unknown>
     disabled: boolean
     className?: string
     style?: CSSProperties
