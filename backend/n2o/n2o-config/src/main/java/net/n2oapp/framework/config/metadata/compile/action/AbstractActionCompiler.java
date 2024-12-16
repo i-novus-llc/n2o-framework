@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getClientWidgetIdByComponentScope;
+import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getWidgetIdByComponentScope;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -195,7 +195,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      */
     private String getDefaultClientWidgetId(CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String widgetIdByComponentScope = getClientWidgetIdByComponentScope(p);
+        String widgetIdByComponentScope = getClientDatasourceId(getWidgetIdByComponentScope(p), p);
         return widgetIdByComponentScope != null ? widgetIdByComponentScope : widgetScope.getClientWidgetId();
     }
 }

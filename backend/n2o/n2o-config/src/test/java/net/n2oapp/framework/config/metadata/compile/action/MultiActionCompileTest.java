@@ -96,14 +96,14 @@ class MultiActionCompileTest extends SourceCompileTestBase {
 
         MultiAction multiAction = (MultiAction) page.getWidget().getToolbar().getButton("b1").getAction();
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(0)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/testDefaultDataproviderRoutes/multi1"));
+                is("n2o/data/testDefaultDataproviderRoutes/multi3"));
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/testDefaultDataproviderRoutes/multi2"));
+                is("n2o/data/testDefaultDataproviderRoutes/multi4"));
 
         multiAction = (MultiAction) page.getWidget().getToolbar().getButton("b2").getAction();
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(0)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/testDefaultDataproviderRoutes/multi4"));
+                is("n2o/data/testDefaultDataproviderRoutes/act_multi0"));
         assertThat(((InvokeAction) multiAction.getPayload().getActions().get(1)).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/testDefaultDataproviderRoutes/multi5"));
+                is("n2o/data/testDefaultDataproviderRoutes/act_multi1"));
     }
 }

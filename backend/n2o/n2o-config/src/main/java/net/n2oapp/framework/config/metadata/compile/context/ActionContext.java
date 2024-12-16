@@ -3,6 +3,9 @@ package net.n2oapp.framework.config.metadata.compile.context;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.saga.LoadingSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.PollingSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
@@ -13,6 +16,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Контекст сборки объекта под конкретную операцию
@@ -70,5 +74,29 @@ public class ActionContext extends ObjectContext {
         if (refresh == null)
             return;
         this.refresh = refresh;
+    }
+
+    @Override
+    public boolean isIdentical(CompileContext<CompiledObject, N2oObject> obj) {
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        ActionContext that = (ActionContext) obj;
+
+        return super.isIdentical(that) &&
+                Objects.equals(operationId, that.operationId) &&
+                Objects.equals(validations, that.validations) &&
+                Objects.equals(parentPageId, that.parentPageId) &&
+                Objects.equals(parentClientWidgetId, that.parentClientWidgetId) &&
+                Objects.equals(parentSourceDatasourceId, that.parentSourceDatasourceId) &&
+                Objects.equals(messagesForm, that.messagesForm) &&
+                Objects.equals(clearDatasource, that.clearDatasource) &&
+                Objects.equals(redirect, that.redirect) &&
+                Objects.equals(refresh, that.refresh) &&
+                messageOnSuccess == that.messageOnSuccess &&
+                messageOnFail == that.messageOnFail &&
+                useFailOut == that.useFailOut &&
+                messagePosition == that.messagePosition &&
+                messagePlacement == that.messagePlacement &&
+                Objects.equals(operationMapping, that.operationMapping);
     }
 }
