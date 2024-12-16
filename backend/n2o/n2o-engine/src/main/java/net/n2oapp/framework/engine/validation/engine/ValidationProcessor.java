@@ -44,7 +44,7 @@ public class ValidationProcessor {
         List<FailInfo> fails = validator.validate();
         List<FailInfo> failsWithDanger = getFailsWithDanger(fails);
         if (!failsWithDanger.isEmpty()) {
-            throwDangerException(failsWithDanger, info.getMessageForm(), info.getMessageForm());
+            throwDangerException(failsWithDanger, info.getMessageForm());
         }
         return fails;
     }
@@ -77,7 +77,7 @@ public class ValidationProcessor {
                 .collect(Collectors.toList());
     }
 
-    private void throwDangerException(List<FailInfo> fails, String failWidgetId, String messageForm) {
+    private void throwDangerException(List<FailInfo> fails, String failWidgetId) {
         List<ValidationMessage> messages = new ArrayList<>();
         String userMessage = null;
         N2oDialog dialog = null;
@@ -90,7 +90,7 @@ public class ValidationProcessor {
                 dialog = fail.getDialog();
         }
 
-        N2oValidationException exc = new N2oValidationException(userMessage, failWidgetId, messages, messageForm);
+        N2oValidationException exc = new N2oValidationException(userMessage, failWidgetId, messages);
         exc.setDialog(dialog);
         throw exc;
     }

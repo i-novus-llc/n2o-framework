@@ -61,7 +61,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         List<ValidationMessage> messages = new ArrayList<>();
         messages.add(new ValidationMessage("message1", "field1", "validation1"));
         messages.add(new ValidationMessage("message2", "field2", "validation2"));
-        e = new N2oValidationException("Validation exception", "widget", messages, "messageForm");
+        e = new N2oValidationException("Validation exception", "widget", messages);
         doThrow(e).when(dataProcessingStack).processAction(any(ActionRequestInfo.class), any(ActionResponseInfo.class), any(DataSet.class));
         response = controller.setData("/page/create", null, null, new DataSet(), null);
 
@@ -91,7 +91,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         List<ValidationMessage> messages = new ArrayList<>();
         messages.add(new ValidationMessage("message1", "field1", "validation1"));
         messages.add(new ValidationMessage("message2", "field2", "validation2"));
-        e = new N2oValidationException("Validation exception", "widget", messages, "messageForm");
+        e = new N2oValidationException("Validation exception", "widget", messages);
         doThrow(e).when(dataProcessingStack).processQuery(any(QueryRequestInfo.class), any(QueryResponseInfo.class));
         controller = buildController(dataProcessingStack);
         response = controller.getData("/page/w1", null, null);
