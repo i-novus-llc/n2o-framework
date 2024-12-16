@@ -5,6 +5,8 @@ import {
     fork,
     takeEvery,
     delay,
+    race,
+    take,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
@@ -20,6 +22,7 @@ import {
     registerFieldExtra,
     dangerouslySetFieldValue,
     setFieldTooltip,
+    unRegisterExtraField,
 } from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -39,8 +42,9 @@ import { GLOBAL_KEY } from '../ducks/alerts/constants'
 import { ModelPrefix } from '../core/datasource/const'
 import { FETCH_TRIGGER } from '../core/dependencies/constants'
 import { State as GlobalState } from '../ducks/State'
+import { Action } from '../ducks/Action'
 import { Form, Field, FieldDependency } from '../ducks/form/types'
-import { RegisterFieldAction } from '../ducks/form/Actions'
+import { RegisterFieldAction, UnregisterFieldAction } from '../ducks/form/Actions'
 import { SetModelAction } from '../ducks/models/Actions'
 
 import fetchSaga from './fetch'
@@ -105,6 +109,31 @@ export function* fetchValue(
         yield put(setFieldLoading(formName, field, false))
         FetchValueCache.delete(fetchValueKey)
     }
+}
+
+function* resolveDependency(
+    form: Form,
+    values: Record<string, unknown>,
+    fieldName: string,
+    field: Field,
+    dependency: FieldDependency,
+) {
+    yield race([
+        call(modify, form, values, fieldName, field, dependency),
+        // @ts-ignore ругается take на тип экшена
+        take((action: Action) => {
+            const { type, payload } = action
+
+            if (type !== unRegisterExtraField.type) { return false }
+
+            const {
+                fieldName: actionField,
+                formName: actionForm,
+            } = payload as UnregisterFieldAction['payload']
+
+            return (form.formName === actionForm) && (fieldName === actionField)
+        }),
+    ])
 }
 
 export function* modify(
@@ -184,7 +213,7 @@ export function* modify(
         case 'fetchValue': {
             const { ctx = {} } = fields[fieldName]
 
-            yield fork(fetchValue, values, form, fieldName, dependency, ctx)
+            yield fetchValue(values, form, fieldName, dependency, ctx)
 
             break
         }
@@ -270,7 +299,7 @@ export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateMo
             if (field.dependency) {
                 for (const dep of field.dependency) {
                     if (shouldBeResolved(dep, fieldName, model, prevModel)) {
-                        yield fork(modify, form, model, fieldId, field, dep)
+                        yield fork(resolveDependency, form, model, fieldId, field, dep)
                     }
                 }
             }
@@ -295,7 +324,7 @@ export function* resolveOnInit({ payload }: RegisterFieldAction) {
                 const { applyOnInit } = dependency
 
                 if ((fieldName === fieldId) && applyOnInit) {
-                    yield fork(modify, form, model, fieldId, field, dependency)
+                    yield fork(resolveDependency, form, model, fieldId, field, dependency)
                 }
             }
         }
@@ -329,7 +358,7 @@ function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
 
                 if (isDefault) {
                     if (applyOnInit) {
-                        yield fork(modify, form, model || {}, fieldId, field, dep)
+                        yield fork(resolveDependency, form, model || {}, fieldId, field, dep)
                     }
 
                     // eslint-disable-next-line no-continue
@@ -344,7 +373,7 @@ function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
                 })
 
                 if (isSomeFieldChanged) {
-                    yield fork(modify, form, model || {}, fieldId, field, dep)
+                    yield fork(resolveDependency, form, model || {}, fieldId, field, dep)
                 }
             }
         }
