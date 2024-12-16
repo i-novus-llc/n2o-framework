@@ -7,29 +7,19 @@ import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selec
 import { ModelPrefix } from '../../../core/datasource/const'
 
 import { Html } from './Html'
-
-/**
- * HtmlWidget
- * @reactProps {string} containerId - id конейтенера
- * @reactProps {string} pageId - id страницы
- * @reactProps {boolean} url - url для фетчинга
- * @reactProps {string} widgetId - id виджета
- * @reactProps {string} html - html код
- * @reactProps {object} dataProvider
- * @reactProps {object} datasource
- */
+import { type Props } from './types'
 
 function Widget({
     id,
     toolbar,
     className,
     style,
-    url,
     html,
     loading,
     datasource,
-}) {
-    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))?.[0]
+}: Props) {
+    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as Array<Record<string, unknown>>
+    const data = Array.isArray(datasourceModel) ? datasourceModel[0] : {} as Record<string, unknown>
 
     return (
         <StandardWidget
@@ -38,18 +28,11 @@ function Widget({
             className={className}
             style={style}
             loading={loading}
+            datasource={datasource}
         >
-            <Html
-                url={url}
-                id={id}
-                html={html}
-                data={datasourceModel}
-            />
+            <Html id={id} html={html} data={data} />
         </StandardWidget>
     )
 }
 
-/**
- * @type ConnectedWidget
- */
 export const HtmlWidget = WidgetHOC(Widget)
