@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import TreeBase from 'rc-tree'
+import React, { Component, RefObject } from 'react'
+import TreeBase, { type TreeProps as TreeBaseProps } from 'rc-tree'
 import pick from 'lodash/pick'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
@@ -7,6 +7,7 @@ import difference from 'lodash/difference'
 import filter from 'lodash/filter'
 import isArray from 'lodash/isArray'
 import values from 'lodash/values'
+// @ts-ignore import from js file
 import { HotKeys } from 'react-hotkeys/cjs'
 
 // components
@@ -18,23 +19,37 @@ import {
     FILTER_MODE,
     animationTree,
     singleDoubleClickFilter,
-} from '../until'
+} from '../helpers'
 import { Icon } from '../../../snippets/Icon/Icon'
 import { Checkbox } from '../../../controls/Checkbox/Checkbox'
+import { DatasourceItem, KEY_CODES, TreeProps } from '../types'
 
-import Filter from './Filter'
-import ExpandBtn from './ExpandBtn'
-// fns
+import { Filter } from './Filter'
+import { ExpandBtn } from './ExpandBtn'
 import {
-    propTypes,
     defaultProps,
     TREE_NODE_PROPS,
     TREE_PROPS,
 } from './treeProps'
-import { KEY_CODES } from './constants'
 
-class Tree extends Component {
-    constructor(props) {
+interface TreeState {
+    expandedKeys: string[]
+    autoExpandParent: boolean
+    searchValue: string
+    checkedKeys: string[]
+    selectedKeys: string[]
+    searchKeys: string[]
+}
+
+// TODO legacy требуется рефакторинг
+class Tree extends Component<TreeProps & TreeBaseProps, TreeState> {
+    treeRef: RefObject<HTMLElement>
+
+    elems: unknown[] // Замените any на конкретный тип, если возможно
+
+    createTree: (props: TreeProps & TreeBaseProps) => DatasourceItem[]
+
+    constructor(props: TreeProps) {
         super(props)
 
         this.treeRef = React.createRef()
@@ -49,23 +64,10 @@ class Tree extends Component {
         }
 
         this.elems = []
-
-        this.createTree = createTreeFn(BaseNode)
-
-        this.onFilter = this.onFilter.bind(this)
-        this.onExpand = this.onExpand.bind(this)
-        this.onHideAllTreeItem = this.onHideAllTreeItem.bind(this)
-        this.onShowAllTreeItem = this.onShowAllTreeItem.bind(this)
-        this.renderSwitcherIcon = this.renderSwitcherIcon.bind(this)
-        this.onCustomActions = this.onCustomActions.bind(this)
-        this.onCheck = this.onCheck.bind(this)
-        this.onSelect = this.onSelect.bind(this)
-        this.createSelectedKeys = this.createSelectedKeys.bind(this)
-        this.selectedObjToTreeKeys = this.selectedObjToTreeKeys.bind(this)
-        this.onDoubleClickHandler = this.onDoubleClickHandler.bind(this)
+        this.createTree = createTreeFn(BaseNode as never)
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: TreeProps) {
         const { resolveModel } = this.props
 
         if (!isEqual(prevProps.resolveModel, resolveModel)) {
@@ -73,17 +75,14 @@ class Tree extends Component {
         }
     }
 
-    onFilter(value) {
+    onFilter = (value: string) => {
         const propsFromSearch = pick(this.props, [
             'labelFieldId',
             'filter',
             'valueFieldId',
             'datasource',
         ])
-        const expandedKeys = takeKeysWhenSearching({
-            value,
-            ...propsFromSearch,
-        })
+        const expandedKeys = takeKeysWhenSearching({ value, ...propsFromSearch } as TreeProps)
 
         this.setState({
             expandedKeys,
@@ -93,14 +92,11 @@ class Tree extends Component {
         })
     }
 
-    onExpand(expandedKeys) {
-        this.setState({
-            expandedKeys,
-            autoExpandParent: false,
-        })
+    onExpand = (expandedKeys: string[]) => {
+        this.setState({ expandedKeys, autoExpandParent: false })
     }
 
-    onShowAllTreeItem() {
+    onShowAllTreeItem = () => {
         const { valueFieldId, datasource } = this.props
         const filteredData = filter(datasource, item => !item.disabled)
 
@@ -110,13 +106,13 @@ class Tree extends Component {
         })
     }
 
-    onHideAllTreeItem() {
+    onHideAllTreeItem = () => {
         this.setState({
             expandedKeys: [],
         })
     }
 
-    renderSwitcherIcon() {
+    renderSwitcherIcon = () => {
         const { showLine } = this.props
 
         if (!showLine) {
@@ -131,7 +127,7 @@ class Tree extends Component {
     }
 
     // eslint-disable-next-line consistent-return
-    onSelect(keys, { nativeEvent }) {
+    onSelect = (keys: string[], { nativeEvent }: { nativeEvent: MouseEvent }) => {
         const { multiselect, hasCheckboxes } = this.props
         const { selectedKeys } = this.state
 
@@ -141,7 +137,7 @@ class Tree extends Component {
 
         const multiOnlySelect = multiselect && !hasCheckboxes
 
-        let selectedKeysForResolve
+        let selectedKeysForResolve: string[]
 
         if (multiOnlySelect && keys.length > 1) {
             if (nativeEvent.ctrlKey) {
@@ -158,13 +154,13 @@ class Tree extends Component {
         onResolve(selectedKeysForResolve)
     }
 
-    onCheck(keys) {
+    onCheck = (keys: string[]) => {
         const { onResolve } = this.props
 
         onResolve(keys)
     }
 
-    onCustomActions(_, key) {
+    onCustomActions = (_: unknown, key: string) => {
         const inState = pick(this.state, ['expandedKeys'])
         const inProps = pick(this.props, [
             'prefixCls',
@@ -182,20 +178,16 @@ class Tree extends Component {
         })
     }
 
-    selectedObjToTreeKeys() {
+    selectedObjToTreeKeys = () => {
         const { resolveModel, valueFieldId } = this.props
 
-        if (isArray(resolveModel)) {
-            return map(resolveModel, valueFieldId)
-        }
-        if (!resolveModel) {
-            return []
-        }
+        if (isArray(resolveModel)) { return map(resolveModel, valueFieldId) }
+        if (!resolveModel) { return [] }
 
         return [resolveModel[valueFieldId]]
     }
 
-    createSelectedKeys() {
+    createSelectedKeys = () => {
         const { hasCheckboxes, multiselect } = this.props
 
         if (hasCheckboxes && multiselect) {
@@ -211,19 +203,7 @@ class Tree extends Component {
         }
     }
 
-    onDoubleClickHandler() {
-        this.onCustomActions(null, 'DB_CLICK')
-    }
-
-    //
-    // onDrop(info) {
-    //   const dropKey = info.node.props.eventKey;
-    //   const dragKey = info.dragNode.props.eventKey;
-    //   const dropPos = info.node.props.pos.split('-');
-    //   const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
-    //
-    //   this.props.onDrop({ dragKey, dropKey, dropPosition });
-    // }
+    onDoubleClickHandler = () => { this.onCustomActions(null, 'DB_CLICK') }
 
     render() {
         const nodeProps = pick(this.props, TREE_NODE_PROPS)
@@ -252,10 +232,7 @@ class Tree extends Component {
         return (
             <div className={`${prefixCls}-wrapper pt-4`}>
                 {filter && FILTER_MODE.includes(filter) && (
-                    <Filter
-                        onFilter={this.onFilter}
-                        filterPlaceholder={filterPlaceholder}
-                    />
+                    <Filter onFilter={this.onFilter} filterPlaceholder={filterPlaceholder} />
                 )}
                 {expandBtn && (
                     <ExpandBtn
@@ -269,23 +246,19 @@ class Tree extends Component {
                     handlers={{ events: this.onCustomActions }}
                     tabindex={0}
                 >
+                    {/* @ts-ignore требуется рефакторинг */}
                     <TreeBase
                         openAnimation={animationTree}
                         ref={this.treeRef}
-                        treeData={this.createTree({
-                            datasource,
-                            ...nodeProps,
-                            searchKeys,
-                            searchValue,
-                        })}
+                        // @ts-ignore требуется рефакторинг
+                        treeData={this.createTree({ datasource, ...nodeProps, searchKeys, searchValue })}
                         expandedKeys={expandedKeys}
                         selectedKeys={selectedKeys}
                         checkedKeys={checkedKeys}
                         onCheck={this.onCheck}
-                        onSelect={singleDoubleClickFilter(this.onSelect, null, 200)}
+                        onSelect={singleDoubleClickFilter(this.onSelect, undefined, 200)}
                         onDoubleClick={this.onDoubleClickHandler}
                         multiple={multiselect}
-                        onDragEnter={this.onDragEnter}
                         checkable={checkable}
                         switcherIcon={this.renderSwitcherIcon}
                         onExpand={this.onExpand}
@@ -298,7 +271,7 @@ class Tree extends Component {
     }
 }
 
-Tree.propTypes = propTypes
+// @ts-ignore требуется рефакторинг
 Tree.defaultProps = defaultProps
 
 export default Tree
