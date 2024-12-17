@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types'
-
 export const defaultProps = {
     disabled: false,
     loading: false,
@@ -26,31 +24,6 @@ export const defaultProps = {
     onResolve: () => {},
     onDrop: () => {},
     filterPlaceholder: 'Поиск...',
-}
-
-export const propTypes = {
-    disabled: PropTypes.bool,
-    loading: PropTypes.bool,
-    parentFieldId: PropTypes.string,
-    valueFieldId: PropTypes.string,
-    labelFieldId: PropTypes.string,
-    iconFieldId: PropTypes.string,
-    imageFieldId: PropTypes.string,
-    badge: PropTypes.object,
-    hasCheckboxes: PropTypes.bool,
-    datasource: PropTypes.array,
-    parentIcon: PropTypes.string,
-    childIcon: PropTypes.string,
-    prefixCls: PropTypes.string,
-    multiselect: PropTypes.bool,
-    icon: PropTypes.string,
-    selectable: PropTypes.bool,
-    showLine: PropTypes.bool,
-    filter: PropTypes.string,
-    expandBtn: PropTypes.bool,
-    onResolve: PropTypes.func,
-    onDrop: PropTypes.func,
-    filterPlaceholder: PropTypes.string,
 }
 
 export const TREE_PROPS = [

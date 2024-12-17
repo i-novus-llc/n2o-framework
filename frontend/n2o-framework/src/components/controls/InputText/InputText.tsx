@@ -1,3 +1,3 @@
-import { InputText } from '@i-novus/n2o-components/lib/inputs/InputText'
+import { InputText, type InputTextProps } from '@i-novus/n2o-components/lib/inputs/InputText'
 
-export { InputText as default }
+export { InputText, type InputTextProps, InputText as default }

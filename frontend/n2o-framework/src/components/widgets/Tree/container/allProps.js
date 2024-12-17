@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types'
-
 export const defaultProps = {
     disabled: false,
     loading: false,
@@ -21,29 +19,4 @@ export const defaultProps = {
     prefixCls: 'n2o-rc-tree',
     icon: '',
     childrenFieldId: 'children',
-}
-
-export const propTypes = {
-    disabled: PropTypes.bool,
-    loading: PropTypes.bool,
-    datasource: PropTypes.array,
-    parentIcon: PropTypes.string,
-    childIcon: PropTypes.string,
-    multiple: PropTypes.bool,
-    showLine: PropTypes.bool,
-    filter: PropTypes.string,
-    expandBtn: PropTypes.bool,
-    bulkData: PropTypes.bool,
-    parentFieldId: PropTypes.string,
-    valueFieldId: PropTypes.string,
-    labelFieldId: PropTypes.string,
-    iconFieldId: PropTypes.string,
-    imageFieldId: PropTypes.string,
-    badgeFieldId: PropTypes.string,
-    badgeColorFieldId: PropTypes.string,
-    hasCheckboxes: PropTypes.bool,
-    prefixCls: PropTypes.string,
-    icon: PropTypes.string,
-    selectable: PropTypes.bool,
-    childrenFieldId: PropTypes.string,
 }

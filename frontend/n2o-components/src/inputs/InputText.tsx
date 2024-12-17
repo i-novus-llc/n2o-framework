@@ -9,7 +9,7 @@ import { Input } from './Input'
 
 import '../styles/controls/InputText.scss'
 
-type InputTextProps = TBaseProps & TBaseInputProps<string | null> & {
+export type InputTextProps = TBaseProps & TBaseInputProps<string | null> & {
     active?: boolean,
     inputRef?: Ref<HTMLInputElement>,
     length?: number,

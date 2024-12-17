@@ -1,14 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import has from 'lodash/has'
 
-// fns
 import { Badge } from '../../../../snippets/Badge/Badge'
 import { isBadgeRightPosition, resolveBadgeProps } from '../../../../snippets/Badge/utils'
-import { splitSearchText } from '../../until'
+import { splitSearchText } from '../../helpers'
 import { Shape } from '../../../../snippets/Badge/enums'
+import { type BaseNodeProps } from '../../types'
 
-function BaseNode({
+export function BaseNode({
     prefixCls,
     imageFieldId,
     labelFieldId,
@@ -18,21 +17,16 @@ function BaseNode({
     searchKeys,
     data,
     filter,
-}) {
-    const {
-        fieldId: badgeFieldId,
-        position: badgePosition,
-    } = badge || {}
+}: BaseNodeProps) {
+    const { fieldId: badgeFieldId, position: badgePosition } = badge || {}
 
-    const labelStyle = {
-        order: isBadgeRightPosition(badgePosition) ? 0 : 1,
-    }
+    const labelStyle = { order: isBadgeRightPosition(badgePosition) ? 0 : 1 }
 
     return (
         <span
             data-id={data[valueFieldId]}
             className={`${prefixCls}-content-wrapper cls-${data[valueFieldId]}`}
-            tabIndex="-1"
+            tabIndex={-1}
         >
             {[
                 has(data, imageFieldId) && (
@@ -65,18 +59,6 @@ function BaseNode({
             ]}
         </span>
     )
-}
-
-BaseNode.propTypes = {
-    prefixCls: PropTypes.string,
-    imageFieldId: PropTypes.string,
-    labelFieldId: PropTypes.string,
-    badge: PropTypes.object,
-    valueFieldId: PropTypes.string,
-    searchValue: PropTypes.string,
-    searchKeys: PropTypes.string,
-    data: PropTypes.object,
-    filter: PropTypes.any,
 }
 
 export default BaseNode
