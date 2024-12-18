@@ -1,7 +1,5 @@
 import React, { useCallback, ReactNode } from 'react'
-import get from 'lodash/get'
 import classNames from 'classnames'
-import flowRight from 'lodash/flowRight'
 
 import { Drawer, Props as DrawerProps } from '../snippets/Drawer/Drawer'
 import { Spinner, SpinnerType } from '../snippets/Spinner/Spinner'
@@ -26,6 +24,7 @@ interface Props {
     loading?: boolean
     src?: string
     pageUrl?: string
+    parentPage?: string
     pathMapping?: Record<string, string>
     queryMapping?: Record<string, string>
     entityKey?: string
@@ -69,13 +68,13 @@ function DrawerPage(props: Props) {
         closable,
         renderFromSrc,
         prompt,
+        parentPage,
     } = props
 
     const pageMapping = { pathMapping, queryMapping }
 
     const showSpinner = !visible || loading || typeof loading === 'undefined'
     const classes = classNames({ 'd-none': loading })
-    const withToolbar = get(props, 'metadata.src') !== 'SearchablePage'
     const handleCloseOverlay = useCallback(() => closeOverlay(prompt), [closeOverlay, prompt])
 
     const renderPage = () => {
@@ -86,10 +85,8 @@ function DrawerPage(props: Props) {
                     pageId={pageId}
                     pageMapping={pageMapping}
                     entityKey={entityKey}
-                    needMetadata
-                    withToolbar={withToolbar}
                     initSearchValue=""
-                    isDrawerPage
+                    parentPage={parentPage}
                 />
             )
         }
@@ -142,4 +139,4 @@ function DrawerPage(props: Props) {
 
 export const DrawerWindow = DrawerPage
 
-export default flowRight(withOverlayMethods)(DrawerPage)
+export default withOverlayMethods(DrawerPage)

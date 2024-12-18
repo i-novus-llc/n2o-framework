@@ -1,11 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
-import set from 'lodash/set'
-
-import { SET_WIDGET_METADATA } from '../widgets/constants'
 
 import PageResolver from './PageResolver'
-import { Metadata, State } from './Pages'
-import { MetadataFail, MetadataRequest, MetadataSuccess, Reset, SetPageLoading, SetStatus } from './Actions'
+import { State } from './Pages'
+import {
+    MetadataFail,
+    MetadataRequest,
+    MetadataSuccess,
+    Reset,
+    SetLocation,
+} from './Actions'
 
 export const initialState: State = {}
 
@@ -14,44 +17,62 @@ export const pageSlice = createSlice({
     initialState,
     reducers: {
         METADATA_REQUEST: {
-            prepare(pageId, rootPage, pageUrl, mapping) {
+            prepare(pageId, rootPage, pageUrl, mapping, parentId) {
                 return {
-                    payload: { pageId, rootPage, pageUrl, mapping },
+                    payload: { pageId, rootPage, pageUrl, mapping, parentId },
                 }
             },
 
             reducer(state, action: MetadataRequest) {
-                const { pageId, pageUrl } = action.payload
+                const { pageId, pageUrl, rootPage, parentId } = action.payload
 
                 if (!state[pageId]) {
                     state[pageId] = PageResolver.defaultState
                 }
 
+                state[pageId].id = pageId
                 state[pageId].loading = true
                 state[pageId].error = false
                 state[pageId].metadata = {}
                 state[pageId].pageUrl = pageUrl
+                state[pageId].rootPage = rootPage
+                state[pageId].parentId = parentId
             },
         },
 
         METADATA_SUCCESS: {
-            prepare(pageId, json, pageUrl) {
+            prepare(pageId, json, pageUrl, rootPage, rootChild) {
                 return ({
-                    payload: { pageId, json, pageUrl },
+                    payload: { pageId, json, pageUrl, rootPage, rootChild },
                 })
             },
 
             reducer(state, action: MetadataSuccess) {
-                const { pageId, json, pageUrl } = action.payload
+                const { pageId, json, pageUrl, rootPage } = action.payload
 
                 if (!state[pageId]) {
                     state[pageId] = PageResolver.defaultState
+
+                    // TODO warn if not root page
                 }
 
+                state[pageId].id = json.id || pageId
                 state[pageId].loading = false
                 state[pageId].error = false
                 state[pageId].metadata = json
-                state[pageId].pageUrl = pageUrl
+                state[pageId].pageUrl = json.routes?.path || pageUrl
+                state[pageId].rootPage = rootPage
+
+                if (!rootPage && !state[pageId].parentId) {
+                    const [pathname, search] = state[pageId].pageUrl.split('?')
+
+                    state[pageId].location = {
+                        hash: '',
+                        state: undefined,
+                        pathname,
+                        search: search ? `?${search}` : '',
+                    }
+                }
             },
         },
 
@@ -75,12 +96,47 @@ export const pageSlice = createSlice({
             },
         },
 
-        RESET(state, action: Reset) {
-            if (!state[action.payload]) {
-                state[action.payload] = PageResolver.defaultState
-            }
+        setLocation: {
+            prepare(pageId, location) {
+                return ({
+                    payload: { pageId, location },
+                })
+            },
 
-            state[action.payload] = PageResolver.defaultState
+            reducer(state, action: SetLocation) {
+                const { pageId, location } = action.payload
+
+                if (!state[pageId]) {
+                    // todo warn page isn't exist
+
+                    return
+                }
+
+                if (state[pageId].rootPage || state[pageId].parentId) {
+                    // todo warn page isn't anchor
+
+                    return
+                }
+
+                if (typeof location === 'string') {
+                    const [pathname, search] = location.split('?')
+
+                    state[pageId].location = {
+                        hash: '',
+                        state: undefined,
+                        pathname,
+                        search: search ? `?${search}` : '',
+                    }
+
+                    return
+                }
+
+                state[pageId].location = location
+            },
+        },
+
+        RESET(state, action: Reset) {
+            delete state[action.payload]
         },
 
         DISABLE(state, action) {
@@ -97,64 +153,6 @@ export const pageSlice = createSlice({
             }
             state[action.payload].disabled = false
         },
-
-        SET_STATUS: {
-            prepare(pageId: string, status: number | null) {
-                return ({
-                    payload: { pageId, status },
-                })
-            },
-
-            reducer(state, action: SetStatus) {
-                const { pageId, status } = action.payload
-
-                if (!state[pageId]) {
-                    state[pageId] = PageResolver.defaultState
-                }
-
-                state[pageId].status = status
-            },
-        },
-
-        SET_PAGE_LOADING: {
-            prepare(pageId, loading, spinner) {
-                return ({
-                    payload: { pageId, loading, spinner },
-                })
-            },
-
-            reducer(state: State, action: SetPageLoading) {
-                const { pageId, loading, spinner } = action.payload
-
-                if (!state[pageId]) {
-                    state[pageId] = PageResolver.defaultState
-                }
-
-                state[pageId].loading = loading
-
-                if (loading) {
-                    state[pageId].spinner = spinner
-                } else {
-                    delete state[pageId].spinner
-                }
-            },
-        },
-    },
-
-    extraReducers: {
-        [SET_WIDGET_METADATA](state: State, action) {
-            const {
-                pageId,
-                widgetId,
-                metadata,
-            }: { pageId: string, widgetId: string, metadata: Metadata } = action.payload
-
-            if (!state[pageId]) {
-                state[pageId] = PageResolver.defaultState
-            }
-
-            set(state[pageId], ['metadata', 'widgets', widgetId], metadata)
-        },
     },
 })
 
@@ -167,6 +165,5 @@ export const {
     RESET: resetPage,
     METADATA_REQUEST: metadataRequest,
     METADATA_SUCCESS: metadataSuccess,
-    SET_STATUS: setStatus,
-    SET_PAGE_LOADING: setPageLoading,
+    setLocation,
 } = pageSlice.actions

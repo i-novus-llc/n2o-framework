@@ -35,11 +35,10 @@ import { resolveMetadata } from '../../core/auth/resolveMetadata'
 import { AuthProvider } from '../../core/auth/Provider'
 import { DATASOURCE_PREFIX } from '../api/constants'
 
-import { makePageByIdSelector, pagesSelector } from './selectors'
+import { makeIsRootChildByIdSelector, pagesSelector } from './selectors'
 import {
     metadataFail,
     metadataSuccess,
-    setStatus,
     metadataRequest,
     resetPage,
 } from './store'
@@ -98,27 +97,30 @@ export function* getMetadata(
         ], authProvider)) as Metadata
 
         if (rootPage) {
+            if (pageId !== metadata.id) {
+                yield put(resetPage(pageId))
+            }
+
             yield put(changeRootPage(metadata.id))
             yield put(destroyOverlay())
         }
 
-        if (metadata.id) {
-            yield put(setStatus(metadata.id, 200))
-            yield put(metadataSuccess(metadata.id, metadata, pageUrl))
+        const rootChild: boolean = rootPage || (yield select(makeIsRootChildByIdSelector(metadata.id as string)))
 
-            const { queryMapping } = metadata?.routes || {}
+        yield put(metadataSuccess(metadata.id, metadata, pageUrl, rootPage, rootChild))
 
-            // actions for the n2o/api from the page query mapping to the data source.
-            if (queryMapping) {
-                for (const key of Object.keys(queryMapping)) {
-                    const { get: action } = queryMapping[key]
+        const { queryMapping } = metadata?.routes || {}
 
-                    if (action) {
-                        const type = get(action, 'type', '')
+        // actions for the n2o/api from the page query mapping to the data source.
+        if (queryMapping) {
+            for (const key of Object.keys(queryMapping)) {
+                const { get: action } = queryMapping[key]
 
-                        if (type.includes(DATASOURCE_PREFIX)) {
-                            yield put({ ...action })
-                        }
+                if (action) {
+                    const type = get(action, 'type', '')
+
+                    if (type.includes(DATASOURCE_PREFIX)) {
+                        yield put({ ...action })
                     }
                 }
             }
@@ -132,10 +134,6 @@ export function* getMetadata(
             stack: string,
             json?: { meta: Record<string, unknown> },
             status: number | null
-        }
-
-        if (err?.status) {
-            yield put(setStatus(pageId, err.status))
         }
 
         if (rootPage) {
@@ -207,6 +205,7 @@ export function* watchEvents() {
  * @ignore
  */
 export default (apiProvider: unknown, security: { provider: AuthProvider }) => [
+    // @ts-ignore fixme: разобрать почему takeEvery не разрулил автоматом тип metadataRequest
     takeEvery(metadataRequest, getMetadata, apiProvider, security.provider),
     debounce(100, [
         setModel,

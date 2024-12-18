@@ -635,7 +635,7 @@ JS выражение
 |------------------------------|--------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|----------------|
 | page-id                      | Ссылка на [страницу](../xml/page)                                  | Идентификатор открываемой страницы                                                                           |                                                         | !              |
 | page-name                    | Строка                                                             | Имя открываемой страницы                                                                                     |                                                         |                |
-| route                        | Строка                                                             | URL действия                                                                                                 | Формируется на основе идентификатора действия           |                |
+| route                        | Строка                                                             | URL, по которому будет открыта страница                                                                      | Формируется на основе идентификатора действия           |                |
 | target                       | application newWindow                                              | Сценарий действия открытия страницы:<br/>`newWindow` - в новой вкладке<br/>`application` - в текущей вкладке | application                                             |                |
 | refresh-on-close             | true false                                                         | Обновить данные после закрытия модального окна                                                               | false                                                   |                |
 | refresh-datasources          | Список ссылок на [источники данных](../xml/datasource#datasources) | Список идентификаторов источников данных, которые будут обновлены                                            | Идентификатор источника данных родительского компонента |                |
@@ -672,12 +672,10 @@ n2o.api.action.unsaved_data_prompt = false
         <path-param>...</path-param>
         <query-param>...</query-param>
     </params>
-    <breadcrumbs>
-        <crumb>...</crumb>
-    </breadcrumbs>
-    <datasources>
-        <datasource ... />
-    </datasources>
+    <datasources>...</datasources>
+    <breadcrumbs>...</breadcrumbs>
+    <toolbars>...</toolbars>
+    <actions>...</actions>
 </open-page>
 ```
 
@@ -730,12 +728,10 @@ n2o.api.action.show_modal.backdrop = static
         <path-param>...</path-param>
         <query-param>...</query-param>
     </params>
-    <breadcrumbs>
-        <crumb>...</crumb>
-    </breadcrumbs>
-    <datasources>
-        <datasource ... />
-    </datasources>
+    <datasources>...</datasources>
+    <breadcrumbs>...</breadcrumbs>
+    <toolbars>...</toolbars>
+    <actions>...</actions>
 </show-modal>
 ```
 
@@ -796,12 +792,10 @@ n2o.api.action.open_drawer.fixed_footer = false
         <path-param>...</path-param>
         <query-param>...</query-param>
     </params>
-    <breadcrumbs>
-        <crumb>...</crumb>
-    </breadcrumbs>
-    <datasources>
-        <datasource ... />
-    </datasources>
+    <datasources>...</datasources>
+    <breadcrumbs>...</breadcrumbs>
+    <toolbars>...</toolbars>
+    <actions>...</actions>
 </open-drawer>
 ```
 

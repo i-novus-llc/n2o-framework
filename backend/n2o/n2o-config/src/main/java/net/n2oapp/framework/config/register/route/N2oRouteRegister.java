@@ -46,9 +46,8 @@ public class N2oRouteRegister implements RouteRegister, N2oEventListener<Metadat
         } else if (registeredContext == null || !context.isIdentical(registeredContext)) {
             register.put(key, context);
             repository.save(key, context);
+            logger.info("Register route: '{}' to [{}]", context, urlPattern);
         }
-
-        logger.info(String.format("Register route: '%s' to [%s]", context, urlPattern));
     }
 
     @Override

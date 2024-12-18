@@ -5,7 +5,6 @@ import pages, {
     resetPage,
     setStatus,
 } from '../store'
-import { SET_WIDGET_METADATA } from '../../widgets/constants'
 
 describe('Тесты pages reducer', () => {
     it('Проверка METADATA_REQUEST', () => {
@@ -106,32 +105,6 @@ describe('Тесты pages reducer', () => {
                 error: false,
                 disabled: false,
                 status: null,
-            },
-        })
-    })
-
-    it('Проверка SET_WIDGET_METADATA', () => {
-        expect(
-            pages(
-                {
-                    pageId: {},
-                },
-                {
-                    type: SET_WIDGET_METADATA,
-                    payload: {
-                        pageId: 'pageId',
-                        widgetId: 'TestWidget',
-                        metadata: 'json-metadata',
-                    },
-                },
-            ),
-        ).toEqual({
-            pageId: {
-                metadata: {
-                    widgets: {
-                        TestWidget: 'json-metadata',
-                    },
-                },
             },
         })
     })

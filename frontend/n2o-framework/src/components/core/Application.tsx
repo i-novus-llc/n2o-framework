@@ -107,17 +107,13 @@ export default compose(
         componentDidMount() {
             const {
                 // @ts-ignore нет смысла типизировать, будет переделано
-                realTimeConfig, requestConfig, setReady, locales = {}, customLocales, registerLocales, addCustomLocales,
+                requestConfig, locales = {}, customLocales, registerLocales, addCustomLocales,
             } = this.props
 
             addCustomLocales()
             registerLocales(keys({ ...locales, ...customLocales }))
 
-            if (realTimeConfig) {
-                requestConfig()
-            } else {
-                setReady()
-            }
+            requestConfig()
         },
         componentDidUpdate(prevProps) {
             // @ts-ignore нет смысла типизировать, будет переделано

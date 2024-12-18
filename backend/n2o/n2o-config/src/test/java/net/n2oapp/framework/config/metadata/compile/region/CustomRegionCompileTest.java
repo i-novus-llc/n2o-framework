@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции кастомного региона
  */
-public class CustomRegionCompileTest extends SourceCompileTestBase {
+class CustomRegionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

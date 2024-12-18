@@ -133,6 +133,7 @@ public class FieldToolbarAT extends AutoTestBase {
         modal.shouldHaveTitle("Другая страница");
         modal.content(SimplePage.class).widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
         modal.close();
+        modal.shouldNotExists();
 
         dropdownButton.click();
         dropdownButton.menuItem("Открыть страницу").click();

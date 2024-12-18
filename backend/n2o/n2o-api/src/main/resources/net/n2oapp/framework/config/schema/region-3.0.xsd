@@ -2,6 +2,9 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:wgt="http://n2oapp.net/framework/config/schema/widget-5.0"
            xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
+           xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
+           xmlns:page="http://n2oapp.net/framework/config/schema/page-4.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/region-3.0">
 
     <xs:element name="region" type="simpleRegionDefinition"/>
@@ -9,6 +12,7 @@
     <xs:element name="panel" type="panelDefinition"/>
     <xs:element name="tabs" type="tabsDefinition"/>
     <xs:element name="scrollspy" type="scrollspyDefinition"/>
+    <xs:element name="sub-page" type="subPageDefinition"/>
 
     <xs:complexType name="regionsAndWidgets" abstract="true">
         <xs:sequence>
@@ -18,6 +22,7 @@
             <xs:element name="panel" type="panelDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="tabs" type="tabsDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="scrollspy" type="scrollspyDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="sub-page" type="subPageDefinition" minOccurs="0"/>
 
             <xs:element name="table" type="wgt:tableReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="form" type="wgt:formReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
@@ -564,6 +569,84 @@
             <xs:annotation>
                 <xs:documentation>
                     Наличие разделительной строки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="subPageDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Регион, обновляемый при частичной перезагрузке.
+                Подгружает одну из подстраниц в зависимости от текущего URL
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="page" type="subPagePageDefinition" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Подстраница
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="default-page-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор открываемой страницы по умолчанию.
+                    По умолчанию: идентификатор первой подстраницы
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="subPagePageDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Подстраница
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="datasources" type="ds:datasources" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Переопределение источников данных в открываемой подстранице
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="breadcrumbs" type="page:breadcrumbsDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Переопределение хлебных крошек в открываемой подстранице
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="toolbars" type="act:toolbarsDefinition" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Переопределение меню управляющих кнопок в открываемой подстранице
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="actions" type="act:pageActionsDefinition" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Переопределение действий в открываемой подстранице
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="page-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор открываемой подстраницы
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="route" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    URL, по которому будет открыта подстраница
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

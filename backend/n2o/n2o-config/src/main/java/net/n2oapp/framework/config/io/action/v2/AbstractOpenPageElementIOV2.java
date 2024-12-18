@@ -11,17 +11,14 @@ import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.datasource.AbstractDatasourceIO;
+import net.n2oapp.framework.config.io.datasource.DatasourceIOv1;
 import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 
 /**
  * Абстрактная реализация чтения/записи действия открытия страницы или модального окна версии 2.0
  */
 public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageAction> extends AbstractActionElementIOV2<T> {
-    private static final Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
-    private static final Namespace datasourceDefaultNamespace = AbstractDatasourceIO.NAMESPACE;
 
     @Override
     public void io(Element e, T op, IOProcessor p) {
@@ -45,7 +42,8 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attribute(e, "route", op::getRoute, op::setRoute);
         p.children(e, "breadcrumbs", "crumb", op::getBreadcrumbs, op::setBreadcrumbs,
                 N2oBreadcrumb.class, this::breadcrumbs);
-        p.anyChildren(e, "datasources", op::getDatasources, op::setDatasources, p.anyOf(N2oAbstractDatasource.class), datasourceDefaultNamespace);
+        p.anyChildren(e, "datasources", op::getDatasources, op::setDatasources,
+                p.anyOf(N2oAbstractDatasource.class), DatasourceIOv1.NAMESPACE);
         p.anyChildren(e, "params", op::getParams, op::setParams,
                 p.oneOf(N2oParam.class)
                         .add("path-param", N2oPathParam.class, this::param)
@@ -68,6 +66,6 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
 
     private void action(Element e, ActionBar a, IOProcessor p) {
         p.attribute(e, "id", a::getId, a::setId);
-        p.anyChildren(e, null, a::getN2oActions, a::setN2oActions, p.anyOf(N2oAction.class), actionDefaultNamespace);
+        p.anyChildren(e, null, a::getN2oActions, a::setN2oActions, p.anyOf(N2oAction.class), ActionIOv2.NAMESPACE);
     }
 }

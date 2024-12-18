@@ -68,13 +68,12 @@ class N2o extends Component {
 
     render() {
         const {
-            realTimeConfig,
-            embeddedRouting,
             children,
             i18n,
             locales: customLocales = {},
             evalContext,
             extraDefaultErrorPages,
+            defaultTemplate,
         } = this.props
 
         const { isOnline } = this.state
@@ -98,8 +97,7 @@ class N2o extends Component {
                                 i18n={i18n}
                                 locales={locales}
                                 customLocales={customLocales}
-                                realTimeConfig={realTimeConfig}
-                                render={() => <Router embeddedRouting={embeddedRouting}>{children}</Router>}
+                                render={() => <Router defaultTemplate={defaultTemplate}>{children}</Router>}
                             />
                         </FactoryProvider>
                     </ErrorHandlersProvider>
@@ -130,8 +128,6 @@ N2o.propTypes = {
     customReducers: PropTypes.object,
     customSagas: PropTypes.array,
     apiProvider: PropTypes.func,
-    realTimeConfig: PropTypes.bool,
-    embeddedRouting: PropTypes.bool,
     evalContext: PropTypes.object,
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
@@ -145,7 +141,6 @@ const EnhancedN2O = compose(
     withTranslation(),
     defaultProps({
         defaultTemplate: Template,
-        defaultPage: 'StandardPage',
         extraDefaultErrorPages: {},
         formats: {
             dateFormat: 'YYYY-MM-DD',
@@ -158,8 +153,6 @@ const EnhancedN2O = compose(
         customReducers: {},
         customSagas: [],
         apiProvider,
-        realTimeConfig: true,
-        embeddedRouting: true,
         evalContext: {},
         locales: {},
         initialState: {},
@@ -172,11 +165,6 @@ const EnhancedN2O = compose(
                 PropTypes.element,
                 PropTypes.node,
             ]),
-            defaultPage: PropTypes.oneOfType([
-                PropTypes.func,
-                PropTypes.element,
-                PropTypes.node,
-            ]),
             extraDefaultErrorPages: PropTypes.arrayOf(
                 PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func]),
             ),
@@ -185,7 +173,6 @@ const EnhancedN2O = compose(
         },
         props => ({
             defaultTemplate: props.defaultTemplate,
-            defaultPage: props.defaultPage,
             extraDefaultErrorPages: props.extraDefaultErrorPages,
             markdownFieldMappers: props.markdownFieldMappers,
             version,

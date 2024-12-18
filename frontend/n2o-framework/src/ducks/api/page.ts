@@ -10,6 +10,9 @@ import { State as GlobalState } from '../State'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { executeExpression } from '../../core/Expression/execute'
 import { parseExpression } from '../../core/Expression/parse'
+import { makePageByIdSelector } from '../pages/selectors'
+import { resolvePath } from '../../components/core/router/resolvePath'
+import { setLocation } from '../pages/store'
 
 import { EffectWrapper } from './utils/effectWrapper'
 import { PAGE_PREFIX, INVALID_URL_MESSAGE } from './constants'
@@ -20,11 +23,11 @@ export type OpenPagePayload = {
     modelLink?: string
     pathMapping: object
     queryMapping: object
-    target?: '_blank' | 'application'
+    target?: '_blank' | 'application' | '_self'
     restore?: boolean
 }
 
-export const openPagecreator = createAction(
+export const openPageCreator = createAction(
     `${PAGE_PREFIX}open`,
     (payload: OpenPagePayload, meta: Meta) => ({
         payload,
@@ -32,14 +35,56 @@ export const openPagecreator = createAction(
     }),
 )
 
+function getAnchorPage(url: string, state: GlobalState, pageId?: string): string | null {
+    if (!pageId) { return null }
+
+    const page = makePageByIdSelector(pageId)(state)
+
+    if (!page || page.rootPage) { return null }
+    if (page.parentId) { return getAnchorPage(url, state, page.parentId) }
+
+    const isAnchor = url.startsWith(page.pageUrl) &&
+        page.metadata?.routes?.subRoutes?.some(route => url.startsWith(
+            resolvePath(page.pageUrl, route),
+        ))
+
+    return isAnchor ? pageId : null
+}
+
+function* openPage(
+    url: string,
+    target: OpenPagePayload['target'],
+    pageId?: string,
+) {
+    if (target === '_blank') {
+        window.open(url)
+
+        return
+    }
+    if (target === '_self') {
+        window.location = url as string & Location
+
+        return
+    }
+
+    const state: GlobalState = yield select()
+    const anchorPageId = getAnchorPage(url, state, pageId)
+
+    if (anchorPageId) {
+        yield put(setLocation(pageId, url))
+    } else {
+        yield put(push(url))
+    }
+}
+
 export function* openPageEffect(action: Action<string, OpenPagePayload>) {
     const { payload, meta = {} } = action
     const state: GlobalState = yield select()
 
     const { url, pathMapping, queryMapping, target, modelLink, restore = false } = payload
-    const { evalContext } = meta
+    const { evalContext, pageId } = meta
 
-    let compiledUrl = null
+    let compiledUrl = ''
 
     if (modelLink) {
         const model = get(state, modelLink)
@@ -69,20 +114,11 @@ export function* openPageEffect(action: Action<string, OpenPagePayload>) {
 
     const encodedUrl = encodeURI(compiledUrl)
 
-    if (target === 'application') {
-        // @ts-ignore import from js file
-        yield put(push(encodedUrl))
-    } else if (target === '_blank') {
-        // @ts-ignore import from js file
-        window.open(encodedUrl)
-    } else {
-        // @ts-ignore import from js file
-        window.location = encodedUrl
-    }
+    yield openPage(encodedUrl, target, pageId)
 
     stopTheSequence(action)
 }
 
 export const sagas = [
-    takeEvery(openPagecreator.type, EffectWrapper(openPageEffect)),
+    takeEvery(openPageCreator.type, EffectWrapper(openPageEffect)),
 ]

@@ -371,3 +371,63 @@ n2o.api.region.tabs.routable = true
     <table/>
 </tab>
 ```
+
+
+
+### &lt;sub-page&gt; {#sub-page}
+
+Регион, обновляемый при частичной перезагрузке.
+Подгружает одну из подстраниц в зависимости от текущего URL
+
+**Атрибуты**
+
+| Наименование    | Тип    | Описание                                           | Значение по умолчанию            |
+|-----------------|--------|----------------------------------------------------|----------------------------------|
+| default-page-id | Строка | Идентификатор открываемой подстраницы по умолчанию | Идентификатор первой подстраницы |
+
+**Тело**
+
+Список [подстраниц](#sub-page_page)
+
+**Пример**
+
+```xml
+<sub-page default-page-id="profile">
+    <page page-id="profile" route="/profile">...</page>
+    <page page-id="documents" route="/documents">...</page>
+    <page page-id="orders" route="/orders/all">...</page>
+</sub-page>
+```
+
+
+
+#### &lt;page&gt; {#sub-page_page}
+
+Подстраница
+
+**Атрибуты**
+
+| Наименование | Тип                               | Описание                                   | Обязательность |
+|--------------|-----------------------------------|--------------------------------------------|----------------|
+| page-id      | Ссылка на [страницу](../xml/page) | Идентификатор открываемой подстраницы      | !              |
+| route        | Строка                            | URL, по которому будет открыта подстраница | !              |
+
+**Тело**
+
+&lt;datasources&gt; - Список переопределений [источников данных](../xml/datasource#datasources) <br/>
+&lt;breadcrumbs&gt; - Список переопределений [хлебных крошек](../xml/page#breadcrumbs) <br/>
+&lt;toolbars&gt; - Список переопределений [меню управляющих кнопок](../xml/page#toolbar) <br/>
+&lt;actions&gt; - Список переопределений [действий страницы](../xml/page#actions)
+
+**Пример**
+
+```xml
+<page page-id="profile" route="/profile">
+    <datasources>...</datasources>
+    <breadcrumbs>...</breadcrumbs>
+    <toolbars>...</toolbars>
+    <actions>...</actions>
+</page>
+```
+
+[Подробная документация o sub-page](../manual/components#sub-page)

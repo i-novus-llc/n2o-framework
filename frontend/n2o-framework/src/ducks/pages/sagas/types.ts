@@ -15,21 +15,11 @@ export interface LocationChangeAction {
     }
 }
 
-export interface Route {
-    exact?: boolean
-    isOtherPage?: boolean
-    path: string
-}
-
-// TODO наверно, надо будет куда то в root типы метаданных закинуть
 export type Routes = {
-    list: Route[]
     queryMapping: Record<string, {
         get: Action
         set: MappingParam
     }>
-    pathMapping: Record<string, {
-        get: Action
-        set: MappingParam
-    }>
+    subRoutes?: string[]
+    path?: string
 }

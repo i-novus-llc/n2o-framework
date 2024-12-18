@@ -1,23 +1,14 @@
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 class PageResolver {
-    /**
-     * Значение поумолчанию
-     * @return {{
-     *  metadata: {},
-     *  disabled: boolean,
-     *  loading: boolean,
-     *  error: boolean,
-     *  status: null
-     * }}
-     */
     static get defaultState() {
         return ({
+            id: '',
             metadata: {},
             loading: false,
             error: false,
             disabled: false,
-            status: null,
-            pageUrl: null,
+            pageUrl: '/',
+            rootPage: false,
         })
     }
 }

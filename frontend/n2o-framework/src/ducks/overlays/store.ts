@@ -24,8 +24,8 @@ export const overlaysSlice = createSlice({
                 })
             },
 
-            reducer(state, action: InsertOverlay) {
-                const { name, visible } = action.payload
+            reducer(state, { payload }: InsertOverlay) {
+                const { name, visible } = payload
 
                 state.push({
                     name,
@@ -34,7 +34,7 @@ export const overlaysSlice = createSlice({
                     type: 'page',
                     /* TODO OverlaysRefactoring перевести на id */
                     id: name,
-                    props: { ...action.payload },
+                    props: { ...payload },
                 })
             },
         },
@@ -52,8 +52,8 @@ export const overlaysSlice = createSlice({
             },
 
             // eslint-disable-next-line sonarjs/no-identical-functions
-            reducer(state, action: InsertOverlay) {
-                const { name, visible, mode } = action.payload
+            reducer(state, { payload }: InsertOverlay) {
+                const { name, visible, mode } = payload
 
                 state.push({
                     name,
@@ -62,7 +62,7 @@ export const overlaysSlice = createSlice({
                     type: 'page',
                     /* TODO OverlaysRefactoring перевести на id */
                     id: name,
-                    props: { ...action.payload },
+                    props: { ...payload },
                 })
             },
         },
@@ -80,14 +80,21 @@ export const overlaysSlice = createSlice({
                 })
             },
 
-            reducer(state, action: Insert) {
-                const { name, visible, mode, type, props } = action.payload
+            reducer(state, { payload }: Insert) {
+                const { name, visible, mode, type, props } = payload
                 const baseId = `${type}-${mode}_${props?.target}`
                 const overlayId = props?.operation?.id ? `${baseId}_${props.operation.id}` : baseId
 
                 if (state.some(({ id }) => id === overlayId)) { return }
 
-                state.push({ name, id: overlayId, visible, mode, type, props })
+                state.push({
+                    name,
+                    id: overlayId,
+                    visible,
+                    mode,
+                    type,
+                    props,
+                })
             },
         },
 

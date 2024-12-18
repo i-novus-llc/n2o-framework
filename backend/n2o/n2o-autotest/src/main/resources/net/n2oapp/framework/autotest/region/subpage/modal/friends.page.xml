@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="friends sub-page">
+    <form>
+        <fields>
+            <output-text default-value="FRIENDS" id="friends"/>
+        </fields>
+    </form>
+</simple-page>

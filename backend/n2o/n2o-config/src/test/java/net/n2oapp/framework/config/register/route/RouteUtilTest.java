@@ -27,6 +27,8 @@ public class RouteUtilTest {
         assertThat(RouteUtil.normalize("/test//test2"), is("/test/test2"));
         assertThat(RouteUtil.normalize("/test///test2"), is("/test/test2"));
         assertThat(RouteUtil.normalize("test///test2//"), is("/test/test2"));
+        assertThat(RouteUtil.normalize("./users"), is("./users"));
+        assertThat(RouteUtil.normalize("../users"), is("../users"));
     }
 
     @Test
@@ -147,9 +149,7 @@ public class RouteUtilTest {
         assertThat(RouteUtil.absolute("test", null), is("/test"));
         assertThat(RouteUtil.absolute("test", ""), is("/test"));
         assertThat(RouteUtil.absolute("test", "/"), is("/test"));
-        assertThat(RouteUtil.absolute("test", "/parent"), is("/parent/test"));
-        assertThat(RouteUtil.absolute("test", "/parent/child"), is("/parent/child/test"));
-        assertThat(RouteUtil.absolute("test/test2", "/parent"), is("/parent/test/test2"));
+        assertThat(RouteUtil.absolute("test", "/parent"), is("/test"));
         //parent path relative
         assertThat(RouteUtil.absolute("../child", "/parent"), is("/child"));
         assertThat(RouteUtil.absolute("../child", "/parent1/parent2"), is("/parent1/child"));
@@ -167,7 +167,7 @@ public class RouteUtilTest {
         assertThat(RouteUtil.absolute("../", "/parent/child"), is("/parent"));
         assertThat(RouteUtil.absolute("../../", "/parent/child"), is("/"));
         assertThat(RouteUtil.absolute("../", "/parent"), is("/"));
-        assertThat(RouteUtil.absolute("./test", "/parent"), is("./test"));
+        assertThat(RouteUtil.absolute("./test", "/parent"), is("/parent/test"));
     }
 
     @Test

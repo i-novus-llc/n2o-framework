@@ -8,6 +8,7 @@ export interface N2OMeta {
     key?: string
     buttonId?: string
     evalContext?: Record<string, unknown>
+    pageId?: string
     prevState?: State
     [key: string]: unknown
     abortController?: AbortController

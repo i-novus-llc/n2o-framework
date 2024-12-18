@@ -64,6 +64,10 @@
         {
           "templateId": "uxcomponents/regions/scrollspy_with_group",
           "name": "Регион с автоматически прокручиваемым сгруппированным меню"
+        },
+        {
+          "templateId": "uxcomponents/regions/subpage",
+          "name": "Регион, обновляемый при частичной перезагрузке"
         }
       ]
     },

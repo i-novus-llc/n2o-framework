@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil.getCompiledWidgets;
@@ -20,8 +21,8 @@ public class StandardPageBinder extends PageBinder<StandardPage> {
     public StandardPage bind(StandardPage page, BindProcessor p) {
         if (page.getEvents() != null) {
             page.getEvents().forEach(event -> {
-                if (event instanceof OnChangeEvent && (((OnChangeEvent) event).getAction() != null))
-                        p.bind(((OnChangeEvent) event).getAction());
+                if (event instanceof OnChangeEvent onChangeEvent && onChangeEvent.getAction() != null)
+                        p.bind(onChangeEvent.getAction());
             });
         }
         if (page.getToolbar() != null) {
@@ -31,6 +32,7 @@ public class StandardPageBinder extends PageBinder<StandardPage> {
                 });
             }
         }
+        page.getRegions().values().stream().flatMap(Collection::stream).forEach(p::bind);
 
         return bindPage(page, p, getCompiledWidgets(page));
     }

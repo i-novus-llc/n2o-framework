@@ -3,6 +3,7 @@ import { TabsRegion } from './Tabs/Region'
 import ListRegion from './List/ListRegion'
 import PanelRegion from './Panel/PanelRegion'
 import ScrollSpyRegion from './ScrollSpy/Region'
+import { SubPage } from './SubPage/Region'
 
 export default {
     NoneRegion,
@@ -10,4 +11,5 @@ export default {
     ListRegion,
     PanelRegion,
     ScrollSpyRegion,
+    SubPage,
 }

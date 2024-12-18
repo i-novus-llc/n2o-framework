@@ -113,6 +113,7 @@ public class FieldEnabledAT extends AutoTestBase {
         inputField.shouldNotBeRequired();
 
         N2oSelenide.modal().close();
+        modal.shouldNotExists();
         openModalBtn.click();
 
         modal.shouldExists();
@@ -122,6 +123,7 @@ public class FieldEnabledAT extends AutoTestBase {
         inputField.shouldBeRequired();
 
         N2oSelenide.modal().close();
+        modal.shouldNotExists();
 
         //проверка через open-page
         StandardButton openPageBtn = page.toolbar().topLeft().button("Добавить через page");

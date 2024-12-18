@@ -1135,7 +1135,7 @@
                 <xs:attribute name="route" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            URL действия.
+                            URL, по которому будет открыта страница.
                             По умолчанию: формируется на основе идентификатора действия
                         </xs:documentation>
                     </xs:annotation>

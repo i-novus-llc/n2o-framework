@@ -112,6 +112,7 @@ public class MultiActionAT extends AutoTestBase {
         modalPage.shouldHaveTitle("Страница 2");
         page.alerts(Alert.Placement.top).alert(0).shouldNotExists();
         modalPage.close();
+        modalPage.shouldNotExists();
         checkbox.setChecked(false);
         button.click();
         Alert alert = page.alerts(Alert.Placement.top).alert(0);

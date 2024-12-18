@@ -2,7 +2,7 @@ import { createSlice, createAction } from '@reduxjs/toolkit'
 import merge from 'lodash/merge'
 
 import WidgetResolver from './WidgetResolver'
-import { ALERT_ADD, ALERT_REMOVE, SET_WIDGET_METADATA } from './constants'
+import { ALERT_ADD, ALERT_REMOVE } from './constants'
 import { State } from './Widgets'
 import {
     ChangeFilterVisibility,
@@ -265,7 +265,3 @@ export const alertRemoveWidget = createAction(ALERT_REMOVE, (widgetId: string, a
 export const showWidgetFilters = (widgetId: string) => changeFiltersVisibility(widgetId, true)
 
 export const hideWidgetFilters = (widgetId: string) => changeFiltersVisibility(widgetId, false)
-
-export const setWidgetMetadata = createAction(SET_WIDGET_METADATA, (pageId: string, widgetId: string, metadata: object) => ({
-    payload: { pageId, widgetId, metadata },
-}))

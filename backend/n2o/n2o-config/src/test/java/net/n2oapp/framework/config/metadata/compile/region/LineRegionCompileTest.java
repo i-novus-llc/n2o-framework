@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование компиляции региона с горизонтальным делителем
  */
-public class LineRegionCompileTest extends SourceCompileTestBase {
+class LineRegionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

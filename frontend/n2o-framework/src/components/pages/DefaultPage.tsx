@@ -18,8 +18,9 @@ export const DefaultPage = ({
     children,
     disabled,
     dispatch,
+    rootPage = false,
 }: DefaultPageProps) => {
-    const { style, className, datasources, id: pageId, page, breadcrumb } = metadata || {}
+    const { style, className, datasources, id: pageId, page } = metadata || {}
     const { title, htmlTitle, datasource, model: modelPrefix } = page || {}
 
     usePageRegister(dispatch, datasources, pageId)
@@ -32,11 +33,9 @@ export const DefaultPage = ({
                 datasource={datasource}
                 modelPrefix={modelPrefix || ModelPrefix.active}
             />
-            <BreadcrumbContainer
-                breadcrumb={breadcrumb}
-                datasource={datasource}
-                modelPrefix={modelPrefix}
-            />
+            {rootPage && (
+                <BreadcrumbContainer />
+            )}
             <PageTitle title={title} datasource={datasource} modelPrefix={modelPrefix} className="n2o-page__title" />
             {toolbar && (toolbar.topLeft || toolbar.topRight || toolbar.topCenter) && (
                 <div className="n2o-page-actions">

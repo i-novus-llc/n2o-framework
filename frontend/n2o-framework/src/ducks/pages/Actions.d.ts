@@ -1,18 +1,21 @@
 import { Action } from '../Action'
 
-import { Metadata } from './Pages'
+import { Location, Metadata } from './Pages'
 
 export type MetadataRequestPayload = {
     pageId: string
-    rootPage: string
+    rootPage: boolean
     pageUrl: string
     mapping: Record<string, unknown>
+    parentId?: string
 }
 
 export type MetadataSuccessPayload = {
     pageId: string
     json: Metadata
     pageUrl: string
+    rootPage: boolean
+    rootChild: boolean
 }
 
 export type MetadataFailPayload = {
@@ -20,20 +23,13 @@ export type MetadataFailPayload = {
     err: Record<string, unknown> | boolean
 }
 
-export type SetStatusPayload = {
+export type SetLocationPayload = {
     pageId: string
-    status: number | null
-}
-
-export type SetPageLoadingPayload = {
-    pageId: string
-    loading: boolean
-    spinner: boolean
+    location: string | Location
 }
 
 export type MetadataRequest = Action<string, MetadataRequestPayload>
 export type MetadataSuccess = Action<string, MetadataSuccessPayload>
 export type MetadataFail = Action<string, MetadataFailPayload>
-export type SetStatus = Action<string, SetStatusPayload>
-export type SetPageLoading = Action<string, SetPageLoadingPayload>
 export type Reset = Action<string, string>
+export type SetLocation = Action<string, SetLocationPayload>

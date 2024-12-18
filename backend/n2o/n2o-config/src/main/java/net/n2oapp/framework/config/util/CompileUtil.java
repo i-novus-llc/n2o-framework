@@ -16,6 +16,7 @@ public class CompileUtil {
      * @param transformer фукнция преобразования значения
      * @return объемная мапа атрибутов
      */
+    @SuppressWarnings("unchecked")
     public static Map<String, Object> resolveNestedAttributes(Map<String, Object> attributes, Function<Object, Object> transformer) {
         Map<String, Object> result = new HashMap<>();
 

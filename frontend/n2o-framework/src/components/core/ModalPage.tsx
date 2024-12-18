@@ -2,7 +2,6 @@ import React, { ReactNode, CSSProperties } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import classNames from 'classnames'
-import { compose } from 'recompose'
 
 import { Toolbar, ToolbarProps } from '../buttons/Toolbar'
 import { ModelPrefix } from '../../core/datasource/const'
@@ -83,7 +82,6 @@ const ModalPage = ({
                     pageMapping={pageMapping}
                     entityKey={entityKey}
                     routable={false}
-                    needMetadata
                 />
             )
         }
@@ -139,8 +137,6 @@ const ModalPage = ({
     )
 }
 
-export const ModalWindow = ModalPage
-
 ModalPage.defaultProps = {
     size: 'lg',
     disabled: false,
@@ -153,5 +149,4 @@ ModalPage.contextTypes = {
     scrollable: false,
 }
 
-// @ts-ignore import from js file
-export default compose(withOverlayMethods)(ModalPage)
+export default withOverlayMethods(ModalPage)

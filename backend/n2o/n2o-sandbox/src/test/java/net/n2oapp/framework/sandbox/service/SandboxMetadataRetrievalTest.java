@@ -117,11 +117,8 @@ class SandboxMetadataRetrievalTest {
 
         assertThat(page.getPageProperty().getHtmlTitle(), is("Моя первая страница"));
 
-        assertThat(page.getRoutes().getPathMapping().size(), is(0));
         assertThat(page.getRoutes().getQueryMapping().size(), is(0));
-        assertThat(page.getRoutes().getList().get(0).getIsOtherPage(), is(false));
-        assertThat(page.getRoutes().getList().get(0).getExact(), is(true));
-        assertThat(page.getRoutes().getList().get(0).getPath(), is("/"));
+        assertThat(page.getRoutes().getSet().iterator().next(), is("/"));
 
         assertThat(((SimplePage) page).getWidget().getId(), is("_w1"));
         assertThat(((SimplePage) page).getWidget().getDatasource(), is("_w1"));

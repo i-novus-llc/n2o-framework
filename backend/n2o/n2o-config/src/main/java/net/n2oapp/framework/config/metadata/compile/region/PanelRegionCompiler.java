@@ -15,10 +15,10 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
 @Component
 public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPanelRegion> {
 
-    private static final String HEADER = "n2o.api.region.panel.header";
-    private static final String OPEN = "n2o.api.region.panel.open";
-    private static final String COLLAPSIBLE = "n2o.api.region.panel.collapsible";
-    private static final String ROUTABLE = "n2o.api.region.panel.routable";
+    private static final String HEADER_PROPERTY = "n2o.api.region.panel.header";
+    private static final String OPEN_PROPERTY = "n2o.api.region.panel.open";
+    private static final String COLLAPSIBLE_PROPERTY = "n2o.api.region.panel.collapsible";
+    private static final String ROUTABLE_PROPERTY = "n2o.api.region.panel.routable";
 
     @Override
     protected String getSrcProperty() {
@@ -38,17 +38,17 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         region.setColor(source.getColor());
         region.setIcon(source.getIcon());
         region.setHeader(
-                castDefault(source.getHeader(), () -> p.resolve(property(HEADER),  Boolean.class), () -> true)
+                castDefault(source.getHeader(), () -> p.resolve(property(HEADER_PROPERTY),  Boolean.class), () -> true)
         );
         region.setFooterTitle(source.getFooterTitle());
         region.setOpen(
-                castDefault(source.getOpen(), () -> p.resolve(property(OPEN),  Boolean.class), () -> true)
+                castDefault(source.getOpen(), () -> p.resolve(property(OPEN_PROPERTY),  Boolean.class), () -> true)
         );
         region.setCollapsible(
-                castDefault(source.getCollapsible(), () -> p.resolve(property(COLLAPSIBLE),  Boolean.class), () -> true)
+                castDefault(source.getCollapsible(), () -> p.resolve(property(COLLAPSIBLE_PROPERTY),  Boolean.class), () -> true)
         );
         region.setFullScreen(false);
-        compileRoute(source, region.getId(), ROUTABLE, p);
+        compileRoute(source, region.getId(), ROUTABLE_PROPERTY, p);
         region.setHeaderTitle(source.getTitle());
         region.setActiveParam(source.getActiveParam());
 

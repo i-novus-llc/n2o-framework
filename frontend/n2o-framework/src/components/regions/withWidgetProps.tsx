@@ -10,7 +10,7 @@ import { makeModelIdSelector, widgetsSelector } from '../../ducks/widgets/select
 import {
     makeModelsByPrefixSelector,
 } from '../../ducks/models/selectors'
-import { pagesSelector, makePageMetadataByIdSelector } from '../../ducks/pages/selectors'
+import { makePageMetadataByIdSelector } from '../../ducks/pages/selectors'
 import {
     hideWidget,
     showWidget,
@@ -68,7 +68,6 @@ function withGetWidget(WrappedComponent: FC) {
     WithGetWidget.contextType = ReactReduxContext
 
     const mapStateToProps = (state, { widgetId }) => ({
-        pages: pagesSelector(state),
         widgets: widgetsSelector(state),
         widgetsDatasource: makeModelsByPrefixSelector(ModelPrefix.source)(state),
         modelId: makeModelIdSelector(widgetId)(state),

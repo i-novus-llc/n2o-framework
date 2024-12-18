@@ -66,6 +66,7 @@ public class PageTitleAT extends AutoTestBase {
         Modal modal = N2oSelenide.modal(Modal.class);
         modal.shouldHaveTitle("Модальное окно");
         modal.close();
+        modal.shouldNotExists();
 
         drawerBtn.click();
         Drawer drawer = N2oSelenide.drawer(Drawer.class);

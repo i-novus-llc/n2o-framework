@@ -60,7 +60,7 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(0).getType(), is(ValidationType.enabled));
         assertThat(((EnablingDependency) field.getDependencies().get(0)).getMessage(), is("test message"));
 
-        assertThat(((LinkAction) field.getAction()).getUrl(), is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
+        assertThat(((LinkAction) field.getAction()).getUrl(), is("/test2/:param1/:param2?param3=:param3"));
         assertThat(((LinkAction) field.getAction()).getTarget(), is(Target.application));
         assertThat(((LinkAction) field.getAction()).getPathMapping().size(), is(2));
         assertThat(((LinkAction) field.getAction()).getPathMapping().get("param1").getBindLink(), is("models.resolve['testButtonFieldCompile_ds']"));

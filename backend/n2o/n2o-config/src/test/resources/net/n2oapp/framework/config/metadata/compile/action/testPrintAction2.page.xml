@@ -8,7 +8,7 @@
                     <print url="/test"/>
                 </button>
                 <button id="id2">
-                    <print url="test2/:param1/:param2?param3=:param3">
+                    <print url="/test2/:param1/:param2?param3=:param3">
                         <path-param name="param1" value="{field1}" ref-model="filter" ref-widget-id="secondWgt"/>
                         <path-param name="param2" value="{field2}"/>
                         <query-param name="param3" value="{field3}" ref-model="filter" ref-widget-id="secondWgt"/>
@@ -28,7 +28,7 @@
         <form id="secondWgt" route="/second">
             <toolbar>
                 <button id="secWgt" model="filter" widget-id="test">
-                    <print url="test/:minPrice/">
+                    <print url="/test/:minPrice/">
                         <path-param name="minPrice" value="{minPrice}"/>
                     </print>
                 </button>

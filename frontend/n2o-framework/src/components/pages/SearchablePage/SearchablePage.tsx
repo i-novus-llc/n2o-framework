@@ -27,10 +27,10 @@ function SearchablePage({
     disabled,
     initSearchValue,
     dispatch,
-    withToolbar = true,
+    rootPage = false,
 }: SearchablePageProps) {
     const { style, className, datasources, page,
-        breadcrumb, searchBar, toolbar = {} } = metadata || {}
+        searchBar, toolbar = {} } = metadata || {}
 
     usePageRegister(dispatch, datasources, pageId)
 
@@ -66,9 +66,11 @@ function SearchablePage({
         >
             {error && <Alert {...error} visible />}
             <DocumentTitle htmlTitle={htmlTitle} datasource={datasource} modelPrefix={modelPrefix} />
-            <div className="n2o-searchable-page__breadcrumbs">
-                <BreadcrumbContainer breadcrumb={breadcrumb} datasource={datasource} modelPrefix={modelPrefix} />
-            </div>
+            {rootPage && (
+                <div className="n2o-searchable-page__breadcrumbs">
+                    <BreadcrumbContainer />
+                </div>
+            )}
             <div className="n2o-searchable-page__title d-flex align-items-center my-3">
                 <PageTitle title={title} datasource={datasource} modelPrefix={modelPrefix} className="mr-0" />
                 <SearchBar
@@ -85,13 +87,11 @@ function SearchablePage({
                 <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.topRight} />
             </div>
             <PageRegions id={id} regions={regions} />
-            {withToolbar && (
-                <div className="n2o-page-actions">
-                    <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.bottomLeft} />
-                    <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.bottomCenter} />
-                    <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.bottomRight} />
-                </div>
-            )}
+            <div className="n2o-page-actions">
+                <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.bottomLeft} />
+                <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.bottomCenter} />
+                <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.bottomRight} />
+            </div>
         </div>
     )
 }

@@ -5,8 +5,7 @@ import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 
-import { rootPageSelector } from '../global/selectors'
-import { makePageRoutesByIdSelector } from '../pages/selectors'
+import { makeRootPageSelector } from '../pages/selectors'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
 import { modelsSelector } from '../models/selectors'
 import {
@@ -24,6 +23,7 @@ import { INVALID_TAB_REDUX_KEY } from '../../components/regions/Tabs/constants'
 import { State as ModelsState } from '../models/Models'
 import { checkTabAvailability } from '../../components/regions/helpers'
 import { State } from '../State'
+import { Page } from '../pages/Pages'
 
 import { SetTabInvalid, RegisterRegion, ServiceInfo } from './Actions'
 import {
@@ -235,11 +235,11 @@ function* validateTabs() {
 }
 
 function* mapUrl(value: string) {
-    const rootPageId: string = yield select(rootPageSelector)
-    const routes: Record<string, unknown> = yield select(makePageRoutesByIdSelector(rootPageId))
+    const rootPage: Page = yield select(makeRootPageSelector())
+    const routes = rootPage?.metadata?.routes
 
     if (routes) {
-        yield call(mapQueryToUrl, rootPageId, null)
+        yield call(mapQueryToUrl, rootPage.id, null)
         yield call(lazyFetch, value)
     }
 }

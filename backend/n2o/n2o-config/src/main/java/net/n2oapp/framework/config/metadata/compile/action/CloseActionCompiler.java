@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.action.N2oCloseAction;
@@ -15,6 +16,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.SubPageContext;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -33,6 +35,10 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
 
     @Override
     public AbstractAction compile(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
+        if (context instanceof SubPageContext) {
+            throw new N2oException(String.format("В странице '%s', на которую ссылаются в регионе \"<sub-page>\", нельзя использовать действие \"<close>\"",
+                    ((SubPageContext) context).getPageName()));
+        }
         return context instanceof ModalPageContext
                 ? getCloseAction(source, context, p)
                 : getLinkAction(source, context, p);

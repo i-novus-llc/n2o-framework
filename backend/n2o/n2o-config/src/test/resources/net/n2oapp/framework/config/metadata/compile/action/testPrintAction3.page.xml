@@ -4,7 +4,7 @@
     <table id="test" route="/widget2">
         <toolbar>
             <button id="id1">
-                <print url="test" loader-text="Loading..." loader="true" document-title="Document 1"/>
+                <print url="/test" loader-text="Loading..." loader="true" document-title="Document 1"/>
             </button>
         </toolbar>
     </table>

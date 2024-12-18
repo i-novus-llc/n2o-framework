@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
@@ -8,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.SubPageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
@@ -20,6 +22,7 @@ import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CloseActionCompileTest extends SourceCompileTestBase {
 
@@ -46,9 +49,9 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getType(), is("n2o/overlays/CLOSE"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPageId(), is("p_w_a"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPrompt(), is(true));
-        assertThat(( testAction.getMeta()).getRefresh(), nullValue());
+        assertThat((testAction.getMeta()).getRefresh(), nullValue());
         CloseAction testCloseRefreshAction = (CloseAction) page.getWidget().getToolbar().getButton("testCloseRefresh").getAction();
-        assertThat(( testCloseRefreshAction.getMeta()).getRefresh().getDatasources(), hasItem("p_w"));
+        assertThat((testCloseRefreshAction.getMeta()).getRefresh().getDatasources(), hasItem("p_w"));
 
     }
 
@@ -67,5 +70,14 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
                 .get(openPageContext);
         assertThat(((LinkActionImpl) openPage.getWidget().getToolbar().getButton("close").getAction()).getUrl(), is("/p/w/a"));
         assertThat(((LinkActionImpl) openPage.getWidget().getToolbar().getButton("close").getAction()).getRestore(), is(true));
+    }
+
+    @Test
+    void closeSubPage() {
+        PageContext context = new SubPageContext("testOpenPageCloseAction", "/p/w/a");
+        context.setPageName("page1");
+        N2oException e = assertThrows(N2oException.class,
+                () -> compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageCloseAction.page.xml").get(context));
+        assertThat(e.getMessage(), is("В странице 'page1', на которую ссылаются в регионе \"<sub-page>\", нельзя использовать действие \"<close>\""));
     }
 }

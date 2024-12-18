@@ -3,10 +3,10 @@
     <table id="test"> <!-- route="/widget2" удалено -->
         <toolbar>
             <button id="id1">
-                <a href="test" target="application"/>
+                <a href="/test" target="application"/>
             </button>
             <button id="id2">
-                <a href="test2/:param1/:param2?param3=:param3" target="application">
+                <a href="/test2/:param1/:param2?param3=:param3" target="application">
                     <path-param name="param1" value="{field1}"/>
                     <path-param name="param2" value="{field2}"/>
                     <query-param name="param3" value="{field3}"/>

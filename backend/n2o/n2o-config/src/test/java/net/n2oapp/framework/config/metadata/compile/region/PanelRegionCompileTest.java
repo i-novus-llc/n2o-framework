@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование компиляции региона в виде панелей
  */
-public class PanelRegionCompileTest extends SourceCompileTestBase {
+class PanelRegionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

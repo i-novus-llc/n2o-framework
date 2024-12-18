@@ -2,9 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose, pure } from 'recompose'
 import { createStructuredSelector } from 'reselect'
-import pathToRegexp from 'path-to-regexp'
-import filter from 'lodash/filter'
-import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 
@@ -18,6 +15,9 @@ import {
     makePageErrorByIdSelector,
 } from '../../ducks/pages/selectors'
 import { getLocation } from '../../ducks/global/selectors'
+
+import { resolvePath } from './router/resolvePath'
+import { PageContext } from './router/context'
 
 const withMetadata = (Component) => {
     class ComponentWithMetadata extends React.Component {
@@ -58,9 +58,10 @@ const withMetadata = (Component) => {
                 pageMapping,
                 rootPage,
                 getMetadata,
+                parentId,
             } = this.props
 
-            getMetadata(pageId, pageUrl, pageMapping, rootPage)
+            getMetadata(pageId, pageUrl, pageMapping, rootPage, parentId)
         }
 
         shouldGetPageMetadata(prevProps) {
@@ -69,28 +70,22 @@ const withMetadata = (Component) => {
                 location: { pathname, state = {} },
             } = this.props
 
-            if (!isEmpty(metadata?.routes)) {
-                if (state?.silent) {
-                    return false
-                }
-                const findedRoutes = filter(metadata.routes.list, (route) => {
-                    const re = pathToRegexp(route.path)
+            if (state?.silent) { return false }
 
-                    return re.test(pathname)
-                })
-                const isNewPage = find(findedRoutes, route => route.isOtherPage)
+            const { subRoutes, path } = metadata?.routes || {}
 
-                return (
-                    isNewPage ||
-                    (
-                        this.isEqualPageId(prevProps) &&
-                        !this.isEqualPageUrl(prevProps) &&
-                        isEmpty(findedRoutes)
-                    )
-                )
+            if (typeof path === 'string') {
+                if (path.replace(/\/$/i, '') === pathname.replace(/\/$/i, '')) { return false }
+
+                const isSubPage = subRoutes?.some(route => pathname.startsWith(resolvePath(path, route)))
+
+                if (isSubPage) { return false }
             }
 
-            return false
+            return (
+                this.isEqualPageId(prevProps) &&
+                !this.isEqualPageUrl(prevProps)
+            )
         }
 
         isEqualPageId(prevProps) {
@@ -106,12 +101,17 @@ const withMetadata = (Component) => {
         }
 
         render() {
-            return <Component {...this.props} />
-        }
-    }
+            const { pageId } = this.props
+            const context = {
+                pageId,
+            }
 
-    ComponentWithMetadata.defaultProps = {
-        rootPage: false,
+            return (
+                <PageContext.Provider value={context}>
+                    <Component {...this.props} />
+                </PageContext.Provider>
+            )
+        }
     }
 
     const mapStateToProps = createStructuredSelector({
@@ -123,12 +123,13 @@ const withMetadata = (Component) => {
 
     function mapDispatchToProps(dispatch) {
         return {
-            getMetadata: (pageId, pageUrl, pageMapping, rootPage) => dispatch(
+            getMetadata: (pageId, pageUrl, pageMapping, rootPage, parentId) => dispatch(
                 metadataRequest(
                     pageId,
                     rootPage,
                     pageUrl,
                     pageMapping,
+                    parentId,
                 ),
             ),
             reset: pageId => dispatch(resetPage(pageId)),

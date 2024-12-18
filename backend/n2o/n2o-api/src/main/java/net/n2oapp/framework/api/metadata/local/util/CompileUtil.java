@@ -2,40 +2,9 @@ package net.n2oapp.framework.api.metadata.local.util;
 
 import org.springframework.util.SerializationUtils;
 
-import java.util.Arrays;
-import java.util.Set;
 import java.util.function.Supplier;
 
 public class CompileUtil {
-
-    public static String collectLinks(Set<String> strings) {
-        String res = "";
-        boolean begin = true;
-        for (String s : strings) {
-            if (!begin) res += ",";
-            res += s;
-            begin = false;
-        }
-        return res;
-    }
-
-    /**
-     * Добавить элементы в новый массив
-     *
-     * @param arr      массив
-     * @param elements элементы
-     * @param <T>      тип данных массива
-     * @return новый массив
-     */
-    @SafeVarargs
-    public static <T> T[] append(T[] arr, T... elements) {
-        final int N = arr.length;
-        arr = Arrays.copyOf(arr, N + elements.length);
-        for (int i = 0; i < elements.length; i++) {
-            arr[N + i] = elements[0];
-        }
-        return arr;
-    }
 
     /**
      * Привести значение к значению по умолчанию, если оно null.

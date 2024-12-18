@@ -186,14 +186,14 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
         if (this.params == null) {
             return null;
         }
-        return Arrays.stream(this.params).filter(p -> p instanceof N2oPathParam).toArray(N2oPathParam[]::new);
+        return Arrays.stream(this.params).filter(N2oPathParam.class::isInstance).toArray(N2oPathParam[]::new);
     }
 
     public N2oQueryParam[] getQueryParams() {
         if (this.params == null) {
             return null;
         }
-        return Arrays.stream(this.params).filter(p -> p instanceof N2oQueryParam).toArray(N2oQueryParam[]::new);
+        return Arrays.stream(this.params).filter(N2oQueryParam.class::isInstance).toArray(N2oQueryParam[]::new);
     }
 
     public void addPathParams(N2oPathParam[] pathParams) {

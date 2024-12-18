@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
@@ -57,12 +56,6 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
 
         initUrl(linkAction, path, source, routeScope, p);
         linkAction.setTarget(target);
-        PageRoutes pageRoutes = p.getScope(PageRoutes.class);
-        if (pageRoutes != null && Target.application.equals(source.getTarget())) {
-            PageRoutes.Route pageRoute = new PageRoutes.Route(path);
-            pageRoute.setIsOtherPage(true);
-            pageRoutes.addRoute(pageRoute);
-        }
         return linkAction;
     }
 

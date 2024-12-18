@@ -200,9 +200,6 @@ describe.skip('Сага для для наблюдения за изменени
                         },
                         action: 'REPLACE',
                     },
-                    global: {
-                        rootPageId: 'testRoot',
-                    },
                     pages: {
                         testRoot: {
                             metadata: {
@@ -237,6 +234,7 @@ describe.skip('Сага для для наблюдения за изменени
                                     },
                                 },
                             },
+                            rootPage: true,
                         },
                     },
                 }),

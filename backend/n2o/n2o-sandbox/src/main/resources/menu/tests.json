@@ -306,6 +306,18 @@
         {
           "templateId": "net/n2oapp/framework/autotest/region/tabs/enabled",
           "name": "TabsRegionAT. testEnabled"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/subpage/with_buttons",
+          "name": "SubPageRegionAT. testSubPageWithButtons"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/subpage/without_buttons",
+          "name": "SubPageRegionAT. testSubPageWithoutButtons"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/subpage/modal",
+          "name": "SubPageRegionAT. testSubPageInModal"
         }
       ]
     },

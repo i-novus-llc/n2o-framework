@@ -3,6 +3,8 @@ import { createSelector } from '@reduxjs/toolkit'
 import { State } from '../State'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
+import { Page } from './Pages'
+
 /*
  Базовые селекторы
  */
@@ -26,6 +28,13 @@ export const makePageByIdSelector = (pageId: string) => createSelector(
         pagesSelector,
     ],
     pagesState => pagesState[pageId],
+)
+
+export const makeRootPageSelector = () => createSelector(
+    [
+        pagesSelector,
+    ],
+    pagesState => Object.values(pagesState).find(page => page.rootPage),
 )
 
 /**
@@ -56,16 +65,6 @@ export const makePageErrorByIdSelector = (pageId: string) => createSelector(
 export const makePageDisabledByIdSelector = (pageId: string) => createSelector(
     makePageByIdSelector(pageId),
     pageState => pageState?.disabled,
-)
-
-/**
- * Получение свойсва status страницы по ee d
- * @param {string} pageId
- * @return {number | undefined}
- */
-export const makePageStatusByIdSelected = (pageId: string) => createSelector(
-    makePageByIdSelector(pageId),
-    pageState => pageState?.status,
 )
 
 /**
@@ -116,4 +115,28 @@ export const makePageToolbarByIdSelector = (pageId: string) => createSelector(
 export const makePageTitleByIdSelector = (pageId: string) => createSelector(
     makePageMetadataByIdSelector(pageId),
     pageState => pageState?.page?.title,
+)
+
+function getParentPage(pages: Record<string, Page>, pageId: string): Page | null {
+    const page = pages[pageId]
+
+    if (!page) { return null }
+    if (page.rootPage) { return page }
+    if (page.parentId) { return getParentPage(pages, page.parentId) }
+
+    return page
+}
+
+export const makeAnchorLocationByIdSelector = (pageId: string) => createSelector(
+    pagesSelector,
+    (pages) => {
+        const page = getParentPage(pages, pageId)
+
+        return page?.rootPage ? undefined : page?.location
+    },
+)
+
+export const makeIsRootChildByIdSelector = (pageId: string) => createSelector(
+    pagesSelector,
+    pages => (!!(getParentPage(pages, pageId)?.rootPage)),
 )

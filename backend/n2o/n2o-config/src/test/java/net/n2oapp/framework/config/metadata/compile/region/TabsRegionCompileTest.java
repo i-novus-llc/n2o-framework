@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * Тестирование компиляции региона в виде вкладок
  */
-public class TabsRegionCompileTest extends SourceCompileTestBase {
+class TabsRegionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

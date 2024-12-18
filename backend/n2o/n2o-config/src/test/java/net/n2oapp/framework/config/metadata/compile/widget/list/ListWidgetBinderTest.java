@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ListWidgetBinderTest extends SourceCompileTestBase {
+class ListWidgetBinderTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -25,14 +25,7 @@ public class ListWidgetBinderTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(
-                new N2oAllDataPack(),
-                new N2oPagesPack(),
-                new N2oWidgetsPack(),
-                new N2oRegionsPack(),
-                new N2oActionsPack(),
-                new N2oCellsPack()
-        );
+        builder.packs(new N2oAllPagesPack());
     }
 
     @Test

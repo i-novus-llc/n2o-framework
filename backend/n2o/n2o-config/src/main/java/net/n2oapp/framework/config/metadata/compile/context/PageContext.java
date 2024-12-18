@@ -90,6 +90,11 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Список тулбаров открываемой страницы
      */
     private List<N2oToolbar> toolbars;
+    /**
+     * Список маршрутов подстраниц в Ant стиле
+     */
+    private List<String> subRoutes;
+
 
     public PageContext(String sourcePageId) {
         super(sourcePageId, N2oPage.class, Page.class);
@@ -150,6 +155,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
                 Objects.equals(parentWidgetIdDatasourceMap, that.parentWidgetIdDatasourceMap) &&
                 Objects.equals(parentTabIds, that.parentTabIds) &&
                 Objects.equals(parentRoutes, that.parentRoutes) &&
-                Objects.equals(toolbars, that.toolbars);
+                Objects.equals(toolbars, that.toolbars) &&
+                Objects.equals(subRoutes, that.subRoutes);
     }
 }

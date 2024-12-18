@@ -5,10 +5,8 @@ import {
     makePageLoadingByIdSelector,
     makePageRoutesByIdSelector,
     makePageToolbarByIdSelector,
-    makePageErrorByIdSelector,
     makePageTitleByIdSelector,
     makePageDisabledByIdSelector,
-    makePageStatusByIdSelected,
 } from '../selectors'
 
 const state = {
@@ -69,9 +67,6 @@ describe('Проверка селекторов pages', () => {
             state.pages._.metadata.toolbar,
         )
     })
-    it('makePageErrorByIdSelector должен вернуть error по id', () => {
-        expect(makePageErrorByIdSelector('_')(state)).toEqual(state.pages._.error)
-    })
     it('makePageTitleByIdSelector должен вернуть title по id', () => {
         expect(makePageTitleByIdSelector('_')(state)).toEqual(
             state.pages._.metadata.page.title,
@@ -80,11 +75,6 @@ describe('Проверка селекторов pages', () => {
     it('makePageDisabledByIdSelector должен вернуть disabled по id', () => {
         expect(makePageDisabledByIdSelector('_')(state)).toEqual(
             state.pages._.disabled,
-        )
-    })
-    it('makePageStatusByIdSelector должен вернуть status по id', () => {
-        expect(makePageStatusByIdSelected('_')(state)).toEqual(
-            state.pages._.status,
         )
     })
 })
