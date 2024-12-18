@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, ChangeEvent } from 'react'
+import React, { useState, useEffect, useMemo, ChangeEvent, MouseEvent } from 'react'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import flowRight from 'lodash/flowRight'
@@ -31,7 +31,7 @@ function CheckboxCellBody({
 
     if (!visible) { return null }
 
-    const handleClick = () => (e: MouseEvent) => { e.stopPropagation() }
+    const handleClick = (e: MouseEvent) => { e.stopPropagation() }
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { checked } = e.nativeEvent.target as HTMLInputElement
 
