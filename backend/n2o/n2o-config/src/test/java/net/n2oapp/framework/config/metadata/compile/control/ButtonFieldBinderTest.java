@@ -15,7 +15,6 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,14 +41,14 @@ public class ButtonFieldBinderTest extends SourceCompileTestBase {
     @Test
     void testField() {
         ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/control/testButtonFieldCompile.page.xml");
-        StandardPage page = (StandardPage) pipeline.get(new PageContext("testButtonFieldCompile"), new DataSet().add("param2", "2"));
+        StandardPage page = (StandardPage) pipeline.get(new PageContext("testButtonFieldCompile"), new DataSet());
         Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
         ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
-        assertThat(((LinkAction) field.getAction()).getUrl(), Matchers.is("/testButtonFieldCompile/test2/:param1/:param2?param3=:param3"));
-        assertThat(((LinkAction) field.getAction()).getPathMapping().size(), Matchers.is(2));
+        assertThat(((LinkAction) field.getAction()).getUrl(), is("/test2/:param1/:param2?param3=:param3"));
+        assertThat(((LinkAction) field.getAction()).getPathMapping().size(), is(2));
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
-        assertThat(((ShowModal)field.getAction()).getPayload().getPageUrl(), is("/testButtonFieldCompile/test2/:param1/1?param3=:param3"));
-        assertThat(((ShowModal)field.getAction()).getPayload().getPathMapping().size(), is(1));
+        assertThat(((ShowModal) field.getAction()).getPayload().getPageUrl(), is("/testButtonFieldCompile/test2/:param1/1?param3=:param3"));
+        assertThat(((ShowModal) field.getAction()).getPayload().getPathMapping().size(), is(1));
     }
 
     /**
@@ -63,15 +62,15 @@ public class ButtonFieldBinderTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) pipeline.get(context, new DataSet().add("nm", "1"));
         Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
         CustomField field = (CustomField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
-        assertThat(((InvokeAction)((ButtonField)field.getControl()).getAction()).getPayload().getDataProvider().getUrl(),
+        assertThat(((InvokeAction) ((ButtonField) field.getControl()).getAction()).getPayload().getDataProvider().getUrl(),
                 is("n2o/data/p/w/1/form/greeting"));
         ButtonField field1 = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
-        assertThat(((InvokeAction)field1.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
+        assertThat(((InvokeAction) field1.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
         InvokeAction invokeAction = (InvokeAction) form.getComponent().getFieldsets().get(0).getRows().get(3).getCols().get(0)
                 .getFields().get(0).getToolbar()[0].getButtons().get(0).getAction();
         assertThat(invokeAction.getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(1);
-        assertThat(((InvokeAction)((ToolbarCell)table.getComponent().getBody().getCells().get(0)).getToolbar().get(0).getButtons().get(0).getAction())
-                        .getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
+        assertThat(((InvokeAction) ((ToolbarCell) table.getComponent().getBody().getCells().get(0)).getToolbar().get(0).getButtons().get(0).getAction())
+                .getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
     }
 }

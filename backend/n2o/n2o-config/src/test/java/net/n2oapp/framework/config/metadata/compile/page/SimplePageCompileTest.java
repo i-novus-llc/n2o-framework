@@ -56,8 +56,8 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getPageProperty().getDatasource(), is("test_route_w1"));
         assertThat(page.getPageProperty().getModel(), is(ReduxModel.edit));
         assertThat(page.getWidget(), instanceOf(HtmlWidget.class));
-        assertThat(page.getRoutes().getList().size(), is(1));
-        assertThat(page.getRoutes().getList().get(0).getPath(), is("/test/route"));
+        assertThat(page.getRoutes().getSet().size(), is(1));
+        assertThat(page.getRoutes().getSet().iterator().next(), is("/test/route"));
         assertThat(page.getBreadcrumb().get(0).getLabel(), is("tesName"));
         assertThat(route("/test/route", Page.class), notNullValue());
     }

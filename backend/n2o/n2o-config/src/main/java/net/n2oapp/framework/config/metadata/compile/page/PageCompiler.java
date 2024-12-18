@@ -78,10 +78,8 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      * @param p       Процессор сборки
      */
     protected void registerRoutes(PageRoutes routes, PageContext context, CompileProcessor p) {
-        for (PageRoutes.Route route : routes.getList()) {
-            if (!route.getIsOtherPage())
-                p.addRoute(route.getPath(), context);
-        }
+        for (String route : routes.getSet())
+            p.addRoute(route, context);
     }
 
     /**

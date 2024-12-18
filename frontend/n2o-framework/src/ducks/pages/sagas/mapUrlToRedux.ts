@@ -1,11 +1,7 @@
-import { all, call, select, put } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { getLocation } from 'connected-react-router'
-import { matchPath } from 'react-router-dom'
 import queryString from 'query-string'
 import { Action } from 'redux'
-import compact from 'lodash/compact'
-import head from 'lodash/head'
-import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 import each from 'lodash/each'
 import isObject from 'lodash/isObject'
@@ -16,27 +12,7 @@ export function* mappingUrlToRedux(routes: Routes) {
     const location: Location = yield select(getLocation)
 
     if (routes) {
-        yield all([
-            call(pathMapping, location, routes),
-            call(queryMapping, location, routes),
-        ])
-    }
-}
-
-export function* pathMapping(location: Location, routes: Routes) {
-    const parsedPath = head(
-        compact(map(routes.list, route => matchPath(location.pathname, route))),
-    )
-
-    if (parsedPath && !isEmpty(parsedPath.params)) {
-        const actions = map(parsedPath.params, (value, key) => ({
-            ...routes.pathMapping[key],
-            ...applyPlaceholders(key, routes.pathMapping[key], parsedPath.params),
-        }))
-
-        for (const action of actions) {
-            yield put(action as never)
-        }
+        call(queryMapping, location, routes)
     }
 }
 

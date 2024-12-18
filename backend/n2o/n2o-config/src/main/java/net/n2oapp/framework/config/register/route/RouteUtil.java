@@ -37,13 +37,13 @@ public abstract class RouteUtil {
             return url;
         url = url.replaceAll("/+", "/");
         url = url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
-        url = !url.startsWith("/") && !url.startsWith("../") ? "/" + url : url;
+        url = !url.startsWith("/") && !url.startsWith("../") && !url.startsWith("./") ? "/" + url : url;
         return url;
     }
 
     /**
      * Нормализация параметра URL.
-     * Заменяет все не буквенно цифровые символы на подчеркивание
+     * Заменяет все не буквенно-цифровые символы на подчеркивание
      *
      * @param field Поле выборки или формы
      * @return Нормализованный параметр
@@ -54,7 +54,7 @@ public abstract class RouteUtil {
 
     /**
      * Изменение исходного url. Добавляет в конец параметры запроса переданные в queryParams
-     * Если это константа, то она сразу попадает в url, иначе добавляется в виде плейсхолдера с :
+     * Если это константа, то она сразу попадает в url, иначе добавляется в виде плейсхолдера с ":"
      *
      * @param route        url
      * @param queryMapping параметры запроса для добавления
@@ -111,6 +111,7 @@ public abstract class RouteUtil {
     /**
      * Получение всех path параметров из url
      * /:a/test/:b?id=:c -> [a, b]
+     *
      * @param url
      * @return Список path параметров
      */
@@ -250,13 +251,9 @@ public abstract class RouteUtil {
      * @return Абсолютный маршрут
      */
     public static String absolute(String relativeRoute, String baseRoute) {
-        if (!isApplicationUrl(relativeRoute))
-            return relativeRoute;
-        //target=application и url, начинающийся с ./ позволяет присоединить такой url к текущему.
-        //Это бывает полезно в кейсах, использующих redirect
-        if (startsWithAny(relativeRoute, "/", "./"))
-            return relativeRoute;
-        return join(baseRoute, relativeRoute);
+        if (startsWithAny(relativeRoute, "./", "../"))
+            return join(baseRoute, relativeRoute);
+        return normalize(relativeRoute);
     }
 
     /**
@@ -271,6 +268,9 @@ public abstract class RouteUtil {
             return childRoute;
         if (parentRoute == null)
             return normalize(childRoute);
+        if (childRoute.startsWith("./"))
+            return normalize(parentRoute + childRoute.substring(1));
+
         int k = 0;
         String child = childRoute;
         while (child.startsWith("../")) {
@@ -296,7 +296,8 @@ public abstract class RouteUtil {
 
     /**
      * Получает часть адреса url до параметров запроса
-     * @param url Адресс
+     *
+     * @param url Адрес
      * @return Часть адреса url
      */
     public static String parsePath(String url) {
@@ -304,8 +305,9 @@ public abstract class RouteUtil {
     }
 
     /**
-     * Получает часть адреса url отвечающего за ппараметры запроса
-     * @param url Адресс
+     * Получает часть адреса url отвечающего за параметры запроса
+     *
+     * @param url Адрес
      * @return Часть адреса url
      */
     public static String parseQuery(String url) {
@@ -314,19 +316,19 @@ public abstract class RouteUtil {
 
     /**
      * Получение уровня вложенности относительного пути
-     *
+     * <p>
      * Пример 1:
-     *
+     * <p>
      * Входные данные: "../"
      * Выходные данные: 1
-     *
+     * <p>
      * Пример 2:
-     *
+     * <p>
      * Входные данные: "../../../"
      * Выходные данные: 3
-     *
+     * <p>
      * Пример 3:
-     *
+     * <p>
      * Входные данные: "/"
      * Выходные данные: 0
      *

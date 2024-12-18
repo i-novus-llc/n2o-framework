@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.metadata.PrintType;
 import net.n2oapp.framework.api.metadata.meta.action.print.PrintAction;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
@@ -25,7 +24,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции действия печати
  */
-public class PrintActionCompileTest extends SourceCompileTestBase {
+class PrintActionCompileTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach
@@ -53,7 +52,7 @@ public class PrintActionCompileTest extends SourceCompileTestBase {
 
         PrintAction print2 = (PrintAction) toolbar.getButton("id2").getAction();
 
-        assertThat(print2.getPayload().getUrl(), is("/page/test2/:param1/:param2?param3=:param3"));
+        assertThat(print2.getPayload().getUrl(), is("/test2/:param1/:param2?param3=:param3"));
         assertThat(print2.getPayload().getPathMapping().size(), is(2));
         assertThat(print2.getPayload().getPathMapping().get("param1").getBindLink(), is("models.filter['page_secondWgt']"));
         assertThat(print2.getPayload().getPathMapping().get("param1").getValue(), is("`field1`"));
@@ -62,8 +61,6 @@ public class PrintActionCompileTest extends SourceCompileTestBase {
         assertThat(print2.getPayload().getQueryMapping().size(), is(1));
         assertThat(print2.getPayload().getQueryMapping().get("param3").getBindLink(), is("models.filter['page_secondWgt']"));
         assertThat(print2.getPayload().getQueryMapping().get("param3").getValue(), is("`field3`"));
-        PageRoutes.Route anchor = page.getRoutes().findRouteByUrl("/page/test2/:param1/:param2?param3=:param3");
-        assertThat(anchor.getIsOtherPage(), is(true));
 
         PrintAction print3 = (PrintAction) toolbar.getButton("id3").getAction();
         assertThat(print3.getPayload().getUrl(), is("http://google.com"));
@@ -74,7 +71,7 @@ public class PrintActionCompileTest extends SourceCompileTestBase {
         PrintAction linkSecond = (PrintAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().getButton("secWgt").getAction();
 
-        assertThat(linkSecond.getPayload().getUrl(), is("/page/test/:minPrice"));
+        assertThat(linkSecond.getPayload().getUrl(), is("/test/:minPrice"));
         assertThat(linkSecond.getPayload().getPathMapping().size(), is(1));
         assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
@@ -111,7 +108,7 @@ public class PrintActionCompileTest extends SourceCompileTestBase {
         Toolbar toolbar = page.getWidget().getToolbar();
         PrintAction print = (PrintAction) toolbar.getButton("id1").getAction();
 
-        assertThat(print.getPayload().getUrl(), is("/page2/test"));
+        assertThat(print.getPayload().getUrl(), is("/test"));
         assertThat(print.getPayload().getDocumentTitle(), is("Document 1"));
         assertThat(print.getPayload().getLoader(), is(true));
         assertThat(print.getPayload().getLoaderText(), is("Loading..."));

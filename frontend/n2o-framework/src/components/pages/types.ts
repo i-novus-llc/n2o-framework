@@ -65,6 +65,7 @@ export interface DefaultPageProps {
     children?: ReactNode
     disabled?: boolean
     dispatch: Dispatch
+    rootPage?: boolean
 }
 
 export interface PageRegionsProps {
@@ -82,7 +83,6 @@ export type PageWithRegionsProps = DefaultPageProps & PageRegionsProps
 
 export type SearchablePageProps = PageWithRegionsProps & {
     pageId: string
-    withToolbar: boolean
     initSearchValue?: string
 }
 

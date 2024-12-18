@@ -1,5 +1,5 @@
 import { insertDrawer, insertOverlay } from '../../overlays/store'
-import { openPagecreator } from '../page'
+import { openPageCreator } from '../page'
 import { Action } from '../../Action'
 
 export const ERROR = 'завершает выполнение последовательности действий и последующие шаги не будут выполнены'
@@ -7,7 +7,7 @@ export const ERROR = 'завершает выполнение последова
 const ERRORS = {
     [insertOverlay.type]: `Открытие модального окна ${ERROR}`,
     [insertDrawer.type]: `Открытие дровера ${ERROR}`,
-    [openPagecreator.type]: `Открытие страницы ${ERROR}`,
+    [openPageCreator.type]: `Открытие страницы ${ERROR}`,
 }
 
 export function stopTheSequence(action: Action) {

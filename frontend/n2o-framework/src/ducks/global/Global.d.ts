@@ -1,4 +1,5 @@
 export type State = {
+    activePages: string[]
     breadcrumbs: Record<string, string>
     ready: boolean
     loading: boolean

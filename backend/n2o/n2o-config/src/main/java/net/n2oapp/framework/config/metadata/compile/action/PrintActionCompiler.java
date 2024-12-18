@@ -3,12 +3,11 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.PrintType;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oPrintAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.action.N2oPrintAction;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.print.PrintAction;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
@@ -55,13 +54,6 @@ public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2o
         print.getPayload().setLoaderText(source.getLoaderText());
         print.getPayload().setBase64(castDefault(source.getBase64(),
                 () -> p.resolve(property("n2o.api.action.print.base64"), Boolean.class)));
-
-        PageRoutes pageRoutes = p.getScope(PageRoutes.class);
-        if (pageRoutes != null) {
-            PageRoutes.Route pageRoute = new PageRoutes.Route(path);
-            pageRoute.setIsOtherPage(true);
-            pageRoutes.addRoute(pageRoute);
-        }
 
         initMappings(print, source, p, routeScope);
         return print;

@@ -76,23 +76,18 @@ public class N2oRouter implements MetadataRouter {
     @SuppressWarnings("unchecked")
     private <D extends Compiled> CompileContext<D, ?> findRoute(String url, Class<D> compiledClass) {
         for (Map.Entry<RouteInfoKey, CompileContext> routeEntry : environment.getRouteRegister()) {
-            if (matchInfo(routeEntry.getKey(), url) &&
-                    compiledClass.isAssignableFrom(routeEntry.getValue().getCompiledClass())) {
+            if (!compiledClass.isAssignableFrom(routeEntry.getValue().getCompiledClass()))
+                continue;
+
+            if (routeEntry.getValue() instanceof PageContext pageContext && pageContext.getSubRoutes() != null)
+                for (String subRoute : pageContext.getSubRoutes())
+                    if (pathMatcher.match(subRoute, url))
+                        return routeEntry.getValue();
+
+            if (pathMatcher.match(routeEntry.getKey().getUrlMatching(), url))
                 return routeEntry.getValue();
-            }
         }
         return null;
-    }
-
-    /**
-     * Сопоставляет URL в RouteInfo с url в параметре
-     *
-     * @param info        Информация об URL адресе
-     * @param urlMatching URL шаблон в Ant стиле
-     * @return Сопоставимы или нет
-     */
-    private boolean matchInfo(RouteInfoKey info, String urlMatching) {
-        return pathMatcher.match(info.getUrlMatching(), urlMatching);
     }
 
     /**

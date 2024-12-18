@@ -13,6 +13,7 @@ import { State as GlobalState } from '../../ducks/State'
 import { Action } from '../../ducks/Action'
 import { ButtonState } from '../../ducks/toolbar/Toolbar'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
+import { PageContext } from '../core/router/context'
 import { Mapping } from '../../ducks/datasource/Provider'
 
 import { ActionButton } from './ActionButton'
@@ -64,14 +65,13 @@ function useAction({ validate, ...rest }: UseActionProps, onClick: EventHandler)
     const props = useRef(rest)
     const elementId = useMemo(() => (getID()), [])
     const evalContext = useRef({})
+    const { pageId } = useContext(PageContext)
 
     evalContext.current = useContext(ExpressionContext)
     props.current = rest
 
     const checkValid = useCallback(async () => {
-        if (!validate?.length) {
-            return true
-        }
+        if (!validate?.length) { return true }
 
         let valid = true
 
@@ -102,6 +102,7 @@ function useAction({ validate, ...rest }: UseActionProps, onClick: EventHandler)
             key,
             buttonId,
             evalContext: evalContext.current,
+            pageId,
         }) : undefined
 
         const state = store.getState()
@@ -112,7 +113,7 @@ function useAction({ validate, ...rest }: UseActionProps, onClick: EventHandler)
             // @ts-ignore FIXME убрать отсюда: нужен где-то дальше в цепочке вызовов
             dispatch,
         }, state)
-    }, [props, checkValid, store, elementId, onClick, dispatch, evalContext])
+    }, [props, checkValid, store, elementId, onClick, dispatch, evalContext, pageId])
 
     return {
         ...rest,

@@ -68,7 +68,7 @@ public class ShowModalAT extends AutoTestBase {
         modalPage.scrollDown();
         fields.field("value9").control(InputText.class).shouldExists();
         modalPage.close();
-
+        modalPage.shouldNotExists();
 
         openSimpleModal.click();
         modalPage = N2oSelenide.modal();

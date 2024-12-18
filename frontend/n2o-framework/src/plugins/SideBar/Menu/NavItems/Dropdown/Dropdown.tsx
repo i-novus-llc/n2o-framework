@@ -2,13 +2,13 @@ import React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import classNames from 'classnames'
-import { useLocation } from 'react-router-dom'
 
 import { id as generateId } from '../../../../../utils/id'
 import { NavItemContainer } from '../../../NavItemContainer'
 import { Item } from '../../../../CommonMenuTypes'
 import { metaPropsType } from '../../../../utils'
 import { DataSourceModels } from '../../../../../core/datasource/const'
+import { useLocation } from '../../../../../components/core/router/useLocation'
 
 import { DropdownWrapper } from './DropdownWrapper'
 

@@ -85,6 +85,7 @@ public class AlertPositionAT extends AutoTestBase {
         modalAlert.shouldHaveText("Ошибка в модальном окне");
         modalAlert.shouldHaveColor(Colors.DANGER);
         modal.close();
+        modal.shouldNotExists();
 
         // fail with stacktrace
         toolbar.button("Ошибка со стектрейсом").click();

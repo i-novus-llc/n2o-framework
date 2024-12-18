@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Текущий маршрут метаданной при её сборке
+ * Информация о текущем маршруте метаданной
  */
 @Getter
 public class ParentRouteScope {

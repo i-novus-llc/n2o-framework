@@ -58,7 +58,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         widget.setId(castDefault(widget.getId(), MAIN_WIDGET_ID));
         String pageRoute = initPageRoute(source, context, p);
 
-        PageRoutes routes = initRoute(pageRoute);
+        PageRoutes routes = new PageRoutes(pageRoute);
         ParentRouteScope pageRouteScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         BreadcrumbList breadcrumbs = new BreadcrumbList(page.getBreadcrumb());
@@ -138,12 +138,6 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
                     });
         }
         return compiledDatasources;
-    }
-
-    private PageRoutes initRoute(String pageRoute) {
-        PageRoutes routes = new PageRoutes();
-        routes.addRoute(new PageRoutes.Route(pageRoute));
-        return routes;
     }
 
     @Override

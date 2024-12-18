@@ -25,10 +25,10 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
 @Component
 public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion, N2oScrollspyRegion> {
 
-    private static final String PLACEMENT = "n2o.api.region.scrollspy.placement";
-    private static final String HEADLINES = "n2o.api.region.scrollspy.headlines";
-    private static final String ROUTABLE = "n2o.api.region.scrollspy.routable";
-    private static final String GROUP_HEADLINE = "n2o.api.region.scrollspy.group.headline";
+    private static final String PLACEMENT_PROPERTY = "n2o.api.region.scrollspy.placement";
+    private static final String HEADLINES_PROPERTY = "n2o.api.region.scrollspy.headlines";
+    private static final String ROUTABLE_PROPERTY = "n2o.api.region.scrollspy.routable";
+    private static final String GROUP_HEADLINE_PROPERTY = "n2o.api.region.scrollspy.group.headline";
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -51,16 +51,16 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
         build(region, source, p);
         region.setTitle(source.getTitle());
         region.setPlacement(
-                castDefault(source.getPlacement(), () -> p.resolve(property(PLACEMENT), String.class))
+                castDefault(source.getPlacement(), () -> p.resolve(property(PLACEMENT_PROPERTY), String.class))
         );
         region.setHeadlines(
-                castDefault(source.getHeadlines(), () -> p.resolve(property(HEADLINES), Boolean.class))
+                castDefault(source.getHeadlines(), () -> p.resolve(property(HEADLINES_PROPERTY), Boolean.class))
         );
         region.setMaxHeight(prepareSizeAttribute(source.getMaxHeight()));
         region.setMenu(initMenu(source.getMenu(), context, p));
         region.setActive(source.getActive());
         region.setActiveParam(source.getActiveParam());
-        compileRoute(source, region.getId(), ROUTABLE, p);
+        compileRoute(source, region.getId(), ROUTABLE_PROPERTY, p);
 
         return region;
     }
@@ -103,7 +103,7 @@ public class ScrollspyRegionCompiler extends BaseRegionCompiler<ScrollspyRegion,
         initElement(element, item, p);
         element.setGroup(initMenu(((GroupItem) item).getGroup(), context, p));
         element.setHeadline(
-                castDefault(((GroupItem) item).getHeadline(), () -> p.resolve(property(GROUP_HEADLINE), Boolean.class))
+                castDefault(((GroupItem) item).getHeadline(), () -> p.resolve(property(GROUP_HEADLINE_PROPERTY), Boolean.class))
         );
 
         return element;

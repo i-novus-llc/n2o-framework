@@ -11,6 +11,7 @@ public class N2oRegionsV3IOPack implements MetadataPack<XmlIOBuilder> {
                 new PanelRegionIOv3(),
                 new TabsRegionIOv3(),
                 new CustomRegionIOv3(),
-                new ScrollspyRegionIOv3());
+                new ScrollspyRegionIOv3(),
+                new SubPageRegionIOv3());
     }
 }

@@ -11,7 +11,6 @@ import org.apache.commons.collections.CollectionUtils;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 /**
  * Утилитный класс для работы с базовой страницей
@@ -25,7 +24,7 @@ public class BasePageUtil {
      * @return Список виджетов
      */
     public static List<Widget<?>> getCompiledWidgets(StandardPage page) {
-        List<Region> regions = page.getRegions().values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+        List<Region> regions = page.getRegions().values().stream().flatMap(Collection::stream).toList();
         return new ArrayList<>(getRegionWidgets(regions));
     }
 

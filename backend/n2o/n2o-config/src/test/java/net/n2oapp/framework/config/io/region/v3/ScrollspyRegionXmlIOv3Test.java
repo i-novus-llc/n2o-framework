@@ -5,7 +5,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oWidgetsV5IOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.jupiter.api.Test;
 
-public class ScrollspyRegionXmlIOv3Test {
+class ScrollspyRegionXmlIOv3Test {
     
     @Test
     void test() {

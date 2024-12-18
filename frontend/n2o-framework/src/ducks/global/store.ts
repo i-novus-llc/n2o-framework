@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { LOCATION_CHANGE } from 'connected-react-router'
 
+import { metadataSuccess, resetPage } from '../pages/store'
+
 import { State as Global } from './Global'
 
 export const initialState: Global = {
@@ -12,6 +14,7 @@ export const initialState: Global = {
     menu: {},
     rootPageId: null,
     breadcrumbs: {},
+    activePages: [],
 }
 
 export const globalSlice = createSlice({
@@ -80,6 +83,16 @@ export const globalSlice = createSlice({
             routes[pathname] = search
 
             state.breadcrumbs = routes
+        },
+        [metadataSuccess.type](state, { payload }) {
+            const { pageId, json, rootChild } = payload
+
+            if (rootChild) {
+                state.activePages.push(json.id || pageId)
+            }
+        },
+        [resetPage.type](state, { payload }) {
+            state.activePages = state.activePages.filter(page => (page !== payload))
         },
     },
 })

@@ -12,9 +12,10 @@ import { replace } from 'connected-react-router'
 
 // @ts-ignore import from js file
 import { getParams } from '../../../core/dataProviderResolver'
-import { getLocation, rootPageSelector } from '../../global/selectors'
+import { getLocation } from '../../global/selectors'
 import { State } from '../../State'
-import { makePageRoutesByIdSelector } from '../selectors'
+import { makePageByIdSelector, makePageRoutesByIdSelector } from '../selectors'
+import { Page } from '../Pages'
 
 export function* generateNewQuery(pageId: string, query?: object | null) {
     const state: State = yield select()
@@ -49,14 +50,18 @@ export function* mapQueryToUrl(
     pageId: string,
     query?: object | null,
 ) {
-    const rootPageId: string = yield select(rootPageSelector)
+    const page: Page | null = yield select(makePageByIdSelector(pageId))
+
+    if (!page) { return }
+
+    const { rootPage } = page
     const newQuery: object | false = yield call(
         generateNewQuery,
         pageId,
         query,
     )
 
-    if (newQuery && pageId === rootPageId) {
+    if (newQuery && rootPage) {
         yield put(replace({ search: queryString.stringify(newQuery), state: { silent: true } }))
     }
 }

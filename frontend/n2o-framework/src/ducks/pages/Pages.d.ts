@@ -24,20 +24,35 @@ export interface Metadata {
     /* FIXME */
     regions?: Record<string, object[]>
     width?: { [key: string]: string }
-    page?: { model: string, htmlTitle: string, title: string }
+    page?: {
+        datasource: string
+        model: ModelPrefix
+        htmlTitle: string
+        title: string
+    }
     events?: Events[]
     widget?: string
     models?: DefaultModels
 }
 
-export interface Page {
+export type Location = {
+    pathname: string,
+    hash: '',
+    search: string,
+    state: undefined
+}
+
+export type Page = {
+    id: string
     loading: boolean
     error: object | boolean
     disabled: boolean
-    status: number | null
     metadata: Metadata
     spinner?: boolean
-    pageUrl: string | null
+    pageUrl: string
+    parentId?: string
+    rootPage?: boolean
+    location?: Location
 }
 
 export type State = Record<string, Page>

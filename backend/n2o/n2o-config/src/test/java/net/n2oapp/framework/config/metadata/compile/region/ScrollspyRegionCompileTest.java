@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование компиляции региона с отслеживанием прокрутки
  */
-public class ScrollspyRegionCompileTest extends SourceCompileTestBase {
+class ScrollspyRegionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

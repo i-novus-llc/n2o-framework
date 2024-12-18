@@ -58,8 +58,8 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/page/testRoutes.page.xml")
                 .get(context);
         assertThat(page.getId(), is("page"));
-        assertThat(page.getRoutes().getList().size(), is(1));
-        assertThat(page.getRoutes().getList().get(0).getPath(), is("/page"));
+        assertThat(page.getRoutes().getSet().size(), is(1));
+        assertThat(page.getRoutes().getSet().iterator().next(), is("/page"));
         assertThat(((PageContext) route("/page", Page.class)).getClientPageId(), is(context.getClientPageId()));
     }
 

@@ -87,6 +87,11 @@ export const breadcrumbsSelector = createSelector(
     global => global.breadcrumbs || {},
 )
 
+export const activePageSelector = createSelector(
+    globalSelector,
+    global => global.activePages.at(-1),
+)
+
 /**
  * Селектор роутинга
  */

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи региона в виде вкладок версии 3.0
  */
-public class TabsRegionXmlIOv3Test {
+class TabsRegionXmlIOv3Test {
     
     @Test
     void test() {

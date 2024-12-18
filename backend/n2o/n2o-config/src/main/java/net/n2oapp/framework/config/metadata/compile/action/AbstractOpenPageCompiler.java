@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.*;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
@@ -19,20 +18,15 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.apache.commons.lang3.ArrayUtils;
@@ -54,6 +48,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
+import static net.n2oapp.framework.config.util.PageContextCompileUtil.*;
 
 /**
  * Абстрактная реализация компиляция open-page, show-modal
@@ -149,14 +144,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             currentClientWidgetId = widgetScope.getClientWidgetId();
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
-        ModelLink actionModelLink = createActionModelLink(actionDataModel, currentClientWidgetId, pageScope,
+        ModelLink actionModelLink = createActionModelLink(actionDataModel, currentClientWidgetId,
                 componentScope, source.getPageId(), p);
 
-        initPathMapping(source.getPathParams(), pathMapping, p);
+        initMapping(source.getPathParams(), pathMapping, pathMapping, p);
 
         String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
         String parentRoute = normalize(route);
-        route = normalize(route + actionRoute) + (actionRoute.endsWith("/") ? "/" : "");
+        route = normalize(route + actionRoute);
         PageContext pageContext = constructContext(source, route, p);
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
@@ -179,9 +174,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setParentLocalDatasourceId(localDatasourceId);
         pageContext.setParentClientPageId(pageScope == null ? null : pageScope.getPageId());
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
-        if (context instanceof PageContext) {
-            pageContext.addParentRoute(pageContext.getParentRoute(), ((PageContext) context));
-            pageContext.setParentDatasourceIdsMap(initParentDatasourceIdsMap(p, (PageContext) context));
+        if (context instanceof PageContext ctx) {
+            pageContext.addParentRoute(pageContext.getParentRoute(), ctx);
+            pageContext.setParentDatasourceIdsMap(initParentDatasourceIdsMap(ctx, p));
         }
         pageContext.setRefreshOnClose(castDefault(source.getRefreshOnClose(), false));
         if ((!Boolean.FALSE.equals(source.getRefreshAfterSubmit()) || pageContext.getRefreshOnClose())
@@ -193,7 +188,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 pageContext.setRefreshClientDataSourceIds(
                         Arrays.stream(refreshDatasourceIds)
                                 .map(d -> getClientDatasourceId(d, p))
-                                .collect(Collectors.toList())
+                                .toList()
                 );
             }
         }
@@ -202,32 +197,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                         () -> p.resolve(property("n2o.api.action.unsaved_data_prompt"), Boolean.class))
         );
         pageContext.setPathRouteMapping(pathMapping);
-        initQueryMapping(source.getQueryParams(), pathMapping, queryMapping, p);
+        initMapping(source.getQueryParams(), pathMapping, queryMapping, p);
         pageContext.setQueryRouteMapping(queryMapping);
         pageContext.setParentModelLinks(collectParentLinks(actionModelLink, pathMapping.values(), queryMapping.values()));
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
-        initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
 
         return pageContext;
-    }
-
-    private Map<String, String> initParentDatasourceIdsMap(CompileProcessor p, PageContext context) {
-        Map<String, String> parentDatasourceIdsMap = new HashMap<>();
-
-        DataSourcesScope scope = p.getScope(DataSourcesScope.class);
-        if (!CollectionUtils.isEmpty(scope)) {
-            for (Map.Entry<String, N2oAbstractDatasource> entry : scope.entrySet()) {
-                if (!(entry.getValue() instanceof N2oParentDatasource)) {
-                    parentDatasourceIdsMap.put(entry.getKey(), getClientDatasourceId(entry.getKey(), p));
-                } else if (!((N2oParentDatasource) entry.getValue()).isFromParentPage()) {
-                    parentDatasourceIdsMap.put(entry.getKey(), context.getParentDatasourceIdsMap().get(entry.getKey()));
-                }
-            }
-        }
-
-        return parentDatasourceIdsMap;
     }
 
     private List<Breadcrumb> initBreadcrumb(S source, PageContext pageContext, CompileProcessor p) {
@@ -267,12 +244,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      *
      * @param actionDataModel Модель действия
      * @param clientWidgetId  Идентификатор клиентского виджета
-     * @param pageScope       Информация о странице
      * @param componentScope  Информация о родительском компоненте
      * @param pageId          Идентификатор открываемой страницы
      * @return Ссылка на модель действия
      */
-    private ModelLink createActionModelLink(ReduxModel actionDataModel, String clientWidgetId, PageScope pageScope,
+    private ModelLink createActionModelLink(ReduxModel actionDataModel, String clientWidgetId,
                                             ComponentScope componentScope, String pageId, CompileProcessor p) {
         if (componentScope == null)
             return null;
@@ -285,76 +261,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             datasource = clientWidgetId;
         }
         return new ModelLink(actionDataModel, datasource, isLink(pageId) ? unwrapLink(pageId) : QuerySimpleField.PK);
-    }
-
-    /**
-     * Добавление параметров пути в pathMapping
-     *
-     * @param params      Список входящих параметров пути
-     * @param pathMapping Map моделей параметров пути
-     *                    В нее будут добавлены модели построенных параметров пути
-     * @param p           Процессор сборки метаданных
-     */
-    private void initPathMapping(N2oParam[] params, Map<String, ModelLink> pathMapping, CompileProcessor p) {
-        if (ArrayUtils.isEmpty(params))
-            return;
-
-        pathMapping.putAll(initParams(prepareParams(params), pathMapping, p));
-    }
-
-    /**
-     * Добавление параметров запроса в queryMapping
-     *
-     * @param params       Список входящих параметров запроса
-     * @param pathMapping  Map моделей параметров пути
-     * @param queryMapping Map моделей параметров запроса.
-     *                     В нее будут добавлены модели построенных параметров запроса
-     * @param p            Процессор сборки метаданных
-     */
-    private void initQueryMapping(N2oParam[] params, Map<String, ModelLink> pathMapping,
-                                  Map<String, ModelLink> queryMapping, CompileProcessor p) {
-        if (ArrayUtils.isEmpty(params))
-            return;
-
-        queryMapping.putAll(initParams(prepareParams(params), pathMapping, p));
-    }
-
-    /**
-     * Подготовка параметров
-     *
-     * @param params Список входящих параметров
-     * @return Список преобразованных параметров
-     */
-    private List<N2oParam> prepareParams(N2oParam[] params) {
-        return Arrays.stream(params).map(N2oParam::new).collect(Collectors.toList());
-    }
-
-    /**
-     * Инициализация map моделей по имени параметра из списка параметров.
-     *
-     * @param params     Список параметров
-     * @param pathParams Map моделей по имени параметра
-     *                   Используется для фильтрации параметров, не входящих в данную map
-     * @return Map моделей по имени параметра
-     */
-    private Map<String, ModelLink> initParams(List<N2oParam> params,
-                                              Map<String, ModelLink> pathParams,
-                                              CompileProcessor p) {
-        if (params == null)
-            return null;
-
-        return params.stream()
-                .filter(f -> f.getName() != null && !pathParams.containsKey(f.getName()))
-                .collect(Collectors.toMap(N2oParam::getName, param -> {
-                    ModelLink link = Redux.linkParam(param, p);
-                    String datasource = param.getDatasourceId();
-                    DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-                    if (ReduxModel.resolve.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
-                            && dataSourcesScope.get(datasource) instanceof N2oStandardDatasource) {
-                        link.setSubModelQuery(new SubModelQuery(((N2oStandardDatasource) dataSourcesScope.get(datasource)).getQueryId()));
-                    }
-                    return link;
-                }));
     }
 
     /**
@@ -388,18 +294,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     protected abstract void initPageRoute(D compiled, String route,
                                           Map<String, ModelLink> pathMapping,
                                           Map<String, ModelLink> queryMapping);
-
-    private void initOtherPageRoute(CompileProcessor p, CompileContext<?, ?> context, String route) {
-        if (context instanceof ModalPageContext)
-            return;
-        //only for link
-        PageRoutes pageRoutes = p.getScope(PageRoutes.class);
-        if (pageRoutes != null) {
-            PageRoutes.Route pageRoute = new PageRoutes.Route(route);
-            pageRoute.setIsOtherPage(true);
-            pageRoutes.addRoute(pageRoute);
-        }
-    }
 
     protected void validatePathAndRoute(String route, N2oParam[] pathParams, ParentRouteScope routeScope) {
         List<String> routeParams = route == null ? null : RouteUtil.getParams(route);

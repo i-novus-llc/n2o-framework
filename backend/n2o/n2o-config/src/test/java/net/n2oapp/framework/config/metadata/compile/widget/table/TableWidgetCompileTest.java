@@ -590,7 +590,6 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testRoutable.page.xml")
                 .get(new PageContext("testRoutable"));
         PageRoutes routes = page.getRoutes();
-        assertTrue(routes.getPathMapping().isEmpty());
         assertTrue(routes.getQueryMapping().containsKey("page"));
         assertTrue(routes.getQueryMapping().containsKey("size"));
         assertEquals("n2o/api/datasource/mapParam", routes.getQueryMapping().get("page").getOnGet().getType());
@@ -610,7 +609,6 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testRoutableManyWidgets.page.xml")
                 .get(new PageContext("testRoutableManyWidgets"));
         PageRoutes routes = page.getRoutes();
-        assertTrue(routes.getPathMapping().isEmpty());
         assertFalse(routes.getQueryMapping().containsKey("page"));
         assertFalse(routes.getQueryMapping().containsKey("size"));
         assertTrue(routes.getQueryMapping().containsKey("table_page"));

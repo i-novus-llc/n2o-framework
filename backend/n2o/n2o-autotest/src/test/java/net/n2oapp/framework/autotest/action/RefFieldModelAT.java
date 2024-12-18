@@ -74,9 +74,11 @@ public class RefFieldModelAT extends AutoTestBase {
         Modal modal2 = N2oSelenide.modal(1);
         modal2.shouldHaveTitle("page2");
         modal2.close();
+        modal2.shouldNotExists();
         id.setValue("1");
         fromCurrentPageWidget.shouldHaveValue("1");
         modal.close();
+        modal.shouldNotExists();
 
         // open-page
         table.columns().rows().row(2).click();

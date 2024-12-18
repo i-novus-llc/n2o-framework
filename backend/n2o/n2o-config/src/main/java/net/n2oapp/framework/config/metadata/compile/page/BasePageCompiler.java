@@ -69,9 +69,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compileComponent(page, source, p);
 
-        PageIndexScope pageIndexScope = new PageIndexScope(page.getId());
-        PageRoutes pageRoutes = new PageRoutes();
-        pageRoutes.addRoute(new PageRoutes.Route(pageRoute));
+        PageRoutes pageRoutes = new PageRoutes(pageRoute);
         ParentRouteScope routeScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         ValidationScope validationScope = new ValidationScope();
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
@@ -95,6 +93,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
         //regions
         IndexScope index = new IndexScope();
+        PageIndexScope pageIndexScope = new PageIndexScope(page.getId());
         page.setRegions(initRegions(source, page, p, context, pageScope, pageRoutes, routeScope,
                 breadcrumb, validationScope, page.getModels(), pageRoutesScope, searchBarScope, subModelsScope,
                 copiedFieldScope, datasourcesScope, clientDatasourceIdsScope, metaActions,

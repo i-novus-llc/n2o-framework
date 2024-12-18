@@ -9,19 +9,13 @@ import { executeExpression } from '../core/Expression/execute'
 export const useHtmlResolver = (html: string, model: Model) => {
     const evalContext = useContext(ExpressionContext)
 
-    if (!html) {
-        return null
-    }
+    if (!html) { return null }
 
     const parsedExpression = parseExpression(html)
 
-    if (!parsedExpression) {
-        return html
-    }
+    if (!parsedExpression) { return html }
 
-    if (isEmpty(model)) {
-        return null
-    }
+    if (isEmpty(model)) { return null }
 
     return executeExpression(parsedExpression.replace(/\n/g, '\\n'), model, evalContext)
 }

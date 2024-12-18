@@ -10,10 +10,12 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 /**
  * Скомпилированный объект, описыващий object.xml файл
@@ -58,7 +60,6 @@ public class CompiledObject implements Compiled, IdAware {
     @Getter
     @Setter
     public static class Operation extends N2oObject.Operation implements Compiled, PropertiesAware {
-
         private Map<String, Object> properties;
         private Map<String, AbstractParameter> inParametersMap;
         private Map<String, AbstractParameter> outParametersMap;
@@ -66,21 +67,5 @@ public class CompiledObject implements Compiled, IdAware {
         private List<Validation> validationList;
         private Map<String, Validation> validationsMap;
         private Map<String, Validation> whiteListValidationsMap;
-
-        public Map<String, Validation> getWhiteListValidationsMap() {
-            return nonNull(whiteListValidationsMap) ? whiteListValidationsMap : Collections.emptyMap();
-        }
-
-        public void setWhiteListValidationsMap(Map<String, Validation> whiteListValidationsMap) {
-            this.whiteListValidationsMap = whiteListValidationsMap;
-        }
-
-        public boolean isValidationEnable() {
-            return nonNull(getValidationList()) && !getValidationList().isEmpty();
-        }
-
-        public Map<String, Validation> getValidationsMap() {
-            return nonNull(validationsMap) ? validationsMap : Collections.emptyMap();
-        }
     }
 }

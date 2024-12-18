@@ -6,16 +6,19 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
-import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
+import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
-import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 
 import static net.n2oapp.framework.api.StringUtils.hasLink;
 
@@ -28,11 +31,8 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             widgets.forEach(p::bind);
         bindDatasources(page, p);
         if (page.getRoutes() != null) {
-            Map<String, BindLink> pathMappings = new HashMap<>();
-            page.getRoutes().getPathMapping().forEach((k, v) -> pathMappings.put(k, Redux.createBindLink(v)));
-            for (PageRoutes.Route route : page.getRoutes().getList()) {
-                route.setPath(p.resolveUrl(route.getPath(), pathMappings, null));
-            }
+            if (page.getRoutes().getPath() != null)
+                page.getRoutes().setPath(p.resolveUrl(page.getRoutes().getPath()));
             if (page.getRoutes().getQueryMapping() != null) {
                 if (page.getModels() == null) {
                     page.setModels(new Models());

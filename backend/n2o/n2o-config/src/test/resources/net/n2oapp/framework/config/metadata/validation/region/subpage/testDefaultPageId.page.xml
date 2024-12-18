@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <sub-page default-page-id="page3">
+            <page page-id="page1" route="/route1"/>
+            <page page-id="page2" route="/route2"/>
+        </sub-page>
+    </regions>
+</page>

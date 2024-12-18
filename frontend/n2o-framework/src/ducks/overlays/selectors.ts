@@ -8,16 +8,6 @@ import { State } from '../State'
 export const overlaysSelector = (state: State) => state.overlays || []
 
 /**
- * селектор модального окна по индексу
- */
-export const makeOverlayByIndex = (index: number) => createSelector(
-    [
-        overlaysSelector,
-    ],
-    overlaysState => overlaysState[index],
-)
-
-/**
  * Получение оверлей по имени
  */
 const makeOverlayByName = (name: string) => createSelector([overlaysSelector], overlaysState => overlaysState.find(overlay => overlay.name === name))

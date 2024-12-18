@@ -17,7 +17,9 @@ const withActions = (Component) => {
     })
 
     return compose(
-        withProps(({ pageId, pageUrl }) => ({ pageId: !pageId && pageUrl ? pageUrl.substr(1) : pageId })),
+        withProps(({ pageId, pageUrl }) => ({
+            pageId: !pageId && pageUrl ? pageUrl.substr(1) : pageId,
+        })),
         pure,
         connect(mapStateToProps),
     )(ComponentWithActions)

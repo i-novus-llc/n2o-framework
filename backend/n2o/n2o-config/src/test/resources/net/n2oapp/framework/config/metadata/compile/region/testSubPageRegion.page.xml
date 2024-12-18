@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+    <regions>
+        <sub-page default-page-id="page2">
+            <page page-id="page1" route="./route1">
+                <datasources>
+                    <inherited-datasource id="inh" source-datasource="ds1"/>
+                </datasources>
+                <breadcrumbs>
+                    <crumb label="Первая страница" path="../"/>
+                    <crumb label="Вторая страница" path="#"/>
+                </breadcrumbs>
+                <toolbars>
+                    <toolbar place="bottomRight">
+                        <button label="Сохранить" action-id="saveAction"/>
+                    </toolbar>
+                </toolbars>
+                <actions>
+                    <action id="saveAction">
+                        <invoke operation-id="save"/>
+                    </action>
+                </actions>
+            </page>
+
+            <page page-id="page2" route="/route2"/>
+            <page page-id="page3" route="/route3/subroute"/>
+            <page page-id="page4" route="route4"/>
+        </sub-page>
+    </regions>
+</page>
