@@ -193,7 +193,6 @@ export class InputSelect extends React.Component<Props, State> {
     /**
      * Возвращает текущее значение (массив - если ипут селект, объект - если нет)
      * или null если пусто
-     * @returns {*}
      * @private
      */
     getValue = () => {
@@ -369,14 +368,6 @@ export class InputSelect extends React.Component<Props, State> {
             onChange,
         } = this.props
 
-        const selectCallback = () => {
-            if (closePopupOnSelect) {
-                this.hidePopUp()
-            }
-            onSelect(item)
-            onChange(this.getValue())
-        }
-
         this.setState(
             prevState => ({
                 value: multiSelect ? [...(prevState.value || []), item] : [item],
@@ -384,23 +375,26 @@ export class InputSelect extends React.Component<Props, State> {
                 options,
             }),
             () => {
-                if (this.inputRef) {
-                    this.inputRef.current.focus()
-                }
+                if (this.inputRef) { this.inputRef.current.focus() }
 
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (this.textAreaRef as any).focus()
+                // @ts-ignore костыль для фокусировки на каретку при выборе через клавиши
+                this.textAreaRef.blur()
+
+                // @ts-ignore TODO типизировано как any требуется рефакторинг
+                this.textAreaRef.focus()
+
                 this.setInputFocus(true)
 
-                selectCallback()
+                if (closePopupOnSelect) { this.hidePopUp() }
+
+                onSelect(item)
+                onChange(this.getValue())
             },
         )
 
         const { input } = this.state
 
-        if (input && multiSelect) {
-            this.handleDataSearch('')
-        }
+        if (input && multiSelect) { this.handleDataSearch('') }
     }
 
     /**
