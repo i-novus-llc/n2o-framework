@@ -2,7 +2,7 @@ import React, { ChangeEvent, KeyboardEvent } from 'react'
 import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
-import cn from 'classnames'
+import classNames from 'classnames'
 
 import { InputElements as SelectedItems } from './SelectedItems'
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils'
@@ -63,6 +63,8 @@ export type Props = {
     tags: boolean,
     value: string | number,
     valueFieldId: string
+    className?: string
+    readOnly?: boolean
 }
 
 export function InputContent({
@@ -93,6 +95,8 @@ export function InputContent({
     mode,
     maxTagTextLength,
     maxTagCount,
+    className,
+    readOnly = false,
 }: Props) {
     const setOnlyElementFound = () => {
         if (mode !== 'autocomplete' && !multiSelect && options.length === 1) {
@@ -252,7 +256,7 @@ export function InputContent({
                         onClick={handleClick}
                         onFocus={onFocus}
                         onBlur={onBlur}
-                        className={cn('form-control n2o-inp', {
+                        className={classNames('form-control n2o-inp', {
                             'n2o-inp--multi': multiSelect,
                         })}
                         autoFocus={autoFocus}
@@ -271,9 +275,10 @@ export function InputContent({
                     onFocus={onFocus}
                     onBlur={onBlur}
                     type="text"
-                    className="form-control n2o-inp"
+                    className={classNames(className, { 'form-control n2o-inp': !readOnly })}
                     autoFocus={autoFocus}
                     autoComplete="nope"
+                    readOnly={readOnly}
                 />
             )}
         </>

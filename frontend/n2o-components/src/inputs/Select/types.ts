@@ -10,6 +10,7 @@ export interface State {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     selected: any[]
     value: string
+    activeValueId: string | null
 }
 
 export interface Props {
