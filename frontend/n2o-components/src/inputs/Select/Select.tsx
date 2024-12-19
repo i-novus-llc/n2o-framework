@@ -11,6 +11,7 @@ import { InputSelectGroup } from '../InputSelect/InputSelectGroup'
 import { TOption } from '../InputSelect/types'
 import { PopupList } from '../InputSelect/PopupList'
 import { WithPopUpHeight } from '../WithPopUpHeight'
+import { InputContent } from '../InputSelect/InputContent'
 
 import { getNoun } from './utils'
 import { Popup } from './Popup'
@@ -72,6 +73,7 @@ class SelectComponent extends React.Component<Props, State> {
             isExpanded: false,
             options,
             selected: getSelected(value),
+            activeValueId: null,
         }
 
         this.control = null
@@ -404,6 +406,15 @@ class SelectComponent extends React.Component<Props, State> {
         return get(selectedElement, labelFieldId)
     }
 
+    /**
+     * установить акстивный элемент дропдауна
+     * @param activeValueId
+     * @private
+     */
+    setActiveValueId = (activeValueId: State['activeValueId']) => {
+        this.setState({ activeValueId })
+    }
+
     render() {
         const {
             loading,
@@ -433,7 +444,7 @@ class SelectComponent extends React.Component<Props, State> {
         } = this.props
         const inputSelectStyle = { width: '100%', ...style }
 
-        const { selected, isExpanded, value, options } = this.state
+        const { selected, isExpanded, value, options, activeValueId } = this.state
 
         const title = get(first(selected), `${labelFieldId}`)
         const inputValue = this.hasCheckboxes ? this.getPlaceholder() : this.getValue()
@@ -458,7 +469,21 @@ class SelectComponent extends React.Component<Props, State> {
                         selected={selected}
                         onClearClick={this.clearSelected}
                     >
-                        <input className="valueText" type="text" value={inputValue} readOnly />
+                        <InputContent
+                            value={inputValue}
+                            options={options}
+                            selected={selected}
+                            onRemoveItem={this.removeSelectedItem}
+                            setActiveValueId={this.setActiveValueId}
+                            activeValueId={activeValueId || ''}
+                            valueFieldId={valueFieldId}
+                            placeholder={placeholder}
+                            onSelect={this.handleItemSelect}
+                            labelFieldId={labelFieldId}
+                            isExpanded={isExpanded}
+                            className="valueText"
+                            readOnly
+                        />
                     </InputSelectGroup>
                 </Button>
                 <Popup isExpanded={isExpanded} inputSelect={this.n2oSelectRef.current}>
@@ -495,6 +520,8 @@ class SelectComponent extends React.Component<Props, State> {
                             count={count}
                             popUpItemRef={popUpItemRef}
                             style={popUpStyle}
+                            activeValueId={activeValueId}
+                            setActiveValueId={this.setActiveValueId}
                         />
                     </>
                 </Popup>
