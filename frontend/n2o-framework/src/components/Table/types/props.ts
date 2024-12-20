@@ -52,7 +52,7 @@ export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
             row?: Row
         }
     }
-    validateFilterField(id: string, model: Record<string, unknown>, reset?: boolean): void
+    validateFilterField(id: string, model: Record<string, unknown>, reset?: boolean): boolean
     filterErrors?: Record<string, FieldError>
     components?: {
         /*

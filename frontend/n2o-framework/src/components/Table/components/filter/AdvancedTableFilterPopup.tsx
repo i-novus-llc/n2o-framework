@@ -1,41 +1,28 @@
-import React, { useCallback } from 'react'
-import { pure } from 'recompose'
+import React, { useCallback, memo, KeyboardEvent } from 'react'
 import { Button } from 'reactstrap'
 import classNames from 'classnames'
 
 import InputText from '../../../controls/InputText/InputText'
 
+import { type AdvancedTableFilterPopupProps, VALIDATION_MAP } from './types'
+
 /**
  * Компонент overlay для фильтра
- * @param value - значение фильтра
- * @param onChange - callback на изменение
- * @param onSearchClick - callback на поиск
- * @param onResetClick - callback на сброс
- * @param component - компонент контрол фильтра
- * @param controlProps
- * @returns {*}
- * @constructor
  */
 
-const validationMap = {
-    'is-valid': 'text-success',
-    'is-invalid': 'text-danger',
-    'has-warning': 'text-warning',
-}
-
-function AdvancedTableFilterPopup({
+const AdvancedTableFilterPopupBody = ({
     value,
-    touched,
-    onChange,
-    onBlur,
-    onSearchClick,
-    onResetClick,
     component,
-    componentProps,
-    error,
     style,
-}) {
-    const onKeyDown = useCallback((event) => {
+    touched = false,
+    onChange = () => {},
+    onBlur = () => {},
+    onSearchClick = () => {},
+    onResetClick = () => {},
+    componentProps = {},
+    error = {},
+}: AdvancedTableFilterPopupProps) => {
+    const onKeyDown = useCallback((event: KeyboardEvent) => {
         if (event.key === 'Enter') {
             onSearchClick()
         }
@@ -64,15 +51,15 @@ function AdvancedTableFilterPopup({
                             onChange={onChange}
                             onKeyDown={onKeyDown}
                         />
-                        {error?.message?.text ? (
+                        {error?.message?.text && (
                             <div className={classNames(
                                 'n2o-validation-message',
-                                validationMap[error.validationClass],
+                                VALIDATION_MAP[error.validationClass || ''],
                             )}
                             >
-                                {error?.message?.text}
+                                {error.message.text}
                             </div>
-                        ) : null}
+                        )}
                     </div>
                 )}
             </div>
@@ -84,13 +71,5 @@ function AdvancedTableFilterPopup({
     )
 }
 
-AdvancedTableFilterPopup.defaultProps = {
-    onChange: () => {},
-    onSearchClick: () => {},
-    onResetClick: () => {},
-    componentProps: {},
-    error: {},
-}
-
-export { AdvancedTableFilterPopup }
-export default pure(AdvancedTableFilterPopup)
+export const AdvancedTableFilterPopup = memo(AdvancedTableFilterPopupBody)
+export default AdvancedTableFilterPopup

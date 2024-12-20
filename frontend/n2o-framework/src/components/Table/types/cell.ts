@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, VFC } from 'react'
+import { ComponentType, CSSProperties, FC, VFC } from 'react'
 
 import { Selection } from '../enum'
 
@@ -38,6 +38,8 @@ export type HeaderCell = {
         dateFormat?: string
         utc?: boolean,
         outputFormat?: string
-        component: JSX.Element
+        component: ComponentType<Record<string, unknown>>
+        control?: Record<string, unknown>
+        style?: CSSProperties
     }
 }
