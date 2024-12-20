@@ -19,7 +19,8 @@ import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
 import ReduxForm from './Form/ReduxForm'
-import { modelLinkMapper, type Fieldsets } from './helpers'
+import { modelLinkMapper } from './helpers'
+import { type FieldSetsProps } from './Form/types'
 
 export const WidgetFilterContext = createContext({
     formName: '',
@@ -29,11 +30,11 @@ export const WidgetFilterContext = createContext({
 
 export interface Props {
     widgetId: string
-    fieldsets: Fieldsets
+    fieldsets: FieldSetsProps
     fetchData?(paging: { page: number }, force?: boolean): void
     fetchOnChange?: boolean
     blackResetList?: string[]
-    filterFieldsets: Fieldsets
+    filterFieldsets: FieldSetsProps
     datasource: string
     style?: CSSProperties
     fetchOnClear?: boolean

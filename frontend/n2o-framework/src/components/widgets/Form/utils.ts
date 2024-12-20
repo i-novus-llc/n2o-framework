@@ -2,18 +2,15 @@ import map from 'lodash/map'
 import has from 'lodash/has'
 import each from 'lodash/each'
 import isObjectLike from 'lodash/isObjectLike'
-import isNil from 'lodash/isNil'
 
-import { propsResolver } from '../../../core/Expression/propsResolver'
+import { ColProps, type Fields, type FieldSetsProps, type FieldsetProps, RowProps, FieldType } from './types'
 
 /**
  * Возвращает id первового поля, на котором может быть установлен автофокус
  * @param fields
- * @return {*}
  */
 // eslint-disable-next-line consistent-return
-export function getAutoFocusId(fields) {
-    // eslint-disable-next-line no-restricted-syntax
+export function getAutoFocusId(fields: Fields) {
     for (const field of fields) {
         if (!field.readOnly && field.visible !== false && field.enabled !== false) {
             return field.id
@@ -30,14 +27,15 @@ export function getAutoFocusId(fields) {
  * // вернет плоский массив филдов fieldset'а
  * flatFields(fieldset, [])
  */
-export function flatFields(obj, fields) {
+export function flatFields(obj: FieldSetsProps | FieldsetProps | RowProps | ColProps, fields?: FieldType[]) {
     fields = []
     if (isObjectLike(obj)) {
-        each(obj, (v, k) => {
+        each(obj, (_v, k) => {
             if (k === 'fields') {
-                fields = fields.concat(obj.fields)
+                fields = fields?.concat((obj as ColProps).fields)
             } else {
-                fields = fields.concat(flatFields(obj[k], fields))
+                // @ts-ignore FIXME необходим рефактоинг, сложная входная структура, одновременное обращение по индексу и ключу
+                fields = fields.concat(flatFields(obj[k as 'fields' | number | 'cols' | 'rows'], fields))
             }
         })
     }
@@ -45,15 +43,14 @@ export function flatFields(obj, fields) {
     return fields
 }
 
-export const getFieldsKeys = (fieldsets) => {
-    /** @type {string[]} */
-    const keys = []
+export const getFieldsKeys = (fieldsets?: FieldSetsProps) => {
+    const keys: string[] = []
 
-    const mapFields = (fields, name) => {
+    const mapFields = (fields: Fields, name?: string | null) => {
         map(fields, ({ id }) => keys.push(name ? `${name}[].${id}` : id))
     }
 
-    const mapCols = (cols, name) => {
+    const mapCols = (cols?: ColProps[], name?: string | null) => {
         map(cols, (col) => {
             if (has(col, 'cols')) {
                 mapCols(col.cols, name)
@@ -70,17 +67,4 @@ export const getFieldsKeys = (fieldsets) => {
     }))
 
     return keys
-}
-
-/**
- * @param {string|boolean} [value]
- * @param {object} model
- * @return {boolean}
- */
-export const resolveExpression = (value, model, context) => {
-    if (isNil(value)) {
-        return true
-    }
-
-    return propsResolver(value, model, context)
 }
