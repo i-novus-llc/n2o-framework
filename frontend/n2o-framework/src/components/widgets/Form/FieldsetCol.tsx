@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
-import { compose, withHandlers, pure, mapProps } from 'recompose'
+import React, { useContext, memo, Context, ComponentType } from 'react'
+import flowRight from 'lodash/flowRight'
 import { Col } from 'reactstrap'
 import get from 'lodash/get'
 
@@ -9,8 +8,8 @@ import { executeExpression } from '../../../core/Expression/execute'
 import { parseExpression } from '../../../core/Expression/parse'
 
 import ReduxField from './ReduxField'
-// eslint-disable-next-line import/no-cycle
 import { FieldsetContainer } from './Fieldset'
+import { type FieldSetColComponentProps } from './types'
 
 function FieldsetColComponent({
     col,
@@ -24,13 +23,26 @@ function FieldsetColComponent({
     modelPrefix,
     form,
     parentName,
-    colVisible,
     disabled,
     autoSubmit,
     onChange,
     onBlur,
     multiSetDisabled,
-}) {
+    evalContext,
+}: FieldSetColComponentProps) {
+    const resolveVisible = () => {
+        const visible = get(col, 'visible')
+        const expression = parseExpression(visible)
+
+        if (expression) { return executeExpression(expression, activeModel, evalContext) }
+
+        if (visible === true) { return true }
+
+        return visible !== false
+    }
+
+    const colVisible = resolveVisible()
+
     if (!colVisible) { return null }
 
     const { size, className, style, fields, fieldsets } = col
@@ -91,55 +103,20 @@ function FieldsetColComponent({
     )
 }
 
-const withContext = (Context, mapper) => Component => (props) => {
+const withContext = (
+    Context: Context<Record<string, unknown>>,
+    mapper: (contextValue: Record<string, unknown>) => Record<string, unknown>,
+) => (Component: ComponentType<FieldSetColComponentProps>) => (props: FieldSetColComponentProps) => {
     const contextValue = useContext(Context)
     const mappedValue = mapper(contextValue)
 
     return (<Component {...props} {...mappedValue} />)
 }
 
-const enhance = compose(
-    pure,
+const enhance = flowRight(
+    memo,
     withContext(ExpressionContext, evalContext => ({ evalContext })),
-    withHandlers({
-        resolveVisible: props => () => {
-            const visible = get(props, 'col.visible')
-            const expression = parseExpression(visible)
-
-            if (expression) {
-                return executeExpression(expression, props.activeModel, props.evalContext)
-            }
-
-            if (visible === true) { return true }
-
-            return visible !== false
-        },
-    }),
-
-    mapProps(({ resolveVisible, ...props }) => ({
-        ...props,
-        colVisible: resolveVisible(),
-    })),
 )
-
-FieldsetColComponent.propTypes = {
-    col: PropTypes.object,
-    activeModel: PropTypes.object,
-    defaultCol: PropTypes.object,
-    colId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    autoFocusId: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([false])]),
-    labelPosition: PropTypes.string,
-    labelWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    labelAlignment: PropTypes.string,
-    modelPrefix: PropTypes.string,
-    form: PropTypes.string,
-    parentName: PropTypes.string,
-    colVisible: PropTypes.bool,
-    disabled: PropTypes.bool,
-    autoSubmit: PropTypes.bool,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
-}
 
 const FieldsetCol = enhance(FieldsetColComponent)
 

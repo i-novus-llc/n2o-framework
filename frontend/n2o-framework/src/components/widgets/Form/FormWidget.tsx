@@ -1,21 +1,21 @@
 import React, { useContext, useEffect, useMemo } from 'react'
-import PropTypes from 'prop-types'
-import values from 'lodash/values'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
+import values from 'lodash/values'
 
-import WidgetLayout from '../StandardWidget'
-import { widgetPropTypes } from '../../../core/widget/propTypes'
+import StandardWidget from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
 import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { isDirtyForm } from '../../../ducks/form/selectors'
 import { setModel } from '../../../ducks/models/store'
+import { State } from '../../../ducks/State'
 
 import { getFieldsKeys } from './utils'
 import Fieldsets from './fieldsets'
 import ReduxForm from './ReduxForm'
+import { type FormWidgetProps } from './types'
 
 export const Form = ({
     id: formName,
@@ -26,7 +26,7 @@ export const Form = ({
     style,
     form,
     loading,
-}) => {
+}: FormWidgetProps) => {
     const dispatch = useDispatch()
     const { getState } = useStore()
     const { resolveProps } = useContext(FactoryContext)
@@ -38,7 +38,7 @@ export const Form = ({
     }), [form, resolveProps])
     const { modelPrefix, fieldsets } = resolvedForm
     const datasourceModel = useSelector(
-        state => getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)(state)?.[0],
+        (state: State) => getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)(state)?.[0],
     )
     const resolveModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, datasource))
     const editModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.edit, datasource))
@@ -69,7 +69,7 @@ export const Form = ({
     const dirty = useSelector(isDirtyForm(formName))
 
     return (
-        <WidgetLayout
+        <StandardWidget
             disabled={disabled}
             widgetId={formName}
             toolbar={toolbar}
@@ -82,33 +82,13 @@ export const Form = ({
             <ReduxForm
                 name={formName}
                 datasource={datasource}
-                modelPrefix={modelPrefix}
                 dirty={dirty}
                 fields={fields}
                 {...resolvedForm}
+                modelPrefix={modelPrefix}
             />
-        </WidgetLayout>
+        </StandardWidget>
     )
 }
 
-Form.propTypes = {
-    ...widgetPropTypes,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    disabled: PropTypes.bool,
-    form: PropTypes.shape({
-        fieldsets: PropTypes.array,
-        prompt: PropTypes.bool,
-        modelPrefix: PropTypes.oneOf(['resolve', 'edit']),
-    }),
-    autoSubmit: PropTypes.bool,
-}
-
-Form.contextTypes = {
-    store: PropTypes.object,
-}
-
-/**
- * @type ConnectedWidget
- */
 export const FormWidget = WidgetHOC(Form)

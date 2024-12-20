@@ -1,15 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { pure } from 'recompose'
+import React, { memo } from 'react'
 import { Row } from 'reactstrap'
 
-// eslint-disable-next-line import/no-cycle
 import { FieldsetCol } from './FieldsetCol'
+import { type FieldSetRowComponentProps } from './types'
 
-function FieldsetRow({ rowId, row, activeModel, ...rest }) {
+function FieldsetRow({ rowId, row, activeModel, ...rest }: FieldSetRowComponentProps) {
     return (
         <Row key={rowId} {...row.props} className={row.className} style={row.style}>
-            {row.cols &&
+            {row?.cols &&
                 row.cols.map((col, colId) => (
                     <FieldsetCol
                         // eslint-disable-next-line react/no-array-index-key
@@ -24,11 +22,4 @@ function FieldsetRow({ rowId, row, activeModel, ...rest }) {
     )
 }
 
-FieldsetRow.propTypes = {
-    rowId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    row: PropTypes.object,
-    colId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    activeModel: PropTypes.object,
-}
-
-export default pure(FieldsetRow)
+export default memo(FieldsetRow)

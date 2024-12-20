@@ -33,9 +33,9 @@ export const modelsSlice = createSlice({
             prepare<Prefix extends ModelPrefix>(
                 prefix: Prefix,
                 key: string,
-                model: Prefix extends (ModelPrefix.source | ModelPrefix.selected)
+                model: (Prefix extends (ModelPrefix.source | ModelPrefix.selected)
                     ? Array<Record<string, unknown>>
-                    : Record<string, unknown>,
+                    : Record<string, unknown>) | null,
                 isDefault?: boolean,
             ) {
                 return ({

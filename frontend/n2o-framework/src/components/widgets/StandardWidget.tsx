@@ -11,6 +11,7 @@ import { dataSourceError } from '../../ducks/datasource/selectors'
 import { ErrorContainer } from '../../core/error/Container'
 import { State } from '../../ducks/State'
 import { type ErrorContainerProps } from '../../core/error/types'
+import { Model } from '../../ducks/models/selectors'
 
 import { WidgetFilters, type Props as WidgetFiltersProps } from './WidgetFilters'
 
@@ -40,6 +41,7 @@ export interface Props {
     children: ReactNode
     loading: boolean
     error: ErrorContainerProps['error']
+    activeModel?: Model | Model[]
 }
 
 /**

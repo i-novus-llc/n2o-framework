@@ -1,20 +1,16 @@
 import isEmpty from 'lodash/isEmpty'
 
-type QueryMapping = Record<string, { link?: string }>
-type DataProviderType = { queryMapping?: QueryMapping }
-type ControlType = { dataProvider?: DataProviderType }
-type FieldType = { control: ControlType }
-type ColType = { fields: FieldType[] }
-type RowType = { cols: ColType[] }
-type Fieldset = { rows: RowType[] }
-export type Fieldsets = Fieldset[]
+import { type Mapping } from '../../ducks/datasource/Provider'
+
+import { type FieldSetsProps, type FieldType } from './Form/types'
+
 interface ReplaceOptions {
     replaced: string
     replace: string
 }
 
-function queryMapper(queryMapping: QueryMapping, replaceOptions: ReplaceOptions) {
-    const mapped: QueryMapping = { ...queryMapping }
+function queryMapper(queryMapping: Mapping, replaceOptions: ReplaceOptions) {
+    const mapped: Mapping = { ...queryMapping }
     const queryMappingKeys: string[] = Object.keys(mapped)
 
     for (const key of queryMappingKeys) {
@@ -45,7 +41,7 @@ function fieldsMapper(fields: FieldType[], replaceOptions: ReplaceOptions) {
 
         if (!queryMapping || isEmpty(queryMapping)) { return field }
 
-        const newQueryMapping: QueryMapping = queryMapper(queryMapping, replaceOptions)
+        const newQueryMapping: Mapping = queryMapper(queryMapping, replaceOptions)
 
         return { ...field,
             control: { ...control,
@@ -58,7 +54,7 @@ function fieldsMapper(fields: FieldType[], replaceOptions: ReplaceOptions) {
 
 /* Костыль в WidgetFilters идет вглубь филдов и заменяет link для DataProvider */
 export function modelLinkMapper(
-    fieldsets: Fieldsets,
+    fieldsets: FieldSetsProps,
     replaceOptions: ReplaceOptions = {
         replaced: 'filter',
         replace: 'edit',

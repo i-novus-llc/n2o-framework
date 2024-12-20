@@ -1,23 +1,19 @@
 import React from 'react'
+import { bindActionCreators, Dispatch } from 'redux'
+import { connect } from 'react-redux'
 import isEqual from 'lodash/isEqual'
 import each from 'lodash/each'
 import concat from 'lodash/concat'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import { isNil } from 'lodash'
 import isEmpty from 'lodash/isEmpty'
+import isNil from 'lodash/isNil'
+import classNames from 'classnames'
 
-import {
-    setMultiFieldVisible,
-    setMultiFieldDisabled,
-} from '../../../ducks/form/store'
+import { setMultiFieldVisible, setMultiFieldDisabled } from '../../../ducks/form/store'
 import { WithPropsResolver } from '../../../core/Expression/withResolver'
 import { FormContext } from '../../core/FormProvider/provider'
 
-// eslint-disable-next-line import/no-cycle
 import FieldsetRow from './FieldsetRow'
+import { type FieldsetComponentProps, RowProps } from './types'
 
 /**
  * Компонент - филдсет формы
@@ -91,14 +87,18 @@ import FieldsetRow from './FieldsetRow'
  *
  */
 
-class Fieldset extends React.Component {
-    constructor(props) {
+export interface State {
+    visible: boolean
+    enabled: boolean
+}
+
+class Fieldset extends React.Component<FieldsetComponentProps, State> {
+    fields: string[]
+
+    fieldsVisibility: boolean[]
+
+    constructor(props: FieldsetComponentProps) {
         super(props)
-
-        this.setVisible = this.setVisible.bind(this)
-        this.setEnabled = this.setEnabled.bind(this)
-        this.renderRow = this.renderRow.bind(this)
-
         this.state = { visible: true, enabled: true }
 
         this.fields = []
@@ -114,8 +114,8 @@ class Fieldset extends React.Component {
             visible: visibleFromState,
         } = this.state
 
-        const newEnabled = isNil(enabled) || propsResolver(enabled, activeModel)
-        const newVisible = isNil(visible) || propsResolver(visible, activeModel)
+        const newEnabled = isNil(enabled) || propsResolver?.(enabled, activeModel) as boolean
+        const newVisible = isNil(visible) || propsResolver?.(visible, activeModel) as boolean
 
         if (!isEqual(newEnabled, enabledFromState)) {
             this.setEnabled(newEnabled)
@@ -126,12 +126,12 @@ class Fieldset extends React.Component {
         }
     }
 
-    setVisible(nextVisibleField) {
+    setVisible = (nextVisibleField: boolean) => {
         const { setMultiFieldVisible } = this.props
         const { formName } = this.context
 
         this.setState(() => {
-            setMultiFieldVisible(formName, this.fields, nextVisibleField)
+            if (setMultiFieldVisible) { setMultiFieldVisible(formName, this.fields, nextVisibleField) }
 
             return {
                 visible: nextVisibleField,
@@ -139,19 +139,20 @@ class Fieldset extends React.Component {
         })
     }
 
-    setEnabled(nextEnabledField) {
+    setEnabled = (nextEnabledField: boolean) => {
         const { setMultiFieldDisabled } = this.props
         const { formName } = this.context
 
-        setMultiFieldDisabled(formName, this.fields, !nextEnabledField)
+        if (setMultiFieldDisabled) { setMultiFieldDisabled(formName, this.fields, !nextEnabledField) }
+
         this.setState({
             enabled: nextEnabledField,
         })
     }
 
-    calculateAllFields(rows) {
+    calculateAllFields(rows: RowProps[]) {
         /** @type {{fieldsVisibility: *[], fields: *[]}} */
-        const info = { fields: [], fieldsVisibility: [] }
+        const info = { fields: [], fieldsVisibility: [] } as { fields: string[], fieldsVisibility: boolean[] }
 
         each(rows, (row) => {
             each(row.cols, (col) => {
@@ -165,7 +166,7 @@ class Fieldset extends React.Component {
                 } else if (col.fields) {
                     each(col.fields, (field) => {
                         info.fields.push(field.id)
-                        info.fieldsVisibility.push(field.visible)
+                        info.fieldsVisibility.push(Boolean(field.visible))
                     })
                 }
             })
@@ -174,11 +175,11 @@ class Fieldset extends React.Component {
         return info
     }
 
-    checkGlobalFieldVisibility = fieldsVisibility => fieldsVisibility.some(visible => visible)
+    checkGlobalFieldVisibility = (fieldsVisibility: boolean[]) => fieldsVisibility.some(visible => visible)
 
-    renderRow(rowId, row, props) {
+    renderRow = (rowId: number, row: RowProps, props: Record<string, unknown>) => {
         const {
-            labelPosition,
+            labelPosition = 'top-left',
             labelWidth,
             labelAlignment,
             defaultCol,
@@ -218,7 +219,7 @@ class Fieldset extends React.Component {
         const {
             className,
             style,
-            component: ElementType,
+            component: ElementType = 'div',
             children,
             parentName,
             label,
@@ -235,8 +236,8 @@ class Fieldset extends React.Component {
 
         this.fields = []
 
-        const needLabel = label && type !== 'line'
-        const needDescription = description && type !== 'line'
+        const needLabel = !!label && type !== 'line'
+        const needDescription = !!description && type !== 'line'
 
         if (React.Children.count(children)) {
             return <ElementType>{children}</ElementType>
@@ -247,8 +248,8 @@ class Fieldset extends React.Component {
             empty: !isEmpty(this.fieldsVisibility) && !this.checkGlobalFieldVisibility(this.fieldsVisibility),
         })
 
-        const resolvedLabel = propsResolver(label, activeModel)
-        const resolvedHelp = propsResolver(help, activeModel)
+        const resolvedLabel = propsResolver?.(label, activeModel) as string
+        const resolvedHelp = propsResolver?.(help, activeModel) as string
 
         return (
             <ElementType
@@ -269,7 +270,7 @@ class Fieldset extends React.Component {
                     this.fields = fields
                     this.fieldsVisibility = fieldsVisibility
 
-                    return rows?.map((row, id) => this.renderRow(id, row, props))
+                    return rows?.map((row, index) => this.renderRow(index, row, props))
                 }}
                 help={resolvedHelp}
             />
@@ -277,58 +278,13 @@ class Fieldset extends React.Component {
     }
 }
 
-Fieldset.propTypes = {
-    rows: PropTypes.array,
-    className: PropTypes.string,
-    label: PropTypes.string,
-    childrenLabel: PropTypes.string,
-    labelPosition: PropTypes.string,
-    description: PropTypes.string,
-    labelWidth: PropTypes.array,
-    labelAlignment: PropTypes.array,
-    defaultCol: PropTypes.number,
-    autoFocusId: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.oneOf([false])]),
-    component: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.node,
-        PropTypes.func,
-    ]),
-    children: PropTypes.node,
-    visible: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    enabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    dependency: PropTypes.array,
-    setMultiFieldVisible: PropTypes.func,
-    setMultiFieldDisabled: PropTypes.func,
-    modelPrefix: PropTypes.string,
-    type: PropTypes.string,
-    parentName: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    activeModel: PropTypes.object,
-    style: PropTypes.object,
-    autoSubmit: PropTypes.bool,
-    help: PropTypes.string,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    propsResolver: PropTypes.func,
-}
-
-Fieldset.defaultProps = {
-    labelPosition: 'top-left',
-    component: 'div',
-}
-
 Fieldset.contextType = FormContext
 
-const mapDispatchToProps = dispatch => bindActionCreators(
-    {
-        setMultiFieldVisible,
-        setMultiFieldDisabled,
-    },
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(
+    { setMultiFieldVisible, setMultiFieldDisabled },
     dispatch,
 )
 
-const Connected = connect(
-    null,
-    mapDispatchToProps,
-)(Fieldset)
+const Connected = connect(null, mapDispatchToProps)(Fieldset)
 
-export const FieldsetContainer = WithPropsResolver(Connected)
+export const FieldsetContainer = WithPropsResolver<FieldsetComponentProps>(Connected)

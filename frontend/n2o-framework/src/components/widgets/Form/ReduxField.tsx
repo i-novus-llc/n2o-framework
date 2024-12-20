@@ -1,18 +1,35 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import some from 'lodash/some'
 
 import withObserveDependency from '../../../core/dependencies/withObserveDependency'
 import { Controller } from '../../core/FormProvider'
+import { DependencyTypes, DataSourceDependencyBase } from '../../../core/datasource/const'
 
 import withFieldContainer from './fields/withFieldContainer'
-import StandardField from './fields/StandardField/StandardField'
+import { StandardField } from './fields/StandardField/StandardField'
+
+interface ControlProps {
+    fetchData(params: { size: number }): void;
+    size: number;
+    labelFieldId: string;
+}
+
+interface ControlRef {
+    props: ControlProps;
+}
+
+interface Config {
+    controlRef?: ControlRef;
+    onChange(params: { dependency: DataSourceDependencyBase[] }, dependencyType: DependencyTypes): void;
+}
 
 // FIXME временное решение для fieldDependency type fetch,
 //  вызывает _fetchData компонента, дергается в withObserveDependency
-const config = {
+
+const config: Config = {
     onChange({ dependency }, dependencyType) {
         if (!this.controlRef) { return }
+
         const { fetchData, size, labelFieldId } = this.controlRef.props
         const haveReRenderDependency = some(dependency, { type: dependencyType })
 
@@ -25,16 +42,30 @@ const config = {
     },
 }
 
-class ReduxField extends React.Component {
-    constructor(props) {
+interface ReduxFieldProps {
+    name: string;
+    component: React.ComponentType<Record<string, unknown>>; // Замените any на более конкретный тип, если возможно
+}
+
+class ReduxField extends React.Component<ReduxFieldProps> {
+    controlRef: HTMLElement | null = null
+
+    Field: React.ComponentType<Record<string, unknown>>
+
+    static displayName = 'ReduxField'
+
+    static defaultProps = {
+        component: StandardField,
+    }
+
+    constructor(props: ReduxFieldProps) {
         super(props)
 
         this.setRef = this.setRef.bind(this)
         this.Field = withFieldContainer(props.component)
     }
 
-    setRef(el) {
-        // eslint-disable-next-line react/no-unused-class-component-methods
+    setRef(el: HTMLElement | null) {
         this.controlRef = el
     }
 
@@ -61,17 +92,6 @@ ReduxField.displayName = 'ReduxField'
 
 ReduxField.defaultProps = {
     component: StandardField,
-}
-
-ReduxField.propTypes = {
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    name: PropTypes.string,
-    component: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func,
-        PropTypes.node,
-    ]),
-    setReRenderRef: PropTypes.func,
 }
 
 export default withObserveDependency(config)(ReduxField)

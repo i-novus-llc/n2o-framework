@@ -13,9 +13,9 @@ type FieldPath = ModelsPayload & {
 }
 
 export type SetModelAction<Prefix extends ModelPrefix = ModelPrefix.active> = Action<string, ModelsPayload & {
-    model: Prefix extends (ModelPrefix.source | ModelPrefix.selected)
+    model: (Prefix extends (ModelPrefix.source | ModelPrefix.selected)
         ? Array<Record<string, unknown>>
-        : Record<string, unknown>
+        : Record<string, unknown>) | null
     isDefault?: boolean
 }>
 
