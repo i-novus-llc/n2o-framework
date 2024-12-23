@@ -1,15 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+// @ts-ignore import from js file react-big-calendar
 import { Calendar as BigCalendar, dayjsLocalizer } from 'react-big-calendar'
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import localeData from 'dayjs/plugin/localeData'
 import 'dayjs/locale/ru'
 import classNames from 'classnames'
-import { getContext } from 'recompose'
 import { useTranslation } from 'react-i18next'
 
-import { formatsMap, timeParser } from './utils' // Импортируем локализацию
+import { formatsMap, timeParser } from './utils'
+import { CalendarProps } from './types'
 
 dayjs.extend(localizedFormat)
 dayjs.extend(localeData)
@@ -37,7 +38,7 @@ const localizer = dayjsLocalizer(dayjs)
  * @reactProps {object} messages - переопределение названия кнопок действий (прим. messages: { month: 'Месяц', })
  */
 
-function Calendar({
+export function Calendar({
     className,
     defaultDate,
     titleAccessor,
@@ -59,7 +60,7 @@ function Calendar({
     startAccessor = 'start',
     endAccessor = 'end',
     configLocale = 'ru',
-}) {
+}: CalendarProps) {
     const { t } = useTranslation()
 
     const messages = {
@@ -109,4 +110,4 @@ function Calendar({
     )
 }
 
-export default getContext({ configLocale: PropTypes.string })(Calendar)
+export default Calendar

@@ -3,24 +3,8 @@ import get from 'lodash/get'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
 
-import { eventLessHour, isAllDay } from './utils'
-
-const mapStyle = (color, lessHour, { height, top, width } = {}) => ({
-    position: 'absolute',
-    height: `${height}%`,
-    top: `${top}%`,
-    width: `${width}%`,
-    backgroundColor: color,
-    padding: lessHour ? '0 5px' : '2px 5px',
-    lineHeight: lessHour ? '1' : '1.5',
-    flexFlow: lessHour ? 'nowrap' : 'none',
-})
-
-const monthEventStyle = color => ({
-    backgroundColor: color,
-})
-
-const DEFAULT_BG_COLOR = '#3174ad'
+import { eventLessHour, isAllDay, mapStyle, monthEventStyle } from './utils'
+import { CalendarEventProps } from './types'
 
 export function CalendarEvent({
     style,
@@ -30,10 +14,10 @@ export function CalendarEvent({
     setResolve,
     onSelectEvent,
     dispatch,
-}) {
+}: CalendarEventProps) {
     const tooltip = accessors.tooltip(event)
     const title = accessors.title(event)
-    const color = event[cellColorAccessor] || DEFAULT_BG_COLOR
+    const color = event[cellColorAccessor] || '#3174ad'
     const lessHour = eventLessHour(get(event, 'date'), get(event, 'step'))
     const begin = get(event, 'date.begin')
     const end = get(event, 'date.end')
@@ -47,9 +31,9 @@ export function CalendarEvent({
     return (
         <div
             className="calendar__event rbc-event"
-            style={style ? mapStyle(style, color, lessHour) : monthEventStyle(color)}
+            style={style ? mapStyle(color, lessHour, style) : monthEventStyle(color)}
             title={tooltip}
-            onClick={!disabled ? handleClick : null}
+            onClick={!disabled ? handleClick : undefined}
         >
             <div
                 className={classNames('calendar__event-name', {
