@@ -1,9 +1,7 @@
 import React, { memo } from 'react'
 
 import { HeaderFilterProps } from '../../types/props'
-// @ts-ignore ignore import error from js file
-// eslint-disable-next-line import/no-named-as-default
-import AdvancedTableFilter from '../filter/AdvancedTableFilter'
+import { AdvancedTableFilter } from '../filter/AdvancedTableFilter'
 import { useTableRefProps } from '../../provider/TableRefProps'
 import { useTableActions } from '../../provider/TableActions'
 

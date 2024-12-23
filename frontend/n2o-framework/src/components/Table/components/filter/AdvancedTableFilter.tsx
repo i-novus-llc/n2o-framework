@@ -1,23 +1,21 @@
-import React, { Component } from 'react'
-import { pure } from 'recompose'
+import React, { Component, memo, CSSProperties } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { Dropdown, DropdownToggle, DropdownMenu, Button, Badge } from 'reactstrap'
 import classNames from 'classnames'
 
-// eslint-disable-next-line import/no-named-as-default
-import AdvancedTableFilterPopup from './AdvancedTableFilterPopup'
+import { AdvancedTableFilterPopup } from './AdvancedTableFilterPopup'
+import { AdvancedTableFilterProps } from './types'
 
 const DEFAULT_WIDTH = '250px'
 
-/**
- * Компонент заголовок с фильтрацией
- * @param id - id колонки === фильтра
- * @param onFilter - callback на фильтрацию
- * @param children - компонент потомок
- * @param value - предустановленное значение фильтра
- */
-class AdvancedTableFilter extends Component {
-    constructor(props) {
+export interface State {
+    value?: AdvancedTableFilterProps['value'];
+    filterOpen: boolean;
+    touched: boolean;
+}
+
+class AdvancedTableFilterBody extends Component<AdvancedTableFilterProps, State> {
+    constructor(props: AdvancedTableFilterProps) {
         super(props)
 
         this.state = {
@@ -27,15 +25,15 @@ class AdvancedTableFilter extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: AdvancedTableFilterProps) {
         const { value } = this.props
 
         if (prevProps.value !== value) { this.setState({ value }) }
     }
 
-    check = value => typeof value === 'number' || !isEmpty(value)
+    check = (value: State['value']): boolean => typeof value === 'number' || !isEmpty(value)
 
-    touch = (props) => {
+    touch = (props?: boolean) => {
         if (typeof props === 'boolean') {
             this.setState({ touched: props })
 
@@ -47,7 +45,7 @@ class AdvancedTableFilter extends Component {
         if (!touched) { this.setState({ touched: true }) }
     }
 
-    validate = (reset = false) => {
+    validate = (reset = false): boolean => {
         const { validateFilterField, id } = this.props
         const { value } = this.state
 
@@ -75,7 +73,7 @@ class AdvancedTableFilter extends Component {
         this.validate()
     }
 
-    onChangeFilter = value => this.setState({ value }, () => this.validate(true))
+    onChangeFilter = (value: string) => this.setState({ value }, () => this.validate(true))
 
     onResetFilter = () => {
         const { value } = this.state
@@ -86,7 +84,7 @@ class AdvancedTableFilter extends Component {
             const isValid = this.validate()
 
             this.setState({ value: '' }, () => {
-                if (isValid) { onFilter({ id, value: '' }) }
+                if (isValid) { onFilter?.({ id, value: '' }) }
             })
         }
     }
@@ -95,7 +93,7 @@ class AdvancedTableFilter extends Component {
         const { value } = this.state
         const { onFilter, id } = this.props
 
-        onFilter({ id, value })
+        onFilter?.({ id, value })
     }
 
     onSearchClick = () => {
@@ -117,10 +115,10 @@ class AdvancedTableFilter extends Component {
         if (!error) { this.toggleFilter() }
     }
 
-    createPopUpStyle = (fieldStyle) => {
+    createPopUpStyle = (fieldStyle?: CSSProperties) => {
         if (isEmpty(fieldStyle)) { return { minWidth: DEFAULT_WIDTH, maxWidth: DEFAULT_WIDTH } }
 
-        const { width = DEFAULT_WIDTH, minWidth = DEFAULT_WIDTH, maxWidth } = fieldStyle
+        const { width = DEFAULT_WIDTH, minWidth = DEFAULT_WIDTH, maxWidth } = fieldStyle || {}
 
         return { width, minWidth, maxWidth: maxWidth || width }
     }
@@ -128,17 +126,14 @@ class AdvancedTableFilter extends Component {
     render() {
         const { children, field, value: reduxValue, error } = this.props
         const { filterOpen, value, touched } = this.state
-        const { component, control, style, ...componentProps } = field
+        const { component, control, style, ...componentProps } = field || {}
 
         const popUpStyle = this.createPopUpStyle(style)
 
         const filtered = this.check(reduxValue)
         const filled = this.check(value)
 
-        const badgeClassName = classNames(
-            'n2o-advanced-table-filter-badge',
-            { hollow: !filtered && filled },
-        )
+        const badgeClassName = classNames('n2o-advanced-table-filter-badge', { hollow: !filtered && filled })
 
         return (
             <>
@@ -174,10 +169,5 @@ class AdvancedTableFilter extends Component {
     }
 }
 
-AdvancedTableFilter.defaultProps = {
-    onFilter: () => {},
-    field: {},
-}
-
-export { AdvancedTableFilter }
-export default pure(AdvancedTableFilter)
+export const AdvancedTableFilter = memo(AdvancedTableFilterBody)
+export default AdvancedTableFilter
