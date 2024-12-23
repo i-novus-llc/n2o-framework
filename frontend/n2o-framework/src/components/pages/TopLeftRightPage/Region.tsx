@@ -6,7 +6,7 @@ import { Factory } from '../../../core/factory/Factory'
 
 interface RegionProps {
     region?: RegionsState[]
-    pageId: string
+    pageId?: string
 }
 
 export function Region({ region, pageId }: RegionProps) {

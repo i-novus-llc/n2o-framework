@@ -28,8 +28,14 @@ export type SetLocationPayload = {
     location: string | Location
 }
 
+export type SetScrollPayload = {
+    pageId: string
+    scroll: boolean
+}
+
 export type MetadataRequest = Action<string, MetadataRequestPayload>
 export type MetadataSuccess = Action<string, MetadataSuccessPayload>
 export type MetadataFail = Action<string, MetadataFailPayload>
 export type Reset = Action<string, string>
 export type SetLocation = Action<string, SetLocationPayload>
+export type SetScroll = Action<string, SetScrollPayload>

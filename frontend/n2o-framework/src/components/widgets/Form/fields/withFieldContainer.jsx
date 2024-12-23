@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import isBoolean from 'lodash/isBoolean'
@@ -16,6 +16,7 @@ import { useResolved } from '../../../../core/Expression/useResolver'
 import { useDispatch } from '../../../../core/Redux/useDispatch'
 import { ArrayFieldContext } from '../../../../core/datasource/ArrayField/Context'
 import { getDefaultField } from '../../../../ducks/form/FormPlugin'
+import { useScrollToFirstInvalid } from '../../../pages/PageScroll'
 
 import { modifyDependencies, replaceIndex, resolveControlIndexes } from './utils'
 
@@ -160,15 +161,17 @@ export default (Field) => {
 
         })
         const message = useValidation(name)
+        const scrollRef = useRef(null)
         const resolved = useResolvedProps({
             ...withIndex,
             ...field,
             disabled: multiSetDisabled || field.disabled,
         })
 
+        useScrollToFirstInvalid(scrollRef, resolved.id, message)
         useAutosave(resolved.id, resolved.dataProvider)
 
-        return <Field {...resolved} {...message} />
+        return <Field {...resolved} {...message} scrollRef={scrollRef} />
     }
 
     FieldContainer.propTypes = {

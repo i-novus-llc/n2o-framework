@@ -1,13 +1,10 @@
 import { CSSProperties, ReactNode } from 'react'
 import { Dispatch } from 'redux'
 
-import { DataSourceState } from '../../ducks/datasource/DataSource'
-import { ModelPrefix } from '../../core/datasource/const'
 import { ToolbarProps } from '../buttons/Toolbar'
-import { type Breadcrumb } from '../core/Breadcrumb/const'
 import { State as RegionsState } from '../../ducks/regions/Regions'
-import { Widget } from '../../ducks/widgets/Widgets'
 import { type Props as ScrollContextProps } from '../snippets/ScrollContainer/ScrollContainer'
+import { Metadata } from '../../ducks/pages/Pages'
 
 export enum FIXED_PLACE {
     TOP = 'top',
@@ -19,39 +16,7 @@ export type Places = Record<FIXED_PLACE, CSSProperties & { fixed: boolean }>
 
 export interface DefaultPageProps {
     id?: string
-    metadata?: {
-        style?: CSSProperties
-        className?: string
-        datasources: Record<string, DataSourceState>
-        id?: string
-        widget?: Widget
-        page: {
-            title?: string
-            htmlTitle?: string
-            datasource?: string
-            model: ModelPrefix
-        }
-        breadcrumb: Breadcrumb
-        width: Record<string, string>
-        searchBar: {
-            className: string
-            datasource: string
-            fieldId: string
-            placeholder: string
-            throttleDelay: number
-            trigger: 'CHANGE' | 'CLICK'
-        }
-        toolbar?: {
-            topLeft?: ToolbarProps
-            topCenter?: ToolbarProps
-            topRight?: ToolbarProps
-            bottomLeft?: ToolbarProps
-            bottomCenter?: ToolbarProps
-            bottomRight?: ToolbarProps
-        }
-        places?: Places
-        needScrollButton?: boolean
-    }
+    metadata: Metadata,
     toolbar?: {
         topLeft?: ToolbarProps
         topCenter?: ToolbarProps
@@ -66,10 +31,11 @@ export interface DefaultPageProps {
     disabled?: boolean
     dispatch: Dispatch
     rootPage?: boolean
+    scroll: boolean
 }
 
 export interface PageRegionsProps {
-    id: string
+    id?: string
     regions: {
         left?: RegionsState[]
         right?: RegionsState[]

@@ -7,6 +7,8 @@ import {
     debounce,
     race,
     fork,
+    cancel,
+    delay,
 } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import { getLocation } from 'connected-react-router'
@@ -33,6 +35,9 @@ import { DEFAULT_CONTEXT } from '../../utils/evalExpression'
 import { userSelector } from '../user/selectors'
 import { resolveMetadata } from '../../core/auth/resolveMetadata'
 import { AuthProvider } from '../../core/auth/Provider'
+import { failValidate } from '../datasource/store'
+import { FailValidateAction } from '../datasource/Actions'
+import { dataSourceByIdSelector } from '../datasource/selectors'
 import { DATASOURCE_PREFIX } from '../api/constants'
 
 import { makeIsRootChildByIdSelector, pagesSelector } from './selectors'
@@ -41,6 +46,7 @@ import {
     metadataSuccess,
     metadataRequest,
     resetPage,
+    setPageScrolling,
 } from './store'
 import { flowDefaultModels } from './sagas/defaultModels'
 import { MetadataRequest, Reset } from './Actions'
@@ -200,6 +206,20 @@ export function* watchEvents() {
     prevModels = models
 }
 
+function* pageScrolling(action: FailValidateAction) {
+    const { payload, meta } = action
+    const isTriggeredByFieldChange = get(meta, 'isTriggeredByFieldChange', false)
+
+    if (isTriggeredByFieldChange) { yield cancel() }
+
+    const { id } = payload
+    const { pageId } = yield select(dataSourceByIdSelector(id))
+
+    // чтобы FailValidateAction отработал раньше и кинул error на fields
+    yield delay(10)
+    yield put(setPageScrolling(pageId, true))
+}
+
 /**
  * Сайд-эффекты для page редюсера
  * @ignore
@@ -207,6 +227,7 @@ export function* watchEvents() {
 export default (apiProvider: unknown, security: { provider: AuthProvider }) => [
     // @ts-ignore fixme: разобрать почему takeEvery не разрулил автоматом тип metadataRequest
     takeEvery(metadataRequest, getMetadata, apiProvider, security.provider),
+    takeEvery(failValidate, pageScrolling),
     debounce(100, [
         setModel,
         removeModel,

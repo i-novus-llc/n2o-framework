@@ -140,3 +140,8 @@ export const makeIsRootChildByIdSelector = (pageId: string) => createSelector(
     pagesSelector,
     pages => (!!(getParentPage(pages, pageId)?.rootPage)),
 )
+
+export const makePageScrollByIdSelector = (pageId: string) => createSelector(
+    makePageByIdSelector(pageId),
+    pageState => pageState?.scroll,
+)

@@ -1,8 +1,12 @@
+import { CSSProperties } from 'react'
+
 import { ModelPrefix } from '../../core/datasource/const'
 import { Crumb } from '../../components/core/Breadcrumb/const'
 import { DataSourceState } from '../datasource/DataSource'
 import { DefaultModels } from '../models/Models'
 import { Action } from '../Action'
+import { Places } from '../../components/pages/types'
+import { ToolbarProps } from '../../components/buttons/Toolbar'
 
 import { Routes } from './sagas/types'
 
@@ -18,7 +22,22 @@ export interface Metadata {
     id?: string
     routes?: Routes
     /* FIXME */
-    toolbar?: Record<string, object[]>
+    searchBar?: {
+        className: string
+        datasource: string
+        fieldId: string
+        placeholder: string
+        throttleDelay: number
+        trigger: 'CHANGE' | 'CLICK'
+    }
+    toolbar?: {
+        topLeft?: ToolbarProps
+        topCenter?: ToolbarProps
+        topRight?: ToolbarProps
+        bottomLeft?: ToolbarProps
+        bottomCenter?: ToolbarProps
+        bottomRight?: ToolbarProps
+    }
     breadcrumb?: Crumb[]
     datasources?: Record<string, DataSourceState>
     /* FIXME */
@@ -31,8 +50,12 @@ export interface Metadata {
         title: string
     }
     events?: Events[]
-    widget?: string
+    widget?: Record<string, unknown>
     models?: DefaultModels
+    style?: CSSProperties
+    className?: string
+    places?: Places
+    needScrollButton?: boolean
 }
 
 export type Location = {
@@ -53,6 +76,7 @@ export type Page = {
     parentId?: string
     rootPage?: boolean
     location?: Location
+    scroll: boolean
 }
 
 export type State = Record<string, Page>

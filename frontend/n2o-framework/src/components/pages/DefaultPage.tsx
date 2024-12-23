@@ -9,15 +9,16 @@ import { ModelPrefix } from '../../core/datasource/const'
 
 import { type DefaultPageProps } from './types'
 import { usePageRegister } from './usePageRegister'
+import { PageScrollHOC } from './PageScroll'
 
-export const DefaultPage = ({
+const DefaultPageBody = ({
     metadata,
-    toolbar,
     entityKey,
     error,
     children,
     disabled,
     dispatch,
+    toolbar = {},
     rootPage = false,
 }: DefaultPageProps) => {
     const { style, className, datasources, id: pageId, page } = metadata || {}
@@ -59,8 +60,5 @@ export const DefaultPage = ({
     )
 }
 
-DefaultPage.defaultProps = {
-    toolbar: {},
-}
-
+export const DefaultPage = PageScrollHOC(DefaultPageBody)
 export default DefaultPage

@@ -9,6 +9,7 @@ class PageResolver {
             disabled: false,
             pageUrl: '/',
             rootPage: false,
+            scroll: false,
         })
     }
 }

@@ -12,6 +12,7 @@ export interface N2OMeta {
     prevState?: State
     [key: string]: unknown
     abortController?: AbortController
+    isTriggeredByFieldChange?: boolean
 }
 
 export interface N2OAction<
