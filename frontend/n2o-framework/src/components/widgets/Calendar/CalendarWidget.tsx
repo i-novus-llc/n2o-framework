@@ -1,16 +1,15 @@
 import React, { useContext, useMemo } from 'react'
-import PropTypes from 'prop-types'
 
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { FactoryContext } from '../../../core/factory/context'
-import WidgetLayout from '../StandardWidget'
+import StandardWidget from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { WithActiveModel } from '../Widget/WithActiveModel'
 
 import CalendarContainer from './CalendarContainer'
+import { type CalendarWidgetProps } from './types'
 
-function CalendarWidget(props) {
+function CalendarWidget(props: CalendarWidgetProps) {
     const {
         id: widgetId,
         datasource,
@@ -23,10 +22,10 @@ function CalendarWidget(props) {
         loading,
     } = props
     const { resolveProps } = useContext(FactoryContext)
-    const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
+    const resolvedFilter = useMemo(() => resolveProps(filter || {}, StandardFieldset) as CalendarWidgetProps['filter'], [filter, resolveProps])
 
     return (
-        <WidgetLayout
+        <StandardWidget
             disabled={disabled}
             widgetId={widgetId}
             datasource={datasource}
@@ -36,20 +35,9 @@ function CalendarWidget(props) {
             style={style}
             loading={loading}
         >
-            <CalendarContainer
-                {...props}
-                {...calendar}
-            />
-        </WidgetLayout>
+            <CalendarContainer {...props} {...calendar} />
+        </StandardWidget>
     )
 }
 
-CalendarWidget.propTypes = {
-    ...widgetPropTypes,
-    calendar: PropTypes.any,
-}
-
-/**
- * @type ConnectedWidget
- */
-export default WidgetHOC(WithActiveModel(CalendarWidget))
+export default WidgetHOC(WithActiveModel<CalendarWidgetProps>(CalendarWidget))
