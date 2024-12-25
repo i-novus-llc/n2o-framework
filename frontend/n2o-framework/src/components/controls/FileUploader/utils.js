@@ -21,7 +21,9 @@ export function post(url, file, onProgress, onUpload, onError, cancelSource) {
             if (error?.response) {
                 const { status } = error.response
 
-                const statusText = error.response.statusText || error.response.data?.statusText
+                const statusText = error.response.data?.statusText ||
+                    error.response.data?.status ||
+                    error.response.statusText
 
                 onError(new Error(`${MESSAGE}: ${statusText || status}`))
 
