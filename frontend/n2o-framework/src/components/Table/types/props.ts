@@ -61,6 +61,7 @@ export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
         */
         CellContainer: FC<CellContainerProps>
     }
+    childrenToggleState?: ReactNode
 }
 
 export type TableProps = {

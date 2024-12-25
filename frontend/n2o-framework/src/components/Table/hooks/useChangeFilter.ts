@@ -5,17 +5,18 @@ import cloneDeep from 'lodash/cloneDeep'
 
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
-// @ts-ignore - отсутствует типизация
 import { useDataSourceMethodsContext } from '../../../core/widget/context'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const useChangeFilter = (onUpdateFilter: (data: any) => void, id: string) => {
+export type DataType = Record<string, unknown> | Array<Record<string, unknown>>
+export type onFilterType = (data: DataType) => void
+
+export const useChangeFilter = (onUpdateFilter: onFilterType, id: string) => {
     const { fetchData } = useDataSourceMethodsContext()
     const store = useStore()
 
     return useCallback((filterData) => {
         const state = store.getState()
-        const filterModel = dataSourceModelByPrefixSelector(id, ModelPrefix.filter)(state) || {}
+        const filterModel = dataSourceModelByPrefixSelector(id, ModelPrefix.filter)(state) as DataType || {}
         const newFilter = cloneDeep(filterModel)
 
         set(newFilter, filterData.id, filterData.value)
