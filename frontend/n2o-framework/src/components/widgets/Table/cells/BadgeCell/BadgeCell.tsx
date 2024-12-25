@@ -52,7 +52,7 @@ function BadgeCellBody({
     const badgeText = get(model, fieldKey || id) as string
 
     return (
-        <span className="d-inline-flex badge-cell" ref={forwardedRef}>
+        <span className="badge-cell" ref={forwardedRef}>
             {text && <Text text={text} format={format} />}
             {FactoryBadge && !isNil(badgeText) && (
                 <FactoryBadge
