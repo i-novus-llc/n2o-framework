@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
-import net.n2oapp.framework.config.reader.ReferentialIntegrityViolationException;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
@@ -152,18 +151,6 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
 //        assertThat(page.getDatasources().get("form3").getProvider().getPathMapping().get("param1").normalizeLink(), is("models.resolve['table'].id"));
 //        assertThat(page.getDatasources().get("form3").getProvider().getPathMapping().get("param2").normalizeLink(), is("models.resolve['form'].id"));
 //        assertThat(page.getDatasources().get("form3").getProvider().getPathMapping().get("param3").normalizeLink(), is("models.resolve['form2'].id"));
-    }
-
-    @Test
-    void validateObjectIdForMainWidget() {
-        assertThrows(
-                ReferentialIntegrityViolationException.class,
-                () -> {
-                    PageContext validateObjectIdForMainWidget = new PageContext("testStandardPageObject");
-                    compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
-                            .get(validateObjectIdForMainWidget);
-                }
-        );
     }
 
     @Test

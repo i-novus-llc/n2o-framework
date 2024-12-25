@@ -1,12 +1,10 @@
 package net.n2oapp.framework.api.register;
 
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /**
  * Реестр метаданных

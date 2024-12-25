@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.reader.ReferentialIntegrityViolationException;
+import net.n2oapp.framework.config.reader.MetadataNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.EnvironmentAware;
@@ -36,7 +36,7 @@ public class HeaderWarmUpper implements EnvironmentAware {
             PageContext context = new PageContext(welcomePageId, "/");
             try {
            	    pipeline.get(context);
-            } catch (ReferentialIntegrityViolationException ignore) {
+            } catch (MetadataNotFoundException ignore) {
                 log.error("Main page by id " + welcomePageId + " not found ");
             }
         }
