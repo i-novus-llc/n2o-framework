@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.register.SourceInfo;
-import net.n2oapp.framework.config.reader.ReferentialIntegrityViolationException;
+import net.n2oapp.framework.config.reader.MetadataNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -65,8 +65,9 @@ public class N2oMetadataRegisterTest {
         //получение несуществующего
         try {
             register.get("test2", N2oWidget.class);
-            fail();
-        } catch (ReferentialIntegrityViolationException ignore) { }
+        } catch (MetadataNotFoundException e) {
+            assertThat(e.getMessage(), is("Не найден файл test2.widget.xml или не зарегистрирована соответствующая ему метаданная N2oWidget"));
+        }
     }
 
     @Test

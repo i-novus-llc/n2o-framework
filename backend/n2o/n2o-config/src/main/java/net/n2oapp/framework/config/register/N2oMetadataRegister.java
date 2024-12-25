@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.MetadataRegister;
-import net.n2oapp.framework.config.reader.ReferentialIntegrityViolationException;
+import net.n2oapp.framework.config.reader.MetadataNotFoundException;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.io.Serializable;
@@ -27,7 +27,7 @@ public class N2oMetadataRegister implements MetadataRegister {
     public SourceInfo get(String id, Class<? extends SourceMetadata> sourceClass) {
         MetaKey key = new MetaKey(RouteUtil.parsePath(id), sourceClass);
         if (!register.containsKey(key)) {
-            throw new ReferentialIntegrityViolationException(id, sourceClass);
+            throw new MetadataNotFoundException(id, sourceClass);
         }
         return register.get(key);
     }

@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.register.DynamicMetadataProviderFactory;
-import net.n2oapp.framework.config.reader.ReferentialIntegrityViolationException;
+import net.n2oapp.framework.config.reader.MetadataNotFoundException;
 import net.n2oapp.framework.config.register.JavaInfo;
 
 import java.util.List;
@@ -61,7 +61,7 @@ public class JavaSourceLoader implements SourceLoader<JavaInfo> {
         if (optional.isPresent())
             return (T) optional.get();
         else
-            throw new ReferentialIntegrityViolationException(id, metadataClass);
+            throw new MetadataNotFoundException(id, metadataClass);
     }
 
 
