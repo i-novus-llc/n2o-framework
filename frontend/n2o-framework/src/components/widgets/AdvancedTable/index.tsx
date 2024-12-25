@@ -11,7 +11,7 @@ import {
     dataSourceModelByPrefixSelector,
 } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
-import { Selection, TableActions, TableContainer } from '../../Table'
+import { ChildrenToggleState, Selection, TableActions, TableContainer } from '../../Table'
 import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 import { ToolbarOverlay } from '../../Table/provider/ToolbarOverlay'
 import { useChangeFilter } from '../../Table/hooks/useChangeFilter'
@@ -19,19 +19,22 @@ import { useOnActionMethod } from '../hooks/useOnActionMethod'
 import { getTableParam } from '../../../ducks/table/selectors'
 import evalExpression from '../../../utils/evalExpression'
 import { getValidationClass } from '../../../core/utils/getValidationClass'
+import { State } from '../../../ducks/State'
+import { Data, SelectedRows } from '../../Table/types/general'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
 import { useTableActionReactions } from './hooks/useTableActionReactions'
 import { VoidResolveColumnConditions } from './voidComponents/VoidResolveColumnConditions'
 import { WithTableProps } from './WithTableProps'
+import { type AdvancedTableWidgetProps } from './types'
 
-const tableWidgetContext = createContext(null)
+const tableWidgetContext = createContext(null as unknown)
 
 const EmptyComponent = () => (
     <div className="d-flex justify-content-center text-muted">Нет данных для отображения</div>
 )
 
-const defaultDataMapper = data => data
+const defaultDataMapper = (data: Array<Record<string, unknown>>) => data
 
 export const AdvancedTableContainer = ({
     id, disabled, toolbar, datasource, className, setPage, loading,
@@ -40,29 +43,27 @@ export const AdvancedTableContainer = ({
     changeColumnParam, columnsState, tableConfig, switchTableParam,
     resolvedFilter, resolvedCells, paginationVisible,
     dataMapper = defaultDataMapper, components, setFilter,
-}) => {
+}: AdvancedTableWidgetProps) => {
     const tableContainerElem = useRef(null)
-    const [expandedRows, setExpandedRows] = useState([])
+    const [expandedRows, setExpandedRows] = useState([] as string[])
     const [filterErrors, setFilterErrors] = useState({})
 
     const textWrap = useSelector(getTableParam(id, 'textWrap'))
-    const datasourceModel = useSelector((state) => {
-        const model = (
-            dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state) || EMPTY_ARRAY
-        )
+    const datasourceModel = useSelector((state: State) => {
+        const model = dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state) || EMPTY_ARRAY
 
         return dataMapper(model)
-    })
+    }) as Data
     const filterModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.filter))
-    const selectedRows = useSelector((state) => {
-        const models = dataSourceModelByPrefixSelector(datasource, ModelPrefix.selected)(state) || EMPTY_ARRAY
+    const selectedRows = useSelector((state: State) => {
+        const models = dataSourceModelByPrefixSelector(datasource, ModelPrefix.selected)(state) as Array<Record<string, unknown>> || EMPTY_ARRAY
 
         if (models.length) { return models.map(({ id }) => id) }
 
         return EMPTY_ARRAY
-    })
-    const focusedRowValue = useSelector((state) => {
-        const model = dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)(state)
+    }) as SelectedRows
+    const focusedRowValue = useSelector((state: State) => {
+        const model = dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)(state) as { id: string }
 
         return model ? model.id : null
     })
@@ -108,14 +109,14 @@ export const AdvancedTableContainer = ({
 
     const { setActiveModel, setMultiModel, unsetMultiModel, updateDatasource } = useTableActionReactions(datasource)
     const onFilter = useChangeFilter(setFilter, datasource)
-    const onRowClickAction = useOnActionMethod(datasource, tableConfig?.body?.row?.click)
+    const onRowClickAction = useOnActionMethod(datasource, tableConfig?.body?.row?.click as never)
     const actionListener = useCallback((action, payload) => {
         switch (action) {
             case TableActions.toggleExpandRow: {
                 const { rowValue, isOpen } = payload
 
                 if (isOpen) {
-                    setExpandedRows(state => [...state, rowValue])
+                    setExpandedRows(state => [...state, rowValue] as never)
                 } else {
                     setExpandedRows(state => state.filter(expandedRow => expandedRow !== rowValue))
                 }
@@ -148,7 +149,7 @@ export const AdvancedTableContainer = ({
             }
 
             case TableActions.onRowClick: {
-                onRowClickAction(payload.model)
+                onRowClickAction(payload.model as never)
 
                 break
             }
@@ -177,14 +178,13 @@ export const AdvancedTableContainer = ({
         }
     }, [datasourceModel, setResolve, isNeedSetResolveModel])
 
-    useExpandAllRows(setExpandedRows, children, datasourceModel)
+    useExpandAllRows(setExpandedRows, children as ChildrenToggleState, datasourceModel)
 
     return (
         <tableWidgetContext.Provider value={{ changeColumnParam, columnsState, switchTableParam }}>
             <VoidResolveColumnConditions
                 columnsState={columnsState}
                 changeColumnParam={changeColumnParam}
-                changeTableParam={switchTableParam}
                 widgetId={id}
             />
             <ToolbarOverlay
@@ -205,7 +205,7 @@ export const AdvancedTableContainer = ({
                     pagination={pagination}
                     showCount={showCount}
                 >
-                    {isInit ? (
+                    {isInit && (
                         <TableContainer
                             filterValue={filterModel}
                             refContainerElem={tableContainerElem}
@@ -224,7 +224,7 @@ export const AdvancedTableContainer = ({
                             filterErrors={filterErrors}
                             components={components}
                         />
-                    ) : null}
+                    )}
                 </WidgetLayout>
             </ToolbarOverlay>
         </tableWidgetContext.Provider>
@@ -233,7 +233,7 @@ export const AdvancedTableContainer = ({
 
 AdvancedTableContainer.displayName = 'AdvancedTableContainer'
 
-export const AdvancedTableWidget = WidgetHOC(WithTableProps(AdvancedTableContainer))
+export const AdvancedTableWidget = WidgetHOC(WithTableProps<AdvancedTableWidgetProps>(AdvancedTableContainer))
 
 AdvancedTableWidget.displayName = 'AdvancedTableWidget'
 

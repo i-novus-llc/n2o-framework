@@ -42,6 +42,7 @@ export interface Props {
     loading: boolean
     error: ErrorContainerProps['error']
     activeModel?: Model | Model[]
+    showCount?: boolean
 }
 
 /**

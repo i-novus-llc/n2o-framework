@@ -1,21 +1,9 @@
 import { useMemo } from 'react'
 
 import { getAllValuesByKey } from '../../../Table/utils'
+import { type HeaderCell, type Cell } from '../../../Table/types/cell'
 
 import { ColumnState } from './useColumnsState'
-
-type Cell = {
-    [x: string]: unknown
-    id: string
-    visible?: boolean
-}
-
-type HeaderCell = {
-    [x: string]: unknown
-    id?: string
-    visible?: boolean
-    children?: HeaderCell[]
-}
 
 const filterVisibleNestedFields = (data: HeaderCell[], columnsState: ColumnState): HeaderCell[] => {
     const filterByVisible = (id: string) => {
@@ -57,13 +45,15 @@ const filterVisibleNestedFields = (data: HeaderCell[], columnsState: ColumnState
     return resolveVisibility(data)
 }
 
-// eslint-disable-next-line max-len
-export const useResolveCellsVisible = <TCell extends Cell, THeaderCell extends HeaderCell>(cells: { body: TCell[], header: THeaderCell[] }, columnsState: ColumnState) => (
-    useMemo(() => {
-        const header = filterVisibleNestedFields(cells.header, columnsState)
-        const visibleHeaderCells = new Set(getAllValuesByKey(header, { keyToIterate: 'children', keyToExtract: 'id' }))
-        const body = cells.body.filter(cellData => visibleHeaderCells.has(cellData.id))
+export const useResolveCellsVisible = <TCell extends Cell, THeaderCell extends HeaderCell>(
+    cells: { body: TCell[], header: THeaderCell[] },
+    columnsState: ColumnState,
+) => (
+        useMemo(() => {
+            const header = filterVisibleNestedFields(cells.header, columnsState)
+            const visibleHeaderCells = new Set(getAllValuesByKey(header, { keyToIterate: 'children', keyToExtract: 'id' }))
+            const body = cells.body.filter(cellData => visibleHeaderCells.has(cellData.id))
 
-        return { body, header }
-    }, [cells, columnsState])
-)
+            return { body, header }
+        }, [cells, columnsState])
+    )

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, SetStateAction, Dispatch } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { ChildrenToggleState } from '../../../Table'
@@ -6,7 +6,7 @@ import { Data } from '../../../Table/types/general'
 import { getValueBySearchKey } from '../../../Table/utils'
 
 export const useExpandAllRows = (
-    callback: (value: string[]) => void,
+    callback: Dispatch<SetStateAction<string[]>>,
     type: ChildrenToggleState,
     data: Data,
 ) => {
