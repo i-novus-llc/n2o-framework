@@ -58,6 +58,7 @@ public class ButtonBindingAT extends AutoTestBase {
     @Test
     public void testButtons() {
         FormWidget form = page.widget(FormWidget.class);
+
         StandardField field = form.fields().field("Put name");
         field.shouldExists();
         field.control(InputText.class).click();

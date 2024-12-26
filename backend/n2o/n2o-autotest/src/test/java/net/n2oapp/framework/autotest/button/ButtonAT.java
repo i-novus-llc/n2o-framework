@@ -106,4 +106,15 @@ public class ButtonAT extends AutoTestBase {
         tooltip.shouldExists();
         tooltip.shouldHaveText(new String[]{"value1"});
     }
+
+    @Test
+    public void testRounded() {
+        ListWidget list = page.widget(ListWidget.class);
+        StandardButton button = list.toolbar().topLeft().button("All");
+        button.shouldExists();
+        button.shouldNotBeRounded();
+        button = list.toolbar().topLeft().button("rounded");
+        button.shouldExists();
+        button.shouldBeRounded();
+    }
 }

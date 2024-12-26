@@ -14,7 +14,7 @@ public interface Button extends Badge {
     void shouldBeDisabled();
 
     /**
-     * Проверка на не доступность клика по кнопке
+     * Проверка на доступность клика по кнопке
      */
     void shouldBeEnabled();
 
@@ -38,5 +38,4 @@ public interface Button extends Badge {
      * @param color ожидаемый цвет кнопки
      */
     void shouldHaveColor(Colors color);
-
 }

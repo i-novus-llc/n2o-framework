@@ -26,4 +26,13 @@ public interface ButtonField extends Field, Button {
      */
     void badgeShouldHavePosition(BadgePosition position);
 
+    /**
+     * Проверка круглой формы кнопки
+     */
+    void shouldBeRounded();
+
+    /**
+     * Проверка не круглой формы кнопки
+     */
+    void shouldNotBeRounded();
 }
