@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import map from 'lodash/map'
 import get from 'lodash/get'
@@ -13,14 +12,14 @@ import { getFetchOnInit, getFetch } from './helpers'
 
 interface Props {
     content: ContentMeta[]
-    tabSubContentClass: string
+    tabSubContentClass?: string
     pageId: string
     className?: string
-    active: string
-    lazy: boolean
-    regionId: string
+    active?: string
+    lazy?: boolean
+    regionId?: string
     parent?: string | null
-    tabId: string
+    tabId?: string
 }
 
 export function RegionContent({
@@ -45,7 +44,7 @@ export function RegionContent({
             {map(content, (meta: ContentMeta, index) => {
                 const { src, fetchOnInit: metaFetchOnInit } = meta
 
-                const getClassName = (meta: ContentMeta | { TabsRegion: string }, path: string) => get(meta, path) || ''
+                const getClassName = (meta: ContentMeta | { TabsRegion?: string }, path: string) => get(meta, path) || ''
 
                 const regionClassName = getClassName(mapClassNames, src)
                 const metaClassName = getClassName(meta, 'className')
@@ -63,7 +62,6 @@ export function RegionContent({
                         level={WIDGETS}
                         key={index}
                         {...meta}
-                        // @ts-ignore import from js file
                         pageId={pageId}
                         className={className}
                         fetchOnInit={fetchOnInit}
@@ -74,15 +72,6 @@ export function RegionContent({
             })}
         </div>
     )
-}
-
-RegionContent.propTypes = {
-    content: PropTypes.any,
-    pageId: PropTypes.string,
-    className: PropTypes.string,
-    tabSubContentClass: PropTypes.any,
-    active: PropTypes.bool,
-    lazy: PropTypes.bool,
 }
 
 export default RegionContent

@@ -24,10 +24,10 @@ import { Props as BadgeProps } from '../Badge/Badge'
  */
 
 interface PanelHeaderProps {
-    header: string | ReactNode
-    help: string
-    description: string
-    badge: BadgeProps
+    header?: string | ReactNode
+    help?: string
+    description?: string
+    badge?: BadgeProps
 }
 
 function PanelHeader({ header, help, description, badge }: PanelHeaderProps) {
@@ -53,12 +53,12 @@ function PanelHeader({ header, help, description, badge }: PanelHeaderProps) {
 }
 
 export type Props = {
-    type: string
+    type?: string
     collapsible?: boolean
-    badge: BadgeProps
+    badge?: BadgeProps
     className?: string
     headerClass?: string
-    children: ReactNode
+    children?: ReactNode
     showArrow?: boolean
     forceRender?: boolean
 } & PanelHeaderProps
