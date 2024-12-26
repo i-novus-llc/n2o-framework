@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import PropTypes from 'prop-types'
+import React, { Component, ComponentType } from 'react'
+import axios, { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import isArray from 'lodash/isArray'
@@ -17,13 +16,38 @@ import { parseExpression } from '../../../core/Expression/parse'
 import { id } from '../../../utils/id'
 
 import { deleteFile, everyIsValid, post } from './utils'
+import {
+    type FileUploaderControlProps,
+    type FileUploaderControlState,
+    type Files,
+    type FileItem,
+    type FileItemKeys,
+} from './types'
 
-/**
- * @type {Function} ReturnedComponent
- */
-const FileUploaderControl = (WrappedComponent) => {
-    class ReturnedComponent extends Component {
-        constructor(props) {
+export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
+    class ReturnedComponent extends Component<FileUploaderControlProps & P, FileUploaderControlState> {
+        requests: Record<string, unknown> = {}
+
+        static defaultProps: {
+            autoUpload: boolean;
+            disabled: boolean;
+            icon: string;
+            multi: boolean;
+            onBlur(): void;
+            onChange(): void;
+            onDelete(): void;
+            onStart(): void;
+            onSuccess(): void;
+            requestParam: string;
+            showSize: boolean;
+            sizeFieldId: string;
+            statusBarColor: string;
+            t(): void;
+            value: never[];
+            visible: boolean
+        }
+
+        constructor(props: FileUploaderControlProps & P) {
             super(props)
 
             this.state = {
@@ -31,57 +55,33 @@ const FileUploaderControl = (WrappedComponent) => {
                 imgFiles: [],
                 imgError: {},
             }
-
-            this.requests = {}
-
-            this.handleDrop = this.handleDrop.bind(this)
-            this.onDropRejected = this.onDropRejected.bind(this)
-            this.handleImagesDrop = this.handleImagesDrop.bind(this)
-            this.handleRemove = this.handleRemove.bind(this)
-            this.handleChange = this.handleChange.bind(this)
-            this.startUpload = this.startUpload.bind(this)
-            this.onStartUpload = this.onStartUpload.bind(this)
-            this.getUploaderProps = this.getUploaderProps.bind(this)
-            this.resolveUrl = this.resolveUrl.bind(this)
-            this.onDragEnter = this.onDragEnter.bind(this)
-            this.onDragLeave = this.onDragLeave.bind(this)
-            this.onError = this.onError.bind(this)
-            this.clearState = this.clearState.bind(this)
         }
 
         componentDidMount() {
             const { mapper, value, model, fieldKey } = this.props
             const { files } = this.state
 
-            this.setState({
-                files: mapper
-                    ? mapper(value)
-                    : this.mapFiles(!isEmpty(value) ? value : files),
-            })
+            this.setState({ files: mapper ? mapper(value) : this.mapFiles(!isEmpty(value) ? value : files) as Files })
 
             if (isEmpty(value) && model) {
                 const files = model[fieldKey] || []
 
                 this.setState({
                     files: Array.isArray(files)
-                        ? this.mapFiles(files)
-                        : this.mapFiles([files]),
+                        ? this.mapFiles(files) as Files
+                        : this.mapFiles([files] as Files) as Files,
                 })
             }
         }
 
-        componentDidUpdate(prevProps) {
+        componentDidUpdate(prevProps: FileUploaderControlProps) {
             const { value, files, mapper } = this.props
             const { files: stateFiles } = this.state
 
             if (!isEqual(prevProps.value, value)) {
-                if (!value) {
-                    this.setState({ files: [] })
-                }
+                if (!value) { this.setState({ files: [] }) }
 
-                const newFiles = mapper
-                    ? mapper(value || [])
-                    : this.mapFiles(value || [])
+                const newFiles = mapper ? mapper(value || []) : this.mapFiles(value || []) as Files
 
                 const hasUpdate = !every(newFiles, file => some(stateFiles, file))
 
@@ -90,35 +90,30 @@ const FileUploaderControl = (WrappedComponent) => {
                 }
             } else if (!isEqual(prevProps.files, files)) {
                 this.setState({
-                    files: mapper ? mapper(files || []) : this.mapFiles(files || []),
+                    files: mapper ? mapper(files || []) : this.mapFiles(files || []) as Files,
                 })
             }
         }
 
-        clearState() {
-            this.setState({ files: [] })
-        }
-
-        mapFiles(files) {
+        mapFiles = (files?: Files) => {
             if (!files) {
-                return
+                return []
             }
 
             const currentFiles = isArray(files) ? files : [files]
 
-            // eslint-disable-next-line consistent-return
             return currentFiles.map(file => this.fileAdapter(file))
         }
 
-        fileAdapter(file) {
+        fileAdapter = (file: FileItem) => {
             const {
                 valueFieldId,
                 labelFieldId,
                 statusFieldId,
-                sizeFieldId,
+                sizeFieldId = 'size',
                 responseFieldId,
                 urlFieldId,
-            } = this.props
+            } = this.props as FileItemKeys
 
             return {
                 id: file[valueFieldId],
@@ -130,28 +125,15 @@ const FileUploaderControl = (WrappedComponent) => {
             }
         }
 
-        /**
-         * Получение Url из expression
-         * @returns {*}
-         */
-        resolveUrl(url) {
-            if (!parseExpression(url)) {
-                return url
-            }
+        resolveUrl = (url: string) => {
+            if (!parseExpression(url)) { return url }
 
-            const { propsResolver } = this.props
+            const { propsResolver, model } = this.props
 
-            // TODO разобраться что-за контекст такой тут ожидается
-            const { _reduxForm } = this.context
-            const { resolveModel } = _reduxForm
-
-            return propsResolver(url, resolveModel)
+            return propsResolver(url, model)
         }
 
-        /**
-         * Return props
-         */
-        getUploaderProps() {
+        getUploaderProps = () => {
             const { files, imgFiles, uploading, uploaderClass, imgError } = this.state
             const { multi } = this.props
 
@@ -176,10 +158,10 @@ const FileUploaderControl = (WrappedComponent) => {
             }
         }
 
-        handleDrop(data) {
+        handleDrop = (data: Files) => {
             const { onChange, autoUpload, onBlur, multi } = this.props
             const { files: stateFiles } = this.state
-            const preparedFiles = data.map((file) => {
+            const preparedFiles = data?.map((file) => {
                 file.id = id()
                 file.percentage = 0
 
@@ -203,10 +185,7 @@ const FileUploaderControl = (WrappedComponent) => {
             )
         }
 
-        /**
-         * @param {Array<File>} files
-         */
-        onDropRejected(files) {
+        onDropRejected = (files: Files) => {
             const { accept } = this.props
             const { files: stateFiles } = this.state
             const errorText = `Ошибка формата файла. Ожидаемый тип: ${accept}`
@@ -222,19 +201,15 @@ const FileUploaderControl = (WrappedComponent) => {
             })
         }
 
-        /**
-         * Загрузка изображений в state
-         * @param files
-         */
-        handleImagesDrop(files) {
+        handleImagesDrop = (files: Files) => {
             const { accept, t } = this.props
-            let errorText = `${t('imageUploadAvailableImageTypes')} JPG/PNG/SVG`
+            let errorText = `${t?.('imageUploadAvailableImageTypes')} JPG/PNG/SVG`
 
             if (accept) {
-                errorText = `${t('imageUploadAvailableImageTypes')} ${accept}`
+                errorText = `${t?.('imageUploadAvailableImageTypes')} ${accept}`
             }
 
-            if (everyIsValid(files) && files.length !== 0) {
+            if (everyIsValid(files) && files?.length !== 0) {
                 this.setState({
                     imgError: {},
                 })
@@ -255,12 +230,7 @@ const FileUploaderControl = (WrappedComponent) => {
             }
         }
 
-        /**
-         * Удаление из стейта
-         * @param index
-         * @param id
-         */
-        handleRemove(index, id) {
+        handleRemove = (index: number, id: string) => {
             const {
                 value = [],
                 multi,
@@ -274,21 +244,15 @@ const FileUploaderControl = (WrappedComponent) => {
 
             const { files, imgFiles } = this.state
 
-            this.setState({
-                imgError: {},
-            })
+            this.setState({ imgError: {} })
 
             const fileToBeDeleted = find(files, ({ id: idFromState }) => idFromState === id)
             const isUploading = !has(fileToBeDeleted, 'response') && !has(fileToBeDeleted, 'error')
 
             const fileDeletionExecutor = () => {
-                if (isUploading) {
-                    fileToBeDeleted.cancelSource.cancel()
-                }
+                if (isUploading) { fileToBeDeleted?.cancelSource?.cancel() }
 
-                if (!deleteUrl) {
-                    return
-                }
+                if (!deleteUrl) { return }
 
                 if (isFunction(deleteRequest)) {
                     deleteRequest(id)
@@ -307,35 +271,25 @@ const FileUploaderControl = (WrappedComponent) => {
 
             newFiles.splice(index, 1)
             newImgFiles.splice(index, 1)
-            this.setState({
-                files: [...newFiles],
-                imgFiles: [...newImgFiles],
-            })
+            this.setState({ files: [...newFiles], imgFiles: [...newImgFiles] })
 
             if (value) {
-                const newValue = multi
-                    ? value.filter(f => f[valueFieldId] !== id)
-                    : null
+                const newValue = multi ? value.filter(f => f[valueFieldId as keyof FileItem] !== id) : null
 
                 onChange(newValue)
                 onBlur(newValue)
             }
         }
 
-        /**
-         * Изменение компонента
-         */
-        handleChange(newFile) {
+        handleChange = (newFile: FileItem) => {
             const { value, multi, onChange } = this.props
 
-            onChange(multi ? [...(value || []), newFile] : newFile)
+            const model: FileItem[] = value || [] as FileItem[]
+
+            onChange(multi ? [...model, newFile] : newFile)
         }
 
-        /**
-         * Start upload files
-         * @param files
-         */
-        startUpload(files) {
+        startUpload = (files: Files) => {
             const {
                 labelFieldId,
                 sizeFieldId,
@@ -364,12 +318,10 @@ const FileUploaderControl = (WrappedComponent) => {
                 ),
             })
 
+            // TODO необходим рефакторинг
             files.forEach((file) => {
-                if (file.error) {
-                    // Не загружаем файлы, которые не прошли префильтры
+                if (file.error) { return }
 
-                    return
-                }
                 if (!this.requests[file.id]) {
                     const onProgress = this.onProgress.bind(this, file.id)
                     const onUpload = this.onUpload.bind(this, file.id)
@@ -378,15 +330,17 @@ const FileUploaderControl = (WrappedComponent) => {
                     file.cancelSource = axios.CancelToken.source()
 
                     if (labelFieldId !== 'name') {
+                        // @ts-ignore необходим рефакторинг
                         file[labelFieldId] = file.name
                     }
                     if (sizeFieldId !== 'size') {
+                        // @ts-ignore необходим рефакторинг
                         file[sizeFieldId] = file.size
                     }
 
                     const formData = new FormData()
 
-                    formData.append(requestParam, file)
+                    formData.append(requestParam, file as never)
                     onStart(file)
 
                     if (isFunction(uploadRequest)) {
@@ -397,6 +351,7 @@ const FileUploaderControl = (WrappedComponent) => {
                         post(
                             url,
                             formData,
+                            // @ts-ignore необходим рефакторинг
                             onProgress,
                             onUpload,
                             onError,
@@ -407,23 +362,13 @@ const FileUploaderControl = (WrappedComponent) => {
             })
         }
 
-        /**
-         * Change upload progress
-         * @param id
-         * @param event
-         */
-        onProgress(id, event) {
+        onProgress = (id: string, event: ProgressEvent) => {
             if (event.lengthComputable) {
                 this.onLoading(event.loaded / event.total, id)
             }
         }
 
-        /**
-         * Loading event
-         * @param percentage
-         * @param id
-         */
-        onLoading(percentage, id) {
+        onLoading = (percentage: number, id: string) => {
             const { files } = this.state
 
             this.setState({
@@ -439,25 +384,17 @@ const FileUploaderControl = (WrappedComponent) => {
             })
         }
 
-        /**
-         * Call upload function
-         */
-        onStartUpload() {
+        onStartUpload = () => {
             const { files } = this.state
 
             this.startUpload(files)
         }
 
-        /**
-         * Upload event
-         * @param id
-         * @param response
-         */
-        onUpload(id, response) {
+        onUpload = (id: string, response: AxiosResponse) => {
             const { onSuccess } = this.props
 
             if (response.status < 200 || response.status >= 300) {
-                this.onError(id, response.statusText, response.status)
+                this.onError(id, { message: response.statusText, status: response.status })
             } else {
                 const file = response.data
                 const { files, uploading } = this.state
@@ -474,7 +411,7 @@ const FileUploaderControl = (WrappedComponent) => {
 
                             return item
                         }),
-                    ],
+                    ] as Files,
                     uploading: {
                         ...uploading,
                         [id]: false,
@@ -486,7 +423,7 @@ const FileUploaderControl = (WrappedComponent) => {
             }
         }
 
-        onError(id, error) {
+        onError = (id: string, error: { message: string, status: string | number }) => {
             const { responseFieldId, onError } = this.props
 
             const { uploading, files } = this.state
@@ -514,28 +451,14 @@ const FileUploaderControl = (WrappedComponent) => {
                         file.error = formattedError
                     }
                 }),
-            })
+            } as never)
         }
 
-        onDragEnter() {
-            this.setState({
-                uploaderClass: 'n2o-file-uploader-event-drag-enter',
-            })
-        }
+        onDragEnter = () => { this.setState({ uploaderClass: 'n2o-file-uploader-event-drag-enter' }) }
 
-        onDragLeave() {
-            this.setState({
-                uploaderClass: null,
-            })
-        }
+        onDragLeave = () => { this.setState({ uploaderClass: null }) }
 
-        render() {
-            return <WrappedComponent {...this.getUploaderProps()} />
-        }
-    }
-
-    ReturnedComponent.contextTypes = {
-        _reduxForm: PropTypes.string,
+        render() { return <WrappedComponent {...this.getUploaderProps()} /> }
     }
 
     ReturnedComponent.defaultProps = {

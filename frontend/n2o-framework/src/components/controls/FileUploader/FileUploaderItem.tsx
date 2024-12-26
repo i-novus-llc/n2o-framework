@@ -2,17 +2,18 @@ import React from 'react'
 import classNames from 'classnames'
 import { Progress } from 'reactstrap'
 import isEmpty from 'lodash/isEmpty'
+import { SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 
 import { Tooltip } from '../../snippets/Tooltip/TooltipHOC'
 import { Spinner } from '../../snippets/Spinner/Spinner'
 
 import { convertSize } from './utils'
 import { File } from './File'
+import { type FileUploaderItemProps } from './types'
 
 function FileUploaderItem({
     file,
     percentage,
-    statusBarColor,
     onRemove,
     showSize,
     disabled,
@@ -20,10 +21,11 @@ function FileUploaderItem({
     loading,
     autoUpload,
     deleteIcon,
-}) {
+    statusBarColor = 'success',
+}: FileUploaderItemProps) {
     const { response, error, status, size, id, name, link } = file
 
-    const hint = (!isEmpty(response) || !isEmpty(error)) && (response || error)
+    const hint = (!isEmpty(response) || !isEmpty(error)) ? (response || error) : null
     const inProgress = loading || (!autoUpload && !status)
 
     return (
@@ -40,7 +42,7 @@ function FileUploaderItem({
                             className={classNames('n2o-file-uploader-remove ml-2', deleteIcon || 'fa fa-times')}
                         />
                     )}
-                    {loading && <Spinner type="inline" size="sm" />}
+                    {loading && <Spinner type={SpinnerType.inline} size="sm" />}
                 </span>
             </span>
             {inProgress && (
@@ -48,10 +50,6 @@ function FileUploaderItem({
             )}
         </div>
     )
-}
-
-FileUploaderItem.defaultProps = {
-    statusBarColor: 'success',
 }
 
 export default FileUploaderItem

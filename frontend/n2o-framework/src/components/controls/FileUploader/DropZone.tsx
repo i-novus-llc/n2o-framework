@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 
 import withFileUploader from './withFileUploader'
 import FileUploader from './FileUploader'
+import { type FileUploaderProps } from './types'
 
 function defaultDropZone(icon: string, label: string) {
     return (
@@ -12,7 +13,7 @@ function defaultDropZone(icon: string, label: string) {
     )
 }
 
-export type Props = {
+export interface Props extends FileUploaderProps {
     icon: string
     label: string
     children: ReactNode
@@ -22,7 +23,6 @@ function DropZone(props: Props) {
     const { icon, label, children } = props
 
     return (
-        // @ts-ignore ignore import error from js file
         <FileUploader
             {...props}
             componentClass="n2o-drop-zone"
@@ -41,4 +41,4 @@ DropZone.defaultProps = {
 /**
  * @type ReturnedComponent
  */
-export default withFileUploader(DropZone)
+export default withFileUploader<Props>(DropZone)

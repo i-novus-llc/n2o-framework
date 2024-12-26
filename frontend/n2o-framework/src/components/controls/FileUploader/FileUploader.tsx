@@ -5,8 +5,9 @@ import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
 
 import FileUploaderList from './FileUploaderList'
+import { type FileUploaderProps } from './types'
 
-function FileUploader({
+const FileUploader = ({
     accept,
     uploading,
     statusBarColor,
@@ -29,7 +30,7 @@ function FileUploader({
     saveBtnStyle,
     deleteIcon,
     t,
-}) {
+}: FileUploaderProps) => {
     if (!visible) {
         return null
     }
@@ -43,8 +44,8 @@ function FileUploader({
             <Dropzone
                 className={classNames('n2o-file-uploader-control', componentClass, {
                     'd-none': !showControl,
-                    [className]: className,
-                    [uploaderClass]: uploaderClass,
+                    [className || '']: className,
+                    [uploaderClass || '']: uploaderClass,
                     disabled,
                 })}
                 accept={accept}
@@ -75,15 +76,11 @@ function FileUploader({
                     style={saveBtnStyle}
                     onClick={onStartUpload}
                 >
-                    {t('save')}
+                    {t?.('save')}
                 </Button>
             )}
         </div>
     )
-}
-
-FileUploader.defaultProps = {
-    t: () => {},
 }
 
 export default FileUploader

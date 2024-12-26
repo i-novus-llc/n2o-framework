@@ -17,7 +17,6 @@ function FileUploadCellComponent(props: Props) {
 
     return (
         <DefaultCell disabled={disabled} className={classNames('file-upload-cell-wrapper', { showSize }, className)}>
-            {/* @ts-ignore import from js file FIXME FileUploader не типизирован */ }
             <FileUploader
                 componentClass="file-upload-cell"
                 {...props}
@@ -37,7 +36,6 @@ function FileUploadCellComponent(props: Props) {
 }
 
 const FileUploadCell = flowRight(
-    // @ts-ignore import from js file FIXME withFileUploader не типизирован
     withFileUploader,
     withTranslation(),
 )(FileUploadCellComponent)
