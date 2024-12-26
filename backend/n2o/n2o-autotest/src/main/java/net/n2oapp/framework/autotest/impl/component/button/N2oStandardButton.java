@@ -36,4 +36,14 @@ public class N2oStandardButton extends N2oButton implements StandardButton {
     public void badgeShouldHavePosition(BadgePosition position) {
         shouldHaveCssClass(position.name("btn-badge-position--"));
     }
+
+    @Override
+    public void shouldBeRounded() {
+        element().shouldHave(Condition.cssClass("btn-rounded__with-content"));
+    }
+
+    @Override
+    public void shouldNotBeRounded() {
+        element().shouldNotHave(Condition.cssClass("btn-rounded__with-content"));
+    }
 }

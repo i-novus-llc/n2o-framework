@@ -52,6 +52,7 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getSrc(), is("ButtonField"));
         assertThat(field.getLabel(), is("delete"));
         assertThat(field.getIcon(), nullValue());
+        assertThat(field.getRounded(), is(false));
         assertThat(field.getColor(), is("`name`"));
         assertThat(field.getValidate().get(0), is("testButtonFieldCompile_ds"));
         assertThat(field.getDatasource(), is("testButtonFieldCompile_ds"));
@@ -77,6 +78,7 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getSrc(), is("ButtonField"));
         assertThat(field.getLabel(), nullValue());
         assertThat(field.getIcon(), is("fa fa-pencil"));
+        assertThat(field.getRounded(), is(true));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("btn3"));

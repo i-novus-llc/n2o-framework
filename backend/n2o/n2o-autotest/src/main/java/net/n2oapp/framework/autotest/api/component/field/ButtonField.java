@@ -25,4 +25,14 @@ public interface ButtonField extends Field, Button {
      * @param position ожидаемая позиция бейджа
      */
     void badgeShouldHavePosition(BadgePosition position);
+
+    /**
+     * Проверка круглой формы кнопки
+     */
+    void shouldBeRounded();
+
+    /**
+     * Проверка не круглой формы кнопки
+     */
+    void shouldNotBeRounded();
 }

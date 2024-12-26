@@ -31,7 +31,6 @@ public class ButtonFieldIOv3 extends ActionFieldIOv3<N2oButtonField> implements 
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "color", m::getColor, m::setColor);
         p.attribute(e, "tooltip-position", m::getTooltipPosition, m::setTooltipPosition);
-        p.attributeBoolean(e, "rounded", m::getRounded, m::setRounded);
     }
 
     @Override
