@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { compose } from 'recompose'
+import flowRight from 'lodash/flowRight'
 import { withTranslation } from 'react-i18next'
 
 import withFileUploader from '../FileUploader/withFileUploader'
@@ -72,8 +72,7 @@ function ImageUploader({
     )
 }
 
-export default compose(
+export default flowRight(
     withTranslation(),
     withFileUploader,
-    // @ts-ignore import from js file withFileUploader
 )(ImageUploader)

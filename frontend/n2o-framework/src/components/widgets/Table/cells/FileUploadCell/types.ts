@@ -1,6 +1,8 @@
+import { FileItem } from '../../../../controls/FileUploader/types'
+
 export interface Props {
     multi?: boolean
-    files: File[]
+    files: FileItem[]
     t(text: string): string
     showSize: boolean
     label: string,
@@ -8,4 +10,5 @@ export interface Props {
     deleteIcon: string
     className: string
     disabled: boolean
+    onRemove(index: number, id: string): void
 }

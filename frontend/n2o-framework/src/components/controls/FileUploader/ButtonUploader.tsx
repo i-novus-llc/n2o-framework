@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
-import { compose } from 'recompose'
+import flowRight from 'lodash/flowRight'
 
 import withFileUploader from './withFileUploader'
 import FileUploader from './FileUploader'
@@ -78,8 +78,7 @@ ButtonUploader.defaultProps = {
     onChange: () => {},
 }
 
-export default compose(
+export default flowRight(
     withFileUploader,
     withTranslation(),
-    // @ts-ignore ignore import error from js file
 )(ButtonUploader)

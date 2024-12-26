@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, useRef, useState, type VFC, MouseEvent } from 'react'
 import classNames from 'classnames'
-import { compose } from 'recompose'
+import flowRight from 'lodash/flowRight'
 import get from 'lodash/get'
 
 import { Text } from '../../../../snippets/Text/Text'
 import { WithCell } from '../../withCell'
-import withTooltip from '../../withTooltip'
+import { withTooltip } from '../../withTooltip'
 import { DefaultCell } from '../DefaultCell'
 
 import { View } from './VIew'
@@ -89,4 +89,7 @@ Cell.defaultProps = {
 
 Cell.displayName = 'EditableCell'
 
-export const EditableCell = compose(WithCell, withTooltip)(Cell)
+export const EditableCell = flowRight(
+    WithCell,
+    withTooltip,
+)(Cell)
