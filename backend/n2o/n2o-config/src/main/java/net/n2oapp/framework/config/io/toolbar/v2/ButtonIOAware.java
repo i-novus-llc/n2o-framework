@@ -42,5 +42,6 @@ public interface ButtonIOAware<T extends Button> {
         p.attribute(e, "confirm-cancel-label", b::getConfirmCancelLabel, b::setConfirmCancelLabel);
         p.attribute(e, "confirm-ok-color", b::getConfirmOkColor, b::setConfirmOkColor);
         p.attribute(e, "confirm-cancel-color", b::getConfirmCancelColor, b::setConfirmCancelColor);
+        p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
     }
 }

@@ -41,6 +41,16 @@ public class N2oButtonField extends N2oField implements ButtonField {
     }
 
     @Override
+    public void shouldBeRounded() {
+        btn().shouldHave(Condition.cssClass("btn-rounded__with-content"));
+    }
+
+    @Override
+    public void shouldNotBeRounded() {
+        btn().shouldNotHave(Condition.cssClass("btn-rounded__with-content"));
+    }
+
+    @Override
     public void hover() {
         element().hover();
     }

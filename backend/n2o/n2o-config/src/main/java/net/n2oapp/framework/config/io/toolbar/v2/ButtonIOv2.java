@@ -31,7 +31,6 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> implements Actions
         b.adapterV2();
 
         p.attributeArray(e, "generate", ",", b::getGenerate, b::setGenerate);
-        p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
         p.attributeEnum(e, "disable-on-empty-model", b::getDisableOnEmptyModel, b::setDisableOnEmptyModel, DisableOnEmptyModelType.class);
         p.anyChildren(e, "dependencies", b::getDependencies, b::setDependencies, p.oneOf(N2oButton.Dependency.class)
                 .add("enabling", N2oButton.EnablingDependency.class, this::enablingDependency)
