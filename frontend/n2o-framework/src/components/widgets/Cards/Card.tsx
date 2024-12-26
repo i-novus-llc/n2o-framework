@@ -1,19 +1,10 @@
-import React, { CSSProperties } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 
-import { CardsCell, type Props as CardCellProps } from './CardsCell'
+import { CardsCell } from './CardsCell'
+import { type CardProps } from './types'
 
-type CommonProps = 'index' | 'datasource' | 'model' | 'dispatch' | 'onResolve' | 'id' | 'className'
-
-export interface Props extends Pick<CardCellProps, CommonProps> {
-    card: {
-        content: CardCellProps[]
-        col: string
-    }
-    alignStyle: CSSProperties
-}
-
-export function Card({ card, index, id, onResolve, dispatch, alignStyle, datasource, model }: Props) {
+export function Card({ card, index, id, onResolve, dispatch, alignStyle, datasource, model }: CardProps) {
     const { content = [], col } = card
 
     return (
