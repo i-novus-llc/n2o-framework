@@ -1,15 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck ошибка генерации d.ts FIXME типизировать
-import React, { FC } from 'react'
-import { connect, ReactReduxContext } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React, { ComponentType } from 'react'
+import { connect, useStore } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
 
 import { makeModelIdSelector, widgetsSelector } from '../../ducks/widgets/selectors'
-import {
-    makeModelsByPrefixSelector,
-} from '../../ducks/models/selectors'
+import { makeModelsByPrefixSelector } from '../../ducks/models/selectors'
 import { makePageMetadataByIdSelector } from '../../ducks/pages/selectors'
 import {
     hideWidget,
@@ -18,75 +14,70 @@ import {
     enableWidget,
 } from '../../ducks/widgets/store'
 import { ModelPrefix } from '../../core/datasource/const'
+import { State } from '../../ducks/State'
+import { State as WidgetsState } from '../../ducks/widgets/Widgets'
 
-/**
- * HOC для работы с данными
- * @param WrappedComponent - оборачиваемый компонент
- */
+export interface WithGetWidgetProps {
+    widgetId: string
+    widgets: WidgetsState
+    widgetsDatasource: Record<string, unknown>
+    modelId: string
+    hideWidget(widgetId: string): void
+    showWidget(widgetId: string): void
+    disableWidget(widgetId: string): void
+    enableWidget(widgetId: string): void
+}
 
-function withGetWidget(WrappedComponent: FC) {
-    class WithGetWidget extends React.Component {
-        constructor(props) {
-            super(props)
+export interface WithGetWidgetHOCProps {
+    getWidget(pageId: string, widgetId: string): Record<string, unknown>
+    getWidgetProps(widgetId: string): Record<string, unknown>
+}
 
-            this.getWidget = this.getWidget.bind(this)
-            this.getWidgetProps = this.getWidgetProps.bind(this)
+// HOC для работы с данными
+export function WithGetWidget<P extends WithGetWidgetProps>(WrappedComponent: ComponentType<P>) {
+    const Wrapper: ComponentType<P & WithGetWidgetHOCProps> = (props) => {
+        const store = useStore()
+
+        const getWidget = (pageId: string, widgetId: string) => {
+            const state = store.getState() as State
+
+            return get(makePageMetadataByIdSelector(pageId)(state), ['widgets', widgetId])
         }
 
-        getWidget(pageId: string, widgetId: string) {
-            const { store } = this.context
-            const state = store.getState()
+        const getWidgetProps = (widgetId: string) => {
+            const { widgets, widgetsDatasource } = props
 
-            return get(makePageMetadataByIdSelector(pageId)(state), [
-                'widgets',
-                widgetId,
-            ])
+            return { ...get(widgets, widgetId, {}), datasource: widgetsDatasource[widgetId] }
         }
 
-        getWidgetProps(widgetId: string) {
-            const { widgets, widgetsDatasource } = this.props
-
-            return {
-                ...get(widgets, widgetId, {}),
-                datasource: widgetsDatasource[widgetId],
-            }
-        }
-
-        render() {
-            const props = omit(this.props, ['widgets'])
-
-            return (
-                <WrappedComponent
-                    {...props}
-                    getWidget={this.getWidget}
-                    getWidgetProps={this.getWidgetProps}
-                />
-            )
-        }
+        return (
+            <WrappedComponent
+                {...omit(props, ['widgets']) as P}
+                getWidget={getWidget}
+                getWidgetProps={getWidgetProps}
+            />
+        )
     }
 
-    WithGetWidget.contextType = ReactReduxContext
-
-    const mapStateToProps = (state, { widgetId }) => ({
+    const mapStateToProps = (state: State, { widgetId }: P) => ({
         widgets: widgetsSelector(state),
         widgetsDatasource: makeModelsByPrefixSelector(ModelPrefix.source)(state),
         modelId: makeModelIdSelector(widgetId)(state),
     })
 
-    const mapDispatchToProps = dispatch => bindActionCreators(
+    const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(
         {
-            hideWidget: widgetId => hideWidget(widgetId),
-            showWidget: widgetId => showWidget(widgetId),
-            disableWidget: widgetId => disableWidget(widgetId),
-            enableWidget: widgetId => enableWidget(widgetId),
+            hideWidget: (widgetId: string) => hideWidget(widgetId),
+            showWidget: (widgetId: string) => showWidget(widgetId),
+            disableWidget: (widgetId: string) => disableWidget(widgetId),
+            enableWidget: (widgetId: string) => enableWidget(widgetId),
         },
         dispatch,
     )
 
-    return connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(WithGetWidget)
+    Wrapper.displayName = 'WithGetWidget'
+
+    return connect(mapStateToProps, mapDispatchToProps)(Wrapper as never)
 }
 
-export default withGetWidget as never
+export default WithGetWidget

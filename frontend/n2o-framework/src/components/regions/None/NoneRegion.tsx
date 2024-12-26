@@ -1,12 +1,14 @@
 import React, { useLayoutEffect, memo } from 'react'
 import map from 'lodash/map'
+import isEqual from 'lodash/isEqual'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
-import isEqual from 'lodash/isEqual'
 
-import withWidgetProps from '../withWidgetProps'
+import { WithGetWidget } from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
 import { registerRegion, unregisterRegion } from '../../../ducks/regions/store'
+
+import { type NoneRegionProps } from './types'
 
 /**
  * Регион None (простой див)
@@ -14,7 +16,7 @@ import { registerRegion, unregisterRegion } from '../../../ducks/regions/store'
  * @reactProps {string} pageId - идентификатор страницы
  */
 
-function arePropsEqual(oldProps, newProps) {
+function arePropsEqual(oldProps: NoneRegionProps, newProps: NoneRegionProps) {
     // widgetsDatasource from withWidgetProps
     return !isEqual(oldProps.widgetsDatasource, newProps.widgetsDatasource) ||
         !isEqual(oldProps.content, newProps.content) ||
@@ -22,7 +24,7 @@ function arePropsEqual(oldProps, newProps) {
         oldProps.visible !== newProps.visible
 }
 
-const NoneRegionBody = memo((props) => {
+const NoneRegionBody = memo((props: NoneRegionProps) => {
     const { id: regionId, content, className, style, pageId, disabled, parent } = props
     const dispatch = useDispatch()
 
@@ -48,5 +50,5 @@ const NoneRegionBody = memo((props) => {
     )
 }, arePropsEqual)
 
-export const NoneRegion = withWidgetProps(NoneRegionBody)
+export const NoneRegion = WithGetWidget<NoneRegionProps>(NoneRegionBody)
 export default NoneRegion

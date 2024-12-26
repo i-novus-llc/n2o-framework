@@ -86,5 +86,4 @@ export const TabsRegion = flowRight(
     createRegionContainer({ listKey: 'tabs' }),
     withWidgetProps,
     TabsController,
-    // @ts-ignore FIXME поправить типизацию
 )(TabsRegionBody)

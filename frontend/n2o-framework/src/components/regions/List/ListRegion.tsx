@@ -6,10 +6,10 @@ import isEmpty from 'lodash/isEmpty'
 import flowRight from 'lodash/flowRight'
 
 import { Panel, Collapse } from '../../snippets/Collapse/Collapse'
-import withWidgetProps from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
 import { registerRegion, unregisterRegion } from '../../../ducks/regions/store'
 import { type State } from '../../../ducks/State'
+import { WithGetWidget } from '../withWidgetProps'
 
 import { type ListRegionProps } from './types'
 
@@ -93,6 +93,6 @@ const ListRegion = (props: ListRegionProps) => {
 
 export { ListRegion }
 export default flowRight(
-    withWidgetProps,
+    WithGetWidget,
     connect(({ regions, widgets }: State) => ({ regionsState: regions, widgetsState: widgets })),
 )(ListRegion)
