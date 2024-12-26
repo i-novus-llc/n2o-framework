@@ -28,6 +28,8 @@ public class ButtonField extends ActionField {
     @JsonProperty
     private Badge badge;
     @JsonProperty
+    private Boolean rounded;
+    @JsonProperty
     private String datasource;
     /**
      * Список источников данных, которые нужно валидировать

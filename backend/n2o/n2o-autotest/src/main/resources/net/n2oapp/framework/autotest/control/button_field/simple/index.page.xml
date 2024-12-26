@@ -5,7 +5,7 @@
         <fields>
             <button
                     id="button"
-                    label="Кнопка-поле"
+                    label="Кнопка-поле закругленная"
                     icon="fa fa-search"
                     color="primary"
                     description="description"
@@ -19,6 +19,11 @@
                     color="{clicked ? 'danger' : 'success'}"
                     style="text-decoration: underline"
             />
+            <field id="field">
+                <controls>
+                    <button label="Кнопка в контроле закругленная" rounded="true"/>
+                </controls>
+            </field>
         </fields>
     </form>
 </simple-page>

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -41,9 +42,11 @@ public class ButtonFieldAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
+        Fields fields = page.widget(FormWidget.class).fields();
 
-        ButtonField buttonField = page.widget(FormWidget.class).fields().field("Кнопка-поле", ButtonField.class);
+        ButtonField buttonField = page.widget(FormWidget.class).fields().field("Кнопка-поле закругленная", ButtonField.class);
         buttonField.shouldExists();
+        buttonField.shouldBeRounded();
         buttonField.shouldHaveIcon("fa fa-search");
         buttonField.shouldHaveColor(Colors.PRIMARY);
         buttonField.hover();
@@ -53,16 +56,21 @@ public class ButtonFieldAT extends AutoTestBase {
 
         buttonField = page.widget(FormWidget.class).fields().field("Кнопка-поле1", ButtonField.class);
         buttonField.shouldExists();
+        buttonField.shouldNotBeRounded();
         buttonField.shouldHaveColor(Colors.SUCCESS);
         buttonField.shouldHaveStyle("text-decoration: underline;");
 
-        Checkbox checkbox = page.widget(FormWidget.class).fields().field("Checkbox1").control(Checkbox.class);
+        Checkbox checkbox = fields.field("Checkbox1").control(Checkbox.class);
         checkbox.shouldExists();
         checkbox.shouldNotBeChecked();
         checkbox.setChecked(true);
         buttonField.shouldHaveColor(Colors.DANGER);
         checkbox.setChecked(false);
         buttonField.shouldHaveColor(Colors.SUCCESS);
+
+        buttonField = fields.field("Кнопка в контроле закругленная", ButtonField.class);
+        buttonField.shouldExists();
+        buttonField.shouldBeRounded();
     }
 
     @Test

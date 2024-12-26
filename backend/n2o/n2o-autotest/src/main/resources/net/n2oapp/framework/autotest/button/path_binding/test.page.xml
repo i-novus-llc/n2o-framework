@@ -30,8 +30,7 @@
                     <column text-field-id="id">
                         <toolbar>
                             <button label="Кнопка в ячейке">
-                                <invoke operation-id="greeting" route="/greeting">
-                                </invoke>
+                                <invoke operation-id="greeting" route="/greeting"/>
                             </button>
                         </toolbar>
                     </column>

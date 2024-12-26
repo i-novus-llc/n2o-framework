@@ -27,20 +27,21 @@
                     <set-value to="unreadOnly">
                         true
                     </set-value>
-                    <refresh />
+                    <refresh/>
                 </menu-item>
                 <menu-item label="Все">
                     <set-value to="unreadOnly">
                         null
                     </set-value>
-                    <refresh />
+                    <refresh/>
                 </menu-item>
             </sub-menu>
             <button label="{unreadOnly ? 'Unread' : 'All'}"
-                  description="{unreadOnly ? 'value2' : 'value1'}"
-                  model="filter"
-                  color="{unreadOnly ? 'warning' : 'primary'}">
+                    description="{unreadOnly ? 'value2' : 'value1'}"
+                    model="filter"
+                    color="{unreadOnly ? 'warning' : 'primary'}">
             </button>
+            <button label="rounded" rounded="true"/>
         </toolbar>
     </list>
 </simple-page>

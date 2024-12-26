@@ -30,4 +30,13 @@ public interface StandardButton extends Button {
      */
     void shouldNotHaveIcon();
 
+    /**
+     * Проверка круглой формы кнопки
+     */
+    void shouldBeRounded();
+
+    /**
+     * Проверка не круглой формы кнопки
+     */
+    void shouldNotBeRounded();
 }
