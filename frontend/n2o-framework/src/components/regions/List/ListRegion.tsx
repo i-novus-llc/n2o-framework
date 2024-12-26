@@ -9,22 +9,18 @@ import { Panel, Collapse } from '../../snippets/Collapse/Collapse'
 import withWidgetProps from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
 import { registerRegion, unregisterRegion } from '../../../ducks/regions/store'
+import { type State } from '../../../ducks/State'
 
-/**
- * Регион Лист
- * @reactProps {array} content - массив из объектов, которые описывают виджет{id, name, opened, pageId, widget}
- * @reactProps {bool} expand - флаг открыт ли при загрузке (default = true)
- * @reactProps {bool} hasSeparator - есть ли разделительная линия (default = true)
- * @reactProps {string} pageId - идентификатор страницы
- * @reactProps {bool} forceRender - Флаг отключения ленивого рендера
- */
+import { type ListRegionProps } from './types'
 
-function ListRegion(props) {
+const ListRegion = (props: ListRegionProps) => {
     const {
         id: regionId,
         parent,
-        getWidgetProps, className,
-        style, disabled,
+        getWidgetProps,
+        className,
+        style,
+        disabled,
         isVisible,
         label,
         pageId,
@@ -34,6 +30,7 @@ function ListRegion(props) {
         hasSeparator = true,
         content = [],
     } = props
+
     const dispatch = useDispatch()
 
     useLayoutEffect(() => {
@@ -56,8 +53,8 @@ function ListRegion(props) {
         'label', 'content', 'isVisible', 'pageId', 'regionsState',
     ])
 
-    const visible = content.some((meta = {}) => {
-        const { id, tabs } = meta
+    const visible = content.some((meta) => {
+        const { id, tabs } = meta || {}
 
         if (tabs) {
             if (isEmpty(regionsState) || !regionsState[id]) { return false }
@@ -97,6 +94,5 @@ function ListRegion(props) {
 export { ListRegion }
 export default flowRight(
     withWidgetProps,
-    // widgetsState - тригер, нужен для расчета видимости виджетов в регионе
-    connect(({ regions, widgets }) => ({ regionsState: regions, widgetsState: widgets })),
+    connect(({ regions, widgets }: State) => ({ regionsState: regions, widgetsState: widgets })),
 )(ListRegion)
