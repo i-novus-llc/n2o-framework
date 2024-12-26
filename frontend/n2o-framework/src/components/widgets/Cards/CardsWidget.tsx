@@ -3,16 +3,17 @@ import { useSelector } from 'react-redux'
 
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
-import WidgetLayout from '../StandardWidget'
+import StandardWidget from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
 import { WithActiveModel } from '../Widget/WithActiveModel'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { DataSourceModels, ModelPrefix } from '../../../core/datasource/const'
 
 import { CardsContainer } from './CardsContainer'
+import { type CardsWidgetProps } from './types'
 
-function CardsWidget(props) {
+function CardsWidget(props: CardsWidgetProps) {
     const {
         id: widgetId, datasource, toolbar,
         disabled, className, style, filter,
@@ -21,8 +22,8 @@ function CardsWidget(props) {
     } = props
     const { place = 'bottomLeft' } = paging
     const { resolveProps } = useContext(FactoryContext)
-    const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
-    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+    const resolvedFilter = useMemo(() => resolveProps(filter as object, StandardFieldset) as CardsWidgetProps['filter'], [filter, resolveProps])
+    const dataSourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as DataSourceModels['datasource']
 
     const pagination = {
         [place]: (
@@ -31,7 +32,7 @@ function CardsWidget(props) {
                 size={size}
                 count={count}
                 activePage={page}
-                datasource={datasourceModel}
+                datasource={dataSourceModel}
                 setPage={setPage}
                 visible={datasourceModelLength > 0}
             />
@@ -39,7 +40,7 @@ function CardsWidget(props) {
     }
 
     return (
-        <WidgetLayout
+        <StandardWidget
             disabled={disabled}
             widgetId={widgetId}
             datasource={datasource}
@@ -57,8 +58,8 @@ function CardsWidget(props) {
                 height={height}
                 datasourceModelLength={datasourceModelLength}
             />
-        </WidgetLayout>
+        </StandardWidget>
     )
 }
 
-export default WidgetHOC(WithActiveModel(CardsWidget))
+export default WidgetHOC(WithActiveModel<CardsWidgetProps>(CardsWidget))

@@ -1,18 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { Card, type Props as CardProps } from './Card'
+import { Card } from './Card'
+import { type CardsProps } from './types'
 
-type CommonProps = 'className' | 'id' | 'onResolve' | 'dispatch' | 'datasource'
-
-export interface Props extends Pick<CardProps, CommonProps> {
-    cards: Array<CardProps['card']>
-    data: Array<CardProps['model']>
-    align: 'top' | 'bottom'
-    height: string
-}
-
-const getJustifyContent = (align: Props['align']) => {
+const getJustifyContent = (align: CardsProps['align']) => {
     switch (align) {
         case 'top':
             return 'flex-start'
@@ -42,7 +34,7 @@ export function Cards({
     align,
     datasource,
     height = '450px',
-}: Props) {
+}: CardsProps) {
     if (!data?.length || !cards?.length) { return null }
 
     return (
