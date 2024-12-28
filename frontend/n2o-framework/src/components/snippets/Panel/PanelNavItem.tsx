@@ -1,16 +1,8 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { Button } from 'reactstrap'
 
-export interface Props {
-    children: ReactNode
-    id: string
-    onClick(event: Event, id: string): void
-    className?: string
-    isToolBar?: boolean
-    active?: boolean
-    disabled?: boolean
-}
+import { type PanelNavItemProps } from './types'
 
 /**
  * Компонент элемента меню для {@link Panel}
@@ -30,7 +22,7 @@ export function PanelNavItem({
     isToolBar = false,
     active = false,
     disabled = false,
-}: Props) {
+}: PanelNavItemProps) {
     const handleClick = (event: MouseEvent) => {
         event.preventDefault()
         if (onClick) { onClick(event, id) }
@@ -39,11 +31,7 @@ export function PanelNavItem({
     return (
         <li className={classNames('nav-item', 'panel-block-flex', className)}>
             <Button
-                className={classNames(
-                    'nav-link panel-block-flex panel-heading-link',
-                    className,
-                    { active },
-                )}
+                className={classNames('nav-link panel-block-flex panel-heading-link', className, { active })}
                 color={isToolBar ? 'primary' : 'link'}
                 // @ts-ignore не сходятся типы с reactstrap, проблема в event: MouseEvent
                 onClick={handleClick}

@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Card, Collapse } from 'reactstrap'
 import classNames from 'classnames'
 
-import panelStyles from './panelStyles'
-import PanelHeading from './PanelHeading'
-import PanelTitle from './PanelTitle'
-import PanelMenu from './PanelMenu'
+import { PanelHeading } from './PanelHeading'
+import { PanelTitle } from './PanelTitle'
+import { PanelMenu } from './PanelMenu'
 import { PanelNavItem } from './PanelNavItem'
 import { PanelFooter } from './PanelFooter'
 import { PanelBody } from './PanelBody'
 import { PanelTabBody } from './PanelTabBody'
+import { PANEL_COLORS, type PanelProps } from './types'
 
 /**
  * Компонент панели
@@ -23,7 +23,7 @@ import { PanelTabBody } from './PanelTabBody'
  * @reactProps {node} children - вставляемый в панель элемент
  */
 
-export function Panel({
+function Component({
     className,
     style,
     onToggle,
@@ -33,18 +33,15 @@ export function Panel({
     innerRef,
     t,
     isFullScreen = false,
-    color = panelStyles.DEFAULT,
-}) {
+    color = PANEL_COLORS.DEFAULT,
+}: PanelProps) {
     return (
         <Card
             className={classNames(
                 'n2o-panel-region',
                 className,
                 'text-dark',
-                {
-                    'panel-fullscreen': isFullScreen,
-                    'n2o-disabled': disabled,
-                },
+                { 'panel-fullscreen': isFullScreen, 'n2o-disabled': disabled },
             )
             }
             style={style}
@@ -52,16 +49,16 @@ export function Panel({
             color={color}
             outline
             onKeyDown={onKeyPress}
-            tabIndex="-1"
+            tabIndex={-1}
             innerRef={innerRef}
         >
             {children}
-            <div className="panel-fullscreen-help"><span>{t('panelFullScreenHelp')}</span></div>
+            <div className="panel-fullscreen-help"><span>{t?.('panelFullScreenHelp')}</span></div>
         </Card>
     )
 }
 
-Object.assign(Panel, {
+Object.assign(Component, {
     Heading: PanelHeading,
     Title: PanelTitle,
     Menu: PanelMenu,
@@ -71,5 +68,18 @@ Object.assign(Panel, {
     TabBody: PanelTabBody,
     Collapse,
 })
+
+export interface PanelComponent extends FC<PanelProps> {
+    Heading: typeof PanelHeading
+    Title: typeof PanelTitle
+    Menu: typeof PanelMenu
+    NavItem: typeof PanelNavItem
+    Footer: typeof PanelFooter
+    Body: typeof PanelBody
+    TabBody: typeof PanelTabBody
+    Collapse: typeof Collapse
+}
+
+export const Panel = Component as PanelComponent
 
 export default Panel

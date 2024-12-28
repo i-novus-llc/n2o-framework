@@ -1,12 +1,7 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { CardBody, TabContent } from 'reactstrap'
 
-export interface Props {
-    children: ReactNode
-    id: string
-    activeKey: string
-    hasTabs: boolean
-}
+import { type PanelBodyProps } from './types'
 
 /**
  * Компонент тела {@link Panel}
@@ -15,10 +10,12 @@ export interface Props {
  * @reactProps {string|number} activeKey - ключ активного таба
  * @reactProps {node} children - вставляемый внутрь PanelBody элемент
  */
-export function PanelBody({ children, id, activeKey, hasTabs = false }: Props) {
-    const tabContainer = <TabContent id={id} activeTab={activeKey}>{children}</TabContent>
+export function PanelBody({ children, id, activeKey, hasTabs = false }: PanelBodyProps) {
+    if (hasTabs) {
+        return <CardBody><TabContent id={id} activeTab={activeKey}>{children}</TabContent></CardBody>
+    }
 
-    return <CardBody>{hasTabs ? tabContainer : children}</CardBody>
+    return <CardBody>{children}</CardBody>
 }
 
 export default PanelBody

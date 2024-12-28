@@ -3,6 +3,7 @@ import classNames from 'classnames'
 
 import { TabNav } from './TabNav'
 import { PanelNavItem } from './PanelNavItem'
+import { type PanelMenuProps } from './types'
 
 /**
  * Компонент меню для {@link Panel}
@@ -15,7 +16,7 @@ import { PanelNavItem } from './PanelNavItem'
  * @reactProps {node} children - элемент вставляемый внутрь PanelMenu
  */
 
-function PanelMenu({
+export function PanelMenu({
     children,
     onToggle,
     onFullScreenClick,
@@ -23,16 +24,14 @@ function PanelMenu({
     fullScreenIcon,
     fullScreen = false,
     collapsible = false,
-}) {
+}: PanelMenuProps) {
     return (
         <div className="panel-block-flex">
             <TabNav className="panel-block-flex panel-tab-nav">
                 {collapsible && (
                     <PanelNavItem
                         onClick={onToggle}
-                        className={classNames('collapse-toggle', {
-                            'collapse-toggle--up': !isOpen,
-                        })}
+                        className={classNames('collapse-toggle', { 'collapse-toggle--up': !isOpen })}
                         isToolBar={false}
                     >
                         <i className="fa fa-angle-down" aria-hidden />
