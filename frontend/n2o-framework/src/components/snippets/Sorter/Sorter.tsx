@@ -4,7 +4,7 @@ import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
 import { SortDirection } from '../../../core/datasource/const'
 
-interface Props {
+export interface Props {
     title?: string
     children: ReactNode
     sorting?: SortDirection

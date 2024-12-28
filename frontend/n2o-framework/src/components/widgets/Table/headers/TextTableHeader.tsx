@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { compose, lifecycle, withHandlers } from 'recompose'
+import React, { useCallback, useEffect } from 'react'
 
 import { Sorter } from '../../../snippets/Sorter/Sorter'
 import { changeFrozenColumn, changeColumnVisibility } from '../../../../ducks/columns/store'
 import { useDataSourceMethodsContext } from '../../../../core/widget/context'
+
+import { type TextTableHeaderProps } from './types'
 
 /**
  * Текстовый заголовок таблицы с возможностью сортировки
@@ -13,8 +13,26 @@ import { useDataSourceMethodsContext } from '../../../../core/widget/context'
  * @reactProps {string} label - Текст заголовка столбца
  * @reactProps {function} onSort - эвент сортировки. Вызывает при смене направления сортировки
  */
-const TextTableHeader = ({ sortingParam, sorting, label, style }) => {
+export const TextTableHeader = ({
+    sortingParam,
+    sorting,
+    label,
+    style,
+    dispatch,
+    widgetId,
+    columnId,
+    visible,
+}: TextTableHeaderProps) => {
     const { setSorting } = useDataSourceMethodsContext()
+
+    const toggleVisibility = useCallback((visible: boolean) => {
+        dispatch?.(changeColumnVisibility(widgetId, columnId, visible))
+        dispatch?.(changeFrozenColumn(widgetId, columnId))
+    }, [columnId, dispatch, widgetId])
+
+    useEffect(() => {
+        if (!visible) { toggleVisibility(visible) }
+    }, [])
 
     return (
         <span className="n2o-advanced-table-header-title" style={style}>
@@ -26,34 +44,4 @@ const TextTableHeader = ({ sortingParam, sorting, label, style }) => {
     )
 }
 
-TextTableHeader.propTypes = {
-    sortingParam: PropTypes.string,
-    sorting: PropTypes.string,
-    label: PropTypes.string,
-    style: PropTypes.object,
-}
-
-const enhance = compose(
-    withHandlers({
-        toggleVisibility: ({ dispatch, widgetId, columnId }) => (visible) => {
-            if (!dispatch) {
-                return
-            }
-
-            dispatch(changeColumnVisibility(widgetId, columnId, visible))
-            dispatch(changeFrozenColumn(widgetId, columnId))
-        },
-    }),
-    lifecycle({
-        componentDidMount() {
-            const { visible, toggleVisibility } = this.props
-
-            if (visible === false) {
-                toggleVisibility(visible)
-            }
-        },
-    }),
-)
-
-export { TextTableHeader }
-export default enhance(TextTableHeader)
+export default TextTableHeader
