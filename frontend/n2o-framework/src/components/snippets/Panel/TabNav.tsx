@@ -1,11 +1,7 @@
-import React, { CSSProperties, ReactNode } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 
-export interface Props {
-    className: string
-    style: CSSProperties
-    children: ReactNode
-}
+import { type TabNavProps } from './types'
 
 /**
  * Нав Таба
@@ -13,8 +9,8 @@ export interface Props {
  * @reactProps {object} style - стили
  * @reactProps {node} children - элемент потомок компонента TabNav
  */
-export function TabNav({ className, style, children }: Props) {
-    return <ul className={classNames('nav', 'nav-tabs', className)} style={{ ...style }}>{children}</ul>
+export function TabNav({ className, style, children }: TabNavProps) {
+    return <ul className={classNames('nav', 'nav-tabs', className)} style={style}>{children}</ul>
 }
 
 export default TabNav

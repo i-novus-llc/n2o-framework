@@ -1,14 +1,26 @@
-import React from 'react'
-import some from 'lodash/some'
+import React, { Component } from 'react'
 import isNil from 'lodash/isNil'
-import isArray from 'lodash/isArray'
-import map from 'lodash/map'
 import flowRight from 'lodash/flowRight'
 
-import PanelShortHand from '../../snippets/Panel/PanelShortHand'
+import { PanelContainer } from '../../snippets/Panel/PanelContainer'
 import { createRegionContainer } from '../withRegionContainer'
-import withWidgetProps from '../withWidgetProps'
+import withWidgetProps, { WithGetWidgetProps } from '../withWidgetProps'
 import { RegionContent } from '../RegionContent'
+import { type PanelContainerProps, PanelTab } from '../../snippets/Panel/types'
+import { ContentMeta } from '../../../ducks/regions/Regions'
+
+export interface State {
+    tabs: PanelContainerProps['tabs']
+}
+
+export type PanelRegionProps = PanelContainerProps & WithGetWidgetProps & {
+    getWidget(pageId: string, widgetId: string): Record<string, unknown>
+    pageId: string
+    content: PanelContainerProps['tabs']
+    activeEntity?: boolean
+    changeActiveEntity: PanelContainerProps['onVisibilityChange']
+    getWidgetProps(id: PanelTab['id']): { visible?: boolean }
+}
 
 /**
  * Регион Панель
@@ -32,12 +44,11 @@ import { RegionContent } from '../RegionContent'
  * @reactProps {object} dependency - зависимость видимости панели
  */
 
-class PanelRegion extends React.Component {
-    constructor(props) {
+class PanelRegionBody extends Component<PanelRegionProps, State> {
+    constructor(props: PanelRegionProps) {
         super(props)
-        this.state = {
-            tabs: [],
-        }
+        this.state = { tabs: [] }
+
         this.checkPanel = this.checkPanel.bind(this)
         this.getTab = this.getTab.bind(this)
     }
@@ -47,26 +58,26 @@ class PanelRegion extends React.Component {
 
     componentDidMount() { this.getPanelsWithAccess() }
 
-    getContent = (meta, pageId) => {
-        const content = isArray(meta) ? meta : [meta]
+    getContent = (meta: PanelTab, pageId: string) => {
+        const content = Array.isArray(meta) ? meta : [meta]
 
-        return <RegionContent content={content} pageId={pageId} />
+        return <RegionContent content={content as ContentMeta[]} pageId={pageId} />
     }
 
-    getTab(panel) {
+    getTab(panel: PanelTab): PanelTab {
         const { getWidget, pageId } = this.props
 
         return {
+            ...panel,
             id: panel.widgetId,
             content: this.getContent(panel, pageId),
             header: panel.label,
-            ...panel,
             ...getWidget(pageId, panel.widgetId),
         }
     }
 
     // eslint-disable-next-line @typescript-eslint/require-await
-    async checkPanel(panel) {
+    async checkPanel(panel: PanelTab) {
         const { tabs } = this.state
 
         this.setState({ tabs: tabs.concat(this.getTab(panel)) })
@@ -86,42 +97,44 @@ class PanelRegion extends React.Component {
 
     render() {
         const {
-            content,
             getWidgetProps,
             activeEntity,
             open,
             changeActiveEntity,
             className,
-            style,
             pageId,
+            style: propsStyle,
+            content = [],
         } = this.props
         const { tabs } = this.state
-        const visible = some(content, item => getWidgetProps(item.id).visible === true)
+        const visible = content.some(item => getWidgetProps(item.id).visible === true)
+        const style = !visible ? { display: 'none', ...propsStyle } : propsStyle
 
         return (
-            <PanelShortHand
-                tabs={tabs}
+            <PanelContainer
                 {...this.props}
+                tabs={tabs}
                 open={!isNil(activeEntity) ? activeEntity : open}
-                style={{ display: !visible && 'none', ...style }}
+                style={style}
                 onVisibilityChange={changeActiveEntity}
                 className={className}
             >
-                {map(content, meta => this.getContent(meta, pageId))}
-            </PanelShortHand>
+                {content.map(meta => this.getContent(meta, pageId))}
+            </PanelContainer>
         )
     }
+
+    static defaultProps = {
+        open: true,
+        collapsible: false,
+        hasTabs: false,
+        fullScreen: false,
+    } as PanelRegionProps
 }
 
-PanelRegion.defaultProps = {
-    open: true,
-    collapsible: false,
-    hasTabs: false,
-    fullScreen: false,
-}
-
-export { PanelRegion }
-export default flowRight(
+export const PanelRegion = flowRight(
     createRegionContainer({ listKey: 'panels' }),
-    withWidgetProps,
-)(PanelRegion)
+    withWidgetProps<PanelRegionProps>,
+)(PanelRegionBody)
+
+export default PanelRegion
