@@ -12,7 +12,7 @@ export const ENABLED = 'enabled'
 
 type AvailableParam = 'visible' | 'enabled'
 
-interface Service {
+export interface Service {
     serviceInfo: ServiceInfo
     widgetsState: WidgetsState
     regionsState: RegionsState
@@ -120,21 +120,15 @@ export const getTabReduxMeta = (regionsState: RegionsState, regionId: string, ta
 }
 
 export function getFetchOnInit(metaFetchOnInit?: boolean, lazy?: boolean, active?: string) {
-    if (!lazy || active) {
-        return metaFetchOnInit
-    }
+    if (!lazy || active) { return metaFetchOnInit }
 
     return false
 }
 
 export function getFetch(lazy?: boolean, active?: string, tabId?: string) {
-    if (!lazy || (active === tabId)) {
-        return FETCH_TYPE.always
-    }
+    if (!lazy || (active === tabId)) { return FETCH_TYPE.always }
 
-    if (active) {
-        return FETCH_TYPE.lazy
-    }
+    if (active) { return FETCH_TYPE.lazy }
 
     return FETCH_TYPE.never
 }
