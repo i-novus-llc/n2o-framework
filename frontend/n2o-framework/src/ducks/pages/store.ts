@@ -8,6 +8,7 @@ import {
     MetadataSuccess,
     Reset,
     SetLocation,
+    SetScroll,
 } from './Actions'
 
 export const initialState: State = {}
@@ -135,6 +136,24 @@ export const pageSlice = createSlice({
             },
         },
 
+        SET_PAGE_SCROLLING: {
+            prepare(pageId, scroll) {
+                return ({
+                    payload: { pageId, scroll },
+                })
+            },
+
+            reducer(state: State, action: SetScroll) {
+                const { pageId, scroll } = action.payload
+
+                if (!state[pageId]) {
+                    state[pageId] = PageResolver.defaultState
+                }
+
+                state[pageId].scroll = scroll
+            },
+        },
+
         RESET(state, action: Reset) {
             delete state[action.payload]
         },
@@ -166,4 +185,5 @@ export const {
     METADATA_REQUEST: metadataRequest,
     METADATA_SUCCESS: metadataSuccess,
     setLocation,
+    SET_PAGE_SCROLLING: setPageScrolling,
 } = pageSlice.actions

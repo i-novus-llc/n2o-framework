@@ -176,7 +176,7 @@ export const formPluginSagas = [
 
         if (!isEmpty(fields)) {
             // @ts-ignore FIXME разобраться TS2554: Expected 1 arguments, but got 5
-            yield put(startValidate(datasource, form.validationKey, prefix, fields, { blurValidation: true }))
+            yield put(startValidate(datasource, form.validationKey, prefix, fields, { isTriggeredByFieldChange: true }))
         }
     }),
     debounce(200, [
@@ -197,7 +197,7 @@ export const formPluginSagas = [
 
         if (!isEmpty(fields)) {
             // @ts-ignore FIXME разобраться TS2554: Expected 1 arguments, but got 5
-            yield put(startValidate(datasource, form.validationKey, prefix, fields, { blurValidation: true }))
+            yield put(startValidate(datasource, form.validationKey, prefix, fields, { isTriggeredByFieldChange: true }))
         }
     }),
     debounce(200, [
@@ -213,7 +213,7 @@ export const formPluginSagas = [
 
         if (!isEmpty(fields)) {
             // @ts-ignore FIXME разобраться TS2554: Expected 1 arguments, but got 5
-            yield put(startValidate(datasource, validationKey, modelPrefix, fields, { blurValidation: true }))
+            yield put(startValidate(datasource, validationKey, modelPrefix, fields, { isTriggeredByFieldChange: true }))
         }
     }),
 ]

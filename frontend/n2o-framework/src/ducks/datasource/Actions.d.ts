@@ -92,7 +92,7 @@ export type FailValidateAction = DatasourceAction<{
     id: string
     prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
     fields: Record<string, ValidationResult[]>
-}, { touched: boolean }>
+}, { touched: boolean, isTriggeredByFieldChange?: boolean }>
 
 export type SetFieldSubmitAction = DatasourceAction<{
     id: string

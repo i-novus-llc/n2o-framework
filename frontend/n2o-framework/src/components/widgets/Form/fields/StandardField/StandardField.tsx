@@ -1,4 +1,4 @@
-import React, { CSSProperties, useContext } from 'react'
+import React, { CSSProperties, useContext, RefObject } from 'react'
 import classNames from 'classnames'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
@@ -50,6 +50,7 @@ export interface Props extends ControlProps {
     noLabel?: boolean | string
     containerKey?: string
     dataProvider?: object
+    scrollRef: RefObject<HTMLDivElement>
 }
 
 export const StandardField = ({
@@ -77,6 +78,7 @@ export const StandardField = ({
     form,
     noLabel: propsNoLabel,
     noLabelBlock: propsNoLabelBlock,
+    scrollRef,
     onChange = () => {},
     loading = false,
     required = false,
@@ -145,7 +147,7 @@ export const StandardField = ({
                 />
             )}
             <div style={styleHelper}>
-                <div className={classNames('form-container', { 'form-container_with-toolbar': toolbar })}>
+                <div ref={scrollRef} className={classNames('form-container', { 'form-container_with-toolbar': toolbar })}>
                     <Control
                         placeholder={placeholder}
                         visible={visible}
