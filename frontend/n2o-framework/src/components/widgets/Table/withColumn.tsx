@@ -10,11 +10,14 @@ import { State } from '../../../ducks/State'
 export interface Props {
     columnId: string
     widgetId: string
-    label: string
+    label?: string
     conditions?: Record<string, unknown>
     model?: Record<string, unknown>
     className?: string
     disabled?: boolean
+    datasource?: string
+    positionFixed?: boolean
+    modifiers?: Record<string, unknown>
 }
 
 function withColumn<P>(WrappedComponent: ComponentType<P>) {

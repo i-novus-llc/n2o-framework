@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, LegacyRef } from 'react'
 import classNames from 'classnames'
 import ReactDom from 'react-dom'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
-import PropTypes from 'prop-types'
 import {
     WindowScroller,
     AutoSizer,
@@ -11,13 +10,23 @@ import {
     CellMeasurerCache,
     List as Virtualizer,
 } from 'react-virtualized'
+import { CellMeasurerProps } from 'react-virtualized/dist/es/CellMeasurer'
+import { ListRowRenderer } from 'react-virtualized/dist/es/List'
 
 import { getIndex } from '../Table/utils'
 
-import ListItem from './ListItem'
-import ListMoreButton from './ListMoreButton'
+import { ListItem } from './ListItem'
+import { ListMoreButton } from './ListMoreButton'
+import { ListProps } from './types'
 
 const SCROLL_OFFSET = 100
+
+export interface State {
+    selectedIndex: number | null
+    data: ListProps['data']
+}
+
+/* FIXME виджет требует рефакторинга frontend + backend xml api, избавиться от react-virtualized */
 
 /**
  * Компонент List
@@ -28,16 +37,35 @@ const SCROLL_OFFSET = 100
  * @reactProps {string|number} selectedId - id выбранной записи
  */
 
-/* FIXME виджет требует рефакторинга frontend + backend xml api
-    избавиться от react-virtualized */
+class List extends Component<ListProps, State> {
+    static defaultProps = {
+        onItemClick: () => {},
+        onFetchMore: () => {},
+        t: () => {},
+        hasSelect: false,
+        data: [],
+        rowClick: false,
+        hasMoreButton: false,
+        fetchOnScroll: false,
+        divider: true,
+        rows: {},
+    }
 
-class List extends Component {
-    constructor(props) {
+    private readonly cache: CellMeasurerCache
+
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    private scrollTimeoutId: any
+
+    private listContainer: any
+
+    private virtualizer: any
+
+    private windowScroller: any
+
+    constructor(props: ListProps) {
         super(props)
         this.state = {
-            selectedIndex: props.hasSelect
-                ? getIndex(props.data, props.selectedId)
-                : null,
+            selectedIndex: props.hasSelect ? getIndex(props.data, props.selectedId) : null,
             data: props.data,
         }
         this.cache = new CellMeasurerCache({
@@ -47,14 +75,6 @@ class List extends Component {
         })
 
         this.scrollTimeoutId = null
-
-        this.renderRow = this.renderRow.bind(this)
-        this.onItemClick = this.onItemClick.bind(this)
-        this.fetchMore = this.fetchMore.bind(this)
-        this.onScroll = this.onScroll.bind(this)
-        this.setListContainerRef = this.setListContainerRef.bind(this)
-        this.setVirtualizerRef = this.setVirtualizerRef.bind(this)
-        this.setWindowScrollerRef = this.setWindowScrollerRef.bind(this)
     }
 
     componentDidMount() {
@@ -65,7 +85,7 @@ class List extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: ListProps) {
         const {
             data,
             hasMoreButton,
@@ -82,10 +102,10 @@ class List extends Component {
                     this.virtualizer.scrollToRow(data.length)
                 } else {
                     // eslint-disable-next-line react/no-find-dom-node
-                    const virtualizer = ReactDom.findDOMNode(this.virtualizer)
+                    const virtualizer = ReactDom.findDOMNode(this.virtualizer) as Element
 
                     if (virtualizer) {
-                        window.scrollTo(0, virtualizer.scrollHeight)
+                        window.scrollTo(0, virtualizer?.scrollHeight)
                     }
                 }
             }
@@ -106,7 +126,6 @@ class List extends Component {
 
             this.setState(state, () => {
                 if (this.virtualizer) {
-                    // noinspection JSUnresolvedFunction
                     this.virtualizer.forceUpdateGrid()
                 }
 
@@ -123,19 +142,19 @@ class List extends Component {
         }
     }
 
-    setListContainerRef(el) {
+    setListContainerRef = (el: LegacyRef<HTMLDivElement>) => {
         this.listContainer = el
     }
 
-    setWindowScrollerRef(el) {
+    setWindowScrollerRef = (el: LegacyRef<HTMLDivElement>) => {
         this.windowScroller = el
     }
 
-    setVirtualizerRef(el) {
+    setVirtualizerRef = (el: LegacyRef<List>) => {
         this.virtualizer = el
     }
 
-    onItemClick(index, runCallback = true) {
+    onItemClick = (index: number, runCallback = true) => {
         const { onItemClick, rowClick, hasSelect } = this.props
 
         if (!rowClick && hasSelect) {
@@ -150,23 +169,21 @@ class List extends Component {
         if (runCallback) { onItemClick(index) }
     }
 
-    fetchMore() {
+    fetchMore = () => {
         const { onFetchMore } = this.props
 
         onFetchMore()
     }
 
-    onScroll(event) {
+    onScroll = (event: React.UIEvent<HTMLElement>) => {
         clearTimeout(this.scrollTimeoutId)
+        const target = event.target as HTMLElement
 
         this.scrollTimeoutId = setTimeout(() => {
-            const scrollPosition = event.target.scrollTop + event.target.clientHeight
-            const minScrollToLoad = event.target.scrollHeight - SCROLL_OFFSET
+            const scrollPosition = target.scrollTop + target.clientHeight
+            const minScrollToLoad = target.scrollHeight - SCROLL_OFFSET
 
-            if (
-                scrollPosition >= minScrollToLoad ||
-        scrollPosition === event.target.scrollHeight
-            ) {
+            if (scrollPosition >= minScrollToLoad || scrollPosition === target.scrollHeight) {
                 this.fetchMore()
             }
         }, 300)
@@ -180,7 +197,7 @@ class List extends Component {
         }
     }
 
-    renderRow({ index, key, style, parent }) {
+    renderRow = ({ index, key, style, parent }: CellMeasurerProps) => {
         const {
             divider,
             hasMoreButton,
@@ -217,13 +234,13 @@ class List extends Component {
                     {
                         ({ measure }) => (
                             <ListItem
-                                {...data[index]}
+                                {...data[index as number]}
                                 hasSelect={hasSelect}
                                 key={key}
                                 style={style}
                                 divider={divider}
                                 selected={selectedIndex === index}
-                                onClick={() => this.onItemClick(index, isEmpty(rows) || !rows.disabled)}
+                                onClick={() => this.onItemClick(index as number, isEmpty(rows) || !rows.disabled)}
                                 measure={measure}
                             />
                         ) }
@@ -239,7 +256,7 @@ class List extends Component {
 
         return (
             <div
-                ref={this.setListContainerRef}
+                ref={this.setListContainerRef as LegacyRef<HTMLDivElement>}
                 className={classNames('n2o-widget-list', className)}
             >
                 {(!data || isEmpty(data)) && (
@@ -253,12 +270,12 @@ class List extends Component {
                             <AutoSizer style={{ height: '100%' }}>
                                 {({ width }) => (
                                     <Virtualizer
-                                        ref={this.setVirtualizerRef}
+                                        ref={this.setVirtualizerRef as never}
                                         width={width}
                                         height={maxHeight}
                                         deferredMeasurementCache={this.cache}
                                         rowHeight={this.cache.rowHeight}
-                                        rowRenderer={this.renderRow}
+                                        rowRenderer={this.renderRow as unknown as ListRowRenderer}
                                         rowCount={data.length}
                                         overscanRowCount={5}
                                     />
@@ -266,7 +283,7 @@ class List extends Component {
                             </AutoSizer>
                         ) : (
                             <WindowScroller
-                                ref={this.setWindowScrollerRef}
+                                ref={this.setWindowScrollerRef as LegacyRef<WindowScroller>}
                                 scrollElement={window}
                             >
                                 {({
@@ -278,7 +295,7 @@ class List extends Component {
                                     <AutoSizer style={{ height: '100%' }}>
                                         {({ width }) => (
                                             <Virtualizer
-                                                ref={this.setVirtualizerRef}
+                                                ref={this.setVirtualizerRef as never}
                                                 autoHeight
                                                 height={height}
                                                 isScrolling={isScrolling}
@@ -286,7 +303,7 @@ class List extends Component {
                                                 overscanRowCount={5}
                                                 rowCount={data.length}
                                                 rowHeight={this.cache.rowHeight}
-                                                rowRenderer={this.renderRow}
+                                                rowRenderer={this.renderRow as unknown as ListRowRenderer}
                                                 scrollTop={scrollTop}
                                                 width={width}
                                             />
@@ -302,51 +319,6 @@ class List extends Component {
     }
 }
 
-List.propTypes = {
-    /**
-   * Callback на клик по строке
-   */
-    onItemClick: PropTypes.func,
-    /**
-   * Флаг включения выбора строк
-   */
-    hasSelect: PropTypes.bool,
-    /**
-   * Класс
-   */
-    className: PropTypes.string,
-    /**
-   * Данные
-   */
-    data: PropTypes.arrayOf(PropTypes.object),
-    /**
-   * Экшен клика по строке
-   */
-    rowClick: PropTypes.object,
-    /**
-   * Флаг включения кнопки "Загрузить еще"
-   */
-    hasMoreButton: PropTypes.bool,
-    /**
-   * Callback на "Загрузить еще"
-   */
-    onFetchMore: PropTypes.func,
-    /**
-   * Максимальная высота
-   */
-    maxHeight: PropTypes.number,
-    /**
-   * Флаг получения данных при скролле
-   */
-    fetchOnScroll: PropTypes.bool,
-    /**
-   * Линия разделитель
-   */
-    divider: PropTypes.bool,
-    rows: PropTypes.object,
-    selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    t: PropTypes.func,
-}
 List.defaultProps = {
     onItemClick: () => {},
     onFetchMore: () => {},
