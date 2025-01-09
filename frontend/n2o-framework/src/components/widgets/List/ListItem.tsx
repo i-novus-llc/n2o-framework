@@ -1,39 +1,29 @@
 import React, { useEffect, isValidElement } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
+
+import { HeaderWrapper } from './HeaderWrapper'
+import { type ListItemProps } from './types'
 
 /**
  * Компонент ListItem виджета ListWidget
- * @param {Node|Object} leftTop - секция картинки
- * @param {Node|Object} leftBottom - секция картинки
- * @param {Node|String} header - секция заголовка
- * @param {Node|String} subHeader - секция подзаголовка
- * @param {Node|String} body - секция тела
- * @param {Node|String} rightTop - секция справа сверху
- * @param {Node|String} rightBottom - секция справа снизу
- * @param {Node|String} extra - extra секция
- * @param {boolean} selected - флаг активности строки
- * @param {function} onClick - callback на клик по строке
- * @param {boolean} divider - разделить между строками
- * @param {object} style - стили
- * @param {object} hasSelect
+ * @param leftTop - секция картинки
+ * @param leftBottom - секция картинки
+ * @param header - секция заголовка
+ * @param subHeader - секция подзаголовка
+ * @param body - секция тела
+ * @param rightTop - секция справа сверху
+ * @param rightBottom - секция справа снизу
+ * @param extra - extra секция
+ * @param selected - флаг активности строки
+ * @param onClick - callback на клик по строке
+ * @param divider - разделить между строками
+ * @param style - стили
+ * @param hasSelect
  * @param measure
- * @returns {*}
  * @constructor
  */
-function HeaderWrapper({ children, isValid }) {
-    if (isValid) {
-        return children
-    }
 
-    return (
-        <h3 className="n2o-widget-list-item-header">
-            {children}
-        </h3>
-    )
-}
-
-function ListItem({
+export function ListItem({
     leftTop,
     leftBottom,
     header,
@@ -48,7 +38,7 @@ function ListItem({
     style,
     hasSelect,
     measure = () => {},
-}) {
+}: ListItemProps) {
     useEffect(() => {
         /* FIXME временный костыль до рефакторинга List widget.
             measure пересчитывает выстоту прокидывая style через CellMeasurer,
@@ -59,12 +49,10 @@ function ListItem({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const renderImage = (image) => {
-        if (isValidElement(image)) {
-            return image
-        }
+    const renderImage = (image: ListItemProps['leftTop']) => {
+        if (isValidElement(image)) { return image }
 
-        return <img src={image.src} alt={image.alt || ''} {...image} />
+        return <img {...image} src={image?.src} alt={image?.alt || ''} />
     }
 
     return (
@@ -98,23 +86,6 @@ function ListItem({
             </div>
         </div>
     )
-}
-
-ListItem.propTypes = {
-    leftTop: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
-    leftBottom: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
-    header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-    subHeader: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-    body: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-    rightTop: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-    rightBottom: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-    extra: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-    selected: PropTypes.bool,
-    onClick: PropTypes.func,
-    divider: PropTypes.bool,
-    style: PropTypes.object,
-    hasSelect: PropTypes.bool,
-    measure: PropTypes.func,
 }
 
 export default ListItem

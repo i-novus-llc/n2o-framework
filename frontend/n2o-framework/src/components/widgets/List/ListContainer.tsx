@@ -1,24 +1,29 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { compose } from 'recompose'
 import { withTranslation } from 'react-i18next'
 import map from 'lodash/map'
 import forOwn from 'lodash/forOwn'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
+import flowRight from 'lodash/flowRight'
 import { connect } from 'react-redux'
 
 import withColumn from '../Table/withColumn'
-import TableCell from '../Table/TableCell'
+import { TableCell } from '../Table/TableCell'
 import { withWidgetHandlers } from '../hocs/withWidgetHandlers'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
+import { State as GlobalState } from '../../../ducks/State'
 
-// eslint-disable-next-line import/no-named-as-default
-import List from './List'
+import { List } from './List'
+import { type ListContainerProps, type ListDataItem } from './types'
 
 const ReduxCell = withColumn(TableCell)
+
+export interface State {
+    needToCombine: boolean
+    datasource: ListContainerProps['datasourceModel']
+}
 
 /**
  * Контейнер виджета ListWidget
@@ -29,8 +34,8 @@ const ReduxCell = withColumn(TableCell)
  * @reactProps {boolean} fetchOnScroll - запрос при скролле
  * @reactProps {boolean} hasSelect - флаг выбора строк
  */
-class ListContainer extends React.Component {
-    constructor(props) {
+class ListContainer extends React.Component<ListContainerProps, State> {
+    constructor(props: ListContainerProps) {
         super(props)
 
         const { datasourceModel } = props
@@ -39,15 +44,9 @@ class ListContainer extends React.Component {
             needToCombine: false,
             datasource: datasourceModel,
         }
-
-        this.getWidgetProps = this.getWidgetProps.bind(this)
-        this.mapSectionComponents = this.mapSectionComponents.bind(this)
-        this.renderCell = this.renderCell.bind(this)
-        this.handleItemClick = this.handleItemClick.bind(this)
-        this.handleFetchMore = this.handleFetchMore.bind(this)
     }
 
-    componentDidUpdate({ datasourceModel: prevDatasource }) {
+    componentDidUpdate({ datasourceModel: prevDatasource }: ListContainerProps) {
         const { setResolve, datasourceModel: currentDatasource, selectedId } = this.props
         const { needToCombine } = this.state
 
@@ -78,7 +77,7 @@ class ListContainer extends React.Component {
         }
     }
 
-    renderCell(section) {
+    renderCell = (section: { columnId: string; id: string; model: Record<string, unknown> }) => {
         const { id, datasource } = this.props
 
         if (!section) { return }
@@ -95,7 +94,7 @@ class ListContainer extends React.Component {
         )
     }
 
-    handleItemClick(index) {
+    handleItemClick = (index: number) => {
         const { setResolve, datasourceModel, rowClick, onRowClickAction } = this.props
         const model = datasourceModel[index]
 
@@ -105,7 +104,7 @@ class ListContainer extends React.Component {
         }
     }
 
-    handleFetchMore() {
+    handleFetchMore = () => {
         const { page, datasourceModel, setPage } = this.props
 
         if (!isEmpty(datasourceModel)) {
@@ -113,26 +112,23 @@ class ListContainer extends React.Component {
         }
     }
 
-    mapSectionComponents() {
+    mapSectionComponents = () => {
         const { list } = this.props
         const { datasource } = this.state
 
         return map(datasource, (item) => {
-            const mappedSection = {}
+            const mappedSection = {} as ListDataItem
 
             forOwn(list, (v, k) => {
-                mappedSection[k] = this.renderCell({
-                    ...list[k],
-                    id: v.id,
-                    model: item,
-                })
+                // @ts-ignore FIXME виджет требует рефакторинга
+                mappedSection[k] = this.renderCell({ ...list[k], id: v.id, model: item })
             })
 
             return mappedSection
         })
     }
 
-    getWidgetProps() {
+    getWidgetProps = () => {
         const {
             hasMoreButton,
             rowClick,
@@ -166,55 +162,27 @@ class ListContainer extends React.Component {
     render() {
         return <List {...this.getWidgetProps()} />
     }
+
+    static defaultProps = {
+        rowClick: null,
+        hasMoreButton: false,
+        toolbar: {},
+        disabled: false,
+        className: '',
+        style: {},
+        filter: {},
+        list: {},
+        fetchOnScroll: false,
+        hasSelect: false,
+    }
 }
 
-ListContainer.propTypes = {
-    id: PropTypes.string,
-    datasource: PropTypes.string,
-    toolbar: PropTypes.object,
-    disabled: PropTypes.bool,
-    pageId: PropTypes.string,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    filter: PropTypes.object,
-    dataProvider: PropTypes.object,
-    list: PropTypes.object,
-    fetchOnScroll: PropTypes.bool,
-    rowClick: PropTypes.func,
-    hasMoreButton: PropTypes.bool,
-    maxHeight: PropTypes.number,
-    hasSelect: PropTypes.bool,
-    setResolve: PropTypes.func,
-    onRowClickAction: PropTypes.func,
-    page: PropTypes.func,
-    setPage: PropTypes.func,
-    placeholder: PropTypes.string,
-    divider: PropTypes.bool,
-    rows: PropTypes.object,
-    t: PropTypes.func,
-    selectedId: PropTypes.string,
-    datasourceModel: PropTypes.array,
-}
-
-ListContainer.defaultProps = {
-    rowClick: null,
-    hasMoreButton: false,
-    toolbar: {},
-    disabled: false,
-    className: '',
-    style: {},
-    filter: {},
-    list: {},
-    fetchOnScroll: false,
-    hasSelect: false,
-}
-
-const mapStateToProps = (state, { datasource }) => ({
-    selectedId: dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)(state)?.id,
+const mapStateToProps = (state: GlobalState, { datasource }: ListContainerProps) => ({
+    selectedId: (dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)(state) as { id: string })?.id,
     datasourceModel: dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state),
 })
 
-export default compose(
+export default flowRight(
     withTranslation(),
     withWidgetHandlers,
     connect(mapStateToProps),

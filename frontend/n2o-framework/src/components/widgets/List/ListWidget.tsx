@@ -1,25 +1,23 @@
 import React, { useContext, useMemo } from 'react'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import { widgetPropTypes } from '../../../core/widget/propTypes'
 import { FactoryContext } from '../../../core/factory/context'
-import WidgetLayout from '../StandardWidget'
+import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
 import { WithActiveModel } from '../Widget/WithActiveModel'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 
-// eslint-disable-next-line import/no-named-as-default
 import ListContainer from './ListContainer'
+import { ListWidgetProps } from './types'
 
 /**
  * Виджет ListWidget
  * @constructor
  */
-function ListWidget(props) {
+function ListWidget(props: ListWidgetProps) {
     const {
         id: widgetId,
         datasource,
@@ -29,14 +27,10 @@ function ListWidget(props) {
         className,
         style,
         filter,
-        list,
+        list = {},
         placeholder,
-        rowClick,
-        hasMoreButton,
         maxHeight,
-        fetchOnScroll,
         divider,
-        hasSelect,
         rows,
         size,
         count,
@@ -44,9 +38,13 @@ function ListWidget(props) {
         setPage,
         loading,
         datasourceModelLength,
+        rowClick = null,
+        hasMoreButton = false,
+        hasSelect = false,
+        fetchOnScroll = false,
     } = props
     const { place = 'bottomLeft' } = paging
-    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as Array<Record<string, unknown>>
 
     const pagination = {
         [place]: (
@@ -62,11 +60,14 @@ function ListWidget(props) {
         ),
     }
     const { resolveProps } = useContext(FactoryContext)
-    const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps])
+    const resolvedFilter = useMemo(
+        () => resolveProps(filter as object, Fieldsets.StandardFieldset) as ListWidgetProps['filter'],
+        [filter, resolveProps],
+    )
     const resolvedList = useMemo(() => resolveProps(list), [list, resolveProps])
 
     return (
-        <WidgetLayout
+        <StandardWidget
             disabled={disabled}
             widgetId={widgetId}
             datasource={datasource}
@@ -91,33 +92,8 @@ function ListWidget(props) {
                 rows={rows}
                 datasourceModelLength={datasourceModelLength}
             />
-        </WidgetLayout>
+        </StandardWidget>
     )
 }
 
-ListWidget.propTypes = {
-    ...widgetPropTypes,
-    list: PropTypes.object,
-    fetchOnScroll: PropTypes.bool,
-    rowClick: PropTypes.func,
-    hasMoreButton: PropTypes.bool,
-    maxHeight: PropTypes.number,
-    prevText: PropTypes.string,
-    nextText: PropTypes.string,
-    hasSelect: PropTypes.bool,
-    placeholder: PropTypes.object,
-    divider: PropTypes.bool,
-    rows: PropTypes.bool,
-}
-ListWidget.defaultProps = {
-    rowClick: null,
-    hasMoreButton: false,
-    list: {},
-    fetchOnScroll: false,
-    hasSelect: false,
-}
-
-/**
- * @type ConnectedWidget
- */
 export default WidgetHOC(WithActiveModel(ListWidget))
