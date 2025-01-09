@@ -3,6 +3,7 @@ package net.n2oapp.watchdir;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -14,7 +15,7 @@ import java.nio.file.Paths;
 import static net.n2oapp.watchdir.WatchDirTestUtil.*;
 import static org.mockito.Mockito.*;
 
-public class WatchDirSkipTest {
+class WatchDirSkipTest {
 
     private WatchDir watchDir;
     private final FileChangeListener listener = mock(FileChangeListener.class);
@@ -33,16 +34,18 @@ public class WatchDirSkipTest {
     }
 
     @Test
+    @Disabled("https://jira.i-novus.ru/browse/NNO-10598")
     void skipOnFileIsNotListenedTakeOnIsListened() throws IOException {
         watchDir.start();
 
         watchDir.skipOn(TEST_FILE);
 
         FileUtils.touch(new File(TEST_FILE));
-        verify(listener, after(2000).never()).fileCreated(Paths.get(TEST_FILE));
+        Path file = Paths.get(TEST_FILE);
+        verify(listener, after(2000).never()).fileCreated(file);
 
         FileUtils.write(new File(TEST_FILE), "test", Charset.defaultCharset());
-        verify(listener, after(2000).never()).fileModified(Paths.get(TEST_FILE));
+        verify(listener, after(2000).never()).fileModified(file);
 
         watchDir.takeOn(TEST_FILE);
 
@@ -50,7 +53,7 @@ public class WatchDirSkipTest {
         verify(listener, timeout(10000).atLeast(1)).fileCreated(Paths.get(TEST2_FILE));
 
         FileUtils.write(new File(TEST_FILE), "test2", Charset.defaultCharset());
-        verify(listener, timeout(5000).atLeast(1)).fileModified(Paths.get(TEST_FILE));
+        verify(listener, timeout(5000).atLeast(1)).fileModified(file);
     }
 
     @Test

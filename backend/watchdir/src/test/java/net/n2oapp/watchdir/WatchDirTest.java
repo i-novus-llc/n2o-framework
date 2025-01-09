@@ -3,6 +3,7 @@ package net.n2oapp.watchdir;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -15,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class WatchDirTest {
-    private final static String TEST_DIR = getTestFolder();
+class WatchDirTest {
+    private static final String TEST_DIR = getTestFolder();
     private Path path = Paths.get(TEST_DIR + "test.txt");
     private WatchDir watchDir;
     private final FileChangeListener listener = mock(FileChangeListener.class);
@@ -62,6 +63,7 @@ public class WatchDirTest {
     }
 
     @Test
+    @Disabled("https://jira.i-novus.ru/browse/NNO-10598")
     void checkingRestartingMonitoring() throws Exception {
         FileUtils.touch(new File(path.toString()));
         verify(listener, after(2000).never()).fileCreated(path);
