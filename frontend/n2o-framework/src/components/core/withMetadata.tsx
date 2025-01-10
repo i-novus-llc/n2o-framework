@@ -11,11 +11,12 @@ import { getLocation } from '../../ducks/global/selectors'
 import { State } from '../../ducks/State'
 import { Mapping } from '../../ducks/datasource/Provider'
 import { Metadata } from '../../ducks/pages/Pages'
+import type { ErrorContainerProps } from '../../core/error/types'
 
 import { resolvePath } from './router/resolvePath'
 import { PageContext } from './router/context'
 
-interface WithMetadataProps {
+export interface WithMetadataProps {
     pageId: string
     pageUrl: string
     pageMapping: Mapping
@@ -23,7 +24,7 @@ interface WithMetadataProps {
     parentId: string
     metadata: Metadata
     loading: boolean
-    error: unknown
+    error: ErrorContainerProps['error']
     getMetadata(
         pageId: string,
         pageUrl: string,
