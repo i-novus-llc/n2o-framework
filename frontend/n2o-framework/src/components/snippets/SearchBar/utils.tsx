@@ -3,20 +3,30 @@ import classNames from 'classnames'
 import { NavLink, NavItem } from 'reactstrap'
 import { BrowserRouter } from 'react-router-dom'
 
-export const itemInSearchBarClassName = directionIconsInPopUp => classNames({
+import { type SearchBarLinkProps } from './types'
+
+export const itemInSearchBarClassName = (directionIconsInPopUp: SearchBarLinkProps['directionIconsInPopUp']) => classNames({
     'n2o-search-bar__popup_item-right': directionIconsInPopUp === 'right',
     'n2o-search-bar__popup_item-left': directionIconsInPopUp === 'left',
 })
 
-const Icon = ({ icon, directionIconsInPopUp }) => (typeof icon === 'string' ? (
-    <i className={classNames(icon, {
-        'n2o-search-bar__popup_icon-left': directionIconsInPopUp === 'left',
-        'n2o-search-bar__popup_icon-right': directionIconsInPopUp === 'right',
-    })}
-    />
-) : icon)
+const Icon = ({ icon, directionIconsInPopUp }: SearchBarLinkProps) => {
+    if (!icon) { return null }
 
-export const Description = ({ description, disabled }) => {
+    if (typeof icon === 'string') {
+        return (
+            <i className={classNames(icon, {
+                'n2o-search-bar__popup_icon-left': directionIconsInPopUp === 'left',
+                'n2o-search-bar__popup_icon-right': directionIconsInPopUp === 'right',
+            })}
+            />
+        )
+    }
+
+    return icon
+}
+
+export const Description = ({ description, disabled }: SearchBarLinkProps) => {
     if (!description) { return null }
 
     return (
@@ -26,7 +36,7 @@ export const Description = ({ description, disabled }) => {
     )
 }
 
-export const RenderLink = ({ label, description, icon, href, linkType, disabled, directionIconsInPopUp }) => {
+export const RenderLink = ({ label, description, icon, href, linkType, disabled, directionIconsInPopUp }: SearchBarLinkProps) => {
     if (linkType === 'inner') {
         return (
             <div className="n2o-search-bar__link-container">

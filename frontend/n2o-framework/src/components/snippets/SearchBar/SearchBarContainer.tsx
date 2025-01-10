@@ -1,22 +1,23 @@
 import React from 'react'
 
-import listContainer from '../../controls/listContainer'
+import { listContainer } from '../../controls/listContainer'
 
 import SearchBar from './SearchBar'
+import { type SearchBarContainerProps } from './types'
 
 function SearchBarContainer({
-    options,
+    options = [],
     trigger,
-    onSearch,
-    button,
-    icon,
-    directionIconsInPopUp,
+    onSearch = () => {},
+    button = null,
+    icon = 'fa fa-search',
+    directionIconsInPopUp = 'left',
     descrFieldId,
     iconFieldId,
     labelFieldId,
     urlFieldId,
     fetchData,
-}) {
+}: SearchBarContainerProps) {
     return (
         <SearchBar
             descriptionFieldId={descrFieldId}
@@ -34,12 +35,4 @@ function SearchBarContainer({
     )
 }
 
-SearchBarContainer.defaultProps = {
-    button: false,
-    icon: 'fa fa-search',
-    directionIconsInPopUp: 'left',
-    onSearch: () => {},
-    options: [],
-}
-
-export default listContainer(SearchBarContainer)
+export default listContainer<SearchBarContainerProps>(SearchBarContainer)
