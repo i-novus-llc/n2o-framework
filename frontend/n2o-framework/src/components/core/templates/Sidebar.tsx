@@ -3,11 +3,13 @@ import classNames from 'classnames'
 
 import { SimpleSidebar } from '../../../plugins/SideBar/SidebarContainer'
 
+import { SidebarTemplateProps } from './types'
+
 /**
  * Обёртка над SimpleSidebar, отвечающая за скрытие/раскрытие по ховеру и перекрытием контента при overlay
  * TODO выглядит сложновато надо зарефачить
  */
-export const Sidebar = ({ ...props }) => {
+export const Sidebar = (props: SidebarTemplateProps) => {
     const {
         controlled,
         overlay,
@@ -27,12 +29,7 @@ export const Sidebar = ({ ...props }) => {
         controlled,
         onMouseEnter: !overlay && toggleOnHover && openSideBar,
         onMouseLeave: !overlay && toggleOnHover && closeSideBar,
-        className: classNames(
-            className,
-            {
-                'n2o-fixed-sidebar': fixed && !fullSizeHeader,
-            },
-        ),
+        className: classNames(className, { 'n2o-fixed-sidebar': fixed && !fullSizeHeader }),
         sidebarOpen,
     }
 
@@ -55,9 +52,5 @@ export const Sidebar = ({ ...props }) => {
         )
     }
 
-    return (
-        <SimpleSidebar {...sidebarProps} />
-    )
+    return <SimpleSidebar {...sidebarProps} />
 }
-
-Sidebar.propTypes = SimpleSidebar.propTypes
