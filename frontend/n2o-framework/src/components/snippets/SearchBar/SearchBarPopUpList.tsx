@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { DropdownMenu, DropdownItem } from 'reactstrap'
 
 import { RenderLink, itemInSearchBarClassName } from './utils'
+import { type SearchBarPopUpListProps } from './types'
 
 export function SearchBarPopUpList({
     labelFieldId,
@@ -13,16 +14,16 @@ export function SearchBarPopUpList({
     menu,
     directionIconsInPopUp,
     onItemClick,
-}) {
+}: SearchBarPopUpListProps) {
     return (
         <DropdownMenu className="n2o-search-bar__popup_list">
-            {menu.map((item) => {
+            {menu?.map((item) => {
                 const { id, disabled = false, linkType, separateLink } = item
 
-                const description = get(item, descriptionFieldId)
-                const label = get(item, labelFieldId)
-                const icon = get(item, iconFieldId)
-                const href = get(item, urlFieldId)
+                const description = get(item, descriptionFieldId || '')
+                const label = get(item, labelFieldId || '')
+                const icon = get(item, iconFieldId || '')
+                const href = get(item, urlFieldId || '')
 
                 return (
                     <div

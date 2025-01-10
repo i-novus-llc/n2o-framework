@@ -2,16 +2,16 @@ import React from 'react'
 import { Dropdown, DropdownToggle } from 'reactstrap'
 
 import { SearchBarPopUpList } from './SearchBarPopUpList'
+import { SearchBarPopUpProps } from './types'
 
 export function SearchBarPopUp({
     labelFieldId,
     descriptionFieldId,
     iconFieldId,
     urlFieldId,
+    dropdownOpen,
     ...props
-}) {
-    const { dropdownOpen } = props
-
+}: SearchBarPopUpProps) {
     return (
         <Dropdown
             isOpen={dropdownOpen}

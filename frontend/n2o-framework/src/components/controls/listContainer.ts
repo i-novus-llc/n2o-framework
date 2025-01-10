@@ -1,5 +1,5 @@
 import { compose } from 'redux'
-import { FC } from 'react'
+import { ComponentType } from 'react'
 
 import { withFetchData } from './withFetchData'
 import { withListContainer } from './withListContainer'
@@ -8,7 +8,7 @@ import { withListContainer } from './withListContainer'
  * Композер хоков {@Link withFetchData} & {@Link withListContainer}
  * @param WrappedComponent - оборачиваемый компонент
  */
-const listContainer = (WrappedComponent: FC) => compose(
+export const listContainer = <P>(WrappedComponent: ComponentType<P>) => compose(
     withFetchData,
     withListContainer,
 )(WrappedComponent)
