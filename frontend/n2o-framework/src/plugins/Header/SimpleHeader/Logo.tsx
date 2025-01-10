@@ -6,7 +6,7 @@ import { needRender } from '../../SideBar/utils'
 
 import { NavbarBrandContent } from './NavbarBrandContent'
 
-interface Props {
+export interface LogoProps {
     title?: string
     subtitle?: string
     className?: string
@@ -26,7 +26,7 @@ export const Logo = ({
     isMiniView,
     showContent = true,
     href = '/',
-}: Props) => {
+}: LogoProps) => {
     return (
         <section
             className={classNames(

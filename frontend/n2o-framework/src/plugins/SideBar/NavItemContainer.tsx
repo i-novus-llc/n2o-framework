@@ -9,7 +9,7 @@ import { FactoryContext } from '../../core/factory/context'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
 import { parseExpression } from '../../core/Expression/parse'
 
-interface SidebarItemContainer {
+export interface SidebarItemContainer {
     className?: string
     itemProps: Item
     activeId: string

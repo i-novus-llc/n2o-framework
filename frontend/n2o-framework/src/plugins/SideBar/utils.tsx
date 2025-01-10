@@ -4,6 +4,8 @@ import classNames from 'classnames'
 import { ITEM_SRC } from '../constants'
 import { parseExpression } from '../../core/Expression/parse'
 
+import { SIDEBAR_VIEW, SidebarProps } from './types'
+
 export const getCurrentTitle = (isMiniView?: boolean, icon?: string, title?: string, imageSrc?: string) => {
     if (!title) {
         return null
@@ -72,3 +74,27 @@ export const Title = ({ title, className }: TitleProps) => {
 }
 
 export const needRender = (text?: string | null) => text && !parseExpression(text)
+
+export const toggleIconClassNames = (visible: SidebarProps['visible'], side: SidebarProps['side']) => {
+    const isLeftIcon = (visible && side === 'left') || (!visible && (side === 'right'))
+
+    return isLeftIcon ? 'fa fa-angle-double-left' : 'fa fa-angle-double-right'
+}
+
+export const sideBarClasses = (
+    isStaticView: boolean,
+    defaultState: SidebarProps['defaultState'],
+    toggledState: SidebarProps['toggledState'],
+    currentVisible: boolean,
+    side: SidebarProps['side'],
+    className?: string,
+) => {
+    const viewMode = isStaticView || !currentVisible ? SIDEBAR_VIEW[defaultState] : SIDEBAR_VIEW[toggledState]
+
+    return classNames(
+        'n2o-sidebar',
+        side,
+        className,
+        viewMode,
+    )
+}
