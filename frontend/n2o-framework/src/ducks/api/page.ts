@@ -67,17 +67,17 @@ export function* openPageEffect(action: Action<string, OpenPagePayload>) {
         throw new Error('Compiled URL must be a string')
     }
 
-    const encodedUrl = encodeURI(compiledUrl)
+    const openingUrl = restore ? compiledUrl : encodeURI(compiledUrl)
 
     if (target === 'application') {
         // @ts-ignore import from js file
-        yield put(push(encodedUrl))
+        yield put(push(openingUrl))
     } else if (target === '_blank') {
         // @ts-ignore import from js file
-        window.open(encodedUrl)
+        window.open(openingUrl)
     } else {
         // @ts-ignore import from js file
-        window.location = encodedUrl
+        window.location = openingUrl
     }
 
     stopTheSequence(action)
