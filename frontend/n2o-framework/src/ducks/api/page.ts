@@ -112,9 +112,9 @@ export function* openPageEffect(action: Action<string, OpenPagePayload>) {
         throw new Error('Compiled URL must be a string')
     }
 
-    const encodedUrl = encodeURI(compiledUrl)
+    const openingUrl = restore ? compiledUrl : encodeURI(compiledUrl)
 
-    yield openPage(encodedUrl, target, pageId)
+    yield openPage(openingUrl, target, pageId)
 
     stopTheSequence(action)
 }
