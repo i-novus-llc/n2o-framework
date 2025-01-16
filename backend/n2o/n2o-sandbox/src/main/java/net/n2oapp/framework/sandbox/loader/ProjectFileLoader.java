@@ -11,11 +11,12 @@ import net.n2oapp.framework.sandbox.scanner.ProjectFileInfo;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static net.n2oapp.framework.config.selective.SelectiveUtil.getSAXBuilder;
 
 public class ProjectFileLoader implements SourceLoader<ProjectFileInfo> {
 
@@ -43,10 +44,9 @@ public class ProjectFileLoader implements SourceLoader<ProjectFileInfo> {
 
     @SuppressWarnings("unchecked")
     public <T extends SourceMetadata> T read(String id, InputStream xml) {
-        SAXBuilder builder = new SAXBuilder();
         Document doc;
         try {
-            doc = builder.build(xml);
+            doc = getSAXBuilder().build(xml);
         } catch (JDOMException | IOException e) {
             throw new N2oException("Error reading metadata " + id, e);
         }
