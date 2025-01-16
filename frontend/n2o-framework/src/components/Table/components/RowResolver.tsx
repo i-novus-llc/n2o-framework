@@ -56,7 +56,7 @@ export const RowResolver: VFC<RowResolverProps> = (props) => {
             selection={selection}
             data={data}
             onClick={hasRowAction ? onClickRowAction : undefined}
-            onSelection={hasSelection ? onSelection : undefined}
+            onSelection={(hasSelection || hasRowAction) ? onSelection : undefined}
             onMouseEnter={onShowOverlay ? onMouseEnter : undefined}
             onMouseLeave={onHideOverlay}
             style={mergedStyle}
