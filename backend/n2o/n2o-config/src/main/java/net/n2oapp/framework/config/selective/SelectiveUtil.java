@@ -14,11 +14,6 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 
-/**
- * User: operehod
- * Date: 13.02.2015
- * Time: 14:59
- */
 public class SelectiveUtil {
 
     public static <N extends SourceMetadata> N readByPath(String id, String path, NamespaceReaderFactory readerFactory) {
@@ -30,8 +25,7 @@ public class SelectiveUtil {
     @SuppressWarnings("unchecked")
     public static <N> N readByPath(String uri, NamespaceReaderFactory readerFactory) {
         try (InputStream inputStream = FileSystemUtil.getContentAsStream(uri)) {
-            SAXBuilder builder = new SAXBuilder();
-            Document doc = builder.build(inputStream);
+            Document doc = getSAXBuilder().build(inputStream);
             Element root = doc.getRootElement();
             return (N) readerFactory.produce(root).read(root);
         } catch (JDOMException | IOException e) {
@@ -42,12 +36,17 @@ public class SelectiveUtil {
     @SuppressWarnings("unchecked")
     public static <N > N read(String source, ElementReaderFactory readerFactory) {
         try (Reader stringReader = new StringReader(source)) {
-            SAXBuilder builder = new SAXBuilder();
-            Document doc = builder.build(stringReader);
+            Document doc = getSAXBuilder().build(stringReader);
             Element root = doc.getRootElement();
             return (N) readerFactory.produce(root).read(root);
         } catch (JDOMException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static SAXBuilder getSAXBuilder() {
+        SAXBuilder builder = new SAXBuilder();
+        builder.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        return builder;
     }
 }
