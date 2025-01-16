@@ -34,6 +34,7 @@ export function Tooltip(props: TooltipProps) {
                 delay={delay}
                 popperClassName={classNames('tooltip-container', className)}
                 trigger={trigger}
+                positionFixed
                 flip
             >
                 {hint}
