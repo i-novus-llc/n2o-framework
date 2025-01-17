@@ -46,16 +46,15 @@ public class N2oServletConfiguration {
         boolean enabled = env.getProperty("n2o.ui.cache.page.enabled", Boolean.class, false);
         if (!enabled)
             return null;
+
         long lifetime = env.getProperty("n2o.ui.cache.page.lifetime", Long.class, 1000 * 60 * 10L);
+
         String mode = env.getProperty("n2o.ui.cache.page.mode", String.class, "lifetime");
-        switch (mode) {
-            case "lifetime":
-                return new LifetimeClientCacheTemplate(lifetime);
-            case "modified":
-                return new ModifiedClientCacheTemplate(cacheManager);
-            default:
-                throw new UnsupportedOperationException("Unknown page client cache mode " + mode);
-        }
+        return switch (mode) {
+            case "lifetime" -> new LifetimeClientCacheTemplate(lifetime);
+            case "modified" -> new ModifiedClientCacheTemplate(cacheManager);
+            default -> throw new UnsupportedOperationException("Unknown page client cache mode " + mode);
+        };
     }
 
     @Bean

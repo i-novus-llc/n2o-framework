@@ -1,6 +1,12 @@
 package net.n2oapp.framework.mvc.n2o;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
@@ -12,16 +18,10 @@ import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteNotFoundException;
 import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.PropertyResolver;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
@@ -29,8 +29,9 @@ import java.util.*;
  * Абстракция для сервлетов N2O.
  * Обеспечивает обработку ошибок и получение контекста пользователя.
  */
+@Slf4j
+@Setter
 public abstract class N2oServlet extends HttpServlet {
-    protected static final Log logger = LogFactory.getLog(N2oServlet.class);
     public static final String USER = "user";
     protected ObjectMapper objectMapper = new ObjectMapper();
     private AlertMessageBuilder messageBuilder;
@@ -144,17 +145,22 @@ public abstract class N2oServlet extends HttpServlet {
     }
 
     @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
-    private void sendError(HttpServletRequest req, HttpServletResponse resp, Exception e) throws IOException {
-        int status = e instanceof N2oException ? ((N2oException) e).getHttpStatus() : 500;
-        logger.error("Error response " + status + " " + req.getMethod() + " " + req.getRequestURI() + (req.getQueryString() != null ? "?" + req.getQueryString() : ""), e);
+    private void sendError(HttpServletRequest req, HttpServletResponse resp, Exception e) {
+        int status = e instanceof N2oException n2oException ? n2oException.getHttpStatus() : 500;
+        log.error("Error response {} {} {}{}", status, req.getMethod(), req.getRequestURI(),
+                req.getQueryString() != null ? "?" + req.getQueryString() : "", e);
         if (resp.isCommitted())
-            return;//ответ уже вернулся клиенту
-        //render json error
+            return;
+
         resp.setContentType("application/json");
         resp.setStatus(status);
         if (!(e instanceof RouteNotFoundException)) {
             MetaSaga meta = buildMeta(e);
-            objectMapper.writeValue(resp.getWriter(), Collections.singletonMap("meta", meta));
+            try {
+                objectMapper.writeValue(resp.getWriter(), Collections.singletonMap("meta", meta));
+            } catch (IOException ex) {
+                log.error("Error writing response", ex);
+            }
         }
     }
 
@@ -163,29 +169,5 @@ public abstract class N2oServlet extends HttpServlet {
         meta.setAlert(new AlertSaga());
         meta.getAlert().setMessages(messagesConstructor.constructMessages(exception));
         return meta;
-    }
-
-    public AlertMessageBuilder getMessageBuilder() {
-        return messageBuilder;
-    }
-
-    public void setMessageBuilder(AlertMessageBuilder messageBuilder) {
-        this.messageBuilder = messageBuilder;
-    }
-
-    public void setMessagesConstructor(AlertMessagesConstructor messagesConstructor) {
-        this.messagesConstructor = messagesConstructor;
-    }
-
-    public void setClientCacheTemplate(ClientCacheTemplate clientCacheTemplate) {
-        this.clientCacheTemplate = clientCacheTemplate;
-    }
-
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
-    public void setPropertyResolver(PropertyResolver propertyResolver) {
-        this.propertyResolver = propertyResolver;
     }
 }
