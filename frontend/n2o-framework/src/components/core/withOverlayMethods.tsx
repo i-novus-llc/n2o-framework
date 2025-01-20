@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
-import { createStructuredSelector } from 'reselect'
-import { compose } from 'recompose'
+import React, { Component, ComponentType, ReactNode } from 'react'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
+import flowRight from 'lodash/flowRight'
 import { withTranslation } from 'react-i18next'
 
 import {
@@ -12,12 +11,25 @@ import {
     makePageTitleByIdSelector,
 } from '../../ducks/pages/selectors'
 import { makeShowPromptByName } from '../../ducks/overlays/selectors'
+import { type State } from '../../ducks/State'
 
-import withActions from './withActions'
+import { WithActions, type WithActionsProps } from './withActions'
 
-function withOverlayMethods(WrappedComponent) {
-    class OverlayMethods extends Component {
-        closeOverlay = (prompt) => {
+export interface WithOverlayMethodsProps extends WithActionsProps {
+    title: string
+    modalHeaderTitle: string
+    closeOverlay(prompt?: boolean): void
+    renderFromSrc?(src: string): ReactNode
+    name: string
+    close(name: string, prompt?: boolean): void
+    hidePrompt(name: string): void
+    showPrompt: boolean
+    t(text: string): string
+}
+
+export function WithOverlayMethods<P>(WrappedComponent: ComponentType<WithOverlayMethodsProps & P>) {
+    class OverlayMethods extends Component<P & WithOverlayMethodsProps> {
+        closeOverlay = (prompt: boolean) => {
             const { name, close } = this.props
 
             close(name, prompt)
@@ -41,15 +53,13 @@ function withOverlayMethods(WrappedComponent) {
             this.closePrompt()
         }
 
-        componentDidUpdate(prevProps) {
+        componentDidUpdate(prevProps: WithOverlayMethodsProps) {
             const { showPrompt } = this.props
 
-            if (showPrompt !== prevProps.showPrompt && showPrompt) {
-                this.showPrompt()
-            }
+            if (showPrompt !== prevProps.showPrompt && showPrompt) { this.showPrompt() }
         }
 
-        renderFromSrc(src) {
+        renderFromSrc(src: string) {
             const { resolveProps } = this.context
             const Component = resolveProps(src, null)
 
@@ -69,19 +79,19 @@ function withOverlayMethods(WrappedComponent) {
         }
     }
 
-    const mapStateToProps = createStructuredSelector({
-        title: (state, { pageId }) => makePageTitleByIdSelector(pageId)(state),
-        loading: (state, { pageId }) => makePageLoadingByIdSelector(pageId)(state),
-        disabled: (state, { pageId }) => makePageDisabledByIdSelector(pageId)(state),
-        showPrompt: (state, { name }) => makeShowPromptByName(name)(state),
-        metadata: (state, { pageId }) => makePageMetadataByIdSelector(pageId)(state),
+    const mapStateToProps = (state: State, { pageId, name }: WithOverlayMethodsProps) => ({
+        title: makePageTitleByIdSelector(pageId)(state),
+        loading: makePageLoadingByIdSelector(pageId)(state),
+        disabled: makePageDisabledByIdSelector(pageId)(state),
+        showPrompt: makeShowPromptByName(name)(state),
+        metadata: makePageMetadataByIdSelector(pageId)(state),
     })
 
-    return compose(
+    return flowRight(
         withTranslation(),
         connect(mapStateToProps),
-        withActions,
+        WithActions<WithOverlayMethodsProps>,
     )(OverlayMethods)
 }
 
-export default withOverlayMethods
+export default WithOverlayMethods

@@ -5,11 +5,10 @@ import { Drawer, Props as DrawerProps } from '../snippets/Drawer/Drawer'
 import { Spinner, SpinnerType } from '../snippets/Spinner/Spinner'
 import Toolbar, { type ToolbarProps } from '../buttons/Toolbar'
 
-import withOverlayMethods from './withOverlayMethods'
+import { WithOverlayMethods, type WithOverlayMethodsProps } from './withOverlayMethods'
 import Page from './Page'
 
-interface Props {
-    pageId: string
+interface Props extends WithOverlayMethodsProps {
     visible?: boolean
     modalHeaderTitle: string
     toolbar?: {
@@ -18,12 +17,10 @@ interface Props {
         bottomRight?: ToolbarProps
     }
     disabled?: boolean
-    closeOverlay(prompt?: boolean): void
     footer?: ReactNode
     prompt: boolean
     loading?: boolean
     src?: string
-    pageUrl?: string
     parentPage?: string
     pathMapping?: Record<string, string>
     queryMapping?: Record<string, string>
@@ -139,4 +136,4 @@ function DrawerPage(props: Props) {
 
 export const DrawerWindow = DrawerPage
 
-export default withOverlayMethods(DrawerPage)
+export default WithOverlayMethods(DrawerPage)
