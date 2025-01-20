@@ -18,7 +18,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <n2o.version>7.28.1</n2o.version>
+        <n2o.version>7.28.2</n2o.version>
     </properties>
 
     <dependencies>
@@ -36,6 +36,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>

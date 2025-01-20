@@ -2,8 +2,8 @@
 <query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
        object-id="car">
 
-    <list result-mapping="['_embedded.cars']" count-mapping="['page.totalElements']">
-        <rest>/data/cars/search/findAll?{filters}&amp;page={page}&amp;size={limit}</rest>
+    <list result-mapping="['content']" count-mapping="['total']">
+        <rest>/data/cars?{filters}&amp;{sorting}&amp;page={page}&amp;size={limit}</rest>
     </list>
     <unique>
         <rest>/data/cars/{id}</rest>
@@ -11,13 +11,15 @@
 
     <filters>
         <eq field-id="id" filter-id="id">id={id}</eq>
-        <more field-id="minPrice" filter-id="minPrice">minPrice={minPrice}</more>
-        <less field-id="maxPrice" filter-id="maxPrice">maxPrice={maxPrice}</less>
+        <more field-id="price" filter-id="minPrice">minPrice={minPrice}</more>
+        <less field-id="price" filter-id="maxPrice">maxPrice={maxPrice}</less>
     </filters>
 
     <fields>
         <field id="id" domain="long"/>
         <field id="name" domain="string"/>
-        <field id="price" domain="long"/>
+        <field id="price" domain="long"
+               sorting-expression="sort=price,{priceDir}"
+               sorting-mapping="['priceDir']"/>
     </fields>
 </query>
