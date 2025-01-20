@@ -1,5 +1,4 @@
-import React, { ReactNode, CSSProperties } from 'react'
-import PropTypes from 'prop-types'
+import React, { CSSProperties } from 'react'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import classNames from 'classnames'
 
@@ -8,9 +7,9 @@ import { ModelPrefix } from '../../core/datasource/const'
 
 import Page from './Page'
 import { PageTitle } from './PageTitle'
-import withOverlayMethods from './withOverlayMethods'
+import { WithOverlayMethods, type WithOverlayMethodsProps } from './withOverlayMethods'
 
-interface Props {
+interface Props extends WithOverlayMethodsProps {
     entityKey?: string
     toolbar?: {
         bottomLeft?: ToolbarProps;
@@ -19,21 +18,17 @@ interface Props {
     };
     visible: boolean
     loading?: boolean
-    pageUrl?: string
-    pageId: string
     src?: string
     pathMapping?: Record<string, string>
     queryMapping?: Record<string, string>
     size?: 'sm' | 'lg'
     disabled?: boolean
     scrollable?: boolean
-    prompt?: string
+    prompt?: boolean
     className?: string
     backdrop?: 'static' | true | false
     style?: CSSProperties
     hasHeader?: boolean
-    renderFromSrc?(src: string): ReactNode
-    closeOverlay(prompt?: string): void
     metadata?: {
         page?: {
             modalHeaderTitle?: string
@@ -53,16 +48,16 @@ const ModalPage = ({
     src,
     pathMapping,
     queryMapping,
-    size,
-    disabled,
     scrollable,
     prompt,
     className,
-    backdrop,
     style,
-    hasHeader,
     renderFromSrc,
     closeOverlay,
+    size = 'lg',
+    disabled = false,
+    backdrop = 'static',
+    hasHeader = false,
     metadata = {},
     ...rest
 }: Props) => {
@@ -137,16 +132,4 @@ const ModalPage = ({
     )
 }
 
-ModalPage.defaultProps = {
-    size: 'lg',
-    disabled: false,
-    hasHeader: false,
-    backdrop: 'static',
-}
-
-ModalPage.contextTypes = {
-    resolveProps: PropTypes.func,
-    scrollable: false,
-}
-
-export default withOverlayMethods(ModalPage)
+export default WithOverlayMethods(ModalPage)

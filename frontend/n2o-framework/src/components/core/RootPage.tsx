@@ -1,0 +1,98 @@
+import React, { useMemo, Fragment, ExoticComponent, ReactNode, ComponentType, memo } from 'react'
+import { connect } from 'react-redux'
+import get from 'lodash/get'
+import flowRight from 'lodash/flowRight'
+import { SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
+
+import { Factory } from '../../core/factory/Factory'
+import { PAGES } from '../../core/factory/factoryLevels'
+import { makePageDisabledByIdSelector } from '../../ducks/pages/selectors'
+import { rootPageSelector } from '../../ducks/global/selectors'
+import { Spinner } from '../snippets/Spinner/Spinner'
+import { ErrorContainer } from '../../core/error/Container'
+import { State } from '../../ducks/State'
+
+import { WithMetadata, type WithMetadataProps } from './withMetadata'
+import { WithActions, type WithActionsProps } from './withActions'
+import OverlayPages from './OverlayPages'
+import { PageProps } from './Page'
+
+type EnhancedProps = WithMetadataProps & WithActionsProps
+
+export interface RootPageProps extends EnhancedProps {
+    spinner: Record<string, unknown>
+    disabled: boolean
+    defaultTemplate: ExoticComponent<{ children?: ReactNode }>
+    rootPageId: string
+    match: { params: { pageUrl: string } }
+}
+
+function RootPageBody(props: RootPageProps) {
+    const {
+        metadata,
+        loading,
+        defaultTemplate: Template = Fragment,
+        error,
+        pageUrl,
+        match,
+        rootPageId,
+        pageId,
+    } = props
+    const src = get(metadata, 'src')
+    const regions = get(metadata, 'regions', {})
+
+    return (
+        <>
+            <Template>
+                <Spinner type={SpinnerType.cover} loading={loading}>
+                    <ErrorContainer error={error}>
+                        <Factory
+                            id={get(metadata, 'id')}
+                            src={src}
+                            level={PAGES}
+                            regions={regions}
+                            {...props}
+                            match={match}
+                            rootPageId={rootPageId}
+                            pageId={pageId}
+                            pageUrl={pageUrl}
+                            rootPage
+                        />
+                    </ErrorContainer>
+                </Spinner>
+            </Template>
+            <OverlayPages />
+        </>
+    )
+}
+
+const mapStateToProps = (state: State, { pageId }: PageProps) => ({
+    disabled: makePageDisabledByIdSelector(pageId)(state),
+    rootPageId: rootPageSelector(state),
+    rootPage: true,
+})
+
+function WithComputedProps(Component: ComponentType<RootPageProps>) {
+    return memo((props: RootPageProps) => {
+        const { pageUrl, match, rootPageId, pageId } = props
+
+        const computedPageUrl = useMemo(() => {
+            return pageUrl || `/${get(match, 'params.pageUrl', '')}` || '/'
+        }, [pageUrl, match])
+
+        const computedPageId = useMemo(() => {
+            return rootPageId || pageId || computedPageUrl || ''
+        }, [rootPageId, pageId, computedPageUrl])
+
+        return <Component {...props} pageId={computedPageId} pageUrl={computedPageUrl} />
+    })
+}
+
+export const RootPage = flowRight(
+    connect(mapStateToProps),
+    WithComputedProps,
+    WithMetadata<RootPageProps>,
+    WithActions<RootPageProps>,
+)(RootPageBody)
+
+export default RootPage

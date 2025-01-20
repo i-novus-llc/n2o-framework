@@ -8,9 +8,9 @@ import Toolbar, { ToolbarProps } from '../buttons/Toolbar'
 import { getGlobalFieldByPath } from '../../ducks/models/selectors'
 import propsResolver from '../../utils/propsResolver'
 
-import withOverlayMethods from './withOverlayMethods'
+import { WithOverlayMethods, type WithOverlayMethodsProps } from './withOverlayMethods'
 
-interface Props {
+export interface Props extends WithOverlayMethodsProps {
     visible: boolean
     props: {
         title?: string
@@ -61,4 +61,4 @@ const PageDialog = ({ visible, props }: Props) => {
     )
 }
 
-export default withOverlayMethods(PageDialog)
+export default WithOverlayMethods(PageDialog)
