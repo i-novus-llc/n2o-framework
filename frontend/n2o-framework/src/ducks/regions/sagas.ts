@@ -222,7 +222,7 @@ function* validateTabs() {
                 const { parent } = tabsRegions[regionId]
 
                 /** Вложенные tabs в tabs, установка invalid родительскому tab **/
-                if (parent) {
+                if (parent && !isEmpty(parent)) {
                     const { regionId, tabId } = parent
 
                     yield put(setTabInvalid(regionId, tabId, invalid))

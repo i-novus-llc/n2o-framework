@@ -70,7 +70,7 @@ export function RegionContent(props: Props) {
                         className={className}
                         fetchOnInit={fetchOnInit}
                         fetch={fetch}
-                        parent={parent || { regionId, tabId }}
+                        parent={parent || (tabId ? { regionId, tabId } : {})}
                     />
                 )
             })}
