@@ -31,6 +31,7 @@ import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -110,7 +111,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         TableWidgetComponent.BodyRow row = castDefault(component.getBody().getRow(), TableWidgetComponent.BodyRow::new);
         row.setSrc(source.getRows().getSrc());
         if (source.getRows().getStyle() != null) {
-            row.getElementAttributes().put("style", p.resolveJS(source.getRows().getStyle()));
+            row.getElementAttributes().put("style", StylesResolver.resolveStyles(p.resolveJS(source.getRows().getStyle())));
         }
         if (source.getRows().getRowClass() != null) {
             row.getElementAttributes().put("className", p.resolveJS(source.getRows().getRowClass()));
