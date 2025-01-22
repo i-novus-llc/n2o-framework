@@ -21,8 +21,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-
 /**
  * Автотест для проверки востановления значений фильтров таблицы после закрытия страницы
  */
@@ -115,7 +113,7 @@ public class RestoreFiltersAT extends AutoTestBase {
         page.shouldExists();
         table.shouldExists();
         filter.shouldExists();
-        filter.shouldHaveValue("test2", Duration.ofSeconds(15));
+        filter.shouldHaveValue("test2");
         table.columns().rows().shouldHaveSize(1);
     }
 

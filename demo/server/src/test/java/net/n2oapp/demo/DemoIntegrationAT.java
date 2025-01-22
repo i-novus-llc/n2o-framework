@@ -656,7 +656,7 @@ public class DemoIntegrationAT {
         modalProtoContacts.getDescription().setValue("рабочий телефон");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты", 20000);
+        protoPage.shouldDialogClosed("Контакты");
         protoPage.shouldBeClientsPage();
         protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
         protoPage.contactsAlertTextShouldBe("Данные сохранены");
@@ -672,7 +672,7 @@ public class DemoIntegrationAT {
         modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (888) 888-88-88");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты", 10000);
+        protoPage.shouldDialogClosed("Контакты");
         protoPage.shouldBeClientsPage();
         protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
         protoPage.contactsAlertTextShouldBe("Данные сохранены");

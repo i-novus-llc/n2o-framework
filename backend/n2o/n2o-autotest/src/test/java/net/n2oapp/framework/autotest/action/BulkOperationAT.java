@@ -22,8 +22,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-
 /**
  * Автотест для групповых операций изменения и удаления
  */
@@ -98,7 +96,7 @@ public class BulkOperationAT extends AutoTestBase {
         deleteManyButton.shouldExists();
         deleteManyButton.click();
         page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
-        table.columns().rows().shouldHaveSize(2, Duration.ofMillis(5000));
+        table.columns().rows().shouldHaveSize(2);
         name1.shouldHaveText("test3");
         name2.shouldHaveText("test4");
     }

@@ -243,12 +243,8 @@ public class ProtoPage {
         leftRightPage.dialog(title).shouldHaveText(text);
     }
 
-    public void shouldDialogClosed(String title, long timeOut) {
-        leftRightPage.dialog(title).shouldBeClosed(timeOut);
-    }
-
     public void shouldDialogClosed(String title) {
-        shouldDialogClosed(title, 5000);
+        leftRightPage.dialog(title).shouldBeClosed();
     }
 
     public void acceptDialog(String title) {

@@ -16,8 +16,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-
 /**
  * Автотест для фильтр-модели таблциы
  */
@@ -57,6 +55,6 @@ public class FilterModelAT extends AutoTestBase {
         name.shouldBeEmpty();
         snils.setValue("324-234-324 32");
         table.filters().fields().field(Condition.cssClass("n2o-button-field"), ButtonField.class).click();
-        name.shouldHaveValue("Роман", Duration.ofSeconds(10));
+        name.shouldHaveValue("Роман");
     }
 }

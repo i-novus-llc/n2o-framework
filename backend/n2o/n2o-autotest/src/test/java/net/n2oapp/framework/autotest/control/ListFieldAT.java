@@ -13,14 +13,14 @@ import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.time.Duration;
 
 /**
  * Тестирование списковых полей
@@ -187,6 +187,6 @@ class ListFieldAT extends AutoTestBase {
         inputSelect.openPopup();
 
         Alert alert = page.alerts(Alert.Placement.top).alert(0);
-        alert.shouldHaveText("В test.query.xml не найден <count> запрос необходимый для пагинации", Duration.ofSeconds(15));
+        alert.shouldHaveText("В test.query.xml не найден <count> запрос необходимый для пагинации");
     }
 }

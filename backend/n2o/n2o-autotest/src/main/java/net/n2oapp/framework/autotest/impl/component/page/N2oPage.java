@@ -254,11 +254,11 @@ public class N2oPage extends N2oComponent implements Page {
         }
 
         @Override
-        public void shouldBeClosed(long timeOut) {
+        public void shouldBeClosed() {
             SelenideElement modalTitle = element().$(".modal-header .modal-title");
 
             if (modalTitle.exists())
-                modalTitle.shouldNotBe(Condition.exist, Duration.ofMillis(timeOut));
+                modalTitle.shouldNotBe(Condition.exist);
         }
 
         @Override

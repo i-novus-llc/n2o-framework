@@ -22,8 +22,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-
 /**
  * Автотест разрешения ссылок в заголовках страниц
  */
@@ -110,7 +108,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         modal.shouldExists();
         modal.shouldHaveTitle("Page name=test2 type=type1");
         modal.closeByEsc();
-        modal.shouldNotExists(Duration.ofSeconds(15));
+        modal.shouldNotExists();
     }
 
     @Test

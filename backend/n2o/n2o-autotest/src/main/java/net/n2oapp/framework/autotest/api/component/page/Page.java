@@ -221,9 +221,8 @@ public interface Page extends Component {
 
         /**
          * Проверка закрытия диалога в течение передаваемого времени
-         * @param timeOut длительность проверки
          */
-        void shouldBeClosed(long timeOut);
+        void shouldBeClosed();
 
         /**
          * Проверка того, что кнопки имеют обратное положение
