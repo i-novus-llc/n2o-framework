@@ -62,7 +62,7 @@ public class TableWidgetComponent extends WidgetComponent {
         @JsonProperty
         private RowOverlay overlay;
         @JsonProperty
-        private Map<String, String> elementAttributes = new HashMap<>();
+        private Map<String, Object> elementAttributes = new HashMap<>();
         private Map<String, Object> properties;
     }
 }
