@@ -68,7 +68,7 @@ export const PageScrollProvider = ({
             const current = get(topElement, 'current', null)
 
             if (current) {
-                current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                current.scrollIntoView({ behavior: 'smooth', block: 'center' })
             }
 
             if (scrollTimeout) { clearTimeout(scrollTimeout) }
