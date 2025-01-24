@@ -175,6 +175,22 @@
             max-height: 200px;
             opacity: 1;
             transition: 0.2s;
+
+            .n2o-alert-segment__copy-button {
+                padding: 4px 5px;
+                border-radius: 50%;
+                position: fixed;
+                right: 5%;
+                background-color: #fff;
+                cursor: pointer;
+                opacity: 0.5;
+            }
+
+            .n2o-alert-segment__copy-button:hover {
+                opacity: 1;
+                box-shadow: 0 26px 58px 0 rgba(0, 0, 0, 0.22), 0 5px 14px 0 rgba(0, 0, 0, 0.18);
+                transition: 0.3s ease;
+            }
         }
 
         .n2o-alert-segment__stacktrace-area::-webkit-scrollbar {
