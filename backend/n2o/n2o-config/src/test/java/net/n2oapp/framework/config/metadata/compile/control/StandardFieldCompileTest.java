@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
-import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
@@ -71,7 +70,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testStandardField"));
         Form form = (Form) page.getWidget();
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
-        assertThat(field.getDependencies().size(), is(10));
+        assertThat(field.getDependencies().size(), is(13));
 
         assertThat(field.getDependencies().get(0).getExpression(), is("test1 == null"));
         assertThat(field.getDependencies().get(0).getOn().get(0), is("test1"));
@@ -81,6 +80,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(1).getExpression(), is("test2 == null"));
         assertThat(field.getDependencies().get(1).getOn().get(0), is("test2"));
         assertThat(field.getDependencies().get(1).getType(), is(ValidationType.required));
+        assertThat(((RequiringDependency) field.getDependencies().get(1)).getValidate(), is(true));
 
         assertThat(field.getDependencies().get(2).getExpression(), is("test3 == null"));
         assertThat(field.getDependencies().get(2).getOn().get(0), is("test3"));
@@ -100,6 +100,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(6).getOn().get(0), is("test6"));
         assertThat(field.getDependencies().get(6).getExpression(), is("test6 == null"));
         assertThat(field.getDependencies().get(6).getType(), is(ValidationType.reset));
+        assertThat(((ResetDependency) field.getDependencies().get(6)).getValidate(), is(true));
 
         assertThat(field.getDependencies().get(7).getOn().get(0), is("test7"));
         assertThat(field.getDependencies().get(7).getExpression(), is("true"));
@@ -108,10 +109,26 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(8).getOn().get(0), is("test8"));
         assertThat(field.getDependencies().get(8).getExpression(), is("(function(){if (test8 == 1) return \"Test\";}).call(this)"));
         assertThat(field.getDependencies().get(8).getType(), is(ValidationType.setValue));
+        assertThat(((SetValueDependency) field.getDependencies().get(8)).getValidate(), is(true));
 
         assertThat(field.getDependencies().get(9).getOn().get(0), is("test9"));
         assertThat(field.getDependencies().get(9).getExpression(), is("test9 == null"));
         assertThat(field.getDependencies().get(9).getType(), is(ValidationType.fetch));
+
+        assertThat(field.getDependencies().get(10).getOn().get(0), is("test10"));
+        assertThat(field.getDependencies().get(10).getExpression(), is("'without validation'"));
+        assertThat(field.getDependencies().get(10).getType(), is(ValidationType.setValue));
+        assertThat(((SetValueDependency) field.getDependencies().get(10)).getValidate(), is(false));
+
+        assertThat(field.getDependencies().get(11).getOn().get(0), is("test11"));
+        assertThat(field.getDependencies().get(11).getExpression(), is("test11.id == 1"));
+        assertThat(field.getDependencies().get(11).getType(), is(ValidationType.reset));
+        assertThat(((ResetDependency) field.getDependencies().get(11)).getValidate(), is(false));
+
+        assertThat(field.getDependencies().get(12).getOn().get(0), is("test12"));
+        assertThat(field.getDependencies().get(12).getExpression(), is("test12.id == 3"));
+        assertThat(field.getDependencies().get(12).getType(), is(ValidationType.required));
+        assertThat(((RequiringDependency) field.getDependencies().get(12)).getValidate(), is(false));
     }
 
     @Test

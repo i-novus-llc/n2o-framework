@@ -1,14 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <form id="table" query-id="testActionContext">
+        <form id="table">
+            <datasource query-id="testActionContext"/>
             <actions>
                 <action id="test">
                     <set-value
-                            source-widget="list"
+                            source-datasource="list"
                             source-model="edit"
                             to="filedId"
-                            target-widget="form2"
+                            target-datasource="form2"
                             target-model="filter"
                             merge-mode="add">
                         return false;
@@ -18,7 +19,7 @@
             <toolbar>
                 <button action-id="test"/>
                 <button id="test2">
-                    <set-value/>
+                    <set-value validate="false"/>
                 </button>
             </toolbar>
         </form>

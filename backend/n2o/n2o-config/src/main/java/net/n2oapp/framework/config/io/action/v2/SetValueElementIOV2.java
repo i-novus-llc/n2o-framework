@@ -21,6 +21,7 @@ public class SetValueElementIOV2 extends AbstractActionElementIOV2<N2oSetValueAc
         p.attribute(e, "target-model", sv::getTargetModel, sv::setTargetModel);
         p.attribute(e, "to", sv::getTo, sv::setTo);
         p.attributeEnum(e, "merge-mode", sv::getMergeMode, sv::setMergeMode, MergeMode.class);
+        p.attributeBoolean(e, "validate", sv::getValidate, sv::setValidate);
         p.text(e, sv::getExpression, sv::setExpression);
     }
 

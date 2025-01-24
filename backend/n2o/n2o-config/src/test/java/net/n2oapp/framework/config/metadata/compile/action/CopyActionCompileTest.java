@@ -54,6 +54,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
 
         CopyAction action = (CopyAction) ((Submenu)table.getToolbar().getGroup(0).getButtons().get(0)).getSubMenu().get(0).getAction();
         assertThat(action.getType(), is("n2o/models/COPY"));
+        assertThat(action.getValidate(), is(true));
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
         assertThat(action.getPayload().getSource().getField(), nullValue());
         assertThat(action.getPayload().getSource().getPrefix(), is("edit"));
@@ -65,6 +66,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
 
         action = (CopyAction) table.getToolbar().getButton("btn").getAction();
         assertThat(action.getType(), is("n2o/models/COPY"));
+        assertThat(action.getValidate(), is(false));
         assertThat(action.getPayload().getSource().getPrefix(), is(ReduxModel.edit.getId()));
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
         assertThat(action.getPayload().getSource().getField(), is("id"));

@@ -36,5 +36,6 @@ public class CopyActionElementIOV2 extends AbstractActionElementIOV2<N2oCopyActi
         p.attributeEnum(e, "target-page", m::getTargetPage, m::setTargetPage, PageRef.class);
         p.attributeBoolean(e, "close-on-success", m::getCloseOnSuccess, m::setCloseOnSuccess);
         p.attributeEnum(e, "mode", m::getMode, m::setMode, CopyMode.class);
+        p.attributeBoolean(e, "validate", m::getValidate, m::setValidate);
     }
 }

@@ -35,7 +35,8 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         CopyAction copyAction = new CopyAction();
         compileAction(copyAction, source, p);
         copyAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
-
+        copyAction.setValidate(castDefault(source.getValidate(),
+                () -> p.resolve(property("n2o.api.action.copy.validate"), Boolean.class)));
         CopyActionPayload.ClientModel sourceModel = new CopyActionPayload.ClientModel(
                 getClientDatasourceId(source.getSourceDatasourceId(), p),
                 source.getSourceModel().getId(), source.getSourceFieldId());
