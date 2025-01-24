@@ -8,11 +8,12 @@
         </action>
         <action id="filter">
             <set-value to="fieldId"
-                    source-datasource="list"
-                    source-model="resolve"
-                    target-datasource="form2"
-                    target-model="resolve"
-                    merge-mode="add">
+                       source-datasource="list"
+                       source-model="resolve"
+                       target-datasource="form2"
+                       target-model="resolve"
+                       merge-mode="add"
+                       validate="false">
                 return false;
             </set-value>
         </action>

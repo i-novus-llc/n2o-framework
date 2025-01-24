@@ -34,10 +34,10 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.anyChildren(e, "dependencies", m::getDependencies, m::setDependencies, p.oneOf(N2oField.Dependency.class)
                 .add("enabling", N2oField.EnablingDependency.class, this::enablingDependency)
                 .add("visibility", N2oField.VisibilityDependency.class, this::visibilityDependency)
-                .add("requiring", N2oField.RequiringDependency.class, this::dependency)
-                .add("set-value", N2oField.SetValueDependency.class, this::dependency)
+                .add("requiring", N2oField.RequiringDependency.class, this::requiringDependency)
+                .add("set-value", N2oField.SetValueDependency.class, this::setValueDependency)
+                .add("reset", N2oField.ResetDependency.class, this::resetDependency)
                 .add("fetch", N2oField.FetchDependency.class, this::dependency)
-                .add("reset", N2oField.ResetDependency.class, this::dependency)
                 .add("fetch-value", N2oField.FetchValueDependency.class, this::fetchValueDependency));
         p.attributeArray(e, "depends-on", ",", m::getDependsOn, m::setDependsOn);
         p.attributeEnum(e, "ref-model", m::getRefModel, m::setRefModel, ReduxModel.class);
@@ -60,6 +60,21 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
     private void visibilityDependency(Element e, N2oField.VisibilityDependency t, IOProcessor p) {
         dependency(e, t, p);
         p.attributeBoolean(e, "reset", t::getReset, t::setReset);
+    }
+
+    private void requiringDependency(Element e, N2oField.RequiringDependency t, IOProcessor p) {
+        dependency(e, t, p);
+        p.attributeBoolean(e, "validate", t::getValidate, t::setValidate);
+    }
+
+    private void setValueDependency(Element e, N2oField.SetValueDependency t, IOProcessor p) {
+        dependency(e, t, p);
+        p.attributeBoolean(e, "validate", t::getValidate, t::setValidate);
+    }
+
+    private void resetDependency(Element e, N2oField.ResetDependency t, IOProcessor p) {
+        dependency(e, t, p);
+        p.attributeBoolean(e, "validate", t::getValidate, t::setValidate);
     }
 
     private void fetchValueDependency(Element e, N2oField.FetchValueDependency t, IOProcessor p) {

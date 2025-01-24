@@ -23,6 +23,7 @@ public class N2oCopyAction extends N2oAbstractAction implements N2oAction {
 
     private Boolean closeOnSuccess;
     private CopyMode mode;
+    private Boolean validate;
 
     @Deprecated
     public String getSourceWidgetId() {

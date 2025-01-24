@@ -4,7 +4,7 @@
         <action>
             <copy source-model="edit" source-datasource="source" source-field-id="field"
                   target-model="filter" target-datasource="target" target-field-id="field2"
-                  target-page="this" close-on-success="false"/>
+                  target-page="this" close-on-success="false" validate="false"/>
         </action>
     </actions>
 </page>

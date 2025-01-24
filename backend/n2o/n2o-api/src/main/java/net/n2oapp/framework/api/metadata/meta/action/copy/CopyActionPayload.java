@@ -15,8 +15,10 @@ import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 public class CopyActionPayload implements ActionPayload {
     @JsonProperty
     private ClientModel source;
+
     @JsonProperty
     private ClientModel target;
+
     @JsonProperty
     private CopyMode mode;
 
