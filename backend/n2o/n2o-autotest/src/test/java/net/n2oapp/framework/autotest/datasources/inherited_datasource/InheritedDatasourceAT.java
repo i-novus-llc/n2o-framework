@@ -57,16 +57,16 @@ public class InheritedDatasourceAT extends AutoTestBase {
                 .widget(1, FormWidget.class).fields().field("test").control(InputText.class);
 
         source.click();
-        source.setValue("test");
-        inher.shouldHaveValue("test");
+        source.setValue("1");
+        inher.shouldHaveValue("1");
         source.click();
         source.clear();
         inher.shouldBeEmpty();
 
         inher.click();
-        inher.setValue("test");
+        inher.setValue("2");
         source.shouldBeEmpty();
-        inher.shouldHaveValue("test");
+        inher.shouldHaveValue("2");
     }
 
     /**
