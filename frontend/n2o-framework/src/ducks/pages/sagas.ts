@@ -39,6 +39,7 @@ import { failValidate } from '../datasource/store'
 import { FailValidateAction } from '../datasource/Actions'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import { DATASOURCE_PREFIX } from '../api/constants'
+import { logger } from '../../core/utils/logger'
 
 import { makeIsRootChildByIdSelector, pagesSelector } from './selectors'
 import {
@@ -159,6 +160,8 @@ export function* getMetadata(
                 err?.json?.meta || {},
             ),
         )
+
+        logger.error(err?.json?.meta || `Ошибка при получении метеданных: ${err.message}`)
     }
 }
 

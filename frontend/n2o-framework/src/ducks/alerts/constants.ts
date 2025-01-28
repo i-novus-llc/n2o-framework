@@ -21,6 +21,7 @@ export enum Severity {
     ERROR = 'error',
     WARNING = 'warning',
     SUCCESS = 'success',
+    DANGER = 'danger',
 }
 
 export type PLACEMENT = 'top' | 'topRight' | 'bottomLeft' | 'bottom' | 'bottomRight'

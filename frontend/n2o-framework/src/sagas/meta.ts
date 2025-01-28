@@ -1,10 +1,4 @@
-import {
-    put,
-    select,
-    takeEvery,
-    cancel,
-    delay,
-} from 'redux-saga/effects'
+import { cancel, delay, put, select, takeEvery } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import isArray from 'lodash/isArray'
 import get from 'lodash/get'
@@ -15,7 +9,13 @@ import { id } from '../utils/id'
 import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addAlert, addMultiAlerts } from '../ducks/alerts/store'
-import { CLOSE_BUTTON_PATH, DEFAULT_CLOSE_BUTTON, GLOBAL_KEY, STORE_KEY_PATH, PLACEMENT } from '../ducks/alerts/constants'
+import {
+    CLOSE_BUTTON_PATH,
+    DEFAULT_CLOSE_BUTTON,
+    GLOBAL_KEY,
+    PLACEMENT,
+    STORE_KEY_PATH,
+} from '../ducks/alerts/constants'
 import { removeAllModel } from '../ducks/models/store'
 import { register } from '../ducks/datasource/store'
 import { requestConfigSuccess } from '../ducks/global/store'
