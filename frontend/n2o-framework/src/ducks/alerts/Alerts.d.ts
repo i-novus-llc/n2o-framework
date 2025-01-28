@@ -11,6 +11,7 @@ export interface Alert {
     stopped?: boolean
     modelLink?: string
     time?: string
+    stacktrace?: string[]
 }
 
 export interface Config {
@@ -19,6 +20,7 @@ export interface Config {
         info: number
         success: number
         warning: number
+        danger: number
     }
 }
 
