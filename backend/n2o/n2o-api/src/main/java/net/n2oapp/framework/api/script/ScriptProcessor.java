@@ -547,9 +547,11 @@ public class ScriptProcessor {
 
     public static boolean evalForBoolean(String script, DataSet dataSet) {
         try {
-            Boolean eval = eval(script, dataSet);
+            Object eval = eval(script, dataSet);
             if (eval == null) return false;
-            return eval;
+            if (eval instanceof Boolean)
+                return (boolean) eval;
+            return true;
         } catch (ScriptException e) {
             return false;
         }
