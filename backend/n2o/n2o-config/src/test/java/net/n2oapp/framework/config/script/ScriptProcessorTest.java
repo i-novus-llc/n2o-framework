@@ -205,6 +205,7 @@ class ScriptProcessorTest {
         }, RuntimeException.class);
         assert !(ScriptProcessor.evalForBoolean("bas script", new DataSet()));
         assert (ScriptProcessor.evalForBoolean("test", new DataSet("test", true)));
+        assert (ScriptProcessor.evalForBoolean("test", new DataSet("test", "some value")));
         assert !(ScriptProcessor.evalForBoolean("test", new DataSet("test", false)));
     }
 
