@@ -1,6 +1,5 @@
 import React from 'react'
 import { Dayjs } from 'dayjs'
-import onClickOutside from 'react-onclickoutside'
 import { useTranslation } from 'react-i18next'
 
 import { Calendar } from './Calendar'
@@ -20,7 +19,7 @@ type PopUpProps = {
     value: Record<string, Dayjs | null>
 }
 
-export const PopUpComponent = ({
+export const PopUp = ({
     dateFormat,
     markTimeAsSet,
     timeFormat,
@@ -65,7 +64,3 @@ export const PopUpComponent = ({
         </div>
     )
 }
-
-PopUpComponent.prototype = {}
-
-export const PopUp = onClickOutside(PopUpComponent)
