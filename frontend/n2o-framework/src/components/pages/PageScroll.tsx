@@ -121,7 +121,7 @@ export function useScrollToFirstInvalid(
 
     useEffect(() => {
         if (scrollRef?.current) {
-            if (message) {
+            if (message?.message) {
                 collect(id, scrollRef)
 
                 return
