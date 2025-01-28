@@ -129,16 +129,31 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
         private String message;
     }
 
-    public static class RequiringDependency extends Dependency {
+    @Getter
+    @Setter
+    public static class VisibilityDependency extends Dependency {
+        private Boolean reset;
     }
 
+    @Getter
+    @Setter
+    public static class RequiringDependency extends Dependency {
+        private Boolean validate;
+    }
+
+    @Getter
+    @Setter
     public static class SetValueDependency extends Dependency {
+        private Boolean validate;
+    }
+
+    @Getter
+    @Setter
+    public static class ResetDependency extends Dependency {
+        private Boolean validate;
     }
 
     public static class FetchDependency extends Dependency {
-    }
-
-    public static class ResetDependency extends Dependency {
     }
 
     @Getter
@@ -148,12 +163,6 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
         private String valueFieldId;
         private N2oPreFilter[] preFilters;
         private Integer size;
-    }
-
-    @Getter
-    @Setter
-    public static class VisibilityDependency extends Dependency {
-        private Boolean reset;
     }
 
     @Override

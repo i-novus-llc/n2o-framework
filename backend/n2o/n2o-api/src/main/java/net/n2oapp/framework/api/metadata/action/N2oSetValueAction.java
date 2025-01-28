@@ -19,6 +19,7 @@ public class N2oSetValueAction extends N2oAbstractAction {
     private String to;
 
     private MergeMode mergeMode;
+    private Boolean validate;
 
     @Deprecated
     public String getSourceWidget() {

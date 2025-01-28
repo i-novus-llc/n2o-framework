@@ -16,7 +16,7 @@
                     <menu-item id="item" action-id="test"/>
                 </sub-menu>
                 <button id="btn">
-                    <copy source-model="edit" source-datasource="table1" source-field-id="id" mode="replace"
+                    <copy source-model="edit" source-datasource="table1" source-field-id="id" mode="replace" validate="false"
                           target-model="edit" target-datasource="table2" target-field-id="dictionary.id"/>
                 </button>
             </toolbar>

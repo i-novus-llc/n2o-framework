@@ -581,6 +581,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="validate" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Срабатывание валидации полей при выполнении действия</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -909,6 +914,11 @@
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="merge-mode" type="mergeType" default="replace"/>
+                <xs:attribute name="validate" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Срабатывание валидации полей при выполнении действия</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

@@ -5,7 +5,6 @@ import isFunction from 'lodash/isFunction'
 import isNull from 'lodash/isNull'
 import dayjs, { Dayjs } from 'dayjs'
 import { Manager, Popper, Reference, RefHandler } from 'react-popper'
-import { WrapperInstance } from 'react-onclickoutside'
 import { isArray } from 'lodash'
 
 import { TBaseInputProps, TBaseProps } from '../../types'
@@ -69,8 +68,6 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
     inputGroup: HTMLDivElement | null = null
 
     private control: null | ElementType = null
-
-    private popUp: WrapperInstance<unknown, unknown> | null = null
 
     constructor(props: DateTimeControlProps) {
         super(props)
@@ -396,11 +393,6 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                 isTimeSet={isTimeSet}
                 markTimeAsSet={this.markTimeAsSet}
                 timeFormat={timeFormat}
-                ref={(popUp) => {
-                    this.popUp = popUp
-
-                    return popUp
-                }}
                 value={inputs}
                 select={this.select}
                 max={max ? dayjs(max) : undefined}

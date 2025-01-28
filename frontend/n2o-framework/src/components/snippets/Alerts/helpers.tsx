@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import classNames from 'classnames'
+
+import { copyTextToClipboard } from '../../../utils/copyTextToClipboard'
 
 import { CommonAlertProps, SegmentProps } from './types'
 
@@ -42,6 +44,8 @@ export const CloseButtonSegment = ({ closeButton, onClick, text, timestamp, exte
 }
 
 export const StacktraceSegment = ({ stacktrace, onClick, stacktraceVisible, t }: CommonAlertProps) => {
+    const copyStacktraceToClipboard = useCallback(() => copyTextToClipboard(stacktrace), [stacktrace])
+
     if (!stacktrace) { return null }
 
     return (
@@ -61,6 +65,11 @@ export const StacktraceSegment = ({ stacktrace, onClick, stacktraceVisible, t }:
                 />
             </div>
             <div className={classNames('n2o-alert-segment__stacktrace-area', { visible: stacktraceVisible })}>
+                <i
+                    onClick={copyStacktraceToClipboard}
+                    title="Скопировать текст ошибки"
+                    className="fa-regular fa-copy n2o-alert-segment__copy-button"
+                />
                 {stacktrace}
             </div>
         </section>
