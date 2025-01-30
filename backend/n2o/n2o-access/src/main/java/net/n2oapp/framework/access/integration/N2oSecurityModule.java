@@ -46,12 +46,10 @@ public class N2oSecurityModule implements DataProcessing {
             Security security = getSecurityObject(requestInfo.getQuery());
             if (security != null) {
                 securityProvider.checkAccess(security, requestInfo.getUser());
-                if (requestInfo.getSize() != 1) {
-                    List<Restriction> securityFilters = securityProvider.collectRestrictions(
-                            getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser()
-                    );
-                    requestInfo.getCriteria().addRestrictions(securityFilters);
-                }
+                List<Restriction> securityFilters = securityProvider.collectRestrictions(
+                        getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser()
+                );
+                requestInfo.getCriteria().addRestrictions(securityFilters);
             }
         }
     }
