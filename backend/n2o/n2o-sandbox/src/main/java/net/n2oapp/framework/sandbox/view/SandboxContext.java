@@ -1,20 +1,27 @@
 package net.n2oapp.framework.sandbox.view;
 
+import jakarta.servlet.http.HttpSession;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
+import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
+import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
+import net.n2oapp.framework.sandbox.templates.TemplateModel;
+import net.n2oapp.framework.sandbox.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import jakarta.servlet.http.HttpSession;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 
 
 /**
@@ -23,7 +30,7 @@ import java.util.stream.Stream;
 @Component
 public class SandboxContext implements ContextEngine {
 
-    public static final String USER_PROPERTIES = "/user.properties";
+    public static final String USER_PROPERTIES = "user.properties";
     private static final String SESSION_PROJECT_SEPARATOR = "/";
     private final Map<String, Properties> properties = new ConcurrentHashMap<>();
 
@@ -31,6 +38,8 @@ public class SandboxContext implements ContextEngine {
     private SandboxRestClient restClient;
     @Autowired
     private HttpSession session;
+    @Autowired
+    private ProjectTemplateHolder templatesHolder;
 
 
     @Override
@@ -75,7 +84,7 @@ public class SandboxContext implements ContextEngine {
         if (property != null && property.getClass() == String.class) {
             String p = (String) property;
             if (p.startsWith("[") && p.endsWith("]")) {
-                return Stream.of(p.substring(1, p.length() - 1).split(",")).map(String::trim).collect(Collectors.toList());
+                return Stream.of(p.substring(1, p.length() - 1).split(",")).map(String::trim).toList();
             }
         }
         return property;
@@ -83,7 +92,16 @@ public class SandboxContext implements ContextEngine {
 
     private Properties createProperties(String projectId) {
         Properties props = new Properties();
-        String userProperties = restClient.getFile(projectId, USER_PROPERTIES);
+        String userProperties = null;
+        if (FileUtil.isTemplate(projectId)) {
+            TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
+            List<FileModel> files = findResources(templateModel.getTemplateId());
+            Optional<FileModel> property = files.stream().filter(f -> f.getFile().equals(USER_PROPERTIES)).findFirst();
+            if (property.isPresent())
+                userProperties = property.get().getSource();
+        } else {
+            userProperties = restClient.getFile(projectId, "/" + USER_PROPERTIES);
+        }
         if (userProperties != null) {
             try (InputStream inputStream = new ByteArrayInputStream(userProperties.getBytes());
                  BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
