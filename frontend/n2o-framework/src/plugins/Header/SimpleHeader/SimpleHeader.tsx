@@ -12,7 +12,7 @@ import { withItemsResolver } from '../../withItemsResolver/withItemResolver'
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { withTitlesResolver } from '../../withTitlesResolver/withTitlesResolver'
 import { WithContextDataSource } from '../../WithContextDataSource/WithContextDataSource'
-import { ElementVisibility, WindowType } from '../../../components/core/WindowType'
+import { WindowType } from '../../../components/core/WindowType'
 
 import { Logo } from './Logo'
 import { SidebarSwitcher } from './SidebarSwitcher'
@@ -106,10 +106,10 @@ class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
 
         const trigger = !isUndefined(get(search, 'dataProvider')) ? 'CHANGE' : 'ENTER'
 
-        const { N2O_ELEMENT_VISIBILITY = {} as ElementVisibility } = window as WindowType
+        const { N2O_ELEMENT_VISIBILITY } = window as WindowType
 
         if (N2O_ELEMENT_VISIBILITY && !N2O_ELEMENT_VISIBILITY.header) {
-            style = { ...style, display: 'none' }
+            style = { display: 'none' }
         }
 
         const simpleHeaderClassNames = classNames(
