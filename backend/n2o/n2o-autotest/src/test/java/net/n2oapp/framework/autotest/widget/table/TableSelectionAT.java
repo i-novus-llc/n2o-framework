@@ -227,5 +227,9 @@ public class TableSelectionAT extends AutoTestBase {
         table.columns().rows().row(1).cell(3, LinkCell.class).click();
         modal.shouldExists();
         modal.content(SimplePage.class).widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("2");
+        modal.close();
+        Selenide.refresh();
+        table.columns().rows().row(0).click();
+        modal.shouldExists();
     }
 }

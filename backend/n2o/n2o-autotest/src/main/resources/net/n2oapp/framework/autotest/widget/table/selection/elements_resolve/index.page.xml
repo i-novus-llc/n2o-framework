@@ -24,6 +24,15 @@
                     </link>
                 </column>
             </columns>
+            <rows>
+                <click>
+                    <switch value-field-id="id">
+                        <case value="1">
+                            <show-modal page-id="modal" route="/update"/>
+                        </case>
+                    </switch>
+                </click>
+            </rows>
         </table>
     </regions>
 </page>
