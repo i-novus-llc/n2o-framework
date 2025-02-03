@@ -275,7 +275,7 @@ class SelectComponent extends React.Component<Props, State> {
 
         if (onChange) {
             onChange(value)
-            onBlur(value)
+            // onBlur(value)
         }
     }
 
