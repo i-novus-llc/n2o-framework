@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react'
 import classNames from 'classnames'
 
-import { ElementVisibility, WindowType } from '../../components/core/WindowType'
+import { WindowType } from '../../components/core/WindowType'
 
 import { resolveText } from './helpers'
 import { PositionedText } from './PositionedText'
@@ -14,7 +14,7 @@ export interface Props {
 }
 
 export function Footer({ textRight, textLeft, className, style }: Props) {
-    const { N2O_ELEMENT_VISIBILITY = {} as ElementVisibility } = window as WindowType
+    const { N2O_ELEMENT_VISIBILITY } = window as WindowType
 
     let currentStyle = { ...style }
 
