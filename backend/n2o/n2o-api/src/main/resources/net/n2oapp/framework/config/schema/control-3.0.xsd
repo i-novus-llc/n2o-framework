@@ -692,6 +692,14 @@
                         <xs:documentation>Поля, игнорируемые при сбросе фильтров</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="no-label" type="xs:string" use="prohibited">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Не отображать заголовок.
+                            Поддерживаются плейсхолдеры условия
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

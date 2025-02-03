@@ -23,7 +23,6 @@ public abstract class AbstractFilterButtonCompiler<D extends AbstractFilterButto
         compileField(button, source, context, p);
         button.setIcon(source.getIcon());
         button.setLabel(castDefault(p.resolveJS(source.getLabel()), getDefaultLabel(p)));
-        source.setNoLabel(p.resolve(property("n2o.api.control.search_buttons.no_label"), String.class));
         button.setColor(source.getColor());
         button.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
         button.setDatasource(getClientDatasourceId(initDatasource(source, p), p));
