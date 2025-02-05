@@ -205,7 +205,6 @@ export function* modify(
             yield delay(50)
             yield put(startValidate(
                 datasource,
-                // @ts-ignore FIXME непонял как поправить
                 ValidationsKey.Validations,
                 modelPrefix,
                 [fieldName],

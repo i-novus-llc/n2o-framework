@@ -30,8 +30,8 @@ export interface Item extends Common {
     id: string
     src: SrcTypes
     href: string
-    datasource?: string
-    datasources?: metaPropsType[]
+    datasource: string
+    datasources: metaPropsType[]
     target: string
     style?: React.CSSProperties
     pathMapping?: metaPropsType[]

@@ -124,7 +124,7 @@ const WithSource = <P extends object>(Component: ComponentType<P>) => DataSource
 )
 
 export const WithDataSource = <P extends object>(Component: ComponentType<P>) => {
-    const WithDataSource = WithSource(Component)
+    const WithDataSource = WithSource(Component) as ComponentType<P>
 
     return (props: P & { datasource?: string; widget?: boolean }) => {
         const { datasource, widget = true } = props

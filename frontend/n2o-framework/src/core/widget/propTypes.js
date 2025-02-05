@@ -6,15 +6,6 @@ import { FETCH_TYPE } from './const'
 
 /**
  * Объект входных параметров виджета, приходящий с БЛ
- * @typedef {Object} WidgetInitialTypes
- * @property {string} id
- * @property {string} datasource
- * @property {string} pageId
- * @property {boolean} visible
- * @property {Array} dependency // TODO описать типы зависимостей
- * @property {object} toolbar // TODO описать тип
- * @property {'always'|'lazy'|'never'} fetch
- * @property {boolean} fetchOnInit
  */
 export const widgetInitialTypes = {
     id: PropTypes.string.isRequired,
@@ -37,9 +28,6 @@ export const widgetInitialTypes = {
 
 /**
  * Данные виджета, хранимые в redux
- * @typedef {WidgetInitialTypes} WidgetReduxTypes
- * @property {boolean} isInit
- * @property {boolean} isActive
  */
 export const reduxTypes = {
     ...widgetInitialTypes,
@@ -48,9 +36,6 @@ export const reduxTypes = {
     dispatch: PropTypes.func,
 }
 
-/**
- * @typedef {WidgetReduxTypes, WidgetDatasourceTypes, WidgetMethods} WidgetTypes
- */
 export const widgetPropTypes = {
     ...reduxTypes,
     ...WithDataSourceTypes,

@@ -14,7 +14,7 @@ export type metaPropsType = { [key: string]: unknown }
 export const getFromSource = (
     itemProps: Item,
     datasources: metaPropsType[],
-    models: DataSourceModels,
+    models?: DataSourceModels,
     datasource?: string,
 ) => {
     const props = { ...itemProps }

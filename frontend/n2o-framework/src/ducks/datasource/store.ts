@@ -269,7 +269,7 @@ export const datasource = createSlice({
                 id: string,
                 validationsKey = ValidationsKey.Validations,
                 prefix = ModelPrefix.active,
-                fields?: [],
+                fields?: string[],
                 meta = {},
             ) {
                 return ({
@@ -328,7 +328,6 @@ export const datasource = createSlice({
         },
 
         resetValidation: {
-            // @ts-ignore поправить типы
             prepare(id, fields, prefix = ModelPrefix.active) {
                 return ({
                     payload: { id, fields, prefix },
@@ -364,7 +363,7 @@ export const datasource = createSlice({
                 }
             },
         },
-        // eslint-disable-next-line @typescript-eslint/naming-convention
+
         DATA_REQUEST: {
             prepare(datasource: string, options = {}, meta: N2OMeta = {}) {
                 return ({
