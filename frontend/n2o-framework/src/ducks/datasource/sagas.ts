@@ -90,18 +90,18 @@ export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAct
 }
 
 export default (apiProvider: unknown) => [
+    // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
     // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery(dataRequest, dataRequestWrapper, apiProvider),
-    // @ts-ignore поправить типы
+    // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery(DATA_REQUEST, function* remapRequest({ payload, meta }) {
         const { datasource, options } = payload
 
-        // @ts-ignore поправить типы
         yield put(dataRequest(datasource, options, meta))
     }),
     takeEvery(startValidate, validateSaga),
-    // @ts-ignore хер знает как затипизировать
+    // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery(submit, EffectWrapper(submitSaga), apiProvider),
     takeEvery(remove, removeSaga),
     takeEvery([

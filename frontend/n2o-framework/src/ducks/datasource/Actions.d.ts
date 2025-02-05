@@ -83,7 +83,7 @@ export type ChangeSizeAction = DatasourceAction<{
 
 export type StartValidateAction = DatasourceAction<{
     id: string
-    validationsKey: ValidationsKey
+    validationsKey?: ValidationsKey
     prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
     fields?: string[]
 }, { touched: boolean }>

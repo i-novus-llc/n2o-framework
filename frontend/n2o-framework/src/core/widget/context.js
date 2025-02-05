@@ -2,13 +2,13 @@ import { createContext, useContext } from 'react'
 
 /* eslint-disable no-unused-vars,  @typescript-eslint/no-unused-vars */
 export const METHODS = {
-    fetchData() {},
+    fetchData(options) {},
     setFilter(filterModel) {},
     setResolve(model) {},
     setEdit(model) {},
     setSelected(models) {},
-    setSorting(sorting) {},
-    setPage(page) {},
+    setSorting(field, sorting) {},
+    setPage(page, options) {},
     setSize(size) {},
 }
 
