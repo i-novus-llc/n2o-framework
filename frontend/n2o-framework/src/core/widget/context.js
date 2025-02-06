@@ -14,6 +14,4 @@ export const METHODS = {
 
 export const DataSourceContext = createContext(METHODS)
 
-export const useDataSourceMethodsContext = () => (
-    useContext(DataSourceContext)
-)
+export const useDataSourceMethodsContext = () => useContext(DataSourceContext)

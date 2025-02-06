@@ -17,7 +17,7 @@ import Fieldsets from './fieldsets'
 import ReduxForm from './ReduxForm'
 import { type FormWidgetProps } from './types'
 
-export const Form = ({
+const Widget = ({
     id: formName,
     disabled,
     toolbar,
@@ -91,4 +91,9 @@ export const Form = ({
     )
 }
 
-export const FormWidget = WidgetHOC(Form)
+Widget.displayName = 'FormWidgetComponent'
+
+export const FormWidget = WidgetHOC<FormWidgetProps>(Widget)
+export default FormWidget
+
+FormWidget.displayName = 'FormWidget'

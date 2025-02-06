@@ -3,6 +3,7 @@ import { Dispatch } from 'redux'
 
 import { type ClickAction } from '../hooks/useOnActionMethod'
 import { type Props as StandardWidgetProps } from '../StandardWidget'
+import { Widget } from '../../../ducks/widgets/Widgets'
 
 export type TilesModel = Record<string, unknown>
 
@@ -41,20 +42,14 @@ export interface TilesType {
 
 export type StandardWidgetFilter = StandardWidgetProps['filter']
 
-export interface TilesWidgetType extends Omit<TilesType, 'widgetId' | 'data' | 'onResolve' | 'width'> {
+type Enhancer = Omit<TilesType, 'widgetId' | 'data' | 'onResolve' | 'width'> & Widget
+
+export interface TilesWidgetProps extends Enhancer {
     id: string
     toolbar: StandardWidgetProps['toolbar']
     disabled: boolean
     style: CSSProperties
-    filter: Record<string, unknown>
-    paging: {
-        place: string
-        showSinglePage: boolean
-        showLast: boolean
-        showCount: boolean
-        maxPages: number
-        onSelect(page: number): void
-    }
+    filter?: Record<string, unknown>
     height: string
     width: string
     size: number

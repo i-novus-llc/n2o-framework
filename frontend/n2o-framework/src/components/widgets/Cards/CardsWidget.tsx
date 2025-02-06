@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import get from 'lodash/get'
 
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
@@ -13,14 +14,15 @@ import { DataSourceModels, ModelPrefix } from '../../../core/datasource/const'
 import { CardsContainer } from './CardsContainer'
 import { type CardsWidgetProps } from './types'
 
-function CardsWidget(props: CardsWidgetProps) {
+function Widget(props: CardsWidgetProps) {
     const {
         id: widgetId, datasource, toolbar,
         disabled, className, style, filter,
         paging, loading, cards, verticalAlign, height,
         size, count, page, setPage, datasourceModelLength,
     } = props
-    const { place = 'bottomLeft' } = paging
+
+    const place = get(paging, 'place', 'bottomLeft')
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter as object, StandardFieldset) as CardsWidgetProps['filter'], [filter, resolveProps])
     const dataSourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as DataSourceModels['datasource']
@@ -62,4 +64,11 @@ function CardsWidget(props: CardsWidgetProps) {
     )
 }
 
-export default WidgetHOC(WithActiveModel<CardsWidgetProps>(CardsWidget))
+Widget.displayName = 'CardsWidgetComponent'
+
+export const CardsWidget = WidgetHOC<CardsWidgetProps>(
+    WithActiveModel<CardsWidgetProps>(Widget),
+)
+export default CardsWidget
+
+CardsWidget.displayName = 'CardsWidget'

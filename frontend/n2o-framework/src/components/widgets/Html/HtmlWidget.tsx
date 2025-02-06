@@ -7,7 +7,7 @@ import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selec
 import { ModelPrefix } from '../../../core/datasource/const'
 
 import { Html } from './Html'
-import { type Props } from './types'
+import { type HtmlWidgetProps } from './types'
 
 function Widget({
     id,
@@ -17,7 +17,7 @@ function Widget({
     html,
     loading,
     datasource,
-}: Props) {
+}: HtmlWidgetProps) {
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as Array<Record<string, unknown>>
     const data = Array.isArray(datasourceModel) ? datasourceModel[0] : {} as Record<string, unknown>
 
@@ -35,4 +35,9 @@ function Widget({
     )
 }
 
-export const HtmlWidget = WidgetHOC(Widget)
+Widget.displayName = 'HtmlWidgetComponent'
+
+export const HtmlWidget = WidgetHOC<HtmlWidgetProps>(Widget)
+export default HtmlWidget
+
+HtmlWidget.displayName = 'HtmlWidget'

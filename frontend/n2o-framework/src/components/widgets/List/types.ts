@@ -2,6 +2,7 @@ import { CSSProperties, ReactNode } from 'react'
 
 import { Props as StandardWidgetProps } from '../StandardWidget'
 import { type Props as N2OPaginationProps } from '../Table/N2OPagination'
+import { Widget } from '../../../ducks/widgets/Widgets'
 
 export interface ListMoreButtonProps {
     onClick(): void
@@ -59,10 +60,9 @@ export interface ListContainerProps extends ListProps {
     list: Record<string, { id: string, columnId: string }>
 }
 
-type Enhancer = StandardWidgetProps & ListContainerProps
+type Enhancer = StandardWidgetProps & ListContainerProps & Widget
 
 export interface ListWidgetProps extends Enhancer {
-    paging: N2OPaginationProps & { place: string }
     size: number
     count: number
     datasourceModelLength: number

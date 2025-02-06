@@ -12,6 +12,7 @@ import { ErrorContainer } from '../../core/error/Container'
 import { State } from '../../ducks/State'
 import { type ErrorContainerProps } from '../../core/error/types'
 import { Model } from '../../ducks/models/selectors'
+import { Widget } from '../../ducks/widgets/Widgets'
 
 import { WidgetFilters, type Props as WidgetFiltersProps } from './WidgetFilters'
 
@@ -28,7 +29,7 @@ export enum PLACES {
     bottomCenter = 'bottomCenter',
 }
 
-export interface Props {
+export interface Props extends Widget {
     widgetId: string
     toolbar: Record<string, ToolbarProps>
     filter?: { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] }
@@ -38,7 +39,7 @@ export interface Props {
     disabled?: boolean
     className?: string
     style?: CSSProperties
-    children: ReactNode
+    children?: ReactNode
     loading: boolean
     error: ErrorContainerProps['error']
     activeModel?: Model | Model[]

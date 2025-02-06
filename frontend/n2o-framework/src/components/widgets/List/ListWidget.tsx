@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import get from 'lodash/get'
 
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
@@ -11,13 +12,13 @@ import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selec
 import { ModelPrefix } from '../../../core/datasource/const'
 
 import ListContainer from './ListContainer'
-import { ListWidgetProps } from './types'
+import { type ListWidgetProps } from './types'
 
 /**
  * Виджет ListWidget
  * @constructor
  */
-function ListWidget(props: ListWidgetProps) {
+function Widget(props: ListWidgetProps) {
     const {
         id: widgetId,
         datasource,
@@ -43,7 +44,7 @@ function ListWidget(props: ListWidgetProps) {
         hasSelect = false,
         fetchOnScroll = false,
     } = props
-    const { place = 'bottomLeft' } = paging
+    const place = get(paging, 'place', 'bottomLeft')
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as Array<Record<string, unknown>>
 
     const pagination = {
@@ -96,4 +97,11 @@ function ListWidget(props: ListWidgetProps) {
     )
 }
 
-export default WidgetHOC(WithActiveModel(ListWidget))
+Widget.displayName = 'ListWidgetComponent'
+
+export const ListWidget = WidgetHOC<ListWidgetProps>(
+    WithActiveModel<ListWidgetProps>(Widget),
+)
+export default ListWidget
+
+ListWidget.displayName = 'ListWidget'

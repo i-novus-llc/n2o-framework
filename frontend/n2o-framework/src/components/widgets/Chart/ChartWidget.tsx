@@ -24,9 +24,8 @@ const Charts = {
 
 /**
  * Виджет графиков
- * @constructor
  */
-function ChartWidget({
+function Widget({
     id: widgetId,
     datasource,
     toolbar,
@@ -77,4 +76,9 @@ function ChartWidget({
     )
 }
 
-export default WidgetHOC(ChartWidget)
+Widget.displayName = 'ChartWidgetComponent'
+
+export const ChartWidget = WidgetHOC(Widget)
+export default ChartWidget
+
+ChartWidget.displayName = 'ChartWidget'

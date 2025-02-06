@@ -9,7 +9,7 @@ import { WithActiveModel } from '../Widget/WithActiveModel'
 import CalendarContainer from './CalendarContainer'
 import { type CalendarWidgetProps } from './types'
 
-function CalendarWidget(props: CalendarWidgetProps) {
+function Widget(props: CalendarWidgetProps) {
     const {
         id: widgetId,
         datasource,
@@ -40,4 +40,9 @@ function CalendarWidget(props: CalendarWidgetProps) {
     )
 }
 
-export default WidgetHOC(WithActiveModel<CalendarWidgetProps>(CalendarWidget))
+Widget.displayName = 'CalendarWidgetComponent'
+
+export const CalendarWidget = WidgetHOC(WithActiveModel<CalendarWidgetProps>(Widget))
+export default CalendarWidget
+
+CalendarWidget.displayName = 'CalendarWidget'

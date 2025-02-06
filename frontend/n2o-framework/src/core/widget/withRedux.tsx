@@ -7,7 +7,7 @@ import { makeWidgetByIdSelector } from '../../ducks/widgets/selectors'
 import { removeAllAlerts } from '../../ducks/alerts/store'
 import { getModelSelector } from '../../ducks/models/selectors'
 import { ModelPrefix } from '../datasource/const'
-import { Widget } from '../../ducks/widgets/Widgets'
+import { type Widget } from '../../ducks/widgets/Widgets'
 import { State } from '../../ducks/State'
 
 export interface ConnectedWidgetProps extends Widget {
@@ -19,7 +19,7 @@ export interface ConnectedWidgetProps extends Widget {
 /**
  * ХОК для подключения виджета к redux
  */
-export const withRedux = (WidgetComponent: ComponentType<Widget & { onFocus(): void }>) => {
+export const withRedux = (WidgetComponent: ComponentType<Widget & { onFocus?(): void }>) => {
     class ConnectedWidget extends Component<ConnectedWidgetProps> {
         componentDidMount() {
             const { dispatch, ...props } = this.props
