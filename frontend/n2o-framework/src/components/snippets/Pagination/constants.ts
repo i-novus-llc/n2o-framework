@@ -34,14 +34,14 @@ type onSelectType = (page: number, options?: object) => void
 export interface Props {
     className?: string
     style?: CSSProperties
-    showSinglePage: boolean
-    showLast: boolean
-    showCount: showCountType
+    showSinglePage?: boolean
+    showLast?: boolean
+    showCount?: showCountType
     count?: number
     hasNext?: boolean
-    maxPages: number
+    maxPages?: number
     size: number
-    onSelect: onSelectType
+    onSelect?: onSelectType
     activePage: number
     prevIcon?: string
     nextIcon?: string

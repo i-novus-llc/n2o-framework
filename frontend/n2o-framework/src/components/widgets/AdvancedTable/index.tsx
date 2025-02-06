@@ -5,7 +5,7 @@ import { createContext, useContext as useContextSelector } from 'use-context-sel
 import isEmpty from 'lodash/isEmpty'
 
 import { N2OPagination } from '../Table/N2OPagination'
-import WidgetLayout from '../StandardWidget'
+import StandardWidget from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import {
     dataSourceModelByPrefixSelector,
@@ -36,7 +36,7 @@ const EmptyComponent = () => (
 
 const defaultDataMapper = (data: Array<Record<string, unknown>>) => data
 
-export const AdvancedTableContainer = ({
+const Widget = ({
     id, disabled, toolbar, datasource, className, setPage, loading,
     fetchData, style, paging, table, size, count, validations,
     page, sorting, children, hasNext, isInit, setResolve,
@@ -192,7 +192,7 @@ export const AdvancedTableContainer = ({
                 refContainerElem={tableContainerElem}
                 overlay={tableConfig.body?.row?.overlay}
             >
-                <WidgetLayout
+                <StandardWidget
                     disabled={disabled}
                     widgetId={id}
                     datasource={datasource}
@@ -225,15 +225,18 @@ export const AdvancedTableContainer = ({
                             components={components}
                         />
                     )}
-                </WidgetLayout>
+                </StandardWidget>
             </ToolbarOverlay>
         </tableWidgetContext.Provider>
     )
 }
 
-AdvancedTableContainer.displayName = 'AdvancedTableContainer'
+Widget.displayName = 'AdvancedTableComponent'
 
-export const AdvancedTableWidget = WidgetHOC(WithTableProps<AdvancedTableWidgetProps>(AdvancedTableContainer))
+export const AdvancedTableWidget = WidgetHOC<AdvancedTableWidgetProps>(
+    WithTableProps<AdvancedTableWidgetProps>(Widget),
+)
+export default AdvancedTableWidget
 
 AdvancedTableWidget.displayName = 'AdvancedTableWidget'
 

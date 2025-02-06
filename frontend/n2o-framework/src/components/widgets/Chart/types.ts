@@ -2,6 +2,7 @@ import type { LayoutType, Margin, StackOffsetType } from 'recharts/types/util/ty
 import { CSSProperties } from 'react'
 
 import { ToolbarProps } from '../../buttons/Toolbar'
+import { Widget } from '../../../ducks/widgets/Widgets'
 
 export enum CHART_TYPE {
     LINE = 'line',
@@ -43,7 +44,7 @@ export interface Props {
     reverseStackOrder?: boolean
 }
 
-export interface ChartWidgetProps {
+export interface ChartWidgetProps extends Widget {
     id: string
     datasource: string
     toolbar: Record<string, ToolbarProps>

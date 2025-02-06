@@ -34,7 +34,8 @@ export interface WithTableType {
     page: number,
 }
 
-type Enhancer = WithTableType & Pick<StandardWidgetProps, 'fetchData' | 'datasource' | 'disabled' | 'loading' | 'children' | 'style'>
+type Enhancer = WithTableType & Pick<
+    StandardWidgetProps, 'fetchData' | 'datasource' | 'disabled' | 'loading' | 'children' | 'style' | 'table'>
 
 export interface AdvancedTableWidgetProps extends Enhancer {
     toolbar: Record<string, ToolbarProps>

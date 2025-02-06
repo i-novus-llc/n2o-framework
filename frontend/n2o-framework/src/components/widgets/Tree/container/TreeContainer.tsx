@@ -35,8 +35,7 @@ const withWidgetHandlers = <P extends object>(WrappedComponent: ComponentType<P 
                 dispatch,
             } = this.props
 
-            // eslint-disable-next-line eqeqeq
-            const value = filter(datasource, data => some(keys, key => key == data[valueFieldId]))
+            const value = filter(datasource, data => some(keys, key => String(key) === String(data[valueFieldId])))
 
             if (multiselect) {
                 setResolve(value)

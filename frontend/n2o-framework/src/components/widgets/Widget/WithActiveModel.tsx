@@ -6,8 +6,8 @@ import { usePrevious } from '../../../utils/usePrevious'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 
-type Model = Record<string, unknown>
-type DataSourceModel = Model[]
+export type Model = Record<string, unknown>
+export type DataSourceModel = Model[]
 
 export interface WidgetProps {
     datasource: string

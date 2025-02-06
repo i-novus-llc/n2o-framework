@@ -5,6 +5,7 @@ import { type Props as StandardWidgetProps } from '../StandardWidget'
 import { type Props as N2OPaginationProps } from '../Table/N2OPagination'
 import { type WidgetProps } from '../Widget/WithActiveModel'
 import { type ClickAction } from '../hooks/useOnActionMethod'
+import { Widget } from '../../../ducks/widgets/Widgets'
 
 export interface CardCellProps {
     component?: { src: string }
@@ -44,12 +45,13 @@ export type CardsContainerProps = Omit<CardsProps, 'onResolve'> & { setResolve: 
 
 type CommonCardsWidgetProps = 'className' | 'cards' | 'datasource' | 'data' | 'dispatch' | 'setResolve'
 
-export interface CardsWidgetProps extends Pick<CardsContainerProps, CommonCardsWidgetProps> {
+type Enhancer = Pick<CardsContainerProps, CommonCardsWidgetProps> & Widget
+
+export interface CardsWidgetProps extends Enhancer {
     toolbar: StandardWidgetProps['toolbar']
     disabled: StandardWidgetProps['disabled']
     style?: CSSProperties
     filter: StandardWidgetProps['filter']
-    paging: { place: string } & N2OPaginationProps
     loading: StandardWidgetProps['loading']
     verticalAlign: CardsProps['align']
     height: string

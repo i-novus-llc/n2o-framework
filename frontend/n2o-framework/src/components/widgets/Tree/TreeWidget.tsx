@@ -7,7 +7,9 @@ import { WithActiveModel } from '../Widget/WithActiveModel'
 import TreeContainer from './container/TreeContainer'
 import { type TreeProps, type WithWidgetHandlersProps } from './types'
 
-function TreeWidget(props: StandardWidgetProps & TreeProps & WithWidgetHandlersProps) {
+type TreeWidgetProps = Omit<StandardWidgetProps, 'filter'> & TreeProps & WithWidgetHandlersProps
+
+function Widget(props: TreeWidgetProps) {
     const {
         id: widgetId,
         datasource,
@@ -28,11 +30,16 @@ function TreeWidget(props: StandardWidgetProps & TreeProps & WithWidgetHandlersP
             style={style}
             loading={loading}
         >
-            <TreeContainer
-                {...props}
-            />
+            <TreeContainer {...props} />
         </StandardWidget>
     )
 }
 
-export default WidgetHOC(WithActiveModel(TreeWidget as never))
+Widget.displayName = 'TreeWidgetComponent'
+
+export const TreeWidget = WidgetHOC<TreeWidgetProps>(
+    WithActiveModel<TreeWidgetProps>(Widget),
+)
+export default TreeWidget
+
+TreeWidget.displayName = 'TreeWidget'

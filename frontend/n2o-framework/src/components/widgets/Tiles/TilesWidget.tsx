@@ -1,8 +1,9 @@
 import React, { useContext, useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import get from 'lodash/get'
 
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import WidgetLayout from '../StandardWidget'
+import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
 import { FactoryContext } from '../../../core/factory/context'
@@ -11,9 +12,9 @@ import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selec
 import { ModelPrefix } from '../../../core/datasource/const'
 
 import { Tiles } from './Tiles'
-import { type TilesModel, type TilesWidgetType, type StandardWidgetFilter } from './types'
+import { type TilesModel, type TilesWidgetProps, type StandardWidgetFilter } from './types'
 
-function TilesWidget(props: TilesWidgetType) {
+function Widget(props: TilesWidgetProps) {
     const {
         id: widgetId,
         datasource,
@@ -35,7 +36,7 @@ function TilesWidget(props: TilesWidgetType) {
     } = props
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps]) as StandardWidgetFilter
-    const { place = 'bottomLeft' } = paging
+    const place = get(paging, 'place', 'bottomLeft')
     const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as TilesModel[]
     const pagination = {
         [place]: (
@@ -51,7 +52,7 @@ function TilesWidget(props: TilesWidgetType) {
     }
 
     return (
-        <WidgetLayout
+        <StandardWidget
             disabled={disabled}
             widgetId={widgetId}
             datasource={datasource}
@@ -71,8 +72,15 @@ function TilesWidget(props: TilesWidgetType) {
                 onResolve={setResolve}
                 widgetId={widgetId}
             />
-        </WidgetLayout>
+        </StandardWidget>
     )
 }
 
-export default WidgetHOC(WithActiveModel(TilesWidget))
+Widget.displayName = 'TilesWidgetComponent'
+
+export const TilesWidget = WidgetHOC<TilesWidgetProps>(
+    WithActiveModel<TilesWidgetProps>(Widget),
+)
+export default TilesWidget
+
+TilesWidget.displayName = 'TilesWidget'
