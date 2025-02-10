@@ -4,7 +4,6 @@ import { all } from 'redux-saga/effects'
 import { sagas as regionsSagas } from './ducks/regions/sagas'
 import { sagas as wsSaga } from './sagas/notifications/notifications'
 import pagesSagas from './ducks/pages/sagas'
-import widgetsSagas from './ducks/widgets/sagas'
 import dataSourceSagas from './ducks/datasource/sagas'
 import actionsImplSagas from './sagas/actionsImpl'
 import alertsSagas from './ducks/alerts/sagas'
@@ -35,7 +34,6 @@ export default function generateSagas(dispatch, config) {
     return function* rootSaga() {
         yield all([
             ...pagesSagas(config.apiProvider, config.security),
-            ...widgetsSagas(config.apiProvider),
             ...dataSourceSagas(config.apiProvider),
             ...actionsImplSagas(config.apiProvider, config.factories),
             ...alertsSagas(config.messages),

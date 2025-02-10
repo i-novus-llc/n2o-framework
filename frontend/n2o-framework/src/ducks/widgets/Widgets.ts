@@ -9,7 +9,6 @@ export type Widget = {
     visible?: boolean
     fetch?: string
     disabled?: boolean
-    isResolved?: boolean
     isFilterVisible?: boolean
     isActive?: boolean
     pageId?: string | null

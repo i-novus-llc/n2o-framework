@@ -1,6 +1,5 @@
 import {
     registerWidget,
-    resolveWidget,
     removeWidget,
     showWidget,
     hideWidget,
@@ -45,15 +44,6 @@ describe('Тесты экшенов widgets', () => {
 
             expect(action.payload.widgetId).toEqual(widgetId)
             expect(action.payload.initProps).toEqual(initProps)
-        })
-    })
-
-    describe('Проверка экшена resolveWidget', () => {
-        it('Возвращает правильный payload', () => {
-            const action = resolveWidget(widgetId, resolveModel)
-
-            expect(action.payload.widgetId).toEqual(widgetId)
-            expect(action.payload.model).toEqual(resolveModel)
         })
     })
 

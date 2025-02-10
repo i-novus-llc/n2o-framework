@@ -6,7 +6,6 @@ class WidgetResolver {
             visible: true,
             fetch: 'always',
             disabled: false,
-            isResolved: false,
             isFilterVisible: true,
             isActive: false,
             type: null,
