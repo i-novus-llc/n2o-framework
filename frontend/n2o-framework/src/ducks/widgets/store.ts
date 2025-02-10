@@ -37,24 +37,6 @@ export const widgetSlice = createSlice({
             },
         },
 
-        RESOLVE: {
-            prepare(widgetId, model, modelId) {
-                return ({
-                    payload: { widgetId, model, modelId },
-                })
-            },
-
-            reducer(state, action: Resolve) {
-                const { widgetId } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = WidgetResolver.defaultState
-                }
-
-                state[widgetId].isResolved = true
-            },
-        },
-
         SHOW: {
             prepare(widgetId) {
                 return ({
@@ -242,7 +224,6 @@ export default widgetSlice.reducer
 
 export const {
     REGISTER: registerWidget,
-    RESOLVE: resolveWidget,
     SHOW: showWidget,
     HIDE: hideWidget,
     ENABLE: enableWidget,

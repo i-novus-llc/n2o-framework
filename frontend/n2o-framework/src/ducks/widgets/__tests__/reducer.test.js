@@ -1,6 +1,5 @@
 import widgets, {
     registerWidget,
-    resolveWidget,
     showWidget,
     hideWidget,
     enableWidget,
@@ -68,7 +67,6 @@ describe('Тесты widget reducer', () => {
                 isFilterVisible: false,
                 isInit: true,
                 loading: false,
-                isResolved: false,
                 page: 2,
                 pageId: 'page-id-2',
                 size: 20,
@@ -80,26 +78,6 @@ describe('Тесты widget reducer', () => {
                 validation: {},
                 error: null,
                 visible: true,
-            },
-        })
-    })
-
-    it('Проверка RESOLVE', () => {
-        expect(
-            widgets(
-                {
-                    widget: {},
-                },
-                {
-                    type: resolveWidget.type,
-                    payload: {
-                        widgetId: 'widget',
-                    },
-                },
-            ),
-        ).toEqual({
-            widget: {
-                isResolved: true,
             },
         })
     })
