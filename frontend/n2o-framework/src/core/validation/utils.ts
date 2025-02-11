@@ -70,8 +70,17 @@ export const getCtxByModel = (validationKey: string, model: object) => {
 
         const [key, ...subPath] = path
 
-        const list: object[] = get(model, key, [])
+        const list: object[] = get(model, key) ?? []
         let res: FieldContext[] = []
+
+        if (!Array.isArray(list)) {
+            console.warn(
+                `Ошибка валидации multi-set: модель "${fullName}${fullName ? '.' : ''}${key}" не является списком`,
+                list,
+            )
+
+            return res
+        }
 
         for (let i = 0; i < list.length; i++) {
             const fieldName = `${key}[${i}]`
