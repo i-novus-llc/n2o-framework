@@ -119,10 +119,11 @@ function InputSelectTree({
 }: Props) {
     const searchMinLengthHint = getSearchMinLengthHint()
     const treeExpandedKeys = useRef<Array<string | number>>([])
-    const [searchValue, setSearchValue] = useState('');
+    const [searchValue, setSearchValue] = useState('')
+    const handleClickOutside = () => { setSearchValue('') }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (InputSelectTree as any).handleClickOutside = () => setSearchValue('')
+    (InputSelectTree as any).handleClickOutside = () => handleClickOutside
 
     /**
      * Функуия для создания дерева.
