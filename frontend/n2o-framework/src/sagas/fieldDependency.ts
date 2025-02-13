@@ -7,10 +7,13 @@ import {
     delay,
     race,
     take,
+    debounce,
 } from 'redux-saga/effects'
+import { createAction } from '@reduxjs/toolkit'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
+import set from 'lodash/set'
 
 import { executeExpression } from '../core/Expression/execute'
 import { makeFormByName, makeFormsByModel } from '../ducks/form/selectors'
@@ -30,6 +33,7 @@ import { evalResultCheck } from '../utils/evalResultCheck'
 import { startValidate } from '../ducks/datasource/store'
 import {
     appendFieldToArray,
+    combineModels,
     copyFieldArray,
     removeFieldFromArray,
     setModel,
@@ -111,15 +115,19 @@ export function* fetchValue(
     }
 }
 
+const ResolveDependencyAction = createAction('n2o/form/resolveDependency')
+let defModels = {}
+
 function* resolveDependency(
     form: Form,
     values: Record<string, unknown>,
     fieldName: string,
     field: Field,
     dependency: FieldDependency,
+    isInit: boolean,
 ) {
     yield race([
-        call(modify, form, values, fieldName, field, dependency),
+        call(modify, form, values, fieldName, field, dependency, isInit),
         // @ts-ignore ругается take на тип экшена
         take((action: Action) => {
             const { type, payload } = action
@@ -142,6 +150,7 @@ export function* modify(
     fieldName: string,
     field: Field,
     dependency: FieldDependency,
+    isInit: boolean,
 ) {
     const { formName, datasource, modelPrefix, fields } = form
     const { type, expression } = dependency
@@ -178,7 +187,13 @@ export function* modify(
                 break
             }
 
-            yield put(updateModel(modelPrefix, datasource, fieldName, evalResult))
+            if (isInit) {
+                set(defModels, `${modelPrefix}.${datasource}.${fieldName}`, evalResult)
+
+                yield put(ResolveDependencyAction())
+            } else {
+                yield put(updateModel(modelPrefix, datasource, fieldName, evalResult))
+            }
 
             break
         }
@@ -302,7 +317,7 @@ export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateMo
             if (field.dependency) {
                 for (const dep of field.dependency) {
                     if (shouldBeResolved(dep, fieldName, model, prevModel)) {
-                        yield fork(resolveDependency, form, model, fieldId, field, dep)
+                        yield fork(resolveDependency, form, model, fieldId, field, dep, false)
                     }
                 }
             }
@@ -327,7 +342,7 @@ export function* resolveOnInit({ payload }: RegisterFieldAction) {
                 const { applyOnInit } = dependency
 
                 if ((fieldName === fieldId) && applyOnInit) {
-                    yield fork(resolveDependency, form, model, fieldId, field, dependency)
+                    yield fork(resolveDependency, form, model, fieldId, field, dependency, true)
                 }
             }
         }
@@ -361,7 +376,7 @@ function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
 
                 if (isDefault) {
                     if (applyOnInit) {
-                        yield fork(resolveDependency, form, model || {}, fieldId, field, dep)
+                        yield fork(resolveDependency, form, model || {}, fieldId, field, dep, true)
                     }
 
                     // eslint-disable-next-line no-continue
@@ -376,7 +391,7 @@ function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
                 })
 
                 if (isSomeFieldChanged) {
-                    yield fork(resolveDependency, form, model || {}, fieldId, field, dep)
+                    yield fork(resolveDependency, form, model || {}, fieldId, field, dep, false)
                 }
             }
         }
@@ -395,4 +410,11 @@ export const fieldDependencySagas = [
     ], resolveOnUpdateModel),
     // @ts-ignore Проблема с типизацией saga
     takeEvery(setModel, resolveOnSetModel),
+    debounce(100, ResolveDependencyAction, function* combineDefault() {
+        if (!isEmpty(defModels)) {
+            yield put(combineModels(defModels))
+
+            defModels = {}
+        }
+    }),
 ]
