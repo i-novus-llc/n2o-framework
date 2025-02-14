@@ -1,6 +1,6 @@
 {
   "name": "n2o-framework",
-  "version": "7.27.26",
+  "version": "7.27.27",
   "description": "N2O React",
   "homepage": "https://n2oapp.net/",
   "engines": {
@@ -63,7 +63,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@i-novus/n2o-components": "7.27.26",
+    "@i-novus/n2o-components": "7.27.27",
     "@popperjs/core": "^2.2.1",
     "@reduxjs/toolkit": "^1.5.1",
     "axios": "^0.19.0",
