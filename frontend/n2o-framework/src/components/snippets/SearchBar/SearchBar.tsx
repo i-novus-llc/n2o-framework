@@ -5,9 +5,8 @@ import isEmpty from 'lodash/isEmpty'
 import set from 'lodash/set'
 import { Button } from 'reactstrap'
 import onClickOutsideHOC from 'react-onclickoutside'
-
-import { InputText } from '../../controls/InputText/InputText'
-import { Icon } from '../Icon/Icon'
+import { InputText } from '@i-novus/n2o-components/lib/inputs/InputText'
+import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
 import { SearchBarPopUp } from './SearchBarPopUp'
 import { SearchBarEmptyMenu } from './SearchBarEmptyMenu'

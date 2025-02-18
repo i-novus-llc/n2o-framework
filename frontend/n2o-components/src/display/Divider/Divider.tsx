@@ -1,6 +1,8 @@
 import React, { CSSProperties, ReactNode } from 'react'
 import classNames from 'classnames'
 
+import { Text } from '../../Typography/Text'
+
 export type Props = {
     className?: string
     dashed?: boolean
@@ -40,7 +42,7 @@ export const Divider = ({ style, children, className, dashed = false, position =
 
     return (
         <div className={computedClassName} style={style}>
-            {children && <span className="divider-h__title">{children}</span>}
+            {children && <span className="divider-h__title"><Text>{children}</Text></span>}
         </div>
     )
 }

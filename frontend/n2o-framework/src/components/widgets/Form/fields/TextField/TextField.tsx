@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { parseFormatter } from '@i-novus/n2o-components/lib/utils/parseFormatter'
+import { FormattedText } from '@i-novus/n2o-components/lib/Typography/FormattedText'
 
 import { type Props } from './types'
 
@@ -17,7 +17,7 @@ export function TextField({ text, format, className, visible = true, style = {} 
             className={classNames('n2o-text-field n2o-snippet', className)}
             style={currentStyle}
         >
-            {format ? parseFormatter(text, format) : text}
+            <FormattedText format={format}>{text}</FormattedText>
         </div>
     )
 }

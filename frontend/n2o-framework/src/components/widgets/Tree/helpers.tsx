@@ -11,8 +11,7 @@ import some from 'lodash/some'
 import { findDOMNode } from 'react-dom'
 // @ts-ignore import from js file
 import cssAnimation from 'css-animation'
-
-import { Icon } from '../../snippets/Icon/Icon'
+import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
 import { type FilterType, type TreeProps, type DatasourceItem, KEY_CODES } from './types'
 

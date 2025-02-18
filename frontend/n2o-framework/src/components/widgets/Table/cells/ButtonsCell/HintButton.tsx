@@ -1,8 +1,7 @@
 import React from 'react'
 import pick from 'lodash/pick'
 import { Button, UncontrolledTooltip } from 'reactstrap'
-
-import { Icon } from '../../../../snippets/Icon/Icon'
+import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
 import { MODIFIERS, withUID } from './helpers'
 import { type HintButtonProps } from './types'

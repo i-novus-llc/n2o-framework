@@ -4,10 +4,9 @@ import omit from 'lodash/omit'
 import get from 'lodash/get'
 import has from 'lodash/has'
 import { EventHandlersContext } from '@i-novus/n2o-components/lib/inputs/eventHandlersContext'
-import { SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
+import { Spinner, SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 
 import { Toolbar, type ToolbarProps } from '../../../../buttons/Toolbar'
-import { Spinner } from '../../../../snippets/Spinner/Spinner'
 import { useResolved } from '../../../../../core/Expression/useResolver'
 
 import { Control, type Props as ControlProps } from './Control'

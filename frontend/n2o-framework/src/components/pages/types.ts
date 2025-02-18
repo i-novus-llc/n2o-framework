@@ -1,9 +1,9 @@
 import { CSSProperties, ReactNode } from 'react'
 import { Dispatch } from 'redux'
+import { type State as ScrollContextProps } from '@i-novus/n2o-components/lib/layouts/ScrollContainer'
 
 import { ToolbarProps } from '../buttons/Toolbar'
 import { State as RegionsState } from '../../ducks/regions/Regions'
-import { type Props as ScrollContextProps } from '../snippets/ScrollContainer/ScrollContainer'
 import { Metadata } from '../../ducks/pages/Pages'
 
 export enum FIXED_PLACE {

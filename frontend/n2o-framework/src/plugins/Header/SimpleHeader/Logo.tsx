@@ -1,6 +1,7 @@
 import React, { CSSProperties } from 'react'
 import classNames from 'classnames'
 import { NavbarBrand } from 'reactstrap'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import { needRender } from '../../SideBar/utils'
 
@@ -41,8 +42,8 @@ export const Logo = ({
                     <NavbarBrandContent brandImage={src} />
                 </NavbarBrand>
             )}
-            {needRender(title) && <a href={href} className="navbar-brand logo-title">{title}</a>}
-            {needRender(subtitle) && <small className="navbar-brand logo-subtitle">{subtitle}</small>}
+            {needRender(title) && <a href={href} className="navbar-brand logo-title"><Text>{title}</Text></a>}
+            {needRender(subtitle) && <small className="navbar-brand logo-subtitle"><Text>{subtitle}</Text></small>}
         </section>
     )
 }

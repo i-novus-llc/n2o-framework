@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import { Sorter } from '../../../snippets/Sorter/Sorter'
 import { changeFrozenColumn, changeColumnVisibility } from '../../../../ducks/columns/store'
@@ -37,9 +38,9 @@ export const TextTableHeader = ({
     return (
         <span className="n2o-advanced-table-header-title" style={style}>
             <Sorter visible={Boolean(sortingParam)} sorting={sorting} sortingParam={sortingParam} onSort={setSorting}>
-                {label}
+                <Text>{label}</Text>
             </Sorter>
-            {!sortingParam && label}
+            {!sortingParam && <Text>{label}</Text>}
         </span>
     )
 }

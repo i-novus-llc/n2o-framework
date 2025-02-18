@@ -16,7 +16,6 @@ export interface TextCellProps {
     iconPosition: ICON_POSITIONS
     id: string
     model: Record<string, string>
-    preLine: boolean
     subTextFieldKey: string
     subTextFormat: string
     visible: boolean

@@ -2,8 +2,8 @@ import React, { useCallback, useMemo, useRef, useState, type VFC, MouseEvent } f
 import classNames from 'classnames'
 import flowRight from 'lodash/flowRight'
 import get from 'lodash/get'
+import { FormattedText } from '@i-novus/n2o-components/lib/Typography/FormattedText'
 
-import { Text } from '../../../../snippets/Text/Text'
 import { WithCell } from '../../withCell'
 import { withTooltip } from '../../withTooltip'
 import { DefaultCell } from '../DefaultCell'
@@ -73,7 +73,7 @@ const Cell: VFC<any> = ({
                     })}
                     onClick={enableEditing}
                 >
-                    <Text text={viewValue} format={format} />
+                    <FormattedText format={format}>{viewValue}</FormattedText>
                 </View>
             )}
         </DefaultCell>

@@ -2,6 +2,8 @@ import React from 'react'
 import get from 'lodash/get'
 import { Link } from 'react-router-dom'
 
+import { Text } from '../Typography/Text'
+
 type OutputListItemProps = {
     isLast: boolean,
     labelFieldId?: string,
@@ -18,7 +20,7 @@ const renderLink = (isInner: boolean, href: string, target: string, label: strin
                 className="n2o-output-list__item n2o-output-list__item--link"
                 target={target}
             >
-                {label}
+                <Text>{label}</Text>
             </Link>
         )
     }
@@ -29,13 +31,13 @@ const renderLink = (isInner: boolean, href: string, target: string, label: strin
             className="n2o-output-list__item n2o-output-list__item--link"
             target={target}
         >
-            {label}
+            <Text>{label}</Text>
         </a>
     )
 }
 
 const renderText = (label: string) => (
-    <span className="n2o-output-list__item">{label}</span>
+    <span className="n2o-output-list__item"><Text>{label}</Text></span>
 )
 
 export const OutputListItem = (props: OutputListItemProps) => {

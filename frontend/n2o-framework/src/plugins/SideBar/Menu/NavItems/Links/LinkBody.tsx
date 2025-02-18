@@ -1,10 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import { NavItemImage } from '@i-novus/n2o-components/lib/display/NavItemImage'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import { Badge } from '../../../../../components/snippets/Badge/Badge'
 import { Item } from '../../../../CommonMenuTypes'
-import { Icon, Title, getCurrentTitle, needRender } from '../../../utils'
+import { Icon, getCurrentTitle, needRender } from '../../../utils'
 
 export interface ItemContent extends Item {
     sidebarOpen: boolean
@@ -22,12 +23,13 @@ export function LinkBody({ icon, title, src, sidebarOpen, imageSrc, imageShape, 
             <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
             <Badge {...badge}>
                 {needRender(currentTitle) && (
-                    <Title
-                        title={currentTitle}
+                    <span
                         className={
                             classNames('n2o-sidebar__item-title', { visible: isStaticView ? true : showContent })
                         }
-                    />
+                    >
+                        <Text>{currentTitle}</Text>
+                    </span>
                 )}
             </Badge>
         </>

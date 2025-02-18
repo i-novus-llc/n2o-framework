@@ -37,14 +37,3 @@
         }
     }
 }
-
-.n2o-output-text--expandable > .text {
-    display: block;
-}
-
-.n2o-output-text--ellipsis > .text > span {
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}

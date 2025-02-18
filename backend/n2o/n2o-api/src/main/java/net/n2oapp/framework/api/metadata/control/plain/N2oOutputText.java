@@ -14,6 +14,4 @@ public class N2oOutputText extends N2oPlainField {
     private String icon;
     private Position iconPosition;
     private String format;
-    private Boolean ellipsis;
-    private String expandable;
 }

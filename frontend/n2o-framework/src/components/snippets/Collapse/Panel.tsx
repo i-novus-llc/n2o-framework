@@ -1,9 +1,10 @@
 import React, { useContext, ReactNode } from 'react'
 import { Panel as BasePanel } from '@i-novus/n2o-components/lib/display/Panel/Panel'
+import { HelpPopover } from '@i-novus/n2o-components/lib/display/HelpPopover'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 import classNames from 'classnames'
 
 import Label from '../../widgets/Form/fields/StandardField/Label'
-import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 import { Props as BadgeProps } from '../Badge/Badge'
@@ -42,7 +43,7 @@ function PanelHeader({ header, help, description, badge }: PanelHeaderProps) {
                         title={typeof header === 'string' ? header : ''}
                         className="n2o-panel-header-text"
                     >
-                        {header}
+                        <Text>{header}</Text>
                     </span>
                 </FactoryBadge>
             )}

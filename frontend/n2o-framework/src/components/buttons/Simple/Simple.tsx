@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
 import classNames from 'classnames'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
+import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
-import { Icon } from '../../snippets/Icon/Icon'
 import { dataSourceLoadingSelector } from '../../../ducks/datasource/selectors'
 import { Position } from '../../snippets/Badge/enums'
 import { IconContainer, ICON_POSITIONS } from '../../snippets/IconContainer/IconContainer'
@@ -75,7 +76,7 @@ const SimpleButtonBody = ({
             >
                 <IconContainer icon={icon} iconPosition={iconPosition}>
                     {icon && <Icon name={icon} className="n2o-btn-icon" />}
-                    {children || label}
+                    <Text>{children || label}</Text>
                 </IconContainer>
                 {needBadge && (
                     <FactoryBadge
