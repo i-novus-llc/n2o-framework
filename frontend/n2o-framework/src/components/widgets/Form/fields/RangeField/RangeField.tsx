@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from 'react'
 import classNames from 'classnames'
+import { InlineSpinner } from '@i-novus/n2o-components/lib/layouts/Spinner/InlineSpinner'
 
 import { Control, type ControlCommonProps, type RangeValue } from '../StandardField/Control'
 import { Measure } from '../StandardField/Measure'
 import { Label } from '../StandardField/Label'
 import { FieldActions } from '../StandardField/FieldActions'
-import { InlineSpinner } from '../../../../snippets/Spinner/InlineSpinner'
 import { Description } from '../StandardField/Description'
 import { type Props as StandardFieldProps, getValidationClass } from '../StandardField/StandardField'
 

@@ -2,6 +2,8 @@ import React, { useState, cloneElement, useRef } from 'react'
 import classNames from 'classnames'
 import { Tooltip as Component, TooltipProps } from 'reactstrap'
 
+import { Text } from '../Typography/Text'
+
 export type Props = TooltipProps
 
 export function Tooltip({ hint, className, placement, delay, trigger, children }: Props) {
@@ -39,7 +41,7 @@ export function Tooltip({ hint, className, placement, delay, trigger, children }
                 positionFixed
                 flip
             >
-                {hint}
+                <Text>{hint}</Text>
             </Component>
         </>
     )

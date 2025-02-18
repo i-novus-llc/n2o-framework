@@ -4,6 +4,7 @@ import { useStore } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import classNames from 'classnames'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import { parseExpression } from '../../core/Expression/parse'
 import evalExpression from '../../utils/evalExpression'
@@ -46,8 +47,8 @@ export function ConfirmDialog({
                 'simple-modal-dialog': !title && !text,
             })}
         >
-            {hasHeader && <ModalHeader toggle={closeButton ? onDeny : undefined}>{title}</ModalHeader>}
-            {text && <ModalBody>{text}</ModalBody>}
+            {hasHeader && <ModalHeader toggle={closeButton ? onDeny : undefined}><Text>{title}</Text></ModalHeader>}
+            {text && <ModalBody><Text>{text}</Text></ModalBody>}
             <ModalFooter>
                 <ButtonGroup className={classNames({ 'flex-row-reverse': reverseButtons })}>
                     <Button onClick={onConfirm} color={okColor}>{okLabel || t('confirm')}</Button>

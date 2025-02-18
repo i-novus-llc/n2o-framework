@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import { CommonAlertProps, SegmentProps } from './types'
 
@@ -8,7 +9,7 @@ export const TextSegment = ({ text, className }: SegmentProps) => {
 
     return (
         <section className={classNames('w-100 d-flex align-self-start align-items-center', className)}>
-            {text}
+            <Text>{text}</Text>
         </section>
     )
 }

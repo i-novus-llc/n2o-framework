@@ -38,6 +38,25 @@ async function check(
     return newJson
 }
 
+const symbols = Object.entries({
+    '\\n': '\n',
+    '\\t': '\t',
+    '\\s': ' ',
+})
+const replacer = '&bsol;'
+
+function removeSlash(str: string) {
+    if (!str.includes('\\')) { return str }
+
+    let newStr = str.replaceAll(/\\\\/g, replacer)
+
+    for (const [k, v] of symbols) {
+        newStr = newStr.replaceAll(k, v)
+    }
+
+    return newStr.replaceAll(replacer, '\\')
+}
+
 /**
  * Рекурсивный обход JSON метаданных с проверкой на security
  * @param {object} metadata "сырые" метаданные
@@ -45,17 +64,15 @@ async function check(
  * @param {string[]} ignoreList список ключей, которые можно не обходить
  * @returns {object} Отфильтрованный объект метаданных
  */
-export async function resolveMetadata<
-    T = unknown,
->(
+export async function resolveMetadata<T>(
     metadata: T,
     user: object,
     ignoreList: string[] = [],
     provider: AuthProvider = defaultProvider,
 ): Promise<T | null> {
-    if (!metadata || typeof metadata !== 'object') {
-        return metadata
-    }
+    if (typeof metadata === 'string') { return removeSlash(metadata) as string & T }
+
+    if (!metadata || typeof metadata !== 'object') { return metadata }
 
     if (Array.isArray(metadata)) {
         // В метаданных массив должен быть однородным

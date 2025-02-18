@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import onClickOutsideHOC from 'react-onclickoutside'
 
 import { TBaseProps } from '../types'
+import { Text } from '../Typography/Text'
 
 type Props = TBaseProps & {
     // конфиг кнопки подтверждения
@@ -51,10 +52,10 @@ function EnhancedPopover({
         <Popover {...rest} target={target} isOpen={isOpen}>
             <PopoverHeader>
                 <i className={classNames('fa fa-question-circle-o mr-1')} />
-                {title}
+                <Text>{title}</Text>
             </PopoverHeader>
             <PopoverBody>
-                <div className="mb-1">{text}</div>
+                <div className="mb-1"><Text>{text}</Text></div>
                 <ButtonGroup className={classNames('d-flex justify-content-between', { 'flex-row-reverse': reverseButtons })}>
                     <Button color={okColor} className="btn-sm" onClick={onConfirm}>{okLabel}</Button>
                     <Button color={cancelColor} className="btn-sm" onClick={onDeny}>{cancelLabel}</Button>

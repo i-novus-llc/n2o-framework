@@ -2,10 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import { Progress } from 'reactstrap'
 import isEmpty from 'lodash/isEmpty'
-import { SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
+import { Spinner, SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 
 import { Tooltip } from '../../snippets/Tooltip/TooltipHOC'
-import { Spinner } from '../../snippets/Spinner/Spinner'
 
 import { convertSize } from './utils'
 import { File } from './File'

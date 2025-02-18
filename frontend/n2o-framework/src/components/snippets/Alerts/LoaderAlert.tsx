@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-
-import InlineSpinner from '../Spinner/InlineSpinner'
+import { InlineSpinner } from '@i-novus/n2o-components/lib/layouts/Spinner/InlineSpinner'
 
 import { CommonAlertProps } from './types'
 

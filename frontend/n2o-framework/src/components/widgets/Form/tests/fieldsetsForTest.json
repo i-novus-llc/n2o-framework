@@ -166,9 +166,7 @@
                                         "dependency": [],
                                         "control": {
                                           "src": "OutputText",
-                                          "id": "dduConcessionHelp",
-                                          "ellipsis": false,
-                                          "expandable": false
+                                          "id": "dduConcessionHelp"
                                         }
                                       }
                                     ]

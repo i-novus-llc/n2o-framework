@@ -1,9 +1,8 @@
 import React, { useCallback, VFC } from 'react'
+import { Checkbox } from '@i-novus/n2o-components/lib/inputs/Checkbox/Checkbox'
 
 import { CheckboxHeaderCellProps } from '../../types/props'
 import { excludeItems, getAllValuesByKey } from '../../utils'
-// @ts-ignore - отсутствует типизация
-import Checkbox from '../../../controls/Checkbox/Checkbox'
 import { useTableActions } from '../../provider/TableActions'
 import { useTableRefProps } from '../../provider/TableRefProps'
 

@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState, Context, ReactComponentElement, ReactElement } from 'react'
 import classNames from 'classnames'
+import { ScrollContext, type State as ScrollContextProps } from '@i-novus/n2o-components/lib/layouts/ScrollContainer'
 
 import { DefaultPage } from '../DefaultPage'
-import { ScrollContext, type Props as ScrollContextProps } from '../../snippets/ScrollContainer/ScrollContainer'
 import { TopLeftRightPageProps, FIXED_PLACE, Places } from '../types'
 
 import { Region } from './Region'

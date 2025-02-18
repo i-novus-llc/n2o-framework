@@ -60,7 +60,7 @@ public class TextCellAT extends AutoTestBase {
         cell2.shouldHaveIconPosition(Position.LEFT);
 
         cell1 = rows.row(1).cell(1);
-        cell1.shouldHaveText("test1test2test3");
+        cell1.shouldHaveText("test1,test2,test3");
         cell1.shouldHaveSubText(new String[]{""});
         cell2 = rows.row(1).cell(2);
         cell2.shouldHaveText("2,35");

@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import { useResolved } from '../../../../../core/Expression/useResolver'
 import { FieldsetProps, FieldsetModel } from '../types'
@@ -49,7 +50,7 @@ export function MultiFieldsetItem({
             <div className="n2o-multi-fieldset__item">
                 <section className="n2o-multi-fieldset__item-top-section">
                     <div className={classNames('n2o-multi-fieldset__label', { empty: !label })}>
-                        {label}
+                        <Text>{label}</Text>
                     </div>
                     <MultiFieldsetItemToolbar
                         needCopyButton={isNeedToCopyButton}

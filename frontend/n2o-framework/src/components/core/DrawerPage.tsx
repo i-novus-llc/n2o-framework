@@ -1,8 +1,8 @@
 import React, { useCallback, ReactNode } from 'react'
 import classNames from 'classnames'
+import { Drawer, type Props as DrawerProps } from '@i-novus/n2o-components/lib/display/Drawer'
+import { Spinner, SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 
-import { Drawer, Props as DrawerProps } from '../snippets/Drawer/Drawer'
-import { Spinner, SpinnerType } from '../snippets/Spinner/Spinner'
 import Toolbar, { type ToolbarProps } from '../buttons/Toolbar'
 
 import withOverlayMethods from './withOverlayMethods'

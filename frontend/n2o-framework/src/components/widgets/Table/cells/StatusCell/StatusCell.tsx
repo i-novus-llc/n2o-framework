@@ -1,7 +1,7 @@
 import React from 'react'
 import get from 'lodash/get'
+import { StatusText } from '@i-novus/n2o-components/lib/display/StatusText/StatusText'
 
-import { StatusText } from '../../../../snippets/StatusText/StatusText'
 import { withTooltip } from '../../withTooltip'
 
 import { type Props } from './types'

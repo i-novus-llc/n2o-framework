@@ -1,9 +1,9 @@
 import React, { useState, CSSProperties } from 'react'
 import classNames from 'classnames'
 import { Modal, Tooltip } from 'reactstrap'
+import { Spinner, SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 
 import { convertSize } from '../FileUploader/utils'
-import { Spinner, SpinnerType } from '../../snippets/Spinner/Spinner'
 
 export interface File extends Blob {
     id: string

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
+import { FormattedText } from '@i-novus/n2o-components/lib/Typography/FormattedText'
 
-import { Text } from '../../../../snippets/Text/Text'
 import { resolveBadgeProps } from '../../../../snippets/Badge/utils'
 import { withTooltip } from '../../withTooltip'
 import { Position, Shape } from '../../../../snippets/Badge/enums'
@@ -53,7 +53,7 @@ function BadgeCellBody({
 
     return (
         <span className="badge-cell" ref={forwardedRef}>
-            {text && <Text text={text} format={format} />}
+            <FormattedText format={format}>{text}</FormattedText>
             {FactoryBadge && !isNil(badgeText) && (
                 <FactoryBadge
                     {...resolveBadgeProps(
@@ -70,7 +70,11 @@ function BadgeCellBody({
                         },
                         model,
                     )}
-                    text={<Text text={badgeText} className={className} format={badgeFormat} />}
+                    text={(
+                        <span className={className}>
+                            <FormattedText format={badgeFormat}>{badgeText}</FormattedText>
+                        </span>
+                    )}
                     style={{ order: placement === 'right' ? 1 : -1 }}
                     shape={shape || Shape.Square}
                 />

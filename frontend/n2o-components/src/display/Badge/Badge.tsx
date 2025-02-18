@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { Badge as ReactstrapBadge } from 'reactstrap'
 
 import { TBaseProps } from '../../types'
+import { Text } from '../../Typography/Text'
 
 import { Position, Shape } from './enums'
 import { isBadgeLeftPosition, isBadgeRightPosition } from './utils'
@@ -69,7 +70,7 @@ export const Badge = React.memo((props: Props) => {
                     className={badgeImageClassNames}
                 />
             )}
-            {text}
+            <Text>{text}</Text>
         </ReactstrapBadge>
     )
 

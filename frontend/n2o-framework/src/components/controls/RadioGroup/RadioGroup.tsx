@@ -4,9 +4,9 @@ import toString from 'lodash/toString'
 import { isEqual } from 'lodash'
 import classNames from 'classnames'
 import { RadioGroup as Group } from '@i-novus/n2o-components/lib/inputs/RadioGroup'
+import { Spinner } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 import { TOption } from '@i-novus/n2o-components/lib/types'
 
-import Spinner from '../../snippets/Spinner/InlineSpinner'
 import withFetchData from '../withFetchData'
 
 enum RadioGroupType {

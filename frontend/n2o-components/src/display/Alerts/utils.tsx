@@ -1,6 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
+import { Text } from '../../Typography/Text'
+
 import { AlertSectionProps } from './types'
 
 type TextSegmentPropsType = { className: AlertSectionProps['textClassName'] } & Pick<AlertSectionProps, 'text'>
@@ -16,7 +18,7 @@ export const TextSegment = ({ text, className }: TextSegmentPropsType) => {
             className,
         )}
         >
-            {text}
+            <Text>{text}</Text>
         </section>
     )
 }

@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import classNames from 'classnames'
+import { HelpPopover } from '@i-novus/n2o-components/lib/display/HelpPopover'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
-import { HelpPopover } from '../../fields/StandardField/HelpPopover'
 import { withFieldsetHeader } from '../withFieldsetHeader'
 import { DefaultFieldset } from '../DefaultFieldset'
 import { FactoryContext } from '../../../../../core/factory/context'
@@ -36,7 +37,7 @@ function TitleFieldsetBody({
             <div className={classNames('title-fieldset-header', { className })}>
                 {FactoryBadge && (
                     <FactoryBadge {...badge} visible={!!badge}>
-                        {label && <span className="title-fieldset-text">{label}</span>}
+                        {label && <span className="title-fieldset-text"><Text>{label}</Text></span>}
                     </FactoryBadge>
                 )}
                 <HelpPopover help={help} />
@@ -45,7 +46,7 @@ function TitleFieldsetBody({
                     value={description}
                     visible={type === 'line' && Boolean(description)}
                 />
-                {subTitle && <small className="text-muted title-fieldset-subtitle">{subTitle}</small>}
+                {subTitle && <small className="text-muted title-fieldset-subtitle"><Text>{subTitle}</Text></small>}
                 {showLine && <div className="title-fieldset-line" />}
             </div>
             {render(rows)}

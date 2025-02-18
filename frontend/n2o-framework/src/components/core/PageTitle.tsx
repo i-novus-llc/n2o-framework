@@ -1,5 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import { ModelPrefix } from '../../core/datasource/const'
 import propsResolver from '../../utils/propsResolver'
@@ -31,12 +32,11 @@ export function PageTitle({
 
         if (titleLayout) {
             return (
-                <h1 className={className}>{resolvedTitle}</h1>
+                <h1 className={className}><Text>{resolvedTitle}</Text></h1>
             )
         }
 
-        // eslint-disable-next-line react/jsx-no-useless-fragment
-        return <>{resolvedTitle}</>
+        return <Text>{resolvedTitle}</Text>
     }
 
     if (htmlTitle) {

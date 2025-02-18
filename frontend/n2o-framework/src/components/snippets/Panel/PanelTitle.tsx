@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
-
-import { Icon } from '../Icon/Icon'
+import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
 export interface Props {
     icon: string

@@ -2,27 +2,22 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { TBaseProps } from '../types'
-import { parseFormatter } from '../utils/parseFormatter'
+import { FormattedText } from '../Typography/FormattedText'
 
 type Props = TBaseProps & {
     format: string,
-    // формат времени
-    preLine?: boolean,
     text: string // флаг переноса текста
 }
 
-export function Text({ text, format, className, preLine = false, ...rest }: Props) {
-    // @ts-ignore import from js file
-    const parsedText = parseFormatter(text, format)
-
+export function Text({ text, format, className, ...rest }: Props) {
     return (
-        <span
-            className={classNames('n2o-snippet', className, {
-                'white-space-pre-line': preLine,
-            })}
-            {...rest}
-        >
-            {parsedText}
+        <span className={classNames('n2o-snippet', className)}>
+            <FormattedText
+                format={format}
+                {...rest}
+            >
+                {text}
+            </FormattedText>
         </span>
     )
 }

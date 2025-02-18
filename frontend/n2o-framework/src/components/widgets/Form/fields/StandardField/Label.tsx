@@ -1,8 +1,9 @@
 import React, { CSSProperties } from 'react'
 import { Label as BootstrapLabel } from 'reactstrap'
 import classNames from 'classnames'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
+import { HelpPopover } from '@i-novus/n2o-components/lib/display/HelpPopover'
 
-import { HelpPopover } from './HelpPopover'
 import { Required } from './Required'
 
 export interface Props {
@@ -50,7 +51,7 @@ export const Label = ({
     return (
         <BootstrapLabel id={id} className={classNames('n2o-field-label', className)}>
             <section style={style}>
-                <span>{value}</span>
+                <span><Text>{value}</Text></span>
                 <Required required={required} />
             </section>
             <HelpPopover help={help} />

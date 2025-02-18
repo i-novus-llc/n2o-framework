@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
-
-import { withNewlines } from './helpers'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 interface PositionedTextProps {
     text?: string | null
@@ -15,7 +14,7 @@ export function PositionedText({ text, position }: PositionedTextProps) {
 
     return (
         <div className={classNames('w-100 ml-1 n2o-footer__text', `text-${position}`)}>
-            {withNewlines(text)}
+            <Text>{text}</Text>
         </div>
     )
 }

@@ -5,6 +5,7 @@ import type { SwitchChangeEventHandler } from 'rc-switch'
 
 import { TBaseInputProps, TBaseProps } from '../types'
 import '../styles/controls/Switch.scss'
+import { Text } from '../Typography/Text'
 
 export type Props = TBaseProps & TBaseInputProps<string | number | boolean> & {
     checked?: boolean
@@ -24,7 +25,7 @@ export const Switch = ({ disabled, value, checked, onChange, label, id }: Props)
                 disabled={disabled}
                 onChange={onChange}
             />
-            {label && <label htmlFor={id} className="n2o-switch-label">{label}</label>}
+            {label && <label htmlFor={id} className="n2o-switch-label"><Text>{label}</Text></label>}
         </div>
     )
 }
