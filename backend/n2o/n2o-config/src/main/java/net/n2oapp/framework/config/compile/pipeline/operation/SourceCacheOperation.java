@@ -24,18 +24,17 @@ import java.util.function.Supplier;
  * Операция кэширования исходных метаданных в конвейере
  */
 public class SourceCacheOperation<S extends SourceMetadata> extends MetadataChangeListener implements PipelineOperation<S, S>,
-        PipelineOperationTypeAware,
-        MetadataEnvironmentAware {
+        PipelineOperationTypeAware, MetadataEnvironmentAware {
 
-    private String cacheRegion = "n2o.source";
-    private CacheTemplate cacheTemplate;
+    private static final String CACHE_REGION = "n2o.source";
+    private final CacheTemplate<String, S> cacheTemplate;
     private MetadataRegister metadataRegister;
 
     public SourceCacheOperation() {
-        this.cacheTemplate = new CacheTemplate(new NoOpCacheManager());
+        this.cacheTemplate = new CacheTemplate<>(new NoOpCacheManager());
     }
 
-    public SourceCacheOperation(CacheTemplate cacheTemplate, MetadataRegister metadataRegister) {
+    public SourceCacheOperation(CacheTemplate<String, S> cacheTemplate, MetadataRegister metadataRegister) {
         this.cacheTemplate = cacheTemplate;
         this.metadataRegister = metadataRegister;
     }
@@ -52,15 +51,14 @@ public class SourceCacheOperation<S extends SourceMetadata> extends MetadataChan
         String sourceId = context.getSourceId(bindProcessor);
         SourceInfo info = metadataRegister.get(sourceId, (Class<? extends SourceMetadata>) context.getSourceClass());
         String key = getKey(sourceId, info.getBaseSourceClass());
-        S source = (S) cacheTemplate.execute(cacheRegion, key, () -> supplier.get());
-        return source;
+        return cacheTemplate.execute(CACHE_REGION, key, supplier::get);
     }
 
     @Override
     public void handleAllMetadataChange() {
-        Cache cache = cacheTemplate.getCacheManager().getCache(cacheRegion);
+        Cache cache = cacheTemplate.getCacheManager().getCache(CACHE_REGION);
         if (cache != null)
-            cacheTemplate.getCacheManager().getCache(cacheRegion).clear();
+            cacheTemplate.getCacheManager().getCache(CACHE_REGION).clear();
     }
 
     @Override
@@ -73,16 +71,8 @@ public class SourceCacheOperation<S extends SourceMetadata> extends MetadataChan
         this.metadataRegister = environment.getMetadataRegister();
     }
 
-    public void setCacheTemplate(CacheTemplate cacheTemplate) {
-        this.cacheTemplate = cacheTemplate;
-    }
-
     protected String getKey(String id, Class<? extends SourceMetadata> sourceClass) {
         return id + "." + sourceClass.getSimpleName();
-    }
-
-    protected CacheTemplate getCacheTemplate() {
-        return cacheTemplate;
     }
 
     protected MetadataRegister getMetadataRegister() {

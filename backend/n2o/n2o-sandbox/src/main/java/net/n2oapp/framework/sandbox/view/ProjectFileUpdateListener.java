@@ -19,11 +19,11 @@ public class ProjectFileUpdateListener implements N2oEventListener<ProjectFileUp
     private String basePath;
 
     private final SourceTypeRegister sourceTypeRegister;
-    private CacheTemplate cacheTemplate;
+    private final CacheTemplate<String, SourceMetadata> cacheTemplate;
 
     public ProjectFileUpdateListener(SourceTypeRegister sourceTypeRegister, CacheManager cacheManager) {
         this.sourceTypeRegister = sourceTypeRegister;
-        this.cacheTemplate = new CacheTemplate(cacheManager);
+        this.cacheTemplate = new CacheTemplate<>(cacheManager);
     }
 
     @Override

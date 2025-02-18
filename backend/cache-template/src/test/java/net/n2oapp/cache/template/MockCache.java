@@ -2,17 +2,22 @@ package net.n2oapp.cache.template;
 
 import org.springframework.cache.Cache;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Кэш-заглушка для тестирования
+ */
+@SuppressWarnings("NullableProblems")
 public class MockCache implements Cache {
 
-    private AtomicInteger put = new AtomicInteger(0);
-    private AtomicInteger hit = new AtomicInteger(0);
-    private AtomicInteger miss = new AtomicInteger(0);
+    private final AtomicInteger put = new AtomicInteger(0);
+    private final AtomicInteger hit = new AtomicInteger(0);
+    private final AtomicInteger miss = new AtomicInteger(0);
+
+    private final Map<Object, Object> cacheMap = new ConcurrentHashMap<>();
 
     public void clearStatistics() {
         put.set(0);
@@ -20,12 +25,9 @@ public class MockCache implements Cache {
         miss.set(0);
     }
 
-
-    private Map<Object, Object> cacheMap = new ConcurrentHashMap<>();
-
     @Override
     public String getName() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -44,11 +46,11 @@ public class MockCache implements Cache {
     }
 
 
-
     @Override
     public <T> T get(Object key, Class<T> type) {
         if (cacheMap.containsKey(key)) {
             hit.incrementAndGet();
+            //noinspection unchecked
             return (T) cacheMap.get(key);
         }
         miss.incrementAndGet();
@@ -64,6 +66,7 @@ public class MockCache implements Cache {
             } catch (Exception e) {
                 throw new IllegalStateException(e);
             }
+        //noinspection unchecked
         return (T) valueWrapper.get();
     }
 

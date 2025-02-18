@@ -103,13 +103,13 @@ public class N2oMessagesConfiguration {
     @Bean
     @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "true")
     SourceCacheOperation sourceCacheOperation(CacheManager cacheManager, MetadataRegister metadataRegister) {
-        return new LocalizedSourceCacheOperation(new SyncCacheTemplate(cacheManager), metadataRegister);
+        return new LocalizedSourceCacheOperation(new SyncCacheTemplate<>(cacheManager), metadataRegister);
     }
 
     @Bean
     @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "true")
     CompileCacheOperation compileCacheOperation(CacheManager cacheManager) {
-        return new LocalizedCompileCacheOperation(new SyncCacheTemplate(cacheManager));
+        return new LocalizedCompileCacheOperation(new SyncCacheTemplate<>(cacheManager));
     }
 
 }

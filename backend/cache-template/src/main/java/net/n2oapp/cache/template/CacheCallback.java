@@ -1,19 +1,14 @@
 package net.n2oapp.cache.template;
 
 /**
- * Обработка событий при работе с кешем
+ * Обработчик событий при работе с кэшем
  */
 @FunctionalInterface
 public interface CacheCallback<T> {
     /**
-     * Получить объект из источника, при отсутствии его в кеше
-     * @return объект для кеша
+     * Получить объект из источника при отсутствии его в кэше
+     *
+     * @return Объект для кэша
      */
     T doInCacheMiss();
-
-    /**
-     * Сделать что-то после получения объекта из кеша
-     * @param t объект из кеша
-     */
-    default void doInCacheHit(T t) {};
 }

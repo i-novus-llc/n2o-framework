@@ -21,16 +21,17 @@ import java.util.function.Supplier;
 /**
  * Операция кэширования собранных метаданных в конвейере
  */
-public class CompileCacheOperation<S> extends MetadataChangeListener implements PipelineOperation<S, S>, PipelineOperationTypeAware, MetadataEnvironmentAware {
+public class CompileCacheOperation<S> extends MetadataChangeListener implements PipelineOperation<S, S>,
+        PipelineOperationTypeAware, MetadataEnvironmentAware {
 
-    private CacheTemplate cacheTemplate;
-    private String cacheRegion = "n2o.compiled";
+    private static final String CACHE_REGION = "n2o.compiled";
+    private final CacheTemplate<String, S> cacheTemplate;
 
     public CompileCacheOperation() {
-        this.cacheTemplate = new CacheTemplate(new NoOpCacheManager());
+        this.cacheTemplate = new CacheTemplate<>(new NoOpCacheManager());
     }
 
-    public CompileCacheOperation(CacheTemplate cacheTemplate) {
+    public CompileCacheOperation(CacheTemplate<String, S> cacheTemplate) {
         this.cacheTemplate = cacheTemplate;
     }
 
@@ -40,13 +41,12 @@ public class CompileCacheOperation<S> extends MetadataChangeListener implements 
                      BindProcessor bindProcessor,
                      SourceProcessor sourceProcessor) {
         String key = getKey(context, bindProcessor);
-        S compiled = (S) cacheTemplate.execute(cacheRegion, key, () -> supplier.get());
-        return compiled;
+        return cacheTemplate.execute(CACHE_REGION, key, supplier::get);
     }
 
     @Override
     public void handleAllMetadataChange() {
-        Cache cache = cacheTemplate.getCacheManager().getCache(cacheRegion);
+        Cache cache = cacheTemplate.getCacheManager().getCache(CACHE_REGION);
         if (cache != null)
             cache.clear();
     }
@@ -60,10 +60,6 @@ public class CompileCacheOperation<S> extends MetadataChangeListener implements 
     public void setEnvironment(MetadataEnvironment environment) {
     }
 
-    public void setCacheTemplate(CacheTemplate cacheTemplate) {
-        this.cacheTemplate = cacheTemplate;
-    }
-
     @Override
     public PipelineOperationType getPipelineOperationType() {
         return PipelineOperationType.COMPILE_CACHE;
@@ -72,9 +68,5 @@ public class CompileCacheOperation<S> extends MetadataChangeListener implements 
 
     protected String getKey(CompileContext<?, ?> context, BindProcessor p) {
         return context.getCompiledId(p) + "." + context.getCompiledClass().getSimpleName();
-    }
-
-    protected CacheTemplate getCacheTemplate() {
-        return cacheTemplate;
     }
 }
