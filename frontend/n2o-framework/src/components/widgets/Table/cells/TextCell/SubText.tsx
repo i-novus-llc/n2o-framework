@@ -1,6 +1,5 @@
 import React from 'react'
-
-import { Text } from '../../../../snippets/Typography/Text/Text'
+import { FormattedText } from '@i-novus/n2o-components/lib/Typography/FormattedText'
 
 import { type SubTextType } from './types'
 
@@ -9,15 +8,12 @@ export function SubText({ subText, format }: SubTextType) {
         return (
             // eslint-disable-next-line react/jsx-no-useless-fragment
             <>
-                {subText?.map((text, index) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <Text key={index} className="text-muted" text={text} format={format} />
+                {subText?.map(text => (
+                    <span key={text} className="text-muted"><FormattedText format={format}>{text}</FormattedText></span>
                 ))}
             </>
         )
     }
 
-    return <Text className="text-muted" text={subText} format={format} />
+    return <span className="text-muted"><FormattedText format={format}>{subText}</FormattedText></span>
 }
-
-export default SubText

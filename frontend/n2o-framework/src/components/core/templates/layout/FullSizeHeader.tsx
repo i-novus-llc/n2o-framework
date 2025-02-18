@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-
-import { ScrollContainer } from '../../../snippets/ScrollContainer/ScrollContainer'
+import { ScrollContainer } from '@i-novus/n2o-components/lib/layouts/ScrollContainer'
 
 import { LayoutProps } from './types'
 

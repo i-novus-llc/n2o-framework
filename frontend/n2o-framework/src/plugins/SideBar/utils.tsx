@@ -60,19 +60,6 @@ export const Icon = ({ icon, title, src, sidebarOpen, hasSubItems }: IconProps):
     )
 }
 
-interface TitleProps {
-    title: string | null
-    className: string
-}
-
-export const Title = ({ title, className }: TitleProps) => {
-    if (!title) {
-        return null
-    }
-
-    return <span className={className}>{title}</span>
-}
-
 export const needRender = (text?: string | null) => text && !parseExpression(text)
 
 export const toggleIconClassNames = (visible: SidebarProps['visible'], side: SidebarProps['side']) => {

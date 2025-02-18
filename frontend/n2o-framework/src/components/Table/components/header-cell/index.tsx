@@ -1,9 +1,9 @@
 import React, { useRef, VFC } from 'react'
 import classNames from 'classnames'
+import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
 import Table from '../basic'
 import { TableHeaderCellProps } from '../../types/props'
-import { Icon } from '../../../snippets/Icon/Icon'
 import { useMouseDownResize } from '../../hooks/useMouseDownResize'
 
 import { HeaderFilter } from './header-filter'

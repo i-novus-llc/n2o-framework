@@ -3,10 +3,10 @@ import get from 'lodash/get'
 import set from 'lodash/set'
 import flowRight from 'lodash/flowRight'
 import { push } from 'connected-react-router'
+import { Checkbox } from '@i-novus/n2o-components/lib/inputs/Checkbox/Checkbox'
 
 import { WithCell } from '../../withCell'
 import withTooltip from '../../withTooltip'
-import { Checkbox } from '../../../../controls/Checkbox/Checkbox'
 
 import { type Props } from './types'
 

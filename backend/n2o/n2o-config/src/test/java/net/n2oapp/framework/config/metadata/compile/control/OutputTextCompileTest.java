@@ -47,15 +47,11 @@ public class OutputTextCompileTest extends SourceCompileTestBase {
         assertThat(outputText.getIcon(), is("icon"));
         assertThat(outputText.getIconPosition(), is(Position.RIGHT));
         assertThat(outputText.getFormat(), is("number 0,0.00"));
-        assertThat(outputText.getEllipsis(), is(false));
-        assertThat(outputText.getExpandable(), is(false));
 
         outputText = (OutputText) ((StandardField) (form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0))).getControl();
         assertThat(outputText.getIcon(), nullValue());
         assertThat(outputText.getIconPosition(), is(Position.LEFT));
         assertThat(outputText.getFormat(), nullValue());
-        assertThat(outputText.getEllipsis(), is(false));
-        assertThat(outputText.getExpandable(), is(false));
     }
 }

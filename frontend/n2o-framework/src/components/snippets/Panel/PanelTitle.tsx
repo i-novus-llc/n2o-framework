@@ -1,6 +1,5 @@
 import React from 'react'
-
-import { Icon } from '../Icon/Icon'
+import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
 import { type PanelTitleProps } from './types'
 

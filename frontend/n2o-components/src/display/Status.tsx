@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { TBaseProps } from '../types'
+import { Text } from '../Typography/Text'
 
 type Props = TBaseProps & {
     icon: string,
@@ -35,7 +36,7 @@ export function Status({
             )}
             {text && (
                 <div className={classNames('n2o-status__text', { 'with-icon': icon })}>
-                    {text}
+                    <Text>{text}</Text>
                 </div>
             )}
         </div>

@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 import flowRight from 'lodash/flowRight'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import { Panel, Collapse } from '../../snippets/Collapse/Collapse'
 import { RegionContent } from '../RegionContent'
@@ -81,7 +82,7 @@ const ListRegion = (props: ListRegionProps) => {
                 <Panel
                     {...panelProps}
                     key={expand ? 'open' : 'close'}
-                    header={<span className="n2o-list-region__collapse-name">{label}</span>}
+                    header={<span className="n2o-list-region__collapse-name"><Text>{label}</Text></span>}
                     className={classNames({ line: hasSeparator, 'd-none': isVisible === false })}
                 >
                     <RegionContent content={content} pageId={pageId} />

@@ -2,6 +2,7 @@ import React, { RefObject, createRef, MouseEvent } from 'react'
 import { UncontrolledPopover, PopoverBody, PopoverProps } from 'reactstrap'
 
 import { id } from '../utils/id'
+import { Text } from '../Typography/Text'
 
 type Props = {
     help: string | null,
@@ -51,8 +52,12 @@ export class HelpPopover extends React.Component<Props> {
                     trigger="focus"
                 >
                     <PopoverBody>
-                        {/* eslint-disable-next-line react/no-danger */}
-                        <div dangerouslySetInnerHTML={{ __html: help }} />
+                        {
+                            typeof help === 'string'
+                                ? <Text>{help}</Text>
+                                /* eslint-disable-next-line react/no-danger */
+                                : <div dangerouslySetInnerHTML={{ __html: help }} />
+                        }
                     </PopoverBody>
                 </UncontrolledPopover>
             </div>
@@ -63,4 +68,6 @@ export class HelpPopover extends React.Component<Props> {
         placement: 'right',
         icon: 'fa fa-question-circle',
     } as Props
+
+    static displayName = '@n2o-components/display/HelpPopover'
 }

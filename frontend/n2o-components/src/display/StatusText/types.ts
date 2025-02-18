@@ -14,6 +14,6 @@ enum Color {
 
 export type StatusTextProps = TBaseProps & {
     color: Color,
-    text: string,
+    text?: string,
     textPosition: string
 }

@@ -4,8 +4,9 @@ import uniqueId from 'lodash/uniqueId'
 import classNames from 'classnames'
 
 import { TBaseInputProps, TBaseProps } from '../../types'
-import { HelpPopover } from '../../helpers/HelpPopover'
+import { HelpPopover } from '../../display/HelpPopover'
 import { Input } from '../Input'
+import { Text } from '../../Typography/Text'
 
 /**
  * Альтернативный чекбокс
@@ -82,7 +83,7 @@ export class Checkbox extends React.Component<Props> {
                     tabIndex={tabIndex}
                     label={label}
                 />
-                <label className={classNames('custom-control-label', { disabled })} htmlFor={id}>{label}</label>
+                <label className={classNames('custom-control-label', { disabled })} htmlFor={id}><Text>{label}</Text></label>
                 {help && <HelpPopover help={help} />}
             </div>
         )

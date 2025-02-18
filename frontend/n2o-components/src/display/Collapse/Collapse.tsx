@@ -54,4 +54,6 @@ Collapse.defaultProps = {
     onChange: () => {},
 }
 
+Collapse.displayName = '@n2o-components/display/Collapse'
+
 export default Collapse

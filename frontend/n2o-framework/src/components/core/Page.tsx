@@ -2,12 +2,11 @@ import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
 import flowRight from 'lodash/flowRight'
-import { SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
+import { Spinner, SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 
 import { Factory } from '../../core/factory/Factory'
 import { PAGES } from '../../core/factory/factoryLevels'
 import { makePageDisabledByIdSelector } from '../../ducks/pages/selectors'
-import { Spinner } from '../snippets/Spinner/Spinner'
 import { ErrorContainer } from '../../core/error/Container'
 import { State } from '../../ducks/State'
 

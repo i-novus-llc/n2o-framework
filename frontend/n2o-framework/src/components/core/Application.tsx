@@ -12,9 +12,9 @@ import {
     withHandlers,
 } from 'recompose'
 import numeral from 'numeral'
+import { Block } from '@i-novus/n2o-components/lib/display/Block'
 
 import { ErrorContainer } from '../../core/error/Container'
-import { Block } from '../snippets/Block/Block'
 import { State } from '../../ducks/State'
 import {
     requestConfig as requestConfigAction,

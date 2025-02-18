@@ -1,6 +1,6 @@
 import React from 'react'
+import { Html as HtmlSnippet } from '@i-novus/n2o-components/lib/display/Html'
 
-import { Html as HtmlSnippet } from '../../snippets/Html/Html'
 import { parseExpression } from '../../../utils/evalExpression'
 import { useHtmlResolver } from '../../../utils/useHtmlResolver'
 

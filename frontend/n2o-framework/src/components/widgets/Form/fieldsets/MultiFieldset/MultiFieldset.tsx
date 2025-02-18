@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react'
 import { Button } from 'reactstrap'
 import { isEmpty, isNil } from 'lodash'
+import { HelpPopover } from '@i-novus/n2o-components/lib/display/HelpPopover'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
-import HelpPopover from '../../fields/StandardField/HelpPopover'
 import { withFieldsetHeader } from '../withFieldsetHeader'
 import { useFieldArray } from '../../../../core/FormProvider'
 import { useResolved } from '../../../../../core/Expression/useResolver'
@@ -76,7 +77,7 @@ function MultiFieldset({
                             disabled={!isEnabled}
                         >
                             <i className="fa fa-plus mr-1" />
-                            {labelAddButton}
+                            <Text>{labelAddButton}</Text>
                         </Button>
                     )}
                     {!isEmpty(fields) && isNeedToRemoveAllButtons && (
@@ -86,7 +87,7 @@ function MultiFieldset({
                             disabled={!isEnabled}
                         >
                             <i className="fa fa-trash mr-1" />
-                            {labelRemoveAllButtons}
+                            <Text>{labelRemoveAllButtons}</Text>
                         </Button>
                     )}
                 </div>

@@ -2,7 +2,7 @@ import { CSSProperties } from 'react'
 
 export interface Props {
     text: string
-    format: boolean
+    format?: string
     className?: string
     visible?: boolean
     style?: CSSProperties
