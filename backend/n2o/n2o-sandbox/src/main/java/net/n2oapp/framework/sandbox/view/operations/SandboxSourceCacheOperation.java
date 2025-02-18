@@ -25,17 +25,18 @@ public class SandboxSourceCacheOperation<S extends SourceMetadata> extends Metad
         PipelineOperationTypeAware,
         MetadataEnvironmentAware {
 
-    public static String CACHE_REGION = "n2o.source";
-    private CacheTemplate cacheTemplate;
+    public static final String CACHE_REGION = "n2o.source";
+    private final CacheTemplate<String, S> cacheTemplate;
     private MetadataRegister metadataRegister;
-    private String projectId;
+    private final String projectId;
 
     public SandboxSourceCacheOperation(@NotNull String projectId, CacheManager cacheManager) {
-        this.cacheTemplate = new CacheTemplate(cacheManager);
+        this.cacheTemplate = new CacheTemplate<>(cacheManager);
         this.projectId = projectId;
     }
 
-    public SandboxSourceCacheOperation(@NotNull String projectId, CacheTemplate cacheTemplate, MetadataRegister metadataRegister) {
+    public SandboxSourceCacheOperation(@NotNull String projectId, CacheTemplate<String, S> cacheTemplate,
+                                       MetadataRegister metadataRegister) {
         this.cacheTemplate = cacheTemplate;
         this.metadataRegister = metadataRegister;
         this.projectId = projectId;
@@ -52,8 +53,7 @@ public class SandboxSourceCacheOperation<S extends SourceMetadata> extends Metad
         String sourceId = context.getSourceId(bindProcessor);
         SourceInfo info = metadataRegister.get(sourceId, (Class<? extends SourceMetadata>) context.getSourceClass());
         String key = getKey(sourceId, info.getBaseSourceClass());
-        S source = (S) cacheTemplate.execute(CACHE_REGION, key, () -> supplier.get());
-        return source;
+        return cacheTemplate.execute(CACHE_REGION, key, supplier::get);
     }
 
     @Override

@@ -4,29 +4,30 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
 /**
- * Шаблон сервиса кэширования с синхронизацией получения данных по ключу в случае промаха
+ * Шаблон сервиса кэширования с синхронизацией получения данных
  */
-public class SyncCacheTemplate<E> extends CacheTemplate<String, E> {
-
-    public SyncCacheTemplate() {
-    }
+public class SyncCacheTemplate<V> extends CacheTemplate<String, V> {
 
     public SyncCacheTemplate(CacheManager cacheManager) {
         super(cacheManager);
     }
 
+    /**
+     * Заполнить кэш отсутствующим значением с синхронизацией по ключу
+     *
+     * @param cache    Кэш
+     * @param key      Ключ
+     * @param callback Обработчик событий при отсутствии значения в кэше
+     * @return Значение из кэша
+     */
     @Override
     @SuppressWarnings("unchecked")
-    protected E handleCache(String key, CacheCallback<E> callback, Cache cache) {
+    protected V handleCache(Cache cache, String key, CacheCallback<V> callback) {
         synchronized (key.intern()) {
-            //еще раз читаем, т.к. в кэш могли положить пока ждали
             Cache.ValueWrapper valueWrapper = cache.get(key);
-            if (valueWrapper != null) {
-                E value = (E)valueWrapper.get();
-                callback.doInCacheHit(value);
-                return value;
-            }
-            return super.handleCache(key, callback, cache);
+            if (valueWrapper != null)
+                return (V) valueWrapper.get();
+            return super.handleCache(cache, key, callback);
         }
     }
 

@@ -1,11 +1,10 @@
 package net.n2oapp.framework.config.metadata.cache;
 
 import net.n2oapp.cache.template.CacheTemplate;
+import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
-import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.register.MetadataRegister;
-import net.n2oapp.framework.config.compile.pipeline.operation.LocalizedCompileCacheOperation;
 import net.n2oapp.framework.config.compile.pipeline.operation.LocalizedSourceCacheOperation;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.XmlInfo;
@@ -24,12 +23,13 @@ import static org.mockito.Mockito.when;
 /**
  * Тестирование кэш операции с локализацией
  */
-public class LocalizedSourceCacheOperationTest {
+class LocalizedSourceCacheOperationTest {
 
     @Test
+    @SuppressWarnings("unchecked")
     void test() {
         LocaleContextHolder.setLocale(new Locale("ru"));
-        CacheTemplate cacheTemplate = mock(CacheTemplate.class);
+        CacheTemplate<String, SourceMetadata> cacheTemplate = mock(CacheTemplate.class);
         MetadataRegister metadataRegister = mock(MetadataRegister.class);
         when(cacheTemplate.execute(eq("n2o.source"), eq("test.N2oPage.ru"), any())).thenReturn(getPage());
         when(metadataRegister.get("test", N2oPage.class)).thenReturn(new XmlInfo("test", N2oPage.class, "", ""));

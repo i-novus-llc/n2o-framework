@@ -8,6 +8,7 @@ import net.n2oapp.cache.template.CacheCallback;
 import net.n2oapp.cache.template.CacheTemplate;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
@@ -52,18 +53,18 @@ import static org.mockito.Mockito.*;
 /**
  * Тест конвейера сборки метаданных ({@link N2oPipelineSupport})
  */
-public class N2oPipelineTest {
+class N2oPipelineTest {
 
     private N2oEnvironment env;
     private MetadataRegister metadataRegister;
     private ComponentTypeRegister componentTypeRegister;
     private N2oSourceLoaderFactory readerFactory;
-    private CacheTemplate sourceCacheTemplate;
-    private CacheTemplate compileCacheTemplate;
+    private CacheTemplate<String, SourceMetadata> sourceCacheTemplate;
+    private CacheTemplate<String, Compiled> compileCacheTemplate;
 
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         sourceCacheTemplate = new MockSourceCacheTemplate();
         compileCacheTemplate = new MockCompiledCacheTemplate();
 
@@ -344,11 +345,11 @@ public class N2oPipelineTest {
     }
 
 
-    static class MockSourceCacheTemplate extends CacheTemplate {
+    static class MockSourceCacheTemplate extends CacheTemplate<String, SourceMetadata> {
         private N2oSimplePage cache;
 
         @Override
-        public Object execute(String cacheRegion, Object key, CacheCallback callback) {
+        public SourceMetadata execute(String cacheRegion, String key, CacheCallback<SourceMetadata> callback) {
             if (cache == null) {
                 N2oSimplePage source = (N2oSimplePage) callback.doInCacheMiss();
                 cache = new N2oSimplePage();
@@ -362,11 +363,11 @@ public class N2oPipelineTest {
         }
     }
 
-    static class MockCompiledCacheTemplate extends CacheTemplate {
+    static class MockCompiledCacheTemplate extends CacheTemplate<String, Compiled> {
         private Page cache;
 
         @Override
-        public Object execute(String cacheRegion, Object key, CacheCallback callback) {
+        public Compiled execute(String cacheRegion, String key, CacheCallback<Compiled> callback) {
             if (cache == null) {
                 Page compiled = (Page) callback.doInCacheMiss();
                 cache = new Page();

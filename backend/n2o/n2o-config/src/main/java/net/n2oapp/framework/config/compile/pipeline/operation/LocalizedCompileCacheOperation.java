@@ -16,7 +16,7 @@ public class LocalizedCompileCacheOperation<S> extends CompileCacheOperation<S> 
         super();
     }
 
-    public LocalizedCompileCacheOperation(CacheTemplate cacheTemplate) {
+    public LocalizedCompileCacheOperation(CacheTemplate<String, S> cacheTemplate) {
         super(cacheTemplate);
     }
 

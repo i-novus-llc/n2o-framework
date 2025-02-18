@@ -16,7 +16,7 @@ public class LocalizedSourceCacheOperation<S extends SourceMetadata> extends Sou
         super();
     }
 
-    public LocalizedSourceCacheOperation(CacheTemplate cacheTemplate, MetadataRegister metadataRegister) {
+    public LocalizedSourceCacheOperation(CacheTemplate<String, S> cacheTemplate, MetadataRegister metadataRegister) {
         super(cacheTemplate, metadataRegister);
     }
 
