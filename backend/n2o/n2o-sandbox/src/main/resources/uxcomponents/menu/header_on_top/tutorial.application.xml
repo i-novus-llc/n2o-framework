@@ -28,6 +28,6 @@
                 <a href="http://example.com"/>
             </menu-item>
         </extra-menu>
-        <search query-id="test" filter-field-id="name" label-field-id="name"/>
+        <search query-id="test" filter-field-id="id" label-field-id="name"/>
     </header>
 </application>

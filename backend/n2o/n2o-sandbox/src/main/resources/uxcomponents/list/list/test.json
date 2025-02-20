@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Алексей Иванов",
+    "image": "static/men.jfif"
+  },
+  {
+    "id": 2,
+    "name": "Иван Алексеев",
+    "image": "static/men2.jfif"
+  },
+  {
+    "id": 3,
+    "name": "Павел Афанасьев",
+    "image": "static/men3.jfif"
+  }
+]

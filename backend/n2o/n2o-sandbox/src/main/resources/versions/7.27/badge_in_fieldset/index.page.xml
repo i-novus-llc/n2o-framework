@@ -29,7 +29,6 @@
                  badge-color="{color.name}"
                  badge-shape="rounded"
                  badge-position="left"/>
-
             <multi-set id="multi"
                        label="multi"
                        badge="{name}"
@@ -38,6 +37,7 @@
                        badge-position="left">
                 <set/>
             </multi-set>
+            
         </fields>
     </form>
 </simple-page>

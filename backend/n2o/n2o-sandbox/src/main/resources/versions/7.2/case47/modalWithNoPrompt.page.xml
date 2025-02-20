@@ -6,6 +6,7 @@
         <form id="form" query-id="test">
             <fields>
                 <input-text id="name"/>
+                <checkbox id="type"/>
             </fields>
             <pre-filters>
                 <eq field-id="id" param="id"/>
