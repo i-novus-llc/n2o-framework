@@ -41,7 +41,9 @@ public class N2oRouteRegister implements RouteRegister, N2oEventListener<Metadat
             throw new IncorrectRouteException(key.getUrlMatching());
 
         CompileContext registeredContext = register.get(key);
-        if (registeredContext != null && !context.equals(registeredContext)) {
+        if (registeredContext != null &&
+                repository instanceof StubRouteRepository &&
+                !context.equals(registeredContext)) {
             throw new RouteAlreadyExistsException(urlPattern, context.getCompiledClass());
         } else if (registeredContext == null || !context.isIdentical(registeredContext)) {
             register.put(key, context);
@@ -74,7 +76,7 @@ public class N2oRouteRegister implements RouteRegister, N2oEventListener<Metadat
             register.put(entry.getKey(), entry.getValue());
             if (!register.containsKey(entry.getKey())) {
                 result = true;
-                logger.info(String.format("Register route from repository: '%s' to [%s]", entry.getValue(), entry.getKey().getUrlMatching()));
+                logger.info("Register route from repository: '{}' to [{}]", entry.getValue(), entry.getKey().getUrlMatching());
             }
         }
         return result;
