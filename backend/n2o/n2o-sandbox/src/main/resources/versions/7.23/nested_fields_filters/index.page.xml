@@ -8,7 +8,7 @@
             <column text-field-id="name" label="Простое"/>
             <column text-field-id="organization.name" label="Ссылка"/>
             <column text-field-id="resources" label="Список">
-                <list label-field-id="name" inline="true"/>
+                <list label-field-id="name"/>
             </column>
         </columns>
         <filters>

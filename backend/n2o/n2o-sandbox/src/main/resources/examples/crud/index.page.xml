@@ -4,8 +4,8 @@
     <table auto-focus="true">
         <datasource query-id="test"/>
         <columns>
-            <column text-field-id="id"/>
-            <column text-field-id="name"/>
+            <column text-field-id="id" label="№"/>
+            <column text-field-id="name" label="Имя"/>
         </columns>
         <toolbar generate="crud"/>
     </table>

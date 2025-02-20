@@ -3,7 +3,6 @@
     <unique>
         <test file="test.json" operation="findOne"/>
     </unique>
-
     <fields>
         <field id="test" domain="string">
             <select default-value=""/>

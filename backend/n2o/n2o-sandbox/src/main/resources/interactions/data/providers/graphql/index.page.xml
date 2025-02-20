@@ -9,7 +9,7 @@
                 <text format="number 0,0"/>
             </column>
             <column text-field-id="showrooms" label="Автосалоны">
-                <list label-field-id="name" inline="true"/>
+                <list label-field-id="name"/>
             </column>
         </columns>
         <filters>

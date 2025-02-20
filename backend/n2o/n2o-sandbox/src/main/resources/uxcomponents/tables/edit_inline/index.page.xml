@@ -12,12 +12,12 @@
             <column text-field-id="id" label="№"/>
             <column text-field-id="name" label="Фамилия И.О">
                 <edit action-id="update">
-                    <input-text/>
+                    <input-text id="name"/>
                 </edit>
             </column>
             <column text-field-id="date">
                 <edit action-id="update" format="date DD.MM.YYYY">
-                    <date-time date-format="DD.MM.YYYY"/>
+                    <date-time id="date" date-format="DD.MM.YYYY"/>
                 </edit>
             </column>
         </columns>

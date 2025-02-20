@@ -3,7 +3,6 @@
     <list>
         <test operation="findAll" file="test.json"/>
     </list>
-
     <fields>
         <field id="id"/>
         <field id="withoutDefault"/>

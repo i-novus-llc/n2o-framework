@@ -3,7 +3,7 @@
     <form>
         <datasource query-id="test"/>
         <fields>
-            <input-text id="name"/>
+            <input-text id="name" label="Имя"/>
         </fields>
     </form>
 </simple-page>
