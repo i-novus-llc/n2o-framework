@@ -50,7 +50,7 @@ public class RouteRegisterTest {
 
     @Test
     void testAddRouteConflict() {
-        RouteRegister register = getRegister();
+        RouteRegister register = new N2oRouteRegister();
         register.addRoute("/a/:1", new MockCompileContext<>("/a/:1", "1", null, Page.class));
         try {
             register.addRoute("/a/:1", new MockCompileContext<>("/a/:1", "2", null, Page.class));
