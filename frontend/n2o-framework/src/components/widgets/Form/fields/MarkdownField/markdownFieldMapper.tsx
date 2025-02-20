@@ -25,9 +25,7 @@ export function markdownFieldMapper(
     tagNames.forEach((tagName: string): void => {
         const Component = mappers[tagName]
 
-        if (!Component) {
-            return
-        }
+        if (!Component) { return }
 
         function extendedMapper(reactMarkdownProps: ReactMarkdownProps): JSX.Element {
             const { id } = reactMarkdownProps
@@ -35,9 +33,7 @@ export function markdownFieldMapper(
             const action = actions[id]
 
             const onClick = () => {
-                if (action) {
-                    dispatch(action)
-                }
+                if (action) { dispatch(action) }
             }
 
             const props = { ...extraMapperProps, ...omit(reactMarkdownProps, 'children') }
@@ -47,9 +43,7 @@ export function markdownFieldMapper(
             const { enable } = resolvedProps
             const disabled = !enable
 
-            return (
-                <Component onClick={onClick} disabled={disabled} action={action} {...resolvedProps} />
-            )
+            return <Component onClick={onClick} disabled={disabled} action={action} {...resolvedProps} />
         }
 
         /* ReactMarkdown ждет components для маппинга */

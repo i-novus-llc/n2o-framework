@@ -35,7 +35,7 @@ interface MenuProps {
     items: MenuItem[]
 }
 
-interface SimpleHeaderBodyProps {
+export interface SimpleHeaderBodyProps {
     location: { pathname: string }
     search?: Record<string, unknown>
     color?: 'inverse' | 'default'

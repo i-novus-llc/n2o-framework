@@ -1,6 +1,6 @@
+import React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { Action, Dispatch } from 'redux'
-import React from 'react'
 
 import evalExpression from '../../../../../utils/evalExpression'
 

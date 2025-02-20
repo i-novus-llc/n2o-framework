@@ -2,9 +2,9 @@ import React from 'react'
 
 import Footer from '../../../plugins/Footer/Footer'
 import SideBar from '../../../plugins/SideBar/SideBar'
-import { ConfigContainer } from '../../../plugins/Menu/MenuContainer'
+import { ConfigContainer, type ConfigContainerProps } from '../../../plugins/Menu/MenuContainer'
 
-import { type TemplateProps, type ConfigContainerProps } from './types'
+import { type TemplateProps } from './types'
 
 /**
  * Class representing an Application container with {@link SideBar}

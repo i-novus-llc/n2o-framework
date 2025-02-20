@@ -2,14 +2,6 @@ import { ReactNode } from 'react'
 
 import { type SidebarProps } from '../../../plugins/SideBar/types'
 
-// TODO temporary ConfigContainer interface
-export interface ConfigContainerProps {
-    layout: never
-    header?: {}
-    sidebar?: {}
-    footer?: {}
-}
-
 export interface TemplateProps {
     children: ReactNode
 }

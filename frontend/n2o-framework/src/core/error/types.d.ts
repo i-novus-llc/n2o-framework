@@ -32,6 +32,7 @@ export type ErrorContainerProps = {
 export type ErrorContainerProviderProps = {
     value: ErrorContainerContextType
     children?: ReactNode | undefined
+    isOnline?: boolean
 }
 
 export type ErrorBoundaryContextType = {
