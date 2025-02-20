@@ -1,16 +1,15 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useContext, useMemo } from 'react'
 import { AnyAction, Dispatch } from 'redux'
 import classNames from 'classnames'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
-import { getContext } from 'recompose'
-import PropTypes from 'prop-types'
 
 import { useHtmlResolver } from '../../../../../utils/useHtmlResolver'
+import { N2OContext } from '../../../../../N2o'
 
 import { markdownFieldMapper } from './markdownFieldMapper'
-import { MarkdownFieldMappers, Actions, Model } from './helpers'
+import { Actions, Model } from './helpers'
 
 export interface MarkdownFieldProps {
     visible: boolean
@@ -19,27 +18,22 @@ export interface MarkdownFieldProps {
     action?: AnyAction
     model: Model
     disabled: boolean
-    markdownFieldMappers: MarkdownFieldMappers
     actions: Actions,
     dispatch: Dispatch,
     className: string
 }
 
-export function MarkdownFieldBody({
+export function MarkdownField({
     visible,
     content,
     actions = {},
-    model = {},
+    model,
     disabled = false,
-    markdownFieldMappers,
     dispatch,
     className,
 }: MarkdownFieldProps): ReactElement | null {
     const resolvedMarkdown = useHtmlResolver(content, model)
-
-    if (!visible || typeof resolvedMarkdown !== 'string') {
-        return null
-    }
+    const { markdownFieldMappers } = useContext(N2OContext)
 
     const extraMapperProps = {
         actions,
@@ -49,7 +43,11 @@ export function MarkdownFieldBody({
     }
 
     /* Кастомные markdown тэги пример в MappedComponents/> */
-    const components = markdownFieldMapper(markdownFieldMappers, extraMapperProps)
+    const components = useMemo(() => {
+        return markdownFieldMapper(markdownFieldMappers || {}, extraMapperProps)
+    }, [model, actions, markdownFieldMappers, disabled])
+
+    if (!visible || typeof resolvedMarkdown !== 'string') { return null }
 
     return (
         <ReactMarkdown
@@ -62,5 +60,3 @@ export function MarkdownFieldBody({
         </ReactMarkdown>
     )
 }
-
-export const MarkdownField = getContext({ markdownFieldMappers: PropTypes.object })(MarkdownFieldBody)

@@ -14,7 +14,7 @@ import {
 
 const ErrorHandlersContext = createContext<ErrorContainerContextType>([])
 
-export function ErrorHandlersProvider({ value, children }: ErrorContainerProviderProps) {
+export function ErrorHandlersProvider({ value, isOnline, children }: ErrorContainerProviderProps) {
     const parentValue = useContext(ErrorHandlersContext)
     const mergedValue = useMemo(() => [...value, ...parentValue], [parentValue, value])
 

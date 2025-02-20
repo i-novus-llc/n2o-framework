@@ -1,7 +1,7 @@
 import ru from './ru/translation'
 import en from './en/translation'
 
-export default {
+export const locales = {
     ru: {
         translation: ru,
     },
@@ -9,3 +9,5 @@ export default {
         translation: en,
     },
 }
+
+export default locales

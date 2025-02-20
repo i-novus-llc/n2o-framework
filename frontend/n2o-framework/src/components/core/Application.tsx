@@ -1,17 +1,11 @@
-import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component, ContextType, createContext, ReactNode } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import keys from 'lodash/keys'
 import { connect } from 'react-redux'
-import {
-    compose,
-    withContext,
-    lifecycle,
-    withHandlers,
-} from 'recompose'
 import numeral from 'numeral'
+import { type i18n } from 'i18next'
 import { Block } from '@i-novus/n2o-components/lib/display/Block'
 
 import { ErrorContainer } from '../../core/error/Container'
@@ -24,50 +18,102 @@ import {
 import { globalSelector } from '../../ducks/global/selectors'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
 import { FactoryContext } from '../../core/factory/context'
+import { ErrorContainerProps } from '../../core/error/types'
+import { locales } from '../../locales'
+import { type SidebarProps } from '../../plugins/SideBar/types'
+import { type SimpleHeaderBodyProps } from '../../plugins/Header/SimpleHeader/SimpleHeader'
 
-// @ts-ignore ignore import error from js file
 import { GlobalAlertsConnected } from './GlobalAlerts'
 
-export interface ApplicationProps {
-    ready: boolean
-    loading: boolean
-    locale: string
-    error: Error
-    render(): React.ReactNode
+export interface Config {
+    datasources: Record<string, unknown>
+    header: SimpleHeaderBodyProps
+    layout: Record<string, unknown>
+    sidebars: SidebarProps[]
 }
 
-/* data sources register on the app layer are executing in the meta.js sagas */
-function Application({
-    ready,
-    locale,
-    loading,
-    error,
-    render,
-}: ApplicationProps) {
-    const { getComponent } = useContext(FactoryContext)
-    const FactorySpinner = getComponent('Spinner', FactoryLevels.SNIPPETS)
+export interface ApplicationProps extends ReturnType<typeof mapDispatchToProps> {
+    ready?: boolean
+    loading: boolean
+    locale: string
+    error?: ErrorContainerProps['error']
+    i18n: i18n
+    locales?: typeof locales
+    customLocales?: Record<string, unknown>
+    render(): ReactNode
+    // eslint-disable-next-line react/no-unused-prop-types
+    menu: Config
+}
 
-    numeral.locale(locale)
+export interface ApplicationContextValue {
+    getFromConfig(key: string): Config | undefined
+    configLocale: string
+}
 
-    return (
-        <>
-            <GlobalAlertsConnected />
-            {/* @ts-ignore FIXME разобраться в типизации */}
-            <ErrorContainer error={error}>
-                <>
-                    {!ready && FactorySpinner
-                        ? <FactorySpinner type="cover" loading={loading} />
-                        : null }
+export const ApplicationContext = createContext<ApplicationContextValue>({
+    getFromConfig: () => undefined,
+    configLocale: 'en',
+})
 
-                    {ready ? (
-                        <Block disabled={loading}>
-                            {render()}
-                        </Block>
-                    ) : null}
-                </>
-            </ErrorContainer>
-        </>
-    )
+class Application extends Component<ApplicationProps> {
+    static contextType = FactoryContext
+
+    context!: ContextType<typeof FactoryContext>
+
+    addCustomLocales = () => {
+        const { customLocales = {}, i18n } = this.props
+
+        map(keys(customLocales), (locale) => {
+            i18n.addResourceBundle(locale, 'translation', customLocales[locale])
+        })
+    }
+
+    componentDidMount() {
+        const {
+            requestConfig,
+            locales = {},
+            customLocales = {},
+            registerLocales,
+        } = this.props
+
+        this.addCustomLocales()
+        registerLocales(keys({ ...locales, ...customLocales }))
+        requestConfig()
+    }
+
+    componentDidUpdate(prevProps: ApplicationProps) {
+        const { locale, i18n } = this.props
+
+        if (prevProps.locale !== locale) {
+            // eslint-disable-next-line
+            i18n.changeLanguage(locale)
+        }
+    }
+
+    render() {
+        const { ready, locale, loading, error, render } = this.props
+        const { getComponent } = this.context
+        const FactorySpinner = getComponent('Spinner', FactoryLevels.SNIPPETS)
+
+        numeral.locale(locale)
+
+        const contextValue = {
+            getFromConfig: (key: 'menu') => get(this.props, key),
+            configLocale: locale,
+        }
+
+        return (
+            <ApplicationContext.Provider value={contextValue}>
+                <GlobalAlertsConnected />
+                <ErrorContainer error={error}>
+                    <>
+                        {!ready && FactorySpinner && <FactorySpinner type="cover" loading={loading} />}
+                        {ready && <Block disabled={loading}>{render()}</Block>}
+                    </>
+                </ErrorContainer>
+            </ApplicationContext.Provider>
+        )
+    }
 }
 
 const mapStateToProps = (state: State) => ({
@@ -75,55 +121,11 @@ const mapStateToProps = (state: State) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+    // eslint-disable-next-line react/no-unused-prop-types
     setReady: bindActionCreators(setReadyAction, dispatch),
     requestConfig: bindActionCreators(requestConfigAction, dispatch),
     registerLocales: (locales: string[]) => dispatch(registerLocales(locales)),
 })
 
-export default compose(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    ),
-    withContext(
-        {
-            getFromConfig: PropTypes.func,
-            configLocale: PropTypes.string,
-        },
-        (props: ApplicationProps) => ({
-            getFromConfig: (key: string) => get(props, key),
-            configLocale: props.locale,
-        }),
-    ),
-    withHandlers({
-        // @ts-ignore нет смысла типизировать, будет переделано
-        addCustomLocales: ({ i18n, customLocales }) => () => {
-            map(keys(customLocales), (locale) => {
-                i18n.addResourceBundle(locale, 'translation', customLocales[locale])
-            })
-        },
-    }),
-    lifecycle({
-        componentDidMount() {
-            const {
-                // @ts-ignore нет смысла типизировать, будет переделано
-                requestConfig, locales = {}, customLocales, registerLocales, addCustomLocales,
-            } = this.props
-
-            addCustomLocales()
-            registerLocales(keys({ ...locales, ...customLocales }))
-
-            requestConfig()
-        },
-        componentDidUpdate(prevProps) {
-            // @ts-ignore нет смысла типизировать, будет переделано
-            const { locale, i18n } = this.props
-
-            // @ts-ignore нет смысла типизировать, будет переделано
-            if (prevProps.locale !== locale) {
-                i18n.changeLanguage(locale)
-            }
-        },
-    }),
-// @ts-ignore нет смысла типизировать, будет переделано
-)(Application)
+// @ts-ignore TODO объеденить типы ErrorContainerProps['error'] и error из Global
+export default connect(mapStateToProps, mapDispatchToProps)(Application)

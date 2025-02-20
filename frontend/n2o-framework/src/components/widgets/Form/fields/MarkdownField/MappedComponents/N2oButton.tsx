@@ -2,8 +2,7 @@ import React from 'react'
 import omit from 'lodash/omit'
 import classNames from 'classnames'
 
-// @ts-ignore import from js file
-import StandardButton from '../../../../../buttons/StandardButton/StandardButton'
+import { StandardButton } from '../../../../../buttons/StandardButton/StandardButton'
 import { ReactMarkdownExtendedProps } from '../helpers'
 
 export function N2oButton(props: ReactMarkdownExtendedProps) {

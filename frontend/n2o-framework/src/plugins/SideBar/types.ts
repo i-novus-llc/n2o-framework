@@ -40,6 +40,8 @@ export interface SidebarProps extends Pick<LogoSectionProps, 'logo' | 'subtitle'
     toggledState: SidebarView
     force?: boolean
     fetch?: string
+    path?: string
+    id?: string
 }
 
 export interface SimpleSidebarProps extends Omit<SidebarProps, 'isStaticView' | 'onMouseEnter' | 'onMouseLeave'> {

@@ -6,4 +6,5 @@ export type ElementVisibility = {
 
 export type WindowType = Window & typeof globalThis & {
     N2O_ELEMENT_VISIBILITY: ElementVisibility
+    _n2oEvalContext: Record<string, unknown>
 }

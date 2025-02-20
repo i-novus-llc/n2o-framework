@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { ConfigContainer } from '../../../plugins/Menu/MenuContainer'
+import { ConfigContainer, type ConfigContainerProps } from '../../../plugins/Menu/MenuContainer'
 
 import { Page } from './Page'
-import { type TemplateProps, type ConfigContainerProps } from './types'
+import { type TemplateProps } from './types'
 
 export function Template({ children }: TemplateProps) {
     return (
