@@ -37,10 +37,11 @@ export const modelsSlice = createSlice({
                     ? Array<Record<string, unknown>>
                     : Record<string, unknown>) | null,
                 isDefault?: boolean,
+                validate?: boolean,
             ) {
                 return ({
                     payload: { prefix, key, model, isDefault },
-                    meta: { prefix, key, model },
+                    meta: { prefix, key, model, validate: typeof validate === 'boolean' ? validate : true },
                 })
             },
 
@@ -72,10 +73,10 @@ export const modelsSlice = createSlice({
         },
 
         UPDATE: {
-            prepare(prefix: ModelPrefix, key: string, field: string, value: unknown) {
+            prepare(prefix: ModelPrefix, key: string, field: string, value: unknown, validate?: boolean) {
                 return ({
                     payload: { prefix, key, field, value },
-                    meta: { prefix, key, field },
+                    meta: { prefix, key, field, validate: typeof validate === 'boolean' ? validate : true },
                 })
             },
 

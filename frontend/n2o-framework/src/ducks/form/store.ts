@@ -444,6 +444,7 @@ export const {
     dangerouslySetFieldValue,
     BLUR: handleBlur,
     FOCUS: handleFocus,
+    // TODO @touched удалить
     TOUCH: handleTouch,
     unRegisterExtraField,
     setDirty,

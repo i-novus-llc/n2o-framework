@@ -69,7 +69,6 @@ export const StandardField = ({
     onFocus,
     onBlur,
     placeholder,
-    touched,
     message,
     colLength,
     help,
@@ -119,7 +118,6 @@ export const StandardField = ({
     }
 
     const fieldId = `field-${form}-id`
-    const controlValidationClass = (validationClass && touched) ? validationClass : ''
 
     return (
         <div
@@ -161,7 +159,7 @@ export const StandardField = ({
                         {...omit(rest, ['dataProvider', 'containerKey', 'controlClass', 'controlStyle'])}
                         {...control}
                         value={has(rest.model, id) ? value : get(control, 'value', null)}
-                        className={classNames(control.className, controlValidationClass, { 'form-control__with-toolbar': toolbar })}
+                        className={classNames(control.className, validationClass, { 'form-control__with-toolbar': toolbar })}
                         model={rest.model}
                     />
                     {toolbar && (
@@ -183,7 +181,7 @@ export const StandardField = ({
                 </div>
                 <Description value={description} />
                 <div className={classNames('n2o-validation-message', getValidationClass(validationClass))}>
-                    {touched && message && message.text}
+                    {message?.text}
                 </div>
             </div>
         </div>

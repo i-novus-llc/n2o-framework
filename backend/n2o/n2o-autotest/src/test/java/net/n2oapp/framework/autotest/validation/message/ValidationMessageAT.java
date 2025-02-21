@@ -70,6 +70,10 @@ public class ValidationMessageAT extends AutoTestBase {
 
         rg.check("requiring true");
         textAreaField.shouldBeRequired();
+        textAreaField.shouldHaveValidationMessage(Condition.empty);
+        textAreaField.control(TextArea.class).shouldBeEnabled();
+
+        form.toolbar().bottomLeft().button("Check").click();
         textAreaField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         textAreaField.control(TextArea.class).shouldBeEnabled();
     }
