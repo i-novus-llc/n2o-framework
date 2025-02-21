@@ -35,7 +35,6 @@ export const RangeField = ({
     onFocus,
     onBlur,
     placeholder,
-    touched,
     message,
     help,
     visible = true,
@@ -72,7 +71,6 @@ export const RangeField = ({
     if (!visible) { return null }
 
     const extendedLabelStyle = { width: labelWidthPixels, flex: labelWidthPixels ? 'none' : undefined, ...labelStyle }
-    const controlValidationClass = (validationClass && touched) ? validationClass : ''
 
     return (
         <div
@@ -125,7 +123,7 @@ export const RangeField = ({
                                 enabled={enabled}
                                 disabled={disabled}
                                 component={beginControl.component}
-                                className={classNames(beginControl?.className, controlValidationClass)}
+                                className={classNames(beginControl?.className, validationClass)}
                             />
                             <Measure value={measure} />
                         </div>
@@ -150,7 +148,7 @@ export const RangeField = ({
                                 enabled={enabled}
                                 disabled={disabled}
                                 component={endControl.component}
-                                className={classNames(endControl?.className, controlValidationClass)}
+                                className={classNames(endControl?.className, validationClass)}
                             />
                             <Measure value={measure} />
                         </div>
@@ -161,7 +159,7 @@ export const RangeField = ({
             </div>
             <Description value={description} />
             <div className={classNames('n2o-validation-message', getValidationClass(validationClass))}>
-                {touched && message && message.text}
+                {message?.text}
             </div>
         </div>
     )

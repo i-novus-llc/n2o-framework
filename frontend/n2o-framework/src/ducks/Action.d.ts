@@ -23,6 +23,7 @@ export interface N2OAction<
     payload: TPayload,
     meta?: TMeta,
     error?: string
+    validate?: boolean
 }
 
 interface N2OErrorAction<

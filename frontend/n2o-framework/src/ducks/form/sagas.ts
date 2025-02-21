@@ -1,6 +1,7 @@
 import { takeEvery, put, select, debounce } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 
 import { ModelPrefix } from '../../core/datasource/const'
 import { Validation, ValidationsKey } from '../../core/validation/types'
@@ -11,8 +12,7 @@ import {
     copyFieldArray,
     setModel,
 } from '../models/store'
-import { failValidate, startValidate } from '../datasource/store'
-import { FailValidateAction } from '../datasource/Actions'
+import { startValidate } from '../datasource/store'
 import { dataSourceValidationSelector } from '../datasource/selectors'
 import { getModelByPrefixAndNameSelector } from '../models/selectors'
 import { State } from '../State'
@@ -21,7 +21,6 @@ import { makeFormByName, makeFormsByModel } from './selectors'
 import {
     setFieldRequired,
     handleBlur,
-    handleTouch,
 } from './store'
 import { Form } from './types'
 
@@ -62,17 +61,6 @@ function diffKeys <
 }
 
 export const formPluginSagas = [
-    takeEvery(failValidate, function* touchOnFailValidate({ payload, meta }: FailValidateAction) {
-        if (!meta?.touched) { return }
-
-        const { prefix, id: datasource, fields } = payload
-        const keys = Object.keys(fields)
-        const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
-
-        for (const form of forms) {
-            yield put(handleTouch(form.formName, keys))
-        }
-    }),
     takeEvery(setModel, function* addFieldToBuffer({ payload, meta }) {
         const { prefix, key: datasource, model, isDefault } = payload
 
@@ -103,8 +91,10 @@ export const formPluginSagas = [
             state => getValidationFields(state, datasource),
         )
 
+        const { validate } = meta
+
         fields.forEach((field) => {
-            if (!validateFields[datasource].includes(field)) {
+            if (!validateFields[datasource].includes(field) && validate) {
                 validateFields[datasource].push(field)
             }
 
@@ -124,13 +114,13 @@ export const formPluginSagas = [
         removeFieldFromArray,
         copyFieldArray,
     ], function* addFieldToBuffer({ meta }) {
-        const { key: datasource, field } = meta
+        const { key: datasource, field, validate } = meta
 
         if (!validateFields[datasource]) {
             validateFields[datasource] = []
         }
 
-        if (!validateFields[datasource].includes(field)) {
+        if (!validateFields[datasource].includes(field) && validate) {
             validateFields[datasource].push(field)
         }
 
@@ -158,7 +148,7 @@ export const formPluginSagas = [
             validateFields[datasource] = []
         }
 
-        if (!validateFields[datasource].includes(fieldName)) {
+        if (!validateFields[datasource].includes(fieldName) && !get(payload, 'required', false)) {
             validateFields[datasource].push(fieldName)
         }
     }),

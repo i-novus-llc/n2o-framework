@@ -9,7 +9,8 @@ import { copyModel, setModel, updateModel } from './store'
 import { getModelByPrefixAndNameSelector, Model } from './selectors'
 import { CopyAction } from './Actions'
 
-export function* copyAction({ payload, meta = {} }: CopyAction) {
+// @ts-ignore FIXME validate должен быть в payload? а не на верхнем уровне
+export function* copyAction({ payload, meta = {}, validate = true }: CopyAction) {
     const { target, source, mode = 'replace', sourceMapper: expression } = payload
 
     const targetModel: Model | Model[] = yield select(getModelByPrefixAndNameSelector(target.prefix, target.key))
@@ -58,8 +59,8 @@ export function* copyAction({ payload, meta = {} }: CopyAction) {
 
     yield put(
         target.field
-            ? updateModel(target.prefix, target.key, target.field, newModel)
-            : setModel(target.prefix, target.key, newModel),
+            ? updateModel(target.prefix, target.key, target.field, newModel, validate)
+            : setModel(target.prefix, target.key, newModel, undefined, validate),
     )
 }
 

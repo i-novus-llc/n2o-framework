@@ -21,6 +21,7 @@ export type FieldDependency = {
     dataProvider?: unknown
     valueFieldId?: string
     message?: string
+    validate: boolean
 }
 
 export type Field = {
@@ -37,6 +38,7 @@ export type Field = {
     dependency: FieldDependency[]
     required: boolean
     loading: boolean
+    // TODO @touched удалить
     touched?: boolean
     fetchTrigger?: number
     // FIXME костыль для прокидыания контекста из компонента для саг, придумать способ лучше

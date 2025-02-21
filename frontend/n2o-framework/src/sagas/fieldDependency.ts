@@ -153,7 +153,7 @@ export function* modify(
     isInit: boolean,
 ) {
     const { formName, datasource, modelPrefix, fields } = form
-    const { type, expression } = dependency
+    const { type, expression, validate } = dependency
 
     const evalResult = expression && executeExpression<unknown>(expression, values, field.ctx)
 
@@ -192,7 +192,7 @@ export function* modify(
 
                 yield put(ResolveDependencyAction())
             } else {
-                yield put(updateModel(modelPrefix, datasource, fieldName, evalResult))
+                yield put(updateModel(modelPrefix, datasource, fieldName, evalResult, validate))
             }
 
             break
