@@ -37,12 +37,6 @@
             </dependency>
 
             <dependency>
-                <groupId>net.n2oapp.datastreaming</groupId>
-                <artifactId>data-streaming</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>2.16.0</version>
@@ -150,7 +144,6 @@
         <module>criteria</module>
         <module>watchdir</module>
         <module>override-properties</module>
-        <module>data-streaming</module>
         <module>n2o</module>
     </modules>
 </project>
