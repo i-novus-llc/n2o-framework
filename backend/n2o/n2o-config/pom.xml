@@ -38,11 +38,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.n2oapp.register</groupId>
-            <artifactId>register</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>net.n2oapp.enginefactory</groupId>
             <artifactId>engine-factory</artifactId>
         </dependency>

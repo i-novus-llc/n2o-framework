@@ -45,11 +45,6 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.n2oapp.register</groupId>
-                <artifactId>register</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>net.n2oapp.routing</groupId>
                 <artifactId>routing-datasource</artifactId>
                 <version>${project.version}</version>
