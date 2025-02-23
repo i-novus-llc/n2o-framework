@@ -137,7 +137,6 @@
 
     <modules>
         <module>engine-factory</module>
-        <module>register</module>
         <module>filters-reducer</module>
         <module>routing-datasource</module>
         <module>cache-template</module>
