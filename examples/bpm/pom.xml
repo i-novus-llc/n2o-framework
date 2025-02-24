@@ -18,6 +18,7 @@
     <properties>
         <java.version>17</java.version>
         <n2o.version>7.28.1</n2o.version>
+        <camunda.version>7.22.0</camunda.version>
     </properties>
 
     <dependencies>
@@ -42,7 +43,7 @@
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter</artifactId>
-            <version>7.13.0</version>
+            <version>${camunda.version}</version>
         </dependency>
 
         <dependency>
@@ -53,7 +54,7 @@
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
-            <version>7.13.0</version>
+            <version>${camunda.version}</version>
             <scope>test</scope>
         </dependency>
 
