@@ -62,26 +62,16 @@ export function* query(id: string, {
     const sourceModel: Model | void = yield select(getModelByPrefixAndNameSelector(prefix, datasourceId))
     const sourceData = cloneDeep(sourceField ? get(sourceModel, sourceField) : sourceModel)
 
-    if (!sourceData) {
-        return {
-            list: [],
-            paging: {
-                page: 1,
-                count: 0,
-            },
-        }
-    }
-
-    let sourceList = Array.isArray(sourceData) ? sourceData : [sourceData]
+    let sourceList = []
 
     if (fetchValueExpression) {
         const normalized = evalExpression(fetchValueExpression, { source: sourceData })
 
-        if (!Array.isArray(normalized)) {
-            throw new Error('Ошибка нормализации данных')
-        }
+        if (!Array.isArray(normalized)) { throw new Error('Ошибка нормализации данных') }
 
         sourceList = normalized
+    } else if (sourceData) {
+        sourceList = Array.isArray(sourceData) ? sourceData : [sourceData]
     }
 
     const state: State = yield select()
