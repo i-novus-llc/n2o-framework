@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 
@@ -27,18 +26,14 @@ export function resolveValueByFilter({ value, link }: Filter, state: State): unk
 }
 
 export function applyFilter<TData>(state: State, list: TData[], filters?: Filter[]) {
-    if (isEmpty(filters)) {
-        return list
-    }
+    if (!filters || !filters.length) { return list }
 
-    return list
-        .filter(item => (filters as Filter[])
-            .every((filter) => {
-                const { type, fieldId } = filter
+    return list.filter(item => filters.every((filter) => {
+        const { type, fieldId } = filter
 
-                const valueFromItem = get(item, fieldId)
-                const valueFromFilter = resolveValueByFilter(filter, state)
+        const valueFromItem = get(item, fieldId)
+        const valueFromFilter = resolveValueByFilter(filter, state)
 
-                return FilterFn[type](valueFromItem, valueFromFilter)
-            }))
+        return FilterFn[type](valueFromItem, valueFromFilter)
+    }))
 }
