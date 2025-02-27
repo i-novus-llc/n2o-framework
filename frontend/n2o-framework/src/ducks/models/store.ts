@@ -76,7 +76,7 @@ export const modelsSlice = createSlice({
             prepare(prefix: ModelPrefix, key: string, field: string, value: unknown, validate?: boolean) {
                 return ({
                     payload: { prefix, key, field, value },
-                    meta: { prefix, key, field, validate: typeof validate === 'boolean' ? validate : true },
+                    meta: { validate: typeof validate === 'boolean' ? validate : true },
                 })
             },
 

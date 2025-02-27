@@ -8,9 +8,13 @@ export interface FormPayload {
 
 export type Tooltip = string | null
 
+export type FormMeta = Meta & {
+    validate?: boolean
+}
+
 export type FormAction<
     TPayload extends FormPayload,
-    TMeta extends Meta = Meta,
+    TMeta extends FormMeta = FormMeta,
 > = Action<string, TPayload, TMeta>
 
 export type RegisterAction = FormAction<{
@@ -25,7 +29,7 @@ export type RemoveAction = FormAction<{
 export type FieldAction<T = unknown> = FormAction<T & {
     formName: string
     fieldName: string
-}>
+}, FormMeta>
 
 export type RegisterFieldAction = FieldAction<{
     initialState: Partial<Field>
