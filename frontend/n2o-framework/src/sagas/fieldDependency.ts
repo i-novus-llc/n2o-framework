@@ -199,7 +199,7 @@ export function* modify(
         }
         case 'reset': {
             if (values?.[fieldName] !== null && evalResultCheck(evalResult)) {
-                yield put(updateModel(modelPrefix, datasource, fieldName, null))
+                yield put(updateModel(modelPrefix, datasource, fieldName, null, validate))
             }
 
             break
@@ -212,19 +212,21 @@ export function* modify(
                 break
             }
 
-            yield put(setFieldRequired(formName, fieldName, nextRequired))
+            yield put(setFieldRequired(formName, fieldName, nextRequired, validate))
 
             break
         }
         case 'reRender': {
-            yield delay(50)
-            yield put(startValidate(
-                datasource,
-                ValidationsKey.Validations,
-                modelPrefix,
-                [fieldName],
-                { touched: true },
-            ))
+            if (validate) {
+                yield delay(50)
+                yield put(startValidate(
+                    datasource,
+                    ValidationsKey.Validations,
+                    modelPrefix,
+                    [fieldName],
+                    { touched: true },
+                ))
+            }
 
             break
         }
@@ -282,12 +284,11 @@ const shouldBeResolved = (
 interface ResolveOnUpdateModel {
     type: string
     meta: {
-        key: string
-        field: string
-        prefix: ModelPrefix
         prevState: GlobalState
     }
     payload: {
+        key: string
+        prefix: ModelPrefix
         fieldName: string
         value: Record<string, unknown>
         field: string
@@ -295,9 +296,9 @@ interface ResolveOnUpdateModel {
 }
 
 export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateModel) {
-    const { key: datasource, field, prefix, prevState } = meta
+    const { prevState } = meta
     // the updated model
-    const { value } = payload
+    const { value, key: datasource, field, prefix } = payload
     // prev model
     const prevValue = get(prevState, `models.${prefix}.${datasource}.${field}`)
 

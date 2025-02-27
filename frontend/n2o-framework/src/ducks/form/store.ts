@@ -87,7 +87,6 @@ export const formSlice = createSlice({
                         fieldName,
                         initialState,
                     },
-                    meta: { formName, fieldName },
                 })
             },
 
@@ -110,7 +109,6 @@ export const formSlice = createSlice({
             prepare(formName: string, fieldName: string) {
                 return ({
                     payload: { formName, fieldName },
-                    meta: { formName, fieldName },
                 })
             },
 
@@ -125,7 +123,6 @@ export const formSlice = createSlice({
             prepare(formName: string, fieldName: string, disabled: boolean) {
                 return ({
                     payload: { formName, fieldName, disabled },
-                    meta: { formName, fieldName },
                 })
             },
 
@@ -144,7 +141,6 @@ export const formSlice = createSlice({
             prepare(formName: string, fieldName: string, visible: boolean) {
                 return ({
                     payload: { formName, fieldName, visible },
-                    meta: { formName, fieldName },
                 })
             },
 
@@ -178,10 +174,15 @@ export const formSlice = createSlice({
         },
 
         setFieldRequired: {
-            prepare(formName: string, fieldName: string, required: boolean) {
+            prepare(
+                formName: string,
+                fieldName: string,
+                required: boolean,
+                validate?: boolean,
+            ) {
                 return ({
                     payload: { formName, fieldName, required },
-                    meta: { formName, fieldName },
+                    meta: { validate },
                 })
             },
 
@@ -214,7 +215,6 @@ export const formSlice = createSlice({
             prepare(formName: string, fieldName: string, loading: boolean) {
                 return ({
                     payload: { formName, fieldName, loading },
-                    meta: { formName, fieldName },
                 })
             },
 
@@ -229,7 +229,6 @@ export const formSlice = createSlice({
             prepare(formName: string, fields: string[], visible: boolean) {
                 return ({
                     payload: { formName, fields, visible },
-                    meta: { formName, fields },
                 })
             },
 
@@ -251,7 +250,6 @@ export const formSlice = createSlice({
             prepare(formName: string, fields: string[], disabled: boolean) {
                 return ({
                     payload: { formName, fields, disabled },
-                    meta: { formName, fields },
                 })
             },
 
@@ -274,7 +272,6 @@ export const formSlice = createSlice({
             prepare(formName: string, fieldName: string) {
                 return ({
                     payload: { formName, fieldName },
-                    meta: { formName, fieldName },
                 })
             },
 
@@ -294,7 +291,6 @@ export const formSlice = createSlice({
             prepare(formName: string, fieldName: string) {
                 return ({
                     payload: { formName, fieldName },
-                    meta: { formName, fieldName },
                 })
             },
 
@@ -313,7 +309,6 @@ export const formSlice = createSlice({
             prepare(formName: string, fields: string[]) {
                 return ({
                     payload: { formName, fields },
-                    meta: { formName, fields },
                 })
             },
 
@@ -342,7 +337,6 @@ export const formSlice = createSlice({
             prepare(formName: string, data: boolean) {
                 return ({
                     payload: { formName, data },
-                    meta: { formName, data },
                 })
             },
 

@@ -23,6 +23,7 @@ import {
     handleBlur,
 } from './store'
 import { Form } from './types'
+import { FieldAction } from './Actions'
 
 const validateFields: Record<string, string[]> = {}
 
@@ -63,13 +64,10 @@ function diffKeys <
 export const formPluginSagas = [
     takeEvery(setModel, function* addFieldToBuffer({ payload, meta }) {
         const { prefix, key: datasource, model, isDefault } = payload
+        const { validate } = meta
 
-        if (isDefault) {
-            return
-        }
-        if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected) {
-            return
-        }
+        if (isDefault || validate === false) { return }
+        if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected) { return }
 
         const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
         const form: Form = forms?.[0]
@@ -91,10 +89,8 @@ export const formPluginSagas = [
             state => getValidationFields(state, datasource),
         )
 
-        const { validate } = meta
-
         fields.forEach((field) => {
-            if (!validateFields[datasource].includes(field) && validate) {
+            if (!validateFields[datasource].includes(field)) {
                 validateFields[datasource].push(field)
             }
 
@@ -113,14 +109,18 @@ export const formPluginSagas = [
         appendFieldToArray,
         removeFieldFromArray,
         copyFieldArray,
-    ], function* addFieldToBuffer({ meta }) {
-        const { key: datasource, field, validate } = meta
+    ], function* addFieldToBuffer({ payload, meta }) {
+        const { validate } = meta
+
+        if (validate === false) { return }
+
+        const { key: datasource, field } = payload
 
         if (!validateFields[datasource]) {
             validateFields[datasource] = []
         }
 
-        if (!validateFields[datasource].includes(field) && validate) {
+        if (!validateFields[datasource].includes(field)) {
             validateFields[datasource].push(field)
         }
 
@@ -140,19 +140,27 @@ export const formPluginSagas = [
     takeEvery([
         handleBlur,
         setFieldRequired,
-    ], function* addFieldToBuffer({ payload }) {
+    ], function* addFieldToBuffer({ payload, meta = {} }: FieldAction) {
+        const { validate } = meta
+
+        if (validate === false) { return }
+
         const { formName, fieldName } = payload
         const { datasource }: Form = yield select(makeFormByName(formName))
 
-        if (!validateFields[datasource]) {
-            validateFields[datasource] = []
-        }
+        if (!validateFields[datasource]) { validateFields[datasource] = [] }
 
         if (!validateFields[datasource].includes(fieldName) && !get(payload, 'required', false)) {
             validateFields[datasource].push(fieldName)
         }
     }),
-    debounce(200, setModel, function* startValidateSaga({ payload }) {
+    debounce(200, [
+        updateModel,
+        appendFieldToArray,
+        removeFieldFromArray,
+        copyFieldArray,
+        setModel,
+    ], function* startValidateSaga({ payload }) {
         const { prefix, key: datasource } = payload
 
         const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
@@ -165,28 +173,6 @@ export const formPluginSagas = [
         delete validateFields[datasource]
 
         if (!isEmpty(fields)) {
-            // @ts-ignore FIXME разобраться TS2554: Expected 1 arguments, but got 5
-            yield put(startValidate(datasource, form.validationKey, prefix, fields, { isTriggeredByFieldChange: true }))
-        }
-    }),
-    debounce(200, [
-        updateModel,
-        appendFieldToArray,
-        removeFieldFromArray,
-        copyFieldArray,
-    ], function* startValidateSaga({ meta }) {
-        const { key: datasource, prefix } = meta
-        const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
-        const form: Form = forms?.[0]
-
-        if (isEmpty(form)) { return }
-
-        const fields = validateFields[datasource]
-
-        delete validateFields[datasource]
-
-        if (!isEmpty(fields)) {
-            // @ts-ignore FIXME разобраться TS2554: Expected 1 arguments, but got 5
             yield put(startValidate(datasource, form.validationKey, prefix, fields, { isTriggeredByFieldChange: true }))
         }
     }),
@@ -202,7 +188,6 @@ export const formPluginSagas = [
         delete validateFields[datasource]
 
         if (!isEmpty(fields)) {
-            // @ts-ignore FIXME разобраться TS2554: Expected 1 arguments, but got 5
             yield put(startValidate(datasource, validationKey, modelPrefix, fields, { isTriggeredByFieldChange: true }))
         }
     }),
