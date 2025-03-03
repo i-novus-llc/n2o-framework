@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="DisableValidationAT">
+    <form>
+        <fields>
+            <row>
+                <col>
+                    <input-text id="input" description="Введите 1, чтобы провалидировать"/>
+                </col>
+                <col>
+                    <input-text id="requiring">
+                        <dependencies>
+                            <requiring on="input" validate="false">
+                                input !=1
+                            </requiring>
+                        </dependencies>
+                        <validations>
+                            <condition id="r1" message="Значение не должно быть пустым">
+                                requiring
+                            </condition>
+                        </validations>
+                    </input-text>
+                </col>
+                <col>
+                    <input-text id="requiringValidate">
+                        <dependencies>
+                            <requiring on="input" validate="true">
+                                input !=1
+                            </requiring>
+                        </dependencies>
+                        <validations>
+                            <condition id="r2" message="Значение не должно быть пустым">
+                                requiringValidate
+                            </condition>
+                        </validations>
+                    </input-text>
+                </col>
+            </row>
+
+            <row>
+                <col>
+                    <input-text id="value" description="Введите 1, чтобы провалидировать"/>
+                </col>
+                <col>
+                    <input-text id="setValue">
+                        <dependencies>
+                            <set-value on="value" validate="false">value</set-value>
+                        </dependencies>
+                        <validations>
+                            <condition id="c1" message="Значение не должно быть 1">setValue != 1</condition>
+                        </validations>
+                    </input-text>
+                </col>
+                <col>
+                    <input-text id="setValueValidate">
+                        <dependencies>
+                            <set-value on="value" validate="true">value</set-value>
+                        </dependencies>
+                        <validations>
+                            <condition id="c2" message="Значение не должно быть 1">setValueValidate != 1</condition>
+                        </validations>
+                    </input-text>
+                </col>
+            </row>
+
+            <row>
+                <col>
+                    <checkbox id="checkbox" description="Нажмите, чтобы сбросить значения"/>
+                </col>
+                <col>
+
+                    <input-text id="reset" default-value="текст">
+                        <dependencies>
+                            <reset on="checkbox" validate="false">checkbox</reset>
+                        </dependencies>
+                        <validations>
+                            <condition id="c3" message="Значение не должно быть пустым">reset != null</condition>
+                        </validations>
+                    </input-text>
+                </col>
+                <col>
+                    <input-text id="resetValidate" default-value="текст">
+                        <dependencies>
+                            <reset on="checkbox" validate="true">checkbox</reset>
+                        </dependencies>
+                        <validations>
+                            <condition id="c4" message="Значение не должно быть пустым">resetValidate != null
+                            </condition>
+                        </validations>
+                    </input-text>
+                </col>
+            </row>
+
+            <row>
+                <col>
+                    <input-text id="target">
+                        <validations>
+                            <condition id="k1" message="Значение должно быть пустым">target==null</condition>
+                        </validations>
+                    </input-text>
+                </col>
+                <col>
+                    <input-text id="source" default-value="1"/>
+                </col>
+            </row>
+        </fields>
+
+        <toolbar place="bottomLeft">
+            <button label="Валидировать">
+                <alert text="Готово"/>
+            </button>
+
+            <button label="set target = 2">
+                <set-value to="target" validate="false">2</set-value>
+            </button>
+            <button label="set target = 2 and validate">
+                <set-value to="target" validate="true">2</set-value>
+            </button>
+
+            <button label="copy source to target">
+                <copy source-field-id="source" target-field-id="target" validate="false"/>
+            </button>
+            <button label="copy source to target and validate">
+                <copy source-field-id="source" target-field-id="target" validate="true"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>
