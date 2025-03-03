@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <row>
+            <input-text id="value"
+                        description="Введите 1, чтобы провалидировать"/>
+
+            <input-text id="set_value">
+                <dependencies>
+                    <set-value on="value" validate="false">
+                        value
+                    </set-value>
+                </dependencies>
+                <validations>
+                    <condition id="c1" message="Значение не должно быть 1">
+                        set_value != 1
+                    </condition>
+                </validations>
+            </input-text>
+            <input-text id="set_value_validate">
+                <dependencies>
+                    <set-value on="value" validate="true">
+                        value
+                    </set-value>
+                </dependencies>
+                <validations>
+                    <condition id="c2" message="Значение не должно быть 1">
+                        set_value_validate != 1
+                    </condition>
+                </validations>
+            </input-text>
+        </row>
+
+        <row>
+            <checkbox id="checkbox" label="Сбросить значения"
+                      description="Выберите, чтобы провалидировать"/>
+
+            <input-text id="reset" default-value="текст">
+                <dependencies>
+                    <reset on="checkbox" validate="false">
+                        checkbox
+                    </reset>
+                </dependencies>
+                <validations>
+                    <condition id="c3" message="Значение не должно быть пустым">
+                        reset != null
+                    </condition>
+                </validations>
+            </input-text>
+            <input-text id="reset_validate" default-value="текст">
+                <dependencies>
+                    <reset on="checkbox" validate="true">
+                        checkbox
+                    </reset>
+                </dependencies>
+                <validations>
+                    <condition id="c4" message="Значение не должно быть пустым">
+                        reset_validate != null
+                    </condition>
+                </validations>
+            </input-text>
+        </row>
+
+        <row>
+            <checkbox id="checkbox2" label="Сделать необязательным"
+                      description="Выберите, чтобы провалидировать"/>
+
+            <input-text id="requiring">
+                <dependencies>
+                    <requiring on="checkbox2" validate="false">
+                        !checkbox2
+                    </requiring>
+                </dependencies>
+                <validations>
+                    <condition id="r1" on="requiring" message="Значение не должно быть пустым">
+                        requiring
+                    </condition>
+                </validations>
+            </input-text>
+            <input-text id="requiring_validate">
+                <dependencies>
+                    <requiring on="checkbox2" validate="true">
+                        !checkbox2
+                    </requiring>
+                </dependencies>
+                <validations>
+                    <condition id="r2" on="requiring_validate" message="Значение не должно быть пустым">
+                        requiring_validate
+                    </condition>
+                </validations>
+            </input-text>
+        </row>
+    </fields>
+</form>

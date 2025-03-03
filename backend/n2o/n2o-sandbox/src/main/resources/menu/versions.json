@@ -2,6 +2,15 @@
   "name": "Версии",
   "sections": [
     {
+      "name": "7.29",
+      "templates": [
+        {
+          "templateId": "interactions/validation/disable",
+          "name": "Отключение валидаций при выполнении зависимостей\\действий"
+        }
+      ]
+    },
+    {
       "name": "7.28",
       "templates": [
         {
