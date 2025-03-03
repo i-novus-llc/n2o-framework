@@ -5,6 +5,7 @@ import { FormattedText } from '@i-novus/n2o-components/lib/Typography/FormattedT
 import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
 import { withTooltip } from '../../withTooltip'
+import { EMPTY_OBJECT } from '../../../../../utils/emptyTypes'
 
 import { SubText } from './SubText'
 import { ICON_POSITIONS, type TextCellProps } from './types'
@@ -19,6 +20,7 @@ function TextCellBody({
     forwardedRef,
     visible = true,
     iconPosition = ICON_POSITIONS.LEFT,
+    style = EMPTY_OBJECT,
     ...rest
 }: TextCellProps) {
     const text = model && get(model, fieldKey || id)
@@ -32,6 +34,7 @@ function TextCellBody({
                     'icon-cell-container__with-tooltip': model?.tooltipFieldId !== undefined,
                     'icon-cell-container__text-left': iconPosition === ICON_POSITIONS.RIGHT,
                 })}
+                style={style}
             >
                 {icon && <Icon name={icon} />}
                 <FormattedText {...rest}>{text?.toString()}</FormattedText>
