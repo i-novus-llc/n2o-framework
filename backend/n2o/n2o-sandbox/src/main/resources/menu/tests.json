@@ -1689,6 +1689,10 @@
           "name": "DisabledFieldValidationAT"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/validation/disable",
+          "name": "DisableValidationAT"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/validation/message/constraint",
           "name": "ConstraintValidationMessageAT"
         },
