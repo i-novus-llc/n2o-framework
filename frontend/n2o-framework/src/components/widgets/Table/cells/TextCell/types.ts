@@ -1,4 +1,4 @@
-import { LegacyRef } from 'react'
+import { LegacyRef, CSSProperties } from 'react'
 
 export enum ICON_POSITIONS {
     LEFT = 'left',
@@ -21,4 +21,5 @@ export interface TextCellProps {
     visible: boolean
     forwardedRef: LegacyRef<HTMLDivElement>
     tooltipFieldId: string
+    style?: CSSProperties
 }
