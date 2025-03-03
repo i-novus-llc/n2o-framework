@@ -259,6 +259,10 @@
         {
           "templateId": "interactions/validation/in_js_file",
           "name": "Валидация в отдельном js файле"
+        },
+        {
+          "templateId": "interactions/validation/disable",
+          "name": "Отключение валидаций при выполнении зависимостей\\действий"
         }
       ]
     },
