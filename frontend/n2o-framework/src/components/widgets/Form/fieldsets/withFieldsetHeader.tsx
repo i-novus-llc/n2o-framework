@@ -10,6 +10,7 @@ export type ComponentProps = ComponentType<Omit<FieldsetProps, | 'needDescriptio
 
 export function withFieldsetHeader(Component: ComponentProps) {
     function WithFieldsetHeaderComponent({
+        classes,
         className,
         style,
         needLabel,
@@ -29,7 +30,7 @@ export function withFieldsetHeader(Component: ComponentProps) {
         const badge = useResolved(badgeProps, activeModel)
 
         return (
-            <div className={classNames(className, { 'd-none': visible === false })} style={style}>
+            <div className={classNames(classes, className, { 'd-none': visible === false })} style={style}>
                 <FieldsetHeader
                     visible={type !== 'line' && (needLabel || needDescription || Boolean(badge))}
                     label={label}

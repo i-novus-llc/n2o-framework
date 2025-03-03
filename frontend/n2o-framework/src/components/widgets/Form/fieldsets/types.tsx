@@ -9,6 +9,8 @@ export type Render = (rows: Rows, options?: {
 export type FieldsetModel = Record<string, unknown> | Array<Record<string, unknown>>
 
 export interface FieldsetProps {
+    // INFO параметр classes для кастомизации стилей обертки withFieldsetHeader
+    classes?: string
     className?: string
     style?: CSSProperties
     needLabel?: boolean
