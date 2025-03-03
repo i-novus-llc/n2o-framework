@@ -31,7 +31,7 @@ export function* cachedRequest(params: Params) {
     let resolvedProvider = null
 
     try {
-        resolvedProvider = dataProviderResolver(state, provider, query, params)
+        resolvedProvider = dataProviderResolver(state, provider, query)
     } catch (error) {
         // TODO обработка error?
 
