@@ -1,6 +1,5 @@
 import React from 'react'
-
-import { SnippetRating, Props as SnippetRatingProps } from '../../snippets/SnippetRating/SnippetRating'
+import { Rating as SnippetRating, type Props as SnippetRatingProps } from '@i-novus/n2o-components/lib/inputs/Rating'
 
 export const Rating = ({
     value,

@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode } from 'react'
 import { Dispatch } from 'redux'
+import { type State as ScrollContextProps } from '@i-novus/n2o-components/lib/layouts/ScrollContainer'
 
 import { DataSourceState } from '../../ducks/datasource/DataSource'
 import { ModelPrefix } from '../../core/datasource/const'
@@ -7,7 +8,6 @@ import { ToolbarProps } from '../buttons/Toolbar'
 import { type Breadcrumb } from '../core/Breadcrumb/const'
 import { State as RegionsState } from '../../ducks/regions/Regions'
 import { Widget } from '../../ducks/widgets/Widgets'
-import { type Props as ScrollContextProps } from '../snippets/ScrollContainer/ScrollContainer'
 
 export enum FIXED_PLACE {
     TOP = 'top',

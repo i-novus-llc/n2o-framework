@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import get from 'lodash/get'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import classNames from 'classnames'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import Toolbar, { ToolbarProps } from '../buttons/Toolbar'
 import { getGlobalFieldByPath } from '../../ducks/models/selectors'
@@ -45,11 +46,11 @@ const PageDialog = ({ visible, props }: Props) => {
             >
                 {title && (
                     <ModalHeader className={classNames({ 'modal-page-overlay--border-bottom-none': !text })}>
-                        {title}
+                        <Text>{title}</Text>
                     </ModalHeader>
                 )}
 
-                {text && <ModalBody className="white-space-pre-line">{text}</ModalBody>}
+                {text && <ModalBody className="white-space-pre-line"><Text>{text}</Text></ModalBody>}
 
                 <ModalFooter className={classNames({ 'modal-page-overlay--border-top-none': !text })}>
                     <Toolbar className="mr-auto" entityKey="dialog" toolbar={get(props, 'toolbar.bottomLeft')} />

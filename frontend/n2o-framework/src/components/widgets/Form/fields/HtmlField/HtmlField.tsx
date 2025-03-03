@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-
-import { Html, type Props } from '../../../../snippets/Html/Html'
+import { Html, type Props } from '@i-novus/n2o-components/lib/display/Html'
 
 /**
  * Компонент поле html

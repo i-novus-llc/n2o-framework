@@ -16,10 +16,6 @@ public class OutputText extends Control {
     @JsonProperty
     private String icon;
     @JsonProperty
-    private Boolean ellipsis;
-    @JsonProperty
-    private Object expandable;
-    @JsonProperty
     private String format;
     @JsonProperty
     private Position iconPosition;

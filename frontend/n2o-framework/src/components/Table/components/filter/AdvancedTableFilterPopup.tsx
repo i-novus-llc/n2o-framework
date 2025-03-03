@@ -1,8 +1,7 @@
 import React, { useCallback, memo, KeyboardEvent } from 'react'
 import { Button } from 'reactstrap'
 import classNames from 'classnames'
-
-import InputText from '../../../controls/InputText/InputText'
+import { InputText } from '@i-novus/n2o-components/lib/inputs/InputText'
 
 import { type AdvancedTableFilterPopupProps, VALIDATION_MAP } from './types'
 

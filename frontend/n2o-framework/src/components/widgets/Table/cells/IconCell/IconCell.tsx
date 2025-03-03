@@ -2,9 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import isUndefined from 'lodash/isUndefined'
 import get from 'lodash/get'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
+import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
-import { Text } from '../../../../snippets/Text/Text'
-import { Icon } from '../../../../snippets/Icon/Icon'
 import { withTooltip } from '../../withTooltip'
 
 import { type Props, ICON_POSITION } from './types'
@@ -39,7 +39,7 @@ function IconCellBody({
             })}
         >
             {icon && <Icon name={icon} style={style} />}
-            {text && <div className="n2o-cell-text"><Text text={text} format="" /></div>}
+            {text && <div className="n2o-cell-text"><Text>{text}</Text></div>}
         </div>
     )
 }

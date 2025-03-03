@@ -1,7 +1,6 @@
 import { CSSProperties, Ref } from 'react'
-import { Action } from 'redux'
+import { Shape, TextPosition } from '@i-novus/n2o-components/lib/display/Image/Image'
 
-import { Shape, TextPosition } from '../../../../snippets/Image/Image'
 import { type Props as ActionWrapperProps } from '../../../../buttons/StandardButton/ActionWrapper'
 
 interface Status {

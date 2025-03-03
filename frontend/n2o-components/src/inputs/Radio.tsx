@@ -3,6 +3,8 @@ import uniqueId from 'lodash/uniqueId'
 import classNames from 'classnames'
 import { UncontrolledTooltip } from 'reactstrap'
 
+import { Text } from '../Typography/Text'
+
 import { Input } from './Input'
 
 export type Props = {
@@ -64,7 +66,7 @@ export function InputRadio({
                 })}
                 htmlFor={id}
             >
-                <span>{label}</span>
+                <span><Text>{label}</Text></span>
                 {tooltip && <UncontrolledTooltip target={target}>{tooltip}</UncontrolledTooltip>}
             </label>
         </div>

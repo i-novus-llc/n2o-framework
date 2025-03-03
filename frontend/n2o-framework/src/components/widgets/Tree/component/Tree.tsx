@@ -9,6 +9,8 @@ import isArray from 'lodash/isArray'
 import values from 'lodash/values'
 // @ts-ignore import from js file
 import { HotKeys } from 'react-hotkeys/cjs'
+import { Checkbox } from '@i-novus/n2o-components/lib/inputs/Checkbox/Checkbox'
+import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
 // components
 import { BaseNode } from '../TreeNodes'
@@ -20,8 +22,6 @@ import {
     animationTree,
     singleDoubleClickFilter,
 } from '../helpers'
-import { Icon } from '../../../snippets/Icon/Icon'
-import { Checkbox } from '../../../controls/Checkbox/Checkbox'
 import { DatasourceItem, KEY_CODES, TreeProps } from '../types'
 
 import { Filter } from './Filter'

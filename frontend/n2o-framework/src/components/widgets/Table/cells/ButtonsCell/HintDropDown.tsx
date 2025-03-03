@@ -3,9 +3,8 @@ import defaultTo from 'lodash/defaultTo'
 import { Button, UncontrolledTooltip } from 'reactstrap'
 import { Manager, Reference } from 'react-popper'
 import { DropdownCustomItem } from '@i-novus/n2o-components/lib/display/DropdownCustomItem'
+import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 import { Action } from 'redux'
-
-import { Icon } from '../../../../snippets/Icon/Icon'
 
 import { MODIFIERS, withUID } from './helpers'
 import { HintDropDownBody } from './HintDropDownBody'

@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { IPlacement } from 'rc-drawer/lib/IDrawerPropTypes'
 
 import { TBaseProps } from '../types'
+import { Text } from '../Typography/Text'
 
 export type Props = TBaseProps & {
     // Включение маски(backdrop)
@@ -87,7 +88,7 @@ export function Drawer({
                 style={fixedFooter ? { paddingBottom } : {}}
             >
                 <div className="n2o-drawer-children-wrapper">
-                    {title && <div className="drawer-title">{title}</div>}
+                    {title && <div className="drawer-title"><Text>{title}</Text></div>}
                     <div className="drawer-children">{children}</div>
                     <div
                         className={classNames('drawer-footer', {
@@ -95,7 +96,7 @@ export function Drawer({
                         })}
                         ref={footerRef}
                     >
-                        {footer}
+                        <Text>{footer}</Text>
                     </div>
                 </div>
             </div>

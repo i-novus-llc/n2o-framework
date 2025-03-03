@@ -1,10 +1,10 @@
 import React from 'react'
 import get from 'lodash/get'
 import classNames from 'classnames'
+import { FormattedText } from '@i-novus/n2o-components/lib/Typography/FormattedText'
+import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
 import { withTooltip } from '../../withTooltip'
-import { Text } from '../../../../snippets/Typography/Text/Text'
-import { Icon } from '../../../../snippets/Icon/Icon'
 
 import { SubText } from './SubText'
 import { ICON_POSITIONS, type TextCellProps } from './types'
@@ -14,7 +14,6 @@ function TextCellBody({
     icon,
     id,
     model,
-    preLine,
     subTextFieldKey,
     subTextFormat,
     forwardedRef,
@@ -35,7 +34,7 @@ function TextCellBody({
                 })}
             >
                 {icon && <Icon name={icon} />}
-                <Text text={text} preLine={preLine} {...rest} />
+                <FormattedText {...rest}>{text?.toString()}</FormattedText>
             </div>
             {subTextFieldKey && <SubText subText={model && get(model, subTextFieldKey)} format={subTextFormat} /> }
         </div>

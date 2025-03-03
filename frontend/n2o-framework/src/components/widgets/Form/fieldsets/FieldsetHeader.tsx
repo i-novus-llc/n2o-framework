@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import React, { useContext } from 'react'
 import { Props as BadgeProps } from '@i-novus/n2o-components/lib/display/Badge/Badge'
+import { HelpPopover } from '@i-novus/n2o-components/lib/display/HelpPopover'
 
-import HelpPopover from '../fields/StandardField/HelpPopover'
 import Label from '../fields/StandardField/Label'
 import { FactoryLevels } from '../../../../core/factory/factoryLevels'
 import { FactoryContext } from '../../../../core/factory/context'

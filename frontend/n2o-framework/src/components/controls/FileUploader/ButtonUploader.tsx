@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
 import flowRight from 'lodash/flowRight'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import withFileUploader from './withFileUploader'
 import FileUploader from './FileUploader'
@@ -24,7 +25,7 @@ function ButtonUploaderChildren({
             {children || (
                 <>
                     <div className={classNames('n2o-file-uploader-icon', { [icon]: icon })} />
-                    <span>{label}</span>
+                    <span><Text>{label}</Text></span>
                 </>
             )}
         </div>

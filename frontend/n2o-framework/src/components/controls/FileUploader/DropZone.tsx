@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import withFileUploader from './withFileUploader'
 import FileUploader from './FileUploader'
@@ -8,7 +9,7 @@ function defaultDropZone(icon: string, label: string) {
     return (
         <>
             <div className={icon} />
-            {label}
+            <Text>{label}</Text>
         </>
     )
 }
@@ -27,7 +28,11 @@ function DropZone(props: Props) {
             {...props}
             componentClass="n2o-drop-zone"
         >
-            {children || defaultDropZone(icon, label)}
+            {
+                children
+                    ? (<Text>{children}</Text>)
+                    : defaultDropZone(icon, label)
+            }
         </FileUploader>
     )
 }

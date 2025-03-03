@@ -8,6 +8,7 @@ import {
     withPropsOnChange,
     mapProps,
 } from 'recompose'
+import { Spinner } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 
 import { Factory } from '../../core/factory/Factory'
 import { PAGES } from '../../core/factory/factoryLevels'
@@ -15,7 +16,6 @@ import {
     makePageDisabledByIdSelector,
 } from '../../ducks/pages/selectors'
 import { rootPageSelector } from '../../ducks/global/selectors'
-import { Spinner } from '../snippets/Spinner/Spinner'
 import { ErrorContainer } from '../../core/error/Container'
 
 import withMetadata from './withMetadata'

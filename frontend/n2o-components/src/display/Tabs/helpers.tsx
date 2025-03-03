@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { TOption } from '../../types'
+import { Text } from '../../Typography/Text'
 
 import { Tab } from './Tabs'
 
@@ -24,7 +25,7 @@ export function createOptions(tabs: Tab[], hideSingleTab?: boolean): Array<TOpti
                 <>
                     {icon && <span className={icon} />}
                     {' '}
-                    {label}
+                    <Text>{label}</Text>
                 </>
             ),
         }

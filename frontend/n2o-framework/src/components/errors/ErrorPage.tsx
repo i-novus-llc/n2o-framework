@@ -1,4 +1,5 @@
 import React from 'react'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 export interface Props {
     status: number | null
@@ -13,7 +14,7 @@ const ErrorPage = ({ status, error }: Props) => {
         <div className="container d-flex align-items-center justify-content-center">
             <div className="d-flex flex-column align-items-center justify-content-center">
                 <h1 style={headerStyle}>{status}</h1>
-                <span style={spanStyle}>{error}</span>
+                <span style={spanStyle}><Text>{error}</Text></span>
             </div>
         </div>
     )

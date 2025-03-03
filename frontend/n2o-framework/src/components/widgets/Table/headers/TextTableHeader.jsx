@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, lifecycle, withHandlers } from 'recompose'
+import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import { Sorter } from '../../../snippets/Sorter/Sorter'
 import { changeFrozenColumn, changeColumnVisibility } from '../../../../ducks/columns/store'
@@ -19,9 +20,9 @@ const TextTableHeader = ({ sortingParam, sorting, label, style }) => {
     return (
         <span className="n2o-advanced-table-header-title" style={style}>
             <Sorter visible={Boolean(sortingParam)} sorting={sorting} sortingParam={sortingParam} onSort={setSorting}>
-                {label}
+                <Text>{label}</Text>
             </Sorter>
-            {!sortingParam && label}
+            {!sortingParam && <Text>{label}</Text>}
         </span>
     )
 }
