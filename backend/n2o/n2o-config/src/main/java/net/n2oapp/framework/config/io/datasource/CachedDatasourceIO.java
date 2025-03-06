@@ -41,6 +41,11 @@ public class CachedDatasourceIO extends AbstractDatasourceIO<N2oCachedDatasource
         p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
         p.attribute(e, "param", pf::getParam, pf::setParam);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
+        p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
+        p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
+        p.attribute(e, "datasource", pf::getDatasourceId, pf::setDatasourceId);
+        p.attributeEnum(e, "model", pf::getModel, pf::setModel, ReduxModel.class);
+        p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
 
     private void submit(Element e, Submit t, IOProcessor p) {
