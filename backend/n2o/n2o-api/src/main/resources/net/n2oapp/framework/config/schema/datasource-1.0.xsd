@@ -45,7 +45,7 @@
             <xs:extension base="datasourceDefinition">
                 <xs:sequence>
                     <xs:element name="submit" type="datasourceSubmit" minOccurs="0"/>
-                    <xs:element name="filters" type="datasourceFiltersOnlyByParamDefinition" minOccurs="0"/>
+                    <xs:element name="filters" type="datasourceFiltersDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="object-id" type="xs:string">
                     <xs:annotation>
@@ -749,56 +749,6 @@
             <xs:annotation>
                 <xs:documentation>
                     Попадает ли фильтр в url
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="datasourceFiltersOnlyByParamDefinition">
-        <xs:annotation>
-            <xs:documentation>
-                Предустановленная фильтрация
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="eq" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="in" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="like" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="likeStart" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNull" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="contains" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="more" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="less" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="notEq" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="notIn" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNotNull" type="filterOnlyParams" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="filterOnlyParams">
-        <xs:annotation>
-            <xs:documentation>
-                Предустановленная фильтрация поля выборки
-            </xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="field-id" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>
-                    Поле, по которому будет фильтрация
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="required" type="xs:boolean">
-            <xs:annotation>
-                <xs:documentation>
-                    Обязательность предустановленного фильтра
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="param" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Имя параметра для фильтрации (в случае, если фильтрация по параметру из url).
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
