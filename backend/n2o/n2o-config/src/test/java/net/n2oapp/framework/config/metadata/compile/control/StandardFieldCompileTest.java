@@ -435,6 +435,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field4.getDependencies().get(2).getType(), is(ValidationType.required));
         assertThat(field4.getDependencies().get(2).getOn(), is(Arrays.asList("f1", "f2", "f3")));
         assertThat(field4.getDependencies().get(2).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
+        assertThat(((RequiringDependency) field4.getDependencies().get(2)).getValidate(), is(false));
     }
 
     @Test
