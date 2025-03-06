@@ -144,6 +144,7 @@ function* resolveDependency(
     ])
 }
 
+// eslint-disable-next-line complexity
 export function* modify(
     form: Form,
     values: Record<string, unknown>,
@@ -199,7 +200,7 @@ export function* modify(
         }
         case 'reset': {
             if (values?.[fieldName] !== null && evalResultCheck(evalResult)) {
-                yield put(updateModel(modelPrefix, datasource, fieldName, null, validate))
+                yield put(updateModel(modelPrefix, datasource, fieldName, null, !isInit && validate))
             }
 
             break
@@ -212,12 +213,12 @@ export function* modify(
                 break
             }
 
-            yield put(setFieldRequired(formName, fieldName, nextRequired, validate))
+            yield put(setFieldRequired(formName, fieldName, nextRequired, !isInit && validate))
 
             break
         }
         case 'reRender': {
-            if (validate) {
+            if (!isInit && validate) {
                 yield delay(50)
                 yield put(startValidate(
                     datasource,

@@ -128,6 +128,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
 
             dependency.setValue(StringUtils.unwrapLink(conditionGetter.get()));
+            if (dependency instanceof N2oField.RequiringDependency requiringDependency)
+                requiringDependency.setValidate(false);
             source.addDependency(dependency);
             conditionSetter.accept(false);
         } else {

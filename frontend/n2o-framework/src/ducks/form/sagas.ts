@@ -12,7 +12,7 @@ import {
     copyFieldArray,
     setModel,
 } from '../models/store'
-import { startValidate } from '../datasource/store'
+import { resetValidation, startValidate } from '../datasource/store'
 import { dataSourceValidationSelector } from '../datasource/selectors'
 import { getModelByPrefixAndNameSelector } from '../models/selectors'
 import { State } from '../State'
@@ -143,14 +143,25 @@ export const formPluginSagas = [
     ], function* addFieldToBuffer({ payload, meta = {} }: FieldAction) {
         const { validate } = meta
 
-        if (validate === false) { return }
+        if (validate === false) {
+            const { formName, fieldName } = payload
+
+            // Сброс required валидации, даже если в зависимости стоит validate=false
+            if (get(payload, 'required') !== false) {
+                const { modelPrefix } = yield select(makeFormByName(formName))
+
+                yield put(resetValidation(formName, [fieldName], modelPrefix))
+            }
+
+            return
+        }
 
         const { formName, fieldName } = payload
         const { datasource }: Form = yield select(makeFormByName(formName))
 
         if (!validateFields[datasource]) { validateFields[datasource] = [] }
 
-        if (!validateFields[datasource].includes(fieldName) && !get(payload, 'required', false)) {
+        if (!validateFields[datasource].includes(fieldName)) {
             validateFields[datasource].push(fieldName)
         }
     }),

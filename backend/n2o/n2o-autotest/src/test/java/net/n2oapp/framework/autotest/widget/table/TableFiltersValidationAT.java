@@ -77,7 +77,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
         id.shouldHaveValidationMessage(Condition.empty);
         like.control(InputText.class).shouldExists();
         like.shouldBeRequired();
-        like.shouldHaveValidationMessage(Condition.empty);
+        like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         like.control(InputText.class).click();
         like.control(InputText.class).clear();
         like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
