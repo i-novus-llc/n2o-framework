@@ -1,16 +1,18 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oAlertAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.action.N2oAlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
 import net.n2oapp.framework.api.ui.ResponseMessage;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -59,13 +61,15 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
             message.setText(p.resolveJS(source.getText().trim()));
         message.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         message.setClassName(source.getCssClass());
-        message.setHref(p.resolveJS(source.getHref()));
+        message.setHref(StringUtils.hasLink(source.getHref())
+                ? p.resolveJS(source.getHref())
+                : RouteUtil.normalize(source.getHref()));
         message.setSeverity(castDefault(source.getColor(),
                 () -> p.resolve(property("n2o.api.action.alert.color"), String.class)));
         message.setCloseButton(castDefault(source.getCloseButton(),
                 () -> p.resolve(property("n2o.api.action.alert.close_button"), Boolean.class)));
         message.setPlacement(castDefault(p.resolve(source.getPlacement(), MessagePlacement.class),
-                () -> p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));//fixme добавить резолв из контекста
+                () -> p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));
         message.setTimeout(castDefault(p.resolve(source.getTimeout(), Integer.class),
                 () -> p.resolve(property(String.format("n2o.api.message.%s.timeout", message.getSeverity())), Integer.class)));
         message.setTime(initTimeStamp(source));

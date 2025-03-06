@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oHtmlWidget;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.StringUtils.hasLink;
@@ -28,10 +29,10 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
-        String html = castDefault(source.getHtml(), () -> p.getExternalFile(source.getUrl()));
+        String html = castDefault(source.getHtml(), () -> p.getExternalFile(RouteUtil.normalize(source.getUrl())));
         if (html != null) {
             if (hasLink(html))
-                html = html.replace("'", "\\\'");
+                html = html.replace("'", "\\'");
             widget.setHtml(p.resolveJS(html.trim()));
         }
         compileToolbarAndAction(widget, source, context, p, widgetScope, widgetActions, object, null);

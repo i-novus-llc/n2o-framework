@@ -11,7 +11,7 @@
                             </button>
                             <sub-menu>
                                 <menu-item>
-                                    <a href="n2o.i-novus.ru"/>
+                                    <a href="n2o.i-novus.ru" target="application"/>
                                 </menu-item>
                             </sub-menu>
                         </toolbar>

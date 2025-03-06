@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-
 /**
  * Компиляция ячейки иконка
  */
@@ -30,7 +30,9 @@ public class LinkCellCompiler extends AbstractCellCompiler<LinkCell, N2oLinkCell
         if (source.getUrl() == null) {
             compileAction(cell, source, context, p);
         } else {
-            cell.setUrl(p.resolveJS(source.getUrl()));
+            cell.setUrl(StringUtils.hasLink(source.getUrl())
+                    ? p.resolveJS(source.getUrl())
+                    : RouteUtil.normalize(source.getUrl()));
             Target defaultTarget = RouteUtil.isApplicationUrl(source.getUrl()) ? Target.application : Target.self;
             cell.setTarget(castDefault(source.getTarget(), defaultTarget));
         }
