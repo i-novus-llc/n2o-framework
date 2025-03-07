@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.compile.pipeline;
 
 import net.n2oapp.engine.factory.EngineNotFoundException;
-import net.n2oapp.engine.factory.EngineNotUniqueException;
 import net.n2oapp.engine.factory.integration.spring.OverrideBean;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.factory.MetadataFactory;
@@ -11,7 +10,6 @@ import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationFactory;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
 import net.n2oapp.framework.config.factory.AwareFactorySupport;
-import net.n2oapp.framework.config.factory.BaseMetadataFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +30,7 @@ public class N2oPipelineOperationFactory implements MetadataFactory<PipelineOper
 
     public N2oPipelineOperationFactory(Map<String, PipelineOperation> beans) {
         enginesMap.putAll(OverrideBean.removeOverriddenBeans(beans).values()
-                .stream().collect(Collectors.toMap(o -> ((PipelineOperationTypeAware)o).getPipelineOperationType(), o -> o)));
+                .stream().collect(Collectors.toMap(o -> ((PipelineOperationTypeAware) o).getPipelineOperationType(), o -> o)));
     }
 
     @Override
@@ -40,12 +38,12 @@ public class N2oPipelineOperationFactory implements MetadataFactory<PipelineOper
         PipelineOperation operation = enginesMap.get(type);
         if (operation == null)
             throw new EngineNotFoundException(type);
-       return operation;
+        return operation;
     }
 
     @Override
     public MetadataFactory<PipelineOperation> add(PipelineOperation... g) {
-        Stream.of(g).forEach(o -> enginesMap.put(((PipelineOperationTypeAware)o).getPipelineOperationType(), o));
+        Stream.of(g).forEach(o -> enginesMap.put(((PipelineOperationTypeAware) o).getPipelineOperationType(), o));
         return this;
     }
 
