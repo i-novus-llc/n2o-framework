@@ -327,6 +327,8 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFilterColumns.page.xml")
                 .get(new PageContext("testFilterColumns"));
 
+        StandardDatasource ds = (StandardDatasource)page.getDatasources().get("testFilterColumns_w1");
+        assertThat(ds.getFilterValidations().get("name").get(0).getEnablingConditions().get(0), is("name || name === 0"));
 
         List<ColumnHeader> columnHeaders = ((Table) page.getWidget()).getComponent().getHeader().getCells();
         assertThat(columnHeaders.get(0), instanceOf(ColumnHeader.class));
