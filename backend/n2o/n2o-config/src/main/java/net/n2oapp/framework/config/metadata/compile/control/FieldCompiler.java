@@ -16,6 +16,7 @@ import net.n2oapp.framework.api.metadata.control.PageRef;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oFilterColumn;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
@@ -282,8 +283,17 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         Optional<Validation> mandatory = fieldValidations.stream().filter(MandatoryValidation.class::isInstance).findFirst();
         if (mandatory.isEmpty()) {
             Validation requiredValidation = initRequiredValidation(fieldId, field, source, p, visibilityConditions);
-            if (requiredValidation != null)
+            if (requiredValidation != null) {
                 validations.add(requiredValidation);
+            } else {
+                ComponentScope componentScope = p.getScope(ComponentScope.class);
+                if (componentScope != null) {
+                    N2oFilterColumn component = componentScope.unwrap(N2oFilterColumn.class);
+                    if (component != null) {
+                        validations.forEach(v -> v.addEnablingCondition(String.format("%s || %s === 0",source.getId(),source.getId())));
+                    }
+                }
+            }
         }
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         ValidationScope validationScope = p.getScope(ValidationScope.class);
