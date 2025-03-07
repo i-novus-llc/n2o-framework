@@ -5,7 +5,17 @@
         <columns>
             <filter-column text-field-id="name" label="label">
                 <filter>
-                    <input-text id="name" style="color: red;"/>
+                    <input-text id="name" style="color: red;">
+                        <validations>
+                            <condition id="name" server-moment="before-operation"
+                                       severity="danger"
+                                       message="Введите 'Ив'"
+                                       on="name"
+                                       side="client">
+                                name == "Ив"
+                            </condition>
+                        </validations>
+                    </input-text>
                 </filter>
                 <cell>
                     <badge/>
