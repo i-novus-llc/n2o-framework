@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.io.ProxyTypedElementIO;
 import net.n2oapp.framework.api.metadata.io.TypedElementIO;
 import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
+import net.n2oapp.framework.config.ElementWrongLocation;
 import org.jdom2.Element;
 
 import java.util.HashMap;
@@ -51,7 +52,7 @@ public class ElementIOFactoryByMap<T, R extends TypedElementReader<? extends T>,
     public R produce(Element element) {
         R engine = names.get(element.getName());
         if (engine == null)
-            throw new EngineNotFoundException(element.getName());
+            throw new ElementWrongLocation(element);
         return engine;
     }
 }
