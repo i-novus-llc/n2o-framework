@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="parentDs"/>
+    </datasources>
+
+    <regions>
+        <form datasource="parentDs">
+            <fields>
+                <hidden id="id" default-value="2"/>
+            </fields>
+        </form>
+    </regions>
+
+    <toolbar place="topLeft">
+        <button label="Фильтр-константа">
+            <show-modal page-id="page1"/>
+        </button>
+        <button label="Фильтр из параметра">
+            <show-modal page-id="page2" route="/:id/modal">
+                <params>
+                    <path-param name="id" value="2"/>
+                </params>
+            </show-modal>
+        </button>
+        <button label="Фильтр из модели">
+            <show-modal page-id="page3"/>
+        </button>
+    </toolbar>
+</page>

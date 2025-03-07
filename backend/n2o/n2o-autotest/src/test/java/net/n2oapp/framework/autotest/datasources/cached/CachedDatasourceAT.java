@@ -4,7 +4,10 @@ import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -101,6 +104,24 @@ public class CachedDatasourceAT extends AutoTestBase {
         Selenide.sessionStorage().clear();
     }
 
+    @Test
+    void testFiltered() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/cached_datasource/filtered");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/filtered/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/filtered/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/filtered/page1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/filtered/page2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/filtered/page3.page.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        checkValues(page, "Фильтр-константа");
+        checkValues(page, "Фильтр из параметра");
+        checkValues(page, "Фильтр из модели");
+    }
+
     private void checkOpenPage(String name) {
         StandardPage open = N2oSelenide.page(StandardPage.class);
         open.shouldExists();
@@ -117,5 +138,23 @@ public class CachedDatasourceAT extends AutoTestBase {
         input.shouldHaveValue("new value");
 
         open.breadcrumb().crumb(0).click();
+    }
+
+    private void checkValues(SimplePage page, String buttonName) {
+        page.toolbar().topLeft().button(buttonName).click();
+        Modal modal = N2oSelenide.modal(Modal.class);
+        modal.shouldExists();
+
+        RegionItems region = modal.content(StandardPage.class).regions().region(0, SimpleRegion.class).content();
+
+        FormWidget firstForm = region.widget(0, FormWidget.class);
+        InputText firstValue = firstForm.fields().field("name (datasource)").control(InputText.class);
+        firstValue.shouldHaveValue("test2");
+
+        FormWidget secondForm = region.widget(1, FormWidget.class);
+        InputText secondValue = secondForm.fields().field("name (cached-datasource)").control(InputText.class);
+        secondValue.shouldHaveValue("test2");
+
+        modal.close();
     }
 }

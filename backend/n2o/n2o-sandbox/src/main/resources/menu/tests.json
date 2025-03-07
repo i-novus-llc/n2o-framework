@@ -1237,6 +1237,10 @@
           "name": "CachedDatasourceAT. testPathParams"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/datasources/cached_datasource/filtered",
+          "name": "CachedDatasourceAT. testFiltered"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/model/field",
           "name": "RefFieldModelAT"
         },
