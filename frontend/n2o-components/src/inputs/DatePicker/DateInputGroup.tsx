@@ -1,28 +1,7 @@
-import React, { FocusEventHandler, KeyboardEvent, forwardRef } from 'react'
-import { Dayjs } from 'dayjs'
-
-import { TBaseInputProps, TBaseProps } from '../../types'
+import React, { forwardRef } from 'react'
 
 import { DateInput } from './DateInput'
-import { OnInputChangeHandler } from './types'
-
-type Value = Record<string, Dayjs | null>
-
-type DateInputGroupProps = TBaseProps & Omit<TBaseInputProps<Value>, 'onBlur' | 'onFocus'> & {
-    dateFormat: string,
-    inputClassName?: string,
-    max?: string,
-    min?: string,
-    onBlur?(value: Dayjs | null, name: string): void,
-    onFocus?: FocusEventHandler<HTMLInputElement>,
-    onInputChange?: OnInputChangeHandler,
-    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
-    openOnFocus: boolean,
-    outputFormat: string,
-    setControlRef(el?: unknown): void,
-    setVisibility(visible: boolean): void,
-    value: Value
-}
+import { type DateInputGroupProps } from './types'
 
 export const DateInputGroup = forwardRef<HTMLDivElement, DateInputGroupProps>(({
     dateFormat,

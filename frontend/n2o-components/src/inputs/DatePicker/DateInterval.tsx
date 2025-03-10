@@ -1,31 +1,8 @@
 import React from 'react'
 import defaults from 'lodash/defaults'
 
-import { TBaseInputProps, TBaseProps } from '../../types'
-
 import { DateTimeControl } from './DateTimeControl'
-import { DateTimeControlName } from './types'
-
-type IntervalValue = {
-    [DateTimeControlName.BEGIN]: string | null,
-    [DateTimeControlName.END]: string | null,
-}
-
-export type DateIntervalProps = TBaseProps & TBaseInputProps<IntervalValue> & {
-    configLocale?: 'en' | 'ru',
-    dateDivider?: string,
-    dateFormat?: string,
-    defaultTime?: string,
-    defaultValue?: IntervalValue,
-    locale?: 'en' | 'ru',
-    max?: string,
-    min?: string,
-    onBlur?(value: IntervalValue): void,
-    onChange?(value: IntervalValue): void,
-    openOnFocus?: boolean,
-    outputFormat?: string,
-    timeFormat: string
-}
+import { type DateIntervalProps, DateTimeControlName } from './types'
 
 export const DateInterval = ({
     value,
