@@ -1,19 +1,8 @@
 import React from 'react'
-import { Dayjs } from 'dayjs'
 import classNames from 'classnames'
 
-import { TBaseProps } from '../../types'
-
 import '../../styles/components/Day.scss'
-
-type DayProps = TBaseProps & {
-    current?: boolean,
-    day: Dayjs,
-    inputName: string,
-    otherMonth?: boolean,
-    select(day: Dayjs, name: string): void,
-    selected?: boolean,
-}
+import { type DayProps } from './types'
 
 export const Day = ({
     disabled = false,
@@ -25,9 +14,7 @@ export const Day = ({
     select,
 }: DayProps) => {
     const onClick = () => {
-        if (!disabled) {
-            select(day, inputName)
-        }
+        if (!disabled) { select(day, inputName) }
     }
 
     return (

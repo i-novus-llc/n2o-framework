@@ -5,35 +5,14 @@ import React, {
     KeyboardEventHandler,
     MouseEventHandler,
 } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import cx from 'classnames'
 import isNaN from 'lodash/isNaN'
 import omit from 'lodash/omit'
 import MaskedInput from 'react-text-mask'
 
-import { TBaseInputProps, TBaseProps } from '../../types'
-
 import { formatToMask, getDeletedSymbol, hasInsideMixMax, replaceAt } from './utils'
-import { DateTimeControlName, OnInputChangeHandler } from './types'
-
-type DateInputProps = TBaseProps & Omit<TBaseInputProps<Dayjs | null>, 'onFocus' | 'onBlur'> & {
-    dateFormat: string,
-    defaultTime?: string,
-    inputClassName?: string,
-    inputOnClick?(): void,
-    max?: string,
-    min?: string,
-    name: string,
-    onBlur?(value: Dayjs | null, name: string): void,
-    onClick?: MouseEventHandler<HTMLInputElement>,
-    onFocus?: FocusEventHandler<HTMLInputElement>,
-    onInputChange?: OnInputChangeHandler,
-    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
-    openOnFocus: boolean,
-    outputFormat: string,
-    setControlRef(el: MaskedInput): void,
-    setVisibility(value: boolean): void
-}
+import { type DateInputProps, DateTimeControlName } from './types'
 
 type DateInputState = {
     value: string | undefined,

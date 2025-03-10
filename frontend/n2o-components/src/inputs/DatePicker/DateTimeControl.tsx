@@ -1,58 +1,30 @@
-import React, { ElementType, FocusEventHandler, KeyboardEvent } from 'react'
+import React, { ElementType, FocusEventHandler } from 'react'
 import { findDOMNode } from 'react-dom'
 import every from 'lodash/every'
 import isFunction from 'lodash/isFunction'
 import isNull from 'lodash/isNull'
 import dayjs, { Dayjs } from 'dayjs'
 import { Manager, Popper, Reference, RefHandler } from 'react-popper'
-import { isArray } from 'lodash'
 
-import { TBaseInputProps, TBaseProps } from '../../types'
-
-import { buildDateFormat, mapToDefaultTime, mapToValue } from './utils'
+import { buildDateFormat, createDefaultTime, mapToDefaultTime, mapToValue } from './utils'
 import { DateInputGroup } from './DateInputGroup'
 import { PopUp } from './PopUp'
 import {
-    DateTimeControlName, DateType,
-    DatePickerValue,
-    OnInputChangeHandler, PopperPlacement,
-    PopperPositioningStrategy,
+    DateTimeControlName,
+    DateType,
+    OnInputChangeHandler,
     DefaultTime,
+    DateTimeControlProps,
+    ControlType,
 } from './types'
 
 import '../../styles/components/DatePicker.scss'
-
-type DateTimeControlProps = TBaseProps & Omit<TBaseInputProps<DatePickerValue>, 'onChange' | 'onBlur'> & {
-    configLocale?: 'en' | 'ru',
-    dateDivider?: string,
-    dateFormat?: string,
-    defaultTime?: string,
-    max?: string,
-    min?: string,
-    onBlur?(value: string | null | Array<string | null>): void,
-    onChange?(value: string | null | Array<string | null>): void,
-    onFocus?: FocusEventHandler,
-    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
-    openOnFocus?: boolean,
-    outputFormat?: string,
-    popupPlacement?: PopperPlacement,
-    strategy: PopperPositioningStrategy,
-    timeFormat?: string,
-    type?: string,
-    utc?: boolean,
-    value: DatePickerValue
-}
 
 type DateTimeControlState = {
     inputs: Record<string, Dayjs | null>,
     isFocus: boolean,
     isPopUpVisible: boolean,
     isTimeSet: Record<string, boolean | undefined>
-}
-
-export const ControlType = {
-    DATE_PICKER: 'date-picker',
-    DATE_INTERVAL: 'date-interval',
 }
 
 const DEFAULT_DATE_FORMAT = 'DD.MM.YYYY'
@@ -78,7 +50,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
             timeFormat,
             dateDivider = ' ',
             outputFormat = DEFAULT_OUTPUT_FORMAT,
-            defaultTime = '00:00',
+            defaultTime = createDefaultTime(timeFormat),
         } = props
 
         this.format = buildDateFormat(dateFormat, timeFormat, dateDivider)
@@ -119,7 +91,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
             timeFormat,
             dateDivider = ' ',
             outputFormat = DEFAULT_OUTPUT_FORMAT,
-            defaultTime = '00:00',
+            defaultTime = createDefaultTime(timeFormat),
         } = props
 
         this.format = buildDateFormat(dateFormat, timeFormat, dateDivider)
@@ -363,7 +335,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                 if (type === 'date-interval') {
                     const valueToBlur = this.getValue(null)
 
-                    if (isArray(valueToBlur) && every(valueToBlur, value => value)) {
+                    if (Array.isArray(valueToBlur) && every(valueToBlur, value => value)) {
                         onBlur?.(valueToBlur)
                     }
                 } else {
