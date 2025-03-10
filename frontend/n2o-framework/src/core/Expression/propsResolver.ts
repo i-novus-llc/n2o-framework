@@ -37,6 +37,10 @@ export function propsResolver<
 
     function resolve<T>(prop: T): Resolve<T> {
         if (!prop) { return prop as Resolve<T> }
+        if (prop instanceof Date) { return prop as Resolve<T> }
+        // @ts-ignore TODO временно, убрать после полного отказа от moment
+        // eslint-disable-next-line no-underscore-dangle
+        if (prop?._isAMomentObject) { return prop as Resolve<T> }
         if (typeof prop === 'string') {
             const parsedExpression = parseExpression(prop)
 
