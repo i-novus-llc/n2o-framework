@@ -3,7 +3,7 @@ import flattenDeep from 'lodash/flattenDeep'
 import map from 'lodash/map'
 import isNull from 'lodash/isNull'
 
-import { DateType, DatePickerValue, DefaultTime } from './types'
+import { DateType, DatePickerValue, DefaultTime, TIME_FORMAT } from './types'
 
 /**
  * Дата (date) была после конца месяца другой даты(displayedMonth) или нет
@@ -274,5 +274,22 @@ export const objFromTime = (date: Dayjs) => {
         minutes: date.minute(),
         seconds: date.second(),
         hours: date.hour(),
+    }
+}
+
+export function createDefaultTime(timeFormat?: TIME_FORMAT): string {
+    if (!timeFormat) { return '00:00' }
+
+    switch (timeFormat) {
+        case TIME_FORMAT.FULL: return '00:00:00'
+        case TIME_FORMAT.SHORT: return '00:00'
+        case TIME_FORMAT.HOURS_ONLY: return '00'
+        case TIME_FORMAT.WITH_MILLISECONDS: return '00:00:00.000'
+        case TIME_FORMAT.FULL_WITH_AMPM: return '12:00:00 AM'
+        case TIME_FORMAT.SHORT_WITH_AMPM: return '12:00 AM'
+        default:
+            console.warn(`Unknown time format: ${timeFormat}`)
+
+            return ''
     }
 }

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import isNull from 'lodash/isNull'
 import dayjs, { Dayjs, UnitType, isDayjs } from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
@@ -7,45 +7,18 @@ import classNames from 'classnames'
 
 import { Day } from './Day'
 import { CalendarHeader } from './CalendarHeader'
-import {
-    weeks,
-    isDateFromPrevMonth,
-    isDateFromNextMonth,
-    addTime, objFromTime,
-} from './utils'
-import { ControlType } from './DateTimeControl'
-import { CalendarType, DateTimeControlName, Time } from './types'
+import { weeks, isDateFromPrevMonth, isDateFromNextMonth, addTime, objFromTime } from './utils'
+import { CalendarType, DateTimeControlName, ControlType, type CalendarProps } from './types'
 
 import '../../styles/components/Calendar.scss'
 
 dayjs.extend(localeData)
 dayjs.locale('ru')
 
-type CalendarProps = {
-    auto?: boolean,
-    dateFormat: string,
-    hasDefaultTime?: boolean,
-    index: number,
-    inputName: string,
-    locale: 'en' | 'ru',
-    markTimeAsSet(str: string): void,
-    max?: Dayjs | Date | string,
-    min?: Dayjs | Date | string,
-    select(day: Dayjs, name: string, type?: boolean): void,
-    setPlacement?(): void,
-    setVisibility?(): void,
-    t(key: string): ReactNode,
-    time: Time,
-    timeFormat?: string,
-    type?: string,
-    value: Dayjs | null,
-    values: Record<string, Dayjs | null>
-}
-
 type CalendarState = {
     calendarType: CalendarType,
     displayesMonth: Dayjs,
-    tempTimeObj: Time
+    tempTimeObj: CalendarProps['time']
 }
 
 const TIME_UNIT = 'n2o-calendar-time-unit'

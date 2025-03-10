@@ -1,23 +1,8 @@
 import React from 'react'
-import { Dayjs } from 'dayjs'
 import { useTranslation } from 'react-i18next'
 
 import { Calendar } from './Calendar'
-import { Time, DefaultTime } from './types'
-
-type PopUpProps = {
-    dateFormat: string,
-    isTimeSet: Record<string, boolean | undefined>,
-    locale: 'en' | 'ru',
-    markTimeAsSet(str: string): void,
-    max?: Dayjs | Date | string,
-    min?: Dayjs | Date | string,
-    select(day: Dayjs | null, inputName: string, close?: boolean): void,
-    time: DefaultTime,
-    timeFormat?: string,
-    type?: string,
-    value: Record<string, Dayjs | null>
-}
+import { type Time, type PopUpProps } from './types'
 
 export const PopUp = ({
     dateFormat,
