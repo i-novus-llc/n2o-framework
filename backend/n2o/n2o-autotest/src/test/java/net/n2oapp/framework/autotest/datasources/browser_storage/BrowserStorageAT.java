@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.datasources.browser_storage;
 
 import com.codeborne.selenide.Selenide;
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
@@ -8,6 +9,7 @@ import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -149,5 +151,28 @@ public class BrowserStorageAT extends AutoTestBase {
         inputDef.shouldHaveValue("text");
         select.shouldHaveValue("Введите значение");
         checkboxGroup.shouldBeEmpty();
+    }
+
+    @Test
+    void testFetchOnInit() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/fetch_on_init/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/fetch_on_init/test.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        FormWidget formWidget = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
+        InputText input = formWidget.fields().field("Инпут").control(InputText.class);
+        Button button = formWidget.toolbar().bottomLeft().button("test");
+        Button submit = formWidget.toolbar().bottomLeft().button("Submit");
+
+        input.setValue("testValue");
+        submit.click();
+        input.shouldHaveValue("testValue");
+        button.click();
+
+        StandardPage open = N2oSelenide.page(StandardPage.class);
+        open.breadcrumb().crumb(1).shouldHaveLabel("fetch-on-init тест");
+        InputText testInput = open.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields().field("Инпут").control(InputText.class);
+        testInput.shouldHaveValue("testValue");
     }
 }

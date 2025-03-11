@@ -26,6 +26,7 @@ export interface DataSourceState {
     Partial<Record<string, ValidationResult[]>>
     >
     error?: object
+    fetchOnInit?: boolean
 }
 
 export class DataSource {

@@ -13,6 +13,7 @@ export interface N2OMeta {
     [key: string]: unknown
     abortController?: AbortController
     isTriggeredByFieldChange?: boolean
+    initAction?: boolean
 }
 
 export interface N2OAction<

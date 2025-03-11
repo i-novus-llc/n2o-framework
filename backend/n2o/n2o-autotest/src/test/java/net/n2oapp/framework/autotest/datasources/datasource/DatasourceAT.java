@@ -61,7 +61,7 @@ public class DatasourceAT extends AutoTestBase {
      * Тестирование формы как фильтра
      */
     @Test
-    public void testFormAsFilter() {
+    void testFormAsFilter() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter/index.page.xml"),
@@ -145,7 +145,7 @@ public class DatasourceAT extends AutoTestBase {
      * Тестирование одного datasource на несколько виджетов
      */
     @Test
-    public void testOneDSManyWidgets() {
+    void testOneDSManyWidgets() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/index.page.xml"),
@@ -169,7 +169,7 @@ public class DatasourceAT extends AutoTestBase {
     //ToDo создать задачу и исправить
     @Test
     @Disabled
-    public void testValidationManyForm() {
+    void testValidationManyForm() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/index.page.xml"),
@@ -217,7 +217,7 @@ public class DatasourceAT extends AutoTestBase {
      * Тестирование copy зависимости
      */
     @Test
-    public void testSimpleCopyDepend() {
+    void testSimpleCopyDepend() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/copyDepend");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/index.page.xml"),
@@ -245,7 +245,7 @@ public class DatasourceAT extends AutoTestBase {
      * Форма берет данные выбранной записи в таблице
      */
     @Test
-    public void testCopyDepend() {
+    void testCopyDepend() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/index.page.xml"),
@@ -291,7 +291,7 @@ public class DatasourceAT extends AutoTestBase {
      * Тестирование действия Submit
      */
     @Test
-    public void testSubmit() {
+    void testSubmit() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/submit");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/index.page.xml"),
@@ -318,7 +318,7 @@ public class DatasourceAT extends AutoTestBase {
      * Тестирование атрибута default-values-mode
      */
     @Test
-    public void testDefaultValuesMode() {
+    void testDefaultValuesMode() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/default_values_mode");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/default_values_mode/index.page.xml"),
@@ -355,5 +355,40 @@ public class DatasourceAT extends AutoTestBase {
         fields.field("copiedTrue").control(InputText.class).shouldHaveValue("test");
         fields.field("copiedFalse").control(InputText.class).shouldHaveValue("default");
         fields.field("notExist").control(InputText.class).shouldHaveValue("default");
+    }
+
+    @Test
+    void testFetchOnInitUnique() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init_unique");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init_unique/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init_unique/test.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        InputText test = page.regions().region(0, SimpleRegion.class).content()
+                .widget(0, FormWidget.class).fields().field("name").control(InputText.class);
+        test.shouldHaveValue("test1");
+    }
+
+    @Test
+    void testFetchOnInit() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init");
+        N2oApplicationBuilder sources = builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init/test.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        table.columns().rows().shouldHaveSize(4);
+        table.columns().rows().row(0).cell(0).shouldHaveText("test1");
+        table.columns().rows().row(0).cell(1).shouldHaveText("1");
+        table.columns().rows().row(3).cell(0).shouldHaveText("test4");
+        table.columns().rows().row(3).cell(1).shouldHaveText("2");
     }
 }

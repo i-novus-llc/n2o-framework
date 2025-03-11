@@ -29,6 +29,7 @@ public class BrowserStorageDatasourceCompiler extends BaseDatasourceCompiler<N2o
         compileDatasource(source, compiled, p);
         compiled.setProvider(initProvider(source, p));
         compiled.setSubmit(initSubmit(source, p));
+        compiled.setFetchOnInit(castDefault(source.getFetchOnInit(), () -> p.resolve(property("n2o.api.datasource.browser.fetch_on_init"), Boolean.class)));
         return compiled;
     }
 

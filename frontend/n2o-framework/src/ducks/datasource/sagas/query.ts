@@ -44,14 +44,17 @@ function getQuery<
     }
 }
 
-export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknown) {
+export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvider: unknown) {
     const { id, options = {} } = payload
+    const { initAction } = meta
 
     try {
-        const { provider, components }: DataSourceState = yield select(dataSourceByIdSelector(id))
+        const { provider, components, fetchOnInit }: DataSourceState = yield select(dataSourceByIdSelector(id))
 
         if (!provider) { throw new Error('Can\'t request data with empty provider') }
-        if (!components.length) { throw new Error('Unnecessary request for datasource with empty components list ') }
+        if (!components.length && !(initAction && fetchOnInit)) {
+            throw new Error('Unnecessary request for datasource with empty components list ')
+        }
 
         // @ts-ignore поправить типы
         const validateByPrefix = (prefix: ModelPrefix) => startValidate(id, ValidationsKey.FilterValidations, prefix, undefined, { touched: true })

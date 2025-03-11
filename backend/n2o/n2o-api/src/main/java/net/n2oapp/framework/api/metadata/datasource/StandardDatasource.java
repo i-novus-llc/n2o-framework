@@ -19,4 +19,6 @@ public class StandardDatasource extends AbstractDatasource {
     private String queryId;
     @JsonProperty
     private ClientDataProvider submit;
+    @JsonProperty
+    private Boolean fetchOnInit;
 }

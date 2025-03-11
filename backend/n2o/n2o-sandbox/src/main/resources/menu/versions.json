@@ -7,6 +7,10 @@
         {
           "templateId": "interactions/validation/disable",
           "name": "Отключение валидаций при выполнении зависимостей\\действий"
+        },
+        {
+          "templateId": "versions/7.29/datasource_fetch_on_init",
+          "name": "Запрос данных источником при инициализации страницы"
         }
       ]
     },

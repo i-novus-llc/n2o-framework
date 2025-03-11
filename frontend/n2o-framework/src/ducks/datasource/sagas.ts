@@ -35,7 +35,7 @@ import {
     submit,
 } from './store'
 import { applyOnInitDependencies, watchDependencies } from './sagas/dependencies'
-import type { ChangePageAction, DataRequestAction, RemoveAction } from './Actions'
+import type { ChangePageAction, DataRequestAction, RegisterAction, RemoveAction } from './Actions'
 import { submitSaga } from './sagas/submit'
 import { clear } from './Providers/Storage'
 import { ResetDatasourceAction } from './Actions'
@@ -114,6 +114,14 @@ export default (apiProvider: unknown) => [
         removeFieldFromArray,
         copyFieldArray,
     ], watchDependencies),
+    takeEvery(register, function* fetchOnInit({ payload }: RegisterAction) {
+        const { id, initProps } = payload
+        const { fetchOnInit } = initProps
+
+        if (fetchOnInit) {
+            yield put(dataRequest(id, {}, { initAction: true }))
+        }
+    }),
     takeEvery(register, applyOnInitDependencies),
     // @ts-ignore FIXME: проставить тип action
     takeEvery(action => action.meta?.refresh?.datasources, function* refreshSaga({ meta }) {

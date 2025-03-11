@@ -10,11 +10,11 @@
             </dependencies>
         </browser-storage>
 
-        <browser-storage id="ds2" key="test_key">
+        <browser-storage id="ds2" key="test_key" fetch-on-init="false">
             <submit/>
         </browser-storage>
 
-        <browser-storage id="ds3"/>
+        <browser-storage id="ds3" fetch-on-init="true"/>
     </datasources>
 
 </page>

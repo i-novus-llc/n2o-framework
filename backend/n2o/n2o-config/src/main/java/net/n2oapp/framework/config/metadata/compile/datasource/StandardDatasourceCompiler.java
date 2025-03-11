@@ -50,6 +50,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         compiled.setProvider(initDataProvider(compiled, source, context, p, query, compiled.getDefaultValuesMode()));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setQueryId(source.getQueryId());
+        compiled.setFetchOnInit(castDefault(source.getFetchOnInit(), () -> p.resolve(property("n2o.api.datasource.fetch_on_init"), Boolean.class)));
 
         return compiled;
     }
