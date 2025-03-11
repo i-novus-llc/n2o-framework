@@ -17,6 +17,8 @@ public class BrowserStorageDatasource extends AbstractDatasource {
     private Provider provider;
     @JsonProperty
     private Submit submit;
+    @JsonProperty
+    private Boolean fetchOnInit;
 
     @Getter
     @Setter

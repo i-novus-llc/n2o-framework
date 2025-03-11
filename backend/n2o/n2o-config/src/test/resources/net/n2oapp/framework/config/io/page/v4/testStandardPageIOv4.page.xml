@@ -53,7 +53,7 @@
         </group>
     </toolbar>
     <datasources>
-        <datasource id="ds1" query-id="test" object-id="test" default-values-mode="query" size="1">
+        <datasource id="ds1" query-id="test" object-id="test" default-values-mode="query" size="1" fetch-on-init="true">
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
                 <fetch on="ds3" model="datasource"/>
@@ -68,7 +68,7 @@
                     routable="true"/>
             </filters>
         </datasource>
-        <browser-storage id="ds2" key="test" type="localStorage" size="1">
+        <browser-storage id="ds2" key="test" type="localStorage" size="1" fetch-on-init="false">
             <submit key="test2" type="sessionStorage" auto="false" model="filter"/>
             <dependencies>
                 <fetch on="ds2" model="resolve"/>
@@ -79,7 +79,7 @@
         </browser-storage>
         <cached-datasource id="ds5" query-id="test" size="12" object-id="test" cache-expires="1d"
                            storage-key="key" storage-type="sessionStorage"
-                           invalidate-cache-path-params="id" invalidate-cache-query-params="name" route="/route">
+                           invalidate-cache-path-params="id" invalidate-cache-query-params="name" route="/route" fetch-on-init="true">
             <filters>
                 <eq field-id="id" param="id"/>
                 <in field-id="in" param="in"/>

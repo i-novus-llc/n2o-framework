@@ -13,6 +13,18 @@
                 <form-param id="id" value="{id}"/>
             </submit>
         </cached-datasource>
+
+        <cached-datasource id="ds2" storage-type="sessionStorage" storage-key="test_key" size="12"
+                           invalidate-cache-query-params="qp1,qp2" invalidate-cache-path-params="pp1,pp2"
+                           query-id="testDatasourceCompile" object-id="testDataSourceCompile"
+                           cache-expires="1d" route="/test" fetch-on-init="true">
+        </cached-datasource>
+
+        <cached-datasource id="ds3" storage-type="sessionStorage" storage-key="test_key" size="12"
+                           invalidate-cache-query-params="qp1,qp2" invalidate-cache-path-params="pp1,pp2"
+                           query-id="testDatasourceCompile" object-id="testDataSourceCompile"
+                           cache-expires="1d" route="/test" fetch-on-init="false">
+        </cached-datasource>
     </datasources>
 
 </page>

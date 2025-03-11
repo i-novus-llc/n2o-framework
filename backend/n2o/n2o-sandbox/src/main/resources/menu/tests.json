@@ -1157,6 +1157,10 @@
           "name": "BrowserStorageInvokeAT. testInvokeSession"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/datasources/browser_storage/fetch_on_init",
+          "name": "BrowserStorageAT. testFetchOnInit"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/datasources/datasource/copy_depend",
           "name": "DatasourceAT. testSimpleCopyDepend"
         },
@@ -1183,6 +1187,14 @@
         {
           "templateId": "net/n2oapp/framework/autotest/datasources/datasource/validation_many_form",
           "name": "DatasourceAT. testValidationManyForm"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init",
+          "name": "DatasourceAT. testFetchOnInit"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init_unique",
+          "name": "DatasourceAT. testFetchOnInitUnique"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource",
@@ -1239,6 +1251,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/datasources/cached_datasource/filtered",
           "name": "CachedDatasourceAT. testFiltered"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_on_init",
+          "name": "CachedDatasourceAT. testFetchOnInit"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/model/field",

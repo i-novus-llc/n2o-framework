@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="fetch-on-init тест">
+    <datasources>
+        <browser-storage id="ds1"
+                         key="n2o.form"
+                         type="sessionStorage" fetch-on-init="true">
+        </browser-storage>
+        <inherited-datasource source-datasource="ds1" id="ds2" source-model="datasource">
+            <dependencies>
+                <fetch on="ds1" model="datasource"/>
+            </dependencies>
+        </inherited-datasource>
+    </datasources>
+
+    <regions>
+        <form datasource="ds2">
+            <fields>
+                <input-text id="input" label="Инпут"/>
+            </fields>
+        </form>
+    </regions>
+</page>

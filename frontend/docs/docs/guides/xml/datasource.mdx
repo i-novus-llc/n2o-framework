@@ -21,6 +21,7 @@ import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 |default-values-mode |defaults query merge             |Подстановка значений по умолчанию.<br/>`defaults` - значения по умолчанию заполняются данными прописанными в полях<br/>`query` - значения по умолчанию заполняются данными из запроса<br/>`merge` - значения по умолчанию заполняются путем слияния данных прописанных в полях и полученных из запроса (полученные из запроса в приоритете), id игнорируется |query |
 |size                |Число                            |Размер выборки                                                        |10                    |
 |route               |Строка                           |URL получения данных                                                  |                      |
+|fetch-on-init       |true false                       |Получить данные при инициализации страницы                            |false                 |
 
 **Настройки**
 ```yaml
@@ -30,6 +31,8 @@ n2o.api.datasource.size = 10
 n2o.api.datasource.submit.message_on_success = true
 #Показать сообщение о неудачном выполнении действия отправки
 n2o.api.datasource.submit.message_on_fail = true
+#Получить данные при инициализации страницы
+n2o.api.datasource.fetch_on_init = false
 ```
 
 **Тело**
@@ -128,11 +131,14 @@ STOMP-источник данных
 |key          |Строка                      |Ключ, под которым будут хранится данные |Глобальный идентификатор источника |
 |type         |sessionStorage localStorage |Тип хранилища в браузере                |sessionStorage                     |
 |size         |Число                       |Размер выборки                          |10                                 |
+|fetch-on-init|true false                  |Получить данные при инициализации страницы|false                            |
 
 **Настройки**
 ```yaml
 #Тип хранилища в браузере
 n2o.api.datasource.browser.storage_type = sessionStorage
+#Получить данные при инициализации страницы
+n2o.api.datasource.browser.fetch_on_init = false
 ```
 
 **Тело**
@@ -189,12 +195,15 @@ n2o.api.datasource.browser.submit.auto = true
 |cache-expires       |Строка                           |С какой периодичностью необходимо проверять актуальность кэша. Задается в формате `1d 3h 2m`||
 |invalidate-cache-path-params  |Строка                 |Path параметры, значения которых сравниваются во время проверки актуальности кэша|           |
 |invalidate-cache-query-params |Строка                 |Query параметры, значения которых сравниваются во время проверки актуальности кэша|          |
+|fetch-on-init       |true false                       |Получить данные при инициализации страницы                            |false                 |
 
 **Настройки**
 
 ```yaml
 #Тип хранилища в браузере
 n2o.api.datasource.cached.storage_type = sessionStorage
+#Получить данные при инициализации страницы
+n2o.api.datasource.cached.fetch_on_init = false
 ```
 
 **Тело**

@@ -77,5 +77,12 @@ class CachedDataSourceCompileTest extends SourceCompileTestBase {
         ModelLink link = new ModelLink(ReduxModel.resolve, "testCachedDatasource_ds1");
         link.setValue("`id`");
         assertThat(datasource.getSubmit().getFormMapping(), hasEntry("id", link));
+        assertThat(datasource.getFetchOnInit(), is(false));
+
+        datasource = (CachedDatasource) page.getDatasources().get("testCachedDatasource_ds2");
+        assertThat(datasource.getFetchOnInit(), is(true));
+
+        datasource = (CachedDatasource) page.getDatasources().get("testCachedDatasource_ds3");
+        assertThat(datasource.getFetchOnInit(), is(false));
     }
 }

@@ -18,6 +18,7 @@ public class BrowserStorageDatasourceIO extends BaseDatasourceIO<N2oBrowserStora
         super.io(e, ds, p);
         p.attribute(e, "key", ds::getKey, ds::setKey);
         p.attributeEnum(e, "type", ds::getStorageType, ds::setStorageType, BrowserStorageType.class);
+        p.attributeBoolean(e, "fetch-on-init", ds::getFetchOnInit, ds::setFetchOnInit);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, N2oBrowserStorageDatasource.Submit::new, this::submit);
     }
 

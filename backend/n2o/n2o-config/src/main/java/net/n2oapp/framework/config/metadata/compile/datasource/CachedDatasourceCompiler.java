@@ -44,6 +44,7 @@ public class CachedDatasourceCompiler extends AbstractDatasourceCompiler<N2oCach
         CompiledObject object = initObject(source.getObjectId(), source.getQueryId(), p);
         compiled.setProvider(initDataProvider(compiled, source, context, p, query));
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
+        compiled.setFetchOnInit(castDefault(source.getFetchOnInit(), () -> p.resolve(property("n2o.api.datasource.cached.fetch_on_init"), Boolean.class)));
         return compiled;
     }
 

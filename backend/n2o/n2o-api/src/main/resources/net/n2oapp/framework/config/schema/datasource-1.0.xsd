@@ -112,6 +112,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="fetch-on-init" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Получить данные при инициализации страницы
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -198,6 +205,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="fetch-on-init" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Получить данные при инициализации страницы
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -278,6 +292,13 @@
                         <xs:documentation>
                             Ключ, под которым будут хранится данные.
                             По умолчанию: глобальный идентификатор источника
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fetch-on-init" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Получить данные при инициализации страницы
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

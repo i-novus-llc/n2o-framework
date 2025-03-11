@@ -25,4 +25,5 @@ public class N2oCachedDatasource extends N2oAbstractDatasource implements Submit
     private String[] invalidateCacheQueryParams;
     private N2oPreFilter[] filters;
     private Submit submit;
+    private Boolean fetchOnInit;
 }

@@ -21,6 +21,7 @@ public class N2oStandardDatasource extends N2oDatasource implements Submittable 
     private String queryId;
     private String objectId;
     private Submit submit;
+    private Boolean fetchOnInit;
     private DefaultValuesMode defaultValuesMode;
     private N2oPreFilter[] filters;
 

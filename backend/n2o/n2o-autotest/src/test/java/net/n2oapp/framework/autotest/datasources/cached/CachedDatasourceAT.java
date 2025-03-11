@@ -105,6 +105,25 @@ public class CachedDatasourceAT extends AutoTestBase {
     }
 
     @Test
+    void testFetchOnInit() {
+        setJsonPath("net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_on_init");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_on_init/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_on_init/person.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+        table.columns().rows().shouldHaveSize(2);
+        table.columns().rows().row(0).cell(0).shouldHaveText("1");
+        table.columns().rows().row(0).cell(1).shouldHaveText("Opened Name 1");
+        table.columns().rows().row(1).cell(0).shouldHaveText("2");
+        table.columns().rows().row(1).cell(1).shouldHaveText("Opened Name 2");
+    }
+
+    @Test
     void testFiltered() {
         setJsonPath("net/n2oapp/framework/autotest/datasources/cached_datasource/filtered");
         builder.sources(

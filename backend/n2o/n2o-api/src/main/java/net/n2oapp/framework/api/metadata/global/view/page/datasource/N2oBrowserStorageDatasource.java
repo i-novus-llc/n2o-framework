@@ -18,6 +18,7 @@ public class N2oBrowserStorageDatasource extends N2oDatasource implements Submit
     private String key;
     private BrowserStorageType storageType;
     private Submit submit;
+    private Boolean fetchOnInit;
 
     @Setter
     @Getter
