@@ -80,7 +80,7 @@ class InputSelectTreeAT extends AutoTestBase {
 
     @Test
     void readFromQueryTest() {
-        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/nodes");
+        setResourcePath("net/n2oapp/framework/autotest/control/select_tree/nodes");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -110,7 +110,7 @@ class InputSelectTreeAT extends AutoTestBase {
 
     @Test
     void testSearchMinLength() {
-        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/throttle_delay");
+        setResourcePath("net/n2oapp/framework/autotest/control/select_tree/throttle_delay");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/throttle_delay/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/throttle_delay/test.query.xml"));
 
@@ -147,7 +147,7 @@ class InputSelectTreeAT extends AutoTestBase {
     @Test
     @Disabled
     void testMaxTagsCount() {
-        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/max_count");
+        setResourcePath("net/n2oapp/framework/autotest/control/select_tree/max_count");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/max_count/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/max_count/test.query.xml"));
 
@@ -196,7 +196,7 @@ class InputSelectTreeAT extends AutoTestBase {
 
     @Test
     void testCheckingStrategy() {
-        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/checking_strategy");
+        setResourcePath("net/n2oapp/framework/autotest/control/select_tree/checking_strategy");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/checking_strategy/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/checking_strategy/test.query.xml"),
@@ -276,7 +276,7 @@ class InputSelectTreeAT extends AutoTestBase {
 
     @Test
     void testEnabledFieldId() {
-        setJsonPath("net/n2oapp/framework/autotest/control/select_tree/enabled_field_id");
+        setResourcePath("net/n2oapp/framework/autotest/control/select_tree/enabled_field_id");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/enabled_field_id/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/enabled_field_id/test.query.xml")

@@ -55,7 +55,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
                 new N2oAllPagesPack(),
                 new N2oAllDataPack()
         );
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation/simple");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/filters_validation/simple");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/simple/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -109,7 +109,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
                 new N2oAllPagesPack(),
                 new N2oAllDataPack()
         );
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/fetch_on_validation/test.query.xml"));
         SimplePage page = open(SimplePage.class);
@@ -131,7 +131,7 @@ public class TableFiltersValidationAT extends AutoTestBase {
     @Test
     void testClearValidationMessages() {
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters_validation/clear_validation_messages");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/filters_validation/clear_validation_messages");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/clear_validation_messages/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters_validation/clear_validation_messages/test.query.xml"));

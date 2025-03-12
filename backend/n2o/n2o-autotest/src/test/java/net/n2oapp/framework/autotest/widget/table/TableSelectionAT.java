@@ -49,7 +49,7 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testActiveSelection() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection/active");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/active");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/active/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/active/test.query.xml"),
@@ -78,7 +78,7 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testNoneSelection() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection/none");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/none");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/test.query.xml"),
@@ -113,7 +113,7 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testRadioSelection() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection/radio");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/radio");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/radio/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/radio/test.query.xml"),
@@ -157,7 +157,7 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testCheckboxSelection() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection/checkbox");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/checkbox");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/checkbox/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/checkbox/test.query.xml"),
@@ -209,7 +209,7 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     void testSelectionNoneElementResolved() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/selection/elements_resolve");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/elements_resolve");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/elements_resolve/index.page.xml"),
                         new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/elements_resolve/modal.page.xml"),
                         new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/elements_resolve/test.query.xml"));

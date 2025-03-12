@@ -187,7 +187,7 @@ public class TabsRegionAT extends AutoTestBase {
 
     @Test
     void testSearchButtons() {
-        setJsonPath("net/n2oapp/framework/autotest/region/tabs/search_buttons");
+        setResourcePath("net/n2oapp/framework/autotest/region/tabs/search_buttons");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/search_buttons/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/search_buttons/test.query.xml"));
         StandardPage page = open(StandardPage.class);

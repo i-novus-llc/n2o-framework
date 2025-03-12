@@ -29,7 +29,7 @@ public class SearchHeaderAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        setJsonPath("net/n2oapp/framework/autotest/searchBar");
+        setResourcePath("net/n2oapp/framework/autotest/searchBar");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/searchBar/popupSearch.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/searchBar/index.page.xml"),

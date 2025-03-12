@@ -43,7 +43,7 @@ public class FormAsFilterAT extends AutoTestBase {
 
     @Test
     public void openWithoutParam() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/form/filter/simple");
+        setResourcePath("net/n2oapp/framework/autotest/widget/form/filter/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/simple/test.query.xml"));
@@ -89,7 +89,7 @@ public class FormAsFilterAT extends AutoTestBase {
 
     @Test
     public void openWithIdParam() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/form/filter/simple");
+        setResourcePath("net/n2oapp/framework/autotest/widget/form/filter/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/simple/test.query.xml"));
@@ -116,7 +116,7 @@ public class FormAsFilterAT extends AutoTestBase {
 
     @Test
     public void openWithPeriodParam() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/form/filter/simple");
+        setResourcePath("net/n2oapp/framework/autotest/widget/form/filter/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/simple/test.query.xml"));
@@ -145,7 +145,7 @@ public class FormAsFilterAT extends AutoTestBase {
 
     @Test
     public void filterByButtonClick() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/form/filter/button_click");
+        setResourcePath("net/n2oapp/framework/autotest/widget/form/filter/button_click");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/test.query.xml"));
 

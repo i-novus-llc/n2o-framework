@@ -42,7 +42,7 @@ public class MarkdownAT extends AutoTestBase {
 
     @Test
     public void buttonCompile() {
-        setJsonPath("net/n2oapp/framework/autotest/markdown/button");
+        setResourcePath("net/n2oapp/framework/autotest/markdown/button");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/markdown/button/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/markdown/button/page.page.xml"),
@@ -71,7 +71,7 @@ public class MarkdownAT extends AutoTestBase {
 
     @Test
     public void wordwrapAndReadFromData() {
-        setJsonPath("net/n2oapp/framework/autotest/markdown/wordwrap_and_read_from_data");
+        setResourcePath("net/n2oapp/framework/autotest/markdown/wordwrap_and_read_from_data");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/markdown/wordwrap_and_read_from_data/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/markdown/wordwrap_and_read_from_data/test.query.xml")

@@ -225,7 +225,7 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     void testReadFromQuery() {
-        setJsonPath("net/n2oapp/framework/autotest/control/input_select/query");
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/query");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/query/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/query/test.query.xml")
@@ -278,7 +278,7 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     void testPrefilterByQueryParam() {
-        setJsonPath("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param");
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param/modalForm.page.xml"),
@@ -312,7 +312,7 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     void testPrefilterByPathParam() {
-        setJsonPath("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param");
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param/modalForm.page.xml"),
@@ -346,7 +346,7 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     void testSearchMinLength() {
-        setJsonPath("net/n2oapp/framework/autotest/control/input_select/throttle_delay");
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/throttle_delay");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/throttle_delay/test.query.xml")
@@ -379,7 +379,7 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     void dropdownOptionsPermanent() {
-        setJsonPath("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent");
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent/test.query.xml")
@@ -413,7 +413,7 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     void inputUsingEnter() {
-        setJsonPath("net/n2oapp/framework/autotest/control/input_select/input_using_enter");
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/input_using_enter");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/input_using_enter/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/input_using_enter/data.query.xml")
@@ -433,7 +433,7 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     void testMaxTagsCount() {
-        setJsonPath("net/n2oapp/framework/autotest/control/input_select/max_count");
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/max_count");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/max_count/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/max_count/test.query.xml"));
 
@@ -477,7 +477,7 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     void testSearchFilterIdWithScrollDown() {
-        setJsonPath("net/n2oapp/framework/autotest/control/input_select/scroll");
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/scroll");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/scroll/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_select/scroll/test.query.xml")

@@ -56,7 +56,7 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testSelects() {
-        setJsonPath("net/n2oapp/framework/autotest/badge/selectors");
+        setResourcePath("net/n2oapp/framework/autotest/badge/selectors");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/selectors/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/selectors/test.query.xml"),
@@ -121,7 +121,7 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testCell() {
-        setJsonPath("net/n2oapp/framework/autotest/badge/cell");
+        setResourcePath("net/n2oapp/framework/autotest/badge/cell");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/cell/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/cell/test.query.xml"));
@@ -211,7 +211,7 @@ public class BadgeAT extends AutoTestBase {
 
     @Test
     public void testTree() {
-        setJsonPath("net/n2oapp/framework/autotest/badge/tree");
+        setResourcePath("net/n2oapp/framework/autotest/badge/tree");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/tree/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/tree/test.query.xml"));

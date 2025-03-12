@@ -36,7 +36,7 @@ public class FilterModelAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filter_model");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/filter_model");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_model/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_model/searchPatient.object.xml"),

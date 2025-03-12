@@ -74,7 +74,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
      */
     @Test
     void testModelResolve() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/inherited_datasource/resolve");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/inherited_datasource/resolve");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/resolve/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/resolve/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -107,7 +107,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
      */
     @Test
     void testModelMulti() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/inherited_datasource/multi");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/inherited_datasource/multi");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/multi/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/multi/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -138,7 +138,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
      */
     @Test
     void testModelDatasource() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -158,7 +158,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
      */
     @Test
     void testSourceFieldId() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/source_field/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -255,7 +255,7 @@ public class InheritedDatasourceAT extends AutoTestBase {
 
     @Test
     void testFetchDependencies() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_depend");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_depend");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_depend/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/inherited_datasource/fetch_depend/test.query.xml"));
 

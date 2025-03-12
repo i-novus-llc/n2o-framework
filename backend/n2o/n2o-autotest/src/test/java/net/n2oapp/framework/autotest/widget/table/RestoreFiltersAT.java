@@ -49,7 +49,7 @@ public class RestoreFiltersAT extends AutoTestBase {
 
     @Test
     public void afterPageClosing() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/open.page.xml"),
@@ -119,7 +119,7 @@ public class RestoreFiltersAT extends AutoTestBase {
 
     @Test
     void afterPageReloading() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_page_reloading");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_page_reloading");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_page_reloading/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_page_reloading/kind.query.xml"),

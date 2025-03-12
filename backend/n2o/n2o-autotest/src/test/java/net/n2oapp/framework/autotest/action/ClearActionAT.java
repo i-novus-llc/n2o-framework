@@ -43,7 +43,7 @@ public class ClearActionAT extends AutoTestBase {
 
     @Test
     public void testClearInModal() {
-        setJsonPath("net/n2oapp/framework/autotest/action/clear/simple");
+        setResourcePath("net/n2oapp/framework/autotest/action/clear/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/simple/modal.page.xml"),
@@ -116,7 +116,7 @@ public class ClearActionAT extends AutoTestBase {
 
     @Test
     public void clearModelInTable() {
-        setJsonPath("net/n2oapp/framework/autotest/action/clear/clear_model_in_table");
+        setResourcePath("net/n2oapp/framework/autotest/action/clear/clear_model_in_table");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_model_in_table/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_model_in_table/test.query.xml"));

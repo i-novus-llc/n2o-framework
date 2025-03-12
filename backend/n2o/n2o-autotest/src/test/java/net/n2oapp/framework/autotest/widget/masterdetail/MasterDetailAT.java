@@ -5,7 +5,6 @@ import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -47,7 +46,7 @@ public class MasterDetailAT extends AutoTestBase {
 
     @Test
     public void testMasterDetail() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/master_detail/simple");
+        setResourcePath("net/n2oapp/framework/autotest/widget/master_detail/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/simple/detail.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/simple/index.page.xml"),

@@ -36,7 +36,7 @@ public class ListCellAT extends AutoTestBase {
 
     @Test
     void testSimple() {
-        setJsonPath("net/n2oapp/framework/autotest/cells/list/simple");
+        setResourcePath("net/n2oapp/framework/autotest/cells/list/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/list/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/list/simple/testTable.query.xml"));
@@ -74,7 +74,7 @@ public class ListCellAT extends AutoTestBase {
 
     @Test
     void testInnerCells() {
-        setJsonPath("net/n2oapp/framework/autotest/cells/list/inner_cells");
+        setResourcePath("net/n2oapp/framework/autotest/cells/list/inner_cells");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/list/inner_cells/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/list/inner_cells/test.query.xml"));

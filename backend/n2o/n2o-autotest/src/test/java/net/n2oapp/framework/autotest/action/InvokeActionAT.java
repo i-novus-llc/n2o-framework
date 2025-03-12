@@ -46,7 +46,7 @@ public class InvokeActionAT extends AutoTestBase {
 
     @Test
     void testFormParam() {
-        setJsonPath("net/n2oapp/framework/autotest/action/invoke/form_param");
+        setResourcePath("net/n2oapp/framework/autotest/action/invoke/form_param");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/invoke/form_param/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/invoke/form_param/test.object.xml")
@@ -87,7 +87,7 @@ public class InvokeActionAT extends AutoTestBase {
 
     @Test
     void testSubmitAll() {
-        setJsonPath("net/n2oapp/framework/autotest/action/invoke/submit_all");
+        setResourcePath("net/n2oapp/framework/autotest/action/invoke/submit_all");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/invoke/submit_all/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/invoke/submit_all/test.object.xml"),

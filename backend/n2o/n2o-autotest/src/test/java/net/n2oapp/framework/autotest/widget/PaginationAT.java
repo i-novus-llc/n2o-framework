@@ -43,7 +43,7 @@ public class PaginationAT extends AutoTestBase {
 
     @Test
     public void testTableSimplePaging() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/simple");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/simple");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -121,7 +121,7 @@ public class PaginationAT extends AutoTestBase {
 
     @Test
     public void testShowCountNever() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/simple_never");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/simple_never");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple_never/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple_never/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -140,7 +140,7 @@ public class PaginationAT extends AutoTestBase {
 
     @Test
     public void testTableInfinitePaging() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/infinite");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/infinite");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/infinite/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/infinite/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -242,7 +242,7 @@ public class PaginationAT extends AutoTestBase {
 
     @Test
     public void testShowCountByRequest() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/infinite_by_request");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/infinite_by_request");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/infinite_by_request/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/infinite_by_request/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -317,7 +317,7 @@ public class PaginationAT extends AutoTestBase {
 
     @Test
     public void testPrevNextButtonsLabel() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/prev_next_buttons");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/prev_next_buttons");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/prev_next_buttons/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/prev_next_buttons/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -342,7 +342,7 @@ public class PaginationAT extends AutoTestBase {
 
     @Test
     public void testRoutable() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/routable");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/routable");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable/test.query.xml"));
@@ -370,7 +370,7 @@ public class PaginationAT extends AutoTestBase {
 
     @Test
     public void testRoutableManyWidgets() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets/test.query.xml"));

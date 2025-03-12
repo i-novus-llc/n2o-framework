@@ -48,7 +48,7 @@ public class TableRowClickAT extends AutoTestBase {
 
     @Test
     void testRowClickEnabled() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/row_click/enabled");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/row_click/enabled");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/enabled/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/enabled/modal.page.xml"),
@@ -78,7 +78,7 @@ public class TableRowClickAT extends AutoTestBase {
 
     @Test
     void testInteractiveElements() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/row_click/interactive_elements");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/row_click/interactive_elements");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/interactive_elements/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_click/interactive_elements/data.query.xml"),

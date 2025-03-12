@@ -46,7 +46,7 @@ public class FileUploadCellAT extends AutoTestBase {
 
     @Test
     void oneFileUploadTest() {
-        setJsonPath("net/n2oapp/framework/autotest/cells/file_upload/simple");
+        setResourcePath("net/n2oapp/framework/autotest/cells/file_upload/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/file_upload/simple/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/file_upload/simple/index.page.xml"));
@@ -82,7 +82,7 @@ public class FileUploadCellAT extends AutoTestBase {
 
     // убрали аннатоцию тест, потому что у selenide есть баг с загрузкой нескольких файлов и тест конфликтует с FileUploadAT
     void multiFileUploadTest() {
-        setJsonPath("net/n2oapp/framework/autotest/cells/file_upload/multi");
+        setResourcePath("net/n2oapp/framework/autotest/cells/file_upload/multi");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/file_upload/multi/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/file_upload/multi/index.page.xml"));

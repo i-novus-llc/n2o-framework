@@ -72,7 +72,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     void testTable() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/simple");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/simple/testTable.query.xml")
@@ -132,7 +132,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     void testOverlay() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/row_overlay");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/row_overlay");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_overlay/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/row_overlay/test.query.xml")
@@ -169,7 +169,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     void testToolbar() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/toolbar/simple");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/toolbar/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/simple/test.query.xml")
@@ -194,7 +194,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     void testSortOfColumn() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/sort_column");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/sort_column");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/sort_column/test.query.xml")
@@ -235,7 +235,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     void fetchOnVisibilityTest() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_visibility/test.query.xml")
@@ -277,7 +277,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     void testAlignment() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/alignment");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/alignment");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/alignment/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/alignment/test.query.xml")
@@ -305,7 +305,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     void testCellTooltip() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/cell_tooltip");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/cell_tooltip");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/cell_tooltip/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/cell_tooltip/test.query.xml")
@@ -383,7 +383,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     void testClearFilters() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/clear_filters");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/clear_filters");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/clear_filters/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/clear_filters/test.query.xml")

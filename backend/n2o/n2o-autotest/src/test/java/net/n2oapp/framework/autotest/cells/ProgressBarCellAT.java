@@ -29,7 +29,7 @@ public class ProgressBarCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        setJsonPath("net/n2oapp/framework/autotest/cells/progress");
+        setResourcePath("net/n2oapp/framework/autotest/cells/progress");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/progress/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/progress/testTable.query.xml"));

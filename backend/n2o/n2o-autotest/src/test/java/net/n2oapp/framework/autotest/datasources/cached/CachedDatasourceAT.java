@@ -48,7 +48,7 @@ public class CachedDatasourceAT extends AutoTestBase {
      */
     @Test
     void testSimple() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/cached_datasource/simple");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/cached_datasource/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/simple/test.query.xml")
@@ -81,7 +81,7 @@ public class CachedDatasourceAT extends AutoTestBase {
      */
     @Test
     void testPathParams() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/cached_datasource/by_params");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/cached_datasource/by_params");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/by_params/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/by_params/list.query.xml"),
@@ -106,7 +106,7 @@ public class CachedDatasourceAT extends AutoTestBase {
 
     @Test
     void testFetchOnInit() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_on_init");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_on_init");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_on_init/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_on_init/person.query.xml")
@@ -125,7 +125,7 @@ public class CachedDatasourceAT extends AutoTestBase {
 
     @Test
     void testFiltered() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/cached_datasource/filtered");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/cached_datasource/filtered");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/filtered/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/filtered/test.query.xml"),

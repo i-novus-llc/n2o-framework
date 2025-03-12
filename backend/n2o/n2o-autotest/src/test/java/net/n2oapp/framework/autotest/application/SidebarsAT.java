@@ -211,7 +211,7 @@ public class SidebarsAT extends AutoTestBase {
 
     @Test
     void testSidebarWithDatasource() {
-        setJsonPath("net/n2oapp/framework/autotest/application/sidebars/datasource");
+        setResourcePath("net/n2oapp/framework/autotest/application/sidebars/datasource");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/datasource/app.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/datasource/docs.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/sidebars/datasource/index.page.xml"),

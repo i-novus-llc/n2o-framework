@@ -49,7 +49,7 @@ public class MultiActionAT extends AutoTestBase {
 
     @Test
     public void testMulti() {
-        setJsonPath("net/n2oapp/framework/autotest/action/multi/simple");
+        setResourcePath("net/n2oapp/framework/autotest/action/multi/simple");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/multi/simple/page.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/multi/simple/test.query.xml"));
@@ -74,7 +74,7 @@ public class MultiActionAT extends AutoTestBase {
 
     @Test
     public void testActionAfterFail() {
-        setJsonPath("net/n2oapp/framework/autotest/action/multi/action_after_fail");
+        setResourcePath("net/n2oapp/framework/autotest/action/multi/action_after_fail");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/action_after_fail/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/multi/action_after_fail/test.object.xml"));
 
@@ -94,7 +94,7 @@ public class MultiActionAT extends AutoTestBase {
 
     @Test
     public void testChainBreakAfterPageAction() {
-        setJsonPath("net/n2oapp/framework/autotest/action/multi/chain_break_after_page_action");
+        setResourcePath("net/n2oapp/framework/autotest/action/multi/chain_break_after_page_action");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/chain_break_after_page_action/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/multi/chain_break_after_page_action/modal.page.xml"));
 

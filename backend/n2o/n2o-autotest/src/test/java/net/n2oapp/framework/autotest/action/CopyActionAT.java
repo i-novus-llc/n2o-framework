@@ -48,7 +48,7 @@ public class CopyActionAT extends AutoTestBase {
 
     @Test
     public void testSimpleCopy() {
-        setJsonPath("net/n2oapp/framework/autotest/action/copy/simple");
+        setResourcePath("net/n2oapp/framework/autotest/action/copy/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/simple/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/simple/index.page.xml"));
@@ -77,7 +77,7 @@ public class CopyActionAT extends AutoTestBase {
 
     @Test
     public void testCopyFromModal() {
-        setJsonPath("net/n2oapp/framework/autotest/action/copy/modal");
+        setResourcePath("net/n2oapp/framework/autotest/action/copy/modal");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal/index.page.xml"),
@@ -133,7 +133,7 @@ public class CopyActionAT extends AutoTestBase {
 
     @Test
     public void testMultiCopyFromModal() {
-        setJsonPath("net/n2oapp/framework/autotest/action/copy/modal_multi");
+        setResourcePath("net/n2oapp/framework/autotest/action/copy/modal_multi");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_multi/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_multi/index.page.xml"),
@@ -193,7 +193,7 @@ public class CopyActionAT extends AutoTestBase {
 
     @Test
     public void testReplaceCopyFromModal() {
-        setJsonPath("net/n2oapp/framework/autotest/action/copy/modal_replace");
+        setResourcePath("net/n2oapp/framework/autotest/action/copy/modal_replace");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/index.page.xml"),
@@ -239,7 +239,7 @@ public class CopyActionAT extends AutoTestBase {
      */
     @Test
     public void testCopyNestedFields() {
-        setJsonPath("net/n2oapp/framework/autotest/action/copy/nested_fields");
+        setResourcePath("net/n2oapp/framework/autotest/action/copy/nested_fields");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/nested_fields/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/nested_fields/index.page.xml"),

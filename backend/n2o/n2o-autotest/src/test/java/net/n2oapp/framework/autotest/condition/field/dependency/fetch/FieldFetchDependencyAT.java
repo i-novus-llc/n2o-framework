@@ -45,7 +45,7 @@ public class FieldFetchDependencyAT extends AutoTestBase {
 
     @Test
     void fetchWithArray() {
-        setJsonPath("net/n2oapp/framework/autotest/condition/field/dependency/fetch");
+        setResourcePath("net/n2oapp/framework/autotest/condition/field/dependency/fetch");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/fetch/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/fetch/test.query.xml")

@@ -41,7 +41,7 @@ public class ButtonVisibilityAT extends AutoTestBase {
                 new N2oAllPagesPack(),
                 new N2oAllDataPack()
         );
-        setJsonPath("net/n2oapp/framework/autotest/condition/button/visibility");
+        setResourcePath("net/n2oapp/framework/autotest/condition/button/visibility");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/test.query.xml")

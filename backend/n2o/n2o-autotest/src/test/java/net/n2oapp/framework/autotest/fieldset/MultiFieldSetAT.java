@@ -271,7 +271,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     @Test
     void testQueryData() {
-        setJsonPath("net/n2oapp/framework/autotest/fieldset/multiset/query_data");
+        setResourcePath("net/n2oapp/framework/autotest/fieldset/multiset/query_data");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/test.query.xml"));
 
@@ -459,7 +459,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     @Test
     void testFiltering() {
-        setJsonPath("net/n2oapp/framework/autotest/fieldset/multiset/filtering");
+        setResourcePath("net/n2oapp/framework/autotest/fieldset/multiset/filtering");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/filtering/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/filtering/test.query.xml"));
 
@@ -614,7 +614,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     @Test
     void testCreateMany() {
-        setJsonPath("net/n2oapp/framework/autotest/fieldset/multiset/create_many");
+        setResourcePath("net/n2oapp/framework/autotest/fieldset/multiset/create_many");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/add.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/test.query.xml"));

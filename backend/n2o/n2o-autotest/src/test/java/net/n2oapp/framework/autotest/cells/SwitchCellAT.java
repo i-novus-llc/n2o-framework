@@ -32,7 +32,7 @@ public class SwitchCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        setJsonPath("net/n2oapp/framework/autotest/cells/switch");
+        setResourcePath("net/n2oapp/framework/autotest/cells/switch");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/switch/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/switch/testTable.query.xml"));

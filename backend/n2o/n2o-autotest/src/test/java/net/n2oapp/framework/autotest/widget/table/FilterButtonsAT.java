@@ -48,7 +48,7 @@ public class FilterButtonsAT extends AutoTestBase {
 
     @Test
     void testSeparateButtons() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/buttons/separate_buttons");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/buttons/separate_buttons");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/separate_buttons/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/separate_buttons/test.query.xml"));
@@ -87,7 +87,7 @@ public class FilterButtonsAT extends AutoTestBase {
 
     @Test
     void testSearchButtons() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons/test.query.xml"));
@@ -125,7 +125,7 @@ public class FilterButtonsAT extends AutoTestBase {
 
     @Test
     void testFetchOnClearWithClearButton() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/buttons/clear_button_fetch_on_clear");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/buttons/clear_button_fetch_on_clear");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/clear_button_fetch_on_clear/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/clear_button_fetch_on_clear/test.query.xml")
@@ -148,7 +148,7 @@ public class FilterButtonsAT extends AutoTestBase {
 
     @Test
     void testFetchOnClearWithSearchButtons() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons_fetch_on_clear");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons_fetch_on_clear");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons_fetch_on_clear/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons_fetch_on_clear/test.query.xml")

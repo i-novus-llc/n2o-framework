@@ -38,7 +38,7 @@ public class ConstraintValidationAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
 
-        setJsonPath("net/n2oapp/framework/autotest/validation/constraint");
+        setResourcePath("net/n2oapp/framework/autotest/validation/constraint");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/validation/constraint/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/constraint/test.object.xml"));

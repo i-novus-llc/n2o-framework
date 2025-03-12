@@ -55,7 +55,7 @@ public class DependsOnFieldAT extends AutoTestBase {
 
     @Test
     public void onField() {
-        setJsonPath("net/n2oapp/framework/autotest/condition/field/dependency/on_field");
+        setResourcePath("net/n2oapp/framework/autotest/condition/field/dependency/on_field");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_field/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_field/orgs.query.xml")
@@ -91,7 +91,7 @@ public class DependsOnFieldAT extends AutoTestBase {
 
     @Test
     public void onDifferentNameField() {
-        setJsonPath("net/n2oapp/framework/autotest/condition/field/dependency/on_different_name_field");
+        setResourcePath("net/n2oapp/framework/autotest/condition/field/dependency/on_different_name_field");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_different_name_field/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_different_name_field/data.query.xml"),

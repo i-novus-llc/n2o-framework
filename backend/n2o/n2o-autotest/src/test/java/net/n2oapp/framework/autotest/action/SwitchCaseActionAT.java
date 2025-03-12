@@ -43,7 +43,7 @@ public class SwitchCaseActionAT extends AutoTestBase {
 
     @Test
     void testSwitchCaseInButton() {
-        setJsonPath("net/n2oapp/framework/autotest/action/switch_case/button");
+        setResourcePath("net/n2oapp/framework/autotest/action/switch_case/button");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/button/page1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/button/page2.page.xml"),
@@ -78,7 +78,7 @@ public class SwitchCaseActionAT extends AutoTestBase {
 
     @Test
     void testSwitchCaseInRowClick() {
-        setJsonPath("net/n2oapp/framework/autotest/action/switch_case/row_click");
+        setResourcePath("net/n2oapp/framework/autotest/action/switch_case/row_click");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/row_click/page1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/switch_case/row_click/test.query.xml"),

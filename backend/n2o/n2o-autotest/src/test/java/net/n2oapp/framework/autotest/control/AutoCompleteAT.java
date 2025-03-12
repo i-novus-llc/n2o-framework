@@ -44,7 +44,7 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testAutoComplete() {
-        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/simple");
+        setResourcePath("net/n2oapp/framework/autotest/control/auto_complete/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/test.query.xml")
@@ -77,7 +77,7 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testTags() {
-        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/simple");
+        setResourcePath("net/n2oapp/framework/autotest/control/auto_complete/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/test.query.xml")
@@ -134,7 +134,7 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testPrefilters() {
-        setJsonPath("net/n2oapp/framework/autotest/control/auto_complete/preFilters");
+        setResourcePath("net/n2oapp/framework/autotest/control/auto_complete/preFilters");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/preFilters/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/preFilters/test.query.xml")
