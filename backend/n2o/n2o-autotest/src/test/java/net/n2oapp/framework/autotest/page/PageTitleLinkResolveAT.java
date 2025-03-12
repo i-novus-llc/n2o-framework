@@ -49,7 +49,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
 
     @Test
     void testPathParam() {
-        setJsonPath("net/n2oapp/framework/autotest/page/title/params/path_params");
+        setResourcePath("net/n2oapp/framework/autotest/page/title/params/path_params");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/index.page.xml"),
@@ -113,7 +113,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
 
     @Test
     void testQueryParams() {
-        setJsonPath("net/n2oapp/framework/autotest/page/title/params/query_params");
+        setResourcePath("net/n2oapp/framework/autotest/page/title/params/query_params");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/index.page.xml"),
@@ -179,7 +179,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
 
     @Test
     void testConstantParams() {
-        setJsonPath("net/n2oapp/framework/autotest/page/title/params/constant_value");
+        setResourcePath("net/n2oapp/framework/autotest/page/title/params/constant_value");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/index.page.xml"),
@@ -198,7 +198,7 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
 
     @Test
     void testBrowserStorage() {
-        setJsonPath("net/n2oapp/framework/autotest/page/title/browser_storage");
+        setResourcePath("net/n2oapp/framework/autotest/page/title/browser_storage");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/browser_storage/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/browser_storage/test.query.xml"),

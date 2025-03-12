@@ -45,7 +45,7 @@ public class SubPageRegionAT extends AutoTestBase {
 
     @Test
     void testSubPageWithButtons() {
-        setJsonPath("net/n2oapp/framework/autotest/region/subpage/with_buttons");
+        setResourcePath("net/n2oapp/framework/autotest/region/subpage/with_buttons");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/region/subpage/with_buttons/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/region/subpage/with_buttons/audio.page.xml"),
@@ -96,7 +96,7 @@ public class SubPageRegionAT extends AutoTestBase {
 
     @Test
     void testSubPageWithoutButtons() {
-        setJsonPath("net/n2oapp/framework/autotest/region/subpage/without_buttons");
+        setResourcePath("net/n2oapp/framework/autotest/region/subpage/without_buttons");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/region/subpage/without_buttons/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/region/subpage/without_buttons/audio.page.xml"),
@@ -139,7 +139,7 @@ public class SubPageRegionAT extends AutoTestBase {
 
     @Test
     void testSubPageInModal() {
-        setJsonPath("net/n2oapp/framework/autotest/region/subpage/modal");
+        setResourcePath("net/n2oapp/framework/autotest/region/subpage/modal");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/region/subpage/modal/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/region/subpage/modal/audio.page.xml"),

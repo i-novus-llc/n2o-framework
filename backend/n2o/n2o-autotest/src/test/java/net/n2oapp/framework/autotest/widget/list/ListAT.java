@@ -42,7 +42,7 @@ public class ListAT extends AutoTestBase {
 
     @Test
     void testList() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/list");
+        setResourcePath("net/n2oapp/framework/autotest/widget/list");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/list/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/list/form.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/list/testList.query.xml"));

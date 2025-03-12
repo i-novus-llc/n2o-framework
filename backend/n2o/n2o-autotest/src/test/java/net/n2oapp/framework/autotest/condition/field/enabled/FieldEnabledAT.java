@@ -68,7 +68,7 @@ public class FieldEnabledAT extends AutoTestBase {
 
     @Test
     public void enabledByDependencyOnModal() {
-        setJsonPath("net/n2oapp/framework/autotest/condition/field/enabled/by_dependency_on_modal");
+        setResourcePath("net/n2oapp/framework/autotest/condition/field/enabled/by_dependency_on_modal");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/enabled/by_dependency_on_modal/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/enabled/by_dependency_on_modal/subPage.page.xml"),

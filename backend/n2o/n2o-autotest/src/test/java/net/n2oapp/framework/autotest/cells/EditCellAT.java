@@ -42,7 +42,7 @@ class EditCellAT extends AutoTestBase {
 
     @Test
     void testSimple() {
-        setJsonPath("net/n2oapp/framework/autotest/cells/edit/simple");
+        setResourcePath("net/n2oapp/framework/autotest/cells/edit/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/edit/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/edit/simple/test.query.xml"),
@@ -94,7 +94,7 @@ class EditCellAT extends AutoTestBase {
 
     @Test
     void testOffline() {
-        setJsonPath("net/n2oapp/framework/autotest/cells/edit/offline");
+        setResourcePath("net/n2oapp/framework/autotest/cells/edit/offline");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/edit/offline/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/edit/offline/test.query.xml"),

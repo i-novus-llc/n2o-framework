@@ -44,7 +44,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
 
     @Test
     public void testModal() {
-        setJsonPath("net/n2oapp/framework/autotest/action/close/refresh/modal");
+        setResourcePath("net/n2oapp/framework/autotest/action/close/refresh/modal");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/modal.page.xml"),
@@ -115,7 +115,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
 
     @Test
     public void testDrawer() {
-        setJsonPath("net/n2oapp/framework/autotest/action/close/refresh/drawer");
+        setResourcePath("net/n2oapp/framework/autotest/action/close/refresh/drawer");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/modal.page.xml"),

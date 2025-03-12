@@ -44,7 +44,7 @@ public class BrowserStorageInvokeAT extends AutoTestBase {
      */
     @Test
     public void testInvokeLocal() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_local_storage");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_local_storage");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_local_storage/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_local_storage/test.object.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_local_storage/test.query.xml"));
@@ -59,7 +59,7 @@ public class BrowserStorageInvokeAT extends AutoTestBase {
      */
     @Test
     public void testInvokeSession() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_session_storage");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_session_storage");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_session_storage/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_session_storage/test.object.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_session_storage/test.query.xml"));

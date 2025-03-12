@@ -51,7 +51,7 @@ class ListFieldAT extends AutoTestBase {
 
     @Test
     void listFieldFiltrationTest() {
-        setJsonPath("net/n2oapp/framework/autotest/control/list/filter");
+        setResourcePath("net/n2oapp/framework/autotest/control/list/filter");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/filter/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/filter/test.query.xml"));
@@ -92,7 +92,7 @@ class ListFieldAT extends AutoTestBase {
 
     @Test
     void testOptionsFromDS() {
-        setJsonPath("net/n2oapp/framework/autotest/control/list/options_from_ds");
+        setResourcePath("net/n2oapp/framework/autotest/control/list/options_from_ds");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/options_from_ds/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/options_from_ds/test.query.xml"));
@@ -140,7 +140,7 @@ class ListFieldAT extends AutoTestBase {
 
     @Test
     void testFetchValueDependencies() {
-        setJsonPath("net/n2oapp/framework/autotest/control/list/fetch_value");
+        setResourcePath("net/n2oapp/framework/autotest/control/list/fetch_value");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/fetch_value/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/fetch_value/test.query.xml"));
@@ -170,7 +170,7 @@ class ListFieldAT extends AutoTestBase {
     @Test
     void testAlert() {
         System.setProperty("n2o.ui.message.dev-mode", "true");
-        setJsonPath("net/n2oapp/framework/autotest/control/list/alert");
+        setResourcePath("net/n2oapp/framework/autotest/control/list/alert");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/alert/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/list/alert/test.query.xml"));

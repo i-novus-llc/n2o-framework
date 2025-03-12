@@ -47,7 +47,7 @@ public class MultiColumnAT extends AutoTestBase {
 
     @Test
     public void testMultiColumn() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/multi_column/simple");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/multi_column/simple");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/simple/test.query.xml"));
         StandardPage page = open(StandardPage.class);
@@ -102,7 +102,7 @@ public class MultiColumnAT extends AutoTestBase {
 
     @Test
     void testVisibilityDependencies() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/multi_column/visibility");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/multi_column/visibility");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/visibility/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/visibility/test.query.xml"));
         StandardPage page = open(StandardPage.class);

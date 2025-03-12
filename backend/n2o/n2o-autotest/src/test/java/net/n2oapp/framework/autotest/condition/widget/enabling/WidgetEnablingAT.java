@@ -18,8 +18,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-
 /**
  * Автотест для проверки скрытия виджета по условию
  */
@@ -43,7 +41,7 @@ public class WidgetEnablingAT extends AutoTestBase {
                 new N2oApplicationPack(),
                 new N2oAllPack()
         );
-        setJsonPath("net/n2oapp/framework/autotest/condition/widget/dependency/enabling");
+        setResourcePath("net/n2oapp/framework/autotest/condition/widget/dependency/enabling");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/widget/dependency/enabling/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/widget/dependency/enabling/test.query.xml")

@@ -31,7 +31,7 @@ public class FetchDependencyAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/fetch_dependency/");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/fetch_dependency/");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_dependency/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_dependency/test.query.xml"),

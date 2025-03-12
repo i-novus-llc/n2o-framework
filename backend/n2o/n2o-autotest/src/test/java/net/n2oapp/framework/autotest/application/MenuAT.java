@@ -329,7 +329,7 @@ public class MenuAT extends AutoTestBase {
 
     @Test
     void resolveName() {
-        setJsonPath("net/n2oapp/framework/autotest/application/menu/header/resolve_name/");
+        setResourcePath("net/n2oapp/framework/autotest/application/menu/header/resolve_name/");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/resolve_name/app.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/resolve_name/index.page.xml"),

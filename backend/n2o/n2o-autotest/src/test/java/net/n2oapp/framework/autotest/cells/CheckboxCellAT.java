@@ -28,7 +28,7 @@ public class CheckboxCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        setJsonPath("net/n2oapp/framework/autotest/cells/checkbox");
+        setResourcePath("net/n2oapp/framework/autotest/cells/checkbox");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/checkbox/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/checkbox/testTable.query.xml")

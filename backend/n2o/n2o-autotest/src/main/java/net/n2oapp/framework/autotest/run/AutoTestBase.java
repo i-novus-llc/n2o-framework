@@ -9,7 +9,9 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.query.TestEngineQueryTransformer;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.N2oTestBase;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
+import net.n2oapp.properties.OverrideProperties;
 import org.junit.jupiter.api.AfterEach;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -30,7 +32,9 @@ import java.util.stream.Collectors;
 import static com.codeborne.selenide.Configuration.browserCapabilities;
 import static com.codeborne.selenide.Configuration.headless;
 import static net.n2oapp.framework.autotest.run.AutoTestUtil.checkChromeDriver;
+import static net.n2oapp.properties.reader.PropertiesReader.getPropertiesFromURI;
 import static org.openqa.selenium.remote.CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 /**
  * Базовый класс для автотестов
@@ -42,11 +46,10 @@ public class AutoTestBase extends N2oTestBase {
 
     @LocalServerPort
     protected int port;
-
+    protected Logs logs;
     @Autowired
     private TestDataProviderEngine provider;
     private N2oController n2oController;
-    protected Logs logs;
 
     public static void configureSelenide() {
         checkChromeDriver();
@@ -72,6 +75,7 @@ public class AutoTestBase extends N2oTestBase {
     public void setUp() throws Exception {
         super.setUp();
         n2oController.setUp(builder);
+        resolveIndividualProperties();
     }
 
     @Autowired
@@ -119,7 +123,14 @@ public class AutoTestBase extends N2oTestBase {
         n2oController.addConfigProperty("user", user);
     }
 
-    protected void setJsonPath(String classpath) {
+    protected void setResourcePath(String classpath) {
         provider.setClasspathResourcePath(classpath);
+    }
+
+    protected void resolveIndividualProperties(){
+        String resourcePath = provider.getClasspathResourcePath();
+        OverrideProperties overriddenProperties = getPropertiesFromURI((resourcePath.endsWith("/") ? resourcePath : resourcePath + "/") + "application.properties");
+        if (!isEmpty(overriddenProperties))
+            overriddenProperties.forEach((k, v) -> ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty(((String) k), v));
     }
 }

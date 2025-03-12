@@ -42,7 +42,7 @@ public class TilesAT extends AutoTestBase {
 
     @Test
     public void testTiles() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/tiles");
+        setResourcePath("net/n2oapp/framework/autotest/widget/tiles");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/test.query.xml"));

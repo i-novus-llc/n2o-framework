@@ -38,7 +38,7 @@ public class MultiActionAccessAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
-        setJsonPath("net/n2oapp/framework/autotest/access/schema/action/multi");
+        setResourcePath("net/n2oapp/framework/autotest/access/schema/action/multi");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/access/schema/action/multi/default.access.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/access/schema/action/multi/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/access/schema/action/multi/test1.object.xml"),

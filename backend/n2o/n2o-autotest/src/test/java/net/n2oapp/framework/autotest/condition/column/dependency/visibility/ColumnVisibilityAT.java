@@ -42,7 +42,7 @@ public class ColumnVisibilityAT extends AutoTestBase {
     
     @Test
     void dynamicVisibility() {
-        setJsonPath("net/n2oapp/framework/autotest/condition/column/dependency/visibility");
+        setResourcePath("net/n2oapp/framework/autotest/condition/column/dependency/visibility");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/column/dependency/visibility/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/column/dependency/visibility/test.query.xml")

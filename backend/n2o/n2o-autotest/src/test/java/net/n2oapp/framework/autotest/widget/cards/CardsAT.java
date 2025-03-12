@@ -41,7 +41,7 @@ public class CardsAT extends AutoTestBase {
 
     @Test
     public void testCardsOne(){
-        setJsonPath("net/n2oapp/framework/autotest/widget/cards/page1/");
+        setResourcePath("net/n2oapp/framework/autotest/widget/cards/page1/");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/modal.page.xml"));
@@ -104,7 +104,7 @@ public class CardsAT extends AutoTestBase {
 
     @Test
     public void testCardsTwo(){
-        setJsonPath("net/n2oapp/framework/autotest/widget/cards/page2/");
+        setResourcePath("net/n2oapp/framework/autotest/widget/cards/page2/");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page2/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page2/index.page.xml"));
         SimplePage page = open(SimplePage.class);

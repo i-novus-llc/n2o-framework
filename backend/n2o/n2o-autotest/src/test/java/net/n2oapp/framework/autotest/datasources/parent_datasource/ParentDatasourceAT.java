@@ -45,7 +45,7 @@ public class ParentDatasourceAT extends AutoTestBase {
      */
     @Test
     public void testFiltersByParent() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/test.query.xml"));
@@ -72,7 +72,7 @@ public class ParentDatasourceAT extends AutoTestBase {
      */
     @Test
     public void testSourceDatasource() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/parent_datasource/source_datasource");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/parent_datasource/source_datasource");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/source_datasource/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/source_datasource/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/source_datasource/test.query.xml"));

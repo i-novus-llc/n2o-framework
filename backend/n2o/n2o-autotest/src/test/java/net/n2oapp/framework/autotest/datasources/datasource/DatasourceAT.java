@@ -62,7 +62,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     void testFormAsFilter() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/form_as_filter/test.query.xml")
@@ -146,7 +146,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     void testOneDSManyWidgets() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/test_one_ds_many_widgets/test.query.xml")
@@ -170,7 +170,7 @@ public class DatasourceAT extends AutoTestBase {
     @Test
     @Disabled
     void testValidationManyForm() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/validation_many_form/test.query.xml"),
@@ -218,7 +218,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     void testSimpleCopyDepend() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/copyDepend");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/copyDepend");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/copyDepend/test.query.xml")
@@ -246,7 +246,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     void testCopyDepend() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend_resolve/modal.page.xml"),
@@ -292,7 +292,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     void testSubmit() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/submit");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/datasource/submit");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/submit/test.object.xml"),
@@ -319,7 +319,7 @@ public class DatasourceAT extends AutoTestBase {
      */
     @Test
     void testDefaultValuesMode() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/default_values_mode");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/datasource/default_values_mode");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/default_values_mode/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/default_values_mode/test.query.xml"),
@@ -359,7 +359,7 @@ public class DatasourceAT extends AutoTestBase {
 
     @Test
     void testFetchOnInitUnique() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init_unique");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init_unique");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init_unique/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init_unique/test.query.xml")
@@ -375,7 +375,7 @@ public class DatasourceAT extends AutoTestBase {
 
     @Test
     void testFetchOnInit() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init");
+        setResourcePath("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init");
         N2oApplicationBuilder sources = builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init/test.query.xml")

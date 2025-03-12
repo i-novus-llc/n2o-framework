@@ -46,7 +46,7 @@ public class TabsLazyInitAT extends AutoTestBase {
 
     @Test
     public void testLazyInit() {
-        setJsonPath("net/n2oapp/framework/autotest/region/tabs/lazy");
+        setResourcePath("net/n2oapp/framework/autotest/region/tabs/lazy");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/lazy/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/lazy/test.query.xml")
@@ -118,7 +118,7 @@ public class TabsLazyInitAT extends AutoTestBase {
 
     @Test
     public void testLazyInitWithDependencies() {
-        setJsonPath("net/n2oapp/framework/autotest/region/tabs/laze_with_dependencies");
+        setResourcePath("net/n2oapp/framework/autotest/region/tabs/laze_with_dependencies");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/laze_with_dependencies/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/laze_with_dependencies/test.query.xml")

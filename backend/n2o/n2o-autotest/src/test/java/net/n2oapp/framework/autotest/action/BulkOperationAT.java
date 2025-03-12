@@ -46,7 +46,7 @@ public class BulkOperationAT extends AutoTestBase {
 
     @Test
     public void bulkOperationTest() {
-        setJsonPath("net/n2oapp/framework/autotest/action/bulk_operation");
+        setResourcePath("net/n2oapp/framework/autotest/action/bulk_operation");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/setName.page.xml"),
@@ -103,7 +103,7 @@ public class BulkOperationAT extends AutoTestBase {
 
     @Test
     public void bulkOperationStringIdsTest() {
-        setJsonPath("net/n2oapp/framework/autotest/action/bulk_operation_string_ids");
+        setResourcePath("net/n2oapp/framework/autotest/action/bulk_operation_string_ids");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/setName.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/test.object.xml"),

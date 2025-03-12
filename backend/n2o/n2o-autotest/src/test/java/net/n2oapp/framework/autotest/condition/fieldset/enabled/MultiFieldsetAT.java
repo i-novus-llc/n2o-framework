@@ -40,7 +40,7 @@ public class MultiFieldsetAT extends AutoTestBase {
 
     @Test
     void expressionCondition() {
-        setJsonPath("net/n2oapp/framework/autotest/condition/fieldset/enabled/multiset_with_expression");
+        setResourcePath("net/n2oapp/framework/autotest/condition/fieldset/enabled/multiset_with_expression");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/fieldset/enabled/multiset_with_expression/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/fieldset/enabled/multiset_with_expression/test.query.xml")

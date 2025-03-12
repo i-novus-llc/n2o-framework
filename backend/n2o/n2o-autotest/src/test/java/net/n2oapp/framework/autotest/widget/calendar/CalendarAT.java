@@ -55,7 +55,7 @@ public class CalendarAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setJsonPath("net/n2oapp/framework/autotest/widget/calendar/simple");
+        setResourcePath("net/n2oapp/framework/autotest/widget/calendar/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/calendar/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/calendar/simple/test.query.xml"),

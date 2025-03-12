@@ -64,7 +64,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
                 new N2oAllDataPack()
         );
 
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/simple");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/simple/data.query.xml"),
@@ -213,7 +213,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
      */
     @Test
     void testHeadersAndColumnsSettings() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/check_headers");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/check_headers");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/check_headers/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/check_headers/data.query.xml")
@@ -248,7 +248,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
     @Test
     void columnsVisibilityTest() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/columns");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/columns");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/columns/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/columns/data.query.xml")
@@ -321,7 +321,7 @@ public class TableButtonGeneratorAT extends AutoTestBase {
 
     @Test
     void testResize() {
-        setJsonPath("net/n2oapp/framework/autotest/widget/table/button_generator/resize");
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/resize");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/data.query.xml"),

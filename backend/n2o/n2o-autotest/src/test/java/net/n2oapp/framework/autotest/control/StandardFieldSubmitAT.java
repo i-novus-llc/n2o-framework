@@ -6,8 +6,6 @@ import net.n2oapp.framework.autotest.api.component.control.DateInterval;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -44,7 +42,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
 
     @Test
     public void testSubmit() {
-        setJsonPath("net/n2oapp/framework/autotest/control/submit");
+        setResourcePath("net/n2oapp/framework/autotest/control/submit");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/submit/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/submit/test.query.xml"),

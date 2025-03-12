@@ -44,7 +44,7 @@ public class DialogValidationAT extends AutoTestBase {
 
     @Test
     void testDialog() {
-        setJsonPath("net/n2oapp/framework/autotest/validation/dialog");
+        setResourcePath("net/n2oapp/framework/autotest/validation/dialog");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/dialog/test.query.xml"),

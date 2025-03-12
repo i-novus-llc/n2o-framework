@@ -47,7 +47,7 @@ public class RefModalAT extends AutoTestBase {
 
     @Test
     void refParentModalTest() {
-        setJsonPath("net/n2oapp/framework/autotest/model/modal/from_form");
+        setResourcePath("net/n2oapp/framework/autotest/model/modal/from_form");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_form/modal.page.xml"));
@@ -93,7 +93,7 @@ public class RefModalAT extends AutoTestBase {
 
     @Test
     void refParentModalFromFiltersTest() {
-        setJsonPath("net/n2oapp/framework/autotest/model/modal/from_filters");
+        setResourcePath("net/n2oapp/framework/autotest/model/modal/from_filters");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/model/modal/from_filters/filters.page.xml"));
