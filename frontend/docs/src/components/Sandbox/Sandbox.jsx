@@ -75,6 +75,7 @@ function SandboxBody({
 
         event.target.contentWindow.postMessage(message, '*')
     }
+
     const src = isLightEditor ?
             `${CONFIG.sandboxUrl}/editor/${projectData.id}/?light` :
             `${CONFIG.n2oSandboxUrl}/view/${projectData.id}/`
@@ -82,6 +83,7 @@ function SandboxBody({
     return (
             <>
                 <iframe
+                        sandbox="allow-scripts allow-same-origin"
                         onLoad={onIframeLoadHandler}
                         style={{ height, ...customStyle }}
                         className={clsx(style.iframe, className)}

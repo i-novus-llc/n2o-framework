@@ -6,3 +6,5 @@ export const ITEM_SRC = {
     LINK: 'LinkMenuItem',
     STATIC: 'StaticMenuItem',
 }
+
+export const VISIBILITY_EVENT = 'N2O_ELEMENT_VISIBILITY_UPDATED'
