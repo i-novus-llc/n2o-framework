@@ -36,14 +36,16 @@
 
         window.N2O_WARNING_WATCHER = true;
 
-        window.onmessage = function (event) {
-            if (event.data && event.data.type === 'SET_N2O_ELEMENT_VISIBILITY') {
+        window.addEventListener('message', function (event) {
+            const { target } = event || {};
+            if (target?.['N2O_ELEMENT_VISIBILITY']) {
                 window.N2O_ELEMENT_VISIBILITY = {
                     ...window.N2O_ELEMENT_VISIBILITY,
                     ...event.data.payload,
-                }
+                };
+                window.dispatchEvent(new CustomEvent('N2O_ELEMENT_VISIBILITY_UPDATED'));
             }
-        };
+        });
     </script>
 </head>
 <body>

@@ -1,7 +1,9 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
+import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 
 import { WindowType } from '../../components/core/WindowType'
+import { VISIBILITY_EVENT } from '../constants'
 
 import { resolveText } from './helpers'
 import { PositionedText } from './PositionedText'
@@ -13,18 +15,28 @@ export interface Props {
     style?: CSSProperties
 }
 
-export function Footer({ textRight, textLeft, className, style }: Props) {
-    const { N2O_ELEMENT_VISIBILITY } = window as WindowType
+export function Footer({ textRight, textLeft, className, style: propsStyle }: Props) {
+    const [style, setStyle] = useState<CSSProperties>({})
 
-    let currentStyle = { ...style }
+    useEffect(() => {
+        const handleVisibilityUpdate = () => {
+            const { N2O_ELEMENT_VISIBILITY } = window as WindowType
 
-    if (N2O_ELEMENT_VISIBILITY && N2O_ELEMENT_VISIBILITY.footer === false) {
-        currentStyle = { display: 'none' }
-    }
+            if (N2O_ELEMENT_VISIBILITY && !N2O_ELEMENT_VISIBILITY.footer) {
+                setStyle({ display: 'none' })
+            }
+        }
+
+        window.addEventListener(VISIBILITY_EVENT, handleVisibilityUpdate)
+
+        return () => {
+            window.removeEventListener(VISIBILITY_EVENT, handleVisibilityUpdate)
+        }
+    }, [])
 
     return (
-        <footer className={classNames('n2o-footer py-2', className)} style={currentStyle}>
-            <div className={classNames('container-fluid d-flex', { 'inherits-color': currentStyle?.color })}>
+        <footer className={classNames('n2o-footer py-2', className)} style={isEmpty(style) ? propsStyle : style}>
+            <div className={classNames('container-fluid d-flex', { 'inherits-color': propsStyle?.color })}>
                 <PositionedText text={resolveText(textLeft)} position="left" />
                 <PositionedText text={resolveText(textRight)} position="right" />
             </div>

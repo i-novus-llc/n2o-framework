@@ -13,6 +13,7 @@ import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { withTitlesResolver } from '../../withTitlesResolver/withTitlesResolver'
 import { WithContextDataSource } from '../../WithContextDataSource/WithContextDataSource'
 import { WindowType } from '../../../components/core/WindowType'
+import { VISIBILITY_EVENT } from '../../constants'
 
 import { Logo } from './Logo'
 import { SidebarSwitcher } from './SidebarSwitcher'
@@ -58,15 +59,33 @@ export interface SimpleHeaderBodyProps {
     datasource?: string
 }
 
-type State = { isOpen: boolean }
+type State = { isOpen: boolean, style: CSSProperties }
 
 class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
-    state: State = { isOpen: false }
+    state: State = { isOpen: false, style: {} }
 
     toggle = () => {
         const { isOpen } = this.state
 
         this.setState({ isOpen: !isOpen })
+    }
+
+    handleVisibilityUpdate = () => {
+        const { N2O_ELEMENT_VISIBILITY } = window as WindowType
+
+        console.log('Point!', N2O_ELEMENT_VISIBILITY)
+
+        if (N2O_ELEMENT_VISIBILITY && !N2O_ELEMENT_VISIBILITY.header) {
+            this.setState({ style: { display: 'none' } })
+        }
+    }
+
+    componentDidMount() {
+        window.addEventListener(VISIBILITY_EVENT, this.handleVisibilityUpdate)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener(VISIBILITY_EVENT, this.handleVisibilityUpdate)
     }
 
     componentDidUpdate(prevProps: SimpleHeaderBodyProps) {
@@ -96,8 +115,8 @@ class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
         const items = get(menu, 'items', {})
         const extraItems = get(extraMenu, 'items', {})
 
-        let { style } = this.props
-        const { isOpen } = this.state
+        const { style: propsStyle } = this.props
+        const { isOpen, style } = this.state
 
         const isInversed = color === 'inverse'
         const navColor = isInversed ? 'primary' : 'light'
@@ -105,12 +124,6 @@ class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
         const pathname = get(location, 'pathname', '')
 
         const trigger = !isUndefined(get(search, 'dataProvider')) ? 'CHANGE' : 'ENTER'
-
-        const { N2O_ELEMENT_VISIBILITY } = window as WindowType
-
-        if (N2O_ELEMENT_VISIBILITY && !N2O_ELEMENT_VISIBILITY.header) {
-            style = { display: 'none' }
-        }
 
         const simpleHeaderClassNames = classNames(
             'n2o-header',
@@ -124,7 +137,7 @@ class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
         )
 
         return (
-            <div style={style} className={simpleHeaderClassNames}>
+            <div style={isEmpty(style) ? propsStyle : style} className={simpleHeaderClassNames}>
                 <Navbar color={navColor} light={!isInversed} dark={isInversed} expand="lg">
                     {!isEmpty(sidebarSwitcher) && (
                         <SidebarSwitcher
