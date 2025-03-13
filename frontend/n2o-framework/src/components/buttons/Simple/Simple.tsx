@@ -12,6 +12,7 @@ import { IconContainer, ICON_POSITIONS } from '../../snippets/IconContainer/Icon
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 import { State } from '../../../ducks/State'
+import { NOOP_FUNCTION } from '../../../utils/emptyTypes'
 
 import { type Props } from './types'
 
@@ -19,6 +20,11 @@ const convertCounter = (count?: number) => {
     if (!count) { return '' }
 
     return count > 100 ? '99+' : count
+}
+
+export enum CLICK_EVENTS {
+    ENTER = 'Enter',
+    NUMPAD_ENTER = 'NumpadEnter',
 }
 
 const SimpleButtonBody = ({
@@ -36,9 +42,10 @@ const SimpleButtonBody = ({
     dataSourceIsLoading,
     forwardedRef,
     url,
+    onKeyDown,
     visible = true,
     tag = 'button',
-    onClick = () => {},
+    onClick = NOOP_FUNCTION,
     rounded = false,
     iconPosition = ICON_POSITIONS.LEFT,
     ...rest
@@ -71,6 +78,17 @@ const SimpleButtonBody = ({
                     'with-icon': icon,
                     [`btn-badge-position--${position}`]: position,
                 })}
+                onKeyDown={(event) => {
+                    if (onKeyDown) {
+                        onKeyDown(event)
+
+                        return
+                    }
+
+                    if (event.code === CLICK_EVENTS.ENTER || event.code === CLICK_EVENTS.NUMPAD_ENTER) {
+                        onClick(event as never)
+                    }
+                }}
                 href={url}
                 {...rest}
             >
