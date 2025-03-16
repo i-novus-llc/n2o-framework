@@ -13,8 +13,9 @@ import java.util.Map;
 public class BindUtil {
     /**
      * Разрешение ссылок на предыдущие страницы в {@link ClientDataProvider}
+     *
      * @param dataProvider Провайдер данных
-     * @param p Процессор
+     * @param p            Процессор
      */
     public static void bindDataProvider(ClientDataProvider dataProvider, BindProcessor p) {
         if (dataProvider == null)
@@ -23,18 +24,10 @@ public class BindUtil {
         Map<String, ModelLink> queryMapping = dataProvider.getQueryMapping();
         dataProvider.setUrl(p.resolveUrl(dataProvider.getUrl(), pathMapping, queryMapping));
         if (pathMapping != null) {
-            pathMapping.forEach((k, v) -> {
-                if (v.getValue() instanceof String)
-                    v.setValue(p.resolveText(v.getValue().toString()));
-                pathMapping.put(k, (ModelLink) p.resolveLink(v));
-            });
+            pathMapping.forEach((k, v) -> pathMapping.put(k, (ModelLink) p.resolveLink(v)));
         }
         if (queryMapping != null) {
-            queryMapping.forEach((k, v) -> {
-                if (v.getValue() instanceof String)
-                    v.setValue(p.resolveText(v.getValue().toString()));
-                queryMapping.put(k, (ModelLink) p.resolveLink(v));
-            });
+            queryMapping.forEach((k, v) -> queryMapping.put(k, (ModelLink) p.resolveLink(v)));
         }
     }
 
@@ -45,7 +38,7 @@ public class BindUtil {
      * @param p        Процессор
      */
     public static void resolveExtension(PropertiesAware metadata, BindProcessor p) {
-       if (metadata.getProperties() != null)
+        if (metadata.getProperties() != null)
             metadata.getProperties().entrySet().forEach(e -> {
                 if (e.getValue() instanceof String)
                     e.setValue(p.resolveText(e.getValue().toString()));
