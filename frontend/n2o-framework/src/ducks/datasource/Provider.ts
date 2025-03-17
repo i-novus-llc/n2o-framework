@@ -1,8 +1,6 @@
 import type { ModelPrefix } from '../../core/datasource/const'
 import { Meta } from '../Action'
 
-import { Mappings } from './Providers/service/cachedMappings'
-
 export enum ProviderType {
     storage = 'browser',
     service = 'service',
@@ -64,7 +62,6 @@ export interface CachedProvider extends Provider {
     key: string
     storage: StorageType
     cacheExpires: string
-    invalidateParams: string[]
     pathMapping: Record<string, MappingParam>
     queryMapping: Record<string, MappingParam>
     size: number
@@ -91,8 +88,6 @@ export interface QueryResult<TModel extends object = Record<string, unknown>> {
     additionalInfo?: object
     paging: Paging
     meta?: Meta
-    timestamp?: string
-    cachedMappings?: Mappings
 }
 
 export type QueryOptions = { page?: number, withCount?: boolean }

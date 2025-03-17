@@ -3,7 +3,6 @@
       name="Кэширующий датасурс fetch-on-init тест">
     <datasources>
         <cached-datasource id="ds1" storage-key="test_key"
-                           invalidate-cache-path-params="person_id"
                            query-id="person" fetch-on-init="true">
         </cached-datasource>
         <inherited-datasource source-datasource="ds1" id="ds2" source-model="datasource">

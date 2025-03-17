@@ -98,20 +98,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="invalidate-cache-path-params" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Path параметры, значения которых сравниваются во время проверки актуальности кэша
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="invalidate-cache-query-params" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Query параметры, значения которых сравниваются во время проверки актуальности кэша
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="fetch-on-init" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
