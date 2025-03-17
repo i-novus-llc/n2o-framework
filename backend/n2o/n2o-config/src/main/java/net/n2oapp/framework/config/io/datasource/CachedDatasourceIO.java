@@ -30,8 +30,6 @@ public class CachedDatasourceIO extends AbstractDatasourceIO<N2oCachedDatasource
         p.attribute(e, "storage-key", ds::getStorageKey, ds::setStorageKey);
         p.attributeEnum(e, "storage-type", ds::getStorageType, ds::setStorageType, BrowserStorageType.class);
         p.attribute(e, "cache-expires", ds::getCacheExpires, ds::setCacheExpires);
-        p.attributeArray(e, "invalidate-cache-path-params", ",", ds::getInvalidateCachePathParams, ds::setInvalidateCachePathParams);
-        p.attributeArray(e, "invalidate-cache-query-params", ",", ds::getInvalidateCacheQueryParams, ds::setInvalidateCacheQueryParams);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, Submit::new, this::submit);
         p.childrenByEnum(e, "filters", ds::getFilters, ds::setFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::filters);

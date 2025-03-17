@@ -21,8 +21,8 @@ const requestMap: Record<string, RequestInfo<unknown>> = Object.create(null)
 
 export interface DataProvider {
     basePath: string
-    baseQuery: string
-    headersParams: object
+    baseQuery: Record<string, string | number>
+    headersParams: Record<string, string | number>
 }
 
 /**

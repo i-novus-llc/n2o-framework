@@ -21,8 +21,6 @@ public class N2oCachedDatasource extends N2oAbstractDatasource implements Submit
     private String storageKey;
     private BrowserStorageType storageType;
     private String cacheExpires;
-    private String[] invalidateCachePathParams;
-    private String[] invalidateCacheQueryParams;
     private N2oPreFilter[] filters;
     private Submit submit;
 }

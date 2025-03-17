@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -53,15 +52,6 @@ public class CachedDatasourceCompiler extends AbstractDatasourceCompiler<N2oCach
         CachedDatasource.Provider provider = new CachedDatasource.Provider();
         provider.setCacheExpires(source.getCacheExpires());
         provider.setKey(castDefault(source.getStorageKey(), source.getId()));
-
-        ArrayList<String> invalidateParams = new ArrayList<>();
-        if (source.getInvalidateCachePathParams() != null)
-            for (String param : source.getInvalidateCachePathParams())
-                invalidateParams.add("path." + param.trim());
-        if (source.getInvalidateCacheQueryParams() != null)
-            for (String param : source.getInvalidateCacheQueryParams())
-                invalidateParams.add("query." + param.trim());
-        provider.setInvalidateParams(invalidateParams);
         provider.setType("cached");
         provider.setStorage(castDefault(source.getStorageType(),
                 () -> p.resolve(property("n2o.api.datasource.cached.storage_type"), BrowserStorageType.class)));
