@@ -193,8 +193,6 @@ n2o.api.datasource.browser.submit.auto = true
 |storage-type        |sessionStorage localStorage      |Тип хранилища в браузере                                              |                      |
 |storage-key         |Строка                           |Ключ, под которым будут храниться данные. По умолчанию: глобальный идентификатор источника|  |
 |cache-expires       |Строка                           |С какой периодичностью необходимо проверять актуальность кэша. Задается в формате `1d 3h 2m`||
-|invalidate-cache-path-params  |Строка                 |Path параметры, значения которых сравниваются во время проверки актуальности кэша|           |
-|invalidate-cache-query-params |Строка                 |Query параметры, значения которых сравниваются во время проверки актуальности кэша|          |
 |fetch-on-init       |true false                       |Получить данные при инициализации страницы                            |false                 |
 
 **Настройки**
@@ -234,7 +232,6 @@ n2o.api.datasource.cached.clear_cache_after_submit = false
 
 ```xml
 <cached-datasource id="ds1" storage-key="test_key"
-                           invalidate-cache-path-params="person_id"
                            query-id="person" >
     <filters>
         <eq field-id="id" param="person_id"/>

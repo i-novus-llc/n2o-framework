@@ -78,8 +78,7 @@
             </dependencies>
         </browser-storage>
         <cached-datasource id="ds5" query-id="test" size="12" object-id="test" cache-expires="1d"
-                           storage-key="key" storage-type="sessionStorage"
-                           invalidate-cache-path-params="id" invalidate-cache-query-params="name" route="/route" fetch-on-init="true">
+                           storage-key="key" storage-type="sessionStorage" route="/route" fetch-on-init="true">
             <filters>
                 <eq field-id="id" param="id"/>
                 <in field-id="in" param="in"/>
