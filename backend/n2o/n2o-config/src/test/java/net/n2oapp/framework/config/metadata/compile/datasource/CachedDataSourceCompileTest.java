@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Тестирование компиляции кэширующего источника данных
@@ -57,11 +56,6 @@ class CachedDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(datasource.getProvider().getKey(), is("test_key"));
         assertThat(datasource.getProvider().getStorage(), is(BrowserStorageType.sessionStorage));
         assertThat(datasource.getProvider().getCacheExpires(), is("1d"));
-        assertThat(datasource.getProvider().getInvalidateParams().size(), is(4));
-        assertTrue(datasource.getProvider().getInvalidateParams().contains("path.pp1"));
-        assertTrue(datasource.getProvider().getInvalidateParams().contains("path.pp2"));
-        assertTrue(datasource.getProvider().getInvalidateParams().contains("query.qp1"));
-        assertTrue(datasource.getProvider().getInvalidateParams().contains("query.qp1"));
         assertThat(datasource.getProvider().getUrl(), is("n2o/data/testCachedDatasource/test"));
 
         assertThat(datasource.getSubmit(), Matchers.notNullValue());

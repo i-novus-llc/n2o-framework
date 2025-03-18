@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,8 +33,6 @@ public class CachedDatasource extends AbstractDatasource {
         private BrowserStorageType storage;
         @JsonProperty
         private String cacheExpires;
-        @JsonProperty
-        private List<String> invalidateParams;
         @JsonProperty
         private String url;
         @JsonProperty
