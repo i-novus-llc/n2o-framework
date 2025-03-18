@@ -23,6 +23,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.io.DefaultResourceLoader;
 
 import java.util.Map;
 import java.util.Objects;
@@ -127,9 +128,12 @@ public class AutoTestBase extends N2oTestBase {
         provider.setClasspathResourcePath(classpath);
     }
 
-    protected void resolveIndividualProperties(){
+    protected void resolveIndividualProperties() {
         String resourcePath = provider.getClasspathResourcePath();
-        OverrideProperties overriddenProperties = getPropertiesFromURI((resourcePath.endsWith("/") ? resourcePath : resourcePath + "/") + "application.properties");
+        String locationPattern = (resourcePath.endsWith("/") ? resourcePath : resourcePath + "/") + "application.properties";
+        if (!new DefaultResourceLoader().getResource(locationPattern).isReadable())
+            return;
+        OverrideProperties overriddenProperties = getPropertiesFromURI(locationPattern);
         if (!isEmpty(overriddenProperties))
             overriddenProperties.forEach((k, v) -> ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty(((String) k), v));
     }
