@@ -83,8 +83,8 @@ class AdvancedTableFilterBody extends Component<AdvancedTableFilterProps, State>
 
             const isValid = this.validate()
 
-            this.setState({ value: '' }, () => {
-                if (isValid) { onFilter?.({ id, value: '' }) }
+            this.setState({ value: undefined }, () => {
+                if (isValid) { onFilter?.({ id, value: undefined }) }
             })
         }
     }
