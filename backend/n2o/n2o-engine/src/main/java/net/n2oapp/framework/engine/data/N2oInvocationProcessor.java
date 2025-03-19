@@ -62,7 +62,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         DataSet resolvedInDataSet = resolveInValuesMapping(inParameters, inDataSet);
         DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping);
         resolveOutValues(outParameters, resultDataSet, null);
-        inDataSet.merge(resultDataSet, ArrayMergeStrategy.replace, true);
+        inDataSet.merge(resultDataSet, ArrayMergeStrategy.REPLACE, true);
         return inDataSet;
     }
 

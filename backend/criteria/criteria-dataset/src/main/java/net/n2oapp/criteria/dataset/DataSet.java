@@ -3,8 +3,8 @@ package net.n2oapp.criteria.dataset;
 import java.util.*;
 
 import static java.util.Objects.nonNull;
-import static net.n2oapp.criteria.dataset.ArrayMergeStrategy.merge;
-import static net.n2oapp.criteria.dataset.ArrayMergeStrategy.replace;
+import static net.n2oapp.criteria.dataset.ArrayMergeStrategy.MERGE;
+import static net.n2oapp.criteria.dataset.ArrayMergeStrategy.REPLACE;
 
 /**
  * Данные объекта
@@ -33,11 +33,11 @@ public class DataSet extends NestedMap {
     }
 
     public void merge(DataSet dataSet) {
-        merge(this, dataSet, ALWAYS_EXTEND_VALUE, merge, false);
+        merge(this, dataSet, ALWAYS_EXTEND_VALUE, MERGE, false);
     }
 
     public void merge(DataSet dataSet, Boolean addNullValues) {
-        merge(this, dataSet, ALWAYS_EXTEND_VALUE, merge, addNullValues);
+        merge(this, dataSet, ALWAYS_EXTEND_VALUE, MERGE, addNullValues);
     }
 
     public void merge(DataSet dataSet, ArrayMergeStrategy mergeStrategy, Boolean addNullValues) {
@@ -45,11 +45,11 @@ public class DataSet extends NestedMap {
     }
 
     public void merge(DataSet dataSet, ValuePickUpStrategy strategy) {
-        merge(this, dataSet, strategy, merge, false);
+        merge(this, dataSet, strategy, MERGE, false);
     }
 
     public void merge(DataSet dataSet, ValuePickUpStrategy strategy, Boolean addNullValues) {
-        merge(this, dataSet, strategy, merge, addNullValues);
+        merge(this, dataSet, strategy, MERGE, addNullValues);
     }
 
     public Integer getInteger(String key) {
@@ -162,7 +162,7 @@ public class DataSet extends NestedMap {
 
 
     private static void mergeArrays(List mainArray, List updateArray, ArrayMergeStrategy arrayMergeStrategy) {
-        if (replace.equals(arrayMergeStrategy))
+        if (REPLACE.equals(arrayMergeStrategy))
             mainArray.clear();
         mainArray.addAll(updateArray);
     }

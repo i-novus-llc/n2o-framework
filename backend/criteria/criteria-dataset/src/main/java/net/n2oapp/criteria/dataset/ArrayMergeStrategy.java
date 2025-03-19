@@ -7,10 +7,10 @@ public enum ArrayMergeStrategy {
     /**
      * Слитие с добавлением данных
      */
-    merge,
+    MERGE,
 
     /**
      * Слитие с полной заменой массива
      */
-    replace
+    REPLACE
 }

@@ -5,13 +5,13 @@ import net.n2oapp.criteria.api.SortingDirection;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Service("testController")
 public class TestController {
 
     public CollectionPage<TestRow> getCollectionPage(TestCriteria criteria) {
-        Collection<TestRow> result = new ArrayList<>();
+        List<TestRow> result = new ArrayList<>();
         if (criteria.getId() == null) {
             assert criteria.getSorting().getField().equals("value");
             assert criteria.getSorting().getDirection().equals(SortingDirection.DESC);

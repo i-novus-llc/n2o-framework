@@ -24,8 +24,6 @@ import static net.n2oapp.criteria.dataset.NestedUtils.*;
  */
 public class NestedMap extends LinkedHashMap<String, Object> {
 
-    private static final char SPREAD_OPERAND = '*';
-
     public NestedMap() {
     }
 

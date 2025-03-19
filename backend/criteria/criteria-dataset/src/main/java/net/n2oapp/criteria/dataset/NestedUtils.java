@@ -28,14 +28,6 @@ public abstract class NestedUtils {
         return true;
     }
 
-    public static boolean isNestedKey(String key) {
-        int wordIdx = getEndOfWord(key);
-        if (!isJavaVariable(key.substring(0, wordIdx)))
-            return false;
-        key = key.substring(wordIdx);
-        return true;
-    }
-
     public static boolean isFirstJavaVariable(String key) {
         int endOfWord = getEndOfWord(key);
         String word;

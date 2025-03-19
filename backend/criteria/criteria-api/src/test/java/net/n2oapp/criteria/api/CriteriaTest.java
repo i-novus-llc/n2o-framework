@@ -1,6 +1,5 @@
-import net.n2oapp.criteria.api.Criteria;
-import net.n2oapp.criteria.api.Sorting;
-import net.n2oapp.criteria.api.SortingDirection;
+package net.n2oapp.criteria.api;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
