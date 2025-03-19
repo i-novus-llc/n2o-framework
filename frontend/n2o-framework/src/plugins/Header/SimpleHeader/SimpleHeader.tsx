@@ -73,8 +73,6 @@ class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
     handleVisibilityUpdate = () => {
         const { N2O_ELEMENT_VISIBILITY } = window as WindowType
 
-        console.log('Point!', N2O_ELEMENT_VISIBILITY)
-
         if (N2O_ELEMENT_VISIBILITY && !N2O_ELEMENT_VISIBILITY.header) {
             this.setState({ style: { display: 'none' } })
         }

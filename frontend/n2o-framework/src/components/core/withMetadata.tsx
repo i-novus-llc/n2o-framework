@@ -87,7 +87,6 @@ export const WithMetadata = <P extends WithMetadataProps>(Component: ComponentTy
             const { subRoutes, path } = metadata?.routes || {}
 
             if (typeof path === 'string') {
-                console.log('Point!', path, pathname, this.props)
                 if (path.replace(/\/$/i, '') === pathname.replace(/\/$/i, '')) { return false }
 
                 const isSubPage = subRoutes?.some(route => pathname.startsWith(resolvePath(path, route)))
