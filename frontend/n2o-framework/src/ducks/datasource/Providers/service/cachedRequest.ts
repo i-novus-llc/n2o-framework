@@ -1,4 +1,5 @@
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import { select } from 'redux-saga/effects'
 import dayjs from 'dayjs'
 
@@ -9,7 +10,6 @@ import { getFullKey } from '../Storage'
 
 import { checkExpiration } from './checkExpiration'
 import { fetch } from './fetch'
-import { createCachedMappings, checkInvalidateParams, Key, Mapping } from './cachedMappings'
 
 interface Params {
     provider: CachedProvider
@@ -21,10 +21,15 @@ interface Params {
     key: string
 }
 
+type Cache = QueryResult & {
+    timestamp: string
+    mappings: Record<'baseQuery' | 'pathParams', Record<string, string | number>>
+}
+
 export function* cachedRequest(params: Params) {
     const { provider, page, sorting, id, apiProvider, storage, key } = params
 
-    const { size, invalidateParams } = provider
+    const { size } = provider
     const query = { page: get(params, 'page', page), size, sorting }
     const state: GlobalState = yield select()
 
@@ -41,36 +46,30 @@ export function* cachedRequest(params: Params) {
         return { list: [], paging: { count: 0, page: 1 } }
     }
 
-    const { baseQuery, pathParams }: { baseQuery: Mapping, pathParams: Mapping } = resolvedProvider
-    const mappings = { [Key.QUERY]: { ...baseQuery }, [Key.PATH]: { ...pathParams } }
+    const mappings = { baseQuery: resolvedProvider.baseQuery, pathParams: resolvedProvider.pathParams }
 
     const storageData = storage.getItem(getFullKey(key))
 
     if (storageData) {
         const { cacheExpires } = provider
 
-        const json = JSON.parse(storageData)
+        const json: Cache = JSON.parse(storageData)
         const { timestamp } = json
         const isExpired = checkExpiration(timestamp, cacheExpires)
 
         if (!isExpired) {
-            const { cachedMappings } = json
+            const { mappings: cachedMappings } = json
 
-            const isValid = checkInvalidateParams(
-                invalidateParams,
-                cachedMappings,
-                mappings,
-            )
-
-            if (isValid) { return json }
+            if (isEqual(cachedMappings, mappings)) { return json }
         }
     }
 
     const data: QueryResult = yield fetch(id, resolvedProvider, apiProvider)
-    const cachedData = { ...data }
-
-    cachedData.timestamp = dayjs().format()
-    cachedData.cachedMappings = createCachedMappings(invalidateParams, mappings)
+    const cachedData: Cache = {
+        ...data,
+        timestamp: dayjs().format(),
+        mappings,
+    }
 
     storage.setItem(getFullKey(key), JSON.stringify(cachedData))
 

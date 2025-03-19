@@ -11,6 +11,8 @@ import { flatten } from 'flat'
 import linkResolver from '../utils/linkResolver'
 import { clearEmptyParams } from '../utils/clearEmptyParams'
 
+import { encodeValue, PATTERNS } from './utils/encodeValue'
+
 /**
  * Получение разрешенных параметров dataProvider
  * @param state
@@ -28,7 +30,15 @@ import { clearEmptyParams } from '../utils/clearEmptyParams'
  * @param {object} dataProvider
  * @param {object} [query]
  * @param {object} [options]
- * @returns {{baseQuery: (*), basePath: string, queryParams: (*), pathParams: (*), formParams: {}, headersParams: {}, url: string}}
+ * @returns {{
+ *  baseQuery: Record<string, string|number>,
+ *  basePath: string,
+ *  queryParams: Record<string, string|number>,
+ *  pathParams: Record<string, string|number>,
+ *  formParams: Record<string, string|number>,
+ *  headersParams: Record<string, string|number>,
+ *  url: string
+ * }}
  */
 export function dataProviderResolver(state, dataProvider, query, options) {
     const {
@@ -109,6 +119,9 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     }
 }
 
+/**
+ * @returns {Record<string, string>}
+ */
 export function getParams(mapping, state, evalContext = {}) {
     const params = {}
 
@@ -116,7 +129,7 @@ export function getParams(mapping, state, evalContext = {}) {
         const value = linkResolver(state, options, evalContext)
         const { required } = options
 
-        params[key] = !isNil(value) ? value : undefined
+        params[key] = !isNil(value) ? encodeValue(value, PATTERNS.CONTEXT_VARIABLE) : undefined
 
         if (required && isNil(value)) {
             throw new Error(`DataProvider error: "${key}" is required`)
