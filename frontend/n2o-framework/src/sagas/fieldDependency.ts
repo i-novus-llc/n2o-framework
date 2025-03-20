@@ -366,26 +366,18 @@ function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
     for (const form of forms) {
         for (const [fieldId, field] of Object.entries(form.fields)) {
             const { dependency = [] } = field
-
-            if (!dependency.length) {
-                // eslint-disable-next-line no-continue
-                continue
-            }
+            const selfInit = !!isDefault && !isEqual(get(model, fieldId), get(prevModel, fieldId))
 
             // Обход каждой зависимости
             for (const dep of dependency) {
                 const { on = [], applyOnInit } = dep
 
-                if (isDefault) {
-                    if (applyOnInit) {
-                        yield fork(resolveDependency, form, model || {}, fieldId, field, dep, true)
-                    }
-
+                if (isDefault && !applyOnInit) {
                     // eslint-disable-next-line no-continue
                     continue
                 }
 
-                const isSomeFieldChanged = !prevModel || on.some((fieldPath: string) => {
+                const isSomeFieldChanged = selfInit || on.some((fieldPath: string) => {
                     const currentValue = get(model, fieldPath)
                     const prevValue = get(prevModel, fieldPath)
 
@@ -393,7 +385,7 @@ function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
                 })
 
                 if (isSomeFieldChanged) {
-                    yield fork(resolveDependency, form, model || {}, fieldId, field, dep, false)
+                    yield fork(resolveDependency, form, model || {}, fieldId, field, dep, selfInit)
                 }
             }
         }
