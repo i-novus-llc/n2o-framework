@@ -33,7 +33,7 @@ public class MergeValuesController extends DefaultValuesController {
     }
 
     protected DataSet extractCopyModel(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        DataSet defaultModel = extractDefaultModel(requestInfo, responseInfo);
+        DataSet defaultModel = requestInfo.getData() == null ? new DataSet() : new DataSet(requestInfo.getData());
         if (requestInfo.getQuery() != null) {
             CollectionPage<DataSet> queryDefaultPage;
             try {

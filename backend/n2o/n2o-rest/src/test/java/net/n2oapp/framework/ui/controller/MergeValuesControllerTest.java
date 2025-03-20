@@ -41,7 +41,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class MergeValuesControllerTest {
+class MergeValuesControllerTest {
 
     private N2oApplicationBuilder builder;
 
@@ -119,7 +119,6 @@ public class MergeValuesControllerTest {
         env.setContextProcessor(contextProcessor);
         queryProcessor.setEnvironment(env);
         N2oSubModelsProcessor subModelsProcessor = Mockito.mock(N2oSubModelsProcessor.class);
-        Mockito.doNothing().when(subModelsProcessor);
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);
 
         MergeValuesController copyValuesController = new MergeValuesController(dataProcessingStack, queryProcessor,
