@@ -1265,6 +1265,10 @@
           "name": "CachedDatasourceAT. testFetchDependencies"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/datasources/cached_datasource/invalidate_cache",
+          "name": "CachedDatasourceAT. testInvalidateCache"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/model/field",
           "name": "RefFieldModelAT"
         },
