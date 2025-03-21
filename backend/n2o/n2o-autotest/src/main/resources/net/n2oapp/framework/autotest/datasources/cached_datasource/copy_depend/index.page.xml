@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+                 name="Тестирование copy зависимости">
+    <datasources>
+        <datasource id="ds1"/>
+        <cached-datasource id="ds2" query-id="test">
+            <dependencies>
+                <copy
+                        on="ds1"
+                        target-field-id="text2"
+                        source-field-id="text1"
+                />
+            </dependencies>
+        </cached-datasource>
+    </datasources>
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <input-text id="text1"/>
+            </fields>
+        </form>
+        <form datasource="ds2">
+            <fields>
+                <output-text id="text2"/>
+            </fields>
+        </form>
+    </regions>
+</page>

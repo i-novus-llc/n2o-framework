@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись кэширующего источника данных
  */
 @Component
-public class CachedDatasourceIO extends AbstractDatasourceIO<N2oCachedDatasource> {
+public class CachedDatasourceIO extends BaseDatasourceIO<N2oCachedDatasource> {
 
     @Override
     public void io(Element e, N2oCachedDatasource ds, IOProcessor p) {
