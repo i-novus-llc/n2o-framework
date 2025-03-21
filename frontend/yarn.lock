@@ -3466,7 +3466,7 @@ __metadata:
     react-draft-wysiwyg: 1.15.0
     react-i18next: 14.1.2
     react-onclickoutside: 6.7.1
-    react-popper: 2.2.4
+    react-popper: 2.3.0
     react-router-dom: 5.2.0
     react-syntax-highlighter: ^15.5.0
     react-text-mask: 5.5.0
@@ -14688,7 +14688,7 @@ __metadata:
     react-i18next: 14.1.2
     react-markdown: ^8.0.3
     react-onclickoutside: 6.7.1
-    react-popper: ^2.2.4
+    react-popper: 2.3.0
     react-redux: 7.2.6
     react-resize-detector: ^6.1.0
     react-router-dom: 5.2.0
@@ -17024,7 +17024,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-popper@npm:2.2.4, react-popper@npm:^2.2.4":
+"react-popper@npm:2.3.0":
+  version: 2.3.0
+  resolution: "react-popper@npm:2.3.0"
+  dependencies:
+    react-fast-compare: ^3.0.1
+    warning: ^4.0.2
+  peerDependencies:
+    "@popperjs/core": ^2.0.0
+    react: ^16.8.0 || ^17 || ^18
+    react-dom: ^16.8.0 || ^17 || ^18
+  checksum: 837111c98738011c69b3069a464ea5bdcbf487105b6148e8faf90cb7337e134edb1b98b8824322941c378756cca30a15c18c25f558e53b85ed5762fa0dc8e6b2
+  languageName: node
+  linkType: hard
+
+"react-popper@npm:^2.2.4":
   version: 2.2.4
   resolution: "react-popper@npm:2.2.4"
   dependencies:
