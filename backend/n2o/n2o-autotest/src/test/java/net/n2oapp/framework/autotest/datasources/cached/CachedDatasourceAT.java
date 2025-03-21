@@ -4,6 +4,7 @@ import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -24,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование cached-datasource
  */
-public class CachedDatasourceAT extends AutoTestBase {
+class CachedDatasourceAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -176,4 +177,55 @@ public class CachedDatasourceAT extends AutoTestBase {
 
         modal.close();
     }
+
+    /**
+     * Тестирование copy зависимости
+     */
+    @Test
+    void testSimpleCopyDepend() {
+        setResourcePath("net/n2oapp/framework/autotest/datasources/cached_datasource/copy_depend");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/copy_depend/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/copy_depend/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        InputText source = page.regions().region(0, SimpleRegion.class).content()
+                .widget(0, FormWidget.class).fields().field("text1").control(InputText.class);
+        OutputText copy = page.regions().region(0, SimpleRegion.class).content()
+                .widget(1, FormWidget.class).fields().field("text2").control(OutputText.class);
+
+        source.click();
+        source.setValue("test");
+        copy.shouldHaveValue("test");
+        source.click();
+        source.clear();
+        copy.shouldBeEmpty();
+    }
+
+    @Test
+    void testFetchDependencies() {
+        setResourcePath("net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_depend");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_depend/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_depend/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        FormWidget form1 = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+        FormWidget form2 = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class);
+
+
+        InputText input2 = form2.fields().field("Тип документа").control(InputText.class);
+        input2.shouldExists();
+        input2.shouldHaveValue("Свидетельство о рождении");
+        input2.setValue("test");
+
+        InputText input1 = form1.fields().field("name").control(InputText.class);
+        input1.shouldExists();
+        input1.setValue("test");
+
+        input2.shouldHaveValue("Свидетельство о рождении");
+    }
+
 }

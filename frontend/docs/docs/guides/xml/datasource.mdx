@@ -208,6 +208,7 @@ n2o.api.datasource.cached.fetch_on_init = false
 
 &lt;submit&gt; - [Сохранение данных при их изменении](#cached_datasource_submit) <br/>
 &lt;filters&gt; - [Предустановленная фильтрация](../xml/base#filters) <br/>
+&lt;dependencies&gt; - [Зависимости источника данных](#dependencies) <br/>
 
 #### &lt;submit&gt; {#cached_datasource_submit}
 
@@ -237,6 +238,10 @@ n2o.api.datasource.cached.clear_cache_after_submit = false
         <eq field-id="id" param="person_id"/>
     </filters>
     <submit clear-cache-after-submit="true"/>
+    <dependencies>
+        <fetch on="ds2"/>
+        ...
+    </dependencies>
 </cached-datasource>
 ```
 

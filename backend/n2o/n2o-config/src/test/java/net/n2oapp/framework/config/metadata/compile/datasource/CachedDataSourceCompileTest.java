@@ -4,6 +4,9 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
 import net.n2oapp.framework.api.metadata.datasource.CachedDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.CopyDependency;
+import net.n2oapp.framework.api.metadata.meta.Dependency;
+import net.n2oapp.framework.api.metadata.meta.DependencyType;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
@@ -72,6 +75,18 @@ class CachedDataSourceCompileTest extends SourceCompileTestBase {
         link.setValue("`id`");
         assertThat(datasource.getSubmit().getFormMapping(), hasEntry("id", link));
         assertThat(datasource.getFetchOnInit(), is(false));
+        assertThat(datasource.getDependencies().size(), is(2));
+        Dependency dependency = datasource.getDependencies().get(0);
+        assertThat(dependency.getOn(), is("models.filter['testCachedDatasource_master']"));
+        assertThat(dependency.getType(), is(DependencyType.fetch));
+
+        dependency = datasource.getDependencies().get(1);
+        assertThat(dependency.getType(), is(DependencyType.copy));
+        assertThat(dependency.getOn(), is("models.filter['testCachedDatasource_master'].source"));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.datasource));
+        assertThat(((CopyDependency) dependency).getField(), is("target"));
+        assertThat(((CopyDependency) dependency).getSubmit(), is(true));
+        assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
 
         datasource = (CachedDatasource) page.getDatasources().get("testCachedDatasource_ds2");
         assertThat(datasource.getFetchOnInit(), is(true));
