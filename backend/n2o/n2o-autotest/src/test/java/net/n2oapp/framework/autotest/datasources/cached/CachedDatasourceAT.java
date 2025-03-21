@@ -4,6 +4,8 @@ import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -140,6 +142,39 @@ class CachedDatasourceAT extends AutoTestBase {
         checkValues(page, "Фильтр-константа");
         checkValues(page, "Фильтр из параметра");
         checkValues(page, "Фильтр из модели");
+    }
+
+    @Test
+    void testInvalidateCache() {
+        setResourcePath("net/n2oapp/framework/autotest/datasources/cached_datasource/invalidate_cache");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/invalidate_cache/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/invalidate_cache/test.query.xml")
+        );
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        RadioGroup radioGroup = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class)
+                .fields().field("type").control(RadioGroup.class);
+
+        ButtonField button = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).
+                fields().field("Найти", ButtonField.class);
+
+        InputText input = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class)
+                .fields().field("Тип документа").control(InputText.class);
+        input.shouldBeEmpty();
+
+        radioGroup.check("2");
+        button.click();
+        input.shouldHaveValue("Паспорт");
+
+        radioGroup.check("1");
+        button.click();
+        input.shouldHaveValue("Свидетельство о рождении");
+
+        radioGroup.check("2");
+        button.click();
+        input.shouldHaveValue("Паспорт");
     }
 
     private void checkOpenPage(String name) {
