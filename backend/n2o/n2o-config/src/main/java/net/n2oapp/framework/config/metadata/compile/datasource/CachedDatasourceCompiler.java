@@ -28,7 +28,7 @@ import static net.n2oapp.framework.config.metadata.compile.datasource.Datasource
  * Компиляция кэширующего источника данных
  */
 @Component
-public class CachedDatasourceCompiler extends AbstractDatasourceCompiler<N2oCachedDatasource, CachedDatasource> {
+public class CachedDatasourceCompiler extends BaseDatasourceCompiler<N2oCachedDatasource, CachedDatasource> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -38,7 +38,7 @@ public class CachedDatasourceCompiler extends AbstractDatasourceCompiler<N2oCach
     @Override
     public CachedDatasource compile(N2oCachedDatasource source, CompileContext<?, ?> context, CompileProcessor p) {
         CachedDatasource compiled = new CachedDatasource();
-        initDatasource(source, compiled, p);
+        compileDatasource(source, compiled, p);
         CompiledQuery query = initQuery(source.getQueryId(), p);
         CompiledObject object = initObject(source.getObjectId(), source.getQueryId(), p);
         compiled.setProvider(initDataProvider(compiled, source, context, p, query));

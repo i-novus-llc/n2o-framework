@@ -42,7 +42,7 @@
                     Кэширующий источник данных, реализует "смежное" поведение datasource и browser-storage
                 </xs:documentation>
             </xs:annotation>
-            <xs:extension base="datasourceDefinition">
+            <xs:extension base="baseDatasourceDefinition">
                 <xs:sequence>
                     <xs:element name="submit" type="datasourceSubmit" minOccurs="0"/>
                     <xs:element name="filters" type="datasourceFiltersDefinition" minOccurs="0"/>
