@@ -1237,6 +1237,14 @@
           "name": "CachedDatasourceAT. testPathParams"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/datasources/cached_datasource/copy_depend",
+          "name": "CachedDatasourceAT. testSimpleCopyDepend"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/datasources/cached_datasource/fetch_depend",
+          "name": "CachedDatasourceAT. testFetchDependencies"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/model/field",
           "name": "RefFieldModelAT"
         },

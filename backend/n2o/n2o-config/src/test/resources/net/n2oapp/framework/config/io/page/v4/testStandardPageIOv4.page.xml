@@ -86,6 +86,12 @@
             <submit operation-id="update" refresh-datasources="ds1" message-position="fixed" refresh-on-success="true"
                     message-on-fail="true" submit-all="true" route="/test" clear-cache-after-submit="true"
                     message-widget-id="w1" message-placement="bottom" message-on-success="true"/>
+            <dependencies>
+                <fetch on="ds2" model="resolve"/>
+                <fetch on="ds3" model="datasource"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
+                      submit="true" apply-on-init="true"/>
+            </dependencies>
         </cached-datasource>
         <app-datasource id="test"/>
         <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter" size="1">

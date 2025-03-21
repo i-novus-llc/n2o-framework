@@ -217,11 +217,9 @@ public class DatasourceAT extends AutoTestBase {
      * Тестирование copy зависимости
      */
     @Test
-    public void testSimpleCopyDepend() {
-        setJsonPath("net/n2oapp/framework/autotest/datasources/copyDepend");
+    void testSimpleCopyDepend() {
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/datasources/copyDepend/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/copy_depend/index.page.xml")
         );
 
         StandardPage page = open(StandardPage.class);
