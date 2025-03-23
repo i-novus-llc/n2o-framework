@@ -6,6 +6,7 @@ export enum ProviderType {
     service = 'service',
     inherited = 'inherited',
     cached = 'cached',
+    autoSaveCache = 'autoSaveCache',
 }
 
 export enum FilterType {
@@ -85,6 +86,7 @@ export interface Paging {
 
 export interface QueryResult<TModel extends object = Record<string, unknown>> {
     list: TModel[]
+    active?: TModel
     additionalInfo?: object
     paging: Paging
     meta?: Meta
@@ -102,6 +104,7 @@ export interface SubmitBase extends Provider {
     auto?: boolean
     // FIXME remove legacy field
     autoSubmitOn?: 'change' | 'blur'
+    model: ModelPrefix
 }
 
 export interface ServiceSubmit extends SubmitBase {
@@ -119,24 +122,26 @@ export interface StorageSubmit extends SubmitBase {
     type: ProviderType.storage
     key: string,
     storage: StorageType
-    model: ModelPrefix
 }
 
-export interface CachedSubmit extends SubmitBase {
+export interface CachedSubmit extends Omit<ServiceSubmit, 'type'> {
     type: ProviderType.cached
+    clearCache: boolean
     key: string
     storage: StorageType
-    model: ModelPrefix
-    clearCache: boolean
+}
+export interface CachedAutoSubmit extends SubmitBase {
+    type: ProviderType.autoSaveCache
+    key: string
+    storage: StorageType
 }
 
 export interface InheritedSubmit extends SubmitBase {
     type: ProviderType.inherited
-    model: ModelPrefix
     targetDs: string,
     targetModel: ModelPrefix
     targetField?: string
     submitValueExpression?: string
 }
 
-export type SubmitProvider = StorageSubmit | InheritedSubmit | ServiceSubmit | CachedSubmit
+export type SubmitProvider = StorageSubmit | InheritedSubmit | ServiceSubmit | CachedSubmit | CachedAutoSubmit

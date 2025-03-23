@@ -7,9 +7,11 @@ import type { State as GlobalState } from '../../../State'
 import { dataProviderResolver } from '../../../../core/dataProviderResolver'
 import { CachedProvider, QueryResult } from '../../Provider'
 import { getFullKey } from '../Storage'
+import { fetch } from '../service/fetch'
+import { clearEmptyParams } from '../../../../utils/clearEmptyParams'
 
 import { checkExpiration } from './checkExpiration'
-import { fetch } from './fetch'
+import { CacheData } from './types'
 
 interface Params {
     provider: CachedProvider
@@ -21,12 +23,7 @@ interface Params {
     key: string
 }
 
-type Cache = QueryResult & {
-    timestamp: string
-    mappings: Record<'baseQuery' | 'pathParams', Record<string, string | number>>
-}
-
-export function* cachedRequest(params: Params) {
+export function* request(params: Params) {
     const { provider, page, sorting, id, apiProvider, storage, key } = params
 
     const { size } = provider
@@ -46,14 +43,17 @@ export function* cachedRequest(params: Params) {
         return { list: [], paging: { count: 0, page: 1 } }
     }
 
-    const mappings = { baseQuery: resolvedProvider.baseQuery, pathParams: resolvedProvider.pathParams }
+    const mappings = clearEmptyParams({
+        baseQuery: resolvedProvider.baseQuery,
+        pathParams: resolvedProvider.pathParams,
+    })
 
     const storageData = storage.getItem(getFullKey(key))
 
     if (storageData) {
         const { cacheExpires } = provider
 
-        const json: Cache = JSON.parse(storageData)
+        const json: CacheData = JSON.parse(storageData)
         const { timestamp } = json
         const isExpired = checkExpiration(timestamp, cacheExpires)
 
@@ -65,7 +65,7 @@ export function* cachedRequest(params: Params) {
     }
 
     const data: QueryResult = yield fetch(id, resolvedProvider, apiProvider)
-    const cachedData: Cache = {
+    const cachedData: CacheData = {
         ...data,
         timestamp: dayjs().format(),
         mappings,
