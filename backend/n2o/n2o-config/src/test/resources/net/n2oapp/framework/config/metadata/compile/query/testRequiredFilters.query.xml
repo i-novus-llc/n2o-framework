@@ -1,10 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <filters>
+        <eq filter-id="test" field-id="test" required="true"/>
+    </filters>
     <fields>
-        <field id="test">
-            <filters>
-                <eq filter-id="test" required="true"/>
-            </filters>
-        </field>
+        <field id="test" select="false"/>
     </fields>
 </query>

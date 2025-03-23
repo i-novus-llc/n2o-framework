@@ -1,13 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <filters>
+        <eq field-id="field"/>
+    </filters>
     <fields>
-        <field id="field">
-            <filters>
-                <eq />
-            </filters>
-            <select/>
-            <sorting />
-            <expression />
-        </field>
+        <field id="field" sorting="true"/>
     </fields>
 </query>

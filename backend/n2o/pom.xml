@@ -25,6 +25,7 @@
         <module>n2o-spring-boot-starter</module>
         <module>n2o-sandbox</module>
         <module>n2o-autotest</module>
+        <module>n2o-migrate</module>
     </modules>
 
     <properties>

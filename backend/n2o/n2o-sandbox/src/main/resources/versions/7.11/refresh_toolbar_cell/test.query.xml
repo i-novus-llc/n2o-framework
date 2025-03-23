@@ -1,37 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-       object-id="test">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="test">
     <list>
         <test file="test.json"/>
     </list>
-
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+    </filters>
     <fields>
-        <field id="id" domain="integer">
-            <select/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
-        <field id="name1">
-            <select mapping="['name']"/>
-        </field>
-        <field id="name2">
-            <select mapping="['name']"/>
-        </field>
-        <field id="name3">
-            <select mapping="['name']"/>
-        </field>
-        <field id="name4">
-            <select mapping="['name']"/>
-        </field>
-        <field id="name5">
-            <select mapping="['name']"/>
-        </field>
-        <field id="name6">
-            <select mapping="['name']"/>
-        </field>
-        <field id="name7">
-            <select mapping="['name']"/>
-        </field>
+        <field id="id" domain="integer"/>
+        <field id="name1" mapping="['name']"/>
+        <field id="name2" mapping="['name']"/>
+        <field id="name3" mapping="['name']"/>
+        <field id="name4" mapping="['name']"/>
+        <field id="name5" mapping="['name']"/>
+        <field id="name6" mapping="['name']"/>
+        <field id="name7" mapping="['name']"/>
     </fields>
 </query>

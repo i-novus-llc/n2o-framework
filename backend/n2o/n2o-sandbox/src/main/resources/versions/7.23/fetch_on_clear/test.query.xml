@@ -1,30 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="test.json"/>
     </list>
     <count>
         <test file="test.json" operation="count"/>
     </count>
-
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <eq filter-id="type" field-id="type"/>
+        <like filter-id="name" field-id="name"/>
+    </filters>
     <fields>
-        <field id="id" domain="integer">
-            <select/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
-        <field id="type">
-            <select/>
-            <filters>
-                <eq filter-id="type"/>
-            </filters>
-        </field>
-        <field id="name">
-            <select/>
-            <filters>
-                <like filter-id="name"/>
-            </filters>
-        </field>
+        <field id="id" domain="integer"/>
+        <field id="type"/>
+        <field id="name"/>
     </fields>
 </query>

@@ -27,7 +27,6 @@ public class SimplePageElementIOv3 implements NamespaceIO<N2oSimplePage> {
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChild(e, null, m::getWidget, m::setWidget,
                 p.anyOf(N2oWidget.class), WidgetIOv4.NAMESPACE);
-        m.setNamespaceUri(getNamespaceUri());
     }
 
     @Override

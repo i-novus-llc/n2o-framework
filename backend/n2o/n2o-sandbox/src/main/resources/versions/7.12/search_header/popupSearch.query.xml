@@ -1,26 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="test_search.json"/>
     </list>
-
+    <filters>
+        <eq filter-id="filterValue" field-id="filterValue"/>
+    </filters>
     <fields>
-        <field id="filterValue">
-            <filters>
-                <eq filter-id="filterValue"/>
-            </filters>
-        </field>
-        <field id="href">
-            <select/>
-        </field>
-        <field id="label">
-            <select/>
-        </field>
-        <field id="icon">
-            <select/>
-        </field>
-        <field id="description">
-            <select/>
-        </field>
+        <field id="filterValue" select="false"/>
+        <field id="href"/>
+        <field id="label"/>
+        <field id="icon"/>
+        <field id="description"/>
     </fields>
 </query>

@@ -179,41 +179,5 @@ public class MetadataPersister {
             }
         }
     }
-
-    public enum RestoreMode {
-        REMOVE, REPLACE
-    }
-
-    public void setEventBus(N2oEventBus eventBus) {
-        this.eventBus = eventBus;
-    }
-
-    public void setConfigMetadataLocker(ConfigMetadataLocker configMetadataLocker) {
-        this.configMetadataLocker = configMetadataLocker;
-    }
-
-    public void setPersisterFactory(NamespacePersisterFactory persisterFactory) {
-        this.persisterFactory = persisterFactory;
-    }
-
-    public void setWatchDir(WatchDir watchDir) {
-        this.watchDir = watchDir;
-    }
-
-    public void setMetadataRegister(MetadataRegister metadataRegister) {
-        this.metadataRegister = metadataRegister;
-    }
-
-    public void setMetadataReader(XmlMetadataLoader metadataReader) {
-        this.metadataReader = metadataReader;
-    }
-
-    public void setMetaModelRegister(SourceTypeRegister metaModelRegister) {
-        this.metaModelRegister = metaModelRegister;
-    }
-
-    public void setReadonly(boolean readonly) {
-        this.readonly = readonly;
-    }
 }
 

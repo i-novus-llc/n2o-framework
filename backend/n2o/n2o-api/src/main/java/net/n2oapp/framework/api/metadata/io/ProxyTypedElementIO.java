@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.io;
 
+import lombok.Getter;
 import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import org.jdom2.Element;
@@ -10,8 +11,9 @@ import org.jdom2.Namespace;
  * @param <T> Тип модели элемента
  */
 public class ProxyTypedElementIO<T> implements TypedElementReader<T>, TypedElementPersister<T>, IOProcessorAware {
-
+    @Getter
     private TypedElementIO<T> io;
+    @Getter
     private IOProcessor processor;
 
     public ProxyTypedElementIO(TypedElementIO<T> io, IOProcessor processor) {

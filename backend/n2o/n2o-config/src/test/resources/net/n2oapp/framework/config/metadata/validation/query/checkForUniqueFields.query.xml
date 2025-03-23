@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <fields>
-        <field id="id"/>
-        <field id="code"/>
-        <field id="name"/>
-        <field id="code"/>
+        <field id="id" select="false"/>
+        <field id="code" select="false"/>
+        <field id="name" select="false"/>
+        <field id="code" select="false"/>
     </fields>
 </query>

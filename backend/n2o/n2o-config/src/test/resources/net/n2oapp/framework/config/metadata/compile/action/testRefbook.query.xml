@@ -1,28 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <filters>
+        <eq filter-id="detailId" field-id="detailId"/>
+        <eq filter-id="name" field-id="name"/>
+        <eq filter-id="secondName" field-id="secondName"/>
+        <eq filter-id="surname" field-id="surname"/>
+    </filters>
     <fields>
-        <field id="id">
-
-        </field>
-        <field id="detailId">
-            <filters>
-                <eq filter-id="detailId"/>
-            </filters>
-        </field>
-        <field id="name">
-            <filters>
-                <eq filter-id="name"/>
-            </filters>
-        </field>
-        <field id="secondName">
-            <filters>
-                <eq filter-id="secondName"/>
-            </filters>
-        </field>
-        <field id="surname">
-            <filters>
-                <eq filter-id="surname"/>
-            </filters>
-        </field>
+        <field id="id" select="false"/>
+        <field id="detailId" select="false"/>
+        <field id="name" select="false"/>
+        <field id="secondName" select="false"/>
+        <field id="surname" select="false"/>
     </fields>
 </query>

@@ -1,111 +1,46 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="data.json" operation="findAll"/>
     </list>
     <count>
         <test file="data.json" operation="count"/>
     </count>
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+    </filters>
     <fields>
-        <field id="id" name="Номер заявки">
-            <select/>
-            <sorting/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
-        <field id="requestDate">
-            <select/>
-        </field>
-        <field id="status">
-            <select/>
-        </field>
-        <field id="region">
-            <select/>
-        </field>
-        <field id="department">
-            <select/>
-        </field>
-        <field id="firstName">
-            <select/>
-        </field>
-        <field id="secondName">
-            <select/>
-        </field>
-        <field id="thirdName">
-            <select/>
-        </field>
-        <field id="birthday">
-            <select/>
-        </field>
-        <field id="birthplace">
-            <select/>
-        </field>
-        <field id="fioBD">
-            <select mapping="[secondName]+' '+[firstName]+' '+[thirdName]+' ' + (['birthday']==null ? '':['birthday'].substring(8,10)+'.'+['birthday'].substring(5,7)+'.'+['birthday'].substring(0,4))"/>
-        </field>
-        <field id="gender">
-            <select/>
-        </field>
-        <field id="snils">
-            <select/>
-        </field>
-        <field id="phone">
-            <select/>
-        </field>
-        <field id="document">
-            <select/>
-        </field>
-        <field id="serial">
-            <select/>
-        </field>
-        <field id="number">
-            <select/>
-        </field>
-        <field id="documentData">
-            <select mapping="['document.name']+' '+([serial]==null ? '' : [serial])+' '+([number]==null ? '' : [number])"/>
-        </field>
-        <field id="documentDate">
-            <select/>
-        </field>
-        <field id="code">
-            <select/>
-        </field>
-        <field id="address">
-            <select/>
-        </field>
-        <field id="matchAddress">
-            <select/>
-        </field>
-        <field id="registerDate">
-            <select/>
-        </field>
-        <field id="zagranType">
-            <select/>
-        </field>
-        <field id="urgently">
-            <select/>
-        </field>
-        <field id="urgentlyString">
-            <select mapping="['urgently'] ? 'Да' : 'Нет'"/>
-        </field>
-        <field id="hasForeignPassport">
-            <select/>
-        </field>
-        <field id="oldSerial">
-            <select/>
-        </field>
-        <field id="oldNumber">
-            <select/>
-        </field>
-        <field id="oldRegisterDate">
-            <select/>
-        </field>
-        <field id="oldCode">
-            <select/>
-        </field>
-        <field id="file" domain="object">
-            <select/>
-        </field>
+        <field id="id" name="Номер заявки" sorting="true"/>
+        <field id="requestDate"/>
+        <field id="status"/>
+        <field id="region"/>
+        <field id="department"/>
+        <field id="firstName"/>
+        <field id="secondName"/>
+        <field id="thirdName"/>
+        <field id="birthday"/>
+        <field id="birthplace"/>
+        <field id="fioBD" mapping="[secondName]+' '+[firstName]+' '+[thirdName]+' ' + (['birthday']==null ? '':['birthday'].substring(8,10)+'.'+['birthday'].substring(5,7)+'.'+['birthday'].substring(0,4))"/>
+        <field id="gender"/>
+        <field id="snils"/>
+        <field id="phone"/>
+        <field id="document"/>
+        <field id="serial"/>
+        <field id="number"/>
+        <field id="documentData" mapping="['document.name']+' '+([serial]==null ? '' : [serial])+' '+([number]==null ? '' : [number])"/>
+        <field id="documentDate"/>
+        <field id="code"/>
+        <field id="address"/>
+        <field id="matchAddress"/>
+        <field id="registerDate"/>
+        <field id="zagranType"/>
+        <field id="urgently"/>
+        <field id="urgentlyString" mapping="['urgently'] ? 'Да' : 'Нет'"/>
+        <field id="hasForeignPassport"/>
+        <field id="oldSerial"/>
+        <field id="oldNumber"/>
+        <field id="oldRegisterDate"/>
+        <field id="oldCode"/>
+        <field id="file" domain="object"/>
     </fields>
 </query>

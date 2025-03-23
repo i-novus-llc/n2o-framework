@@ -1,26 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-       object-id="address">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="address">
     <list>
         <test file="address.json"/>
     </list>
-
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <eq filter-id="person.id" field-id="person.id"/>
+    </filters>
     <fields>
-        <field id="id" domain="integer">
-            <select/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-            <sorting/>
-        </field>
-        <field id="name">
-            <select>name</select>
-        </field>
-        <field id="person.id" domain="integer">
-            <select>person.id</select>
-            <filters>
-                <eq filter-id="person.id"/>
-            </filters>
-        </field>
+        <field id="id" domain="integer" sorting="true"/>
+        <field id="name" select-expression="name"/>
+        <field id="person.id" select-expression="person.id" domain="integer"/>
     </fields>
 </query>

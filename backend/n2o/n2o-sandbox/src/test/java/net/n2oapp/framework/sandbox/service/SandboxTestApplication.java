@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"net.n2oapp.framework.sandbox.service", "net.n2oapp.framework.migrate"})
 @EnableAutoConfiguration(exclude = {RedisAutoConfiguration.class,
         N2oMongoAutoConfiguration.class,
         MongoAutoConfiguration.class

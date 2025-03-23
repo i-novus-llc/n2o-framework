@@ -1,21 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="list.json"/>
     </list>
-
     <fields>
-        <field id="id">
-            <select mapping="[title]"/>
-        </field>
-        <field id="title">
-            <select mapping="[title]"/>
-        </field>
-        <field id="stage">
-            <select/>
-        </field>
-        <field id="status">
-            <select/>
-        </field>
+        <field id="id" mapping="[title]"/>
+        <field id="title" mapping="[title]"/>
+        <field id="stage"/>
+        <field id="status"/>
     </fields>
 </query>

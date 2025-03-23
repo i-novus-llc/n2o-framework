@@ -1,30 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
-    <list result-mapping="['data.persons']" filters="personName">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list filters="personName" result-mapping="['data.persons']">
         <graphql>query persons(page: $$page, size: $$size, offset: $$offset) {id name age}</graphql>
     </list>
-
-    <list result-mapping="['data.persons']" filters="age">
+    <list filters="age" result-mapping="['data.persons']">
         <graphql page-mapping="pageNum" size-mapping="sizeNum">query Persons($pageNum: Int!, $sizeNum: Int!) { persons(page: $pageNum, size: $sizeNum) {id name age} }</graphql>
     </list>
-
+    <filters>
+        <eq filter-id="personName" field-id="personName"/>
+        <eq filter-id="age" field-id="age"/>
+    </filters>
     <fields>
-        <field id="id">
-            <select/>
-        </field>
-
-        <field id="personName">
-            <select mapping="['name']"/>
-            <filters>
-                <eq filter-id="personName"/>
-            </filters>
-        </field>
-
-        <field id="age">
-            <select mapping="['age']"/>
-            <filters>
-                <eq filter-id="age"/>
-            </filters>
-        </field>
+        <field id="id"/>
+        <field id="personName" mapping="['name']"/>
+        <field id="age" mapping="['age']"/>
     </fields>
 </query>

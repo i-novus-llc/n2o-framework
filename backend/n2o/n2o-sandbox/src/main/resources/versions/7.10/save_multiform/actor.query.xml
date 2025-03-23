@@ -1,31 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-       object-id="actor">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="actor">
     <list result-mapping="['_embedded.actors']" count-mapping="['page.totalElements']">
         <rest>/data/actors/search/findAll?{filters}&amp;page={page}&amp;size={limit}</rest>
     </list>
     <unique>
         <rest>/data/actors/{id}</rest>
     </unique>
-
+    <filters>
+        <eq filter-id="id" field-id="id">id={id}</eq>
+    </filters>
     <fields>
-        <field id="id" domain="long">
-            <select/>
-            <filters>
-                <eq filter-id="id">id={id}</eq>
-            </filters>
-        </field>
-
-        <field id="firstName">
-            <select/>
-        </field>
-
-        <field id="lastName">
-            <select/>
-        </field>
-
-        <field id="country">
-            <select/>
-        </field>
+        <field id="id" domain="long"/>
+        <field id="firstName"/>
+        <field id="lastName"/>
+        <field id="country"/>
     </fields>
 </query>

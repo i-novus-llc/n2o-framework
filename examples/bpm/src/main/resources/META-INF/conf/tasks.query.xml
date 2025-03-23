@@ -1,36 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
-
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
-        <camunda operation="findTasks"/>
+        <camunda operation="findTasks" />
     </list>
-
     <count>
-        <camunda operation="countTasks"/>
+        <camunda operation="countTasks" />
     </count>
-
+    <filters>
+        <eq domain="string" filter-id="id" field-id="id">id</eq>
+        <eq filter-id="name" field-id="name">name</eq>
+        <eq filter-id="position" field-id="position">position</eq>
+    </filters>
     <fields>
-        <field id="id" domain="string">
-            <filters>
-                <eq filter-id="id" domain="string">id</eq>
-            </filters>
-            <select/>
-        </field>
-
-        <field id="name" domain="string">
-            <select/>
-            <filters>
-                <eq filter-id="name">name</eq>
-            </filters>
-        </field>
-        <field id="taskDefinitionKey" domain="string">
-            <select/>
-        </field>
-        <field id="position" domain="string">
-            <select mapping="['variables']?.get('position')">position</select>
-            <filters>
-                <eq filter-id="position">position</eq>
-            </filters>
-        </field>
+        <field id="id" domain="string" />
+        <field id="name" domain="string" />
+        <field id="taskDefinitionKey" domain="string" />
+        <field id="position" mapping="['variables']?.get('position')" select-expression="position" domain="string" />
     </fields>
 </query>

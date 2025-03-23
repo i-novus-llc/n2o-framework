@@ -1,30 +1,26 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <header title="Хедер">
         <nav>
-            <menu-item id="notif"
-                       icon="fa fa-bell"
+            <menu-item id="notif" icon="fa fa-bell"
                        badge="2"
                        badge-color="danger"
+                       badge-image="static/hamburg-3846525__340.jpg"
                        badge-position="right"
                        badge-shape="square"
-                       badge-image="static/hamburg-3846525__340.jpg"
                        badge-image-position="right"
-                       badge-image-shape="square"
-            >
-                <open-page  page-id="test" route="/test"/>
+                       badge-image-shape="square">
+                <open-page page-id="test" route="/test"/>
             </menu-item>
-            <menu-item id="notif2"
-                       icon="fa fa-bell"
+            <menu-item id="notif2" icon="fa fa-bell"
                        badge="2"
                        badge-color="danger"
+                       badge-image="static/hamburg-3846525__340.jpg"
                        badge-position="left"
                        badge-shape="square"
-                       badge-image="static/hamburg-3846525__340.jpg"
                        badge-image-position="right"
-                       badge-image-shape="square"
-            >
-                <open-page  page-id="test" route="/test"/>
+                       badge-image-shape="square">
+                <open-page page-id="test" route="/test"/>
             </menu-item>
         </nav>
     </header>

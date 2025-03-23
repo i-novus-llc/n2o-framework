@@ -1,33 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="test.json"/>
     </list>
-
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+    </filters>
     <fields>
-        <field id="id" domain="integer">
-            <select/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
-        <field id="type">
-            <select/>
-        </field>
-        <field id="name">
-            <select/>
-        </field>
-        <field id="ref.id" domain="integer">
-            <select/>
-        </field>
-        <field id="ref.name" domain="string">
-            <select/>
-        </field>
-        <field id="check">
-            <select/>
-        </field>
-        <field id="birthDate">
-            <select/>
-        </field>
+        <field id="id" domain="integer"/>
+        <field id="type"/>
+        <field id="name"/>
+        <field id="ref.id" domain="integer"/>
+        <field id="ref.name" domain="string"/>
+        <field id="check"/>
+        <field id="birthDate"/>
     </fields>
 </query>

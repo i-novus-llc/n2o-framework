@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io;
 
+import lombok.Getter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
@@ -35,11 +36,12 @@ import static org.springframework.util.StringUtils.hasText;
 /**
  * Реализация процессора считывания и записи DOM элементов
  */
-public final class IOProcessorImpl implements IOProcessor {
+public class IOProcessorImpl implements IOProcessor {
 
     /**
      * Если true, то чтение, false запись
      */
+    @Getter
     private final boolean r;
     private NamespaceReaderFactory readerFactory;
     private NamespacePersisterFactory persisterFactory;
@@ -629,7 +631,7 @@ public final class IOProcessorImpl implements IOProcessor {
             }
         } else {
             T[] entity = getterList.get();
-            if (entity == null) return;
+            if (entity == null || entity.length == 0) return;
             Element seqE;
             if (sequences != null) {
                 seqE = initSequenceElement(element, sequences);
@@ -882,11 +884,8 @@ public final class IOProcessorImpl implements IOProcessor {
         if (r) {
             N2oNamespace elementNamespace = new N2oNamespace(element.getNamespace());
             Map<N2oNamespace, Map<String, String>> extensions = new HashMap<>();
-            for (Object o : element.getAttributes()) {
-                Attribute attribute = (Attribute) o;
-                if (elementNamespace.getUri().equals(attribute.getNamespaceURI()) || attribute.getNamespaceURI().isEmpty()) {
-                    continue;
-                } else {
+            for (Attribute attribute : element.getAttributes()) {
+                if (!attribute.getNamespaceURI().isEmpty() && !elementNamespace.getUri().equals(attribute.getNamespaceURI())) {
                     N2oNamespace namespace = new N2oNamespace(attribute.getNamespace());
                     extensions.putIfAbsent(namespace, new HashMap<>());
                     extensions.get(namespace).put(attribute.getName(), process(attribute.getValue()));
@@ -1014,6 +1013,17 @@ public final class IOProcessorImpl implements IOProcessor {
         return new NamespaceIOFactoryByMap<>(null, readerFactory, persisterFactory);
     }
 
+    @Override
+    public void additionalNamespaces(Element element, Supplier<List<Namespace>> getter, Consumer<List<Namespace>> setter) {
+        if (r) {
+            setter.accept(element.getAdditionalNamespaces());
+        } else {
+            if (getter.get() == null) return;
+            for (Namespace namespace : getter.get()) {
+                element.addNamespaceDeclaration(namespace);
+            }
+        }
+    }
 
     /**
      * Установить схему всем дочерним элементам
@@ -1094,13 +1104,13 @@ public final class IOProcessorImpl implements IOProcessor {
         return res;
     }
 
-    private <T> Element persist(NamedElementIO<T> io, T entity, Namespace namespace) {
+    protected <T> Element persist(NamedElementIO<T> io, T entity, Namespace namespace) {
         Element element = new Element(io.getElementName(), namespace);
         io.io(element, entity, this);
         return element;
     }
 
-    private <T> T read(ClassedElementIO<T> io, Element element) {
+    protected <T> T read(ClassedElementIO<T> io, Element element) {
         T entity = io.newInstance(element);
         io.io(element, entity, this);
         return entity;

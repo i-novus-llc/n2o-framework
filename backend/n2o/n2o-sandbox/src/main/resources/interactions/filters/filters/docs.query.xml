@@ -1,24 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="docs.json"/>
     </list>
-
+    <filters>
+        <eq filter-id="status" field-id="status"/>
+        <more filter-id="date.begin" field-id="date"/>
+    </filters>
     <fields>
-        <field id="id">
-            <select/>
-        </field>
-        <field id="status">
-            <select/>
-            <filters>
-                <eq filter-id="status"/>
-            </filters>
-        </field>
-        <field id="date" domain="date">
-            <select/>
-            <filters>
-                <more filter-id="date.begin"/>
-            </filters>
-        </field>
+        <field id="id"/>
+        <field id="status"/>
+        <field id="date" domain="date"/>
     </fields>
 </query>

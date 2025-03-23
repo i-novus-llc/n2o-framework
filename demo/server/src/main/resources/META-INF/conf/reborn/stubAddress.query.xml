@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" name="${addresses}">
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <sql>
             select :select
@@ -18,24 +18,16 @@
             where :filters
         </sql>
     </count>
+
+    <filters>
+        <eq filter-id="id" field-id="id">a.id=:id</eq>
+        <eq filter-id="hasChildren" field-id="hasChildren">(select true from address_element where a.id = parent_id limit 1) = :hasChildren</eq>
+    </filters>
+
     <fields>
-        <field id="id" domain="integer">
-            <select>a.id</select>
-            <filters>
-                <eq filter-id="id">a.id=:id</eq>
-            </filters>
-        </field>
-        <field id="name" domain="string">
-            <select>a.name</select>
-        </field>
-        <field id="parent_id" domain="integer">
-            <select>a.parent_id</select>
-        </field>
-        <field id="hasChildren">
-            <select>(select true from address_element where a.id = parent_id limit 1) as hasChildren</select>
-            <filters>
-                <eq filter-id="hasChildren">(select true from address_element where a.id = parent_id limit 1) = :hasChildren</eq>
-            </filters>
-        </field>
+        <field id="id" select-expression="a.id" domain="integer"/>
+        <field id="name" select-expression="a.name" domain="string"/>
+        <field id="parent_id" select-expression="a.parent_id" domain="integer"/>
+        <field id="hasChildren" select-expression="(select true from address_element where a.id = parent_id limit 1) as hasChildren"/>
     </fields>
 </query>

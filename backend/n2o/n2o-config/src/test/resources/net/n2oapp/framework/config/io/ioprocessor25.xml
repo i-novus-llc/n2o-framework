@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<test xmlns="http://example.com/n2o/test-1.0"
+      xmlns:ext="http://example.com/n2o/ext-2.0">
+    <sub ext:attr1="extAttr1"/>
+</test>

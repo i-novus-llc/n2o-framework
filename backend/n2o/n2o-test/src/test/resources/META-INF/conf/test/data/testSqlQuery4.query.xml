@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="testSqlQuery">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="testSqlQuery">
     <list>
         <sql>
             select :select
@@ -16,22 +16,13 @@
             where :filters
         </sql>
     </count>
-
+    <filters>
+        <eq mapping="['id']" filter-id="id" field-id="id">a.id = :id</eq>
+        <eq mapping="['val']" filter-id="name" field-id="value">a.value = :val</eq>
+        <like mapping="['_val']" filter-id="nameStart" field-id="value">a.value like '%'||:_val</like>
+    </filters>
     <fields>
-        <field id="id" domain="integer">
-            <select mapping="['id']">a.id</select>
-            <filters>
-                <eq filter-id="id" mapping="['id']">a.id = :id</eq>
-            </filters>
-        </field>
-
-        <field id="value" domain="string">
-            <select mapping="['val']">a.value as val</select>
-            <filters>
-                <eq filter-id="name" mapping="['val']">a.value = :val</eq>
-                <like filter-id="nameStart" mapping="['_val']">a.value like '%'||:_val</like>
-            </filters>
-            <sorting mapping="['sortName']">a.value :sortName</sorting>
-        </field>
+        <field id="id" mapping="['id']" select-expression="a.id" domain="integer"/>
+        <field id="value" mapping="['val']" select-expression="a.value as val" domain="string" sorting-expression="a.value :sortName" sorting-mapping="['sortName']" sorting="true"/>
     </fields>
 </query>

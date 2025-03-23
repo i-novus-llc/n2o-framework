@@ -1,28 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-       object-id="role">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="role">
     <list result-mapping="['_embedded.roles']" count-mapping="['page.totalElements']">
         <rest>/data/roles/search/findAll?{filters}&amp;page={page}&amp;size={limit}</rest>
     </list>
     <unique>
         <rest>/data/roles/{id}</rest>
     </unique>
-
+    <filters>
+        <eq filter-id="id" field-id="id">id={id}</eq>
+        <eq filter-id="actorId" field-id="actorId">actorId={actorId}</eq>
+    </filters>
     <fields>
-        <field id="id" domain="long">
-            <select/>
-            <filters>
-                <eq filter-id="id">id={id}</eq>
-            </filters>
-        </field>
-        <field id="name">
-            <select/>
-        </field>
-        <field id="actorId" domain="long">
-            <select/>
-            <filters>
-                <eq filter-id="actorId">actorId={actorId}</eq>
-            </filters>
-        </field>
+        <field id="id" domain="long"/>
+        <field id="name"/>
+        <field id="actorId" domain="long"/>
     </fields>
 </query>

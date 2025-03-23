@@ -1073,7 +1073,7 @@ public class TestDataProviderEngineTest {
 
         provider.setOperation(updateMany);
         Map<String, Object> inParamsForUpdate = new LinkedHashMap<>();
-        inParamsForUpdate.put("ids", Arrays.asList("c4d954d4-496b-4777-af57-8827f8018f09", "a7e0973e-5dfc-4f77-8e1b-2c284d70453d"));
+        inParamsForUpdate.put("testIds", Arrays.asList("c4d954d4-496b-4777-af57-8827f8018f09", "a7e0973e-5dfc-4f77-8e1b-2c284d70453d"));
         inParamsForUpdate.put("name", "new test");
 
         engine.invoke(provider, inParamsForUpdate);
@@ -1180,7 +1180,7 @@ public class TestDataProviderEngineTest {
 
         provider.setOperation(deleteMany);
         Map<String, Object> inParamsForDeleteMany = new LinkedHashMap<>();
-        inParamsForDeleteMany.put("ids", ids);
+        inParamsForDeleteMany.put("testIds", ids);
         engine.invoke(provider, inParamsForDeleteMany);
 
         provider.setOperation(findAll);

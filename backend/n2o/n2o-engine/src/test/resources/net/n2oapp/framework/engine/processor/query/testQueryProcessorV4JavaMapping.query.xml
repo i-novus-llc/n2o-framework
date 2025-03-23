@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
-    <list result-mapping="#this.collection" filters="thirdArg, nameArg, firstArg">
-        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass"
-              method="methodWithThreeArguments">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list filters="thirdArg,nameArg,firstArg" result-mapping="#this.collection">
+        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass" method="methodWithThreeArguments">
             <arguments>
                 <argument name="first"/>
                 <argument name="criteria" type="criteria" class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass$MyCriteria"/>
@@ -10,27 +9,14 @@
             </arguments>
         </java>
     </list>
-
+    <filters>
+        <eq mapping="['first']" filter-id="firstArg" field-id="firstArg"/>
+        <eq mapping="[third]" filter-id="thirdArg" field-id="thirdArg"/>
+        <eq mapping="['criteria'].name" filter-id="nameArg" field-id="nameArg"/>
+    </filters>
     <fields>
-        <field id="firstArg" domain="integer">
-            <select mapping="testField"/>
-            <filters>
-                <eq filter-id="firstArg" mapping="['first']"/>
-            </filters>
-        </field>
-
-        <field id="thirdArg" domain="boolean">
-            <select mapping="value" normalize="T(java.lang.Boolean).valueOf(#this)"/>
-            <filters>
-                <eq filter-id="thirdArg" mapping="[third]"/>
-            </filters>
-        </field>
-
-        <field id="nameArg" domain="string">
-            <select mapping="name"/>
-            <filters>
-                <eq filter-id="nameArg" mapping="['criteria'].name"/>
-            </filters>
-        </field>
+        <field id="firstArg" mapping="testField" domain="integer"/>
+        <field id="thirdArg" mapping="value" normalize="T(java.lang.Boolean).valueOf(#this)" domain="boolean"/>
+        <field id="nameArg" mapping="name" domain="string"/>
     </fields>
 </query>

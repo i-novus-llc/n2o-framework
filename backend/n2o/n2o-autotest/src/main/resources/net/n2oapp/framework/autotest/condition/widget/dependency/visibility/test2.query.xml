@@ -1,12 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <unique result-mapping="#this.size()">
         <test file="test.json"/>
     </unique>
-
     <fields>
-        <field id="exists">
-            <select mapping="#this>0"/>
-        </field>
+        <field id="exists" mapping="#this&gt;0"/>
     </fields>
 </query>

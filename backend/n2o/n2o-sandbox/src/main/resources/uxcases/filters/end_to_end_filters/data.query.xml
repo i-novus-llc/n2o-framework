@@ -1,51 +1,26 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="data.json" operation="findAll"/>
     </list>
     <count>
         <test file="data.json" operation="count"/>
     </count>
+    <filters>
+        <like filter-id="fioBD" field-id="fioBD"/>
+    </filters>
     <fields>
-        <field id="id" name="Номер заявки">
-            <select/>
-            <sorting/>
-        </field>
-        <field id="date" name="Дата подачи заявки">
-            <select/>
-        </field>
-        <field id="fio" name="Фамилия Имя Отчество">
-            <select/>
-        </field>
-        <field id="birthday">
-            <select/>
-        </field>
-        <field id="fioBD" name="ФИО, дата рождения">
-            <select/>
-            <filters>
-                <like filter-id="fioBD"/>
-            </filters>
-        </field>
-        <field id="snils" name="СНИЛС">
-            <select/>
-        </field>
-        <field id="document" name="Документ удостоверяющий личность">
-            <select/>
-        </field>
-        <field id="zagranType" name="Тип заграничного паспорта">
-            <select/>
-        </field>
-        <field id="region" name="Регион">
-            <select mapping="['region.name']"/>
-        </field>
-        <field id="department" name="Отделение">
-            <select mapping="['department.name']"/>
-        </field>
-        <field id="urgently" name="Срочность">
-            <select mapping="['urgently.name']"/>
-        </field>
-        <field id="status" name="Статус">
-            <select mapping="['status.name']"/>
-        </field>
+        <field id="id" name="Номер заявки" sorting="true"/>
+        <field id="date" name="Дата подачи заявки"/>
+        <field id="fio" name="Фамилия Имя Отчество"/>
+        <field id="birthday"/>
+        <field id="fioBD" name="ФИО, дата рождения"/>
+        <field id="snils" name="СНИЛС"/>
+        <field id="document" name="Документ удостоверяющий личность"/>
+        <field id="zagranType" name="Тип заграничного паспорта"/>
+        <field id="region" mapping="['region.name']" name="Регион"/>
+        <field id="department" mapping="['department.name']" name="Отделение"/>
+        <field id="urgently" mapping="['urgently.name']" name="Срочность"/>
+        <field id="status" mapping="['status.name']" name="Статус"/>
     </fields>
 </query>

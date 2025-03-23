@@ -1,41 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="test.json"/>
     </list>
     <fields>
-        <field id="id">
-            <select/>
-        </field>
-        <field id="name">
-            <select/>
-        </field>
-        <field id="genderName" name="gender" domain="string">
-            <select/>
-        </field>
-        <field id="genderId" domain="integer">
-            <select/>
-        </field>
-        <field id="vip" domain="boolean">
-            <select/>
-        </field>
-        <field id="icon" domain="string">
-            <select/>
-        </field>
-        <field id="tooltip" domain="string">
-            <select/>
-        </field>
-        <field id="image" domain="string">
-            <select/>
-        </field>
-        <field id="progress" domain="integer">
-            <select/>
-        </field>
-        <field id="rating" domain="integer">
-            <select/>
-        </field>
-        <field id="list">
-            <select/>
-        </field>
+        <field id="id"/>
+        <field id="name"/>
+        <field id="genderName" domain="string" name="gender"/>
+        <field id="genderId" domain="integer"/>
+        <field id="vip" domain="boolean"/>
+        <field id="icon" domain="string"/>
+        <field id="tooltip" domain="string"/>
+        <field id="image" domain="string"/>
+        <field id="progress" domain="integer"/>
+        <field id="rating" domain="integer"/>
+        <field id="list"/>
     </fields>
 </query>

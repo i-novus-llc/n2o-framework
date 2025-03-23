@@ -1,21 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <eq filter-id="nameEq" field-id="name"/>
+        <like filter-id="nameLike" field-id="name"/>
+        <eq filter-id="nameEq" field-id="code"/>
+    </filters>
     <fields>
-        <field id="id">
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
-        <field id="name">
-            <filters>
-                <eq filter-id="nameEq"/>
-                <like filter-id="nameLike"/>
-            </filters>
-        </field>
-        <field id="code">
-            <filters>
-                <eq filter-id="nameEq"/>
-            </filters>
-        </field>
+        <field id="id" select="false"/>
+        <field id="name" select="false"/>
+        <field id="code" select="false"/>
     </fields>
 </query>

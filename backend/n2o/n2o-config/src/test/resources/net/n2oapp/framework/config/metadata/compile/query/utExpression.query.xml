@@ -1,41 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-       name="utExpression">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <sql>test</sql>
     </list>
     <count>
         <sql>test</sql>
     </count>
-
+    <filters>
+        <eq mapping="map" filter-id="id" field-id="manual">_:expression_</eq>
+        <eq filter-id="test" field-id="auto"/>
+        <like filter-id="testLike" field-id="auto"/>
+        <in filter-id="testIn" field-id="auto"/>
+        <eq field-id="testFilter" required="true"/>
+        <in field-id="testFilter"/>
+    </filters>
     <fields>
-        <field id="f1" domain="integer"/>
-        <field id="manual" domain="integer">
-            <expression>test</expression>
-            <select mapping="map">_:expression_</select>
-            <sorting mapping="map">_:expression_</sorting>
-            <filters>
-                <eq filter-id="id" mapping="map">_:expression_</eq>
-            </filters>
-        </field>
-        <field id="auto" domain="integer" name="AUTO">
-            <expression>test</expression>
-            <select/>
-            <sorting/>
-            <filters>
-                <eq filter-id="test"/>
-                <like filter-id="testLike"/>
-                <in filter-id="testIn"/>
-            </filters>
-        </field>
-        <field id="testFilter">
-            <filters>
-                <eq required="true"/>
-                <in/>
-            </filters>
-        </field>
-        <field id="withEmptySelect">
-            <select/>
-        </field>
+        <field id="f1" select="false" domain="integer"/>
+        <field id="manual" mapping="map" select-expression="_:expression_" domain="integer" sorting-expression="_:expression_" sorting-mapping="map" sorting="true"/>
+        <field id="auto" domain="integer" name="AUTO" sorting="true"/>
+        <field id="testFilter" select="false"/>
+        <field id="withEmptySelect"/>
     </fields>
 </query>

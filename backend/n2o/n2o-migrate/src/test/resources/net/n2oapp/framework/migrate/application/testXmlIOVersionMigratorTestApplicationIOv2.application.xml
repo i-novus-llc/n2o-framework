@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0"
+             xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
+             navigation-layout="fullSizeSidebar"
+             navigation-layout-fixed="true"
+             welcome-page-id="${test}">
+    <datasources>
+        <datasource id="ds1" query-id="${test}" size="${ddd}" route="${test}" object-id="${test}" default-values-mode="merge">
+            <dependencies>
+                <fetch on="ds1" model="datasource"/>
+            </dependencies>
+            <filters>
+                <eq field-id="id" value="3"/>
+                <contains field-id="id"/>
+            </filters>
+        </datasource>
+        <stomp-datasource id="taskCount" destination="/task/count"/>
+        <stomp-datasource id="notifCount" destination="/notif/count">
+            <values>
+                <value count="0"/>
+                <value notifCount="1"/>
+            </values>
+        </stomp-datasource>
+        <browser-storage id="ds2" key="test" type="localStorage" size="1">
+            <submit key="test2" type="sessionStorage" auto="false" model="filter"/>
+            <dependencies>
+                <fetch on="ds2" model="resolve"/>
+                <fetch on="ds3" model="datasource"/>
+            </dependencies>
+        </browser-storage>
+        <inherited-datasource id="ds3" source-field-id="name" source-datasource="ds1" source-model="filter" size="1">
+            <fetch-value>test</fetch-value>
+            <submit auto="false" target-field-id="name2" target-model="filter" target-datasource="ds2">
+                <submit-value>test</submit-value>
+            </submit>
+            <dependencies>
+                <fetch on="ds2" model="resolve"/>
+                <fetch on="ds3" model="datasource"/>
+                <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"
+                      submit="true" apply-on-init="true"/>
+            </dependencies>
+        </inherited-datasource>
+    </datasources>
+
+    <events>
+        <stomp-event id="ev1" destination="/notifications">
+            <alert color="{color}" timeout="{timeout}" title="{title}" text="{text}" placement="{placement}"/>
+        </stomp-event>
+        <stomp-event id="ev2" destination="/task">
+            <alert color="primary" timeout="{timeout}" title="{title}" text="{text}" placement="topLeft"/>
+        </stomp-event>
+    </events>
+
+    <header
+            sidebar-icon="fa fa-bars"
+            sidebar-toggled-icon="fa fa-bars"
+            title="${test}"
+            class="css"
+            logo-src="logo"
+            src="Header" home-page-url="home" style="margin-left:10px;width:300px">
+        <nav src="Nav" ref-id="MenuRef">
+            <menu-item name="Доступно c разрешением permission1"
+                       sec:permissions="permission1">
+                <a href="http://test.com"/>
+            </menu-item>
+            <menu-item name="Доступно с ролью admin"
+                       sec:roles="admin">
+                <a href="http://test.com"/>
+            </menu-item>
+        </nav>
+        <search query-id="testQuery"
+                filter-field-id="filterId"
+                url-field-id="urlId"
+                label-field-id="labelId"
+                icon-field-id="iconId"
+                description-field-id="descriptionId"/>
+    </header>
+
+    <sidebar title="test" class="class" default-state="none" home-page-url="/test"
+             logo-class="logoClass" logo-src="logo.png" overlay="${vvv}" side="right" src="SidebarSrc" style="style"
+             toggle-on-hover="true" toggled-state="maxi">
+        <extra-menu ref-id="${MenuRef}"/>
+        <nav ref-id="MenuRef"/>
+    </sidebar>
+
+    <footer src="testSrc" left-text="LeftText" right-text="${RightText}"/>
+</application>

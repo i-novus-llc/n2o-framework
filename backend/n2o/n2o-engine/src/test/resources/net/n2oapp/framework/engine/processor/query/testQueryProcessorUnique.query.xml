@@ -1,8 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
-    <unique filters="id" result-mapping="[0]">
-        <test file="net/n2oapp/framework/engine/processor/query/testQueryProcessorUnique.json"/>
-    </unique>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list filters="code">
         <test file="net/n2oapp/framework/engine/processor/query/testQueryProcessorUnique.json"/>
     </list>
@@ -12,30 +9,19 @@
     <list filters="exception">
         <test file="net/n2oapp/framework/engine/processor/query/testQueryProcessorUnique.json"/>
     </list>
+    <unique filters="id" result-mapping="[0]">
+        <test file="net/n2oapp/framework/engine/processor/query/testQueryProcessorUnique.json"/>
+    </unique>
+    <filters>
+        <eq filter-id="id" field-id="id">id:eq:id</eq>
+        <eq filter-id="code" field-id="code">code:eq:code</eq>
+        <eq filter-id="type" field-id="type">type:eq:type</eq>
+        <eq filter-id="exception" field-id="exception">exception:eq:exception</eq>
+    </filters>
     <fields>
-        <field id="id">
-            <select>id</select>
-            <filters>
-                <eq filter-id="id">id:eq:id</eq>
-            </filters>
-        </field>
-        <field id="code">
-            <select>code</select>
-            <filters>
-                <eq filter-id="code">code:eq:code</eq>
-            </filters>
-        </field>
-        <field id="type">
-            <select>type</select>
-            <filters>
-                <eq filter-id="type">type:eq:type</eq>
-            </filters>
-        </field>
-        <field id="exception">
-            <select>exception</select>
-            <filters>
-                <eq filter-id="exception">exception:eq:exception</eq>
-            </filters>
-        </field>
+        <field id="id" select-expression="id"/>
+        <field id="code" select-expression="code"/>
+        <field id="type" select-expression="type"/>
+        <field id="exception" select-expression="exception"/>
     </fields>
 </query>

@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.query.QueryElementIOv4;
+import net.n2oapp.framework.config.io.query.QueryElementIOv5;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.object.N2oObjectCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersPack;
@@ -30,7 +30,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oDataProvidersPack())
-                .ios(new QueryElementIOv4())
+                .ios(new QueryElementIOv5())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query_field_defaults/utQueryFieldDefaults.query.xml"));
     }
