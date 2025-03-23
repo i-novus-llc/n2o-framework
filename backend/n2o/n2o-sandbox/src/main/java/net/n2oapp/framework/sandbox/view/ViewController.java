@@ -31,6 +31,7 @@ import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.pack.N2oAllIOPack;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
@@ -38,6 +39,7 @@ import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
+import net.n2oapp.framework.migrate.XmlIOVersionMigrator;
 import net.n2oapp.framework.sandbox.client.SandboxRestClient;
 import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.client.model.ProjectModel;
@@ -88,6 +90,7 @@ public class ViewController {
     private String basePath;
     @Value("${spring.messages.basename:messages}")
     private String messageBundleBasename;
+    private static final String DEFAULT_APP_ID = "default";
 
     private final DataProcessingStack dataProcessingStack;
     private final AlertMessageBuilder messageBuilder;
@@ -108,7 +111,7 @@ public class ViewController {
     private final ObjectMapper objectMapper;
     private final DomainProcessor domainProcessor;
     private final List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers;
-    private static final String DEFAULT_APP_ID = "default";
+    private final XmlIOVersionMigrator migrator;
 
     public ViewController(DataProcessingStack dataProcessingStack,
                           AlertMessageBuilder messageBuilder,
@@ -147,6 +150,10 @@ public class ViewController {
         this.domainProcessor = new DomainProcessor(objectMapper);
         this.messageSourceAccessor = messageSourceAccessor;
         this.applicationBuilderConfigurers = applicationBuilderConfigurers;
+
+        N2oApplicationBuilder builder = new N2oApplicationBuilder(new N2oEnvironment());
+        builder.packs(new N2oAllIOPack());
+        this.migrator = new XmlIOVersionMigrator(builder);
     }
 
     @CrossOrigin(origins = "*")
@@ -343,6 +350,12 @@ public class ViewController {
         }
     }
 
+    @CrossOrigin(origins = "*")
+    @PostMapping({"/n2o/migrate"})
+    public String migrate(@RequestBody String oldXml) {
+        return migrator.migrate(oldXml);
+    }
+
     /**
      * Обработчик исключений N2O
      */
@@ -394,7 +407,7 @@ public class ViewController {
 
     private Application getApplication(N2oApplicationBuilder builder) {
         String applicationId = builder.getEnvironment().getSystemProperties().getProperty("n2o.application.id");
-        if (applicationId.equals(DEFAULT_APP_ID)) {
+        if (DEFAULT_APP_ID.equals(applicationId)) {
             Optional<SourceInfo> applicationInfo = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class).stream().filter(a -> !a.getId().equals(DEFAULT_APP_ID)).findFirst();
             applicationId = applicationInfo.isPresent() ? applicationInfo.get().getId() : DEFAULT_APP_ID;
         }

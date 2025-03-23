@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.selective.reader;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -21,6 +23,8 @@ import java.util.Map;
  */
 public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAware, MetadataEnvironmentAware {
 
+    @Getter
+    @Setter
     // первый параметр - namespace, второй element
     private Map<String, Map<String, NamespaceReader>> map = new HashMap<>();
     private IOProcessor ioProcessor = new IOProcessorImpl(this);

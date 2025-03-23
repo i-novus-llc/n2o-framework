@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io;
 
+import lombok.Getter;
 import net.n2oapp.engine.factory.EngineNotFoundException;
 import net.n2oapp.framework.api.metadata.io.ElementIOFactory;
 import net.n2oapp.framework.api.metadata.io.ProxyTypedElementIO;
@@ -18,7 +19,9 @@ import java.util.Map;
 public class ElementIOFactoryByMap<T, R extends TypedElementReader<? extends T>, P extends TypedElementPersister<? super T>>
         implements ElementIOFactory<T, R, P> {
     private Class<T> baseElementClass;
+    @Getter
     private Map<String, R> names = new HashMap<>();
+    @Getter
     private Map<Class, P> classes = new HashMap<>();
 
     public ElementIOFactoryByMap(Class<T> baseElementClass) {

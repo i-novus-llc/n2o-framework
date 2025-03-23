@@ -48,7 +48,9 @@ public class N2oAllIOPack implements MetadataPack<XmlIOBuilder<? extends XmlIOBu
                 new N2oCellsIOPack(),
                 new N2oCellsV3IOPack(),
                 new N2oChartsIOPack(),
-                new N2oEventsIOPack()
+                new N2oEventsIOPack(),
+                new N2oActionsIOV1Pack(),
+                new N2oActionsIOV2Pack()
         );
     }
 }

@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-       object-id="test">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="test">
     <list result-mapping="#this" count-mapping="#this.size()">
         <java method="findAll">
             <spring bean="employeeService"/>
@@ -8,31 +7,20 @@
     </list>
     <unique>
         <java method="findOne">
-            <spring bean="employeeService"/>
             <arguments>
-                <argument type="primitive" name="id"/>
+                <argument name="id" type="primitive"/>
             </arguments>
+            <spring bean="employeeService"/>
         </java>
     </unique>
-
+    <filters>
+        <eq mapping="[0]" filter-id="id" field-id="id"/>
+    </filters>
     <fields>
-        <field id="id">
-            <select/>
-            <filters>
-                <eq filter-id="id" mapping="[0]"/>
-            </filters>
-        </field>
-        <field id="name">
-            <select/>
-        </field>
-        <field id="org.id">
-            <select mapping="organization?.code"/>
-        </field>
-        <field id="org.name">
-            <select mapping="organization?.title"/>
-        </field>
-        <field id="departments">
-            <select/>
-        </field>
+        <field id="id"/>
+        <field id="name"/>
+        <field id="org.id" mapping="organization?.code"/>
+        <field id="org.name" mapping="organization?.title"/>
+        <field id="departments"/>
     </fields>
 </query>

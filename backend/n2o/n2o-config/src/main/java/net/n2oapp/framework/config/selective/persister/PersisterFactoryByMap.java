@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.selective.persister;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.engine.factory.EngineNotFoundException;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
@@ -22,6 +24,8 @@ import java.util.Map;
  */
 public class PersisterFactoryByMap implements NamespacePersisterFactory<NamespaceUriAware, NamespacePersister<NamespaceUriAware>>, IOProcessorAware, MetadataEnvironmentAware {
 
+    @Getter
+    @Setter
     private Map<Class<?>, Map<String, NamespacePersister>> map = new HashMap<>();
     private IOProcessor ioProcessor = new IOProcessorImpl(this);
 

@@ -6,6 +6,7 @@ import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
+import net.n2oapp.framework.migrate.XmlIOVersionMigrator;
 import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,8 @@ import java.util.Map;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 /**
  * Тест получения и установки значений провайдером данных
@@ -57,6 +61,8 @@ class SandboxDataProviderTest {
     @Value("${n2o.sandbox.api.port}")
     private Integer port;
 
+    @MockBean
+    private XmlIOVersionMigrator migrator;
 
     @Autowired
     private ViewController viewController;
@@ -151,5 +157,16 @@ class SandboxDataProviderTest {
         assertThat(response.getBody().getData().get("id"), is(3));
         assertThat(response.getBody().getData().get("name"), is("name3"));
         assertThat(response.getBody().getMeta().getAlert().getMessages().get(0).getText(), is("Данные сохранены"));
+    }
+
+    @Test
+    void testMigration() {
+        String oldXml = "<?xml version='1.0' encoding='UTF-8'?>" +
+                "<query xmlns=\"http://n2oapp.net/framework/config/schema/query-4.0\"/>";
+        String newXml = "<?xml version='1.0' encoding='UTF-8'?>\r\n" +
+                "<query xmlns=\"http://n2oapp.net/framework/config/schema/query-5.0\"/>";
+        when(migrator.migrate(oldXml)).thenReturn(newXml);
+        String result = viewController.migrate(oldXml);
+        assertEquals(newXml, result);
     }
 }

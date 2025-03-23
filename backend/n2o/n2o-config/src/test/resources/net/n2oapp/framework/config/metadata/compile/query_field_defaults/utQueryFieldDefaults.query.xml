@@ -1,9 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-       name="queryField">
-
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
-        <sql>select :select
+        <sql>
+            select :select
             from queryField a
             where :filters
             order by :sorting
@@ -16,36 +15,14 @@
             where :filters
         </sql>
     </count>
-
+    <filters>
+        <eq filter-id="gender.id" field-id="gender.id"/>
+        <eq filter-id="filter" field-id="name"/>
+        <eq filter-id="objectName" field-id="objectName"/>
+    </filters>
     <fields>
-
-        <!--по умолчанию-->
-        <field id="gender.id">
-            <select/>
-            <sorting/>
-            <filters>
-                <eq filter-id="gender.id"/>
-            </filters>
-        </field>
-
-        <!--по умолчанию с переопределением-->
-        <field id="name">
-            <expression>test</expression>
-            <select/>
-            <sorting/>
-            <filters>
-                <eq filter-id="filter"/>
-            </filters>
-        </field>
-
-        <!--по умолчанию из объекта-->
-        <field id="objectName">
-            <select/>
-            <sorting/>
-            <filters>
-                <eq filter-id="objectName"/>
-            </filters>
-        </field>
-
+        <field id="gender.id" sorting="true"/>
+        <field id="name" sorting="true"/>
+        <field id="objectName" sorting="true"/>
     </fields>
 </query>

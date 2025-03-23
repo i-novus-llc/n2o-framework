@@ -1,61 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="data">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="data">
     <list>
         <test file="data.json" operation="findAll"/>
     </list>
     <count>
         <test file="data.json" operation="count"/>
     </count>
-
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <like filter-id="surname" field-id="surname"/>
+        <like filter-id="name" field-id="name"/>
+        <like filter-id="patronymic" field-id="patronymic"/>
+        <more filter-id="birthday.begin" field-id="birthday"/>
+        <less filter-id="birthday.end" field-id="birthday"/>
+        <eq filter-id="gender.id" field-id="gender.id"/>
+        <eq filter-id="vip" field-id="vip"/>
+    </filters>
     <fields>
-        <field id="id" domain="integer">
-            <select/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
-        <field id="surname" domain="string" name="Фамилия">
-            <select/>
-            <filters>
-                <like filter-id="surname"/>
-            </filters>
-            <sorting/>
-        </field>
-        <field id="name" name="Имя">
-            <select/>
-            <filters>
-                <like filter-id="name"/>
-            </filters>
-            <sorting/>
-        </field>
-        <field id="patronymic" name="Отчество">
-            <select/>
-            <filters>
-                <like filter-id="patronymic"/>
-            </filters>
-            <sorting/>
-        </field>
-        <field id="birthday" domain="localdate" name="День рождения">
-            <select/>
-            <filters>
-                <more filter-id="birthday.begin"/>
-                <less filter-id="birthday.end"/>
-            </filters>
-        </field>
-        <field id="gender.name" name="Пол">
-            <select/>
-        </field>
-        <field id="gender.id" domain="integer">
-            <select/>
-            <filters>
-                <eq filter-id="gender.id"/>
-            </filters>
-        </field>
-        <field id="vip" name="VIP" domain="boolean">
-            <select/>
-            <filters>
-                <eq filter-id="vip"/>
-            </filters>
-        </field>
+        <field id="id" domain="integer"/>
+        <field id="surname" domain="string" name="Фамилия" sorting="true"/>
+        <field id="name" name="Имя" sorting="true"/>
+        <field id="patronymic" name="Отчество" sorting="true"/>
+        <field id="birthday" domain="localdate" name="День рождения"/>
+        <field id="gender.name" name="Пол"/>
+        <field id="gender.id" domain="integer"/>
+        <field id="vip" domain="boolean" name="VIP"/>
     </fields>
 </query>

@@ -1,45 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
-
-    <list result-mapping="['data.persons']" filters="personName, age, address.name">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list filters="personName,age,address.name" result-mapping="['data.persons']">
         <graphql>query persons(name: $$name, age: $$age, addresses: $$addresses) {id name age}</graphql>
     </list>
-
     <list result-mapping="['data.persons']">
         <graphql filter-separator=" AND " filter-prefix="[" filter-suffix="]">query persons(filter: { $$filters }) {id name age}</graphql>
     </list>
-
+    <filters>
+        <like mapping="['name']" filter-id="personName" field-id="personName">{ name: {like: "$$$name" } }</like>
+        <eq filter-id="age" field-id="age">{ age: {ge: $$age } }</eq>
+        <in mapping="['addresses']" filter-id="address.name" field-id="addresses"/>
+        <eq domain="numeric" filter-id="salary" field-id="salary">{ salary: {ge: $$salary } }</eq>
+    </filters>
     <fields>
-        <field id="id">
-            <select/>
-        </field>
-
-        <field id="personName">
-            <select mapping="['name']"/>
-            <filters>
-                <like filter-id="personName" mapping="['name']">{ name: {like: "$$$name" } }</like>
-            </filters>
-        </field>
-
-        <field id="age">
-            <select/>
-            <filters>
-                <eq filter-id="age">{ age: {ge: $$age } }</eq>
-            </filters>
-        </field>
-
-        <field id="addresses">
-            <select/>
-            <filters>
-                <in filter-id="address.name" mapping="['addresses']"/>
-            </filters>
-        </field>
-
-        <field id="salary">
-            <select mapping="['salary']"/>
-            <filters>
-                <eq filter-id="salary" domain="numeric">{ salary: {ge: $$salary } }</eq>
-            </filters>
-        </field>
+        <field id="id"/>
+        <field id="personName" mapping="['name']"/>
+        <field id="age"/>
+        <field id="addresses"/>
+        <field id="salary" mapping="['salary']"/>
     </fields>
 </query>

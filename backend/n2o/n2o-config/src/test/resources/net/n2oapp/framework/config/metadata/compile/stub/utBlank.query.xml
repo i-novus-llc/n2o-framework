@@ -1,21 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-       object-id="utBlank" name="blank">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="utBlank">
     <list>
         <sql>select 1</sql>
     </list>
     <unique>
         <sql>select 1</sql>
     </unique>
-
+    <filters>
+        <eq filter-id="name" field-id="name"/>
+    </filters>
     <fields>
-        <field id="id" domain="integer">
-            <select/>
-        </field>
-        <field id="name" domain="string">
-            <filters>
-                <eq filter-id="name"/>
-            </filters>
-        </field>
+        <field id="id" domain="integer"/>
+        <field id="name" select="false" domain="string"/>
     </fields>
 </query>

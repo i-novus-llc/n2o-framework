@@ -1,30 +1,18 @@
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="testShowModal">
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="testShowModal">
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <eq filter-id="secondId" field-id="secondId"/>
+        <eq filter-id="name" field-id="name"/>
+        <eq filter-id="surname" field-id="surname"/>
+        <more filter-id="birthday.begin" field-id="birthday"/>
+        <less filter-id="birthday.end" field-id="birthday"/>
+    </filters>
     <fields>
-        <field id="id">
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
-        <field id="secondId">
-            <filters>
-                <eq filter-id="secondId"/>
-            </filters>
-        </field>
-        <field id="name">
-            <filters>
-                <eq filter-id="name"/>
-            </filters>
-        </field>
-        <field id="surname">
-            <filters>
-                <eq filter-id="surname"/>
-            </filters>
-        </field>
-        <field id="birthday">
-            <filters>
-                <more filter-id="birthday.begin"/>
-                <less filter-id="birthday.end"/>
-            </filters>
-        </field>
+        <field id="id" select="false"/>
+        <field id="secondId" select="false"/>
+        <field id="name" select="false"/>
+        <field id="surname" select="false"/>
+        <field id="birthday" select="false"/>
     </fields>
 </query>

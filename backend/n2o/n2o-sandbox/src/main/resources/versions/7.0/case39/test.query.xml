@@ -1,35 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="tree.json"/>
     </list>
-
+    <filters>
+        <eq field-id="id"/>
+        <eq field-id="tree2[0].id"/>
+    </filters>
     <fields>
-        <field id="id">
-            <filters>
-                <eq/>
-            </filters>
-        </field>
-        <field id="tree2[0].id">
-            <select default-value="11"/>
-            <filters>
-                <eq/>
-            </filters>
-        </field>
-        <field id="tree2[0].name">
-            <select default-value="11"/>
-        </field>
-        <field id="tree2[0].parent">
-            <select default-value="1"/>
-        </field>
-        <field id="tree2[1].id">
-            <select default-value="12"/>
-        </field>
-        <field id="tree2[1].name">
-            <select default-value="12"/>
-        </field>
-        <field id="tree2[1].parent">
-            <select default-value="1"/>
-        </field>
+        <field id="id" select="false"/>
+        <field id="tree2[0].id" default-value="11"/>
+        <field id="tree2[0].name" default-value="11"/>
+        <field id="tree2[0].parent" default-value="1"/>
+        <field id="tree2[1].id" default-value="12"/>
+        <field id="tree2[1].name" default-value="12"/>
+        <field id="tree2[1].parent" default-value="1"/>
     </fields>
 </query>

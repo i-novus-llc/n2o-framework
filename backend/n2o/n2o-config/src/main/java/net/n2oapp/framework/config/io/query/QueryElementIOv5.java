@@ -27,10 +27,10 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
         p.children(e, null, "list", t::getLists, t::setLists,
                 () -> new N2oQuery.Selection(N2oQuery.Selection.Type.list), this::listSelection);
-        p.children(e, null, "count", t::getCounts, t::setCounts,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.count), this::countSelection);
         p.children(e, null, "unique", t::getUniques, t::setUniques,
                 () -> new N2oQuery.Selection(N2oQuery.Selection.Type.unique), this::uniqueSelection);
+        p.children(e, null, "count", t::getCounts, t::setCounts,
+                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.count), this::countSelection);
         p.childrenByEnum(e, "filters", t::getFilters, t::setFilters, N2oQuery.Filter::getType,
                 N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterType.class, this::filter);
         p.anyChildren(e, "fields", t::getFields, t::setFields, p.oneOf(AbstractField.class)
@@ -57,7 +57,7 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "mapping", f::getMapping, f::setMapping);
         p.attribute(e, "normalize", f::getNormalize, f::setNormalize);
         p.attribute(e, "select-expression", f::getSelectExpression, f::setSelectExpression);
-        p.attributeBoolean(e, "select", f::getIsSelected, f::setIsSelected);
+        p.attributeBoolean(e, "select", () -> (Boolean.FALSE.equals(f.getIsSelected())) ?  f.getIsSelected() : null, f::setIsSelected);
     }
 
     private void selection(Element e, N2oQuery.Selection t, IOProcessor p) {
@@ -66,24 +66,24 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
     }
 
     private void listSelection(Element e, N2oQuery.Selection t, IOProcessor p) {
-        selection(e, t, p);
         p.attribute(e, "result-mapping", t::getResultMapping, t::setResultMapping);
         p.attribute(e, "result-normalize", t::getResultNormalize, t::setResultNormalize);
         p.attribute(e, "count-mapping", t::getCountMapping, t::setCountMapping);
         p.attribute(e, "asc-expression", t::getAscExpression, t::setAscExpression);
         p.attribute(e, "desc-expression", t::getDescExpression, t::setDescExpression);
         p.attribute(e, "additional-mapping", t::getAdditionalMapping, t::setAdditionalMapping);
+        selection(e, t, p);
     }
 
     private void uniqueSelection(Element e, N2oQuery.Selection t, IOProcessor p) {
-        selection(e, t, p);
         p.attribute(e, "result-mapping", t::getResultMapping, t::setResultMapping);
         p.attribute(e, "result-normalize", t::getResultNormalize, t::setResultNormalize);
+        selection(e, t, p);
     }
 
     private void countSelection(Element e, N2oQuery.Selection t, IOProcessor p) {
-        selection(e, t, p);
         p.attribute(e, "count-mapping", t::getCountMapping, t::setCountMapping);
+        selection(e, t, p);
     }
 
     private void field(Element e, QuerySimpleField f, IOProcessor p) {
@@ -93,13 +93,13 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "default-value", f::getDefaultValue, f::setDefaultValue);
         p.attribute(e, "sorting-expression", f::getSortingExpression, f::setSortingExpression);
         p.attribute(e, "sorting-mapping", f::getSortingMapping, f::setSortingMapping);
-        p.attributeBoolean(e, "sorting", f::getIsSorted, f::setIsSorted);
+        p.attributeBoolean(e, "sorting", () -> (Boolean.TRUE.equals(f.getIsSorted())) ?  f.getIsSorted() : null, f::setIsSorted);
         p.child(e, null, "switch", f::getN2oSwitch, f::setN2oSwitch, new SwitchIO());
     }
 
     private void filter(Element e, N2oQuery.Filter t, IOProcessor p) {
-        p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
         p.attribute(e, "mapping", t::getMapping, t::setMapping);
+        p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "filter-id", t::getFilterId, t::setFilterId);

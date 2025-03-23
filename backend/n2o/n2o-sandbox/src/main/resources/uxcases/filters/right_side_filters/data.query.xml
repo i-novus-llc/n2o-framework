@@ -1,41 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="data.json" operation="findAll"/>
     </list>
+    <filters>
+        <like filter-id="name" field-id="name"/>
+        <eq mapping="['author.id']" filter-id="author.id" field-id="author"/>
+        <in mapping="['genre']" filter-id="genre*.id" field-id="genre">genre.id:in:genre</in>
+        <in mapping="['type']" filter-id="type*.id" field-id="type">type.id:in:type</in>
+    </filters>
     <fields>
-        <field id="id">
-            <select/>
-        </field>
-        <field id="name">
-            <select/>
-            <filters>
-                <like filter-id="name"/>
-            </filters>
-        </field>
-        <field id="image">
-            <select/>
-        </field>
-        <field id="author">
-            <select mapping="['author.name']"/>
-            <filters>
-                <eq filter-id="author.id" mapping="['author.id']"/>
-            </filters>
-        </field>
-        <field id="genre">
-            <select mapping="['genre.name']"/>
-            <filters>
-                <in filter-id="genre*.id" mapping="['genre']">genre.id:in:genre</in>
-            </filters>
-        </field>
-        <field id="type">
-            <select mapping="['type.name']"/>
-            <filters>
-                <in filter-id="type*.id" mapping="['type']">type.id:in:type</in>
-            </filters>
-        </field>
-        <field id="description">
-            <select/>
-        </field>
+        <field id="id"/>
+        <field id="name"/>
+        <field id="image"/>
+        <field id="author" mapping="['author.name']"/>
+        <field id="genre" mapping="['genre.name']"/>
+        <field id="type" mapping="['type.name']"/>
+        <field id="description"/>
     </fields>
 </query>

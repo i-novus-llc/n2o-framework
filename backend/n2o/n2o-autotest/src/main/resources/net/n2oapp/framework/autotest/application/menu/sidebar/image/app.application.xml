@@ -1,13 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<application xmlns="http://n2oapp.net/framework/config/schema/application-2.0">
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <sidebars>
         <sidebar default-state="mini">
             <nav>
-                <menu-item id="profile"
-                       image="images/candidate2.jpg"
-                       image-shape="rounded"
-                       name="Профиль">
-                    <open-page  page-id="testMenu"/>
+                <menu-item id="profile" name="Профиль" image="images/candidate2.jpg" image-shape="rounded">
+                    <open-page page-id="testMenu"/>
                 </menu-item>
             </nav>
         </sidebar>
+    </sidebars>
 </application>

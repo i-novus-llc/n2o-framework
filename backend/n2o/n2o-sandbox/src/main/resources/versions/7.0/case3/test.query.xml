@@ -1,25 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="test.json"/>
     </list>
-
+    <filters>
+        <eq filter-id="field1" field-id="field1"/>
+        <eq filter-id="field2" field-id="field2"/>
+    </filters>
     <fields>
-        <field id="id"/>
-        <field id="field1" domain="integer">
-            <select/>
-            <filters>
-                <eq filter-id="field1"/>
-            </filters>
-        </field>
-        <field id="field2" domain="integer">
-            <select/>
-            <filters>
-                <eq filter-id="field2"/>
-            </filters>
-        </field>
-        <field id="myString">
-            <select default-value="test text"/>
-        </field>
+        <field id="id" select="false"/>
+        <field id="field1" domain="integer"/>
+        <field id="field2" domain="integer"/>
+        <field id="myString" default-value="test text"/>
     </fields>
 </query>

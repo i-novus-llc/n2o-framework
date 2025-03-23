@@ -107,13 +107,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     protected void initRepository(N2oTestDataProvider invocation) {
         try {
             InputStream inputStream = getResourceInputStream(invocation);
-            List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKey());
+            List<DataSet> data = loadJson(inputStream, getPrimaryKeyType(invocation), getPrimaryKey(invocation));
             repository.put(richKey(invocation.getFile()), data);
-            if (integer.equals(invocation.getPrimaryKeyType())) {
+            if (integer.equals(getPrimaryKeyType(invocation))) {
                 long maxId = data
                         .stream()
-                        .filter(v -> v.get(invocation.getPrimaryKey()) != null)
-                        .mapToLong(v -> (Long) v.get(invocation.getPrimaryKey()))
+                        .filter(v -> v.get(getPrimaryKey(invocation)) != null)
+                        .mapToLong(v -> (Long) v.get(getPrimaryKey(invocation)))
                         .max().orElse(0);
                 sequences.put(richKey(invocation.getFile()), new AtomicLong(maxId));
             }
@@ -218,7 +218,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                           List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList<>(data);
         DataSet newElement = new DataSet();
-        newElement.put(invocation.getPrimaryKey(), generateKey(invocation.getPrimaryKeyType(), invocation.getFile()));
+        newElement.put(getPrimaryKey(invocation), generateKey(getPrimaryKeyType(invocation), invocation.getFile()));
 
         updateElement(newElement, inParams.entrySet());
 
@@ -233,12 +233,12 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                           Map<String, Object> inParams,
                           List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList<>(data);
-        if (inParams.get(invocation.getPrimaryKey()) == null)
+        if (inParams.get(getPrimaryKey(invocation)) == null)
             throw new N2oException("Id is required for operation \"update\"");
 
         DataSet element = modifiableData
                 .stream()
-                .filter(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(), inParams))
+                .filter(buildPredicate(getPrimaryKeyType(invocation), getPrimaryKey(invocation), inParams))
                 .findFirst()
                 .orElseThrow(() -> new N2oException("No such element"));
 
@@ -253,14 +253,14 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                               Map<String, Object> inParams,
                               List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList<>(data);
-        if (inParams.get(invocation.getPrimaryKeys()) == null)
-            throw new N2oException("Ids is required for operation \"updateMany\"");
+        if (inParams.get(getPrimaryKeys(invocation)) == null)
+            throw new N2oException(getPrimaryKeys(invocation) + " is required for operation \"updateMany\"");
         List<DataSet> elements = modifiableData.stream()
-                .filter(buildListPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(),
-                        invocation.getPrimaryKeys(), inParams))
+                .filter(buildListPredicate(getPrimaryKeyType(invocation), getPrimaryKey(invocation),
+                        getPrimaryKeys(invocation), inParams))
                 .collect(Collectors.toList());
         Map<String, Object> fields = new HashMap<>(inParams);
-        fields.remove(invocation.getPrimaryKeys());
+        fields.remove(getPrimaryKeys(invocation));
         for (DataSet element : elements) {
             updateElement(element, fields.entrySet());
         }
@@ -273,19 +273,19 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                                Map<String, Object> inParams,
                                List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList<>(data);
-        if (inParams.get(invocation.getPrimaryKey()) == null)
+        if (inParams.get(getPrimaryKey(invocation)) == null)
             throw new N2oException("Id is required for operation \"updateField\"");
         if (!inParams.containsKey("key") || !inParams.containsKey("value"))
             throw new N2oException("Should contains parameters \"key\", \"value\" for operation \"updateField\"");
 
         DataSet element = modifiableData
                 .stream()
-                .filter(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(), inParams))
+                .filter(buildPredicate(getPrimaryKeyType(invocation), getPrimaryKey(invocation), inParams))
                 .findFirst()
                 .orElseThrow(() -> new N2oException("No such element"));
 
         Map<String, Object> fieldData = new HashMap<>();
-        fieldData.put(invocation.getPrimaryKey(), inParams.get(invocation.getPrimaryKey()));
+        fieldData.put(getPrimaryKey(invocation), inParams.get(getPrimaryKey(invocation)));
         fieldData.put((String) inParams.get("key"), inParams.get("value"));
         if (inParams.containsKey("key2") && inParams.get("key2") != null)
             fieldData.put((String) inParams.get("key2"), inParams.get("value2"));
@@ -301,10 +301,10 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                           Map<String, Object> inParams,
                           List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList(data);
-        if (inParams.get(invocation.getPrimaryKey()) == null)
+        if (inParams.get(getPrimaryKey(invocation)) == null)
             throw new N2oException("Id is required for operation \"delete\"");
 
-        modifiableData.removeIf(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(), inParams));
+        modifiableData.removeIf(buildPredicate(getPrimaryKeyType(invocation), getPrimaryKey(invocation), inParams));
         updateRepository(invocation.getFile(), modifiableData);
         updateFile(invocation.getFile());
 
@@ -315,10 +315,10 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                               Map<String, Object> inParams,
                               List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList(data);
-        if (inParams.get(invocation.getPrimaryKeys()) == null)
-            throw new N2oException("Ids is required for operation \"deleteMany\"");
-        modifiableData.removeIf(buildListPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(),
-                invocation.getPrimaryKeys(), inParams));
+        if (inParams.get(getPrimaryKeys(invocation)) == null)
+            throw new N2oException(getPrimaryKeys(invocation) + " is required for operation \"deleteMany\"");
+        modifiableData.removeIf(buildListPredicate(getPrimaryKeyType(invocation), getPrimaryKey(invocation),
+                getPrimaryKeys(invocation), inParams));
         updateRepository(invocation.getFile(), modifiableData);
         updateFile(invocation.getFile());
         return null;
@@ -811,5 +811,16 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         } catch (DateTimeParseException e) {
             throw new N2oException("Формат даты и времени, используемый в json, не соответствует ISO_LOCAL_DATE_TIME", e);
         }
+    }
+    private String getPrimaryKey(N2oTestDataProvider invocation) {
+        return invocation.getPrimaryKey()!= null ? invocation.getPrimaryKey() : "id";
+    }
+
+    private String getPrimaryKeys(N2oTestDataProvider invocation) {
+       return getPrimaryKey(invocation) + "s";
+    }
+
+    public PrimaryKeyType getPrimaryKeyType(N2oTestDataProvider invocation) {
+        return invocation.getPrimaryKeyType()!= null ? invocation.getPrimaryKeyType() : integer;
     }
 }

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="${blank}">
+    <list count-mapping="${count1}" result-mapping="${result1}">
+        <test file="test.json" operation="findAll"/>
+    </list>
+    <list result-mapping="${result2}">
+        <rest
+              method="GET"
+              filters-separator="&amp;"
+              sorting-separator="&amp;"
+              select-separator=","
+              join-separator=","
+              content-type="application/json"
+              proxy-host="localhost"
+              forwarded-headers="testHeader"
+              forwarded-cookies="testCookie"
+              proxy-port="8080">http://localhost:${local.server.port}/api/service/test;select={select};join={join}?{filters}&amp;{sorting}</rest>
+    </list>
+    <list>
+        <java class="test" method="test" />
+    </list>
+    <list filters="filter1,filter2" result-mapping="result" count-mapping="count">
+        <rest>/api/find/1</rest>
+    </list>
+    <count>
+        <rest>/api/count</rest>
+    </count>
+    <count filters="fil1,fil2" count-mapping="count">
+        <rest>/api/find12</rest>
+    </count>
+    <unique>
+        <rest>/api/findOne</rest>
+    </unique>
+    <unique filters="filter1" result-mapping="count">
+        <rest>/api/find1</rest>
+    </unique>
+    <filters>
+        <eq normalize="m;kl;k;" mapping="mapping" default-value="defaultValue" domain="integer" filter-id="id" field-id="id"
+            required="${req}">id = :id</eq>
+        <eq filter-id="individualId" field-id="individualId" required="true">ic.indiv_id = :individualId</eq>
+        <eqOrIsNull filter-id="surname" field-id="individualId" />
+    </filters>
+    <fields>
+        <field id="id" mapping="mapping" normalize="T(java.time.LocalDate).parse(this)" select-expression="id" sorting="true" domain="integer" name="nameId" default-value="defaultValue" sorting-expression="sorting" sorting-mapping="mapping" />
+        <field id="individualId" domain="integer" select="false"/>
+        <field id="id1" name="${name1}" default-value="${defaultValue}"/>
+    </fields>
+</query>

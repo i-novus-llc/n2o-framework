@@ -1,18 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="pie.json"/>
     </list>
-
     <fields>
-        <field id="name">
-            <select/>
-        </field>
-        <field id="value">
-            <select/>
-        </field>
-        <field id="tooltip">
-            <select/>
-        </field>
+        <field id="name"/>
+        <field id="value"/>
+        <field id="tooltip"/>
     </fields>
 </query>

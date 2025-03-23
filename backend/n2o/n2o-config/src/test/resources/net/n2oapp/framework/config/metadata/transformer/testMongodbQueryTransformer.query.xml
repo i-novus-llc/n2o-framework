@@ -1,60 +1,30 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="testSqlQuery">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="testSqlQuery">
     <list>
         <mongodb collection-name="user" operation="find"/>
     </list>
     <count>
         <mongodb collection-name="user" operation="countDocuments"/>
     </count>
-
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <eq filter-id="name" field-id="name"/>
+        <notEq filter-id="notName" field-id="name"/>
+        <in domain="string[]" filter-id="userNameIn" field-id="name"/>
+        <like mapping="['nameLikeMap']" filter-id="nameLike" field-id="name">{ name: { $regex: '.*#nameLikeMap.*'}}</like>
+        <likeStart filter-id="nameStart" field-id="name">{ name: {$regex: '#nameStart.*'}}</likeStart>
+        <in mapping="userAgeIn" field-id="userAge">{age: {$in: #userAgeIn}}</in>
+        <notIn filter-id="userAgeNotIn" field-id="userAge">{age: {$nin: #userAgeNotIn}}</notIn>
+        <more filter-id="birthdayMore" field-id="birthday">{birthday: {$gte: new ISODate(#birthdayMore)}}</more>
+        <less filter-id="birthdayLess" field-id="birthday">{birthday: {$lte: new ISODate(#birthdayLess)}}</less>
+    </filters>
     <fields>
-        <field id="id" domain="string">
-            <select/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-            <sorting/>
-        </field>
-
-        <field id="name" domain="string">
-            <select/>
-            <filters>
-                <eq filter-id="name"/>
-                <notEq filter-id="notName"/>
-                <in filter-id="userNameIn" domain="string[]"/>
-                <like filter-id="nameLike" mapping="['nameLikeMap']">{ name: { $regex: '.*#nameLikeMap.*'}}</like>
-                <likeStart filter-id="nameStart">{ name: {$regex: '#nameStart.*'}}</likeStart>
-            </filters>
-            <sorting/>
-        </field>
-
-        <field id="userAge" domain="integer">
-            <select mapping="['age']">age</select>
-            <filters>
-                <in mapping="userAgeIn">{age: {$in: #userAgeIn}}</in>
-                <notIn filter-id="userAgeNotIn">{age: {$nin: #userAgeNotIn}}</notIn>
-            </filters>
-            <sorting mapping="['sortUserAge']">age :sortUserAge</sorting>
-        </field>
-
-        <field id="birthday" domain="localdate">
-            <select/>
-            <filters>
-                <more filter-id="birthdayMore">{birthday: {$gte: new ISODate(#birthdayMore)}}</more>
-                <less filter-id="birthdayLess">{birthday: {$lte: new ISODate(#birthdayLess)}}</less>
-            </filters>
-        </field>
-
-        <field id="vip">
-            <select/>
-        </field>
-
-        <field id="gender.id">
-            <select mapping="['gender']?.get('id')"/>
-        </field>
-
-        <field id="gender.name">
-            <select mapping="['gender']?.get('name')" normalize="#this?.toLowerCase()"/>
-        </field>
+        <field id="id" domain="string" sorting="true"/>
+        <field id="name" domain="string" sorting="true"/>
+        <field id="userAge" mapping="['age']" select-expression="age" domain="integer" sorting-expression="age :sortUserAge" sorting-mapping="['sortUserAge']" sorting="true"/>
+        <field id="birthday" domain="localdate"/>
+        <field id="vip"/>
+        <field id="gender.id" mapping="['gender']?.get('id')"/>
+        <field id="gender.name" mapping="['gender']?.get('name')" normalize="#this?.toLowerCase()"/>
     </fields>
 </query>

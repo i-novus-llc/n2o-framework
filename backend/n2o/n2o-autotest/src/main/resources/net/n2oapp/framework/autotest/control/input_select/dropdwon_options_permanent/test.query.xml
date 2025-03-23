@@ -1,23 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="test.json" operation="findAll"/>
     </list>
-
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <eq filter-id="name" field-id="name">name:eq:name</eq>
+    </filters>
     <fields>
-        <field id="id" name="Номер заявки">
-            <select/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-            <sorting/>
-        </field>
-
-        <field id="name" name="Наименование уровня доступа">
-            <select/>
-            <filters>
-                <eq filter-id="name">name:eq:name</eq>
-            </filters>
-        </field>
+        <field id="id" name="Номер заявки" sorting="true"/>
+        <field id="name" name="Наименование уровня доступа"/>
     </fields>
 </query>

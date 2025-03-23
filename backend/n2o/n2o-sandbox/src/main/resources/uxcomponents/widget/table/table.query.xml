@@ -1,20 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
-        <test file="table.json"></test>
+        <test file="table.json"/>
     </list>
     <count>
         <test file="table.json" operation="count"/>
     </count>
+
     <fields>
-        <field id="id">
-            <select/>
-        </field>
-        <field id="firstName">
-            <select/>
-        </field>
-        <field id="lastName">
-            <select/>
-        </field>
+        <field id="id"/>
+        <field id="firstName"/>
+        <field id="lastName"/>
     </fields>
 </query>

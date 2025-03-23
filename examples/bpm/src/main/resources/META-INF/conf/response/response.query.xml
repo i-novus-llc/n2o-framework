@@ -1,30 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
-
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <unique result-mapping="#this">
-        <camunda operation="getTask"/>
+        <camunda operation="getTask" />
     </unique>
-
+    <filters>
+        <eq domain="string" filter-id="id" field-id="id" />
+    </filters>
     <fields>
-        <field id="id" domain="string">
-            <filters>
-                <eq filter-id="id" domain="string"/>
-            </filters>
-            <select/>
-        </field>
-
-        <field id="position" domain="string">
-            <select mapping="['variables']?.get('position')"/>
-        </field>
-        <field id="salary" domain="integer">
-            <select mapping="['variables']?.get('salary')"/>
-        </field>
-
-        <field id="lastName" domain="string">
-            <select mapping="['variables']?.get('lastName')"/>
-        </field>
-        <field id="salaryExpected" domain="integer">
-            <select mapping="['variables']?.get('salaryExpected')"/>
-        </field>
+        <field id="id" domain="string" />
+        <field id="position" mapping="['variables']?.get('position')" domain="string" />
+        <field id="salary" mapping="['variables']?.get('salary')" domain="integer" />
+        <field id="lastName" mapping="['variables']?.get('lastName')" domain="string" />
+        <field id="salaryExpected" mapping="['variables']?.get('salaryExpected')" domain="integer" />
     </fields>
 </query>

@@ -1,62 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
-
-    <list count-mapping="size()" result-mapping="#this">
-        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass"
-              method="methodWithoutArguments">
-        </java>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list result-mapping="#this" count-mapping="size()">
+        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass" method="methodWithoutArguments"/>
     </list>
-    <list count-mapping="size()" result-mapping="#this" filters="value">
-        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass"
-              method="methodWithOneArgument">
+    <list filters="value" result-mapping="#this" count-mapping="size()">
+        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass" method="methodWithOneArgument">
             <arguments>
                 <argument type="primitive"/>
             </arguments>
         </java>
     </list>
-    <list count-mapping="count" result-mapping="collection" filters="name">
-        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass"
-              method="methodWithCriteria">
+    <list filters="name" result-mapping="collection" count-mapping="count">
+        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass" method="methodWithCriteria">
             <arguments>
                 <argument type="primitive"/>
-                <argument type="criteria"
-                          class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass$MyCriteria"/>
+                <argument type="criteria" class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass$MyCriteria"/>
             </arguments>
         </java>
     </list>
-    <list count-mapping="count" result-mapping="collection" filters="id,name">
-        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass"
-              method="methodWithCriteria">
+    <list filters="id,name" result-mapping="collection" count-mapping="count">
+        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass" method="methodWithCriteria">
             <arguments>
                 <argument type="primitive"/>
-                <argument type="criteria"
-                          class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass$MyCriteria"/>
+                <argument type="criteria" class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass$MyCriteria"/>
             </arguments>
         </java>
     </list>
-
+    <filters>
+        <eq mapping="[1].id" filter-id="id" field-id="id"/>
+        <more filter-id="id" field-id="id"/>
+        <less filter-id="id" field-id="id"/>
+        <eq mapping="[0]" filter-id="value" field-id="value">value={value}</eq>
+        <eq mapping="[1].name" filter-id="name" field-id="name"/>
+    </filters>
     <fields>
-        <field id="id" domain="integer">
-            <select mapping="testField"/>
-            <filters>
-                <eq filter-id="id" mapping="[1].id"/>
-                <more filter-id="id"/>
-                <less filter-id="id"/>
-            </filters>
-        </field>
-
-        <field id="value" domain="string">
-            <select mapping="value"/>
-            <filters>
-                <eq filter-id="value" mapping="[0]">value={value}</eq>
-            </filters>
-        </field>
-
-        <field id="name" domain="string">
-            <select mapping="name"/>
-            <filters>
-                <eq filter-id="name" mapping="[1].name"/>
-            </filters>
-        </field>
+        <field id="id" mapping="testField" domain="integer"/>
+        <field id="value" mapping="value" domain="string"/>
+        <field id="name" mapping="name" domain="string"/>
     </fields>
 </query>

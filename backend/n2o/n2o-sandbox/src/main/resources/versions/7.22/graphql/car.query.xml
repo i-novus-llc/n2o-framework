@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list result-mapping="['data.queryCar']" count-mapping="['data.aggregateCar.count']">
-        <graphql filter-separator=", and:{" endpoint="${graphql.endpoint}">
+        <graphql endpoint="${graphql.endpoint}" filter-separator=", and:{">
             query MyQuery {
                 queryCar(first: $$size, offset: $$offset, filter: { $$filters }, order: { $$sorting }) {
                     $$select
@@ -13,30 +13,28 @@
         </graphql>
     </list>
 
+    <filters>
+        <eq mapping="['id']" filter-id="id" field-id="id">
+            id: $$id
+        </eq>
+        <more mapping="['minPrice']" filter-id="minPrice" field-id="price">
+            price: {ge: $$minPrice}
+        </more>
+        <less mapping="['maxPrice']" filter-id="maxPrice" field-id="price">
+            price: {le: $$maxPrice}}
+        </less>
+    </filters>
+
     <fields>
-        <field id="id">
-            <select mapping="['id']">id</select>
-            <filters>
-                <eq filter-id="id" mapping="['id']">id: $$id</eq>
-            </filters>
-        </field>
-
-        <field id="name">
-            <select mapping="['name']">name</select>
-            <sorting mapping="['name']">$$name: name</sorting>
-        </field>
-
-        <field id="price">
-            <select mapping="['price']">price</select>
-            <sorting mapping="['price']">$$price: price</sorting>
-            <filters>
-                <more filter-id="minPrice" mapping="['minPrice']">price: {ge: $$minPrice}</more>
-                <less filter-id="maxPrice" mapping="['maxPrice']">price: {le: $$maxPrice}}</less>
-            </filters>
-        </field>
-
-        <field id="showrooms">
-            <select mapping="['showrooms']">showrooms {id name}</select>
-        </field>
+        <field id="id"
+               select-expression="id"/>
+        <field id="name"
+               select-expression="name"
+               sorting-expression="$$name: name" sorting-mapping="['name']"/>
+        <field id="price"
+               select-expression="price"
+               sorting-expression="$$price: price" sorting-mapping="['price']"/>
+        <field id="showrooms"
+               select-expression="showrooms {id name}"/>
     </fields>
 </query>

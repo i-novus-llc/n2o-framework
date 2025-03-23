@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <sql>
             select :select
@@ -8,37 +8,16 @@
             order by :order
         </sql>
     </list>
-    <count>
-        select count(id)
-        from testStandardPageDependency
-        where :filters
-    </count>
-
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <eq filter-id="parent.id" field-id="parent.id"/>
+        <eq filter-id="name" field-id="name"/>
+        <in filter-id="genders*.id" field-id="gender.id"/>
+    </filters>
     <fields>
-        <field id="id" domain="integer">
-            <select/>
-            <sorting/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
-        <field id="parent.id" domain="integer">
-            <select/>
-            <sorting/>
-            <filters >
-                <eq filter-id="parent.id"/>
-            </filters>
-        </field>
-        <field id="name" domain="string">
-            <select/>
-            <filters>
-                <eq filter-id="name"/>
-            </filters>
-        </field>
-        <field id="gender.id">
-            <filters>
-                <in filter-id="genders*.id"/>
-            </filters>
-        </field>
+        <field id="id" domain="integer" sorting="true"/>
+        <field id="parent.id" domain="integer" sorting="true"/>
+        <field id="name" domain="string"/>
+        <field id="gender.id" select="false"/>
     </fields>
 </query>

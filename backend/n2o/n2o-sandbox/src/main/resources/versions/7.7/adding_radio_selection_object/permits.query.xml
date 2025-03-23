@@ -1,27 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="permits.json"/>
     </list>
-
+    <filters>
+        <eq filter-id="code" field-id="code"/>
+    </filters>
     <fields>
-        <field id="id">
-            <select mapping="[code]"/>
-        </field>
-        <field id="code">
-            <select/>
-            <filters>
-                <eq filter-id="code"/>
-            </filters>
-        </field>
-        <field id="startDate">
-            <select/>
-        </field>
-        <field id="endDate">
-            <select/>
-        </field>
-        <field id="projectName">
-            <select/>
-        </field>
+        <field id="id" mapping="[code]"/>
+        <field id="code"/>
+        <field id="startDate"/>
+        <field id="endDate"/>
+        <field id="projectName"/>
     </fields>
 </query>

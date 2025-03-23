@@ -1,33 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
     <list>
         <test file="tree.json"/>
     </list>
     <count>
-        <test operation="count" file="tree.json"/>
+        <test file="tree.json" operation="count"/>
     </count>
-
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <eq filter-id="name" field-id="name"/>
+        <eq filter-id="parent" field-id="parent"/>
+    </filters>
     <fields>
-        <field id="id">
-            <select/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
-        <field id="name">
-            <select/>
-            <filters>
-                <eq filter-id="name"/>
-            </filters>
-        </field>
-        <field id="icon">
-            <select/>
-        </field>
-        <field id="parent">
-            <select/>
-            <filters>
-                <eq filter-id="parent"/>
-            </filters>
-        </field>
+        <field id="id"/>
+        <field id="name"/>
+        <field id="icon"/>
+        <field id="parent"/>
     </fields>
 </query>

@@ -21,8 +21,6 @@ import org.hamcrest.Description;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -32,6 +30,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -110,6 +109,18 @@ public class IOProcessorTest {
 
         public void setChildExtensions(Map<N2oNamespace, Map<String, String>> childExtensions) {
             this.childExtensions = childExtensions;
+        }
+    }
+
+    static public class AdditionalExtAttributesEntity extends BaseEntity {
+        List<Namespace> additionalNamespaces;
+
+        public List<Namespace> getAdditionalNamespaces() {
+            return additionalNamespaces;
+        }
+
+        public void setAdditionalNamespaces(List<Namespace> additionalNamespaces) {
+            this.additionalNamespaces = additionalNamespaces;
         }
     }
 
@@ -377,6 +388,23 @@ public class IOProcessorTest {
         assertEquals("extAttr1", element.getAttributeValue("att1", Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0")));
         assertEquals("ext2Attr1", element.getAttributeValue("att1", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
         assertEquals("ext2Attr2", element.getAttributeValue("att2", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
+    }
+
+    @Test
+    void testAdditionalNamespaces() throws IOException, JDOMException {
+        IOProcessor p = new IOProcessorImpl(true);
+        Element in = dom("net/n2oapp/framework/config/io/ioprocessor25.xml");
+        AdditionalExtAttributesEntity entity = new AdditionalExtAttributesEntity();
+        p.additionalNamespaces(in, entity::getAdditionalNamespaces, entity::setAdditionalNamespaces);
+        assertEquals("http://example.com/n2o/ext-2.0", entity.additionalNamespaces.get(0).getURI());
+        assertEquals("ext", entity.additionalNamespaces.get(0).getPrefix());
+
+        p = new IOProcessorImpl(false);
+        Element element = new Element("test");
+        p.additionalNamespaces(element, entity::getAdditionalNamespaces, entity::setAdditionalNamespaces);
+        assertEquals("http://example.com/n2o/ext-2.0", element.getAdditionalNamespaces().get(0).getURI());
+        assertEquals("ext", element.getAdditionalNamespaces().get(0).getPrefix());
+
     }
 
     @Test

@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -503,6 +504,13 @@ public interface IOProcessor {
             R extends NamespaceReader<? extends T>,
             P extends NamespacePersister<? super T>> NamespaceIOFactory<T, R, P> anyOf();
 
-
+    /**
+     * Считывание\запись дополнительных namespace
+     *
+     * @param element элемент
+     * @param getter  получение внешнего атрибута
+     * @param setter  запись атрибута
+     */
+    void additionalNamespaces(Element element, Supplier<List<Namespace>> getter, Consumer<List<Namespace>> setter);
 }
 

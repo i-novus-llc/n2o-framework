@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="utBlank">
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0" object-id="utBlank">
     <list>
         <sql>
             select :select
@@ -8,7 +8,6 @@
             order by :sorting
         </sql>
     </list>
-
     <count>
         <sql>
             select count(a)
@@ -16,47 +15,21 @@
             where :filters
         </sql>
     </count>
-
+    <filters>
+        <eq filter-id="id" field-id="id"/>
+        <eq filter-id="name" field-id="name"/>
+        <in filter-id="names" field-id="name"/>
+        <more filter-id="birthday.begin" field-id="birthday"/>
+        <less filter-id="birthday.end" field-id="birthday"/>
+        <in filter-id="genders*.id" field-id="gender.id"/>
+        <eq filter-id="type" field-id="type"/>
+    </filters>
     <fields>
-        <field id="id" domain="integer">
-            <select/>
-            <sorting/>
-            <filters>
-                <eq filter-id="id"/>
-            </filters>
-        </field>
-
-        <field id="name" domain="string">
-            <select/>
-            <filters>
-                <eq filter-id="name"/>
-                <in filter-id="names"/>
-            </filters>
-        </field>
-
-        <field id="birthday" domain="date">
-            <select/>
-            <filters>
-                <more filter-id="birthday.begin"/>
-                <less filter-id="birthday.end"/>
-            </filters>
-        </field>
-
-        <field id="gender.id" domain="integer">
-            <select/>
-            <filters>
-                <in filter-id="genders*.id"/>
-            </filters>
-        </field>
-
-        <field id="gender.name" domain="string">
-            <select/>
-        </field>
-
-        <field id="type" domain="integer">
-            <filters>
-                <eq filter-id="type"/>
-            </filters>
-        </field>
+        <field id="id" domain="integer" sorting="true"/>
+        <field id="name" domain="string"/>
+        <field id="birthday" domain="date"/>
+        <field id="gender.id" domain="integer"/>
+        <field id="gender.name" domain="string"/>
+        <field id="type" select="false" domain="integer"/>
     </fields>
 </query>

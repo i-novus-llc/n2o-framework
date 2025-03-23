@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.io;
 
+import lombok.Getter;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
@@ -12,7 +13,9 @@ import org.jdom2.Namespace;
  */
 public class ProxyNamespaceIO<T extends NamespaceUriAware> implements NamespaceReader<T>, NamespacePersister<T>, IOProcessorAware {
 
+    @Getter
     private NamespaceIO<T> io;
+    @Getter
     private IOProcessor processor;
 
     public ProxyNamespaceIO(NamespaceIO<T> io, IOProcessor processor) {
