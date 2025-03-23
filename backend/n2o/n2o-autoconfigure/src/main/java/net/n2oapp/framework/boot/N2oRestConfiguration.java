@@ -22,7 +22,6 @@ import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import net.n2oapp.framework.ui.controller.query.GetController;
 import net.n2oapp.framework.ui.controller.query.MergeValuesController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
-import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -71,14 +70,6 @@ public class N2oRestConfiguration {
                                                 SubModelsProcessor subModelsProcessor,
                                                 AlertMessageBuilder messageBuilder) {
         return new MergeValuesController(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder);
-    }
-
-    @Bean
-    public SimpleDefaultValuesController simpleDefaultValuesController(DataProcessingStack dataProcessingStack,
-                                                                       QueryProcessor queryProcessor,
-                                                                       SubModelsProcessor subModelsProcessor,
-                                                                       AlertMessageBuilder messageBuilder) {
-        return new SimpleDefaultValuesController(dataProcessingStack, queryProcessor, subModelsProcessor, messageBuilder);
     }
 
     @Bean

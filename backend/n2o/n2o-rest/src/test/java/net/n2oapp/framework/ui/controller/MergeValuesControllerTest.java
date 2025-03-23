@@ -46,7 +46,7 @@ class MergeValuesControllerTest {
     private N2oApplicationBuilder builder;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         N2oEnvironment environment = new N2oEnvironment();
         environment.setNamespacePersisterFactory(new PersisterFactoryByMap());
         environment.setNamespaceReaderFactory(new ReaderFactoryByMap());
@@ -55,7 +55,6 @@ class MergeValuesControllerTest {
         messageSource.setDefaultEncoding("UTF-8");
         environment.setMessageSource(new MessageSourceAccessor(messageSource));
         OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
-        properties.put("n2o.engine.mapper", "spel");
         environment.setSystemProperties(new SimplePropertyResolver(properties));
         builder = new N2oApplicationBuilder(environment);
         configure(builder);
@@ -84,7 +83,6 @@ class MergeValuesControllerTest {
 
     private ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> createPipelineForQuery() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
-                "net/n2oapp/framework/ui/controller/testDefaults.query.xml",
                 "net/n2oapp/framework/ui/controller/testMerge.query.xml",
                 "net/n2oapp/framework/ui/controller/testMerge.page.xml"
         );
@@ -97,15 +95,14 @@ class MergeValuesControllerTest {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipelineForQuery();
         Map<String, String[]> params = new HashMap<>();
         params.put("id", new String[]{"1"});
-        GetDataResponse response = testQuery("/testMerge/main", pipeline, params);
+        GetDataResponse response = testQuery(pipeline, params);
         assertThat(response.getList().size(), is(1));
         assertThat(response.getList().get(0).get("id"), is(1L));
         assertNull(response.getList().get(0).get("name"));
         assertThat(response.getList().get(0).get("surname"), is("testSurname1"));
     }
 
-    private GetDataResponse testQuery(String path,
-                                      ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline,
+    private GetDataResponse testQuery(ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline,
                                       Map<String, String[]> params) {
         N2oInvocationFactory invocationFactory = Mockito.mock(N2oInvocationFactory.class);
         TestDataProviderEngine testDataProviderEngine = new TestDataProviderEngine();
@@ -130,6 +127,6 @@ class MergeValuesControllerTest {
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
-        return controller.getData(path, params, userContext);
+        return controller.getData("/testMerge/main", params, userContext);
     }
 }

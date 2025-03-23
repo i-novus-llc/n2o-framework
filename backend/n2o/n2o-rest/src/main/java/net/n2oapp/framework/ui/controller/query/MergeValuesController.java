@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * Контроллер получения данных для копирования
  */
-public class MergeValuesController extends DefaultValuesController {
+public class MergeValuesController extends GetController {
     public MergeValuesController(DataProcessingStack dataProcessingStack,
                                  QueryProcessor queryProcessor,
                                  SubModelsProcessor subModelsProcessor,
