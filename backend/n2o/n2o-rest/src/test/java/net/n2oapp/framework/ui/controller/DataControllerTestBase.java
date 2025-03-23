@@ -37,7 +37,6 @@ public abstract class DataControllerTestBase {
         messageSource.setDefaultEncoding("UTF-8");
         environment.setMessageSource(new MessageSourceAccessor(messageSource));
         OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
-        properties.put("n2o.engine.mapper", "spel");
         SimplePropertyResolver propertyResolver = new SimplePropertyResolver(properties);
         setUpStaticProperties(propertyResolver);
         environment.setSystemProperties(propertyResolver);

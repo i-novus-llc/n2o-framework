@@ -55,7 +55,6 @@ import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 import net.n2oapp.framework.ui.controller.query.MergeValuesController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
-import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
 import net.n2oapp.framework.ui.servlet.AppConfigJsonWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -519,8 +518,6 @@ public class ViewController {
         beans.put("validationController", new ValidationController(serviceProvider, domainProcessor));
         beans.put("mergeValuesController", new MergeValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 messageBuilder));
-        beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, messageBuilder));
         return new N2oControllerFactory(beans);
     }
 
