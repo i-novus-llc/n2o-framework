@@ -4,6 +4,7 @@ import { dataSourceByIdSelector } from '../selectors'
 import { CachedAutoSubmit, CachedProvider, CachedSubmit, ProviderType, QueryOptions, type QueryResult, StorageType } from '../Provider'
 import { getModelByPrefixAndNameSelector, Model } from '../../models/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
+import { mapQueryToUrl } from '../../pages/sagas/restoreFilters'
 
 import { getFullKey } from './Storage'
 import { request } from './cached/request'
@@ -72,12 +73,14 @@ export function* autoSubmit(id: string, provider: CachedAutoSubmit) {
 export function* query(id: string, provider: CachedProvider, options: QueryOptions, apiProvider: unknown) {
     if (!provider.url) { throw new Error('Parameter "url" is required for fetch data') }
 
-    const { sorting, paging: { page } } = yield select(dataSourceByIdSelector(id))
+    const { sorting, paging: { page }, pageId } = yield select(dataSourceByIdSelector(id))
 
     const { key, storage: storageType } = provider
 
     const storage = storageType === StorageType.local ? localStorage : sessionStorage
     const params = { provider, page, sorting, id, apiProvider, storage, key }
+
+    yield call(mapQueryToUrl, pageId || '')
 
     return (yield request(params)) as QueryResult
 }
