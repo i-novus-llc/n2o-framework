@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oCachedDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
@@ -239,11 +240,14 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
      * Получить собранную выборку виджета
      */
     protected CompiledQuery getQuery(N2oAbstractDatasource datasource, CompileProcessor p) {
-        if (!(datasource instanceof N2oStandardDatasource))
-            return null;
+        String queryId = null;
+        if (datasource instanceof N2oStandardDatasource standardDatasource) {
+            queryId = standardDatasource.getQueryId();
+        } else if (datasource instanceof N2oCachedDatasource cachedDatasource) {
+            queryId = cachedDatasource.getQueryId();
+        }
 
-        N2oStandardDatasource standardDatasource = ((N2oStandardDatasource) datasource);
-        return nonNull(standardDatasource.getQueryId()) ? p.getCompiled(new QueryContext(standardDatasource.getQueryId())) : null;
+        return nonNull(queryId) ? p.getCompiled(new QueryContext(queryId)) : null;
     }
 
     protected FieldSetScope initFieldSetScope(CompiledQuery query) {
