@@ -3,13 +3,15 @@ title: Миграция с 7.27 на 7.28
 description: ""
 ---
 
-## Изменения в сборке {#changes-build}
+## 7.28.0 {#7_28_0}
+
+### Изменения в сборке {#changes-build}
 
 - Версия Java повышена с 11 на 17
 - Версия Spring Boot повышена с 2.7.5 на 3.2.2
 - Версии Selenide повышена c 6.17.0 на 7.3.1
 
-## Изменения в XML API {#changes-xml-api}
+### Изменения в XML API {#changes-xml-api}
 
 - Из элемента `<list>` был удален элемент `<switch>`.
 - В элементе `<list>` по умолчанию значения выводятся в столбец, а не в строку.
@@ -117,7 +119,7 @@ description: ""
 </simple-page>
 ```
 
-## Изменения Frontend {#changes-frontend}
+### Изменения Frontend {#changes-frontend}
 
 - Обработка security-* параметров перенесена в ядро. Теперь нет необходимости производить проверку прав на отдельных компонентах.
 В связи с этим удалены за ненадобностью хелперы `SecurityController`, `SecurityProvider`, `SecurityContext`.
@@ -126,3 +128,11 @@ description: ""
 - В пакетах `n2o-framework` и `n2o-components` версии react и react-dom указаны как peer-dependencies,
 то есть они устанавливаются в dependencies проекта, который их использует.
 Поддерживаемые версии react и react-dom "^17.0.0" и "^18.0.0".
+
+## 7.28.9 {#7_28_5}
+
+### Изменения в настройках {#changes-settings}
+
+- Добавлена boolean настройка `n2o.access.filtering_for_unique`.<br/>
+При значении `true` во все запросы с size=1 будут добавлены фильтры `<object-filters>` из access схемы,
+чего не происходило ранее. По умолчанию значением настройки является `false`.
