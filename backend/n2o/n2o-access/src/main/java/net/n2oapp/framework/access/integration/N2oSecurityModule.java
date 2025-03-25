@@ -28,9 +28,11 @@ import static net.n2oapp.framework.access.metadata.SecurityFilters.SECURITY_FILT
 public class N2oSecurityModule implements DataProcessing {
 
     private SecurityProvider securityProvider;
+    private boolean filteringForUnique;
 
-    public N2oSecurityModule(SecurityProvider securityProvider) {
+    public N2oSecurityModule(SecurityProvider securityProvider, boolean filteringForUnique) {
         this.securityProvider = securityProvider;
+        this.filteringForUnique = filteringForUnique;
     }
 
     @Override
@@ -46,10 +48,12 @@ public class N2oSecurityModule implements DataProcessing {
             Security security = getSecurityObject(requestInfo.getQuery());
             if (security != null) {
                 securityProvider.checkAccess(security, requestInfo.getUser());
-                List<Restriction> securityFilters = securityProvider.collectRestrictions(
-                        getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser()
-                );
-                requestInfo.getCriteria().addRestrictions(securityFilters);
+                if (requestInfo.getSize() != 1 || filteringForUnique) {
+                    List<Restriction> securityFilters = securityProvider.collectRestrictions(
+                            getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser()
+                    );
+                    requestInfo.getCriteria().addRestrictions(securityFilters);
+                }
             }
         }
     }
