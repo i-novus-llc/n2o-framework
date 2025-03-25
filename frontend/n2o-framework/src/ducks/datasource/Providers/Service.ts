@@ -34,9 +34,7 @@ export function* invoke() {
 export function* query(id: string, provider: ServiceProvider, options: QueryOptions, apiProvider: unknown) {
     const { sorting, paging: { page, size, withCount }, pageId }: DataSourceState = yield select(dataSourceByIdSelector(id))
 
-    if (!provider.url) {
-        throw new Error('Parameter "url" is required for fetch data')
-    }
+    if (!provider.url) { throw new Error('Parameter "url" is required for fetch data') }
 
     // Редакс состояние не успевает обновиться после маппинга из урла,
     // запрос за данными слишком быстро запускается
