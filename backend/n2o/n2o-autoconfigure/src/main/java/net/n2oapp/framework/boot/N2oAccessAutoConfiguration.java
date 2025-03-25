@@ -21,7 +21,9 @@ import org.springframework.context.annotation.Lazy;
 @ComponentScan(basePackages = "net.n2oapp.framework.access", lazyInit = true)
 public class N2oAccessAutoConfiguration {
     @Value("${n2o.access.strict_filtering:false}")
-    private Boolean strictFiltering;
+    private boolean strictFiltering;
+    @Value("${n2o.access.filtering_for_unique:false}")
+    private boolean filteringForUnique;
 
 
     @Bean
@@ -32,7 +34,7 @@ public class N2oAccessAutoConfiguration {
     @Bean
     public N2oSecurityModule n2oSecurityModule(@Lazy PermissionApi permissionApi){
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, strictFiltering);
-        return new N2oSecurityModule(securityProvider);
+        return new N2oSecurityModule(securityProvider, filteringForUnique);
     }
 
 
@@ -44,7 +46,7 @@ public class N2oAccessAutoConfiguration {
 
     @Bean
     public MetadataPack<N2oApplicationBuilder> accessMetadataPack () {
-        return (b) -> b.types(new MetaType("access", N2oAccessSchema.class));
+        return b -> b.types(new MetaType("access", N2oAccessSchema.class));
     }
 
     @Bean
