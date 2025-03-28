@@ -11,8 +11,6 @@ import flatten from 'flat'
 import linkResolver from '../utils/linkResolver'
 import { clearEmptyParams } from '../utils/clearEmptyParams'
 
-import { encodeValue, PATTERNS } from './utils/encodeValue'
-
 /**
  * Получение разрешенных параметров dataProvider
  * @param state
@@ -119,7 +117,7 @@ export function getParams(mapping, state, evalContext = {}) {
         const value = linkResolver(state, options, evalContext)
         const { required } = options
 
-        params[key] = !isNil(value) ? encodeValue(value, PATTERNS.CONTEXT_VARIABLE) : undefined
+        params[key] = !isNil(value) ? value : undefined
 
         if (required && isNil(value)) {
             throw new Error(`DataProvider error: "${key}" is required`)
