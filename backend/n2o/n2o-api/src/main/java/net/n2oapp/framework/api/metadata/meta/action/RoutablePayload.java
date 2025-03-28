@@ -18,16 +18,16 @@ public class RoutablePayload extends PerformActionPayload {
     @JsonProperty
     private String id;
 
-    private Map<String, String> paging;
+    private Map<String, String> params;
 
     @JsonAnyGetter
-    public Map<String, String> getPaging() {
-        return this.paging;
+    public Map<String, String> getParams() {
+        return this.params;
     }
 
     @JsonAnySetter
-    public void setPaging(Map<String, String> paging) {
-        this.paging = paging;
+    public void setParams(Map<String, String> params) {
+        this.params = params;
     }
 
     public enum Paging {
