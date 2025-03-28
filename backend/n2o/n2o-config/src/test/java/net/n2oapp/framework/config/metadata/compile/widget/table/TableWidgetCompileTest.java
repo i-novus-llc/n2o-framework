@@ -596,13 +596,13 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertTrue(routes.getQueryMapping().containsKey("size"));
         assertEquals("n2o/api/datasource/mapParam", routes.getQueryMapping().get("page").getOnGet().getType());
         assertEquals("testRoutable_table", ((RoutablePayload) routes.getQueryMapping().get("page").getOnGet().getPayload()).getId());
-        assertEquals(":page", ((RoutablePayload) routes.getQueryMapping().get("page").getOnGet().getPayload()).getPaging().get("paging.page"));
-        assertFalse(((RoutablePayload) routes.getQueryMapping().get("page").getOnGet().getPayload()).getPaging().containsKey("paging.size"));
+        assertEquals(":page", ((RoutablePayload) routes.getQueryMapping().get("page").getOnGet().getPayload()).getParams().get("paging.page"));
+        assertFalse(((RoutablePayload) routes.getQueryMapping().get("page").getOnGet().getPayload()).getParams().containsKey("paging.size"));
         assertEquals("datasource.testRoutable_table.paging.page", (routes.getQueryMapping().get("page").getOnSet().getBindLink()));
         assertEquals("n2o/api/datasource/mapParam", routes.getQueryMapping().get("size").getOnGet().getType());
         assertEquals("testRoutable_table", ((RoutablePayload) routes.getQueryMapping().get("size").getOnGet().getPayload()).getId());
-        assertEquals(":size", ((RoutablePayload) routes.getQueryMapping().get("size").getOnGet().getPayload()).getPaging().get("paging.size"));
-        assertFalse(((RoutablePayload) routes.getQueryMapping().get("size").getOnGet().getPayload()).getPaging().containsKey("paging.page"));
+        assertEquals(":size", ((RoutablePayload) routes.getQueryMapping().get("size").getOnGet().getPayload()).getParams().get("paging.size"));
+        assertFalse(((RoutablePayload) routes.getQueryMapping().get("size").getOnGet().getPayload()).getParams().containsKey("paging.page"));
         assertEquals("datasource.testRoutable_table.paging.size", (routes.getQueryMapping().get("size").getOnSet().getBindLink()));
     }
 
@@ -617,13 +617,13 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertTrue(routes.getQueryMapping().containsKey("table_size"));
         assertEquals("n2o/api/datasource/mapParam", routes.getQueryMapping().get("table_page").getOnGet().getType());
         assertEquals("testRoutableManyWidgets_ds1", ((RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload()).getId());
-        assertEquals(":table_page", ((RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload()).getPaging().get("paging.page"));
-        assertFalse(((RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload()).getPaging().containsKey("paging.size"));
+        assertEquals(":table_page", ((RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload()).getParams().get("paging.page"));
+        assertFalse(((RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload()).getParams().containsKey("paging.size"));
         assertEquals("datasource.testRoutableManyWidgets_ds1.paging.page", (routes.getQueryMapping().get("table_page").getOnSet().getBindLink()));
         assertEquals("n2o/api/datasource/mapParam", routes.getQueryMapping().get("table_size").getOnGet().getType());
         assertEquals("testRoutableManyWidgets_ds1", ((RoutablePayload) routes.getQueryMapping().get("table_size").getOnGet().getPayload()).getId());
-        assertEquals(":table_size", ((RoutablePayload) routes.getQueryMapping().get("table_size").getOnGet().getPayload()).getPaging().get("paging.size"));
-        assertFalse(((RoutablePayload) routes.getQueryMapping().get("table_size").getOnGet().getPayload()).getPaging().containsKey("paging.page"));
+        assertEquals(":table_size", ((RoutablePayload) routes.getQueryMapping().get("table_size").getOnGet().getPayload()).getParams().get("paging.size"));
+        assertFalse(((RoutablePayload) routes.getQueryMapping().get("table_size").getOnGet().getPayload()).getParams().containsKey("paging.page"));
         assertEquals("datasource.testRoutableManyWidgets_ds1.paging.size", (routes.getQueryMapping().get("table_size").getOnSet().getBindLink()));
     }
 }

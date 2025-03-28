@@ -10,6 +10,9 @@ import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.*;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 
+import java.util.HashMap;
+
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -51,7 +54,7 @@ public abstract class Redux {
      * @return Ссылка на состояние виджета
      */
     public static BindLink createSortLink(String datasource, String fieldId) {
-        return new BindLink(String.format("widgets['%s'].sorting.%s", datasource, fieldId));
+        return new BindLink(String.format("datasource['%s'].sorting.%s", datasource, fieldId));
     }
 
     /**
@@ -93,8 +96,26 @@ public abstract class Redux {
      * @param paging       Тип параметра
      * @return Ссылка на параметры пагинации
      */
-    public static BindLink createRoutableLink(String datasourceId, RoutablePayload.Paging paging) {
+    public static BindLink createRoutablePagingLink(String datasourceId, RoutablePayload.Paging paging) {
         return new BindLink("datasource." + datasourceId + ".paging." + paging.toString());
+    }
+
+    /**
+     * Создать ссылку для обновления сортировки
+     *
+     * @param id    идентификатор источника данных
+     * @param fieldId   индентификатор поля сортировки
+     * @param sortParam     параметр сортировки
+     * @return  Redux действие
+     */
+    public static ReduxAction dispatchRoutableSortingLink(String id, String fieldId, String sortParam, CompileProcessor p) {
+        RoutablePayload payload = new RoutablePayload();
+        payload.setId(id);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("sorting.".concat(fieldId), ":".concat(sortParam));
+        payload.setParams(params);
+        ReduxAction onGet = new ReduxAction(p.resolve(property("n2o.api.widget.list.paging.routable.type"), String.class), payload);
+        return onGet;
     }
 
 

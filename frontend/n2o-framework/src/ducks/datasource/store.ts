@@ -193,6 +193,10 @@ export const datasource = createSlice({
             reducer(state, action: SetSortDirectionAction) {
                 const { id, field, direction } = action.payload
 
+                if (!state[id]) {
+                    state[id] = DataSource.defaultState
+                }
+
                 if (direction === SortDirection.none) {
                     state[id].sorting = {}
                 } else {

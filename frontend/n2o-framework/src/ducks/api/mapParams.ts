@@ -1,12 +1,12 @@
-import isEmpty from 'lodash/isEmpty'
 import isNaN from 'lodash/isNaN'
 import set from 'lodash/set'
 import { put, takeEvery } from 'redux-saga/effects'
 import { createAction } from '@reduxjs/toolkit'
 
 import { MapParamAction, MapParamPayload } from '../datasource/Actions'
-import { updatePaging } from '../datasource/store'
+import { updatePaging, setSorting } from '../datasource/store'
 import { DataSourceState } from '../datasource/DataSource'
+import { SortDirection } from '../../core/datasource/const'
 
 import { DATASOURCE_PREFIX } from './constants'
 import { EffectWrapper } from './utils/effectWrapper'
@@ -41,9 +41,13 @@ export function* mapParams({ payload }: MapParamAction) {
             set(ds, key, isNaN(Number(value)) ? value : Number(value))
         }
     }
-    if (!isEmpty(ds.paging)) {
-        // @ts-ignore FIXME: Тут вывод типов думает что тут редюсер, а не prepare функция, и ждёт сразу action
+    if (ds.paging) {
         yield put(updatePaging(id, ds.paging))
+    }
+    if (ds.sorting) {
+        const [field, direction] = Object.entries(ds.sorting)[0] as [string, SortDirection]
+
+        yield put(setSorting(id, field, direction))
     }
 }
 

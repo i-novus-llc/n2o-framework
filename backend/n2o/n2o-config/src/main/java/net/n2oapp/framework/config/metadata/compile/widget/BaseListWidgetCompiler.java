@@ -26,7 +26,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileAction;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
-import static net.n2oapp.framework.config.metadata.compile.redux.Redux.createRoutableLink;
+import static net.n2oapp.framework.config.metadata.compile.redux.Redux.createRoutablePagingLink;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
@@ -88,9 +88,9 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
         payload.setId(widgetScope.getClientDatasourceId());
         HashMap<String, String> paging = new HashMap<>();
         paging.put("paging.".concat(paramType.name()), ":".concat(param));
-        payload.setPaging(paging);
+        payload.setParams(paging);
         ReduxAction onGet = new ReduxAction(p.resolve(property("n2o.api.widget.list.paging.routable.type"), String.class), payload);
-        pageRoutes.addQueryMapping(param, onGet, createRoutableLink(widgetScope.getClientDatasourceId(), paramType));
+        pageRoutes.addQueryMapping(param, onGet, createRoutablePagingLink(widgetScope.getClientDatasourceId(), paramType));
     }
 
 
