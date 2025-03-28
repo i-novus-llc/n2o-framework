@@ -39,7 +39,7 @@ import {
     setModel,
     updateModel,
 } from '../ducks/models/store'
-import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
+import { getModelByPrefixAndNameSelector, Model } from '../ducks/models/selectors'
 import { ValidationsKey } from '../core/validation/types'
 import { addAlert } from '../ducks/alerts/store'
 import { GLOBAL_KEY } from '../ducks/alerts/constants'
@@ -49,7 +49,7 @@ import { State as GlobalState } from '../ducks/State'
 import { Action } from '../ducks/Action'
 import { Form, Field, FieldDependency } from '../ducks/form/types'
 import { RegisterFieldAction, UnregisterFieldAction } from '../ducks/form/Actions'
-import { SetModelAction } from '../ducks/models/Actions'
+import { MergeModelAction, SetModelAction } from '../ducks/models/Actions'
 
 import fetchSaga from './fetch'
 
@@ -71,9 +71,7 @@ export function* fetchValue(
         // @ts-ignore ignore js file typing
         const { url, headersParams, baseQuery } = dataProviderResolver(state, { ...dataProvider, evalContext })
 
-        if (isEqual(baseQuery, FetchValueCache.get(fetchValueKey))) {
-            return
-        }
+        if (isEqual(baseQuery, FetchValueCache.get(fetchValueKey))) { return }
 
         FetchValueCache.set(fetchValueKey, baseQuery)
 
@@ -200,7 +198,7 @@ export function* modify(
         }
         case 'reset': {
             if (values?.[fieldName] !== null && evalResultCheck(evalResult)) {
-                yield put(updateModel(modelPrefix, datasource, fieldName, null, !isInit && validate))
+                yield put(updateModel(modelPrefix, datasource, fieldName, null, validate))
             }
 
             break
@@ -209,9 +207,7 @@ export function* modify(
             const currentRequired = field.required
             const nextRequired = Boolean(evalResult)
 
-            if (currentRequired === nextRequired) {
-                break
-            }
+            if (currentRequired === nextRequired) { break }
 
             yield put(setFieldRequired(formName, fieldName, nextRequired, !isInit && validate))
 
@@ -351,6 +347,42 @@ export function* resolveOnInit({ payload }: RegisterFieldAction) {
     }
 }
 
+function* compareAndResolve(
+    datasource: string,
+    prefix: ModelPrefix,
+    model: Model,
+    prevModel: Model,
+    isDefault: boolean,
+) {
+    const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
+
+    for (const form of forms) {
+        for (const [fieldId, field] of Object.entries(form.fields)) {
+            const { dependency = [] } = field
+
+            // Обход каждой зависимости
+            for (const dep of dependency) {
+                const { on = [], applyOnInit } = dep
+
+                if (isDefault && !applyOnInit) {
+                    continue
+                }
+
+                const isSomeFieldChanged = on.some((fieldPath: string) => {
+                    const currentValue = get(model, fieldPath)
+                    const prevValue = get(prevModel, fieldPath)
+
+                    return !isEqual(currentValue, prevValue)
+                })
+
+                if (isSomeFieldChanged) {
+                    yield fork(resolveDependency, form, model, fieldId, field, dep, isDefault)
+                }
+            }
+        }
+    }
+}
+
 function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
     const { prefix, key: datasource, model, isDefault } = payload
 
@@ -359,51 +391,47 @@ function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
     }
 
     const { prevState } = meta
-    const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
     // @ts-ignore FIXME: Поправить типы
     const prevModel = getModelByPrefixAndNameSelector(prefix, datasource)(prevState || {})
 
-    for (const form of forms) {
-        for (const [fieldId, field] of Object.entries(form.fields)) {
-            const { dependency = [] } = field
-            const selfInit = !!isDefault && !isEqual(get(model, fieldId), get(prevModel, fieldId))
+    yield compareAndResolve(datasource, prefix, model, prevModel, !!isDefault)
+}
 
-            // Обход каждой зависимости
-            for (const dep of dependency) {
-                const { on = [], applyOnInit } = dep
+function* resolveOnDefault({ payload, meta = {} }: MergeModelAction) {
+    const { combine } = payload
+    const { prevState = {} } = meta
 
-                if (isDefault && !applyOnInit) {
-                    // eslint-disable-next-line no-continue
-                    continue
-                }
+    for (const [prefix, models] of Object.entries(combine)) {
+        if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected) {
+            continue
+        }
 
-                const isSomeFieldChanged = selfInit || on.some((fieldPath: string) => {
-                    const currentValue = get(model, fieldPath)
-                    const prevValue = get(prevModel, fieldPath)
+        for (const id of Object.keys(models)) {
+            const model: Model = yield select(getModelByPrefixAndNameSelector(prefix as ModelPrefix, id))
+            // @ts-ignore FIXME: Поправить типы
+            const prevModel = getModelByPrefixAndNameSelector(prefix, id)(prevState)
 
-                    return !isEqual(currentValue, prevValue)
-                })
-
-                if (isSomeFieldChanged) {
-                    yield fork(resolveDependency, form, model || {}, fieldId, field, dep, selfInit)
-                }
-            }
+            yield compareAndResolve(
+                id,
+                prefix as ModelPrefix,
+                model as Model,
+                prevModel as Model,
+                true,
+            )
         }
     }
 }
 
 export const fieldDependencySagas = [
-    takeEvery([
-        registerFieldExtra,
-    ], resolveOnInit),
+    takeEvery(registerFieldExtra.type, resolveOnInit),
     takeEvery([
         updateModel,
         appendFieldToArray,
         removeFieldFromArray,
         copyFieldArray,
     ], resolveOnUpdateModel),
-    // @ts-ignore Проблема с типизацией saga
-    takeEvery(setModel, resolveOnSetModel),
+    takeEvery(setModel.type, resolveOnSetModel),
+    takeEvery(combineModels.type, resolveOnDefault),
     debounce(100, ResolveDependencyAction, function* combineDefault() {
         if (!isEmpty(defModels)) {
             yield put(combineModels(defModels))
