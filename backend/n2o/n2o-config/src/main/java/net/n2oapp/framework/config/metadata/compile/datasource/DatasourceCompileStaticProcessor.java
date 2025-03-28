@@ -20,7 +20,10 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.BindLink;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
+import net.n2oapp.framework.api.metadata.meta.Filter;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
@@ -43,9 +46,9 @@ import net.n2oapp.framework.config.util.QueryContextUtil;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+import static net.n2oapp.framework.config.metadata.compile.redux.Redux.dispatchRoutableSortingLink;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
@@ -193,10 +196,11 @@ public class DatasourceCompileStaticProcessor {
         for (QuerySimpleField field : query.getSortingFields()) {
             String sortParam = RouteUtil.normalizeParam(SORTING + sourceId + "_" + field.getId());
             BindLink onSet = Redux.createSortLink(compiledId, field.getId());
-            ReduxAction onGet = Redux.dispatchSortWidget(compiledId, field.getId(), colon(sortParam));
-            routes.addQueryMapping(sortParam, onGet, onSet);
+            routes.addQueryMapping(sortParam, dispatchRoutableSortingLink(compiledId, field.getId(), sortParam, p), onSet);
         }
     }
+
+
 
     /**
      * Инициализация пути источника данных
