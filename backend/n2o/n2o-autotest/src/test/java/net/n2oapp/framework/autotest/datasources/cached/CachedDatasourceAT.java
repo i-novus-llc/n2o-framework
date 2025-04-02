@@ -2,11 +2,10 @@ package net.n2oapp.framework.autotest.datasources.cached;
 
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
-import net.n2oapp.framework.autotest.api.component.control.InputText;
-import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
+import net.n2oapp.framework.autotest.api.component.control.*;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
-import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -263,4 +262,48 @@ class CachedDatasourceAT extends AutoTestBase {
         input2.shouldHaveValue("Свидетельство о рождении");
     }
 
+    /**
+     * Тестирование вызова submit
+     */
+    @Test
+    void testSubmit() {
+        setResourcePath("net/n2oapp/framework/autotest/datasources/cached_datasource/submit");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/submit/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/submit/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/submit/test.query.xml")
+        );
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+
+        // проверяем начальные значения в полях формы и меняем на новые
+        InputText input = form.fields().field("Имя").control(InputText.class);
+        input.shouldHaveValue("test");
+        input.setValue("new value");
+
+        InputSelect select = form.fields().field("Пол").control(InputSelect.class);
+        select.openPopup();
+        DropDown dropdown = select.dropdown();
+        dropdown.item(0).shouldBeSelected();
+        dropdown.selectItem(1);
+
+        DateInterval dates = form.fields().field("Даты отпуска").control(DateInterval.class);
+        dates.beginShouldHaveValue("01.02.2025");
+        dates.endShouldHaveValue("10.02.2025");
+        dates.setValueInBegin("01.03.2025");
+        dates.setValueInEnd("10.03.2025");
+
+        // нажимаем кнопку submit и проверяем сохраненные значения в полях
+        form.toolbar().topLeft().button("submit").click();
+
+        input.shouldHaveValue("new value");
+
+        select.openPopup();
+        dropdown.item(1).shouldBeSelected();
+
+        dates.beginShouldHaveValue("01.03.2025");
+        dates.endShouldHaveValue("10.03.2025");
+    }
 }
