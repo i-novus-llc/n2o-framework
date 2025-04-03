@@ -262,6 +262,28 @@ class CachedDatasourceAT extends AutoTestBase {
         input2.shouldHaveValue("Свидетельство о рождении");
     }
 
+    @Test
+    void testSaveFilters() {
+        setResourcePath("net/n2oapp/framework/autotest/datasources/cached_datasource/save_filters");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/save_filters/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/save_filters/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        InputText input = table.filters().fields().field("name").control(InputText.class);
+        input.shouldBeEmpty();
+        table.columns().rows().shouldHaveSize(4);
+        input.setValue("1");
+        table.filters().toolbar().button("Найти").click();
+        table.columns().rows().shouldHaveSize(1);
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/\\?w1_name=1");
+        Selenide.refresh();
+        input.shouldHaveValue("1");
+        table.columns().rows().shouldHaveSize(1);
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/\\?w1_name=1");
+    }
+
     /**
      * Тестирование вызова submit
      */
