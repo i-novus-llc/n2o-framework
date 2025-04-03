@@ -160,7 +160,6 @@ public class FilterColumnAT extends AutoTestBase {
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
 
-        TableWidget.Rows rows = table.columns().rows();
         TableHeaders headers = table.columns().headers();
         headers.shouldHaveSize(4);
 

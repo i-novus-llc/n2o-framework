@@ -1269,6 +1269,10 @@
           "name": "CachedDatasourceAT. testInvalidateCache"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/datasources/cached_datasource/save_filters",
+          "name": "CachedDatasourceAT. testSaveFilters"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/datasources/cached_datasource/submit",
           "name": "CachedDatasourceAT. testSubmit"
         },
