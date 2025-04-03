@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
@@ -231,6 +232,23 @@ public class TableAT extends AutoTestBase {
         cellSecond.shouldHaveText("test2");
         cellThird.shouldHaveText("test3");
         cellFourth.shouldHaveText("test4");
+
+        TableHeader firstHeader = table.columns().headers().header(0, TableHeader.class);
+        firstHeader.click();
+        firstHeader.shouldBeSortedByAsc();
+        page.shouldHaveUrlMatches(".*sorting_w1_id=ASC");
+        firstHeader.click();
+        firstHeader.shouldBeSortedByDesc();
+        page.shouldHaveUrlMatches(".*sorting_w1_id=DESC");
+
+        cellFirst.shouldHaveText("test4");
+        cellSecond.shouldHaveText("test3");
+        cellThird.shouldHaveText("test2");
+        cellFourth.shouldHaveText("test1");
+
+        Selenide.refresh();
+        page.shouldHaveUrlMatches(".*sorting_w1_id=DESC");
+        firstHeader.shouldBeSortedByDesc();
     }
 
     @Test
