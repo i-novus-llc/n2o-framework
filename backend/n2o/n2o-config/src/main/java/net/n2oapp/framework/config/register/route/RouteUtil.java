@@ -239,7 +239,7 @@ public abstract class RouteUtil {
      */
     public static boolean isApplicationUrl(String url) {
         // target self or newWindow
-        return !url.startsWith("http");
+        return !(url.startsWith("http:") || url.startsWith("https:"));
     }
 
     /**
