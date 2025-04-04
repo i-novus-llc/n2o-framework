@@ -13,6 +13,8 @@ import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.user.UserContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class SecurityProvider {
     private final PermissionApi permissionApi;
     private final boolean strictFiltering;
+    private static final Logger logger = LoggerFactory.getLogger(SecurityProvider.class);
 
     public SecurityProvider(PermissionApi permissionApi, boolean strictFiltering) {
         this.permissionApi = permissionApi;
@@ -133,6 +136,10 @@ public class SecurityProvider {
     public void checkQueryRestrictions(DataSet data, SecurityFilters securityFilters,
                                        UserContext userContext, Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap) {
         checkRestrictions(securityFilters, userContext, r -> {
+            if (filtersMap.get(r.getFieldId()) == null) {
+                logger.warn("В схеме доступа указан фильтр {}, но его нет в выборке", r.getFieldId());
+                return null;
+            }
             N2oQuery.Filter filter = filtersMap.get(r.getFieldId()).get(r.getType());
             return filter != null ? data.get(filter.getFilterId()) : null;
         });
