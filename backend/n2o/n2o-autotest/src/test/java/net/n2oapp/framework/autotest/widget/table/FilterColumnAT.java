@@ -140,7 +140,7 @@ public class FilterColumnAT extends AutoTestBase {
         header.openFilterDropdown();
         headerInput.shouldBeClosed();
         headerInput.setValueInBegin("01.01.2019");
-        headerInput.setValueInEnd("01.01.2021");
+        headerInput.setValueInEnd("02.01.2021");
         headerInput.shouldBeOpened();
         runnable.run();
         headerInput.shouldBeClosed();
@@ -148,6 +148,13 @@ public class FilterColumnAT extends AutoTestBase {
         rows.row(0).cell(0).shouldHaveText("2");
         rows.row(1).cell(0).shouldHaveText("3");
         header.openFilterDropdown();
+        headerInput.clickCalendarButton();
+        headerInput.beginDayShouldBeActive("1");
+        headerInput.endDayShouldBeActive("2");
+        headerInput.beginCurrentMonthShouldHaveValue("Январь");
+        headerInput.endCurrentMonthShouldHaveValue("Январь");
+        headerInput.beginCurrentYearShouldHaveValue("2019");
+        headerInput.endCurrentYearShouldHaveValue("2021");
         header.clickResetButton();
         rows.shouldHaveSize(4);
     }
