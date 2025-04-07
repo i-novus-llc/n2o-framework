@@ -89,9 +89,10 @@ public class DatePickerAT extends AutoTestBase {
                 .control(DateInput.class);
         date.shouldExists();
         date.shouldBeClosed();
-        date.shouldHaveValue("01/01/2020 00:00:00");
+        date.shouldBeEmpty();
         date.openPopup();
         date.shouldBeOpened();
+        date.clickDay("1");
         date.setValue("15/02/2020 10:20:15");
         date.shouldHaveValue("15/02/2020 10:20:15");
         date.clickCalendarButton();
