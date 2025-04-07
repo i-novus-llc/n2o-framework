@@ -1277,6 +1277,10 @@
           "name": "CachedDatasourceAT. testSubmit"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/datasources/cached_datasource/storage",
+          "name": "CachedDatasourceAT. testStorage"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/model/field",
           "name": "RefFieldModelAT"
         },

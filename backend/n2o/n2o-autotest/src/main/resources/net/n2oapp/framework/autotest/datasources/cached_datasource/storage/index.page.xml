@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Автотест сохранения значения в storage">
+    <datasources>
+        <cached-datasource id="cached_ds" storage-key="test_key" query-id="test"/>
+    </datasources>
+    <regions>
+        <table datasource="cached_ds">
+            <columns>
+                <column id="id"/>
+                <column id="name"/>
+            </columns>
+            <toolbar place="bottomLeft">
+                <button label="Создать">
+                    <show-modal page-id="modal"/>
+                </button>
+                <button label="Обновить">
+                    <refresh/>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

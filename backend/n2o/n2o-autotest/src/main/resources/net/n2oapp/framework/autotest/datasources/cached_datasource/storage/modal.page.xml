@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <parent-datasource id="cached_ds"/>
+        <datasource id="ds"/>
+    </datasources>
+    <regions>
+        <form datasource="ds">
+            <fields>
+                <input-text id="name"/>
+            </fields>
+        </form>
+    </regions>
+    <toolbar place="bottomRight">
+        <button label="Сохранить" datasource="ds">
+            <set-value target-datasource="ds" to="id">
+                3
+            </set-value>
+            <edit-list
+                    operation="create"
+                    model="datasource"
+                    datasource="cached_ds"
+                    item-model="resolve"
+                    item-datasource="ds"/>
+        </button>
+        <button label="Закрыть">
+            <close refresh="false"/>
+        </button>
+    </toolbar>
+</page>
