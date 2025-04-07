@@ -3,13 +3,8 @@
     <list>
         <test file="test.json" operation="findAll"/>
     </list>
-
-    <filters>
-        <eq field-id="id" filter-id="id"/>
-    </filters>
-
     <fields>
-        <field id="id" domain="integer"/>
-        <field id="full.name"  sorting="true"/>
+        <field id="id" sorting="true" domain="integer"/>
+        <field id="full.name" sorting="true"/>
     </fields>
 </query>
