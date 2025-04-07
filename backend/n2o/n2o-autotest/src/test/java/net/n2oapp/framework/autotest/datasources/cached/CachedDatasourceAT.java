@@ -328,4 +328,38 @@ class CachedDatasourceAT extends AutoTestBase {
         dates.beginShouldHaveValue("01.03.2025");
         dates.endShouldHaveValue("10.03.2025");
     }
+
+    /**
+     * Тестирование сохранения значения в storage
+     */
+    @Test
+    void testStorage() {
+        setResourcePath("net/n2oapp/framework/autotest/datasources/cached_datasource/storage");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/storage/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/storage/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/cached_datasource/storage/test.query.xml")
+        );
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        table.columns().rows().shouldHaveSize(2);
+        table.toolbar().bottomLeft().button("Создать").click();
+
+        Modal modal = N2oSelenide.modal(Modal.class);
+        modal.shouldExists();
+        FormWidget form = modal.content(StandardPage.class).regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+        form.fields().field("name").control(InputText.class).setValue("test3");
+        modal.toolbar().bottomRight().button("Сохранить").click();
+        modal.toolbar().bottomRight().button("Закрыть").click();
+
+        table.columns().rows().shouldHaveSize(3);
+        table.toolbar().bottomLeft().button("Обновить").click();
+        table.columns().rows().shouldHaveSize(3);
+        table.columns().rows().row(2).cell(0).shouldHaveText("3");
+        table.columns().rows().row(2).cell(1).shouldHaveText("test3");
+
+        Selenide.sessionStorage().clear();
+    }
 }
