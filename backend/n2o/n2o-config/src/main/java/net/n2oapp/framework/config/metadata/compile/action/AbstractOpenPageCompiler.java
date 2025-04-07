@@ -157,7 +157,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
         String parentRoute = normalize(route);
-        route = normalize(route + actionRoute) + (actionRoute.endsWith("/") ? "/" : "");
+        route = normalize(route + actionRoute);
         PageContext pageContext = constructContext(source, route, p);
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(pageScope.getTabIds());
@@ -230,23 +230,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         }
 
         return parentDatasourceIdsMap;
-    }
-
-    private String computeTargetDatasource(S source, PageScope pageScope, ComponentScope componentScope, WidgetScope widgetScope) {
-        String currentWidgetId = null;
-        if (widgetScope != null) {
-            currentWidgetId = widgetScope.getWidgetId();
-        }
-
-        String targetDatasourceId = source.getTargetDatasourceId();
-        if (pageScope != null && targetDatasourceId == null) {
-            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
-            if (nonNull(datasourceIdAware) && nonNull(datasourceIdAware.getDatasourceId()))
-                targetDatasourceId = datasourceIdAware.getDatasourceId();
-            else if (currentWidgetId != null)
-                targetDatasourceId = pageScope.getWidgetIdSourceDatasourceMap().get(currentWidgetId);
-        }
-        return targetDatasourceId;
     }
 
     private List<Breadcrumb> initBreadcrumb(S source, PageContext pageContext, CompileProcessor p) {
