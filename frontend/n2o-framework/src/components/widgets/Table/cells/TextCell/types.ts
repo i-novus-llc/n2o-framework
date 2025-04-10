@@ -22,4 +22,5 @@ export interface TextCellProps {
     forwardedRef: LegacyRef<HTMLDivElement>
     tooltipFieldId: string
     style?: CSSProperties
+    className?: string
 }

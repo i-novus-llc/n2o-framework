@@ -21,6 +21,7 @@ function TextCellBody({
     visible = true,
     iconPosition = ICON_POSITIONS.LEFT,
     style = EMPTY_OBJECT,
+    className,
     ...rest
 }: TextCellProps) {
     const text = model && get(model, fieldKey || id)
@@ -30,7 +31,7 @@ function TextCellBody({
     return (
         <div className="d-inline-flex flex-column" ref={forwardedRef}>
             <div
-                className={classNames('icon-cell-container', {
+                className={classNames(className, 'icon-cell-container', {
                     'icon-cell-container__with-tooltip': model?.tooltipFieldId !== undefined,
                     'icon-cell-container__text-left': iconPosition === ICON_POSITIONS.RIGHT,
                 })}
