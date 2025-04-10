@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест валидации обязательного поля
  */
-public class ValidationMessageAT extends AutoTestBase {
+class ValidationMessageAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class ValidationMessageAT extends AutoTestBase {
     }
 
     @Test
-    public void testDependenciesValidation() {
+    void testDependenciesValidation() {
         StandardPage page = open(StandardPage.class);
         page.breadcrumb().crumb(0).shouldHaveLabel("Dynamic validation test");
 
@@ -70,7 +70,7 @@ public class ValidationMessageAT extends AutoTestBase {
 
         rg.check("requiring true");
         textAreaField.shouldBeRequired();
-        textAreaField.shouldHaveValidationMessage(Condition.empty);
+        textAreaField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         textAreaField.control(TextArea.class).shouldBeEnabled();
 
         form.toolbar().bottomLeft().button("Check").click();
@@ -79,7 +79,7 @@ public class ValidationMessageAT extends AutoTestBase {
     }
 
     @Test
-    public void testConditionValidation() {
+    void testConditionValidation() {
         StandardPage page = open(StandardPage.class);
         page.breadcrumb().crumb(0).shouldHaveLabel("Dynamic validation test");
 
@@ -122,7 +122,7 @@ public class ValidationMessageAT extends AutoTestBase {
     }
 
     @Test
-    public void testStaticDependencies() {
+    void testStaticDependencies() {
         StandardPage page = open(StandardPage.class);
         page.breadcrumb().crumb(0).shouldHaveLabel("Dynamic validation test");
 
@@ -140,5 +140,4 @@ public class ValidationMessageAT extends AutoTestBase {
         field.shouldBeRequired();
         field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
     }
-
 }

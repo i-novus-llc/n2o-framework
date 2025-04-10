@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class CachedDatasourceAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -249,7 +249,6 @@ class CachedDatasourceAT extends AutoTestBase {
         FormWidget form1 = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
         FormWidget form2 = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class);
 
-
         InputText input2 = form2.fields().field("Тип документа").control(InputText.class);
         input2.shouldExists();
         input2.shouldHaveValue("Свидетельство о рождении");
@@ -257,7 +256,7 @@ class CachedDatasourceAT extends AutoTestBase {
 
         InputText input1 = form1.fields().field("name").control(InputText.class);
         input1.shouldExists();
-        input1.setValue("test");
+        input1.setValue("a");
 
         input2.shouldHaveValue("Свидетельство о рождении");
     }

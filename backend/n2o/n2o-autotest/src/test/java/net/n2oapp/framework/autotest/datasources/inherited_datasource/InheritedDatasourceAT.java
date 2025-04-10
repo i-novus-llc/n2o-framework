@@ -23,10 +23,10 @@ import java.util.List;
 /**
  * Тестирование inherited-datasource
  */
-public class InheritedDatasourceAT extends AutoTestBase {
+class InheritedDatasourceAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
