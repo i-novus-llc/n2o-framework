@@ -12,7 +12,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +36,7 @@ public class ButtonsAccessAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
+        setResourcePath("net/n2oapp/framework/autotest/access/schema/buttons");
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/access/schema/buttons/index.page.xml"),
@@ -50,8 +50,6 @@ public class ButtonsAccessAT extends AutoTestBase {
     @Test
     public void testAdminAccess() {
         setUserInfo(loadUser());
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "schema");
-
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().shouldHaveBrandName("N2O");
@@ -102,7 +100,6 @@ public class ButtonsAccessAT extends AutoTestBase {
     @Test
     public void testAnonymousAccess() {
         setUserInfo(null);
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "schema");
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

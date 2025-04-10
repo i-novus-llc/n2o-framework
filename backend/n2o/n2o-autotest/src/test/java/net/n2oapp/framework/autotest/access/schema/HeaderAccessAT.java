@@ -34,6 +34,7 @@ public class HeaderAccessAT extends AutoTestBase {
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
+        setResourcePath("net/n2oapp/framework/autotest/access/schema/header");
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
@@ -53,7 +54,6 @@ public class HeaderAccessAT extends AutoTestBase {
         user.put("roles", Collections.singleton("admin"));
         user.put("permissions", Collections.singleton("edit"));
         setUserInfo(user);
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "schema");
         builder.getEnvironment().getContextProcessor().set("username", user.get("username"));
 
         SimplePage page = open(SimplePage.class);
@@ -97,9 +97,6 @@ public class HeaderAccessAT extends AutoTestBase {
     @Test
     public void testAnonymousAccess() {
         setUserInfo(null);
-
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "schema");
-
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().shouldHaveBrandName("Шапка");

@@ -76,7 +76,6 @@ public class AutoTestBase extends N2oTestBase {
     public void setUp() throws Exception {
         super.setUp();
         n2oController.setUp(builder);
-        resolveIndividualProperties();
     }
 
     @Autowired
@@ -126,11 +125,11 @@ public class AutoTestBase extends N2oTestBase {
 
     protected void setResourcePath(String classpath) {
         provider.setClasspathResourcePath(classpath);
+        resolveIndividualProperties(classpath);
     }
 
-    protected void resolveIndividualProperties() {
-        String resourcePath = provider.getClasspathResourcePath();
-        String locationPattern = (resourcePath.endsWith("/") ? resourcePath : resourcePath + "/") + "application.properties";
+    private void resolveIndividualProperties(String classpath) {
+        String locationPattern = (classpath.endsWith("/") ? classpath : classpath + "/") + "application.properties";
         if (!new DefaultResourceLoader().getResource(locationPattern).isReadable())
             return;
         OverrideProperties overriddenProperties = getPropertiesFromURI(locationPattern);
