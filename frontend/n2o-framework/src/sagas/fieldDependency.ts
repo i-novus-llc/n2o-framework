@@ -55,6 +55,15 @@ import fetchSaga from './fetch'
 
 const FetchValueCache = new Map()
 
+// TODO возможно это должно находиться в data provider resolver
+function encodeTemplateUrl(url: string): string {
+    return url.replace(/#{([^{}]*{?[^{}]*)+}/g, (match) => {
+        const inner = match.slice(2, -1) // Убираем "#{" и "}"
+
+        return `%23%7B${encodeURIComponent(inner)}%7D`
+    })
+}
+
 export function* fetchValue(
     values: Record<string, unknown>,
     { formName, datasource, modelPrefix }: Form,
@@ -69,14 +78,19 @@ export function* fetchValue(
         yield put(setFieldLoading(formName, field, true))
         const state: GlobalState = yield select()
         // @ts-ignore ignore js file typing
-        const { url, headersParams, baseQuery } = dataProviderResolver(state, { ...dataProvider, evalContext })
+        const { url, headersParams, baseQuery, basePath } = dataProviderResolver(state, { ...dataProvider, evalContext })
 
         if (isEqual(baseQuery, FetchValueCache.get(fetchValueKey))) { return }
 
         FetchValueCache.set(fetchValueKey, baseQuery)
 
         const response: { list: Array<Record<string, unknown>> } =
-            yield call(fetchSaga, FETCH_VALUE, { url, headers: headersParams })
+            yield call(fetchSaga, FETCH_VALUE, {
+                url: encodeTemplateUrl(url),
+                headers: headersParams,
+                baseQuery,
+                basePath,
+            })
 
         const isMultiModel = get(response, 'list', []).length > 1
 
