@@ -23,11 +23,33 @@
     }
 }
 
-.table-container[data-text-wrap="false"] .cell .cell-content *,
 .table-container[data-text-wrap="false"] .n2o-advanced-table-header-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.table-container[data-text-wrap="false"] .cell .cell-content * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Отдельное правило для .link-button */
+.table-container[data-text-wrap="false"] .n2o-advanced-table-header-title .link-button,
+.table-container[data-text-wrap="false"] .cell .cell-content * .link-button {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: contents;
+}
+
+/* Отдельное правило для контейнеров иконок */
+.table-container[data-text-wrap="false"] .n2o-advanced-table-header-title .n2o-icon-container,
+.table-container[data-text-wrap="false"] .n2o-advanced-table-header-title .icon-cell-container,
+.table-container[data-text-wrap="false"] .cell .cell-content * .n2o-icon-container,
+.table-container[data-text-wrap="false"] .cell .cell-content * .icon-cell-container {
+    display: block;
 }
 
 .table-container[data-text-wrap="false"] .cell .cell-content .tooltip .tooltip-inner {
