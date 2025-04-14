@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
 import first from 'lodash/first'
 import each from 'lodash/each'
@@ -16,8 +16,14 @@ import { FactoryContext } from './context'
 const ignoreList = ['dataProvider', 'action', 'actions']
 
 export class FactoryProvider extends Component {
-    constructor(props) {
-        super(props)
+    getChildContext() {
+        const { contextMethods } = this.state
+
+        return contextMethods
+    }
+
+    constructor(props, context) {
+        super(props, context)
         this.factories = props.config
         this.getComponent = this.getComponent.bind(this)
         this.resolveProps = this.resolveProps.bind(this)
@@ -94,7 +100,7 @@ export class FactoryProvider extends Component {
 
         return (
             <FactoryContext.Provider value={contextMethods}>
-                {children}
+                {Children.only(children)}
             </FactoryContext.Provider>
         )
     }
@@ -104,3 +110,11 @@ FactoryProvider.propTypes = {
     config: factoryConfigShape.isRequired,
     children: PropTypes.element.isRequired,
 }
+
+FactoryProvider.childContextTypes = {
+    factories: factoryConfigShape.isRequired,
+    getComponent: PropTypes.func,
+    resolveProps: PropTypes.func,
+}
+
+export default FactoryProvider
