@@ -90,13 +90,13 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
     class WithFetchData extends Component<Props, State> {
         constructor(props: Props) {
             super(props)
-            const { dataProvider } = this.props
+            const { dataProvider, size = 10 } = this.props
 
             this.state = {
                 data: [],
                 loading: false,
                 count: 0,
-                size: props.size,
+                size,
                 page: 1,
                 searchMinLengthHint: false,
                 quickSearchParam: dataProvider?.quickSearchParam || 'search',
@@ -139,7 +139,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
          * @private
          */
         findResponseInCache(params: object) {
-            const { caching } = this.props
+            const { caching = false } = this.props
 
             if (caching && cachingStore.find(params)) {
                 return cachingStore.find(params)
@@ -195,7 +195,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
         fetchDataProvider(dataProvider: object, extraParams = {}, cacheReset = false) {
             const { store } = this.context
             const { abortController } = this.state
-            const { caching } = this.props
+            const { caching = false } = this.props
 
             if (abortController) { abortController.abort() }
 
@@ -384,8 +384,6 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 />
             )
         }
-
-        static defaultProps = { caching: false, size: 10 } as Props
     }
 
     WithFetchData.contextType = ReactReduxContext

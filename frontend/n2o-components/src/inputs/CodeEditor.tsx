@@ -20,14 +20,16 @@ type CodeEditorProps = TBaseProps & TBaseInputProps<string> & {
     minLines?: number,
 }
 
+const noop = () => {}
+
 export const CodeEditor = ({
-    disabled,
+    disabled = false,
     name,
-    visible,
+    visible = true,
     value,
-    autocomplete,
+    autocomplete = false,
     className,
-    onChange,
+    onChange = noop,
     minLines = 5,
     maxLines = 100,
     lang = 'javascript',
@@ -60,12 +62,3 @@ export const CodeEditor = ({
         </div>
     )
 }
-
-CodeEditor.defaultProps = {
-    autocomplete: false,
-    lang: 'javascript',
-    onChange: () => {},
-    disabled: false,
-    visible: true,
-    maxLines: 100,
-} as CodeEditorProps

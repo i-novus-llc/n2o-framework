@@ -37,7 +37,7 @@ export const ImageUploaderList = ({
                     key={file.id}
                     onRemove={onRemove}
                     index={index}
-                    loading={uploading && uploading[file.id]}
+                    loading={uploading?.[file.id]}
                     showTooltip={showTooltip}
                     canDelete={canDelete}
                     {...rest}

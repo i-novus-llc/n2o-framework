@@ -10,7 +10,12 @@ type Props = TBaseProps & {
     onClick(): void,
 }
 
-export const InputIcon = ({ hoverable, clickable, onClick, children }: Props) => (
+export const InputIcon = ({
+    hoverable = false,
+    clickable = false,
+    onClick,
+    children,
+}: Props) => (
     <span
         className={classNames('n2o-input-icon', { hoverable, clickable })}
         onClick={onClick}
@@ -18,8 +23,3 @@ export const InputIcon = ({ hoverable, clickable, onClick, children }: Props) =>
         {children}
     </span>
 )
-
-InputIcon.defaultProps = {
-    hoverable: false,
-    clickable: false,
-} as Props

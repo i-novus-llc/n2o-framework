@@ -13,13 +13,13 @@ import { Control } from './Control'
 
 // eslint-disable-next-line
 const Cell: VFC<any> = ({
-    visible,
+    visible = true,
     control,
     editable,
-    disabled,
+    disabled = false,
     format,
     fieldKey,
-    model,
+    model = {},
     callAction,
 }) => {
     const controlId = control.id
@@ -78,13 +78,6 @@ const Cell: VFC<any> = ({
             )}
         </DefaultCell>
     )
-}
-
-Cell.defaultProps = {
-    visible: true,
-    disabled: false,
-    model: {},
-    editFieldId: null,
 }
 
 Cell.displayName = 'EditableCell'

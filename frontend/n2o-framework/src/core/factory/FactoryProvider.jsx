@@ -56,7 +56,7 @@ export class FactoryProvider extends Component {
         const factories = []
 
         each(this.factories, (group) => {
-            if (group && group[src]) {
+            if (group?.[src]) {
                 const comp = this.withBoundary(group[src])
 
                 factories.push(comp)

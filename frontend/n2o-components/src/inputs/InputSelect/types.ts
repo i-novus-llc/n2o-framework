@@ -38,7 +38,7 @@ export interface State {
     isExpanded?: boolean
     isInputSelected?: boolean
     isPopupFocused?: boolean
-    options?: Props['options']
+    options: Props['options']
     prevModel?: Record<string, unknown>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value?: any[]

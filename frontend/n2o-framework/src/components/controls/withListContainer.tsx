@@ -4,6 +4,7 @@ import debounce from 'lodash/debounce'
 
 // @ts-ignore import from js file
 import { alertsByKeySelector } from '../../ducks/alerts/selectors'
+import { EMPTY_ARRAY } from '../../utils/emptyTypes'
 
 interface Props {
     data: []
@@ -48,7 +49,7 @@ export function withListContainer(WrappedComponent: FC<WrappedComponentProps>) {
         count,
         size,
         page,
-        options,
+        options = EMPTY_ARRAY as Props['options'],
         loading,
         labelFieldId,
         sortFieldId,
@@ -111,8 +112,6 @@ export function withListContainer(WrappedComponent: FC<WrappedComponentProps>) {
             />
         )
     }
-
-    WithListContainer.defaultProps = { options: [] } as Props
 
     return connect(mapStateToProps, null)(WithListContainer)
 }

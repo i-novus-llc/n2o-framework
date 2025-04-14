@@ -113,7 +113,7 @@ function needLinked(query) {
     // noinspection JSValidateTypes
     const res = query.match('^(\\$|\\@)?{([^}^{]*)}$') // => {Page.container.name}
 
-    if (res && res[2]) {
+    if (res?.[2]) {
         return res[2]
     }
 

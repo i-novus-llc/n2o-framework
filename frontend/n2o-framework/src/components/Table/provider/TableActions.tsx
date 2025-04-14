@@ -3,6 +3,7 @@ import React, { FC, useMemo } from 'react'
 import { createContext, useContext } from 'use-context-selector'
 
 import { TableActions } from '../enum'
+import { NOOP_FUNCTION } from '../../../utils/emptyTypes'
 
 type TableActionContextValue = {
     toggleExpandRow(rowValue: string, isOpen: boolean): void
@@ -49,7 +50,7 @@ type TableActionsProviderProps = {
 }
 
 export const TableActionsProvider: FC<TableActionsProviderProps> = ({
-    actionListener,
+    actionListener = NOOP_FUNCTION,
     children,
 }) => {
     const methods = useMemo<TableActionContextValue>(() => ({
@@ -87,9 +88,6 @@ export const TableActionsProvider: FC<TableActionsProviderProps> = ({
 }
 
 TableActionsProvider.displayName = 'TableActionsProvider'
-TableActionsProvider.defaultProps = {
-    actionListener: () => {},
-}
 
 export const useTableActions = () => {
     const context = useContext(tableActionsContext)

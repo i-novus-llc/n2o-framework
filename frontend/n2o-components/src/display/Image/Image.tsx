@@ -19,29 +19,29 @@ export enum Shape {
 }
 
 export type Props = TBaseProps & {
-    description: string,
-    height: number,
+    description?: string,
+    height?: number,
     id: string,
-    onClick(): void,
+    onClick?(): void,
     shape: Shape,
     src: string,
-    style: object,
+    style?: object,
     textPosition: TextPosition,
-    title: string,
+    title?: string,
     width: string
 }
 
 export function Image({
     id,
-    src,
+    src = '',
     title,
     description,
-    textPosition,
+    textPosition = TextPosition.right,
     width,
     height,
-    shape,
-    visible,
-    style: propsStyle,
+    shape = Shape.rounded,
+    visible = true,
+    style: propsStyle = {},
     className,
     onClick,
 }: Props) {
@@ -78,11 +78,3 @@ export function Image({
         </div>
     )
 }
-
-Image.defaultProps = {
-    src: '',
-    textPosition: 'right',
-    shape: 'rounded',
-    visible: true,
-    style: {},
-} as Props

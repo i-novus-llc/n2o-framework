@@ -8,16 +8,16 @@ import { Text } from '../Typography/Text'
 
 export type Props = TBaseProps & {
     // Включение маски(backdrop)
-    animation: boolean;
+    animation?: boolean;
     // Позиция компонента
-    backdrop: boolean;
+    backdrop?: boolean;
     // Нижняя часть компонента
     children?: ReactNode;
     // Включение закрытия по клику на маску(backdrop)
-    closable: boolean;
-    closeOnBackdrop: boolean;
+    closable?: boolean;
+    closeOnBackdrop?: boolean;
     // Включение кнопки закрытия
-    closeOnEscape: boolean;
+    closeOnEscape?: boolean;
     // Основная часть компонента
     fixedFooter: boolean;
     // Заголовок компонента
@@ -25,7 +25,7 @@ export type Props = TBaseProps & {
     // Ширина компонента
     height?: string | number;
     // Флаг фиксирования футера
-    level: string | string[];
+    level?: string | string[];
     // Сдвиг элемента или группы элементов при открытии (level={'all'} для сдвига всех эл-в)
     onClose(): void;
     // Функция закрытия по клику
@@ -38,24 +38,26 @@ export type Props = TBaseProps & {
     width?: string | number; // Функция закрытия по клику на крестик
 }
 
+const noop = () => {}
+
 export function Drawer({
     className,
-    closeOnBackdrop,
+    closeOnBackdrop = true,
     visible,
     placement,
-    onClose,
-    onHandleClick,
-    backdrop,
-    level,
-    animation,
+    onClose = noop,
+    onHandleClick = noop,
+    backdrop = false,
+    level = '',
+    animation = true,
     width,
     height,
     title,
     footer,
-    fixedFooter,
+    fixedFooter = false,
     children,
-    closeOnEscape,
-    closable,
+    closeOnEscape = true,
+    closable = true,
 }: Props) {
     const [paddingBottom, setPaddingBottom] = useState(0)
     const footerRef = useRef<HTMLDivElement>(null)
@@ -104,14 +106,3 @@ export function Drawer({
     )
 }
 
-Drawer.defaultProps = {
-    animation: true,
-    backdrop: false,
-    closeOnBackdrop: true,
-    level: '',
-    fixedFooter: false,
-    closable: true,
-    closeOnEscape: true,
-    onClose: () => {},
-    onHandleClick: () => {},
-} as Props

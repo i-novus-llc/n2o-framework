@@ -39,7 +39,7 @@ export function FieldsetHeader({
                     <Label visible={needLabel} className={classNames('n2o-fieldset__label', { 'with-description': description })} value={label} />
                 </FactoryBadge>
             )}
-            <HelpPopover help={(needLabel || needDescription) ? help : null} />
+            <HelpPopover help={(needLabel || needDescription) ? help || null : null} />
             <Label visible={needDescription} className="n2o-fieldset__description" value={description} />
         </div>
     )

@@ -47,7 +47,7 @@ function PanelHeader({ header, help, description, badge }: PanelHeaderProps) {
                     </span>
                 </FactoryBadge>
             )}
-            <HelpPopover help={help} />
+            <HelpPopover help={help || null} />
             <Label className="n2o-fieldset__description" value={description} />
         </div>
     )

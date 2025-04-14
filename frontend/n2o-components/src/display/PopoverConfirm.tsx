@@ -67,19 +67,21 @@ function EnhancedPopover({
 
 export const PopoverComponent = onClickOutsideHOC(EnhancedPopover)
 
+const noop = () => {}
+
 /**
  * @example
  * <PopoverConfirm title="are you sure?" okLabel="ok" cancelLabel="no" />
  */
 export function PopoverConfirm({
-    className,
-    title,
-    text,
+    className = '',
+    title ='Вы уверены?',
+    text = '',
     ok,
     cancel,
     target,
-    onDeny,
-    onConfirm,
+    onDeny = noop,
+    onConfirm = noop,
     isOpen,
     reverseButtons = false,
     ...rest
@@ -110,11 +112,3 @@ export function PopoverConfirm({
         </div>
     )
 }
-
-PopoverConfirm.defaultProps = {
-    className: '',
-    title: 'Вы уверены?',
-    text: '',
-    onConfirm: () => {},
-    onCancel: () => {},
-} as Props

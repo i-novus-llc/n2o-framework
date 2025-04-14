@@ -14,14 +14,14 @@ export const DefaultAlert = ({
     closeButton,
     className,
     style,
-    stacktrace,
+    stacktrace = null,
     animate,
     onDismiss,
     t,
     stacktraceVisible,
     togglingStacktrace,
     onClose,
-    isField,
+    isField = false,
     animationDirection,
 }: DefaultAlertProps) => {
     const severity = propsSeverity || 'secondary'
@@ -118,8 +118,3 @@ export const DefaultAlert = ({
         </AlertWrapper>
     )
 }
-
-DefaultAlert.defaultProps = {
-    stacktrace: null,
-    isField: false,
-} as DefaultAlertProps

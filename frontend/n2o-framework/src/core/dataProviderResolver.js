@@ -67,7 +67,7 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     let path = (isAbsolutePath || isRelativePath) ? url : pathname
 
     // если хеш является частью роутинга, то приклеиваем его обратно
-    if (hash && hash.includes('/')) {
+    if (hash?.includes('/')) {
         path = `${pathname}${pathname.endsWith('/') ? '' : '/'}${hash}`
     }
 

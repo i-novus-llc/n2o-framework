@@ -43,7 +43,7 @@ export const Label = ({
             <div id={id} className="n2o-field-label">
                 {React.cloneElement(value, newProps)}
                 <Required required={required} />
-                <HelpPopover help={help} />
+                <HelpPopover help={help || null} />
             </div>
         )
     }
@@ -54,7 +54,7 @@ export const Label = ({
                 <span><Text>{value}</Text></span>
                 <Required required={required} />
             </section>
-            <HelpPopover help={help} />
+            <HelpPopover help={help || null} />
         </BootstrapLabel>
     )
 }

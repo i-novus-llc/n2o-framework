@@ -24,32 +24,33 @@ export interface Props extends CommonAlertProps {
     loader?: boolean
     severity: string
     href?: string
-    animate: boolean
-    onDismiss(): void
-    stopRemoving(): void
-    placement: string
+    animate?: boolean
+    onDismiss?(): void
+    stopRemoving?(): void
+    placement?: string
     visible: boolean
 }
 
-function AlertBody(props: Props) {
-    const {
-        loader,
-        title: propsTitle,
-        text: propsText,
-        severity,
-        href,
-        timestamp,
-        closeButton,
-        className,
-        style,
-        animate,
-        t,
-        stacktrace,
-        onDismiss,
-        stopRemoving,
-        placement,
-    } = props
+const noop = () => {}
 
+function AlertBody({
+    loader,
+    title: propsTitle = '',
+    text: propsText = '',
+    severity = 'danger',
+    href,
+    timestamp,
+    closeButton = false,
+    className,
+    style,
+    animate = false,
+    t,
+    stacktrace,
+    onDismiss = noop,
+    stopRemoving = noop,
+    placement = 'top',
+    visible = true,
+}: Props) {
     const [stacktraceVisible, setStacktraceVisible] = useState(false)
 
     const togglingStacktrace = useCallback(() => {
@@ -64,8 +65,6 @@ function AlertBody(props: Props) {
 
         return stacktrace
     }, [])
-
-    const { visible } = props
 
     if (!visible) { return null }
 
@@ -105,21 +104,6 @@ function AlertBody(props: Props) {
             animationDirection={placement.startsWith('bottom') ? 'reversed' : 'default'}
         />
     )
-}
-AlertBody.defaultProps = {
-    text: '',
-    title: '',
-    severity: 'danger',
-    details: '',
-    closeButton: false,
-    visible: true,
-    onDismiss: () => {},
-    stopRemoving: () => {},
-    position: 'relative',
-    animate: false,
-    t: () => {
-    },
-    placement: 'top',
 }
 
 export const Alert = withTranslation()(AlertBody)

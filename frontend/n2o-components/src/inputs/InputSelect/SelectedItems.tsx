@@ -43,9 +43,9 @@ const SelectedItem = ({ id, title, callback, maxTagTextLength, disabled }: Selec
 
 type SelectedItemProps = {
     callback?(arg: Event): void,
-    disabled: boolean,
+    disabled?: boolean,
     id: string | number,
-    maxTagTextLength: number,
+    maxTagTextLength?: number,
     title: string
 }
 

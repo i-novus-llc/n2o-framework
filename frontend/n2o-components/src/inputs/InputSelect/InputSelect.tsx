@@ -87,7 +87,7 @@ export class InputSelect extends React.Component<Props, State> {
 
     // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(nextProps: Props) {
-        const state: State = { }
+        const state: Partial<State> = { }
         const { multiSelect, value, labelFieldId, options } = nextProps
         const { value: propsValue } = this.props
         const { options: stateOptions } = this.props
@@ -104,7 +104,7 @@ export class InputSelect extends React.Component<Props, State> {
         }
 
         if (!isEmpty(state)) {
-            this.setState(state)
+            this.setState(state as State)
         }
     }
 
@@ -596,7 +596,7 @@ export class InputSelect extends React.Component<Props, State> {
                             isExpanded={isExpanded}
                             hidePopUp={this.hidePopUp}
                             loading={loading}
-                            selected={stateValue}
+                            selected={stateValue as Props['options']}
                             input={input}
                             iconFieldId={iconFieldId}
                             imageFieldId={imageFieldId}
@@ -625,7 +625,7 @@ export class InputSelect extends React.Component<Props, State> {
                                 isExpanded={isExpanded}
                                 activeValueId={activeValueId || ''}
                                 setActiveValueId={this.setActiveValueId}
-                                selected={stateValue}
+                                selected={stateValue as Props['options']}
                                 labelFieldId={labelFieldId}
                                 multiSelect={multiSelect}
                                 onClick={this.handleClick}

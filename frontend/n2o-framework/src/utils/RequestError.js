@@ -15,7 +15,7 @@ class RequestError extends Error {
     }
 
     getMeta() {
-        return this.json && this.json.meta
+        return this.json?.meta
     }
 }
 

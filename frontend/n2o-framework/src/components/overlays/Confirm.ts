@@ -42,4 +42,5 @@ export interface ConfirmProps {
     size: 'lg' | 'sm'
     datasource?: string
     model?: string
+    target: string,
 }
