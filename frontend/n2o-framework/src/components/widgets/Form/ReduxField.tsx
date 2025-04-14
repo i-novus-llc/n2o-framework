@@ -88,10 +88,4 @@ class ReduxField extends React.Component<ReduxFieldProps> {
     }
 }
 
-ReduxField.displayName = 'ReduxField'
-
-ReduxField.defaultProps = {
-    component: StandardField,
-}
-
 export default withObserveDependency(config)(ReduxField)

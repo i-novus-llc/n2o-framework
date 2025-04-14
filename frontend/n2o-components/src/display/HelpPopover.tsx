@@ -6,8 +6,8 @@ import { Text } from '../Typography/Text'
 
 type Props = {
     help: string | null,
-    icon: string,
-    placement: PopoverProps['placement']
+    icon?: string,
+    placement?: PopoverProps['placement']
 }
 
 export class HelpPopover extends React.Component<Props> {
@@ -29,7 +29,11 @@ export class HelpPopover extends React.Component<Props> {
     }
 
     render() {
-        const { help, placement, icon } = this.props
+        const {
+            help,
+            placement = 'right',
+            icon = 'fa fa-question-circle',
+        } = this.props
 
         if (!help) { return null }
 
@@ -63,11 +67,6 @@ export class HelpPopover extends React.Component<Props> {
             </div>
         )
     }
-
-    static defaultProps = {
-        placement: 'right',
-        icon: 'fa fa-question-circle',
-    } as Props
 
     static displayName = '@n2o-components/display/HelpPopover'
 }

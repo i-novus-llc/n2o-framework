@@ -36,39 +36,41 @@ import { TOption } from './types'
 
 export type Props = {
     activeValueId: string | number,
-    autoFocus: boolean,
-    closePopUp(arg: boolean): void,
-    disabled: boolean,
-    disabledValues: Array<Props['value']>,
-    isExpanded: boolean,
+    autoFocus?: boolean,
+    closePopUp?(arg: boolean): void,
+    disabled?: boolean,
+    disabledValues?: Array<Exclude<Props['value'], void>>,
+    isExpanded?: boolean,
     labelFieldId: string,
-    maxTagCount: number,
-    maxTagTextLength: number,
-    mode: string,
-    multiSelect: boolean,
-    onBlur(): void,
-    onClick(): void,
-    onFocus(): void,
-    onInputChange(arg: string): void,
+    maxTagCount?: number,
+    maxTagTextLength?: number,
+    mode?: 'autocomplete',
+    multiSelect?: boolean,
+    onBlur?(): void,
+    onClick?(): void,
+    onFocus?(): void,
+    onInputChange?(arg: string): void,
     onKeyDown?(evt: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>): void,
     onRemoveItem(item: TOption, index?: number | null): void,
     onSelect(arg?: TOption | Props['value']): void,
-    openPopUp(arg: boolean): void,
+    openPopUp?(arg: boolean): void,
     options: TOption[],
-    placeholder: string,
+    placeholder?: string,
     selected: Props['options'],
     setActiveValueId(id: string | number | null): void,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setRef(arg: any): (arg2: any) => void,
-    tags: boolean,
-    value: string | number,
+    setRef?(arg: any): (arg2: any) => void,
+    tags?: boolean,
+    value?: string | number,
     valueFieldId: string
     className?: string
     readOnly?: boolean
 }
 
+const noop = () => {}
+
 export function InputContent({
-    disabled,
+    disabled = false,
     value,
     placeholder,
     onRemoveItem,
@@ -78,18 +80,18 @@ export function InputContent({
     selected,
     labelFieldId,
     valueFieldId,
-    multiSelect,
-    onInputChange,
-    openPopUp,
-    closePopUp,
+    multiSelect = false,
+    onInputChange = noop,
+    openPopUp = noop,
+    closePopUp = noop,
     activeValueId,
     setActiveValueId,
-    disabledValues,
+    disabledValues = [],
     options,
-    onClick,
-    onKeyDown,
+    onClick = noop,
+    onKeyDown = noop,
     isExpanded,
-    autoFocus,
+    autoFocus = false,
     setRef,
     tags,
     mode,
@@ -285,9 +287,3 @@ export function InputContent({
         </>
     )
 }
-
-InputContent.defaultProps = {
-    multiSelect: false,
-    disabled: false,
-    autoFocus: false,
-} as Props

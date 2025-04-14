@@ -5,6 +5,8 @@ import React, {
     isValidElement,
 } from 'react'
 
+import { NOOP_FUNCTION } from '../../utils/emptyTypes'
+
 import {
     ErrorContainerProps,
     ErrorContainerContextType,
@@ -27,7 +29,7 @@ export function ErrorHandlersProvider({ value, isOnline, children }: ErrorContai
 
 export function ErrorContainer({
     error,
-    onReset,
+    onReset = NOOP_FUNCTION,
     children,
 }: ErrorContainerProps) {
     const handlers = useContext(ErrorHandlersContext)
@@ -60,12 +62,6 @@ export function ErrorContainer({
             {errorComponent}
         </div>
     )
-}
-
-ErrorContainer.defaultProps = {
-    onReset() {
-        // ignore
-    },
 }
 
 ErrorContainer.displayName = 'ErrorContainer'

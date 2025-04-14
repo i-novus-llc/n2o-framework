@@ -38,36 +38,34 @@ interface Props extends WithOverlayMethodsProps {
     renderFromSrc(src: string): ReactNode
 }
 
-function DrawerPage(props: Props) {
-    const {
-        src,
-        pageUrl,
-        pageId,
-        pathMapping,
-        queryMapping,
-        visible,
-        loading,
-        modalHeaderTitle,
-        footer,
-        disabled,
-        toolbar,
-        entityKey,
-        width,
-        height,
-        placement,
-        backdrop,
-        level,
-        closeOnBackdrop,
-        animation,
-        closeOverlay,
-        fixedFooter,
-        closeOnEscape,
-        closable,
-        renderFromSrc,
-        prompt,
-        parentPage,
-    } = props
-
+function DrawerPage({
+    src,
+    pageUrl,
+    pageId,
+    pathMapping,
+    queryMapping,
+    visible,
+    loading,
+    modalHeaderTitle,
+    footer,
+    disabled,
+    toolbar,
+    entityKey,
+    width,
+    height,
+    placement,
+    backdrop,
+    level,
+    closeOnBackdrop,
+    animation,
+    closeOverlay,
+    fixedFooter,
+    closeOnEscape,
+    closable,
+    renderFromSrc,
+    prompt,
+    parentPage,
+}: Props) {
     const pageMapping = { pathMapping, queryMapping }
 
     const showSpinner = !visible || loading || typeof loading === 'undefined'

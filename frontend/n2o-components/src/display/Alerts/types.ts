@@ -41,7 +41,7 @@ export type AlertProps = TBaseProps & {
 
 type DefaultAlertOwnProps = {
     animationDirection: AnimationDirection;
-    isField: boolean;
+    isField?: boolean;
     onClose?(): void;
     stacktraceVisible?: boolean;
     togglingStacktrace(): void;

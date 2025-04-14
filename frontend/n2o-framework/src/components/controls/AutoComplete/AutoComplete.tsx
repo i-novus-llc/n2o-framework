@@ -377,7 +377,7 @@ class AutoComplete extends React.Component<Props, State> {
                                     activeValueId={activeValueId}
                                     onSelect={this.onSelect}
                                     disabled={disabled}
-                                    disabledValues={disabledValues}
+                                    disabledValues={disabledValues as Array<string | number>}
                                     placeholder={placeholder}
                                     labelFieldId={labelFieldId}
                                     autoFocus={autoFocus}

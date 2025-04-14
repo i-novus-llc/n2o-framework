@@ -80,7 +80,7 @@ function ImageFieldBody({
                         width={width}
                         height={height}
                         {...omit(resolvedProps, ['title', 'description'])}
-                        src={resolvedProps.data || resolvedProps.url}
+                        src={(resolvedProps.data || resolvedProps.url) as string}
                     />
                     {hasStatuses && <ImageStatuses statuses={statuses} model={model} className="image-field-statuses" />}
                 </div>

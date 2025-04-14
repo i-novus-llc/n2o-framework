@@ -6,7 +6,7 @@ import { Filter, TOption, PopUpProps } from '../InputSelect/types'
 export interface State {
     input?: string
     isExpanded: boolean
-    options?: TOption[]
+    options: TOption[]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     selected: any[]
     value: string

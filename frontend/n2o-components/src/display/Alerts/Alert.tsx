@@ -3,27 +3,28 @@ import { withTranslation } from 'react-i18next'
 
 import { LoaderAlert } from './LoaderAlert'
 import { DefaultAlert } from './DefaultAlert'
-import { AlertProps, AnimationDirection } from './types'
+import { AlertProps, AnimationDirection, Severity } from './types'
 
-function AlertComponent(props: AlertProps) {
-    const {
-        loader,
-        title,
-        text,
-        severity,
-        href,
-        timestamp,
-        closeButton,
-        className,
-        style,
-        animate,
-        t,
-        stacktrace,
-        onDismiss,
-        stopRemoving,
-        placement,
-    } = props
+const noop = () => {}
 
+function AlertComponent({
+    loader,
+    title = '',
+    text = '',
+    severity = Severity.danger,
+    href,
+    timestamp,
+    closeButton = false,
+    className,
+    style,
+    animate = false,
+    t,
+    stacktrace,
+    onDismiss = noop,
+    stopRemoving = noop,
+    placement = 'top',
+    visible = true,
+}: AlertProps) {
     const [stacktraceVisible, setStacktraceVisible] = useState(false)
 
     const togglingStacktrace = useCallback(() => {
@@ -44,8 +45,6 @@ function AlertComponent(props: AlertProps) {
 
         return stacktrace
     }, [])
-
-    const { visible } = props
 
     if (!visible) {
         return null
@@ -84,19 +83,5 @@ function AlertComponent(props: AlertProps) {
         />
     )
 }
-
-AlertComponent.defaultProps = {
-    text: '',
-    title: '',
-    severity: 'danger',
-    closeButton: false,
-    visible: true,
-    position: 'relative',
-    animate: false,
-    placement: 'top',
-    onDismiss: () => {},
-    stopRemoving: () => {},
-    t: () => '',
-} as AlertProps
 
 export const Alert = withTranslation()(AlertComponent)

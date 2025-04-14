@@ -38,7 +38,7 @@ export class CoverSpinner extends Component<Props, State> {
 
     async componentDidMount() {
         const { deferredStart } = this.state
-        const { deferredSpinnerStart } = this.props
+        const { deferredSpinnerStart = 0 } = this.props
 
         if (deferredStart) {
             this.setState({ deferredStart: true })
@@ -49,15 +49,15 @@ export class CoverSpinner extends Component<Props, State> {
 
     render() {
         const { deferredStart } = this.state
-        const { animationClass, message, mode } = this.props
+        const { animationClass = '', message = '', mode = Mode.light } = this.props
 
         return (
             <div
                 className={classNames(
                     'spinner-container',
                     { 'spinner-none-background': deferredStart },
-                    { 'spinner-container--dark': mode === 'dark' },
-                    { 'spinner-container--transparent': mode === 'transparent' },
+                    { 'spinner-container--dark': mode === Mode.dark },
+                    { 'spinner-container--transparent': mode === Mode.transparent },
                 )}
             >
                 {!deferredStart && (
@@ -69,11 +69,4 @@ export class CoverSpinner extends Component<Props, State> {
             </div>
         )
     }
-
-    static defaultProps = {
-        animationClass: '',
-        message: '',
-        deferredSpinnerStart: 0,
-        mode: 'light',
-    } as Props
 }

@@ -49,8 +49,8 @@ function FieldsetColComponent({
 
     return (
         <Col xs={size || defaultCol} key={colId} className={className} style={style}>
-            {fields &&
-                fields.map((field, i) => {
+            {
+                fields?.map((field, i) => {
                     const autoFocus = field.id && autoFocusId && field.id === autoFocusId
                     const key = `field${i}`
                     const name = parentName ? `${parentName}.${field.id}` : field.id
@@ -75,8 +75,8 @@ function FieldsetColComponent({
                         />
                     )
                 })}
-            {fieldsets &&
-                fieldsets.map((fieldset, i) => {
+            {
+                fieldsets?.map((fieldset, i) => {
                     const { name: fieldsetName, ...rest } = fieldset
 
                     const key = `set${i}`

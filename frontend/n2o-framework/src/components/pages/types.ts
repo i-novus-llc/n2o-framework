@@ -26,7 +26,10 @@ export interface DefaultPageProps {
         bottomRight?: ToolbarProps
     };
     entityKey?: string;
-    error?: false | { [key: string]: string }
+    error?: false | {
+        severity: string
+        text: string
+    }
     children?: ReactNode
     disabled?: boolean
     dispatch: Dispatch

@@ -19,17 +19,19 @@ type NumberPickerProps = TBaseProps & TBaseInputProps<TInputNumberValue> & {
     value: TInputNumberValue
 }
 
+const noop = () => {}
+
 export const NumberPicker = ({
-    visible,
-    value,
+    visible = true,
+    value = null,
     max = 100,
     min = 0,
     step = 1,
     className,
     style,
-    disabled,
-    onChange,
-    onKeyDown,
+    disabled = false,
+    onChange = noop,
+    onKeyDown = noop,
 }: NumberPickerProps) => {
     const [isFocused, setFocus] = useState(false)
     const isDecreaseBtnDisabled = disabled || (!isNull(value) && min >= Number(value))
@@ -94,14 +96,3 @@ export const NumberPicker = ({
         )
     )
 }
-
-NumberPicker.defaultProps = {
-    visible: true,
-    style: {},
-    min: 0,
-    max: 100,
-    step: 1,
-    disabled: false,
-    value: null,
-    onChange: () => {},
-} as NumberPickerProps

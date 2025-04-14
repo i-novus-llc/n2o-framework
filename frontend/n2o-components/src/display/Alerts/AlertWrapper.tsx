@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { AlertWrapperProps } from './types'
+import { AlertWrapperProps, AnimationDirection } from './types'
 
 export function AlertWrapper({
     children,
@@ -11,7 +11,7 @@ export function AlertWrapper({
     stacktrace,
     href,
     style,
-    animationDirection,
+    animationDirection = AnimationDirection.default,
 }: AlertWrapperProps) {
     return (
         <div
@@ -21,8 +21,8 @@ export function AlertWrapper({
                 {
                     [`alert-${severity}`]: severity,
                     'n2o-alert--animated': animate,
-                    'n2o-alert--animated_default': animationDirection === 'default',
-                    'n2o-alert--animated_reversed': animationDirection === 'reversed',
+                    'n2o-alert--animated_default': animationDirection === AnimationDirection.default,
+                    'n2o-alert--animated_reversed': animationDirection === AnimationDirection.reversed,
                     'with-details': stacktrace,
                     'with-link': href,
                 },
@@ -43,7 +43,3 @@ export function AlertWrapper({
         </div>
     )
 }
-
-AlertWrapper.defaultProps = {
-    animationDirection: 'default',
-} as AlertWrapperProps
