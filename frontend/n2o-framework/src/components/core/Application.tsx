@@ -1,7 +1,6 @@
-import React, { Component, ContextType, createContext, ReactNode } from 'react'
+import React, { createContext, ReactNode, useContext, useEffect } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import get from 'lodash/get'
-import map from 'lodash/map'
 import keys from 'lodash/keys'
 import { connect } from 'react-redux'
 import numeral from 'numeral'
@@ -12,7 +11,6 @@ import { ErrorContainer } from '../../core/error/Container'
 import { State } from '../../ducks/State'
 import {
     requestConfig as requestConfigAction,
-    setReady as setReadyAction,
     registerLocales,
 } from '../../ducks/global/store'
 import { globalSelector } from '../../ducks/global/selectors'
@@ -22,6 +20,7 @@ import { ErrorContainerProps } from '../../core/error/types'
 import { locales } from '../../locales'
 import { type SidebarProps } from '../../plugins/SideBar/types'
 import { type SimpleHeaderBodyProps } from '../../plugins/Header/SimpleHeader/SimpleHeader'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { GlobalAlertsConnected } from './GlobalAlerts'
 
@@ -55,65 +54,55 @@ export const ApplicationContext = createContext<ApplicationContextValue>({
     configLocale: 'en',
 })
 
-class Application extends Component<ApplicationProps> {
-    static contextType = FactoryContext
+function Application(props: ApplicationProps) {
+    const {
+        customLocales = EMPTY_OBJECT,
+        i18n,
+        registerLocales,
+        requestConfig,
+        locales = EMPTY_OBJECT,
+        locale,
+        ready,
+        loading,
+        error,
+        render,
+    } = props
 
-    context!: ContextType<typeof FactoryContext>
-
-    addCustomLocales = () => {
-        const { customLocales = {}, i18n } = this.props
-
-        map(keys(customLocales), (locale) => {
-            i18n.addResourceBundle(locale, 'translation', customLocales[locale])
+    // componentDidMount
+    useEffect(() => {
+        Object.entries(customLocales).forEach(([locale, value]) => {
+            i18n.addResourceBundle(locale, 'translation', value)
         })
-    }
 
-    componentDidMount() {
-        const {
-            requestConfig,
-            locales = {},
-            customLocales = {},
-            registerLocales,
-        } = this.props
-
-        this.addCustomLocales()
         registerLocales(keys({ ...locales, ...customLocales }))
         requestConfig()
-    }
-
-    componentDidUpdate(prevProps: ApplicationProps) {
-        const { locale, i18n } = this.props
-
-        if (prevProps.locale !== locale) {
-            // eslint-disable-next-line
-            i18n.changeLanguage(locale)
-        }
-    }
-
-    render() {
-        const { ready, locale, loading, error, render } = this.props
-        const { getComponent } = this.context
-        const FactorySpinner = getComponent('Spinner', FactoryLevels.SNIPPETS)
-
         numeral.locale(locale)
+    }, [])
 
-        const contextValue = {
-            getFromConfig: (key: 'menu') => get(this.props, key),
-            configLocale: locale,
-        }
+    useEffect(() => {
+        i18n.changeLanguage(locale).catch(() => { /* ignore */ })
+        numeral.locale(locale)
+    }, [locale, i18n])
 
-        return (
-            <ApplicationContext.Provider value={contextValue}>
-                <GlobalAlertsConnected />
-                <ErrorContainer error={error}>
-                    <>
-                        {!ready && FactorySpinner && <FactorySpinner type="cover" loading={loading} />}
-                        {ready && <Block disabled={loading}>{render()}</Block>}
-                    </>
-                </ErrorContainer>
-            </ApplicationContext.Provider>
-        )
+    const contextValue = {
+        getFromConfig: (key: 'menu') => get(props, key),
+        configLocale: locale,
     }
+
+    const { getComponent } = useContext(FactoryContext)
+    const FactorySpinner = getComponent('Spinner', FactoryLevels.SNIPPETS)
+
+    return (
+        <ApplicationContext.Provider value={contextValue}>
+            <GlobalAlertsConnected />
+            <ErrorContainer error={error}>
+                <>
+                    {!ready && FactorySpinner && <FactorySpinner type="cover" loading={loading} />}
+                    {ready && <Block disabled={loading}>{render()}</Block>}
+                </>
+            </ErrorContainer>
+        </ApplicationContext.Provider>
+    )
 }
 
 const mapStateToProps = (state: State) => ({
@@ -121,8 +110,6 @@ const mapStateToProps = (state: State) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    // eslint-disable-next-line react/no-unused-prop-types
-    setReady: bindActionCreators(setReadyAction, dispatch),
     requestConfig: bindActionCreators(requestConfigAction, dispatch),
     registerLocales: (locales: string[]) => dispatch(registerLocales(locales)),
 })
