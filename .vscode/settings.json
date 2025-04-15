@@ -1,0 +1,7 @@
+{
+    "eslint.workingDirectories": [
+        "./frontend",
+        "./frontend/n2o-components",
+        "./frontend/n2o-framework"
+    ]
+  }
