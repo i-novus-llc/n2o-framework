@@ -50,6 +50,7 @@ import { Action } from '../ducks/Action'
 import { Form, Field, FieldDependency } from '../ducks/form/types'
 import { RegisterFieldAction, UnregisterFieldAction } from '../ducks/form/Actions'
 import { MergeModelAction, SetModelAction } from '../ducks/models/Actions'
+import { State } from '../ducks/models/Models'
 
 import fetchSaga from './fetch'
 
@@ -128,7 +129,7 @@ export function* fetchValue(
 }
 
 const ResolveDependencyAction = createAction('n2o/form/resolveDependency')
-let defModels = {}
+let defModels: Partial<State> = {}
 
 function* resolveDependency(
     form: Form,
@@ -446,7 +447,35 @@ export const fieldDependencySagas = [
     ], resolveOnUpdateModel),
     takeEvery(setModel.type, resolveOnSetModel),
     takeEvery(combineModels.type, resolveOnDefault),
-    debounce(100, ResolveDependencyAction, function* combineDefault() {
+    /*
+     * Если кто-то перетёр (пришли данные из запроса) модель раньше,
+     * чем сработало схлопывание дефолтных зависимостей,
+     * то надо сбросить буфер, чтобы он несработал позже на неактуальных данных
+     */
+    takeEvery(setModel.type, ({ payload }: SetModelAction<ModelPrefix.source>) => {
+        const { prefix, key, model } = payload
+
+        if (!model) {
+            delete defModels[prefix]?.[key]
+
+            return
+        }
+        if (prefix !== ModelPrefix.source) { return }
+
+        for (const [formPrefix, defaultModel] of Object.entries(defModels) as Array<[ModelPrefix, Model]>) {
+            if (defaultModel[key]) {
+                // чистим только пересекающиеся поля
+                for (const field of Object.keys(model[0] || {})) {
+                    // @ts-ignore defModels[prefix][key] объявлен как object и ts не даёт обращаться по ключу в нём
+                    delete defModels[formPrefix][key][field]
+                }
+
+                if (isEmpty(defaultModel[key])) { delete defaultModel[key] }
+            }
+            if (isEmpty(defModels[formPrefix])) { delete defModels[formPrefix] }
+        }
+    }),
+    debounce(50, ResolveDependencyAction, function* combineDefault() {
         if (!isEmpty(defModels)) {
             yield put(combineModels(defModels))
 
