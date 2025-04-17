@@ -85,7 +85,9 @@ export class CalendarHeader extends React.Component<CalendarHeaderProps> {
                         e.preventDefault()
                     }}
                 >
-                    {t('chooseTime')}
+                    {/* {t('chooseTime')} */}
+                    {/* TODO i18n не работает перевод в продакшн сборке ready = false (в локальной работает) */}
+                    Выберите время
                 </button>
             )
         }
