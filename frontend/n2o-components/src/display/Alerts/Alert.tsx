@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react'
 import { withTranslation } from 'react-i18next'
 
+import { NOOP_FUNCTION } from '../../utils/emptyTypes'
+
 import { LoaderAlert } from './LoaderAlert'
 import { DefaultAlert } from './DefaultAlert'
 import { AlertProps, AnimationDirection, Severity } from './types'
-
-const noop = () => {}
 
 function AlertComponent({
     loader,
@@ -20,8 +20,8 @@ function AlertComponent({
     animate = false,
     t,
     stacktrace,
-    onDismiss = noop,
-    stopRemoving = noop,
+    onDismiss = NOOP_FUNCTION,
+    stopRemoving = NOOP_FUNCTION,
     placement = 'top',
     visible = true,
 }: AlertProps) {

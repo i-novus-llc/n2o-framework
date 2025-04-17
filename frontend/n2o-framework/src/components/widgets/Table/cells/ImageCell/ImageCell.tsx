@@ -12,6 +12,7 @@ import { WithCell } from '../../withCell'
 import { withTooltip } from '../../withTooltip'
 import { ActionWrapper } from '../../../../buttons/StandardButton/ActionWrapper'
 import { DefaultCell } from '../DefaultCell'
+import { EMPTY_ARRAY } from '../../../../../utils/emptyTypes'
 
 import { ImageStatuses } from './ImageStatuses'
 import { type ImageCellProps } from './types'
@@ -52,7 +53,7 @@ function ImageCellBody({
     url,
     forwardedRef,
     callAction,
-    statuses = [],
+    statuses = EMPTY_ARRAY,
 }: ImageCellProps) {
     const onClick = useCallback(() => {
         if (callAction && model) {

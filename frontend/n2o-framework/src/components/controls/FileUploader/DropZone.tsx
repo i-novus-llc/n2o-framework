@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, CSSProperties } from 'react'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
-import withFileUploader from './withFileUploader'
-import FileUploader from './FileUploader'
+import { FileUploaderControl } from './withFileUploader'
+import { FileUploader } from './FileUploader'
 import { type FileUploaderProps } from './types'
 
 function defaultDropZone(icon: string, label: string) {
@@ -17,33 +17,26 @@ function defaultDropZone(icon: string, label: string) {
 export interface Props extends FileUploaderProps {
     icon: string
     label: string
-    children: ReactNode
+    children?: ReactNode
+    saveBtnStyle?: CSSProperties
 }
 
-function DropZone(props: Props) {
-    const { icon, label, children } = props
-
+function DropZone({
+    icon,
+    label,
+    children,
+    saveBtnStyle = { marginTop: '10px' },
+    ...props
+}: Props) {
     return (
         <FileUploader
             {...props}
             componentClass="n2o-drop-zone"
+            saveBtnStyle={saveBtnStyle}
         >
-            {
-                children
-                    ? (<Text>{children}</Text>)
-                    : defaultDropZone(icon, label)
-            }
+            {children ? <Text>{children}</Text> : defaultDropZone(icon, label)}
         </FileUploader>
     )
 }
 
-DropZone.defaultProps = {
-    saveBtnStyle: {
-        marginTop: '10px',
-    },
-}
-
-/**
- * @type ReturnedComponent
- */
-export default withFileUploader<Props>(DropZone)
+export default FileUploaderControl<Props>(DropZone)

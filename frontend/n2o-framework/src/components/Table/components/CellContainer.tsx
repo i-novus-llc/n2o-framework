@@ -4,6 +4,7 @@ import classNames from 'classnames'
 
 import { useResolved } from '../../../core/Expression/useResolver'
 import { CellContainerProps } from '../types/props'
+import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
 import Table from './basic'
 import { ExpandButton } from './ExpandButton'
@@ -17,7 +18,7 @@ export const CellContainer = memo<CellContainerProps>((props) => {
         rowValue,
         rowIndex,
         alignment,
-        style = {},
+        style = EMPTY_OBJECT,
         ...rest
     } = props
     const resolvedProps = useResolved(rest, rest.model, ['toolbar', 'security', 'model', 'content'])

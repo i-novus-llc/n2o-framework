@@ -11,16 +11,40 @@ import { Badge } from '../../display/Badge/Badge'
 import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../../display/Badge/utils'
 import { Checkbox } from '../Checkbox/Checkbox'
 import { Shape } from '../../display/Badge/enums'
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../utils/emptyTypes'
 
 import { PopUpProps, TOption } from './types'
 import { Props as InputContentProps } from './InputContent'
-import {
-    groupData,
-    inArray,
-} from './utils'
+import { groupData, inArray } from './utils'
 import { UNKNOWN_GROUP_FIELD_ID } from './constants'
 import { BadgeType } from './PopupList'
 import { PopupIcon, PopupImage } from './snippets'
+
+type Props = {
+    activeValueId?: string | number | null
+    autocomplete?: boolean
+    badge?: BadgeType
+    descriptionFieldId?: string
+    enabledFieldId?: string
+    format?: string
+    groupFieldId?: string
+    hasCheckboxes?: boolean
+    iconFieldId?: string
+    imageFieldId?: string
+    labelFieldId?: string
+    loading?: boolean
+    onRemoveItem?: InputContentProps['onRemoveItem']
+    onSelect?: InputContentProps['onSelect']
+    options?: InputContentProps['options']
+    popUpItemRef?: PopUpProps['popUpItemRef']
+    renderIfEmpty?: boolean
+    selected?: InputContentProps['selected']
+    setActiveValueId?: InputContentProps['setActiveValueId']
+    statusFieldId?: string
+    valueFieldId?: string
+    multiSelect?: boolean
+    searchMinLengthHint?: string | null | JSX.Element
+}
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -46,50 +70,45 @@ import { PopupIcon, PopupImage } from './snippets'
  */
 
 export function PopupItems({
-    loading,
-    options,
-    labelFieldId,
-    iconFieldId,
-    valueFieldId,
-    imageFieldId,
-    descriptionFieldId,
-    statusFieldId,
-    enabledFieldId,
-    selected,
-    groupFieldId,
-    hasCheckboxes,
+    loading = false,
+    options = EMPTY_ARRAY,
+    labelFieldId = 'label',
+    iconFieldId = '',
+    valueFieldId = 'value',
+    imageFieldId = '',
+    descriptionFieldId = '',
+    statusFieldId = '',
+    enabledFieldId = '',
+    selected = EMPTY_ARRAY,
+    groupFieldId = '',
+    hasCheckboxes = false,
     format,
     badge,
-    onRemoveItem,
-    onSelect,
-    setActiveValueId,
-    activeValueId,
-    autocomplete,
-    renderIfEmpty,
+    onRemoveItem = NOOP_FUNCTION,
+    onSelect = NOOP_FUNCTION,
+    setActiveValueId = NOOP_FUNCTION,
+    activeValueId = null,
+    autocomplete = false,
+    renderIfEmpty = true,
     popUpItemRef,
-    multiSelect,
-    searchMinLengthHint,
+    multiSelect = false,
+    searchMinLengthHint = null,
 }: Props) {
-    /* FIXME, костыль для выбора элементов с помощью keyup / keydown, сложности с focus в InputSelect.
-         Отвечает за scroll к последнему active элементу, нужно для lazy load см. в PopUpList */
     const handleRef = (item: React.ReactInstance | null | undefined) => {
-        if (loading) {
-            return
-        }
+        if (loading) { return }
 
         if (item) {
             // eslint-disable-next-line react/no-find-dom-node
             const el = findDOMNode(item) as Element
 
-            if (el.classList.contains('active')) {
+            if (el?.classList?.contains('active')) {
                 scrollIntoView(el, { scrollMode: 'if-needed', block: 'nearest' })
             }
         }
     }
 
-    // eslint-disable-next-line consistent-return
-    const handleItemClick = ({ target }: MouseEvent<HTMLElement, Event>, item: TOption) => {
-        if ((target as HTMLInputElement).nodeName === 'LABEL') { return false }
+    const handleItemClick = ({ target }: MouseEvent<HTMLElement>, item: TOption) => {
+        if ((target as HTMLInputElement).nodeName === 'LABEL') { return }
         if (inArray(selected, item)) {
             onRemoveItem(item)
         } else {
@@ -100,50 +119,30 @@ export function PopupItems({
     const withStatus = (item: TOption) => !isNil(get(item, statusFieldId))
 
     const displayTitle = (item: TOption) => {
-        if (item.formattedTitle) {
-            return item.formattedTitle
-        }
+        if (item.formattedTitle) { return item.formattedTitle }
 
         const text = get(item, labelFieldId)
 
         if (withStatus(item)) {
             const color = get(item, statusFieldId)
 
-            return (
-                <StatusText
-                    text={text}
-                    color={color}
-                    textPosition="left"
-                />
-            )
+            return <StatusText text={text} color={color} textPosition="left" />
         }
 
         return text
     }
 
     const getDisabled = (item: TOption, isSelected: boolean) => {
-        if (isSelected && !multiSelect && !hasCheckboxes) {
-            return true
-        }
+        if (isSelected && !multiSelect && !hasCheckboxes) { return true }
         const enabledField = get(item, enabledFieldId)
 
-        if (!isNil(enabledField)) {
-            return !enabledField
-        }
-
-        return false
+        return !isNil(enabledField) ? !enabledField : false
     }
 
-    const onMouseOver = (item: TOption) => {
-        if (setActiveValueId) {
-            setActiveValueId(get(item, valueFieldId))
-        }
-    }
+    const onMouseOver = (item: TOption) => setActiveValueId?.(get(item, valueFieldId))
 
     const onMouseLeave = useCallback(() => {
-        if (setActiveValueId) {
-            setActiveValueId('')
-        }
+        setActiveValueId?.('')
     }, [setActiveValueId])
 
     const renderLabel = (item: TOption) => (
@@ -151,13 +150,8 @@ export function PopupItems({
     )
 
     const renderSingleItem = (item: TOption, index: string | number) => {
-        const {
-            fieldId: badgeFieldId,
-            position: badgePosition,
-        } = badge || {}
-
+        const { fieldId: badgeFieldId, position: badgePosition } = badge || {}
         const shouldRenderBadge = badgeFieldId && badgePosition && badge
-
         const isSelected = inArray(selected, item)
         const disabled = getDisabled(item, isSelected)
         const description = get(item, descriptionFieldId)
@@ -185,16 +179,30 @@ export function PopupItems({
                     <div>
                         <PopupIcon item={item} iconFieldId={iconFieldId} />
                         <PopupImage item={item} imageFieldId={imageFieldId} />
-                        {shouldRenderBadge && isBadgeLeftPosition(badgePosition) &&
-                            /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-                            <Badge key="badge-left" {...resolveBadgeProps(badge, item as any)} shape={badge?.shape || Shape.Square} />}
-                        {hasCheckboxes
-                            ? <Checkbox value={isSelected} label={displayTitle(item)} inline tabIndex={-1} />
-                            : renderLabel(item)
-                        }
-                        {shouldRenderBadge && isBadgeRightPosition(badgePosition) &&
-                            /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-                            <Badge key="badge-right" {...resolveBadgeProps(badge, item as any)} shape={badge?.shape || Shape.Square} />}
+                        {shouldRenderBadge && isBadgeLeftPosition(badgePosition) && (
+                            <Badge
+                                key="badge-left"
+                                {...resolveBadgeProps(badge, item as unknown as Record<string, string>)}
+                                shape={badge?.shape || Shape.Square}
+                            />
+                        )}
+                        {hasCheckboxes ? (
+                            <Checkbox
+                                value={isSelected}
+                                label={displayTitle(item)}
+                                tabIndex={-1}
+                                inline
+                            />
+                        ) : (
+                            renderLabel(item)
+                        )}
+                        {shouldRenderBadge && isBadgeRightPosition(badgePosition) && (
+                            <Badge
+                                key="badge-right"
+                                {...resolveBadgeProps(badge, item as unknown as Record<string, string>)}
+                                shape={badge?.shape || Shape.Square}
+                            />
+                        )}
                     </div>
                     {withDescription && (
                         <DropdownItem
@@ -213,89 +221,36 @@ export function PopupItems({
         )
     }
 
-    const renderSingleItems = (options: Props['options']) => options.map((item, i) => renderSingleItem(item, i))
+    const renderSingleItems = (items: TOption[]) => items.map((item, i) => renderSingleItem(item, i))
 
-    const renderGroup = (key: string, value: Props['options']) => (
+    const renderGroup = (key: string, value: TOption[]) => (
         <React.Fragment key={key}>
-            {key && key !== UNKNOWN_GROUP_FIELD_ID ? <DropdownItem key={key} header>{key}</DropdownItem> : null}
+            {key && key !== UNKNOWN_GROUP_FIELD_ID && <DropdownItem key={key} header>{key}</DropdownItem>}
             {renderSingleItems(value)}
             <DropdownItem divider />
         </React.Fragment>
     )
 
-    const renderGroupedItems = (options: Props['options'], groupFieldId: Props['groupFieldId']) => {
-        const groupedData = groupData(options, groupFieldId)
+    const renderGroupedItems = (items: TOption[], fieldId: string) => {
+        const groupedData = groupData(items, fieldId)
 
         return Object.keys(groupedData).map(key => renderGroup(key, groupedData[key]))
     }
 
-    const renderMenuItems = (options: Props['options']) => (groupFieldId
-        ? renderGroupedItems(options, groupFieldId)
-        : renderSingleItems(options))
+    const renderMenuItems = (items: TOption[]) => (
+        groupFieldId ? renderGroupedItems(items, groupFieldId) : renderSingleItems(items)
+    )
 
-    // eslint-disable-next-line consistent-return
-    const renderMenu = (options: Props['options']) => {
-        if (searchMinLengthHint) {
-            return <DropdownItem header>{searchMinLengthHint}</DropdownItem>
-        }
-        if (!loading && options.length === 0 && !renderIfEmpty) {
-            return null
-        }
-        if (options?.[0] !== null && options.length) {
-            return renderMenuItems(options)
-        }
-        if (!loading && options.length === 0) {
-            return <DropdownItem header>Ничего не найдено</DropdownItem>
-        }
+    const renderMenu = (items: TOption[]) => {
+        if (searchMinLengthHint) { return <DropdownItem header>{searchMinLengthHint}</DropdownItem> }
+        if (!loading && items.length === 0 && !renderIfEmpty) { return null }
+        if (items?.[0] !== null && items.length) { return renderMenuItems(items) }
+        if (!loading && items.length === 0) { return <DropdownItem header>Ничего не найдено</DropdownItem> }
+
+        return null
     }
 
     return <>{renderMenu(options)}</>
 }
 
-type Props = {
-    activeValueId?: string | number | null,
-    autocomplete: boolean,
-    badge?: BadgeType,
-    descriptionFieldId: string,
-    enabledFieldId: string,
-    format?: string,
-    groupFieldId: string,
-    hasCheckboxes: boolean,
-    iconFieldId: string,
-    imageFieldId: string,
-    labelFieldId: string,
-    loading: boolean,
-    onRemoveItem: InputContentProps['onRemoveItem'],
-    onSelect: InputContentProps['onSelect'],
-    options: InputContentProps['options'],
-    popUpItemRef?: PopUpProps['popUpItemRef'],
-    renderIfEmpty: boolean,
-    selected: InputContentProps['selected'],
-    setActiveValueId: InputContentProps['setActiveValueId'],
-    statusFieldId: string,
-    valueFieldId: string
-    multiSelect: boolean
-    searchMinLengthHint: string | null | JSX.Element
-}
-
-PopupItems.defaultProps = {
-    renderIfEmpty: true,
-    setActiveValueId: () => {},
-    loading: false,
-    onSelect: () => {},
-    onRemoveItem: () => {},
-    options: [],
-    selected: [],
-    autocomplete: false,
-    hasCheckboxes: false,
-    descriptionFieldId: '',
-    enabledFieldId: '',
-    statusFieldId: '',
-    valueFieldId: '',
-    labelFieldId: '',
-    iconFieldId: '',
-    imageFieldId: '',
-    groupFieldId: '',
-    multiSelect: false,
-    searchMinLengthHint: null,
-} as Props
+PopupItems.displayName = 'PopupItems'

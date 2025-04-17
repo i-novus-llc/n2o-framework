@@ -7,7 +7,7 @@ import { Button } from 'reactstrap'
 import FileUploaderList from './FileUploaderList'
 import { type FileUploaderProps } from './types'
 
-const FileUploader = ({
+export const FileUploader = ({
     accept,
     uploading,
     statusBarColor,

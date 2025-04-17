@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
+import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
+
 import { LocaleSelectContainer, type Props } from './LocaleSelectContainer'
 
 function LocaleSelectBody({
     className,
     value,
-    locales = [],
+    locales = EMPTY_ARRAY,
     changeLocale,
     direction = 'left',
 }: Props) {

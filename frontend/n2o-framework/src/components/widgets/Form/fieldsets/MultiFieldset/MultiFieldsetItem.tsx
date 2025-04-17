@@ -4,6 +4,7 @@ import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import { useResolved } from '../../../../../core/Expression/useResolver'
 import { FieldsetProps, FieldsetModel } from '../types'
+import { EMPTY_ARRAY } from '../../../../../utils/emptyTypes'
 
 import { MultiFieldsetItemToolbar } from './MultiFieldsetItemToolbar'
 
@@ -34,7 +35,7 @@ export function MultiFieldsetItem({
     parentName,
     // eslint-disable-next-line react/jsx-no-useless-fragment
     render = () => <></>,
-    rows = [],
+    rows = EMPTY_ARRAY,
     needRemoveButton: needToRemoveButtonExpression = true,
     canRemoveFirstItem = false,
     needCopyButton: needToCopyButtonExpression = false,

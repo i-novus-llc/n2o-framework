@@ -5,10 +5,11 @@ import classNames from 'classnames'
 import { Factory } from '../../../../../core/factory/Factory'
 import { SNIPPETS } from '../../../../../core/factory/factoryLevels'
 import propsResolver from '../../../../../utils/propsResolver'
+import { EMPTY_ARRAY } from '../../../../../utils/emptyTypes'
 
 import { type ImageStatusesType } from './types'
 
-export function ImageStatuses({ className, model, onClick, statuses = [] }: ImageStatusesType) {
+export function ImageStatuses({ className, model, onClick, statuses = EMPTY_ARRAY }: ImageStatusesType) {
     return (
         <div
             onClick={onClick}

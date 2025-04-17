@@ -16,9 +16,7 @@ export function Pages({
     loading,
     visible,
 }: PagesProps) {
-    if (!pages.length || !visible) {
-        return null
-    }
+    if (!pages.length || !visible) { return null }
 
     return (
         <div className="pagination-pages pagination d-inline-flex">

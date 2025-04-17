@@ -5,6 +5,7 @@ import { IPlacement } from 'rc-drawer/lib/IDrawerPropTypes'
 
 import { TBaseProps } from '../types'
 import { Text } from '../Typography/Text'
+import { NOOP_FUNCTION } from '../utils/emptyTypes'
 
 export type Props = TBaseProps & {
     // Включение маски(backdrop)
@@ -38,15 +39,13 @@ export type Props = TBaseProps & {
     width?: string | number; // Функция закрытия по клику на крестик
 }
 
-const noop = () => {}
-
 export function Drawer({
     className,
     closeOnBackdrop = true,
     visible,
     placement,
-    onClose = noop,
-    onHandleClick = noop,
+    onClose = NOOP_FUNCTION,
+    onHandleClick = NOOP_FUNCTION,
     backdrop = false,
     level = '',
     animation = true,
@@ -105,4 +104,3 @@ export function Drawer({
         </DrawerRC>
     )
 }
-

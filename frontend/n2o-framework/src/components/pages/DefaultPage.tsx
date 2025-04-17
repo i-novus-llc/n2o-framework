@@ -6,6 +6,7 @@ import { PageTitle, PageTitle as DocumentTitle } from '../core/PageTitle'
 import { BreadcrumbContainer } from '../core/Breadcrumb/BreadcrumbContainer'
 import Toolbar from '../buttons/Toolbar'
 import { ModelPrefix } from '../../core/datasource/const'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { type DefaultPageProps } from './types'
 import { usePageRegister } from './usePageRegister'
@@ -18,7 +19,7 @@ const DefaultPageBody = ({
     children,
     disabled,
     dispatch,
-    toolbar = {},
+    toolbar = EMPTY_OBJECT,
     rootPage = false,
 }: DefaultPageProps) => {
     const { style, className, datasources, id: pageId, page } = metadata || {}

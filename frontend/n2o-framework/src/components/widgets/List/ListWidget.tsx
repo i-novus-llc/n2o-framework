@@ -10,6 +10,7 @@ import { N2OPagination } from '../Table/N2OPagination'
 import { WithActiveModel } from '../Widget/WithActiveModel'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
+import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
 import ListContainer from './ListContainer'
 import { type ListWidgetProps } from './types'
@@ -28,7 +29,7 @@ function Widget(props: ListWidgetProps) {
         className,
         style,
         filter,
-        list = {},
+        list = EMPTY_OBJECT,
         placeholder,
         maxHeight,
         divider,

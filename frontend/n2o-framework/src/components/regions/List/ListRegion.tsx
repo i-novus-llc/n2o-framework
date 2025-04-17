@@ -11,6 +11,7 @@ import { RegionContent } from '../RegionContent'
 import { registerRegion, unregisterRegion } from '../../../ducks/regions/store'
 import { type State } from '../../../ducks/State'
 import { WithGetWidget } from '../withWidgetProps'
+import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 
 import { type ListRegionProps } from './types'
 
@@ -29,7 +30,7 @@ const ListRegion = (props: ListRegionProps) => {
         collapsible = true,
         expand = true,
         hasSeparator = true,
-        content = [],
+        content = EMPTY_ARRAY,
     } = props
 
     const dispatch = useDispatch()

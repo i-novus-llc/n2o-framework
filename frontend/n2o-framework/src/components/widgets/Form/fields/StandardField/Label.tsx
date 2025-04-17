@@ -4,6 +4,8 @@ import classNames from 'classnames'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 import { HelpPopover } from '@i-novus/n2o-components/lib/display/HelpPopover'
 
+import { EMPTY_OBJECT } from '../../../../../utils/emptyTypes'
+
 import { Required } from './Required'
 
 export interface Props {
@@ -27,7 +29,7 @@ export const Label = ({
     required,
     help,
     className,
-    style = {},
+    style = EMPTY_OBJECT,
     needStub = false,
     visible = true,
 }: Props) => {

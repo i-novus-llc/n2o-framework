@@ -1,11 +1,13 @@
 import React from 'react'
 import classNames from 'classnames'
 
+import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
+
 import { CardsCell } from './CardsCell'
 import { type CardProps } from './types'
 
 export function Card({ card, index, id, onResolve, dispatch, alignStyle, datasource, model }: CardProps) {
-    const { content = [], col } = card
+    const { content = EMPTY_ARRAY, col } = card
 
     return (
         <div className={classNames('n2o-cards__item', `col-${col}`)} style={alignStyle}>

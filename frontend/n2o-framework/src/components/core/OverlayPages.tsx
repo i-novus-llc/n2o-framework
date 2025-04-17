@@ -11,6 +11,7 @@ import { FactoryContext } from '../../core/factory/context'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
 import { type State } from '../../ducks/State'
 import { type State as OverlaysState, type Overlay } from '../../ducks/overlays/Overlays'
+import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 export interface OverlayPagesProps {
     // eslint-disable-next-line react/no-unused-prop-types
@@ -32,13 +33,13 @@ const TYPES = {
     },
 }
 
-const prepareProps = (props: Record<string, unknown>, overlay: Partial<Overlay> = {}) => ({
+const prepareProps = (props: Record<string, unknown>, overlay: Partial<Overlay> = EMPTY_OBJECT) => ({
     ...props,
     ...overlay,
     ...defaultTo(overlay.props, {}),
 })
 
-const renderOverlays = ({ overlays = [], ...rest }: OverlayPagesProps) => map(
+const renderOverlays = ({ overlays = EMPTY_ARRAY, ...rest }: OverlayPagesProps) => map(
     overlays,
     ({ type, mode, ...overlay }) => {
         const overlayType = TYPES[type]

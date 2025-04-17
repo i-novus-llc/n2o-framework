@@ -1,49 +1,17 @@
 import { ReactNode } from 'react'
 
-import { Filter, TOption } from '../InputSelect/types'
+import { Filter, TOption, type Props as InputSelectTreeProps } from '../InputSelect/types'
 
-export const defaultProps = {
-    children: null,
-    hasChildrenFieldId: 'hasChildren',
-    disabled: false,
-    loading: false,
-    parentFieldId: 'parentId',
-    valueFieldId: 'id',
-    labelFieldId: 'name',
-    iconFieldId: 'icon',
-    badgeFieldId: 'badge',
-    badgeColorFieldId: 'color',
-    sortFieldId: 'name',
-    hasCheckboxes: false,
-    multiSelect: false,
-    closePopupOnSelect: false,
-    data: [],
-    searchPlaceholder: '',
-    transitionName: 'slide-up',
-    choiceTransitionName: 'zoom',
-    showCheckedStrategy: 'all',
-    allowClear: true,
-    placeholder: '',
-    showSearch: true,
-    dropdownPopupAlign: {
-        points: ['tl', 'bl'],
-        overflow: {
-            adjustY: true,
-        },
-    },
-    options: [],
-    onSearch: () => {},
-    onSelect: () => {},
-    onChange: () => {},
-    onClose: () => {},
-    onToggle: () => {},
-    onOpen: () => {},
-    onFocus: () => {},
-    onBlur: () => {},
-    onInput: () => {},
-} as Props
-
-export type Props = {
+export interface Props {
+    searchPlaceholder: string
+    transitionName: string
+    choiceTransitionName: string
+    allowClear: boolean
+    showSearch: boolean
+    onSelect: InputSelectTreeProps['onSelect']
+    onToggle: InputSelectTreeProps['onToggle']
+    onFocus(): void
+    onBlur: InputSelectTreeProps['onBlur']
     /**
    * Флаг динамичексой подгрузки данных. В данных обязательно указывать параметр hasChildrens
    */

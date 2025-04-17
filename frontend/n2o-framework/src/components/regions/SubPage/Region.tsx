@@ -7,6 +7,7 @@ import { PageContext } from '../../core/router/context'
 import { resolvePath } from '../../core/router/resolvePath'
 import { useLocation } from '../../core/router/useLocation'
 import { makePageUrlByIdSelector } from '../../../ducks/pages/selectors'
+import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 
 /**
  * Регион, отображающий page по маске
@@ -30,7 +31,7 @@ export type Props = {
 }
 
 export function SubPage({
-    routes = [],
+    routes = EMPTY_ARRAY,
     defaultPageId,
 }: Props) {
     const location = useLocation()

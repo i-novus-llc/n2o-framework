@@ -5,6 +5,7 @@ import flowRight from 'lodash/flowRight'
 
 import { withActionButton } from '../withActionButton'
 import { State } from '../../../ducks/State'
+import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 
 import { type DropdownProps } from './types'
 import { Popper } from './Popper'
@@ -15,7 +16,7 @@ function DropdownButtonBody({
     tooltipTriggerRef,
     actionCallback,
     storeButtons,
-    subMenu = [],
+    subMenu = EMPTY_ARRAY,
     showToggleIcon = true,
     visible: globalVisible = true,
     ...rest

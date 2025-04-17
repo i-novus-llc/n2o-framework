@@ -5,6 +5,7 @@ import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 import Table from '../basic'
 import { TableHeaderCellProps } from '../../types/props'
 import { useMouseDownResize } from '../../hooks/useMouseDownResize'
+import { EMPTY_OBJECT } from '../../../../utils/emptyTypes'
 
 import { HeaderFilter } from './header-filter'
 
@@ -18,7 +19,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
     multiHeader,
     icon,
     resizable,
-    elementAttributes = {},
+    elementAttributes = EMPTY_OBJECT as TableHeaderCellProps['elementAttributes'],
     validateFilterField,
     filterError,
     ...rest

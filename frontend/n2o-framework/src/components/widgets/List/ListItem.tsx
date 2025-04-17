@@ -1,6 +1,8 @@
 import React, { useEffect, isValidElement } from 'react'
 import classNames from 'classnames'
 
+import { NOOP_FUNCTION } from '../../../utils/emptyTypes'
+
 import { HeaderWrapper } from './HeaderWrapper'
 import { type ListItemProps } from './types'
 
@@ -37,7 +39,7 @@ export function ListItem({
     divider,
     style,
     hasSelect,
-    measure = () => {},
+    measure = NOOP_FUNCTION,
 }: ListItemProps) {
     useEffect(() => {
         /* FIXME временный костыль до рефакторинга List widget.

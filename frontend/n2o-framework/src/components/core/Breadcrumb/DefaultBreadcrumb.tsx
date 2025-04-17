@@ -5,11 +5,12 @@ import { useSelector } from 'react-redux'
 
 import { breadcrumbsSelector } from '../../../ducks/global/selectors'
 import { ElementVisibility, WindowType } from '../WindowType'
+import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 
 import { type Breadcrumb as Props } from './const'
 import { Crumb } from './Crumb'
 
-export function SimpleBreadcrumb({ items = [] }: { items: Props }): ReactElement<BreadcrumbProps> {
+export function SimpleBreadcrumb({ items = EMPTY_ARRAY }: { items: Props }): ReactElement<BreadcrumbProps> {
     const routes: Record<string, string> = useSelector(breadcrumbsSelector)
 
     return (
@@ -30,7 +31,7 @@ export function SimpleBreadcrumb({ items = [] }: { items: Props }): ReactElement
     )
 }
 
-export function DefaultBreadcrumb({ items = [] }: { items: Props }): ReactElement<BreadcrumbProps> | null {
+export function DefaultBreadcrumb({ items = EMPTY_ARRAY }: { items: Props }): ReactElement<BreadcrumbProps> | null {
     const { N2O_ELEMENT_VISIBILITY = { breadcrumb: true } as ElementVisibility } = window as WindowType
 
     const isBreadcrumbHidden = useMemo(

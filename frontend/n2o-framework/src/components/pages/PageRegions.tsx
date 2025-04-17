@@ -3,13 +3,14 @@ import map from 'lodash/map'
 
 import { REGIONS } from '../../core/factory/factoryLevels'
 import { Factory } from '../../core/factory/Factory'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { type PageRegionsProps } from './types'
 
 /**
  * Стандартный рендер регионов
  */
-export function PageRegions({ id, regions = {}, width = {}, routable }: PageRegionsProps) {
+export function PageRegions({ id, routable, regions = EMPTY_OBJECT, width = EMPTY_OBJECT }: PageRegionsProps) {
     return (
         <>
             {

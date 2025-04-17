@@ -11,23 +11,23 @@ import { TableHeader } from './TableHeader'
 import { TableBody } from './TableBody'
 import Table from './basic'
 
-export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = (props) => {
-    const {
-        tableConfig,
-        data,
-        sorting,
-        cells,
-        isTextWrap,
-        focusedRowValue,
-        expandedRows,
-        selectedRows,
-        actionListener,
-        errorComponent,
-        EmptyContent,
-        refContainerElem,
-        validateFilterField,
-        filterErrors,
-    } = props
+export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
+    tableConfig,
+    data = EMPTY_ARRAY,
+    sorting,
+    cells,
+    isTextWrap,
+    focusedRowValue = null,
+    expandedRows = EMPTY_ARRAY,
+    selectedRows = EMPTY_ARRAY,
+    actionListener = () => {},
+    errorComponent,
+    EmptyContent,
+    refContainerElem,
+    validateFilterField,
+    filterErrors = EMPTY_OBJECT,
+    ...props
+}) => {
     const { width, height, rowSelection, body, header } = tableConfig
     const areAllRowsSelected = useMemo(() => {
         if (rowSelection === Selection.Checkbox && data.length) {
@@ -40,7 +40,25 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = (p
     }, [rowSelection, data, selectedRows])
 
     return (
-        <TableRefProps value={props}>
+        <TableRefProps
+            value={{
+                ...props,
+                tableConfig,
+                data,
+                sorting,
+                cells,
+                isTextWrap,
+                focusedRowValue,
+                expandedRows,
+                selectedRows,
+                actionListener,
+                errorComponent,
+                EmptyContent,
+                refContainerElem,
+                validateFilterField,
+                filterErrors,
+            }}
+        >
             <TableActionsProvider actionListener={actionListener}>
                 <div
                     ref={refContainerElem}
@@ -76,23 +94,14 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = (p
                             />
                         )}
 
-                        {!errorComponent && EmptyContent && data.length === 0 ? (
+                        {(!errorComponent && EmptyContent && data.length === 0) && (
                             <Table.Cell className="empty_content" colSpan={cells.body.length}>{EmptyContent}</Table.Cell>
-                        ) : null}
+                        )}
                     </Table>
                 </div>
             </TableActionsProvider>
         </TableRefProps>
     )
-}
-
-TableContainer.defaultProps = {
-    data: [],
-    focusedRowValue: null,
-    expandedRows: EMPTY_ARRAY,
-    selectedRows: EMPTY_ARRAY,
-    actionListener: () => {},
-    filterErrors: EMPTY_OBJECT,
 }
 
 TableContainer.displayName = 'TableContainer'

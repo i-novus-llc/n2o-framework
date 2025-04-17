@@ -119,4 +119,5 @@ export interface Props {
     valueFieldId: string
     size?: number
     count?: number
+    onOpen?(): void
 }

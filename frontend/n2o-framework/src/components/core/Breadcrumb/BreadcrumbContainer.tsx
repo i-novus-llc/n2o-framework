@@ -28,11 +28,7 @@ export function BreadcrumbContainer(): JSX.Element | null {
     const { getComponent } = useContext(FactoryContext)
     const FactoryBreadcrumb = getComponent('DefaultBreadcrumb', FactoryLevels.BREADCRUMBS)
 
-    if (!breadcrumb.length || !FactoryBreadcrumb) {
-        return null
-    }
+    if (!breadcrumb.length || !FactoryBreadcrumb) { return null }
 
-    return (
-        <FactoryBreadcrumb items={breadcrumb} />
-    )
+    return <FactoryBreadcrumb items={breadcrumb} />
 }

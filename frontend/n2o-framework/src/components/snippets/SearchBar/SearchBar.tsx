@@ -8,6 +8,8 @@ import onClickOutsideHOC from 'react-onclickoutside'
 import { InputText } from '@i-novus/n2o-components/lib/inputs/InputText'
 import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
+import { NOOP_FUNCTION } from '../../../utils/emptyTypes'
+
 import { SearchBarPopUp } from './SearchBarPopUp'
 import { SearchBarEmptyMenu } from './SearchBarEmptyMenu'
 import { SEARCH_TRIGGER, type SearchBarProps } from './types'
@@ -27,7 +29,7 @@ function SearchBar({
     initialValue,
     value,
     initSearchValue,
-    onSearch = () => {},
+    onSearch = NOOP_FUNCTION,
     trigger = SEARCH_TRIGGER.CHANGE,
     throttleDelay = 400,
     icon = 'fa fa-search',

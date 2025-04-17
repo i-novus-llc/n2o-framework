@@ -27,7 +27,7 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     public void imageShouldHaveShape(ShapeType shape) {
         switch (shape) {
             case SQUARE:
-                checkShape("mr-2 n2o-nav-image ");
+                checkShape(String.format("mr-2 n2o-nav-image %s", shape.getId()));
                 break;
             case ROUNDED:
                 checkShape(String.format("mr-2 n2o-nav-image %s", shape.getId()));

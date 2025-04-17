@@ -41,9 +41,6 @@ export class Spinner extends Component<Props, State> {
 
         this.timeoutId = null
         this.unmounted = null
-
-        this.renderCoverSpinner = this.renderCoverSpinner.bind(this)
-        this.renderLineSpinner = this.renderLineSpinner.bind(this)
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -67,7 +64,7 @@ export class Spinner extends Component<Props, State> {
         this.unmounted = true
     }
 
-    renderCoverSpinner() {
+    renderCoverSpinner = () => {
         const {
             children,
             className = '',
@@ -102,7 +99,7 @@ export class Spinner extends Component<Props, State> {
         )
     }
 
-    renderLineSpinner() {
+    renderLineSpinner = () => {
         const {
             children,
             loading,

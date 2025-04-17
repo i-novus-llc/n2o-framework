@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 
 import { usePrevious } from '../../../utils/usePrevious'
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../../utils/emptyTypes'
 
 import { Panel } from './Panel'
 import { PANEL_COLORS, type PanelContainerProps } from './types'
@@ -43,8 +44,8 @@ export function PanelContainer({
     children,
     innerRef,
     onVisibilityChange,
-    onKeyPress = () => {},
-    tabs = [],
+    onKeyPress = NOOP_FUNCTION,
+    tabs = EMPTY_ARRAY,
     isFullScreen = false,
     open = true,
     collapsible = false,

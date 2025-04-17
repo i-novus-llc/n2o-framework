@@ -3,27 +3,35 @@ import classNames from 'classnames'
 
 import { TBaseProps } from '../types'
 
-type Props = TBaseProps & {
-    imageShape?: string,
+export type ImageShape = 'circle' | 'rounded' | 'square' | ''
+
+export type Props = TBaseProps & {
+    imageShape?: ImageShape,
     imageSrc?: string,
     title?: string,
 }
 
+const shapeClasses = {
+    circle: 'rounded-circle',
+    rounded: 'rounded',
+    square: 'square',
+} as const
+
 export const NavItemImage = ({
     imageSrc,
-    imageShape,
+    imageShape = '',
     title,
 }: Props) => {
-    if (!imageSrc) {
-        return null
-    }
+    if (!imageSrc) { return null }
+
+    const className = classNames(
+        'mr-2 n2o-nav-image',
+        imageShape && shapeClasses[imageShape],
+    )
 
     return (
         <img
-            className={classNames(`mr-2 n2o-nav-image ${{
-                circle: 'rounded-circle',
-                rounded: 'rounded',
-            }[imageShape || ''] || ''}`)}
+            className={className}
             src={imageSrc}
             alt={title}
             width="18"

@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { TBaseProps } from '../../types'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { ImageInfo } from './ImageInfo'
 
@@ -41,7 +42,7 @@ export function Image({
     height,
     shape = Shape.rounded,
     visible = true,
-    style: propsStyle = {},
+    style: propsStyle = EMPTY_OBJECT,
     className,
     onClick,
 }: Props) {

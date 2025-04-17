@@ -18,6 +18,7 @@ import { type State } from '../../ducks/State'
 import { type State as WidgetsState } from '../../ducks/widgets/Widgets'
 import { type State as RegionsState, type TabMeta } from '../../ducks/regions/Regions'
 import { type ServiceInfo } from '../../ducks/regions/Actions'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { setFirstAvailableTab, checkTabAvailability, getFirstAvailableTab, getTabMetaById, Service } from './helpers'
 
@@ -65,7 +66,7 @@ export const createRegionContainer = <P extends RegionEnhancer>(config: Config) 
             tabs,
             active,
             routable,
-            resolveModel = {},
+            resolveModel = EMPTY_OBJECT as never,
             datasource = null,
             parent = null,
         } = props

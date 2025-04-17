@@ -4,31 +4,32 @@ import toString from 'lodash/toString'
 import isNil from 'lodash/isNil'
 
 import { TBaseInputProps, TBaseProps, TOption } from '../types'
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../utils/emptyTypes'
 
 import { InputRadio } from './Radio'
 
 export type Props = TBaseProps & Omit<TBaseInputProps<string | number>, 'onChange'> & {
     enabledFieldId?: string,
     groupClassName?: string,
-    inline: boolean,
-    onChange(event: ChangeEvent<HTMLInputElement>): void,
+    inline?: boolean,
+    onChange?(event: ChangeEvent<HTMLInputElement>): void,
     onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
-    options: Array<TOption<string | number>>
+    options?: Array<TOption<string | number>>
 }
 
 export function RadioGroup({
-    value,
-    visible,
+    value = '',
+    visible = true,
     style,
     className: propClassName,
     groupClassName,
-    disabled,
-    options,
-    name,
-    onChange,
+    disabled = false,
+    options = EMPTY_ARRAY,
+    name = '',
+    onChange = NOOP_FUNCTION,
     onKeyDown,
-    enabledFieldId,
-    inline,
+    enabledFieldId = '',
+    inline = false,
 }: Props) {
     const renderedOptions = options.map((radio) => {
         const isDisabled = radio.disabled || (!isNil(radio[enabledFieldId as keyof TOption<string | number>])
@@ -57,24 +58,5 @@ export function RadioGroup({
 
     if (!visible) { return null }
 
-    return (
-        <section
-            className={className}
-            style={style}
-        >
-            {renderedOptions}
-        </section>
-    )
+    return <section className={className} style={style}>{renderedOptions}</section>
 }
-
-RadioGroup.defaultProps = {
-    visible: true,
-    onChange: () => {
-    },
-    disabled: false,
-    name: '',
-    options: [],
-    value: '',
-    enabledFieldId: '',
-    inline: false,
-} as Props

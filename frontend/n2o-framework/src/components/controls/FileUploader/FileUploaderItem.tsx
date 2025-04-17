@@ -13,7 +13,7 @@ import { type FileUploaderItemProps } from './types'
 function FileUploaderItem({
     file,
     percentage,
-    onRemove,
+    onRemove = () => {},
     showSize,
     disabled,
     index,

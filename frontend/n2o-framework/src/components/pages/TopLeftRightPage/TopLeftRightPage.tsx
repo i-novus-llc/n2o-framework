@@ -4,6 +4,7 @@ import { ScrollContext, type State as ScrollContextProps } from '@i-novus/n2o-co
 
 import { DefaultPage } from '../DefaultPage'
 import { TopLeftRightPageProps, FIXED_PLACE, Places } from '../types'
+import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
 import { Region } from './Region'
 import { FixedContainer } from './FixedContainer'
@@ -22,7 +23,7 @@ function TopLeftRightPageBody({
     id,
     metadata,
     scrollContext,
-    regions = {},
+    regions = EMPTY_OBJECT,
     isFixed = false,
     style,
     ...rest

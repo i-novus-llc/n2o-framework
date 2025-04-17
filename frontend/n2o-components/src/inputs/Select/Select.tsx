@@ -1,4 +1,4 @@
-import React, { FocusEvent, RefObject, createRef } from 'react'
+import React, { FocusEvent, RefObject, createRef, MouseEvent } from 'react'
 import onClickOutside from 'react-onclickoutside'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
@@ -219,7 +219,7 @@ class SelectComponent extends React.Component<Props, State> {
      * Удаляет выбранные элементы
      * @private
      */
-    clearSelected = (e: Event) => {
+    clearSelected = (e: MouseEvent<HTMLElement>) => {
         e.stopPropagation()
         e.preventDefault()
 

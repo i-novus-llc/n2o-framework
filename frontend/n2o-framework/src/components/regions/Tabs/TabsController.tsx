@@ -10,6 +10,7 @@ import { DataSourceModels } from '../../../core/datasource/const'
 import { ServiceInfo } from '../../../ducks/regions/Actions'
 import { State as WidgetsState } from '../../../ducks/widgets/Widgets'
 import { setRegionVisibility } from '../../../ducks/regions/store'
+import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
 import { create } from './helpers'
 
@@ -52,7 +53,7 @@ export function TabsController<TProps extends Tabs>(Component: ComponentType<TPr
         const {
             tabs: tabsMeta, dispatch, id: regionId, pageId, activeEntity: active,
             lazy, serviceInfo, widgetsState, regionsState,
-            className, maxHeight, style = {}, scrollbar = true,
+            className, maxHeight, style = EMPTY_OBJECT, scrollbar = true,
         } = props
 
         const regionParams = {

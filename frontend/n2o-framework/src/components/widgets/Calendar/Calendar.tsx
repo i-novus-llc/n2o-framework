@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 // @ts-ignore import from js file react-big-calendar
 import { Calendar as BigCalendar, dayjsLocalizer } from 'react-big-calendar'
 import dayjs from 'dayjs'
@@ -8,6 +7,8 @@ import localeData from 'dayjs/plugin/localeData'
 import 'dayjs/locale/ru'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
+
+import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 
 import { formatsMap, timeParser } from './utils'
 import { CalendarProps } from './types'
@@ -56,7 +57,7 @@ export function Calendar({
     resources,
     onSelectEvent,
     onSelectSlot,
-    events = [],
+    events = EMPTY_ARRAY,
     startAccessor = 'start',
     endAccessor = 'end',
     configLocale = 'ru',

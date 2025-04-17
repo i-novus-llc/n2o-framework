@@ -8,6 +8,7 @@ import withWidgetProps from '../withWidgetProps'
 import { createRegionContainer } from '../withRegionContainer'
 import { widgetsSelector } from '../../../ducks/widgets/selectors'
 import { mapToNumeric } from '../../../tools/helpers'
+import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 
 import { Menu } from './Menu'
 import { Content } from './Content'
@@ -36,7 +37,7 @@ export function Region(
         activeEntity: active,
         widgets,
         disabled,
-        content: items = [],
+        content: items = EMPTY_ARRAY,
         maxHeight: propsMaxHeight = 'auto',
         placement = 'left',
         headlines = true,

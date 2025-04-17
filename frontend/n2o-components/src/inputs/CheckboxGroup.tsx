@@ -4,6 +4,7 @@ import isNull from 'lodash/isNull'
 import isNil from 'lodash/isNil'
 
 import { TBaseInputProps, TBaseProps } from '../types'
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../utils/emptyTypes'
 
 import { Checkbox } from './Checkbox/Checkbox'
 
@@ -20,33 +21,36 @@ type Props = TBaseProps & TBaseInputProps<any> & {
     labelFieldId: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: any[],
-    valueFieldId: string
+    valueFieldId: string,
+    visible?: boolean
 }
 
 export const CheckboxGroup: FC<Props> = ({
-    value,
-    disabled,
-    inline,
-    labelFieldId,
-    valueFieldId,
-    enabledFieldId,
-    options,
-    visible,
+    id = '',
+    name = '',
+    value = EMPTY_ARRAY,
+    inline = false,
+    valueFieldId = 'value',
+    enabledFieldId = 'enabled',
+    labelFieldId = 'label',
+    visible = true,
+    options = EMPTY_ARRAY,
+    disabled = false,
     style,
     className,
-    onChange,
-    onBlur,
-    onFocus,
+    onChange = NOOP_FUNCTION,
+    onBlur = NOOP_FUNCTION,
+    onFocus = NOOP_FUNCTION,
 }) => {
     function getDisabled(option: { disabled?: boolean, [key: string]: unknown }) {
         if (disabled) { return true }
-
-        if (isNil(option[enabledFieldId])) { return option.disabled }
+        if (isNil(option[enabledFieldId])) { return !!option.disabled }
 
         return !option[enabledFieldId]
     }
+
     const renderedOptions = useMemo(
-        () => options?.map(option => (
+        () => options.map(option => (
             <Checkbox
                 key={option[valueFieldId]}
                 value={option}
@@ -68,17 +72,4 @@ export const CheckboxGroup: FC<Props> = ({
     return <div className={className} style={style}>{renderedOptions}</div>
 }
 
-CheckboxGroup.defaultProps = {
-    id: '',
-    name: '',
-    value: [],
-    inline: false,
-    valueFieldId: '',
-    enabledFieldId: '',
-    labelFieldId: '',
-    visible: true,
-    options: [],
-    onChange: () => {},
-    onFocus: () => {},
-    onBlur: () => {},
-} as Props
+CheckboxGroup.displayName = 'CheckboxGroup'

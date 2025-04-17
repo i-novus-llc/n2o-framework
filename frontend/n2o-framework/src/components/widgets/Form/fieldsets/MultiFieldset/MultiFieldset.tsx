@@ -10,6 +10,7 @@ import { useResolved } from '../../../../../core/Expression/useResolver'
 import { ArrayFieldProvider } from '../../../../../core/datasource/ArrayField/ArrayFieldProvider'
 import { RowProvider } from '../../../../../core/datasource/ArrayField/RowProvider'
 import { FieldsetProps } from '../types'
+import { EMPTY_OBJECT } from '../../../../../utils/emptyTypes'
 
 import { MultiFieldsetItem } from './MultiFieldsetItem'
 
@@ -26,7 +27,7 @@ function MultiFieldset({
     help,
     label,
     name = '',
-    activeModel = {},
+    activeModel = EMPTY_OBJECT,
     primaryKey = 'id',
     removeAllButtonLabel: removeAllButtonsLabelExpression = 'Удалить все',
     addButtonLabel: addButtonLabelExpression = 'Добавить',

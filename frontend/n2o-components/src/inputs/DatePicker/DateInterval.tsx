@@ -1,6 +1,8 @@
 import React from 'react'
 import defaults from 'lodash/defaults'
 
+import { NOOP_FUNCTION } from '../../utils/emptyTypes'
+
 import { DateTimeControl } from './DateTimeControl'
 import { type DateIntervalProps, DateTimeControlName } from './types'
 
@@ -10,9 +12,9 @@ export const DateInterval = ({
         [DateTimeControlName.BEGIN]: null,
         [DateTimeControlName.END]: null,
     },
-    onChange = () => {},
-    onFocus = () => {},
-    onBlur = () => {},
+    onChange = NOOP_FUNCTION,
+    onFocus = NOOP_FUNCTION,
+    onBlur = NOOP_FUNCTION,
     dateFormat = 'DD/MM/YYYY',
     placeholder = '',
     disabled = false,

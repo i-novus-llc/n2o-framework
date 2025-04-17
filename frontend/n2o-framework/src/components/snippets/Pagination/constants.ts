@@ -61,7 +61,7 @@ export interface Total {
     visible: boolean,
 }
 
-export interface Select {
+export interface SelectProps {
     title?: string | number | null,
     onClick?(): void,
     style?: object,

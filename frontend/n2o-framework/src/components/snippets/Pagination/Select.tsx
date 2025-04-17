@@ -1,12 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { Select as SelectProps } from './constants'
+import { type SelectProps } from './constants'
 
 export function Select({ title, onClick, style, className, active, icon, disabled, visible = true }: SelectProps) {
-    if (!visible) {
-        return null
-    }
+    if (!visible) { return null }
 
     return (
         <button
