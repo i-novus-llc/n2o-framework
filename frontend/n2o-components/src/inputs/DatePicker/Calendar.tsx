@@ -267,9 +267,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
             return '00:00:00'
         }
 
-        if (t) { return t('chooseTime') }
+        // TODO i18n не работает перевод в продакшн сборке ready = false (в локальной работает)
+        // if (t) { return t('chooseTime') }
 
-        return null
+        return 'Выберите время'
     }
 
     renderByDays() {
