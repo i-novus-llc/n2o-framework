@@ -5,22 +5,16 @@ import { Select } from './Select'
 import { PAGE_LINK_CLASS, ExtraPage as ExtraPageProps } from './constants'
 
 function Ellipsis({ visible }: { visible: boolean }) {
-    if (!visible) {
-        return null
-    }
+    if (!visible) { return null }
 
     return <span className="ellipsis d-flex align-items-md-end">...</span>
 }
 
 export function ExtraPage({ visible, page, onSelect, ellipsis, showLast, hasNext, disabled = false, canSelect = true }: ExtraPageProps) {
-    if (!visible) {
-        return null
-    }
+    if (!visible) { return null }
 
     const setPage = () => {
-        if (canSelect && page) {
-            onSelect(page)
-        }
+        if (canSelect && page) { onSelect(page) }
     }
 
     const needToSelect = canSelect && typeof page === 'number'

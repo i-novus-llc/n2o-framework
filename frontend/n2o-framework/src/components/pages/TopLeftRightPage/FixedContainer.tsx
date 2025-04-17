@@ -1,6 +1,8 @@
 import React, { ReactNode, CSSProperties } from 'react'
 import classNames from 'classnames'
 
+import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
+
 export interface Props {
     className?: string
     fixed: boolean
@@ -9,7 +11,7 @@ export interface Props {
     children: ReactNode
 }
 
-export function FixedContainer({ children, className, fixed, width = 'auto', style = {} }: Props) {
+export function FixedContainer({ children, className, fixed, width = 'auto', style = EMPTY_OBJECT }: Props) {
     return (
         <div className={className} style={{ width, height: fixed ? style.height : 'auto' }}>
             <div

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import classNames from 'classnames'
-import { NavItemImage } from '@i-novus/n2o-components/lib/display/NavItemImage'
+import { ImageShape, NavItemImage } from '@i-novus/n2o-components/lib/display/NavItemImage'
 
 import { Tooltip } from '../../../../../components/snippets/Tooltip/TooltipHOC'
 import { Icon } from '../../../utils'
@@ -15,7 +15,7 @@ interface DropdownWrapperProps {
     isMiniView: boolean
     id: string
     imageSrc?: string
-    imageShape?: string
+    imageShape?: ImageShape
     open?: boolean
 }
 

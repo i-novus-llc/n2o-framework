@@ -4,6 +4,7 @@ import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 import { Alert } from '../../../ducks/alerts/Alerts'
 import { PLACEMENT } from '../../../ducks/alerts/constants'
+import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 
 interface AlertsByPlacementProps {
     alerts: Alert[]
@@ -29,7 +30,7 @@ export interface Props extends Omit<AlertsByPlacementProps, 'placement'> {
     placements: PLACEMENT[]
 }
 
-export function Alerts({ placements, alerts = [] }: Props) {
+export function Alerts({ placements, alerts = EMPTY_ARRAY }: Props) {
     return (
         <div className="n2o-alerts-container">
             {placements.map(

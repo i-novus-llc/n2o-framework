@@ -16,9 +16,10 @@ import { TOption, getSearchMinLengthHintType } from '../InputSelect/types'
 import { Icon } from '../../display/Icon'
 import { InlineSpinner } from '../../layouts/Spinner/InlineSpinner'
 import { Checkbox } from '../Checkbox/Checkbox'
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../utils/emptyTypes'
 
-import { TreeNode } from './TreeSelectNode'
-import { visiblePartPopup, getCheckedStrategy } from './until'
+import { type Options, TreeNode } from './TreeSelectNode'
+import { visiblePartPopup, getCheckedStrategy } from './helpers'
 
 const renderSwitcherIcon = ({ isLeaf }: { isLeaf: boolean }) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -83,35 +84,38 @@ function mapValue2RC<
 }
 
 function InputSelectTree({
-    t,
+    t = NOOP_FUNCTION,
     fetchData,
-    onFocus,
+    onFocus = NOOP_FUNCTION,
     value,
-    onBlur,
-    placeholder,
+    onBlur = NOOP_FUNCTION,
+    placeholder = '',
     notFoundContent = 'Нет данных для отображения',
-    loading,
-    parentFieldId,
-    valueFieldId,
-    labelFieldId,
+    loading = false,
+    parentFieldId = 'parentId',
+    valueFieldId = 'id',
+    labelFieldId = 'name',
     enabledFieldId,
-    iconFieldId,
-    imageFieldId,
-    badge,
-    hasChildrenFieldId,
-    options,
-    onSearch,
-    onChange,
+    iconFieldId = 'icon',
+    imageFieldId = 'image',
+    badge = {
+        fieldId: 'badge',
+        colorFieldId: 'color',
+    },
+    hasChildrenFieldId = 'hasChildren',
+    options = EMPTY_ARRAY,
+    onSearch = NOOP_FUNCTION,
+    onChange = NOOP_FUNCTION,
     onKeyDown,
-    hasCheckboxes,
-    multiSelect,
-    children,
-    onClose,
-    onToggle,
+    hasCheckboxes = false,
+    multiSelect = false,
+    children = null,
+    onClose = NOOP_FUNCTION,
+    onToggle = NOOP_FUNCTION,
     ajax,
     className,
-    showCheckedStrategy,
-    maxTagTextLength,
+    showCheckedStrategy = 'all',
+    maxTagTextLength = 10,
     maxTagCount,
     searchMinLength,
     getSearchMinLengthHint,
@@ -156,7 +160,7 @@ function InputSelectTree({
                         key: item[valueFieldId as keyof TOption],
                         value: item[valueFieldId as keyof TOption],
                         disabled,
-                        title: item.formattedTitle || visiblePartPopup(item, popupProps),
+                        title: item.formattedTitle || visiblePartPopup(item, popupProps as unknown as Options),
                         ...(ajax && { isLeaf: !item[hasChildrenFieldId as keyof TOption] }),
                         children: [],
                         /* игнорирование встроенного параметра из rc-tree-select, иконку отрисовывает visiblePartPopup */
@@ -290,8 +294,7 @@ function InputSelectTree({
             return <InlineSpinner />
         }
 
-        // TODO проверка вернуть как было
-        return 'Нет данных для отображения'
+        return notFoundContent
     }
 
     return (
@@ -340,142 +343,41 @@ function InputSelectTree({
     )
 }
 
-InputSelectTree.defaultProps = {
-    children: null,
-    hasChildrenFieldId: 'hasChildren',
-    disabled: false,
-    loading: false,
-    parentFieldId: 'parentId',
-    valueFieldId: 'id',
-    labelFieldId: 'name',
-    iconFieldId: 'icon',
-    badge: {
-        fieldId: 'badge',
-        colorFieldId: 'color',
-    },
-    imageFieldId: 'image',
-    sortFieldId: 'name',
-    hasCheckboxes: false,
-    multiSelect: false,
-    options: [],
-    transitionName: 'slide-up',
-    choiceTransitionName: 'zoom',
-    showCheckedStrategy: 'all',
-    allowClear: true,
-    placeholder: '',
-    showSearch: true,
-    maxTagTextLength: 10,
-    onSearch: () => {},
-    onChange: () => {},
-    onClose: () => {},
-    onToggle: () => {},
-    onFocus: () => {},
-    onBlur: () => {},
-    onInput: () => {},
-    t: () => {},
-} as Partial<Props>
-
-type Props = {
-    /**
-     * Флаг динамичексой подгрузки данных. В данных обязательно указывать параметр hasChildrens
-     */
-    ajax?: boolean,
-    /**
-     * Данные для badge
-     */
-    badge: object,
-    children: ReactNode,
-    className?: string,
-    /**
-     * Флаг неактивности
-     */
-    disabled: boolean,
-    /**
-     * Callback на открытие
-     */
+export interface Props {
+    ajax?: boolean
+    badge: object
+    children: ReactNode
+    className?: string
+    disabled: boolean
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fetchData?: any,
-    /**
-     * Флаг для показа чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим
-     */
-    hasCheckboxes: boolean,
-    /**
-     * Значение ключа hasChildren в данных
-     */
-    hasChildrenFieldId: string,
-    /**
-     * Значение ключа icon в данных
-     */
-    iconFieldId: string,
-    /**
-     *  Значение ключа image в данных
-     */
-    imageFieldId: string,
-    /**
-     * Значение ключа label в данных
-     */
-    labelFieldId: string,
-    /**
-     * Значение доступности элемента в данных
-     */
-    enabledFieldId: string,
-    /**
-     * Флаг анимации загрузки
-     */
-    loading: boolean,
-    /**
-     * Количество символов выбранных элементов в chechbox режиме
-     */
-    maxTagTextLength: number,
-    maxTagCount: number,
-    /**
-     * Мульти выбор значений
-     */
-    multiSelect: boolean,
+    fetchData?: any
+    hasCheckboxes: boolean
+    hasChildrenFieldId: string
+    iconFieldId: string
+    imageFieldId: string
+    labelFieldId: string
+    enabledFieldId: string
+    loading: boolean
+    maxTagTextLength: number
+    maxTagCount: number
+    multiSelect: boolean
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    notFoundContent?: any,
-    onBlur(arg?: Props['value']): void,
-    /**
-     * Calback изменения
-     */
-    onChange(arg: Props['value']): void,
-    /**
-     * Callback на закрытие
-     */
-    onClose(): void,
-    onFocus(): void,
-    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
-    /**
-     * Callback на поиск
-     */
-    onSearch(arg: Props['value']): void,
-    onToggle(arg: boolean): void,
-    /**
-     * Данные для построения дерева
-     */
-    options: TOption[],
-    /**
-     * Значение ключа parent в данных
-     */
-    parentFieldId: string,
-    /**
-     * Placeholder контрола
-     */
-    placeholder: string,
-    showCheckedStrategy: string,
-    t(arg: string): void,
-    /**
-     * Значение
-     */
+    notFoundContent?: any
+    onBlur(arg?: Props['value']): void
+    onChange(arg: Props['value']): void
+    onClose(): void
+    onFocus(): void
+    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void
+    onSearch(arg: Props['value']): void
+    onToggle(arg: boolean): void
+    options: TOption[]
+    parentFieldId: string
+    placeholder: string
+    showCheckedStrategy: string
+    t(arg: string): void
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value?: any,
-    /**
-     * Значение ключа value в данных
-     */
+    value?: any
     valueFieldId: keyof TOption
-    /**
-     * Минимальное кол-во символов до фильтрации
-     */
     searchMinLength?: number
     getSearchMinLengthHint: getSearchMinLengthHintType
 }
@@ -489,5 +391,5 @@ const clickOutsideConfig = {
 
 export const InputSelectTreeComponent = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onClickOutsideHOC(withTranslation()(InputSelectTree as any), clickOutsideConfig) as any
+    onClickOutsideHOC(withTranslation()(InputSelectTree as any), clickOutsideConfig)
 )

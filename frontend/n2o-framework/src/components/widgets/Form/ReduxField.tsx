@@ -9,18 +9,18 @@ import withFieldContainer from './fields/withFieldContainer'
 import { StandardField } from './fields/StandardField/StandardField'
 
 interface ControlProps {
-    fetchData(params: { size: number }): void;
-    size: number;
-    labelFieldId: string;
+    fetchData(params: { size: number }): void
+    size: number
+    labelFieldId: string
 }
 
 interface ControlRef {
-    props: ControlProps;
+    props: ControlProps
 }
 
 interface Config {
-    controlRef?: ControlRef;
-    onChange(params: { dependency: DataSourceDependencyBase[] }, dependencyType: DependencyTypes): void;
+    controlRef?: ControlRef
+    onChange(params: { dependency: DataSourceDependencyBase[] }, dependencyType: DependencyTypes): void
 }
 
 // FIXME временное решение для fieldDependency type fetch,
@@ -43,8 +43,8 @@ const config: Config = {
 }
 
 interface ReduxFieldProps {
-    name: string;
-    component: React.ComponentType<Record<string, unknown>>; // Замените any на более конкретный тип, если возможно
+    name: string
+    component: React.ComponentType<Record<string, unknown>>
 }
 
 class ReduxField extends React.Component<ReduxFieldProps> {

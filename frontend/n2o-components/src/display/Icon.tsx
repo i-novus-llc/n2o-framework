@@ -2,6 +2,7 @@ import React, { MouseEventHandler } from 'react'
 import classNames from 'classnames'
 
 import { TBaseProps } from '../types'
+import { NOOP_FUNCTION } from '../utils/emptyTypes'
 
 type Props = TBaseProps & {
     bordered?: boolean
@@ -20,7 +21,7 @@ export function Icon({
     circular = false,
     bordered = false,
     style,
-    onClick = () => {},
+    onClick = NOOP_FUNCTION,
     visible = true,
 }: Props) {
     if (!visible) {

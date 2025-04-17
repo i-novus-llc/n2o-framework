@@ -12,10 +12,7 @@ type Props = TBaseProps & {
 export function Text({ text, format, className, ...rest }: Props) {
     return (
         <span className={classNames('n2o-snippet', className)}>
-            <FormattedText
-                format={format}
-                {...rest}
-            >
+            <FormattedText format={format} {...rest}>
                 {text}
             </FormattedText>
         </span>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { ButtonDropdownProps } from 'reactstrap'
+import { ImageShape } from '@i-novus/n2o-components/lib/display/NavItemImage'
 
 import { Action } from '../ducks/Action'
 import { Props } from '../components/snippets/Badge/Badge'
@@ -19,7 +20,7 @@ export interface Common {
     className?: string
     icon?: string
     imageSrc?: string
-    imageShape?: string
+    imageShape?: ImageShape
     active: boolean
     isStaticView?: boolean
     sidebarOpen?: boolean

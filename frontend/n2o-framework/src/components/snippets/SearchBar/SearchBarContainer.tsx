@@ -1,14 +1,15 @@
 import React from 'react'
 
 import { listContainer } from '../../controls/listContainer'
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../../utils/emptyTypes'
 
 import SearchBar from './SearchBar'
 import { type SearchBarContainerProps } from './types'
 
 function SearchBarContainer({
-    options = [],
+    options = EMPTY_ARRAY,
     trigger,
-    onSearch = () => {},
+    onSearch = NOOP_FUNCTION,
     button = null,
     icon = 'fa fa-search',
     directionIconsInPopUp = 'left',

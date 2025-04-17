@@ -3,6 +3,8 @@ import { Button } from 'reactstrap'
 import classNames from 'classnames'
 import { InputText } from '@i-novus/n2o-components/lib/inputs/InputText'
 
+import { EMPTY_OBJECT, NOOP_FUNCTION } from '../../../../utils/emptyTypes'
+
 import { type AdvancedTableFilterPopupProps, VALIDATION_MAP } from './types'
 
 /**
@@ -14,12 +16,12 @@ const AdvancedTableFilterPopupBody = ({
     component,
     style,
     touched = false,
-    onChange = () => {},
-    onBlur = () => {},
-    onSearchClick = () => {},
-    onResetClick = () => {},
-    componentProps = {},
-    error = {},
+    onChange = NOOP_FUNCTION,
+    onBlur = NOOP_FUNCTION,
+    onSearchClick = NOOP_FUNCTION,
+    onResetClick = NOOP_FUNCTION,
+    componentProps = EMPTY_OBJECT,
+    error = EMPTY_OBJECT,
 }: AdvancedTableFilterPopupProps) => {
     const onKeyDown = useCallback((event: KeyboardEvent) => {
         if (event.key === 'Enter') {

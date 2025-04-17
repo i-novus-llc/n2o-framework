@@ -22,14 +22,14 @@ export const TableHeader = memo<TableHeaderProps>(({
         <Table.Header>
             {rows.map(columns => (
                 <Table.Row>
-                    {selection === Selection.Checkbox ? (
+                    {selection === Selection.Checkbox && (
                         <Table.HeaderCell key={selection} className="cell-selection">
                             <CheckboxHeaderCell areAllRowsSelected={areAllRowsSelected} />
                         </Table.HeaderCell>
-                    ) : null}
-                    {selection === Selection.Radio ? (
+                    )}
+                    {selection === Selection.Radio && (
                         <Table.HeaderCell key={selection} className="cell-selection" />
-                    ) : null}
+                    )}
                     {columns.map(cell => (
                         <TableHeaderCell
                             key={cell.id}

@@ -12,8 +12,30 @@ import { ModelPrefix } from '../../../../core/datasource/const'
 import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
 import { type WithWidgetHandlersProps } from '../types'
 import { State } from '../../../../ducks/State'
+import { EMPTY_ARRAY } from '../../../../utils/emptyTypes'
 
-import { defaultProps } from './allProps'
+export const defaultProps = {
+    disabled: false,
+    loading: false,
+    datasource: EMPTY_ARRAY,
+    parentIcon: '',
+    childIcon: '',
+    multiselect: false,
+    showLine: false,
+    filter: '',
+    expandBtn: false,
+    bulkData: false,
+    parentFieldId: 'parentId',
+    valueFieldId: 'id',
+    labelFieldId: 'label',
+    iconFieldId: 'icon',
+    badgeFieldId: 'badge',
+    badgeColorFieldId: 'color',
+    hasCheckboxes: false,
+    prefixCls: 'n2o-rc-tree',
+    icon: '',
+    childrenFieldId: 'children',
+}
 
 const withWidgetHandlers = <P extends object>(WrappedComponent: ComponentType<P & WithWidgetHandlersProps>) => {
     class Wrapper extends Component<P & WithWidgetHandlersProps> {

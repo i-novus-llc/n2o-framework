@@ -8,6 +8,7 @@ import { Label } from '../StandardField/Label'
 import { FieldActions } from '../StandardField/FieldActions'
 import { Description } from '../StandardField/Description'
 import { type Props as StandardFieldProps, getValidationClass } from '../StandardField/StandardField'
+import { EMPTY_OBJECT, NOOP_FUNCTION } from '../../../../../utils/emptyTypes'
 
 export interface Props extends Omit<StandardFieldProps, 'component' | 'value'> {
     beginControl: ControlCommonProps
@@ -41,10 +42,10 @@ export const RangeField = ({
     required = false,
     className = '',
     loading = false,
-    style = {},
+    style = EMPTY_OBJECT,
     enabled = true,
     disabled = false,
-    onChange = () => {},
+    onChange = NOOP_FUNCTION,
     divider = false,
     ...rest
 }: Props) => {

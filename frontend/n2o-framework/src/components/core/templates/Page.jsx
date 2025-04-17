@@ -4,6 +4,7 @@ import classNames from 'classnames'
 
 import { Factory } from '../../../core/factory/Factory'
 import { TEMPLATES } from '../../../core/factory/factoryLevels'
+import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
 import { Layout as FullSizeSidebar } from './layout/FullSizeSidebar'
 import { Layout as FullSizeHeader } from './layout/FullSizeHeader'
@@ -21,9 +22,9 @@ const layoutContainerClasses = (header, sidebar, fullSizeHeader, fixed, side) =>
 export function Page({
     children,
     layout: layoutProps,
-    header: headerProps = {},
-    sidebar: sidebarProps = {},
-    footer: footerProps = {},
+    header: headerProps = EMPTY_OBJECT,
+    sidebar: sidebarProps = EMPTY_OBJECT,
+    footer: footerProps = EMPTY_OBJECT,
 }) {
     const [sidebarOpened, setSidebarOpened] = useState(false)
 

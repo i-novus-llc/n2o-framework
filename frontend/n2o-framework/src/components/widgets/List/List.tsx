@@ -14,6 +14,7 @@ import { CellMeasurerProps } from 'react-virtualized/dist/es/CellMeasurer'
 import { ListRowRenderer } from 'react-virtualized/dist/es/List'
 
 import { getIndex } from '../Table/utils'
+import { EMPTY_ARRAY, EMPTY_OBJECT, NOOP_FUNCTION } from '../../../utils/emptyTypes'
 
 import { ListItem } from './ListItem'
 import { ListMoreButton } from './ListMoreButton'
@@ -39,16 +40,16 @@ export interface State {
 
 class List extends Component<ListProps, State> {
     static defaultProps = {
-        onItemClick: () => {},
-        onFetchMore: () => {},
-        t: () => {},
+        onItemClick: NOOP_FUNCTION,
+        onFetchMore: NOOP_FUNCTION,
+        t: NOOP_FUNCTION,
         hasSelect: false,
-        data: [],
+        data: EMPTY_ARRAY,
         rowClick: false,
         hasMoreButton: false,
         fetchOnScroll: false,
         divider: true,
-        rows: {},
+        rows: EMPTY_OBJECT,
     }
 
     private readonly cache: CellMeasurerCache

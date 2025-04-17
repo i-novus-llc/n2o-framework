@@ -12,6 +12,7 @@ import { State } from '../../ducks/State'
 import { type ErrorContainerProps } from '../../core/error/types'
 import { Model } from '../../ducks/models/selectors'
 import { Widget } from '../../ducks/widgets/Widgets'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { WidgetFilters, type Props as WidgetFiltersProps } from './WidgetFilters'
 
@@ -28,10 +29,12 @@ export enum PLACES {
     bottomCenter = 'bottomCenter',
 }
 
+export type WidgetFilter = { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] }
+
 export interface Props extends Widget {
     widgetId: string
     toolbar: Record<string, ToolbarProps>
-    filter?: { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] }
+    filter?: WidgetFilter
     fetchData?: WidgetFiltersProps['fetchData']
     datasource: string
     pagination?: Record<string, unknown>
@@ -63,9 +66,9 @@ const StandardWidget = memo(({
     children,
     loading,
     error,
-    filter = {} as never,
-    toolbar = {},
-    pagination = {},
+    filter = EMPTY_OBJECT as WidgetFilter,
+    toolbar = EMPTY_OBJECT,
+    pagination = EMPTY_OBJECT,
 }: Props) => {
     const renderToolbar = useCallback((place) => {
         const paginationComponent = pagination[place]

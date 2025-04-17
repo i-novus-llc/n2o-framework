@@ -26,32 +26,43 @@ const renderIcon = ({ isActive }: { isActive: boolean }, collapsible: boolean) =
  * @constructor
  */
 
-export type Props = {
-    className: string
+export interface Props {
+    className?: string
     children: ReactNode
-    collapsible: boolean
-    defaultActiveKey: string | null
+    collapsible?: boolean
+    defaultActiveKey?: string | null
+    destroyInactivePanel?: boolean
+    accordion?: boolean
+    dataKey?: string
+    isVisible?: boolean
+    onChange?(): void
 }
 
-export const Collapse = ({ className, children, collapsible, ...rest }: Props) => {
+export const Collapse = ({
+    className = '',
+    children,
+    collapsible = true,
+    destroyInactivePanel = false,
+    accordion = false,
+    dataKey = 'items',
+    isVisible = true,
+    onChange = () => {},
+    ...rest
+}: Props) => {
     return (
         <CollapseBody
             className={classNames('n2o-collapse', className)}
             expandIcon={(props: { isActive: boolean }) => renderIcon(props, collapsible)}
+            destroyInactivePanel={destroyInactivePanel}
+            accordion={accordion}
+            dataKey={dataKey}
+            isVisible={isVisible}
+            onChange={onChange}
             {...rest}
         >
             {children}
         </CollapseBody>
     )
-}
-
-Collapse.defaultProps = {
-    destroyInactivePanel: false,
-    accordion: false,
-    dataKey: 'items',
-    collapsible: true,
-    isVisible: true,
-    onChange: () => {},
 }
 
 Collapse.displayName = '@n2o-components/display/Collapse'

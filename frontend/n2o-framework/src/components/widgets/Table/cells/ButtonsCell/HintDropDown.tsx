@@ -6,6 +6,8 @@ import { DropdownCustomItem } from '@i-novus/n2o-components/lib/display/Dropdown
 import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 import { Action } from 'redux'
 
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../../../../utils/emptyTypes'
+
 import { MODIFIERS, withUID } from './helpers'
 import { HintDropDownBody } from './HintDropDownBody'
 import { type HintDropdownProps, MenuItem } from './types'
@@ -20,7 +22,7 @@ function HintDropDown({
     model,
     direction,
     active,
-    menu = [],
+    menu = EMPTY_ARRAY,
     modifiers = MODIFIERS as never,
     disabled = false,
     placement = 'top',
@@ -31,7 +33,7 @@ function HintDropDown({
     offset = 0,
     positionFixed = true,
     visible = true,
-    resolveWidget = () => {},
+    resolveWidget = NOOP_FUNCTION,
 }: HintDropdownProps) {
     const [open, setOpen] = useState(false)
 

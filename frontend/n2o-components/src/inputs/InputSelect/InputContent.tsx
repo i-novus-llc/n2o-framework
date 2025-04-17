@@ -4,6 +4,8 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../utils/emptyTypes'
+
 import { InputElements as SelectedItems } from './SelectedItems'
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils'
 import { TOption } from './types'
@@ -67,8 +69,6 @@ export type Props = {
     readOnly?: boolean
 }
 
-const noop = () => {}
-
 export function InputContent({
     disabled = false,
     value,
@@ -81,15 +81,15 @@ export function InputContent({
     labelFieldId,
     valueFieldId,
     multiSelect = false,
-    onInputChange = noop,
-    openPopUp = noop,
-    closePopUp = noop,
+    onInputChange = NOOP_FUNCTION,
+    openPopUp = NOOP_FUNCTION,
+    closePopUp = NOOP_FUNCTION,
     activeValueId,
     setActiveValueId,
-    disabledValues = [],
+    disabledValues = EMPTY_ARRAY,
     options,
-    onClick = noop,
-    onKeyDown = noop,
+    onClick = NOOP_FUNCTION,
+    onKeyDown = NOOP_FUNCTION,
     isExpanded,
     autoFocus = false,
     setRef,

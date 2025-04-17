@@ -8,10 +8,10 @@ import withFileUploader from './withFileUploader'
 import FileUploader from './FileUploader'
 
 interface ButtonUploaderChildrenProps {
-    children?: React.ReactNode;
-    icon: string;
-    label: string;
-    disabled: boolean;
+    children?: React.ReactNode
+    icon: string
+    label: string
+    disabled: boolean
 }
 
 function ButtonUploaderChildren({
@@ -33,50 +33,56 @@ function ButtonUploaderChildren({
 }
 
 interface ButtonUploaderProps {
-    t(key: string): string;
-    children?: React.ReactNode;
-    icon: string;
-    disabled?: boolean;
-    label?: string;
-    requestParam?: string;
-    visible?: boolean;
-    statusBarColor?: string;
-    multi?: boolean;
-    autoUpload?: boolean;
-    showSize?: boolean;
-    value?: unknown[];
-    onChange?(value: unknown[]): void;
+    t(key: string): string
+    children?: React.ReactNode
+    icon?: string
+    disabled?: boolean
+    label?: string
+    requestParam?: string
+    visible?: boolean
+    statusBarColor?: string
+    multi?: boolean
+    autoUpload?: boolean
+    showSize?: boolean
+    value?: unknown[]
+    onChange?(value: unknown[]): void
 }
 
 function ButtonUploader({
     t,
     children,
-    icon,
+    icon = 'fa fa-upload',
     disabled = false,
     label = t('uploadFile'),
+    requestParam = 'file',
+    visible = true,
+    statusBarColor = 'success',
+    multi = true,
+    autoUpload = true,
+    showSize = true,
+    value = [],
+    onChange = () => {},
     ...props
 }: ButtonUploaderProps) {
     return (
-        // @ts-ignore ignore import error from js file
-        <FileUploader {...props} componentClass="n2o-button-uploader" disabled={disabled}>
+        <FileUploader
+            {...props}
+            componentClass="n2o-button-uploader"
+            disabled={disabled}
+            requestParam={requestParam}
+            visible={visible}
+            statusBarColor={statusBarColor}
+            multi={multi}
+            autoUpload={autoUpload}
+            showSize={showSize}
+            value={value}
+            onChange={onChange}
+        >
             <ButtonUploaderChildren icon={icon} label={label} disabled={disabled}>
                 {children}
             </ButtonUploaderChildren>
         </FileUploader>
     )
-}
-
-ButtonUploader.defaultProps = {
-    requestParam: 'file',
-    visible: true,
-    icon: 'fa fa-upload',
-    statusBarColor: 'success',
-    multi: true,
-    disabled: false,
-    autoUpload: true,
-    showSize: true,
-    value: [],
-    onChange: () => {},
 }
 
 export default flowRight(

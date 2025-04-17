@@ -1,6 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
+import { EMPTY_ARRAY } from '../../utils/emptyTypes'
+
 import { createOptions } from './helpers'
 import { Pane } from './Pane'
 import { Content } from './Content'
@@ -43,7 +45,7 @@ export function Tabs({
     contentRenderMethod,
     hideSingleTab,
     style,
-    tabs = [],
+    tabs = EMPTY_ARRAY,
 }: Props) {
     const options = createOptions(tabs, hideSingleTab)
 

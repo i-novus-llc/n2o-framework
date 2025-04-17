@@ -4,38 +4,12 @@ import isEqual from 'lodash/isEqual'
 import unionWith from 'lodash/unionWith'
 import isNaN from 'lodash/isNaN'
 import get from 'lodash/get'
-import { Props, defaultProps } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/allProps'
+import { type Props } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/types'
 import { InputSelectTreeComponent } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/InputSelectTree'
-import { TOption } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'
+import { type TOption } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'
 
 import listContainer from '../listContainer'
-
-/**
- * Контейнер для {@link InputSelect}
- * @reactProps {boolean} loading - флаг анимации загрузки
- * @reactProps {array} options - данные
- * @reactProps {string} valueFieldId - значение ключа value в данных
- * @reactProps {string} labelFieldId - значение ключа label в данных
- * @reactProps {string} iconFieldId - поле для иконки
- * @reactProps {string} imageFieldId - поле для картинки
- * @reactProps {boolean} disabled - флаг неактивности
- * @reactProps {array} disabledValues - неактивные данные
- * @reactProps {string} filter - варианты фильтрации
- * @reactProps {string} value - текущее значение
- * @reactProps {function} onInput - callback при вводе в инпут
- * @reactProps {function} onSelect - callback при выборе значения из popup
- * @reactProps {string} placeHolder - подсказка в инпуте
- * @reactProps {boolean} resetOnBlur - фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
- * @reactProps {function} fetchData - callback на открытие попапа
- * @reactProps {function} onClose - callback на закрытие попапа
- * @reactProps {string} queryId - queryId
- * @reactProps {number} size - size
- * @reactProps {boolean} multiSelect - флаг мульти выбора
- * @reactProps {string} groupFieldId - поле для группировки
- * @reactProps {boolean} closePopupOnSelect - флаг закрытия попапа при выборе
- * @reactProps {boolean} hasCheckboxes - флаг наличия чекбоксов
- * @reactProps {string} format - формат
- */
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../../utils/emptyTypes'
 
 function optionsHasValue(options: TOption[], selectedValueId: string | number | null) {
     if (!options.length) {
@@ -60,8 +34,48 @@ function mapIds(options: TOption[], valueFieldId: keyof TOption, parentFieldId: 
     })
 }
 
-function InputSelectTreeContainerBody(props: Props) {
-    const { options, ajax, value, valueFieldId, parentFieldId } = props
+function InputSelectTreeContainerBody({
+    children = null,
+    hasChildrenFieldId = 'hasChildren',
+    disabled = false,
+    loading = false,
+    parentFieldId = 'parentId',
+    valueFieldId = 'id',
+    labelFieldId = 'name',
+    iconFieldId = 'icon',
+    badgeFieldId = 'badge',
+    badgeColorFieldId = 'color',
+    sortFieldId = 'name',
+    hasCheckboxes = false,
+    multiSelect = false,
+    closePopupOnSelect = false,
+    data = EMPTY_ARRAY,
+    searchPlaceholder = '',
+    transitionName = 'slide-up',
+    choiceTransitionName = 'zoom',
+    showCheckedStrategy = 'all',
+    allowClear = true,
+    placeholder = '',
+    showSearch = true,
+    dropdownPopupAlign = {
+        points: ['tl', 'bl'],
+        overflow: {
+            adjustY: true,
+        },
+    },
+    options = [],
+    onSearch = NOOP_FUNCTION,
+    onSelect = NOOP_FUNCTION,
+    onChange = NOOP_FUNCTION,
+    onClose = NOOP_FUNCTION,
+    onToggle = NOOP_FUNCTION,
+    onOpen = NOOP_FUNCTION,
+    onFocus = NOOP_FUNCTION,
+    onBlur = NOOP_FUNCTION,
+    onInput = NOOP_FUNCTION,
+    ...props
+}: Props) {
+    const { ajax, value } = props
     const [unionOptions, setOptions] = useState(options)
 
     const optionsWithValues = useMemo(() => {
@@ -101,13 +115,44 @@ function InputSelectTreeContainerBody(props: Props) {
     return (
         <InputSelectTreeComponent
             {...props}
+            hasChildrenFieldId={hasChildrenFieldId}
+            disabled={disabled}
+            loading={loading}
+            parentFieldId={parentFieldId}
+            valueFieldId={valueFieldId}
+            labelFieldId={labelFieldId}
+            iconFieldId={iconFieldId}
+            badgeFieldId={badgeFieldId}
+            badgeColorFieldId={badgeColorFieldId}
+            sortFieldId={sortFieldId}
+            hasCheckboxes={hasCheckboxes}
+            multiSelect={multiSelect}
+            closePopupOnSelect={closePopupOnSelect}
+            data={data}
+            searchPlaceholder={searchPlaceholder}
+            transitionName={transitionName}
+            choiceTransitionName={choiceTransitionName}
+            showCheckedStrategy={showCheckedStrategy}
+            allowClear={allowClear}
+            placeholder={placeholder}
+            showSearch={showSearch}
+            dropdownPopupAlign={dropdownPopupAlign}
             options={mappedOptions}
-        />
+            onSearch={onSearch}
+            onSelect={onSelect}
+            onChange={onChange}
+            onClose={onClose}
+            onToggle={onToggle}
+            onOpen={onOpen}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onInput={onInput}
+        >
+            {children}
+        </InputSelectTreeComponent>
     )
 }
 
-InputSelectTreeContainerBody.defaultProps = defaultProps
-
-export const InputSelectTreeContainer = listContainer(InputSelectTreeContainerBody as never)
+export const InputSelectTreeContainer = listContainer<Props>(InputSelectTreeContainerBody)
 
 export default InputSelectTreeContainer

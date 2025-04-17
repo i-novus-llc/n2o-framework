@@ -1,5 +1,7 @@
 import React, { forwardRef } from 'react'
 
+import { NOOP_FUNCTION } from '../../utils/emptyTypes'
+
 import { DateInput } from './DateInput'
 import { type DateInputGroupProps } from './types'
 
@@ -11,9 +13,9 @@ export const DateInputGroup = forwardRef<HTMLDivElement, DateInputGroupProps>(({
     inputClassName,
     onInputChange,
     setVisibility,
-    onFocus = () => {},
-    onBlur = () => {},
-    onKeyDown = () => {},
+    onFocus = NOOP_FUNCTION,
+    onBlur = NOOP_FUNCTION,
+    onKeyDown = NOOP_FUNCTION,
     autoFocus = false,
     openOnFocus = false,
     setControlRef,

@@ -8,6 +8,7 @@ import { withTooltip } from '../../withTooltip'
 import { Position, Shape } from '../../../../snippets/Badge/enums'
 import { FactoryContext } from '../../../../../core/factory/context'
 import { FactoryLevels } from '../../../../../core/factory/factoryLevels'
+import { EMPTY_OBJECT } from '../../../../../utils/emptyTypes'
 
 import { type Props } from './types'
 
@@ -39,7 +40,7 @@ function BadgeCellBody({
     imageFieldId,
     imagePosition,
     imageShape,
-    model = {},
+    model = EMPTY_OBJECT,
     color = 'secondary',
     placement = Position.Right,
     visible = true,

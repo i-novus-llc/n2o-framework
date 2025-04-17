@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { Panel, Collapse } from '../../../../snippets/Collapse/Collapse'
 import { withFieldsetHeader } from '../withFieldsetHeader'
 import { type FieldsetProps } from '../types'
+import { EMPTY_ARRAY } from '../../../../../utils/emptyTypes'
 
 export type Props = Pick<FieldsetProps,
     'rows' | 'render' | 'disabled' | 'label' |
@@ -19,7 +20,7 @@ function CollapseFieldSetBody({
     description,
     help,
     badge,
-    rows = [],
+    rows = EMPTY_ARRAY,
     hasArrow = true,
     hasSeparator = true,
     disabled = false,

@@ -7,6 +7,7 @@ import rehypeRaw from 'rehype-raw'
 
 import { useHtmlResolver } from '../../../../../utils/useHtmlResolver'
 import { N2OContext } from '../../../../../N2o'
+import { EMPTY_OBJECT } from '../../../../../utils/emptyTypes'
 
 import { markdownFieldMapper } from './markdownFieldMapper'
 import { Actions, Model } from './helpers'
@@ -26,7 +27,7 @@ export interface MarkdownFieldProps {
 export function MarkdownField({
     visible,
     content,
-    actions = {},
+    actions = EMPTY_OBJECT,
     model,
     disabled = false,
     dispatch,

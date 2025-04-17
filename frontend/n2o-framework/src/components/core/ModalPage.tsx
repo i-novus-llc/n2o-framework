@@ -4,6 +4,7 @@ import classNames from 'classnames'
 
 import { Toolbar, ToolbarProps } from '../buttons/Toolbar'
 import { ModelPrefix } from '../../core/datasource/const'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import Page from './Page'
 import { PageTitle } from './PageTitle'
@@ -58,7 +59,7 @@ const ModalPage = ({
     disabled = false,
     backdrop = 'static',
     hasHeader = false,
-    metadata = {},
+    metadata = EMPTY_OBJECT,
     ...rest
 }: Props) => {
     const { page = {} } = metadata

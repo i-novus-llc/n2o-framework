@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react'
 import { withTranslation } from 'react-i18next'
 
+import { NOOP_FUNCTION } from '../../../utils/emptyTypes'
+
 import { LoaderAlert } from './LoaderAlert'
 import { DefaultAlert } from './DefaultAlert'
 import { CommonAlertProps } from './types'
@@ -31,8 +33,6 @@ export interface Props extends CommonAlertProps {
     visible: boolean
 }
 
-const noop = () => {}
-
 function AlertBody({
     loader,
     title: propsTitle = '',
@@ -46,8 +46,8 @@ function AlertBody({
     animate = false,
     t,
     stacktrace,
-    onDismiss = noop,
-    stopRemoving = noop,
+    onDismiss = NOOP_FUNCTION,
+    stopRemoving = NOOP_FUNCTION,
     placement = 'top',
     visible = true,
 }: Props) {

@@ -1,3 +1,5 @@
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../../../utils/emptyTypes'
+
 export const defaultProps = {
     disabled: false,
     loading: false,
@@ -10,7 +12,7 @@ export const defaultProps = {
         colorFieldId: 'color',
     },
     hasCheckboxes: false,
-    datasource: [],
+    datasource: EMPTY_ARRAY,
     parentIcon: '',
     childIcon: '',
     draggable: true,
@@ -21,8 +23,8 @@ export const defaultProps = {
     showLine: false,
     filter: '',
     expandBtn: false,
-    onResolve: () => {},
-    onDrop: () => {},
+    onResolve: NOOP_FUNCTION,
+    onDrop: NOOP_FUNCTION,
     filterPlaceholder: 'Поиск...',
 }
 

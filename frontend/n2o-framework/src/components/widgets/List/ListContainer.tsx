@@ -14,6 +14,7 @@ import { withWidgetHandlers } from '../hocs/withWidgetHandlers'
 import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { State as GlobalState } from '../../../ducks/State'
+import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
 import { List } from './List'
 import { type ListContainerProps, type ListDataItem } from './types'
@@ -166,12 +167,12 @@ class ListContainer extends React.Component<ListContainerProps, State> {
     static defaultProps = {
         rowClick: null,
         hasMoreButton: false,
-        toolbar: {},
+        toolbar: EMPTY_OBJECT,
         disabled: false,
         className: '',
-        style: {},
-        filter: {},
-        list: {},
+        style: EMPTY_OBJECT,
+        filter: EMPTY_OBJECT,
+        list: EMPTY_OBJECT,
         fetchOnScroll: false,
         hasSelect: false,
     }

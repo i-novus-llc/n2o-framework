@@ -5,6 +5,7 @@ import isNull from 'lodash/isNull'
 import { InputNumber } from '../InputNumber'
 import { TBaseInputProps, TBaseProps } from '../../types'
 import { InputMode, TInputNumberValue } from '../InputNumber/types'
+import { NOOP_FUNCTION } from '../../utils/emptyTypes'
 
 import { NumberPickerButton } from './NumberPickerButton'
 import { parseValue } from './utils'
@@ -19,8 +20,6 @@ type NumberPickerProps = TBaseProps & TBaseInputProps<TInputNumberValue> & {
     value: TInputNumberValue
 }
 
-const noop = () => {}
-
 export const NumberPicker = ({
     visible = true,
     value = null,
@@ -30,8 +29,8 @@ export const NumberPicker = ({
     className,
     style,
     disabled = false,
-    onChange = noop,
-    onKeyDown = noop,
+    onChange = NOOP_FUNCTION,
+    onKeyDown = NOOP_FUNCTION,
 }: NumberPickerProps) => {
     const [isFocused, setFocus] = useState(false)
     const isDecreaseBtnDisabled = disabled || (!isNull(value) && min >= Number(value))

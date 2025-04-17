@@ -7,30 +7,29 @@ import { FormattedText } from '@i-novus/n2o-components/lib/Typography/FormattedT
 import { WithCell } from '../../withCell'
 import { withTooltip } from '../../withTooltip'
 import { DefaultCell } from '../DefaultCell'
+import { EMPTY_OBJECT } from '../../../../../utils/emptyTypes'
 
 import { View } from './VIew'
 import { Control } from './Control'
+import { type EditableCellProps } from './types'
 
-// eslint-disable-next-line
-const Cell: VFC<any> = ({
+const Cell = ({
     visible = true,
     control,
     editable,
     disabled = false,
     format,
     fieldKey,
-    model = {},
+    model = EMPTY_OBJECT,
     callAction,
-}) => {
+}: EditableCellProps) => {
     const controlId = control.id
     const [isEditing, setIsEditing] = useState(false)
-    const viewValue = useMemo(() => get(model, fieldKey), [model, fieldKey])
+    const viewValue = useMemo(() => get(model, fieldKey), [model, fieldKey]) as string
     const controlValue = useMemo(() => get(model, controlId), [model, controlId])
     const modelRef = useRef(model)
 
     modelRef.current = model
-
-    const isEmpty = !viewValue
 
     const enableEditing = useCallback((event: MouseEvent<HTMLDivElement>) => {
         event.stopPropagation()
@@ -49,9 +48,9 @@ const Cell: VFC<any> = ({
         callAction({ ...model, [controlId]: value })
     }, [callAction, controlId, model])
 
-    if (!visible) {
-        return null
-    }
+    if (!visible) { return null }
+
+    const isEmpty = !viewValue
 
     return (
         <DefaultCell
@@ -67,12 +66,7 @@ const Cell: VFC<any> = ({
                     onBlur={disableEditing}
                 />
             ) : (
-                <View
-                    className={classNames({
-                        'editable-cell-empty': isEmpty,
-                    })}
-                    onClick={enableEditing}
-                >
+                <View className={classNames({ 'editable-cell-empty': isEmpty })} onClick={enableEditing}>
                     <FormattedText format={format}>{viewValue}</FormattedText>
                 </View>
             )}

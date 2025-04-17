@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 
 import { TBaseInputProps, TBaseProps } from '../types'
+import { EMPTY_ARRAY } from '../utils/emptyTypes'
 
 import { OutputListItem } from './OutputListItem'
 
@@ -17,7 +18,7 @@ type Props = TBaseProps & TBaseInputProps<Array<Record<string, unknown>>> & {
     target?: string
 }
 
-export const OutputList = ({ className, direction = 'column', value = [], ...rest }: Props) => (
+export const OutputList = ({ className, direction = 'column', value = EMPTY_ARRAY, ...rest }: Props) => (
     <ul className={classNames('n2o-output-list', className, `n2o-output-list--${direction}`)}>
         {map(value, (item, index) => {
             if (isEmpty(item)) { return null }

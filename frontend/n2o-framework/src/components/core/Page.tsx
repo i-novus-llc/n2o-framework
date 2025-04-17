@@ -9,6 +9,7 @@ import { PAGES } from '../../core/factory/factoryLevels'
 import { makePageDisabledByIdSelector } from '../../ducks/pages/selectors'
 import { ErrorContainer } from '../../core/error/Container'
 import { State } from '../../ducks/State'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { WithMetadata, type WithMetadataProps } from './withMetadata'
 
@@ -22,9 +23,9 @@ function PageBody(props: PageProps) {
         error,
         pageId,
         pageUrl,
-        metadata = {},
+        metadata = EMPTY_OBJECT,
         loading = false,
-        spinner = {},
+        spinner = EMPTY_OBJECT,
         disabled = false,
     } = props
 

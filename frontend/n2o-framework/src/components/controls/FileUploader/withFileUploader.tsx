@@ -340,7 +340,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
 
                     const formData = new FormData()
 
-                    formData.append(requestParam, file as never)
+                    formData.append(requestParam as string, file as never)
                     onStart(file)
 
                     if (isFunction(uploadRequest)) {

@@ -2,6 +2,7 @@ import React, { ComponentType } from 'react'
 import classNames from 'classnames'
 
 import { useResolved } from '../../../../core/Expression/useResolver'
+import { EMPTY_OBJECT } from '../../../../utils/emptyTypes'
 
 import { FieldsetHeader } from './FieldsetHeader'
 import { type FieldsetProps } from './types'
@@ -21,7 +22,7 @@ export function withFieldsetHeader(Component: ComponentProps) {
         type,
         childrenLabel,
         enabled,
-        activeModel = {},
+        activeModel = EMPTY_OBJECT,
         render,
         visible,
         badge: badgeProps,

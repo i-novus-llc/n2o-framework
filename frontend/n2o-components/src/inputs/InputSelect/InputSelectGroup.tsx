@@ -1,10 +1,46 @@
-import React, { ReactNode, useCallback } from 'react'
+import React, { ReactNode, useCallback, MouseEvent } from 'react'
 import classNames from 'classnames'
 
 import { Spinner, SpinnerType } from '../../layouts/Spinner/Spinner'
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../utils/emptyTypes'
 
 import { InputAddon } from './InputAddon'
 import { TOption } from './types'
+
+interface Props {
+    children: ReactNode
+    className?: string
+    cleanable?: boolean
+    disabled?: boolean
+    hidePopUp?(): void
+    iconFieldId?: string
+    imageFieldId?: string
+    input?: ReactNode
+    inputFocus?: boolean
+    isExpanded?: boolean
+    loading?: boolean
+    multiSelect?: boolean
+    onClearClick?(evt: MouseEvent): void,
+    onClick?(): void
+    selected?: TOption[]
+    setSelectedItemsRef?(): void
+    withoutButtons?: boolean
+}
+
+interface RenderButtonProps {
+    loading: boolean
+    hidePopUp(): void
+}
+
+const RenderButton = ({ loading, hidePopUp }: RenderButtonProps) => (
+    <Spinner type={SpinnerType.inline} loading={loading}>
+        <i
+            onClick={hidePopUp}
+            className="fa fa-chevron-down"
+            aria-hidden="true"
+        />
+    </Spinner>
+)
 
 /**
  * InputSelectGroup
@@ -25,40 +61,30 @@ import { TOption } from './types'
  */
 
 export function InputSelectGroup({
-    className,
-    loading,
-    isExpanded,
-    multiSelect,
-    iconFieldId,
-    imageFieldId,
-    selected,
-    input,
-    cleanable,
+    className = '',
+    loading = false,
+    isExpanded = false,
+    multiSelect = false,
+    iconFieldId = '',
+    imageFieldId = '',
+    selected = EMPTY_ARRAY,
+    input = null,
+    cleanable = true,
     children,
-    inputFocus,
-    onClearClick,
-    hidePopUp,
-    disabled,
+    inputFocus = false,
+    onClearClick = NOOP_FUNCTION,
+    hidePopUp = NOOP_FUNCTION,
+    disabled = false,
     setSelectedItemsRef,
-    withoutButtons,
-    onClick,
+    withoutButtons = false,
+    onClick = NOOP_FUNCTION,
 }: Props) {
-    const clearClickHandler = useCallback((evt) => {
+    const clearClickHandler = useCallback((evt: MouseEvent<HTMLElement>) => {
         evt.stopPropagation()
         onClearClick(evt)
     }, [onClearClick])
 
     const displayAddon = !multiSelect && !!selected?.length && (iconFieldId || imageFieldId)
-
-    const renderButton = (loading: Props['loading']) => (
-        <Spinner type={SpinnerType.inline} loading={loading}>
-            <i
-                onClick={hidePopUp}
-                className="fa fa-chevron-down"
-                aria-hidden="true"
-            />
-        </Spinner>
-    )
 
     return (
         <div
@@ -80,16 +106,14 @@ export function InputSelectGroup({
                 <div className="n2o-input-control">
                     {(selected?.length || input) && cleanable && (
                         <div
-                            className={classNames('n2o-input-clear', {
-                                'input-in-focus': inputFocus,
-                            })}
+                            className={classNames('n2o-input-clear', { 'input-in-focus': inputFocus })}
                             onClick={clearClickHandler}
                         >
                             <i className="fa fa-times" aria-hidden="true" />
                         </div>
                     )}
                     <div className={classNames('n2o-popup-control', { isExpanded })}>
-                        {renderButton(loading)}
+                        <RenderButton loading={loading} hidePopUp={hidePopUp} />
                     </div>
                 </div>
             )}
@@ -97,31 +121,4 @@ export function InputSelectGroup({
     )
 }
 
-type Props = {
-    children: ReactNode,
-    className: string,
-    cleanable: boolean,
-    disabled: boolean,
-    hidePopUp(): void,
-    iconFieldId: string,
-    imageFieldId: string,
-    input: ReactNode,
-    inputFocus: ReactNode,
-    isExpanded?: boolean,
-    loading: boolean,
-    multiSelect: boolean,
-    onClearClick(evt: Event): void,
-    onClick(): void,
-    selected?: TOption[],
-    setSelectedItemsRef?(): void,
-    withoutButtons: boolean
-}
-
-InputSelectGroup.defaultProps = {
-    cleanable: true,
-    multiSelect: false,
-    loading: false,
-    withoutButtons: false,
-    hidePopUp: () => {},
-    onClick: () => {},
-} as Props
+InputSelectGroup.displayName = 'InputSelectGroup'

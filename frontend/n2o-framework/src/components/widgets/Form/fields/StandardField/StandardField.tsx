@@ -8,6 +8,7 @@ import { Spinner, SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinne
 
 import { Toolbar, type ToolbarProps } from '../../../../buttons/Toolbar'
 import { useResolved } from '../../../../../core/Expression/useResolver'
+import { EMPTY_OBJECT, NOOP_FUNCTION } from '../../../../../utils/emptyTypes'
 
 import { Control, type Props as ControlProps } from './Control'
 import { Label } from './Label'
@@ -77,13 +78,13 @@ export const StandardField = ({
     noLabel: propsNoLabel,
     noLabelBlock: propsNoLabelBlock,
     scrollRef,
-    onChange = () => {},
+    onChange = NOOP_FUNCTION,
     loading = false,
     required = false,
     className = '',
     control = { component: '' },
     visible = true,
-    style = {},
+    style = EMPTY_OBJECT,
     enabled = true,
     disabled = false,
     ...rest

@@ -3,7 +3,7 @@ import React, { createElement, useCallback, type FC, useState, useRef, useMemo }
 // @ts-ignore
 import { HotKeys } from 'react-hotkeys/cjs'
 
-type ControlProps<Value = unknown, OnChangeValue = unknown> = {
+export type ControlProps<Value = unknown, OnChangeValue = unknown> = {
     control: {
         component: FC<unknown>
     },

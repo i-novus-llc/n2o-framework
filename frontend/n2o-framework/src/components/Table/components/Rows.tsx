@@ -14,7 +14,7 @@ export const Rows: VFC<RowsProps> = (props) => {
         expandedRows,
         selectedKey,
         focusedRowValue,
-        ...otherProps
+        ...rest
     } = props
 
     return (
@@ -38,15 +38,15 @@ export const Rows: VFC<RowsProps> = (props) => {
                             treeDeepLevel={treeDeepLevel}
                             isTreeExpanded={isTreeExpanded}
                             hasExpandedButton={hasTreeData}
-                            {...otherProps}
+                            {...rest}
                         />
-                        {(hasTreeData && isTreeExpanded) ? (
+                        {(hasTreeData && isTreeExpanded) && (
                             <Rows
                                 {...props}
                                 data={treeData}
                                 treeDeepLevel={treeDeepLevel + 1}
                             />
-                        ) : null}
+                        )}
                     </Fragment>
                 )
             })}

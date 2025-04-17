@@ -11,6 +11,7 @@ import 'brace/theme/tomorrow'
 import 'brace/ext/language_tools'
 
 import { TBaseInputProps, TBaseProps } from '../types'
+import { NOOP_FUNCTION } from '../utils/emptyTypes'
 
 import '../styles/controls/CodeEditor.scss'
 
@@ -20,8 +21,6 @@ type CodeEditorProps = TBaseProps & TBaseInputProps<string> & {
     minLines?: number,
 }
 
-const noop = () => {}
-
 export const CodeEditor = ({
     disabled = false,
     name,
@@ -29,7 +28,7 @@ export const CodeEditor = ({
     value,
     autocomplete = false,
     className,
-    onChange = noop,
+    onChange = NOOP_FUNCTION,
     minLines = 5,
     maxLines = 100,
     lang = 'javascript',

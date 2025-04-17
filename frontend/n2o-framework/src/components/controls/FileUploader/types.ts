@@ -16,7 +16,7 @@ export interface FileItem {
 }
 
 interface CommonProps {
-    onRemove(index: number, id: string): void
+    onRemove?(index: number, id: string): void
     statusBarColor?: string
     autoUpload?: boolean
     showSize?: boolean
@@ -56,6 +56,10 @@ export interface FileUploaderProps extends FileUploaderListProps {
     uploaderClass?: string
     saveBtnStyle?: CSSProperties
     t?(key: string): string
+    requestParam?: string
+    multi?: boolean
+    value?: unknown[]
+    onChange?(value: unknown[]): void
 }
 
 export type Files = FileItem[]
@@ -76,7 +80,7 @@ export interface FileUploaderControlProps {
     onDelete(index: number, id: string): void
     deleteUrl?: string
     deleteRequest?(id: string): void
-    requestParam: string
+    requestParam?: string
     uploadUrl: string
     valueFieldId: string
     labelFieldId: string
