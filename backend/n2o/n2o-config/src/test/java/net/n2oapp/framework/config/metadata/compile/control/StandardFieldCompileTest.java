@@ -87,6 +87,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(3).getExpression(), is("test3 == null"));
         assertThat(field.getDependencies().get(3).getOn().get(0), is("test3"));
         assertThat(field.getDependencies().get(3).getType(), is(ValidationType.visible));
+        assertThat(field.getVisible(), is(Boolean.FALSE));
 
         assertThat(field.getDependencies().get(4).getExpression(), is("test4 == null"));
         assertThat(field.getDependencies().get(4).getOn().get(0), is("test4"));
@@ -389,8 +390,8 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field2.getDependencies().size(), is(0));
 
         Field field3 = rows.get(2).getCols().get(0).getFields().get(0);
-        assertThat(field3.getVisible(), is(true));
-        assertThat(field3.getEnabled(), is(true));
+        assertThat(field3.getVisible(), is(false));
+        assertThat(field3.getEnabled(), is(false));
         assertThat(field3.getRequired(), is(false));
         assertThat(field3.getDependencies().size(), is(3));
         assertThat(field3.getDependencies().get(0).getType(), is(ValidationType.visible));
