@@ -169,6 +169,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private void addToField(ControlDependency compiled, Field field, N2oField.Dependency source, CompileProcessor p) {
         compiled.setApplyOnInit(castDefault(source.getApplyOnInit(),
                 () -> p.resolve(property("n2o.api.control.dependency.apply_on_init"), Boolean.class)));
+        if (Boolean.TRUE.equals(compiled.getApplyOnInit())) {
+            if (source instanceof N2oField.VisibilityDependency)
+                field.setVisible(false);
+            else if (source instanceof N2oField.EnablingDependency)
+                field.setEnabled(false);
+        }
         if (source.getOn() != null) {
             List<String> ons = Arrays.asList(source.getOn());
             compiled.getOn().addAll(ons);
