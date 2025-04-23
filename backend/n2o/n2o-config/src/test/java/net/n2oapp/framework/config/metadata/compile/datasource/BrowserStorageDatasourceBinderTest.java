@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование связывания с данными источника, хранящего данные в браузере
  */
-public class BrowserStorageDatasourceBinderTest extends SourceCompileTestBase {
+class BrowserStorageDatasourceBinderTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента ввода времени
  */
-public class TimePickerAT extends AutoTestBase {
+class TimePickerAT extends AutoTestBase {
 
     private Fields fields;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class TimePickerAT extends AutoTestBase {
     }
 
     @Test
-    public void testTimePicker() {
+    void testTimePicker() {
         TimePicker time = fields.field("Time1").control(TimePicker.class);
         time.shouldExists();
         time.shouldNotHavePrefix();

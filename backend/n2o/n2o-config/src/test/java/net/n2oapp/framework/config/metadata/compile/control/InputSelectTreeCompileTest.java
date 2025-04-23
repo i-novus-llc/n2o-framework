@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции компонента ввода с выбором в выпадающем списке в виде дерева
  */
-public class InputSelectTreeCompileTest extends SourceCompileTestBase {
+class InputSelectTreeCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

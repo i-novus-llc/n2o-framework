@@ -14,13 +14,13 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для редактора кода
  */
-public class CodeEditorAT extends AutoTestBase {
+class CodeEditorAT extends AutoTestBase {
 
     private static final String BIG_LINE = "biglinebiglinebiglinebiglinebiglinebiglinebiglinebiglinebiglinebiglinebigline" +
             "biglinebiglinebiglinebiglinebiglinebiglinebiglinebiglinebiglinebiglinebiglinebiglinebigline";
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -37,7 +37,7 @@ public class CodeEditorAT extends AutoTestBase {
     }
 
     @Test
-    public void testCodeEditor() {
+    void testCodeEditor() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/code_editor/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

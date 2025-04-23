@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SimpleMenuCompileTest extends SourceCompileTestBase {
+class SimpleMenuCompileTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach

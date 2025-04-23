@@ -24,10 +24,10 @@ import java.util.Map;
 /**
  * Автотест для доступа к столбцам таблицы по sec атрибутам
  */
-public class ToolbarColumnAccessAT extends AutoTestBase {
+class ToolbarColumnAccessAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -49,7 +49,7 @@ public class ToolbarColumnAccessAT extends AutoTestBase {
     }
 
     @Test
-    public void testAdminAccess() {
+    void testAdminAccess() {
         setUserInfo(loadAdminInfo());
 
         SimplePage page = open(SimplePage.class);
@@ -87,7 +87,7 @@ public class ToolbarColumnAccessAT extends AutoTestBase {
     }
 
     @Test
-    public void testAnonymousAccess() {
+    void testAnonymousAccess() {
         setUserInfo(null);
 
         SimplePage page = open(SimplePage.class);

@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест множественных боковых панелей
  */
-public class SidebarsAT extends AutoTestBase {
+class SidebarsAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

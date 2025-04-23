@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тест {@link TestEngineQueryTransformer}
  */
-public class TestInvocationTransformTest extends SourceTransformTestBase {
+class TestInvocationTransformTest extends SourceTransformTestBase {
 
     @BeforeEach
     @Override

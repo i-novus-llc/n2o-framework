@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотесты компонента ввода денежных единиц
  */
-public class InputMoneyAT extends AutoTestBase {
+class InputMoneyAT extends AutoTestBase {
 
     private SimplePage simplePage;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class InputMoneyAT extends AutoTestBase {
     }
 
     @Test
-    public void inputMoneyTest() {
+    void inputMoneyTest() {
         InputMoneyControl inputMoney = getFields().field("InputMoney").control(InputMoneyControl.class);
         inputMoney.shouldBeEnabled();
         inputMoney.shouldHaveValue("");

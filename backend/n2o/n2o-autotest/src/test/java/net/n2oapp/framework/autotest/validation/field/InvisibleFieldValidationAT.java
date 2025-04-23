@@ -22,9 +22,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест валидации скрытых полей
  */
-public class InvisibleFieldValidationAT extends AutoTestBase {
+class InvisibleFieldValidationAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class InvisibleFieldValidationAT extends AutoTestBase {
     }
 
     @Test
-    public void testValidation() {
+    void testValidation() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

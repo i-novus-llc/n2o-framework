@@ -17,12 +17,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест ячейки таблицы с изображением
  */
-public class ImageCellAT extends AutoTestBase {
+class ImageCellAT extends AutoTestBase {
 
     private TableWidget.Rows rows;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class ImageCellAT extends AutoTestBase {
     }
 
     @Test
-    public void imageCellTest() {
+    void imageCellTest() {
         setResourcePath("net/n2oapp/framework/autotest/cells/image/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/image/simple/index.page.xml"),
@@ -65,7 +65,7 @@ public class ImageCellAT extends AutoTestBase {
     }
 
     @Test
-    public void imageCellWithTitleTest() {
+    void imageCellWithTitleTest() {
         setResourcePath("net/n2oapp/framework/autotest/cells/image/title");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/image/title/index.page.xml"),
@@ -93,7 +93,7 @@ public class ImageCellAT extends AutoTestBase {
     }
 
     @Test
-    public void imageCellWithStatusTest() {
+    void imageCellWithStatusTest() {
         setResourcePath("net/n2oapp/framework/autotest/cells/image/status");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/image/status/index.page.xml"),

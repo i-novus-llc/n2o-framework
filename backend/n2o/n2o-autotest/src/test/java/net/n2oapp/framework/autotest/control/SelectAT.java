@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 class SelectAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

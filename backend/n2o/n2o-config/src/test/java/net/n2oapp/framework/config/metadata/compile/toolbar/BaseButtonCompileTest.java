@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тестирование компиляции базовой кнопки
  */
-public class BaseButtonCompileTest extends SourceCompileTestBase {
+class BaseButtonCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

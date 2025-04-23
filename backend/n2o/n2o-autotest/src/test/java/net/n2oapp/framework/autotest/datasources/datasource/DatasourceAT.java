@@ -34,10 +34,10 @@ import java.util.Arrays;
 /**
  * Тестирование Datasource
  */
-public class DatasourceAT extends AutoTestBase {
+class DatasourceAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

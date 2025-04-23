@@ -17,12 +17,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест ячейки с кнопками
  */
-public class ToolbarCellAT extends AutoTestBase {
+class ToolbarCellAT extends AutoTestBase {
 
     private TableWidget.Rows rows;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -51,7 +51,7 @@ public class ToolbarCellAT extends AutoTestBase {
     }
 
     @Test
-    public void toolbarCellTest() {
+    void toolbarCellTest() {
         Toolbar toolbar = rows.row(0).cell(0, ToolbarCell.class).toolbar();
 
         StandardButton button = toolbar.button("Кнопка");

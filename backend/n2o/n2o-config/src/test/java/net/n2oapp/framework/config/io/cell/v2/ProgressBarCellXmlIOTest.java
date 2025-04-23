@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи ячейки с индикатором прогресса
  */
-public class ProgressBarCellXmlIOTest {
+class ProgressBarCellXmlIOTest {
     
     @Test
     void testProgressBarCell() {

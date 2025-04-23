@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента вывода изображения
  */
-public class N2oImageFieldIOv2Test {
+class N2oImageFieldIOv2Test {
 
     @Test
     void test() {

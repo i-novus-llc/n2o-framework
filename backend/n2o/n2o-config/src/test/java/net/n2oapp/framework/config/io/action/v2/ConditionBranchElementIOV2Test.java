@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтение/записи элементов оператора if-else версии 2.0
  */
-public class ConditionBranchElementIOV2Test {
+class ConditionBranchElementIOV2Test {
 
     @Test
     void testConditionBranchElementIOV2Test() {

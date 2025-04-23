@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи ячейки со значком
  */
-public class BadgeCellXmlIOTest {
+class BadgeCellXmlIOTest {
     @Test
     void testBadgeCell() {
         ION2oMetadataTester tester = new ION2oMetadataTester();

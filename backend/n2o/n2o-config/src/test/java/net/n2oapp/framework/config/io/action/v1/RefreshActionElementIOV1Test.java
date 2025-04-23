@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи действия обновления данных виджета
  */
-public class RefreshActionElementIOV1Test {
+class RefreshActionElementIOV1Test {
     
     @Test
     void testRefreshActionElementIOV1Test() {

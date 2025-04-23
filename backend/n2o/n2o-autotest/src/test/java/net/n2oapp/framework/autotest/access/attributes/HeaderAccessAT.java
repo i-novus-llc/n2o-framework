@@ -19,10 +19,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HeaderAccessAT extends AutoTestBase {
+class HeaderAccessAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -47,7 +47,7 @@ public class HeaderAccessAT extends AutoTestBase {
     }
 
     @Test
-    public void testAdminAccess() {
+    void testAdminAccess() {
         Map<String, Object> testUser = loadUser();
         setUserInfo(testUser);
         builder.getEnvironment().getContextProcessor().set("username", testUser.get("username"));
@@ -84,7 +84,7 @@ public class HeaderAccessAT extends AutoTestBase {
     }
 
     @Test
-    public void testAnonymousAccess() {
+    void testAnonymousAccess() {
         setUserInfo(null);
 
         SimplePage page = open(SimplePage.class);

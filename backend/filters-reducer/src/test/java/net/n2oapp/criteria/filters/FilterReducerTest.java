@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 /**
  * Тесты простых случаев в {@link FilterReducer}
  */
-public class FilterReducerTest {
+class FilterReducerTest {
 
 
     @Test

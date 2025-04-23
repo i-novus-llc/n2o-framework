@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест закрытия модальных окон
  */
-public class CloseActionAT extends AutoTestBase {
+class CloseActionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -49,7 +49,7 @@ public class CloseActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testCloseWithClearModal() {
+    void testCloseWithClearModal() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -90,7 +90,7 @@ public class CloseActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testCloseWithClearDrawer() {
+    void testCloseWithClearDrawer() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -132,7 +132,7 @@ public class CloseActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testMultiClose() {
+    void testMultiClose() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

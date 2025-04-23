@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class CamundaDataProviderEngineTest {
+class CamundaDataProviderEngineTest {
 
     @MockBean
     ProcessEngine processEngine;
@@ -56,7 +56,7 @@ public class CamundaDataProviderEngineTest {
     }
 
     @Test
-    public void getCountTasksTest() {
+    void getCountTasksTest() {
         when(taskQuery.count()).thenReturn(99L);
 
         invocation.setOperation(N2oCamundaDataProvider.Operation.countTasks);
@@ -67,7 +67,7 @@ public class CamundaDataProviderEngineTest {
     }
 
     @Test
-    public void findTasksTest() {
+    void findTasksTest() {
         List<Task> list = new ArrayList<>();
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setId("2-2-2");
@@ -93,7 +93,7 @@ public class CamundaDataProviderEngineTest {
     }
 
     @Test
-    public void getTaskTest() {
+    void getTaskTest() {
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setId("1-1");
         when(taskQuery.taskId("1-1")).thenReturn(taskQuery);
@@ -116,7 +116,7 @@ public class CamundaDataProviderEngineTest {
     }
 
     @Test
-    public void setTaskVariablesTest() {
+    void setTaskVariablesTest() {
         invocation.setOperation(N2oCamundaDataProvider.Operation.setTaskVariables);
 
         Map<String, Object> params = new HashMap<String, Object>() {{
@@ -132,7 +132,7 @@ public class CamundaDataProviderEngineTest {
     }
 
     @Test
-    public void completeTaskVariablesTest() {
+    void completeTaskVariablesTest() {
         invocation.setOperation(N2oCamundaDataProvider.Operation.completeTask);
 
         Map<String, Object> params = new HashMap<String, Object>() {{
@@ -148,7 +148,7 @@ public class CamundaDataProviderEngineTest {
     }
 
     @Test
-    public void startProcessTest() {
+    void startProcessTest() {
         when(runtimeService.startProcessInstanceByKey(eq("recruitment"), anyMap())).thenAnswer(a -> {
             ExecutionEntity res = new ExecutionEntity();
             res.setId(a.getArgument(0));

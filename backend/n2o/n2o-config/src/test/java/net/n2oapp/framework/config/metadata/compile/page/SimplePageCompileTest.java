@@ -26,7 +26,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 /**
  * Тестирование компиляции страницы с единственным виджетом
  */
-public class SimplePageCompileTest extends SourceCompileTestBase {
+class SimplePageCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

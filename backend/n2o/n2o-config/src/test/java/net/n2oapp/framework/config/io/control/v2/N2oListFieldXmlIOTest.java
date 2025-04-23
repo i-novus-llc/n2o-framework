@@ -8,7 +8,7 @@ import net.n2oapp.framework.config.test.XmlIOTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class N2oListFieldXmlIOTest extends XmlIOTestBase {
+class N2oListFieldXmlIOTest extends XmlIOTestBase {
 
     @Override
     @BeforeEach

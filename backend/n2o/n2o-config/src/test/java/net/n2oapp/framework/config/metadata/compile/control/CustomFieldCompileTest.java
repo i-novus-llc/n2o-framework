@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции кастомного контрола
  */
-public class CustomFieldCompileTest extends SourceCompileTestBase {
+class CustomFieldCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

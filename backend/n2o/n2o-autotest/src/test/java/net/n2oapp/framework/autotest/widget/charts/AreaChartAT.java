@@ -16,9 +16,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для виджета Диаграмма-область
  */
-public class AreaChartAT extends AutoTestBase {
+class AreaChartAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -39,7 +39,7 @@ public class AreaChartAT extends AutoTestBase {
     }
 
     @Test
-    public void testArea() {
+    void testArea() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

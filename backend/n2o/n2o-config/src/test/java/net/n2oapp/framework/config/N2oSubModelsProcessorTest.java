@@ -25,7 +25,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
-public class N2oSubModelsProcessorTest {
+class N2oSubModelsProcessorTest {
 
     private N2oSubModelsProcessor processor;
 

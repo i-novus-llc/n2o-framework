@@ -9,13 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class ApplicationTest extends AbstractProcessEngineRuleTest {
+class ApplicationTest extends AbstractProcessEngineRuleTest {
 
     @Autowired
     public RuntimeService runtimeService;
 
     @Test
-    public void contextLoads() {
+    void contextLoads() {
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("recruitment");
 
         BpmnAwareTests.assertThat(processInstance).isStarted()

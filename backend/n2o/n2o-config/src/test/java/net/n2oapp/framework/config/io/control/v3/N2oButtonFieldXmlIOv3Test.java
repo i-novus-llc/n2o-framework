@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения, записи поля с кнопкой версии 3.0
  */
-public class N2oButtonFieldXmlIOv3Test {
+class N2oButtonFieldXmlIOv3Test {
 
     @Test
     void testButtonFieldXmlIO() {

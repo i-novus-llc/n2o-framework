@@ -42,7 +42,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 
 import java.util.*;
 
-public class SpelExceptionTest extends DataControllerTestBase{
+class SpelExceptionTest extends DataControllerTestBase{
 
     private TestSetController testSetController;
 

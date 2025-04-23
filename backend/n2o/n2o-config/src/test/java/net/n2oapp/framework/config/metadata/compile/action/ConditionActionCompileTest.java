@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование компиляции условного оператора
  */
-public class ConditionActionCompileTest extends SourceCompileTestBase {
+class ConditionActionCompileTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach

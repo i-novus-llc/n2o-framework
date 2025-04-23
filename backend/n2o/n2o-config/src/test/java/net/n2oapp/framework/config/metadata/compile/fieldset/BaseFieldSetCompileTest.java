@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тестирование компиляции базового филдсета
  */
-public class BaseFieldSetCompileTest extends SourceCompileTestBase {
+class BaseFieldSetCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

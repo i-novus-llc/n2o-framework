@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента вывода многострочного текста
  */
-public class N2oOutputListXmlIOv2Test {
+class N2oOutputListXmlIOv2Test {
 
     @Test
     void test() {

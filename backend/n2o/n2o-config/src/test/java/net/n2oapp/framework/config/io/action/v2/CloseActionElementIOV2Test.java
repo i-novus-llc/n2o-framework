@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Проверка чтения и персиста события <close>
  */
-public class CloseActionElementIOV2Test {
+class CloseActionElementIOV2Test {
     
     @Test
     void testCloseActionElementIOV1Test(){

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.mock;
 /**
  * Тесты для {@link DataModel}
  */
-public class DataModelTest {
+class DataModelTest {
 
     @Test
     void add() {

@@ -25,10 +25,10 @@ import static net.n2oapp.framework.autotest.N2oSelenide.page;
 /**
  * Автотест компонента ввода текста с выбором из выпадающего списка
  */
-public class InputSelectAT extends AutoTestBase {
+class InputSelectAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции гистограммы
  */
-public class BarChartCompileTest extends SourceCompileTestBase {
+class BarChartCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

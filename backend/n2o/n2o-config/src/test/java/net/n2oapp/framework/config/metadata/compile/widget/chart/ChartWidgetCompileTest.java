@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции виджета Диаграмма
  */
-public class ChartWidgetCompileTest extends SourceCompileTestBase {
+class ChartWidgetCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

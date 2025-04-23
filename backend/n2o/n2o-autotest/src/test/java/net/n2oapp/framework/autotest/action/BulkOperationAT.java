@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для групповых операций изменения и удаления
  */
-public class BulkOperationAT extends AutoTestBase {
+class BulkOperationAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class BulkOperationAT extends AutoTestBase {
     }
 
     @Test
-    public void bulkOperationTest() {
+    void bulkOperationTest() {
         setResourcePath("net/n2oapp/framework/autotest/action/bulk_operation");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation/index.page.xml"),
@@ -102,7 +102,7 @@ public class BulkOperationAT extends AutoTestBase {
     }
 
     @Test
-    public void bulkOperationStringIdsTest() {
+    void bulkOperationStringIdsTest() {
         setResourcePath("net/n2oapp/framework/autotest/action/bulk_operation_string_ids");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/bulk_operation_string_ids/setName.page.xml"),

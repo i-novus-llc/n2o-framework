@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции круговой диаграммы
  */
-public class PieChartCompileTest extends SourceCompileTestBase {
+class PieChartCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

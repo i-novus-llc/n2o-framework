@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
-public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
+class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

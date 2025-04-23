@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
  * @author iryabov
  * @since 26.02.2016
  */
-public class ExpressionBasePropertiesTest {
+class ExpressionBasePropertiesTest {
 
     @Test
     void testOverride() {

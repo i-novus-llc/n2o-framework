@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи ячейки со значком
  */
-public class BadgeCellXmlIOv3Test {
+class BadgeCellXmlIOv3Test {
     
     @Test
     void testBadgeCell() {

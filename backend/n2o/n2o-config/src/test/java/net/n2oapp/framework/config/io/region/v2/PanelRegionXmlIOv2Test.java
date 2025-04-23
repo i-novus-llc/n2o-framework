@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи региона в виде панелей версии 2.0
  */
-public class PanelRegionXmlIOv2Test {
+class PanelRegionXmlIOv2Test {
    
     @Test
     void test() {

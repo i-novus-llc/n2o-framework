@@ -10,7 +10,7 @@ import static net.n2oapp.criteria.filters.FilterReducer.reduce;
 /**
  * Тесты для {@link FilterReducer}
  */
-public class FilterReducerWithOrTest {
+class FilterReducerWithOrTest {
 
 
     @Test

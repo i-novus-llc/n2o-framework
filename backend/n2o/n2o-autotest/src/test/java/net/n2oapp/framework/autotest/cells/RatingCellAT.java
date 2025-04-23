@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест ячеек таблицы
  */
-public class RatingCellAT extends AutoTestBase {
+class RatingCellAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class RatingCellAT extends AutoTestBase {
     }
 
     @Test
-    public void ratingCellTest() {
+    void ratingCellTest() {
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
 

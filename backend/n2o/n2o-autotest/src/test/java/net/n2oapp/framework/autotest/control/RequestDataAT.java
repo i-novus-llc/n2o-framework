@@ -21,9 +21,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест проверяющий отправку запроса данных на сохранение
  */
-public class RequestDataAT extends AutoTestBase {
+class RequestDataAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -50,7 +50,7 @@ public class RequestDataAT extends AutoTestBase {
      * Тест проверяет сохранение изменений, после сохранения и обновления страницы
      */
     @Test
-    public void testDataRequest() {
+    void testDataRequest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

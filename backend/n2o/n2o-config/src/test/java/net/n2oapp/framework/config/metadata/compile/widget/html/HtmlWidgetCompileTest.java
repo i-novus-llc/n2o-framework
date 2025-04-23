@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции html виджета
  */
-public class HtmlWidgetCompileTest extends SourceCompileTestBase {
+class HtmlWidgetCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

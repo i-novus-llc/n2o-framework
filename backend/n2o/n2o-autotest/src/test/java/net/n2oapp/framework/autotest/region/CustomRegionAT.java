@@ -16,9 +16,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для простого региона
  */
-public class CustomRegionAT extends AutoTestBase {
+class CustomRegionAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -35,7 +35,7 @@ public class CustomRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testCustomRegion() {
+    void testCustomRegion() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/custom/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -44,7 +44,7 @@ public class CustomRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testContent() {
+    void testContent() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/custom/nesting/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();

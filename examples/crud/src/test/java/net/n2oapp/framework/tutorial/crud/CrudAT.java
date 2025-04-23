@@ -19,7 +19,7 @@ import static com.codeborne.selenide.Configuration.headless;
 @SpringBootTest(classes = Application.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CrudAT {
+class CrudAT {
     @LocalServerPort
     private int port;
 

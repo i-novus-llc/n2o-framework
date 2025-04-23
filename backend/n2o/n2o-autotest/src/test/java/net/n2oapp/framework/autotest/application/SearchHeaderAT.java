@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест поиска в шапке
  */
-public class SearchHeaderAT extends AutoTestBase {
+class SearchHeaderAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class SearchHeaderAT extends AutoTestBase {
     }
 
     @Test
-    public void searchHeaderTest() {
+    void searchHeaderTest() {
         String rootUrl = getBaseUrl();
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

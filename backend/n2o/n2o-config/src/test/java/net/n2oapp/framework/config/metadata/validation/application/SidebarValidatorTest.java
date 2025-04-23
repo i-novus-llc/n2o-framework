@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидатора боковой панели приложения
  */
-public class SidebarValidatorTest extends SourceValidationTestBase {
+class SidebarValidatorTest extends SourceValidationTestBase {
     
     @Override
     @BeforeEach

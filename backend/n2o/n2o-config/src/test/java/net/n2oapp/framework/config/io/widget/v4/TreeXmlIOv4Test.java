@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи виджета дерево
  */
-public class TreeXmlIOv4Test {
+class TreeXmlIOv4Test {
     
     @Test
     void testTreeXmlIOV4() {

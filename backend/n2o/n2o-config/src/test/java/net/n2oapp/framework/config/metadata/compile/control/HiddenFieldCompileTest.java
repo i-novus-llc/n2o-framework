@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции hidden компонента (Скрытый компонент ввода)
  */
-public class HiddenFieldCompileTest extends SourceCompileTestBase {
+class HiddenFieldCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Проверка компиляции действия copy
  */
-public class CopyActionCompileTest extends SourceCompileTestBase {
+class CopyActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

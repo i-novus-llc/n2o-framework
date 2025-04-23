@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции диаграммы-области
  */
-public class AreaChartCompileTest extends SourceCompileTestBase {
+class AreaChartCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

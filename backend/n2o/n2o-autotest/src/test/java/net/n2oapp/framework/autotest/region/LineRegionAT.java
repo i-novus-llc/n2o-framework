@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для региона с горизонтальным делителем
  */
-public class LineRegionAT extends AutoTestBase {
+class LineRegionAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -34,7 +34,7 @@ public class LineRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testLineRegion() {
+    void testLineRegion() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/line/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -62,7 +62,7 @@ public class LineRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testContent() {
+    void testContent() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/line/nesting/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();

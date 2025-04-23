@@ -27,7 +27,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.nullValue;
 
-public class ToolbarCompileTest extends SourceCompileTestBase {
+class ToolbarCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

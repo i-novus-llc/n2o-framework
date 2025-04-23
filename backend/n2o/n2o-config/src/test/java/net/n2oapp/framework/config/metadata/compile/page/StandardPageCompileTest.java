@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование компиляции стандартной страницы
  */
-public class StandardPageCompileTest extends SourceCompileTestBase {
+class StandardPageCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

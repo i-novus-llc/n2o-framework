@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирования чтения и записи круговой диаграммы
  */
-public class PieChartXmlIOv4Test {
+class PieChartXmlIOv4Test {
     
     @Test
     void testPieChartXmlIOv4Test() {

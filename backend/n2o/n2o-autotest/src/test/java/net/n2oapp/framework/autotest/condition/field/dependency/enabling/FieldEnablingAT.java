@@ -14,10 +14,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class FieldEnablingAT extends AutoTestBase {
+class FieldEnablingAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -38,7 +38,7 @@ public class FieldEnablingAT extends AutoTestBase {
     }
     
     @Test
-    public void simpleEnabling() {
+    void simpleEnabling() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/enabling/index.page.xml")
         );

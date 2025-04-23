@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для reset зависимости полей
  */
-public class FieldResetDependencyAT extends AutoTestBase {
+class FieldResetDependencyAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

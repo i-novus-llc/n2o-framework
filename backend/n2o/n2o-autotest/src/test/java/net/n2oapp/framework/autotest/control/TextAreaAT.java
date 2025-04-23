@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотесты поля ввода многострочного текста
  */
-public class TextAreaAT extends AutoTestBase {
+class TextAreaAT extends AutoTestBase {
 
     private SimplePage simplePage;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class TextAreaAT extends AutoTestBase {
     }
 
     @Test
-    public void textAreaTest() {
+    void textAreaTest() {
         TextArea textArea = getFields().field("TextArea").control(TextArea.class);
         textArea.shouldBeEnabled();
         textArea.shouldHaveValue("");

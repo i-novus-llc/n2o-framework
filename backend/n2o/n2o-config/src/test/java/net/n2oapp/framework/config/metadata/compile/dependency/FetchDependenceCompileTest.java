@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тест на автоматическое добавление fetch для radio-group и checkbox-group
  */
-public class FetchDependenceCompileTest extends SourceCompileTestBase {
+class FetchDependenceCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

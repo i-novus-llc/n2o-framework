@@ -16,12 +16,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента ввода интервала дат
  */
-public class DateIntervalAT extends AutoTestBase {
+class DateIntervalAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class DateIntervalAT extends AutoTestBase {
     }
 
     @Test
-    public void testDateInterval() {
+    void testDateInterval() {
         DateInterval dateInterval = page.widget(FormWidget.class).fields().field("DateInterval1")
                 .control(DateInterval.class);
         dateInterval.shouldExists();
@@ -88,7 +88,7 @@ public class DateIntervalAT extends AutoTestBase {
     }
 
     @Test
-    public void testDateTimeInterval() {
+    void testDateTimeInterval() {
         DateInterval dateInterval = page.widget(FormWidget.class).fields().field("DateInterval2")
                 .control(DateInterval.class);
         dateInterval.shouldExists();
@@ -109,7 +109,7 @@ public class DateIntervalAT extends AutoTestBase {
     }
 
     @Test
-    public void testDateIntervalMaxMin() {
+    void testDateIntervalMaxMin() {
         DateInterval dateInterval = page.widget(FormWidget.class).fields().field("DateInterval3")
                 .control(DateInterval.class);
         dateInterval.shouldExists();
@@ -143,7 +143,7 @@ public class DateIntervalAT extends AutoTestBase {
     }
 
     @Test
-    public void testBeginEndBehavior() {
+    void testBeginEndBehavior() {
 
         Fields fields = page.widget(FormWidget.class).fields();
         DateInterval dateInterval = fields.field("DateInterval1").control(DateInterval.class);

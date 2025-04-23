@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи таблицы версии 4
  */
-public class TableXmlIOv4Test {
+class TableXmlIOv4Test {
     
     @Test
     void testTableXmlIOV4() {

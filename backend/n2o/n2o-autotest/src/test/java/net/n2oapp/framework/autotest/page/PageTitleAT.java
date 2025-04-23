@@ -21,9 +21,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест заголовков страниц
  */
-public class PageTitleAT extends AutoTestBase {
+class PageTitleAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class PageTitleAT extends AutoTestBase {
     }
 
     @Test
-    public void testTitle() {
+    void testTitle() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Тестирование заголовков страницы");

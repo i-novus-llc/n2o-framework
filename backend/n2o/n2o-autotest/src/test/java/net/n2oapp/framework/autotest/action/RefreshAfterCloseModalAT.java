@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для обновления виджета после закрытия модального окна
  */
-public class RefreshAfterCloseModalAT extends AutoTestBase {
+class RefreshAfterCloseModalAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
     }
 
     @Test
-    public void testModal() {
+    void testModal() {
         setResourcePath("net/n2oapp/framework/autotest/action/close/refresh/modal");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal/index.page.xml"),
@@ -114,7 +114,7 @@ public class RefreshAfterCloseModalAT extends AutoTestBase {
     }
 
     @Test
-    public void testDrawer() {
+    void testDrawer() {
         setResourcePath("net/n2oapp/framework/autotest/action/close/refresh/drawer");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/drawer/index.page.xml"),

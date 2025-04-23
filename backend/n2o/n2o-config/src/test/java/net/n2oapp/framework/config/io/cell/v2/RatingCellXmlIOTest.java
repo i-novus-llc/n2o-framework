@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи ячейки с рейтингом
  */
-public class RatingCellXmlIOTest {
+class RatingCellXmlIOTest {
     
     @Test
     void testRatingCell() {

@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для компонента отображения прогресса
  */
-public class ProgressAT extends AutoTestBase {
+class ProgressAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class ProgressAT extends AutoTestBase {
     }
 
     @Test
-    public void testProgress() {
+    void testProgress() {
         Progress progress = page.widget(FormWidget.class).fields().field("Progress")
                 .control(Progress.class);
         progress.shouldExists();

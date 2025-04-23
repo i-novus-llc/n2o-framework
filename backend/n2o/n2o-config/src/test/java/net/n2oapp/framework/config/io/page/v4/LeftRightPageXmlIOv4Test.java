@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения\записи страницы с правыми и левыми регионами версии 4.0
  */
-public class LeftRightPageXmlIOv4Test {
+class LeftRightPageXmlIOv4Test {
     
     @Test
     void test() {

@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции компонента ввода многострочного текста
  */
-public class TextAreaCompileTest extends SourceCompileTestBase {
+class TextAreaCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

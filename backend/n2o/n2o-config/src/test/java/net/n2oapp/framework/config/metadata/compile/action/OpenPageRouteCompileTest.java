@@ -32,7 +32,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тест формирования маршрутов при открытии страницы
  */
-public class OpenPageRouteCompileTest extends SourceCompileTestBase {
+class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

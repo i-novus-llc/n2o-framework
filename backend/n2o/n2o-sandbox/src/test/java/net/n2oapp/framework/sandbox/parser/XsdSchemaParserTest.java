@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.is;
         classes = XsdSchemaParser.class,
         properties = {"n2o.sandbox.schemas.path=/schema/"}
 )
-public class XsdSchemaParserTest {
+class XsdSchemaParserTest {
 
     @Autowired
     private XsdSchemaParser schemaParser;
@@ -39,7 +39,7 @@ public class XsdSchemaParserTest {
     private String actionSchemaNamespace = "http://n2oapp.net/framework/config/schema/test-action-1.0";
 
     @Test
-    public void testParser() throws IOException {
+    void testParser() throws IOException {
         // test-action-1.0
         checkResource(schemaParser.getSchema(actionSchemaNamespace), getResource("test-action-1.0"));
 

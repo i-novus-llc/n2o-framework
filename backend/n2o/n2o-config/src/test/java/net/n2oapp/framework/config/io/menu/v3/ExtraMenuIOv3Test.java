@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи дополнительного меню 3.0
  */
-public class ExtraMenuIOv3Test extends XmlIOTestBase {
+class ExtraMenuIOv3Test extends XmlIOTestBase {
 
     @Override
     @BeforeEach

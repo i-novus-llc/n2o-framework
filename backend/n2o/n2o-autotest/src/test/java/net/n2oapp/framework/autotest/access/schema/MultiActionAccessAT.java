@@ -20,10 +20,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MultiActionAccessAT extends AutoTestBase {
+class MultiActionAccessAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

@@ -36,9 +36,9 @@ import org.junit.jupiter.api.Test;
  * Автотест для проверки работы баджей с картинками
  */
 
-public class BadgeAT extends AutoTestBase {
+class BadgeAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -55,7 +55,7 @@ public class BadgeAT extends AutoTestBase {
     }
 
     @Test
-    public void testSelects() {
+    void testSelects() {
         setResourcePath("net/n2oapp/framework/autotest/badge/selectors");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/selectors/index.page.xml"),
@@ -120,7 +120,7 @@ public class BadgeAT extends AutoTestBase {
     }
 
     @Test
-    public void testCell() {
+    void testCell() {
         setResourcePath("net/n2oapp/framework/autotest/badge/cell");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/cell/index.page.xml"),
@@ -148,7 +148,7 @@ public class BadgeAT extends AutoTestBase {
     }
 
     @Test
-    public void testButton() {
+    void testButton() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/button/index.page.xml"));
 
@@ -187,7 +187,7 @@ public class BadgeAT extends AutoTestBase {
     }
 
     @Test
-    public void testButtonField() {
+    void testButtonField() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/button_field/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
@@ -210,7 +210,7 @@ public class BadgeAT extends AutoTestBase {
     }
 
     @Test
-    public void testTree() {
+    void testTree() {
         setResourcePath("net/n2oapp/framework/autotest/badge/tree");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/tree/index.page.xml"),
@@ -244,7 +244,7 @@ public class BadgeAT extends AutoTestBase {
     }
 
     @Test
-    public void testMenu() {
+    void testMenu() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/badge/menu/app.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/badge/menu/index.page.xml"),
@@ -272,7 +272,7 @@ public class BadgeAT extends AutoTestBase {
     }
 
     @Test
-    public void testLineFieldset() {
+    void testLineFieldset() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/fieldset/line/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -303,7 +303,7 @@ public class BadgeAT extends AutoTestBase {
         fieldset.badgeShouldNotExists();
     }
     @Test
-    public void testSimpleFieldset() {
+    void testSimpleFieldset() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/fieldset/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -334,7 +334,7 @@ public class BadgeAT extends AutoTestBase {
     }
 
     @Test
-    public void testMultiFieldset() {
+    void testMultiFieldset() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/badge/fieldset/multi/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

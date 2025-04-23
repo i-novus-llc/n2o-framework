@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест действия установки значения в модель
  */
-public class SetValueAT extends AutoTestBase {
+class SetValueAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -49,7 +49,7 @@ public class SetValueAT extends AutoTestBase {
     }
 
     @Test
-    public void testSetValue() {
+    void testSetValue() {
         StandardPage page = open(StandardPage.class);
         page.breadcrumb().crumb(0).shouldHaveLabel("Действие set-value");
         page.shouldExists();

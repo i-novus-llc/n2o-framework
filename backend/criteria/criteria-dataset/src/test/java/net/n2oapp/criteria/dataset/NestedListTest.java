@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 import java.util.function.Supplier;
 
-public class NestedListTest {
+class NestedListTest {
 
     @Test
     void get() {

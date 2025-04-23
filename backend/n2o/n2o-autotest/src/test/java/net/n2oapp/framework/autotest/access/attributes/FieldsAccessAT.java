@@ -18,10 +18,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FieldsAccessAT extends AutoTestBase {
+class FieldsAccessAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -42,7 +42,7 @@ public class FieldsAccessAT extends AutoTestBase {
     }
 
     @Test
-    public void testAdminAccess() {
+    void testAdminAccess() {
         Map<String, Object> user = new HashMap<>();
         user.put("username", "Admin");
         user.put("roles", Collections.singleton("admin"));
@@ -63,7 +63,7 @@ public class FieldsAccessAT extends AutoTestBase {
     }
 
     @Test
-    public void testAnonymousAccess() {
+    void testAnonymousAccess() {
         setUserInfo(null);
 
         SimplePage page = open(SimplePage.class);

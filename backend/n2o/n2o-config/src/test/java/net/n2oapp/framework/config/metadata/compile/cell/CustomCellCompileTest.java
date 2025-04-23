@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тест на компиляцию настраиваемой ячейки
  */
-public class CustomCellCompileTest extends SourceCompileTestBase {
+class CustomCellCompileTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach

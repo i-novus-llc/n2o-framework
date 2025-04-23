@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи виджета календарь
  */
-public class CalendarWidgetXmlIOv5Test {
+class CalendarWidgetXmlIOv5Test {
     
     @Test
     void testCalendarWidgetXmlIOv5Test() {

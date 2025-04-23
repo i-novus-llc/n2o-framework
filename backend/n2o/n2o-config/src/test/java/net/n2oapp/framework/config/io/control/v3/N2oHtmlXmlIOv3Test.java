@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента вывода html версии 3.0
  */
-public class N2oHtmlXmlIOv3Test {
+class N2oHtmlXmlIOv3Test {
 
     @Test
     void test() {

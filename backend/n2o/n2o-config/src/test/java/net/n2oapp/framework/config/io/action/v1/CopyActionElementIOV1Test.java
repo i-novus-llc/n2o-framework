@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Проверка чтения/записи события <copy>
  */
-public class CopyActionElementIOV1Test {
+class CopyActionElementIOV1Test {
     
     @Test
     void testCopyActionElementIOV1Test(){

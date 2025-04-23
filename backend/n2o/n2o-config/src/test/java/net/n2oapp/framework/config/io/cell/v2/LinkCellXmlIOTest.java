@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи ячейки с ссылкой
  */
-public class LinkCellXmlIOTest {
+class LinkCellXmlIOTest {
     
     @Test
     void testLinkCell() {

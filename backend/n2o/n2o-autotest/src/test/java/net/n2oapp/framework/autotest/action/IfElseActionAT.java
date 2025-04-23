@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование действия if-else
  */
-public class IfElseActionAT extends AutoTestBase {
+class IfElseActionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -40,7 +40,7 @@ public class IfElseActionAT extends AutoTestBase {
 
 
     @Test
-    public void testIfElse() {
+    void testIfElse() {
         setResourcePath("net/n2oapp/framework/autotest/action/if_else");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/if_else/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/if_else/page1.page.xml"),

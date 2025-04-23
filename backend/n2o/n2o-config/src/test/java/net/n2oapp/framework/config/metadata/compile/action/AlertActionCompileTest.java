@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.notNullValue;
 /**
  * Тестирование компиляции {@link AlertActionCompiler}
  */
-public class AlertActionCompileTest extends SourceCompileTestBase {
+class AlertActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * @author iryabov
  * @since 29.07.2016
  */
-public class StringUtilsTest {
+class StringUtilsTest {
 
     @Test
     void resolvePlaceHoldersTest() {

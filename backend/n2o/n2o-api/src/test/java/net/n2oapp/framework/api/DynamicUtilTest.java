@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * Тесты DynamicUtil
  */
-public class DynamicUtilTest {
+class DynamicUtilTest {
 
     @Test
-    public void testResolveTokens() {
+    void testResolveTokens() {
         assertEquals("provider$_test", DynamicUtil.resolveTokens("provider$_{name}", "test"));
         assertEquals("provider$table_test", DynamicUtil.resolveTokens("provider$table_{name}", "test"));
         assertEquals("provider$_a,b,c", DynamicUtil.resolveTokens("provider$_{a},{b},{c}", "a", "b", "c"));
@@ -27,7 +27,7 @@ public class DynamicUtilTest {
     }
 
     @Test
-    public void testHasRefs() {
+    void testHasRefs() {
         assertTrue(DynamicUtil.hasRefs("{name}"));
         assertTrue(DynamicUtil.hasRefs("table_{name}"));
         assertTrue(DynamicUtil.hasRefs("table_{name1}_{name2}"));

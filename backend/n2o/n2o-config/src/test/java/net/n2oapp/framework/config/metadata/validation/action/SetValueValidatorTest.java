@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SetValueValidatorTest extends SourceValidationTestBase {
+class SetValueValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

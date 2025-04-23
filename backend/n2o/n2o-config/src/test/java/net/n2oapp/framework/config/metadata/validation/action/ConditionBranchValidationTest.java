@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидации оператора if-else
  */
-public class ConditionBranchValidationTest extends SourceValidationTestBase {
+class ConditionBranchValidationTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

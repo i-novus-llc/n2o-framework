@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидации действия <edit-list>
  */
-public class EditListActionValidatorTest extends SourceValidationTestBase {
+class EditListActionValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

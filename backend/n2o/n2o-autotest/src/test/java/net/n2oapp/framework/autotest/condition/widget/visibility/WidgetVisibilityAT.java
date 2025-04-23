@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
  * Автотест для проверки скрытия виджета по условию
  */
 
-public class WidgetVisibilityAT extends AutoTestBase {
+class WidgetVisibilityAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -48,7 +48,7 @@ public class WidgetVisibilityAT extends AutoTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.shouldBeVisible();

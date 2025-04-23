@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Тестирование валидатора простого меню
  */
-public class SimpleMenuValidatorTest extends SourceValidationTestBase {
+class SimpleMenuValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

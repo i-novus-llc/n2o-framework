@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции компонента вывода многострочного текста
  */
-public class OutputListCompileTest extends SourceCompileTestBase {
+class OutputListCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

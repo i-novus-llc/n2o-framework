@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента ввода с выбором в выпадающем списке в виде дерева
  */
-public class N2oInputSelectTreeXmlIOv2Test {
+class N2oInputSelectTreeXmlIOv2Test {
 
     @Test
     void test() {

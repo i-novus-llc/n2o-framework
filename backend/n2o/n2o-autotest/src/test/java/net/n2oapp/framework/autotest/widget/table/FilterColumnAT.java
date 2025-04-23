@@ -21,11 +21,11 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для фильтруемого столбца таблицы
  */
-public class FilterColumnAT extends AutoTestBase {
+class FilterColumnAT extends AutoTestBase {
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

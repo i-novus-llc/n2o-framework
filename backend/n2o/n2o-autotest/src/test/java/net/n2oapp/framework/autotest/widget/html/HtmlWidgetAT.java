@@ -19,9 +19,9 @@ import java.util.Map;
 /**
  * Автотест для виджета html
  */
-public class HtmlWidgetAT extends AutoTestBase {
+class HtmlWidgetAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -38,7 +38,7 @@ public class HtmlWidgetAT extends AutoTestBase {
     }
 
     @Test
-    public void testHtmlContent() {
+    void testHtmlContent() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/html/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -51,7 +51,7 @@ public class HtmlWidgetAT extends AutoTestBase {
     }
 
     @Test
-    public void testHtmlGetSrc() {
+    void testHtmlGetSrc() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/html/html_from_src/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();

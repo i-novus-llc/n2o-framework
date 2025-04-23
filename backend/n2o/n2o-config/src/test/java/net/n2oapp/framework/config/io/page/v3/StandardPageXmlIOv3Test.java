@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения\записи стандартной страницы версии 3.0
  */
-public class StandardPageXmlIOv3Test {
+class StandardPageXmlIOv3Test {
     
     @Test
     void test() {

@@ -20,14 +20,14 @@ public class DemoApplicationTest {
     private int port;
 
     @Test
-    public void config() {
+    void config() {
         RestTemplate restTemplate = new RestTemplate();
         Map<?, ?> config = restTemplate.getForObject("http://localhost:" + port + "/n2o/config", Map.class);
         assertThat(config.get("menu"), notNullValue());
     }
 
     @Test
-    public void pageWelcome() {
+    void pageWelcome() {
         RestTemplate restTemplate = new RestTemplate();
         Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/ProtoClient?size=10&page=1&sorting.birthday=ASC", Map.class);
         assertThat(result.get("list"), notNullValue());
@@ -43,7 +43,7 @@ public class DemoApplicationTest {
     }
 
     @Test
-    public void pageProto() {
+    void pageProto() {
         RestTemplate restTemplate = new RestTemplate();
         Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/_clientsDs", Map.class);
         assertThat(result.get("list"), notNullValue());
@@ -52,14 +52,14 @@ public class DemoApplicationTest {
     }
 
     @Test
-    public void create() {
+    void create() {
         RestTemplate restTemplate = new RestTemplate();
         Map<?, ?> page = restTemplate.getForObject("http://localhost:" + port + "/n2o/page/create", Map.class);
         assertThat(((Map)((List)((Map)((List)((Map) page.get("regions")).get("single")).get(0)).get("content")).get(0)).get("src"), is("FormWidget"));
     }
 
     @Test
-    public void update() {
+    void update() {
         RestTemplate restTemplate = new RestTemplate();
         Map<?, ?> page = restTemplate.getForObject("http://localhost:" + port + "/n2o/page/clients/1/update_client", Map.class);
         assertThat(((Map)((List)((Map)((List)((Map) page.get("regions")).get("single")).get(0)).get("content")).get(0)).get("src"), is("FormWidget"));

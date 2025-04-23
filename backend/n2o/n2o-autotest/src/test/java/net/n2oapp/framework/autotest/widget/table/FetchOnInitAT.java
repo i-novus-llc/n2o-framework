@@ -23,9 +23,9 @@ import org.junit.jupiter.api.Test;
  * Автотест для проверки работы свойства fetch-on-init у виджетов
  */
 
-public class FetchOnInitAT extends AutoTestBase {
+class FetchOnInitAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -42,7 +42,7 @@ public class FetchOnInitAT extends AutoTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/fetch_on_init/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/simple/index.page.xml"),
@@ -77,7 +77,7 @@ public class FetchOnInitAT extends AutoTestBase {
     }
 
     @Test
-    public void testOnTabs() {
+    void testOnTabs() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/fetch_on_init/tabs");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/fetch_on_init/tabs/index.page.xml"),

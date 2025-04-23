@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест сохранение нескольких форм одной кнопкой
  */
-public class FormsSaveWithOneButtonAT extends AutoTestBase {
+class FormsSaveWithOneButtonAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -52,7 +52,7 @@ public class FormsSaveWithOneButtonAT extends AutoTestBase {
     }
 
     @Test
-    public void testForm() {
+    void testForm() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

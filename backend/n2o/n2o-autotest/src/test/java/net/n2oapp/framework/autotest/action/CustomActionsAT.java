@@ -17,9 +17,9 @@ import org.junit.jupiter.api.Test;
  * Автотест для проверки кастомного действия
  */
 
-public class CustomActionsAT extends AutoTestBase {
+class CustomActionsAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -39,7 +39,7 @@ public class CustomActionsAT extends AutoTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста по проверке кастомного действия");

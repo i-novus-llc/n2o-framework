@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест валидации для поля после set-value
  */
-public class FieldValidationAfterSetValueAT extends AutoTestBase {
+class FieldValidationAfterSetValueAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class FieldValidationAfterSetValueAT extends AutoTestBase {
     }
 
     @Test
-    public void testValidation() {
+    void testValidation() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции источника данных, получающего данные из другого источника данных
  */
-public class InheritedDatasourceCompileTest extends SourceCompileTestBase {
+class InheritedDatasourceCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

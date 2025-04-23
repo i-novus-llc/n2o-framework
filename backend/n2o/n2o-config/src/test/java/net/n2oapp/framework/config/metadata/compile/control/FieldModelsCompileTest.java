@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции modelLink страницы
  */
-public class FieldModelsCompileTest extends SourceCompileTestBase {
+class FieldModelsCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

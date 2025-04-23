@@ -16,12 +16,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента вывода изображения
  */
-public class ImageFieldAT extends AutoTestBase {
+class ImageFieldAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class ImageFieldAT extends AutoTestBase {
     }
 
     @Test
-    public void testImageField() {
+    void testImageField() {
         Image image = page.widget(FormWidget.class).fields().field(Image.class);
         image.shouldExists();
         image.shouldHaveTitle("Заголовок");

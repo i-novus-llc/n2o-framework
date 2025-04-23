@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи действия <alert>
  */
-public class AlertActionElementIOV2Test {
+class AlertActionElementIOV2Test {
 
     @Test
     void testAlertActionElementIOV2Test() {

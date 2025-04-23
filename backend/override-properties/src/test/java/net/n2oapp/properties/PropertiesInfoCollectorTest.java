@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author V. Alexeev.
  */
-public class PropertiesInfoCollectorTest {
+class PropertiesInfoCollectorTest {
 
     @Test
     void test() {

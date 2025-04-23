@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Проверка чтения и персиста события <clear>
  */
-public class ClearActionElementIOV1Test {
+class ClearActionElementIOV1Test {
     
     @Test
     void testClearActionElementIOV1Test(){

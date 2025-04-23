@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента чекбокса
  */
-public class CheckboxAT extends AutoTestBase {
+class CheckboxAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -36,7 +36,7 @@ public class CheckboxAT extends AutoTestBase {
     }
 
     @Test
-    public void testCheckbox() {
+    void testCheckbox() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/checkbox/index.page.xml")
         );

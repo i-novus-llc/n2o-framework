@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи ячейки со списком
  */
-public class ListCellXmlIOTest {
+class ListCellXmlIOTest {
     
     @Test
     void testListCell() {

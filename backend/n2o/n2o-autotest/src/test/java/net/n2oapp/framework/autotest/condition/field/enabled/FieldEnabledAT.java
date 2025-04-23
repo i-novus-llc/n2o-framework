@@ -22,10 +22,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class FieldEnabledAT extends AutoTestBase {
+class FieldEnabledAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -46,7 +46,7 @@ public class FieldEnabledAT extends AutoTestBase {
     }
     
     @Test
-    public void dynamicEnabled() {
+    void dynamicEnabled() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/enabled/dynamic/index.page.xml")
         );
@@ -67,7 +67,7 @@ public class FieldEnabledAT extends AutoTestBase {
     }
 
     @Test
-    public void enabledByDependencyOnModal() {
+    void enabledByDependencyOnModal() {
         setResourcePath("net/n2oapp/framework/autotest/condition/field/enabled/by_dependency_on_modal");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/enabled/by_dependency_on_modal/index.page.xml"),

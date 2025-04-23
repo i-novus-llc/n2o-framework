@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование видимость-зависимости полей
  */
-public class FieldVisibilityAT extends AutoTestBase {
+class FieldVisibilityAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -46,7 +46,7 @@ public class FieldVisibilityAT extends AutoTestBase {
     }
 
     @Test
-    public void defaultVisibility() {
+    void defaultVisibility() {
         final SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -62,7 +62,7 @@ public class FieldVisibilityAT extends AutoTestBase {
     }
 
     @Test
-    public void dynamicVisibility() {
+    void dynamicVisibility() {
         final SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

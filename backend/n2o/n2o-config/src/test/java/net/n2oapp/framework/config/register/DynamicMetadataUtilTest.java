@@ -12,7 +12,7 @@ import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnSuccess;
  * @author operehod
  * @since 17.04.2015
  */
-public class DynamicMetadataUtilTest {
+class DynamicMetadataUtilTest {
 
     @Test
     void testIsDynamic() {

@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для простого филдсета
  */
-public class SimpleFieldSetAT extends AutoTestBase {
+class SimpleFieldSetAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -42,7 +42,7 @@ public class SimpleFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testFieldSet() {
+    void testFieldSet() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/common/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -71,7 +71,7 @@ public class SimpleFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testVisible() {
+    void testVisible() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/visible/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -94,7 +94,7 @@ public class SimpleFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testEnabled() {
+    void testEnabled() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/enabled/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -121,7 +121,7 @@ public class SimpleFieldSetAT extends AutoTestBase {
      * Тест проверяет работу параметра visible у просто филдсета в фильтрах
      */
     @Test
-    public void testVisibilityConditionsInFilters() {
+    void testVisibilityConditionsInFilters() {
         setResourcePath("net/n2oapp/framework/autotest/fieldset/simple/visible_in_filters");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/visible_in_filters/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/visible_in_filters/test.query.xml"));

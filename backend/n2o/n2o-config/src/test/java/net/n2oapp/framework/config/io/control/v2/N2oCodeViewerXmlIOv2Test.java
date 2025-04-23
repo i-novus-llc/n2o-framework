@@ -5,7 +5,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 
 import org.junit.jupiter.api.Test;
 
-public class N2oCodeViewerXmlIOv2Test {
+class N2oCodeViewerXmlIOv2Test {
 
     @Test
     void test() {

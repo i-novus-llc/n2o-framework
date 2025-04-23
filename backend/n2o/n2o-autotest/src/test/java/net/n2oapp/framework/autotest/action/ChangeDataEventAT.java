@@ -25,10 +25,10 @@ import java.time.Duration;
  * Автотест на события при изменении данных на странице
  */
 
-public class ChangeDataEventAT extends AutoTestBase {
+class ChangeDataEventAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class ChangeDataEventAT extends AutoTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
@@ -77,7 +77,7 @@ public class ChangeDataEventAT extends AutoTestBase {
     }
 
     @Test
-    public void testIfElseAndShowModal() {
+    void testIfElseAndShowModal() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/if_else_and_show_modal/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/if_else_and_show_modal/modal.page.xml"));
@@ -99,7 +99,7 @@ public class ChangeDataEventAT extends AutoTestBase {
     }
 
     @Test
-    public void testSwitchCase() {
+    void testSwitchCase() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/switch_case/index.page.xml"));
         StandardPage page = open(StandardPage.class);

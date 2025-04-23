@@ -51,7 +51,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование компиляции действия открытия модального окна
  */
-public class ShowModalCompileTest extends SourceCompileTestBase {
+class ShowModalCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -482,7 +482,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
      * Проверяет переопределение toolbar и action
      */
     @Test
-    public void testShowModalToolbarAndActions() {
+    void testShowModalToolbarAndActions() {
         PageContext pageContext = new PageContext("testShowModalToolbarAndAction", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalToolbarAndAction.page.xml")
                 .get(pageContext);

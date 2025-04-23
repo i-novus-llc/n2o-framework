@@ -17,12 +17,12 @@ import static net.n2oapp.framework.api.metadata.meta.control.OutputList.Directio
 /**
  * Автотест компонента вывода однострочного текста
  */
-public class OutputListAT extends AutoTestBase {
+class OutputListAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -47,7 +47,7 @@ public class OutputListAT extends AutoTestBase {
     }
 
     @Test
-    public void testOutputList() {
+    void testOutputList() {
         Fields fields = page.widget(FormWidget.class).fields();
 
         OutputList outputList = fields.field("output1").control(OutputList.class);

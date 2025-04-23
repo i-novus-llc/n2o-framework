@@ -22,7 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование филдсета с горизонтальной линией
  */
-public class LineFieldSetCompileTest extends SourceCompileTestBase {
+class LineFieldSetCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

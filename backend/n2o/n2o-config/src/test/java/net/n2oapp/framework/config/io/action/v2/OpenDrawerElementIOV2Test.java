@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тест чтения/записи действия открытия drawer окна
  */
-public class OpenDrawerElementIOV2Test {
+class OpenDrawerElementIOV2Test {
 
     @Test
     void testOpenDrawerElementIOV1Test() {

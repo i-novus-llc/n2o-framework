@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Проверка разрешения сабмоделей в полях формы
  */
-public class ResolveFormFieldSubModelsAT extends AutoTestBase {
+class ResolveFormFieldSubModelsAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -44,7 +44,7 @@ public class ResolveFormFieldSubModelsAT extends AutoTestBase {
     }
 
     @Test
-    public void resolveFormFiltersSubModels() {
+    void resolveFormFiltersSubModels() {
         setResourcePath("net/n2oapp/framework/autotest/submodels/form_fields");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/submodels/form_fields/index.page.xml"),
@@ -71,7 +71,7 @@ public class ResolveFormFieldSubModelsAT extends AutoTestBase {
     }
 
     @Test
-    public void resolveTwoFormFiltersSubModels() {
+    void resolveTwoFormFiltersSubModels() {
         setResourcePath("net/n2oapp/framework/autotest/submodels/one_more_form_fields");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/submodels/one_more_form_fields/index.page.xml"),

@@ -22,7 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции кэш операции с локализацией
  */
-public class LocalizedCompileTest extends SourceCompileTestBase {
+class LocalizedCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

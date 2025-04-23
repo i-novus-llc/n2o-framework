@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидатора для действия <submit>
  */
-public class SubmitActionValidatorTest extends SourceValidationTestBase {
+class SubmitActionValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

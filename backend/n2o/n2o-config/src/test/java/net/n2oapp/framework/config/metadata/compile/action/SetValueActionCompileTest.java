@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Проверка копиляции действия set-value
  */
-public class SetValueActionCompileTest extends SourceCompileTestBase {
+class SetValueActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

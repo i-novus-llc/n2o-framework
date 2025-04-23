@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для компонента поля alert
  */
-public class AlertFieldAT extends AutoTestBase {
+class AlertFieldAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -35,7 +35,7 @@ public class AlertFieldAT extends AutoTestBase {
     }
 
     @Test
-    public void testSimpleAlert() {
+    void testSimpleAlert() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/alert/simple/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
@@ -54,7 +54,7 @@ public class AlertFieldAT extends AutoTestBase {
     }
 
     @Test
-    public void testCloseButtonIndependence() {
+    void testCloseButtonIndependence() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/alert/close_button_independence/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);

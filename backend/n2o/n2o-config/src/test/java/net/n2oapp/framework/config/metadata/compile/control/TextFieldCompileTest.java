@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции TextField
  */
-public class TextFieldCompileTest extends SourceCompileTestBase {
+class TextFieldCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

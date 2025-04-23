@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест меню
  */
-public class MenuAT extends AutoTestBase {
+class MenuAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

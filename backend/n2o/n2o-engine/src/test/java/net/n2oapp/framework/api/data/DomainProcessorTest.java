@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тесты для {@link DomainProcessor}
  */
-public class DomainProcessorTest {
+class DomainProcessorTest {
 
     @Test
     void testNullEmpty() {

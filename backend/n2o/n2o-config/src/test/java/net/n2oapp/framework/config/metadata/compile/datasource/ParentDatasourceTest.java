@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * Тестирование источника данных родительской страницы
  */
-public class ParentDatasourceTest extends SourceCompileTestBase {
+class ParentDatasourceTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

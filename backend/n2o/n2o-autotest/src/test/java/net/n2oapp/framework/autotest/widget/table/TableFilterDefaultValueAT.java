@@ -21,9 +21,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки значений по умолчанию фильтров таблицы
  */
-public class TableFilterDefaultValueAT extends AutoTestBase {
+class TableFilterDefaultValueAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -40,7 +40,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
     }
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/default_value");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_value/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_value/test.query.xml"));
@@ -70,7 +70,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
     }
 
     @Test
-    public void testDefaultValuesQueryId() {
+    void testDefaultValuesQueryId() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id/default.query.xml"),
@@ -113,7 +113,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
     }
 
     @Test
-    public void testPriority() {
+    void testPriority() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/priority");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/priority/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/priority/default.query.xml"),
@@ -144,7 +144,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
     }
 
     @Test
-    public void testFormAsFilter() {
+    void testFormAsFilter() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/form_as_filter");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/form_as_filter/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/form_as_filter/test.query.xml"));
@@ -170,7 +170,7 @@ public class TableFilterDefaultValueAT extends AutoTestBase {
     }
 
     @Test
-    public void testFiltersDatasource() {
+    void testFiltersDatasource() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/filters_datasource");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/filters_datasource/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/filters_datasource/default.query.xml"),

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи виджета Плитки
  */
-public class TilesWidgetXmlIOV4Test {
+class TilesWidgetXmlIOV4Test {
     
     @Test
     void testTilesXmlIOV4() {

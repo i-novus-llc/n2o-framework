@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента ввода текста с выбором из выпадающего списка
  */
-public class N2oInputSelectXmlIOv3Test {
+class N2oInputSelectXmlIOv3Test {
 
     @Test
     void test() {

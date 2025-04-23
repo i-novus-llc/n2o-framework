@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валдитора {@link ActionsAware} компонентов
  */
-public class ActionsAwareValidatorTest extends SourceValidationTestBase {
+class ActionsAwareValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

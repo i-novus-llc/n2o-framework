@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест ячеек таблицы
  */
-public class ListCellAT extends AutoTestBase {
+class ListCellAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

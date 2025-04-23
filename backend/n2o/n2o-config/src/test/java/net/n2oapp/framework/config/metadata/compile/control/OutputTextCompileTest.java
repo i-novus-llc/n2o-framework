@@ -22,7 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции компонента вывода однострочного текста
  */
-public class OutputTextCompileTest extends SourceCompileTestBase {
+class OutputTextCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

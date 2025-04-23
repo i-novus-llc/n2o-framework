@@ -17,7 +17,7 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class CompileUtilTest extends N2oTestBase {
+class CompileUtilTest extends N2oTestBase {
 
     @Override
     @BeforeEach

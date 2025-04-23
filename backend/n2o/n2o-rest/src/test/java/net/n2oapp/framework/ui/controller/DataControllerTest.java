@@ -36,7 +36,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 
-public class DataControllerTest extends DataControllerTestBase {
+class DataControllerTest extends DataControllerTestBase {
 
     /**
      * Тест whitelist + inline condition, mandatory, constraint + control inline валидации

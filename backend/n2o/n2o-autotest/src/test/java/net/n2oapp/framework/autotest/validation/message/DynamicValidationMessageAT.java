@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест динамических сообщений валидации
  */
-public class DynamicValidationMessageAT extends AutoTestBase {
+class DynamicValidationMessageAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -39,7 +39,7 @@ public class DynamicValidationMessageAT extends AutoTestBase {
     }
 
     @Test
-    public void testCondition() {
+    void testCondition() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/validation/message/dynamic/condition/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/message/dynamic/condition/test.object.xml"));
 
@@ -61,7 +61,7 @@ public class DynamicValidationMessageAT extends AutoTestBase {
     }
 
     @Test
-    public void testConstraint() {
+    void testConstraint() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/validation/message/dynamic/constraint/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/validation/message/dynamic/constraint/test.object.xml"));
 

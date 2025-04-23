@@ -34,7 +34,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
         properties = {"n2o.i18n.enabled=false", "n2o.i18n.default-locale=ru"},
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class DemoIntegrationAT {
+class DemoIntegrationAT {
 
     @LocalServerPort
     private int port;
@@ -77,7 +77,7 @@ public class DemoIntegrationAT {
      * Проверка работы фильтра по полу
      */
     @Test
-    public void testFilterByGender() {
+    void testFilterByGender() {
         protoPage.genderFilterCheck("Женский");
         protoPage.genderFilterShouldBeUnchecked("Мужской");
         protoPage.genderFilterShouldBeChecked("Женский");
@@ -107,7 +107,7 @@ public class DemoIntegrationAT {
      * Проверка работы фильтра по фамилии и имени
      */
     @Test
-    public void testFilterByNameAndSurname() {
+    void testFilterByNameAndSurname() {
         protoPage.getSurnameFilter().shouldBeEnabled();
         protoPage.getFirstNameFilter().shouldBeEnabled();
         protoPage.getSurnameFilter().click();
@@ -126,7 +126,7 @@ public class DemoIntegrationAT {
      * Проверка работы фильтра по дате рождения
      */
     @Test
-    public void testFilterByBirthday() {
+    void testFilterByBirthday() {
         protoPage.setBirthdayStartFilter("01.01.1940");
         protoPage.setBirthdayEndFilter("01.12.1940");
         protoPage.searchClients();
@@ -141,7 +141,7 @@ public class DemoIntegrationAT {
      * Проверка работы очистки фильтра
      */
     @Test
-    public void testClearFilter() {
+    void testClearFilter() {
         protoPage.getFirstNameFilter().click();
         protoPage.getFirstNameFilter().setValue("Римма");
         protoPage.genderFilterCheck("Женский");
@@ -167,7 +167,7 @@ public class DemoIntegrationAT {
      * Проверка работы сортировки по фамилии
      */
     @Test
-    public void testTableSorting() {
+    void testTableSorting() {
         List<String> unsortedSurnameColumn = new ArrayList<>(
                 List.of(new String[]{
                         "Михалёва",
@@ -202,7 +202,7 @@ public class DemoIntegrationAT {
      */
 
     @Test
-    public void testPagination() {
+    void testPagination() {
         protoPage.tableShouldHaveSize(10);
         protoPage.currentPageShouldBe("1");
         protoPage.tableShouldHavePage("2");
@@ -220,7 +220,7 @@ public class DemoIntegrationAT {
      * Проверка работы ячейки VIP (2 строка)
      */
     @Test
-    public void testVipCellUpdate() {
+    void testVipCellUpdate() {
         protoPage.vipCellShouldBeChecked(2);
         protoPage.setVipCellNotChecked(2);
         protoPage.alertColorShouldBe(Colors.SUCCESS);
@@ -236,7 +236,7 @@ public class DemoIntegrationAT {
      * Проверка редактирования даты в таблице (3 строка)
      */
     @Test
-    public void testCellBirthdayUpdate() {
+    void testCellBirthdayUpdate() {
         int row = 0;
         String testDate = "15.12.1900";
         String exDate = protoPage.getBirthdayCell(row).getValue();
@@ -258,7 +258,7 @@ public class DemoIntegrationAT {
      * Проверка работы ячейки Фамилия   (4 строка)
      */
     @Test
-    public void testSurnameCellUpdate() {
+    void testSurnameCellUpdate() {
         int row = 3;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
@@ -296,7 +296,7 @@ public class DemoIntegrationAT {
      * Проверка работы ячейки Имя (5 строка)
      */
     @Test
-    public void testNameCellUpdate() {
+    void testNameCellUpdate() {
         int row = 4;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
@@ -336,7 +336,7 @@ public class DemoIntegrationAT {
      * Проверка работы ячейки Отчество  (6я строка)
      */
     @Test
-    public void testPatronymicCellUpdate() {
+    void testPatronymicCellUpdate() {
         int row = 5;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
@@ -374,7 +374,7 @@ public class DemoIntegrationAT {
      * Проверка изменения клиента через модальное окно
      */
     @Test
-    public void testUpdateClient() {
+    void testUpdateClient() {
         int row = 6;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
@@ -419,7 +419,7 @@ public class DemoIntegrationAT {
      * Проверка изменения клиента через меню в ячейке
      */
     @Test
-    public void testUpdateClientFromToolbarCell() {
+    void testUpdateClientFromToolbarCell() {
         int row = 7;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
@@ -461,7 +461,7 @@ public class DemoIntegrationAT {
      * Просмотр клиента через модальное окно (1я строка)
      */
     @Test
-    public void testViewClient() {
+    void testViewClient() {
         int row = 2;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
@@ -496,7 +496,7 @@ public class DemoIntegrationAT {
      * Проверка создания клиента
      */
     @Test
-    public void testPageCreateClient() {
+    void testPageCreateClient() {
         ProtoClient clientCard = protoPage.addClient();
         clientCard.shouldHaveTitle("Карточка клиента");
         clientCard.patronymic().shouldHaveValue("Тест");
@@ -531,7 +531,7 @@ public class DemoIntegrationAT {
      * Проверка создания клиента через модальное окно
      */
     @Test
-    public void testModalCreateClient() {
+    void testModalCreateClient() {
         ProtoClient modalClientCard = protoPage.createClient();
         modalClientCard.shouldHaveTitle("Карточка клиента");
         modalClientCard.patronymic().shouldHaveValue("Тест");
@@ -575,7 +575,7 @@ public class DemoIntegrationAT {
      * Тест удаления клиента (предпоследняя строка) из тулбара в колонке
      */
     @Test
-    public void testTableInPlaceDelete() {
+    void testTableInPlaceDelete() {
         int row = 8;
         protoPage.tableShouldHaveSize(10);
         int count = protoPage.getClientsCount();
@@ -597,7 +597,7 @@ public class DemoIntegrationAT {
      */
 
     @Test
-    public void testTableRowDelete() {
+    void testTableRowDelete() {
         int row = 8;
         protoPage.tableShouldHaveSize(10);
         int count = protoPage.getClientsCount();
@@ -619,7 +619,7 @@ public class DemoIntegrationAT {
      * Проверка master-detail связи (5,6 строки)
      */
     @Test
-    public void testMasterDetail() {
+    void testMasterDetail() {
         protoPage.selectClient(6);
         protoPage.tableCellShouldHaveText(6, 1, "Чуканова");
         protoPage.contactsListShouldHaveText(0, "3333333");
@@ -641,7 +641,7 @@ public class DemoIntegrationAT {
      * Проверка создания контакта
      */
     @Test
-    public void testContactCrud() {
+    void testContactCrud() {
         protoPage.getSurnameFilter().click();
         protoPage.getSurnameFilter().setValue("Маркин");
         protoPage.searchClients();

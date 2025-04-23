@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест вызова операции
  */
-public class InvokeActionAT extends AutoTestBase {
+class InvokeActionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

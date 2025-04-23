@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Проверка разрешения сабмоделей в фильтрах таблицы
  */
-public class ResolveTableFilterSubModelsAT extends AutoTestBase {
+class ResolveTableFilterSubModelsAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -46,7 +46,7 @@ public class ResolveTableFilterSubModelsAT extends AutoTestBase {
     }
 
     @Test
-    public void resolveTableFiltersSubModels() {
+    void resolveTableFiltersSubModels() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         FormWidget form = page.widget(FormWidget.class);

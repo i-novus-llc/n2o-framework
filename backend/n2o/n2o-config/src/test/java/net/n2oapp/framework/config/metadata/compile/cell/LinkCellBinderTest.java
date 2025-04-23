@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тестирование биндинга ячейки таблицы с ссылкой
  */
-public class LinkCellBinderTest extends SourceCompileTestBase {
+class LinkCellBinderTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента ввода числа из диапазона
  */
-public class NumberPickerAT extends AutoTestBase {
+class NumberPickerAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -42,7 +42,7 @@ public class NumberPickerAT extends AutoTestBase {
     }
 
     @Test
-    public void testNumberPicker() {
+    void testNumberPicker() {
         Fields fields = page.widget(FormWidget.class).fields();
         NumberPicker numberPicker = fields.field("limitedPicker").control(NumberPicker.class);
         numberPicker.shouldExists();

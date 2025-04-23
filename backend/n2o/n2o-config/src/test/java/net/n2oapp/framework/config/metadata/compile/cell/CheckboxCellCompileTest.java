@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тест на компиляцию ячейки с чекбоксом
  */
-public class CheckboxCellCompileTest extends SourceCompileTestBase {
+class CheckboxCellCompileTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach

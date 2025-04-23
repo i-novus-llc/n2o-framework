@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для компонента поля button
  */
-public class ButtonFieldAT extends AutoTestBase {
+class ButtonFieldAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

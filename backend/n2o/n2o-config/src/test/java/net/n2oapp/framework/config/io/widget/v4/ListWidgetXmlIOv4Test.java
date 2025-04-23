@@ -6,7 +6,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oWidgetsIOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.jupiter.api.Test;
 
-public class ListWidgetXmlIOv4Test {
+class ListWidgetXmlIOv4Test {
     
     @Test
     void testListWidgetXmlIOv4Test() {

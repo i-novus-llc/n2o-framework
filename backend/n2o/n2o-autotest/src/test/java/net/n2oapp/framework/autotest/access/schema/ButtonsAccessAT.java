@@ -20,10 +20,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ButtonsAccessAT extends AutoTestBase {
+class ButtonsAccessAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -48,7 +48,7 @@ public class ButtonsAccessAT extends AutoTestBase {
     }
 
     @Test
-    public void testAdminAccess() {
+    void testAdminAccess() {
         setUserInfo(loadUser());
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -98,7 +98,7 @@ public class ButtonsAccessAT extends AutoTestBase {
     }
 
     @Test
-    public void testAnonymousAccess() {
+    void testAnonymousAccess() {
         setUserInfo(null);
 
         SimplePage page = open(SimplePage.class);

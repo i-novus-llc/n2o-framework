@@ -17,12 +17,12 @@ import java.util.Calendar;
 /**
  * Автотест компонента ввода даты
  */
-public class DatePickerAT extends AutoTestBase {
+class DatePickerAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class DatePickerAT extends AutoTestBase {
     }
 
     @Test
-    public void testDatePicker() {
+    void testDatePicker() {
         DateInput date = page.widget(FormWidget.class).fields().field("Date1")
                 .control(DateInput.class);
         date.shouldExists();
@@ -84,7 +84,7 @@ public class DatePickerAT extends AutoTestBase {
     }
 
     @Test
-    public void testDateTime() {
+    void testDateTime() {
         DateInput date = page.widget(FormWidget.class).fields().field("Date2")
                 .control(DateInput.class);
         date.shouldExists();
@@ -101,7 +101,7 @@ public class DatePickerAT extends AutoTestBase {
     }
 
     @Test
-    public void testDefaultValue() {
+    void testDefaultValue() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/date_picker/default/index.page.xml"));
         page = open(SimplePage.class);
         page.shouldExists();

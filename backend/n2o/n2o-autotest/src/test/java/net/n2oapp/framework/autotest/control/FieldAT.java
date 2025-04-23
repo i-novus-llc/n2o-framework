@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки резолва атрибутов для полей
  */
-public class FieldAT extends AutoTestBase {
+class FieldAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -39,7 +39,7 @@ public class FieldAT extends AutoTestBase {
     }
 
     @Test
-    public void testResolveAttributes() {
+    void testResolveAttributes() {
 
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/field/resolve_attributes/index.page.xml")

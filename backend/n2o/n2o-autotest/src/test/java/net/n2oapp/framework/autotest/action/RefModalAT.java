@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест прокидывания модели на форму в модалку
  */
-public class RefModalAT extends AutoTestBase {
+class RefModalAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.hasEntry;
 /**
  * Тестирование компиляции стандартного источника данных
  */
-public class StandardDataSourceCompileTest extends SourceCompileTestBase {
+class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

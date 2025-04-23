@@ -15,10 +15,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CopyFieldAT extends AutoTestBase {
+class CopyFieldAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -37,7 +37,7 @@ public class CopyFieldAT extends AutoTestBase {
     }
 
     @Test
-    public void testCopyField() {
+    void testCopyField() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Копирование значения поля");

@@ -44,9 +44,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * Тест процессора I/O
  */
-public class IOProcessorTest {
+class IOProcessorTest {
 
-    static public class EmptyEntity {
+    public static class EmptyEntity {
 
     }
 
@@ -55,7 +55,7 @@ public class IOProcessorTest {
         en1, en2
     }
 
-    static public class BaseEntity {
+    public static class BaseEntity {
 
         private String attr;
         private ChildEntity childEntity;
@@ -77,7 +77,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class BoolEntity extends BaseEntity {
+    public static class BoolEntity extends BaseEntity {
         private Boolean boolAttr;
 
         public Boolean getBoolAttr() {
@@ -89,7 +89,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class ExtAttributesEntity extends BaseEntity implements ExtensionAttributesAware {
+    public static class ExtAttributesEntity extends BaseEntity implements ExtensionAttributesAware {
         private Map<N2oNamespace, Map<String, String>> extensions;
         private Map<N2oNamespace, Map<String, String>> childExtensions;
 
@@ -112,7 +112,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class AdditionalExtAttributesEntity extends BaseEntity {
+    public static class AdditionalExtAttributesEntity extends BaseEntity {
         List<Namespace> additionalNamespaces;
 
         public List<Namespace> getAdditionalNamespaces() {
@@ -124,7 +124,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class IntEntity extends BaseEntity {
+    public static class IntEntity extends BaseEntity {
         private Integer intAttr;
 
         public Integer getIntAttr() {
@@ -136,7 +136,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class ArrayEntity extends BaseEntity {
+    public static class ArrayEntity extends BaseEntity {
         private String[] arrayAttr;
 
         public String[] getArrayAttr() {
@@ -148,7 +148,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class EnumEntity extends BaseEntity {
+    public static class EnumEntity extends BaseEntity {
         private MyEnum en;
 
         MyEnum getEn() {
@@ -161,7 +161,7 @@ public class IOProcessorTest {
 
     }
 
-    static public class ChildEntity implements NamespaceUriAware {
+    public static class ChildEntity implements NamespaceUriAware {
         private String text;
         private MyEnum en;
         private Boolean bool;
@@ -223,7 +223,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class ChildrenEntityList {
+    public static class ChildrenEntityList {
         private ChildEntity[] childEntities;
 
         public ChildEntity[] getChildEntities() {
@@ -235,7 +235,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class BodyEntity extends BaseEntity {
+    public static class BodyEntity extends BaseEntity {
         private String body;
 
         public String getBody() {
@@ -247,7 +247,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class ListEnumEntity {
+    public static class ListEnumEntity {
         private EnumEntity[] entityList;
 
         EnumEntity[] getEntityList() {
@@ -259,7 +259,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class ListBaseEntity {
+    public static class ListBaseEntity {
         private BaseEntity[] entityList;
 
         BaseEntity[] getEntityList() {
@@ -271,7 +271,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class NamespaceEntity implements NamespaceUriAware {
+    public static class NamespaceEntity implements NamespaceUriAware {
 
         private String attr;
         private String namespaceUri;
@@ -295,7 +295,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class BodyNamespaceEntity extends NamespaceEntity {
+    public static class BodyNamespaceEntity extends NamespaceEntity {
         private String body;
 
         public String getBody() {
@@ -307,7 +307,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class EnumNamespaceEntity extends NamespaceEntity {
+    public static class EnumNamespaceEntity extends NamespaceEntity {
         private MyEnum en;
 
         MyEnum getEn() {
@@ -320,7 +320,7 @@ public class IOProcessorTest {
     }
 
 
-    static public class ListNamespaceEntity {
+    public static class ListNamespaceEntity {
         private NamespaceEntity[] entityList;
 
         NamespaceEntity[] getEntityList() {
@@ -332,7 +332,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class MapStringNamespaceEntity {
+    public static class MapStringNamespaceEntity {
         private Map<String, String> entityStringMap;
 
         public Map<String, String> getEntityStringMap() {
@@ -344,7 +344,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class MapNamespaceEntity {
+    public static class MapNamespaceEntity {
         private Map<String, Object> entityMap;
 
         public Map<String, Object> getEntityMap() {

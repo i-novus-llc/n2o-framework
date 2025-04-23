@@ -26,7 +26,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции компонента ввода текста с автоподбором
  */
-public class AutoCompleteCompileTest extends SourceCompileTestBase {
+class AutoCompleteCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

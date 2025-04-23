@@ -25,7 +25,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции компонента ввода текста
  */
-public class InputTextCompileTest extends SourceCompileTestBase {
+class InputTextCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

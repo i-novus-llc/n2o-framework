@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для действия обновления данных виджета
  */
-public class RefreshActionAT extends AutoTestBase {
+class RefreshActionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -46,7 +46,7 @@ public class RefreshActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testRefresh() {
+    void testRefresh() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

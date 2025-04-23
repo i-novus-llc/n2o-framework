@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование связывания с данными источника, получающего данные из другого источника данных
  */
-public class InheritedDatasourceBinderTest extends SourceCompileTestBase {
+class InheritedDatasourceBinderTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

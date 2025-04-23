@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тест на компиляцию ячейки с индикатором прогресса
  */
-public class ProgressBarCellCompileTest extends SourceCompileTestBase {
+class ProgressBarCellCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

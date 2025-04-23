@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи региона с горизонтальным делителем версии 2.0
  */
-public class LineRegionXmlIOv2Test {
+class LineRegionXmlIOv2Test {
     
     @Test
     void test() {

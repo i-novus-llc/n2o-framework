@@ -26,12 +26,12 @@ import static net.n2oapp.framework.autotest.N2oSelenide.page;
 /**
  * Автотест для проверки корректной работы кнопок в разных местах
  */
-public class ButtonBindingAT extends AutoTestBase {
+class ButtonBindingAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -56,7 +56,7 @@ public class ButtonBindingAT extends AutoTestBase {
     }
 
     @Test
-    public void testButtons() {
+    void testButtons() {
         FormWidget form = page.widget(FormWidget.class);
 
         StandardField field = form.fields().field("Put name");

@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для стилей блоков карточек
  */
-public class CardsBlockStyleAT extends AutoTestBase {
+class CardsBlockStyleAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -40,7 +40,7 @@ public class CardsBlockStyleAT extends AutoTestBase {
     }
 
     @Test
-    public void testCardBlockStyles() {
+    void testCardBlockStyles() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

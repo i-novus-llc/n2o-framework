@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотесты поля ввода пароля
  */
-public class InputPasswordAT extends AutoTestBase {
+class InputPasswordAT extends AutoTestBase {
 
     private SimplePage simplePage;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class InputPasswordAT extends AutoTestBase {
     }
 
     @Test
-    public void inputPasswordTest() {
+    void inputPasswordTest() {
         PasswordControl password = getFields().field("InputPassword").control(PasswordControl.class);
         password.shouldBeEnabled();
         password.shouldHavePlaceholder("EnterPassword");

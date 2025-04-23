@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи кнопки
  */
-public class ButtonXmlIOv2Test {
+class ButtonXmlIOv2Test {
     
     @Test
     void testButton() {

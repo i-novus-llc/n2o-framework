@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для подсказок филдсетов и полей
  */
-public class HelpMessageAT extends AutoTestBase {
+class HelpMessageAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -42,7 +42,7 @@ public class HelpMessageAT extends AutoTestBase {
     }
 
     @Test
-    public void testHelpMessage() {
+    void testHelpMessage() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Филдсеты и поля с подсказками");

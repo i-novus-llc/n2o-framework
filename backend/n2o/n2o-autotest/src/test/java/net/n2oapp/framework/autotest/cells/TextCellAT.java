@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест ячейки с текстом
  */
-public class TextCellAT extends AutoTestBase {
+class TextCellAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -41,7 +41,7 @@ public class TextCellAT extends AutoTestBase {
     }
 
     @Test
-    public void textCellTest() {
+    void textCellTest() {
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
 

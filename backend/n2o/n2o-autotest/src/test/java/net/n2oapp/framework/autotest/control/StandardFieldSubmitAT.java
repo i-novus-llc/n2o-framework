@@ -19,12 +19,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест автоматического сохранения полей
  */
-public class StandardFieldSubmitAT extends AutoTestBase {
+class StandardFieldSubmitAT extends AutoTestBase {
 
     private Fields fields;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -41,7 +41,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
     }
 
     @Test
-    public void testSubmit() {
+    void testSubmit() {
         setResourcePath("net/n2oapp/framework/autotest/control/submit");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/submit/index.page.xml"),

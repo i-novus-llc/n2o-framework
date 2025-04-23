@@ -21,9 +21,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки появления сообщения о обязательности поля
  */
-public class FieldRequiredAT extends AutoTestBase {
+class FieldRequiredAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class FieldRequiredAT extends AutoTestBase {
     }
 
     @Test
-    public void defaultValue() {
+    void defaultValue() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/simpleValue/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/simpleValue/myObject.object.xml")

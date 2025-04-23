@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для фильтр-модели таблциы
  */
-public class FilterModelAT extends AutoTestBase {
+class FilterModelAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

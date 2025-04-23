@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование parent-datasource
  */
-public class ParentDatasourceAT extends AutoTestBase {
+class ParentDatasourceAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -44,7 +44,7 @@ public class ParentDatasourceAT extends AutoTestBase {
      * Тестирование фильтров от parent-datasource
      */
     @Test
-    public void testFiltersByParent() {
+    void testFiltersByParent() {
         setResourcePath("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/filter_by_parent/modal.page.xml"),
@@ -71,7 +71,7 @@ public class ParentDatasourceAT extends AutoTestBase {
      * Тестирование Прокидывание разных parent-datasource из родительской страницы
      */
     @Test
-    public void testSourceDatasource() {
+    void testSourceDatasource() {
         setResourcePath("net/n2oapp/framework/autotest/datasources/parent_datasource/source_datasource");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/source_datasource/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/parent_datasource/source_datasource/modal.page.xml"),

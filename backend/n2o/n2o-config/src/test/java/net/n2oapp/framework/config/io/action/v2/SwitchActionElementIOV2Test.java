@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтение/записи действия <switch> версии 2.0
  */
-public class SwitchActionElementIOV2Test {
+class SwitchActionElementIOV2Test {
 
     @Test
     void testSwitchActionElementIOV2Test() {

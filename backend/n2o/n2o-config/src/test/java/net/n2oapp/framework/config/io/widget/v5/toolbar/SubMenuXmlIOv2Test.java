@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи кнопки с выпадающим меню
  */
-public class SubMenuXmlIOv2Test {
+class SubMenuXmlIOv2Test {
     
     @Test
     void testButton() {

@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для мульти-столбца таблицы
  */
-public class MultiColumnAT extends AutoTestBase {
+class MultiColumnAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -46,7 +46,7 @@ public class MultiColumnAT extends AutoTestBase {
     }
 
     @Test
-    public void testMultiColumn() {
+    void testMultiColumn() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/multi_column/simple");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/simple/test.query.xml"));

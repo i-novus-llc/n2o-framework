@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест проверяет работу clear
  */
-public class ClearActionAT extends AutoTestBase {
+class ClearActionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -42,7 +42,7 @@ public class ClearActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testClearInModal() {
+    void testClearInModal() {
         setResourcePath("net/n2oapp/framework/autotest/action/clear/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/simple/index.page.xml"),
@@ -86,7 +86,7 @@ public class ClearActionAT extends AutoTestBase {
     }
 
     @Test
-    public void clearAfterAction() {
+    void clearAfterAction() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_after_action/index.page.xml"));
 
         StandardPage page = open(StandardPage.class);
@@ -115,7 +115,7 @@ public class ClearActionAT extends AutoTestBase {
     }
 
     @Test
-    public void clearModelInTable() {
+    void clearModelInTable() {
         setResourcePath("net/n2oapp/framework/autotest/action/clear/clear_model_in_table");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/clear/clear_model_in_table/index.page.xml"),

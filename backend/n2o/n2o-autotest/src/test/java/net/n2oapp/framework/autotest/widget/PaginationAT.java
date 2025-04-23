@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для пагинации
  */
-public class PaginationAT extends AutoTestBase {
+class PaginationAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -42,7 +42,7 @@ public class PaginationAT extends AutoTestBase {
     }
 
     @Test
-    public void testTableSimplePaging() {
+    void testTableSimplePaging() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/simple");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple/test.query.xml"));
@@ -120,7 +120,7 @@ public class PaginationAT extends AutoTestBase {
     }
 
     @Test
-    public void testShowCountNever() {
+    void testShowCountNever() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/simple_never");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple_never/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/simple_never/test.query.xml"));
@@ -139,7 +139,7 @@ public class PaginationAT extends AutoTestBase {
     }
 
     @Test
-    public void testTableInfinitePaging() {
+    void testTableInfinitePaging() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/infinite");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/infinite/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/infinite/test.query.xml"));
@@ -241,7 +241,7 @@ public class PaginationAT extends AutoTestBase {
     }
 
     @Test
-    public void testShowCountByRequest() {
+    void testShowCountByRequest() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/infinite_by_request");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/infinite_by_request/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/infinite_by_request/test.query.xml"));
@@ -316,7 +316,7 @@ public class PaginationAT extends AutoTestBase {
     }
 
     @Test
-    public void testPrevNextButtonsLabel() {
+    void testPrevNextButtonsLabel() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/prev_next_buttons");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/prev_next_buttons/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/prev_next_buttons/test.query.xml"));
@@ -341,7 +341,7 @@ public class PaginationAT extends AutoTestBase {
     }
 
     @Test
-    public void testRoutable() {
+    void testRoutable() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/routable");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable/modal.page.xml"),
@@ -369,7 +369,7 @@ public class PaginationAT extends AutoTestBase {
     }
 
     @Test
-    public void testRoutableManyWidgets() {
+    void testRoutableManyWidgets() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/routable_many_widgets/modal.page.xml"),

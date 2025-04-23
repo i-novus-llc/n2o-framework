@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тест на чтение/запись элемента <open-page>
  */
-public class OpenPageElementIOV1Test {
+class OpenPageElementIOV1Test {
 
     @Test
     void testOpenPageElementIOV1Test() {

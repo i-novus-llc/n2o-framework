@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author dfirstov
  * @since 26.03.2015
  */
-public class PathUtilTest {
+class PathUtilTest {
 
     @Test
     void testConvertRootPathToUrl() {
@@ -40,7 +40,7 @@ public class PathUtilTest {
     }
 
     @Test
-    public void testConvertRootPathToFileUrl() {
+    void testConvertRootPathToFileUrl() {
         String localPath = "test/default.application.xml";
         String fileUrl1 = "classpath*:META-INF/conf/test/default.application.xml";
         assert fileUrl1.equals(PathUtil.convertRootPathToFilePathPattern("classpath*:META-INF/conf/**/*.xml", localPath));

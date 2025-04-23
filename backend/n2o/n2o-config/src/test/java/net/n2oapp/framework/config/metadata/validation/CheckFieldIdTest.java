@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class CheckFieldIdTest extends N2oTestBase {
+class CheckFieldIdTest extends N2oTestBase {
 
     N2oCompileProcessor processor;
     N2oInputText field;

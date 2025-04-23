@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тест на компиляцию ячейки с тултипом и раскрывающимся текстовым списком
  */
-public class TooltipListCellCompileTest extends SourceCompileTestBase {
+class TooltipListCellCompileTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach

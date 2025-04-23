@@ -17,7 +17,7 @@ import static com.codeborne.selenide.Configuration.browserSize;
 import static com.codeborne.selenide.Configuration.headless;
 
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SimpleGreetingAT {
+class SimpleGreetingAT {
     @LocalServerPort
     private int port;
 
@@ -43,7 +43,7 @@ public class SimpleGreetingAT {
     }
 
     @Test
-    public void greetingTest() {
+    void greetingTest() {
         InputText inputText = page.widget(FormWidget.class).fields().field("Имя").control(InputText.class);
         inputText.click();
         inputText.clear();

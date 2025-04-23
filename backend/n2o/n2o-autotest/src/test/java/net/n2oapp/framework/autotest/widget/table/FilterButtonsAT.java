@@ -24,13 +24,13 @@ import static org.mockito.Mockito.verify;
 /**
  * Автотест для проверки кнопок в фильтрах таблицы
  */
-public class FilterButtonsAT extends AutoTestBase {
+class FilterButtonsAT extends AutoTestBase {
 
     @SpyBean
     private N2oController controller;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

@@ -41,7 +41,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
 
-public class DataControllerExceptionTest extends DataControllerTestBase {
+class DataControllerExceptionTest extends DataControllerTestBase {
 
 
     @Test

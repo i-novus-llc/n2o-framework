@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи основного меню 3.0
  */
-public class NavMenuIOv3Test extends XmlIOTestBase {
+class NavMenuIOv3Test extends XmlIOTestBase {
 
     @Override
     @BeforeEach

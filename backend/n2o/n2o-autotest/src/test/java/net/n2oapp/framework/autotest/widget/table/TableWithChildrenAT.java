@@ -20,12 +20,12 @@ import java.util.Arrays;
 /**
  * Тестирование древовидной таблицы
  */
-public class TableWithChildrenAT extends AutoTestBase {
+class TableWithChildrenAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -50,7 +50,7 @@ public class TableWithChildrenAT extends AutoTestBase {
     }
 
     @Test
-    public void testTable() {
+    void testTable() {
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.paging().shouldHaveTotalElements(4);
@@ -89,7 +89,7 @@ public class TableWithChildrenAT extends AutoTestBase {
     }
 
     @Test
-    public void testRowClickEnabled() {
+    void testRowClickEnabled() {
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.paging().shouldHaveTotalElements(4);

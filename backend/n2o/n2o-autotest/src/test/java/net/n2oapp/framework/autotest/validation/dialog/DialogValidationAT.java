@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для диалога подтверждения действия
  */
-public class DialogValidationAT extends AutoTestBase {
+class DialogValidationAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

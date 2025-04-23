@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тест класса {@link MultivaluedPropertyResolver}
  */
-public class MultivaluedPropertyResolverTest {
+class MultivaluedPropertyResolverTest {
 
     @Test
     void test() {

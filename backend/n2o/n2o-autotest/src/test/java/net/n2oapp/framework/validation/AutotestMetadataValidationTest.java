@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 import static java.util.UUID.randomUUID;
 
-public class AutotestMetadataValidationTest extends N2oTestBase {
+class AutotestMetadataValidationTest extends N2oTestBase {
 
     private final static String CLASSES = "/classes/";
     private final Pattern uuidPattern = Pattern.compile("\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}");

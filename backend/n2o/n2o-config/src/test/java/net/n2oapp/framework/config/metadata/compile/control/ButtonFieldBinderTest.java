@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции ButtonField компонента
  */
-public class ButtonFieldBinderTest extends SourceCompileTestBase {
+class ButtonFieldBinderTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

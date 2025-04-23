@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции стандартной диаграммы
  */
-public class StandardChartCompileTest extends SourceCompileTestBase {
+class StandardChartCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

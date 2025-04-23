@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование положения сообщения об ошибке/успехе
  */
-public class AlertPositionAT extends AutoTestBase {
+class AlertPositionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -49,7 +49,7 @@ public class AlertPositionAT extends AutoTestBase {
     }
 
     @Test
-    public void alertTest() {
+    void alertTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для виджета CardsWidget
  */
-public class CardsAT extends AutoTestBase {
+class CardsAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -40,7 +40,7 @@ public class CardsAT extends AutoTestBase {
     }
 
     @Test
-    public void testCardsOne(){
+    void testCardsOne(){
         setResourcePath("net/n2oapp/framework/autotest/widget/cards/page1/");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/index.page.xml"),
@@ -103,7 +103,7 @@ public class CardsAT extends AutoTestBase {
     }
 
     @Test
-    public void testCardsTwo(){
+    void testCardsTwo(){
         setResourcePath("net/n2oapp/framework/autotest/widget/cards/page2/");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page2/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page2/index.page.xml"));

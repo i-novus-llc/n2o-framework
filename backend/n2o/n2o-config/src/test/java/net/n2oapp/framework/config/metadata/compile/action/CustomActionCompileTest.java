@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.notNullValue;
 /**
  * Тестирование компиляции настраиваемого действия
  */
-public class CustomActionCompileTest extends SourceCompileTestBase {
+class CustomActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

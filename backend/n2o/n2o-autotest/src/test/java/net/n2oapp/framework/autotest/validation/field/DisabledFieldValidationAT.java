@@ -22,9 +22,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест валидации скрытых полей
  */
-public class DisabledFieldValidationAT extends AutoTestBase {
+class DisabledFieldValidationAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

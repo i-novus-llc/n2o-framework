@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи ячейки с ссылкой
  */
-public class CheckboxCellXmlIOv3Test {
+class CheckboxCellXmlIOv3Test {
     
     @Test
     void testCheckboxCell() {

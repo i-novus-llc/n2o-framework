@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи стандартного поля
  */
-public class N2oStandardFieldXmlIOv3Test {
+class N2oStandardFieldXmlIOv3Test {
     
     @Test
     void test() {

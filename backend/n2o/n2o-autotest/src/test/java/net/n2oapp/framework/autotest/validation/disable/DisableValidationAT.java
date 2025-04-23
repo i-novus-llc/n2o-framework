@@ -24,9 +24,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест на срабатывание валидации полей
  */
-public class DisableValidationAT extends AutoTestBase {
+class DisableValidationAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

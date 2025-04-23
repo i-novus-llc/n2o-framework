@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для виджета Форма
  */
-public class FormAT extends AutoTestBase {
+class FormAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -46,7 +46,7 @@ public class FormAT extends AutoTestBase {
     }
 
     @Test
-    public void testForm() {
+    void testForm() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/simple/testForm.object.xml")
@@ -82,7 +82,7 @@ public class FormAT extends AutoTestBase {
     }
 
     @Test
-    public void testToolbar() {
+    void testToolbar() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/toolbar/index.page.xml")
         );
@@ -119,7 +119,7 @@ public class FormAT extends AutoTestBase {
     }
     
     @Test
-    public void testMode() {
+    void testMode() {
         setResourcePath("net/n2oapp/framework/autotest/widget/form/mode");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/index.page.xml"),

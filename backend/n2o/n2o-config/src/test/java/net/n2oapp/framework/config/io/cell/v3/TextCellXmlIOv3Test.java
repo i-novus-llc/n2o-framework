@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи ячейки с текстом
  */
-public class TextCellXmlIOv3Test {
+class TextCellXmlIOv3Test {
     
     @Test
     void testTextCell() {

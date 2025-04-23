@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента группы чекбоксов
  */
-public class CheckboxGroupAT extends AutoTestBase {
+class CheckboxGroupAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -34,7 +34,7 @@ public class CheckboxGroupAT extends AutoTestBase {
     }
 
     @Test
-    public void testCheckboxGroup() {
+    void testCheckboxGroup() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/checkbox_group/simple/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
@@ -62,7 +62,7 @@ public class CheckboxGroupAT extends AutoTestBase {
     }
 
     @Test
-    public void defaultValue() {
+    void defaultValue() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/checkbox_group/default_value/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);

@@ -13,7 +13,7 @@ import javax.script.ScriptException;
  * @author iryabov
  * @since 17.04.2015
  */
-public class JavaScriptEngineTest {
+class JavaScriptEngineTest {
 
     @Test
     void testEngine() throws ScriptException {

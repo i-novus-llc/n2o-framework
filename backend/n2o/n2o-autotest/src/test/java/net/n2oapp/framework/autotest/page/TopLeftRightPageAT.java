@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для страницы с тремя регионами
  */
-public class TopLeftRightPageAT extends AutoTestBase {
+class TopLeftRightPageAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class TopLeftRightPageAT extends AutoTestBase {
     }
 
     @Test
-    public void testTopLeftRightPage() {
+    void testTopLeftRightPage() {
         TopLeftRightPage page = open(TopLeftRightPage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница с тремя регионами");

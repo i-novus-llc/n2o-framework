@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тест на чтение/запись элемента <a>
  */
-public class AnchorElementIOV1Test {
+class AnchorElementIOV1Test {
     
     @Test
     void testAnchorElementIOV1Test() {

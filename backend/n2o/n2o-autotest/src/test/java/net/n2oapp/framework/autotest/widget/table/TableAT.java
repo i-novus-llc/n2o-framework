@@ -45,13 +45,13 @@ import static org.mockito.Mockito.verify;
 /**
  * Автотест для виджета Таблица
  */
-public class TableAT extends AutoTestBase {
+class TableAT extends AutoTestBase {
 
     @SpyBean
     private N2oController controller;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

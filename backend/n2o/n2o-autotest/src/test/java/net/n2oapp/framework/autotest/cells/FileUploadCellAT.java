@@ -20,13 +20,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Автотесты поля загрузки файлов в ячейке
  */
-public class FileUploadCellAT extends AutoTestBase {
+class FileUploadCellAT extends AutoTestBase {
 
     @Autowired
     private FileStoreController fileStoreController;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции действия сохранения источника данных
  */
-public class SubmitActionCompileTest extends SourceCompileTestBase {
+class SubmitActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

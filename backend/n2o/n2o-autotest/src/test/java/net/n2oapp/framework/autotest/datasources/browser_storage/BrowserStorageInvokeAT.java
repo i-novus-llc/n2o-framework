@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование invoke browser-storage
  */
-public class BrowserStorageInvokeAT extends AutoTestBase {
+class BrowserStorageInvokeAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class BrowserStorageInvokeAT extends AutoTestBase {
      * clear-after-invoke у localStorage
      */
     @Test
-    public void testInvokeLocal() {
+    void testInvokeLocal() {
         setResourcePath("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_local_storage");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_local_storage/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_local_storage/test.object.xml"),
@@ -58,7 +58,7 @@ public class BrowserStorageInvokeAT extends AutoTestBase {
      * clear-after-invoke у sessionStorage
      */
     @Test
-    public void testInvokeSession() {
+    void testInvokeSession() {
         setResourcePath("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_session_storage");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_session_storage/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/invoke_session_storage/test.object.xml"),

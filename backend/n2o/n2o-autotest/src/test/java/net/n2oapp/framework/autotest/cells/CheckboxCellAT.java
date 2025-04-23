@@ -14,12 +14,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест ячеек таблицы
  */
-public class CheckboxCellAT extends AutoTestBase {
+class CheckboxCellAT extends AutoTestBase {
 
     private TableWidget.Rows rows;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -49,7 +49,7 @@ public class CheckboxCellAT extends AutoTestBase {
     }
 
     @Test
-    public void checkboxCellTest() {
+    void checkboxCellTest() {
         int col = 0;
 
         rows.row(0).cell(col, CheckboxCell.class).shouldBeChecked();

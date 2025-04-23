@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирования чтения и записи диаграммы-области
  */
-public class AreaChartXmlIOv4Test {
+class AreaChartXmlIOv4Test {
     
     @Test
     void testAreaChartXmlIOv4Test() {

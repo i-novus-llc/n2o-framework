@@ -52,7 +52,7 @@ import static org.mockito.Mockito.when;
 /**
  * Тестирование процессора запросов
  */
-public class QueryProcessorTest {
+class QueryProcessorTest {
 
     private N2oQueryProcessor queryProcessor;
     private N2oApplicationBuilder builder;

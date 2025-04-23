@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест шапки(header)
  */
-public class  SimpleHeaderAT extends AutoTestBase {
+class  SimpleHeaderAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -42,7 +42,7 @@ public class  SimpleHeaderAT extends AutoTestBase {
     }
 
     @Test
-    public void simpleHeader() {
+    void simpleHeader() {
                 String rootUrl = getBaseUrl();
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -73,7 +73,7 @@ public class  SimpleHeaderAT extends AutoTestBase {
     }
 
     @Test
-    public void multiLevelDropdown() {
+    void multiLevelDropdown() {
         String rootUrl = getBaseUrl();
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

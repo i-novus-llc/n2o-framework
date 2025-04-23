@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи переключаемой ячейки
  */
-public class SwitchCellXmlIOv3Test {
+class SwitchCellXmlIOv3Test {
     
     @Test
     void testSwitchCell() {

@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 class EditCellAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

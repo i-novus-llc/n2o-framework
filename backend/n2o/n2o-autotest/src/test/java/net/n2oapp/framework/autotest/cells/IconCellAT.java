@@ -13,12 +13,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест ячеек таблицы
  */
-public class IconCellAT extends AutoTestBase {
+class IconCellAT extends AutoTestBase {
 
     private TableWidget.Rows rows;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -48,7 +48,7 @@ public class IconCellAT extends AutoTestBase {
 
 
     @Test
-    public void iconCellTest() {
+    void iconCellTest() {
         int col = 0;
         rows.row(0).cell(col, IconCell.class).shouldHaveIcon("fa-phone");
         rows.row(0).cell(col, IconCell.class).shouldHaveText("fa fa-phone");

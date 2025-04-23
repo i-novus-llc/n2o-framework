@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование компиляции заголовка
  */
-public class HeaderCompileTest extends SourceCompileTestBase {
+class HeaderCompileTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach
@@ -39,7 +39,7 @@ public class HeaderCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void inlineMenu() {
+    void inlineMenu() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/application/headerWithMenu.application.xml")
@@ -114,7 +114,7 @@ public class HeaderCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void externalMenu() {
+    void externalMenu() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/headerWithExternalMenu.application.xml",
                 "net/n2oapp/framework/config/metadata/application/testMenu.menu.xml")
@@ -131,7 +131,7 @@ public class HeaderCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void searchBarTest() {
+    void searchBarTest() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/application/headerWithSearch.application.xml",

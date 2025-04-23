@@ -13,12 +13,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для компонента ползунка
  */
-public class SliderAT extends AutoTestBase {
+class SliderAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -40,7 +40,7 @@ public class SliderAT extends AutoTestBase {
     }
 
     @Test
-    public void testSlider() {
+    void testSlider() {
         Slider slider = page.widget(FormWidget.class).fields().field("Slider1")
                 .control(Slider.class);
         slider.shouldExists();
@@ -53,7 +53,7 @@ public class SliderAT extends AutoTestBase {
     }
 
     @Test
-    public void testVerticalSlider() {
+    void testVerticalSlider() {
         Slider slider = page.widget(FormWidget.class).fields().field("Slider2")
                 .control(Slider.class);
         slider.shouldExists();
@@ -66,7 +66,7 @@ public class SliderAT extends AutoTestBase {
     }
 
     @Test
-    public void testRangeModeSlider() {
+    void testRangeModeSlider() {
         Slider slider = page.widget(FormWidget.class).fields().field("Slider3")
                 .control(Slider.class);
         slider.shouldExists();

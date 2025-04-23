@@ -11,7 +11,7 @@ import net.n2oapp.framework.config.test.XmlIOTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class N2oPlainFieldXmlIOv3Test extends XmlIOTestBase {
+class N2oPlainFieldXmlIOv3Test extends XmlIOTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {
