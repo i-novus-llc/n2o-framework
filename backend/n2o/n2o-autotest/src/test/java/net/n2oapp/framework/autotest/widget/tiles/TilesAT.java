@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для виджета Плитки
  */
-public class TilesAT extends AutoTestBase {
+class TilesAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -41,7 +41,7 @@ public class TilesAT extends AutoTestBase {
     }
 
     @Test
-    public void testTiles() {
+    void testTiles() {
         setResourcePath("net/n2oapp/framework/autotest/widget/tiles");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/modal.page.xml"),

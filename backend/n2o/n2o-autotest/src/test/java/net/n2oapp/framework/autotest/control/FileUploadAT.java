@@ -33,7 +33,7 @@ class FileUploadAT extends AutoTestBase {
     private FileStoreController fileStoreController;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

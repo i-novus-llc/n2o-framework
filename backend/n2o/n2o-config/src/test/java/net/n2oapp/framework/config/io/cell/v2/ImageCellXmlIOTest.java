@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи ячейки с изображением
  */
-public class ImageCellXmlIOTest {
+class ImageCellXmlIOTest {
     
     @Test
     void testImageCell() {

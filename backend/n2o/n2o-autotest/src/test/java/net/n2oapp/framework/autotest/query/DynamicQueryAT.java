@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест динамических данных query
  */
-public class DynamicQueryAT extends AutoTestBase {
+class DynamicQueryAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -38,7 +38,7 @@ public class DynamicQueryAT extends AutoTestBase {
     }
 
     @Test
-    public void testDynamic() {
+    void testDynamic() {
         setResourcePath("net/n2oapp/framework/autotest/query");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/query/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/query/dynamic.query.xml"));

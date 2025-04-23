@@ -36,7 +36,7 @@ import static org.mockito.Mockito.when;
 /**
  * Тестирование процессора выполнения действий, проверяется корректность работы маппинга входных и выходных параметров
  */
-public class InvocationProcessorTest {
+class InvocationProcessorTest {
 
     private N2oInvocationProcessor invocationProcessor;
     private JavaDataProviderEngine javaDataProviderEngine;

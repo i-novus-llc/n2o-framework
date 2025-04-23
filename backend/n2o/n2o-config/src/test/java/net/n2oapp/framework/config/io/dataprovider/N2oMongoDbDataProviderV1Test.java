@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения\записи MongoDb провайдера данных
  */
-public class N2oMongoDbDataProviderV1Test {
+class N2oMongoDbDataProviderV1Test {
     
     @Test
     void io() {

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения, записи компонента с указанным префиксом
  */
-public class IOwithPrefixTest extends XmlIOTestBase {
+class IOwithPrefixTest extends XmlIOTestBase {
     
     @Override
     @BeforeEach

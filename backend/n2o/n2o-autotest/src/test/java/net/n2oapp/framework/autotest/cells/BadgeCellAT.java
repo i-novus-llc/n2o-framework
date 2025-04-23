@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест ячеек таблицы
  */
-public class BadgeCellAT extends AutoTestBase {
+class BadgeCellAT extends AutoTestBase {
 
     private TableWidget.Rows rows;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -49,7 +49,7 @@ public class BadgeCellAT extends AutoTestBase {
     }
 
     @Test
-    public void badgeCellTest() {
+    void badgeCellTest() {
         int col = 0;
 
         rows.row(0).cell(col, BadgeCell.class).badgeShouldHaveText("Male");

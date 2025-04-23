@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения\записи страницы с единственным виджетом версии 4.0
  */
-public class SimplePageXmlIOv4Test {
+class SimplePageXmlIOv4Test {
     
     @Test
     void test() {

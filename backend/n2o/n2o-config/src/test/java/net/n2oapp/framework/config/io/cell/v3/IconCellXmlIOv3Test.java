@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи ячейки с иконкой
  */
-public class IconCellXmlIOv3Test {
+class IconCellXmlIOv3Test {
     
     @Test
     void testIconCell() {

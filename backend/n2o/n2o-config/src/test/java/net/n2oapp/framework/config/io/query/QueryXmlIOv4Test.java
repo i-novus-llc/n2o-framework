@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи выборки версии 4
  */
-public class QueryXmlIOv4Test {
+class QueryXmlIOv4Test {
 
     @Test
     void testQueryXmlIOV4() {

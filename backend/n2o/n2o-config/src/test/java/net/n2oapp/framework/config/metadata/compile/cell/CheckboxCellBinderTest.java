@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование биндинга ячейки таблицы с чекбоксом
  */
-public class CheckboxCellBinderTest extends SourceCompileTestBase {
+class CheckboxCellBinderTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach

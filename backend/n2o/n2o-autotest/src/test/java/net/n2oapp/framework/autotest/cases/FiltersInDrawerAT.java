@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки фильтров в отдельном окне
  */
-public class FiltersInDrawerAT extends AutoTestBase {
+class FiltersInDrawerAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -53,7 +53,7 @@ public class FiltersInDrawerAT extends AutoTestBase {
     }
 
     @Test
-    public void searchOnFiltersChangeTest() {
+    void searchOnFiltersChangeTest() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Фильтры в отдельном окне");

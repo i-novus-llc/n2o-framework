@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для master-detail фильтрации
  */
-public class MasterDetailAT extends AutoTestBase {
+class MasterDetailAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class MasterDetailAT extends AutoTestBase {
     }
 
     @Test
-    public void testMasterDetail() {
+    void testMasterDetail() {
         setResourcePath("net/n2oapp/framework/autotest/widget/master_detail/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/master_detail/simple/detail.query.xml"),

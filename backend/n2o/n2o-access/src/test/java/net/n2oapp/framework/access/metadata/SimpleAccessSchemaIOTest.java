@@ -7,7 +7,7 @@ import net.n2oapp.framework.access.metadata.schema.simple.N2oSimpleAccessSchema;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.jupiter.api.Test;
 
-public class SimpleAccessSchemaIOTest {
+class SimpleAccessSchemaIOTest {
 
     final static ION2oMetadataTester tester = new ION2oMetadataTester()
             .addIO(new ObjectAccessPointIOv2())

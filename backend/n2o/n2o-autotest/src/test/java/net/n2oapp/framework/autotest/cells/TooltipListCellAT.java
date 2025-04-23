@@ -16,12 +16,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест ячейки с тултипом и раскрывающимся текстовым списком
  */
-public class TooltipListCellAT extends AutoTestBase {
+class TooltipListCellAT extends AutoTestBase {
 
     private StandardPage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -48,7 +48,7 @@ public class TooltipListCellAT extends AutoTestBase {
 
 
     @Test
-    public void testDefaultLabelFormat() {
+    void testDefaultLabelFormat() {
         TableWidget.Rows rows = page.regions().region(0, SimpleRegion.class).content()
                 .widget(0, TableWidget.class).columns().rows();
 
@@ -86,7 +86,7 @@ public class TooltipListCellAT extends AutoTestBase {
     }
 
     @Test
-    public void testOtherLabelFormats() {
+    void testOtherLabelFormats() {
         TableWidget.Rows rows0 = page.regions().region(0, SimpleRegion.class).content()
                 .widget(0, TableWidget.class).columns().rows();
         TableWidget.Rows rows = page.regions().region(0, SimpleRegion.class).content()
@@ -130,7 +130,7 @@ public class TooltipListCellAT extends AutoTestBase {
     }
 
     @Test
-    public void testWithoutLabel() {
+    void testWithoutLabel() {
         TableWidget.Rows rows = page.regions().region(0, SimpleRegion.class).content()
                 .widget(2, TableWidget.class).columns().rows();
 

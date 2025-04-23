@@ -12,7 +12,7 @@ import java.io.File;
  * Date: 08.05.14
  * Time: 10:47
  */
-public class NodeTest {
+class NodeTest {
     
     @Test
     void testCalculateLocalPathByLocationPattern() throws Exception {

@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class CloseActionCompileTest extends SourceCompileTestBase {
+class CloseActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

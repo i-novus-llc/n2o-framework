@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции компонента отображения статуса
  */
-public class StatusFieldCompileTest extends SourceCompileTestBase {
+class StatusFieldCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

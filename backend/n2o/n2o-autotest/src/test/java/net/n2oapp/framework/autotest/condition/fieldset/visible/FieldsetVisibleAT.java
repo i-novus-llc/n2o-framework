@@ -15,10 +15,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class FieldsetVisibleAT extends AutoTestBase {
+class FieldsetVisibleAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -39,7 +39,7 @@ public class FieldsetVisibleAT extends AutoTestBase {
     }
     
     @Test
-    public void dynamicVisible() {
+    void dynamicVisible() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/fieldset/visible/index.page.xml")
         );

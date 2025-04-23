@@ -14,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public class SearchButtonCompileTest extends SourceCompileTestBase {
+class SearchButtonCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

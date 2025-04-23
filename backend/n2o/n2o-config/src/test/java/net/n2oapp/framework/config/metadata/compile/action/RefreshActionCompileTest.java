@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции действия обновления данных виджета
  */
-public class RefreshActionCompileTest extends SourceCompileTestBase {
+class RefreshActionCompileTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach

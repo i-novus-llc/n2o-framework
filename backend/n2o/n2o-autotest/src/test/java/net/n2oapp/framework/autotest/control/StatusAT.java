@@ -16,12 +16,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для компонента отображения статуса
  */
-public class StatusAT extends AutoTestBase {
+class StatusAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -44,7 +44,7 @@ public class StatusAT extends AutoTestBase {
     }
 
     @Test
-    public void testStatus() {
+    void testStatus() {
         Status status1 = page.widget(FormWidget.class).fields().field(Status.class);
         status1.shouldExists();
         status1.shouldHaveText("Заявка принята");

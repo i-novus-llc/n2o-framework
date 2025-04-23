@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование простого филдсета
  */
-public class SetFieldSetCompileTest extends SourceCompileTestBase {
+class SetFieldSetCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

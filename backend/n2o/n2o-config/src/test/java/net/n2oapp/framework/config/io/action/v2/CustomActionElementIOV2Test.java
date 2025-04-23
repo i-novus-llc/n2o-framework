@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи элемента <action>
  */
-public class CustomActionElementIOV2Test {
+class CustomActionElementIOV2Test {
 
     @Test
     void testInvokeActionElementIOV2Test(){

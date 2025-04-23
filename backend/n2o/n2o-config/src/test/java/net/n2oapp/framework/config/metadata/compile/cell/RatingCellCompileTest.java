@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тест на компиляцию ячейки с рейтингом
  */
-public class RatingCellCompileTest extends SourceCompileTestBase {
+class RatingCellCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

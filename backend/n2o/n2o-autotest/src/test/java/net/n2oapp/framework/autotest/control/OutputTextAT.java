@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента вывода однострочного текста
  */
-public class OutputTextAT extends AutoTestBase {
+class OutputTextAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -41,7 +41,7 @@ public class OutputTextAT extends AutoTestBase {
     }
 
     @Test
-    public void testOutputText() {
+    void testOutputText() {
         OutputText output = page.widget(FormWidget.class).fields().field("Output1")
                 .control(OutputText.class);
         output.shouldExists();
@@ -50,7 +50,7 @@ public class OutputTextAT extends AutoTestBase {
     }
 
     @Test
-    public void testOutputTextWithIcon() {
+    void testOutputTextWithIcon() {
         OutputText output = page.widget(FormWidget.class).fields().field("Output2")
                 .control(OutputText.class);
         output.shouldExists();
@@ -60,7 +60,7 @@ public class OutputTextAT extends AutoTestBase {
     }
 
     @Test
-    public void testIconWithoutText() {
+    void testIconWithoutText() {
         OutputText output = page.widget(FormWidget.class).fields().field("Output3")
                 .control(OutputText.class);
         output.shouldExists();
@@ -70,7 +70,7 @@ public class OutputTextAT extends AutoTestBase {
     }
 
     @Test
-    public void testDefaultValue() {
+    void testDefaultValue() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/output_text/default/index.page.xml"));
         page = open(SimplePage.class);
         page.shouldExists();

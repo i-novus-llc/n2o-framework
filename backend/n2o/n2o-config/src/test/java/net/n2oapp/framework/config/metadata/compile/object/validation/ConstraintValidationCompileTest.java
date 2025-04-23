@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тестирование компиляции валидации ограничений полей
  */
-public class ConstraintValidationCompileTest extends SourceCompileTestBase {
+class ConstraintValidationCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

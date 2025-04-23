@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public class MongodbEngineQueryTransformerTest extends SourceCompileTestBase {
+class MongodbEngineQueryTransformerTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

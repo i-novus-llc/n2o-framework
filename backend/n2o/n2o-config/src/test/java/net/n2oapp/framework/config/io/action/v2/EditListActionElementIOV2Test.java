@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи действия <edit-list>
  */
-public class EditListActionElementIOV2Test {
+class EditListActionElementIOV2Test {
 
     @Test
     void testEditListActionElementIOV2(){

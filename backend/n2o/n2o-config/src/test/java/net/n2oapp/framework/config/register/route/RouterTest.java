@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование поиска метаданных по url
  */
-public class RouterTest {
+class RouterTest {
 
     private N2oApplicationBuilder builder;
 

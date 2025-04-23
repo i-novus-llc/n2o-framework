@@ -27,7 +27,7 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class InputSelectCompileTest extends SourceCompileTestBase {
+class InputSelectCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

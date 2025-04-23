@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи редактируемой ячейки
  */
-public class EditCellXmlIOv3Test {
+class EditCellXmlIOv3Test {
     
     @Test
     void testEditCell() {

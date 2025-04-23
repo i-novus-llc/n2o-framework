@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование компиляции события изменения модели данных
  */
-public class OnChangeEventCompileTest extends SourceCompileTestBase {
+class OnChangeEventCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

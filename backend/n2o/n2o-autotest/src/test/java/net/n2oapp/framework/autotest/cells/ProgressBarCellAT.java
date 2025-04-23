@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест ячеек таблицы
  */
-public class ProgressBarCellAT extends AutoTestBase {
+class ProgressBarCellAT extends AutoTestBase {
 
     private TableWidget.Rows rows;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -49,7 +49,7 @@ public class ProgressBarCellAT extends AutoTestBase {
     }
 
     @Test
-    public void progressBarCellTest() {
+    void progressBarCellTest() {
         int col = 0;
 
         rows.row(0).cell(col, ProgressBarCell.class).shouldHaveColor(Colors.SUCCESS);

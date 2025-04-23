@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента компонента ввода времени
  */
-public class N2oTimePickerXmlIOv2Test {
+class N2oTimePickerXmlIOv2Test {
 
     @Test
     void test() {

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи редактируемой ячейки
  */
-public class EditCellXmlIOTest {
+class EditCellXmlIOTest {
     @Test
     void testEditCell() {
         ION2oMetadataTester tester = new ION2oMetadataTester();

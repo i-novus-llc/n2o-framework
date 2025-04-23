@@ -13,7 +13,7 @@ import static net.n2oapp.properties.test.TestUtil.assertOnSuccess;
  * @author operehod
  * @since 05.06.2015
  */
-public class StaticPropertiesTest {
+class StaticPropertiesTest {
 
 
     private final Properties properties = new Properties();

@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции компонента редактирования кода
  */
-public class CodeEditorCompileTest extends SourceCompileTestBase {
+class CodeEditorCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

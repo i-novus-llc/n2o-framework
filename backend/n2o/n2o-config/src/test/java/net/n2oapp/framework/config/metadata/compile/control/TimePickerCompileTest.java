@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции компонента ввода времени
  */
-public class TimePickerCompileTest extends SourceCompileTestBase {
+class TimePickerCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

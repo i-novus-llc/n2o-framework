@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки страницы с поисковой строкой
  */
-public class SearchableAT extends AutoTestBase {
+class SearchableAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -40,7 +40,7 @@ public class SearchableAT extends AutoTestBase {
     }
 
     @Test
-    public void crudTest() {
+    void crudTest() {
         SearchablePage page = open(SearchablePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница с поисковой строкой");

@@ -15,7 +15,7 @@ import static net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMo
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
+class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

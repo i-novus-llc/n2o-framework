@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тест валидатора приложения
  */
-public class ApplicationValidatorTest extends SourceValidationTestBase {
+class ApplicationValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

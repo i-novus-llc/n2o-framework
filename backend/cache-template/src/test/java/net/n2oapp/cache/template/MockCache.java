@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Кэш-заглушка для тестирования
  */
 @SuppressWarnings("NullableProblems")
-public class MockCache implements Cache {
+class MockCache implements Cache {
 
     private final AtomicInteger put = new AtomicInteger(0);
     private final AtomicInteger hit = new AtomicInteger(0);

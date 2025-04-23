@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирования чтения и записи линейного графика
  */
-public class LineChartXmlIOv4Test {
+class LineChartXmlIOv4Test {
     
     @Test
     void testLineChartXmlIOv4Test() {

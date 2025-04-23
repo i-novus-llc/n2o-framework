@@ -22,10 +22,10 @@ import org.junit.jupiter.api.*;
  * Тестирование browser-storage
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class BrowserStorageAT extends AutoTestBase {
+class BrowserStorageAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class BrowserStorageAT extends AutoTestBase {
      * Тестирование localStorage
      */
     @Test
-    public void testLocalStorage() {
+    void testLocalStorage() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/local_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         testBrowserStorage(page);
@@ -55,14 +55,14 @@ public class BrowserStorageAT extends AutoTestBase {
      * Тестирование sessionStorage
      */
     @Test
-    public void testSessionStorage() {
+    void testSessionStorage() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/session_storage/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         testBrowserStorage(page);
     }
 
     @Test
-    public void testSubmit() {
+    void testSubmit() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/submit/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();

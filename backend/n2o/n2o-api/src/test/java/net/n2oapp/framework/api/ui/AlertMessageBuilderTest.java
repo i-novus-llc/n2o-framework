@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 /**
  * Тесты {@link AlertMessageBuilder}
  */
-public class AlertMessageBuilderTest {
+class AlertMessageBuilderTest {
     
     @Test
     void testAnyException() {

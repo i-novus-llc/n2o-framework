@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by dednakov on 13.12.2016.
  */
-public class JndiRoutingDataSourceTest {
+class JndiRoutingDataSourceTest {
 
     @Test
     void testGetConnection() throws Exception {

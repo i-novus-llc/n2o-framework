@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции валидации обязательности заполнения поля
  */
-public class MandatoryValidationCompileTest extends SourceCompileTestBase {
+class MandatoryValidationCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

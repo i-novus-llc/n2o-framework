@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения\записи Camunda провайдера данных
  */
-public class N2oCamundaDataProviderV1Test {
+class N2oCamundaDataProviderV1Test {
     
     @Test
     void io() {

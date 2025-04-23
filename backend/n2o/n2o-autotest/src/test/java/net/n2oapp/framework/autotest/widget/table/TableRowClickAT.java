@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для виджета Таблица. Тестирование row click
  */
-public class TableRowClickAT extends AutoTestBase {
+class TableRowClickAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

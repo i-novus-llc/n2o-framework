@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки недоступности всех полей
  */
-public class AllFieldsDisabledAT extends AutoTestBase {
+class AllFieldsDisabledAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тест на компиляцию ячейки с иконкой
  */
-public class IconCellCompileTest extends SourceCompileTestBase {
+class IconCellCompileTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтение и записи ячейки с тултипом и раскрывающимся текстовым списком
  */
-public class TooltipListCellXmlIOTest {
+class TooltipListCellXmlIOTest {
     
     @Test
     void testTooltipListCell() {

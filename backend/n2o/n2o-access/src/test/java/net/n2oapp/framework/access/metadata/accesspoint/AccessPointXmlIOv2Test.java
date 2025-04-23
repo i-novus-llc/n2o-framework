@@ -8,7 +8,7 @@ import net.n2oapp.framework.access.metadata.pack.AccessPointsIOV2Pack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.jupiter.api.Test;
 
-public class AccessPointXmlIOv2Test {
+class AccessPointXmlIOv2Test {
 
     final static ION2oMetadataTester tester = new ION2oMetadataTester()
             .addPack(new AccessPointsIOV2Pack());

@@ -33,12 +33,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для филдсета с динамическим числом полей
  */
-public class MultiFieldSetAT extends AutoTestBase {
+class MultiFieldSetAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

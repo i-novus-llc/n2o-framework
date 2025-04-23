@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование app-datasource
  */
-public class AppDatasourceAT extends AutoTestBase {
+class AppDatasourceAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

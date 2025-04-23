@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения, записи выбора чекбосков версии 3.0
  */
-public class N2oCheckboxGroupXmlIOv3Test {
+class N2oCheckboxGroupXmlIOv3Test {
 
     @Test
     void test() {

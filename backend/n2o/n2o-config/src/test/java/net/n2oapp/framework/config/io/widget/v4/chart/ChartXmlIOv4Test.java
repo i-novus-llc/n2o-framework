@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирования чтения и записи виджета диаграммы
  */
-public class ChartXmlIOv4Test {
+class ChartXmlIOv4Test {
     
     @Test
     void testChartXmlIOv4Test() {

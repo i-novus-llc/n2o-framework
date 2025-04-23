@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Класс проверки компонентов-полей на их очистку
  */
-public class AllFieldsCleanableAT extends AutoTestBase {
+class AllFieldsCleanableAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

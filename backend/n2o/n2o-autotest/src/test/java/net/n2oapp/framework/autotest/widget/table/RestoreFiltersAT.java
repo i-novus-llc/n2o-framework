@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки востановления значений фильтров таблицы после закрытия страницы
  */
-public class RestoreFiltersAT extends AutoTestBase {
+class RestoreFiltersAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -48,7 +48,7 @@ public class RestoreFiltersAT extends AutoTestBase {
     }
 
     @Test
-    public void afterPageClosing() {
+    void afterPageClosing() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/restore_filters_after_close/index.page.xml"),

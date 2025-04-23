@@ -20,9 +20,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование валидации форм
  */
-public class FormValidationAT extends AutoTestBase {
+class FormValidationAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class FormValidationAT extends AutoTestBase {
     }
 
     @Test
-    public void formValidationTest() {
+    void formValidationTest() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

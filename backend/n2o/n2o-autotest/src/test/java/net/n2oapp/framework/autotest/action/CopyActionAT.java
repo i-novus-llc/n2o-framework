@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для действия копирования
  */
-public class CopyActionAT extends AutoTestBase {
+class CopyActionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -47,7 +47,7 @@ public class CopyActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testSimpleCopy() {
+    void testSimpleCopy() {
         setResourcePath("net/n2oapp/framework/autotest/action/copy/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/simple/test.query.xml"),
@@ -76,7 +76,7 @@ public class CopyActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testCopyFromModal() {
+    void testCopyFromModal() {
         setResourcePath("net/n2oapp/framework/autotest/action/copy/modal");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal/test.query.xml"),
@@ -132,7 +132,7 @@ public class CopyActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testMultiCopyFromModal() {
+    void testMultiCopyFromModal() {
         setResourcePath("net/n2oapp/framework/autotest/action/copy/modal_multi");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_multi/test.query.xml"),
@@ -192,7 +192,7 @@ public class CopyActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testReplaceCopyFromModal() {
+    void testReplaceCopyFromModal() {
         setResourcePath("net/n2oapp/framework/autotest/action/copy/modal_replace");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/test.query.xml"),
@@ -238,7 +238,7 @@ public class CopyActionAT extends AutoTestBase {
      * Тест, проверяющий copy-mode=add c вложенными полями
      */
     @Test
-    public void testCopyNestedFields() {
+    void testCopyNestedFields() {
         setResourcePath("net/n2oapp/framework/autotest/action/copy/nested_fields");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/copy/nested_fields/test.query.xml"),

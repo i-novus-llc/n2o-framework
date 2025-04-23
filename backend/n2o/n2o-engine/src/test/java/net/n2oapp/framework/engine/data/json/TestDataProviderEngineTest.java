@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Тест {@link TestDataProviderEngine}
  */
-public class TestDataProviderEngineTest {
+class TestDataProviderEngineTest {
     
     @TempDir
     public Path testFolder;

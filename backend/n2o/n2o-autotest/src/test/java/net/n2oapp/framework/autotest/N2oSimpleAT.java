@@ -12,10 +12,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class N2oSimpleAT extends AutoTestBase {
+class N2oSimpleAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -34,7 +34,7 @@ public class N2oSimpleAT extends AutoTestBase {
     }
 
     @Test
-    public void test() {
+    void test() {
         SimplePage page = N2oSelenide.open("http://localhost:" + port, SimplePage.class);
         page.shouldExists();
         page.widget(FormWidget.class).shouldExists();

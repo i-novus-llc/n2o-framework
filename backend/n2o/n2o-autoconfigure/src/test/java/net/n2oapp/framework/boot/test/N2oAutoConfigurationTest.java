@@ -11,10 +11,10 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class N2oAutoConfigurationTest {
+class N2oAutoConfigurationTest {
 
     @Test
-    public void sql() {
+    void sql() {
         new ApplicationContextRunner()
                 .withPropertyValues("spring.datasource.driver-class-name=org.h2.Driver",
                         "spring.datasource.url=jdbc:h2:mem:test",

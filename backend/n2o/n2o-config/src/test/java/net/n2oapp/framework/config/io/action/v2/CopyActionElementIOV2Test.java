@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Проверка чтения/записи события <copy>
  */
-public class CopyActionElementIOV2Test {
+class CopyActionElementIOV2Test {
     @Test
     void testCopyActionElementIOV1Test(){
         ION2oMetadataTester tester = new ION2oMetadataTester();

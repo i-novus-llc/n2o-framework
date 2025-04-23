@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class WatchDir2Test {
+class WatchDir2Test {
     private final static String TEST_DIR = getTestFolder();
     private final Path path = Paths.get(TEST_DIR + "test.txt");
     private WatchDir watchDir;

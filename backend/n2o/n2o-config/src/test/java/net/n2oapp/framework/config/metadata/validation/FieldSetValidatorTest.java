@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидации филдсетов
  */
-public class FieldSetValidatorTest extends SourceValidationTestBase {
+class FieldSetValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

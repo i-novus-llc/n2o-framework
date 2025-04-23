@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента SearchButtons (кнопки фильтра) версии 3.0
  */
-public class N2oSearchButtonsIOv3Test {
+class N2oSearchButtonsIOv3Test {
 
     @Test
     void test() {

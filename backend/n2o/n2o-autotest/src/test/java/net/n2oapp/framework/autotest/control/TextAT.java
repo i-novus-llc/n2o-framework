@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для компонента текста
  */
-public class TextAT extends AutoTestBase {
+class TextAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -36,7 +36,7 @@ public class TextAT extends AutoTestBase {
     }
 
     @Test
-    public void testText() {
+    void testText() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

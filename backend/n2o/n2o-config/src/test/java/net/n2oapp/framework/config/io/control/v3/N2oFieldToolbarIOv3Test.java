@@ -9,7 +9,7 @@ import net.n2oapp.framework.config.io.widget.v5.FormElementIOV5;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.jupiter.api.Test;
 
-public class N2oFieldToolbarIOv3Test {
+class N2oFieldToolbarIOv3Test {
 
     @Test
     void testButtonFieldXmlIO() {

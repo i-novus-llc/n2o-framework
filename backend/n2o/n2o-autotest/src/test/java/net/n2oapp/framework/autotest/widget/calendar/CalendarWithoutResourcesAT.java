@@ -28,13 +28,13 @@ import java.time.LocalDate;
 /**
  * Автотест для виджета Календарь без наличия ресурсов
  */
-public class CalendarWithoutResourcesAT extends AutoTestBase {
+class CalendarWithoutResourcesAT extends AutoTestBase {
 
     private CalendarWidget calendar;
     private CalendarToolbar toolbar;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -64,7 +64,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
     }
 
     @Test
-    public void testCalendarMonthView() {
+    void testCalendarMonthView() {
         toolbar.monthViewButton().click();
         CalendarMonthView monthView = calendar.monthView();
         toolbar.shouldHaveActiveView(CalendarViewType.MONTH);
@@ -129,7 +129,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
 
     @Test
     @Disabled
-    public void testCalendarDayView() {
+    void testCalendarDayView() {
         toolbar.dayViewButton().click();
         toolbar.shouldHaveActiveView(CalendarViewType.DAY);
         CalendarDayView dayView = calendar.dayView();
@@ -231,7 +231,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
     }
 
     @Test
-    public void testCalendarAgendaView() {
+    void testCalendarAgendaView() {
         toolbar.agendaViewButton().click();
         toolbar.shouldHaveActiveView(CalendarViewType.AGENDA);
         CalendarAgendaView agendaView = calendar.agendaView();
@@ -257,7 +257,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
 
     @Test
     @Disabled
-    public void testCalendarWeekView() {
+    void testCalendarWeekView() {
         toolbar.weekViewButton().click();
         toolbar.shouldHaveActiveView(CalendarViewType.WEEK);
         CalendarWeekView weekView = calendar.weekView();

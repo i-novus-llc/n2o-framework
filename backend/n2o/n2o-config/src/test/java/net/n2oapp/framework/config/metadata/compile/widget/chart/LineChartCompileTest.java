@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции линейного графика
  */
-public class LineChartCompileTest extends SourceCompileTestBase {
+class LineChartCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

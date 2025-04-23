@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.dataprovider;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.jupiter.api.Test;
 
-public class N2oJavaDataProviderV1Test {
+class N2oJavaDataProviderV1Test {
 
     @Test
     void ioEjb() {

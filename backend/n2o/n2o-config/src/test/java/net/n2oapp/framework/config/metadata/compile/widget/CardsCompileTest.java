@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции виджета Карточки
  */
-public class CardsCompileTest extends SourceCompileTestBase {
+class CardsCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

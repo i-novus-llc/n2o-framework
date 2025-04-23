@@ -37,7 +37,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {"n2o.engine.graphql.endpoint=http://graphql"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class GraphQlDataProviderEngineTest {
+class GraphQlDataProviderEngineTest {
 
     @LocalServerPort
     private int appPort;
@@ -62,7 +62,7 @@ public class GraphQlDataProviderEngineTest {
      * Проверка отправки запроса с переменными
      */
     @Test
-    public void testQueryWithVariables() {
+    void testQueryWithVariables() {
         String queryPath = "/n2o/data/test/graphql/query/variables?personName=t\"es\"t&age=20&address.name=address1&address.name=address2";
         String url = "http://localhost:" + appPort + queryPath;
 
@@ -107,7 +107,7 @@ public class GraphQlDataProviderEngineTest {
      * Проверка проброса заголовков клиента
      */
     @Test
-    public void testHeadersAndCookiesForwarding() {
+    void testHeadersAndCookiesForwarding() {
         String headersForwardingQueryPath = "/n2o/data/test/graphql/query/headersForwarding";
         String headersForwardingFromPropertiesQueryPath = "/n2o/data/test/graphql/select";
         String url = "http://localhost:" + appPort + headersForwardingQueryPath;
@@ -160,7 +160,7 @@ public class GraphQlDataProviderEngineTest {
      * Проверка отправки мутации с переменными
      */
     @Test
-    public void testMutationWithVariables() {
+    void testMutationWithVariables() {
         String queryPath = "/n2o/data/test/graphql/mutationVariables";
         String url = "http://localhost:" + appPort + queryPath;
         Request request = new Request("new\\\"Name\\\"", 99, List.of(new Address("address1")));
@@ -205,7 +205,7 @@ public class GraphQlDataProviderEngineTest {
      * Тестирование кастомной обработки ошибок
      */
     @Test
-    public void testErrorHandler() throws IOException {
+    void testErrorHandler() throws IOException {
         DataList errors = new DataList();
         Map<String, Object> data = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -242,7 +242,7 @@ public class GraphQlDataProviderEngineTest {
      * Проверка работы плейсхолдера {{select}}
      */
     @Test
-    public void testSelectPlaceholder() {
+    void testSelectPlaceholder() {
         String queryPath = "/n2o/data/test/graphql/select";
         String url = "http://localhost:" + appPort + queryPath;
 
@@ -271,7 +271,7 @@ public class GraphQlDataProviderEngineTest {
      * Проверка работы плейсхолдера {{filters}}
      */
     @Test
-    public void testFiltersPlaceholder() {
+    void testFiltersPlaceholder() {
         // TWO FILTERS
         String queryPath = "/n2o/data/test/graphql/filters?personName=t\"es\"t&age=20&salary=123.55";
         String url = "http://localhost:" + appPort + queryPath;
@@ -322,7 +322,7 @@ public class GraphQlDataProviderEngineTest {
      * Проверка работы плейсхолдеров в выборке
      */
     @Test
-    public void testQueryWithPlaceholders() {
+    void testQueryWithPlaceholders() {
         String queryPath = "/n2o/data/test/graphql/filters?personName=t\"es\"t&age=20&address.name=address1&address.name=address2";
         String url = "http://localhost:" + appPort + queryPath;
 
@@ -363,7 +363,7 @@ public class GraphQlDataProviderEngineTest {
      * Проверка работы плейсхолдеров в мутации
      */
     @Test
-    public void testMutationWithPlaceholders() {
+    void testMutationWithPlaceholders() {
         String queryPath = "/n2o/data/test/graphql/mutationPlaceholders";
         String url = "http://localhost:" + appPort + queryPath;
         Request request = new Request("new \"Name\"", 1, 99, List.of(new Address("address1")));
@@ -402,7 +402,7 @@ public class GraphQlDataProviderEngineTest {
     }
 
     @Test
-    public void testPagination() {
+    void testPagination() {
         // PLACEHOLDERS
         String queryPath = "/n2o/data/test/graphql/pagination?personName=test&page=2&size=5";
         String url = "http://localhost:" + appPort + queryPath;
@@ -451,7 +451,7 @@ public class GraphQlDataProviderEngineTest {
      * Проверка работы плейсхолдера {{sorting}}
      */
     @Test
-    public void testSortingPlaceholder() {
+    void testSortingPlaceholder() {
         // MULTIPLE SORTS
         String queryPath = "/n2o/data/test/graphql/sorting?sorting.name=ASC&sorting.age=DESC";
         String url = "http://localhost:" + appPort + queryPath;
@@ -512,7 +512,7 @@ public class GraphQlDataProviderEngineTest {
     }
 
     @Test
-    public void testHierarchicalSelect() {
+    void testHierarchicalSelect() {
         String queryPath = "/n2o/data/test/graphql/hierarchicalSelect";
         String url = "http://localhost:" + appPort + queryPath;
 
@@ -537,7 +537,7 @@ public class GraphQlDataProviderEngineTest {
     }
 
     @Test
-    public void testEnums() {
+    void testEnums() {
         // MULTIPLE SORTS
         String queryPath = "/n2o/data/test/graphql/enums?sorting.name=ASC&sorting.age=DESC";
         String url = "http://localhost:" + appPort + queryPath;

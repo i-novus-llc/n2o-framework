@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции бокового меню
  */
-public class SidebarCompileTest extends SourceCompileTestBase {
+class SidebarCompileTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach

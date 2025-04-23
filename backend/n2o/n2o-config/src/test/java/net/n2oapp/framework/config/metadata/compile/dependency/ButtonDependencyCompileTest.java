@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тестирование компиляции зависимости между полем и кнопками
  */
-public class ButtonDependencyCompileTest extends SourceCompileTestBase {
+class ButtonDependencyCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

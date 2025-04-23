@@ -16,10 +16,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MenuItemAccessAT extends AutoTestBase {
+class MenuItemAccessAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -42,7 +42,7 @@ public class MenuItemAccessAT extends AutoTestBase {
     }
 
     @Test
-    public void testAdminAccess() {
+    void testAdminAccess() {
         setUserInfo(loadAdminInfo());
 
         SimplePage page = open(SimplePage.class);
@@ -65,7 +65,7 @@ public class MenuItemAccessAT extends AutoTestBase {
     }
 
     @Test
-    public void testAnonymousAccess() {
+    void testAnonymousAccess() {
         setUserInfo(null);
 
         SimplePage page = open(SimplePage.class);

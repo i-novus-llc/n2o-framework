@@ -22,9 +22,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для региона в виде вкладок
  */
-public class TabsRegionAT extends AutoTestBase {
+class TabsRegionAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -176,7 +176,7 @@ public class TabsRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testWidgetWithVisibleDepend() {
+    void testWidgetWithVisibleDepend() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/visible_by_widget/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();

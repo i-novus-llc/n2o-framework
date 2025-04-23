@@ -31,7 +31,7 @@ import static org.hamcrest.Matchers.notNullValue;
 /**
  * Тестирование компиляции виджета Список
  */
-public class ListWidgetCompileTest extends SourceCompileTestBase {
+class ListWidgetCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

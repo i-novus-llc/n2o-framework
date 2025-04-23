@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи модального окна
  */
-public class ShowModalElementIOV1Test {
+class ShowModalElementIOV1Test {
 
     @Test
     void testOpenPageElementIOV1Test() {

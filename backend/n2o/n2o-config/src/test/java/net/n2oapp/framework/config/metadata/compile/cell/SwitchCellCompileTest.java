@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тест на компиляцию переключателя ячеек
  */
-public class SwitchCellCompileTest extends SourceCompileTestBase {
+class SwitchCellCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
@@ -78,7 +78,7 @@ public class SwitchCellCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCompileCasesWithoutDefault() {
+    void testCompileCasesWithoutDefault() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testSwitchCellWithoutDefault.page.xml")
                 .get(new PageContext("testSwitchCellWithoutDefault"));
         Table table = (Table) page.getWidget();

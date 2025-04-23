@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для филдсета с горизонтальным делителем
  */
-public class LineFieldSetAT extends AutoTestBase {
+class LineFieldSetAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -38,7 +38,7 @@ public class LineFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testLineFieldSet() {
+    void testLineFieldSet() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/list/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -81,7 +81,7 @@ public class LineFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testVisible() {
+    void testVisible() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/list/visible/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -104,7 +104,7 @@ public class LineFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testEnabled() {
+    void testEnabled() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/list/enabled/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

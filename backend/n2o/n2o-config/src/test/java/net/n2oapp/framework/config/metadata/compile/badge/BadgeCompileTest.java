@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тестирование компиляции значков
  */
-public class BadgeCompileTest extends SourceCompileTestBase {
+class BadgeCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

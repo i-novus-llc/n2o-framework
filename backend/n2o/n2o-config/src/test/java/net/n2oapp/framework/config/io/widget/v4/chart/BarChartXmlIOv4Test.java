@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирования чтения и записи гистограммы
  */
-public class BarChartXmlIOv4Test {
+class BarChartXmlIOv4Test {
     
     @Test
     void testBarChartXmlIOv4Test() {

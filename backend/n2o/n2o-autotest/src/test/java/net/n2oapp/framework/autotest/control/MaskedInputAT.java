@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотесты компоненты ввода текста с маской
  */
-public class MaskedInputAT extends AutoTestBase {
+class MaskedInputAT extends AutoTestBase {
 
     private SimplePage simplePage;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class MaskedInputAT extends AutoTestBase {
     }
 
     @Test
-    public void maskedInputTest() {
+    void maskedInputTest() {
         MaskedInput maskedInput = getFields().field("MaskedInput").control(MaskedInput.class);
         maskedInput.shouldBeEnabled();
         maskedInput.shouldHavePlaceholder("+7 (___) ___-__-__");

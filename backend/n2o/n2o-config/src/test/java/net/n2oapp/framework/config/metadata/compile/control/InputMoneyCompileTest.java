@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тестирование компиляции компонента ввода денежных единиц
  */
-public class InputMoneyCompileTest extends SourceCompileTestBase {
+class InputMoneyCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

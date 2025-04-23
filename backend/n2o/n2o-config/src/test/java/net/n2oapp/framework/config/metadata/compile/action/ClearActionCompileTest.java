@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class ClearActionCompileTest extends SourceCompileTestBase {
+class ClearActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

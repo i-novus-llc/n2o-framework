@@ -27,13 +27,13 @@ import static org.mockito.Mockito.verify;
  * Автотест по проверке работы валидации у фильтров и запроса данных при их ошибке
  */
 
-public class TableFiltersValidationAT extends AutoTestBase {
+class TableFiltersValidationAT extends AutoTestBase {
 
     @SpyBean
     private N2oController controller;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

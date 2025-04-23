@@ -23,7 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции компонента вывода изображения
  */
-public class ImageFieldCompileTest extends SourceCompileTestBase {
+class ImageFieldCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

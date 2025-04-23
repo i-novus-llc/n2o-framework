@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class TableValidatorTest extends SourceValidationTestBase {
+class TableValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class NestedMapTest {
+class NestedMapTest {
 
     @Test
     void get() {

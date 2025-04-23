@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи ячейки загрузки файлов
  */
-public class FileUploadCellXmlIOTest {
+class FileUploadCellXmlIOTest {
 
     @Test
     void testFileUploadCell() {

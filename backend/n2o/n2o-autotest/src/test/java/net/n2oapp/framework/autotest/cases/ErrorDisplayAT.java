@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование отображение ошибок
  */
-public class ErrorDisplayAT extends AutoTestBase {
+class ErrorDisplayAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -33,7 +33,7 @@ public class ErrorDisplayAT extends AutoTestBase {
     }
 
     @Test
-    public void testRouteNotFoundException() {
+    void testRouteNotFoundException() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/error/route_not_found/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/alert/error/route_not_found/person.query.xml"));
 
@@ -44,7 +44,7 @@ public class ErrorDisplayAT extends AutoTestBase {
     }
 
     @Test
-    public void testInternalServerError() {
+    void testInternalServerError() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/error/internal_server_error/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/alert/error/internal_server_error/person.query.xml"));
 
@@ -55,7 +55,7 @@ public class ErrorDisplayAT extends AutoTestBase {
     }
 
     @Test
-    public void testBadGateway() {
+    void testBadGateway() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/error/bad_gateway/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/alert/error/bad_gateway/person.query.xml"));
 
@@ -66,7 +66,7 @@ public class ErrorDisplayAT extends AutoTestBase {
     }
 
     @Test
-    public void testForbidden() {
+    void testForbidden() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/alert/error/forbidden/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/alert/error/forbidden/person.query.xml"));
 

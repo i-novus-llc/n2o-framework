@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи действия печати
  */
-public class PrintActionElementIOV1Test {
+class PrintActionElementIOV1Test {
     
     @Test
     void testPrintActionElementIOV1Test() {

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения\записи страницы с поисковой строкой версии 3.0
  */
-public class SearchablePageXmlIOv3Test {
+class SearchablePageXmlIOv3Test {
     
     @Test
     void test() {

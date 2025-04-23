@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для действия редактирования записи списка
  */
-public class EditListAT extends AutoTestBase {
+class EditListAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class EditListAT extends AutoTestBase {
     }
 
     @Test
-    public void testCRUD() {
+    void testCRUD() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/crud_table/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/crud_table/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/crud_table/update.page.xml"));
@@ -114,7 +114,7 @@ public class EditListAT extends AutoTestBase {
     }
 
     @Test
-    public void testCreateDeleteMany() {
+    void testCreateDeleteMany() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/delete_many/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/edit_list/delete_many/add.page.xml"));
 

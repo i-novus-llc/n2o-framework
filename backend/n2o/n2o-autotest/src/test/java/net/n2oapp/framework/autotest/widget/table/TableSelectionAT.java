@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест способов выбора записей таблицы
  */
-public class TableSelectionAT extends AutoTestBase {
+class TableSelectionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -48,7 +48,7 @@ public class TableSelectionAT extends AutoTestBase {
     }
 
     @Test
-    public void testActiveSelection() {
+    void testActiveSelection() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/active");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/active/modal.page.xml"),
@@ -77,7 +77,7 @@ public class TableSelectionAT extends AutoTestBase {
     }
 
     @Test
-    public void testNoneSelection() {
+    void testNoneSelection() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/none");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/modal.page.xml"),
@@ -112,7 +112,7 @@ public class TableSelectionAT extends AutoTestBase {
     }
 
     @Test
-    public void testRadioSelection() {
+    void testRadioSelection() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/radio");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/radio/modal.page.xml"),
@@ -156,7 +156,7 @@ public class TableSelectionAT extends AutoTestBase {
     }
 
     @Test
-    public void testCheckboxSelection() {
+    void testCheckboxSelection() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/checkbox");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/checkbox/modal.page.xml"),

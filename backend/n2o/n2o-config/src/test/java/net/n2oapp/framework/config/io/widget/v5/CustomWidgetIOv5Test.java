@@ -6,7 +6,7 @@ import net.n2oapp.framework.config.io.widget.v4.CustomWidgetIOv4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.jupiter.api.Test;
 
-public class CustomWidgetIOv5Test {
+class CustomWidgetIOv5Test {
     
     @Test
     void testCustomWidgetIOv4() {

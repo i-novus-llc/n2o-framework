@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SwitchCellValidatorTest extends SourceValidationTestBase {
+class SwitchCellValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

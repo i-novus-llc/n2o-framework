@@ -15,10 +15,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class FieldsetEnabledAT extends AutoTestBase {
+class FieldsetEnabledAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -97,7 +97,7 @@ public class FieldsetEnabledAT extends AutoTestBase {
     }
 
     @Test
-    public void staticEnabled() {
+    void staticEnabled() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/fieldset/enabled/static/index.page.xml")
         );

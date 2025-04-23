@@ -12,7 +12,7 @@ import java.util.Properties;
  * Date: 07.04.14
  * Time: 16:53
  */
-public class PropertiesReaderTest {
+class PropertiesReaderTest {
 
 
     @Test

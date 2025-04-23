@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 import static java.util.UUID.randomUUID;
 
-public class ExamplesMetadataValidationTest extends N2oTestBase {
+class ExamplesMetadataValidationTest extends N2oTestBase {
 
     private static final String CLASSES = "/classes/";
     private static final String SKIPPED = "examples/crud_localstorage/form.page.xml";
@@ -57,7 +57,7 @@ public class ExamplesMetadataValidationTest extends N2oTestBase {
     }
 
     @Test
-    public void validate() {
+    void validate() {
         List<String> errors = new LinkedList<>();
         int fileCount = 0;
         for (SourceInfo sourceInfo : builder.getEnvironment().getMetadataRegister().find(i -> true)) {

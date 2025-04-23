@@ -26,12 +26,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест закрытия overlay окон с подтверждением и без
  */
-public class OverlayPromptAT extends AutoTestBase {
+class OverlayPromptAT extends AutoTestBase {
 
     private Toolbar tableToolbar;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -58,7 +58,7 @@ public class OverlayPromptAT extends AutoTestBase {
     }
 
     @Test
-    public void modalPromptTest() {
+    void modalPromptTest() {
         Button openBtn = tableToolbar.button("Модалка без подтверждения");
         openBtn.click();
         Modal modalPage = N2oSelenide.modal();
@@ -90,7 +90,7 @@ public class OverlayPromptAT extends AutoTestBase {
     }
 
     @Test
-    public void drawerPromptTest() {
+    void drawerPromptTest() {
         Button openBtn = tableToolbar.button("Дровер без подтверждения");
         openBtn.click();
         Drawer drawerPage = N2oSelenide.drawer();
@@ -121,7 +121,7 @@ public class OverlayPromptAT extends AutoTestBase {
     }
 
     @Test
-    public void openPagePromptTest() {
+    void openPagePromptTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/overlay_prompt/pageWithPrompt.page.xml"));
         Button openBtn = tableToolbar.button("OpenPage без подтверждения");
         openBtn.click();

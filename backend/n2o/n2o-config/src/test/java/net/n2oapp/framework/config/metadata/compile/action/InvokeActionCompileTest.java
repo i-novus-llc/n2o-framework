@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Проверка компиляции invoke-action
  */
-public class InvokeActionCompileTest extends SourceCompileTestBase {
+class InvokeActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест проверяющий условие видимости у кнопки
  */
-public class ButtonVisibilityAT extends AutoTestBase {
+class ButtonVisibilityAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -49,7 +49,7 @@ public class ButtonVisibilityAT extends AutoTestBase {
     }
 
     @Test
-    public void visibilityDependencyTest() {
+    void visibilityDependencyTest() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 

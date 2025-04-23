@@ -39,13 +39,13 @@ import static com.codeborne.selenide.files.FileFilters.withExtension;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class TableButtonGeneratorAT extends AutoTestBase {
+class TableButtonGeneratorAT extends AutoTestBase {
 
     private TableWidget table;
     private Toolbar toolbar;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 /**
  * Тест шаблонизатора текста
  */
-public class PlaceHoldersResolverTest {
+class PlaceHoldersResolverTest {
 
     @Test
     void resolve() {

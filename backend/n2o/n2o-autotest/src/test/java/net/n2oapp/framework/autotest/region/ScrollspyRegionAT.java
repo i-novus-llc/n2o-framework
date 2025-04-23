@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для региона с автоматически прокручиваемым меню
  */
-public class ScrollspyRegionAT extends AutoTestBase {
+class ScrollspyRegionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -36,7 +36,7 @@ public class ScrollspyRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testScrollspyRegion() {
+    void testScrollspyRegion() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -70,7 +70,7 @@ public class ScrollspyRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testContent() {
+    void testContent() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/content/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -111,7 +111,7 @@ public class ScrollspyRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testTabsInScrollspy() {
+    void testTabsInScrollspy() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/tabs_in_scrollspy/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -135,7 +135,7 @@ public class ScrollspyRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testScrollspyInTabs() {
+    void testScrollspyInTabs() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/scrollspy_in_tabs/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -170,7 +170,7 @@ public class ScrollspyRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testDefaultActiveElement() {
+    void testDefaultActiveElement() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/active/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -184,7 +184,7 @@ public class ScrollspyRegionAT extends AutoTestBase {
     }
 
     @Test
-    public void testGroup() {
+    void testGroup() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/scrollspy/group/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();

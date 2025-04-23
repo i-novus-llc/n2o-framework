@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента выбора числа из диапазона
  */
-public class N2oNumberPickerXmlIOv3Test {
+class N2oNumberPickerXmlIOv3Test {
 
     @Test
     void test() {

@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование компиляции компонента выбора из выпадающего списка
  */
-public class SelectCompileTest extends SourceCompileTestBase {
+class SelectCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

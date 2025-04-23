@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест подвала сайта
  */
-public class FooterAT extends AutoTestBase {
+class FooterAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -39,7 +39,7 @@ public class FooterAT extends AutoTestBase {
     }
 
     @Test
-    public void testFooter() {
+    void testFooter() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.footer().leftTextShouldHaveValue("left text");

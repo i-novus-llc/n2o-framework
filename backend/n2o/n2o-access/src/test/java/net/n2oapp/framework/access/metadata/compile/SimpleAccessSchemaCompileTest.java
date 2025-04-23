@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
-public class SimpleAccessSchemaCompileTest  extends SourceCompileTestBase {
+class SimpleAccessSchemaCompileTest  extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест, проверяющий fetch-value зависимость у полей
  */
-public class FieldFetchValueDependencyAT extends AutoTestBase {
+class FieldFetchValueDependencyAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

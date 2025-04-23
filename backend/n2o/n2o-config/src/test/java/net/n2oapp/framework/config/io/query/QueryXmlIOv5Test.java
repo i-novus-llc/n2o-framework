@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи выборки версии 5
  */
-public class QueryXmlIOv5Test {
+class QueryXmlIOv5Test {
 
     @Test
     void testQueryXmlIOV5() {

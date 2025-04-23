@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для действия открытия drawer окна
  */
-public class OpenDrawerAT extends AutoTestBase {
+class OpenDrawerAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -46,7 +46,7 @@ public class OpenDrawerAT extends AutoTestBase {
     }
 
     @Test
-    public void testDrawerPage() {
+    void testDrawerPage() {
         SimplePage page = open(SimplePage.class);
         page.breadcrumb().crumb(0).shouldHaveLabel("drawer-tests");
         page.shouldExists();

@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест валидации полей в скрытых регионах
  */
-public class ValidationTabMessageAT extends AutoTestBase {
+class ValidationTabMessageAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -55,7 +55,7 @@ public class ValidationTabMessageAT extends AutoTestBase {
     }
 
     @Test
-    public void testValidationTabMessageInModal() {
+    void testValidationTabMessageInModal() {
         StandardPage page = open(StandardPage.class);
         page.breadcrumb().crumb(0).shouldHaveLabel("Подсветка невалидных полей в неактивных вкладках");
 
@@ -76,7 +76,7 @@ public class ValidationTabMessageAT extends AutoTestBase {
     }
 
     @Test
-    public void testValidationTabMessageInPage() {
+    void testValidationTabMessageInPage() {
         StandardPage page = open(StandardPage.class);
         page.breadcrumb().crumb(0).shouldHaveLabel("Подсветка невалидных полей в неактивных вкладках");
 

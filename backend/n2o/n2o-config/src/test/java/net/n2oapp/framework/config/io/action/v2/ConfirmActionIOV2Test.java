@@ -4,7 +4,7 @@ import net.n2oapp.framework.config.io.page.v4.StandardPageElementIOv4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.jupiter.api.Test;
 
-public class ConfirmActionIOV2Test {
+class ConfirmActionIOV2Test {
 
     @Test
     void testConfirmActionIOV2Test() {

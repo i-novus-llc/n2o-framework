@@ -22,7 +22,7 @@ import static org.hamcrest.core.IsNull.nullValue;
 /**
  * Тестирование компиляции страницы с левыми и правыми регионами
  */
-public class LeftRightPageCompileTest extends SourceCompileTestBase {
+class LeftRightPageCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

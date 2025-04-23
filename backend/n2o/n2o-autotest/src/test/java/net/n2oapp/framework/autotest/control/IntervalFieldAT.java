@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента интервала
  */
-public class IntervalFieldAT extends AutoTestBase {
+class IntervalFieldAT extends AutoTestBase {
 
     @BeforeAll
     public static void BeforeAll() {
@@ -38,7 +38,7 @@ public class IntervalFieldAT extends AutoTestBase {
     }
 
     @Test
-    public void testInput() {
+    void testInput() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         IntervalField interval = page.widget(FormWidget.class).fields().field("Интервал", IntervalField.class);
@@ -57,7 +57,7 @@ public class IntervalFieldAT extends AutoTestBase {
     }
 
     @Test
-    public void testIntervalWithDate() {
+    void testIntervalWithDate() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         IntervalField interval = page.widget(FormWidget.class).fields().field("Дата", IntervalField.class);

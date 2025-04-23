@@ -22,9 +22,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для виджета Список
  */
-public class ListAT extends AutoTestBase {
+class ListAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

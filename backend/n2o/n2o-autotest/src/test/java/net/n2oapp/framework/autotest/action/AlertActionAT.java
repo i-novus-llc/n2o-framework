@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для действия уведомления
  */
-public class AlertActionAT extends AutoTestBase {
+class AlertActionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -47,7 +47,7 @@ public class AlertActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testAlertAction() {
+    void testAlertAction() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

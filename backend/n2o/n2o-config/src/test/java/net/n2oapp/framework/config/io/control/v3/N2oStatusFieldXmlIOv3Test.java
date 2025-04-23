@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента отображения статуса
  */
-public class N2oStatusFieldXmlIOv3Test {
+class N2oStatusFieldXmlIOv3Test {
 
     @Test
     void test() {

@@ -19,7 +19,7 @@ import static net.n2oapp.watchdir.WatchDirTestUtil.*;
  * Слушатель повешан на /
  * Цель: проверить, что события внутри папки /dir ловятся
  */
-public class WatchDirRecursiveOnStartTest {
+class WatchDirRecursiveOnStartTest {
 
     private WatchDir watchDir;
     private final FileChangeListener listener = mock(FileChangeListener.class);

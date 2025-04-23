@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции Markdown
  */
-public class MarkdownCompileTest extends SourceCompileTestBase {
+class MarkdownCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

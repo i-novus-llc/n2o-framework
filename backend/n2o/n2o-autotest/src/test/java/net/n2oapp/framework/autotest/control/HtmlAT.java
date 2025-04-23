@@ -19,10 +19,10 @@ import java.util.Map;
 /**
  * Автотест для компонента ввода html
  */
-public class HtmlAT extends AutoTestBase {
+class HtmlAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -39,7 +39,7 @@ public class HtmlAT extends AutoTestBase {
     }
 
     @Test
-    public void testHtml() {
+    void testHtml() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/html/simple/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
@@ -57,7 +57,7 @@ public class HtmlAT extends AutoTestBase {
     }
 
     @Test
-    public void testHtmlPlaceholder() {
+    void testHtmlPlaceholder() {
         setResourcePath("net/n2oapp/framework/autotest/control/html/html_with_placeholder");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/html/html_with_placeholder/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/control/html/html_with_placeholder/test.query.xml"));

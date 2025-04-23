@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидатора {@link N2oMarkdown} компонентов
  */
-public class MarkdownValidatorTest extends SourceValidationTestBase {
+class MarkdownValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

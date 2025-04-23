@@ -9,7 +9,7 @@ import java.util.Collections;
 /**
  * Test for {@link FilterChecker}
  */
-public class FilterCheckerTest {
+class FilterCheckerTest {
 
 
     @Test

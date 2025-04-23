@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента отображения прогресса
  */
-public class N2oProgressXmlIOv3Test {
+class N2oProgressXmlIOv3Test {
 
     @Test
     void test() {

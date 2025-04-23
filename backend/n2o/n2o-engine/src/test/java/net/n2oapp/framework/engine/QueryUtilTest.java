@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тесты {@link net.n2oapp.framework.engine.data.QueryUtil}
  */
-public class QueryUtilTest {
+class QueryUtilTest {
     
     @Test
     void replaceListPlaceholder() {

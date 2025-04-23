@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции виджета Календарь
  */
-public class CalendarWidgetCompileTest extends SourceCompileTestBase {
+class CalendarWidgetCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

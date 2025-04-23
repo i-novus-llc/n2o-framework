@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи виджета Форма
  */
-public class FormXmlIOv4Test {
+class FormXmlIOv4Test {
 
     @Test
     void testFormXmlIOV4() {

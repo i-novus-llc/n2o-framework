@@ -18,7 +18,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class AbstractPageBinderTest extends SourceCompileTestBase {
+class AbstractPageBinderTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

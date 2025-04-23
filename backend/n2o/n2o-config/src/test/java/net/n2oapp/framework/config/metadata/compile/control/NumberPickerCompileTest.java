@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции компонента выбора числа из диапазона
  */
-public class NumberPickerCompileTest extends SourceCompileTestBase {
+class NumberPickerCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

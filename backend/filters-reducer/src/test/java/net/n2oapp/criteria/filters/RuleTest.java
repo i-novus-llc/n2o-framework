@@ -10,7 +10,7 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(OutputCaptureExtension.class)
-public class RuleTest {
+class RuleTest {
 
     @Test
     void testEq_Eq(CapturedOutput output) {

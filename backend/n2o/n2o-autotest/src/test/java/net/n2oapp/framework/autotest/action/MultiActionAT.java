@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование мультидействия
  */
-public class MultiActionAT extends AutoTestBase {
+class MultiActionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -48,7 +48,7 @@ public class MultiActionAT extends AutoTestBase {
 
 
     @Test
-    public void testMulti() {
+    void testMulti() {
         setResourcePath("net/n2oapp/framework/autotest/action/multi/simple");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/multi/simple/page.page.xml"),
@@ -73,7 +73,7 @@ public class MultiActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testActionAfterFail() {
+    void testActionAfterFail() {
         setResourcePath("net/n2oapp/framework/autotest/action/multi/action_after_fail");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/action_after_fail/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/multi/action_after_fail/test.object.xml"));
@@ -93,7 +93,7 @@ public class MultiActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testChainBreakAfterPageAction() {
+    void testChainBreakAfterPageAction() {
         setResourcePath("net/n2oapp/framework/autotest/action/multi/chain_break_after_page_action");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/chain_break_after_page_action/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/multi/chain_break_after_page_action/modal.page.xml"));

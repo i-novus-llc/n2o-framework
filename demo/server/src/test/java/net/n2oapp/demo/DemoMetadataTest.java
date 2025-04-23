@@ -31,7 +31,7 @@ public class DemoMetadataTest extends N2oTestBase {
     }
 
     @Test
-    public void validate() {
+    void validate() {
         builder.getEnvironment().getMetadataRegister().find(i -> true).forEach(i -> {
             builder.read().validate().get(i.getId(), i.getBaseSourceClass());
         });

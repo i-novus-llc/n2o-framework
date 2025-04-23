@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * Тестирование методов класса {@link RouteUtil}
  */
-public class RouteUtilTest {
+class RouteUtilTest {
 
     @Test
     void normalize() {

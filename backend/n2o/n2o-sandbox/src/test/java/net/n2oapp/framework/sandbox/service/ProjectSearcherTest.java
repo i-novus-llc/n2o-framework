@@ -18,13 +18,13 @@ import static org.hamcrest.Matchers.is;
 @SpringBootTest(
         classes = {ProjectSearcher.class},
         properties = {"n2o.sandbox.projectSearchFolders:/test_examples"})
-public class ProjectSearcherTest {
+class ProjectSearcherTest {
 
     @Autowired
     private ProjectSearcher projectSearcher;
 
     @Test
-    public void searchTest() throws URISyntaxException, IOException {
+    void searchTest() throws URISyntaxException, IOException {
         // matches only in one project
         List<SearchProjectModel> result = projectSearcher.search("table");
 
@@ -65,7 +65,7 @@ public class ProjectSearcherTest {
     }
 
     @Test
-    public void matchesInFilesWithDifferentExtensionsTest() throws URISyntaxException, IOException {
+    void matchesInFilesWithDifferentExtensionsTest() throws URISyntaxException, IOException {
         List<SearchProjectModel> result = projectSearcher.search("form");
 
         assertThat(result.size(), is(2));
@@ -83,13 +83,13 @@ public class ProjectSearcherTest {
     }
 
     @Test
-    public void excludeJsonTest() throws URISyntaxException, IOException {
+    void excludeJsonTest() throws URISyntaxException, IOException {
         List<SearchProjectModel> result = projectSearcher.search("test4");
         assertThat(result.size(), is(0));
     }
 
     @Test
-    public void projectMatchesLimitTest() throws URISyntaxException, IOException {
+    void projectMatchesLimitTest() throws URISyntaxException, IOException {
         List<SearchProjectModel> result = projectSearcher.search("id");
 
         // limit by 10

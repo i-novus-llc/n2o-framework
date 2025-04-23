@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи ячейки с кнопками
  */
-public class ToolbarCellXmlIOv3Test {
+class ToolbarCellXmlIOv3Test {
     
     @Test
     void testToolbarCell() {

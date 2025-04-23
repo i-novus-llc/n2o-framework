@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи действия сохранения источника данных
  */
-public class SubmitActionElementIOV2Test {
+class SubmitActionElementIOV2Test {
 
     @Test
     void testAlertActionElementIOV2Test() {

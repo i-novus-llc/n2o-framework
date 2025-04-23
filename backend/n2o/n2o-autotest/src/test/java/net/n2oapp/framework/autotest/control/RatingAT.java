@@ -14,12 +14,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента ввода и отображения рейтинга
  */
-public class RatingAT extends AutoTestBase {
+class RatingAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -41,7 +41,7 @@ public class RatingAT extends AutoTestBase {
     }
 
     @Test
-    public void testRating() {
+    void testRating() {
         Rating rating = page.widget(FormWidget.class).fields().field("Rating1")
                 .control(Rating.class);
         rating.shouldExists();
@@ -52,7 +52,7 @@ public class RatingAT extends AutoTestBase {
     }
 
     @Test
-    public void testRatingWithHalf() {
+    void testRatingWithHalf() {
         Rating rating = page.widget(FormWidget.class).fields().field("Rating2")
                 .control(Rating.class);
         rating.shouldExists();

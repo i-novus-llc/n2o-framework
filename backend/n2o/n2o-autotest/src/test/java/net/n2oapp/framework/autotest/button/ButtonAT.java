@@ -19,12 +19,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки кнопок
  */
-public class ButtonAT extends AutoTestBase {
+class ButtonAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -47,7 +47,7 @@ public class ButtonAT extends AutoTestBase {
     }
 
     @Test
-    public void testResolveAttributes() {
+    void testResolveAttributes() {
         ListWidget list = page.widget(ListWidget.class);
         DropdownButton subMenu = list.toolbar().topLeft().dropdown();
         subMenu.shouldExists();
@@ -108,7 +108,7 @@ public class ButtonAT extends AutoTestBase {
     }
 
     @Test
-    public void testRounded() {
+    void testRounded() {
         ListWidget list = page.widget(ListWidget.class);
         StandardButton button = list.toolbar().topLeft().button("All");
         button.shouldExists();

@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента радиокнопок
  */
-public class RadioGroupAT extends AutoTestBase {
+class RadioGroupAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -35,7 +35,7 @@ public class RadioGroupAT extends AutoTestBase {
     }
 
     @Test
-    public void testRadioGroup() {
+    void testRadioGroup() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/radio_group/simple/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);
@@ -63,7 +63,7 @@ public class RadioGroupAT extends AutoTestBase {
     }
 
     @Test
-    public void defaultValue() {
+    void defaultValue() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/radio_group/default_value/index.page.xml"));
 
         SimplePage page = open(SimplePage.class);

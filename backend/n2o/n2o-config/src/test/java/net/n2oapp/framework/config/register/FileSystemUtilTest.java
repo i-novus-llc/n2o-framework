@@ -14,7 +14,7 @@ import static net.n2oapp.framework.config.util.FileSystemUtil.getNodesByLocation
  * @author operehod
  * @since 15.04.2015
  */
-public class FileSystemUtilTest {
+class FileSystemUtilTest {
 
     @Test
     void testGetNodesByLocationPattern() {

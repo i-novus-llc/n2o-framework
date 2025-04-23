@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для действия перехода по ссылке
  */
-public class AnchorActionAT extends AutoTestBase {
+class AnchorActionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -42,7 +42,7 @@ public class AnchorActionAT extends AutoTestBase {
     }
 
     @Test
-    public void testAnchorAction() {
+    void testAnchorAction() {
         setResourcePath("net/n2oapp/framework/autotest/action/anchor");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/anchor/index.page.xml"),
@@ -68,7 +68,7 @@ public class AnchorActionAT extends AutoTestBase {
      * Тест проверяющий резолв атрибута href
      */
     @Test
-    public void testHrefResolve() {
+    void testHrefResolve() {
         setResourcePath("net/n2oapp/framework/autotest/action/anchor_check_href");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/anchor_check_href/index.page.xml"),

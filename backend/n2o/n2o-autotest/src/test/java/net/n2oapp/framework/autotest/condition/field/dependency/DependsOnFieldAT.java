@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тест зависимостей от поля
  */
-public class DependsOnFieldAT extends AutoTestBase {
+class DependsOnFieldAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -54,7 +54,7 @@ public class DependsOnFieldAT extends AutoTestBase {
     }
 
     @Test
-    public void onField() {
+    void onField() {
         setResourcePath("net/n2oapp/framework/autotest/condition/field/dependency/on_field");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_field/index.page.xml"),
@@ -90,7 +90,7 @@ public class DependsOnFieldAT extends AutoTestBase {
     }
 
     @Test
-    public void onDifferentNameField() {
+    void onDifferentNameField() {
         setResourcePath("net/n2oapp/framework/autotest/condition/field/dependency/on_different_name_field");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/on_different_name_field/index.page.xml"),

@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции {@link AlertFieldCompiler}
  */
-public class AlertFieldCompileTest extends SourceCompileTestBase {
+class AlertFieldCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

@@ -23,7 +23,7 @@ import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class StandardFieldAccessTransformerTest extends SourceCompileTestBase {
+class StandardFieldAccessTransformerTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

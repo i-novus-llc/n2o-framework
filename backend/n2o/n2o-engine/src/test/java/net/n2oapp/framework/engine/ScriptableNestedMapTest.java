@@ -14,7 +14,7 @@ import java.util.HashMap;
  * Date: 28.05.2014
  * Time: 10:58
  */
-public class ScriptableNestedMapTest {
+class ScriptableNestedMapTest {
     private ScriptEngineManager engineMgr = new ScriptEngineManager();
 
     @Test

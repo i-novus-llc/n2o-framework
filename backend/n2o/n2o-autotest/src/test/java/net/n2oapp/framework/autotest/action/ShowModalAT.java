@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для действия открытия модального окна
  */
-public class ShowModalAT extends AutoTestBase {
+class ShowModalAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -44,7 +44,7 @@ public class ShowModalAT extends AutoTestBase {
     }
 
     @Test
-    public void scrollableModalTest() {
+    void scrollableModalTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/scrollable/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/modal/scrollable/test.page.xml"));
 
@@ -84,7 +84,7 @@ public class ShowModalAT extends AutoTestBase {
     }
 
     @Test
-    public void customizeModalTest() {
+    void customizeModalTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/customize/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/modal/customize/test.page.xml"));
 
@@ -117,7 +117,7 @@ public class ShowModalAT extends AutoTestBase {
     }
 
     @Test
-    public void valueFromParent() {
+    void valueFromParent() {
         setResourcePath("net/n2oapp/framework/autotest/action/modal/value_from_parent");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/value_from_parent/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/modal/value_from_parent/test.query.xml"),
@@ -168,7 +168,7 @@ public class ShowModalAT extends AutoTestBase {
         addressByForm.shouldHaveValue("test400");
     }
     @Test
-    public void buttonsEnablingInModalTest() {
+    void buttonsEnablingInModalTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/customize/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/modal/customize/test.page.xml"));
 

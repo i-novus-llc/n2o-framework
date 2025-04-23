@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование компиляции страницы с тремя регионами
  */
-public class TopLeftRightPageCompileTest extends SourceCompileTestBase {
+class TopLeftRightPageCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

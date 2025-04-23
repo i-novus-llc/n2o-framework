@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест использования активных вкладок в модели данных
  */
-public class TabsActiveAT extends AutoTestBase {
+class TabsActiveAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -40,7 +40,7 @@ public class TabsActiveAT extends AutoTestBase {
     }
 
     @Test
-    public void testParams() {
+    void testParams() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/active_params/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/active_params/tab.page.xml")
@@ -70,7 +70,7 @@ public class TabsActiveAT extends AutoTestBase {
     }
 
     @Test
-    public void testTabsRegion() {
+    void testTabsRegion() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/active/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();

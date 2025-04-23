@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование вызова статического метода
  */
-public class StaticDataProviderEngineTest {
+class StaticDataProviderEngineTest {
 
     /**
      * Вызов статического метода без аргементов

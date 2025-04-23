@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест ленивой загрузки вкладок региона <tabs>
  */
-public class TabsLazyInitAT extends AutoTestBase {
+class TabsLazyInitAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class TabsLazyInitAT extends AutoTestBase {
     }
 
     @Test
-    public void testLazyInit() {
+    void testLazyInit() {
         setResourcePath("net/n2oapp/framework/autotest/region/tabs/lazy");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/lazy/index.page.xml"),
@@ -117,7 +117,7 @@ public class TabsLazyInitAT extends AutoTestBase {
     }
 
     @Test
-    public void testLazyInitWithDependencies() {
+    void testLazyInitWithDependencies() {
         setResourcePath("net/n2oapp/framework/autotest/region/tabs/laze_with_dependencies");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/region/tabs/laze_with_dependencies/index.page.xml"),

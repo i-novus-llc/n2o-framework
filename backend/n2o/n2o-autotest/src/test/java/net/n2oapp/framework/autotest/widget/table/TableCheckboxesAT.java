@@ -17,12 +17,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест столбца чекбоксов таблицы
  */
-public class TableCheckboxesAT extends AutoTestBase {
+class TableCheckboxesAT extends AutoTestBase {
 
     private SimplePage page;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -46,7 +46,7 @@ public class TableCheckboxesAT extends AutoTestBase {
     }
 
     @Test
-    public void testCheckboxes() {
+    void testCheckboxes() {
         TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);

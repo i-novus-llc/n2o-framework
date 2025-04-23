@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 /**
  * Тестирование преобразования данных
  */
-public class MappingProcessorTest {
+class MappingProcessorTest {
 
     @Test
     void testInMap() {

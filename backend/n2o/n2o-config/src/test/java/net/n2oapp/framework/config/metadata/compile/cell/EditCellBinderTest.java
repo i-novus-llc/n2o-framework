@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование связывания с данными редактируемой ячейки таблицы
  */
-public class EditCellBinderTest extends SourceCompileTestBase {
+class EditCellBinderTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach

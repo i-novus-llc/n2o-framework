@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование компиляции ячейки с изображением
  */
-public class ImageCellCompileTest extends SourceCompileTestBase {
+class ImageCellCompileTest extends SourceCompileTestBase {
     
     @Override
     @BeforeEach

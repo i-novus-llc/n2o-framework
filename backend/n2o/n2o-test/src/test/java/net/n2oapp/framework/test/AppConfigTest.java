@@ -25,7 +25,7 @@ import java.util.Locale;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = "spring.main.allow-bean-definition-overriding=true")
-public class AppConfigTest {
+class AppConfigTest {
     @LocalServerPort
     private int port;
 
@@ -42,7 +42,7 @@ public class AppConfigTest {
     }
 
     @Test
-    public void servletTest() throws IOException, JSONException {
+    void servletTest() throws IOException, JSONException {
         ObjectMapper objectMapper = new ObjectMapper();
         RestTemplate restTemplate = new RestTemplate();
         String url = String.format("http://localhost:%d/n2o/config", port);
@@ -61,7 +61,7 @@ public class AppConfigTest {
     }
 
     @Test
-    public void testMessageSourceConfig() {
+    void testMessageSourceConfig() {
         assert "серверный".equals(messageSource.getMessage("n2o.server", null, Locale.forLanguageTag("ru")));
         assert "несистемный".equals(messageSource.getMessage("n2o.system", null, Locale.forLanguageTag("ru")));
     }

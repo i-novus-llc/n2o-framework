@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидации java provider
  */
-public class JavaDataProviderValidatorTest extends SourceValidationTestBase {
+class JavaDataProviderValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

@@ -6,7 +6,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 
 import org.junit.jupiter.api.Test;
 
-public class N2oDateIntervalXmlIOv2Test {
+class N2oDateIntervalXmlIOv2Test {
 
     @Test
     void test() {

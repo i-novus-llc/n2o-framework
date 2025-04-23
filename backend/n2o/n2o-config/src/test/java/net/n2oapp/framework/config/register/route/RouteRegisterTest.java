@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * Проверка добавления и удаления элементов из RouteRegister
  */
-public class RouteRegisterTest {
+class RouteRegisterTest {
 
     @Test
     void testAddRoute() {

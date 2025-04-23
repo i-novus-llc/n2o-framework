@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тест на компиляцию ячейки с ссылкой
  */
-public class LinkCellCompileTest extends SourceCompileTestBase {
+class LinkCellCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

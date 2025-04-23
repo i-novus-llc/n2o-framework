@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции валидации условия значений полей
  */
-public class ConditionValidationCompileTest extends SourceCompileTestBase {
+class ConditionValidationCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

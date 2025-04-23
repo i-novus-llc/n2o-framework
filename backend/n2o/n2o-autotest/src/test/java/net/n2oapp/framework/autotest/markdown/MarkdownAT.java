@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки компонента markdown
  */
-public class MarkdownAT extends AutoTestBase {
+class MarkdownAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -41,7 +41,7 @@ public class MarkdownAT extends AutoTestBase {
     }
 
     @Test
-    public void buttonCompile() {
+    void buttonCompile() {
         setResourcePath("net/n2oapp/framework/autotest/markdown/button");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/markdown/button/index.page.xml"),
@@ -70,7 +70,7 @@ public class MarkdownAT extends AutoTestBase {
     }
 
     @Test
-    public void wordwrapAndReadFromData() {
+    void wordwrapAndReadFromData() {
         setResourcePath("net/n2oapp/framework/autotest/markdown/wordwrap_and_read_from_data");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/markdown/wordwrap_and_read_from_data/index.page.xml"),

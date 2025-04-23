@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи виджета Карточки
  */
-public class CardsWidgetXmlIOV4Test {
+class CardsWidgetXmlIOV4Test {
     
     @Test
     void testCardsXmlIOV4() {

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения и записи ячейки с рейтингом
  */
-public class RatingCellXmlIOv3Test {
+class RatingCellXmlIOv3Test {
     @Test
     void testRatingCell() {
         ION2oMetadataTester tester = new ION2oMetadataTester();

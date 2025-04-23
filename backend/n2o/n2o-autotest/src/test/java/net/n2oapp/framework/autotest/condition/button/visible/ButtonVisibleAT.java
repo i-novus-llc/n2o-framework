@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для условия видимости кнопок
  */
-public class ButtonVisibleAT extends AutoTestBase {
+class ButtonVisibleAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -40,7 +40,7 @@ public class ButtonVisibleAT extends AutoTestBase {
     }
 
     @Test
-    public void testVisibleButton() {
+    void testVisibleButton() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/button/visible/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -87,7 +87,7 @@ public class ButtonVisibleAT extends AutoTestBase {
     }
 
     @Test
-    public void testVisibleSubMenu() {
+    void testVisibleSubMenu() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/visible/submenu/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

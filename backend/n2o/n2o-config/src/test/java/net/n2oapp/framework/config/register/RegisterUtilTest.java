@@ -14,7 +14,7 @@ import java.util.Collection;
 /**
  * Тестирование утилитного класса для работы с регистром
  */
-public class RegisterUtilTest {
+class RegisterUtilTest {
     
     @Test
     void testGetIdAndPostfix() throws Exception {

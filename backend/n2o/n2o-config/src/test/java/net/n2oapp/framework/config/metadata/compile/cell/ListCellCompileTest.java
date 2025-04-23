@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тест на компиляцию ячейки со списком
  */
-public class ListCellCompileTest extends SourceCompileTestBase {
+class ListCellCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

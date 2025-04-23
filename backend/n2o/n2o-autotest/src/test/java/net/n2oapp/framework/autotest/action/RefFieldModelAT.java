@@ -23,9 +23,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест на чтение значения поля из модели текущей страницы и родительской
  */
-public class RefFieldModelAT extends AutoTestBase {
+class RefFieldModelAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -48,7 +48,7 @@ public class RefFieldModelAT extends AutoTestBase {
     }
 
     @Test
-    public void refFieldModelTest() {
+    void refFieldModelTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

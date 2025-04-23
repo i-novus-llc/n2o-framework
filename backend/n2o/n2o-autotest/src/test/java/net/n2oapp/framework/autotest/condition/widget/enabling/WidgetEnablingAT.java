@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки скрытия виджета по условию
  */
-public class WidgetEnablingAT extends AutoTestBase {
+class WidgetEnablingAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

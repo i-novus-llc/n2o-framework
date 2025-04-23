@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для условия доступности кнопок
  */
-public class ButtonEnabledAT extends AutoTestBase {
+class ButtonEnabledAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -41,7 +41,7 @@ public class ButtonEnabledAT extends AutoTestBase {
     }
 
     @Test
-    public void testEnabledButton() {
+    void testEnabledButton() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/condition/button/enabled/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -97,7 +97,7 @@ public class ButtonEnabledAT extends AutoTestBase {
     }
 
     @Test
-    public void testEnabledSubMenu() {
+    void testEnabledSubMenu() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/enabled/submenu/index.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

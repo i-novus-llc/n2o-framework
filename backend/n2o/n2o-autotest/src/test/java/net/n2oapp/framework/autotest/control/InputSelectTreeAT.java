@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 class InputSelectTreeAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

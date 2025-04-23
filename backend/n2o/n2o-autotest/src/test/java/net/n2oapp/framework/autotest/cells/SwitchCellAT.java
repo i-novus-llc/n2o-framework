@@ -18,12 +18,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для переключателя ячеек
  */
-public class SwitchCellAT extends AutoTestBase {
+class SwitchCellAT extends AutoTestBase {
 
     private TableWidget.Rows rows;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -53,7 +53,7 @@ public class SwitchCellAT extends AutoTestBase {
 
 
     @Test
-    public void switchCellTest() {
+    void switchCellTest() {
         BadgeCell cell1 = rows.row(0).cell(0, BadgeCell.class);
         cell1.shouldExists();
         cell1.badgeShouldHaveText("test1");

@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента ввода текста
  */
-public class InputTextAT extends AutoTestBase {
+class InputTextAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -35,7 +35,7 @@ public class InputTextAT extends AutoTestBase {
     }
 
     @Test
-    public void testInputText() {
+    void testInputText() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_text/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
@@ -59,7 +59,7 @@ public class InputTextAT extends AutoTestBase {
     }
 
     @Test
-    public void testInputNumber() {
+    void testInputNumber() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_text/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
@@ -93,7 +93,7 @@ public class InputTextAT extends AutoTestBase {
     }
 
     @Test
-    public void testInputFloat() {
+    void testInputFloat() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_text/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
@@ -123,7 +123,7 @@ public class InputTextAT extends AutoTestBase {
     }
 
     @Test
-    public void testInputNumericPrecision() {
+    void testInputNumericPrecision() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_text/simple/index.page.xml"));
         SimplePage page = open(SimplePage.class);
@@ -147,7 +147,7 @@ public class InputTextAT extends AutoTestBase {
     }
 
     @Test
-    public void testArrowsDifIntervals() {
+    void testArrowsDifIntervals() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/input_text/min_max/index.page.xml"));
         SimplePage page = open(SimplePage.class);

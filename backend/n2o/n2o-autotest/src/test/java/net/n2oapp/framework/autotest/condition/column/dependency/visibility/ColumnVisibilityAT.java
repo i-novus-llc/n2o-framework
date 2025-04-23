@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки зависимости visibility у колонок таблицы
  */
-public class ColumnVisibilityAT extends AutoTestBase {
+class ColumnVisibilityAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

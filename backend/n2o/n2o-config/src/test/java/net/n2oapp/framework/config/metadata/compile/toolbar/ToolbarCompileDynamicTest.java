@@ -26,7 +26,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 /**
  * Тестирование компиляции динамического тулбара
  */
-public class ToolbarCompileDynamicTest extends SourceCompileTestBase {
+class ToolbarCompileDynamicTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

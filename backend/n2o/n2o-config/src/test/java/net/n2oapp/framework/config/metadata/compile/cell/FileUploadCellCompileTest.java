@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тестирование компиляции ячейки загрузки файлов
  */
-public class FileUploadCellCompileTest extends SourceCompileTestBase {
+class FileUploadCellCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

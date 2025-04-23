@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тестирование компиляции SearchButtons (кнопки фильтра)
  */
-public class SearchButtonsCompileTest extends SourceCompileTestBase {
+class SearchButtonsCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

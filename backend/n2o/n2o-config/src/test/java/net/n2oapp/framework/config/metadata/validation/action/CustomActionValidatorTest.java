@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование валидации действия вызова операции
  */
-public class CustomActionValidatorTest extends SourceValidationTestBase {
+class CustomActionValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach

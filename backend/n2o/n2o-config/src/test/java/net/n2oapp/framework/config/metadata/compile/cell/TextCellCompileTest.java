@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тест на компиляцию ячейки с текстом
  */
-public class TextCellCompileTest extends SourceCompileTestBase {
+class TextCellCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

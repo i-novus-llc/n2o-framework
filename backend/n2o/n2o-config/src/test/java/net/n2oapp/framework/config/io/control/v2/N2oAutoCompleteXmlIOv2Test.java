@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента ввода текста с автоподбором
  */
-public class N2oAutoCompleteXmlIOv2Test {
+class N2oAutoCompleteXmlIOv2Test {
 
     @Test
     void test() {

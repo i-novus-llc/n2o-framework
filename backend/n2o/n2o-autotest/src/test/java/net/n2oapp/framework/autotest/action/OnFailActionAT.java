@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест проверяет работу on-fail
  */
-public class OnFailActionAT extends AutoTestBase {
+class OnFailActionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для компонента ввода текста с автозаполнением
  */
-public class AutoCompleteAT extends AutoTestBase {
+class AutoCompleteAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -43,7 +43,7 @@ public class AutoCompleteAT extends AutoTestBase {
     }
 
     @Test
-    public void testAutoComplete() {
+    void testAutoComplete() {
         setResourcePath("net/n2oapp/framework/autotest/control/auto_complete/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
@@ -76,7 +76,7 @@ public class AutoCompleteAT extends AutoTestBase {
     }
 
     @Test
-    public void testTags() {
+    void testTags() {
         setResourcePath("net/n2oapp/framework/autotest/control/auto_complete/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/simple/index.page.xml"),
@@ -133,7 +133,7 @@ public class AutoCompleteAT extends AutoTestBase {
     }
 
     @Test
-    public void testPrefilters() {
+    void testPrefilters() {
         setResourcePath("net/n2oapp/framework/autotest/control/auto_complete/preFilters");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/preFilters/index.page.xml"),

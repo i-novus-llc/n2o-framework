@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест разрешения ссылок в заголовках страниц
  */
-public class PageTitleLinkResolveAT extends AutoTestBase {
+class PageTitleLinkResolveAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

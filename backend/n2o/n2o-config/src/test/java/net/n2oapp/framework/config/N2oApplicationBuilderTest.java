@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 
-public class N2oApplicationBuilderTest {
+class N2oApplicationBuilderTest {
     
     @Test
     @Disabled

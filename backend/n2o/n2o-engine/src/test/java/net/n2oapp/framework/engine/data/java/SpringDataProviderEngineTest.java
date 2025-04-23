@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 /**
  * Тестирование вызова spring метода
  */
-public class SpringDataProviderEngineTest {
+class SpringDataProviderEngineTest {
 
     private ApplicationContext applicationContext;
 

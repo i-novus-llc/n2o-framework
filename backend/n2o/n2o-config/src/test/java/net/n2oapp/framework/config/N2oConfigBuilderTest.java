@@ -17,7 +17,7 @@ import java.util.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class N2oConfigBuilderTest {
+class N2oConfigBuilderTest {
     @TempDir
     public Path folder;
     private File configJsonFile;

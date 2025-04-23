@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест инициализации зависимостей
  */
-public class ApplyOnInitAT extends AutoTestBase {
+class ApplyOnInitAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -45,7 +45,7 @@ public class ApplyOnInitAT extends AutoTestBase {
     }
 
     @Test
-    public void testApplyOnInit() {
+    void testApplyOnInit() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Инициализация зависимостей (apply-on-init)");

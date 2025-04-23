@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тестирование компиляции компонента отображения прогресса
  */
-public class ProgressCompileTest extends SourceCompileTestBase {
+class ProgressCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

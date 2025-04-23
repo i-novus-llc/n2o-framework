@@ -5,7 +5,7 @@ import net.n2oapp.framework.config.io.widget.v4.FormElementIOV4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.jupiter.api.Test;
 
-public class N2oInputTextXmlIOv2Test {
+class N2oInputTextXmlIOv2Test {
 
     @Test
     void test() {

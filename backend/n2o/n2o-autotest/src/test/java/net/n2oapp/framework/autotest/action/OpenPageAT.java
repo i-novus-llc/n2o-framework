@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для действия открытия страницы
  */
-public class OpenPageAT extends AutoTestBase {
+class OpenPageAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -41,7 +41,7 @@ public class OpenPageAT extends AutoTestBase {
     }
 
     @Test
-    public void testFilterState() {
+    void testFilterState() {
         setResourcePath("net/n2oapp/framework/autotest/action/open_page/simple");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/simple/test.query.xml"),
@@ -94,7 +94,7 @@ public class OpenPageAT extends AutoTestBase {
     }
 
     @Test
-    public void testResolveBreadcrumb() {
+    void testResolveBreadcrumb() {
         setResourcePath("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/simple_page/test.query.xml"),
@@ -115,7 +115,7 @@ public class OpenPageAT extends AutoTestBase {
     }
 
     @Test
-    public void testResolveBreadcrumbOnStandardPage() {
+    void testResolveBreadcrumbOnStandardPage() {
         setResourcePath("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/resolve_breadcrumb/standard_page/test.query.xml"),
@@ -136,7 +136,7 @@ public class OpenPageAT extends AutoTestBase {
     }
 
     @Test
-    public void testTargetNewWindow() {
+    void testTargetNewWindow() {
         setResourcePath("net/n2oapp/framework/autotest/action/open_page/target_new_window");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/target_new_window/index.page.xml"),
@@ -165,7 +165,7 @@ public class OpenPageAT extends AutoTestBase {
     }
 
     @Test
-    public void testNestedRoutesWithPathParams() {
+    void testNestedRoutesWithPathParams() {
         setResourcePath("net/n2oapp/framework/autotest/action/open_page/nested_routes");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/book.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/open_page/nested_routes/books.query.xml"),

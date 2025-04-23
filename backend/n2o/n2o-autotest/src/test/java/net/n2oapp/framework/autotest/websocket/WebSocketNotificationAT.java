@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Автотест отправки всплывающих уведомлений в веб-сокетах
  */
-public class WebSocketNotificationAT extends AutoTestBase {
+class WebSocketNotificationAT extends AutoTestBase {
 
     private static final String DESTINATION = "notifications";
 
@@ -35,7 +35,7 @@ public class WebSocketNotificationAT extends AutoTestBase {
     private N2oWebSocketController wsController;
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
         Configuration.timeout = 8000;
     }
@@ -62,7 +62,7 @@ public class WebSocketNotificationAT extends AutoTestBase {
 
     @Test
     @Disabled
-    public void testAlertNotification() {
+    void testAlertNotification() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Отправка уведомлений по web-socket");

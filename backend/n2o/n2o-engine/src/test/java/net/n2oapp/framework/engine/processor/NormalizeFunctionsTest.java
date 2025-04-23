@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
 /**
  * Тестирование функций нормализации n2o
  */
-public class NormalizeFunctionsTest {
+class NormalizeFunctionsTest {
 
     private N2oQueryProcessor queryProcessor;
     private N2oApplicationBuilder builder;

@@ -24,9 +24,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для региона подстраниц
  */
-public class SubPageRegionAT extends AutoTestBase {
+class SubPageRegionAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

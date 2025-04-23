@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции компонента ввода date-time
  */
-public class DatePickerCompileTest extends SourceCompileTestBase {
+class DatePickerCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

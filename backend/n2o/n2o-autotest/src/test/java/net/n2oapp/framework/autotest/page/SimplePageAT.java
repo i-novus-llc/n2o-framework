@@ -13,9 +13,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SimplePageAT extends AutoTestBase {
+class SimplePageAT extends AutoTestBase {
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -35,7 +35,7 @@ public class SimplePageAT extends AutoTestBase {
     }
 
     @Test
-    public void testSimplePage() {
+    void testSimplePage() {
         SimplePage page = open(SimplePage.class);
         page.breadcrumb().crumb(0).shouldHaveLabel("Простая страница");
         page.shouldExists();

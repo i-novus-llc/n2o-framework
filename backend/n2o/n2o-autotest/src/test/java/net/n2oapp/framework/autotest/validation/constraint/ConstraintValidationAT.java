@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест сообщений об ограничениях
  */
-public class ConstraintValidationAT extends AutoTestBase {
+class ConstraintValidationAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

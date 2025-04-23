@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Автотест отправки уведомлений в веб-сокетах
  */
-public class WebSocketAT extends AutoTestBase {
+class WebSocketAT extends AutoTestBase {
 
     @Autowired
     private WebSocketMessageController webSocketMessageController;
@@ -27,7 +27,7 @@ public class WebSocketAT extends AutoTestBase {
 
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
         Configuration.timeout = 8000;
     }
@@ -54,7 +54,7 @@ public class WebSocketAT extends AutoTestBase {
 
     @Test
     @Disabled
-    public void testWebSocketCount() {
+    void testWebSocketCount() {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("1");
@@ -72,7 +72,7 @@ public class WebSocketAT extends AutoTestBase {
 
     @Test
     @Disabled
-    public void testWebSocketColor() {
+    void testWebSocketColor() {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeColor("danger");

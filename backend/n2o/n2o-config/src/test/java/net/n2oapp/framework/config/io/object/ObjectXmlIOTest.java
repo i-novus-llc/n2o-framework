@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения\записи объекта
  */
-public class ObjectXmlIOTest {
+class ObjectXmlIOTest {
     
     ION2oMetadataTester tester = new ION2oMetadataTester()
             .addPack(new N2oDataProvidersIOPack());

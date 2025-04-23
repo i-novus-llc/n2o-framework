@@ -31,7 +31,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тест слияния виджетов
  */
-public class N2oWidgetMergerTest extends SourceMergerTestBase {
+class N2oWidgetMergerTest extends SourceMergerTestBase {
 
     @Override
     @BeforeEach

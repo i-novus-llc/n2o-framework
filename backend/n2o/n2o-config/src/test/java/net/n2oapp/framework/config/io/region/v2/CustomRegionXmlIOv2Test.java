@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения\записи кастомного региона версии 2.0
  */
-public class CustomRegionXmlIOv2Test {
+class CustomRegionXmlIOv2Test {
     
     @Test
     void test() {

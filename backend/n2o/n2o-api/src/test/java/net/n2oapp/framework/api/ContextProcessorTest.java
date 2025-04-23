@@ -14,7 +14,7 @@ import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 /**
  * Тесты процессора контекста
  */
-public class ContextProcessorTest {
+class ContextProcessorTest {
     
     private ContextProcessor processor;
 

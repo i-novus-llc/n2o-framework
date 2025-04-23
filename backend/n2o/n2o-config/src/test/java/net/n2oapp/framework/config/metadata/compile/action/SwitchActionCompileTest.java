@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Тестирование компиляции действия switch
  */
-public class SwitchActionCompileTest extends SourceCompileTestBase {
+class SwitchActionCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

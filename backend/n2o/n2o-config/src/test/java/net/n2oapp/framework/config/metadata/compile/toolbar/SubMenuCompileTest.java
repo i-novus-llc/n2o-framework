@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.nullValue;
 /**
  * Тестирование компиляции кнопки с выпадающим меню
  */
-public class SubMenuCompileTest extends SourceCompileTestBase {
+class SubMenuCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

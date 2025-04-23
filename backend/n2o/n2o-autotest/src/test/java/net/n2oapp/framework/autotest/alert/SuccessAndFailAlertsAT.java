@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование текста и заголовка сообщения для success/fail выполненных операций
  */
-public class SuccessAndFailAlertsAT extends AutoTestBase {
+class SuccessAndFailAlertsAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -41,7 +41,7 @@ public class SuccessAndFailAlertsAT extends AutoTestBase {
     }
 
     @Test
-    public void testOperation() {
+    void testOperation() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -66,7 +66,7 @@ public class SuccessAndFailAlertsAT extends AutoTestBase {
     }
 
     @Test
-    public void testValidation() {
+    void testValidation() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 

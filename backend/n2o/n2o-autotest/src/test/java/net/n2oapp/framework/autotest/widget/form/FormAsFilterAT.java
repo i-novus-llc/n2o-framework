@@ -22,10 +22,10 @@ import java.util.Collections;
 /**
  * Автотест Форма как фильтры таблицы
  */
-public class FormAsFilterAT extends AutoTestBase {
+class FormAsFilterAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -42,7 +42,7 @@ public class FormAsFilterAT extends AutoTestBase {
     }
 
     @Test
-    public void openWithoutParam() {
+    void openWithoutParam() {
         setResourcePath("net/n2oapp/framework/autotest/widget/form/filter/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/simple/index.page.xml"),
@@ -88,7 +88,7 @@ public class FormAsFilterAT extends AutoTestBase {
     }
 
     @Test
-    public void openWithIdParam() {
+    void openWithIdParam() {
         setResourcePath("net/n2oapp/framework/autotest/widget/form/filter/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/simple/index.page.xml"),
@@ -115,7 +115,7 @@ public class FormAsFilterAT extends AutoTestBase {
     }
 
     @Test
-    public void openWithPeriodParam() {
+    void openWithPeriodParam() {
         setResourcePath("net/n2oapp/framework/autotest/widget/form/filter/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/simple/index.page.xml"),
@@ -144,7 +144,7 @@ public class FormAsFilterAT extends AutoTestBase {
     }
 
     @Test
-    public void filterByButtonClick() {
+    void filterByButtonClick() {
         setResourcePath("net/n2oapp/framework/autotest/widget/form/filter/button_click");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/filter/button_click/test.query.xml"));

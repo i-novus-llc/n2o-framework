@@ -34,7 +34,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Проверка получения динамического объекта, запроса, виджета и страницы
  */
-public class DynamicMetadataCompileTest extends SourceCompileTestBase {
+class DynamicMetadataCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

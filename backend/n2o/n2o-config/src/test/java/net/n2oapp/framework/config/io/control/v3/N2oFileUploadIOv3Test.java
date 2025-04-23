@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента загрузки файлов версси 3.0
  */
-public class N2oFileUploadIOv3Test {
+class N2oFileUploadIOv3Test {
 
     @Test
     void test() {

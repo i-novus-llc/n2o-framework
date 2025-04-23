@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Тест компиляции редактируемой ячейки
  */
-public class EditCellCompileTest extends SourceCompileTestBase {
+class EditCellCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach

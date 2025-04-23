@@ -16,10 +16,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class BreadcrumbsAT extends AutoTestBase {
+class BreadcrumbsAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -36,7 +36,7 @@ public class BreadcrumbsAT extends AutoTestBase {
     }
 
     @Test
-    public void breadcrumbsTest() {
+    void breadcrumbsTest() {
         setResourcePath("net/n2oapp/framework/autotest/breadcrumbs/common");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/common/index.page.xml"),
@@ -72,7 +72,7 @@ public class BreadcrumbsAT extends AutoTestBase {
     }
 
     @Test
-    public void testPage() {
+    void testPage() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/page/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/page/page2.page.xml"),
@@ -108,7 +108,7 @@ public class BreadcrumbsAT extends AutoTestBase {
     }
 
     @Test
-    public void testOpenPage() {
+    void testOpenPage() {
         setResourcePath("net/n2oapp/framework/autotest/breadcrumbs/open_page");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/open_page/index.page.xml"),
@@ -129,7 +129,7 @@ public class BreadcrumbsAT extends AutoTestBase {
     }
 
     @Test
-    public void testRelativeLinks() {
+    void testRelativeLinks() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/relative_links/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/relative_links/page2.page.xml"),
@@ -155,7 +155,7 @@ public class BreadcrumbsAT extends AutoTestBase {
     }
 
     @Test
-    public void testResolve() {
+    void testResolve() {
         setResourcePath("net/n2oapp/framework/autotest/breadcrumbs/resolve");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/breadcrumbs/resolve/index.page.xml"),

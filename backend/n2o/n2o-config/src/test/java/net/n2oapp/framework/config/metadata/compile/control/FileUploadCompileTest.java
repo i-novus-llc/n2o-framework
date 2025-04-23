@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции компонента загрузки файлов
  */
-public class FileUploadCompileTest extends SourceCompileTestBase {
+class FileUploadCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
     public void setUp() throws Exception {

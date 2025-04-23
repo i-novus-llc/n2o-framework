@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения/записи компонента редактирования кода версии 3.0
  */
-public class N2oCodeEditorXmlIOv3Test {
+class N2oCodeEditorXmlIOv3Test {
 
     @Test
     void test() {

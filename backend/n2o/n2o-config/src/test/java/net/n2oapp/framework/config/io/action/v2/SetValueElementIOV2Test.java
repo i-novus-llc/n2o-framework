@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тест на чтение/запись элемента   <set-value>
  */
-public class SetValueElementIOV2Test {
+class SetValueElementIOV2Test {
     
     @Test
     void testSetValueElementIOV2Test(){

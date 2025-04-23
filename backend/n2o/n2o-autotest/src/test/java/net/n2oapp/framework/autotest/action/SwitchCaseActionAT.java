@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование действия switch-case
  */
-public class SwitchCaseActionAT extends AutoTestBase {
+class SwitchCaseActionAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 

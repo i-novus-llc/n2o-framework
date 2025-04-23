@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для проверки проброса значения обратно из модального окна
  */
-public class DataBackFromModalAT extends AutoTestBase {
+class DataBackFromModalAT extends AutoTestBase {
 
     @BeforeAll
-    public static void beforeClass() {
+    static void beforeClass() {
         configureSelenide();
     }
 
@@ -46,7 +46,7 @@ public class DataBackFromModalAT extends AutoTestBase {
     }
 
     @Test
-    public void dataBackFromModalTest() {
+    void dataBackFromModalTest() {
         SimplePage page = open(SimplePage.class);
         openAndCheckPage(page, 0);
         page.widget(FormWidget.class).fields().field("Выборка текущего виджета").control(InputText.class).shouldBeEmpty();
