@@ -2,7 +2,6 @@ package net.n2oapp.framework.engine.data.java;
 
 import net.n2oapp.framework.api.data.ArgumentsInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.exception.N2oUserException;
 import net.n2oapp.framework.api.metadata.dataprovider.DIProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
 import org.springframework.util.MethodInvoker;
@@ -65,7 +64,7 @@ public class JavaDataProviderEngine implements ArgumentsInvocationEngine<N2oJava
             return methodInvoker.invoke();
         } catch (InvocationTargetException e) {
             if (e.getTargetException() instanceof N2oException)
-                throw (N2oException)e.getTargetException();
+                throw (N2oException) e.getTargetException();
             throw new N2oException(e.getTargetException());
         } catch (NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
             throw new N2oException(e);

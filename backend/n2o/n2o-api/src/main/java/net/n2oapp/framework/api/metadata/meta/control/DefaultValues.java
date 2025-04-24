@@ -1,9 +1,6 @@
 package net.n2oapp.framework.api.metadata.meta.control;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 

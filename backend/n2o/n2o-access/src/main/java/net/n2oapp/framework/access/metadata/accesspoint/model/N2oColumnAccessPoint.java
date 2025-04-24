@@ -2,9 +2,6 @@ package net.n2oapp.framework.access.metadata.accesspoint.model;
 
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author V. Alexeev.
  */

@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.meta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;

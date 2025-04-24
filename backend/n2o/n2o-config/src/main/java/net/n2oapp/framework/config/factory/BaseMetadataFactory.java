@@ -7,7 +7,6 @@ import net.n2oapp.engine.factory.locator.SimpleEngineLocator;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.factory.MetadataFactory;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
-import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +15,7 @@ import java.util.function.BiPredicate;
 
 /**
  * Базовый класс для всех фабрик метаданных
+ *
  * @param <G> Тип движка
  */
 public abstract class BaseMetadataFactory<G> implements MetadataFactory<G>, MetadataEnvironmentAware {

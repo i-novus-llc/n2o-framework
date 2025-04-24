@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.reader;
 
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 
 /**
  * Считывание элемента в сущность
@@ -11,6 +10,7 @@ public interface ElementReader<T> {
 
     /**
      * Считывает элемент xml в entity
+     *
      * @param element элемент, из которого нужно прочесть значения
      * @return сущность, в которую нужно заполнить значения из element
      */

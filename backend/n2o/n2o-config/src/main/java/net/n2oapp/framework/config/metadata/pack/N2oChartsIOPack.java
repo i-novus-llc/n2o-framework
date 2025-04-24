@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.v4.charts.AreaChartIOv4;
 import net.n2oapp.framework.config.io.widget.v4.charts.BarChartIOv4;
 import net.n2oapp.framework.config.io.widget.v4.charts.LineChartIOv4;
