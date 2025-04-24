@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.plain.N2oRating;
-import net.n2oapp.framework.api.metadata.local.util.CompileUtil;
 import net.n2oapp.framework.api.metadata.meta.control.Rating;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;

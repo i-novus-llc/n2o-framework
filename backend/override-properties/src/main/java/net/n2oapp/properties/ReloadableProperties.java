@@ -12,7 +12,6 @@ import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Enumeration;
-import java.util.InvalidPropertiesFormatException;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 
@@ -149,7 +148,7 @@ public class ReloadableProperties extends OverrideProperties {
             exists = false;
             if (key == null) key = "null";
             logger.debug(String.format("error while trying remove property (key: %s) from [%s]",
-                    key.toString(),  resource.toString()));
+                    key.toString(), resource.toString()));
             throw new IllegalStateException(e);
         } finally {
             available.release();

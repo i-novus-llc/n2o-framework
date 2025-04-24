@@ -2,7 +2,6 @@ package net.n2oapp.framework.engine.data.java;
 
 import net.n2oapp.framework.api.metadata.dataprovider.DIProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.SpringProvider;
-import net.n2oapp.framework.engine.data.java.ObjectLocator;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

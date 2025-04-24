@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.persister;
 
 import org.jdom2.Namespace;
-import net.n2oapp.engine.factory.EngineFactory;
 
 /**
  * User: iryabov

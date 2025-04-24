@@ -3,8 +3,6 @@ package net.n2oapp.framework.access.metadata.accesspoint.model;
 
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 
-import java.util.List;
-
 public class N2oReferenceAccessPoint extends AccessPoint {
 
     private String objectId;

@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 
 public abstract class AbstractActionTransformer<D extends Action> extends BaseAccessTransformer<D, CompileContext<?, ?>> {
 

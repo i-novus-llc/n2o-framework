@@ -6,11 +6,11 @@ import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import static net.n2oapp.framework.api.PlaceHoldersResolver.*;
+import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceNullByEmpty;
+import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
 
 /**
  * Процессор пользовательского контекста

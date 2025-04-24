@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.filters_buttons.AbstractFilterButtonField;
 import net.n2oapp.framework.config.metadata.compile.control.FieldCompiler;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initDatasource;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;

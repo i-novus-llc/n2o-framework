@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.multi.N2oCheckboxGroup;
 
-import java.util.List;
 import java.util.Map;
 
 /**

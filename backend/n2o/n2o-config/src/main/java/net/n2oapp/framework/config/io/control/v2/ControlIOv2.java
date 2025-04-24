@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.io.control.v2;
 import net.n2oapp.framework.api.metadata.aware.BaseElementClassAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import org.jdom2.Namespace;
 
 /**
