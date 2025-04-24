@@ -107,9 +107,11 @@ public class ScriptProcessor {
         }
         if (isFunction(trimmedText)) {
             return String.format("(function(){%s}).call(this)", trimmedText);
-        } else {
-            return trimmedText;
         }
+        if (trimmedText.endsWith(";")) {
+            trimmedText = trimmedText.substring(0, trimmedText.length() - 1);
+        }
+        return trimmedText;
     }
 
     private static boolean isFunction(String text) {
