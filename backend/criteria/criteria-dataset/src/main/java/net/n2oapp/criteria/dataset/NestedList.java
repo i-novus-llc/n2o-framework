@@ -47,14 +47,13 @@ public class NestedList extends ArrayList<Object> {
                     return ((NestedList) value).get(info.getRight());//case: "[0][1]"
                 return null;
             } else {
-                if (!(value instanceof List))
+                if (!(value instanceof List array))
                     return null;//case: "[0]*.foo", but "[0]" isn't list
-                List<Object> array = (List<Object>) value;
                 List<Object> result = new ArrayList<>(array.size());
                 for (Object o : array) {
                     Object child = null;
-                    if (o instanceof Map)
-                        child = ((Map) o).get(info.getRight());
+                    if (o instanceof Map oMap)
+                        child = oMap.get(info.getRight());
                     result.add(child);
                 }
                 return Collections.unmodifiableList(result);
@@ -90,9 +89,8 @@ public class NestedList extends ArrayList<Object> {
                 //case: "[0]*.foo"
                 if (value == null) {
                     return super.set(info.getIndex(), null);
-                } else if (value instanceof Iterable) {
+                } else if (value instanceof Iterable array) {
                     List<Object> res = new ArrayList<>();
-                    Iterable array = (Iterable) value;
                     NestedUtils.fillArray(this, info.getIndex());
                     Object rightValue = super.get(info.getIndex());
                     if (!(rightValue instanceof NestedList)) {
@@ -112,9 +110,8 @@ public class NestedList extends ArrayList<Object> {
     }
 
     public Object removeByKey(Object oKey) {
-        if (!(oKey instanceof String))
+        if (!(oKey instanceof String key))
             throw new IllegalArgumentException("Argument must be String, but was " + oKey);
-        String key = (String) oKey;
         KeyInfo info = getKeyInfo(key);
         if (!info.isNesting()) {
             //case: "foo"

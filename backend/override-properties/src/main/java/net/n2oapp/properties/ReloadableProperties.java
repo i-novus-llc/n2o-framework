@@ -67,7 +67,7 @@ public class ReloadableProperties extends OverrideProperties {
     //переопределяем, чтобы "дернуть" наш специальный get
     public String superGetProperty(String key) {
         Object oval = get(key);
-        String sval = (oval instanceof String) ? (String) oval : null;
+        String sval = (oval instanceof String ovalString) ? ovalString : null;
         return ((sval == null) && (defaults != null)) ? defaults.getProperty(key) : sval;
     }
 

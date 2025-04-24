@@ -63,13 +63,12 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         if (page.getModels() != null) {
             //разрешение контекстных значений в моделях
             page.getModels().values().forEach(bl -> {
-                if (bl.getValue() instanceof String) {
-                    bl.setValue(p.resolveText((String) bl.getValue()));
-                } else if (bl.getValue() instanceof DefaultValues) {
-                    DefaultValues dv = (DefaultValues) bl.getValue();
+                if (bl.getValue() instanceof String blStr) {
+                    bl.setValue(p.resolveText(blStr));
+                } else if (bl.getValue() instanceof DefaultValues dv) {
                     for (String key : dv.getValues().keySet()) {
-                        if (dv.getValues().get(key) instanceof String) {
-                            dv.getValues().put(key, p.resolveText((String) dv.getValues().get(key)));
+                        if (dv.getValues().get(key) instanceof String str) {
+                            dv.getValues().put(key, p.resolveText(str));
                         }
                     }
                 }
@@ -99,8 +98,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             return;
         String modelId = modelLink.getBindLink().split("\\.")[1] + "." + modelLinkValue.split("\\.")[0];
         ModelLink link = page.getModels().get(modelId);
-        if (link != null && link.getValue() instanceof DefaultValues) {
-            DefaultValues defaultValues = (DefaultValues) link.getValue();
+        if (link != null && link.getValue() instanceof DefaultValues defaultValues) {
             defaultValues.getValues().remove(modelLinkValue.split("\\.")[1]);
             page.getModels().remove(modelId);
         }
@@ -118,8 +116,8 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             for (Widget<?> w : widgets)
                 if (w.getFiltersDatasourceId() != null) {
                     AbstractDatasource filterDatasource = page.getDatasources().get(w.getFiltersDatasourceId());
-                    if (!(filterDatasource instanceof StandardDatasource)) continue;
-                    DataSet data = p.executeQuery(((StandardDatasource) filterDatasource).getQueryId());
+                    if (!(filterDatasource instanceof StandardDatasource standardDatasource)) continue;
+                    DataSet data = p.executeQuery(standardDatasource.getQueryId());
                     if (data != null) {
                         data.forEach((k, v) -> {
                             //todo NNO-7523   && !p.canResolveParam(f.getParam())

@@ -71,8 +71,7 @@ public abstract class NestedUtils {
                                    Function<? super List, ? extends NestedList> listConstructor) {
         if (value instanceof NestedMap || value instanceof NestedList)
             return value;
-        if (value instanceof Map) {
-            Map map = (Map) value;
+        if (value instanceof Map map) {
             for (Object key : map.keySet()) {
                 Object entryValue = map.get(key);
                 Object entryWrap = wrapValue(map.get(key), mapConstructor, listConstructor);
@@ -80,8 +79,7 @@ public abstract class NestedUtils {
                     map.put(key, entryWrap);
             }
             return mapConstructor.apply(map);
-        } else if (value instanceof List) {
-            List list = ((List) value);
+        } else if (value instanceof List list) {
             List result = listConstructor.apply(list);
             for (int k = 0; k < list.size(); k++) {
                 result.set(k, wrapValue(list.get(k), mapConstructor, listConstructor));

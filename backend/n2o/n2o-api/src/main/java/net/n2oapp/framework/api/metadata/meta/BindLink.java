@@ -83,9 +83,8 @@ public class BindLink implements Compiled {
     public boolean equalsNormalizedLink(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof BindLink))
+        if (!(o instanceof BindLink link))
             return false;
-        BindLink link = (BindLink) o;
         if (getBindLink() == null || link.getBindLink() == null)
             return false;
         return Objects.equals(normalizeLink(), link.normalizeLink());
@@ -100,17 +99,15 @@ public class BindLink implements Compiled {
     public boolean equalsLink(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof BindLink))
+        if (!(o instanceof BindLink link))
             return false;
-        BindLink link = (BindLink) o;
         return Objects.equals(getBindLink(), link.getBindLink());
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BindLink)) return false;
-        BindLink bindLink1 = (BindLink) o;
+        if (!(o instanceof BindLink bindLink1)) return false;
         return Objects.equals(bindLink, bindLink1.bindLink) &&
                 Objects.equals(value, bindLink1.value);
     }

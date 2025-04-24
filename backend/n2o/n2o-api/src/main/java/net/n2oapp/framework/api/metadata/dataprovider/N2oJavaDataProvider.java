@@ -22,8 +22,8 @@ public class N2oJavaDataProvider extends AbstractDataProvider implements N2oArgu
     }
 
     public SpringProvider getSpringProvider() {
-        if (getDiProvider() instanceof SpringProvider)
-            return (SpringProvider) getDiProvider();
+        if (getDiProvider() instanceof SpringProvider springProvider)
+            return springProvider;
         return null;
     }
 
@@ -33,8 +33,8 @@ public class N2oJavaDataProvider extends AbstractDataProvider implements N2oArgu
     }
 
     public EjbProvider getEjbProvider() {
-        if (getDiProvider() instanceof EjbProvider)
-            return (EjbProvider) getDiProvider();
+        if (getDiProvider() instanceof EjbProvider ejbProvider)
+            return ejbProvider;
         return null;
     }
 }

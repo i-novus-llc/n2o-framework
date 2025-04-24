@@ -39,13 +39,15 @@ public class MandatoryValidation extends Validation {
     public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback,
                          DomainProcessor domainProcessor) {
         Boolean success = null;
-        if (dataSet.get(getFieldId()) != null) {
-            if (dataSet.get(getFieldId()) instanceof String)
-                success = !((String) dataSet.get(getFieldId())).isEmpty();
-            else if (dataSet.get(getFieldId()) instanceof List)
-                success = !((List) dataSet.get(getFieldId())).isEmpty();
-            else if (dataSet.get(getFieldId()) instanceof Map)
-                success = !((Map) dataSet.get(getFieldId())).isEmpty();
+        var fieldId = dataSet.get(getFieldId());
+
+        if (fieldId != null) {
+            if (fieldId instanceof String str)
+                success = !str.isEmpty();
+            else if (fieldId instanceof List list)
+                success = !list.isEmpty();
+            else if (fieldId instanceof Map map)
+                success = !map.isEmpty();
             else
                 success = true;
         }

@@ -271,16 +271,16 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
     @Override
     public Object resolve(Object value) {
-        if (value instanceof String)
-            return resolve((String) value);
+        if (value instanceof String str)
+            return resolve(str);
         return value;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T> T resolve(Object value, Class<T> clazz) {
-        if (value instanceof String)
-            return resolve((String) value, clazz);
+        if (value instanceof String str)
+            return resolve(str, clazz);
         return (T) value;
     }
 
@@ -394,9 +394,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         Object value = null;
         if (res.isPresent()) {
             value = params.get(res.get());
-        } else if (link instanceof ModelLink && ((ModelLink) link).getParam() != null &&
-                (observable || !((ModelLink) link).isObserve())) {
-            value = params.get(((ModelLink) link).getParam());
+        } else if (link instanceof ModelLink modelLink && modelLink.getParam() != null &&
+                (observable || !modelLink.isObserve())) {
+            value = params.get(modelLink.getParam());
         }
         if (value == null)
             return link;
@@ -420,12 +420,12 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     private BindLink createLink(BindLink link, Object value) {
-        if (value instanceof String)
-            value = resolveText((String) value);
+        if (value instanceof String str)
+            value = resolveText(str);
         if (value != null) {
             BindLink resultLink;
-            if (link instanceof ModelLink) {
-                resultLink = new ModelLink((ModelLink) link);
+            if (link instanceof ModelLink modelLink) {
+                resultLink = new ModelLink(modelLink);
                 ((ModelLink) resultLink).setObserve(false);
             } else
                 resultLink = new BindLink(link.getBindLink());
@@ -445,8 +445,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
                 throw new N2oException("Sub model [" + link.getSubModelQuery().getFullName() + "] must be multi for value " + link.getValue());
             List<DataSet> dataList = new ArrayList<>();
             for (Object o : (List<?>) link.getValue()) {
-                if (o instanceof DefaultValues) {
-                    dataList.add(new DataSet(((DefaultValues) o).getValues()));
+                if (o instanceof DefaultValues defaultValues) {
+                    dataList.add(new DataSet(defaultValues.getValues()));
                 } else {
                     dataList.add(new DataSet("id", o));
                 }
@@ -458,11 +458,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
             List<DataSet> valueList = (List<DataSet>) dataSet.get(link.getSubModelQuery().getSubModel());
             resolvedLink.setValue(valueList.stream().map(DefaultValues::new).collect(Collectors.toList()));
             return resolvedLink;
-        } else if (link.getValue() instanceof DefaultValues) {
+        } else if (link.getValue() instanceof DefaultValues defaultValues) {
             if (link.getSubModelQuery().isMulti())
                 throw new N2oException("Sub model [" + link.getSubModelQuery().getSubModel() + "] must not be multi for value " + link.getValue());
             DataSet dataSet = new DataSet();
-            dataSet.put(link.getSubModelQuery().getSubModel(), ((DefaultValues) link.getValue()).getValues());
+            dataSet.put(link.getSubModelQuery().getSubModel(), defaultValues.getValues());
             if (subModelsProcessor != null)
                 subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
             ModelLink resolvedLink = link.getSubModelLink();
@@ -529,7 +529,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     public <T extends Source> void validate(T metadata, Object... scope) {
         if (metadata == null)
             return;
-        if (metadata instanceof RefIdAware && ((RefIdAware) metadata).getRefId() != null)
+        if (metadata instanceof RefIdAware refIdAware && refIdAware.getRefId() != null)
             return;
 
         env.getSourceValidatorFactory().validate(metadata, new N2oCompileProcessor(this, scope));
@@ -565,23 +565,23 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     private Object resolveProperty(Object placeholder, boolean strong) {
-        if (!(placeholder instanceof String))
+        if (!(placeholder instanceof String placeholderStr))
             return placeholder;
         Object value = placeholder;
-        if (StringUtils.isProperty((String) placeholder)) {
+        if (StringUtils.isProperty(placeholderStr)) {
             if (strong)
-                value = env.getSystemProperties().resolveRequiredPlaceholders((String) placeholder);
+                value = env.getSystemProperties().resolveRequiredPlaceholders(placeholderStr);
             else
-                value = env.getSystemProperties().resolvePlaceholders((String) placeholder);
+                value = env.getSystemProperties().resolvePlaceholders(placeholderStr);
         }
         return value;
     }
 
     private Object resolveContext(Object placeholder) {
-        if (!(placeholder instanceof String))
+        if (!(placeholder instanceof String placeholderStr))
             return placeholder;
         Object value = placeholder;
-        if (isBinding() && StringUtils.isContext((String) placeholder)) {
+        if (isBinding() && StringUtils.isContext(placeholderStr)) {
             value = env.getContextProcessor().resolve(placeholder);
         }
         return value;
@@ -611,8 +611,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         if (!mapping.containsKey(key))
             return null;
         BindLink bindLink = mapping.get(key);
-        if (bindLink instanceof ModelLink) {
-            Object value = model.getValue((ModelLink) bindLink);
+        if (bindLink instanceof ModelLink modelLink) {
+            Object value = model.getValue(modelLink);
             if (value != null)
                 mapping.remove(key);
             return value;

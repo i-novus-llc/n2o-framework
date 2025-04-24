@@ -125,8 +125,7 @@ public class XmlInfo extends FileInfo {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof XmlInfo)) return false;
-        XmlInfo info = (XmlInfo) o;
+        if (!(o instanceof XmlInfo info)) return false;
         return Objects.equals(id, info.id) &&
                 Objects.equals(baseSourceClass, info.baseSourceClass) &&
                 Objects.equals(localPath, info.localPath) &&

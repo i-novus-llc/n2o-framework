@@ -72,8 +72,8 @@ public class ContextProcessor {
      * @throws NotFoundContextPlaceholderException значение отсутствует, но обязательно
      */
     public Object resolve(Object param) {
-        if (param instanceof List)
-            return resolveValues((List<?>) param);
+        if (param instanceof List list)
+            return resolveValues(list);
         else
             return resolveValue(param);
     }

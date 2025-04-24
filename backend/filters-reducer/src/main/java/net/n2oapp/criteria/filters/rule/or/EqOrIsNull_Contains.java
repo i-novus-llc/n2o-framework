@@ -18,8 +18,8 @@ public class EqOrIsNull_Contains implements Rule {
         if (right.getType().equals(FilterType.eqOrIsNull) && left.getType().equals(FilterType.contains))
             return simplify(right, left);
         else if (left.getType().equals(FilterType.eqOrIsNull) && right.getType().equals(FilterType.contains)) {
-            List eqValues = left.getValue() instanceof List ? (List) left.getValue() : Arrays.asList(left.getValue());
-            if (((Collection)right.getValue()).stream().anyMatch(v -> !eqValues.contains(v)))
+            List eqValues = left.getValue() instanceof List list ? list : Arrays.asList(left.getValue());
+            if (((Collection) right.getValue()).stream().anyMatch(v -> !eqValues.contains(v)))
                 return null;
             return new Filter(left.getValue());
         }

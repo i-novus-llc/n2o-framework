@@ -42,8 +42,8 @@ public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
                 if (!ids.containsKey(prefix))
                     ids.put(prefix, 1);
                 for (SourceComponent component : content) {
-                    if (component instanceof RegionItem)
-                        ((RegionItem) component).collectWidgets(result, ids, prefix);
+                    if (component instanceof RegionItem regionItem)
+                        regionItem.collectWidgets(result, ids, prefix);
                 }
             }
         }

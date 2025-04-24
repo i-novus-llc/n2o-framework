@@ -28,8 +28,7 @@ public class MetaType {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MetaType)) return false;
-        MetaType metaType = (MetaType) o;
+        if (!(o instanceof MetaType metaType)) return false;
         return Objects.equals(sourceType, metaType.sourceType) &&
                 Objects.equals(baseSourceClass, metaType.baseSourceClass);
     }

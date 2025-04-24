@@ -48,8 +48,8 @@ public class SessionContextEngine implements ContextEngine {
 
     private HttpSession getHttpSession() {
         RequestAttributes attrs = RequestContextHolder.getRequestAttributes();
-        if (attrs instanceof NativeWebRequest) {
-            HttpServletRequest request = (HttpServletRequest) ((NativeWebRequest) attrs).getNativeRequest();
+        if (attrs instanceof NativeWebRequest nativeWebRequest) {
+            HttpServletRequest request = (HttpServletRequest) nativeWebRequest.getNativeRequest();
             return request.getSession();
         }
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();

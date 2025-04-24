@@ -57,10 +57,10 @@ public class PersisterFactoryByMap implements NamespacePersisterFactory<Namespac
         if (persister == null) {
             throw new EngineNotFoundException(clazz);
         }
-        if (persister instanceof PersisterFactoryAware)
-            ((PersisterFactoryAware) persister).setPersisterFactory(this);
-        if (persister instanceof IOProcessorAware)
-            ((IOProcessorAware) persister).setIOProcessor(this.ioProcessor);
+        if (persister instanceof PersisterFactoryAware persisterFactoryAware)
+            persisterFactoryAware.setPersisterFactory(this);
+        if (persister instanceof IOProcessorAware ioProcessorAware)
+            ioProcessorAware.setIOProcessor(this.ioProcessor);
         return persister;
     }
 
@@ -76,9 +76,9 @@ public class PersisterFactoryByMap implements NamespacePersisterFactory<Namespac
 
     @Override
     public void setEnvironment(MetadataEnvironment environment) {
-        if (ioProcessor != null && ioProcessor instanceof IOProcessorImpl) {
-            ((IOProcessorImpl) ioProcessor).setSystemProperties(environment.getSystemProperties());
-            ((IOProcessorImpl) ioProcessor).setMessageSourceAccessor(environment.getMessageSource());
+        if (ioProcessor != null && ioProcessor instanceof IOProcessorImpl ioProcessorImpl) {
+            ioProcessorImpl.setSystemProperties(environment.getSystemProperties());
+            ioProcessorImpl.setMessageSourceAccessor(environment.getMessageSource());
         }
     }
 }

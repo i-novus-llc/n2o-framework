@@ -112,8 +112,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             pageScope.getWidgetIdSourceDatasourceMap().put(source.getId(), datasource.getId());
         }
 
-        if (datasource instanceof N2oStandardDatasource)
-            compiled.setObjectId(((N2oStandardDatasource) datasource).getObjectId());
+        if (datasource instanceof N2oStandardDatasource standardDatasource)
+            compiled.setObjectId(standardDatasource.getObjectId());
         compiled.setDatasource(getClientDatasourceId(datasource.getId(), p));
         return datasource;
     }
@@ -153,8 +153,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     if (nonNull(routes))
                         routes.addQueryMapping(k, v.getOnGet(), v.getOnSet());
                 } else {
-                    if (nonNull(models) && v.getOnSet() instanceof ModelLink) {
-                        ModelLink link = (ModelLink) v.getOnSet();
+                    if (nonNull(models) && v.getOnSet() instanceof ModelLink link) {
                         models.add(link, link);
                     }
                 }
@@ -201,8 +200,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 Dependency visibilityCondition = new Dependency();
                 visibilityCondition.setCondition(StringUtils.unwrapJs(((String) condition)));
                 visibleConditions.add(visibilityCondition);
-            } else if (condition instanceof Boolean) {
-                compiled.setVisible((Boolean) condition);
+            } else if (condition instanceof Boolean conditionBoolean) {
+                compiled.setVisible(conditionBoolean);
             }
         }
         if (nonNull(source.getDependencies())) {
@@ -283,9 +282,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         List<FieldSet> fieldSets = new ArrayList<>();
         int i = 0;
         while (i < fields.length) {
-            N2oFieldSet fieldSet;
-            if (fields[i] instanceof N2oFieldSet) {
-                fieldSet = (N2oFieldSet) fields[i];
+            N2oFieldSet n2oFieldSet;
+            if (fields[i] instanceof N2oFieldSet fieldSet) {
+                n2oFieldSet = fieldSet;
                 i++;
             } else {
                 N2oSetFieldSet newFieldset = new N2oSetFieldSet();
@@ -296,9 +295,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 }
                 FieldsetItem[] items = new FieldsetItem[newFieldsetItems.size()];
                 newFieldset.setItems(newFieldsetItems.toArray(items));
-                fieldSet = newFieldset;
+                n2oFieldSet = newFieldset;
             }
-            fieldSets.add(p.compile(fieldSet, context,
+            fieldSets.add(p.compile(n2oFieldSet, context,
                     widgetQuery, widgetScope, fieldSetScope, indexScope, scopes));
         }
         return fieldSets;

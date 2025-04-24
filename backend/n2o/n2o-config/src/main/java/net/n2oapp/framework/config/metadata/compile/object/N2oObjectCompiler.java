@@ -72,8 +72,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                                   CompileProcessor p) {
         if (source.getObjectFields() != null) {
             for (AbstractParameter field : source.getObjectFields()) {
-                if (field instanceof ObjectReferenceField && ((ObjectReferenceField) field).getReferenceObjectId() != null)
-                    initReferenceFieldByObjectId((ObjectReferenceField) field, p, 1);
+                if (field instanceof ObjectReferenceField objRefField && objRefField.getReferenceObjectId() != null)
+                    initReferenceFieldByObjectId(objRefField, p, 1);
                 compiled.getObjectFields().add(field);
                 compiled.getObjectFieldsMap().put(field.getId(), field);
             }
@@ -123,8 +123,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         // рекурсивная инициализация внутренних вложенных полей
         if (isNotEmpty(refField.getFields()))
             for (AbstractParameter field : refField.getFields())
-                if (field instanceof ObjectReferenceField && ((ObjectReferenceField) field).getReferenceObjectId() != null)
-                    initReferenceFieldByObjectId((ObjectReferenceField) field, p, currentDepth++);
+                if (field instanceof ObjectReferenceField objRefField&& objRefField.getReferenceObjectId() != null)
+                    initReferenceFieldByObjectId(objRefField, p, currentDepth++);
     }
 
     /**
@@ -140,8 +140,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         List<Validation> result = new ArrayList<>();
         if (source.getN2oValidations() != null) {
             for (N2oValidation validation : source.getN2oValidations()) {
-                if (validation instanceof N2oInvocationValidation)
-                    prepareInvocationValidation(source, (N2oInvocationValidation) validation, compiled);
+                if (validation instanceof N2oInvocationValidation invocationValidation)
+                    prepareInvocationValidation(source, invocationValidation, compiled);
                 result.add(p.compile(validation, context));
             }
         }
@@ -174,8 +174,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      * @param source     Исходная модель объекта
      */
     private void prepareOperationInvocation(N2oInvocation invocation, N2oObject source) {
-        if (invocation instanceof N2oJavaDataProvider) {
-            N2oJavaDataProvider javaDataProvider = (N2oJavaDataProvider) invocation;
+        if (invocation instanceof N2oJavaDataProvider javaDataProvider) {
             if (javaDataProvider.getClassName() == null)
                 javaDataProvider.setClassName(source.getServiceClass());
             if (source.getEntityClass() != null && javaDataProvider.getArguments() != null)
@@ -237,10 +236,10 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             compiledOperation.getValidationList().addAll(requiredParamValidations);
         }
 
-        if (context instanceof ActionContext && ((ActionContext) context).getValidations() != null) {
+        if (context instanceof ActionContext actionContext && actionContext.getValidations() != null) {
             if (compiledOperation.getValidationList() == null)
                 compiledOperation.setValidationList(new ArrayList<>());
-            mergeValidations(compiledOperation.getValidationList(), ((ActionContext) context).getValidations());
+            mergeValidations(compiledOperation.getValidationList(), actionContext.getValidations());
         }
     }
 
@@ -302,8 +301,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         for (N2oValidation n2oValidation : validations) {
             if ("false".equals(n2oValidation.getEnabled()))
                 continue;
-            if (n2oValidation instanceof N2oInvocationValidation)
-                prepareInvocationValidation(source, (N2oInvocationValidation) n2oValidation, compiled);
+            if (n2oValidation instanceof N2oInvocationValidation invocationValidation)
+                prepareInvocationValidation(source, invocationValidation, compiled);
             inlineValidations.add(p.compile(n2oValidation, context));
         }
         return inlineValidations;
@@ -320,12 +319,12 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         if (validation.getInFields() != null)
             for (AbstractParameter parameter : validation.getInFields()) {
                 AbstractParameter field = compiled.getObjectFieldsMap().get(parameter.getId());
-                if (parameter instanceof ObjectSimpleField) {
-                    if (field instanceof ObjectSimpleField)
-                        resolveSimpleFieldDefault((ObjectSimpleField) parameter, (ObjectSimpleField) field);
+                if (parameter instanceof ObjectSimpleField parameterSimpleField) {
+                    if (field instanceof ObjectSimpleField fieldSimpleField)
+                        resolveSimpleFieldDefault(parameterSimpleField, fieldSimpleField);
                     parameter.setRequired(parameter.getRequired());
-                } else if (parameter instanceof ObjectReferenceField && field instanceof ObjectReferenceField)
-                    resolveReferenceFieldDefault((ObjectReferenceField) parameter, (ObjectReferenceField) field);
+                } else if (parameter instanceof ObjectReferenceField parameterReferenceField && field instanceof ObjectReferenceField fieldReferenceField)
+                    resolveReferenceFieldDefault(parameterReferenceField, fieldReferenceField);
             }
         prepareOperationInvocation(validation.getN2oInvocation(), source);
     }
@@ -390,8 +389,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setOutParametersMap(operation.getOutFields() != null ?
                 Arrays.stream(operation.getOutFields())
                         .peek(f -> {
-                            if (f instanceof ObjectSimpleField)
-                                compileSwitch((ObjectSimpleField) f, p);
+                            if (f instanceof ObjectSimpleField objectSimpleField)
+                                compileSwitch(objectSimpleField, p);
                         }).collect(Collectors.toMap(AbstractParameter::getId, Function.identity())) :
                 Collections.emptyMap());
 
@@ -442,8 +441,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             for (AbstractParameter parameter : parameters) {
                 prepareOperationInParameter(parameter, compiled.getObjectFieldsMap().get(parameter.getId()), p);
                 parameter.setRequired(castDefault(parameter.getRequired(), false));
-                if (parameter instanceof ObjectSimpleField)
-                    compileSwitch((ObjectSimpleField) parameter, p);
+                if (parameter instanceof ObjectSimpleField objectSimpleField)
+                    compileSwitch(objectSimpleField, p);
                 inFieldsMap.put(parameter.getId(), parameter);
             }
         return inFieldsMap;
@@ -457,13 +456,11 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      * @param p         Процессор сборки метаданных
      */
     private void prepareOperationInParameter(AbstractParameter parameter, AbstractParameter field, CompileProcessor p) {
-        if (parameter instanceof ObjectSimpleField && field instanceof ObjectSimpleField) {
-            resolveSimpleFieldDefault((ObjectSimpleField) parameter, (ObjectSimpleField) field);
-        } else if (parameter instanceof ObjectReferenceField && field instanceof ObjectReferenceField) {
-            ObjectReferenceField refParam = (ObjectReferenceField) parameter;
+        if (parameter instanceof ObjectSimpleField parameterSimpleField && field instanceof ObjectSimpleField fieldSimpleField) {
+            resolveSimpleFieldDefault(parameterSimpleField, fieldSimpleField);
+        } else if (parameter instanceof ObjectReferenceField refParam && field instanceof ObjectReferenceField refField) {
             if (refParam.getReferenceObjectId() != null)
                 initReferenceFieldByObjectId(refParam, p, 1);
-            ObjectReferenceField refField = (ObjectReferenceField) field;
             resolveReferenceFieldDefault(refParam, refField);
             if (isNotEmpty(refParam.getFields())) {
                 Map<String, AbstractParameter> nestedFieldsMap = Arrays.stream(

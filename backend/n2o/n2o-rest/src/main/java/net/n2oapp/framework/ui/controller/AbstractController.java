@@ -132,11 +132,11 @@ public abstract class AbstractController {
     }
 
     private DataSet convertToDataSet(Object body) {
-        if (body instanceof DataSet)
-            return (DataSet) body;
-        else if (body instanceof List) {
+        if (body instanceof DataSet dataSet)
+            return dataSet;
+        else if (body instanceof List bodyList) {
             DataSet dataSet = new DataSet("$list", body);
-            dataSet.put("$count", ((List<?>) body).size());
+            dataSet.put("$count", bodyList.size());
             return dataSet;
         }
         return new DataSet((Map<? extends String, ?>) body);

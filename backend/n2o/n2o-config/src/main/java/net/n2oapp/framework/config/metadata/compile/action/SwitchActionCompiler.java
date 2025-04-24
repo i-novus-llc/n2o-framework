@@ -71,8 +71,8 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
 
     private void initCaseId(N2oSwitchAction.AbstractCase abstractCase, int switchIndex) {
         String caseId;
-        if (abstractCase instanceof N2oSwitchAction.Case)
-            caseId = ((N2oSwitchAction.Case) abstractCase).getValue() + "_case";
+        if (abstractCase instanceof N2oSwitchAction.Case switchActionCase)
+            caseId = switchActionCase.getValue() + "_case";
         else
             caseId = "default_case_";
         abstractCase.setId(caseId + switchIndex);

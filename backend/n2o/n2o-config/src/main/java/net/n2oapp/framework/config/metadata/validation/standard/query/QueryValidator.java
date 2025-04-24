@@ -53,8 +53,8 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      * @param p       Процессор исходных метаданных
      */
     public static void checkFieldIdExistence(AbstractField field, String queryId, SourceProcessor p) {
-        if (field instanceof QueryReferenceField)
-            p.safeStreamOf(((QueryReferenceField) field).getFields()).forEach(childField -> checkFieldIdExistence(childField, queryId, p));
+        if (field instanceof QueryReferenceField queryReferenceField)
+            p.safeStreamOf(queryReferenceField.getFields()).forEach(childField -> checkFieldIdExistence(childField, queryId, p));
         p.checkIdExistence(field,  String.format("Одно из полей выборки %s не имеет 'id'", ValidationUtils.getIdOrEmptyString(queryId)));
     }
 
@@ -148,10 +148,10 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
         if (isNull(fields))
             return;
         for (AbstractField field : fields) {
-            if (field instanceof QueryReferenceField)
-                checkSwitchCase(((QueryReferenceField)field).getFields());
-            if (field instanceof QuerySimpleField && nonNull(((QuerySimpleField) field).getN2oSwitch())) {
-                N2oSwitch n2oSwitch = ((QuerySimpleField) field).getN2oSwitch();
+            if (field instanceof QueryReferenceField queryReferenceField)
+                checkSwitchCase(queryReferenceField.getFields());
+            if (field instanceof QuerySimpleField querySimpleField && nonNull(querySimpleField.getN2oSwitch())) {
+                N2oSwitch n2oSwitch = querySimpleField.getN2oSwitch();
                 if (n2oSwitch.getCases().isEmpty())
                     throw new N2oMetadataValidationException(String.format("В элементе '<switch>' поля '%s' отсутствует '<case>'", field.getId()));
                 if (n2oSwitch.getCases().containsKey(""))

@@ -54,8 +54,7 @@ public class ReduxActionOptions<P extends ActionPayload, M extends MetaSaga> imp
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReduxActionOptions)) return false;
-        ReduxActionOptions<?, ?> that = (ReduxActionOptions<?, ?>) o;
+        if (!(o instanceof ReduxActionOptions that)) return false;
         return Objects.equals(type, that.type) &&
                 Objects.equals(payload, that.payload) &&
                 Objects.equals(meta, that.meta);

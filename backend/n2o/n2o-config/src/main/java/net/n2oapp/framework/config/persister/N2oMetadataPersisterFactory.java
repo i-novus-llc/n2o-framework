@@ -52,10 +52,10 @@ public class N2oMetadataPersisterFactory
         NamespacePersister<NamespaceUriAware> persister = typedEngines.get(clazz);
         if (persister == null)
             throw new EngineNotFoundException(clazz);
-        if (persister instanceof PersisterFactoryAware)
-            ((PersisterFactoryAware) persister).setPersisterFactory(this);
-        if (persister instanceof IOProcessorAware)
-            ((IOProcessorAware) persister).setIOProcessor(this.processor);
+        if (persister instanceof PersisterFactoryAware persisterFactoryAware)
+            persisterFactoryAware.setPersisterFactory(this);
+        if (persister instanceof IOProcessorAware ioProcessorAware)
+            ioProcessorAware.setIOProcessor(this.processor);
         return persister;
     }
 

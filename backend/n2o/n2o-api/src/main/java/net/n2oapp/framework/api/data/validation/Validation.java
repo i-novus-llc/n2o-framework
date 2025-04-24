@@ -80,8 +80,8 @@ public abstract class Validation implements Compiled {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Validation)) return false;
-        return Objects.equals(id, ((Validation) o).id);
+        if (!(o instanceof Validation validation)) return false;
+        return Objects.equals(id, validation.id);
     }
 
     @Override

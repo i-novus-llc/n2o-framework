@@ -19,8 +19,8 @@ public class ToolbarCellAccessTransformer extends BaseAccessTransformer<ToolbarC
                 for (AbstractButton b : group.getButtons()) {
                     if (b.getAction() != null) {
                         transfer(b.getAction(), b);
-                    } else if (b instanceof Submenu && ((Submenu)b).getSubMenu() != null) {
-                        for (PerformButton menuItem : ((Submenu)b).getSubMenu()) {
+                    } else if (b instanceof Submenu submenu && submenu.getSubMenu() != null) {
+                        for (PerformButton menuItem : submenu.getSubMenu()) {
                             if (menuItem.getAction() != null) {
                                 transfer(menuItem.getAction(), menuItem);
                             }

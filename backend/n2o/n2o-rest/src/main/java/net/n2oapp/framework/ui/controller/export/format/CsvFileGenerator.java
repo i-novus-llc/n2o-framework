@@ -78,8 +78,8 @@ public class CsvFileGenerator implements FileGenerator {
             for (String key : keys) {
                 Object value = str.get(key);
                 if (value != null)
-                    csvStr[i] = value instanceof String ?
-                            quoteWrapper.apply((String) value):
+                    csvStr[i] = value instanceof String valueStr ?
+                            quoteWrapper.apply(valueStr):
                             value.toString();
                 i++;
             }

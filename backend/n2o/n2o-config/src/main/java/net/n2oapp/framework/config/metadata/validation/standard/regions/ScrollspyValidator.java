@@ -31,10 +31,10 @@ public class ScrollspyValidator extends AbstractRegionValidator<N2oScrollspyRegi
         List<N2oScrollspyRegion.AbstractMenuItem> itemsList = new ArrayList<>();
         p.safeStreamOf(items).forEach(item -> {
             itemsList.add(item);
-            if (item instanceof N2oScrollspyRegion.GroupItem)
-                itemsList.addAll(collectItems(((N2oScrollspyRegion.GroupItem) item).getGroup(), p));
-            if (item instanceof N2oScrollspyRegion.SubMenuItem)
-                itemsList.addAll(collectItems(((N2oScrollspyRegion.SubMenuItem) item).getSubMenu(), p));
+            if (item instanceof N2oScrollspyRegion.GroupItem groupItem)
+                itemsList.addAll(collectItems(groupItem.getGroup(), p));
+            if (item instanceof N2oScrollspyRegion.SubMenuItem subMenuItem)
+                itemsList.addAll(collectItems(subMenuItem.getSubMenu(), p));
         });
 
         return itemsList;

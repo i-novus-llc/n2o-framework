@@ -35,8 +35,8 @@ public class N2oNamespace implements Serializable {
         if (this == ob) {
             return true;
         }
-        if (ob instanceof N2oNamespace) {
-            return uri.equals(((N2oNamespace)ob).getUri());
+        if (ob instanceof N2oNamespace namespace) {
+            return uri.equals(namespace.getUri());
         }
         return false;
     }

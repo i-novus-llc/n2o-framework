@@ -52,16 +52,14 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
         List<Dependency> dependencies = new ArrayList<>();
         if (source.getDependencies() != null) {
             for (N2oStandardDatasource.Dependency d : source.getDependencies()) {
-                if (d instanceof N2oStandardDatasource.FetchDependency) {
-                    N2oStandardDatasource.FetchDependency dependency = (N2oStandardDatasource.FetchDependency) d;
+                if (d instanceof N2oStandardDatasource.FetchDependency dependency) {
                     Dependency fetchDependency = new Dependency();
                     ModelLink link = new ModelLink(castDefault(dependency.getModel(), ReduxModel.resolve),
                             getClientDatasourceId(dependency.getOn(), p));
                     fetchDependency.setOn(link.getBindLink());
                     fetchDependency.setType(DependencyType.fetch);
                     dependencies.add(fetchDependency);
-                } else if (d instanceof N2oStandardDatasource.CopyDependency) {
-                    N2oStandardDatasource.CopyDependency dependency = (N2oStandardDatasource.CopyDependency) d;
+                } else if (d instanceof N2oStandardDatasource.CopyDependency dependency) {
                     CopyDependency copyDependency = new CopyDependency();
                     ModelLink link = new ModelLink(castDefault(dependency.getSourceModel(), ReduxModel.resolve),
                             getClientDatasourceId(dependency.getOn(), p), dependency.getSourceFieldId());

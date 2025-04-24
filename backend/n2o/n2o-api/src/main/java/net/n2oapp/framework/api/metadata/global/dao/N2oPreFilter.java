@@ -115,8 +115,7 @@ public class N2oPreFilter implements Source {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof N2oPreFilter)) return false;
-        N2oPreFilter that = (N2oPreFilter) o;
+        if (!(o instanceof N2oPreFilter that)) return false;
         return Objects.equals(fieldId, that.fieldId) &&
                 Objects.equals(datasourceId, that.datasourceId) &&
                 model == that.model &&

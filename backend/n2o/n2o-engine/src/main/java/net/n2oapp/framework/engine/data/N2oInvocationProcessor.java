@@ -71,8 +71,8 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
                            final Map<String, FieldMapping> outMapping) {
         final ActionInvocationEngine engine = invocationFactory.produce(invocation.getClass());
         Object result;
-        if (engine instanceof ArgumentsInvocationEngine)
-            result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) invocation,
+        if (engine instanceof ArgumentsInvocationEngine argumentsInvocationEngine)
+            result = argumentsInvocationEngine.invoke((N2oArgumentsInvocation) invocation,
                     mapToArgs((N2oArgumentsInvocation) invocation, inDataSet, inMapping, domainProcessor));
         else
             result = engine.invoke(invocation, mapToMap(inDataSet, inMapping));
@@ -94,14 +94,13 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         if (parameters == null) return;
         for (AbstractParameter parameter : parameters) {
             Object value = resultDataSet.get(parameter.getId());
-            if (parameter instanceof ObjectReferenceField) {
+            if (parameter instanceof ObjectReferenceField referenceField) {
                 if (value != null) {
-                    ObjectReferenceField referenceField = (ObjectReferenceField) parameter;
-                    if (value instanceof Collection) {
-                        for (Object obj : (Collection<?>) value)
+                    if (value instanceof Collection collection) {
+                        for (Object obj : collection)
                             resolveOutValues(List.of(referenceField.getFields()), (DataSet) obj, resultDataSet);
-                    } else if (value instanceof DataSet) {
-                        resolveOutValues(List.of(referenceField.getFields()), (DataSet) value, resultDataSet);
+                    } else if (value instanceof DataSet dataSet) {
+                        resolveOutValues(List.of(referenceField.getFields()),dataSet, resultDataSet);
                     }
                     if (parameter.getNormalize() != null) {
                         value = tryToNormalize(value, parameter, resultDataSet, parentDataSet, applicationContext);
@@ -152,17 +151,17 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         });
         // normalize children
         invocationParameters.stream()
-                .filter(parameter -> parameter instanceof ObjectReferenceField &&
-                        ((ObjectReferenceField) parameter).getFields() != null && resultDataSet.get(parameter.getId()) != null)
+                .filter(parameter -> parameter instanceof ObjectReferenceField refParameter &&
+                        refParameter.getFields() != null && resultDataSet.get(parameter.getId()) != null)
                 .forEach(parameter -> normalizeInnerFields((ObjectReferenceField) parameter, resultDataSet));
         //switch
         invocationParameters.stream()
-                .filter(parameter -> parameter instanceof ObjectSimpleField && ((ObjectSimpleField) parameter).getN2oSwitch() != null)
+                .filter(parameter -> parameter instanceof ObjectSimpleField simpleField && simpleField.getN2oSwitch() != null)
                 .forEach(parameter -> applySwitch(resultDataSet, (ObjectSimpleField) parameter));
         // mapping
-        invocationParameters.stream().filter(parameter -> parameter instanceof ObjectReferenceField &&
-                        ((ObjectReferenceField) parameter).getFields() != null &&
-                        ((ObjectReferenceField) parameter).getEntityClass() != null)
+        invocationParameters.stream().filter(parameter -> parameter instanceof ObjectReferenceField refParameter &&
+                        refParameter.getFields() != null &&
+                        refParameter.getEntityClass() != null)
                 .forEach(parameter -> MappingProcessor.mapParameter((ObjectReferenceField) parameter, resultDataSet));
         return resultDataSet;
     }
@@ -198,8 +197,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
             return;
 
         for (AbstractParameter parameter : parameters) {
-            if (parameter instanceof ObjectSimpleField) {
-                ObjectSimpleField simpleField = (ObjectSimpleField) parameter;
+            if (parameter instanceof ObjectSimpleField simpleField) {
                 Object value = inDataSet.get(simpleField.getId());
                 if (value == null)
                     value = simpleField.getDefaultValue();
@@ -280,9 +278,9 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
             outMap(result, source, map.getKey(), fieldMapping, null, contextProcessor);
             if (map.getValue().getChildMapping() != null) {
                 Object value = result.get(map.getKey());
-                if (value instanceof Collection) {
+                if (value instanceof Collection collection) {
                     DataList list = new DataList();
-                    for (Object obj : (Collection<?>) value)
+                    for (Object obj : collection)
                         list.add(extractFields(obj, map.getValue().getChildMapping()));
                     result.put(map.getKey(), list);
                 } else if (value != null)

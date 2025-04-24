@@ -35,7 +35,7 @@ public class MapInvocationUtil {
         Map<String, Object> result = new DataSet();
 
         for (Map.Entry<String, FieldMapping> entry : mapping.entrySet()) {
-            Object data = dataSet.get(entry.getKey());
+            Object value = dataSet.get(entry.getKey());
             if (entry.getValue() != null) {
                 if (!isMappingEnabled(entry.getValue().getEnabled(), dataSet))
                     continue;
@@ -43,18 +43,18 @@ public class MapInvocationUtil {
                         entry.getValue().getMapping() :
                         Placeholders.spel(entry.getKey());
 
-                if (entry.getValue().getChildMapping() != null && data != null) {
-                    if (data instanceof Collection) {
+                if (entry.getValue().getChildMapping() != null && value != null) {
+                    if (value instanceof Collection collection) {
                         DataList list = new DataList();
-                        for (Object obj : (Collection<?>) data)
+                        for (Object obj : collection)
                             list.add(mapToMap((DataSet) obj, entry.getValue().getChildMapping()));
                         MappingProcessor.inMap(result, entry.getKey(), fieldMapping, list);
-                    } else if (data instanceof DataSet)
-                        MappingProcessor.inMap(result, entry.getKey(), fieldMapping, mapToMap((DataSet) data, entry.getValue().getChildMapping()));
+                    } else if (value instanceof DataSet set)
+                        MappingProcessor.inMap(result, entry.getKey(), fieldMapping, mapToMap(set, entry.getValue().getChildMapping()));
                 } else
-                    MappingProcessor.inMap(result, entry.getKey(), fieldMapping, data);
+                    MappingProcessor.inMap(result, entry.getKey(), fieldMapping, value);
             } else {
-                MappingProcessor.inMap(result, entry.getKey(), Placeholders.spel(entry.getKey()), data);
+                MappingProcessor.inMap(result, entry.getKey(), Placeholders.spel(entry.getKey()), value);
             }
         }
         return result;

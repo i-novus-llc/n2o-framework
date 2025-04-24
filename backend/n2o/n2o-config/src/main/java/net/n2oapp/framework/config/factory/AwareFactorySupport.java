@@ -8,8 +8,8 @@ import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AwareFactorySupport {
     public static void enrich(Object service, MetadataEnvironment environment) {
-        if (environment != null && service instanceof MetadataEnvironmentAware)
-            ((MetadataEnvironmentAware) service).setEnvironment(environment);
+        if (environment != null && service instanceof MetadataEnvironmentAware environmentAware)
+            environmentAware.setEnvironment(environment);
     }
 
 }

@@ -17,8 +17,7 @@ public abstract class BaseListWidgetBinder<T extends Widget> implements BaseMeta
 
         p.bind(rowClick.getAction());
 
-        if (rowClick.getAction() instanceof LinkAction) {
-            LinkAction linkAction = (LinkAction) rowClick.getAction();
+        if (rowClick.getAction() instanceof LinkAction linkAction) {
             rowClick.setUrl(linkAction.getUrl());
             rowClick.setTarget(linkAction.getTarget());
             rowClick.setQueryMapping(linkAction.getQueryMapping());

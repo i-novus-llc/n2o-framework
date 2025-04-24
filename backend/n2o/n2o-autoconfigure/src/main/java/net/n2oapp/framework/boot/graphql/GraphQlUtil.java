@@ -26,20 +26,19 @@ public class GraphQlUtil {
         if (obj == null)
             return null;
 
-        if (obj instanceof Map) {
+        if (obj instanceof Map map) {
             StringJoiner joiner = new StringJoiner(", ", "{", "}");
-            for (Map.Entry<String, Object> entry : ((Map<String, Object>) obj).entrySet())
-                joiner.add(entry.getKey() + ": " + toGraphQlString(entry.getValue()));
+            map.forEach((key, value) -> joiner.add(key + ": " + toGraphQlString(value)));
             return joiner.toString();
-        } else if (obj instanceof List) {
+        } else if (obj instanceof List list) {
             StringJoiner joiner = new StringJoiner(", ", "[", "]");
-            for (Object item : ((List) obj))
+            for (Object item : list)
                 joiner.add(toGraphQlString(item));
             return joiner.toString();
         } else if (obj instanceof Temporal || obj instanceof Date || obj instanceof BigDecimal) {
             return "\"" + obj + "\"";
-        } else if (obj instanceof String) {
-            return "\"" + escapeJson((String) obj) + "\"";
+        } else if (obj instanceof String str) {
+            return "\"" + escapeJson(str) + "\"";
         } else
             return obj.toString();
     }

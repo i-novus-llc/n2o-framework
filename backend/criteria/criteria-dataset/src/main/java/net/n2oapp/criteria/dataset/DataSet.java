@@ -25,7 +25,7 @@ public class DataSet extends NestedMap {
 
     public DataSet(Map<? extends String, ?> m) {
         super();
-        m.forEach((k, v) -> put(k, v instanceof DataSet ? new DataSet((DataSet) v) : v instanceof DataList ? new DataList(((DataList) v)) : v));
+        m.forEach((k, v) -> put(k, v instanceof DataSet dataSet ? new DataSet(dataSet) : v instanceof DataList dataList? new DataList(dataList) : v));
     }
 
     public String getId() {
@@ -56,8 +56,8 @@ public class DataSet extends NestedMap {
         Object value = get(key);
         if (value == null)
             return null;
-        if (value instanceof Integer)
-            return (Integer) value;
+        if (value instanceof Integer integerValue)
+            return integerValue;
         return Integer.parseInt((String) value);
     }
 
@@ -70,8 +70,8 @@ public class DataSet extends NestedMap {
         Object value = get(key);
         if (value == null)
             return null;
-        if (value instanceof Long)
-            return (Long) value;
+        if (value instanceof Long longValue)
+            return longValue;
         return Long.parseLong((String) value);
     }
 
@@ -79,8 +79,8 @@ public class DataSet extends NestedMap {
         Object value = get(key);
         if (value == null)
             return null;
-        if (value instanceof Boolean)
-            return (Boolean) value;
+        if (value instanceof Boolean booleanValue)
+            return booleanValue;
         return Boolean.parseBoolean((String) value);
     }
 
@@ -88,8 +88,8 @@ public class DataSet extends NestedMap {
         Object value = get(key);
         if (value == null)
             return null;
-        if (value instanceof DataSet)
-            return (DataSet) value;
+        if (value instanceof DataSet dataSetValue)
+            return dataSetValue;
         return new DataSet((Map<String, Object>) value);
     }
 
@@ -97,8 +97,8 @@ public class DataSet extends NestedMap {
         Object value = get(key);
         if (value == null)
             return null;
-        if (value instanceof List)
-            return (List<?>) value;
+        if (value instanceof List listValue)
+            return listValue;
         if (value.getClass().isArray())
             return new ArrayList<>(Arrays.asList((Object[]) value));
         return new ArrayList<>((Collection<?>) value);
@@ -112,10 +112,10 @@ public class DataSet extends NestedMap {
         for (String fieldName : extend.keySet()) {
             Object mainValue = main.get(fieldName);
             Object extendValue = extend.get(fieldName);
-            if (mainValue instanceof NestedMap && extendValue instanceof NestedMap) {
-                merge((NestedMap) mainValue, (NestedMap) extendValue, strategy, mergeStrategy, addNullValues);
-            } else if (mainValue instanceof List && extendValue instanceof List) {
-                mergeArrays((List) mainValue, (List) extendValue, mergeStrategy);
+            if (mainValue instanceof NestedMap mainVal && extendValue instanceof NestedMap extendVal) {
+                merge(mainVal, extendVal, strategy, mergeStrategy, addNullValues);
+            } else if (mainValue instanceof List mainVal && extendValue instanceof List extendVal) {
+                mergeArrays(mainVal, extendVal, mergeStrategy);
             } else if (nonNull(strategy.pickUp(mainValue, extendValue))) {
                 main.put(fieldName, strategy.pickUp(mainValue, extendValue));
             } else if (addNullValues) {
@@ -148,8 +148,8 @@ public class DataSet extends NestedMap {
     public Set<String> flatKeySet() {
         Set<String> result = new LinkedHashSet<>();
         for (Map.Entry<String, Object> entry : entrySet()) {
-            if (entry.getValue() instanceof DataSet) {
-                Set<String> childrenKeySet = ((DataSet) entry.getValue()).flatKeySet();
+            if (entry.getValue() instanceof DataSet dataSet) {
+                Set<String> childrenKeySet = dataSet.flatKeySet();
                 for (String childKey : childrenKeySet) {
                     result.add(entry.getKey() + "." + childKey);
                 }

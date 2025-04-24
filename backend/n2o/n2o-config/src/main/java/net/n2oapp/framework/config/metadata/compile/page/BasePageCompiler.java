@@ -143,8 +143,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
         if (nonNull(source.getDatasources()))
             for (N2oAbstractDatasource ds : source.getDatasources()) {
-                if (ds instanceof N2oApplicationDatasource)
-                    clientDatasourceIdsScope.put(ds.getId(), castDefault(((N2oApplicationDatasource) ds).getSourceDatasource(), ds.getId()));
+                if (ds instanceof N2oApplicationDatasource datasource)
+                    clientDatasourceIdsScope.put(ds.getId(), castDefault(datasource.getSourceDatasource(), ds.getId()));
                 if (ds instanceof N2oParentDatasource) {
                     parentDatasourceIds.add(ds.getId());
 

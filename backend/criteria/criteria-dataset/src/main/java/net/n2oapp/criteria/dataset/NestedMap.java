@@ -39,9 +39,8 @@ public class NestedMap extends LinkedHashMap<String, Object> {
 
     @Override
     public boolean containsKey(Object oKey) {
-        if (!(oKey instanceof String))
+        if (!(oKey instanceof String key))
             throw new IllegalArgumentException("Key must be String, but was " + oKey);
-        String key = (String) oKey;
         KeyInfo info = getKeyInfo(key);
         Object value = super.get(info.getProperty());
         if (value == null)
@@ -63,9 +62,8 @@ public class NestedMap extends LinkedHashMap<String, Object> {
 
     @Override
     public Object get(Object oKey) {
-        if (!(oKey instanceof String))
+        if (!(oKey instanceof String key))
             throw new IllegalArgumentException("Key must be String, but was " + oKey);
-        String key = (String) oKey;
         KeyInfo info = getKeyInfo(key);
         Object value = super.get(info.getProperty());
         if (value == null)
@@ -80,14 +78,13 @@ public class NestedMap extends LinkedHashMap<String, Object> {
                     return ((NestedList) value).get(info.getRight());//case: "foo[0]"
                 return null;
             } else {
-                if (!(value instanceof List))
+                if (!(value instanceof List array))
                     return null;//case: "foo*.bar", but "foo" isn't list
-                List<Object> array = (List<Object>) value;
                 List<Object> result = new ArrayList<>(array.size());
                 for (Object o : array) {
                     Object child = null;
-                    if (o instanceof Map)
-                        child = ((Map) o).get(info.getRight());
+                    if (o instanceof Map mapValue)
+                        child = mapValue.get(info.getRight());
                     result.add(child);
                 }
                 return Collections.unmodifiableList(result);
@@ -123,9 +120,8 @@ public class NestedMap extends LinkedHashMap<String, Object> {
                 //case: "foo*.bar"
                 if (value == null) {
                     return super.put(info.getProperty(), null);
-                } else if (value instanceof Iterable) {
+                } else if (value instanceof Iterable array) {
                     List<Object> res = new ArrayList<>();
-                    Iterable array = (Iterable) value;
                     Object rightValue = super.get(info.getProperty());
                     if (!(rightValue instanceof NestedList)) {
                         rightValue = createNestedList(null);
@@ -145,9 +141,8 @@ public class NestedMap extends LinkedHashMap<String, Object> {
 
     @Override
     public Object remove(Object oKey) {
-        if (!(oKey instanceof String))
+        if (!(oKey instanceof String key))
             throw new IllegalArgumentException("Key must be String, but was " + oKey);
-        String key = (String) oKey;
         KeyInfo info = getKeyInfo(key);
         if (!info.isNesting()) {
             //case: "foo"

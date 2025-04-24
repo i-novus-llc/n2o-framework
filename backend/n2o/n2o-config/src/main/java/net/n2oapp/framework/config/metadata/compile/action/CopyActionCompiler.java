@@ -72,11 +72,11 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     }
 
     private String getClientTargetDatasourceId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getTargetPage() == PageRef.PARENT && context instanceof PageContext) {
-            Map<String, String> parentDatasourceIdsMap = ((PageContext) context).getParentDatasourceIdsMap();
+        if (source.getTargetPage() == PageRef.PARENT && context instanceof PageContext pageContext) {
+            Map<String, String> parentDatasourceIdsMap = pageContext.getParentDatasourceIdsMap();
             if (parentDatasourceIdsMap != null && parentDatasourceIdsMap.containsKey(source.getTargetDatasourceId()))
                 return parentDatasourceIdsMap.get(source.getTargetDatasourceId());
-            return getClientDatasourceId(source.getTargetDatasourceId(), ((PageContext) context).getParentClientPageId());
+            return getClientDatasourceId(source.getTargetDatasourceId(), pageContext.getParentClientPageId());
         }
         return getClientDatasourceId(source.getTargetDatasourceId(), p);
     }

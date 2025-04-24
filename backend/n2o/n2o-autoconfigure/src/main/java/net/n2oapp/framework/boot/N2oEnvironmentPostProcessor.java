@@ -19,8 +19,8 @@ public class N2oEnvironmentPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof MetadataEnvironmentAware)
-            ((MetadataEnvironmentAware) bean).setEnvironment(environment);
+        if (bean instanceof MetadataEnvironmentAware environmentAware)
+            environmentAware.setEnvironment(environment);
         return bean;
     }
 }

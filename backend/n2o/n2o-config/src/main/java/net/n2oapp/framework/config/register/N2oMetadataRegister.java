@@ -98,8 +98,7 @@ public class N2oMetadataRegister implements MetadataRegister {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof MetaKey)) return false;
-            MetaKey compare = (MetaKey) o;
+            if (!(o instanceof MetaKey compare)) return false;
             return id.equalsIgnoreCase(compare.id) &&
                     (compare.sourceClass.equals(sourceClass) || compare.sourceClass.isAssignableFrom(sourceClass));
         }

@@ -60,7 +60,7 @@ public class ButtonCompileUtil {
     public static List<AbstractButton> generateButtons(GenerateAware source, N2oToolbar toolbar, ButtonGeneratorFactory buttonGeneratorFactory,
                                                        CompileContext<?, ?> context, CompileProcessor p) {
         List<AbstractButton> generated = new ArrayList<>();
-        Map<N2oNamespace, Map<String, String>> extAttributes = source instanceof N2oButton ? ((N2oButton) source).getExtAttributes() : new HashMap<>();
+        Map<N2oNamespace, Map<String, String>> extAttributes = source instanceof N2oButton btn ? btn.getExtAttributes() : new HashMap<>();
 
         List.of(source.getGenerate()).forEach(type ->
             generated.addAll(

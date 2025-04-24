@@ -12,10 +12,10 @@ public class SandboxQueryExceptionHandler implements QueryExceptionHandler {
 
     @Override
     public N2oException handle(CompiledQuery query, N2oPreparedCriteria criteria, Exception e) {
-        if (e instanceof N2oGraphQlException)
-            return GraphQlUtil.constructErrorMessage(((N2oGraphQlException) e));
-        if (e instanceof N2oException)
-            return ((N2oException) e);
+        if (e instanceof N2oGraphQlException graphQlException)
+            return GraphQlUtil.constructErrorMessage(graphQlException);
+        if (e instanceof N2oException n2oException)
+            return n2oException;
         return new N2oException(e);
     }
 }

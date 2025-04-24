@@ -43,8 +43,8 @@ public class BindUtil {
     public static void resolveExtension(PropertiesAware metadata, BindProcessor p) {
         if (metadata.getProperties() != null)
             metadata.getProperties().entrySet().forEach(e -> {
-                if (e.getValue() instanceof String)
-                    e.setValue(p.resolveText(e.getValue().toString()));
+                if (e.getValue() instanceof String str)
+                    e.setValue(p.resolveText(str));
             });
     }
 }

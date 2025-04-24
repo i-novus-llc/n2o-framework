@@ -55,8 +55,8 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
         reader = innerEngines.get(elementName);
         if (reader == null)
             throw new ElementWrongLocation(elementName);
-        if (reader instanceof IOProcessorAware)
-            ((IOProcessorAware) reader).setIOProcessor(this.ioProcessor);
+        if (reader instanceof IOProcessorAware ioProcessorAware)
+            ioProcessorAware.setIOProcessor(this.ioProcessor);
         return reader;
     }
 
@@ -72,9 +72,9 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
 
     @Override
     public void setEnvironment(MetadataEnvironment environment) {
-        if (ioProcessor != null && ioProcessor instanceof IOProcessorImpl) {
-            ((IOProcessorImpl) ioProcessor).setSystemProperties(environment.getSystemProperties());
-            ((IOProcessorImpl) ioProcessor).setMessageSourceAccessor(environment.getMessageSource());
+        if (ioProcessor != null && ioProcessor instanceof IOProcessorImpl ioProcessorImpl) {
+            ioProcessorImpl.setSystemProperties(environment.getSystemProperties());
+            ioProcessorImpl.setMessageSourceAccessor(environment.getMessageSource());
         }
     }
 }

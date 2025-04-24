@@ -24,8 +24,8 @@ public class SandboxAlertMessagesConstructor implements AlertMessagesConstructor
 
     @Override
     public List<ResponseMessage> constructMessages(Exception exception, RequestInfo requestInfo) {
-        if (exception instanceof SandboxAlertMessagesException)
-            return ((SandboxAlertMessagesException) exception).getResponseMessages();
+        if (exception instanceof SandboxAlertMessagesException e)
+            return e.getResponseMessages();
         return alertMessageBuilder.buildMessages(exception, requestInfo);
     }
 }

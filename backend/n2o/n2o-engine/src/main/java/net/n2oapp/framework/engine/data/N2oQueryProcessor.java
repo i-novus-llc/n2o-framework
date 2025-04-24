@@ -87,9 +87,9 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         N2oQuery.Selection selection = findCountSelection(query, criteria);
         ActionInvocationEngine engine = invocationFactory.produce(selection.getInvocation().getClass());
         Object result;
-        if (engine instanceof ArgumentsInvocationEngine) {
+        if (engine instanceof ArgumentsInvocationEngine argsInvocationEngine) {
             try {
-                result = ((ArgumentsInvocationEngine) engine).invoke(
+                result = argsInvocationEngine.invoke(
                         (N2oArgumentsInvocation) selection.getInvocation(),
                         mapToArgs((N2oArgumentsInvocation) selection.getInvocation(),
                                 query, criteria, criteriaConstructor, domainProcessor));
@@ -187,9 +187,9 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     private Object executeQuery(N2oQuery.Selection selection, CompiledQuery query, N2oPreparedCriteria criteria) {
         ActionInvocationEngine engine = invocationFactory.produce(selection.getInvocation().getClass());
         Object result;
-        if (engine instanceof ArgumentsInvocationEngine) {
+        if (engine instanceof ArgumentsInvocationEngine argsInvocationEngine) {
             try {
-                result = ((ArgumentsInvocationEngine) engine).invoke(
+                result = argsInvocationEngine.invoke(
                         (N2oArgumentsInvocation) selection.getInvocation(),
                         mapToArgs((N2oArgumentsInvocation) selection.getInvocation(),
                                 query, criteria, criteriaConstructor, domainProcessor)
@@ -311,8 +311,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     private void prepareSelectKeys(Map<String, Object> map, List<AbstractField> fields, CompiledQuery query) {
         for (AbstractField field : fields) {
-            if (field instanceof QueryReferenceField) {
-                QueryReferenceField referenceField = (QueryReferenceField) field;
+            if (field instanceof QueryReferenceField referenceField) {
                 if (referenceField.getSelectKey() != null) {
                     List<AbstractField> displayedInnerFields = query.getDisplayedInnerFields(referenceField);
                     map.put(referenceField.getSelectKey(),
@@ -471,7 +470,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         fields.forEach(field -> processInnerFields(field, resultDataSet, resultDataSet));
         fields.stream()
                 .filter(
-                        field -> field instanceof QuerySimpleField && ((QuerySimpleField) field).getN2oSwitch() != null)
+                        field -> field instanceof QuerySimpleField querySimpleField && querySimpleField.getN2oSwitch() != null)
                 .forEach(
                         field -> applySwitch(resultDataSet, (QuerySimpleField) field)
                 );
@@ -495,14 +494,14 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private void processInnerFields(AbstractField field, DataSet target, DataSet parentData) {
-        if (field instanceof QueryReferenceField) {
-            if (field instanceof QueryListField && target.getList(field.getId()) != null) {
+        if (field instanceof QueryReferenceField refField) {
+            if (field instanceof QueryListField queryField && target.getList(field.getId()) != null) {
                 DataList list = new DataList(target.getList(field.getId()));
                 for (int i = 0; i < list.size(); i++)
-                    list.set(i, mapFields(target.getList(field.getId()).get(i), Arrays.asList(((QueryListField) field).getFields()), parentData));
+                    list.set(i, mapFields(target.getList(field.getId()).get(i), Arrays.asList(queryField.getFields()), parentData));
                 target.put(field.getId(), list);
             } else if (target.get(field.getId()) != null)
-                target.put(field.getId(), mapFields(target.get(field.getId()), Arrays.asList(((QueryReferenceField) field).getFields()), parentData));
+                target.put(field.getId(), mapFields(target.get(field.getId()), Arrays.asList(refField.getFields()), parentData));
         }
     }
 

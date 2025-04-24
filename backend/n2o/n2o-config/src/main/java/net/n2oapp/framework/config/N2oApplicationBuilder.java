@@ -188,11 +188,11 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
      */
     public N2oApplicationBuilder properties(String... properties) {
         PropertyResolver systemProperties = environment.getSystemProperties();
-        if (!(systemProperties instanceof SimplePropertyResolver))
+        if (!(systemProperties instanceof SimplePropertyResolver resolver))
             throw new IllegalArgumentException("System properties is readonly");
         Stream.of(properties).forEach(p -> {
             String[] split = p.contains("=") ? p.split("=", 2) : p.split(":");
-            ((SimplePropertyResolver) systemProperties).setProperty(split[0], split[1]);
+            resolver.setProperty(split[0], split[1]);
         });
         return this;
     }
@@ -202,9 +202,9 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
      */
     public N2oApplicationBuilder propertySources(String... propertySources) {
         PropertyResolver systemProperties = environment.getSystemProperties();
-        if (!(systemProperties instanceof SimplePropertyResolver))
+        if (!(systemProperties instanceof SimplePropertyResolver resolver))
             throw new IllegalArgumentException("System properties is readonly");
-        Properties baseProperties = ((SimplePropertyResolver) systemProperties).getProperties();
+        Properties baseProperties = resolver.getProperties();
         for (String propertySource : propertySources) {
             OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath(propertySource);
             properties.setBaseProperties(baseProperties);

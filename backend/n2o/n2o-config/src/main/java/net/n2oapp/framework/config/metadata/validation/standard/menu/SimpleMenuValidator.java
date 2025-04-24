@@ -58,10 +58,10 @@ public class SimpleMenuValidator extends TypedMetadataValidator<N2oSimpleMenu> {
     private void validateItems(N2oSimpleMenu.AbstractMenuItem[] items, SourceProcessor p) {
         p.safeStreamOf(items)
                 .forEach(i -> {
-                    if (i instanceof N2oSimpleMenu.MenuItem)
-                        validateMenuItem((N2oSimpleMenu.MenuItem) i, p);
-                    else if (i instanceof N2oSimpleMenu.DropdownMenuItem)
-                        validateDropdown((N2oSimpleMenu.DropdownMenuItem) i, p);
+                    if (i instanceof N2oSimpleMenu.MenuItem mi)
+                        validateMenuItem(mi, p);
+                    else if (i instanceof N2oSimpleMenu.DropdownMenuItem mi)
+                        validateDropdown(mi, p);
                 });
     }
 }

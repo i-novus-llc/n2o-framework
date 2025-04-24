@@ -41,11 +41,11 @@ public class TestRestTemplate extends RestTemplate {
     }
 
     public Object getRequestBody() {
-        return (requestBody instanceof HttpEntity ? ((HttpEntity) requestBody).getBody() : requestBody);
+        return (requestBody instanceof HttpEntity httpEntity ? httpEntity.getBody() : requestBody);
     }
 
     public Object getRequestHeader() {
-        return (requestBody instanceof HttpEntity ? ((HttpEntity) requestBody).getHeaders() : Collections.EMPTY_MAP);
+        return (requestBody instanceof HttpEntity httpEntity ? httpEntity.getHeaders() : Collections.EMPTY_MAP);
     }
 
     @Override

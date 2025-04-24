@@ -60,8 +60,8 @@ public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder
     public XmlIOReader addIO(NamespaceIO<? extends NamespaceUriAware> io) {
         add(io);
         persisterFactory.register(io);
-        if (io instanceof IOProcessorAware)
-            ((IOProcessorAware) io).setIOProcessor(persisterProcessor);
+        if (io instanceof IOProcessorAware ioProcessorAware)
+            ioProcessorAware.setIOProcessor(persisterProcessor);
         return this;
     }
 

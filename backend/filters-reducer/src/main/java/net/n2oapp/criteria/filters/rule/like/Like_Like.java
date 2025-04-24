@@ -12,11 +12,11 @@ public class Like_Like implements Rule {
 
     @Override
     public Filter simplify(Filter left, Filter right) {
-        if (!(right.getValue() instanceof String) || !(left.getValue() instanceof String))
+        if (!(right.getValue() instanceof String rightValue) || !(left.getValue() instanceof String leftValue))
             return null;
-        if (((String)right.getValue()).matches(".*" + left.getValue() + ".*")) {
+        if (rightValue.matches(".*" + left.getValue() + ".*")) {
             return right;
-        } else if (((String)left.getValue()).matches(".*" + right.getValue() + ".*")) {
+        } else if (leftValue.matches(".*" + right.getValue() + ".*")) {
             return left;
         }
         return null;

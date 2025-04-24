@@ -58,8 +58,8 @@ public class FilterChecker {
 
     private static boolean equals(Object filterValue, Object realValue) {
         filterValue = castToRealType(filterValue, realValue);
-        if (filterValue instanceof Number && realValue instanceof Number) {
-            return ((Number) filterValue).longValue() == ((Number) realValue).longValue();
+        if (filterValue instanceof Number filterNumber && realValue instanceof Number realNumber) {
+            return filterNumber.longValue() == realNumber.longValue();
         }
         return filterValue.equals(realValue);
     }
@@ -69,13 +69,13 @@ public class FilterChecker {
     }
 
     private static boolean contains(List<?> values, Object value) {
-        if (value instanceof List) {
-            if (values == null || values.isEmpty() || value == null || ((List) value).isEmpty()) {
+        if (value instanceof List valueList) {
+            if (values == null || values.isEmpty() || value == null || valueList.isEmpty()) {
                 return false;
             }
             final boolean[] res = {true};
             values.forEach(v -> {
-                if (!containsOne((List<?>) value, castToRealType(v, ((List<?>) value).get(0)))) {
+                if (!containsOne(valueList, castToRealType(v, valueList.get(0)))) {
                     res[0] = false;
                 }
             });
@@ -85,8 +85,8 @@ public class FilterChecker {
     }
 
     private static boolean overlap(List<?> values, Object value) {
-        if (value instanceof List) {
-            return values.stream().anyMatch(v -> contains((List<?>) value, v));
+        if (value instanceof List valueList) {
+            return values.stream().anyMatch(v -> contains(valueList, v));
         }
         return containsOne(values, value);
     }
@@ -94,29 +94,28 @@ public class FilterChecker {
     @SuppressWarnings("unchecked")
     private static int compare(Object filterValue, Object realValue) {
         Object value = castToRealType(filterValue, realValue);
-        if (value instanceof Number && realValue instanceof Number) {
-            return (int) (((Number) value).longValue() - ((Number) realValue).longValue());
+        if (value instanceof Number valueNumber && realValue instanceof Number realNumber) {
+            return (int) (valueNumber.longValue() - realNumber.longValue());
         }
         return ((Comparable) value).compareTo(realValue);
     }
 
     private static boolean like(Object filterValue, Object realValue) {
-        if (!(filterValue instanceof String) || !(realValue instanceof String))
+        if (!(filterValue instanceof String filterString) || !(realValue instanceof String realString))
             return false;
-        return ((String) filterValue).matches(".*" + realValue + ".*");
+        return filterString.matches(".*" + realString + ".*");
     }
 
     private static boolean likeStart(Object filterValue, Object realValue) {
-        if (!(filterValue instanceof String) || !(realValue instanceof String))
+        if (!(filterValue instanceof String filterString) || !(realValue instanceof String realString))
             return false;
-        return ((String) filterValue).matches(realValue + ".*");
+        return filterString.matches(realString + ".*");
     }
 
     private static Object castToRealType(Object filterValue, Object realValue) {
-        if (filterValue instanceof String && !(realValue instanceof String)) {
-            String strValue = (String) filterValue;
-            if (realValue instanceof Boolean && (strValue.equals("true") || strValue.equals("false")))
-                return Boolean.valueOf(strValue);
+        if (filterValue instanceof String strValue && !(realValue instanceof String)) {
+            if (realValue instanceof Boolean realValueBoolean && (strValue.equals("true") || strValue.equals("false")))
+                return realValueBoolean;
             if (realValue instanceof Number && strValue.matches("([\\d]+)")) {
                 try {
                     return Long.parseLong(strValue);
@@ -125,7 +124,7 @@ public class FilterChecker {
                 }
             }
             if (realValue instanceof UUID)
-                return UUID.fromString((String) filterValue);
+                return UUID.fromString(strValue);
         } else if (filterValue != null && !(filterValue instanceof String) && realValue instanceof String) {
             return filterValue.toString();
         }
