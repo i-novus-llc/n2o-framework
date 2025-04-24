@@ -1,5 +1,8 @@
 package net.n2oapp.framework.boot.graphql;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.temporal.Temporal;
 import java.util.Date;
@@ -10,6 +13,7 @@ import java.util.StringJoiner;
 /**
  * Утилитный класс для работы с GraphQl
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GraphQlUtil {
 
     /**

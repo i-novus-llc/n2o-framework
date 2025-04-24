@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.metadata.global.view.page;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -15,6 +17,7 @@ import java.util.function.Consumer;
 /**
  * Утилитный класс для работы с базовой страницей
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BasePageUtil {
 
     /**

@@ -1,5 +1,7 @@
 package net.n2oapp.framework.access.metadata.schema.simple;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.*;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -14,6 +16,7 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.copy;
 /**
  * Делает из одной точки доступа, с заданным через запятую параметром, несколько с одним
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReproducerAccessPoint {
 
     public static void reproduceAccessPoint(N2oObjectAccessPoint accessPoint, final List<AccessPoint> pointList, CompileProcessor p) {

@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.register.storage;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -14,6 +16,7 @@ import java.util.*;
 /**
  * Утилита для удобной работы с путями
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PathUtil {
 
     public static String concatFileNameAndBasePath(String fileName, String basePath) {

@@ -1,6 +1,8 @@
 package net.n2oapp.framework.sandbox.cases.case25;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -8,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Case25Controller {
 
     public static List<Map> getList(){

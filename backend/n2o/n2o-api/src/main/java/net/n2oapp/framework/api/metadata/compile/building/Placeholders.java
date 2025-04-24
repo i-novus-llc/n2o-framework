@@ -1,8 +1,12 @@
 package net.n2oapp.framework.api.metadata.compile.building;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Функции для оборачивания ссылок в плейсхолдеры
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class Placeholders {
 
     /**

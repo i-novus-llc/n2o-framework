@@ -1,5 +1,8 @@
 package net.n2oapp.framework.config.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -7,6 +10,7 @@ import java.util.function.Function;
 /**
  * Утилита для генерации различных свойств во время компиляции
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompileUtil {
     /**
      * Преобразовывает плоскую мапу в объемную по знаку "-" в ключе

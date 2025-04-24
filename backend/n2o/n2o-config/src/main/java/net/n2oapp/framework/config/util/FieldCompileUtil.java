@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -15,6 +17,7 @@ import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 /**
  * Утилита для компиляции поля
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FieldCompileUtil {
 
     /**

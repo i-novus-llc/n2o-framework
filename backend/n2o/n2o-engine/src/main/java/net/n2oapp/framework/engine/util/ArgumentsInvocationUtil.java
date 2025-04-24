@@ -1,5 +1,7 @@
 package net.n2oapp.framework.engine.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 /**
  * Утилитный класс, служащий для преобразования данных вызова в массив аргументов
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArgumentsInvocationUtil {
 
     /**

@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.factory;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.CompiledClassAware;
 import net.n2oapp.framework.api.metadata.aware.ContextClassAware;
@@ -9,6 +11,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 /**
  * Условия проверки для фабрик метаданных
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class FactoryPredicates {
 
 

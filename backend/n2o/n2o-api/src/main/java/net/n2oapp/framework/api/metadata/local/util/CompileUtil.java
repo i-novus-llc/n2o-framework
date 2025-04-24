@@ -1,9 +1,12 @@
 package net.n2oapp.framework.api.metadata.local.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.util.SerializationUtils;
 
 import java.util.function.Supplier;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompileUtil {
 
     /**

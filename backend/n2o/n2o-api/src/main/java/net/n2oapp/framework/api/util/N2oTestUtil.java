@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.exception.N2oException;
 
 import java.util.function.Consumer;
@@ -8,6 +10,7 @@ import java.util.function.Consumer;
  * @author operehod
  * @since 13.04.2015
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class N2oTestUtil {
 
     public static void assertOnException(Closure closure, Class<? extends Exception> clazz) {

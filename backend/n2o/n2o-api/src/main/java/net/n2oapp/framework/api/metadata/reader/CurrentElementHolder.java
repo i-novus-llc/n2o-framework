@@ -1,11 +1,14 @@
 package net.n2oapp.framework.api.metadata.reader;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.register.SourceInfo;
 import org.jdom2.Element;
 
 /**
  * Хранение текущего считанного элемента в рамках одного потока
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CurrentElementHolder {
 
     private static final ThreadLocal<Element> threadLocalElementScope = new ThreadLocal<>();

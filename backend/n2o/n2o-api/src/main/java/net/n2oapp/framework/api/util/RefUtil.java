@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
 
@@ -11,6 +13,7 @@ import java.util.Set;
  * @see StringUtils
  */
 @Deprecated
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RefUtil {
     private static PlaceHoldersResolver referencePlaceHoldersResolver = new PlaceHoldersResolver("{", "}");
 

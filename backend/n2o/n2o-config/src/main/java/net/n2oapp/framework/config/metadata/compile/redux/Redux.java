@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.redux;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -18,6 +20,7 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
 /**
  * Взаимодействие c Redux моделями
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class Redux {
 
     /**

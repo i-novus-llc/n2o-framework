@@ -1,5 +1,7 @@
 package net.n2oapp.framework.engine.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
@@ -16,6 +18,7 @@ import static net.n2oapp.framework.engine.util.MappingProcessor.isMappingEnabled
 /**
  * Утилитный класс, служащий для преобразования данных вызова в Map
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MapInvocationUtil {
     private static final Predicate<String> MAPPING_PATTERN = Pattern.compile("\\[.+]").asPredicate();
     private static final String KEY_ERROR = "%s -> %s";

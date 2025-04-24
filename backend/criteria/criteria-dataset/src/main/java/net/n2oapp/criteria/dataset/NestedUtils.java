@@ -1,11 +1,14 @@
 package net.n2oapp.criteria.dataset;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class NestedUtils {
-
 
     public static boolean isNumeric(String key) {
         int len = key.length();

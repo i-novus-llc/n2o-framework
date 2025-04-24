@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.metadata.global.view.fieldset;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 /**
  * Утилитный класс, формирующий список всех fields у fieldset
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FieldsetUtil {
 
     /**

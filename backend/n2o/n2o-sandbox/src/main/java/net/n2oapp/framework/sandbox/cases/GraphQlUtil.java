@@ -1,11 +1,14 @@
 package net.n2oapp.framework.sandbox.cases;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.boot.graphql.N2oGraphQlException;
 
 /**
  * Утилитный класс для работы с кейсами, использующими GraphQl
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GraphQlUtil {
 
     /**

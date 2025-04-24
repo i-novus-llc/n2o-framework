@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Утилита по работе с QueryContext
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class QueryContextUtil {
 
     private static final String SORTING = "sorting.";

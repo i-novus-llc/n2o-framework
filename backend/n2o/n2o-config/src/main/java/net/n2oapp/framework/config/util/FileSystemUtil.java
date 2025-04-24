@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import org.apache.commons.io.FileUtils;
@@ -22,6 +24,7 @@ import java.util.function.Predicate;
  * @author operehod
  * @since 15.04.2015
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileSystemUtil {
 
     private static final ResourceLoader DEFAULT_RESOURCE_LOADER = new DefaultResourceLoader();

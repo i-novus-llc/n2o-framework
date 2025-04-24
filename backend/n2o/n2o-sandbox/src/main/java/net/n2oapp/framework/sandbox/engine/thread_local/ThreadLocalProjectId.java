@@ -1,8 +1,12 @@
 package net.n2oapp.framework.sandbox.engine.thread_local;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Хранение id проекта как локальной переменной потока
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ThreadLocalProjectId {
 
     private static ThreadLocal<String> threadLocal = new ThreadLocal<>();
