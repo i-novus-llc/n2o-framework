@@ -176,8 +176,8 @@ public class MappingProcessor {
             for (AbstractParameter parameter : parameters) {
                 FieldMapping mapping = new FieldMapping(parameter.getMapping());
                 mapping.setEnabled(parameter.getEnabled());
-                if (parameter instanceof ObjectReferenceField && ((ObjectReferenceField) parameter).getFields() != null)
-                    mapping.setChildMapping(extractFieldMapping(Arrays.asList(((ObjectReferenceField) parameter).getFields())));
+                if (parameter instanceof ObjectReferenceField objectReferenceField && objectReferenceField.getFields() != null)
+                    mapping.setChildMapping(extractFieldMapping(Arrays.asList(objectReferenceField.getFields())));
                 mappingMap.put(parameter.getId(), mapping);
             }
         return mappingMap;

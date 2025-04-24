@@ -55,12 +55,12 @@ public class ActionRequestInfo<D> extends RequestInfo {
             for (String paramId : source.keySet()) {
                 AbstractParameter sourceParam = source.get(paramId);
                 AbstractParameter param;
-                if (sourceParam instanceof ObjectSimpleField)
-                    param = new ObjectSimpleField((ObjectSimpleField) sourceParam);
-                else if (sourceParam instanceof ObjectListField)
-                    param = new ObjectListField((ObjectListField) sourceParam);
-                else if (sourceParam instanceof ObjectSetField)
-                    param = new ObjectSetField((ObjectSetField) sourceParam);
+                if (sourceParam instanceof ObjectSimpleField o)
+                    param = new ObjectSimpleField(o);
+                else if (sourceParam instanceof ObjectListField o)
+                    param = new ObjectListField(o);
+                else if (sourceParam instanceof ObjectSetField o)
+                    param = new ObjectSetField(o);
                 else
                     param = new ObjectReferenceField((ObjectReferenceField) sourceParam);
                 result.put(paramId, param);

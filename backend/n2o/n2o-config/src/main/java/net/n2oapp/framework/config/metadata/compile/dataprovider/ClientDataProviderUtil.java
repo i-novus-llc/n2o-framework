@@ -199,8 +199,8 @@ public class ClientDataProviderUtil {
 
             Map<String, String> operationMapping = new HashMap<>();
             for (AbstractParameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {
-                if (inParameter instanceof ObjectSimpleField) {
-                    String param = ((ObjectSimpleField) inParameter).getParam();
+                if (inParameter instanceof ObjectSimpleField objectSimpleField) {
+                    String param = objectSimpleField.getParam();
                     // form params from this source should be ignored in operationMapping
                     if (param != null && !formParams.contains(param))
                         operationMapping.put(param, inParameter.getId());

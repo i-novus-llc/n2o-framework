@@ -35,9 +35,9 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
 
     @Override
     public AbstractAction compile(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (context instanceof SubPageContext) {
+        if (context instanceof SubPageContext subPageContext) {
             throw new N2oException(String.format("В странице '%s', на которую ссылаются в регионе \"<sub-page>\", нельзя использовать действие \"<close>\"",
-                    ((SubPageContext) context).getPageName()));
+                    subPageContext.getPageName()));
         }
         return context instanceof ModalPageContext
                 ? getCloseAction(source, context, p)

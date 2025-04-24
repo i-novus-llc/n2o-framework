@@ -57,15 +57,15 @@ public class IOProcessorImpl implements IOProcessor {
     public IOProcessorImpl(NamespaceReaderFactory readerFactory) {
         this.r = true;
         this.readerFactory = readerFactory;
-        if (readerFactory instanceof IOProcessorAware)
-            ((IOProcessorAware) readerFactory).setIOProcessor(this);
+        if (readerFactory instanceof IOProcessorAware ioProcessorAware)
+            ioProcessorAware.setIOProcessor(this);
     }
 
     public IOProcessorImpl(NamespacePersisterFactory persisterFactory) {
         this.r = false;
         this.persisterFactory = persisterFactory;
-        if (persisterFactory instanceof IOProcessorAware)
-            ((IOProcessorAware) persisterFactory).setIOProcessor(this);
+        if (persisterFactory instanceof IOProcessorAware ioProcessorAware)
+            ioProcessorAware.setIOProcessor(this);
     }
 
     @Override
@@ -1121,8 +1121,8 @@ public class IOProcessorImpl implements IOProcessor {
             P extends TypedElementPersister<? super T>> T read(ElementIOFactory<T, R, P> factory, Element element) {
         R reader = factory.produce(element);
         if (reader != null) {
-            if (reader instanceof IOProcessorAware)
-                ((IOProcessorAware) reader).setIOProcessor(this);
+            if (reader instanceof IOProcessorAware ioProcessorAware)
+                ioProcessorAware.setIOProcessor(this);
             return reader.read(element);
         } else
             return null;
@@ -1133,8 +1133,8 @@ public class IOProcessorImpl implements IOProcessor {
             P extends TypedElementPersister<? super T>> Element persist(ElementIOFactory<T, R, P> factory, T entity, Namespace namespace) {
         P persister = factory.produce(entity);
         if (persister != null) {
-            if (persister instanceof IOProcessorAware)
-                ((IOProcessorAware) persister).setIOProcessor(this);
+            if (persister instanceof IOProcessorAware ioProcessorAware)
+                ioProcessorAware.setIOProcessor(this);
             return persister.persist(entity, namespace);
         } else
             return null;
@@ -1151,8 +1151,8 @@ public class IOProcessorImpl implements IOProcessor {
             reader = factory.produce(element, parentNamespace, null);
         }
         if (reader != null) {
-            if (reader instanceof IOProcessorAware)
-                ((IOProcessorAware) reader).setIOProcessor(this);
+            if (reader instanceof IOProcessorAware ioProcessorAware)
+                ioProcessorAware.setIOProcessor(this);
             T model = reader.read(element);
             model.setNamespaceUri(element.getNamespaceURI());
             model.setNamespacePrefix(element.getNamespacePrefix());
@@ -1173,8 +1173,8 @@ public class IOProcessorImpl implements IOProcessor {
             persister = factory.produce(entity);
 
         if (persister != null) {
-            if (persister instanceof IOProcessorAware)
-                ((IOProcessorAware) persister).setIOProcessor(this);
+            if (persister instanceof IOProcessorAware ioProcessorAware)
+                ioProcessorAware.setIOProcessor(this);
             Element element = persister.persist(entity, parentNamespace);
             installNamespace(element, entity.getNamespace(), element.getNamespace());
             return element;

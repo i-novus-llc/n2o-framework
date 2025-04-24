@@ -63,8 +63,8 @@ public class SubmitActionValidator implements SourceValidator<N2oSubmitAction>, 
     private void checkDatasourceByInstance(@Nonnull N2oAbstractDatasource datasource) {
         if (datasource instanceof N2oParentDatasource || datasource instanceof N2oApplicationDatasource)
             return;
-        if (datasource instanceof Submittable) {
-            if (((Submittable) datasource).getSubmit() == null)
+        if (datasource instanceof Submittable submittable) {
+            if (submittable.getSubmit() == null)
                 throw new N2oMetadataValidationException(String.format(
                         "Действие <submit> использует источник данных%s, в котором не определен submit",
                         getSpaceWithIdOrEmptyString(datasource.getId())));

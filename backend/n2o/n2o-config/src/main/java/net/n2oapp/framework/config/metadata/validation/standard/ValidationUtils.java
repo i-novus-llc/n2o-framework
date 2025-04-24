@@ -58,8 +58,8 @@ public final class ValidationUtils {
      * @param p    Процессор исходных метаданных
      */
     public static void checkId(NamespaceUriAware item, SourceProcessor p) {
-        if (item instanceof IdAware)
-            p.checkId((IdAware) item, "Идентификатор поля '%s' является запрещенным именем");
+        if (item instanceof IdAware idAware)
+            p.checkId(idAware, "Идентификатор поля '%s' является запрещенным именем");
     }
 
     /**

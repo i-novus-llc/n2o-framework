@@ -15,9 +15,9 @@ public class EqOrIsNull_Like implements Rule {
         if (right.getType().equals(FilterType.eqOrIsNull) && left.getType().equals(FilterType.like))
             return simplify(right, left);
         else if (left.getType().equals(FilterType.eqOrIsNull) && right.getType().equals(FilterType.like)) {
-            if (!(right.getValue() instanceof String) || !(left.getValue() instanceof String))
+            if (!(right.getValue() instanceof String) || !(left.getValue() instanceof String leftValue))
                 return null;
-            if (((String) left.getValue()).matches(".*" + right.getValue() + ".*")) return new Filter(left.getValue());
+            if (leftValue.matches(".*" + right.getValue() + ".*")) return new Filter(left.getValue());
             else return null;
         }
         throw new RuntimeException("Incorrect restriction's type");

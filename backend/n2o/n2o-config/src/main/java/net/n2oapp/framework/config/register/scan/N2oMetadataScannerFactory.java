@@ -41,8 +41,8 @@ public class N2oMetadataScannerFactory implements MetadataFactory<MetadataScanne
         LinkedList<MetadataScanner> sorted = new LinkedList<>();
         List<OverrideInfoScanner> overrideInfoScanners = new ArrayList<>();
         for (MetadataScanner scanner : allScaners) {
-            if (scanner instanceof OverrideInfoScanner) {
-                overrideInfoScanners.add((OverrideInfoScanner) scanner);
+            if (scanner instanceof OverrideInfoScanner infoScanner) {
+                overrideInfoScanners.add(infoScanner);
             } else if (scanner instanceof DefaultInfoScanner){
                 sorted.addFirst(scanner);
             } else {

@@ -70,9 +70,9 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                             String.format("В <mandatory> валидации %s объекта %s необходимо указать атрибут 'field-id'",
                                     getIdOrEmptyString(validation.getId()),
                                     getIdOrEmptyString(object.getId())));
-                if (validation instanceof N2oInvocationValidation) {
+                if (validation instanceof N2oInvocationValidation invocationValidation) {
                     invocationScope.setValidationId(validation.getId());
-                    p.validate(((N2oInvocationValidation) validation).getN2oInvocation(), invocationScope);
+                    p.validate(invocationValidation.getN2oInvocation(), invocationScope);
                 }
             });
     }
@@ -131,9 +131,9 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
                         p.checkIdExistence(validation, String.format("В одной из валидаций операции %s объекта %s не указан параметр 'id'",
                                 getIdOrEmptyString(operation.getId()),
                                 getIdOrEmptyString(object.getId())));
-                        if (validation instanceof N2oInvocationValidation) {
+                        if (validation instanceof N2oInvocationValidation invocationValidation) {
                             invocationScope.setValidationId(validation.getId());
-                            p.validate(((N2oInvocationValidation) validation).getN2oInvocation(), invocationScope);
+                            p.validate(invocationValidation.getN2oInvocation(), invocationScope);
                         }
                     });
             }
@@ -145,10 +145,10 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
         if (fields == null)
             return;
         for (AbstractParameter field : fields) {
-            if (field instanceof ObjectReferenceField)
-                checkSwitchCase(((ObjectReferenceField) field).getFields());
-            if (field instanceof ObjectSimpleField && ((ObjectSimpleField) field).getN2oSwitch() != null) {
-                N2oSwitch n2oSwitch = ((ObjectSimpleField) field).getN2oSwitch();
+            if (field instanceof ObjectReferenceField objectReferenceField)
+                checkSwitchCase(objectReferenceField.getFields());
+            if (field instanceof ObjectSimpleField objectSimpleField && objectSimpleField.getN2oSwitch() != null) {
+                N2oSwitch n2oSwitch = objectSimpleField.getN2oSwitch();
                 if (n2oSwitch.getCases().isEmpty())
                     throw new N2oMetadataValidationException(
                             String.format("В элементе '<switch>' поля '%s' отсутствует '<case>'", field.getId()));
@@ -192,8 +192,7 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
      */
     private void checkForExistsReferenceObject(String objectId, AbstractParameter[] fields, SourceProcessor p) {
         for (AbstractParameter field : fields) {
-            if (field instanceof ObjectReferenceField) {
-                ObjectReferenceField refField = (ObjectReferenceField) field;
+            if (field instanceof ObjectReferenceField refField) {
                 if (refField.getReferenceObjectId() != null)
                     ValidationUtils.checkForExistsObject(refField.getReferenceObjectId(),
                             String.format("Поле %s в объекте %s",
@@ -240,8 +239,8 @@ public class ObjectValidator implements SourceValidator<N2oObject>, SourceClassA
      * @param message Сообщение об ошибке
      */
     public static void checkFieldIdExistence(AbstractParameter field, SourceProcessor p, String message) {
-        if (field instanceof ObjectReferenceField)
-            p.safeStreamOf(((ObjectReferenceField) field).getFields())
+        if (field instanceof ObjectReferenceField refField)
+            p.safeStreamOf(refField.getFields())
                     .forEach(childField -> checkFieldIdExistence(childField, p, message));
         p.checkIdExistence(field, message);
     }

@@ -67,7 +67,7 @@ public class OverrideProperties extends Properties {
 
     public String getCurrentLvlProperty(String key) {
         Object oval = super.get(key);
-        String sval = (oval instanceof String) ? (String) oval : null;
+        String sval = (oval instanceof String ovalString) ? ovalString : null;
         return ((sval == null) && (defaults != null)) ? defaults.getProperty(key) : sval;
     }
 

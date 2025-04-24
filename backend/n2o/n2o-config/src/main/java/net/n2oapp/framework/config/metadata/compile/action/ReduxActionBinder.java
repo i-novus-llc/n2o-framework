@@ -31,9 +31,9 @@ public class ReduxActionBinder implements BaseMetadataBinder<AbstractAction<? ex
         if (action.getMeta().getRedirect() != null) {
             metas.add(action.getMeta().getRedirect());
         }
-        if (action.getMeta() instanceof AsyncMetaSaga
-                && (((AsyncMetaSaga) action.getMeta()).getSuccess().getRedirect() != null)) {
-            metas.add(((AsyncMetaSaga) action.getMeta()).getSuccess().getRedirect());
+        if (action.getMeta() instanceof AsyncMetaSaga async
+                && (async.getSuccess().getRedirect() != null)) {
+            metas.add(async.getSuccess().getRedirect());
         }
         return metas;
     }

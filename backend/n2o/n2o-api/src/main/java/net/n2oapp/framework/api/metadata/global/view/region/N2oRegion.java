@@ -34,8 +34,8 @@ public abstract class N2oRegion extends N2oComponent implements SourceMetadata, 
     public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
         if (Objects.nonNull(content)) {
             for (SourceComponent component : content) {
-                if (component instanceof RegionItem)
-                    ((RegionItem) component).collectWidgets(result, ids, getAlias());
+                if (component instanceof RegionItem regionItem)
+                    regionItem.collectWidgets(result, ids, getAlias());
             }
         }
     }

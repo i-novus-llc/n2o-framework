@@ -17,11 +17,11 @@ public class N2oCriteriaConstructor implements CriteriaConstructor {
 
     @Override
     public Object construct(N2oPreparedCriteria criteria, Object instance) {
-        if (instance instanceof Criteria) {
-            ((Criteria) instance).addSorting(criteria.getSorting());
-            ((Criteria) instance).setSize(criteria.getSize());
-            ((Criteria) instance).setPage(pageStartsWith0 ? criteria.getPage() -1 : criteria.getPage());
-            ((Criteria) instance).setCount(criteria.getCount());
+        if (instance instanceof Criteria criteriaInstance) {
+            criteriaInstance.addSorting(criteria.getSorting());
+            criteriaInstance.setSize(criteria.getSize());
+            criteriaInstance.setPage(pageStartsWith0 ? criteria.getPage() -1 : criteria.getPage());
+            criteriaInstance.setCount(criteria.getCount());
         }
         return instance;
     }

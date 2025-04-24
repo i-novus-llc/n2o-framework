@@ -42,8 +42,7 @@ public abstract class SourceInfo implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SourceInfo)) return false;
-        SourceInfo that = (SourceInfo) o;
+        if (!(o instanceof SourceInfo that)) return false;
         return Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getBaseSourceClass(), that.getBaseSourceClass());
     }

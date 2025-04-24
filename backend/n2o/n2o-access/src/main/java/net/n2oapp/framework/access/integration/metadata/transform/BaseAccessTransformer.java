@@ -510,9 +510,9 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
     }
 
     private boolean checkByObject(String objectId, AccessPoint ap) {
-        return ap instanceof N2oObjectFiltersAccessPoint
-                && StringUtils.maskMatch(((N2oObjectFiltersAccessPoint) ap).getObjectId(), objectId)
-                && nonNull(((N2oObjectFiltersAccessPoint) ap).getFilters());
+        return ap instanceof N2oObjectFiltersAccessPoint n2oObjectFiltersAccessPoint
+                && StringUtils.maskMatch(n2oObjectFiltersAccessPoint.getObjectId(), objectId)
+                && nonNull(n2oObjectFiltersAccessPoint.getFilters());
     }
 
     private boolean checkByObjectAndOperation(String objectId, String operationId, AccessPoint ap) {

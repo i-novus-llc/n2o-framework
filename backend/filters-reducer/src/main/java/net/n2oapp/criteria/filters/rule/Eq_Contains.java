@@ -18,7 +18,7 @@ public class Eq_Contains implements Rule {
         if (right.getType().equals(FilterType.eq) && left.getType().equals(FilterType.contains))
             return simplify(right, left);
         else if (left.getType().equals(FilterType.eq) && right.getType().equals(FilterType.contains)) {
-            List eqValues = left.getValue() instanceof List ? (List) left.getValue() : Arrays.asList(left.getValue());
+            List eqValues = left.getValue() instanceof List valueList ? valueList : Arrays.asList(left.getValue());
             if (((Collection)right.getValue()).stream().anyMatch(v -> !eqValues.contains(v)))
                 return null;
             return left;

@@ -110,8 +110,8 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
     }
 
     private String getMessageWidgetId(InvokeAction compiled, CompileContext<?, ?> context, boolean closeOnSuccess) {
-        if (closeOnSuccess && (context instanceof PageContext)) {
-            return ((PageContext) context).getParentClientWidgetId();
+        if (closeOnSuccess && (context instanceof PageContext pageContext)) {
+            return pageContext.getParentClientWidgetId();
         }
 
         return compiled.getPayload().getWidgetId();
@@ -179,8 +179,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
         if (nonNull(localDatasource)
                 && nonNull(dataSourcesScope)
-                && dataSourcesScope.get(localDatasource) instanceof N2oStandardDatasource) {
-            N2oStandardDatasource datasource = (N2oStandardDatasource) dataSourcesScope.get(localDatasource);
+                && dataSourcesScope.get(localDatasource) instanceof N2oStandardDatasource datasource) {
             String objectId = datasource.getObjectId();
             if (nonNull(objectId)) {
                 return p.getCompiled(new ObjectContext(objectId));

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.global.view.page;
 
+import net.n2oapp.framework.api.metadata.RegionItem;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.SourceComponent;
@@ -58,8 +59,8 @@ public class BasePageUtil {
         if (items != null) {
             Map<String, Integer> ids = new HashMap<>();
             for (SourceComponent item : items) {
-                if (item instanceof net.n2oapp.framework.api.metadata.RegionItem)
-                    ((net.n2oapp.framework.api.metadata.RegionItem) item).collectWidgets(widgets, ids, "w");
+                if (item instanceof RegionItem regionItem)
+                    regionItem.collectWidgets(widgets, ids, "w");
             }
         }
         return widgets;
@@ -76,9 +77,9 @@ public class BasePageUtil {
     public static void resolveRegionItems(SourceComponent[] items, Consumer<N2oRegion> regionConsumer,
                                           Consumer<N2oWidget> widgetConsumer) {
         for (SourceComponent item : items)
-            if (item instanceof N2oWidget)
-                widgetConsumer.accept((N2oWidget) item);
-            else if (item instanceof N2oRegion)
-                regionConsumer.accept((N2oRegion) item);
+            if (item instanceof N2oWidget widget)
+                widgetConsumer.accept(widget);
+            else if (item instanceof N2oRegion region)
+                regionConsumer.accept(region);
     }
 }

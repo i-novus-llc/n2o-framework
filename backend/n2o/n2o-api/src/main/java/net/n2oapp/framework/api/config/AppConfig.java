@@ -37,11 +37,10 @@ public class AppConfig {
 
     private void setProperty(Map<String, Object> source, String key, Object value) {
         Object obj = source.get(key);
-        if (value instanceof List && obj instanceof List)
-            ((List) obj).addAll((List) value);
-        else if (value instanceof Map && obj instanceof Map) {
-            Map<String, Object> innerSource = (Map<String, Object>) obj;
-            ((Map) value).keySet().stream().forEach(k -> setProperty(innerSource, (String) k, ((Map) value).get(k)));
+        if (value instanceof List valueList && obj instanceof List objList)
+            objList.addAll(valueList);
+        else if (value instanceof Map valueMap && obj instanceof Map innerSource) {
+            valueMap.keySet().stream().forEach(k -> setProperty(innerSource, (String) k, valueMap.get(k)));
         } else
             source.put(key, value);
     }

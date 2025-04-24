@@ -54,8 +54,8 @@ public class ExpressionBasedProperties extends OverrideProperties {
     @Override
     public synchronized Object get(Object key) {
         Object value = super.get(key);
-        if (value instanceof String)
-            value = extractExpression(value.toString());
+        if (value instanceof String str)
+            value = extractExpression(str);
         return value;
     }
 

@@ -49,8 +49,8 @@ public class N2oTabsRegion extends N2oRegion implements RegionItem, RoutableRegi
                 if (!ids.containsKey(prefix))
                     ids.put(prefix, 1);
                 for (SourceComponent component : content) {
-                    if (component instanceof RegionItem)
-                        ((RegionItem) component).collectWidgets(result, ids, prefix);
+                    if (component instanceof RegionItem regionItem)
+                        regionItem.collectWidgets(result, ids, prefix);
                 }
             }
         }

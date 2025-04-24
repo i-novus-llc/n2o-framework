@@ -53,8 +53,8 @@ public class AlertMessageBuilder {
     }
 
     public List<ResponseMessage> buildMessages(Exception e, RequestInfo requestInfo) {
-        return e instanceof N2oValidationException
-                ? buildValidationMessages((N2oValidationException) e, requestInfo)
+        return e instanceof N2oValidationException ve
+                ? buildValidationMessages(ve, requestInfo)
                 : Collections.singletonList(build(e, requestInfo));
     }
 
@@ -71,26 +71,26 @@ public class AlertMessageBuilder {
     }
 
     private SeverityType getExceptionSeverity(Exception e) {
-        return e instanceof N2oException ? ((N2oException) e).getSeverity() : SeverityType.danger;
+        return e instanceof N2oException n2oException ? n2oException.getSeverity() : SeverityType.danger;
     }
 
     private ResponseMessage prepareMessage(Exception e, ResponseMessage resp) {
         initDevMode(propertyResolver);
         resp.setText(buildText(e));
 
-        if (!devMode && e instanceof N2oException && ((N2oException) e).getUserMessageTitle() != null)
-            resp.setTitle(((N2oException) e).getUserMessageTitle());
+        if (!devMode && e instanceof N2oException n2oException && n2oException.getUserMessageTitle() != null)
+            resp.setTitle(n2oException.getUserMessageTitle());
 
         if (showStacktrace && !(e instanceof N2oUserException))
             resp.setPayload(initPayload(e));
-        if (e instanceof N2oException)
-            resp.setField(((N2oException) e).getField());
+        if (e instanceof N2oException n2oException)
+            resp.setField(n2oException.getField());
         return resp;
     }
 
     private List<String> initPayload(Exception e) {
-        if (devMode && e instanceof N2oQueryExecutionException)
-            return Collections.singletonList("Executed query: " + ((N2oQueryExecutionException) e).getQuery());
+        if (devMode && e instanceof N2oQueryExecutionException n2oQueryExecutionException)
+            return Collections.singletonList("Executed query: " + n2oQueryExecutionException.getQuery());
         return getStackFrames(getStackTrace(e));
     }
 
@@ -143,8 +143,8 @@ public class AlertMessageBuilder {
         String userMessage = initUserMessage(e);
         message = userMessage != null ? userMessage : message;
         String localizedMessage = messageSourceAccessor.getMessage(message, message);
-        if (e instanceof N2oException)
-            return StringUtils.resolveLinks(localizedMessage, ((N2oException) e).getData());
+        if (e instanceof N2oException n2oException)
+            return StringUtils.resolveLinks(localizedMessage, n2oException.getData());
         else
             return localizedMessage;
     }
@@ -152,8 +152,8 @@ public class AlertMessageBuilder {
     private String initUserMessage(Exception e) {
         if (devMode && !(e instanceof N2oUserException))
             return e.getMessage();
-        if (e instanceof N2oException)
-            return ((N2oException) e).getUserMessage();
+        if (e instanceof N2oException n2oException)
+            return n2oException.getUserMessage();
         return null;
     }
 }

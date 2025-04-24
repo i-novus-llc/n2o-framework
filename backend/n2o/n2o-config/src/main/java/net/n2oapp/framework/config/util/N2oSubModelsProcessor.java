@@ -121,9 +121,9 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
             subModelValue = dataSet;
 
         List<Map<String, Object>> subModels;
-        if (subModelValue instanceof Collection) {
-            if (((Collection) subModelValue).isEmpty()) return null;
-            if (!(((Collection) subModelValue).iterator().next() instanceof Map))
+        if (subModelValue instanceof Collection collection) {
+            if (collection.isEmpty()) return null;
+            if (!(collection.iterator().next() instanceof Map))
                 return null;
             subModels = (List<Map<String, Object>>) subModelValue;
             if (subModels.get(0) == null) {
@@ -134,8 +134,8 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
                 subModels.clear();
                 return null;
             }
-        } else if (subModelValue instanceof Map)
-            subModels = Collections.singletonList((Map<String, Object>) subModelValue);
+        } else if (subModelValue instanceof Map subModelValueMap)
+            subModels = Collections.singletonList(subModelValueMap);
         else
             return null;
 

@@ -32,7 +32,7 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
 
         if (source.getN2oField() != null) {
             Field control = p.compile(source.getN2oField(), context);
-            if (control instanceof StandardField) {
+            if (control instanceof StandardField field) {
                 ComponentScope columnScope = p.getScope(ComponentScope.class);
                 String columnTextFieldId = null;
                 if (columnScope != null) {
@@ -41,7 +41,6 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
                         columnTextFieldId = column.getTextFieldId();
                     }
                 }
-                StandardField<?> field = (StandardField<?>) control;
                 if (field.getControl().getId() == null)
                     field.getControl().setId(columnTextFieldId);
                 cell.setControl(field.getControl());

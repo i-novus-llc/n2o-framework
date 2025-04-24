@@ -127,10 +127,7 @@ public class Node {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Node)) return false;
-
-        Node node = (Node) o;
-
+        if (!(o instanceof Node node)) return false;
         if (!URI.equals(node.URI)) return false;
 
         return true;

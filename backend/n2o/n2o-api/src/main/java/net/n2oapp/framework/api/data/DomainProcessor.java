@@ -56,8 +56,7 @@ public class DomainProcessor {
             return null;
         if (StringUtils.isDynamicValue(value))
             return value;
-        if (value instanceof String) {
-            String strValue = (String) value;
+        if (value instanceof String strValue) {
             if (strValue.isEmpty())
                 return null;
             if (StringUtils.isEscapedString(strValue)) {
@@ -135,8 +134,7 @@ public class DomainProcessor {
             return null;
         if (enumClass.isAssignableFrom(value.getClass()))
             return (T) value;
-        if (value instanceof String) {
-            String strValue = (String) value;
+        if (value instanceof String strValue) {
             boolean idAware = IdAware.class.isAssignableFrom(enumClass);
             if (idAware) {
                 for (Enum enumValue : enumClass.getEnumConstants()) {
@@ -180,12 +178,12 @@ public class DomainProcessor {
 
     public DataSet doDomainConversation(DataSet inDataSet, Collection<AbstractParameter> values) {
         for (AbstractParameter param : values) {
-            if (param instanceof ObjectSimpleField) {
+            if (param instanceof ObjectSimpleField simpleField) {
                 String paramName = param.getId();
                 Object value = inDataSet.get(paramName);
                 if (value == null)
                     continue;
-                String domain = ((ObjectSimpleField) param).getDomain();
+                String domain = simpleField.getDomain();
                 inDataSet.put(paramName, deserialize(value, domain));
             }
         }
@@ -218,26 +216,25 @@ public class DomainProcessor {
         Object begin;
         Object end;
         String domainElement = domain.replaceAll("interval\\{", "").replaceAll("\\}", "");
-        if (value instanceof String
-                && (((String) value).startsWith("{")
-                && ((String) value).endsWith("}"))) {
+        if (value instanceof String strValue
+                && (strValue.startsWith("{")
+                && strValue.endsWith("}"))) {
             //json
             try {
-                value = objectMapper.readValue((String) value, Map.class);
+                value = objectMapper.readValue(strValue, Map.class);
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }
         }
-        if (value instanceof Collection) {
+        if (value instanceof Collection collectionValue) {
             //array
-            Iterator iterator = ((Collection<?>) value).iterator();
+            Iterator iterator = collectionValue.iterator();
             begin = iterator.hasNext() ? iterator.next() : null;
             end = iterator.hasNext() ? iterator.next() : null;
-        } else if (value instanceof Map) {
+        } else if (value instanceof Map mapValue) {
             //map
-            Map<String, Object> map = (Map<String, Object>) value;
-            begin = map.getOrDefault("begin", map.get("from"));
-            end = map.getOrDefault("end", map.get("to"));
+            begin = mapValue.getOrDefault("begin", mapValue.get("from"));
+            end = mapValue.getOrDefault("end", mapValue.get("to"));
         } else {
             throw new IllegalStateException("Value " + value + " is not an interval");
         }
@@ -256,25 +253,24 @@ public class DomainProcessor {
     private Object convertArray(Object value, String domain) {
         List<Object> resultList = new ArrayList<>();
         String domainElement = domain.replaceAll("\\[\\]", "");
-        if (value instanceof String
-                && (((String) value).startsWith("["))
-                && (((String) value).endsWith("]"))) {
+        if (value instanceof String strValue
+                && (strValue.startsWith("["))
+                && (strValue.endsWith("]"))) {
             //json
             try {
-                value = objectMapper.readValue((String) value, List.class);
+                value = objectMapper.readValue(strValue, List.class);
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }
         }
-        if (value instanceof String) {
+        if (value instanceof String strValue) {
             //string list
-            String string = (String) value;
-            String[] elements = string.split(",");
+            String[] elements = strValue.split(",");
             for (String element : elements) {
                 resultList.add(deserialize(element, domainElement));
             }
-        } else if (value instanceof Collection) {
-            for (Object element : (Collection<?>) value) {
+        } else if (value instanceof Collection collectionValue) {
+            for (Object element : collectionValue) {
                 resultList.add(deserialize(element, domainElement));
             }
         } else {
@@ -293,19 +289,19 @@ public class DomainProcessor {
     }
 
     private String findDomain(Object value) {
-        if (value instanceof Collection) {
+        if (value instanceof Collection collectionValue) {
             if (((Collection<?>) value).isEmpty())
-                return "integer[]";//не важно какой тип элементов списка, если он пустой
-            Optional<Object> firstElement = ((Collection<Object>) value).stream().filter(Objects::nonNull).findFirst();
+                return "integer[]"; // неважно, какой тип элементов списка, если он пустой
+            Optional<Object> firstElement = collectionValue.stream().filter(Objects::nonNull).findFirst();
             if (firstElement.isEmpty())
                 return null;
             String elementsDomain = (findDomain(firstElement.get()));
             if (elementsDomain == null) return null;
             return elementsDomain + "[]";
         }
-        if (value instanceof String) {
-            String val = ((String) value).toLowerCase();
-            if (val.equals("true") || value.equals("false")) return Domain.BOOLEAN.getName();
+        if (value instanceof String strValue) {
+            String val = strValue.toLowerCase();
+            if (val.equals("true") || val.equals("false")) return Domain.BOOLEAN.getName();
             if (val.length() <= 6 && val.chars().allMatch(Character::isDigit)) {
                 try {
                     Integer.parseInt(val);

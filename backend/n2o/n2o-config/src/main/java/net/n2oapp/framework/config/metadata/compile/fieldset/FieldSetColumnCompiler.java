@@ -53,9 +53,9 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
                 List<FieldSet> fieldSets = new ArrayList<>();
                 int i = 0;
                 while (i < source.getItems().length) {
-                    N2oFieldSet fieldSet;
-                    if (source.getItems()[i] instanceof N2oFieldSet) {
-                        fieldSet = (N2oFieldSet) source.getItems()[i];
+                    N2oFieldSet n2oFieldSet;
+                    if (source.getItems()[i] instanceof N2oFieldSet fieldSet) {
+                        n2oFieldSet = fieldSet;
                         i++;
                     } else {
                         N2oSetFieldSet newFieldSet = new N2oSetFieldSet();
@@ -66,9 +66,9 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
                         }
                         FieldsetItem[] items = new FieldsetItem[fieldSetItems.size()];
                         newFieldSet.setItems(fieldSetItems.toArray(items));
-                        fieldSet = newFieldSet;
+                        n2oFieldSet = newFieldSet;
                     }
-                    fieldSets.add(p.compile(fieldSet, context, scope));
+                    fieldSets.add(p.compile(n2oFieldSet, context, scope));
                 }
                 column.setFieldsets(fieldSets);
             }

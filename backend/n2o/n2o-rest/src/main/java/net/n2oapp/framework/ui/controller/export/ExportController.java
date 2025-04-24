@@ -142,8 +142,8 @@ public class ExportController extends AbstractController {
     private Map<String, String> getFieldsNames(List<AbstractField> fields) {
         Map<String, String> names = new HashMap<>();
         for (AbstractField field : fields) {
-            if (field instanceof QueryReferenceField) {
-                names.putAll(getFieldsNames(List.of(((QueryReferenceField) field).getFields())));
+            if (field instanceof QueryReferenceField queryReferenceField) {
+                names.putAll(getFieldsNames(List.of(queryReferenceField.getFields())));
                 continue;
             }
             QuerySimpleField simpleField = (QuerySimpleField) field;

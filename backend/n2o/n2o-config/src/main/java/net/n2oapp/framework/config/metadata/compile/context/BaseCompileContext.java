@@ -150,8 +150,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BaseCompileContext)) return false;
-        BaseCompileContext<?, ?> that = (BaseCompileContext<?, ?>) o;
+        if (!(o instanceof BaseCompileContext that)) return false;
         return this.sourceId.equals(that.sourceId) &&
                 this.compiledClass.equals(that.compiledClass);
     }

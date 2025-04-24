@@ -33,8 +33,8 @@ public abstract class InvocationValidationCompiler<D extends InvocationValidatio
         List<AbstractParameter> params = new ArrayList<>();
         if (parameters != null)
             for (AbstractParameter parameter : parameters)
-                params.add(parameter instanceof ObjectSimpleField ?
-                        new ObjectSimpleField((ObjectSimpleField) parameter) :
+                params.add(parameter instanceof ObjectSimpleField objectSimpleField ?
+                        new ObjectSimpleField(objectSimpleField) :
                         new ObjectReferenceField((ObjectReferenceField) parameter));
         return params;
     }

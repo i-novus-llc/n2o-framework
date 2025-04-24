@@ -159,8 +159,8 @@ public class ScriptProcessor {
         Object result = resolveExpression(text);
         if (result == null)
             return null;
-        if (result instanceof Boolean)
-            return !(Boolean) result;
+        if (result instanceof Boolean bool)
+            return !bool;
         if (!isJs(result))
             return result;
         String expr = (String) result;
@@ -199,8 +199,8 @@ public class ScriptProcessor {
     }
 
     public static Object removeJsBraces(Object expression) {
-        if (expression instanceof String)
-            return ((String) expression).replaceAll("`", "");
+        if (expression instanceof String str)
+            return str.replaceAll("`", "");
         return expression;
     }
 
@@ -246,7 +246,7 @@ public class ScriptProcessor {
         for (Object arg : args) {
             if (!begin) res.append(",");
             //добавляем кавычки для строк
-            String str = arg instanceof String ? "'" + arg.toString() + "'" : arg.toString();
+            String str = arg instanceof String argString ? "'" + argString + "'" : arg.toString();
             res.append(str);
             begin = false;
         }
@@ -343,8 +343,7 @@ public class ScriptProcessor {
     }
 
     public String buildLessExpression(String variable, Comparable comparable) {
-        if (comparable instanceof Date) return buildLessExpressionForDate(variable,
-                (Date) comparable);
+        if (comparable instanceof Date date) return buildLessExpressionForDate(variable, date);
         return variable + " < " + comparable;
     }
 
@@ -364,8 +363,8 @@ public class ScriptProcessor {
     }
 
     public String buildMoreExpression(String variable, Comparable comparable) {
-        if (comparable instanceof Date) return buildMoreExpressionForDate(variable,
-                (Date) comparable);
+        if (comparable instanceof Date date)
+            return buildMoreExpressionForDate(variable, date);
         return variable + " > " + comparable;
     }
 
@@ -474,8 +473,8 @@ public class ScriptProcessor {
             @Override
             public boolean visit(AstNode node) {
                 if (node instanceof PropertyGet left) {
-                    while (left.getLeft() instanceof PropertyGet) {
-                        left = (PropertyGet) left.getLeft();
+                    while (left.getLeft() instanceof PropertyGet propertyGet) {
+                        left = propertyGet;
                     }
                     if (!predicate.test(left.getTarget().getString())) return false;
                     left.setLeft(new PropertyGet(new Name(1, context), (Name) left.getLeft()));
@@ -551,8 +550,8 @@ public class ScriptProcessor {
         try {
             Object eval = eval(script, dataSet);
             if (eval == null) return false;
-            if (eval instanceof Boolean)
-                return (boolean) eval;
+            if (eval instanceof Boolean bool)
+                return bool;
             return true;
         } catch (ScriptException e) {
             return false;
@@ -647,8 +646,8 @@ public class ScriptProcessor {
     }
 
     private String getString(Object value) {
-        if (value instanceof String)
-            return "'" + value.toString() + "'";
+        if (value instanceof String str)
+            return "'" + str + "'";
         else if (value instanceof Date dateValue)
             return "'" + new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format(dateValue) + "'";
         return value.toString();

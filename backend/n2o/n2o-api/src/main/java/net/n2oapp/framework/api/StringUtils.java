@@ -220,9 +220,8 @@ public abstract class StringUtils {
      * @return true - динамическое, false - не динамическое
      */
     public static boolean isDynamicValue(Object value) {
-        if (!(value instanceof String))
+        if (!(value instanceof String s))
             return false;
-        String s = (String) value;
         return isJs(s) || isContext(s) || isLink(s) || isProperty(s) || isFunction(s);
     }
 

@@ -39,7 +39,7 @@ public class ComplexPermission extends Permission {
     public <T extends Permission> Optional<T> getPermissionByType(Class<T> type) {
         return (Optional<T>) permissions.stream()
                 .map(p -> {
-                    Optional<T> res = p instanceof ComplexPermission ? ((ComplexPermission)p).getPermissionByType(type) : Optional.empty();
+                    Optional<T> res = p instanceof ComplexPermission complexPermission ? complexPermission.getPermissionByType(type) : Optional.empty();
                     return res.isPresent() ? res.get() : p;
                 })
                 .filter(p -> p.getClass() == type).findFirst();

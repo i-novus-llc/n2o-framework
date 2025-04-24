@@ -106,7 +106,7 @@ public class XMLChangeListener implements FileChangeListener {
         if (path.lastIndexOf('/') <= path.lastIndexOf('.')) return; //Хак для отсеивания временных файлов
 
         Node node = Node.byAbsolutePath(path, getConfigPath(path));
-        List<SourceInfo> sourceInfoList = configRegister.find(s -> s instanceof FileInfo && ((FileInfo) s).getLocalPath().startsWith(node.getLocalPath()));
+        List<SourceInfo> sourceInfoList = configRegister.find(s -> s instanceof FileInfo fileInfo && fileInfo.getLocalPath().startsWith(node.getLocalPath()));
         for (SourceInfo info : sourceInfoList) {
             configRegister.remove(info.getId(), info.getBaseSourceClass());
             eventBus.publish(new MetadataChangedEvent(this, info.getId(), info.getBaseSourceClass()));

@@ -31,8 +31,8 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
             for (AbstractField field : source.getFields()) {
                 if (Boolean.TRUE.equals(field.getIsSelected()) && field.getSelectExpression() == null)
                     field.setSelectExpression(field.getId());
-                if (field instanceof QuerySimpleField)
-                    transformSimpleField(((QuerySimpleField) field));
+                if (field instanceof QuerySimpleField querySimpleField)
+                    transformSimpleField(querySimpleField);
             }
         }
         if (source.getFilters() != null) {

@@ -187,22 +187,21 @@ public class PlaceHoldersResolver {
     public boolean isPlaceHolder(Object param) {
         if (param == null)
             return false;
-        if (!(param instanceof String))
+        if (!(param instanceof String text))
             return false;
-        String text = (String) param;
         return text.startsWith(prefix) && text.endsWith(suffix);
     }
 
     @SuppressWarnings("unchecked")
     private static Function<String, Object> function(Object data) {
-        if (data instanceof Function) {
-            return (Function<String, Object>) data;
-        } else if (data instanceof PropertyResolver) {
-            return ((PropertyResolver) data)::getProperty;
-        } else if (data instanceof Map) {
-            return ((Map) data)::get;
-        } else if (data instanceof List) {
-            return k -> ((List) data).get(Integer.parseInt(k));
+        if (data instanceof Function function) {
+            return function;
+        } else if (data instanceof PropertyResolver propertyResolver) {
+            return propertyResolver::getProperty;
+        } else if (data instanceof Map map) {
+            return map::get;
+        } else if (data instanceof List list) {
+            return k -> list.get(Integer.parseInt(k));
         } else if (data != null && data.getClass().isArray()) {
             Object[] array = (Object[]) data;
             return k -> array[Integer.parseInt(k)];
@@ -304,8 +303,8 @@ public class PlaceHoldersResolver {
     private Function<String, Object> notReplaceNull(Object data) {
         return key -> {
             Object result = function(data).apply(key);
-            if (result instanceof Object[])
-                result = ((Object[]) result)[0];
+            if (result instanceof Object[] obj)
+                result = obj[0];
             return result != null ? result : prefix.concat(key).concat(suffix);
         };
     }

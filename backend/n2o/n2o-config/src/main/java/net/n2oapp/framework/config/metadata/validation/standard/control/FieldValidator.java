@@ -68,11 +68,9 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     private void checkDefaultValues(N2oField source) {
         if ((source.getRefPage() != null || source.getRefDatasourceId() != null || source.getRefModel() != null)
                 && source.getRefFieldId() == null)
-            if (source instanceof N2oListField) {
-                N2oListField list = (N2oListField) source;
+            if (source instanceof N2oListField list) {
                 checkListFieldDefaultValues(list);
-            } else if (source instanceof N2oSimpleIntervalField) {
-                N2oSimpleIntervalField interval = (N2oSimpleIntervalField) source;
+            } else if (source instanceof N2oSimpleIntervalField interval) {
                 if (interval.getBegin() == null && interval.getEnd() == null)
                     throw new N2oMetadataValidationException(
                             String.format("У поля %s default-value не задан", ValidationUtils.getIdOrEmptyString(source.getId())));
@@ -170,8 +168,8 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
                             ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()))
             );
         ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
-        if (dataSourcesScope != null && dataSourcesScope.get(widgetScope.getDatasourceId()) instanceof N2oStandardDatasource)
-            checkDatasourceObject(source, (N2oStandardDatasource) dataSourcesScope.get(widgetScope.getDatasourceId()), widgetScope);
+        if (dataSourcesScope != null && dataSourcesScope.get(widgetScope.getDatasourceId()) instanceof N2oStandardDatasource standardDatasource)
+            checkDatasourceObject(source, standardDatasource, widgetScope);
     }
 
     /**

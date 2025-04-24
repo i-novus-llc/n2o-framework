@@ -133,8 +133,7 @@ public class MetadataPersister {
     private <T extends SourceMetadata> InfoConstructor findOrCreateXmlInfo(T n2o, String directory) {
         if (metadataRegister.contains(n2o.getId(), n2o.getClass())) {
             SourceInfo info = metadataRegister.get(n2o.getId(), n2o.getClass());
-            if (info instanceof XmlInfo) {
-                XmlInfo xmlInfo = (XmlInfo) info;
+            if (info instanceof XmlInfo xmlInfo) {
                 if (directory != null && !normalize(xmlInfo.getDirectory()).equalsIgnoreCase(normalize(directory))) {
                     throw new IllegalArgumentException("Attempt to make a duplicate file.");
                 }

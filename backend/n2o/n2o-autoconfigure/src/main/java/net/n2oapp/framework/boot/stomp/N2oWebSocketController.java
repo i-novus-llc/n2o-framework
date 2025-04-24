@@ -83,8 +83,8 @@ public class N2oWebSocketController implements WebSocketController {
         if (application.getEvents() == null)
             throw new N2oStompException("В метаданной приложения не найдены события");
         for (N2oAbstractEvent event : application.getEvents()) {
-            if (event instanceof N2oStompEvent && destination.equals(((N2oStompEvent) event).getDestination()))
-                return ((N2oStompEvent) event).getAction();
+            if (event instanceof N2oStompEvent stompEvent && destination.equals(stompEvent.getDestination()))
+                return stompEvent.getAction();
         }
         throw new N2oStompException(String.format("В метаданной приложения не найдены события с указанным местом назначения %s", destination));
     }

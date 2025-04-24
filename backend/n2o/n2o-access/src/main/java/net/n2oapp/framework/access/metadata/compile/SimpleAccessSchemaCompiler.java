@@ -81,20 +81,20 @@ public class SimpleAccessSchemaCompiler extends  AccessSchemaCompiler<SimpleComp
     }
 
     private void reproduceAccessPoint(AccessPoint accessPoint, final List<AccessPoint> pointList, CompileProcessor p) {
-        if (accessPoint instanceof N2oObjectAccessPoint) {
-            ReproducerAccessPoint.reproduceAccessPoint(((N2oObjectAccessPoint) accessPoint), pointList, p);
-        } else if (accessPoint instanceof N2oModuleAccessPoint) {
-            ReproducerAccessPoint.reproduceAccessPoint(((N2oModuleAccessPoint) accessPoint), pointList);
-        } else if (accessPoint instanceof N2oPageAccessPoint) {
-            ReproducerAccessPoint.reproduceAccessPoint(((N2oPageAccessPoint) accessPoint), pointList);
-        } else if (accessPoint instanceof N2oContainerAccessPoint) {
-            ReproducerAccessPoint.reproduceAccessPoint(((N2oContainerAccessPoint) accessPoint), pointList);
-        } else if (accessPoint instanceof N2oMenuItemAccessPoint) {
-            ReproducerAccessPoint.reproduceAccessPoint(((N2oMenuItemAccessPoint) accessPoint), pointList);
-        } else if (accessPoint instanceof N2oColumnAccessPoint) {
-            ReproducerAccessPoint.reproduceAccessPoint(((N2oColumnAccessPoint) accessPoint), pointList);
-        } else if (accessPoint instanceof N2oFilterAccessPoint) {
-            ReproducerAccessPoint.reproduceAccessPoint(((N2oFilterAccessPoint) accessPoint), pointList);
+        if (accessPoint instanceof N2oObjectAccessPoint ap) {
+            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList, p);
+        } else if (accessPoint instanceof N2oModuleAccessPoint ap) {
+            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
+        } else if (accessPoint instanceof N2oPageAccessPoint ap) {
+            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
+        } else if (accessPoint instanceof N2oContainerAccessPoint ap) {
+            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
+        } else if (accessPoint instanceof N2oMenuItemAccessPoint ap) {
+            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
+        } else if (accessPoint instanceof N2oColumnAccessPoint ap) {
+            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
+        } else if (accessPoint instanceof N2oFilterAccessPoint ap) {
+            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
         }
     }
 }

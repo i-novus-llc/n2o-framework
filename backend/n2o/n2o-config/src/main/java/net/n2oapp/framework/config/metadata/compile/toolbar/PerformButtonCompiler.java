@@ -109,9 +109,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         if (button.getDatasourceId() != null && p.getScope(DataSourcesScope.class) != null) {
             N2oAbstractDatasource datasource = p.getScope(DataSourcesScope.class).get(button.getDatasourceId());
 
-            if (datasource instanceof N2oStandardDatasource) {
-                N2oStandardDatasource standardDatasource = (N2oStandardDatasource) datasource;
-
+            if (datasource instanceof N2oStandardDatasource standardDatasource) {
                 if (standardDatasource.getObjectId() != null) {
                     return p.getCompiled(new ObjectContext(standardDatasource.getObjectId()));
                 } else if (standardDatasource.getQueryId() != null) {
@@ -207,8 +205,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
                 getClientDatasourceId(dependency.getDatasource(), p) :
                 buttonDatasource;
         condition.setModelLink(new ModelLink(refModel, datasource, null).getBindLink());
-        if (dependency instanceof N2oButton.EnablingDependency)
-            condition.setMessage(((N2oButton.EnablingDependency) dependency).getMessage());
+        if (dependency instanceof N2oButton.EnablingDependency enablingDependency)
+            condition.setMessage(enablingDependency.getMessage());
 
         if (!button.getConditions().containsKey(validationType))
             button.getConditions().put(validationType, new ArrayList<>());

@@ -49,8 +49,8 @@ public class BaseButtonValidator implements SourceValidator<Button>, SourceClass
             Arrays.stream(source.getActions()).forEach(a -> p.validate(a, new ComponentScope(source, p.getScope(ComponentScope.class))));
         }
 
-        if (source instanceof GenerateAware && ((GenerateAware) source).getGenerate() != null) {
-            String[] generate = ((GenerateAware) source).getGenerate();
+        if (source instanceof GenerateAware generateAware && generateAware.getGenerate() != null) {
+            String[] generate = generateAware.getGenerate();
             if (generate.length > 1)
                 throw new N2oMetadataValidationException(
                         String.format("Атрибут 'generate' кнопки %s не может содержать более одного типа генерации", getLabelOrId(source))

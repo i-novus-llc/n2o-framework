@@ -41,8 +41,8 @@ public class MergeOperation<S> implements PipelineOperation<S, S>, PipelineOpera
                      BindProcessor bindProcessor,
                      SourceProcessor sourceProcessor) {
         S override = supplier.get();
-        if (override instanceof RefIdAware && ((RefIdAware) override).getRefId() != null) {
-            String refId = ((RefIdAware) override).getRefId();
+        if (override instanceof RefIdAware refIdAware && refIdAware.getRefId() != null) {
+            String refId = refIdAware.getRefId();
             if (refId != null) {
                 S source = (S) compileProcessor.getSource(refId, (Class<SourceMetadata>) override.getClass(), compileProcessor);
                 return sourceMergerFactory.merge(source, override);

@@ -45,8 +45,8 @@ public class N2oNamespaceReaderFactory<T extends NamespaceUriAware> implements N
         NamespaceReader reader = elementReaders.get(elementName);
         if (reader == null)
             throw new ElementWrongLocation(elementName);
-        if (reader instanceof IOProcessorAware)
-            ((IOProcessorAware) reader).setIOProcessor(this.processor);
+        if (reader instanceof IOProcessorAware ioProcessorAware)
+            ioProcessorAware.setIOProcessor(this.processor);
         return reader;
     }
 

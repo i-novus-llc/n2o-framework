@@ -39,9 +39,9 @@ public abstract class FactoryPredicates {
      * @return Если true, то контекст сборки метаданных шире или равен контексту фабрики, или контекст не используется
      */
     public static <G, C extends CompileContext<?, ?>> boolean isOptionalContextAssignableFrom(G engine, C context) {
-        return !(engine instanceof ContextClassAware)
+        return !(engine instanceof ContextClassAware classAware)
                 || context == null
-                || ((ContextClassAware) engine).getContextClass().isAssignableFrom(context.getClass());
+                || classAware.getContextClass().isAssignableFrom(context.getClass());
     }
 
     /**

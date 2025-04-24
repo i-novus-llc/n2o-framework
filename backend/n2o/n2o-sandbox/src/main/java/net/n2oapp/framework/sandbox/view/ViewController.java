@@ -416,8 +416,8 @@ public class ViewController {
     }
 
     private DataSet getBody(Object body) {
-        if (body instanceof Map)
-            return new DataSet((Map<String, ?>) body);
+        if (body instanceof Map bodyMap)
+            return new DataSet(bodyMap);
         else {
             DataSet dataSet = new DataSet("$list", body);
             dataSet.put("$count", body != null ? ((List<?>) body).size() : 0);

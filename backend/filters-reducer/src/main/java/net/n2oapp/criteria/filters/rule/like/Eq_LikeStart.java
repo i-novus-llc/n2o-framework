@@ -15,9 +15,9 @@ public class Eq_LikeStart implements Rule {
         if (right.getType().equals(FilterType.eq) && left.getType().equals(FilterType.likeStart))
             return simplify(right, left);
         else if (left.getType().equals(FilterType.eq) && right.getType().equals(FilterType.likeStart)) {
-            if (!(right.getValue() instanceof String) || !(left.getValue() instanceof String))
+            if (!(right.getValue() instanceof String) || !(left.getValue() instanceof String leftValue))
                 return null;
-            if (((String) left.getValue()).matches(right.getValue() + ".*")) return left;
+            if (leftValue.matches(right.getValue() + ".*")) return left;
             else return null;
         }
         throw new RuntimeException("Incorrect restriction's type");

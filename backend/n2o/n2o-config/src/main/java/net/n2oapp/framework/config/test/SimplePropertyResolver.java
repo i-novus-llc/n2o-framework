@@ -33,8 +33,7 @@ public class SimplePropertyResolver implements PropertyResolver {
     @Override
     public <T> T getProperty(String key, Class<T> targetType) {
         Object value = properties.get(key);
-        if (value instanceof String && targetType != null && !String.class.equals(targetType)) {
-            String strValue = (String) value;
+        if (value instanceof String strValue && targetType != null && !String.class.equals(targetType)) {
             if (List.class.equals(targetType)) {
                 List<String> list = new ArrayList<>();
                 for (String item : strValue.split(",")) {

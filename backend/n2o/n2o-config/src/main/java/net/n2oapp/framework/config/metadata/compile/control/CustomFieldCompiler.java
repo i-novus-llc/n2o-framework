@@ -43,8 +43,8 @@ public class CustomFieldCompiler extends FieldCompiler<CustomField, N2oCustomFie
     protected net.n2oapp.framework.api.metadata.Component compileControl(N2oComponent source,
                                                                          CompileContext<?, ?> context, CompileProcessor p) {
         net.n2oapp.framework.api.metadata.Component control = p.compile(source, context);
-        if (control instanceof StandardField) {
-            return ((StandardField) control).getControl();
+        if (control instanceof StandardField standardField) {
+            return standardField.getControl();
         }
         return control;
     }

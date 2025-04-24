@@ -222,8 +222,8 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         for (SourceComponent filter : filters) {
             if (filter instanceof N2oSearchButtons || filter instanceof N2oFilterButtonField) {
                 searchButtons.add((N2oField) filter);
-            } else if (filter instanceof FieldsetItem) {
-                findSearchButtons(((FieldsetItem) filter).getItems(), searchButtons);
+            } else if (filter instanceof FieldsetItem fieldsetItem) {
+                findSearchButtons(fieldsetItem.getItems(), searchButtons);
             }
         }
     }
@@ -235,10 +235,10 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     }
 
     private String[] getIgnore(N2oField field) {
-        if (field instanceof N2oSearchButtons && (((N2oSearchButtons) field).getClearIgnore() != null))
-            return ((N2oSearchButtons) field).getClearIgnore();
-        if (field instanceof N2oClearButton && (((N2oClearButton) field).getIgnore() != null))
-            return ((N2oClearButton) field).getIgnore();
+        if (field instanceof N2oSearchButtons searchButtons && searchButtons.getClearIgnore() != null)
+            return searchButtons.getClearIgnore();
+        if (field instanceof N2oClearButton clearButton && clearButton.getIgnore() != null)
+            return clearButton.getIgnore();
         return new String[]{};
     }
 

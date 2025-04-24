@@ -188,8 +188,8 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
 
     private String constructSqlMessage(DataAccessException e) {
         String sqlMessage = e.getMessage();
-        if (e instanceof BadSqlGrammarException)
-            sqlMessage = ((BadSqlGrammarException) e).getSQLException().getMessage();
+        if (e instanceof BadSqlGrammarException badSqlGE)
+            sqlMessage = badSqlGE.getSQLException().getMessage();
         Matcher matcher = SQL_ERROR_PATTERN.matcher(sqlMessage);
         if (matcher.find())
             return "Bad SQL grammar: " + (matcher.group().startsWith("\n")  ?

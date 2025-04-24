@@ -431,8 +431,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                     .filter(m -> {
                         if (!m.containsKey(field) || m.get(field) == null)
                             return false;
-                        if (m.get(field) instanceof Number && pattern instanceof Number)
-                            return ((Long) ((Number) m.get(field)).longValue()).equals(((Number) pattern).longValue());
+                        if (m.get(field) instanceof Number numberField && pattern instanceof Number numberPattern)
+                            return ((Long) numberField.longValue()).equals(numberPattern.longValue());
                         return m.get(field).toString().equals(pattern.toString());
                     })
                     .collect(Collectors.toList());
@@ -447,8 +447,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                     .filter(m -> {
                         if (!m.containsKey(field) || m.get(field) == null)
                             return false;
-                        if (m.get(field) instanceof Number && pattern instanceof Number)
-                            return !((Long) ((Number) m.get(field)).longValue()).equals(((Number) pattern).longValue());
+                        if (m.get(field) instanceof Number numberField && pattern instanceof Number numberPattern)
+                            return !((Long) numberField.longValue()).equals(numberPattern.longValue());
                         return !m.get(field).toString().equals(pattern.toString());
                     })
                     .collect(Collectors.toList());
@@ -472,7 +472,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     private List<DataSet> inFilterData(String field, Object pattern, List<DataSet> data) {
-        List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
+        List patterns = pattern instanceof List patternList? patternList : Arrays.asList(pattern);
         if (patterns != null) {
             String[] splittedField = field.split("\\.");
             String parent = splittedField[0];
@@ -483,18 +483,18 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         if (child != null) {
                             if (!m.containsKey(parent))
                                 return false;
-                            if (m.get(parent) instanceof NestedList) {
-                                return ((NestedList)m.get(parent)).stream().anyMatch(c ->
+                            if (m.get(parent) instanceof NestedList nestedList) {
+                                return nestedList.stream().anyMatch(c ->
                                     ((DataSet) c).containsKey(child) && patterns.contains(((DataSet) c).get(child))
                                 );
                             } else {
                                 return m.containsKey(field) && patterns.contains(m.get(field));
                             }
                         }
-                        if (m.get(field) instanceof Number) {
+                        if (m.get(field) instanceof Number fieldNumber) {
                             List<Long> longPatterns = new ArrayList<>();
                             patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
-                            return longPatterns.contains(((Number) m.get(field)).longValue());
+                            return longPatterns.contains(fieldNumber.longValue());
                         }
                         for (Object p : patterns) {
                             if (p.toString().equals(m.get(field).toString()))
@@ -508,7 +508,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     private List<DataSet> notInFilterData(String field, Object pattern, List<DataSet> data) {
-        List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
+        List patterns = pattern instanceof List patternList ? patternList : Arrays.asList(pattern);
         if (patterns != null) {
             String[] splittedField = field.split("\\.");
             String parent = splittedField[0];
@@ -519,18 +519,18 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         if (child != null) {
                             if (!m.containsKey(parent))
                                 return false;
-                            if (m.get(parent) instanceof NestedList) {
-                                return ((NestedList)m.get(parent)).stream().anyMatch(c ->
+                            if (m.get(parent) instanceof NestedList nestedList) {
+                                return nestedList.stream().anyMatch(c ->
                                         ((DataSet) c).containsKey(child) && !patterns.contains(((DataSet) c).get(child))
                                 );
                             } else {
                                 return m.containsKey(field) && !patterns.contains(m.get(field));
                             }
                         }
-                        if (m.get(field) instanceof Number) {
+                        if (m.get(field) instanceof Number numberField) {
                             List<Long> longPatterns = new ArrayList<>();
                             patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
-                            return !longPatterns.contains(((Number) m.get(field)).longValue());
+                            return !longPatterns.contains(numberField.longValue());
                         }
                         return !patterns.contains(m.get(field).toString());
                     })
@@ -540,7 +540,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     private List<DataSet> containsFilterData(String field, Object pattern, List<DataSet> data) {
-        List<?> patterns = pattern instanceof List ? (List<?>) pattern : Collections.singletonList(pattern);
+        List<?> patterns = pattern instanceof List patternList ? patternList : Collections.singletonList(pattern);
         if (patterns.isEmpty())
             return data;
         List<String> splittedField = new ArrayList<>(Arrays.asList(field.split("\\.")));
@@ -578,8 +578,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                     .filter(m -> {
                         if (!m.containsKey(field) || m.get(field) == null)
                             return false;
-                        if (m.get(field) instanceof Number && pattern instanceof Number) {
-                            return ((Number) m.get(field)).longValue() < ((Number) pattern).longValue();
+                        if (m.get(field) instanceof Number fieldNumber && pattern instanceof Number patternNumber) {
+                            return fieldNumber.longValue() < patternNumber.longValue();
                         }
                         if (pattern instanceof LocalDate) {
                             LocalDate date = parseToLocalDate(m.get(field).toString());
@@ -603,8 +603,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                     .filter(m -> {
                         if (!m.containsKey(field) || m.get(field) == null)
                             return false;
-                        if (m.get(field) instanceof Number && pattern instanceof Number) {
-                            return ((Long) ((Number) m.get(field)).longValue()).compareTo(((Number) pattern).longValue()) > 0;
+                        if (m.get(field) instanceof Number fieldNumber && pattern instanceof Number patternNumber) {
+                            return ((Long) fieldNumber.longValue()).compareTo(patternNumber.longValue()) > 0;
                         }
                         if (pattern instanceof LocalDate) {
                             LocalDate date = parseToLocalDate(m.get(field).toString());
@@ -641,8 +641,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                     .filter(m -> {
                         if (!m.containsKey(field) || m.containsKey(field) && m.get(field) == null)
                             return true;
-                        if (m.get(field) instanceof Number && pattern instanceof Number)
-                            return ((Long) ((Number) m.get(field)).longValue()).equals(((Number) pattern).longValue());
+                        if (m.get(field) instanceof Number fieldNumber && pattern instanceof Number patternNumber)
+                            return ((Long) fieldNumber.longValue()).equals(patternNumber.longValue());
                         return m.get(field).toString().equals(pattern.toString());
                     })
                     .collect(Collectors.toList());
