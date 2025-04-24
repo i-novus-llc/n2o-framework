@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.application.N2oSidebar;
@@ -12,6 +14,7 @@ import net.n2oapp.framework.api.metadata.menu.N2oMenu;
 
 import java.util.Map;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MetadataUtil {
     public static final Map<? extends Class<? extends SourceMetadata>, String> XML_BY_METADATA = Map.of(
             N2oObject.class, "object.xml",

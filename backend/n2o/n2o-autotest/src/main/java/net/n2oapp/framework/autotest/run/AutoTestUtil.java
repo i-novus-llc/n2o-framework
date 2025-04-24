@@ -1,11 +1,14 @@
 package net.n2oapp.framework.autotest.run;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AutoTestUtil {
 
     public static void checkChromeDriver() {

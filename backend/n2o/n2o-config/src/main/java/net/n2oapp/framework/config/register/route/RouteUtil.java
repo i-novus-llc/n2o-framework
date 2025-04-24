@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.register.route;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
@@ -13,6 +15,7 @@ import static org.apache.commons.lang3.StringUtils.startsWithAny;
 /**
  * Утилитарные методы для работы с URL
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class RouteUtil {
 
     /**

@@ -1,5 +1,7 @@
 package net.n2oapp.framework.engine.data;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +24,7 @@ import static org.springframework.web.context.request.RequestContextHolder.getRe
 /**
  * Собирает данные для вызова InvocationEngine
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class QueryUtil {
     private static final String AMP_ESCAPE = "&amp;";
 

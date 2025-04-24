@@ -4,6 +4,8 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.MethodInfo;
 import io.github.classgraph.ScanResult;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.engine.SpringApplicationContextProvider;
 
 import java.lang.reflect.Method;
@@ -19,6 +21,7 @@ import static org.springframework.util.StringUtils.hasText;
 /**
  * Сборщик нормализующих функций
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NormalizerCollector {
 
     private static final String PACKAGES_PROPERTY = "n2o.engine.normalizer.packages";

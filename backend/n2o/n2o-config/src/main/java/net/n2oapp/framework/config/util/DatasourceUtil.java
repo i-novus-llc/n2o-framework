@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.datasource.ClientDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 /**
  * Утилита для компиляции источников данных
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DatasourceUtil {
 
     /**

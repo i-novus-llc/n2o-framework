@@ -1,5 +1,7 @@
 package net.n2oapp.framework.sandbox.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.framework.config.util.FileSystemUtil;
@@ -13,6 +15,7 @@ import static net.n2oapp.framework.config.register.storage.PathUtil.convertPathT
 /**
  * Утилитный класс для работы с файлами
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileUtil {
 
     /**

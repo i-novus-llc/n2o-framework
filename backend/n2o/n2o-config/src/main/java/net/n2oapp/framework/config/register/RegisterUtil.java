@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.register;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
@@ -19,6 +21,7 @@ import java.util.function.Function;
 /**
  * Утилитный класс для работы с регистром
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegisterUtil {
     private static final Logger log = LoggerFactory.getLogger(RegisterUtil.class);
     public static String DEFAULT_DYNAMIC_LOCAL_PATH = "java/override/";

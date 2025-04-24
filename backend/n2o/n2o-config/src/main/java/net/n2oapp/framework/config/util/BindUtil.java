@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -10,6 +12,7 @@ import java.util.Map;
 /**
  * Утилита для связывания метаданных с данными
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BindUtil {
     /**
      * Разрешение ссылок на предыдущие страницы в {@link ClientDataProvider}

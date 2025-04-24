@@ -1,5 +1,8 @@
 package net.n2oapp.framework.engine.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,6 +15,7 @@ import java.util.Set;
 /**
  *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NamedParameterUtils {
     private static final HashMap<String, String> LITERALS_FOR_REPLACE;
 

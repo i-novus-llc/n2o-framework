@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
@@ -25,6 +27,7 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ButtonCompileUtil {
 
     public static String initDatasource(DatasourceIdAware source, CompileProcessor p) {

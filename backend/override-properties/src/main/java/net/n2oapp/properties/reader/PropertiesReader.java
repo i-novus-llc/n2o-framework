@@ -1,6 +1,8 @@
 package net.n2oapp.properties.reader;
 
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.ReloadableProperties;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ import java.io.InputStream;
  * Time: 12:03
  * PropertiesReader reads and loads properties from files in classpath.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PropertiesReader {
 
     private static Logger log = LoggerFactory.getLogger(PropertiesReader.class);

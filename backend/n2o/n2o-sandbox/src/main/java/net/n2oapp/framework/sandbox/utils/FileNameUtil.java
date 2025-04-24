@@ -1,10 +1,13 @@
 package net.n2oapp.framework.sandbox.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
 /**
  * Утилитный класс для работы с названиями файлов
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileNameUtil {
 
     /**

@@ -1,5 +1,7 @@
 package net.n2oapp.framework.access.simple;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.access.api.model.filter.N2oAccessFilter;
 import net.n2oapp.framework.access.functions.TripleFunction;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
@@ -23,6 +25,7 @@ import static java.util.Arrays.stream;
  * Сбор точек доступа по ролям, правам пользователя
  */
 @SuppressWarnings("unchecked")
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PermissionAndRoleCollector {
 
     public final static BiFunction<String, String, Predicate<N2oObjectAccessPoint>> OBJECT_ACCESS = (objectId, actionId) ->

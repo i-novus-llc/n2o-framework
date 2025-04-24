@@ -1,11 +1,15 @@
 package net.n2oapp.framework.engine.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Кэширует получаемые классы
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClassHash {
 
     private static final Map<String, Class> classMap = new ConcurrentHashMap<>();

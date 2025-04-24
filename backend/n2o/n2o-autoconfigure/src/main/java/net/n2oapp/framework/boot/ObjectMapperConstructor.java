@@ -5,11 +5,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.boot.json.N2oJacksonModule;
 
 import java.text.SimpleDateFormat;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ObjectMapperConstructor {
 
     public static ObjectMapper metaObjectMapper() {

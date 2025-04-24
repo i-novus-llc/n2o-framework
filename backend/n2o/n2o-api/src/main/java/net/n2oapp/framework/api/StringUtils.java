@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -17,6 +19,7 @@ import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
 /**
  * Утилиты для работы с особыми строками в N2O
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class StringUtils {
     private static PlaceHoldersResolver propertyPlaceHoldersResolver = new PlaceHoldersResolver("${", "}");
     private static PlaceHoldersResolver contextPlaceHoldersResolver = new PlaceHoldersResolver("#{", "}");

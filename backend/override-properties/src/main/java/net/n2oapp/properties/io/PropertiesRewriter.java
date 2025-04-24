@@ -1,5 +1,7 @@
 package net.n2oapp.properties.io;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.core.io.Resource;
 
 import java.io.*;
@@ -9,6 +11,7 @@ import java.util.List;
 /**
  * @author V. Alexeev.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PropertiesRewriter {
 
     public static final String KEY_VALUE_FORMAT = "%s=%s\n";

@@ -1,5 +1,7 @@
 package net.n2oapp.framework.engine.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.context.ContextProcessor;
@@ -24,6 +26,7 @@ import java.util.*;
 /**
  * Утилитный класс для маппинга данных.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MappingProcessor {
     private static final ExpressionParser writeParser = new SpelExpressionParser(new SpelParserConfiguration(true, true));
     private static final ExpressionParser readParser = new SpelExpressionParser(new SpelParserConfiguration(false, false));

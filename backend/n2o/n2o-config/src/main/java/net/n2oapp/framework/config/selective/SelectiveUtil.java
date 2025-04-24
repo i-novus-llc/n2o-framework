@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.selective;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.reader.ElementReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
@@ -14,6 +16,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SelectiveUtil {
 
     public static <N extends SourceMetadata> N readByPath(String id, String path, NamespaceReaderFactory readerFactory) {

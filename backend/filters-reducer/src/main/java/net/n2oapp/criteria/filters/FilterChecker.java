@@ -1,19 +1,24 @@
 package net.n2oapp.criteria.filters;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 import java.util.UUID;
 
 /**
  * Checker for check value by filter
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FilterChecker {
 
 
     /**
      * Checks that the value satisfies the filter constraints
-     * @param filter  filter
-     * @param value value for checking
-     * @return  <tt>true</tt> if the value satisfies the filter constraints, else <tt>false</tt>
+     *
+     * @param filter filter
+     * @param value  value for checking
+     * @return <tt>true</tt> if the value satisfies the filter constraints, else <tt>false</tt>
      */
     @SuppressWarnings("unchecked")
     public static boolean check(Filter filter, Object value) {
@@ -65,7 +70,7 @@ public class FilterChecker {
 
     private static boolean contains(List<?> values, Object value) {
         if (value instanceof List) {
-            if (values == null || values.isEmpty() || value == null || ((List) value).isEmpty()){
+            if (values == null || values.isEmpty() || value == null || ((List) value).isEmpty()) {
                 return false;
             }
             final boolean[] res = {true};
@@ -81,7 +86,7 @@ public class FilterChecker {
 
     private static boolean overlap(List<?> values, Object value) {
         if (value instanceof List) {
-            return values.stream().anyMatch(v -> contains((List<?>)value, v));
+            return values.stream().anyMatch(v -> contains((List<?>) value, v));
         }
         return containsOne(values, value);
     }

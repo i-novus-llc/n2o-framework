@@ -1,5 +1,7 @@
 package net.n2oapp.criteria.filters;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.criteria.filters.rule.*;
 import net.n2oapp.criteria.filters.rule.base.Rule;
 import net.n2oapp.criteria.filters.rule.like.*;
@@ -15,6 +17,7 @@ import static java.lang.String.format;
 /**
  * Util for reduce filters in pairs as AND
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FilterReducer {
 
     private static Map<Pair, Rule> rulesMap;
@@ -49,9 +52,10 @@ public class FilterReducer {
 
     /**
      * Unite two filters, if it is possible
-     * @param left first filter
-     * @param right  second filter
-     * @return  filters union
+     *
+     * @param left  first filter
+     * @param right second filter
+     * @return filters union
      */
     @SuppressWarnings("unchecked")
     public static Result reduce(Filter left, Filter right) {

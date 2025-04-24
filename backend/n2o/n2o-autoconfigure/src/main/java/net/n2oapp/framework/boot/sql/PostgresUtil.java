@@ -2,6 +2,8 @@ package net.n2oapp.framework.boot.sql;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.criteria.dataset.DataSet;
 import org.postgresql.util.PGobject;
 
@@ -10,6 +12,7 @@ import java.sql.Array;
 import java.sql.SQLException;
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostgresUtil {
     private static final ObjectMapper mapper = new ObjectMapper();
 

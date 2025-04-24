@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.util.RefUtil;
 
 import java.util.*;
@@ -8,6 +10,7 @@ import java.util.stream.Stream;
 /**
  * Утилиты для работы с динамическими метаданными
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class DynamicUtil {
 
     /**
