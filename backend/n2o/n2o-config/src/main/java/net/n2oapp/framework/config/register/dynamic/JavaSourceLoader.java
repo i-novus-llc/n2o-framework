@@ -46,7 +46,7 @@ public class JavaSourceLoader implements SourceLoader<JavaInfo> {
 
         //проверяем что id динамические
         metadataList.stream().filter(m -> m.getId() == null).forEach(m -> m.setId(provider.getCode() + "?" + params));
-        DynamicUtil.checkDynamicIds(metadataList.stream().map(SourceMetadata::getId).collect(Collectors.toList()),
+        DynamicUtil.checkDynamicIds(metadataList.stream().map(SourceMetadata::getId).toList(),
                 provider.getCode());
 
         //кэшируем все что нашли

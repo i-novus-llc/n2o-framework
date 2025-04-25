@@ -45,7 +45,7 @@ public class ButtonCompileUtil {
         if (!ArrayUtils.isEmpty(source.getValidateDatasourceIds()))
             return Stream.of(source.getValidateDatasourceIds())
                     .map(ds -> getClientDatasourceId(ds, p))
-                    .collect(Collectors.toList());
+                    .toList();
         if (nonNull(datasource))
             return Collections.singletonList(getClientDatasourceId(datasource, p));
         return null;
@@ -68,7 +68,7 @@ public class ButtonCompileUtil {
                             .stream()
                             .peek(item -> ((ExtensionAttributesAware) item).setExtAttributes(extAttributes))
                             .map(item -> (AbstractButton)p.compile(item, context, p))
-                            .collect(Collectors.toList())
+                            .toList()
             )
         );
 

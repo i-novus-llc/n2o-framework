@@ -315,7 +315,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 if (referenceField.getSelectKey() != null) {
                     List<AbstractField> displayedInnerFields = query.getDisplayedInnerFields(referenceField);
                     map.put(referenceField.getSelectKey(),
-                            displayedInnerFields.stream().map(AbstractField::getSelectExpression).collect(Collectors.toList()));
+                            displayedInnerFields.stream().map(AbstractField::getSelectExpression).toList());
                     prepareSelectKeys(map, displayedInnerFields, query);
                 }
             }
@@ -365,9 +365,9 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             throw new N2oException("В результате нормализации через `result-normalize` получилась не коллекция");
         }
 
-        List<DataSet> content = result.stream()
+        List<DataSet> content = new ArrayList<>(result.stream()
                 .map(obj -> mapFields(obj, query.getDisplayFields(), null))
-                .collect(Collectors.toList());
+                .toList());
 
         CollectionPage<DataSet> collectionPage;
 

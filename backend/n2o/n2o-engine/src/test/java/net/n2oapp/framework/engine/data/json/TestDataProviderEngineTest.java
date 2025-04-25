@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -18,7 +17,6 @@ import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.Operation.*;
 import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyType.string;
@@ -935,7 +933,7 @@ class TestDataProviderEngineTest {
 
         //Проверка, что до удаления элемент существует
         List<Map> result = (List<Map>) engine.invoke(provider, inParamsForRead);
-        result = result.stream().filter(map -> map.get("id").equals(5607676L)).collect(Collectors.toList());
+        result = result.stream().filter(map -> map.get("id").equals(5607676L)).toList();
         assertThat(result.size(), is(1));
 
 
@@ -947,7 +945,7 @@ class TestDataProviderEngineTest {
         //Проверка, что удаление прошло успешно
         provider.setOperation(null);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
-        result = result.stream().filter(map -> map.get("id").equals(5607676)).collect(Collectors.toList());
+        result = result.stream().filter(map -> map.get("id").equals(5607676)).toList();
         assertThat(result.size(), is(0));
     }
 
@@ -1139,7 +1137,7 @@ class TestDataProviderEngineTest {
 
         //Проверка, что до удаления элемент существует
         List<Map> result = (List<Map>) engine.invoke(provider, inParamsForRead);
-        result = result.stream().filter(map -> map.get("testId").equals("a7e0973e-5dfc-4f77-8e1b-2c284d70453d")).collect(Collectors.toList());
+        result = result.stream().filter(map -> map.get("testId").equals("a7e0973e-5dfc-4f77-8e1b-2c284d70453d")).toList();
         assertThat(result.size(), is(1));
 
 
@@ -1151,7 +1149,7 @@ class TestDataProviderEngineTest {
         //Проверка, что удаление прошло успешно
         provider.setOperation(null);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
-        result = result.stream().filter(map -> map.get("testId").equals("a7e0973e-5dfc-4f77-8e1b-2c284d70453d")).collect(Collectors.toList());
+        result = result.stream().filter(map -> map.get("testId").equals("a7e0973e-5dfc-4f77-8e1b-2c284d70453d")).toList();
         assertThat(result.size(), is(0));
     }
 

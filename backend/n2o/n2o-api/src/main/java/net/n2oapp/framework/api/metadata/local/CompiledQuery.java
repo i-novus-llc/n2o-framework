@@ -50,7 +50,7 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
     public List<AbstractField> getDisplayedInnerFields(QueryReferenceField referenceField) {
         if (referenceField.getFields() == null)
             return new ArrayList<>();
-        return Arrays.stream(referenceField.getFields()).filter(AbstractField::getIsSelected).collect(Collectors.toList());
+        return Arrays.stream(referenceField.getFields()).filter(AbstractField::getIsSelected).toList();
     }
 
     public boolean containsFilter(String fieldId, FilterType type) {

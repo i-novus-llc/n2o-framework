@@ -99,7 +99,7 @@ public class PermissionAndRoleCollector {
                 .filter(type::isInstance)
                 .map(type::cast)
                 .anyMatch(predicate))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -116,12 +116,12 @@ public class PermissionAndRoleCollector {
                                                        Predicate<N2oUserAccess> userPredicate, String objectId,
                                                        String actionId, SimpleCompiledAccessSchema schema) {
         List<N2oRole> roles = collectRoles(N2oObjectAccessPoint.class, PermissionAndRoleCollector.OBJECT_ACCESS.apply(objectId, actionId), schema)
-                .stream().filter(rolePredicate).collect(Collectors.toList());
+                .stream().filter(rolePredicate).toList();
         List<N2oPermission> permissions = collectPermission(N2oObjectAccessPoint.class,
                 PermissionAndRoleCollector.OBJECT_ACCESS.apply(objectId, actionId), schema)
-                .stream().filter(permissionPredicate).collect(Collectors.toList());
+                .stream().filter(permissionPredicate).toList();
         List<N2oUserAccess> users = collectUsers(N2oObjectAccessPoint.class, PermissionAndRoleCollector.OBJECT_ACCESS.apply(objectId, actionId), schema)
-                .stream().filter(userPredicate).collect(Collectors.toList());
+                .stream().filter(userPredicate).toList();
         List<N2oAccessFilter> filters = new ArrayList<>();
         filters.addAll(collectFilters(roles, N2oRole::getAccessPoints, objectId, actionId));
         filters.addAll(collectFilters(permissions, N2oPermission::getAccessPoints, objectId, actionId));
@@ -148,6 +148,6 @@ public class PermissionAndRoleCollector {
                         return new N2oAccessFilter(ac.getFieldId(), ac.getValue(), ac.getType());
                     }
                 })
-                .collect(Collectors.toList());*/
+                .toList();*/
     }
 }

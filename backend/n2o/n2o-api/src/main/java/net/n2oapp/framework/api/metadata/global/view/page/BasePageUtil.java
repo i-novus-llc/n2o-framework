@@ -1,8 +1,8 @@
 package net.n2oapp.framework.api.metadata.global.view.page;
 
-import net.n2oapp.framework.api.metadata.RegionItem;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.BiPredicate;
-import java.util.stream.Collectors;
 
 public class SimpleEngineLocator<G> implements EngineLocator<G> {
     private Collection<G> engines;
@@ -18,7 +17,7 @@ public class SimpleEngineLocator<G> implements EngineLocator<G> {
 
     @Override
     public <T> MultiEngineFactory<T, G> locate(BiPredicate<G, T> predicate) {
-        return type -> engines.stream().filter(g -> predicate.test(g, type)).collect(Collectors.toList());
+        return type -> engines.stream().filter(g -> predicate.test(g, type)).toList();
     }
 
     public void add(G engine) {

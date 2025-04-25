@@ -115,7 +115,7 @@ class StandardPageCompileTest extends SourceCompileTestBase {
 
         QueryContext detail1QueryCtx = (QueryContext) route("/testWidgetPrefilters/detail1", CompiledQuery.class);
         assertThat(detail1QueryCtx.getFilters().size(), is(3));
-        assertThat(detail1QueryCtx.getFilters().stream().map(Filter::getParam).collect(Collectors.toList()), hasItems("nameParam", "detail1_parent_id", "detail1_genders_id"));
+        assertThat(detail1QueryCtx.getFilters().stream().map(Filter::getParam).toList(), hasItems("nameParam", "detail1_parent_id", "detail1_genders_id"));
 
         ClientDataProvider detail2Ds = ((StandardDatasource) page.getDatasources().get("testWidgetPrefilters_detail2")).getProvider();
         assertThat(detail2Ds.getQueryMapping().get("detail2_name").getBindLink(), is("models.filter['testWidgetPrefilters_master2']"));
@@ -125,7 +125,7 @@ class StandardPageCompileTest extends SourceCompileTestBase {
 
         QueryContext detail2QueryCtx = (QueryContext) route("/testWidgetPrefilters/detail2", CompiledQuery.class);
         assertThat(detail2QueryCtx.getFilters().size(), is(2));
-        assertThat(detail2QueryCtx.getFilters().stream().map(Filter::getParam).collect(Collectors.toList()), hasItems("detail2_name", "detail2_genders_id"));
+        assertThat(detail2QueryCtx.getFilters().stream().map(Filter::getParam).toList(), hasItems("detail2_name", "detail2_genders_id"));
     }
 
 

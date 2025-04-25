@@ -35,7 +35,7 @@ public class QueryContextUtil {
             e.setFilterId(f.getFilterId());
             e.setRoutable(true);
             return e;
-        }).collect(Collectors.toList());
+        }).toList();
         contextForRegister.setFilters(filters);
         contextForRegister.setSortingMap(initSortingMap(query));
         return contextForRegister;

@@ -58,7 +58,7 @@ public class StandardPage extends Page {
         if (button != null)
             return (PerformButton) button;
         List<Toolbar> widgetToolbars = BasePageUtil.getCompiledWidgets(this).stream()
-                .map(Widget::getToolbar).collect(Collectors.toList());
+                .map(Widget::getToolbar).toList();
         for (Toolbar toolbar : widgetToolbars) {
             button = toolbar.getButton(buttonId);
             if (button != null)

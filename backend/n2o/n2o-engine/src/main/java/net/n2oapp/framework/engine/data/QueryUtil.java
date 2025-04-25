@@ -170,6 +170,6 @@ public abstract class QueryUtil {
     }
 
     public static List<String> insertPrefixSuffix(List<String> args, String prefix, String suffix) {
-        return args.stream().map(s -> prefix + s + suffix).collect(Collectors.toList());
+        return args.stream().map(s -> prefix + s + suffix).toList();
     }
 }

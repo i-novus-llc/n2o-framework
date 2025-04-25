@@ -129,7 +129,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
                     }
                     int i = 0;
                     for (Object o : array) {
-                        res.add(((NestedList)rightValue).put("[" + i + "]" + "." + info.getRight(), o));
+                        res.add(((NestedList) rightValue).put("[" + i + "]" + "." + info.getRight(), o));
                         i++;
                     }
                     return res;

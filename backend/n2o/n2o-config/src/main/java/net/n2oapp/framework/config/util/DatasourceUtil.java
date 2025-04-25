@@ -49,7 +49,7 @@ public class DatasourceUtil {
      * @return Список идентификаторов клиенстких источников данных
      */
     public static List<String> getClientDatasourceIds(List<String> datasourceIds, CompileProcessor p) {
-        return datasourceIds.stream().map(ds -> getClientDatasourceId(ds, p)).collect(Collectors.toList());
+        return datasourceIds.stream().map(ds -> getClientDatasourceId(ds, p)).toList();
     }
 
     /**

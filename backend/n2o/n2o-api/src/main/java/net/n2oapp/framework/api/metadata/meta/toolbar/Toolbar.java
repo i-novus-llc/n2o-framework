@@ -29,6 +29,6 @@ public class Toolbar extends LinkedHashMap<String, List<Group>> implements Compi
     }
 
     public List<Group> getGroups() {
-        return values().stream().flatMap(List::stream).collect(Collectors.toList());
+        return values().stream().flatMap(List::stream).toList();
     }
 }

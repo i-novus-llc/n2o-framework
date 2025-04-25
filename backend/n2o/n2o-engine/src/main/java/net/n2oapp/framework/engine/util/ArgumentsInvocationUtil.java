@@ -47,7 +47,7 @@ public class ArgumentsInvocationUtil {
                 argumentInstances[i] = criteriaConstructor.construct(criteria, argumentInstances[i]);
 
         if (Arrays.stream(invocation.getArguments()).filter(arg -> (Argument.Type.ENTITY.equals(arg.getType()) ||
-                Argument.Type.CRITERIA.equals(arg.getType()))).collect(Collectors.toList()).size() > 1)
+                Argument.Type.CRITERIA.equals(arg.getType()))).toList().size() > 1)
             throw new IllegalArgumentException("There must be only one argument with Criteria or Entity type ");
 
         int idx = 0;

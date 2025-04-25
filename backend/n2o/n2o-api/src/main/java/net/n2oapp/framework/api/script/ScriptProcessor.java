@@ -323,13 +323,13 @@ public class ScriptProcessor {
 
     public String buildInListExpression(String variable, List<Object> values) {
         String res = "_.indexOf(_.isArray(%s) ? %s : [%s], %s) >= 0";
-        String array = values.stream().map(this::getString).collect(Collectors.toList()).toString();
+        String array = values.stream().map(this::getString).toList().toString();
         return String.format(res, array, array, array, variable);
     }
 
     public String buildOverlapListExpression(String variable, List<Object> values) {
         String res = "_.intersection(_.isArray(%s) ? %s : [%s], %s).length > 0";
-        return String.format(res, variable, variable, variable, values.stream().map(this::getString).collect(Collectors.toList()).toString());
+        return String.format(res, variable, variable, variable, values.stream().map(this::getString).toList().toString());
     }
 
     public String buildContainsListExpression(String variable, List<Object> values) {

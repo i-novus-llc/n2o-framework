@@ -456,7 +456,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
                 subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
             ModelLink resolvedLink = link.getSubModelLink();
             List<DataSet> valueList = (List<DataSet>) dataSet.get(link.getSubModelQuery().getSubModel());
-            resolvedLink.setValue(valueList.stream().map(DefaultValues::new).collect(Collectors.toList()));
+            resolvedLink.setValue(valueList.stream().map(DefaultValues::new).toList());
             return resolvedLink;
         } else if (link.getValue() instanceof DefaultValues defaultValues) {
             if (link.getSubModelQuery().isMulti())
@@ -482,7 +482,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
             ModelLink resolvedLink = link.getSubModelLink();
             if (link.getSubModelQuery().isMulti()) {
                 List<DataSet> valueList = (List<DataSet>) dataSet.get(link.getSubModelQuery().getSubModel());
-                resolvedLink.setValue(valueList.stream().map(DefaultValues::new).collect(Collectors.toList()));
+                resolvedLink.setValue(valueList.stream().map(DefaultValues::new).toList());
             } else {
                 resolvedLink.setValue(new DefaultValues((Map<String, Object>) dataSet.get(link.getSubModelQuery().getSubModel())));
             }

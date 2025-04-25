@@ -15,7 +15,6 @@ import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ExportController extends AbstractController {
 
@@ -89,7 +88,7 @@ public class ExportController extends AbstractController {
                 data.getList().stream()
                         .filter(dataSet -> Objects.nonNull(dataSet.get("id")))
                         .filter(dataSet -> dataSet.get("id").toString().equals(parentIds[0]))
-                        .collect(Collectors.toList())
+                        .toList()
         );
     }
 
