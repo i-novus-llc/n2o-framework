@@ -36,10 +36,10 @@ public abstract class Widget<T extends WidgetComponent> extends Component implem
     @JsonProperty
     private Boolean visible;
 
-    public Widget() {
+    protected Widget() {
     }
 
-    public Widget(T component) {
+    protected Widget(T component) {
         this.component = component;
     }
 

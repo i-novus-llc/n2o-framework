@@ -23,7 +23,7 @@ public abstract class AbstractAction<P extends ActionPayload, M extends MetaSaga
 
     protected Map<String, Object> properties;
 
-    public AbstractAction(P payload, M meta) {
+    protected AbstractAction(P payload, M meta) {
         this.payload = payload;
         this.meta = meta;
     }

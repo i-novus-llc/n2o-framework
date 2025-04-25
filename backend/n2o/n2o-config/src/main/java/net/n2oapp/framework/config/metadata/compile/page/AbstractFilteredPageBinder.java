@@ -15,7 +15,7 @@ public abstract class AbstractFilteredPageBinder implements BaseMetadataBinder<P
      * Конструктор
      * @param pageId Страница, которую необходимо связать с данными
      */
-    public AbstractFilteredPageBinder(String pageId) {
+    protected AbstractFilteredPageBinder(String pageId) {
         this.pageId = pageId;
     }
 

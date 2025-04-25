@@ -22,11 +22,11 @@ public abstract class BaseMetadataFactory<G> implements MetadataFactory<G>, Meta
     private MetadataEnvironment environment;
     private SimpleEngineLocator<G> locator;
 
-    public BaseMetadataFactory() {
+    protected BaseMetadataFactory() {
         locator = new SimpleEngineLocator<>(new HashMap<>());
     }
 
-    public BaseMetadataFactory(Map<String, G> beans) {
+    protected BaseMetadataFactory(Map<String, G> beans) {
         locator = new SimpleEngineLocator<>(beans);
     }
 

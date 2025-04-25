@@ -6,10 +6,10 @@ public abstract class AbstractNamespaceIO<T extends NamespaceUriAware> extends A
         implements NamespaceIO<T>, IOProcessorAware  {
     private String namespaceUri;
 
-    public AbstractNamespaceIO() {
+    protected AbstractNamespaceIO() {
     }
 
-    public AbstractNamespaceIO(String namespaceUri) {
+    protected AbstractNamespaceIO(String namespaceUri) {
         this.namespaceUri = namespaceUri;
     }
 

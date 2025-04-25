@@ -7,10 +7,10 @@ public abstract class FileInfo extends SourceInfo {
     protected String uri;
     protected String localPath;
 
-    public FileInfo() {
+    protected FileInfo() {
     }
 
-    public FileInfo(String id, Class<? extends SourceMetadata> baseSourceClass, String uri, String localPath) {
+    protected FileInfo(String id, Class<? extends SourceMetadata> baseSourceClass, String uri, String localPath) {
         super(id, baseSourceClass);
         this.uri = uri;
         this.localPath = localPath;

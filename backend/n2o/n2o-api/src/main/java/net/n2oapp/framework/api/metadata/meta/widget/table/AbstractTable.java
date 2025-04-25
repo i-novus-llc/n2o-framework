@@ -30,7 +30,7 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
         return component;
     }
 
-    public AbstractTable(T component) {
+    protected AbstractTable(T component) {
         super(component);
     }
 

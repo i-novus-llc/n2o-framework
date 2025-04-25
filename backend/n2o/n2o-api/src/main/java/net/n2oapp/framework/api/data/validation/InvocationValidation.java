@@ -19,7 +19,7 @@ public abstract class InvocationValidation extends Validation {
     private List<AbstractParameter> inParametersList;
     private List<AbstractParameter> outParametersList;
 
-    public InvocationValidation(InvocationValidation validation) {
+    protected InvocationValidation(InvocationValidation validation) {
         super(validation);
         this.invocation = validation.getInvocation();
         this.inParametersList = validation.getInParametersList();

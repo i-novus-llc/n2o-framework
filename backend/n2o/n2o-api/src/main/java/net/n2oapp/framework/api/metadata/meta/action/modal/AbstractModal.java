@@ -15,7 +15,7 @@ public abstract class AbstractModal<T extends ModalPayload> extends AbstractActi
     private String operationId;
     private String pageId;
 
-    public AbstractModal(T payload, MetaSaga meta) {
+    protected AbstractModal(T payload, MetaSaga meta) {
         super(payload, meta);
     }
 }
