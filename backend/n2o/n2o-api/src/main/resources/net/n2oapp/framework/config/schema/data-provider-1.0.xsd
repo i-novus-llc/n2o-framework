@@ -87,11 +87,6 @@
                 <xs:documentation>Разделитель между присоединёнными таблицами</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="content-type" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Тип контента</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="proxy-host" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Адрес прокси</xs:documentation>
