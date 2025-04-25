@@ -53,6 +53,11 @@ public class N2oDateInput extends N2oControl implements DateInput {
     }
 
     @Override
+    public void timeButtonShouldHaveLabel(String label) {
+        element().$(".n2o-calendar-time-container").shouldHave(Condition.text(label));
+    }
+
+    @Override
     public void timeVal(String hours, String minutes, String seconds) {
         //ToDo: Можно ли разделить это по отдельным функциям? Целесообразно ли?
         element().$(".n2o-calendar-time-container").click();

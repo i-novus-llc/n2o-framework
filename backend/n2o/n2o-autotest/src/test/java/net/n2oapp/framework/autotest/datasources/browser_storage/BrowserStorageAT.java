@@ -2,14 +2,17 @@ package net.n2oapp.framework.autotest.datasources.browser_storage;
 
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Text;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -174,5 +177,41 @@ class BrowserStorageAT extends AutoTestBase {
         open.breadcrumb().crumb(1).shouldHaveLabel("fetch-on-init тест");
         InputText testInput = open.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields().field("Инпут").control(InputText.class);
         testInput.shouldHaveValue("testValue");
+    }
+
+    @Test
+    void testFieldDependency() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/field_dependency/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/browser_storage/field_dependency/modal.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        FormWidget formWidget = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
+        Button button = formWidget.fields().field("Открыть", ButtonField.class);
+        button.click();
+
+        Modal modalPage = N2oSelenide.modal();
+        modalPage.shouldExists();
+        Fields fields = modalPage.content(StandardPage.class).regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
+        InputText age = fields.field("age").control(InputText.class);
+        Text text = fields.field(1, Text.class);
+        Button save = modalPage.toolbar().bottomRight().button("Сохранить");
+
+        age.shouldBeEmpty();
+        text.shouldHaveText("Несовершеннолетний");
+
+        age.setValue("14");
+        text.shouldHaveText("Несовершеннолетний");
+
+        age.setValue("19");
+        text.shouldHaveText("Совершеннолетний");
+
+        save.click();
+        modalPage.shouldNotExists();
+
+        button.click();
+        modalPage.shouldExists();
+        age.shouldHaveValue("19");
+        text.shouldHaveText("Совершеннолетний");
     }
 }

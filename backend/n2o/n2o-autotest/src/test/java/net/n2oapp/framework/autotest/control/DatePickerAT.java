@@ -92,10 +92,12 @@ class DatePickerAT extends AutoTestBase {
         date.shouldBeEmpty();
         date.openPopup();
         date.shouldBeOpened();
+        date.timeButtonShouldHaveLabel("Выберите время");
         date.clickDay("1");
         date.setValue("15/02/2020 10:20:15");
         date.shouldHaveValue("15/02/2020 10:20:15");
         date.clickCalendarButton();
+        date.timeButtonShouldHaveLabel("10:20");
         date.timeVal("23", "59", "58");
         date.shouldHaveValue("15/02/2020 23:59:58");
     }

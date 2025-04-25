@@ -1161,6 +1161,10 @@
           "name": "BrowserStorageAT. testFetchOnInit"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/datasources/browser_storage/field_dependency",
+          "name": "BrowserStorageAT. testFieldDependency"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/datasources/datasource/copy_depend",
           "name": "DatasourceAT. testSimpleCopyDepend"
         },
