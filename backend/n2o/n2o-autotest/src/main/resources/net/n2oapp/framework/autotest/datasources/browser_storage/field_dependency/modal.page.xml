@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Модальное окно">
+    <datasources>
+        <parent-datasource id="parentDs"/>
+        <inherited-datasource source-datasource="parentDs" id="modalDs"/>
+    </datasources>
+
+    <regions>
+        <region>
+            <form datasource="modalDs">
+                <fields>
+                    <input-text id="age" required="true"/>
+                    <hidden id="hidden">
+                        <dependencies>
+                            <set-value on="age" apply-on-init="true">
+                                if (age &gt;= 18)
+                                    return true;
+                                return false;
+                            </set-value>
+                        </dependencies>
+                    </hidden>
+                    <text visible="{hidden == true}">Совершеннолетний</text>
+                    <text visible="{hidden == false}">Несовершеннолетний</text>
+                </fields>
+            </form>
+        </region>
+    </regions>
+
+    <toolbar>
+        <button label="Сохранить">
+            <copy source-datasource="modalDs" target-datasource="parentDs"/>
+            <submit datasource="parentDs"/>
+            <close/>
+        </button>
+    </toolbar>
+</page>

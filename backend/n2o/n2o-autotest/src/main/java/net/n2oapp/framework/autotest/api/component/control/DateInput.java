@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.PopupControl;
 
 import java.time.Duration;
@@ -32,6 +33,12 @@ public interface DateInput extends Control, PopupControl {
      * @param value ожидаемое значение подсказки
      */
     void shouldHavePlaceholder(String value);
+
+    /**
+     * Проверка текста кнопки времени
+     * @param label ожидаемое значение текста
+     */
+    void timeButtonShouldHaveLabel(String label);
 
     /**
      * Ввод времени
