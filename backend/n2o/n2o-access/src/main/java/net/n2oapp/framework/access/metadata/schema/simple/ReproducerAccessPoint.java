@@ -57,7 +57,7 @@ public class ReproducerAccessPoint {
                         T point = copy(accessPoint);
                         setter.accept(point, str);
                         return point;
-                    }).collect(Collectors.toList());
+                    }).toList();
             pointList.remove(accessPoint);
             pointList.addAll(list);
         }

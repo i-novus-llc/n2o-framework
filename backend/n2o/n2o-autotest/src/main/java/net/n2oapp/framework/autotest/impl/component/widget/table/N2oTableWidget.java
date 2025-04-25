@@ -132,12 +132,12 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
             switch (direction) {
                 case ASC:
                     elements.should(CollectionCondition.exactTexts(
-                            elements.texts().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList())
+                            elements.texts().stream().sorted(Comparator.naturalOrder()).toList()
                     ));
                     break;
                 case DESC:
                     elements.should(CollectionCondition.exactTexts(
-                            elements.texts().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList())
+                            elements.texts().stream().sorted(Comparator.reverseOrder()).toList()
                     ));
                     break;
             }

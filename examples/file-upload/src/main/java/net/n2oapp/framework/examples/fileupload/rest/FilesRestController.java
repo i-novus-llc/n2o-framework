@@ -42,7 +42,7 @@ public class FilesRestController {
         return new ResponseEntity<>(
                 Arrays.stream(files)
                         .map(file -> uploadFile(file).getBody())
-                        .collect(Collectors.toList()), HttpStatus.CREATED
+                        .toList(), HttpStatus.CREATED
         );
     }
 

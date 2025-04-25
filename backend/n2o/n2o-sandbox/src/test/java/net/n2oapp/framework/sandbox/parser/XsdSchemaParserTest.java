@@ -16,7 +16,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -60,8 +59,8 @@ class XsdSchemaParserTest {
     private void checkResource(Resource actual, Resource expected) throws IOException {
         try (Stream<String> actualStream = new BufferedReader(new InputStreamReader(actual.getInputStream(), StandardCharsets.UTF_8)).lines();
              Stream<String> expectedStream = new BufferedReader(new InputStreamReader(expected.getInputStream(), StandardCharsets.UTF_8)).lines()) {
-            List<String> actualLines = actualStream.collect(Collectors.toList());
-            List<String> expectedLines = expectedStream.collect(Collectors.toList());
+            List<String> actualLines = actualStream.toList();
+            List<String> expectedLines = expectedStream.toList();
             assertThat(actualLines.size(), is(expectedLines.size()));
             for (int i = 0; i < actualLines.size(); i++)
                 assertThat(actualLines.get(i), is(expectedLines.get(i)));

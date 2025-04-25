@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -55,7 +54,7 @@ public class ProjectSearcher {
                         continue;
 
                     try (Stream<String> lines = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)).lines()) {
-                        List<String> linesList = lines.collect(Collectors.toList());
+                        List<String> linesList = lines.toList();
                         for (int i = 0; i < linesList.size(); i++) {
                             if (StringUtils.containsIgnoreCase(linesList.get(i), text)) {
                                 if (!projectsMap.containsKey(projectId))

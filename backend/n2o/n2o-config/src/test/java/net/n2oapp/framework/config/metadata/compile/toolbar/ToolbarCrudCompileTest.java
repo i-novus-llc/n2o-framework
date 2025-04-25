@@ -60,11 +60,11 @@ class ToolbarCrudCompileTest extends SourceCompileTestBase {
         assertThat(form.getToolbar().get("topLeft").get(1).getButtons().size(), is(3));
         assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(1));
         List<String> buttonsId = form.getToolbar().get("topLeft").get(1)
-                .getButtons().stream().map(AbstractButton::getId).collect(Collectors.toList());
+                .getButtons().stream().map(AbstractButton::getId).toList();
         List<String> buttonsLabel = form.getToolbar().get("topLeft").get(1)
-                .getButtons().stream().map(AbstractButton::getLabel).collect(Collectors.toList());
+                .getButtons().stream().map(AbstractButton::getLabel).toList();
         List<Action> buttonsAction = form.getToolbar().get("topLeft").get(1)
-                .getButtons().stream().map(AbstractButton::getAction).collect(Collectors.toList());
+                .getButtons().stream().map(AbstractButton::getAction).toList();
 
 
         assertThat(buttonsId.contains("create"), is(true));

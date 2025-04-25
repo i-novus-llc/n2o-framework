@@ -28,7 +28,7 @@ public class FileStorageController {
 
     @SuppressWarnings("unused")
     public Collection<FileModel> getList() {
-        return storage.values().stream().filter(FileModel::isStored).collect(Collectors.toList());
+        return storage.values().stream().filter(FileModel::isStored).toList();
     }
 
     public void delete(Integer id) {

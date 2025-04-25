@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Сервис для работы со встроенным движком Camunda
@@ -45,8 +44,8 @@ public class EmbeddedCamundaProxyEngine implements CamundaProxyEngine {
 
         List<Task> list = taskQuery.listPage((page - 1) * limit, limit);
 
-        return list.stream().map(t -> map(t, variableNames == null || variableNames.isEmpty() ? null :
-                processEngine.getTaskService().getVariables(t.getId(), variableNames))).collect(Collectors.toList());
+        return list.stream().map(t -> (ExtTask) map(t, variableNames == null || variableNames.isEmpty() ? null :
+                processEngine.getTaskService().getVariables(t.getId(), variableNames))).toList();
     }
 
     @Override

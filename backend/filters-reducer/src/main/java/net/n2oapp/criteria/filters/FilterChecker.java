@@ -70,7 +70,7 @@ public class FilterChecker {
 
     private static boolean contains(List<?> values, Object value) {
         if (value instanceof List valueList) {
-            if (values == null || values.isEmpty() || value == null || valueList.isEmpty()) {
+            if (values == null || values.isEmpty() || valueList.isEmpty()) {
                 return false;
             }
             final boolean[] res = {true};

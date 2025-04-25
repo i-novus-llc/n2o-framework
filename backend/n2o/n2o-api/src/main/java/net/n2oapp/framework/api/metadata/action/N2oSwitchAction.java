@@ -28,7 +28,7 @@ public class N2oSwitchAction extends N2oAbstractAction implements DatasourceIdAw
     public List<Case> getValueCases() {
         if (isEmpty(this.cases))
             return new ArrayList<>();
-        return Arrays.stream(this.cases).filter(Case.class::isInstance).map(Case.class::cast).collect(Collectors.toList());
+        return Arrays.stream(this.cases).filter(Case.class::isInstance).map(Case.class::cast).toList();
     }
 
     public DefaultCase getDefaultCase() {

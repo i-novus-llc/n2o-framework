@@ -36,19 +36,19 @@ public class N2oMetadataRegister implements MetadataRegister {
     public List<SourceInfo> find(Class<? extends SourceMetadata> sourceClass) {
         return register.entrySet().stream()
                 .filter(e -> e.getKey().sourceClass.equals(sourceClass))
-                .map(Map.Entry::getValue).collect(Collectors.toList());
+                .map(Map.Entry::getValue).toList();
     }
 
     @Override
     public List<SourceInfo> find(Predicate<SourceInfo> criteria) {
         return register.values().stream()
-                .filter(criteria).collect(Collectors.toList());
+                .filter(criteria).toList();
     }
 
     @Override
     public <I extends SourceInfo> List<I> find(Predicate<I> criteria, Class<I> infoClass) {
         return register.values().stream().filter(infoClass::isInstance).map(infoClass::cast)
-                .filter(criteria).collect(Collectors.toList());
+                .filter(criteria).toList();
     }
 
     @Override

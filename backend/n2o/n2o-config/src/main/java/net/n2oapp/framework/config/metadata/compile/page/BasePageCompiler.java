@@ -131,7 +131,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (isNotEmpty(source.getEvents()))
             return Arrays.stream(source.getEvents())
                     .map(n2oEvent -> ((Event) p.compile(n2oEvent, context, scopes)))
-                    .collect(Collectors.toList());
+                    .toList();
         return null;
     }
 

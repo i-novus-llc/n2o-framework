@@ -37,14 +37,14 @@ class DynamicConfigReaderTest {
         metadata = reader.load(new JavaInfo("sec", N2oObject.class), "role");
         assert metadata.getId().equals("sec?role");
         //проверяем кэширование
-        List ids = cache.stream().map(SourceMetadata::getId).collect(Collectors.toList());
+        List ids = cache.stream().map(SourceMetadata::getId).toList();
         assert ids.size() == 2;
         assert ids.contains("sec?role");
         cache.clear();
         //проверяем чтение
         metadata = reader.load(new JavaInfo("amb", N2oPage.class), "page1");
         //проверяем кэширование
-        ids = cache.stream().map(SourceMetadata::getId).collect(Collectors.toList());
+        ids = cache.stream().map(SourceMetadata::getId).toList();
         assert ids.size() == 3;
         assert ids.contains("amb?page1");
         assert ids.contains("amb?page2");
