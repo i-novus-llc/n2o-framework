@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
+import classNames from 'classnames'
 
-import { Sorter } from '../../../snippets/Sorter/Sorter'
-import { changeFrozenColumn, changeColumnVisibility } from '../../../../ducks/columns/store'
-import { useDataSourceMethodsContext } from '../../../../core/widget/context'
-
-import { type TextTableHeaderProps } from './types'
+import { Sorter } from '../../../../snippets/Sorter/Sorter'
+import { changeFrozenColumn, changeColumnVisibility } from '../../../../../ducks/columns/store'
+import { useDataSourceMethodsContext } from '../../../../../core/widget/context'
+import { type TextTableHeaderProps } from '../types'
 
 /**
  * Текстовый заголовок таблицы с возможностью сортировки
@@ -23,6 +23,7 @@ export const TextTableHeader = ({
     widgetId,
     columnId,
     visible,
+    className,
 }: TextTableHeaderProps) => {
     const { setSorting } = useDataSourceMethodsContext()
 
@@ -36,7 +37,7 @@ export const TextTableHeader = ({
     }, [])
 
     return (
-        <span className="n2o-advanced-table-header-title" style={style}>
+        <span className={classNames('n2o-advanced-table-header-title', className)} style={style}>
             <Sorter visible={Boolean(sortingParam)} sorting={sorting} sortingParam={sortingParam} onSort={setSorting}>
                 <Text>{label}</Text>
             </Sorter>

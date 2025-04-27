@@ -74,10 +74,9 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
                             mi.setDatasourceId(source.getDatasourceId());
                         if (mi.getModel() == null)
                             mi.setModel(source.getModel());
-                        mi.setIsGeneratedForSubMenu(true);
+                        mi.setGeneratedForSubMenu(true);
                         PerformButton menuItem = p.compile(mi, context, p, idx);
                         menuItem.setColor(null);
-
                         return menuItem;
                     })
                     .toList());
@@ -91,7 +90,7 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
                 button.setSubMenu(new ArrayList<>());
 
             N2oToolbar toolbar = p.getScope(N2oToolbar.class);
-            toolbar.setIsGeneratedForSubMenu(true);
+            toolbar.setGeneratedForSubMenu(true);
 
             List<AbstractButton> generatedButtons = generateButtons(sub, toolbar, buttonGeneratorFactory, context, p);
             button.getSubMenu().addAll(

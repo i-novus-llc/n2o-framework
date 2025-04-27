@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { getAllValuesByKey } from '../../../Table/utils'
-import { type HeaderCell, type Cell } from '../../../Table/types/cell'
+import { BodyCell, type HeaderCell } from '../../../../ducks/table/Table'
 
 import { ColumnState } from './useColumnsState'
 
@@ -24,7 +24,7 @@ const filterVisibleNestedFields = (data: HeaderCell[], columnsState: ColumnState
         data.reduce<HeaderCell[]>((filteredArray, item) => {
             const { children } = item
 
-            if (item.visible === false) {
+            if (!item.visible) {
                 return filteredArray
             }
 
@@ -45,7 +45,7 @@ const filterVisibleNestedFields = (data: HeaderCell[], columnsState: ColumnState
     return resolveVisibility(data)
 }
 
-export const useResolveCellsVisible = <TCell extends Cell, THeaderCell extends HeaderCell>(
+export const useResolveCellsVisible = <TCell extends BodyCell, THeaderCell extends HeaderCell>(
     cells: { body: TCell[], header: THeaderCell[] },
     columnsState: ColumnState,
 ) => (

@@ -7,20 +7,12 @@ export type RegisterTablePayload = {
     initProps: Table
 }
 
-export type RegisterTableColumnPayload = {
-    widgetId: string
-    columnId: string
-    label: string
-    visible: boolean
-    disabled: boolean
-    conditions: Record<string, unknown>
-}
-
 export type ChangeTableColumnParamPayload = {
     widgetId: string
-    columnId: string
+    id: string
     paramKey: string
     value: string | boolean | number
+    parentId?: string
 }
 
 export type ChangeTableParamPayload = {
@@ -34,8 +26,21 @@ export type SwitchTableColumnParamPayload = {
     paramKey: string
 }
 
+export type ReorderTableColumnPayload = {
+    widgetId: string
+    headerId: string
+    reorderColumnId: string
+    targetColumnId: string
+}
+
+export type UpdateTableParamsPayload = {
+    widgetId: string
+    params: Table
+}
+
 export type RegisterTable = Action<string, RegisterTablePayload>
-export type RegisterTableColumn = Action<string, RegisterTableColumnPayload>
 export type ChangeTableColumnParam = Action<string, ChangeTableColumnParamPayload>
 export type ChangeTableParam = Action<string, ChangeTableParamPayload>
 export type SwitchTableColumnParam = Action<string, SwitchTableColumnParamPayload>
+export type ReorderTableColumn = Action<string, ReorderTableColumnPayload>
+export type UpdateTableParams = Action<string, UpdateTableParamsPayload>

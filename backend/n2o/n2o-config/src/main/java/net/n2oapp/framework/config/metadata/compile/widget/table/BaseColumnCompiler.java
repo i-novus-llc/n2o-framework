@@ -1,31 +1,27 @@
 package net.n2oapp.framework.config.metadata.compile.widget.table;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
-import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
+import net.n2oapp.framework.api.metadata.meta.widget.table.BaseColumn;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
-import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 import java.util.ArrayList;
 
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.util.StylesResolver.resolveStyles;
 
 /**
- * Компиляция абстрактного заголовка таблицы
+ * Компиляция базового столбца таблицы
  */
-public abstract class AbstractHeaderCompiler<S extends AbstractColumn> implements BaseSourceCompiler<ColumnHeader, S, CompileContext<?, ?>> {
+public abstract class BaseColumnCompiler<S extends N2oBaseColumn> extends AbstractColumnCompiler<S> {
 
-    protected void compileBaseProperties(S source, ColumnHeader compiled, CompileProcessor p) {
-        compiled.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.widget.column.src"), String.class)));
+    protected void compileBaseProperties(S source, BaseColumn compiled, CompileProcessor p) {
+        compileAbstractProperties(source, compiled, p);
         compiled.getElementAttributes().put("className", source.getCssClass());
         compiled.getElementAttributes().put("style", resolveStyles(source.getStyle()));
 

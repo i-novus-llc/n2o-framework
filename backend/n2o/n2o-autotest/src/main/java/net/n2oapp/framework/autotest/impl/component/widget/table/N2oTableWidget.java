@@ -15,7 +15,6 @@ import net.n2oapp.framework.autotest.impl.component.widget.N2oStandardWidget;
 import java.time.Duration;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Виджет таблица для автотестирования
@@ -34,6 +33,16 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
     @Override
     public Paging paging() {
         return new N2oPaging(element());
+    }
+
+    @Override
+    public void shouldBeWordWrapped(Duration... duration) {
+        element().$$(".table-container").first().shouldHave(Condition.attribute("data-text-wrap", "true"));
+    }
+
+    @Override
+    public void shouldNotBeWordWrapped(Duration... duration) {
+        element().$$(".table-container").first().shouldHave(Condition.attribute("data-text-wrap", "false"));
     }
 
     public class N2oFilters implements Filters {
@@ -129,18 +138,13 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         public void columnShouldBeSortedBy(int columnIndex, SortingDirection direction) {
             ElementsCollection elements = element().should(Condition.exist).$$(".table-row td:nth-child(" + (++columnIndex) + ")");
 
-            switch (direction) {
-                case ASC:
-                    elements.should(CollectionCondition.exactTexts(
-                            elements.texts().stream().sorted(Comparator.naturalOrder()).toList()
-                    ));
-                    break;
-                case DESC:
-                    elements.should(CollectionCondition.exactTexts(
-                            elements.texts().stream().sorted(Comparator.reverseOrder()).toList()
-                    ));
-                    break;
-            }
+            Comparator<String> comparator = direction == SortingDirection.ASC
+                    ? Comparator.naturalOrder()
+                    : Comparator.reverseOrder();
+
+            elements.should(CollectionCondition.exactTexts(
+                    elements.texts().stream().sorted(comparator).toList()
+            ));
         }
 
         protected ElementsCollection column(int index) {

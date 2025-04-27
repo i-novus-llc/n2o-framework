@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.validation.standard.widget;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -33,8 +33,13 @@ public class TableValidator extends ListWidgetValidator<N2oTable> {
         }
 
         if (source.getColumns() != null) {
-            checkUniqueIds(source.getColumns(), AbstractColumn::getId, source.getId(), "id");
-            checkUniqueIds(source.getColumns(), AbstractColumn::getTextFieldId, source.getId(), "text-field-id");
+            N2oBaseColumn[] columns = Arrays.stream(source.getColumns())
+                    .filter(N2oBaseColumn.class::isInstance)
+                    .map(N2oBaseColumn.class::cast)
+                    .toArray(N2oBaseColumn[]::new);
+            checkUniqueIds(columns, N2oBaseColumn::getId, source.getId(), "id");
+            checkUniqueIds(columns, N2oBaseColumn::getTextFieldId, source.getId(), "text-field-id");
+
             Arrays.stream(source.getColumns())
                     .forEach(col -> p.validate(col, widgetScope));
         }
@@ -58,7 +63,7 @@ public class TableValidator extends ListWidgetValidator<N2oTable> {
     /**
      * Проверка наличия уникальности идентификаторов в колонках
      */
-    private void checkUniqueIds(AbstractColumn[] columns, Function<AbstractColumn, String> function,
+    private void checkUniqueIds(N2oBaseColumn[] columns, Function<N2oBaseColumn, String> function,
                                 String sourceId, String attributeName) {
         Set<String> uniques = new HashSet<>();
         Arrays.stream(columns)

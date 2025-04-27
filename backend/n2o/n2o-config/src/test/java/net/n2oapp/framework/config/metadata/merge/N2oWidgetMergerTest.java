@@ -7,7 +7,8 @@ import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oAbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.v4.FormElementIOV4;
 import net.n2oapp.framework.config.io.widget.v4.TableElementIOV4;
@@ -96,10 +97,10 @@ class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getFilters().getDatasource().getQueryId(), is("test"));
         assertThat(table.getFilters().getPlace(), is(FilterPosition.LEFT));
 
-        AbstractColumn[] columns = table.getColumns();
+        N2oAbstractColumn[] columns = table.getColumns();
         assertThat(columns.length, is(2));
-        assertThat(columns[0].getTextFieldId(), is("test2"));
-        assertThat(columns[1].getTextFieldId(), is("test1"));
+        assertThat(((N2oBaseColumn) columns[0]).getTextFieldId(), is("test2"));
+        assertThat(((N2oBaseColumn) columns[1]).getTextFieldId(), is("test1"));
 
         SourceComponent[] filters = table.getFilters().getItems();
         assertThat(columns.length, is(2));
@@ -131,10 +132,10 @@ class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getFilters().getDatasourceId(), is("ds_filter"));
         assertThat(table.getFilters().getPlace(), is(FilterPosition.LEFT));
 
-        AbstractColumn[] columns = table.getColumns();
+        N2oAbstractColumn[] columns = table.getColumns();
         assertThat(columns.length, is(2));
-        assertThat(columns[0].getTextFieldId(), is("test2"));
-        assertThat(columns[1].getTextFieldId(), is("test1"));
+        assertThat(((N2oBaseColumn) columns[0]).getTextFieldId(), is("test2"));
+        assertThat(((N2oBaseColumn) columns[1]).getTextFieldId(), is("test1"));
 
         SourceComponent[] filters = table.getFilters().getItems();
         assertThat(columns.length, is(2));

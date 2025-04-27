@@ -5,10 +5,11 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 
 /**
- * Столбец таблицы
+ * Исходная модель простого столбца таблицы
  */
+
 @Getter
 @Setter
-public class N2oSimpleColumn extends AbstractColumn {
+public class N2oSimpleColumn extends N2oBaseColumn {
     private N2oCell cell;
 }

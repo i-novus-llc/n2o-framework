@@ -4,10 +4,11 @@ import { FC, RefObject, TdHTMLAttributes, CSSProperties, ReactNode } from 'react
 import { Selection, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
 import { Severity } from '../../../core/validation/types'
+import { type BodyCell, type HeaderCell, MOVE_MODE } from '../../../ducks/table/Table'
+import { DragHandleProps } from '../../buttons/ToggleColumn/DragHandle'
 
 import { Data, DataItem, ExpandedRows, SelectedRows } from './general'
 import { Row } from './row'
-import { Cell, HeaderCell } from './cell'
 
 export interface Validation {
     enablingConditions: string[]
@@ -25,6 +26,8 @@ interface FieldError {
 }
 
 export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
+    id: string
+    className?: string
     filterValue?: Record<string, any>
     sorting: Record<string, SortDirection>
     data: Data
@@ -37,7 +40,7 @@ export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
     EmptyContent?: ReactNode
     refContainerElem?: RefObject<T>
     cells: {
-        body: Cell[]
+        body: BodyCell[]
         header: HeaderCell[]
     }
     toolbar?: unknown
@@ -73,7 +76,7 @@ export type TableProps = {
     selection: Selection
     tableId: string
     headerCell: HeaderCell[]
-    bodyCell: Cell[]
+    bodyCell: BodyCell[]
 }
 & Pick<TableWidgetContainerProps, 'data' | 'sorting' | 'selectedRows' | 'focusedRowValue' | 'expandedRows'>
 
@@ -99,6 +102,16 @@ export type TableHeaderProps = {
     filterErrors?: TableWidgetContainerProps['filterErrors']
 } & Pick<TableProps, 'sorting'>
 
+export interface ChildrenTableHeaderProps {
+    children?: TableHeaderProps['cells']
+    sorting: TableHeaderProps['sorting']
+    validateFilterField: TableHeaderProps['validateFilterField']
+    filterErrors: TableHeaderProps['filterErrors']
+    id: string
+    moveMode?: MOVE_MODE
+    widgetId?: string
+}
+
 export type CheckboxHeaderCellProps = {
     areAllRowsSelected?: boolean
 }
@@ -114,6 +127,7 @@ export type TableHeaderCellProps = {
     resizable?: boolean
     validateFilterField: TableWidgetContainerProps['validateFilterField']
     filterError?: FieldError
+    dragAttributes?: DragHandleProps | null
 } & Pick<HeaderCell, 'elementAttributes' | 'filterField'>
 
 export type SelectionCellProps = {
@@ -190,4 +204,4 @@ export type CellContainerProps = {
     rowIndex: RowContainerProps['rowIndex']
     alignment?: TdHTMLAttributes<HTMLTableCellElement>['align']
     style?: CSSProperties
-} & Omit<Cell, 'elementAttributes'> & SwitchCellProps
+} & Omit<BodyCell, 'elementAttributes'> & SwitchCellProps

@@ -7,7 +7,9 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.ButtonGeneratorFactory;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oGroup;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
@@ -52,7 +54,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         if (ArrayUtils.isNotEmpty(source.getGenerate()))
             groups.add(compileGeneratedButtons(source, context, p, groupIndex, toolbarPlace));
 
-        if (groups.size() != 0) {
+        if (!groups.isEmpty()) {
             toolbar.put(toolbarPlace, groups);
         }
 
@@ -131,8 +133,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
     }
 
     private Boolean shouldBeGrouped(CompileProcessor p) {
-        Object buttonGrouping = p.resolve(property("n2o.api.toolbar.grouping"));
-
-        return buttonGrouping instanceof Boolean bool ? bool : true;
+        return castDefault(
+                p.resolve(property("n2o.api.toolbar.grouping"), Boolean.class), true);
     }
 }

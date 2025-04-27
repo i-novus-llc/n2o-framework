@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.Button;
@@ -24,9 +25,11 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WindowType;
 
 import java.io.File;
 import java.io.FileReader;
@@ -105,6 +108,10 @@ class TableButtonGeneratorAT extends AutoTestBase {
         inputName.setValue("ТМК");
         search.click();
 
+        N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
+        button.click();
+        button.menuItem("Наименование").click();
+
         table.columns().rows().row(0).cell(2).shouldHaveText("ТМК");
         toolbar.button(0, N2oStandardButton.class).click();
         inputName.shouldBeHidden();
@@ -122,11 +129,10 @@ class TableButtonGeneratorAT extends AutoTestBase {
     void testColumns() {
         openPage();
 
-        table.columns().headers().shouldHaveSize(4);
+        table.columns().headers().shouldHaveSize(3);
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
         table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
-        table.columns().headers().header(2).shouldHaveTitle("Наименование");
-        table.columns().headers().header(3).shouldHaveTitle("Регион");
+        table.columns().headers().header(2).shouldHaveTitle("Регион");
         table.paging().shouldExists();
 
         N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
@@ -137,14 +143,18 @@ class TableButtonGeneratorAT extends AutoTestBase {
         button.shouldHaveItems(4);
         shouldBeChecked(button.menuItem("Идентификатор"));
         shouldBeChecked(button.menuItem("Идентификатор ИПС"));
-        shouldBeChecked(button.menuItem("Наименование"));
+        shouldNotBeChecked(button.menuItem("Наименование"));
         shouldBeChecked(button.menuItem("Регион"));
+
+        button.menuItem("Наименование").shouldNotHaveIcon();
         button.menuItem("Наименование").click();
-        table.columns().headers().shouldHaveSize(3);
+        table.columns().headers().shouldHaveSize(4);
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
         table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
-        table.columns().headers().header(2).shouldHaveTitle("Регион");
-        button.menuItem("Наименование").shouldNotHaveIcon();
+        table.columns().headers().header(2).shouldHaveTitle("Наименование");
+        table.columns().headers().header(3).shouldHaveTitle("Регион");
+        button.menuItem("Наименование").shouldHaveIcon("fa fa-check");
+        button.menuItem("Наименование").click();
 
         button.click();
         button.shouldBeCollapsed();
@@ -161,42 +171,32 @@ class TableButtonGeneratorAT extends AutoTestBase {
         shouldBeChecked(button.menuItem("Идентификатор ИПС"));
         shouldNotBeChecked(button.menuItem("Наименование"));
         shouldBeChecked(button.menuItem("Регион"));
-
-        button.menuItem("Идентификатор").click();
-        button.menuItem("Идентификатор").shouldNotHaveIcon();
-        table.columns().headers().shouldHaveSize(2);
-        table.columns().headers().header(0).shouldHaveTitle("Идентификатор ИПС");
-        table.columns().headers().header(1).shouldHaveTitle("Регион");
+        button.menuItem("Идентификатор").shouldBeDisabled();
+        button.menuItem("Идентификатор").shouldHaveIcon("fa fa-check");
         table.paging().shouldExists();
 
         button.menuItem("Идентификатор ИПС").click();
         button.menuItem("Регион").click();
-        shouldNotBeChecked(button.menuItem("Идентификатор"));
+        shouldBeChecked(button.menuItem("Идентификатор"));
         shouldNotBeChecked(button.menuItem("Идентификатор ИПС"));
         shouldNotBeChecked(button.menuItem("Наименование"));
         shouldNotBeChecked(button.menuItem("Регион"));
-        table.columns().headers().shouldHaveSize(0);
-        table.paging().shouldNotExists();
+        table.columns().headers().shouldHaveSize(1);
+        table.paging().shouldExists();
 
         button.menuItem("Наименование").click();
         shouldBeChecked(button.menuItem("Наименование"));
-        table.columns().headers().shouldHaveSize(1);
+        table.columns().headers().shouldHaveSize(2);
 
         button.menuItem("Идентификатор ИПС").click();
         shouldBeChecked(button.menuItem("Идентификатор ИПС"));
-        table.columns().headers().shouldHaveSize(2);
-        table.columns().headers().header(0).shouldHaveTitle("Идентификатор ИПС");
-        table.columns().headers().header(1).shouldHaveTitle("Наименование");
+        table.columns().headers().shouldHaveSize(3);
+        table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
+        table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
+        table.columns().headers().header(2).shouldHaveTitle("Наименование");
 
         button.menuItem("Регион").click();
         shouldBeChecked(button.menuItem("Регион"));
-        table.columns().headers().shouldHaveSize(3);
-        table.columns().headers().header(0).shouldHaveTitle("Идентификатор ИПС");
-        table.columns().headers().header(1).shouldHaveTitle("Наименование");
-        table.columns().headers().header(2).shouldHaveTitle("Регион");
-
-        button.menuItem("Идентификатор").click();
-        shouldBeChecked(button.menuItem("Идентификатор"));
         table.columns().headers().shouldHaveSize(4);
         table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
         table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
@@ -300,6 +300,9 @@ class TableButtonGeneratorAT extends AutoTestBase {
     @Test
     void testRefresh() {
         openPage();
+        N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
+        button.click();
+        button.menuItem("Наименование").click();
 
         Button create = table.toolbar().topLeft().button("Создать");
         Button delete = table.toolbar().topLeft().button("Удалить");
@@ -379,6 +382,9 @@ class TableButtonGeneratorAT extends AutoTestBase {
     @Test
     void exportCurrentPageTest() throws IOException {
         openPage();
+        N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
+        button.click();
+        button.menuItem("Наименование").click();
 
         table.paging().selectPage("2");
 
@@ -436,6 +442,10 @@ class TableButtonGeneratorAT extends AutoTestBase {
     @Test
     void exportAllTableTest() throws IOException {
         openPage();
+        N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
+        button.click();
+        button.menuItem("Наименование").click();
+
         StandardButton exportBtn = table.toolbar().topRight().button(5, StandardButton.class);
         exportBtn.shouldBeVisible();
 
@@ -489,6 +499,172 @@ class TableButtonGeneratorAT extends AutoTestBase {
         } catch (IOException e) {
             fail();
         }
+    }
+
+    @Test
+    void testTabSync() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/tab_sync");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/tab_sync/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/tab_sync/test.query.xml")
+        );
+        openPage();
+
+        // Проверка начальных значений в первой вкладке и их изменение
+        N2oDropdownButton columnsButton = toolbar.button(1, N2oDropdownButton.class);
+        columnsButton.click();
+        shouldBeChecked(columnsButton.menuItem("name"));
+        shouldBeChecked(columnsButton.menuItem("date"));
+        shouldBeChecked(columnsButton.menuItem("type"));
+        columnsButton.menuItem("name").click();
+        shouldNotBeChecked(columnsButton.menuItem("name"));
+
+        table.shouldBeWordWrapped();
+        N2oStandardButton wordWrapButton = toolbar.button(4, N2oStandardButton.class);
+        wordWrapButton.click();
+        table.shouldNotBeWordWrapped();
+
+        N2oDropdownButton resizeButton = toolbar.button(3, N2oDropdownButton.class);
+        resizeButton.click();
+        resizeButton.menuItem("5").shouldNotHaveIcon();
+        resizeButton.menuItem("10").shouldNotHaveIcon();
+        resizeButton.menuItem("5").click();
+        resizeButton.menuItem("5").shouldHaveIcon("fa fa-check");
+        resizeButton.menuItem("10").shouldNotHaveIcon();
+
+        // Перейти на дубль-вкладку браузера
+        Selenide.switchTo().newWindow(WindowType.TAB);
+        Selenide.open(getBaseUrl());
+
+        // Проверка значений во второй вкладке и их изменение
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(5);
+        columnsButton.click();
+        shouldNotBeChecked(columnsButton.menuItem("name"));
+        shouldBeChecked(columnsButton.menuItem("date"));
+        shouldBeChecked(columnsButton.menuItem("type"));
+        columnsButton.menuItem("name").click();
+        columnsButton.menuItem("date").click();
+        shouldBeChecked(columnsButton.menuItem("name"));
+        shouldNotBeChecked(columnsButton.menuItem("date"));
+
+        table.shouldNotBeWordWrapped();
+        wordWrapButton.click();
+        table.shouldBeWordWrapped();
+
+        resizeButton.click();
+        resizeButton.menuItem("5").shouldHaveIcon("fa fa-check");
+        resizeButton.menuItem("10").shouldNotHaveIcon();
+        resizeButton.menuItem("10").click();
+        resizeButton.menuItem("5").shouldNotHaveIcon();
+        resizeButton.menuItem("10").shouldHaveIcon("fa fa-check");
+
+        // Закрыть дубль-вкладку и перейти на первую вкладку браузера
+        Selenide.closeWindow();
+        Selenide.switchTo().window(0);
+
+        // Проверка значений в первой вкладке
+        columnsButton.click();
+        shouldBeChecked(columnsButton.menuItem("name"));
+        shouldNotBeChecked(columnsButton.menuItem("date"));
+        shouldBeChecked(columnsButton.menuItem("type"));
+
+        table.shouldBeWordWrapped();
+
+        resizeButton.click();
+        resizeButton.menuItem("5").shouldNotHaveIcon();
+        resizeButton.menuItem("10").shouldHaveIcon("fa fa-check");
+
+        Selenide.clearBrowserLocalStorage();
+    }
+
+    @Test
+    void testResetSettings() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/reset_settings");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/reset_settings/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/reset_settings/data.query.xml")
+        );
+        openPage();
+
+        //проверить нач. значения для columns, resize, word-wrap
+        /*
+        N2oDropdownButton columnsButton = toolbar.button(1, N2oDropdownButton.class);
+        columnsButton.click();
+        shouldBeChecked(columnsButton.menuItem("Идентификатор ИПС"));
+        shouldNotBeChecked(columnsButton.menuItem("Наименование"));
+        shouldBeChecked(columnsButton.menuItem("Регион"));
+        table.columns().headers().shouldHaveSize(3);
+         */
+        N2oDropdownButton resizeButton = toolbar.button(3, N2oDropdownButton.class);
+        resizeButton.click();
+        resizeButton.menuItem("5").shouldHaveIcon("fa fa-check");
+        resizeButton.menuItem("10").shouldNotHaveIcon();
+        resizeButton.click();
+        resizeButton.shouldBeCollapsed();
+        table.columns().rows().shouldHaveSize(5);
+
+        table.shouldBeWordWrapped();
+
+        //задать новые значения
+        /*
+        columnsButton.click();
+        columnsButton.menuItem("Наименование").click();
+        */
+        resizeButton.click();
+        resizeButton.menuItem("10").click();
+
+        N2oStandardButton wordWrapButton = toolbar.button(4, N2oStandardButton.class);
+        wordWrapButton.click();
+        table.shouldNotBeWordWrapped();
+
+        //обновить страницу
+        Selenide.refresh();
+
+        //проверить значения
+        /*
+        columnsButton.click();
+        shouldBeChecked(columnsButton.menuItem("Идентификатор ИПС"));
+        shouldBeChecked(columnsButton.menuItem("Наименование"));
+        shouldBeChecked(columnsButton.menuItem("Регион"));
+        table.columns().headers().shouldHaveSize(4);
+        */
+        resizeButton.click();
+        resizeButton.menuItem("10").shouldHaveIcon("fa fa-check");
+        resizeButton.menuItem("5").shouldNotHaveIcon();
+        table.columns().rows().shouldHaveSize(10);
+
+        table.shouldNotBeWordWrapped();
+
+        //сбросить значения
+        N2oStandardButton resetSettingsButton = toolbar.button(6, N2oStandardButton.class);
+        resetSettingsButton.click();
+
+        //проверить значения
+        checkValues(resizeButton);
+
+        //обновить страницу
+        Selenide.refresh();
+
+        //проверить значения
+        checkValues(resizeButton);
+        Selenide.clearBrowserLocalStorage();
+    }
+
+    private void checkValues(N2oDropdownButton resizeButton) {
+        /*
+        columnsButton.click();
+        shouldBeChecked(columnsButton.menuItem("Идентификатор ИПС"));
+        shouldNotBeChecked(columnsButton.menuItem("Наименование"));
+        shouldBeChecked(columnsButton.menuItem("Регион"));
+        table.columns().headers().shouldHaveSize(3);
+        */
+        resizeButton.click();
+        resizeButton.menuItem("5").shouldHaveIcon("fa fa-check");
+        resizeButton.menuItem("10").shouldNotHaveIcon();
+        table.columns().rows().shouldHaveSize(5);
+
+        table.shouldBeWordWrapped();
     }
 
     private void openPage() {

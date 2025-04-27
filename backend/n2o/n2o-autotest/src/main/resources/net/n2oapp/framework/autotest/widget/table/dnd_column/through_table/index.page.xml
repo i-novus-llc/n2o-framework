@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
+      name="Автотест для drag-n-drop столбца таблицы с перемещением через таблицу">
+    <datasources>
+        <datasource id="ds" query-id="test"/>
+    </datasources>
+    <regions>
+        <region>
+            <table datasource="ds">
+                <columns>
+                    <column text-field-id="id"/>
+                    <dnd-column move-mode="table">
+                        <column text-field-id="firstName"/>
+                        <column text-field-id="lastName"/>
+                        <filter-column text-field-id="phone">
+                            <filter>
+                                <input-text id="phone"/>
+                            </filter>
+                            <cell/>
+                        </filter-column>
+                        <column text-field-id="birthday"/>
+                    </dnd-column>
+                </columns>
+                <toolbar>
+                    <group>
+                        <ts:columns/>
+                        <ts:reset-settings/>
+                    </group>
+                </toolbar>
+            </table>
+        </region>
+    </regions>
+</page>

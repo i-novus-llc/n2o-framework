@@ -23,6 +23,8 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
     private Filter filter;
     @JsonProperty
     private ChildrenToggle children;
+    @JsonProperty
+    private Boolean saveSettings;
 
     @JsonProperty("table")
     @Override
@@ -30,7 +32,7 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
         return component;
     }
 
-    public AbstractTable(T component) {
+    protected AbstractTable(T component) {
         super(component);
     }
 

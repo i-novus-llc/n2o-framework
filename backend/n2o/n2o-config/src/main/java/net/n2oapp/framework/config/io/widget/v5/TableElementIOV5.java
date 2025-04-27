@@ -53,12 +53,16 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attributeBoolean(e, "fetch-on-change", f::getFetchOnChange, f::setFetchOnChange);
         p.attributeBoolean(e, "fetch-on-clear", f::getFetchOnClear, f::setFetchOnClear);
         p.attribute(e, "datasource", f::getDatasourceId, f::setDatasourceId);
-        p.anyChildren(e,null, f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv5.NAMESPACE, ControlIOv3.NAMESPACE);
+        p.anyChildren(e, null, f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv5.NAMESPACE, ControlIOv3.NAMESPACE);
     }
 
-    private void abstractColumn(Element e, AbstractColumn c, IOProcessor p) {
-        baseProperties(e, c, p);
+    private void abstractColumn(Element e, N2oAbstractColumn c, IOProcessor p) {
+        p.attribute(e, "src", c::getSrc, c::setSrc);
         p.attribute(e, "id", c::getId, c::setId);
+    }
+
+    private void baseColumn(Element e, N2oBaseColumn c, IOProcessor p) {
+        baseProperties(e, c, p);
         p.attribute(e, "text-field-id", c::getTextFieldId, c::setTextFieldId);
         p.attribute(e, "tooltip-field-id", c::getTooltipFieldId, c::setTooltipFieldId);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
@@ -67,43 +71,52 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attribute(e, "width", c::getWidth, c::setWidth);
         p.attributeBoolean(e, "resizable", c::getResizable, c::setResizable);
         p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPosition.class);
-        p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(AbstractColumn.ColumnVisibility.class)
-                .add("visibility", AbstractColumn.ColumnVisibility.class, this::dependency));
+        p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(N2oBaseColumn.ColumnVisibility.class)
+                .add("visibility", N2oBaseColumn.ColumnVisibility.class, this::dependency));
         p.anyAttributes(e, c::getExtAttributes, c::setExtAttributes);
     }
 
-    private void dependency(Element e, AbstractColumn.ColumnVisibility t, IOProcessor p) {
+    private void dependency(Element e, N2oBaseColumn.ColumnVisibility t, IOProcessor p) {
         p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
         p.text(e, t::getValue, t::setValue);
     }
 
-    private ElementIOFactory<AbstractColumn, TypedElementReader<? extends AbstractColumn>, TypedElementPersister<? super AbstractColumn>> columns(IOProcessor p) {
-        return p.oneOf(AbstractColumn.class)
-                .add("column", N2oSimpleColumn.class, this::column)
+    private ElementIOFactory<N2oAbstractColumn, TypedElementReader<? extends N2oAbstractColumn>, TypedElementPersister<? super N2oAbstractColumn>> columns(IOProcessor p) {
+        return p.oneOf(N2oAbstractColumn.class)
+                .add("column", N2oSimpleColumn.class, this::simpleColumn)
                 .add("filter-column", N2oFilterColumn.class, this::filterColumn)
-                .add("multi-column", N2oMultiColumn.class, this::multiColumn);
+                .add("multi-column", N2oMultiColumn.class, this::multiColumn)
+                .add("dnd-column", N2oDndColumn.class, this::dndColumn);
     }
 
-    private void column(Element e, N2oSimpleColumn c, IOProcessor p) {
+    private void simpleColumn(Element e, N2oSimpleColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
+        baseColumn(e, c, p);
         p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("dependencies"), CellIOv3.NAMESPACE);
     }
 
     private void filterColumn(Element e, N2oFilterColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
+        baseColumn(e, c, p);
         p.anyChild(e, "filter", c::getFilter, c::setFilter, p.anyOf(N2oStandardField.class), ControlIOv3.NAMESPACE);
         p.anyChild(e, "cell", c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("filter"), CellIOv3.NAMESPACE);
     }
 
     private void multiColumn(Element e, N2oMultiColumn c, IOProcessor p) {
+        abstractColumn(e, c, p);
         baseProperties(e, c, p);
         p.anyChildren(e, null, c::getChildren, c::setChildren, columns(p));
     }
 
-    private void baseProperties(Element e, AbstractColumn c, IOProcessor p) {
+    private void dndColumn(Element e, N2oDndColumn c, IOProcessor p) {
+        abstractColumn(e, c, p);
+        p.attributeEnum(e, "move-mode", c::getMoveMode, c::setMoveMode, MoveModeEnum.class);
+        p.anyChildren(e, null, c::getChildren, c::setChildren, columns(p));
+    }
+
+    private void baseProperties(Element e, N2oBaseColumn c, IOProcessor p) {
         p.attribute(e, "label", c::getLabel, c::setLabel);
-        p.attribute(e, "src", c::getSrc, c::setSrc);
         p.attribute(e, "class", c::getCssClass, c::setCssClass);
         p.attribute(e, "style", c::getStyle, c::setStyle);
         p.attribute(e, "visible", c::getVisible, c::setVisible);

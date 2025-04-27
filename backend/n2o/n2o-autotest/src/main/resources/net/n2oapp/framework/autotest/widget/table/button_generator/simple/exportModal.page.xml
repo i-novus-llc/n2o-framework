@@ -21,8 +21,8 @@
                     </select>
                     <radio-group id="type" no-label="true">
                         <options>
-                            <option id="all" name="Загрузить все (но не более 1000 записей)" />
-                            <option id="page" name="Текущая страница" />
+                            <option id="all" name="Загрузить все (но не более 1000 записей)"/>
+                            <option id="page" name="Текущая страница"/>
                         </options>
                         <default-value id="all"/>
                     </radio-group>

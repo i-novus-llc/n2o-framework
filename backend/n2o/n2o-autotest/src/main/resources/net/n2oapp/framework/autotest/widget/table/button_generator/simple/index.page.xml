@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-      name="Автотест настроек таблицы">
+             xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
+             name="Автотест настроек таблицы">
     <table selection="none">
         <datasource query-id="data" object-id="data" size="5"/>
         <columns>
@@ -20,7 +21,14 @@
             </row>
         </filters>
         <toolbar place="topRight">
-            <group generate="tableSettings"/>
+            <group>
+                <ts:filters/>
+                <ts:columns default-value="id,id_ips,region" locked="id"/>
+                <ts:refresh/>
+                <ts:resize/>
+                <ts:word-wrap/>
+                <ts:export/>
+            </group>
         </toolbar>
         <toolbar place="topLeft">
             <button label="Создать" disable-on-empty-model="false">

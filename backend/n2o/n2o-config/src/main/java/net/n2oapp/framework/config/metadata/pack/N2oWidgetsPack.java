@@ -3,12 +3,14 @@ package net.n2oapp.framework.config.metadata.pack;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.N2oButtonGeneratorFactory;
+import net.n2oapp.framework.config.metadata.compile.tablesettings.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.table.*;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
-import net.n2oapp.framework.config.metadata.compile.widget.table.FilterColumnHeaderCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.table.MultiColumnHeaderCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.table.SimpleColumnHeaderCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.table.DndColumnCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.table.FilterColumnCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.table.MultiColumnCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.table.SimpleColumnCompiler;
 import net.n2oapp.framework.config.metadata.merge.widget.N2oFormMerger;
 import net.n2oapp.framework.config.metadata.merge.widget.N2oTableMerger;
 import net.n2oapp.framework.config.metadata.merge.widget.N2oWidgetMerger;
@@ -17,11 +19,18 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
 
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.packs(new N2oWidgetsIOPack(), new N2oWidgetsV5IOPack());
+        b.packs(new N2oWidgetsIOPack(), new N2oWidgetsV5IOPack(), new N2oTableSettingsIOPack());
         b.compilers(new FormCompiler(),
                 new ListWidgetCompiler(),
                 new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler(),
-                new TableCompiler(), new SimpleColumnHeaderCompiler(), new FilterColumnHeaderCompiler(), new MultiColumnHeaderCompiler(),
+                new ColumnsTableSettingCompiler(),
+                new ExportTableSettingCompiler(),
+                new FiltersTableSettingCompiler(),
+                new RefreshTableSettingCompiler(),
+                new ResizeTableSettingCompiler(),
+                new WordWrapTableSettingCompiler(),
+                new ResetTableSettingCompiler(),
+                new TableCompiler(), new SimpleColumnCompiler(), new FilterColumnCompiler(), new MultiColumnCompiler(), new DndColumnCompiler(),
                 new HtmlWidgetCompiler(),
                 new CustomWidgetCompiler(),
                 new TreeCompiler(),

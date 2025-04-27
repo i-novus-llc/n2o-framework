@@ -29,6 +29,17 @@ public interface TableWidget extends StandardWidget {
     Paging paging();
 
     /**
+     * Проверка того, что есть перенос слов
+     */
+    void shouldBeWordWrapped(Duration... duration);
+
+    /**
+     * Проверка того, что нет переноса слов
+     */
+    void shouldNotBeWordWrapped(Duration... duration);
+
+
+    /**
      * Компонент колонки таблицы для автотестирования
      */
     interface Columns {
@@ -51,18 +62,21 @@ public interface TableWidget extends StandardWidget {
 
         /**
          * Возвращает панель кнопок у фильтров
+         *
          * @return Компонент панель кнопок
          */
         Toolbar toolbar();
 
         /**
          * Возвращает поля для задания фильтров таблицы
+         *
          * @return Поля формы для автотестирования
          */
         Fields fields();
 
         /**
          * Возвращает филдсеты с полями для задания фильтров таблицы
+         *
          * @return Филдсеты для автотестирования
          */
         FieldSets fieldsets();
@@ -73,7 +87,7 @@ public interface TableWidget extends StandardWidget {
         void shouldBeVisible();
 
         /**
-         * Проверка скрытости фильтров
+         * Проверка скрытия фильтров
          */
         void shouldBeHidden();
     }
@@ -81,6 +95,7 @@ public interface TableWidget extends StandardWidget {
     interface Rows {
         /**
          * Возвращает ячейки внутри строки
+         *
          * @param index номер строки
          * @return Ячейки таблицы для автотестирования
          */
@@ -88,6 +103,7 @@ public interface TableWidget extends StandardWidget {
 
         /**
          * Проверка количества строк
+         *
          * @param size ожидаемое количество
          */
         void shouldHaveSize(int size, Duration... duration);
@@ -99,6 +115,7 @@ public interface TableWidget extends StandardWidget {
 
         /**
          * Проверка того, что строка выбрана
+         *
          * @param row номер строки
          */
         void shouldBeSelected(int row);
@@ -110,19 +127,22 @@ public interface TableWidget extends StandardWidget {
 
         /**
          * Проверка того, что колонка имеет соответствующий текст.
+         *
          * @param index номер проверяемой колонки
-         * @param text ожидаемый текст
+         * @param text  ожидаемый текст
          */
         void columnShouldHaveTexts(int index, List<String> text, Duration... duration);
 
         /**
          * Проверка того, что у колонки нет текста.
+         *
          * @param index номер проверяемой колонки
          */
         void columnShouldBeEmpty(int index);
 
         /**
          * Возвращает список текста из колонки
+         *
          * @param index номер необходимой колонки
          * @return Список строк
          */
@@ -130,8 +150,9 @@ public interface TableWidget extends StandardWidget {
 
         /**
          * Проверка, что колонка отсортирована
+         *
          * @param columnIndex номер колонки
-         * @param direction направление отсортированности
+         * @param direction   направление сортировки
          */
         void columnShouldBeSortedBy(int columnIndex, SortingDirection direction);
     }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/table-settings-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:group name="tableGenerateGroup">
+        <xs:sequence>
+            <xs:element name="columns" type="columnsType" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Отобразить\скрыть выбранные столбцы таблицы
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="export" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Экспортировать данные таблицы
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="filters" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Отобразить\скрыть фильтры таблицы
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="refresh" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Обновить таблицу
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="resize" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Изменить количество отображаемых данных в таблице
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="word-wrap" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Перенести по словам текст в ячейках
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reset-settings" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Сбросить настройки к значениям по умолчанию
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:complexType name="columnsType">
+        <xs:attribute name="default-value" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Список колонок (через запятую), выбранных по умолчанию
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="locked" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Список заблокированных колонок (через запятую), у которых нельзя изменить состояние
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+</xs:schema>

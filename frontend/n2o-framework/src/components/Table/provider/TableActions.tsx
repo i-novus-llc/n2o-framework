@@ -14,6 +14,7 @@ type TableActionContextValue = {
     onRowClick(model: any): void
     onChangeFilter(model: Record<string, any>): void
     onUpdateModel(model: Record<string, any>, rowIndex: number): void
+    onHeaderDrop(id: string, draggingId: string, targetId: string): void
 }
 
 const MESSAGE = 'Need an implementation method\''
@@ -41,6 +42,9 @@ const tableActionsContext = createContext<TableActionContextValue>({
         console.warn(MESSAGE)
     },
     onUpdateModel() {
+        console.warn(MESSAGE)
+    },
+    onHeaderDrop() {
         console.warn(MESSAGE)
     },
 })
@@ -77,6 +81,9 @@ export const TableActionsProvider: FC<TableActionsProviderProps> = ({
         },
         onUpdateModel(model, rowIndex) {
             actionListener(TableActions.onUpdateModel, { model, rowIndex })
+        },
+        onHeaderDrop(id: string, draggingId: string, targetId: string) {
+            actionListener(TableActions.onHeaderDrop, { id, draggingId, targetId })
         },
     }), [actionListener])
 

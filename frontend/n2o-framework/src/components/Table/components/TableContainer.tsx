@@ -5,7 +5,7 @@ import { TableActionsProvider } from '../provider/TableActions'
 import { Selection } from '../enum'
 import { getAllValuesByKey } from '../utils'
 import { TableRefProps } from '../provider/TableRefProps'
-import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../../utils/emptyTypes'
+import { EMPTY_ARRAY, EMPTY_OBJECT, NOOP_FUNCTION } from '../../../utils/emptyTypes'
 
 import { TableHeader } from './TableHeader'
 import { TableBody } from './TableBody'
@@ -13,18 +13,20 @@ import Table from './basic'
 
 export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
     tableConfig,
-    data = EMPTY_ARRAY,
     sorting,
     cells,
     isTextWrap,
-    focusedRowValue = null,
-    expandedRows = EMPTY_ARRAY,
-    selectedRows = EMPTY_ARRAY,
-    actionListener = () => {},
     errorComponent,
     EmptyContent,
     refContainerElem,
     validateFilterField,
+    id,
+    className,
+    actionListener = NOOP_FUNCTION,
+    focusedRowValue = null,
+    data = EMPTY_ARRAY,
+    expandedRows = EMPTY_ARRAY,
+    selectedRows = EMPTY_ARRAY,
     filterErrors = EMPTY_OBJECT,
     ...props
 }) => {
@@ -44,18 +46,20 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
             value={{
                 ...props,
                 tableConfig,
-                data,
                 sorting,
                 cells,
                 isTextWrap,
-                focusedRowValue,
-                expandedRows,
-                selectedRows,
-                actionListener,
                 errorComponent,
                 EmptyContent,
                 refContainerElem,
                 validateFilterField,
+                id,
+                className,
+                actionListener,
+                focusedRowValue,
+                data,
+                expandedRows,
+                selectedRows,
                 filterErrors,
             }}
         >
@@ -66,7 +70,7 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
                     className="table-container"
                     style={{ width, height }}
                 >
-                    <Table className="table">
+                    <Table className={className} id={id}>
                         <TableHeader
                             sorting={sorting}
                             selection={rowSelection}

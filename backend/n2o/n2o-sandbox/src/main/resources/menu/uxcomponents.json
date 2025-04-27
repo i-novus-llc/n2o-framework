@@ -137,6 +137,10 @@
           "name": "Фильтры в заголовках"
         },
         {
+          "templateId": "uxcomponents/tables/dnd_column",
+          "name": "Drag-n-drop колонка"
+        },
+        {
           "templateId": "uxcomponents/tables/scroll_h",
           "name": "Горизонтальный скрол"
         },

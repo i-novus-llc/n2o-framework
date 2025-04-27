@@ -1,17 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, current } from '@reduxjs/toolkit'
 import set from 'lodash/set'
 import get from 'lodash/get'
 import merge from 'lodash/merge'
+
+import { reorderElement } from '../utils'
 
 import {
     ChangeTableColumnParam,
     ChangeTableParam,
     RegisterTable,
-    RegisterTableColumn,
-    SwitchTableColumnParam,
+    ReorderTableColumn,
+    SwitchTableColumnParam, UpdateTableParams,
 } from './Actions'
-import { getDefaultColumnState, getDefaultTableState } from './constants'
-import { State } from './Table'
+import { getDefaultTableState } from './constants'
+import { type State } from './Table'
 
 export const initialState: State = {}
 
@@ -64,33 +66,15 @@ export const tableSlice = createSlice({
             },
         },
 
-        registerTableColumn: {
-            prepare(column) {
-                return ({ payload: column })
-            },
-
-            reducer(state, action: RegisterTableColumn) {
-                const { widgetId, columnId } = action.payload
-
-                if (!state[widgetId]) {
-                    state[widgetId] = getDefaultTableState()
-                }
-
-                const { columns } = state[widgetId]
-
-                columns[columnId] = { ...getDefaultColumnState(), ...action.payload }
-            },
-        },
-
         changeTableColumnParam: {
-            prepare(widgetId, columnId, paramKey, value) {
+            prepare(widgetId, id, paramKey, value, parentId) {
                 return ({
-                    payload: { widgetId, columnId, paramKey, value },
+                    payload: { widgetId, id, paramKey, value, parentId },
                 })
             },
 
             reducer(state, action: ChangeTableColumnParam) {
-                const { widgetId, columnId, paramKey, value } = action.payload
+                const { widgetId, id, paramKey, value, parentId } = action.payload
 
                 if (!state[widgetId]) {
                     // eslint-disable-next-line no-console
@@ -99,9 +83,71 @@ export const tableSlice = createSlice({
                     return
                 }
 
-                const column = state[widgetId].columns[columnId]
+                const { header } = state[widgetId]
+                const { cells } = header || {}
 
-                set(column, paramKey, value)
+                if (!cells) {
+                    // eslint-disable-next-line no-console
+                    console.warn(`Виджет ${widgetId} не существует`)
+
+                    return
+                }
+
+                if (parentId) {
+                    const parentIndex = cells.findIndex(({ id }) => id === parentId)
+                    const parentHeader = cells[parentIndex]
+                    const { children = [] } = parentHeader || {}
+
+                    const targetChildren = children.find(({ id: childrenId }) => childrenId === id)
+
+                    if (targetChildren) {
+                        set(targetChildren, paramKey, value)
+                    }
+
+                    return
+                }
+
+                const targetIndex = cells.findIndex(({ id: currentId }) => currentId === id)
+                const targetHeader = cells[targetIndex]
+
+                set(targetHeader, paramKey, value)
+            },
+        },
+
+        reorderColumn: {
+            prepare(widgetId, headerId, reorderColumnId, targetColumnId) {
+                return { payload: { widgetId, headerId, reorderColumnId, targetColumnId } }
+            },
+
+            reducer(state, action: ReorderTableColumn) {
+                const { reorderColumnId, targetColumnId } = action.payload
+
+                if (reorderColumnId === targetColumnId) { return }
+
+                const { widgetId, headerId } = action.payload
+
+                const { header, body } = state[widgetId]
+
+                if (!header || !body) { return }
+
+                const targetHeaderCell = header?.cells.find(({ id }) => id === headerId)
+
+                if (!targetHeaderCell?.children) { return }
+
+                targetHeaderCell.children = reorderElement(targetHeaderCell.children, reorderColumnId, targetColumnId)
+                body.cells = reorderElement(body.cells, reorderColumnId, targetColumnId)
+            },
+        },
+
+        updateTableParams: {
+            prepare(widgetId, params) {
+                return { payload: { widgetId, params } }
+            },
+
+            reducer(state, action: UpdateTableParams) {
+                const { widgetId, params } = action.payload
+
+                state[widgetId] = { ...getDefaultTableState(), ...merge(state[widgetId], params) }
             },
         },
     },
@@ -113,6 +159,7 @@ export const {
     registerTable,
     changeTableParam,
     switchTableParam,
-    registerTableColumn,
     changeTableColumnParam,
+    reorderColumn,
+    updateTableParams,
 } = tableSlice.actions

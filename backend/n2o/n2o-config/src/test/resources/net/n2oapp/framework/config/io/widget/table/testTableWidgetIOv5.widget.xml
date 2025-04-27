@@ -9,12 +9,14 @@
                 refresh-on-success="true" message-widget-id="w1" message-on-success="true" message-on-fail="true"
                 message-placement="top" message-position="fixed" route="route"/>
         <filters>
-            <in field-id="test" datasource="ds1" model="datasource" values="12" required="true" param="test" routable="true"/>
+            <in field-id="test" datasource="ds1" model="datasource" values="12" required="true" param="test"
+                routable="true"/>
         </filters>
     </datasource>
     <columns>
         <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left"
-                src="MyTableHeader" class="my-table-header" style="color: red" alignment="center" content-alignment="right">
+                src="MyTableHeader" class="my-table-header" style="color: red" alignment="center"
+                content-alignment="right">
             <toolbar generate="update,delete">
                 <sub-menu style="margin-left:10px;width:300px" show-toggle-icon="false">
                     <menu-item style="margin-left:10px;width:300px">
@@ -52,8 +54,9 @@
                 <text format="test" visible="true"/>
             </cell>
         </filter-column>
-        <multi-column label="test" src="MyTableHeader" class="my-table-header" style="color: red" alignment="right" width="300"
-            visible="true">
+        <multi-column label="test" src="MyTableHeader" class="my-table-header" style="color: red" alignment="right"
+                      width="300"
+                      visible="true">
             <column text-field-id="test1">
                 <cell>
                     <close src="test"/>
@@ -73,6 +76,23 @@
             </filter-column>
             <column text-field-id="test5"/>
         </multi-column>
+        <dnd-column move-mode="settings">
+            <column text-field-id="testDependencies">
+                <dependencies>
+                    <visibility model="resolve" datasource="tableWidget"/>
+                </dependencies>
+                <text/>
+            </column>
+
+            <filter-column text-field-id="test" label="label" alignment="right" content-alignment="right">
+                <filter>
+                    <input-text id="name" label="label"/>
+                </filter>
+                <cell>
+                    <text format="test" visible="true"/>
+                </cell>
+            </filter-column>
+        </dnd-column>
     </columns>
     <rows class="test" src="RowsSrc">
         <switch value-field-id="gender.id">
@@ -94,7 +114,7 @@
             </toolbar>
         </overlay>
     </rows>
-    <pagination src="test" next="false" prev="false" show-count="by-request"  prev-label="prev"
+    <pagination src="test" next="false" prev="false" show-count="by-request" prev-label="prev"
                 prev-icon="fa fa-angle-left" next-label="next" next-icon="fa fa-angle-right"
                 class="class" style="style" place="bottomLeft" show-last="false" routable="true">
     </pagination>
@@ -137,48 +157,48 @@
             </sub-menu>
         </group>
     </toolbar>
-     <toolbar place="topLeft">
-         <button action-id="test1" class="test" icon="test" datasource="ds1">
-             <close src="test"/>
-             <dependencies>
-                 <visibility datasource="ds1" model="datasource">type==1</visibility>
-             </dependencies>
-         </button>
-         <button action-id="test2" class="test" icon="test">
-             <close src="test"/>
-         </button>
-         <sub-menu>
-             <menu-item action-id="test1" icon="test" label="test" class="test"/>
-             <menu-item action-id="test2" icon="test" label="test" class="test"/>
-             <menu-item action-id="test3" icon="test" label="test" class="test"/>
-         </sub-menu>
-         <group>
-             <button action-id="test1" class="test" icon="test">
-                 <dependencies>
-                     <enabling model="filter" datasource="test">condition1</enabling>
-                     <visibility model="filter" datasource="test">condition2</visibility>
-                 </dependencies>
-                 <close src="test"/>
-             </button>
-             <button enabled="false" visible="false"/>
-             <sub-menu style="margin-left:10px;width:300px">
-                 <menu-item action-id="test1" icon="test" label="test" class="test" style="margin-left:10px;width:300px">
-                     <close src="test"/>
-                     <dependencies>
-                         <enabling model="resolve">condition1</enabling>
-                         <visibility datasource="test">condition2</visibility>
-                     </dependencies>
-                 </menu-item>
-                 <menu-item action-id="test2" icon="test" label="test" class="test" enabled="false" visible="false"/>
-                 <menu-item action-id="test3" icon="test" label="test" class="test"/>
-             </sub-menu>
-             <sub-menu>
-                 <menu-item action-id="test1" icon="test" label="test" class="test"/>
-                 <menu-item action-id="test2" icon="test" label="test" class="test"/>
-                 <menu-item action-id="test3" icon="test" label="test" class="test"/>
-             </sub-menu>
-         </group>
-     </toolbar>
+    <toolbar place="topLeft">
+        <button action-id="test1" class="test" icon="test" datasource="ds1">
+            <close src="test"/>
+            <dependencies>
+                <visibility datasource="ds1" model="datasource">type==1</visibility>
+            </dependencies>
+        </button>
+        <button action-id="test2" class="test" icon="test">
+            <close src="test"/>
+        </button>
+        <sub-menu>
+            <menu-item action-id="test1" icon="test" label="test" class="test"/>
+            <menu-item action-id="test2" icon="test" label="test" class="test"/>
+            <menu-item action-id="test3" icon="test" label="test" class="test"/>
+        </sub-menu>
+        <group>
+            <button action-id="test1" class="test" icon="test">
+                <dependencies>
+                    <enabling model="filter" datasource="test">condition1</enabling>
+                    <visibility model="filter" datasource="test">condition2</visibility>
+                </dependencies>
+                <close src="test"/>
+            </button>
+            <button enabled="false" visible="false"/>
+            <sub-menu style="margin-left:10px;width:300px">
+                <menu-item action-id="test1" icon="test" label="test" class="test" style="margin-left:10px;width:300px">
+                    <close src="test"/>
+                    <dependencies>
+                        <enabling model="resolve">condition1</enabling>
+                        <visibility datasource="test">condition2</visibility>
+                    </dependencies>
+                </menu-item>
+                <menu-item action-id="test2" icon="test" label="test" class="test" enabled="false" visible="false"/>
+                <menu-item action-id="test3" icon="test" label="test" class="test"/>
+            </sub-menu>
+            <sub-menu>
+                <menu-item action-id="test1" icon="test" label="test" class="test"/>
+                <menu-item action-id="test2" icon="test" label="test" class="test"/>
+                <menu-item action-id="test3" icon="test" label="test" class="test"/>
+            </sub-menu>
+        </group>
+    </toolbar>
 </table>
 
 

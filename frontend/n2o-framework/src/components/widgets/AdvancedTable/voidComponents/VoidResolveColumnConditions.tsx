@@ -21,7 +21,7 @@ export const VoidResolveColumnConditions: VFC<Props> = ({ columnsState, changeCo
     useLayoutEffect(() => {
         const state = getState()
 
-        refState.current.forEach(({ conditions, visible, columnId }) => {
+        refState.current.forEach(({ conditions, visible, columnId, parentId }) => {
             if (!conditions?.visible) {
                 return
             }
@@ -30,7 +30,7 @@ export const VoidResolveColumnConditions: VFC<Props> = ({ columnsState, changeCo
             const needChangeVisibility = resolvedVisibility !== visible
 
             if (needChangeVisibility) {
-                changeColumnParam(widgetId, columnId, 'visible', resolvedVisibility)
+                changeColumnParam(widgetId, columnId, 'visible', resolvedVisibility, parentId)
             }
         })
     }, [changeColumnParam, getState, models, widgetId])

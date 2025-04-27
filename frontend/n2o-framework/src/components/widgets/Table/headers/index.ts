@@ -1,3 +1,4 @@
-import { TextTableHeader } from './TextTableHeader'
+import { TextTableHeader } from './TextTableHeader/TextTableHeader'
+import { DragNDropTableHeader } from './DragNDropTableHeader/DragNDropTableHeader'
 
-export default { TextTableHeader }
+export default { TextTableHeader, DragNDropTableHeader }

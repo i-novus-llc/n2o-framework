@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oEditCell;
 import net.n2oapp.framework.api.metadata.meta.cell.EditCell;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
@@ -36,7 +36,7 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
                 ComponentScope columnScope = p.getScope(ComponentScope.class);
                 String columnTextFieldId = null;
                 if (columnScope != null) {
-                    AbstractColumn column = columnScope.unwrap(AbstractColumn.class);
+                    N2oBaseColumn column = columnScope.unwrap(N2oBaseColumn.class);
                     if (column != null) {
                         columnTextFieldId = column.getTextFieldId();
                     }

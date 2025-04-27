@@ -1,7 +1,7 @@
-import React, { memo, useMemo } from 'react'
+import React, { ComponentType, memo, useMemo } from 'react'
 
 import { Selection } from '../enum'
-import { TableHeaderProps } from '../types/props'
+import { type ChildrenTableHeaderProps, type TableHeaderProps } from '../types/props'
 import { parseHeaderRows } from '../utils/parseHeaderRows'
 
 import { CheckboxHeaderCell } from './selection/checkbox-header'
@@ -30,15 +30,34 @@ export const TableHeader = memo<TableHeaderProps>(({
                     {selection === Selection.Radio && (
                         <Table.HeaderCell key={selection} className="cell-selection" />
                     )}
-                    {columns.map(cell => (
-                        <TableHeaderCell
-                            key={cell.id}
-                            sortingDirection={cell.sortingParam ? sorting[cell.sortingParam] : undefined}
-                            validateFilterField={validateFilterField}
-                            filterError={filterErrors?.[cell.id]}
-                            {...cell}
-                        />
-                    ))}
+                    <>
+                        {columns.map((cell) => {
+                            const { moveMode } = cell
+
+                            if (moveMode) {
+                                const Component = cell.component as ComponentType<ChildrenTableHeaderProps>
+
+                                return (
+                                    <Component
+                                        {...cell}
+                                        sorting={sorting}
+                                        validateFilterField={validateFilterField}
+                                        filterErrors={filterErrors}
+                                    />
+                                )
+                            }
+
+                            return (
+                                <TableHeaderCell
+                                    key={cell.id}
+                                    sortingDirection={cell.sortingParam ? sorting[cell.sortingParam] : undefined}
+                                    validateFilterField={validateFilterField}
+                                    filterError={filterErrors?.[cell.id]}
+                                    {...cell}
+                                />
+                            )
+                        })}
+                    </>
                 </Table.Row>
             ))}
         </Table.Header>

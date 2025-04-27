@@ -87,20 +87,20 @@ export default defineConfig(({ mode }) => {
 /* Подмена %параметров%  из .env файла, т.к. vite из коробки делает только для ключей по префиксу VITE_ */
 function htmlPlugin(env: Record<string, string>) {
     return {
-      name: 'html-transform',
-      transformIndexHtml(html: string) {
-        let result = html
+        name: 'html-transform',
+        transformIndexHtml(html: string) {
+            let result = html
 
-        for (const [key, value] of Object.entries(env)) {
-            // фикс двойных слешей при подмене параметра
-            const prefix = String(value).startsWith('/') ? '/' : ''
-            const suffix = String(value).endsWith('/') ? '/' : ''
+            for (const [key, value] of Object.entries(env)) {
+                // фикс двойных слешей при подмене параметра
+                const prefix = String(value).startsWith('/') ? '/' : ''
+                const suffix = String(value).endsWith('/') ? '/' : ''
 
-            result = result.replaceAll(`${prefix}%${key}%${suffix}`, value)
-        }
+                result = result.replaceAll(`${prefix}%${key}%${suffix}`, value)
+            }
 
-        return result
-      },
+            return result
+        },
     }
 }
 

@@ -1,5 +1,4 @@
 import React, { PropsWithChildren, TableHTMLAttributes } from 'react'
-import classNames from 'classnames'
 
 import { TableCell } from './Cell'
 import { TableRow } from './Row'
@@ -10,22 +9,9 @@ import { TableHeaderCell } from './HeaderCell'
 
 type TableProps = TableHTMLAttributes<HTMLTableElement>
 
-export const Table = ({
-    children,
-    className,
-    ...props
-}: PropsWithChildren<TableProps>) => {
-    const classes = classNames('n2o-advanced-table', className)
-
-    return (
-        <table
-            className={classes}
-            {...props}
-        >
-            {children}
-        </table>
-    )
-}
+export const Table = ({ children, className, id, ...props }: PropsWithChildren<TableProps>) => (
+    <table id={id} className={className} {...props}>{children}</table>
+)
 
 Table.Cell = TableCell
 Table.Row = TableRow
