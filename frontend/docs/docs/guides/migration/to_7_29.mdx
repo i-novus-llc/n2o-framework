@@ -6,6 +6,46 @@ description: ""
 ## Изменения в XML API {#changes-xml-api}
 
 - Упразднены устаревшие схемы: `query-4.0` и `application-2.0` с сохранением обратной совместимости.
+- Добавлена новая схема `table-settings-1.0` для задания [настроек таблицы](../manual/components#table-settings).
+Генерация кнопок с настройками с помощью атрибута `generate` объявлена устаревшей и будет удалена в последующих версиях.
+
+```xml title="Пример, как работало в версии 7.28 и ниже"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             xmlns:gen="http://n2oapp.net/framework/config/schema/gen-attr">
+    <table>
+        ...
+        <toolbar>
+            <sub-menu icon="fa fa-gear">
+                <menu-item generate="filters"/>
+                <menu-item generate="columns" gen:defaultColumns="name, type"/>
+                <menu-item generate="refresh"/>
+                <menu-item generate="resize"/>
+                <menu-item generate="word-wrap"/>
+                <menu-item generate="export"/>
+            </sub-menu>
+        </toolbar>
+    </table>
+</simple-page>
+```
+
+```xml title="Пример, как работает в версии 7.29"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0">
+    <table>
+        ...
+        <toolbar>
+            <sub-menu icon="fa fa-gear">
+                <ts:filters/>
+                <ts:columns default-value="name, type"/>
+                <ts:refresh/>
+                <ts:resize/>
+                <ts:word-wrap/>
+                <ts:export/>
+            </sub-menu>
+        </toolbar>
+    </table>
+</simple-page>
+```
 
 ## Изменения в настройках {#changes-settings}
 
