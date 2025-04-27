@@ -46,6 +46,7 @@
         <xs:sequence>
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:any namespace="##other"/>
         </xs:sequence>
         <xs:attribute name="generate" type="bs:generateDefinition">
             <xs:annotation>

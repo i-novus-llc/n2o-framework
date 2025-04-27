@@ -30,4 +30,5 @@ export const enum TableActions {
     onRowClick = 'onRowClick',
     onChangeFilter = 'onChangeFilter',
     onUpdateModel = 'onUpdateModel',
+    onHeaderDrop = 'onHeaderDrop',
 }

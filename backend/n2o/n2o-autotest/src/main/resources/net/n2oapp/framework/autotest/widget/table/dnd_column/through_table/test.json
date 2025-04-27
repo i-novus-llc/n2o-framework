@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Smith",
+    "phone": "11-11-11",
+    "birthday": "2018.12.31"
+  },
+  {
+    "id": 2,
+    "firstName": "Mark",
+    "lastName": "Johnson",
+    "phone": "22-22-22",
+    "birthday": "2019.12.31"
+  },
+  {
+    "id": 3,
+    "firstName": "Frank",
+    "lastName": "Johnson",
+    "phone": "33-33-33",
+    "birthday": "2020.12.31"
+  },
+  {
+    "id": 4,
+    "firstName": "Julia",
+    "lastName": "Marks",
+    "phone": "44-44-44",
+    "birthday": "2021.12.31"
+  }
+]

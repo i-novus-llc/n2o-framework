@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.cell.BadgeCell;
@@ -31,7 +31,7 @@ public class BadgeCellCompiler extends AbstractCellCompiler<BadgeCell, N2oBadgeC
         build(cell, source, context, p, property("n2o.api.cell.badge.src"));
         ComponentScope scope = p.getScope(ComponentScope.class);
         if (scope != null) {
-            AbstractColumn column = scope.unwrap(AbstractColumn.class);
+            N2oBaseColumn column = scope.unwrap(N2oBaseColumn.class);
             if (column != null)
                 cell.setId(column.getId());
         }

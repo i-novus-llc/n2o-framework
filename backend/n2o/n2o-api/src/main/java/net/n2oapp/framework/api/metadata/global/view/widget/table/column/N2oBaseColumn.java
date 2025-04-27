@@ -8,19 +8,16 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
 import java.util.Map;
 
 /**
- * Абстрактный столбец таблицы
+ * Исходная модель базового столбца таблицы
  */
 @Getter
 @Setter
-public abstract class AbstractColumn implements IdAware, Source, ExtensionAttributesAware {
-    private String id;
-    private String src;
+public abstract class N2oBaseColumn extends N2oAbstractColumn implements ExtensionAttributesAware {
     private String cssClass;
     private String style;
     private String textFieldId;
@@ -46,12 +43,18 @@ public abstract class AbstractColumn implements IdAware, Source, ExtensionAttrib
         private String datasourceId;
         private ReduxModel model;
 
-        @Deprecated
+        /**
+         * @deprecated use {@link #getDatasourceId()} instead.
+         */
+        @Deprecated(since = "7.21")
         public String getRefWidgetId() {
             return datasourceId;
         }
 
-        @Deprecated
+        /**
+         * @deprecated use {@link #setDatasourceId(String)} instead.
+         */
+        @Deprecated(since = "7.21")
         public void setRefWidgetId(String refWidgetId) {
             this.datasourceId = refWidgetId;
         }

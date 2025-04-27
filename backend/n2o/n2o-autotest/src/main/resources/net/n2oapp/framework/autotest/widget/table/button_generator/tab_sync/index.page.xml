@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
+             name="Автотест. Проверка синхронизируемости вкладок браузера">
+    <table>
+        <datasource query-id="test" size="3"/>
+        <columns>
+            <column text-field-id="id"/>
+            <dnd-column move-mode="all">
+                <column text-field-id="name"/>
+                <column text-field-id="date">
+                    <text format="date DD.MM.YYYY"/>
+                </column>
+                <filter-column text-field-id="type">
+                    <filter>
+                        <input-text id="type"/>
+                    </filter>
+                </filter-column>
+            </dnd-column>
+        </columns>
+
+        <toolbar place="topRight">
+            <group>
+                <ts:filters/>
+                <ts:columns locked="id"/>
+                <ts:refresh/>
+                <ts:resize/>
+                <ts:word-wrap/>
+                <ts:export/>
+                <ts:reset-settings/>
+            </group>
+        </toolbar>
+    </table>
+</simple-page>

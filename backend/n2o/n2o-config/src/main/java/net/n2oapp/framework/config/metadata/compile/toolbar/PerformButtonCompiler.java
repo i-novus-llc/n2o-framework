@@ -58,7 +58,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     public PerformButton compile(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
         if (!ArrayUtils.isEmpty(source.getGenerate())) {
             N2oToolbar toolbar = p.getScope(N2oToolbar.class);
-            toolbar.setIsGeneratedForSubMenu(source.getIsGeneratedForSubMenu());
+            toolbar.setGeneratedForSubMenu(source.isGeneratedForSubMenu());
 
             return (PerformButton) generateButtons(source, toolbar, buttonGeneratorFactory, context, p).get(0);
         }
@@ -79,6 +79,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         return button;
     }
 
+    @Override
     protected void initDefaults(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
         source.setId(castDefault(source.getId(), source.getActionId()));
         super.initDefaults(source, context, p);

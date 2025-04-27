@@ -20,7 +20,7 @@ import java.util.Map;
 @Setter
 public class TableWidgetComponent extends WidgetComponent {
     @JsonProperty
-    private String  width;
+    private String width;
     @JsonProperty
     private String height;
     @JsonProperty
@@ -40,7 +40,7 @@ public class TableWidgetComponent extends WidgetComponent {
     @Setter
     public static class TableHeader implements Compiled {
         @JsonProperty
-        private List<ColumnHeader> cells;
+        private List<AbstractColumn> cells;
     }
 
     @Getter

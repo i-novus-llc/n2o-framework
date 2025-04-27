@@ -16,7 +16,14 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oAbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oColumnsTableSetting;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oResizeTableSetting;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oWordWrapTableSetting;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oGroup;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Models;
@@ -99,6 +106,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         component.getBody().setRow(initRows(source, context, p, object, widgetScope, widgetActions, component));
         table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p, widgetScope));
         table.setChildren(castDefault(source.getChildren(), () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class)));
+        table.setSaveSettings(shouldSaveSettings(source, p));
         component.setAutoSelect(castDefault(source.getAutoSelect(), () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
 
         return table;
@@ -143,24 +151,24 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                                 Object... scopes) {
         if (source.getColumns() == null)
             return;
-        List<ColumnHeader> headers = new ArrayList<>();
+        List<AbstractColumn> columns = new ArrayList<>();
         Map<String, String> sortings = new HashMap<>();
         IndexScope columnIndex = new IndexScope();
         CellsScope cellsScope = new CellsScope(new ArrayList<>());
 
-        for (AbstractColumn column : source.getColumns()) {
-            headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes));
-            if (column.getSortingDirection() != null) {
-                String fieldId = castDefault(column.getSortingFieldId(), column.getTextFieldId());
-                if (fieldId == null)
-                    throw new N2oException(String.format("В колонке \"<column>\" c 'id=%s' задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'",
-                            column.getId()));
-                sortings.put(RouteUtil.normalizeParam(fieldId),
-                        column.getSortingDirection().toString().toUpperCase()
-                );
-            }
+        for (N2oAbstractColumn column : source.getColumns()) {
+            columns.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes));
+            if (column instanceof N2oBaseColumn baseColumn && baseColumn.getSortingDirection() != null) {
+                    String fieldId = castDefault(baseColumn.getSortingFieldId(), baseColumn.getTextFieldId());
+                    if (fieldId == null)
+                        throw new N2oException(String.format("В колонке \"<column>\" c 'id=%s' задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'",
+                                baseColumn.getId()));
+                    sortings.put(RouteUtil.normalizeParam(fieldId),
+                            baseColumn.getSortingDirection().toString().toUpperCase()
+                    );
+                }
         }
-        component.getHeader().setCells(headers);
+        component.getHeader().setCells(columns);
         component.getBody().setCells(cellsScope.getCells());
         if (isNotEmpty(sortings)) {
             passSortingToDatasource(sortings, source, p);
@@ -286,5 +294,30 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 overlay.setToolbar(iterator.next());
         }
         return overlay;
+    }
+
+    private boolean shouldSaveSettings(S source, CompileProcessor p) {
+        if (!p.resolve(property("n2o.api.widget.table.save_settings"), Boolean.class)) {
+            return false;
+        }
+        return Arrays.stream(source.getToolbars())
+                .flatMap(toolbar -> Arrays.stream(toolbar.getItems()))
+                .anyMatch(this::containsSettingToSave);
+    }
+
+    private boolean containsSettingToSave(ToolbarItem item) {
+        if (item instanceof N2oSubmenu submenu) {
+            return Arrays.stream(submenu.getMenuItems()).anyMatch(this::isSettingToSave);
+        }
+        if (item instanceof N2oGroup group) {
+            return Arrays.stream(group.getItems()).anyMatch(this::containsSettingToSave);
+        }
+        return isSettingToSave(item);
+    }
+
+    private boolean isSettingToSave(ToolbarItem item) {
+        return item instanceof N2oColumnsTableSetting ||
+                item instanceof N2oResizeTableSetting ||
+                item instanceof N2oWordWrapTableSetting;
     }
 }

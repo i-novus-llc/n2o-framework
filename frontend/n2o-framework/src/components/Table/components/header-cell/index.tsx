@@ -5,13 +5,12 @@ import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 import Table from '../basic'
 import { TableHeaderCellProps } from '../../types/props'
 import { useMouseDownResize } from '../../hooks/useMouseDownResize'
-import { EMPTY_OBJECT } from '../../../../utils/emptyTypes'
+import { DragHandle } from '../../../buttons/ToggleColumn/DragHandle'
 
 import { HeaderFilter } from './header-filter'
 
 export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
     component: Component,
-    id,
     filterField,
     sortingDirection,
     colSpan,
@@ -19,12 +18,13 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
     multiHeader,
     icon,
     resizable,
-    elementAttributes = EMPTY_OBJECT as TableHeaderCellProps['elementAttributes'],
     validateFilterField,
     filterError,
+    elementAttributes = {},
+    dragAttributes = null,
     ...rest
 }) => {
-    const { className, alignment, ...otherElementAttributes } = elementAttributes
+    const { className, componentClassName, alignment, ...otherElementAttributes } = elementAttributes
     const cellRef = useRef<HTMLTableCellElement>(null)
     const onMouseDownResizeCell = useMouseDownResize(cellRef)
 
@@ -36,19 +36,22 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
             rowSpan={rowSpan}
             align={alignment}
             {...otherElementAttributes}
-            className={classNames(className, { 'n2o-advanced-table-header-text-center': multiHeader })}
+            className={classNames(className, { 'n2o-advanced-table-header-text-center': multiHeader, 'drag-header': dragAttributes })}
         >
             <div className="n2o-advanced-table-header-cell-content">
+                {dragAttributes && <DragHandle {...dragAttributes} {...rest} />}
                 <Icon name={icon} visible={typeof icon === 'string'} />
-                <Component {...rest} sorting={sortingDirection} />
-                {filterField && (
-                    <HeaderFilter
-                        id={filterField.id}
-                        filterField={filterField}
-                        validateFilterField={validateFilterField}
-                        filterError={filterError}
-                    />
-                )}
+                <section className="n2o-advanced-table-header-cell__header">
+                    <Component {...rest} className={componentClassName} sorting={sortingDirection} />
+                    {filterField && (
+                        <HeaderFilter
+                            id={filterField.id}
+                            filterField={filterField}
+                            validateFilterField={validateFilterField}
+                            filterError={filterError}
+                        />
+                    )}
+                </section>
             </div>
             {resizable && <div className="resizeTrigger" onMouseDown={onMouseDownResizeCell} />}
         </Table.HeaderCell>

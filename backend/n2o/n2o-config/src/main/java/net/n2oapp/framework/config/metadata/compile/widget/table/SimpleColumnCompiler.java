@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
-import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
+import net.n2oapp.framework.api.metadata.meta.widget.table.SimpleColumn;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -34,15 +34,15 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
  * Компиляция простого заголовка таблицы
  */
 @Component
-public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends AbstractHeaderCompiler<T> {
+public class SimpleColumnCompiler<S extends N2oSimpleColumn> extends BaseColumnCompiler<S> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oSimpleColumn.class;
     }
 
     @Override
-    public ColumnHeader compile(T source, CompileContext<?, ?> context, CompileProcessor p) {
-        ColumnHeader header = new ColumnHeader();
+    public SimpleColumn compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        SimpleColumn compiled = new SimpleColumn();
         IndexScope idx = p.getScope(IndexScope.class);
         int indexNumber = idx.get();
 
@@ -61,48 +61,48 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         if (cellsScope != null && cellsScope.getCells() != null)
             cellsScope.getCells().add(compiledCell);
 
-        compileBaseProperties(source, header, p);
-        header.setId(source.getId());
-        header.setIcon(source.getIcon());
-        header.setResizable(castDefault(source.getResizable(),
+        compileBaseProperties(source, compiled, p);
+        compiled.setId(source.getId());
+        compiled.setIcon(source.getIcon());
+        compiled.setResizable(castDefault(source.getResizable(),
                 p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
-        header.getElementAttributes().put("width", prepareSizeAttribute(source.getWidth()));
-        header.setResizable(castDefault(source.getResizable(),
+        compiled.getElementAttributes().put("width", prepareSizeAttribute(source.getWidth()));
+        compiled.setResizable(castDefault(source.getResizable(),
                 () -> p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
-        header.setFixed(source.getFixed());
+        compiled.setFixed(source.getFixed());
         if (source.getAlignment() != null)
-            header.getElementAttributes().put("alignment", source.getAlignment().getId());
+            compiled.getElementAttributes().put("alignment", source.getAlignment().getId());
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (source.getColumnVisibilities() != null) {
-            for (AbstractColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
+            for (N2oBaseColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
                 String datasourceId = getClientDatasourceId(castDefault(visibility.getDatasourceId(), widgetScope.getDatasourceId()), p);
                 ReduxModel refModel = castDefault(visibility.getModel(), ReduxModel.filter);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
                 condition.setModelLink(new ModelLink(refModel, datasourceId).getBindLink());
-                if (!header.getConditions().containsKey(ValidationType.visible)) {
-                    header.getConditions().put(ValidationType.visible, new ArrayList<>());
+                if (!compiled.getConditions().containsKey(ValidationType.visible)) {
+                    compiled.getConditions().put(ValidationType.visible, new ArrayList<>());
                 }
-                header.getConditions().get(ValidationType.visible).add(condition);
+                compiled.getConditions().get(ValidationType.visible).add(condition);
             }
         }
 
         CompiledQuery query = p.getScope(CompiledQuery.class);
-        header.setLabel(initLabel(source, query));
+        compiled.setLabel(initLabel(source, query));
         if (query != null && query.getSimpleFieldsMap().containsKey(source.getSortingFieldId())) {
             boolean sortable = query.getSimpleFieldsMap().get(source.getSortingFieldId()).getIsSorted();
             if (sortable) {
-                header.setSortingParam(RouteUtil.normalizeParam(source.getSortingFieldId()));
+                compiled.setSortingParam(RouteUtil.normalizeParam(source.getSortingFieldId()));
             }
         }
 
-        header.setProperties(p.mapAttributes(source));
+        compiled.setProperties(p.mapAttributes(source));
 
-        return header;
+        return compiled;
     }
 
-    private String initLabel(T source, CompiledQuery query) {
+    private String initLabel(S source, CompiledQuery query) {
         if (source.getLabel() != null)
             return source.getLabel();
         if (query != null && query.getSimpleFieldsMap().containsKey(source.getTextFieldId()))

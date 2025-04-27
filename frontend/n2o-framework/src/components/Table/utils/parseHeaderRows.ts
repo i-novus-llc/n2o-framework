@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep'
 
-import { HeaderCell } from '../types/cell'
+import { HeaderCell } from '../../../ducks/table/Table'
 
 /**
  * Форматировние списка ячеек заголовков, что бы правильно проставить параметр colSpan и rowSpan
@@ -17,14 +17,14 @@ export const parseHeaderRows = (rootColumns: readonly HeaderCell[]): HeaderCell[
 
         let currentColIndex = colIndex
 
-        return columns.filter(Boolean).map(({ children, ...column }) => {
+        return columns.filter(Boolean).map(({ children, moveMode, ...column }) => {
             const cell = cloneDeep(column)
 
             let colSpan = 1
 
             const subColumns = children
 
-            if (subColumns && subColumns.length > 0) {
+            if (!moveMode && subColumns && subColumns.length > 0) {
                 colSpan = fillRowCells(subColumns, currentColIndex, rowIndex + 1).reduce(
                     (total, count) => total + count,
                     0,
@@ -41,7 +41,7 @@ export const parseHeaderRows = (rootColumns: readonly HeaderCell[]): HeaderCell[
             }
 
             cell.colSpan = colSpan
-            rows[rowIndex].push(cell)
+            rows[rowIndex].push(moveMode ? { ...cell, children, moveMode } : cell)
 
             currentColIndex += colSpan
 

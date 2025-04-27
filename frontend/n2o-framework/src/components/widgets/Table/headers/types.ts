@@ -13,4 +13,5 @@ export interface TextTableHeaderProps {
     columnId: string
     visible: boolean
     toggleVisibility(visible: boolean): void
+    className?: string
 }

@@ -3,6 +3,7 @@ package net.n2oapp.framework.access.metadata.compile.widget;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.compile.SecurityExtensionAttributeMapper;
+import net.n2oapp.framework.api.metadata.meta.widget.table.BaseColumn;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -36,7 +37,7 @@ class TableSecurityTest extends SourceCompileTestBase {
 
         assertThat(table.getComponent().getHeader().getCells().size(), is(3));
 
-        SecurityObject securityObject = ((Security) table.getComponent().getHeader().getCells().get(0).getProperties().get("security"))
+        SecurityObject securityObject = ((Security) ((BaseColumn) table.getComponent().getHeader().getCells().get(0)).getProperties().get("security"))
                 .get(0).get("custom");
         assertThat(securityObject.getRoles().size(), is(1));
         assertTrue(securityObject.getRoles().contains("user"));
@@ -44,13 +45,13 @@ class TableSecurityTest extends SourceCompileTestBase {
         assertThat(securityObject.getPermissions().size(), is(1));
         assertTrue(securityObject.getPermissions().contains("userName"));
 
-        securityObject = ((Security) table.getComponent().getHeader().getCells().get(1).getProperties().get("security"))
+        securityObject = ((Security) ((BaseColumn) table.getComponent().getHeader().getCells().get(1)).getProperties().get("security"))
                 .get(0).get("custom");
         assertThat(securityObject.getUsernames().size(), is(1));
         assertTrue(securityObject.getUsernames().contains("userName"));
         assertThat(securityObject.getAuthenticated(), is(true));
 
-        securityObject = ((Security) table.getComponent().getHeader().getCells().get(2).getProperties().get("security"))
+        securityObject = ((Security) ((BaseColumn) table.getComponent().getHeader().getCells().get(2)).getProperties().get("security"))
                 .get(0).get("custom");
         assertThat(securityObject.getDenied(), is(false));
         assertThat(securityObject.getPermitAll(), is(true));

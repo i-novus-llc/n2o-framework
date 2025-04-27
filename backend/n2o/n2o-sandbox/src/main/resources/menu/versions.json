@@ -11,6 +11,14 @@
         {
           "templateId": "versions/7.29/datasource_fetch_on_init",
           "name": "Запрос данных источником при инициализации страницы"
+        },
+        {
+          "templateId": "uxcomponents/tables/dnd_column",
+          "name": "Drag-n-drop колонка"
+        },
+        {
+          "templateId": "uxcomponents/tables/settings",
+          "name": "Настройки таблицы"
         }
       ]
     },

@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceCompiler;
 
 /**
  * Базовый класс сборок любых метаданных
+ *
  * @param <D> Тип собранной метаданной
  * @param <S> Тип исходной метаданной
  * @param <C> Тип контекста сборки

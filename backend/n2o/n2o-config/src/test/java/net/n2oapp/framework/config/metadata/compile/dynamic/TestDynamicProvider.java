@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oAbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -59,7 +59,7 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         N2oSimpleColumn idColumn = new N2oSimpleColumn();
         idColumn.setId("id");
         idColumn.setTextFieldId("id");
-        table.setColumns(new AbstractColumn[]{idColumn});
+        table.setColumns(new N2oAbstractColumn[]{idColumn});
         table.setId("testDynamic?Dummy");
         N2oToolbar toolbar = new N2oToolbar();
         toolbar.setPlace("topLeft");

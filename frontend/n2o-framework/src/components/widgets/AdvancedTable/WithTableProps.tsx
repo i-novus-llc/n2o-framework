@@ -1,14 +1,16 @@
 import React, { useMemo, useContext } from 'react'
 import omit from 'lodash/omit'
-import { useStore } from 'react-redux'
+import { useSelector, useStore } from 'react-redux'
 
 import { FactoryContext } from '../../../core/factory/context'
 import { StandardFieldset } from '../Form/fieldsets'
 import { dataSourceValidationSelector } from '../../../ducks/datasource/selectors'
 import { ValidationsKey } from '../../../core/validation/types'
 import { State } from '../../../ducks/State'
+import { getTableParam } from '../../../ducks/table/selectors'
+import { getAllValuesByKey } from '../../Table/utils'
 
-import { ChangeColumnParam, ColumnState, useColumnsState } from './hooks/useColumnsState'
+import { ChangeColumnParam, SwitchTableParam, useColumnsState } from './hooks/useColumnsState'
 import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
 import { type WithTableType, type BodyCells, type HeaderCells } from './types'
 
@@ -19,20 +21,25 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
 
         const { filter, id, table, datasourceModelLength, datasource, page } = props
         const { resolveProps } = useContext(FactoryContext)
+
         const { header, body } = table
 
         const cells = useMemo(() => ({
             header: header.cells.map(cell => resolveProps(cell)) as HeaderCells['cells'],
             body: body.cells.map(cell => resolveProps(cell)) as BodyCells['cells'],
-        }), [body.cells, header.cells, resolveProps])
+        }), [header.cells, body.cells, resolveProps])
 
         const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
 
-        const [columnsState, changeColumnParam, switchTableParameter] = useColumnsState(cells.header, id, state) as [
-            columnsState: ColumnState,
+        const [changeColumnParam, switchTableParam] = useColumnsState() as [
             changeColumnParam: ChangeColumnParam,
-            switchTableParameter: ChangeColumnParam,
+            switchTableParam: SwitchTableParam,
         ]
+
+        // INFO Объект, содержащий все заголовки по ключу, соответствующему идентификатору колонки
+        const columnsState = getAllValuesByKey(cells.header, { keyToIterate: 'children' })
+
+        // INFO содержит только видимые колонки
         const resolvedCells = useResolveCellsVisible(cells, columnsState)
 
         const tableConfig = useMemo(() => {
@@ -58,6 +65,7 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
         )
 
         const validations = dataSourceValidationSelector(datasource, ValidationsKey.FilterValidations)(state) || {}
+        const textWrap = useSelector(getTableParam(id, 'textWrap'))
 
         return (
             <Component
@@ -68,8 +76,9 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
                 resolvedFilter={resolvedFilter}
                 resolvedCells={resolvedCells}
                 paginationVisible={paginationVisible}
-                switchTableParam={switchTableParameter}
+                switchTableParam={switchTableParam}
                 validations={validations}
+                textWrap={textWrap}
             />
         )
     }

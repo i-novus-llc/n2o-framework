@@ -137,8 +137,10 @@
 
     <xs:complexType name="actionDefinition">
         <xs:annotation>
-            <xs:documentation>Действие над виджетом
-                (допускает использование нескольких обработчиков действий в теле).</xs:documentation>
+            <xs:documentation>
+                Действие над виджетом.
+                (допускает использование нескольких обработчиков действий в теле).
+            </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="act:actions">
@@ -206,15 +208,18 @@
         </xs:complexContent>
     </xs:complexType>
 
-   <xs:complexType name="tableToolbarDefinition">
-       <xs:annotation>
-           <xs:documentation>Меню управляющих кнопок таблицы.</xs:documentation>
-       </xs:annotation>
+    <xs:complexType name="tableToolbarDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Меню управляющих кнопок таблицы
+            </xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="tool:toolbarDefinition">
                 <xs:sequence>
                     <xs:element name="sub-menu" type="tableSubMenuDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="group" type="tableGroupDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:any namespace="##other"/>
                 </xs:sequence>
                 <xs:attribute name="generate" type="tableGenerateDefinition">
                     <xs:annotation>
@@ -233,7 +238,10 @@
             <xs:extension base="btn:subMenuDefinition">
                 <xs:attribute name="generate" type="tableGenerateDefinition">
                     <xs:annotation>
-                        <xs:documentation>Генерация стандартных кнопок. Можно указать несколько значений через запятую</xs:documentation>
+                        <xs:documentation>
+                            Генерация стандартных кнопок.
+                            Можно указать несколько значений через запятую
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -274,6 +282,8 @@
                                             minOccurs="0"/>
                                 <xs:element name="multi-column" type="multiColumnDefinition" maxOccurs="unbounded"
                                             minOccurs="0"/>
+                                <xs:element name="dnd-column" type="dndColumnDefinition" maxOccurs="unbounded"
+                                            minOccurs="0"/>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
@@ -307,7 +317,8 @@
                     <xs:annotation>
                         <xs:documentation>
                             Максимальная ширина таблицы.
-                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`.
+                            При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -315,7 +326,8 @@
                     <xs:annotation>
                         <xs:documentation>
                             Максимальная высота таблицы.
-                            Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+                            Доступные единицы измерения: `px`, `em`, `rem`.
+                            При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -535,6 +547,25 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="dndColumnDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Drag-n-drop колонка
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="column" type="columnDefinition" minOccurs="0"/>
+            <xs:element name="filter-column" type="filterColumnDefinition" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="move-mode" type="moveMode" default="all">
+            <xs:annotation>
+                <xs:documentation>
+                    Режим перемещения колонок
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="columnDependenciesDefinition" abstract="true">
         <xs:sequence>
             <xs:element name="visibility" type="visibilityDependencyDefinition" minOccurs="0">
@@ -558,8 +589,7 @@
         </xs:attribute>
     </xs:complexType>
 
-
-     <xs:complexType name="formReferenceDefinition">
+    <xs:complexType name="formReferenceDefinition">
         <xs:complexContent>
             <xs:extension base="widgetDefinition">
                 <xs:annotation>
@@ -611,7 +641,7 @@
                 </xs:attribute>
                 <xs:attribute name="checkboxes" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Выбор в режиме чекбокс </xs:documentation>
+                        <xs:documentation>Выбор в режиме чекбокс</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
 
@@ -804,7 +834,8 @@
                     <xs:annotation>
                         <xs:documentation>
                             Высота календаря.
-                            Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+                            Доступные единицы измерения: `px`, `em`, `rem`.
+                            При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -984,7 +1015,8 @@
                     <xs:annotation>
                         <xs:documentation>
                             Минимальная высота плитки.
-                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`.
+                            При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -992,7 +1024,8 @@
                     <xs:annotation>
                         <xs:documentation>
                             Ширина плитки.
-                            Доступные единицы измерения: `px`, `em`, `rem`, `%`. При указании числа оно будет приведено к `px`
+                            Доступные единицы измерения: `px`, `em`, `rem`, `%`.
+                            При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -1091,7 +1124,8 @@
                     <xs:annotation>
                         <xs:documentation>
                             Высота карточек.
-                            Доступные единицы измерения: `px`, `em`, `rem`. При указании числа оно будет приведено к `px`
+                            Доступные единицы измерения: `px`, `em`, `rem`.
+                            При указании числа оно будет приведено к `px`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -1252,7 +1286,10 @@
         </xs:attribute>
         <xs:attribute name="prev-icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка кнопки "Предыдущая страница". Иконка из https://fontawesome.com/v6/icons/</xs:documentation>
+                <xs:documentation>
+                    Иконка кнопки "Предыдущая страница".
+                    Иконка из https://fontawesome.com/v6/icons/
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="next-label" type="xs:string">
@@ -1262,7 +1299,10 @@
         </xs:attribute>
         <xs:attribute name="next-icon" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Иконка кнопки "Следующая страница". Иконка из https://fontawesome.com/v6/icons/</xs:documentation>
+                <xs:documentation>
+                    Иконка кнопки "Следующая страница".
+                    Иконка из https://fontawesome.com/v6/icons/
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
@@ -1498,6 +1538,37 @@
             <xs:enumeration value="always"/>
             <xs:enumeration value="by-request"/>
             <xs:enumeration value="never"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="moveMode">
+        <xs:annotation>
+            <xs:documentation>
+                Режим перемещения колонок
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="settings">
+                <xs:annotation>
+                    <xs:documentation>
+                        Только через настройки
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="table">
+                <xs:annotation>
+                    <xs:documentation>
+                        Только через таблицу
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="all">
+                <xs:annotation>
+                    <xs:documentation>
+                        Через настройки и таблицу
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

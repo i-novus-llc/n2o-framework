@@ -4,6 +4,7 @@ export type Condition = {
     expression: string
     modelLink: string
     message?: string
+    visible: Condition[]
 }
 export interface Conditions {
     enabled: Condition[]

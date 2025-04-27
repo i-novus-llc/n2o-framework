@@ -3,32 +3,33 @@ import { defaultTo } from 'lodash'
 import { useSelector } from 'react-redux'
 import { createContext, useContext as useContextSelector } from 'use-context-selector'
 import isEmpty from 'lodash/isEmpty'
+import classNames from 'classnames'
 
 import { N2OPagination } from '../Table/N2OPagination'
 import StandardWidget from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import {
-    dataSourceModelByPrefixSelector,
-} from '../../../ducks/datasource/selectors'
+import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { ChildrenToggleState, Selection, TableActions, TableContainer } from '../../Table'
-import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
+import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../../utils/emptyTypes'
 import { ToolbarOverlay } from '../../Table/provider/ToolbarOverlay'
 import { useChangeFilter } from '../../Table/hooks/useChangeFilter'
 import { useOnActionMethod } from '../hooks/useOnActionMethod'
-import { getTableParam } from '../../../ducks/table/selectors'
-import evalExpression from '../../../utils/evalExpression'
+import { evalExpression } from '../../../utils/evalExpression'
 import { getValidationClass } from '../../../core/utils/getValidationClass'
-import { State } from '../../../ducks/State'
-import { Data, SelectedRows } from '../../Table/types/general'
+import { type State } from '../../../ducks/State'
+import { type Data, type SelectedRows } from '../../Table/types/general'
 
 import { useExpandAllRows } from './hooks/useExpandAllRows'
 import { useTableActionReactions } from './hooks/useTableActionReactions'
 import { VoidResolveColumnConditions } from './voidComponents/VoidResolveColumnConditions'
 import { WithTableProps } from './WithTableProps'
 import { type AdvancedTableWidgetProps } from './types'
+import { TableSettingsObserver } from './TableSettingsObserver'
 
 const tableWidgetContext = createContext(null as unknown)
+
+type tableWidgetContextType = Pick<AdvancedTableWidgetProps, 'changeColumnParam' | 'switchTableParam' | 'resetSettings'>
 
 const EmptyComponent = () => (
     <div className="d-flex justify-content-center text-muted">Нет данных для отображения</div>
@@ -36,19 +37,21 @@ const EmptyComponent = () => (
 
 const defaultDataMapper = (data: Array<Record<string, unknown>>) => data
 
+export const TABLE_SELECTOR = 'n2o-advanced-table'
+const CLASS_NAME = 'table'
+
 const Widget = ({
     id, disabled, toolbar, datasource, className, setPage, loading,
     fetchData, style, paging, table, size, count, validations,
     page, sorting, children, hasNext, isInit, setResolve,
-    changeColumnParam, columnsState, tableConfig, switchTableParam,
+    changeColumnParam, columnsState, tableConfig, switchTableParam, resetSettings = NOOP_FUNCTION,
     resolvedFilter, resolvedCells, paginationVisible,
-    dataMapper = defaultDataMapper, components, setFilter,
+    dataMapper = defaultDataMapper, components, setFilter, textWrap,
 }: AdvancedTableWidgetProps) => {
     const tableContainerElem = useRef(null)
     const [expandedRows, setExpandedRows] = useState([] as string[])
     const [filterErrors, setFilterErrors] = useState({})
 
-    const textWrap = useSelector(getTableParam(id, 'textWrap'))
     const datasourceModel = useSelector((state: State) => {
         const model = dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state) || EMPTY_ARRAY
 
@@ -107,8 +110,9 @@ const Widget = ({
         ),
     }
 
-    const { setActiveModel, setMultiModel, unsetMultiModel, updateDatasource } = useTableActionReactions(datasource)
+    const { setActiveModel, setMultiModel, unsetMultiModel, updateDatasource, reorderColumn } = useTableActionReactions(datasource, id)
     const onFilter = useChangeFilter(setFilter, datasource)
+
     const onRowClickAction = useOnActionMethod(datasource, tableConfig?.body?.row?.click as never)
     const actionListener = useCallback((action, payload) => {
         switch (action) {
@@ -120,6 +124,13 @@ const Widget = ({
                 } else {
                     setExpandedRows(state => state.filter(expandedRow => expandedRow !== rowValue))
                 }
+
+                break
+            }
+            case TableActions.onHeaderDrop: {
+                const { id, draggingId, targetId } = payload
+
+                reorderColumn(id, draggingId, targetId)
 
                 break
             }
@@ -181,7 +192,7 @@ const Widget = ({
     useExpandAllRows(setExpandedRows, children as ChildrenToggleState, datasourceModel)
 
     return (
-        <tableWidgetContext.Provider value={{ changeColumnParam, columnsState, switchTableParam }}>
+        <tableWidgetContext.Provider value={{ changeColumnParam, switchTableParam, actionListener, resetSettings }}>
             <VoidResolveColumnConditions
                 columnsState={columnsState}
                 changeColumnParam={changeColumnParam}
@@ -223,6 +234,8 @@ const Widget = ({
                             validateFilterField={validateFilterField}
                             filterErrors={filterErrors}
                             components={components}
+                            className={classNames(CLASS_NAME, TABLE_SELECTOR)}
+                            id={id}
                         />
                     )}
                 </StandardWidget>
@@ -234,18 +247,16 @@ const Widget = ({
 Widget.displayName = 'AdvancedTableComponent'
 
 export const AdvancedTableWidget = WidgetHOC<AdvancedTableWidgetProps>(
-    WithTableProps<AdvancedTableWidgetProps>(Widget),
+    TableSettingsObserver(WithTableProps<AdvancedTableWidgetProps>(Widget)),
 )
 export default AdvancedTableWidget
 
 AdvancedTableWidget.displayName = 'AdvancedTableWidget'
 
 export const useTableWidget = () => {
-    const context = useContextSelector(tableWidgetContext)
+    const context = useContextSelector(tableWidgetContext) as tableWidgetContextType & { actionListener(): void }
 
-    if (!context) {
-        throw new Error('useTableWidget must be used with tableWidgetContext')
-    }
+    if (!context) { throw new Error('useTableWidget must be used with tableWidgetContext') }
 
     return context
 }

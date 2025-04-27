@@ -540,16 +540,16 @@ n2o.api.widget.table.checkboxes=false
 **Тело**<br/>
 &lt;column&gt; - [Столбец таблицы](#table_column)<br/>
 &lt;filter-column&gt; - [Фильтруемый столбец таблицы](#filter-column)<br/>
-&lt;multi-column&gt; - [Многоуровневый столбец таблицы](#multi-column)
+&lt;multi-column&gt; - [Многоуровневый столбец таблицы](#multi-column)<br/>
+&lt;dnd-column&gt; - [Drag-n-drop столбец таблицы](#dnd-column)
 
 **Пример**
 ```xml
 <columns>
   <column>...</column>
-  <column>...</column>
-  <filter-column>...</filter-column>
   <filter-column>...</filter-column>
   <multi-column>...</multi-column>
+  <dnd-column>...</dnd-column>
 </columns>
 ```
 
@@ -740,6 +740,40 @@ n2o.api.widget.column.multi.alignment=center
   <column>...</column>
 </multi-column>
 ```
+
+
+#### &lt;dnd-column&gt;
+
+Drag-n-drop столбец таблицы
+
+**Атрибуты**
+
+| Наименование | Тип                | Описание                                                                                                                                    | Значение по умолчанию |
+|--------------|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|
+| move-mode    | settings table all | Режим перемещения колонок:<br/>`settings` - только через настройки<br/>`table` - только через таблицу<br/>`all` - через настройки и таблицу | all                   |
+
+**Настройки**
+
+```yaml
+#Режим перемещения колонок
+n2o.api.widget.column.dnd.move_mode = all
+```
+
+**Тело**
+
+&lt;column&gt; - [Столбец таблицы](#table_column) <br/>
+&lt;filter-column&gt; - [Фильтруемый столбец таблицы](#filter-column)
+
+**Пример**
+
+```xml
+<dnd-column move-mode="settings">
+    <column text-field-id="name"/>
+    <column text-field-id="type"/>
+</dnd-column>
+```
+
+
 
 #### &lt;rows&gt; {#table_rows}
 Настройки строк таблицы.

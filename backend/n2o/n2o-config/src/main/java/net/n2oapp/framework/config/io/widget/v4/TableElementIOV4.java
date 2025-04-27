@@ -52,12 +52,15 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attributeEnum(e, "place", f::getPlace, f::setPlace, FilterPosition.class);
         p.attribute(e, "default-values-query-id", f::getDefaultValuesQueryId, f::setDefaultValuesQueryId);
         p.attributeBoolean(e, "search-on-change", f::getFetchOnChange, f::setFetchOnChange);
-        p.anyChildren(e,null, f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
+        p.anyChildren(e, null, f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
     }
 
-    private void abstractColumn(Element e, AbstractColumn c, IOProcessor p) {
+    private void abstractColumn(Element e, N2oAbstractColumn c, IOProcessor p) {
         p.attribute(e, "id", c::getId, c::setId);
         p.attribute(e, "src", c::getSrc, c::setSrc);
+    }
+
+    private void baseColumn(Element e, N2oBaseColumn c, IOProcessor p) {
         p.attribute(e, "class", c::getCssClass, c::setCssClass);
         p.attribute(e, "style", c::getStyle, c::setStyle);
         p.attribute(e, "text-field-id", c::getTextFieldId, c::setTextFieldId);
@@ -70,31 +73,33 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attribute(e, "width", c::getWidth, c::setWidth);
         p.attributeBoolean(e, "resizable", c::getResizable, c::setResizable);
         p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPosition.class);
-        p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(AbstractColumn.ColumnVisibility.class)
-                .add("visibility", AbstractColumn.ColumnVisibility.class, this::dependency));
+        p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(N2oBaseColumn.ColumnVisibility.class)
+                .add("visibility", N2oBaseColumn.ColumnVisibility.class, this::dependency));
         p.anyAttributes(e, c::getExtAttributes, c::setExtAttributes);
     }
 
-    private void dependency(Element e, AbstractColumn.ColumnVisibility t, IOProcessor p) {
+    private void dependency(Element e, N2oBaseColumn.ColumnVisibility t, IOProcessor p) {
         p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
         p.attributeEnum(e, "ref-model", t::getModel, t::setModel, ReduxModel.class);
         p.text(e, t::getValue, t::setValue);
     }
 
-    private ElementIOFactory<AbstractColumn, TypedElementReader<? extends AbstractColumn>, TypedElementPersister<? super AbstractColumn>> columns(IOProcessor p) {
-        return p.oneOf(AbstractColumn.class)
-                .add("column", N2oSimpleColumn.class, this::column)
+    private ElementIOFactory<N2oAbstractColumn, TypedElementReader<? extends N2oAbstractColumn>, TypedElementPersister<? super N2oAbstractColumn>> columns(IOProcessor p) {
+        return p.oneOf(N2oAbstractColumn.class)
+                .add("column", N2oSimpleColumn.class, this::simpleColumn)
                 .add("filter-column", N2oFilterColumn.class, this::filterColumn)
                 .add("multi-column", N2oMultiColumn.class, this::multiColumn);
     }
 
-    private void column(Element e, N2oSimpleColumn c, IOProcessor p) {
+    private void simpleColumn(Element e, N2oSimpleColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
+        baseColumn(e, c, p);
         p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("dependencies"), CellIOv2.NAMESPACE);
     }
 
     private void filterColumn(Element e, N2oFilterColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
+        baseColumn(e, c, p);
         p.anyChild(e, "filter", c::getFilter, c::setFilter, p.anyOf(N2oStandardField.class), ControlIOv2.NAMESPACE);
         p.anyChild(e, "cell", c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("filter"), CellIOv2.NAMESPACE);
     }

@@ -14,6 +14,6 @@ export const getDefaultColumnState = () => ({
 })
 
 export const getDefaultTableState = (): Table => ({
-    columns: {},
+    header: { cells: [] },
     [IS_DEFAULT_COLUMNS]: false,
 })

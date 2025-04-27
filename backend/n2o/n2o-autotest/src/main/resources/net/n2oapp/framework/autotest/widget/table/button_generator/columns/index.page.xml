@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             xmlns:gen="http://n2oapp.net/framework/config/schema/gen-attr"
+             xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
              name="Автотест, проверяющий работу зависимости 'visibility' при генерации кнопки 'columns'">
     <table>
         <filters>
@@ -10,16 +10,15 @@
         <datasource query-id="data"/>
         <columns>
             <column text-field-id="idd"/>
-            <column text-field-id="name" visible="false" />
+            <column text-field-id="name" visible="false"/>
             <column text-field-id="type">
                 <dependencies>
                     <visibility model="edit">'1' === folderType</visibility>
                 </dependencies>
             </column>
         </columns>
-
         <toolbar place="topRight">
-            <button generate="columns" gen:defaultColumns="idd,type"/>
+            <ts:columns default-value="idd,type"/>
         </toolbar>
     </table>
 </simple-page>

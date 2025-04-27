@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oActionCell;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -31,7 +31,7 @@ public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2o
     protected D build(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p, String defaultSrc) {
         ComponentScope columnScope = p.getScope(ComponentScope.class);
         if (columnScope != null) {
-            AbstractColumn column = columnScope.unwrap(AbstractColumn.class);
+            N2oBaseColumn column = columnScope.unwrap(N2oBaseColumn.class);
             if (column != null) {
                 source.setId(column.getId());
                 compiled.setId(column.getId());

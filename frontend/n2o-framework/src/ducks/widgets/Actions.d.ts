@@ -5,7 +5,7 @@ import { Widget } from './Widgets'
 
 export type RegisterPayload = {
     widgetId: string
-    initProps: { type: string, table?: Table }
+    initProps: { type: string, table?: Table, datasource: string, saveSettings?: boolean }
     preInit: boolean
 }
 

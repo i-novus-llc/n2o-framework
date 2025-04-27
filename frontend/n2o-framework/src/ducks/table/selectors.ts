@@ -13,9 +13,9 @@ export const makeTableByIdSelector = (widgetId: string) => createSelector(
     tables => tables[widgetId] || EMPTY_OBJECT,
 )
 
-export const getTableColumns = (widgetId: string) => createSelector(
+export const getTableHeaderCells = (widgetId: string) => createSelector(
     makeTableByIdSelector(widgetId),
-    tableState => tableState?.columns || {},
+    tableState => tableState?.header?.cells || [],
 )
 
 export const getTableParam = (widgetId: string, paramKey: string) => createSelector(

@@ -6,8 +6,9 @@ import { dataSourceModelByPrefixSelector, dataSourceModelsSelector } from '../..
 import { getHashMapFromData } from '../../../Table/utils'
 import { setModel } from '../../../../ducks/models/store'
 import { ModelPrefix } from '../../../../core/datasource/const'
+import { reorderColumn as reorderColumnAction } from '../../../../ducks/table/store'
 
-export const useTableActionReactions = (datasourceId: string) => {
+export const useTableActionReactions = (datasourceId: string, widgetId: string) => {
     const store = useStore()
     const setMultiModelAfterChangeSelectedRows = useCallback((selectedRows: string[] | string) => {
         const state = store.getState()
@@ -61,10 +62,15 @@ export const useTableActionReactions = (datasourceId: string) => {
         store.dispatch(setModel(ModelPrefix.source, datasourceId, newDatasource))
     }, [datasourceId, store, setActiveModel])
 
+    const reorderColumn = useCallback((id: string, draggingId: string, targetId: string) => {
+        store.dispatch(reorderColumnAction(widgetId, id, draggingId, targetId))
+    }, [store, widgetId])
+
     return ({
         setMultiModel: setMultiModelAfterChangeSelectedRows,
         unsetMultiModel: unsetMultiModelAfterChangeSelectedRows,
         setActiveModel,
         updateDatasource,
+        reorderColumn,
     })
 }

@@ -417,6 +417,14 @@
           "name": "TableButtonGeneratorAT. testHeadersAndColumnsSettings"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/button_generator/reset_settings",
+          "name": "TableButtonGeneratorAT. testResetSettings"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/button_generator/tab_sync",
+          "name": "TableButtonGeneratorAT. testTabSync"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/checkboxes",
           "name": "TableCheckboxesAT"
         },
@@ -447,6 +455,14 @@
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filter_column/simple",
           "name": "FilterColumnAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/dnd_column/through_settings",
+          "name": "DndColumnAT. testThroughSettings"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/dnd_column/through_table",
+          "name": "DndColumnAT. testThroughTable"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filters/filters_datasource",

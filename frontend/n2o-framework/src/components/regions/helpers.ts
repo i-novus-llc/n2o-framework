@@ -6,6 +6,7 @@ import { State as WidgetsState } from '../../ducks/widgets/Widgets'
 import { State as RegionsState, TabMeta } from '../../ducks/regions/Regions'
 import { State } from '../../ducks/State'
 import { resolveConditions } from '../../sagas/conditions'
+import { Condition } from '../../ducks/toolbar/Toolbar'
 
 export const VISIBLE = 'visible'
 export const ENABLED = 'enabled'
@@ -33,7 +34,7 @@ const check = (tab: TabMeta, param: AvailableParam, state: State) => {
         const condition = conditions[param]
 
         if (condition) {
-            const { resolve } = resolveConditions(state, condition)
+            const { resolve } = resolveConditions(state, condition as Condition[])
 
             return resolve
         }

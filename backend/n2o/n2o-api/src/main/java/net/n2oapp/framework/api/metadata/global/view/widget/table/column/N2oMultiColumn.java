@@ -3,11 +3,13 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table.column;
 import lombok.Getter;
 import lombok.Setter;
 
+
 /**
- * Многоуровневый столбец таблицы
+ * Исходная модель многоуровневого столбца таблицы
  */
+
 @Getter
 @Setter
-public class N2oMultiColumn extends AbstractColumn {
-    private AbstractColumn[] children;
+public class N2oMultiColumn extends N2oBaseColumn {
+    private N2oAbstractColumn[] children;
 }

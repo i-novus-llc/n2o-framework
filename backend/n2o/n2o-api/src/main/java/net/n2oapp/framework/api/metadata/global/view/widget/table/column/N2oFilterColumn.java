@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 
 /**
- * Фильтруемый столбец таблицы
+ * Исходная модель фильтруемого столбца таблицы
  */
 @Getter
 @Setter

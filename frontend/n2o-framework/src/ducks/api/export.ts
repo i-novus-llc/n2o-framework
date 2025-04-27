@@ -3,14 +3,15 @@ import { cancel, select, takeEvery } from 'redux-saga/effects'
 
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { dataSourceByIdSelector } from '../datasource/selectors'
-import { getTableColumns } from '../table/selectors'
-import { Columns } from '../columns/Columns'
+import { getTableHeaderCells } from '../table/selectors'
 import { Action } from '../Action'
 import { getModelSelector } from '../models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 import { DataSourceState } from '../datasource/DataSource'
 import { State } from '../State'
 import { Provider, ProviderType } from '../datasource/Provider'
+import { HeaderCell } from '../table/Table'
+import { getAllValuesByKey } from '../../components/Table/utils'
 
 import { UTILS_PREFIX } from './constants'
 import { EffectWrapper } from './utils/effectWrapper'
@@ -40,10 +41,10 @@ export const creator = createAction(
     }),
 )
 
-function getShowedColumns(columns: Columns): string[] {
-    const ids = Object.keys(columns) || []
-
-    return ids.filter(id => columns[id].visible && columns[id].visibleState)
+function getShowedColumns(columns: HeaderCell[]): string[] {
+    return columns
+        .filter(column => column.visible && column.visibleState)
+        .map(column => column.id)
 }
 
 function createExportUrl(
@@ -160,7 +161,8 @@ export function* effect({ payload }: Action<string, Payload>) {
         },
     )
 
-    const columns: Columns = yield select(getTableColumns(widgetId))
+    const headerCells: HeaderCell[] = yield select(getTableHeaderCells(widgetId))
+    const columns = getAllValuesByKey(headerCells, { keyToIterate: 'children' })
     const showed = getShowedColumns(columns)
     const exportURL = createExportUrl(resolvedURL, baseURL, format, charset, showed)
 

@@ -1,4 +1,4 @@
-import { type Cell, type HeaderCell } from '../../Table/types/cell'
+import { type BodyCell, type FilterField, type HeaderCell } from '../../../ducks/table/Table'
 import { Selection } from '../../Table'
 import { ToolbarProps } from '../../buttons/Toolbar'
 import type { Props as WidgetFiltersProps } from '../WidgetFilters'
@@ -7,10 +7,12 @@ import { type Props as StandardWidgetProps } from '../StandardWidget'
 import { Validation, TableWidgetContainerProps } from '../../Table/types/props'
 import { type Props as N2OPaginationProps } from '../Table/N2OPagination'
 import { onFilterType } from '../../Table/hooks/useChangeFilter'
+import { SortDirection } from '../../../core/datasource/const'
+import { type Paging } from '../../../ducks/datasource/Provider'
 
-import { type ChangeColumnParam, type ColumnState } from './hooks/useColumnsState'
+import { type ChangeColumnParam, type SwitchTableParam, type ColumnState } from './hooks/useColumnsState'
 
-export type BodyCells = { cells: Cell[] }
+export type BodyCells = { cells: BodyCell[] }
 export type HeaderCells = { cells: HeaderCell[] }
 
 export interface TableCells {
@@ -26,12 +28,15 @@ export interface TableProps extends TableCells {
 }
 
 export interface WithTableType {
-    filter: { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] },
-    id: string,
-    table: TableProps,
-    datasourceModelLength: number,
-    datasource: string,
-    page: number,
+    filter: { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] }
+    id: string
+    table: TableProps
+    datasourceModelLength: number
+    datasource: string
+    page: number
+    size?: number
+    saveSettings?: boolean
+    sorting?: Record<string, SortDirection>
 }
 
 type Enhancer = WithTableType & Pick<
@@ -50,13 +55,50 @@ export interface AdvancedTableWidgetProps extends Enhancer {
     isInit: boolean
     setResolve(model: Record<string, unknown>): void
     changeColumnParam: ChangeColumnParam
+    resetSettings(): void
     columnsState: ColumnState
     tableConfig: TableWidgetContainerProps['tableConfig']
-    switchTableParam: ChangeColumnParam
+    switchTableParam: SwitchTableParam
     resolvedFilter: WithTableType['filter']
     resolvedCells: TableWidgetContainerProps['cells']
     paginationVisible: N2OPaginationProps['visible']
     dataMapper(data: unknown): unknown
     components: TableWidgetContainerProps['components']
     setFilter: onFilterType,
+    textWrap: boolean
+}
+
+export interface AdvancedTableWidgetLocalStorageProps {
+    widgetId: AdvancedTableWidgetProps['id']
+    textWrap: AdvancedTableWidgetProps['textWrap']
+    columnsState: AdvancedTableWidgetProps['columnsState']
+    sorting: AdvancedTableWidgetProps['sorting']
+    page: AdvancedTableWidgetProps['page']
+    size: AdvancedTableWidgetProps['size']
+    componentName: string
+}
+
+export enum SAVED_SETTINGS {
+    HEADER = 'header',
+    BODY = 'body',
+    TEXT_WRAP = 'textWrap',
+    DATA_SOURCE_SETTINGS = 'datasourceFeatures',
+}
+
+export enum DATA_SOURCE_SAVED_SETTINGS {
+    PAGING = 'paging',
+    SORTING = 'sorting',
+}
+
+export interface DatasourceSavedSettings {
+    [DATA_SOURCE_SAVED_SETTINGS.PAGING]: Paging
+    [DATA_SOURCE_SAVED_SETTINGS.SORTING]: Record<string, SortDirection>
+}
+
+export interface SavedColumn {
+    id: string
+    visibleState?: boolean
+    children?: SavedColumn[]
+    format: string | null
+    filterField: FilterField | null
 }

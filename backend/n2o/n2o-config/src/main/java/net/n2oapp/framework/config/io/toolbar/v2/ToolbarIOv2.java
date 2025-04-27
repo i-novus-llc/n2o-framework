@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.TypedElementIO;
+import net.n2oapp.framework.config.io.tablesettings.TableSettingsIOv1;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
@@ -34,12 +35,11 @@ public class ToolbarIOv2 implements TypedElementIO<N2oToolbar> {
         p.attributeArray(e, "generate", ",", m::getGenerate, m::setGenerate);
         p.anyChildren(e, null, m::getItems, m::setItems,
                 p.anyOf(ToolbarItem.class).add("group", buttonNamespace.getURI(), N2oGroup.class, this::group),
-                buttonNamespace);
+                buttonNamespace, TableSettingsIOv1.NAMESPACE);
     }
 
     private void group(Element e, N2oGroup g, IOProcessor p) {
         p.attributeArray(e, "generate", ",", g::getGenerate, g::setGenerate);
         p.anyChildren(e, null, g::getItems, g::setItems, p.anyOf(GroupItem.class), buttonNamespace);
     }
-
 }
