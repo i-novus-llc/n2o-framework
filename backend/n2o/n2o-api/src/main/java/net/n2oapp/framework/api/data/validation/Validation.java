@@ -38,7 +38,7 @@ public abstract class Validation implements Compiled {
 
     private String fieldId;
 
-    public Validation(Validation validation) {
+    protected Validation(Validation validation) {
         this.id = validation.getId();
         this.message = validation.getMessage();
         this.jsonMessage = validation.getJsonMessage();

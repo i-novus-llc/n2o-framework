@@ -19,7 +19,7 @@ public abstract class AbstractParameter implements IdAware, Source {
     private String normalize;
     private Boolean required;
 
-    public AbstractParameter(AbstractParameter parameter) {
+    protected AbstractParameter(AbstractParameter parameter) {
         this.id = parameter.getId();
         this.mapping = parameter.getMapping();
         this.enabled = parameter.getEnabled();

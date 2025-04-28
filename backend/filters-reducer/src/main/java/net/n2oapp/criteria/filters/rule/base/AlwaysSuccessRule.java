@@ -12,7 +12,7 @@ public abstract class AlwaysSuccessRule implements Rule {
 
     private FilterType successType;
 
-    public AlwaysSuccessRule(FilterType successType) {
+    protected AlwaysSuccessRule(FilterType successType) {
         this.successType = successType;
     }
 

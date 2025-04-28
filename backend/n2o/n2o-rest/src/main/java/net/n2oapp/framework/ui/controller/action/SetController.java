@@ -19,7 +19,7 @@ public abstract class SetController implements ControllerTypeAware {
     private final DataProcessingStack dataProcessingStack;
     private final N2oOperationProcessor actionProcessor;
 
-    public SetController(DataProcessingStack dataProcessingStack,
+    protected SetController(DataProcessingStack dataProcessingStack,
                          N2oOperationProcessor actionProcessor) {
         this.dataProcessingStack = dataProcessingStack;
         this.actionProcessor = actionProcessor;

@@ -12,7 +12,7 @@ public abstract class ValidationInfo {
     private List<Validation> validations;
     private String messageForm;
 
-    public ValidationInfo(DataSet dataSet, List<Validation> validations, String messageForm) {
+    protected ValidationInfo(DataSet dataSet, List<Validation> validations, String messageForm) {
         this.dataSet = dataSet;
         this.validations = validations;
         this.messageForm = messageForm;

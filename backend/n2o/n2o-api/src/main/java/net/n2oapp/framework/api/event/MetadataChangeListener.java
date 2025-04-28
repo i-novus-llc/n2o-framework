@@ -16,7 +16,7 @@ public abstract class MetadataChangeListener implements N2oEventListener<Metadat
      * @param metadataId  Идентификатор метаданной
      * @param sourceClass Класс метаданной
      */
-    public MetadataChangeListener(String metadataId, Class<? extends SourceMetadata> sourceClass) {
+    protected MetadataChangeListener(String metadataId, Class<? extends SourceMetadata> sourceClass) {
         this.metadataId = metadataId;
         this.sourceClass = sourceClass;
     }
@@ -24,7 +24,7 @@ public abstract class MetadataChangeListener implements N2oEventListener<Metadat
     /**
      * Конструктор слушателя изменений любых метаданных
      */
-    public MetadataChangeListener() {
+    protected MetadataChangeListener() {
         this.any = true;
     }
 

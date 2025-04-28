@@ -17,7 +17,7 @@ public abstract class SourceInfo implements Serializable {
     protected SourceInfo() {
     }
 
-    public SourceInfo(String id,
+    protected SourceInfo(String id,
                       Class<? extends SourceMetadata> baseSourceClass) {
         if (id == null)
             throw new IllegalArgumentException("Id must not be null");
