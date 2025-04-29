@@ -43,7 +43,7 @@ class CustomFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getDescription(), is("testDescription"));
 
         ControlDependency dependency = field.getDependencies().get(0);
-        assertThat(dependency.getType(), is(ValidationType.reRender));
+        assertThat(dependency.getType(), is(ValidationTypeEnum.reRender));
         assertThat(dependency.getOn().get(0), is("name"));
         assertThat(dependency.getOn().get(1), is("type"));
 

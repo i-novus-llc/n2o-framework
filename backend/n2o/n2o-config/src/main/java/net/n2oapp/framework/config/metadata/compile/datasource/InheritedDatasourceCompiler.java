@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -48,9 +48,9 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         N2oInheritedDatasource.Submit sourceSubmit = source.getSubmit();
         submit.setAuto(castDefault(sourceSubmit.getAuto(),
                 () -> p.resolve(property("n2o.api.datasource.inherited.submit.auto"), Boolean.class)));
-        submit.setModel(castDefault(sourceSubmit.getModel(), ReduxModel.resolve));
+        submit.setModel(castDefault(sourceSubmit.getModel(), ReduxModelEnum.resolve));
         submit.setTargetDs(getClientDatasourceId(castDefault(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), p));
-        submit.setTargetModel(castDefault(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModel.resolve));
+        submit.setTargetModel(castDefault(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModelEnum.resolve));
         submit.setTargetField(sourceSubmit.getTargetDatasource() != null ? sourceSubmit.getTargetFieldId() : source.getSourceFieldId());
         submit.setSubmitValueExpression(ScriptProcessor.resolveFunction(source.getSubmit().getSubmitValue()));
         return submit;
@@ -59,7 +59,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
     private InheritedDatasource.Provider initProvider(N2oInheritedDatasource source, CompileProcessor p) {
         InheritedDatasource.Provider provider = new InheritedDatasource.Provider();
         provider.setSourceDs(getClientDatasourceId(source.getSourceDatasource(), p));
-        provider.setSourceModel(castDefault(source.getSourceModel(), ReduxModel.resolve));
+        provider.setSourceModel(castDefault(source.getSourceModel(), ReduxModelEnum.resolve));
         provider.setSourceField(source.getSourceFieldId());
         provider.setFetchValueExpression(ScriptProcessor.resolveFunction(source.getFetchValue()));
         return provider;
@@ -86,7 +86,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
                 String clientDatasourceId = sourceFilter.getRefPageId() != null ?
                         getClientDatasourceId(sourceFilter.getDatasourceId(), sourceFilter.getRefPageId(), p) :
                         getClientDatasourceId(sourceFilter.getDatasourceId(), p);
-                ReduxModel model = castDefault(sourceFilter.getModel(), ReduxModel.resolve);
+                ReduxModelEnum model = castDefault(sourceFilter.getModel(), ReduxModelEnum.resolve);
                 ModelLink link = new ModelLink(model, clientDatasourceId);
                 link.setValue(value);
                 link.setParam(sourceFilter.getParam());

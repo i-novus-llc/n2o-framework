@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.register.route;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import org.junit.jupiter.api.Test;
 
@@ -184,10 +184,10 @@ class RouteUtilTest {
     @Test
     void addQueryParams() {
         Map<String, ModelLink> queryMapping = new LinkedHashMap<>();
-        ModelLink nameLink = new ModelLink(ReduxModel.resolve, "main", "name");
+        ModelLink nameLink = new ModelLink(ReduxModelEnum.resolve, "main", "name");
         nameLink.setParam("nameParam");
         queryMapping.put("name", nameLink);
-        ModelLink surnameLink = new ModelLink(ReduxModel.resolve, "main", "surname");
+        ModelLink surnameLink = new ModelLink(ReduxModelEnum.resolve, "main", "surname");
         queryMapping.put("surname", surnameLink);
         ModelLink vipLink = new ModelLink(true);
         vipLink.setParam("vipParam");

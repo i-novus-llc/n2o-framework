@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.query;
 
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
@@ -24,11 +24,11 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
         p.children(e, null, "list", t::getLists, t::setLists,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.list), this::selection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list), this::selection);
         p.children(e, null, "count", t::getCounts, t::setCounts,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.count), this::selection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.count), this::selection);
         p.children(e, null, "unique", t::getUniques, t::setUniques,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.unique), this::selection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.unique), this::selection);
         p.anyChildren(e, "fields", t::getFields, t::setFields, p.oneOf(AbstractField.class)
                 .add("field", QuerySimpleField.class, this::field));
         t.adapterV4();
@@ -54,7 +54,7 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.childAttribute(e, "select", "mapping", t::getMapping, t::setMapping);
         p.childAttribute(e, "select", "normalize", t::getNormalize, t::setNormalize);
         p.childrenByEnum(e, "filters", t::getFilterList, t::setFilterList, N2oQuery.Filter::getType,
-                N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterType.class, this::filter);
+                N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterTypeEnum.class, this::filter);
     }
 
     private void filter(Element e, N2oQuery.Filter t, IOProcessor p) {

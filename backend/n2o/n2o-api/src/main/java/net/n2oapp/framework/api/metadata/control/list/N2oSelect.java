@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oSelect extends N2oSingleListFieldAbstract {
-    private ListType type;
+    private ListTypeEnum type;
     private Boolean cleanable;
     private String selectFormat;
     private String selectFormatOne;
@@ -19,6 +19,6 @@ public class N2oSelect extends N2oSingleListFieldAbstract {
 
     @Override
     public boolean isSingle() {
-        return !ListType.MULTI.equals(type) && !ListType.CHECKBOXES.equals(type);
+        return !ListTypeEnum.MULTI.equals(type) && !ListTypeEnum.CHECKBOXES.equals(type);
     }
 }

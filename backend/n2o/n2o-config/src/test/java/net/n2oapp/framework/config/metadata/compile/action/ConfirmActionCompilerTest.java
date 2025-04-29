@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.compile.enums.Color;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -42,8 +42,8 @@ class ConfirmActionCompilerTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getClassName(), is("test"));
         assertThat(testAction.getPayload().getStyle().get("pageBreakBefore"), CoreMatchers.is("avoid"));
         assertThat(testAction.getPayload().getStyle().get("paddingTop"), CoreMatchers.is("0"));
-        assertThat(testAction.getPayload().getMode(), is(ConfirmType.MODAL));
-        assertThat(testAction.getPayload().getModel(), is(ReduxModel.resolve));
+        assertThat(testAction.getPayload().getMode(), is(ConfirmTypeEnum.MODAL));
+        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.resolve));
         assertThat(testAction.getPayload().getDatasource(), is("testConfirmAction_ds"));
         assertThat(testAction.getPayload().getCloseButton(), is(false));
         assertThat(testAction.getPayload().getReverseButtons(), is(false));
@@ -60,19 +60,19 @@ class ConfirmActionCompilerTest extends SourceCompileTestBase {
 
         testAction = (ConfirmAction) page.getToolbar().getButton("b2").getAction();
         assertThat(testAction.getPayload().getCloseButton(), is(true));
-        assertThat(testAction.getPayload().getMode(), is(ConfirmType.POPOVER));
+        assertThat(testAction.getPayload().getMode(), is(ConfirmTypeEnum.POPOVER));
         assertThat(testAction.getPayload().getReverseButtons(), is(true));
 
         testAction = (ConfirmAction) page.getToolbar().getButton("b3").getAction();
         assertThat(testAction.getType(), is("n2o/api/action/confirm"));
         assertThat(testAction.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));
         assertThat(testAction.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
-        assertThat(testAction.getPayload().getMode(), is(ConfirmType.MODAL));
+        assertThat(testAction.getPayload().getMode(), is(ConfirmTypeEnum.MODAL));
         assertThat(testAction.getPayload().getCloseButton(), is(false));
         assertThat(testAction.getPayload().getReverseButtons(), is(false));
         assertThat(testAction.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(testAction.getPayload().getOk().getColor(), is(Color.primary.name()));
+        assertThat(testAction.getPayload().getOk().getColor(), is(ColorEnum.primary.name()));
         assertThat(testAction.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(testAction.getPayload().getCancel().getColor(), is(Color.secondary.name()));
+        assertThat(testAction.getPayload().getCancel().getColor(), is(ColorEnum.secondary.name()));
     }
 }

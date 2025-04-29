@@ -14,13 +14,13 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 public class Argument implements Source {
     private String name;
     private String className;
-    private Type type;
+    private TypeEnum type;
     private String defaultValue;
 
     /**
      * Contains information about type of argument
      */
-    public enum Type implements IdAware {
+    public enum TypeEnum implements IdAware {
         PRIMITIVE("primitive"),
         CLASS("class"),
         ENTITY("entity"),
@@ -28,7 +28,7 @@ public class Argument implements Source {
 
         private String xmlName;
 
-        Type(String xmlName) {
+        TypeEnum(String xmlName) {
             this.xmlName = xmlName;
         }
 

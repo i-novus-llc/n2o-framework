@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
-import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartType;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.PieChart;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -37,7 +37,7 @@ class PieChartCompileTest extends SourceCompileTestBase {
 
         PieChart pieChart1 = (PieChart) ((Chart) page.getRegions().get("single").get(0).getContent().get(0)).getComponent();
         assertThat(pieChart1.getSrc(), is("PieChart"));
-        assertThat(pieChart1.getType(), is(ChartType.pie));
+        assertThat(pieChart1.getType(), is(ChartTypeEnum.pie));
 
         assertThat(pieChart1.getComponent().getValueFieldId(), is("valueField"));
         assertThat(pieChart1.getComponent().getNameFieldId(), is("name"));

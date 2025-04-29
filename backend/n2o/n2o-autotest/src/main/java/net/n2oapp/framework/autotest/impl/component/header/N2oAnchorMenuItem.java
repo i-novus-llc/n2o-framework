@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.header;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.autotest.BadgePosition;
+import net.n2oapp.framework.autotest.BadgePositionEnum;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 
 import java.time.Duration;
@@ -38,8 +38,8 @@ public class N2oAnchorMenuItem extends N2oMenuItem implements AnchorMenuItem {
     }
 
     @Override
-    public void badgeShouldHavePosition(BadgePosition position) {
-        if (position.equals(BadgePosition.LEFT))
+    public void badgeShouldHavePosition(BadgePositionEnum position) {
+        if (position.equals(BadgePositionEnum.LEFT))
             element().$(".n2o-badge-container").shouldHave(Condition.cssClass("flex-row-reverse"));
         else
             element().$(".n2o-badge-container").shouldNotHave(Condition.cssClass("flex-row-reverse"));

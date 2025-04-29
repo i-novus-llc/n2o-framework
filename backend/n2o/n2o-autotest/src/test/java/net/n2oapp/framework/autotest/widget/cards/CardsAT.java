@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.widget.cards;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
@@ -72,7 +72,7 @@ class CardsAT extends AutoTestBase {
         badgeCell.badgeShouldHaveText("Germany");
 
         ToolbarCell toolbarCell = card.columns().column(0).blocks().block(3).cell(ToolbarCell.class);
-        toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
+        toolbarCell.toolbar().button("Info").shouldHaveColor(ColorsEnum.SUCCESS);
         toolbarCell.toolbar().button("Info").click();
 
         Modal modal = N2oSelenide.modal();
@@ -99,7 +99,7 @@ class CardsAT extends AutoTestBase {
         badgeCell.badgeShouldHaveText("France");
 
         toolbarCell = card.columns().column(0).blocks().block(3).cell(ToolbarCell.class);
-        toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
+        toolbarCell.toolbar().button("Info").shouldHaveColor(ColorsEnum.SUCCESS);
     }
 
     @Test

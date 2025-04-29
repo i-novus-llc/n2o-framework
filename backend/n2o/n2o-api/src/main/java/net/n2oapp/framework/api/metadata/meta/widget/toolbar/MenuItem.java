@@ -7,7 +7,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +36,7 @@ public class MenuItem extends Component implements IdAware {
     @JsonProperty
     private String hintPosition;
     @JsonProperty
-    private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
+    private Map<ValidationTypeEnum, List<Condition>> conditions = new HashMap<>();
     @JsonProperty
     private Boolean validate;
     @JsonProperty

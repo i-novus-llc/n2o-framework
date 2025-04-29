@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageDatasource;
-import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
+import net.n2oapp.framework.api.metadata.datasource.BrowserStorageTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;
 import net.n2oapp.framework.api.metadata.meta.Dependency;
-import net.n2oapp.framework.api.metadata.meta.DependencyType;
+import net.n2oapp.framework.api.metadata.meta.DependencyTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
@@ -44,25 +44,25 @@ class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(datasource.getPaging().getSize(), is(13));
         assertThat(datasource.getFetchOnInit(), is(false));
 
-        assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageType.localStorage));
+        assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageTypeEnum.localStorage));
         assertThat(datasource.getSubmit().getType(), is("browser"));
         assertThat(datasource.getSubmit().getAuto(), is(false));
-        assertThat(datasource.getSubmit().getModel(), is(ReduxModel.filter));
+        assertThat(datasource.getSubmit().getModel(), is(ReduxModelEnum.filter));
         assertThat(datasource.getSubmit().getKey(), is("submit_test_key"));
 
-        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageType.localStorage));
+        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageTypeEnum.localStorage));
         assertThat(datasource.getProvider().getType(), is("browser"));
         assertThat(datasource.getProvider().getKey(), is("test_key"));
 
         assertThat(datasource.getDependencies().size(), is(2));
         Dependency dependency = datasource.getDependencies().get(0);
         assertThat(dependency.getOn(), is("models.resolve['testBrowserStorageDatasource_ds']"));
-        assertThat(dependency.getType(), is(DependencyType.fetch));
+        assertThat(dependency.getType(), is(DependencyTypeEnum.fetch));
 
         dependency = datasource.getDependencies().get(1);
-        assertThat(dependency.getType(), is(DependencyType.copy));
+        assertThat(dependency.getType(), is(DependencyTypeEnum.copy));
         assertThat(dependency.getOn(), is("models.filter['testBrowserStorageDatasource_ds'].source"));
-        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModel.filter));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModelEnum.filter));
         assertThat(((CopyDependency) dependency).getSubmit(), is(true));
         assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
 
@@ -70,13 +70,13 @@ class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
         // default
         datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_ds2");
         assertThat(datasource.getPaging().getSize(), is(10));
-        assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageType.sessionStorage));
+        assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageTypeEnum.sessionStorage));
         assertThat(datasource.getSubmit().getType(), is("browser"));
         assertThat(datasource.getSubmit().getAuto(), is(true));
-        assertThat(datasource.getSubmit().getModel(), is(ReduxModel.resolve));
+        assertThat(datasource.getSubmit().getModel(), is(ReduxModelEnum.resolve));
         assertThat(datasource.getSubmit().getKey(), is("test_key"));
 
-        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageType.sessionStorage));
+        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageTypeEnum.sessionStorage));
         assertThat(datasource.getProvider().getType(), is("browser"));
         assertThat(datasource.getProvider().getKey(), is("test_key"));
         assertThat(datasource.getFetchOnInit(), is(false));

@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.header;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 
 /**
  * Панель поиска
@@ -17,5 +17,5 @@ public class N2oSearchBar implements Source {
     private String labelFieldId;
     private String iconFieldId;
     private String descriptionFieldId;
-    private Target target;
+    private TargetEnum target;
 }

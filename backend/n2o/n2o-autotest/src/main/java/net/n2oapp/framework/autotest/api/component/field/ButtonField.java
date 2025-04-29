@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.field;
 
-import net.n2oapp.framework.autotest.BadgePosition;
+import net.n2oapp.framework.autotest.BadgePositionEnum;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 
 /**
@@ -24,7 +24,7 @@ public interface ButtonField extends Field, Button {
      * Проверка соответствия позиции бейджа ожидаемой позиции
      * @param position ожидаемая позиция бейджа
      */
-    void badgeShouldHavePosition(BadgePosition position);
+    void badgeShouldHavePosition(BadgePositionEnum position);
 
     /**
      * Проверка круглой формы кнопки

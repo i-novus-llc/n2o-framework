@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.pipeline.BindPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.BindTerminalPipeline;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 
-import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.*;
+import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum.*;
 
 public class N2oBindPipeline extends N2oPipeline implements BindPipeline {
 

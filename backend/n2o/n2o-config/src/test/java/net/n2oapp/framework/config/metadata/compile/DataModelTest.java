@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
@@ -28,12 +28,12 @@ class DataModelTest {
     @Test
     void add() {
         DataModel model = new DataModel();
-        assertThat(model.add("key", new ModelLink(ReduxModel.resolve, "w1", "f1"), 1), nullValue());
-        assertThat(model.getValue(new ModelLink(ReduxModel.resolve, "w1", "f1")), is(1));
-        assertThat(model.getValue(new ModelLink(ReduxModel.resolve, "w1"), "f1"), is(1));
-        assertThat(model.getData(new ModelLink(ReduxModel.resolve, "w1")), hasEntry("f1", 1));
+        assertThat(model.add("key", new ModelLink(ReduxModelEnum.resolve, "w1", "f1"), 1), nullValue());
+        assertThat(model.getValue(new ModelLink(ReduxModelEnum.resolve, "w1", "f1")), is(1));
+        assertThat(model.getValue(new ModelLink(ReduxModelEnum.resolve, "w1"), "f1"), is(1));
+        assertThat(model.getData(new ModelLink(ReduxModelEnum.resolve, "w1")), hasEntry("f1", 1));
 
-        ModelLink link = new ModelLink(ReduxModel.resolve, "w1");
+        ModelLink link = new ModelLink(ReduxModelEnum.resolve, "w1");
         link.setValue("`f1`");
         assertThat(model.add("key", link, 2), is(1));
         assertThat(model.getValue(link), is(2));
@@ -44,15 +44,15 @@ class DataModelTest {
     void addAll() {
         DataModel model = new DataModel();
         Map<String, ModelLink> pathMappings = new HashMap<>();
-        pathMappings.put("master_id", new ModelLink(ReduxModel.resolve, "master", "id"));
-        pathMappings.put("detail_id", new ModelLink(ReduxModel.resolve, "detail", "id"));
+        pathMappings.put("master_id", new ModelLink(ReduxModelEnum.resolve, "master", "id"));
+        pathMappings.put("detail_id", new ModelLink(ReduxModelEnum.resolve, "detail", "id"));
         DataSet params = new DataSet();
         params.put("master_id", 1);
         params.put("detail_id", 2);
 
         model.addAll(pathMappings, params);
-        assertThat(model.getData(new ModelLink(ReduxModel.resolve, "master")), hasEntry("id", 1));
-        assertThat(model.getData(new ModelLink(ReduxModel.resolve, "detail")), hasEntry("id", 2));
+        assertThat(model.getData(new ModelLink(ReduxModelEnum.resolve, "master")), hasEntry("id", 1));
+        assertThat(model.getData(new ModelLink(ReduxModelEnum.resolve, "detail")), hasEntry("id", 2));
     }
 
     @Test
@@ -66,10 +66,10 @@ class DataModelTest {
         }).when(p).executeSubModels(anyList(), any());
 
         DataModel model = new DataModel();
-        ModelLink link = new ModelLink(ReduxModel.resolve, "widget", "id");
+        ModelLink link = new ModelLink(ReduxModelEnum.resolve, "widget", "id");
         link.setSubModelQuery(new SubModelQuery("query"));
         model.add("key", link, 123);
-        Function<String, Object> dataFunc = model.getDataIfAbsent(new ModelLink(ReduxModel.resolve, "widget"), p);
+        Function<String, Object> dataFunc = model.getDataIfAbsent(new ModelLink(ReduxModelEnum.resolve, "widget"), p);
         assertThat(dataFunc.apply("name"), is("Joe"));
     }
 }

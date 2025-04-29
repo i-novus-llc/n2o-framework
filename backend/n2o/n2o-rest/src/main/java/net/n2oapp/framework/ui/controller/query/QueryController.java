@@ -5,7 +5,7 @@ import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.rest.ControllerType;
+import net.n2oapp.framework.api.rest.ControllerTypeEnum;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
@@ -45,7 +45,7 @@ public class QueryController extends GetController {
     }
 
     @Override
-    public ControllerType getControllerType() {
-        return ControllerType.query;
+    public ControllerTypeEnum getControllerType() {
+        return ControllerTypeEnum.query;
     }
 }

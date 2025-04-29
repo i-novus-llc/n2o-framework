@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.PrintType;
+import net.n2oapp.framework.api.metadata.PrintTypeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oPrintAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -45,7 +45,7 @@ public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2o
                 ? p.resolveJS(path)
                 : RouteUtil.normalize(path));
         print.getPayload().setType(castDefault(source.getType(),
-                () -> p.resolve(property("n2o.api.action.print.document_type"), PrintType.class)));
+                () -> p.resolve(property("n2o.api.action.print.document_type"), PrintTypeEnum.class)));
         print.getPayload().setKeepIndent(castDefault(source.getKeepIndent(),
                 () -> p.resolve(property("n2o.api.action.print.keep_indent"), Boolean.class)));
         print.getPayload().setDocumentTitle(source.getDocumentTitle());

@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmActionPayload;
 import org.springframework.stereotype.Component;
@@ -37,7 +37,7 @@ public class ConfirmActionCompiler extends AbstractActionCompiler<ConfirmAction,
         compiled.getPayload().setClassName(source.getClassName());
         compiled.getPayload().setStyle(resolveStyles(source.getStyle()));
         compiled.getPayload().setMode(castDefault(source.getType(),
-                p.resolve(property("n2o.api.action.confirm.mode"), ConfirmType.class)));
+                p.resolve(property("n2o.api.action.confirm.mode"), ConfirmTypeEnum.class)));
         compiled.getPayload().setCloseButton(castDefault(source.getCloseButton(),
                 p.resolve(property("n2o.api.action.confirm.close_button"), Boolean.class)));
         compiled.getPayload().setModel(getLocalModel(p));

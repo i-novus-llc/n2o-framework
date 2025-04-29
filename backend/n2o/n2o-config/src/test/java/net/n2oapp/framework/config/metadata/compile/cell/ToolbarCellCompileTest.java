@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -53,7 +53,7 @@ class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getIcon(), is("icon"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getColor(), is("danger"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getVisible(), is("`test==1`"));
-        assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getConditions().get(ValidationType.enabled), nullValue());
+        assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getConditions().get(ValidationTypeEnum.enabled), nullValue());
 
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getId(), is("testToolbarCell_mi3"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getLabel(), is("label"));
@@ -90,9 +90,9 @@ class ToolbarCellCompileTest extends SourceCompileTestBase {
 
         submenu = (Submenu) ((ToolbarCell) cells.get(1)).getToolbar().get(0).getButtons().get(0);
         assertThat(submenu.getConditions().size(), is(1));
-        assertThat(submenu.getConditions().get(ValidationType.enabled).get(0).getModelLink(),
+        assertThat(submenu.getConditions().get(ValidationTypeEnum.enabled).get(0).getModelLink(),
                 is("models.edit['testToolbarCellExternalDatasources_ds']"));
-        assertThat(submenu.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("value == 2"));
+        assertThat(submenu.getConditions().get(ValidationTypeEnum.enabled).get(0).getExpression(), is("value == 2"));
         assertThat(submenu.getEnabled(), nullValue());
 
         submenu = (Submenu) ((ToolbarCell) cells.get(2)).getToolbar().get(0).getButtons().get(0);
@@ -101,16 +101,16 @@ class ToolbarCellCompileTest extends SourceCompileTestBase {
 
         submenu = (Submenu) ((ToolbarCell) cells.get(3)).getToolbar().get(0).getButtons().get(0);
         assertThat(submenu.getConditions().size(), is(1));
-        assertThat(submenu.getConditions().get(ValidationType.visible).get(0).getModelLink(),
+        assertThat(submenu.getConditions().get(ValidationTypeEnum.visible).get(0).getModelLink(),
                 is("models.resolve['testToolbarCellExternalDatasources_ds']"));
-        assertThat(submenu.getConditions().get(ValidationType.visible).get(0).getExpression(), is("value == 2"));
+        assertThat(submenu.getConditions().get(ValidationTypeEnum.visible).get(0).getExpression(), is("value == 2"));
         assertThat(submenu.getVisible(), nullValue());
 
         PerformButton button = submenu.getSubMenu().get(0);
         assertThat(button.getConditions().size(), is(1));
-        assertThat(button.getConditions().get(ValidationType.enabled).get(0).getModelLink(),
+        assertThat(button.getConditions().get(ValidationTypeEnum.enabled).get(0).getModelLink(),
                 is("models.edit['testToolbarCellExternalDatasources_ds']"));
-        assertThat(button.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("value == 2"));
+        assertThat(button.getConditions().get(ValidationTypeEnum.enabled).get(0).getExpression(), is("value == 2"));
         assertThat(button.getEnabled(), nullValue());
     }
 }

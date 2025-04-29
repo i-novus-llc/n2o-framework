@@ -23,7 +23,7 @@ public class CamundaDataProviderIOv1 implements NamespaceIO<N2oCamundaDataProvid
 
     @Override
     public void io(Element e, N2oCamundaDataProvider m, IOProcessor p) {
-        p.attributeEnum(e, "operation", m::getOperation, m::setOperation, N2oCamundaDataProvider.Operation.class);
+        p.attributeEnum(e, "operation", m::getOperation, m::setOperation, N2oCamundaDataProvider.OperationEnum.class);
     }
 
 }

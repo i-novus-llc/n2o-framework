@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
@@ -52,10 +52,10 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
         } else if (context instanceof PageContext pageContext) {
             String backRoute = pageContext.getParentRoute();
             anchor.setHref(castDefault(backRoute, "/"));
-            anchor.setTarget(Target.application);
+            anchor.setTarget(TargetEnum.application);
         } else {
             anchor.setHref("/");
-            anchor.setTarget(Target.application);
+            anchor.setTarget(TargetEnum.application);
         }
         LinkActionImpl compiled = p.compile(anchor, context);
         compiled.setRestore(Boolean.TRUE);

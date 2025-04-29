@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
+import net.n2oapp.framework.config.metadata.compile.action.DefaultActionsEnum;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class CrudGenerator implements ButtonGenerator {
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
         if (p.getScope(CompiledObject.class) != null) {
             List<ToolbarItem> items = new ArrayList<>();
-            for (DefaultActions action : DefaultActions.values()) {
+            for (DefaultActionsEnum action : DefaultActionsEnum.values()) {
                 List<ToolbarItem> toolbarItems = buttonGeneratorFactory.generate(action.name(), toolbar, context, p);
                 if (toolbarItems != null)
                     items.addAll(toolbarItems);

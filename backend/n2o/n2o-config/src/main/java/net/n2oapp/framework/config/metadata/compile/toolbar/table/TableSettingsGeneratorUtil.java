@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.toolbar.table;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.*;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
@@ -28,7 +28,7 @@ public class TableSettingsGeneratorUtil {
         N2oButton columnsButton = new N2oButton();
         fillButton(columnsButton, isForSubMenu, "columns", p);
         columnsButton.setSrc(p.resolve(property("n2o.api.generate.button.columns.action.src"), String.class));
-        columnsButton.setModel(ReduxModel.filter);
+        columnsButton.setModel(ReduxModelEnum.filter);
         return columnsButton;
     }
 
@@ -42,7 +42,7 @@ public class TableSettingsGeneratorUtil {
         Map<String, String> payload = Collections.singletonMap("widgetId", widgetId);
         filterAction.setPayload(payload);
         filterButton.setActions(new N2oCustomAction[]{filterAction});
-        filterButton.setModel(ReduxModel.filter);
+        filterButton.setModel(ReduxModelEnum.filter);
         return filterButton;
     }
 
@@ -51,7 +51,7 @@ public class TableSettingsGeneratorUtil {
         fillButton(refreshButton, isForSubMenu, "refresh", p);
         N2oRefreshAction refreshAction = new N2oRefreshAction();
         refreshButton.setActions(new N2oRefreshAction[]{refreshAction});
-        refreshButton.setModel(ReduxModel.filter);
+        refreshButton.setModel(ReduxModelEnum.filter);
         return refreshButton;
     }
 
@@ -59,7 +59,7 @@ public class TableSettingsGeneratorUtil {
         N2oButton resizeButton = new N2oButton();
         fillButton(resizeButton, isForSubMenu, "resize", p);
         resizeButton.setSrc(p.resolve(property("n2o.api.generate.button.resize.action.src"), String.class));
-        resizeButton.setModel(ReduxModel.filter);
+        resizeButton.setModel(ReduxModelEnum.filter);
         return resizeButton;
     }
 
@@ -77,7 +77,7 @@ public class TableSettingsGeneratorUtil {
         wordWrapAction.setType(p.resolve(property("n2o.api.generate.button.wordwrap.action.type"), String.class));
         wordWrapAction.setPayload(payload);
         wordWrapButton.setActions(new N2oCustomAction[]{wordWrapAction});
-        wordWrapButton.setModel(ReduxModel.filter);
+        wordWrapButton.setModel(ReduxModelEnum.filter);
 
         return wordWrapButton;
     }
@@ -132,12 +132,12 @@ public class TableSettingsGeneratorUtil {
         N2oButton exportButton = new N2oButton();
         fillButton(exportButton, isForSubMenu, "export", p);
         exportButton.setActions(new N2oShowModal[]{showModalAction});
-        exportButton.setModel(ReduxModel.filter);
+        exportButton.setModel(ReduxModelEnum.filter);
         N2oButton.EnablingDependency dependency = new N2oButton.EnablingDependency();
         dependency.setMessage("Недоступно при пустых данных");
         dependency.setValue("this.length > 0");
         dependency.setDatasource(datasourceId);
-        dependency.setModel(ReduxModel.datasource);
+        dependency.setModel(ReduxModelEnum.datasource);
         exportButton.setDependencies(new N2oButton.Dependency[]{dependency});
 
         return exportButton;
@@ -147,7 +147,7 @@ public class TableSettingsGeneratorUtil {
         N2oButton resetButton = new N2oButton();
         fillButton(resetButton, isForSubMenu, "reset", p);
         resetButton.setSrc(p.resolve(property("n2o.api.generate.button.reset.action.src"), String.class));
-        resetButton.setModel(ReduxModel.filter);
+        resetButton.setModel(ReduxModelEnum.filter);
         return resetButton;
     }
 

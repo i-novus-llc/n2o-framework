@@ -1,15 +1,15 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.compile.enums.Color;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.control.EnablingDependency;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -58,11 +58,11 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getDatasource(), is("testButtonFieldCompile_ds"));
         assertThat(field.getDependencies().get(0).getExpression(), is("test == null"));
         assertThat(field.getDependencies().get(0).getOn().get(0), is("url"));
-        assertThat(field.getDependencies().get(0).getType(), is(ValidationType.enabled));
+        assertThat(field.getDependencies().get(0).getType(), is(ValidationTypeEnum.enabled));
         assertThat(((EnablingDependency) field.getDependencies().get(0)).getMessage(), is("test message"));
 
         assertThat(((LinkAction) field.getAction()).getUrl(), is("/test2/:param1/:param2?param3=:param3"));
-        assertThat(((LinkAction) field.getAction()).getTarget(), is(Target.application));
+        assertThat(((LinkAction) field.getAction()).getTarget(), is(TargetEnum.application));
         assertThat(((LinkAction) field.getAction()).getPathMapping().size(), is(2));
         assertThat(((LinkAction) field.getAction()).getPathMapping().get("param1").getBindLink(), is("models.resolve['testButtonFieldCompile_ds']"));
         assertThat(((LinkAction) field.getAction()).getPathMapping().get("param1").getValue(), is("`field1`"));
@@ -99,13 +99,13 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(((MultiAction) field.getAction()).getPayload().getActions().get(0).getClass(), is(ConfirmAction.class));
         assertThat(((MultiAction) field.getAction()).getPayload().getActions().get(1).getClass(), is(LinkActionImpl.class));
         ConfirmAction confirm = (ConfirmAction) ((MultiAction) field.getAction()).getPayload().getActions().get(0);
-        assertThat(confirm.getPayload().getMode(), is(ConfirmType.MODAL));
+        assertThat(confirm.getPayload().getMode(), is(ConfirmTypeEnum.MODAL));
         assertThat(confirm.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));
         assertThat(confirm.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
         assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(confirm.getPayload().getOk().getColor(), is(Color.primary.name()));
+        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.primary.name()));
         assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(confirm.getPayload().getCancel().getColor(), is(Color.secondary.name()));
+        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.secondary.name()));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(8).getCols().get(0).getFields().get(0);
         confirm = (ConfirmAction)  field.getAction();
@@ -113,8 +113,8 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getPayload().getTitle(), is("Предупреждение"));
         assertThat(confirm.getPayload().getText(), is("Подтвердите действие"));
         assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(confirm.getPayload().getOk().getColor(), is(Color.danger.name()));
+        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.danger.name()));
         assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(confirm.getPayload().getCancel().getColor(), is(Color.primary.name()));
+        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.primary.name()));
     }
 }

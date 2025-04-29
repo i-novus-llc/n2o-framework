@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
@@ -36,8 +36,8 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
     private Boolean copied;
     private String defaultValue;
     private String param;
-    private ReduxModel refModel;
-    private PageRef refPage;
+    private ReduxModelEnum refModel;
+    private PageRefEnum refPage;
     private String refDatasourceId;
     private String refFieldId;
 

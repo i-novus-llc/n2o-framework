@@ -2,15 +2,15 @@ package net.n2oapp.framework.config.metadata.compile.widget.table;
 
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.PlaceEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountTypeEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AlignmentEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.MoveModeEnum;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
@@ -24,7 +24,7 @@ import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -146,7 +146,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getValidations(), notNullValue());
         assertThat(queryContext.getValidations().size(), is(1));
         assertThat(queryContext.getValidations().get(0), instanceOf(MandatoryValidation.class));
-        assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
+        assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMomentEnum.beforeQuery));
         assertThat(queryContext.getMessagesForm(), is("testTable5Compile_w1"));
 
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.CHECKBOX));
@@ -198,7 +198,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getBody().getRow().getOverlay().getClassName(), is("top"));
         LinkAction linkAction = (LinkAction) table.getComponent().getBody().getRow().getOverlay().getToolbar().get(0).getButtons().get(0).getAction();
         assertThat(linkAction.getUrl(), is("/test"));
-        assertThat(linkAction.getTarget(), is(Target.application));
+        assertThat(linkAction.getTarget(), is(TargetEnum.application));
         assertThat(linkAction.getPathMapping().size(), is(0));
         assertThat(linkAction.getQueryMapping().size(), is(0));
     }
@@ -307,8 +307,8 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(queryContext.getValidations().get(0).getId(), is("genders*.id"));
         assertThat(queryContext.getValidations().get(0).getFieldId(), is("genders*.id"));
-        assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
-        assertThat(queryContext.getValidations().get(0).getSeverity(), is(SeverityType.danger));
+        assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMomentEnum.beforeQuery));
+        assertThat(queryContext.getValidations().get(0).getSeverity(), is(SeverityTypeEnum.danger));
     }
 
     @Test
@@ -317,20 +317,20 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testTableColumnVisibility"));
         List<AbstractColumn> columns = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getHeader().getCells();
         assertThat(((BaseColumn) columns.get(0)).getVisible(), nullValue());
-        assertThat(((BaseColumn) columns.get(0)).getConditions().get(ValidationType.visible).get(0).getExpression(), is("abc == 1"));
-        assertThat(((BaseColumn) columns.get(0)).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.filter['testTableColumnVisibility_table']"));
+        assertThat(((BaseColumn) columns.get(0)).getConditions().get(ValidationTypeEnum.visible).get(0).getExpression(), is("abc == 1"));
+        assertThat(((BaseColumn) columns.get(0)).getConditions().get(ValidationTypeEnum.visible).get(0).getModelLink(), is("models.filter['testTableColumnVisibility_table']"));
         assertThat(((BaseColumn) columns.get(1)).getVisible(), is(Boolean.TRUE));
         assertThat(((BaseColumn) columns.get(2)).getVisible(), nullValue());
-        assertThat(((BaseColumn) columns.get(3)).getConditions().get(ValidationType.visible).get(0).getExpression(), is("type == 1"));
-        assertThat(((BaseColumn) columns.get(3)).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testTableColumnVisibility_form']"));
+        assertThat(((BaseColumn) columns.get(3)).getConditions().get(ValidationTypeEnum.visible).get(0).getExpression(), is("type == 1"));
+        assertThat(((BaseColumn) columns.get(3)).getConditions().get(ValidationTypeEnum.visible).get(0).getModelLink(), is("models.resolve['testTableColumnVisibility_form']"));
     }
 
     @Test
     void testFilterColumns() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFilterColumns.page.xml")
-                 .get(new PageContext("testFilterColumns"));
+                .get(new PageContext("testFilterColumns"));
 
-        StandardDatasource ds = (StandardDatasource)page.getDatasources().get("testFilterColumns_w1");
+        StandardDatasource ds = (StandardDatasource) page.getDatasources().get("testFilterColumns_w1");
         assertThat(ds.getFilterValidations().get("name").get(0).getEnablingConditions().get(0), is("name || name === 0"));
 
         List<AbstractColumn> columns = ((Table) page.getWidget()).getComponent().getHeader().getCells();
@@ -446,7 +446,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(pagination.getPrev(), is(true));
         assertThat(pagination.getNext(), is(true));
-        assertThat(pagination.getShowCount(), is(ShowCountType.BY_REQUEST));
+        assertThat(pagination.getShowCount(), is(ShowCountTypeEnum.BY_REQUEST));
         assertThat(pagination.getShowLast(), is(false));
         assertThat(pagination.getPrevLabel(), is("prev"));
         assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
@@ -454,7 +454,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
         assertThat(pagination.getClassName(), is("class"));
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
-        assertThat(pagination.getPlace(), is(Place.topLeft));
+        assertThat(pagination.getPlace(), is(PlaceEnum.topLeft));
     }
 
     @Test
@@ -470,7 +470,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
     private void checkDefaultPagingParams(Pagination pagination) {
         assertThat(pagination.getPrev(), is(false));
         assertThat(pagination.getNext(), is(false));
-        assertThat(pagination.getShowCount(), is(ShowCountType.ALWAYS));
+        assertThat(pagination.getShowCount(), is(ShowCountTypeEnum.ALWAYS));
         assertThat(pagination.getShowLast(), is(true));
         assertThat(pagination.getPrevLabel(), is(nullValue()));
         assertThat(pagination.getPrevIcon(), is("fa fa-angle-left"));
@@ -478,7 +478,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
         assertThat(pagination.getClassName(), is(nullValue()));
         assertThat(pagination.getStyle(), is(nullValue()));
-        assertThat(pagination.getPlace(), is(Place.bottomLeft));
+        assertThat(pagination.getPlace(), is(PlaceEnum.bottomLeft));
     }
 
     @Test
@@ -490,19 +490,19 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
 
         BaseColumn column = (BaseColumn) table.getComponent().getHeader().getCells().get(0);
         assertThat(column.getSrc(), is("MyTableHeader"));
-        assertThat(column.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
+        assertThat(column.getElementAttributes().get("alignment"), is(AlignmentEnum.RIGHT.getId()));
         assertThat(column.getElementAttributes().get("className"), is("my-table-header"));
         assertThat(((Map<String, String>) column.getElementAttributes().get("style")).get("color"), is("red"));
 
         column = (BaseColumn) table.getComponent().getHeader().getCells().get(1);
         assertThat(column.getSrc(), is("MyFilterHeader"));
-        assertThat(column.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
+        assertThat(column.getElementAttributes().get("alignment"), is(AlignmentEnum.LEFT.getId()));
         assertThat(column.getElementAttributes().get("className"), is("my-filter-header"));
         assertThat(((Map<String, String>) column.getElementAttributes().get("style")).get("color"), is("green"));
 
         column = (BaseColumn) table.getComponent().getHeader().getCells().get(2);
         assertThat(column.getSrc(), is("MyMultiHeader"));
-        assertThat(column.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
+        assertThat(column.getElementAttributes().get("alignment"), is(AlignmentEnum.CENTER.getId()));
         assertThat(column.getElementAttributes().get("className"), is("my-multi-header"));
         assertThat(((Map<String, String>) column.getElementAttributes().get("style")).get("color"), is("blue"));
         assertThat(column.getLabel(), is("Multi"));
@@ -530,64 +530,64 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         BaseColumn baseColumn = (BaseColumn) table.getComponent().getHeader().getCells().get(0);
         AbstractCell cell = (AbstractCell) table.getComponent().getBody().getCells().get(0);
         assertThat(baseColumn.getLabel(), is("simple1"));
-        assertThat(baseColumn.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
+        assertThat(baseColumn.getElementAttributes().get("alignment"), is(AlignmentEnum.LEFT.getId()));
         assertThat(cell.getId(), is("simple1"));
-        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
+        assertThat(cell.getElementAttributes().get("alignment"), is(AlignmentEnum.LEFT.getId()));
 
         baseColumn = (BaseColumn) table.getComponent().getHeader().getCells().get(1);
         cell = (AbstractCell) table.getComponent().getBody().getCells().get(1);
         assertThat(baseColumn.getLabel(), is("simple2"));
-        assertThat(baseColumn.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
+        assertThat(baseColumn.getElementAttributes().get("alignment"), is(AlignmentEnum.CENTER.getId()));
         assertThat(cell.getId(), is("simple2"));
-        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
+        assertThat(cell.getElementAttributes().get("alignment"), is(AlignmentEnum.CENTER.getId()));
 
         baseColumn = (BaseColumn) table.getComponent().getHeader().getCells().get(2);
         cell = (AbstractCell) table.getComponent().getBody().getCells().get(2);
         assertThat(baseColumn.getLabel(), is("filter1"));
-        assertThat(baseColumn.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
+        assertThat(baseColumn.getElementAttributes().get("alignment"), is(AlignmentEnum.RIGHT.getId()));
         assertThat(cell.getId(), is("filter1"));
-        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
+        assertThat(cell.getElementAttributes().get("alignment"), is(AlignmentEnum.CENTER.getId()));
 
         MultiColumn multiColumn = (MultiColumn) table.getComponent().getHeader().getCells().get(3);
         assertThat(multiColumn.getLabel(), is("multi1"));
-        assertThat(multiColumn.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
+        assertThat(multiColumn.getElementAttributes().get("alignment"), is(AlignmentEnum.CENTER.getId()));
 
         multiColumn = (MultiColumn) table.getComponent().getHeader().getCells().get(4);
         assertThat(multiColumn.getLabel(), is("multi2"));
-        assertThat(multiColumn.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
+        assertThat(multiColumn.getElementAttributes().get("alignment"), is(AlignmentEnum.RIGHT.getId()));
 
         baseColumn = multiColumn.getChildren().get(0);
         cell = (AbstractCell) table.getComponent().getBody().getCells().get(3);
         assertThat(baseColumn.getLabel(), is("sub21"));
-        assertThat(baseColumn.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
+        assertThat(baseColumn.getElementAttributes().get("alignment"), is(AlignmentEnum.CENTER.getId()));
         assertThat(cell.getId(), is("sub21"));
-        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
+        assertThat(cell.getElementAttributes().get("alignment"), is(AlignmentEnum.CENTER.getId()));
 
 
         multiColumn = (MultiColumn) table.getComponent().getHeader().getCells().get(5);
         assertThat(multiColumn.getLabel(), is("multi3"));
-        assertThat(multiColumn.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
+        assertThat(multiColumn.getElementAttributes().get("alignment"), is(AlignmentEnum.RIGHT.getId()));
 
         baseColumn = multiColumn.getChildren().get(0);
         cell = (AbstractCell) table.getComponent().getBody().getCells().get(4);
         assertThat(baseColumn.getLabel(), is("sub31"));
-        assertThat(baseColumn.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
+        assertThat(baseColumn.getElementAttributes().get("alignment"), is(AlignmentEnum.LEFT.getId()));
         assertThat(cell.getId(), is("sub31"));
-        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
+        assertThat(cell.getElementAttributes().get("alignment"), is(AlignmentEnum.CENTER.getId()));
 
         baseColumn = multiColumn.getChildren().get(1);
         cell = (AbstractCell) table.getComponent().getBody().getCells().get(5);
         assertThat(baseColumn.getLabel(), is("sub32"));
-        assertThat(baseColumn.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
+        assertThat(baseColumn.getElementAttributes().get("alignment"), is(AlignmentEnum.RIGHT.getId()));
         assertThat(cell.getId(), is("sub32"));
-        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.CENTER.getId()));
+        assertThat(cell.getElementAttributes().get("alignment"), is(AlignmentEnum.CENTER.getId()));
 
         baseColumn = multiColumn.getChildren().get(2);
         cell = (AbstractCell) table.getComponent().getBody().getCells().get(6);
         assertThat(baseColumn.getLabel(), is("sub33"));
-        assertThat(baseColumn.getElementAttributes().get("alignment"), is(Alignment.LEFT.getId()));
+        assertThat(baseColumn.getElementAttributes().get("alignment"), is(AlignmentEnum.LEFT.getId()));
         assertThat(cell.getId(), is("sub33"));
-        assertThat(cell.getElementAttributes().get("alignment"), is(Alignment.RIGHT.getId()));
+        assertThat(cell.getElementAttributes().get("alignment"), is(AlignmentEnum.RIGHT.getId()));
     }
 
     @Test

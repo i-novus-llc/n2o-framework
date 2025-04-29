@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.Submit;
-import net.n2oapp.framework.api.metadata.control.SubmitOn;
+import net.n2oapp.framework.api.metadata.control.SubmitOnEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 
 /**
@@ -14,7 +14,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 @Setter
 public class N2oForm extends N2oWidget {
     private SourceComponent[] items;
-    private FormMode mode;
+    private FormModeEnum mode;
     private Boolean unsavedDataPrompt;
     @Deprecated
     private Submit submit;
@@ -37,7 +37,7 @@ public class N2oForm extends N2oWidget {
                         new String[]{getId()});//не учитываются datasource у виджета в 7.19
             }
             getDatasource().getSubmit().setMessageWidgetId(getId());
-            getDatasource().getSubmit().setSubmitOn(SubmitOn.change);
+            getDatasource().getSubmit().setSubmitOn(SubmitOnEnum.change);
         }
     }
 }

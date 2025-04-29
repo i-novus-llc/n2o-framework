@@ -37,7 +37,7 @@ public class N2oException extends RuntimeException {
     /**
      * Уровень сообщения
      */
-    private SeverityType severity = SeverityType.danger;
+    private SeverityTypeEnum severity = SeverityTypeEnum.danger;
     /**
      * Поле на форме, к которому привязано сообщение
      */

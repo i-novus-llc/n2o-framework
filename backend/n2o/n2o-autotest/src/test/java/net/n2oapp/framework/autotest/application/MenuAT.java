@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.application;
 
-import net.n2oapp.framework.api.metadata.application.SidebarState;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.application.SidebarStateEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Menu;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
@@ -105,7 +105,7 @@ class MenuAT extends AutoTestBase {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageShouldHaveSrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.CIRCLE);
+        menuItem.imageShouldHaveShape(ShapeTypeEnum.CIRCLE);
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
@@ -130,7 +130,7 @@ class MenuAT extends AutoTestBase {
         AnchorMenuItem menuItem = page.header().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageShouldHaveSrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.CIRCLE);
+        menuItem.imageShouldHaveShape(ShapeTypeEnum.CIRCLE);
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("2");
@@ -157,7 +157,7 @@ class MenuAT extends AutoTestBase {
         dropdown.shouldHaveLabel("Виктория");
         dropdown.shouldHaveImage();
         dropdown.imageShouldHaveSrc(getBaseUrl() + "/images/candidate2.jpg");
-        dropdown.imageShouldHaveShape(ShapeType.CIRCLE);
+        dropdown.imageShouldHaveShape(ShapeTypeEnum.CIRCLE);
         dropdown.click();
 
         AnchorMenuItem menuItem = dropdown.item(0);
@@ -182,7 +182,7 @@ class MenuAT extends AutoTestBase {
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         Sidebar sidebar = page.sidebar();
-        sidebar.shouldHaveState(SidebarState.MINI);
+        sidebar.shouldHaveState(SidebarStateEnum.MINI);
         sidebar.nav().shouldHaveSize(1);
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
@@ -215,19 +215,19 @@ class MenuAT extends AutoTestBase {
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         Sidebar sidebar = page.sidebar();
-        sidebar.shouldHaveState(SidebarState.MINI);
+        sidebar.shouldHaveState(SidebarStateEnum.MINI);
         sidebar.nav().shouldHaveSize(1);
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageShouldHaveSrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.ROUNDED);
+        menuItem.imageShouldHaveShape(ShapeTypeEnum.ROUNDED);
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
 
         sidebar.clickToggleBtn();
         menuItem.shouldHaveImage();
         menuItem.imageShouldHaveSrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.ROUNDED);
+        menuItem.imageShouldHaveShape(ShapeTypeEnum.ROUNDED);
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
         menuItem.shouldHaveLabel("Профиль");
 
@@ -246,13 +246,13 @@ class MenuAT extends AutoTestBase {
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
         Sidebar sidebar = page.sidebar();
-        sidebar.shouldHaveState(SidebarState.MINI);
+        sidebar.shouldHaveState(SidebarStateEnum.MINI);
         sidebar.nav().shouldHaveSize(1);
 
         AnchorMenuItem menuItem = page.sidebar().nav().anchor(0);
         menuItem.shouldHaveImage();
         menuItem.imageShouldHaveSrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.SQUARE);
+        menuItem.imageShouldHaveShape(ShapeTypeEnum.SQUARE);
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");
         menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
@@ -260,7 +260,7 @@ class MenuAT extends AutoTestBase {
 
         menuItem.shouldHaveImage();
         menuItem.imageShouldHaveSrc(getBaseUrl() + "/images/candidate2.jpg");
-        menuItem.imageShouldHaveShape(ShapeType.SQUARE);
+        menuItem.imageShouldHaveShape(ShapeTypeEnum.SQUARE);
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");
@@ -292,7 +292,7 @@ class MenuAT extends AutoTestBase {
 
         menuItem.click();
         page.shouldExists();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт");
+        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Алерт");
 
         menu.anchor(1).click();
         N2oSelenide.modal().shouldHaveTitle("Модальное окно");

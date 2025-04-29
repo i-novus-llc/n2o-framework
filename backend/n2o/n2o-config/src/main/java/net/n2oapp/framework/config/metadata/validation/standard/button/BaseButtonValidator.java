@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.aware.GenerateAware;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.compile.enums.Color;
+import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -73,7 +73,7 @@ public class BaseButtonValidator implements SourceValidator<Button>, SourceClass
         String color = source.getColor();
         boolean isIncorrectColor = !Objects.equals(color, "link")
                 && !color.startsWith("outline")
-                && !EnumUtils.isValidEnum(Color.class, color);
+                && !EnumUtils.isValidEnum(ColorEnum.class, color);
         if (isIncorrectColor && !StringUtils.isLink(color)) {
             throw new N2oMetadataValidationException(
                     String.format("Кнопка %s использует недопустимое значение атрибута color=\"%s\"", getLabelOrId(source), color)
@@ -87,7 +87,7 @@ public class BaseButtonValidator implements SourceValidator<Button>, SourceClass
     private void checkBadgeColor(Button source) {
         String badgeColor = ((BadgeAware) source).getBadgeColor();
         if (badgeColor != null && !StringUtils.isLink(badgeColor)
-                && !EnumUtils.isValidEnum(Color.class, badgeColor)) {
+                && !EnumUtils.isValidEnum(ColorEnum.class, badgeColor)) {
             throw new N2oMetadataValidationException(
                     String.format("Кнопка %s использует недопустимое значение атрибута badge-color=\"%s\"", getLabelOrId(source), badgeColor)
             );

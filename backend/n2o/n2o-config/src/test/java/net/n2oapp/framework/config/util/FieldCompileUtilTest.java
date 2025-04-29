@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.util;
 
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import org.junit.jupiter.api.Test;
@@ -21,20 +21,20 @@ class FieldCompileUtilTest {
     void testGetFilters() {
         CompiledQuery query = new CompiledQuery();
         Map<String, N2oQuery.Filter> filterMap = new HashMap<>();
-        filterMap.put("name", new N2oQuery.Filter("name", FilterType.eq));
-        filterMap.put("nameLike", new N2oQuery.Filter("nameLike", FilterType.eq));
-        filterMap.put("gender", new N2oQuery.Filter("gender", FilterType.eq));
-        filterMap.put("gender.id", new N2oQuery.Filter("gender.id", FilterType.eq));
-        filterMap.put("gender.id.test", new N2oQuery.Filter("gender.id.test", FilterType.eq));
-        filterMap.put("gender.id.test1.test2", new N2oQuery.Filter("gender.id.test1.test2", FilterType.eq));
-        filterMap.put("test1.test2", new N2oQuery.Filter("test1.test2", FilterType.eq));
-        filterMap.put("gender.name", new N2oQuery.Filter("gender.name", FilterType.eq));
-        filterMap.put("parent*.id", new N2oQuery.Filter("parent*.id", FilterType.in));
-        filterMap.put("parent*.name", new N2oQuery.Filter("parent*.name", FilterType.in));
-        filterMap.put("parent*.name.like", new N2oQuery.Filter("parent*.name.like", FilterType.in));
-        filterMap.put("parent.name*.like", new N2oQuery.Filter("parent.name*.like", FilterType.in));
-        filterMap.put("parent.id*.like", new N2oQuery.Filter("parent.id*.like", FilterType.in));
-        filterMap.put("parent.id*.like.like2", new N2oQuery.Filter("parent.id*.like.like2", FilterType.in));
+        filterMap.put("name", new N2oQuery.Filter("name", FilterTypeEnum.eq));
+        filterMap.put("nameLike", new N2oQuery.Filter("nameLike", FilterTypeEnum.eq));
+        filterMap.put("gender", new N2oQuery.Filter("gender", FilterTypeEnum.eq));
+        filterMap.put("gender.id", new N2oQuery.Filter("gender.id", FilterTypeEnum.eq));
+        filterMap.put("gender.id.test", new N2oQuery.Filter("gender.id.test", FilterTypeEnum.eq));
+        filterMap.put("gender.id.test1.test2", new N2oQuery.Filter("gender.id.test1.test2", FilterTypeEnum.eq));
+        filterMap.put("test1.test2", new N2oQuery.Filter("test1.test2", FilterTypeEnum.eq));
+        filterMap.put("gender.name", new N2oQuery.Filter("gender.name", FilterTypeEnum.eq));
+        filterMap.put("parent*.id", new N2oQuery.Filter("parent*.id", FilterTypeEnum.in));
+        filterMap.put("parent*.name", new N2oQuery.Filter("parent*.name", FilterTypeEnum.in));
+        filterMap.put("parent*.name.like", new N2oQuery.Filter("parent*.name.like", FilterTypeEnum.in));
+        filterMap.put("parent.name*.like", new N2oQuery.Filter("parent.name*.like", FilterTypeEnum.in));
+        filterMap.put("parent.id*.like", new N2oQuery.Filter("parent.id*.like", FilterTypeEnum.in));
+        filterMap.put("parent.id*.like.like2", new N2oQuery.Filter("parent.id*.like.like2", FilterTypeEnum.in));
 
 
         query.setFilterFieldsMap(filterMap);

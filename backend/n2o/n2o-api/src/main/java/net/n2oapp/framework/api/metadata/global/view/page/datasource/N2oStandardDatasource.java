@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.datasource.Submittable;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public class N2oStandardDatasource extends N2oDatasource implements Submittable 
     private String objectId;
     private Submit submit;
     private Boolean fetchOnInit;
-    private DefaultValuesMode defaultValuesMode;
+    private DefaultValuesModeEnum defaultValuesMode;
     private N2oPreFilter[] filters;
 
     /**

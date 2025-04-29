@@ -2,7 +2,7 @@ package net.n2oapp.framework.config;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
@@ -152,8 +152,8 @@ class N2oSubModelsProcessorTest {
             this.simpleFieldsMap.put("id", idField);
             this.displayFields = Arrays.asList(idField, new QuerySimpleField("label"), new QuerySimpleField("someField"));
             N2oQuery.Filter filter = new N2oQuery.Filter();
-            Map<FilterType, N2oQuery.Filter> filterMap = new HashMap<>();
-            filterMap.put(FilterType.eq, filter);
+            Map<FilterTypeEnum, N2oQuery.Filter> filterMap = new HashMap<>();
+            filterMap.put(FilterTypeEnum.eq, filter);
             this.getFiltersMap().put("id", filterMap);
         }
     }

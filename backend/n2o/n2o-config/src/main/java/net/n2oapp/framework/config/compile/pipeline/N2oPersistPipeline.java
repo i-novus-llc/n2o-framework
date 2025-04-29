@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 
-import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.*;
+import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum.*;
 
 public class N2oPersistPipeline extends N2oPipeline implements PersistPipeline {
 

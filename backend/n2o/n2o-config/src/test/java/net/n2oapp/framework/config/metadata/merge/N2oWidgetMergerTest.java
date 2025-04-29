@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.list.N2oInputSelect;
 import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
-import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
+import net.n2oapp.framework.api.metadata.global.view.widget.FormModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oAbstractColumn;
@@ -73,7 +73,7 @@ class N2oWidgetMergerTest extends SourceMergerTestBase {
         N2oForm form = merge("net/n2oapp/framework/config/metadata/merge/widget/parentFormMerger.widget.xml",
                 "net/n2oapp/framework/config/metadata/merge/widget/childFormMerger.widget.xml")
                 .get("parentFormMerger", N2oForm.class);
-        assertThat(form.getMode(), is(FormMode.TWO_MODELS));
+        assertThat(form.getMode(), is(FormModeEnum.TWO_MODELS));
         assertThat(form.getUnsavedDataPrompt(), is(true));
         assertThat(form.getDefaultValuesQueryId(), is("defQueryId"));
 
@@ -92,10 +92,10 @@ class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getHeight(), is("100px"));
         assertThat(table.getWidth(), is("200px"));
         assertThat(table.getTextWrap(), is(true));
-        assertThat(table.getChildren(), is(ChildrenToggle.EXPAND));
+        assertThat(table.getChildren(), is(ChildrenToggleEnum.EXPAND));
         assertThat(table.getFilters().getFetchOnChange(), is(true));
         assertThat(table.getFilters().getDatasource().getQueryId(), is("test"));
-        assertThat(table.getFilters().getPlace(), is(FilterPosition.LEFT));
+        assertThat(table.getFilters().getPlace(), is(FilterPositionEnum.LEFT));
 
         N2oAbstractColumn[] columns = table.getColumns();
         assertThat(columns.length, is(2));
@@ -111,7 +111,7 @@ class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(pagination.getPrev(), is(true));
         assertThat(pagination.getNext(), is(true));
         assertThat(pagination.getShowLast(), is(true));
-        assertThat(pagination.getShowCount(), is(ShowCountType.ALWAYS));
+        assertThat(pagination.getShowCount(), is(ShowCountTypeEnum.ALWAYS));
 
         N2oRow rows = table.getRows();
         assertThat(rows.getRowClick().getActionId(), is("actionId"));
@@ -126,11 +126,11 @@ class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getHeight(), is("100px"));
         assertThat(table.getWidth(), is("200px"));
         assertThat(table.getTextWrap(), is(true));
-        assertThat(table.getChildren(), is(ChildrenToggle.EXPAND));
+        assertThat(table.getChildren(), is(ChildrenToggleEnum.EXPAND));
         assertThat(table.getFilters().getFetchOnChange(), is(true));
         assertThat(table.getDatasourceId(), is("ds"));
         assertThat(table.getFilters().getDatasourceId(), is("ds_filter"));
-        assertThat(table.getFilters().getPlace(), is(FilterPosition.LEFT));
+        assertThat(table.getFilters().getPlace(), is(FilterPositionEnum.LEFT));
 
         N2oAbstractColumn[] columns = table.getColumns();
         assertThat(columns.length, is(2));
@@ -146,7 +146,7 @@ class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(pagination.getPrev(), is(true));
         assertThat(pagination.getNext(), is(true));
         assertThat(pagination.getShowLast(), is(true));
-        assertThat(pagination.getShowCount(), is(ShowCountType.NEVER));
+        assertThat(pagination.getShowCount(), is(ShowCountTypeEnum.NEVER));
 
         N2oRow rows = table.getRows();
         assertThat(rows.getRowClick().getActionId(), is("actionId"));

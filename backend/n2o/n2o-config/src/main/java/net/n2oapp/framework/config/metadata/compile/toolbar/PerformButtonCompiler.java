@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.compile.ButtonGeneratorFactory;
@@ -10,13 +10,13 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.script.ScriptProcessor;
@@ -143,7 +143,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         }
 
         if (!enabledConditions.isEmpty()) {
-            button.getConditions().put(ValidationType.enabled, enabledConditions);
+            button.getConditions().put(ValidationTypeEnum.enabled, enabledConditions);
         }
 
         if (source.getDependencies() != null)
@@ -162,18 +162,18 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
      * @return Условие доступности кнопки при пустой модели
      */
     private Condition enabledByEmptyModelCondition(N2oButton source, String clientDatasource, ComponentScope componentScope, CompileProcessor p) {
-        DisableOnEmptyModelType disableOnEmptyModel = castDefault(
+        DisableOnEmptyModelTypeEnum disableOnEmptyModel = castDefault(
                 source.getDisableOnEmptyModel(),
-                () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelType.class)
+                () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelTypeEnum.class)
         );
-        if (DisableOnEmptyModelType.FALSE.equals(disableOnEmptyModel)) return null;
+        if (DisableOnEmptyModelTypeEnum.FALSE.equals(disableOnEmptyModel)) return null;
 
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
-        boolean autoDisableCondition = DisableOnEmptyModelType.AUTO.equals(disableOnEmptyModel) &&
-                (ReduxModel.resolve.equals(source.getModel()) || ReduxModel.multi.equals(source.getModel())) &&
+        boolean autoDisableCondition = DisableOnEmptyModelTypeEnum.AUTO.equals(disableOnEmptyModel) &&
+                (ReduxModelEnum.resolve.equals(source.getModel()) || ReduxModelEnum.multi.equals(source.getModel())) &&
                 parentIsNotCell;
 
-        if (DisableOnEmptyModelType.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
+        if (DisableOnEmptyModelTypeEnum.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
             Condition condition = new Condition();
             condition.setExpression("!$.isEmptyModel(this)");
             condition.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
@@ -185,21 +185,21 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     private void compileDependencies(N2oButton.Dependency[] dependencies, PerformButton button, String clientDatasource,
-                                     ReduxModel buttonModel, CompileProcessor p) {
+                                     ReduxModelEnum buttonModel, CompileProcessor p) {
         for (N2oButton.Dependency d : dependencies) {
-            ValidationType validationType = null;
+            ValidationTypeEnum validationType = null;
             if (d instanceof N2oButton.EnablingDependency)
-                validationType = ValidationType.enabled;
+                validationType = ValidationTypeEnum.enabled;
             else if (d instanceof N2oButton.VisibilityDependency)
-                validationType = ValidationType.visible;
+                validationType = ValidationTypeEnum.visible;
 
             compileDependencyCondition(d, button, validationType, clientDatasource, buttonModel, p);
         }
     }
 
-    private void compileDependencyCondition(N2oButton.Dependency dependency, PerformButton button, ValidationType validationType,
-                                            String buttonDatasource, ReduxModel buttonModel, CompileProcessor p) {
-        ReduxModel refModel = castDefault(dependency.getModel(), buttonModel, ReduxModel.resolve);
+    private void compileDependencyCondition(N2oButton.Dependency dependency, PerformButton button, ValidationTypeEnum validationType,
+                                            String buttonDatasource, ReduxModelEnum buttonModel, CompileProcessor p) {
+        ReduxModelEnum refModel = castDefault(dependency.getModel(), buttonModel, ReduxModelEnum.resolve);
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
         String datasource = (dependency.getDatasource() != null) ?

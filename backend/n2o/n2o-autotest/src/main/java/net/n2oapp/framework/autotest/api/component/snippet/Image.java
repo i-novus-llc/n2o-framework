@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.snippet;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
+import net.n2oapp.framework.api.metadata.meta.control.TextPositionEnum;
 
 import java.time.Duration;
 
@@ -26,7 +26,7 @@ public interface Image extends Snippet {
      * Проверка формы изображения на соответствие
      * @param shape ожидаемая форма
      */
-    void shouldHaveShape(ShapeType shape);
+    void shouldHaveShape(ShapeTypeEnum shape);
 
     /**
      * Проверка ссылки изображения на соответствие
@@ -44,5 +44,5 @@ public interface Image extends Snippet {
      * Проверка позиции текста на соответствие
      * @param position ожидаемая позиция
      */
-    void shouldHaveTextPosition(TextPosition position);
+    void shouldHaveTextPosition(TextPositionEnum position);
 }

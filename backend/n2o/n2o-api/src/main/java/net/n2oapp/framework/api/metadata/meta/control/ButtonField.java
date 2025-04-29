@@ -38,5 +38,5 @@ public class ButtonField extends ActionField {
     private List<String> validate;
 
     @JsonProperty
-    private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
+    private Map<ValidationTypeEnum, List<Condition>> conditions = new HashMap<>();
 }

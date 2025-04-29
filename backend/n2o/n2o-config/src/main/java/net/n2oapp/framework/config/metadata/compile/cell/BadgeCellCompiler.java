@@ -3,10 +3,10 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.BadgeCell;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import org.springframework.stereotype.Component;
@@ -53,10 +53,10 @@ public class BadgeCellCompiler extends AbstractCellCompiler<BadgeCell, N2oBadgeC
             cell.setFormat(source.getFormat());
         if (source.getImageFieldId() != null) {
             cell.setImageFieldId(source.getImageFieldId());
-            cell.setImageShape(castDefault(source.getImageShape(), () -> p.resolve(property("n2o.api.cell.badge.image_shape"), ShapeType.class)));
-            cell.setImagePosition(castDefault(source.getImagePosition(), () -> p.resolve(property("n2o.api.cell.badge.image_position"), Position.class)));
+            cell.setImageShape(castDefault(source.getImageShape(), () -> p.resolve(property("n2o.api.cell.badge.image_shape"), ShapeTypeEnum.class)));
+            cell.setImagePosition(castDefault(source.getImagePosition(), () -> p.resolve(property("n2o.api.cell.badge.image_position"), PositionEnum.class)));
         }
-        cell.setShape(castDefault(source.getShape(), () -> p.resolve(property("n2o.api.cell.badge.shape"), ShapeType.class)));
+        cell.setShape(castDefault(source.getShape(), () -> p.resolve(property("n2o.api.cell.badge.shape"), ShapeTypeEnum.class)));
         return cell;
     }
 }

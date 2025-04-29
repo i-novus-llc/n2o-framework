@@ -1,6 +1,6 @@
 package net.n2oapp.framework.access.metadata.accesspoint.io;
 
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFiltersAccessPoint;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -17,7 +17,7 @@ public class ObjectFiltersAccessPointIOv2 extends AccessPointElementIOv2<N2oObje
     public void io(Element e, N2oObjectFiltersAccessPoint t, IOProcessor p) {
         p.attribute(e, "object-id", t::getObjectId, t::setObjectId);
         p.childrenByEnum(e, null, t::getFilters, t::setFilters, N2oObjectFilter::getType,
-                N2oObjectFilter::setType, N2oObjectFilter::new, FilterType.class, this::prefilter);
+                N2oObjectFilter::setType, N2oObjectFilter::new, FilterTypeEnum.class, this::prefilter);
     }
 
     @Override

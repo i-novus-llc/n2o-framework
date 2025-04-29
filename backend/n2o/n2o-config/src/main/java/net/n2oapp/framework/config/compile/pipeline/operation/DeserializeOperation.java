@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
-import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,8 +43,8 @@ public class DeserializeOperation<D extends SourceMetadata> implements PipelineO
     }
 
     @Override
-    public PipelineOperationType getPipelineOperationType() {
-        return PipelineOperationType.DESERIALIZE;
+    public PipelineOperationTypeEnum getPipelineOperationType() {
+        return PipelineOperationTypeEnum.DESERIALIZE;
     }
 
     @Override

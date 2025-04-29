@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 
 /**
  * Компонент отображения прогресса для автотестирования
@@ -33,5 +33,5 @@ public interface Progress extends Control {
      * Проверка соответствия цвета поля
      * @param color ожидаемый цвет поля
      */
-    void shouldHaveColor(Colors color);
+    void shouldHaveColor(ColorsEnum color);
 }

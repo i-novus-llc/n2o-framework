@@ -1,13 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.widget.form;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -17,7 +16,7 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -34,7 +33,6 @@ import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -79,7 +77,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidget();
         assertThat(form.getComponent().getPrompt(), is(true));
         StandardDatasource datasource = (StandardDatasource) page.getDatasources().get("testFormCompile_w1");
-        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.defaults));
         assertThat(datasource.getProvider(), nullValue());
     }
 
@@ -90,7 +88,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidget().getId(), is("testFormCompile2_w1"));
         assertThat(page.getWidget().getDatasource(), notNullValue());
         StandardDatasource datasource = (StandardDatasource) page.getDatasources().get(page.getWidget().getDatasource());
-        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesMode.query));
+        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.query));
         assertThat(datasource.getPaging().getSize(), is(1));
         QueryContext queryContext = (QueryContext) route("/testFormCompile2/w1", CompiledQuery.class);
         assertThat(queryContext, notNullValue());
@@ -131,7 +129,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(7).getSide().contains("client"), is(true));
 
         assertThat(validations.get(8).getId(), is("Condition1"));
-        assertThat(validations.get(8).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
+        assertThat(validations.get(8).getMoment(), is(N2oValidation.ServerMomentEnum.beforeOperation));
         assertThat(validations.get(8).getSide().contains("client"), is(true));
 
         assertThat(validations.get(9).getId(), is("Condition2"));
@@ -188,7 +186,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context.getRefresh().getDatasources(), hasItem("testFormSubmit_form"));
 
         ClientDataProvider dataProvider = ((StandardDatasource) page.getDatasources().get(form.getDatasource())).getSubmit();
-        assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
+        assertThat(dataProvider.getMethod(), is(RequestMethodEnum.POST));
         assertThat(dataProvider.getSubmitForm(), is(true));
         assertThat(dataProvider.getUrl(), is("n2o/data/testFormSubmit/a/b/c"));
 
@@ -200,21 +198,21 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(link.getBindLink(), nullValue());
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
-        assertThat(link.getModel(), is(ReduxModel.filter));
+        assertThat(link.getModel(), is(ReduxModelEnum.filter));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
         assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
-        assertThat(link.getModel(), is(ReduxModel.resolve));
+        assertThat(link.getModel(), is(ReduxModelEnum.resolve));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
         assertThat(link.getBindLink(), is("models.resolve['testFormSubmit_form']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
-        assertThat(link.getModel(), is(ReduxModel.filter));
+        assertThat(link.getModel(), is(ReduxModelEnum.filter));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
         assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form']"));
     }

@@ -8,7 +8,7 @@ import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityFilters;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.processing.DataProcessing;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
@@ -44,7 +44,7 @@ public class N2oSecurityModule implements DataProcessing {
 
     @Override
     public void processQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        if (requestInfo.getMode().equals(DefaultValuesMode.query)) {
+        if (requestInfo.getMode().equals(DefaultValuesModeEnum.query)) {
             Security security = getSecurityObject(requestInfo.getQuery());
             if (security != null) {
                 securityProvider.checkAccess(security, requestInfo.getUser());
@@ -60,7 +60,7 @@ public class N2oSecurityModule implements DataProcessing {
 
     @Override
     public void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
-        if (DefaultValuesMode.query.equals(requestInfo.getMode())
+        if (DefaultValuesModeEnum.query.equals(requestInfo.getMode())
                 && requestInfo.getSize() == 1) {
             DataSet data = page.getCollection().iterator().next();
             securityProvider.checkAccess(getSecurityObject(requestInfo.getQuery()), requestInfo.getUser());

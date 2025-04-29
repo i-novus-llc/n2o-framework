@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.metadata.action;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
-import net.n2oapp.framework.api.metadata.control.PageRef;
 
 /**
  * Исходная модель действия обновления данных виджета

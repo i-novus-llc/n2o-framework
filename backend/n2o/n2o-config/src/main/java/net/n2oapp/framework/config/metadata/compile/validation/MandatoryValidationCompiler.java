@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.validation;
 
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -27,7 +27,7 @@ public class MandatoryValidationCompiler extends BaseValidationCompiler<Mandator
     public MandatoryValidation compile(N2oMandatoryValidation source, CompileContext<?, ?> context, CompileProcessor p) {
         MandatoryValidation validation = new MandatoryValidation();
         compileValidation(validation, source, p);
-        validation.setSeverity(castDefault(source.getSeverity(), SeverityType.danger));
+        validation.setSeverity(castDefault(source.getSeverity(), SeverityTypeEnum.danger));
         if (!"server".equals(source.getSide())) {
             ComponentScope scope = p.getScope(ComponentScope.class);
             if (scope != null) {

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
@@ -58,7 +58,7 @@ class MultiActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getActions().get(1), instanceOf(SetValueAction.class));
         assertThat(action.getPayload().getActions().get(2), instanceOf(LinkAction.class));
         assertThat(((LinkAction) action.getPayload().getActions().get(2)).getUrl(), is("/test1"));
-        assertThat(((LinkAction) action.getPayload().getActions().get(2)).getTarget(), is(Target.application));
+        assertThat(((LinkAction) action.getPayload().getActions().get(2)).getTarget(), is(TargetEnum.application));
 
         button = (PerformButton) page.getToolbar().getButton("test2");
         action = (MultiAction) button.getAction();
@@ -68,7 +68,7 @@ class MultiActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getActions().get(0), instanceOf(CustomAction.class));
         assertThat(action.getPayload().getActions().get(1), instanceOf(LinkAction.class));
         assertThat(((LinkAction) action.getPayload().getActions().get(1)).getUrl(), is("/test2"));
-        assertThat(((LinkAction) action.getPayload().getActions().get(1)).getTarget(), is(Target.application));
+        assertThat(((LinkAction) action.getPayload().getActions().get(1)).getTarget(), is(TargetEnum.application));
     }
 
     @Test

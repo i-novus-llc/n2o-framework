@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import lombok.Getter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -16,7 +16,7 @@ public class WidgetScope {
     private String datasourceId;
     private String clientWidgetId;
     private String clientDatasourceId;
-    private ReduxModel model;
+    private ReduxModelEnum model;
     private N2oStandardDatasource inLineDatasource;
     private MetaActions actions;
 
@@ -34,7 +34,7 @@ public class WidgetScope {
         this.actions = actions;
     }
 
-    public WidgetScope(String widgetId, String datasourceId, ReduxModel model, CompileProcessor p) {
+    public WidgetScope(String widgetId, String datasourceId, ReduxModelEnum model, CompileProcessor p) {
         this.widgetId = widgetId;
         this.datasourceId = datasourceId;
         this.model = model;
@@ -43,7 +43,7 @@ public class WidgetScope {
         this.clientDatasourceId = DatasourceUtil.getClientDatasourceId(datasourceId, p);
     }
 
-    public WidgetScope(String widgetId, N2oStandardDatasource inLineDatasource, ReduxModel model, CompileProcessor p) {
+    public WidgetScope(String widgetId, N2oStandardDatasource inLineDatasource, ReduxModelEnum model, CompileProcessor p) {
         this.widgetId = widgetId;
         this.inLineDatasource = inLineDatasource;
         this.model = model;

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component;
 
 import com.codeborne.selenide.*;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 
 import java.time.Duration;
@@ -127,7 +127,7 @@ public class N2oDropDown extends N2oComponent implements DropDown {
         }
 
         @Override
-        public void shouldHaveStatusColor(Colors color) {
+        public void shouldHaveStatusColor(ColorsEnum color) {
             element().$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
                     .shouldHave(Condition.cssClass(color.name("bg-")));
         }

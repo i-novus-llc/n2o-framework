@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class PageProperty implements Compiled {
     @JsonProperty
     private String datasource;
     @JsonProperty
-    private ReduxModel model;
+    private ReduxModelEnum model;
     @JsonProperty
     private String modalHeaderTitle;
     @JsonProperty

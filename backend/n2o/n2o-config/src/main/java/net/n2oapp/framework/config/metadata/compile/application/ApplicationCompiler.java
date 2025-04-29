@@ -42,9 +42,9 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         layout.setFixed(castDefault(source.getNavigationLayoutFixed(),
                 () -> p.resolve(property("n2o.application.navigation_layout_fixed"), Boolean.class)));
 
-        NavigationLayout navLayout = castDefault(source.getNavigationLayout(),
-                () -> p.resolve(property("n2o.application.navigation_layout"), NavigationLayout.class));
-        layout.setFullSizeHeader(navLayout.equals(NavigationLayout.fullSizeHeader));
+        NavigationLayoutEnum navLayout = castDefault(source.getNavigationLayout(),
+                () -> p.resolve(property("n2o.application.navigation_layout"), NavigationLayoutEnum.class));
+        layout.setFullSizeHeader(navLayout.equals(NavigationLayoutEnum.fullSizeHeader));
 
         application.setLayout(layout);
 
@@ -136,8 +136,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
 
         Sidebar sidebar = p.compile(source, context, dataSourcesScope);
         if (header != null && header.getSidebarSwitcher() != null) {
-            sidebar.setDefaultState(castDefault(source.getDefaultState(), SidebarState.NONE));
-            sidebar.setToggledState(castDefault(source.getToggledState(), SidebarState.MAXI));
+            sidebar.setDefaultState(castDefault(source.getDefaultState(), SidebarStateEnum.NONE));
+            sidebar.setToggledState(castDefault(source.getToggledState(), SidebarStateEnum.MAXI));
         }
 
         return sidebar;

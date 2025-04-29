@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.api.component.widget.calendar;
 
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
-import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.CalendarViewType;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.CalendarViewTypeEnum;
 
 /**
  * Панель действий календаря для автотестирования
@@ -26,5 +26,5 @@ public interface CalendarToolbar extends Component {
 
     StandardButton workWeekButton();
 
-    void shouldHaveActiveView(CalendarViewType viewType);
+    void shouldHaveActiveView(CalendarViewTypeEnum viewType);
 }

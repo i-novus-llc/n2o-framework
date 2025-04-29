@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.widget.table;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.table.BaseColumn;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -30,11 +30,11 @@ public abstract class BaseColumnCompiler<S extends N2oBaseColumn> extends Abstra
             Condition condition = new Condition();
             condition.setExpression(unwrapLink(source.getVisible()));
             String datasourceId = widgetScope.getClientDatasourceId();
-            condition.setModelLink(new ModelLink(ReduxModel.filter, datasourceId).getBindLink());
-            if (!compiled.getConditions().containsKey(ValidationType.visible)) {
-                compiled.getConditions().put(ValidationType.visible, new ArrayList<>());
+            condition.setModelLink(new ModelLink(ReduxModelEnum.filter, datasourceId).getBindLink());
+            if (!compiled.getConditions().containsKey(ValidationTypeEnum.visible)) {
+                compiled.getConditions().put(ValidationTypeEnum.visible, new ArrayList<>());
             }
-            compiled.getConditions().get(ValidationType.visible).add(condition);
+            compiled.getConditions().get(ValidationTypeEnum.visible).add(condition);
         } else {
             compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
         }

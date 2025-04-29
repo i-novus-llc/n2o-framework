@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
@@ -74,8 +74,8 @@ class FieldToolbarAT extends AutoTestBase {
         fields.field("id").control(InputText.class).click();
         fields.field("id").control(InputText.class).setValue("test");
         toolbar.button("Показать текст").click();
-        Alert alert = page.alerts(Alert.Placement.top).alert(0);
-        alert.shouldHaveColor(Colors.SUCCESS);
+        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        alert.shouldHaveColor(ColorsEnum.SUCCESS);
         alert.shouldHaveText("test");
 
         toolbar.button("Открыть модальное окно").click();
@@ -123,8 +123,8 @@ class FieldToolbarAT extends AutoTestBase {
         fields.field("sub").control(InputText.class).setValue("notForShow");
         dropdownButton.click();
         dropdownButton.menuItem("Показать текст").click();
-        Alert alert = page.alerts(Alert.Placement.top).alert(0);
-        alert.shouldHaveColor(Colors.SUCCESS);
+        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        alert.shouldHaveColor(ColorsEnum.SUCCESS);
         alert.shouldHaveText("test");
 
         dropdownButton.click();

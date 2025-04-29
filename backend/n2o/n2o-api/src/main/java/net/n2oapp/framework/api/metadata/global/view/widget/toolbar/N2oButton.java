@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
@@ -31,7 +31,7 @@ public class N2oButton extends N2oAbstractButton implements Button, WidgetIdAwar
     @Deprecated
     private String confirm;
     @Deprecated
-    private ConfirmType confirmType;
+    private ConfirmTypeEnum confirmType;
     @Deprecated
     private String confirmText;
     @Deprecated
@@ -45,7 +45,7 @@ public class N2oButton extends N2oAbstractButton implements Button, WidgetIdAwar
     @Deprecated
     private String confirmCancelColor;
 
-    private DisableOnEmptyModelType disableOnEmptyModel;
+    private DisableOnEmptyModelTypeEnum disableOnEmptyModel;
 
     private Dependency[] dependencies;
 
@@ -63,7 +63,7 @@ public class N2oButton extends N2oAbstractButton implements Button, WidgetIdAwar
     public static class Dependency implements Source {
         private String value;
         private String datasource;
-        private ReduxModel model;
+        private ReduxModelEnum model;
 
         @Deprecated
         public String getRefWidgetId() {

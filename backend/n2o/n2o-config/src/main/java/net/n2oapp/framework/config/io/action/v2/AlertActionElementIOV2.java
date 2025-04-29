@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.action.v2;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAlertAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -25,7 +25,7 @@ public class AlertActionElementIOV2 extends AbstractActionElementIOV2<N2oAlertAc
         p.attribute(e, "timeout", a::getTimeout, a::setTimeout);
         p.attributeBoolean(e, "close-button", a::getCloseButton, a::setCloseButton);
         p.attribute(e, "datasource", a::getDatasourceId, a::setDatasourceId);
-        p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModelEnum.class);
         p.attribute(e, "class", a::getCssClass, a::setCssClass);
         p.attribute(e, "style", a::getStyle, a::setStyle);
     }

@@ -27,6 +27,6 @@ public class MongoDbDataProviderIOv1 implements NamespaceIO<N2oMongoDbDataProvid
         p.attribute(e, "connection-url", m::getConnectionUrl, m::setConnectionUrl);
         p.attribute(e, "database-name", m::getDatabaseName, m::setDatabaseName);
         p.attribute(e, "collection-name", m::getCollectionName, m::setCollectionName);
-        p.attributeEnum(e, "operation", m::getOperation, m::setOperation, N2oMongoDbDataProvider.Operation.class);
+        p.attributeEnum(e, "operation", m::getOperation, m::setOperation, N2oMongoDbDataProvider.OperationEnum.class);
     }
 }

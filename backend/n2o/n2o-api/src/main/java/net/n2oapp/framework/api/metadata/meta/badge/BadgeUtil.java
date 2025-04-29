@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.meta.badge;
 
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
@@ -83,12 +83,12 @@ public class BadgeUtil {
      */
     private static void compileDefaults(Badge compiled, BadgeAware source, String propertyPrefix, CompileProcessor p) {
         compiled.setPosition(castDefault(source.getBadgePosition(),
-                () -> p.resolve(property(propertyPrefix + POSITION), Position.class)));
+                () -> p.resolve(property(propertyPrefix + POSITION), PositionEnum.class)));
         compiled.setShape(castDefault(source.getBadgeShape(),
-                () -> p.resolve(property(propertyPrefix + SHAPE), ShapeType.class)));
+                () -> p.resolve(property(propertyPrefix + SHAPE), ShapeTypeEnum.class)));
         compiled.setImagePosition(castDefault(source.getBadgeImagePosition(),
-                () -> p.resolve(property(propertyPrefix + IMAGE_POSITION), Position.class)));
+                () -> p.resolve(property(propertyPrefix + IMAGE_POSITION), PositionEnum.class)));
         compiled.setImageShape(castDefault(source.getBadgeImageShape(),
-                () -> p.resolve(property(propertyPrefix + IMAGE_SHAPE), ShapeType.class)));
+                () -> p.resolve(property(propertyPrefix + IMAGE_SHAPE), ShapeTypeEnum.class)));
     }
 }

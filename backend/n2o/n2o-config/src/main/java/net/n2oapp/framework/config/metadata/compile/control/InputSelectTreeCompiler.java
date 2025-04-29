@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.control.list.CheckingStrategy;
+import net.n2oapp.framework.api.metadata.control.list.CheckingStrategyEnum;
 import net.n2oapp.framework.api.metadata.control.list.N2oInputSelectTree;
 import net.n2oapp.framework.api.metadata.meta.control.InputSelectTree;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -47,7 +47,7 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
         control.setSize(castDefault(source.getSize(),
                 () -> p.resolve(Placeholders.property("n2o.api.control.input_select_tree.size"), Integer.class)));
         control.setCheckingStrategy(castDefault(source.getCheckingStrategy(),
-                () -> p.resolve(property("n2o.api.control.input_select_tree.checking_strategy"), CheckingStrategy.class)));
+                () -> p.resolve(property("n2o.api.control.input_select_tree.checking_strategy"), CheckingStrategyEnum.class)));
         control.setMaxTagCount(source.getMaxTagCount());
         if (control.isHasCheckboxes())
             control.setMaxTagTextLength(castDefault(source.getMaxTagTextLength(),

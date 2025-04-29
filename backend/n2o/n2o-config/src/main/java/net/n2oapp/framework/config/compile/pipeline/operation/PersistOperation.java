@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
-import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -39,8 +39,8 @@ public class PersistOperation<S extends SourceMetadata> implements PipelineOpera
     }
 
     @Override
-    public PipelineOperationType getPipelineOperationType() {
-        return PipelineOperationType.PERSIST;
+    public PipelineOperationTypeEnum getPipelineOperationType() {
+        return PipelineOperationTypeEnum.PERSIST;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.component;
 
 import com.codeborne.selenide.WebElementCondition;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.badge.Badge;
 
 import java.time.Duration;
@@ -103,7 +103,7 @@ public interface DropDown extends Component {
          * Проверка соответствия цвета
          * @param color ожидаемый цвет
          */
-        void shouldHaveStatusColor(Colors color);
+        void shouldHaveStatusColor(ColorsEnum color);
 
         /**
          * Проверка доступности для выбора

@@ -206,7 +206,7 @@ public interface Paging extends Component {
      */
     void shouldNotExists();
 
-    enum Layout {
+    enum LayoutEnum {
         BORDERED("bordered"),
         FLAT("flat"),
         SEPARATED("separated"),
@@ -216,7 +216,7 @@ public interface Paging extends Component {
 
         private final String title;
 
-        Layout(String title) {
+        LayoutEnum(String title) {
             this.title = title;
         }
 

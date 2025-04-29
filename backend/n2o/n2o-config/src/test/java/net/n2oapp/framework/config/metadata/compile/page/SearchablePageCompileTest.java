@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -40,14 +40,14 @@ class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getSrc(), is("SearchablePage"));
         assertThat(page.getSearchBar().getClassName(), is("n2o-search-bar"));
         assertThat(page.getSearchBar().getPlaceholder(), is("Поиск по имени"));
-        assertThat(page.getSearchBar().getTrigger(), is(SearchablePage.SearchBar.TriggerType.CHANGE));
+        assertThat(page.getSearchBar().getTrigger(), is(SearchablePage.SearchBar.TriggerTypeEnum.CHANGE));
         assertThat(page.getSearchBar().getThrottleDelay(), is(1000));
         assertThat(page.getSearchBar().getDatasource(), is("testSearchablePage_table"));
         assertThat(page.getSearchBar().getFieldId(), is("name"));
 
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
         assertThat(query.getOnSet().normalizeLink(), is("models.filter['testSearchablePage_table'].name"));
-        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.filter));
+        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModelEnum.filter));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage_table"));
 
         BindLink bindLink = ((StandardDatasource) page.getDatasources().get("testSearchablePage_table")).getProvider().getQueryMapping().get("table_name");
@@ -63,7 +63,7 @@ class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getSrc(), is("SearchablePage"));
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("name");
         assertThat(query.getOnSet().normalizeLink(), is("models.filter['testSearchablePage2_table'].name"));
-        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.filter));
+        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModelEnum.filter));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage2_table"));
 
         BindLink bindLink = ((StandardDatasource) page.getDatasources().get("testSearchablePage2_table")).getProvider().getQueryMapping().get("name");

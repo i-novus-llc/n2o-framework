@@ -24,7 +24,7 @@ public class WebSocketMessageController {
         messagingTemplate.convertAndSendToUser(userId, destination, message);
     }
 
-    public void sendColor(String destination, BadgeColor color) {
+    public void sendColor(String destination, BadgeColorEnum color) {
         BadgeMessage message = new BadgeMessage();
         message.setColor(color.toString());
         messagingTemplate.convertAndSendToUser(userId, destination, message);

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -52,16 +52,16 @@ class ProgressBarCellAT extends AutoTestBase {
     void progressBarCellTest() {
         int col = 0;
 
-        rows.row(0).cell(col, ProgressBarCell.class).shouldHaveColor(Colors.SUCCESS);
-        rows.row(3).cell(col, ProgressBarCell.class).shouldHaveColor(Colors.SUCCESS);
+        rows.row(0).cell(col, ProgressBarCell.class).shouldHaveColor(ColorsEnum.SUCCESS);
+        rows.row(3).cell(col, ProgressBarCell.class).shouldHaveColor(ColorsEnum.SUCCESS);
 
         rows.row(0).cell(col, ProgressBarCell.class).shouldHaveValue("-50");
         rows.row(1).cell(col, ProgressBarCell.class).shouldHaveValue("0");
         rows.row(2).cell(col, ProgressBarCell.class).shouldHaveValue("100");
         rows.row(3).cell(col, ProgressBarCell.class).shouldHaveValue("150");
 
-        rows.row(0).cell(col, ProgressBarCell.class).shouldHaveSize(ProgressBarCell.Size.normal);
-        rows.row(1).cell(col, ProgressBarCell.class).shouldHaveSize(ProgressBarCell.Size.normal);
+        rows.row(0).cell(col, ProgressBarCell.class).shouldHaveSize(ProgressBarCell.SizeEnum.normal);
+        rows.row(1).cell(col, ProgressBarCell.class).shouldHaveSize(ProgressBarCell.SizeEnum.normal);
 
         rows.row(1).cell(col, ProgressBarCell.class).shouldBeAnimated();
         rows.row(2).cell(col, ProgressBarCell.class).shouldBeAnimated();

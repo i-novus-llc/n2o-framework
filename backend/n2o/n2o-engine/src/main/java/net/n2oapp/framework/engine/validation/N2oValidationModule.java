@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation.ServerMoment.*;
+import static net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation.ServerMomentEnum.*;
 
 /**
  * Процессинговый модуль валидации

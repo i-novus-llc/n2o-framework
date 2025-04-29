@@ -3,7 +3,7 @@ package net.n2oapp.framework.ui.controller.action;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
-import net.n2oapp.framework.api.rest.ControllerType;
+import net.n2oapp.framework.api.rest.ControllerTypeEnum;
 import net.n2oapp.framework.api.rest.ControllerTypeAware;
 import net.n2oapp.framework.api.rest.ValidationDataResponse;
 import net.n2oapp.framework.api.ui.ValidationRequestInfo;
@@ -41,7 +41,7 @@ public class ValidationController implements ControllerTypeAware {
     }
 
     @Override
-    public ControllerType getControllerType() {
-        return ControllerType.validation;
+    public ControllerTypeEnum getControllerType() {
+        return ControllerTypeEnum.validation;
     }
 }

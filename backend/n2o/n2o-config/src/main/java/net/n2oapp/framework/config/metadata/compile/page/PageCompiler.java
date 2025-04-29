@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
@@ -55,7 +55,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         page.setId(castDefault(context.getClientPageId(), () -> RouteUtil.convertPathToId(initPageRoute(source, context, p))));
         Models models = new Models();
         page.setModels(models);
-        page.getPageProperty().setModel(castDefault(source.getModel(), ReduxModel.resolve));
+        page.getPageProperty().setModel(castDefault(source.getModel(), ReduxModelEnum.resolve));
     }
 
     /**

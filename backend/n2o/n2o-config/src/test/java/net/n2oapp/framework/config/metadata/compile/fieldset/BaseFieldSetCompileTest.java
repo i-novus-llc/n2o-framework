@@ -43,8 +43,8 @@ class BaseFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(fieldSet.getLabel(), is("`label`"));
         assertThat(fieldSet.getHelp(), is("`'This is '+help`"));
         assertThat(fieldSet.getDescription(), is("description"));
-        assertThat(fieldSet.getLabelPosition(), is(FieldSet.LabelPosition.LEFT));
-        assertThat(fieldSet.getLabelAlignment(), is(FieldSet.LabelAlignment.RIGHT));
+        assertThat(fieldSet.getLabelPosition(), is(FieldSet.LabelPositionEnum.LEFT));
+        assertThat(fieldSet.getLabelAlignment(), is(FieldSet.LabelAlignmentEnum.RIGHT));
         assertThat(fieldSet.getLabelWidth(), is("30px"));
         assertThat(fieldSet.getVisible(), is(true));
         assertThat(fieldSet.getEnabled(), is(false));

@@ -2,7 +2,7 @@ package net.n2oapp.criteria.filters.rule;
 
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.rule.base.InListRule;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ public class In_More extends InListRule {
     @Override
     @SuppressWarnings("unchecked")
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterType.in) && left.getType().equals(FilterType.more))
+        if (right.getType().equals(FilterTypeEnum.in) && left.getType().equals(FilterTypeEnum.more))
             return simplify(right, left);
-        else if (left.getType().equals(FilterType.in) && right.getType().equals(FilterType.more)) {
+        else if (left.getType().equals(FilterTypeEnum.in) && right.getType().equals(FilterTypeEnum.more)) {
             return super.simplify(left, right);
         }
         throw new RuntimeException("Incorrect restriction's type");
@@ -40,7 +40,7 @@ public class In_More extends InListRule {
 
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.in, FilterType.more);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.in, FilterTypeEnum.more);
     }
 }

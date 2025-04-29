@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.snippet;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.Component;
 
 import java.time.Duration;
@@ -14,7 +14,7 @@ public interface Alert extends Snippet {
      * Проверка цвета на соответствие
      * @param color ожидаемый цвет предупреждения
      */
-    void shouldHaveColor(Colors color);
+    void shouldHaveColor(ColorsEnum color);
 
     /**
      * Проверка заголовка на соответствие
@@ -65,7 +65,7 @@ public interface Alert extends Snippet {
         void click();
     }
 
-    enum Placement {
+    enum PlacementEnum {
         top,
         bottom,
         topLeft,

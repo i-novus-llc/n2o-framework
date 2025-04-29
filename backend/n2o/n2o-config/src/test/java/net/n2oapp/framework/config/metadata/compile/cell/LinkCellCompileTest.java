@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.cell.LinkCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -62,7 +62,7 @@ class LinkCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getId(), is("test3"));
         assertThat(cell.getAction(), nullValue());
         assertThat(cell.getUrl(), is("`'/test/'+uid`"));
-        assertThat(cell.getTarget(), is(Target.newWindow));
+        assertThat(cell.getTarget(), is(TargetEnum.newWindow));
 
         cell = (LinkCell) table.getComponent().getBody().getCells().get(4);
         assertThat(cell.getId(), is("test4"));

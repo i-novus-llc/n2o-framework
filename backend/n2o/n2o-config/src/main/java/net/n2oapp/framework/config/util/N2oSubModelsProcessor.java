@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.util;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
@@ -68,7 +68,7 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
 
         if (subModels == null) return;
 
-        if (subQuery != null && subQuery.containsFilter("id", FilterType.eq))
+        if (subQuery != null && subQuery.containsFilter("id", FilterTypeEnum.eq))
             executeQuery(subQuery, subModelQuery, subModels, labelFieldId, valueFieldId);
         else if (subQuery == null)
             resolveOptions(subModelQuery, subModels, labelFieldId, valueFieldId);

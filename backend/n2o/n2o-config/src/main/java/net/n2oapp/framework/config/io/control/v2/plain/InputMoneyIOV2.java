@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.control.v2.plain;
 
-import net.n2oapp.framework.api.metadata.control.plain.FractionFormatting;
+import net.n2oapp.framework.api.metadata.control.plain.FractionFormattingEnum;
 import net.n2oapp.framework.api.metadata.control.plain.N2oInputMoney;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -20,7 +20,7 @@ public class InputMoneyIOV2 extends PlainFieldIOv2<N2oInputMoney> {
         p.attribute(e, "thousands-separator", m::getThousandsSeparator, m::setThousandsSeparator);
         p.attribute(e, "decimal-separator", m::getDecimalSeparator, m::setDecimalSeparator);
         p.attributeInteger(e, "integer-limit", m::getIntegerLimit, m::setIntegerLimit);
-        p.attributeEnum(e, "fraction-formatting", m::getFractionFormatting, m::setFractionFormatting, FractionFormatting.class);
+        p.attributeEnum(e, "fraction-formatting", m::getFractionFormatting, m::setFractionFormatting, FractionFormattingEnum.class);
     }
 
     @Override

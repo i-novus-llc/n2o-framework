@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oProgressBarCell;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 
 /**
  * Ячейка таблицы с ProgressBar для автотестирования
@@ -12,7 +12,7 @@ public interface ProgressBarCell extends Cell {
      * Проверка соответствия цвета ячейки
      * @param color ожидаемый цвет
      */
-    void shouldHaveColor(Colors color);
+    void shouldHaveColor(ColorsEnum color);
 
     /**
      * Проверка соответствия текста внутри ячейки
@@ -24,7 +24,7 @@ public interface ProgressBarCell extends Cell {
      * Проверка соответствия размера ячейки
      * @param size ожидаемый размер
      */
-    void shouldHaveSize(Size size);
+    void shouldHaveSize(SizeEnum size);
 
     /**
      * Проверка того, что ячейка с анимацией загрузки
@@ -37,9 +37,9 @@ public interface ProgressBarCell extends Cell {
     void shouldBeStriped();
 
     /**
-     * {@link N2oProgressBarCell.Size}
+     * {@link N2oProgressBarCell.SizeEnum}
      */
-    enum Size {
+    enum SizeEnum {
         small, normal, large
     }
 }

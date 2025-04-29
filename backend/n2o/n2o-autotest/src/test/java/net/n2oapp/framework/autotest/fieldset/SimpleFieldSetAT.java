@@ -53,7 +53,7 @@ class SimpleFieldSetAT extends AutoTestBase {
         fieldset.shouldNotHaveLabel();
         Fields fields = fieldset.fields();
         fields.shouldHaveSize(1);
-        fields.field("field1").shouldHaveLabelLocation(FieldSet.LabelPosition.TOP_LEFT);
+        fields.field("field1").shouldHaveLabelLocation(FieldSet.LabelPositionEnum.TOP_LEFT);
         InputText field1 = fields.field("field1").control(InputText.class);
 
         fieldset = fieldsets.fieldset(1, SimpleFieldSet.class);
@@ -66,7 +66,7 @@ class SimpleFieldSetAT extends AutoTestBase {
         fields = fieldset.fields();
         fields.shouldHaveSize(2);
         StandardField field2 = fields.field("field2");
-        field2.shouldHaveLabelLocation(FieldSet.LabelPosition.LEFT);
+        field2.shouldHaveLabelLocation(FieldSet.LabelPositionEnum.LEFT);
         field2.control(InputText.class).shouldBeDisabled();
     }
 

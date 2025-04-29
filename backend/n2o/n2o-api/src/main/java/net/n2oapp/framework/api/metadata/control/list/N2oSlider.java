@@ -9,14 +9,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oSlider extends N2oSingleListFieldAbstract {
-    private Mode mode;
+    private ModeEnum mode;
     private Boolean vertical;
     private String measure;
     private Integer min;
     private Integer max;
     private Integer step;
 
-    public enum Mode {
+    public enum ModeEnum {
         single, range
     }
 }

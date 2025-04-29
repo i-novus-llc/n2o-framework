@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageCell;
-import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -47,29 +47,29 @@ class ImageCellCompileTest extends SourceCompileTestBase {
         Table table = (Table) page.getWidget();
         ImageCell cell = (ImageCell) table.getComponent().getBody().getCells().get(0);
         assertThat(cell.getSrc(), is("ImageCell"));
-        assertThat(cell.getShape(), is(ShapeType.ROUNDED));
+        assertThat(cell.getShape(), is(ShapeTypeEnum.ROUNDED));
         assertThat(cell.getWidth(), is("20px"));
         assertThat(cell.getProperties().size(), is(1));
         assertThat(cell.getTitle(), is("`Title`"));
         assertThat(cell.getDescription(), is("`Description`"));
         assertThat(cell.getData(), is("`'data:image/jpeg;base64'+image`"));
-        assertThat(cell.getTextPosition(), is(N2oImageCell.Position.left));
+        assertThat(cell.getTextPosition(), is(N2oImageCell.PositionEnum.left));
         assertThat(cell.getStatuses().length, is(2));
         assertThat(cell.getStatuses()[0].getSrc(), is("testSrc"));
         assertThat(cell.getStatuses()[0].getFieldId(), is("status1"));
         assertThat(cell.getStatuses()[0].getIcon(), is("`icon1`"));
-        assertThat(cell.getStatuses()[0].getPlace(), is(ImageStatusElementPlace.topRight));
+        assertThat(cell.getStatuses()[0].getPlace(), is(ImageStatusElementPlaceEnum.topRight));
         assertThat(cell.getStatuses()[1].getFieldId(), is("id"));
         assertThat(cell.getStatuses()[1].getSrc(), is("Status"));
         assertThat(cell.getStatuses()[1].getIcon(), is(nullValue()));
-        assertThat(cell.getStatuses()[1].getPlace(), is(ImageStatusElementPlace.topLeft));
+        assertThat(cell.getStatuses()[1].getPlace(), is(ImageStatusElementPlaceEnum.topLeft));
 
         assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
 
         cell = (ImageCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getWidth(), nullValue());
-        assertThat(cell.getTextPosition(), is(N2oImageCell.Position.right));
-        assertThat(cell.getShape(), is(ShapeType.SQUARE));
+        assertThat(cell.getTextPosition(), is(N2oImageCell.PositionEnum.right));
+        assertThat(cell.getShape(), is(ShapeTypeEnum.SQUARE));
 
         cell = (ImageCell) table.getComponent().getBody().getCells().get(2);
         assertThat(cell.getWidth(), is("200px"));

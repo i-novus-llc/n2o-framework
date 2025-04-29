@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.cell;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.cell.ProgressBarCell;
 
 /**
@@ -10,7 +10,7 @@ import net.n2oapp.framework.autotest.api.component.cell.ProgressBarCell;
  */
 public class N2oProgressBarCell extends N2oCell implements ProgressBarCell {
     @Override
-    public void shouldHaveColor(Colors color) {
+    public void shouldHaveColor(ColorsEnum color) {
         progressBar().shouldBe(Condition.cssClass(color.name("bg-")));
     }
 
@@ -20,7 +20,7 @@ public class N2oProgressBarCell extends N2oCell implements ProgressBarCell {
     }
 
     @Override
-    public void shouldHaveSize(Size size) {
+    public void shouldHaveSize(SizeEnum size) {
         progressBar()
                 .parent()
                 .shouldBe(Condition.cssClass(size.name()));

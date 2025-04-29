@@ -5,8 +5,8 @@ import io.qameta.allure.selenide.AllureSelenide;
 import net.n2oapp.demo.model.ProtoClient;
 import net.n2oapp.demo.model.ProtoContacts;
 import net.n2oapp.demo.model.ProtoPage;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirectionEnum;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -186,11 +186,11 @@ class DemoIntegrationAT {
         protoPage.getSurnameHeader().shouldNotBeSorted();
         protoPage.getSurnameHeader().click();
         protoPage.getSurnameHeader().shouldBeSortedByAsc();
-        protoPage.surnameColumnShouldBeSortedBy(SortingDirection.ASC);
+        protoPage.surnameColumnShouldBeSortedBy(SortingDirectionEnum.ASC);
 
         protoPage.getSurnameHeader().click();
         protoPage.getSurnameHeader().shouldBeSortedByDesc();
-        protoPage.surnameColumnShouldBeSortedBy(SortingDirection.DESC);
+        protoPage.surnameColumnShouldBeSortedBy(SortingDirectionEnum.DESC);
 
         protoPage.getSurnameHeader().click();
         protoPage.getSurnameHeader().shouldNotBeSorted();
@@ -223,11 +223,11 @@ class DemoIntegrationAT {
     void testVipCellUpdate() {
         protoPage.vipCellShouldBeChecked(2);
         protoPage.setVipCellNotChecked(2);
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией");
         protoPage.vipCellShouldNotBeChecked(2);
         protoPage.setVipCellChecked(2);
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией");
         protoPage.vipCellShouldBeChecked(2);
     }
@@ -245,12 +245,12 @@ class DemoIntegrationAT {
         protoPage.clickBirthdayCell(row);
         protoPage.getBirthdayCell(row).shouldHaveValue(exDate);
         protoPage.getBirthdayCell(row).setValue(testDate);
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.getBirthdayCell(row).shouldHaveValue(testDate);
 
         protoPage.clickBirthdayCell(row);
         protoPage.getBirthdayCell(row).setValue(exDate);
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.getBirthdayCell(row).shouldHaveValue(exDate);
     }
 
@@ -284,7 +284,7 @@ class DemoIntegrationAT {
         clientCard.save();
 
         protoPage.shouldBeClientsPage();
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Сергеев");
         protoPage.tableShouldSelectedRow(row);
         protoPage.tableCellShouldHaveText(row, 1, "Сергеев");
@@ -324,7 +324,7 @@ class DemoIntegrationAT {
 
         protoPage.shouldDialogClosed("Карточка клиента:");
         protoPage.shouldBeClientsPage();
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Александринкин");
         protoPage.tableShouldSelectedRow(row);
         protoPage.tableCellShouldHaveText(row, 1, "Александринкин");
@@ -362,7 +362,7 @@ class DemoIntegrationAT {
         clientCard.save();
 
         protoPage.shouldBeClientsPage();
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Сергеева");
         protoPage.tableShouldSelectedRow(row);
         protoPage.tableCellShouldHaveText(row, 1, "Сергеева");
@@ -405,7 +405,7 @@ class DemoIntegrationAT {
 
         protoPage.shouldDialogClosed("Карточка клиента:");
         protoPage.shouldBeClientsPage();
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Жуков");
         protoPage.tableShouldSelectedRow(row);
         protoPage.tableCellShouldHaveText(row, 1, "Жуков");
@@ -447,7 +447,7 @@ class DemoIntegrationAT {
 
         protoPage.shouldDialogClosed("Клиент - Изменение");
         protoPage.shouldBeClientsPage();
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.alertTextShouldBe("Успешно обновлены данные клиента с фамилией Иванова");
         protoPage.tableShouldSelectedRow(row);
         protoPage.tableCellShouldHaveText(row, 1, "Ивановна");
@@ -512,7 +512,7 @@ class DemoIntegrationAT {
         clientCard.save();
 
         protoPage.shouldBeClientsPage();
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.alertTextShouldBe("Клиент 'Гадойбоев' создан");
 
         protoPage.getSurnameFilter().click();
@@ -587,7 +587,7 @@ class DemoIntegrationAT {
         protoPage.shouldDialogHaveText("Предупреждение", "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.");
         protoPage.acceptDialog("Предупреждение");
 
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.alertTextShouldBe("Клиент " + surnames.get(row) + " удален");
         protoPage.clientsCountShouldBe(count - 1);
     }
@@ -610,7 +610,7 @@ class DemoIntegrationAT {
         protoPage.shouldDialogHaveText("Предупреждение", "Вы уверены, что хотите удалить клиента?");
         protoPage.acceptDialog("Предупреждение");
 
-        protoPage.alertColorShouldBe(Colors.SUCCESS);
+        protoPage.alertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.alertTextShouldBe("Клиент " + surnames.get(row) + " удален");
         protoPage.clientsCountShouldBe(count - 1);
     }
@@ -658,7 +658,7 @@ class DemoIntegrationAT {
 
         protoPage.shouldDialogClosed("Контакты");
         protoPage.shouldBeClientsPage();
-        protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.contactsAlertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.contactsAlertTextShouldBe("Данные сохранены");
 
         protoPage.contactsListShouldHaveSize(1);
@@ -674,7 +674,7 @@ class DemoIntegrationAT {
 
         protoPage.shouldDialogClosed("Контакты");
         protoPage.shouldBeClientsPage();
-        protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.contactsAlertColorShouldBe(ColorsEnum.SUCCESS);
         protoPage.contactsAlertTextShouldBe("Данные сохранены");
 
         protoPage.contactsListShouldHaveText(0, "+7 (888) 888-88-88");

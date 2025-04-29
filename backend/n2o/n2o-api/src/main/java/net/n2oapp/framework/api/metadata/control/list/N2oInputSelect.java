@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.control.N2oListField;
 @Getter
 @Setter
 public class N2oInputSelect extends N2oListField {
-    private ListType type;
+    private ListTypeEnum type;
     private Boolean resetOnBlur;
     private String descriptionFieldId;
     private Integer maxTagCount;
@@ -20,6 +20,6 @@ public class N2oInputSelect extends N2oListField {
 
     @Override
     public boolean isSingle() {
-        return !ListType.MULTI.equals(type) && !ListType.CHECKBOXES.equals(type);
+        return !ListTypeEnum.MULTI.equals(type) && !ListTypeEnum.CHECKBOXES.equals(type);
     }
 }

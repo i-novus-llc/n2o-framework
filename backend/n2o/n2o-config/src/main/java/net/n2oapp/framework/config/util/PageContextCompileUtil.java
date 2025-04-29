@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.util;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
@@ -113,7 +113,7 @@ public class PageContextCompileUtil {
                     ModelLink link = Redux.linkParam(param, p);
                     String datasource = param.getDatasourceId();
                     DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-                    if (ReduxModel.resolve.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
+                    if (ReduxModelEnum.resolve.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
                             && dataSourcesScope.get(datasource) instanceof N2oStandardDatasource sd) {
                         link.setSubModelQuery(new SubModelQuery(sd.getQueryId()));
                     }

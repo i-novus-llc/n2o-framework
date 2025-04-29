@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action.condition;
 
 import lombok.Getter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
 
 import java.util.LinkedList;
@@ -16,13 +16,13 @@ public class ConditionBranchesScope {
 
     private final Queue<N2oConditionBranch> scope;
     private String datasourceId;
-    private ReduxModel model;
+    private ReduxModelEnum model;
 
     public ConditionBranchesScope(List<N2oConditionBranch> scope) {
         this.scope = new LinkedList<>(scope);
     }
 
-    public ConditionBranchesScope(ConditionBranchesScope scope, String datasourceId, ReduxModel model) {
+    public ConditionBranchesScope(ConditionBranchesScope scope, String datasourceId, ReduxModelEnum model) {
         this.datasourceId = datasourceId;
         this.model = model;
         this.scope = scope.getScope();

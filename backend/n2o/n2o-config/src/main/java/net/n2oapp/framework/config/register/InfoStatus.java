@@ -13,7 +13,7 @@ import java.util.List;
 @Deprecated
 public class InfoStatus {
 
-    public enum Status {
+    public enum StatusEnum {
         SYSTEM("{n2o.system}"),
         SERVER("{n2o.server}"),
         MODIFY("{n2o.modify}"),
@@ -21,7 +21,7 @@ public class InfoStatus {
 
         public String value;
 
-        Status(String value) {
+        StatusEnum(String value) {
             this.value = value;
         }
 
@@ -35,42 +35,42 @@ public class InfoStatus {
         return !isServerFile(info);
     }
 
-    public static Status calculateStatusByFile(XmlInfo info) {
+    public static StatusEnum calculateStatusByFile(XmlInfo info) {
         return calculateStatusByFile(info, true);
     }
 
-    public static Status calculateStatusByFile(XmlInfo info, boolean checkDiff) {
+    public static StatusEnum calculateStatusByFile(XmlInfo info, boolean checkDiff) {
         return calculateStatusByFile(info, checkDiff, true);
     }
 
-    public static Status calculateStatusByFile(XmlInfo info, boolean checkDiff, boolean checkDuplicate) {
+    public static StatusEnum calculateStatusByFile(XmlInfo info, boolean checkDiff, boolean checkDuplicate) {
         boolean isServerFile = isServerFile(info);
         boolean hasAncestor = info.getAncestor() != null;
         if (hasAncestor) {
             if (checkDuplicate) {
                 boolean hasDuplicateAncestor = findNotEqualsLocalPath(info.getAncestor(), info.getLocalPath()) != null;
                 if (hasDuplicateAncestor)
-                    return Status.DUPLICATE;
+                    return StatusEnum.DUPLICATE;
             }
             try {
                 if (info.getLocalPath().equals(info.getAncestor().getLocalPath())
                         && info.getUri().equals(info.getAncestor().getUri())) {
-                    return Status.SERVER;
+                    return StatusEnum.SERVER;
                 }
                 boolean isIdenticalContent = isIdenticalContentSimple(info.getAncestor().getURI(), info.getURI(), checkDiff);
                 if (isIdenticalContent) {
-                    return Status.SYSTEM;
+                    return StatusEnum.SYSTEM;
                 } else {
-                    return Status.MODIFY;
+                    return StatusEnum.MODIFY;
                 }
             } catch (IOException e) {
                 throw new N2oException(e);
             }
         } else {
             if (isServerFile) {
-                return Status.SERVER;
+                return StatusEnum.SERVER;
             } else {
-                return Status.SYSTEM;
+                return StatusEnum.SYSTEM;
             }
         }
     }

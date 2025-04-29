@@ -2,10 +2,10 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.RegionItem;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.*;
@@ -14,7 +14,7 @@ import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
@@ -60,7 +60,7 @@ public abstract class N2oWidget extends N2oMetadata
      */
     private Boolean autoFocus;
     @Deprecated
-    private DefaultValuesMode upload;
+    private DefaultValuesModeEnum upload;
     @Deprecated
     private String dependsOn;
     @Deprecated
@@ -101,24 +101,24 @@ public abstract class N2oWidget extends N2oMetadata
             if (this.getUpload() != null) {
                 switch (this.getUpload()) {
                     case query:
-                        datasource.setDefaultValuesMode(DefaultValuesMode.query);
+                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
                         break;
                     case merge:
-                        datasource.setDefaultValuesMode(DefaultValuesMode.merge);
+                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.merge);
                         break;
                     case defaults:
-                        datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
+                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.defaults);
                         datasource.setQueryId(getDefaultValuesQueryId());
                         break;
                     default:
-                        datasource.setDefaultValuesMode(DefaultValuesMode.query);
+                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
                 }
             }
 
             if (getDependsOn() != null) {
                 N2oStandardDatasource.FetchDependency fetchDependency = new N2oStandardDatasource.FetchDependency();
                 fetchDependency.setOn(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
-                fetchDependency.setModel(ReduxModel.resolve);
+                fetchDependency.setModel(ReduxModelEnum.resolve);
                 datasource.setDependencies(new N2oStandardDatasource.Dependency[]{fetchDependency});
                 //поддержка master-detail связи
                 if (getDetailFieldId() != null) {
@@ -126,13 +126,13 @@ public abstract class N2oWidget extends N2oMetadata
                             new ArrayList<>() :
                             new ArrayList<>(Arrays.asList(datasource.getFilters()));
                     String value = Placeholders.ref(getMasterFieldId() == null ? QuerySimpleField.PK : getMasterFieldId());
-                    N2oPreFilter masterFilter = new N2oPreFilter(getDetailFieldId(), value, FilterType.eq);
+                    N2oPreFilter masterFilter = new N2oPreFilter(getDetailFieldId(), value, FilterTypeEnum.eq);
                     String param = getMasterParam();
                     if (param == null && getRoute() != null && getRoute().contains(":")) {
                         param = getRoute().substring(getRoute().indexOf(":") + 1, getRoute().lastIndexOf("/"));
                     }
                     masterFilter.setParam(param);
-                    masterFilter.setModel(ReduxModel.resolve);
+                    masterFilter.setModel(ReduxModelEnum.resolve);
                     masterFilter.setDatasourceId(getDependsOn());
                     masterFilter.setRequired(true);
                     preFilters.add(masterFilter);
@@ -150,7 +150,7 @@ public abstract class N2oWidget extends N2oMetadata
                 if (getDependsOn() != null) {
                     visibilityDependency.setDatasource(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 }
-                visibilityDependency.setModel(ReduxModel.resolve);
+                visibilityDependency.setModel(ReduxModelEnum.resolve);
                 setDependencies(new N2oDependency[]{visibilityDependency});
             }
         }

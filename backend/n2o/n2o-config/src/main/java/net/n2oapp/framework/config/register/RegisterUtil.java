@@ -87,12 +87,12 @@ public class RegisterUtil {
 
     @Deprecated
     private static void baseForDynamicInfo(InfoConstructor info) {
-        info.setOrigin(Origin.dynamic);
+        info.setOrigin(OriginEnum.dynamic);
         info.setReaderClass(JavaSourceLoader.class);
     }
 
     private static void baseForXmlInfo(InfoConstructor info) {
-        info.setOrigin(Origin.xml);
+        info.setOrigin(OriginEnum.xml);
         info.setReaderClass(XmlMetadataLoader.class);
     }
 

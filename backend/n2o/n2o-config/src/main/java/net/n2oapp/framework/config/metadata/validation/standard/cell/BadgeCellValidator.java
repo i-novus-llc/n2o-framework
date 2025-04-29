@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.compile.enums.Color;
+import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -38,7 +38,7 @@ public class BadgeCellValidator implements SourceValidator<N2oBadgeCell>, Source
         }
 
         if (source.getColor() != null && !StringUtils.isLink(source.getColor()) &&
-                !EnumUtils.isValidEnum(Color.class, source.getColor())) {
+                !EnumUtils.isValidEnum(ColorEnum.class, source.getColor())) {
             throw new N2oMetadataValidationException(
                     String.format("В ячейке <badge> виджета %s указано недопустимое значение атрибута color=\"%s\"",
                             ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()), source.getColor()));

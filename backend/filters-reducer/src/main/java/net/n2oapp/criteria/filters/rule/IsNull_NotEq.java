@@ -1,6 +1,6 @@
 package net.n2oapp.criteria.filters.rule;
 
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.AlwaysSuccessRule;
 
@@ -12,11 +12,11 @@ import net.n2oapp.criteria.filters.rule.base.AlwaysSuccessRule;
 public class IsNull_NotEq extends AlwaysSuccessRule {
 
     public IsNull_NotEq() {
-        super(FilterType.isNull);
+        super(FilterTypeEnum.isNull);
     }
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.isNull, FilterType.notEq);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.isNull, FilterTypeEnum.notEq);
     }
 }

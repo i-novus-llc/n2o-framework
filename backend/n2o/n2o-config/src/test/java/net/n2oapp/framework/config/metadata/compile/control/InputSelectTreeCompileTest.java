@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.control.list.CheckingStrategy;
+import net.n2oapp.framework.api.metadata.control.list.CheckingStrategyEnum;
 import net.n2oapp.framework.api.metadata.meta.control.InputSelectTree;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -45,7 +45,7 @@ class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.getSrc(), is("InputSelectTree"));
         assertThat(ist.getParentFieldId(), is("testParentFieldId"));
         assertThat(ist.getHasChildrenFieldId(), is("testHasChildrenFieldId"));
-        assertThat(ist.getCheckingStrategy(), is(CheckingStrategy.child));
+        assertThat(ist.getCheckingStrategy(), is(CheckingStrategyEnum.child));
         assertThat(ist.getMaxTagCount(), is(5));
         assertThat(ist.getSize(), is(200));
         assertThat(ist.isHasCheckboxes(), is(true));
@@ -62,6 +62,6 @@ class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.getThrottleDelay(), is(300));
         assertThat(ist.isAjax(), is(false));
         assertThat(ist.isHasCheckboxes(), is(false));
-        assertThat(ist.getCheckingStrategy(), is(CheckingStrategy.all));
+        assertThat(ist.getCheckingStrategy(), is(CheckingStrategyEnum.all));
     }
 }

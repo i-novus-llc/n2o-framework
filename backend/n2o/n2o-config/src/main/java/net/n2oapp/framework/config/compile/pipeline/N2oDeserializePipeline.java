@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.*;
+import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum.*;
 
 public class N2oDeserializePipeline extends N2oPipeline implements DeserializePipeline {
 

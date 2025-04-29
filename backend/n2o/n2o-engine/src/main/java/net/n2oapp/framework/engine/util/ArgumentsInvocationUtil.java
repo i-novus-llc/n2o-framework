@@ -17,7 +17,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Утилитный класс, служащий для преобразования данных вызова в массив аргументов
@@ -43,11 +42,11 @@ public class ArgumentsInvocationUtil {
             return new Object[0];
 
         for (int i = 0; i < invocation.getArguments().length; i++)
-            if (Argument.Type.CRITERIA.equals(invocation.getArguments()[i].getType()))
+            if (Argument.TypeEnum.CRITERIA.equals(invocation.getArguments()[i].getType()))
                 argumentInstances[i] = criteriaConstructor.construct(criteria, argumentInstances[i]);
 
-        if (Arrays.stream(invocation.getArguments()).filter(arg -> (Argument.Type.ENTITY.equals(arg.getType()) ||
-                Argument.Type.CRITERIA.equals(arg.getType()))).toList().size() > 1)
+        if (Arrays.stream(invocation.getArguments()).filter(arg -> (Argument.TypeEnum.ENTITY.equals(arg.getType()) ||
+                Argument.TypeEnum.CRITERIA.equals(arg.getType()))).toList().size() > 1)
             throw new IllegalArgumentException("There must be only one argument with Criteria or Entity type ");
 
         int idx = 0;
@@ -163,7 +162,7 @@ public class ArgumentsInvocationUtil {
             String className = arguments[k].getClassName();
             Class argumentClass;
             if (className == null || arguments[k].getType() == null ||
-                    Argument.Type.PRIMITIVE.equals(arguments[k].getType())) {
+                    Argument.TypeEnum.PRIMITIVE.equals(arguments[k].getType())) {
                 argumentInstances[k] = null;
             } else {
                 try {

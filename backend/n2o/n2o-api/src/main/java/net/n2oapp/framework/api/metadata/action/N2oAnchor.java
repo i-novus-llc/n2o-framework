@@ -2,9 +2,9 @@ package net.n2oapp.framework.api.metadata.action;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 
 /**
  * Исходная модель ccылки
@@ -14,8 +14,8 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 public class N2oAnchor extends N2oAbstractAction implements N2oAction {
     private String href;
     private String datasourceId;
-    private ReduxModel model;
-    private Target target;
+    private ReduxModelEnum model;
+    private TargetEnum target;
     private N2oParam[] pathParams;
     private N2oParam[] queryParams;
 

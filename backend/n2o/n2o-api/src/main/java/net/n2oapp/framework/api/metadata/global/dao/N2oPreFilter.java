@@ -2,8 +2,8 @@ package net.n2oapp.framework.api.metadata.global.dao;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 
@@ -33,7 +33,7 @@ public class N2oPreFilter implements Source {
     /**
      * Тип фильтрации
      */
-    private FilterType type;
+    private FilterTypeEnum type;
     /**
      * Наименование параметра в адресе маршрута
      */
@@ -53,7 +53,7 @@ public class N2oPreFilter implements Source {
     /**
      * Модель виджета, на который ссылается фильтр
      */
-    private ReduxModel model;
+    private ReduxModelEnum model;
 
     /**
      * Список значений фильтра
@@ -73,18 +73,18 @@ public class N2oPreFilter implements Source {
     public N2oPreFilter() {
     }
 
-    public N2oPreFilter(String fieldId, FilterType type) {
+    public N2oPreFilter(String fieldId, FilterTypeEnum type) {
         this.fieldId = fieldId;
         this.type = type;
     }
 
-    public N2oPreFilter(String fieldId, String value, FilterType type) {
+    public N2oPreFilter(String fieldId, String value, FilterTypeEnum type) {
         this.fieldId = fieldId;
         this.type = type;
         this.valueAttr = value;
     }
 
-    public N2oPreFilter(String fieldId, String[] values, FilterType type) {
+    public N2oPreFilter(String fieldId, String[] values, FilterTypeEnum type) {
         this.fieldId = fieldId;
         this.type = type;
         this.valueList = values;
@@ -123,7 +123,7 @@ public class N2oPreFilter implements Source {
     }
 
     public boolean isBoolean() {
-        return FilterType.isNull.equals(getType()) || FilterType.isNotNull.equals(getType());
+        return FilterTypeEnum.isNull.equals(getType()) || FilterTypeEnum.isNotNull.equals(getType());
     }
 
     public boolean isArray() {

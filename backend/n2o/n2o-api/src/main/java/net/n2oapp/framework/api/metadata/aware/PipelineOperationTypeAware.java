@@ -1,6 +1,6 @@
 package net.n2oapp.framework.api.metadata.aware;
 
-import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 
 /**
  * Знание о типе операции в конвейере по сборке метаданных
@@ -11,5 +11,5 @@ public interface PipelineOperationTypeAware {
      *
      * @return Тип операции
      */
-    PipelineOperationType getPipelineOperationType();
+    PipelineOperationTypeEnum getPipelineOperationType();
 }

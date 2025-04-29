@@ -1,18 +1,18 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.*;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.PageRef;
+import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
+import net.n2oapp.framework.api.metadata.global.view.page.GenerateTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
@@ -102,7 +102,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         PageScope pageScope = p.getScope(PageScope.class);
         String pageId = pageScope == null ? null : pageScope.getPageId();
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        ReduxModel modelFromComponentScope = getModelFromComponentScope(p);
+        ReduxModelEnum modelFromComponentScope = getModelFromComponentScope(p);
         String localDatasourceId = getLocalDatasourceId(p);
         String clientWidgetId = widgetScope != null ? widgetScope.getClientWidgetId() : "";
         for (N2oPreFilter filter : datasource.getFilters()) {
@@ -125,7 +125,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     protected PageContext initPageContext(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         validatePathAndRoute(source.getRoute(), source.getPathParams(), routeScope);
-        ReduxModel actionDataModel = getModelFromComponentScope(p);
+        ReduxModelEnum actionDataModel = getModelFromComponentScope(p);
         PageScope pageScope = p.getScope(PageScope.class);
         String route = castDefault(routeScope != null ? routeScope.getUrl() : null,
                 () -> context.getRoute((N2oCompileProcessor) p),
@@ -248,7 +248,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param pageId          Идентификатор открываемой страницы
      * @return Ссылка на модель действия
      */
-    private ModelLink createActionModelLink(ReduxModel actionDataModel, String clientWidgetId,
+    private ModelLink createActionModelLink(ReduxModelEnum actionDataModel, String clientWidgetId,
                                             ComponentScope componentScope, String pageId, CompileProcessor p) {
         if (componentScope == null)
             return null;
@@ -280,7 +280,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         actionRoute = normalize(source.getId());
         // генерация маршрута для динамической страницы с моделью resolve
         boolean isDynamicPage = hasRefs(source.getPageId()) || isDynamic(source.getPageId());
-        if (isDynamicPage && actionModelLink != null && ReduxModel.resolve.equals(actionModelLink.getModel())) {
+        if (isDynamicPage && actionModelLink != null && ReduxModelEnum.resolve.equals(actionModelLink.getModel())) {
             String masterIdParam = actionModelLink.getDatasource() + "_id";
             String dynamicPageActionRoute = normalize(colon(masterIdParam)) + actionRoute;
             pathMapping.put(masterIdParam, actionModelLink);
@@ -318,7 +318,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      */
     @Deprecated
     protected void initToolbarBySubmitOperation(S source, PageContext context, CompileProcessor p) {
-        if (!StringUtils.isBlank(source.getSubmitOperationId()) || SubmitActionType.copy.equals(source.getSubmitActionType())) {
+        if (!StringUtils.isBlank(source.getSubmitOperationId()) || SubmitActionTypeEnum.copy.equals(source.getSubmitActionType())) {
             N2oToolbar n2oToolbar = new N2oToolbar();
             if (context.getToolbars() == null) {
                 context.setToolbars(new ArrayList<>());
@@ -329,11 +329,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
             //create submit button
             N2oButton saveButton = new N2oButton();
-            saveButton.setId(GenerateType.submit.name());
+            saveButton.setId(GenerateTypeEnum.submit.name());
             saveButton.setColor("primary");
             N2oAction[] actions = null;
-            ReduxModel saveButtonModel = null;
-            SubmitActionType submitActionType = castDefault(source.getSubmitActionType(), SubmitActionType.invoke);
+            ReduxModelEnum saveButtonModel = null;
+            SubmitActionTypeEnum submitActionType = castDefault(source.getSubmitActionType(), SubmitActionTypeEnum.invoke);
             Boolean closeOnSuccess = castDefault(source.getCloseAfterSubmit(), true);
             Boolean refreshOnSuccessSubmit = castDefault(source.getRefreshAfterSubmit(), true);
 
@@ -344,8 +344,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                     copyAction.setSourceDatasourceId(source.getCopyDatasourceId());
                     copyAction.setSourceFieldId(source.getCopyFieldId());
                     copyAction.setTargetModel(source.getTargetModel());
-                    copyAction.setTargetPage(castDefault(source.getTargetPage(), PageRef.PARENT));
-                    if (copyAction.getTargetPage().equals(PageRef.PARENT)) {
+                    copyAction.setTargetPage(castDefault(source.getTargetPage(), PageRefEnum.PARENT));
+                    if (copyAction.getTargetPage().equals(PageRefEnum.PARENT)) {
                         copyAction.setTargetDatasourceId(castDefault(source.getTargetDatasourceId(), () -> getLocalDatasourceId(p)));
                     } else {
                         copyAction.setTargetDatasourceId(source.getTargetDatasourceId());
@@ -392,7 +392,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
                     if (source.getRedirectUrlAfterSubmit() != null) {
                         invokeAction.setRedirectTarget(castDefault(source.getRedirectTargetAfterSubmit(),
-                                () -> (RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self)));
+                                () -> (RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? TargetEnum.application : TargetEnum.self)));
                         invokeAction.setRedirectUrl(source.getRedirectUrlAfterSubmit());
                     }
 
@@ -404,17 +404,17 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             }
             saveButton.setLabel(castDefault(source.getSubmitLabel(), () -> p.getMessage("n2o.api.action.toolbar.button.submit.label")));
             saveButton.setActions(actions);
-            saveButton.setModel(castDefault(saveButtonModel, ReduxModel.resolve));
+            saveButton.setModel(castDefault(saveButtonModel, ReduxModelEnum.resolve));
             saveButton.setValidate(true);
             items[0] = saveButton;
 
             //create close button
             N2oButton closeButton = new N2oButton();
-            closeButton.setId(GenerateType.close.name());
+            closeButton.setId(GenerateTypeEnum.close.name());
             closeButton.setLabel(p.getMessage("n2o.api.action.toolbar.button.close.label"));
             N2oCloseAction cancelAction = new N2oCloseAction();
-            cancelAction.setId(GenerateType.close.name());
-            closeButton.setModel(ReduxModel.filter);
+            cancelAction.setId(GenerateTypeEnum.close.name());
+            closeButton.setModel(ReduxModelEnum.filter);
             cancelAction.setRefresh(source.getRefreshOnClose());
             closeButton.setActions(new N2oCloseAction[]{cancelAction});
             closeButton.setValidate(false);

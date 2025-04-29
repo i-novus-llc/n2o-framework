@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 
 /**
@@ -14,7 +14,7 @@ import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 @Setter
 public class EditListActionPayload implements ActionPayload {
     @JsonProperty
-    private ListOperationType operation;
+    private ListOperationTypeEnum operation;
     @JsonProperty
     private String primaryKey;
     @JsonProperty
@@ -28,11 +28,11 @@ public class EditListActionPayload implements ActionPayload {
         @JsonProperty
         private String datasource;
         @JsonProperty
-        private ReduxModel model;
+        private ReduxModelEnum model;
         @JsonProperty
         private String field;
 
-        public EditInfo(String datasource, ReduxModel model, String field) {
+        public EditInfo(String datasource, ReduxModelEnum model, String field) {
             this.datasource = datasource;
             this.model = model;
             this.field = field;

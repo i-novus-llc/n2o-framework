@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.io.action;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.action.ModalSize;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.action.ModalSizeEnum;
 import net.n2oapp.framework.api.metadata.action.N2oShowModal;
-import net.n2oapp.framework.api.metadata.action.SubmitActionType;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
+import net.n2oapp.framework.api.metadata.action.SubmitActionTypeEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyModeEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -17,17 +17,17 @@ public class ShowModalElementIOV1 extends AbstractOpenPageElementIOV1<N2oShowMod
     @Override
     public void io(Element e, N2oShowModal sm, IOProcessor p) {
         super.io(e, sm, p);
-        p.attributeEnum(e, "modal-size", sm::getModalSize, sm::setModalSize, ModalSize.class);
+        p.attributeEnum(e, "modal-size", sm::getModalSize, sm::setModalSize, ModalSizeEnum.class);
         p.attributeBoolean(e, "scrollable", sm::getScrollable, sm::setScrollable);
         p.attribute(e, "refresh-widget-id", sm::getRefreshWidgetId, sm::setRefreshWidgetId);
-        p.attributeEnum(e, "submit-action-type", sm::getSubmitActionType, sm::setSubmitActionType, SubmitActionType.class);
-        p.attributeEnum(e, "copy-model", sm::getCopyModel, sm::setCopyModel, ReduxModel.class);
+        p.attributeEnum(e, "submit-action-type", sm::getSubmitActionType, sm::setSubmitActionType, SubmitActionTypeEnum.class);
+        p.attributeEnum(e, "copy-model", sm::getCopyModel, sm::setCopyModel, ReduxModelEnum.class);
         p.attribute(e, "copy-widget-id", sm::getCopyWidgetId, sm::setCopyWidgetId);
         p.attribute(e, "copy-field-id", sm::getCopyFieldId, sm::setCopyFieldId);
-        p.attributeEnum(e, "target-model", sm::getTargetModel, sm::setTargetModel, ReduxModel.class);
+        p.attributeEnum(e, "target-model", sm::getTargetModel, sm::setTargetModel, ReduxModelEnum.class);
         p.attribute(e, "target-widget-id", sm::getTargetWidgetId, sm::setTargetWidgetId);
         p.attribute(e, "target-field-id", sm::getTargetFieldId, sm::setTargetFieldId);
-        p.attributeEnum(e, "copy-mode", sm::getCopyMode, sm::setCopyMode, CopyMode.class);
+        p.attributeEnum(e, "copy-mode", sm::getCopyMode, sm::setCopyMode, CopyModeEnum.class);
         p.attributeBoolean(e, "has-header", sm::getHasHeader, sm::setHasHeader);
         p.attribute(e, "class", sm::getClassName, sm::setClassName);
         p.attribute(e, "backdrop", sm::getBackdrop, sm::setBackdrop);

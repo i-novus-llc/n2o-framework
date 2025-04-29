@@ -1,8 +1,8 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
-import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlaceEnum;
+import net.n2oapp.framework.api.metadata.meta.control.TextPositionEnum;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -61,7 +61,7 @@ class ImageCellAT extends AutoTestBase {
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.shouldHaveSrc(getBaseUrl() + "/favicon.ico");
         cell.shouldHaveWidth(15);
-        cell.shouldHaveShape(ShapeType.CIRCLE);
+        cell.shouldHaveShape(ShapeTypeEnum.CIRCLE);
     }
 
     @Test
@@ -84,7 +84,7 @@ class ImageCellAT extends AutoTestBase {
         cell.shouldHaveWidth(40);
         cell.shouldHaveTitle("Заголовок1");
         cell.shouldHaveDescription("Описание1");
-        cell.shouldHaveTextPosition(TextPosition.left);
+        cell.shouldHaveTextPosition(TextPositionEnum.left);
 
         cell = rows.row(1).cell(0, ImageCell.class);
         cell.shouldHaveSrc(getBaseUrl() + "/images/hamburg-3846525__340.jpg");
@@ -110,10 +110,10 @@ class ImageCellAT extends AutoTestBase {
 
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.shouldExists();
-        cell.shouldHaveStatus(ImageStatusElementPlace.topRight, 0, "Статус1");
-        cell.statusShouldHaveIcon(ImageStatusElementPlace.topRight, 0, ".fa.fa-plus");
+        cell.shouldHaveStatus(ImageStatusElementPlaceEnum.topRight, 0, "Статус1");
+        cell.statusShouldHaveIcon(ImageStatusElementPlaceEnum.topRight, 0, ".fa.fa-plus");
 
         cell = rows.row(1).cell(0, ImageCell.class);
-        cell.shouldHaveStatus(ImageStatusElementPlace.topRight, 0, "Статус2");
+        cell.shouldHaveStatus(ImageStatusElementPlaceEnum.topRight, 0, "Статус2");
     }
 }

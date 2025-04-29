@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.IconCell;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +29,7 @@ public class IconCellCompiler extends AbstractCellCompiler<IconCell, N2oIconCell
         cell.setText(source.getText());
         cell.setIcon(castDefault(source.getIcon(), () -> compileSwitch(source.getIconSwitch(), p)));
         cell.setPosition(castDefault(source.getPosition(),
-                () -> p.resolve(property("n2o.api.cell.icon.position"), Position.class)));
+                () -> p.resolve(property("n2o.api.cell.icon.position"), PositionEnum.class)));
 
         return cell;
     }

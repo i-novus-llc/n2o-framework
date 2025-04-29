@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.api.metadata.meta.cell.LinkCell;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -33,7 +33,7 @@ public class LinkCellCompiler extends AbstractCellCompiler<LinkCell, N2oLinkCell
             cell.setUrl(StringUtils.hasLink(source.getUrl())
                     ? p.resolveJS(source.getUrl())
                     : RouteUtil.normalize(source.getUrl()));
-            Target defaultTarget = RouteUtil.isApplicationUrl(source.getUrl()) ? Target.application : Target.self;
+            TargetEnum defaultTarget = RouteUtil.isApplicationUrl(source.getUrl()) ? TargetEnum.application : TargetEnum.self;
             cell.setTarget(castDefault(source.getTarget(), defaultTarget));
         }
 

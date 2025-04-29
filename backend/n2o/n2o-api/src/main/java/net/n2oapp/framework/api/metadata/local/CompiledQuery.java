@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.local;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
@@ -15,7 +15,6 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Скомпилированная модель запроса за данными
@@ -40,8 +39,8 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
     private List<String> selectExpressions; // fieldId - select body
     protected String id;
 
-    private Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap = new HashMap<>(); //[fieldId : [filterType : filterId]]
-    private Map<String, Map.Entry<String, FilterType>> invertFiltersMap = new HashMap<>(); //[filterId : [fieldId, filterType]]
+    private Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> filtersMap = new HashMap<>(); //[fieldId : [filterType : filterId]]
+    private Map<String, Map.Entry<String, FilterTypeEnum>> invertFiltersMap = new HashMap<>(); //[filterId : [fieldId, filterType]]
     private Map<String, N2oQuery.Filter> filterFieldsMap = new HashMap<>(); //[filterId : filter]
     private Map<String, String> paramToFilterIdMap = new HashMap<>(); // [urlParam : filterId]
     private Map<String, String> filterIdToParamMap = new HashMap<>(); // [filterId : urlParam]
@@ -53,7 +52,7 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
         return Arrays.stream(referenceField.getFields()).filter(AbstractField::getIsSelected).toList();
     }
 
-    public boolean containsFilter(String fieldId, FilterType type) {
+    public boolean containsFilter(String fieldId, FilterTypeEnum type) {
         return filtersMap.get(fieldId) != null && filtersMap.get(fieldId).containsKey(type);
     }
 
@@ -63,16 +62,16 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
                 : null;
     }
 
-    public String getFilterFieldId(String fieldId, FilterType type) {
+    public String getFilterFieldId(String fieldId, FilterTypeEnum type) {
         return filtersMap.get(fieldId) == null || filtersMap.get(fieldId).get(type) == null
                 ? null : filtersMap.get(fieldId).get(type).getFilterId();
     }
 
-    public static class FilterEntry implements Map.Entry<String, FilterType>, Compiled {
+    public static class FilterEntry implements Map.Entry<String, FilterTypeEnum>, Compiled {
         private String fieldId;
-        private FilterType value;
+        private FilterTypeEnum value;
 
-        public FilterEntry(String fieldId, FilterType value) {
+        public FilterEntry(String fieldId, FilterTypeEnum value) {
             this.fieldId = fieldId;
             this.value = value;
         }
@@ -83,12 +82,12 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
         }
 
         @Override
-        public FilterType getValue() {
+        public FilterTypeEnum getValue() {
             return value;
         }
 
         @Override
-        public FilterType setValue(FilterType value) {
+        public FilterTypeEnum setValue(FilterTypeEnum value) {
             this.value = value;
             return value;
         }

@@ -1,7 +1,7 @@
 package net.n2oapp.criteria.filters.rule.or;
 
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.Rule;
 
@@ -16,11 +16,11 @@ public class EqOrIsNull_NotIn implements Rule {
     @Override
     @SuppressWarnings("unchecked")
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterType.eqOrIsNull) && left.getType().equals(FilterType.notIn))
+        if (right.getType().equals(FilterTypeEnum.eqOrIsNull) && left.getType().equals(FilterTypeEnum.notIn))
             return simplify(right, left);
-        else if (left.getType().equals(FilterType.eqOrIsNull) && right.getType().equals(FilterType.notIn)) {
+        else if (left.getType().equals(FilterTypeEnum.eqOrIsNull) && right.getType().equals(FilterTypeEnum.notIn)) {
             if (((List) right.getValue()).contains(left.getValue())) {
-                return new Filter(FilterType.isNull);
+                return new Filter(FilterTypeEnum.isNull);
             } else return left;
         }
         throw new RuntimeException("Incorrect restriction's type");
@@ -28,7 +28,7 @@ public class EqOrIsNull_NotIn implements Rule {
 
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.eqOrIsNull, FilterType.notIn);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.eqOrIsNull, FilterTypeEnum.notIn);
     }
 }

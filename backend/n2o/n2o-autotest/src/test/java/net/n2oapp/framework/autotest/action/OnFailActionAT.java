@@ -1,16 +1,11 @@
 package net.n2oapp.framework.autotest.action;
 
-import net.n2oapp.framework.autotest.Colors;
-import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
-import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -58,9 +53,9 @@ class OnFailActionAT extends AutoTestBase {
         StandardButton saveBtn = form.toolbar().bottomLeft().button("Сохранить");
         saveBtn.click();
 
-        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
         alert.shouldExists();
         alert.shouldHaveText("Действие завершилось ошибкой");
-        alert.shouldHaveColor(Colors.DANGER);
+        alert.shouldHaveColor(ColorsEnum.DANGER);
     }
 }

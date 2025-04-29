@@ -13,7 +13,7 @@ public interface PipelineOperationFactory extends MetadataFactory<PipelineOperat
      * @param type Тип операции
      * @return Операция
      */
-    PipelineOperation<?, ?> produce(PipelineOperationType type);
+    PipelineOperation<?, ?> produce(PipelineOperationTypeEnum type);
 
 
 }

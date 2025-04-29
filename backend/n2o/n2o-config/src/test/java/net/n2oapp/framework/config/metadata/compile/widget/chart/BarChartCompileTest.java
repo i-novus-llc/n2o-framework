@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.BarChart;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.BarChartItem;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
-import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartType;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartTypeEnum;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -40,7 +40,7 @@ class BarChartCompileTest extends SourceCompileTestBase {
         Chart chart = (Chart) page.getWidget();
         BarChart barChart = (BarChart) chart.getComponent();
         assertThat(barChart.getSrc(), is("BarChart"));
-        assertThat(barChart.getType(), is(ChartType.bar));
+        assertThat(barChart.getType(), is(ChartTypeEnum.bar));
 
         List<BarChartItem> items = barChart.getItems();
         assertThat(items.size(), is(2));

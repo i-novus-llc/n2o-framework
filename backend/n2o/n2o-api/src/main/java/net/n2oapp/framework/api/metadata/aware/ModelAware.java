@@ -1,13 +1,13 @@
 package net.n2oapp.framework.api.metadata.aware;
 
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 
 /**
  * Знание о модели на клиенте
  */
 public interface ModelAware extends Compiled {
-    ReduxModel getModel();
+    ReduxModelEnum getModel();
 
-    void setModel(ReduxModel model);
+    void setModel(ReduxModelEnum model);
 }

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.page;
 
 import com.codeborne.selenide.*;
-import net.n2oapp.framework.api.metadata.application.NavigationLayout;
+import net.n2oapp.framework.api.metadata.application.NavigationLayoutEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
@@ -69,7 +69,7 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
-    public Alerts alerts(Alert.Placement placement) {
+    public Alerts alerts(Alert.PlacementEnum placement) {
         return N2oSelenide.collection(element().$$(String.format(".n2o-alerts-container .%s .n2o-alert", placement.name())), Alerts.class);
     }
 
@@ -105,7 +105,7 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
-    public void shouldHaveLayout(NavigationLayout layout) {
+    public void shouldHaveLayout(NavigationLayoutEnum layout) {
         switch (layout) {
             case fullSizeHeader:
                 element().$(".n2o-layout-full-size-header").should(Condition.exist);

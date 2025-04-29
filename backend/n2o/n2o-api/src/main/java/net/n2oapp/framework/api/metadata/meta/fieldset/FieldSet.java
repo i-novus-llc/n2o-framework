@@ -7,8 +7,8 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.FieldLabelAlign;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.FieldLabelLocation;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.FieldLabelAlignEnum;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.FieldLabelLocationEnum;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
@@ -29,11 +29,11 @@ public abstract class FieldSet extends Component implements Compiled {
     @JsonProperty
     private String help;
     @JsonProperty
-    private LabelPosition labelPosition;
+    private LabelPositionEnum labelPosition;
     @JsonProperty
     private Object labelWidth;
     @JsonProperty
-    private LabelAlignment labelAlignment;
+    private LabelAlignmentEnum labelAlignment;
     @JsonProperty
     private List<Row> rows;
     @JsonProperty
@@ -75,18 +75,18 @@ public abstract class FieldSet extends Component implements Compiled {
         private Map<String, Object> properties;
     }
 
-    public enum LabelPosition {
-        LEFT("left", FieldLabelLocation.LEFT, null),
-        RIGHT("right", FieldLabelLocation.RIGHT, null),
-        TOP_LEFT("top-left", FieldLabelLocation.TOP, FieldLabelAlign.LEFT),
-        TOP_RIGHT("top-right", FieldLabelLocation.TOP, FieldLabelAlign.RIGHT);
+    public enum LabelPositionEnum {
+        LEFT("left", FieldLabelLocationEnum.LEFT, null),
+        RIGHT("right", FieldLabelLocationEnum.RIGHT, null),
+        TOP_LEFT("top-left", FieldLabelLocationEnum.TOP, FieldLabelAlignEnum.LEFT),
+        TOP_RIGHT("top-right", FieldLabelLocationEnum.TOP, FieldLabelAlignEnum.RIGHT);
 
         private String id;
-        private FieldLabelLocation mapLocation;
-        private FieldLabelAlign mapAlign;
+        private FieldLabelLocationEnum mapLocation;
+        private FieldLabelAlignEnum mapAlign;
 
-        LabelPosition(String id, FieldLabelLocation mapLocation,
-                      FieldLabelAlign mapAlign) {
+        LabelPositionEnum(String id, FieldLabelLocationEnum mapLocation,
+                          FieldLabelAlignEnum mapAlign) {
             this.id = id;
             this.mapLocation = mapLocation;
             this.mapAlign = mapAlign;
@@ -97,9 +97,9 @@ public abstract class FieldSet extends Component implements Compiled {
             return id;
         }
 
-        public static LabelPosition map(FieldLabelLocation location,
-                                        FieldLabelAlign align) {
-            for (LabelPosition position : values()) {
+        public static LabelPositionEnum map(FieldLabelLocationEnum location,
+                                            FieldLabelAlignEnum align) {
+            for (LabelPositionEnum position : values()) {
                 if (position.mapLocation.equals(location)
                         && (position.mapAlign == null || align == null || position.mapAlign.equals(align)))
                     return position;
@@ -108,14 +108,14 @@ public abstract class FieldSet extends Component implements Compiled {
         }
     }
 
-    public enum LabelAlignment {
-        LEFT("left", FieldLabelAlign.LEFT),
-        RIGHT("right", FieldLabelAlign.RIGHT);
+    public enum LabelAlignmentEnum {
+        LEFT("left", FieldLabelAlignEnum.LEFT),
+        RIGHT("right", FieldLabelAlignEnum.RIGHT);
 
         private String id;
-        private FieldLabelAlign map;
+        private FieldLabelAlignEnum map;
 
-        LabelAlignment(String id, FieldLabelAlign map) {
+        LabelAlignmentEnum(String id, FieldLabelAlignEnum map) {
             this.id = id;
             this.map = map;
         }
@@ -125,12 +125,12 @@ public abstract class FieldSet extends Component implements Compiled {
             return id;
         }
 
-        public FieldLabelAlign getMap() {
+        public FieldLabelAlignEnum getMap() {
             return map;
         }
 
-        public static LabelAlignment map(FieldLabelAlign map) {
-            for (LabelAlignment alignment : values()) {
+        public static LabelAlignmentEnum map(FieldLabelAlignEnum map) {
+            for (LabelAlignmentEnum alignment : values()) {
                 if (alignment.getMap().equals(map))
                     return alignment;
             }

@@ -2,11 +2,11 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
+import net.n2oapp.framework.api.metadata.global.view.widget.FormModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -43,7 +43,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModel.resolve, p);
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModelEnum.resolve, p);
         MetaActions widgetActions = initMetaActions(source, p);
         Models models = p.getScope(Models.class);
         SubModelsScope subModelsScope = castDefault(p.getScope(SubModelsScope.class), SubModelsScope::new);
@@ -53,16 +53,16 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         form.getComponent().setPrompt(initPrompt(source, p));
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p,
                 widgetScope, query, object, widgetActions,
-                new ModelsScope(ReduxModel.resolve, widgetScope.getClientDatasourceId(), models),
+                new ModelsScope(ReduxModelEnum.resolve, widgetScope.getClientDatasourceId(), models),
                 subModelsScope,
-                new MomentScope(N2oValidation.ServerMoment.beforeOperation),
+                new MomentScope(N2oValidation.ServerMomentEnum.beforeOperation),
                 copiedFieldScope,
                 paramScope,
                 new ComponentScope(source),
                 validationScope));
         addParamRoutes(paramScope, context, p);
         compileToolbarAndAction(form, source, context, p, widgetScope, widgetActions, object, validationScope);
-        form.getComponent().setModelPrefix(FormMode.TWO_MODELS.equals(source.getMode()) ? "edit" : "resolve");
+        form.getComponent().setModelPrefix(FormModeEnum.TWO_MODELS.equals(source.getMode()) ? "edit" : "resolve");
         return form;
     }
 

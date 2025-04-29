@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oPagination;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.PlaceEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountTypeEnum;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -48,7 +48,7 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
         pagination.setShowLast(castDefault(sourcePagination.getShowLast(),
                 () -> p.resolve(property("n2o.api.widget.list.paging.show_last"), Boolean.class)));
         pagination.setShowCount(castDefault(sourcePagination.getShowCount(),
-                () -> p.resolve(property("n2o.api.widget.list.paging.show_count"), ShowCountType.class)));
+                () -> p.resolve(property("n2o.api.widget.list.paging.show_count"), ShowCountTypeEnum.class)));
         pagination.setSrc(sourcePagination.getSrc());
         pagination.setPrevLabel(castDefault(sourcePagination.getPrevLabel(),
                 () -> p.resolve(property("n2o.api.widget.list.paging.prev_label"), String.class)));
@@ -62,7 +62,7 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
                 () -> p.resolve(property("n2o.api.widget.list.paging.className"), String.class)));
         pagination.setStyle(StylesResolver.resolveStyles(sourcePagination.getStyle()));
         pagination.setPlace(castDefault(sourcePagination.getPlace(),
-                () -> p.resolve(property("n2o.api.widget.list.paging.place"), Place.class)));
+                () -> p.resolve(property("n2o.api.widget.list.paging.place"), PlaceEnum.class)));
         if (Boolean.TRUE.equals(sourcePagination.getRoutable()))
             initRoute(p, widgetScope);
         return pagination;
@@ -79,11 +79,11 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
             pageIndex = "page";
             sizeIndex = "size";
         }
-        addPagingQueryMapping(pageRoutes, pageIndex, widgetScope, RoutablePayload.Paging.page, p);
-        addPagingQueryMapping(pageRoutes, sizeIndex, widgetScope, RoutablePayload.Paging.size, p);
+        addPagingQueryMapping(pageRoutes, pageIndex, widgetScope, RoutablePayload.PagingEnum.page, p);
+        addPagingQueryMapping(pageRoutes, sizeIndex, widgetScope, RoutablePayload.PagingEnum.size, p);
     }
 
-    private void addPagingQueryMapping(PageRoutes pageRoutes, String param, WidgetScope widgetScope, RoutablePayload.Paging paramType, CompileProcessor p) {
+    private void addPagingQueryMapping(PageRoutes pageRoutes, String param, WidgetScope widgetScope, RoutablePayload.PagingEnum paramType, CompileProcessor p) {
         RoutablePayload payload = new RoutablePayload();
         payload.setId(widgetScope.getClientDatasourceId());
         HashMap<String, String> paging = new HashMap<>();

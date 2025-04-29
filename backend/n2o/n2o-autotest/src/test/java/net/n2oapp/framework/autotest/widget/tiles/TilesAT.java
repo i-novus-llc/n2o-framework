@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.widget.tiles;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.*;
@@ -63,7 +63,7 @@ class TilesAT extends AutoTestBase {
         iconCell.tooltip().shouldHaveText(new String[]{"icon1"});
 
         BadgeCell badgeCell = tile1.blocks().cell(3, BadgeCell.class);
-        badgeCell.shouldHaveColor(Colors.INFO);
+        badgeCell.shouldHaveColor(ColorsEnum.INFO);
         badgeCell.badgeShouldHaveText("alert");
         tile1.blocks().cell(4, ProgressBarCell.class).shouldHaveValue("50");
         tile1.blocks().cell(5, RatingCell.class).shouldHaveValue("4");

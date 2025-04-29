@@ -1,7 +1,7 @@
 package net.n2oapp.criteria.filters.rule;
 
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.InListRule;
 
@@ -18,7 +18,7 @@ public class In_NotIn extends InListRule {
     @Override
     @SuppressWarnings("unchecked")
     protected List getResultList(Filter left, Filter right) {
-        if (right.getType().equals(FilterType.in))
+        if (right.getType().equals(FilterTypeEnum.in))
             return getResultList(right, left);
         List listIn = (List) left.getValue();
         List listNotIn = (List) right.getValue();
@@ -32,7 +32,7 @@ public class In_NotIn extends InListRule {
 
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.in, FilterType.notIn);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.in, FilterTypeEnum.notIn);
     }
 }

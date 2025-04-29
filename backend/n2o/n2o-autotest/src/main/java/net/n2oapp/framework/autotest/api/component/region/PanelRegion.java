@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.region;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.Expandable;
 
 import java.time.Duration;
@@ -45,7 +45,7 @@ public interface PanelRegion extends Region, Expandable {
      * Проверка цвета границы
      * @param color ожидаемый цвет
      */
-    void shouldHaveBorderColor(Colors color);
+    void shouldHaveBorderColor(ColorsEnum color);
 
     /**
      * Проверка иконки

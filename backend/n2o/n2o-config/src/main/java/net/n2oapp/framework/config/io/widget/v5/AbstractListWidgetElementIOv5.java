@@ -34,7 +34,7 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
         p.attribute(e, "src", page::getSrc, page::setSrc);
         p.attributeBoolean(e, "prev", page::getPrev, page::setPrev);
         p.attributeBoolean(e, "next", page::getNext, page::setNext);
-        p.attributeEnum(e, "show-count", page::getShowCount, page::setShowCount, ShowCountType.class);
+        p.attributeEnum(e, "show-count", page::getShowCount, page::setShowCount, ShowCountTypeEnum.class);
         p.attributeBoolean(e, "show-last", page::getShowLast, page::setShowLast);
         p.attribute(e, "prev-label", page::getPrevLabel, page::setPrevLabel);
         p.attribute(e, "prev-icon", page::getPrevIcon, page::setPrevIcon);
@@ -42,7 +42,7 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
         p.attribute(e, "next-icon", page::getNextIcon, page::setNextIcon);
         p.attribute(e, "class", page::getClassName, page::setClassName);
         p.attribute(e, "style", page::getStyle, page::setStyle);
-        p.attributeEnum(e, "place", page::getPlace, page::setPlace, Place.class);
+        p.attributeEnum(e, "place", page::getPlace, page::setPlace, PlaceEnum.class);
         p.attributeBoolean(e, "routable", page::getRoutable, page::setRoutable);
     }
 

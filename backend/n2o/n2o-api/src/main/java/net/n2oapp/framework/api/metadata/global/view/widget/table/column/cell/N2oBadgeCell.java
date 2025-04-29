@@ -3,8 +3,8 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 
 /**
  * Исходная модель ячейки со значком.
@@ -12,14 +12,14 @@ import net.n2oapp.framework.api.metadata.meta.badge.Position;
 @Getter
 @Setter
 public class N2oBadgeCell extends N2oAbstractCell {
-    private Position position;
+    private PositionEnum position;
     private String text;
     private String textFormat;
     private String color;
     private String format;
-    private ShapeType shape;
+    private ShapeTypeEnum shape;
     private String imageFieldId;
-    private Position imagePosition;
-    private ShapeType imageShape;
+    private PositionEnum imagePosition;
+    private ShapeTypeEnum imageShape;
     private N2oSwitch n2oSwitch;
 }

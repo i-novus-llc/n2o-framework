@@ -11,5 +11,5 @@ import java.util.function.Predicate;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OriginPredicate {
-    public static Predicate<XmlInfo> xml = i -> i.getOrigin().equals(Origin.xml);
+    public static Predicate<XmlInfo> xml = i -> i.getOrigin().equals(OriginEnum.xml);
 }

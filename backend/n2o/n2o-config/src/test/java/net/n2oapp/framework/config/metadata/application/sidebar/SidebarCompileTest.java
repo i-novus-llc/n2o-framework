@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.metadata.application.sidebar;
 
 import net.n2oapp.framework.api.metadata.application.Application;
-import net.n2oapp.framework.api.metadata.application.SidebarSide;
+import net.n2oapp.framework.api.metadata.application.SidebarSideEnum;
 import net.n2oapp.framework.api.metadata.application.Sidebar;
-import net.n2oapp.framework.api.metadata.application.SidebarState;
+import net.n2oapp.framework.api.metadata.application.SidebarStateEnum;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -39,11 +39,11 @@ class SidebarCompileTest extends SourceCompileTestBase {
                 .get(new ApplicationContext("defaultSidebar"));
         Sidebar sidebar = application.getSidebars().get(0);
         assertThat(sidebar.getSrc(), is("Sidebar"));
-        assertThat(sidebar.getDefaultState(), is(SidebarState.MAXI));
-        assertThat(sidebar.getToggledState(), is(SidebarState.MINI));
+        assertThat(sidebar.getDefaultState(), is(SidebarStateEnum.MAXI));
+        assertThat(sidebar.getToggledState(), is(SidebarStateEnum.MINI));
         assertThat(sidebar.getToggleOnHover(), is(false));
         assertThat(sidebar.getOverlay(), is(false));
-        assertThat(sidebar.getSide(), is(SidebarSide.LEFT));
+        assertThat(sidebar.getSide(), is(SidebarSideEnum.LEFT));
     }
 
     @Test
@@ -52,11 +52,11 @@ class SidebarCompileTest extends SourceCompileTestBase {
                 .get(new ApplicationContext("defaultSidebarSwitchedInHeader"));
         Sidebar sidebar = application.getSidebars().get(0);
         assertThat(sidebar.getSrc(), is("Sidebar"));
-        assertThat(sidebar.getDefaultState(), is(SidebarState.NONE));
-        assertThat(sidebar.getToggledState(), is(SidebarState.MAXI));
+        assertThat(sidebar.getDefaultState(), is(SidebarStateEnum.NONE));
+        assertThat(sidebar.getToggledState(), is(SidebarStateEnum.MAXI));
         assertThat(sidebar.getToggleOnHover(), is(false));
         assertThat(sidebar.getOverlay(), is(false));
-        assertThat(sidebar.getSide(), is(SidebarSide.LEFT));
+        assertThat(sidebar.getSide(), is(SidebarSideEnum.LEFT));
     }
 
     @Test
@@ -67,10 +67,10 @@ class SidebarCompileTest extends SourceCompileTestBase {
                 .get(new ApplicationContext("sidebarWithMenu"));
 
         Sidebar sidebar = application.getSidebars().get(0);
-        assertThat(sidebar.getDefaultState(), is(SidebarState.NONE));
-        assertThat(sidebar.getToggledState(), is(SidebarState.MICRO));
+        assertThat(sidebar.getDefaultState(), is(SidebarStateEnum.NONE));
+        assertThat(sidebar.getToggledState(), is(SidebarStateEnum.MICRO));
         assertThat(sidebar.getToggleOnHover(), is(true));
-        assertThat(sidebar.getSide(), is(SidebarSide.RIGHT));
+        assertThat(sidebar.getSide(), is(SidebarSideEnum.RIGHT));
         assertThat(sidebar.getOverlay(), is(false));
         assertThat(sidebar.getLogo().getSrc(), is("/logo.png"));
         assertThat(sidebar.getLogo().getClassName(), is("logo-class"));

@@ -2,7 +2,7 @@ package net.n2oapp.criteria.filters.rule;
 
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.rule.base.InListRule;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class In_In extends InListRule {
 
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.in, FilterType.in);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.in, FilterTypeEnum.in);
     }
 }

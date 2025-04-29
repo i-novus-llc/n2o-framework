@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.widget.table;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
@@ -98,7 +98,7 @@ class TableRowClickAT extends AutoTestBase {
         CheckboxCell selectRowCell = firstRow.cell(0, CheckboxCell.class);
         selectRowCell.shouldBeUnchecked();
         selectRowCell.setChecked(true);
-        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
         alert.shouldNotExists();
 
         EditCell cell = firstRow.cell(2, EditCell.class);
@@ -106,19 +106,19 @@ class TableRowClickAT extends AutoTestBase {
         InputText input = cell.control(InputText.class);
         input.shouldHaveValue("Иванов П.И.");
         cell.click();
-        alert = page.alerts(Alert.Placement.top).alert(0);
+        alert = page.alerts(Alert.PlacementEnum.top).alert(0);
         alert.shouldNotExists();
         input.setValue("Иванова П.И.");
 
         CheckboxCell checkbox = firstRow.cell(3, CheckboxCell.class);
         checkbox.shouldBeChecked();
         checkbox.setChecked(false);
-        alert = page.alerts(Alert.Placement.top).alert(0);
+        alert = page.alerts(Alert.PlacementEnum.top).alert(0);
         alert.shouldNotExists();
 
         firstRow.click();
-        alert = page.alerts(Alert.Placement.top).alert(0);
-        alert.shouldHaveColor(Colors.DANGER);
+        alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        alert.shouldHaveColor(ColorsEnum.DANGER);
         alert.shouldHaveText("error");
     }
 }

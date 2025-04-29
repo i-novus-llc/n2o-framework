@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.UrlAware;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.Map;
@@ -20,7 +20,7 @@ public class LinkCell extends ActionCell implements UrlAware {
     @JsonProperty
     private String url;
     @JsonProperty
-    private Target target;
+    private TargetEnum target;
     @JsonProperty
     private Map<String, ModelLink> pathMapping;
     @JsonProperty

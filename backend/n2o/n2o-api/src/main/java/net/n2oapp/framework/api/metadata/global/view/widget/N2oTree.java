@@ -2,9 +2,9 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 
 /**
  * Исходная модель виджета дерево
@@ -24,9 +24,9 @@ public class N2oTree extends N2oWidget implements BadgeAware {
     private String imageFieldId;
     private String badgeFieldId;
     private String badgeColorFieldId;
-    private Position badgePosition;
-    private ShapeType badgeShape;
+    private PositionEnum badgePosition;
+    private ShapeTypeEnum badgeShape;
     private String badgeImageFieldId;
-    private Position badgeImagePosition;
-    private ShapeType badgeImageShape;
+    private PositionEnum badgeImagePosition;
+    private ShapeTypeEnum badgeImageShape;
 }

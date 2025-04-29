@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
@@ -30,7 +30,7 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
     private Boolean showTitle;
     private String cssClass;
     private String style;
-    private ReduxModel model;
+    private ReduxModelEnum model;
     private Boolean hasBreadcrumbs;
     private N2oBreadcrumb[] breadcrumbs;
     @ExtAttributesSerializer

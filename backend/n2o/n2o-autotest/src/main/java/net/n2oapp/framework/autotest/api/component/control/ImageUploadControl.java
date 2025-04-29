@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 
 import java.io.File;
@@ -111,7 +111,7 @@ public interface ImageUploadControl extends Control {
      * Проверка формы поля для загрузки изображения
      * @param shape ожидаемая форма
      */
-    void uploadAreaShouldHaveShape(ShapeType shape);
+    void uploadAreaShouldHaveShape(ShapeTypeEnum shape);
 
     /**
      * Проверка иконки поля для загрузки изображения

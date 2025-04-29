@@ -12,9 +12,9 @@ import java.io.Serializable;
 public class Sorting implements Serializable {
 
     private String field;
-    private SortingDirection direction;
+    private SortingDirectionEnum direction;
 
-    public Sorting(String field, SortingDirection direction) {
+    public Sorting(String field, SortingDirectionEnum direction) {
         this.field = field;
         this.direction = direction;
     }

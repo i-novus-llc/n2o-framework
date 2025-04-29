@@ -30,13 +30,13 @@ public class ObjectPermission extends Permission {
 
     private List<N2oAccessFilter> accessFilters;
 
-    private AccessDeniedScope accessDeniedScope = AccessDeniedScope.object;
+    private AccessDeniedScopeEnum accessDeniedScope = AccessDeniedScopeEnum.object;
 
-    public AccessDeniedScope getAccessDeniedScope() {
+    public AccessDeniedScopeEnum getAccessDeniedScope() {
         return accessDeniedScope;
     }
 
-    public void setAccessDeniedScope(AccessDeniedScope accessDeniedScope) {
+    public void setAccessDeniedScope(AccessDeniedScopeEnum accessDeniedScope) {
         this.accessDeniedScope = accessDeniedScope;
     }
 

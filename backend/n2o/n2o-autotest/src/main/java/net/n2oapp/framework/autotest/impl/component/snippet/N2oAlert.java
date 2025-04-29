@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.snippet;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
@@ -21,7 +21,7 @@ public class N2oAlert extends N2oSnippet implements Alert {
     }
 
     @Override
-    public void shouldHaveColor(Colors color) {
+    public void shouldHaveColor(ColorsEnum color) {
         element().shouldHave(Condition.cssClass(String.format("alert-%s", color.name().toLowerCase())));
     }
 

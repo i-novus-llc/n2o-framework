@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.widget.v4.charts;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oLineChart;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oLineChartItem;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLineType;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLineTypeEnum;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,7 @@ public class LineChartIOv4 extends StandardChartIOv4<N2oLineChart> {
 
     private void lineChartIOv4(Element e, N2oLineChartItem i, IOProcessor p) {
         item(e, i, p);
-        p.attributeEnum(e, "type", i::getType, i::setType, ChartLineType.class);
+        p.attributeEnum(e, "type", i::getType, i::setType, ChartLineTypeEnum.class);
     }
 
     @Override

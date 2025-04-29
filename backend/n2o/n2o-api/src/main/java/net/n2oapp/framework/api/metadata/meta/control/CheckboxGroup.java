@@ -16,7 +16,7 @@ public class CheckboxGroup extends ListControl {
     @JsonProperty
     private Boolean inline;
     @JsonProperty
-    private N2oCheckboxGroup.CheckboxGroupType type;
+    private N2oCheckboxGroup.CheckboxGroupTypeEnum type;
     @JsonProperty
     private Map<String, String> style;
 }

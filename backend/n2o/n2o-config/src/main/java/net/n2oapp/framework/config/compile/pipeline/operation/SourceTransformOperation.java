@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformerFactory;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
-import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 
 import java.util.function.Supplier;
@@ -44,7 +44,7 @@ public class SourceTransformOperation<S> implements PipelineOperation<S, S>, Pip
     }
 
     @Override
-    public PipelineOperationType getPipelineOperationType() {
-        return PipelineOperationType.SOURCE_TRANSFORM;
+    public PipelineOperationTypeEnum getPipelineOperationType() {
+        return PipelineOperationTypeEnum.SOURCE_TRANSFORM;
     }
 }

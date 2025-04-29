@@ -137,17 +137,17 @@ class StaticDataProviderEngineTest {
         Argument entityTypeArgument = new Argument();
         entityTypeArgument.setName("entityTypeArgument");
         entityTypeArgument.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass$Model");
-        entityTypeArgument.setType(Argument.Type.ENTITY);
+        entityTypeArgument.setType(Argument.TypeEnum.ENTITY);
 
         Argument primitiveTypeArgument = new Argument();
         primitiveTypeArgument.setName("primitiveTypeArgument");
         primitiveTypeArgument.setClassName("java.lang.Integer");
-        primitiveTypeArgument.setType(Argument.Type.PRIMITIVE);
+        primitiveTypeArgument.setType(Argument.TypeEnum.PRIMITIVE);
 
         Argument classTypeArgument = new Argument();
         classTypeArgument.setName("classTypeArgument");
         classTypeArgument.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass$Model");
-        classTypeArgument.setType(Argument.Type.CLASS);
+        classTypeArgument.setType(Argument.TypeEnum.CLASS);
 
         method.setArguments(new Argument[]{entityTypeArgument, primitiveTypeArgument, primitiveTypeArgument, classTypeArgument});
 

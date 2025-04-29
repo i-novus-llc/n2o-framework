@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
@@ -71,7 +71,7 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
                 filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
             if (filter.getText() == null) {
                 if ("id".equals(filter.getFieldId())) {
-                    if (filter.getType().equals(FilterType.eq))
+                    if (filter.getType().equals(FilterTypeEnum.eq))
                         filter.setText("{ _id: new ObjectId('#" + filter.getFilterId() + "') }");
                 } else {
                     switch (filter.getType()) {

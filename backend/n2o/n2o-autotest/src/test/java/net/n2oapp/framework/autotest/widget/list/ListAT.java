@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.widget.list;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.cell.BadgeCell;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
@@ -54,7 +54,7 @@ class ListAT extends AutoTestBase {
         listWidget.content(0).body(TextCell.class).shouldHaveText("body1");
         listWidget.content(0).leftTop(ImageCell.class).shouldHaveSrc(getBaseUrl() + "/favicon.ico");
         listWidget.content(0).leftBottom(TextCell.class).shouldHaveText("leftBottom1");
-        listWidget.content(0).subHeader(BadgeCell.class).shouldHaveColor(Colors.SUCCESS);
+        listWidget.content(0).subHeader(BadgeCell.class).shouldHaveColor(ColorsEnum.SUCCESS);
         listWidget.paging().shouldHaveTotalElements(11);
         listWidget.paging().selectNext();
         listWidget.paging().shouldHaveActivePage("2");

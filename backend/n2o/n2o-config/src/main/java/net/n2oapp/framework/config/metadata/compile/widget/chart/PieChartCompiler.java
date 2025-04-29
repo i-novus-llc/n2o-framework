@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oPieChart;
-import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartType;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.PieChart;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,7 @@ public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChar
     public PieChart compile(N2oPieChart source, CompileContext<?, ?> context, CompileProcessor p) {
         PieChart chart = new PieChart();
         build(chart, source, p, property("n2o.api.widget.chart.pie.src"));
-        chart.setType(ChartType.pie);
+        chart.setType(ChartTypeEnum.pie);
         chart.getComponent().setCenterX(source.getCenterX());
         chart.getComponent().setCenterY(source.getCenterY());
         chart.getComponent().setInnerRadius(castDefault(source.getInnerRadius(),

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.application;
 
-import net.n2oapp.framework.api.metadata.application.NavigationLayout;
-import net.n2oapp.framework.api.metadata.application.SidebarState;
+import net.n2oapp.framework.api.metadata.application.NavigationLayoutEnum;
+import net.n2oapp.framework.api.metadata.application.SidebarStateEnum;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -58,7 +58,7 @@ class SidebarAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.NONE);
+        page.sidebar().shouldHaveState(SidebarStateEnum.NONE);
     }
 
     @Test
@@ -74,7 +74,7 @@ class SidebarAT extends AutoTestBase {
         header.shouldExists();
         header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
-        page.shouldHaveLayout(NavigationLayout.fullSizeSidebar);
+        page.shouldHaveLayout(NavigationLayoutEnum.fullSizeSidebar);
     }
 
     @Test
@@ -135,7 +135,7 @@ class SidebarAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.sidebar().shouldExists();
-        page.sidebar().shouldHaveState(SidebarState.MICRO);
+        page.sidebar().shouldHaveState(SidebarStateEnum.MICRO);
     }
 
     @Test
@@ -148,6 +148,6 @@ class SidebarAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.sidebar().shouldExists();
-        page.sidebar().shouldHaveState(SidebarState.MINI);
+        page.sidebar().shouldHaveState(SidebarStateEnum.MINI);
     }
 }

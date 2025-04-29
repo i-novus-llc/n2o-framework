@@ -10,7 +10,7 @@ import net.n2oapp.criteria.dataset.NestedList;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
-import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyType;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyTypeEnum;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyType.integer;
+import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyTypeEnum.integer;
 
 /**
  * Тестовый провайдер данных из json файла
@@ -325,14 +325,14 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
 
-    private static Predicate<DataSet> buildPredicate(PrimaryKeyType primaryKeyType, String primaryKeyFieldId, Map<String, Object> data) {
+    private static Predicate<DataSet> buildPredicate(PrimaryKeyTypeEnum primaryKeyType, String primaryKeyFieldId, Map<String, Object> data) {
         if (integer.equals(primaryKeyType))
             return obj -> ((Number) data.get(primaryKeyFieldId)).longValue() == ((Number) obj.get(primaryKeyFieldId)).longValue();
         else
             return obj -> data.get(primaryKeyFieldId).equals(obj.get(primaryKeyFieldId));
     }
 
-    private static Predicate<DataSet> buildListPredicate(PrimaryKeyType primaryKeyType, String primaryKeyFieldId, String primaryKeysFieldId, Map<String, Object> data) {
+    private static Predicate<DataSet> buildListPredicate(PrimaryKeyTypeEnum primaryKeyType, String primaryKeyFieldId, String primaryKeysFieldId, Map<String, Object> data) {
         if (integer.equals(primaryKeyType)) {
             Set<Long> list = (Set<Long>) ((List) data.get(primaryKeysFieldId)).stream()
                     .map(o -> ((Number) o).longValue()).collect(Collectors.toSet());
@@ -342,7 +342,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         }
     }
 
-    private Object generateKey(PrimaryKeyType primaryKeyType, String fileName) {
+    private Object generateKey(PrimaryKeyTypeEnum primaryKeyType, String fileName) {
         if (integer.equals(primaryKeyType)) {
             return sequences.get(richKey(fileName)).incrementAndGet();
         } else {
@@ -677,7 +677,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         repository.put(richKey(key), newData);
     }
 
-    private List<DataSet> loadJson(InputStream is, PrimaryKeyType primaryKeyType, String primaryKeyFieldId) throws IOException {
+    private List<DataSet> loadJson(InputStream is, PrimaryKeyTypeEnum primaryKeyType, String primaryKeyFieldId) throws IOException {
         TypeFactory typeFactory = objectMapper.getTypeFactory();
         CollectionType collectionType = typeFactory.constructCollectionType(
                 List.class, DataSet.class);
@@ -820,7 +820,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
        return getPrimaryKey(invocation) + "s";
     }
 
-    public PrimaryKeyType getPrimaryKeyType(N2oTestDataProvider invocation) {
+    public PrimaryKeyTypeEnum getPrimaryKeyType(N2oTestDataProvider invocation) {
         return invocation.getPrimaryKeyType()!= null ? invocation.getPrimaryKeyType() : integer;
     }
 }

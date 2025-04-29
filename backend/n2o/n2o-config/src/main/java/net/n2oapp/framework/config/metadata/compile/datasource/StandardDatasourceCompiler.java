@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -42,8 +42,8 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         compiled.setDefaultValuesMode(castDefault(
                 source.getDefaultValuesMode(),
                 source.getQueryId() == null
-                        ? DefaultValuesMode.defaults
-                        : DefaultValuesMode.query
+                        ? DefaultValuesModeEnum.defaults
+                        : DefaultValuesModeEnum.query
         ));
         CompiledQuery query = initQuery(source.getQueryId(), p);
         CompiledObject object = initObject(source.getObjectId(), source.getQueryId(), p);
@@ -56,7 +56,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
     }
 
     private ClientDataProvider initDataProvider(StandardDatasource compiled, N2oStandardDatasource source, CompileContext<?, ?> context,
-                                                CompileProcessor p, CompiledQuery query, DefaultValuesMode defaultValuesMode) {
+                                                CompileProcessor p, CompiledQuery query, DefaultValuesModeEnum defaultValuesMode) {
         if (source.getQueryId() == null)
             return null;
 
@@ -70,7 +70,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         p.addRoute(getQueryContext(source.getId(), compiled.getId(), source.getQueryId(),
                 source.getSize(), source.getDefaultValuesMode(), context, p, url, filters, query));
 
-        return defaultValuesMode == DefaultValuesMode.defaults ? null : dataProvider;
+        return defaultValuesMode == DefaultValuesModeEnum.defaults ? null : dataProvider;
     }
 
     private void initDataProviderMappings(ClientDataProvider dataProvider, List<Filter> filters, CompileProcessor p) {

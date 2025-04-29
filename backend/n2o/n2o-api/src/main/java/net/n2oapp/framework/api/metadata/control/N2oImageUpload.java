@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.control.ImageUpload;
 
 /**
@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ImageUpload;
 @Getter
 @Setter
 public class N2oImageUpload extends N2oFileUpload {
-    private ImageUpload.ListType listType;
+    private ImageUpload.ListTypeEnum listType;
     private Boolean canLightbox;
     private Boolean canDelete;
     private String width;
@@ -19,6 +19,6 @@ public class N2oImageUpload extends N2oFileUpload {
     private String icon;
     private String iconSize;
     private Boolean showTooltip;
-    private ShapeType shape;
+    private ShapeTypeEnum shape;
     private Boolean showName;
 }

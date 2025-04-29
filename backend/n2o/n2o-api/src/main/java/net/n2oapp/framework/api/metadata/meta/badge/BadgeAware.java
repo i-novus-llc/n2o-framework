@@ -1,27 +1,27 @@
 package net.n2oapp.framework.api.metadata.meta.badge;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 
 /**
  * Наличие значка у компонента
  */
 public interface BadgeAware {
 
-    Position getBadgePosition();
+    PositionEnum getBadgePosition();
 
-    void setBadgePosition(Position badgePosition);
+    void setBadgePosition(PositionEnum badgePosition);
 
-    ShapeType getBadgeShape();
+    ShapeTypeEnum getBadgeShape();
 
-    void setBadgeShape(ShapeType badgeShape);
+    void setBadgeShape(ShapeTypeEnum badgeShape);
 
-    Position getBadgeImagePosition();
+    PositionEnum getBadgeImagePosition();
 
-    void setBadgeImagePosition(Position imagePosition);
+    void setBadgeImagePosition(PositionEnum imagePosition);
 
-    ShapeType getBadgeImageShape();
+    ShapeTypeEnum getBadgeImageShape();
 
-    void setBadgeImageShape(ShapeType badgeImageShape);
+    void setBadgeImageShape(ShapeTypeEnum badgeImageShape);
 
     default String getBadgeImageFieldId() {
         return null;

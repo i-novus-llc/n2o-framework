@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 
 /**
  * Клиентская модель зависимости submit
@@ -14,7 +14,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 @NoArgsConstructor
 public class CopyDependency extends Dependency {
     @JsonProperty
-    private ReduxModel model;
+    private ReduxModelEnum model;
     @JsonProperty
     private String field;
     @JsonProperty

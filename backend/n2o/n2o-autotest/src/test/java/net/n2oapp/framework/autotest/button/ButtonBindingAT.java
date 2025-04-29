@@ -74,7 +74,7 @@ class ButtonBindingAT extends AutoTestBase {
         ButtonField buttonField = widget1.fields().field("Кнопка в поле", ButtonField.class);
         buttonField.shouldExists();
         buttonField.click();
-        Alert alert = openPage.alerts(Alert.Placement.top).alert(0);
+        Alert alert = openPage.alerts(Alert.PlacementEnum.top).alert(0);
         alert.shouldHaveText("Hello, Ivan");
 
         ButtonField controlButton = widget1.fields().field("Кнопка в контроле", ButtonField.class);

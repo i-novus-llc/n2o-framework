@@ -18,7 +18,7 @@ public class N2oSetValueAction extends N2oAbstractAction {
     private String targetModel;
     private String to;
 
-    private MergeMode mergeMode;
+    private MergeModeEnum mergeMode;
     private Boolean validate;
 
     @Deprecated

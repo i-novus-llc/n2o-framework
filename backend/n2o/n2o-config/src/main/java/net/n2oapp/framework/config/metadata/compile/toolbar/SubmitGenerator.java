@@ -1,12 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.compile.ButtonGenerator;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
+import net.n2oapp.framework.api.metadata.global.view.page.GenerateTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
@@ -32,7 +32,7 @@ public class SubmitGenerator implements ButtonGenerator {
             throw new IllegalStateException("Need PageContext");
         String datasource = toolbar.getDatasourceId();
         N2oButton saveButton = new N2oButton();
-        saveButton.setId(GenerateType.submit.name());
+        saveButton.setId(GenerateTypeEnum.submit.name());
         saveButton.setColor("primary");
         N2oInvokeAction invokeAction = new N2oInvokeAction();
         invokeAction.setCloseOnSuccess(false);
@@ -41,7 +41,7 @@ public class SubmitGenerator implements ButtonGenerator {
         saveButton.setLabel(p.getMessage("n2o.api.action.toolbar.button.submit.label"));
         saveButton.setDatasourceId(datasource);
         saveButton.setActions(new N2oAction[]{invokeAction});
-        saveButton.setModel(ReduxModel.resolve);
+        saveButton.setModel(ReduxModelEnum.resolve);
         saveButton.setValidate(true);
         return Collections.singletonList(saveButton);
     }

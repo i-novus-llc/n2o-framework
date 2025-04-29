@@ -1,8 +1,8 @@
 package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirectionEnum;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
@@ -115,7 +115,7 @@ public class ProtoPage {
         return getTable().columns().rows().columnTexts(1);
     }
 
-    public void surnameColumnShouldBeSortedBy(SortingDirection direction) {
+    public void surnameColumnShouldBeSortedBy(SortingDirectionEnum direction) {
         getTable().columns().rows().columnShouldBeSortedBy(1, direction);
     }
 
@@ -280,7 +280,7 @@ public class ProtoPage {
 //        leftRightPage.alerts().alert(0).shouldHaveText(text); todo
     }
 
-    public void alertColorShouldBe(Colors colors) {
+    public void alertColorShouldBe(ColorsEnum colors) {
 //        leftRightPage.alerts().alert(0).shouldHaveColor(colors); todo
     }
 
@@ -288,7 +288,7 @@ public class ProtoPage {
 //        getContacts().alerts().alert(0).shouldHaveText(text); todo
     }
 
-    public void contactsAlertColorShouldBe(Colors colors) {
+    public void contactsAlertColorShouldBe(ColorsEnum colors) {
 //        getContacts().alerts().alert(0).shouldHaveColor(colors); todo
     }
 

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.*;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -78,7 +78,7 @@ class ListCellCompileTest extends SourceCompileTestBase {
         assertThat(listCell.getContent().getSrc(), is("LinkCell"));
         LinkCell linkCell = (LinkCell) listCell.getContent();
         assertThat(linkCell.getUrl(), is("/test"));
-        assertThat(linkCell.getTarget(), is(Target.newWindow));
+        assertThat(linkCell.getTarget(), is(TargetEnum.newWindow));
         assertThat(linkCell.getFieldKey(), is("linkField"));
 
         // list с badge

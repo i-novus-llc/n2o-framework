@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.control.v3.plain;
 
 import net.n2oapp.framework.api.metadata.control.plain.N2oOutputList;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.control.OutputList;
 import org.jdom2.Element;
@@ -18,8 +18,8 @@ public class OutputListIOv3 extends PlainFieldIOv3<N2oOutputList> {
         super.io(e, m, p);
         p.attribute(e, "label-field-id", m::getLabelFieldId, m::setLabelFieldId);
         p.attribute(e, "href-field-id", m::getHrefFieldId, m::setHrefFieldId);
-        p.attributeEnum(e, "target", m::getTarget, m::setTarget, Target.class);
-        p.attributeEnum(e, "direction", m::getDirection, m::setDirection, OutputList.Direction.class);
+        p.attributeEnum(e, "target", m::getTarget, m::setTarget, TargetEnum.class);
+        p.attributeEnum(e, "direction", m::getDirection, m::setDirection, OutputList.DirectionEnum.class);
         p.attribute(e, "separator", m::getSeparator, m::setSeparator);
     }
 

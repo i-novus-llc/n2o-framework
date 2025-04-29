@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -56,7 +56,7 @@ class CustomActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getMeta().getSuccess().getRefresh().getDatasources().get(0), is("testCustomAction_ds1"));
         assertThat(action.getMeta().getSuccess().getRefresh().getDatasources().get(1), is("testCustomAction_ds2"));
         assertThat(action.getMeta().getSuccess().getRedirect().getPath(), is("/main"));
-        assertThat(action.getMeta().getSuccess().getRedirect().getTarget(), is(Target.application));
+        assertThat(action.getMeta().getSuccess().getRedirect().getTarget(), is(TargetEnum.application));
         assertThat(action.getMeta().getFail(), notNullValue());
     }
 }

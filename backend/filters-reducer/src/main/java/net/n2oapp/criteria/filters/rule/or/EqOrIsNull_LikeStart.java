@@ -1,7 +1,7 @@
 package net.n2oapp.criteria.filters.rule.or;
 
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.Rule;
 
@@ -12,9 +12,9 @@ public class EqOrIsNull_LikeStart implements Rule {
 
     @Override
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterType.eqOrIsNull) && left.getType().equals(FilterType.likeStart))
+        if (right.getType().equals(FilterTypeEnum.eqOrIsNull) && left.getType().equals(FilterTypeEnum.likeStart))
             return simplify(right, left);
-        else if (left.getType().equals(FilterType.eqOrIsNull) && right.getType().equals(FilterType.likeStart)) {
+        else if (left.getType().equals(FilterTypeEnum.eqOrIsNull) && right.getType().equals(FilterTypeEnum.likeStart)) {
             if (!(right.getValue() instanceof String) || !(left.getValue() instanceof String leftValue))
                 return null;
             if (leftValue.matches(right.getValue() + ".*")) return new Filter(left.getValue());
@@ -24,7 +24,7 @@ public class EqOrIsNull_LikeStart implements Rule {
     }
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.eqOrIsNull, FilterType.likeStart);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.eqOrIsNull, FilterTypeEnum.likeStart);
     }
 }

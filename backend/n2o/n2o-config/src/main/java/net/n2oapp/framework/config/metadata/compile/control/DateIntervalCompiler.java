@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.interval.N2oDateInterval;
-import net.n2oapp.framework.api.metadata.domain.Domain;
+import net.n2oapp.framework.api.metadata.domain.DomainEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.control.DateInterval;
@@ -33,7 +33,7 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
     public StandardField<DateInterval> compile(N2oDateInterval source, CompileContext<?, ?> context, CompileProcessor p) {
         DateInterval dateInterval = new DateInterval();
         source.setDomain(p.resolve(property("n2o.api.control.date_interval.domain"), String.class));
-        Domain domain = Domain.getByName(source.getDomain());
+        DomainEnum domain = DomainEnum.getByName(source.getDomain());
         if (domain == null || domain.getJsFormat() == null)
             throw new N2oException("Несуществующее значение атрибута 'domain' для поля '" + source.getId() + "'");
         dateInterval.setOutputFormat(domain.getJsFormat());

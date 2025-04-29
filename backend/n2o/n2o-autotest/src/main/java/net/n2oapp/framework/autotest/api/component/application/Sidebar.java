@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.application;
 
-import net.n2oapp.framework.api.metadata.application.SidebarState;
+import net.n2oapp.framework.api.metadata.application.SidebarStateEnum;
 import net.n2oapp.framework.autotest.api.collection.Menu;
 import net.n2oapp.framework.autotest.api.component.Component;
 
@@ -48,7 +48,7 @@ public interface Sidebar extends Component {
      * Проверяет состояние скрытости сайдбара по умолчанию
      * @param state ожидаемое состояние
      */
-    void shouldHaveState(SidebarState state);
+    void shouldHaveState(SidebarStateEnum state);
 
 
     /**

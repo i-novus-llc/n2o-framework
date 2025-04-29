@@ -13,7 +13,7 @@ public class SliderIOv3 extends ListFieldIOv3<N2oSlider> {
     @Override
     public void io(Element e, N2oSlider m, IOProcessor p) {
         super.io(e, m, p);
-        p.attributeEnum(e, "mode", m::getMode, m::setMode, N2oSlider.Mode.class);
+        p.attributeEnum(e, "mode", m::getMode, m::setMode, N2oSlider.ModeEnum.class);
         p.attributeBoolean(e, "vertical", m::getVertical, m::setVertical);
         p.attribute(e, "measure", m::getMeasure, m::setMeasure);
         p.attributeInteger(e, "min", m::getMin, m::setMin);

@@ -37,20 +37,20 @@ class AreaChartCompileTest extends SourceCompileTestBase {
         Chart chart = (Chart) page.getWidget();
         AreaChart areaChart = (AreaChart) chart.getComponent();
         assertThat(areaChart.getSrc(), is("AreaChart"));
-        assertThat(areaChart.getType(), is(ChartType.area));
+        assertThat(areaChart.getType(), is(ChartTypeEnum.area));
 
         List<AreaChartItem> items = areaChart.getItems();
         assertThat(items.size(), is(2));
 
         assertThat(items.get(0).getFieldId(), is("test1"));
         assertThat(items.get(0).getLabel(), is("name"));
-        assertThat(items.get(0).getLineType(), is(ChartLineType.monotone));
+        assertThat(items.get(0).getLineType(), is(ChartLineTypeEnum.monotone));
         assertThat(items.get(0).getColor(), is("#8884d8"));
         assertThat(items.get(0).getStrokeColor(), is("#aaaaaa"));
         assertThat(items.get(0).getHasLabel(), is(true));
 
         assertThat(items.get(1).getFieldId(), is("test2"));
-        assertThat(items.get(1).getLineType(), is(ChartLineType.linear));
+        assertThat(items.get(1).getLineType(), is(ChartLineTypeEnum.linear));
         assertThat(items.get(1).getHasLabel(), is(false));
     }
 }

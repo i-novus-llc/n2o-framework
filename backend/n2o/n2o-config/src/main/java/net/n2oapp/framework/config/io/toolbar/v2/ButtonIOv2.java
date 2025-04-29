@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.toolbar.v2;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.common.ActionsAwareIO;
@@ -31,7 +31,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> implements Actions
         b.adapterV2();
 
         p.attributeArray(e, "generate", ",", b::getGenerate, b::setGenerate);
-        p.attributeEnum(e, "disable-on-empty-model", b::getDisableOnEmptyModel, b::setDisableOnEmptyModel, DisableOnEmptyModelType.class);
+        p.attributeEnum(e, "disable-on-empty-model", b::getDisableOnEmptyModel, b::setDisableOnEmptyModel, DisableOnEmptyModelTypeEnum.class);
         p.anyChildren(e, "dependencies", b::getDependencies, b::setDependencies, p.oneOf(N2oButton.Dependency.class)
                 .add("enabling", N2oButton.EnablingDependency.class, this::enablingDependency)
                 .add("visibility", N2oButton.VisibilityDependency.class, this::dependency));
@@ -39,7 +39,7 @@ public class ButtonIOv2 extends AbstractButtonIOv2<N2oButton> implements Actions
 
     private void dependency(Element e, N2oButton.Dependency t, IOProcessor p) {
         p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
         p.text(e, t::getValue, t::setValue);
     }
 

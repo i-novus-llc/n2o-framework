@@ -179,6 +179,6 @@ class ValidationTabMessageAT extends AutoTestBase {
         tabs.tab(2).shouldBeValid();
 
         saveBtn.click();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Данные сохранены");
     }
 }

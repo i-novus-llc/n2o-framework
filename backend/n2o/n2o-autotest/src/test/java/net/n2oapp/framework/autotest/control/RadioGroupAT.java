@@ -44,7 +44,7 @@ class RadioGroupAT extends AutoTestBase {
         Fields fields = page.widget(FormWidget.class).fields();
         RadioGroup radio = fields.field("Radio1").control(RadioGroup.class);
         radio.shouldExists();
-        radio.shouldHaveType(RadioGroup.RadioType.DEFAULT);
+        radio.shouldHaveType(RadioGroup.RadioTypeEnum.DEFAULT);
         radio.shouldHaveOptions(new String[]{"One", "Two", "Three"});
         radio.shouldBeEmpty();
         radio.check("Three");
@@ -54,7 +54,7 @@ class RadioGroupAT extends AutoTestBase {
 
         RadioGroup tabsRadio = fields.field("TabsRadio").control(RadioGroup.class);
         tabsRadio.shouldExists();
-        tabsRadio.shouldHaveType(RadioGroup.RadioType.TABS);
+        tabsRadio.shouldHaveType(RadioGroup.RadioTypeEnum.TABS);
         tabsRadio.shouldHaveOptions(new String[]{"One", "Two", "Three"});
         tabsRadio.check("Three");
         tabsRadio.shouldBeChecked("Three");

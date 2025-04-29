@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.io.fieldset.v5;
 
 import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.FieldLabelAlign;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.FieldLabelLocation;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.FieldLabelAlignEnum;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.FieldLabelLocationEnum;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -24,8 +24,8 @@ public abstract class FieldsetElementIOv5<T extends N2oFieldSet> implements Name
         p.attribute(e, "style", fs::getStyle, fs::setStyle);
         p.attribute(e, "label", fs::getLabel, fs::setLabel);
         p.attribute(e, "description", fs::getDescription, fs::setDescription);
-        p.attributeEnum(e, "field-label-location", fs::getFieldLabelLocation, fs::setFieldLabelLocation, FieldLabelLocation.class);
-        p.attributeEnum(e, "field-label-align", fs::getFieldLabelAlign, fs::setFieldLabelAlign, FieldLabelAlign.class);
+        p.attributeEnum(e, "field-label-location", fs::getFieldLabelLocation, fs::setFieldLabelLocation, FieldLabelLocationEnum.class);
+        p.attributeEnum(e, "field-label-align", fs::getFieldLabelAlign, fs::setFieldLabelAlign, FieldLabelAlignEnum.class);
         p.attribute(e, "field-label-width", fs::getFieldLabelWidth, fs::setFieldLabelWidth);
         p.attribute(e, "visible", fs::getVisible, fs::setVisible);
         p.attribute(e, "enabled", fs::getEnabled, fs::setEnabled);

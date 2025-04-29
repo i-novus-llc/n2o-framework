@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.control.Progress;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -55,6 +55,6 @@ class ProgressAT extends AutoTestBase {
         progress.shouldHaveMax("25");
         progress.shouldBeAnimated();
         progress.shouldBeStriped();
-        progress.shouldHaveColor(Colors.SUCCESS);
+        progress.shouldHaveColor(ColorsEnum.SUCCESS);
     }
 }

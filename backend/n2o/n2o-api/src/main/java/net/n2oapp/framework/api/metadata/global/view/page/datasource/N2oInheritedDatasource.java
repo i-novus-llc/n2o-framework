@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.page.datasource;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.datasource.Submittable;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -15,7 +15,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 public class N2oInheritedDatasource extends N2oDatasource implements Submittable {
 
     private String sourceDatasource;
-    private ReduxModel sourceModel;
+    private ReduxModelEnum sourceModel;
     private String sourceFieldId;
     private String fetchValue;
     private Submit submit;
@@ -25,9 +25,9 @@ public class N2oInheritedDatasource extends N2oDatasource implements Submittable
     @Setter
     public static class Submit implements Source {
         private Boolean auto;
-        private ReduxModel model;
+        private ReduxModelEnum model;
         private String targetDatasource;
-        private ReduxModel targetModel;
+        private ReduxModelEnum targetModel;
         private String targetFieldId;
         private String submitValue;
     }

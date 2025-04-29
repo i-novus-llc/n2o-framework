@@ -1,6 +1,6 @@
 package net.n2oapp.framework.engine.data;
 
-import net.n2oapp.criteria.dataset.ArrayMergeStrategy;
+import net.n2oapp.criteria.dataset.ArrayMergeStrategyEnum;
 import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
@@ -62,7 +62,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
         DataSet resolvedInDataSet = resolveInValuesMapping(inParameters, inDataSet);
         DataSet resultDataSet = invoke(invocation, resolvedInDataSet, inMapping, outMapping);
         resolveOutValues(outParameters, resultDataSet, null);
-        inDataSet.merge(resultDataSet, ArrayMergeStrategy.REPLACE, true);
+        inDataSet.merge(resultDataSet, ArrayMergeStrategyEnum.REPLACE, true);
         return inDataSet;
     }
 

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.control.v2.list;
 
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -33,7 +33,7 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
         p.child(e, null, "default-value", m::getDefValue, m::setDefValue, HashMap::new, this::defaultValue);
         p.children(e, "options", "option", m::getOptions, m::setOptions, HashMap::new, this::option);
         p.childrenByEnum(e, "pre-filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
-                N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
+                N2oPreFilter::setType, N2oPreFilter::new, FilterTypeEnum.class, this::prefilter);
         p.attribute(e, "status-field-id", m::getStatusFieldId, m::setStatusFieldId);
     }
 

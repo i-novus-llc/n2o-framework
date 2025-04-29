@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.control.v3.list;
 
-import net.n2oapp.framework.api.metadata.control.list.CheckingStrategy;
+import net.n2oapp.framework.api.metadata.control.list.CheckingStrategyEnum;
 import net.n2oapp.framework.api.metadata.control.list.N2oInputSelectTree;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.common.BadgeAwareIO;
@@ -19,7 +19,7 @@ public class InputSelectTreeIOv3 extends ListFieldIOv3<N2oInputSelectTree> imple
         p.attributeBoolean(e, "ajax", m::getAjax, m::setAjax);
         p.attributeBoolean(e, "search", m::getSearch, m::setSearch);
         p.attributeBoolean(e, "checkboxes", m::getCheckboxes, m::setCheckboxes);
-        p.attributeEnum(e, "checking-strategy", m::getCheckingStrategy, m::setCheckingStrategy, CheckingStrategy.class);
+        p.attributeEnum(e, "checking-strategy", m::getCheckingStrategy, m::setCheckingStrategy, CheckingStrategyEnum.class);
         p.attributeInteger(e, "max-tag-count", m::getMaxTagCount, m::setMaxTagCount);
         p.attribute(e, "parent-field-id", m::getParentFieldId, m::setParentFieldId);
         p.attribute(e, "has-children-field-id", m::getHasChildrenFieldId, m::setHasChildrenFieldId);

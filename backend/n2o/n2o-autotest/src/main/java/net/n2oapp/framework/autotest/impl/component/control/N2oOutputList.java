@@ -3,7 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
-import net.n2oapp.framework.api.metadata.meta.control.OutputList.Direction;
+import net.n2oapp.framework.api.metadata.meta.control.OutputList.DirectionEnum;
 import net.n2oapp.framework.autotest.api.component.control.OutputList;
 
 import java.time.Duration;
@@ -34,7 +34,7 @@ public class N2oOutputList extends N2oControl implements OutputList {
     }
 
     @Override
-    public void shouldHaveDirection(Direction direction) {
+    public void shouldHaveDirection(DirectionEnum direction) {
         element().shouldHave(Condition.cssClass(String.format("n2o-output-list--%s", direction.name())));
     }
 

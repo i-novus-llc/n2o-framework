@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
-import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -86,7 +86,7 @@ class QueryCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/testSubModel.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml");
         pipeline.get(new PageContext("testSubModel"));
-        CompileContext compile = builder.route("/testSubModel/w", CompiledQuery.class, null);
+        CompileContext<?,?> compile = builder.route("/testSubModel/w", CompiledQuery.class, null);
         CompiledQuery query = pipeline.get((QueryContext) compile);
         assertThat(query.getSubModelQueries().size(), is(1));
         assertThat(query.getSubModelQueries().get(0).getFullName(), is("field"));
@@ -98,11 +98,11 @@ class QueryCompileTest extends SourceCompileTestBase {
     void testRequiredPrefilters() {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testRequiredFilters.query.xml")
                 .get(new QueryContext("testRequiredFilters"));
-        assertThat(query.getFiltersMap().get("test").get(FilterType.eq).getRequired(), is(true));
+        assertThat(query.getFiltersMap().get("test").get(FilterTypeEnum.eq).getRequired(), is(true));
         assertThat(query.getValidations().get(0).getId(), is("test"));
         assertThat(query.getValidations().get(0).getFieldId(), is("test"));
-        assertThat(query.getValidations().get(0).getSeverity(), is(SeverityType.danger));
-        assertThat(query.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
+        assertThat(query.getValidations().get(0).getSeverity(), is(SeverityTypeEnum.danger));
+        assertThat(query.getValidations().get(0).getMoment(), is(N2oValidation.ServerMomentEnum.beforeQuery));
     }
 
     /**

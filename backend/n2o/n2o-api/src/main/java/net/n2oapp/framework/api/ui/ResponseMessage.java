@@ -3,9 +3,9 @@ package net.n2oapp.framework.api.ui;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,7 +39,7 @@ public class ResponseMessage implements Compiled {
     @JsonProperty
     private String modelLink;
     @JsonProperty
-    private MessagePlacement placement;
+    private MessagePlacementEnum placement;
     @JsonProperty
     private Map<String, String> style;
     @JsonProperty("stacktrace")
@@ -52,7 +52,7 @@ public class ResponseMessage implements Compiled {
         return UUID.randomUUID().toString();
     }
 
-    public void setSeverityType(SeverityType severity) {
+    public void setSeverityType(SeverityTypeEnum severity) {
         this.severity = severity != null ? severity.getId() : null;
     }
 

@@ -12,5 +12,5 @@ import net.n2oapp.framework.api.metadata.Compiled;
 @Setter
 public class ChartLegend implements Compiled {
     @JsonProperty
-    private ChartLegendIconType iconType;
+    private ChartLegendIconTypeEnum iconType;
 }

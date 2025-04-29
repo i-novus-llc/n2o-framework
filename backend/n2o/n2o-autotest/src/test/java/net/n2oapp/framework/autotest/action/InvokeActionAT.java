@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.action;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
@@ -68,8 +68,8 @@ class InvokeActionAT extends AutoTestBase {
 
         StandardButton btn = page.toolbar().bottomRight().button("Сохранить");
         btn.click();
-        Alert alert = page.alerts(Alert.Placement.top).alert(0);
-        alert.shouldHaveColor(Colors.SUCCESS);
+        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        alert.shouldHaveColor(ColorsEnum.SUCCESS);
         alert.shouldHaveText("form_value=1 second_form.value=2 second_form.value2=3");
 
         FormWidget thirdForm = page.regions().region(2, SimpleRegion.class).content().widget(0, FormWidget.class);
@@ -104,13 +104,13 @@ class InvokeActionAT extends AutoTestBase {
         rows.row(2).cell(0, CheckboxCell.class).setChecked(true);
 
         table.toolbar().topLeft().button("Отправить (submit-all='true')").click();
-        Alert alert = page.alerts(Alert.Placement.top).alert(0);
-        alert.shouldHaveColor(Colors.SUCCESS);
+        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        alert.shouldHaveColor(ColorsEnum.SUCCESS);
         alert.shouldHaveText("[{id=2, name=test2, ids=[2, 3]}, {id=3, name=test3, ids=[2, 3]}]");
 
         table.toolbar().topLeft().button("Отправить (submit-all='false')").click();
-        alert = page.alerts(Alert.Placement.top).alert(1);
-        alert.shouldHaveColor(Colors.SUCCESS);
+        alert = page.alerts(Alert.PlacementEnum.top).alert(1);
+        alert.shouldHaveColor(ColorsEnum.SUCCESS);
         alert.shouldHaveText("[2, 3]");
     }
 }

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -53,9 +53,9 @@ class BadgeCellAT extends AutoTestBase {
         int col = 0;
 
         rows.row(0).cell(col, BadgeCell.class).badgeShouldHaveText("Male");
-        rows.row(0).cell(col, BadgeCell.class).shouldHaveColor(Colors.DANGER);
+        rows.row(0).cell(col, BadgeCell.class).shouldHaveColor(ColorsEnum.DANGER);
         rows.row(3).cell(col, BadgeCell.class).badgeShouldHaveText("Female");
-        rows.row(3).cell(col, BadgeCell.class).shouldHaveColor(Colors.SUCCESS);
+        rows.row(3).cell(col, BadgeCell.class).shouldHaveColor(ColorsEnum.SUCCESS);
     }
 
 }

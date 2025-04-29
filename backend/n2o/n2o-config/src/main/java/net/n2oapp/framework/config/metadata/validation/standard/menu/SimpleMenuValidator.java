@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.validation.standard.menu;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.compile.enums.Color;
+import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -47,7 +47,7 @@ public class SimpleMenuValidator extends TypedMetadataValidator<N2oSimpleMenu> {
                             ValidationUtils.getIdOrEmptyString(menuItem.getDatasourceId())));
 
         if (menuItem.getBadgeColor() != null && !StringUtils.isLink(menuItem.getBadgeColor()) &&
-                !EnumUtils.isValidEnum(Color.class, menuItem.getBadgeColor())) {
+                !EnumUtils.isValidEnum(ColorEnum.class, menuItem.getBadgeColor())) {
             throw new N2oMetadataValidationException(
                     String.format("<menu-item name=%s> использует недопустимое значение атрибута badge-color=\"%s\"",
                             ValidationUtils.getIdOrEmptyString(menuItem.getName()),

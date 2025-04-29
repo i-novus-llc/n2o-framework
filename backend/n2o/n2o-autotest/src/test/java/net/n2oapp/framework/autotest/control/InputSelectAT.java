@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -132,9 +132,9 @@ class InputSelectAT extends AutoTestBase {
 
         input.click();
         DropDown dropdown = input.dropdown();
-        dropdown.item("One").shouldHaveStatusColor(Colors.SUCCESS);
-        dropdown.item("Two").shouldHaveStatusColor(Colors.PRIMARY);
-        dropdown.item("Three").shouldHaveStatusColor(Colors.DANGER);
+        dropdown.item("One").shouldHaveStatusColor(ColorsEnum.SUCCESS);
+        dropdown.item("Two").shouldHaveStatusColor(ColorsEnum.PRIMARY);
+        dropdown.item("Three").shouldHaveStatusColor(ColorsEnum.DANGER);
     }
 
     @Test

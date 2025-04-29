@@ -1,7 +1,7 @@
 package net.n2oapp.criteria.filters.rule.base;
 
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 
 /**
  * User: operehod
@@ -10,9 +10,9 @@ import net.n2oapp.criteria.filters.FilterType;
  */
 public abstract class AlwaysSuccessRule implements Rule {
 
-    private FilterType successType;
+    private FilterTypeEnum successType;
 
-    protected AlwaysSuccessRule(FilterType successType) {
+    protected AlwaysSuccessRule(FilterTypeEnum successType) {
         this.successType = successType;
     }
 

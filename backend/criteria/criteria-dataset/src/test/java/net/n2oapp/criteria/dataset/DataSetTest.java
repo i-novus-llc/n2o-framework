@@ -98,13 +98,13 @@ class DataSetTest {
         extendDataSet.put("persons", list);
 
         //добавляем первый раз со стратегией merge
-        mainDataSet.merge(extendDataSet, ArrayMergeStrategy.MERGE, true);
+        mainDataSet.merge(extendDataSet, ArrayMergeStrategyEnum.MERGE, true);
         assert mainDataSet.get("id").equals(1);
         assert mainDataSet.get("name").equals("Ivan");
         assert ((List)mainDataSet.get("persons")).size() == 2;
 
         //добавляем второй раз со стратегией merge, список должен увеличиться
-        mainDataSet.merge(extendDataSet, ArrayMergeStrategy.MERGE, true);
+        mainDataSet.merge(extendDataSet, ArrayMergeStrategyEnum.MERGE, true);
         assert ((List)mainDataSet.get("persons")).size() == 4;
     }
 
@@ -124,7 +124,7 @@ class DataSetTest {
         list2.add("fourth");
         extendDataSet.put("persons", list2);
 
-        mainDataSet.merge(extendDataSet, ArrayMergeStrategy.REPLACE, true);
+        mainDataSet.merge(extendDataSet, ArrayMergeStrategyEnum.REPLACE, true);
         assert mainDataSet.get("id").equals(1);
         assert mainDataSet.get("name").equals("Ivan");
         assert ((List)mainDataSet.get("persons")).size() == 2;

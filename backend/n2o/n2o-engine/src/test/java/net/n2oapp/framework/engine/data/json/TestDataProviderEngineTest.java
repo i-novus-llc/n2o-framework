@@ -18,8 +18,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.Operation.*;
-import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyType.string;
+import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.OperationEnum.*;
+import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyTypeEnum.string;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;

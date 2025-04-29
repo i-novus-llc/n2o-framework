@@ -14,24 +14,24 @@ import java.util.Objects;
 public class Filter implements Serializable {
 
     private Object value;
-    private final FilterType type;
+    private final FilterTypeEnum type;
 
     public Filter(Filter filter) {
         this.value = filter.getValue();
         this.type = filter.getType();
     }
 
-    public Filter(Object value, FilterType type) {
+    public Filter(Object value, FilterTypeEnum type) {
         this.value = value;
         this.type = type;
     }
 
     public Filter(Object value) {
         this.value = value;
-        this.type = FilterType.eq;
+        this.type = FilterTypeEnum.eq;
     }
 
-    public Filter(FilterType type) {
+    public Filter(FilterTypeEnum type) {
         this.type = type;
         this.value = null;
     }

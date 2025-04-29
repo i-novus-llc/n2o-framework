@@ -2,8 +2,8 @@ package net.n2oapp.framework.autotest.impl.component.snippet;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
+import net.n2oapp.framework.api.metadata.meta.control.TextPositionEnum;
 import net.n2oapp.framework.autotest.api.component.snippet.Image;
 
 import java.time.Duration;
@@ -23,7 +23,7 @@ public class N2oImage extends N2oSnippet implements Image {
     }
 
     @Override
-    public void shouldHaveShape(ShapeType shape) {
+    public void shouldHaveShape(ShapeTypeEnum shape) {
         element().$(".n2o-image__image-container").should(Condition.cssClass(shape.getId()));
     }
 
@@ -39,7 +39,7 @@ public class N2oImage extends N2oSnippet implements Image {
     }
 
     @Override
-    public void shouldHaveTextPosition(TextPosition position) {
+    public void shouldHaveTextPosition(TextPositionEnum position) {
         element().$(".n2o-image__content").should(Condition.cssClass(position.name()));
     }
 

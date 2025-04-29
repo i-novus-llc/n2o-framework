@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.action.v2;
 
 import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmTypeEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ public class ConfirmActionElementIOV2 extends AbstractActionElementIOV2<N2oConfi
         super.io(e, m, p);
         p.attribute(e,"title", m::getTitle, m::setTitle);
         p.attribute(e,"text", m::getText, m::setText);
-        p.attributeEnum(e,"type", m::getType, m::setType, ConfirmType.class);
+        p.attributeEnum(e,"type", m::getType, m::setType, ConfirmTypeEnum.class);
         p.attributeBoolean(e,"close-button", m::getCloseButton, m::setCloseButton);
         p.attribute(e,"class", m::getClassName, m::setClassName);
         p.attribute(e,"style", m::getStyle, m::setStyle);

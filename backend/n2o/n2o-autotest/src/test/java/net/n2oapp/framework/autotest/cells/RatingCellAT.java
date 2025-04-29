@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.cells;
 
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.cell.RatingCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -61,13 +61,13 @@ class RatingCellAT extends AutoTestBase {
         //проверка редактируемых ячеек
         RatingCell cell = rows.row(0).cell(1, RatingCell.class);
         cell.shouldHaveMax(10);
-        Alerts alerts = simplePage.alerts(Alert.Placement.top);
+        Alerts alerts = simplePage.alerts(Alert.PlacementEnum.top);
 
         cell.value("5");
         cell.shouldExists();
         cell.shouldHaveValue("5");
         alerts.shouldHaveSize(1);
-        alerts.alert(0).shouldHaveColor(Colors.SUCCESS);
+        alerts.alert(0).shouldHaveColor(ColorsEnum.SUCCESS);
 
         //проверка что значение сохранилось на бэке
         Selenide.refresh();

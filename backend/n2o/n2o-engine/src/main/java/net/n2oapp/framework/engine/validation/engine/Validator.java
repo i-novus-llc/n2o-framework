@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.script.ScriptProcessor;
@@ -28,7 +28,7 @@ public class Validator implements Iterable<Validation> {
     private DomainProcessor domainProcessor;
     private DataSet dataSet;
     private List<Validation> validationList;
-    private N2oValidation.ServerMoment moment;
+    private N2oValidation.ServerMomentEnum moment;
 
     private Boolean widgetWasValidated = false;
     private Set<String> validatedFields = new HashSet<>();
@@ -161,7 +161,7 @@ public class Validator implements Iterable<Validation> {
     }
 
     private void afterFail(Validation v) {
-        if (SeverityType.danger.equals(v.getSeverity()))
+        if (SeverityTypeEnum.danger.equals(v.getSeverity()))
             afterDanger = true;
         if (!v.isForField())
             widgetWasValidated = true;
@@ -186,7 +186,7 @@ public class Validator implements Iterable<Validation> {
     }
 
     private boolean checkAfterDanger(Validation validation) {
-        if (SeverityType.danger.equals(validation.getSeverity()))
+        if (SeverityTypeEnum.danger.equals(validation.getSeverity()))
             return true;
 
         return !afterDanger;
@@ -246,7 +246,7 @@ public class Validator implements Iterable<Validation> {
         private Builder() {
         }
 
-        public Builder addMoment(N2oValidation.ServerMoment moment) {
+        public Builder addMoment(N2oValidation.ServerMomentEnum moment) {
             Validator.this.moment = moment;
 
             return this;
@@ -287,8 +287,8 @@ public class Validator implements Iterable<Validation> {
         }
 
         /**
-         * Сортирует валидации по SeverityType.
-         * С одинаковым SeverityType располагает сначала валидации полей, потом валидации виджета.
+         * Сортирует валидации по SeverityTypeEnum.
+         * С одинаковым SeverityTypeEnum располагает сначала валидации полей, потом валидации виджета.
          * С одинаковым признаком "для поля/ для виджета" располагает по типу валидации:
          * Mandatory -> Condition -> Constraint
          * <p>

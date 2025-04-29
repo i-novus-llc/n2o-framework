@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageCell;
 import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
@@ -39,7 +39,7 @@ class CardsCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testCardsCompile"));
         Cards cards = (Cards) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(cards.getSrc(), is("CardsTest"));
-        assertThat(cards.getVerticalAlign(), is(Cards.Position.center));
+        assertThat(cards.getVerticalAlign(), is(Cards.PositionEnum.center));
         assertThat(cards.getHeight(), is("400px"));
         assertThat(cards.getCards().size(), is(2));
 
@@ -71,14 +71,14 @@ class CardsCompileTest extends SourceCompileTestBase {
 
         assertThat(cards.getPaging().getNext(), is(true));
         assertThat(cards.getPaging().getPrev(), is(true));
-        assertThat(cards.getPaging().getShowCount(), is(ShowCountType.NEVER));
+        assertThat(cards.getPaging().getShowCount(), is(ShowCountTypeEnum.NEVER));
         assertThat(cards.getPaging().getSize(), is(5));
         assertThat(cards.getPaging().getSrc(), is("pagingSrc"));
 
         //второй виджет карточек
         cards = (Cards) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(cards.getSrc(), is("CardsWidget"));
-        assertThat(cards.getVerticalAlign(), is(Cards.Position.top));
+        assertThat(cards.getVerticalAlign(), is(Cards.PositionEnum.top));
         assertThat(cards.getHeight(), is("300px"));
         assertThat(cards.getCards().size(), is(1));
 
@@ -93,7 +93,7 @@ class CardsCompileTest extends SourceCompileTestBase {
 
         assertThat(cards.getPaging().getNext(), is(false));
         assertThat(cards.getPaging().getPrev(), is(false));
-        assertThat(cards.getPaging().getShowCount(), is(ShowCountType.ALWAYS));
+        assertThat(cards.getPaging().getShowCount(), is(ShowCountTypeEnum.ALWAYS));
         assertThat(cards.getPaging().getSize(), is(10));
     }
 }

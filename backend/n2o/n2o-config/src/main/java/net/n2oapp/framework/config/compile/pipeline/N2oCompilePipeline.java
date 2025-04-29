@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.pipeline.CompileTerminalPipeline;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 
-import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.*;
+import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum.*;
 
 public class N2oCompilePipeline extends N2oPipeline implements CompilePipeline {
 

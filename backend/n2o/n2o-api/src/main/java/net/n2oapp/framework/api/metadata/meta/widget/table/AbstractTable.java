@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggle;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPosition;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggleEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPositionEnum;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 
@@ -22,7 +22,7 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
     @JsonProperty
     private Filter filter;
     @JsonProperty
-    private ChildrenToggle children;
+    private ChildrenToggleEnum children;
     @JsonProperty
     private Boolean saveSettings;
 
@@ -49,7 +49,7 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
         @JsonProperty
         private List<String> blackResetList;
         @JsonProperty
-        private FilterPosition filterPlace;
+        private FilterPositionEnum filterPlace;
         @JsonProperty
         private Boolean fetchOnChange;
         @JsonProperty

@@ -1,17 +1,17 @@
 package net.n2oapp.framework.config.io.datasource;
 
-import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.control.Submit;
-import net.n2oapp.framework.api.metadata.control.SubmitOn;
+import net.n2oapp.framework.api.metadata.control.SubmitOnEnum;
 import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -36,26 +36,26 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
         super.io(e, ds, p);
         p.attribute(e, "query-id", ds::getQueryId, ds::setQueryId);
         p.attribute(e, "object-id", ds::getObjectId, ds::setObjectId);
-        p.attributeEnum(e, "default-values-mode", ds::getDefaultValuesMode, ds::setDefaultValuesMode, DefaultValuesMode.class);
+        p.attributeEnum(e, "default-values-mode", ds::getDefaultValuesMode, ds::setDefaultValuesMode, DefaultValuesModeEnum.class);
         p.attribute(e, "route", ds::getRoute, ds::setRoute);
         p.attributeBoolean(e, "fetch-on-init", ds::getFetchOnInit, ds::setFetchOnInit);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, Submit::new, this::submit);
         p.childrenByEnum(e, "filters", ds::getFilters, ds::setFilters, N2oPreFilter::getType,
-                N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::filters);
+                N2oPreFilter::setType, N2oPreFilter::new, FilterTypeEnum.class, this::filters);
     }
 
     private void submit(Element e, Submit t, IOProcessor p) {
         p.attribute(e, "operation-id", t::getOperationId, t::setOperationId);
         p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);
-        p.attributeEnum(e, "message-position", t::getMessagePosition, t::setMessagePosition, MessagePosition.class);
-        p.attributeEnum(e, "message-placement", t::getMessagePlacement, t::setMessagePlacement, MessagePlacement.class);
+        p.attributeEnum(e, "message-position", t::getMessagePosition, t::setMessagePosition, MessagePositionEnum.class);
+        p.attributeEnum(e, "message-placement", t::getMessagePlacement, t::setMessagePlacement, MessagePlacementEnum.class);
         p.attribute(e, "message-widget-id", t::getMessageWidgetId, t::setMessageWidgetId);
         p.attributeBoolean(e, "refresh-on-success", t::getRefreshOnSuccess, t::setRefreshOnSuccess);
         p.attributeArray(e, "refresh-datasources", ",", t::getRefreshDatasourceIds, t::setRefreshDatasourceIds);
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.attributeBoolean(e, "submit-all", t::getSubmitAll, t::setSubmitAll);
-        p.attributeEnum(e, "auto-submit-on", t::getSubmitOn, t::setSubmitOn, SubmitOn.class);
+        p.attributeEnum(e, "auto-submit-on", t::getSubmitOn, t::setSubmitOn, SubmitOnEnum.class);
         p.children(e, null, "path-param", t::getPathParams, t::setPathParams, N2oParam.class, this::submitParam);
         p.children(e, null, "header-param", t::getHeaderParams, t::setHeaderParams, N2oParam.class, this::submitParam);
         p.children(e, null, "form-param", t::getFormParams, t::setFormParams, N2oFormParam.class, this::submitFormParam);
@@ -65,14 +65,14 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
         p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
         p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
     }
 
     private void submitFormParam(Element e, N2oFormParam t, IOProcessor p) {
         p.attribute(e, "id", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
         p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
     }
 
 }

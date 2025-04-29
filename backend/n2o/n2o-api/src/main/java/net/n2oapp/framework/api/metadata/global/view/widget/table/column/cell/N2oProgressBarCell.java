@@ -9,12 +9,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oProgressBarCell extends N2oAbstractCell {
-    private Size size;
+    private SizeEnum size;
     private Boolean striped;
     private Boolean active;
     private String color;
 
-    public enum Size {
+    public enum SizeEnum {
         small, normal, large
     }
 }

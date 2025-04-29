@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.compile.enums.Color;
+import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
@@ -52,7 +52,7 @@ public class ConfirmActionValidator implements SourceValidator<N2oConfirmAction>
     private static void checkColor(String color) {
         if (color != null && !Objects.equals(color, "link")
                 && !color.startsWith("outline")
-                && !EnumUtils.isValidEnum(Color.class, color)) {
+                && !EnumUtils.isValidEnum(ColorEnum.class, color)) {
             throw new N2oMetadataValidationException(
                     String.format("Одна из кнопок действия <confirm> использует недопустимое значение атрибута color=%s",
                             ValidationUtils.getIdOrEmptyString(color))

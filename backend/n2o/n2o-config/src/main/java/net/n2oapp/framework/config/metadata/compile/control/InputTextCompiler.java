@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
-import net.n2oapp.framework.api.metadata.domain.Domain;
+import net.n2oapp.framework.api.metadata.domain.DomainEnum;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
@@ -49,8 +49,8 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
      */
 
     private void compileDomain(InputText inputText, N2oInputText source, CompileProcessor p) {
-        Domain domain = Domain.getByName(source.getDomain());
-        if (domain == null) domain = Domain.STRING;
+        DomainEnum domain = DomainEnum.getByName(source.getDomain());
+        if (domain == null) domain = DomainEnum.STRING;
         switch (domain) {
             case INTEGER:
                 inputText.setMin(castDefault(p.resolveJS(source.getMin(), Integer.class), Integer.MIN_VALUE));

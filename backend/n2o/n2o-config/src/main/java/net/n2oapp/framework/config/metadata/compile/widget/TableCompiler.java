@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
@@ -79,7 +79,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         WidgetScope widgetScope = new WidgetScope(
                 source.getId(),
                 source.getDatasourceId(),
-                ReduxModel.filter, p
+                ReduxModelEnum.filter, p
         );
         SubModelsScope subModelsScope = castDefault(p.getScope(SubModelsScope.class), SubModelsScope::new);
         ValidationScope validationScope = castDefault(p.getScope(ValidationScope.class), ValidationScope::new);
@@ -90,9 +90,9 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
 
         table.setFilter(initFilter(
                 table, source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.filter, widgetScope.getClientDatasourceId(), p.getScope(Models.class)),
+                new ModelsScope(ReduxModelEnum.filter, widgetScope.getClientDatasourceId(), p.getScope(Models.class)),
                 subModelsScope,
-                new MomentScope(N2oValidation.ServerMoment.beforeQuery),
+                new MomentScope(N2oValidation.ServerMomentEnum.beforeQuery),
                 validationScope,
                 tableFiltersScope
         ));
@@ -105,7 +105,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         component.setTextWrap(castDefault(source.getTextWrap(), p.resolve(property("n2o.api.widget.table.text_wrap"), Boolean.class)));
         component.getBody().setRow(initRows(source, context, p, object, widgetScope, widgetActions, component));
         table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p, widgetScope));
-        table.setChildren(castDefault(source.getChildren(), () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggle.class)));
+        table.setChildren(castDefault(source.getChildren(), () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggleEnum.class)));
         table.setSaveSettings(shouldSaveSettings(source, p));
         component.setAutoSelect(castDefault(source.getAutoSelect(), () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
 
@@ -202,7 +202,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         filter.setFilterButtonId("filter");
         filter.setFetchOnClear(castDefault(source.getFilters().getFetchOnClear(), () -> p.resolve(property("n2o.api.widget.table.fetch_on_clear"), Boolean.class)));
         filter.setBlackResetList(initBlackResetList(searchButtons));
-        filter.setFilterPlace(castDefault(source.getFilters().getPlace(), FilterPosition.TOP));
+        filter.setFilterPlace(castDefault(source.getFilters().getPlace(), FilterPositionEnum.TOP));
         filter.setFetchOnChange(castDefault(source.getFilters().getFetchOnChange(), () -> p.resolve(property("n2o.api.widget.table.fetch_on_change"), Boolean.class)));
         initInlineFiltersDatasource(compiled, source, p);
 

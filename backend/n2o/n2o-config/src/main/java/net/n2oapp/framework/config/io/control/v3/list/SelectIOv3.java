@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.control.v3.list;
 
-import net.n2oapp.framework.api.metadata.control.list.ListType;
+import net.n2oapp.framework.api.metadata.control.list.ListTypeEnum;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelect;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.common.BadgeAwareIO;
@@ -16,7 +16,7 @@ public class SelectIOv3 extends ListFieldIOv3<N2oSelect> implements BadgeAwareIO
     @Override
     public void io(Element e, N2oSelect m, IOProcessor p) {
         super.io(e, m, p);
-        p.attributeEnum(e, "type", m::getType, m::setType, ListType.class);
+        p.attributeEnum(e, "type", m::getType, m::setType, ListTypeEnum.class);
         p.attributeBoolean(e, "cleanable", m::getCleanable, m::setCleanable);
         p.attribute(e, "select-format", m::getSelectFormat, m::setSelectFormat);
         p.attribute(e, "select-format-one", m::getSelectFormatOne, m::setSelectFormatOne);

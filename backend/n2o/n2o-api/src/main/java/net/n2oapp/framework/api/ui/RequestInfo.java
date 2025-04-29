@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.api.user.UserContext;
 
 import java.util.LinkedHashMap;
@@ -21,8 +21,8 @@ public class RequestInfo {
     private Map<String, Object> attributes;
     private DataSet queryData;
     private String messagesForm;
-    private MessagePosition messagePosition;
-    private MessagePlacement messagePlacement;
+    private MessagePositionEnum messagePosition;
+    private MessagePlacementEnum messagePlacement;
     private CompileContext<?, ?> context;
 
     public void addAttribute(String name, Object value) {

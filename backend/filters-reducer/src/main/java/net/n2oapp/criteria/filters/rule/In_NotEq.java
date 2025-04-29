@@ -1,7 +1,7 @@
 package net.n2oapp.criteria.filters.rule;
 
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.InListRule;
 
@@ -18,9 +18,9 @@ public class In_NotEq extends InListRule {
 
     @Override
     protected List getResultList(Filter left, Filter right) {
-        if (right.getType().equals(FilterType.in) && left.getType().equals(FilterType.notEq))
+        if (right.getType().equals(FilterTypeEnum.in) && left.getType().equals(FilterTypeEnum.notEq))
             return getResultList(right, left);
-        else if (left.getType().equals(FilterType.in) && right.getType().equals(FilterType.notEq)) {
+        else if (left.getType().equals(FilterTypeEnum.in) && right.getType().equals(FilterTypeEnum.notEq)) {
             List list = new ArrayList((List) left.getValue());
             if (((List) left.getValue()).contains(right.getValue())) {
                 list.remove(right.getValue());
@@ -32,7 +32,7 @@ public class In_NotEq extends InListRule {
 
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.in, FilterType.notEq);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.in, FilterTypeEnum.notEq);
     }
 }

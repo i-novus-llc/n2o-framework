@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnFixedPosition;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnFixedPositionEnum;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 
 import java.util.HashMap;
@@ -30,10 +30,9 @@ public abstract class BaseColumn extends AbstractColumn implements JsonPropertie
     @JsonProperty
     private Object visible;
     @JsonProperty
-    private ColumnFixedPosition fixed;
-
+    private ColumnFixedPositionEnum fixed;
     @JsonProperty
-    private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
+    private Map<ValidationTypeEnum, List<Condition>> conditions = new HashMap<>();
     @JsonProperty
     private Map<String, Object> elementAttributes = new HashMap<>();
     private Map<String, Object> properties;

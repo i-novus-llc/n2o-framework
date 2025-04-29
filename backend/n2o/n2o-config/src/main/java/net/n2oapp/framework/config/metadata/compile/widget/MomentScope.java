@@ -11,9 +11,9 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 @Getter
 @Setter
 public class MomentScope {
-    private N2oValidation.ServerMoment moment;
+    private N2oValidation.ServerMomentEnum moment;
 
-    public MomentScope(N2oValidation.ServerMoment moment) {
+    public MomentScope(N2oValidation.ServerMomentEnum moment) {
         this.moment = moment;
     }
 }

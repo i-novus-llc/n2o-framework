@@ -2,7 +2,7 @@ package net.n2oapp.criteria.filters.rule;
 
 import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.Rule;
 
@@ -31,7 +31,7 @@ public class Eq_Eq implements Rule {
     }
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.eq, FilterType.eq);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.eq, FilterTypeEnum.eq);
     }
 }

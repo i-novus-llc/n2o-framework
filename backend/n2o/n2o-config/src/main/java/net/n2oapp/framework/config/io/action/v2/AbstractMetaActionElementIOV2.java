@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.action.v2;
 
 import net.n2oapp.framework.api.metadata.action.N2oAbstractMetaAction;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 
@@ -23,7 +23,7 @@ public abstract class AbstractMetaActionElementIOV2<T extends N2oAbstractMetaAct
         p.attributeArray(e, "refresh-datasources", ",", a::getRefreshDatasourceIds, a::setRefreshDatasourceIds);
         p.attributeBoolean(e, "refresh-on-success", a::getRefreshOnSuccess, a::setRefreshOnSuccess);
         p.attribute(e, "redirect-url", a::getRedirectUrl, a::setRedirectUrl);
-        p.attributeEnum(e, "redirect-target", a::getRedirectTarget, a::setRedirectTarget, Target.class);
+        p.attributeEnum(e, "redirect-target", a::getRedirectTarget, a::setRedirectTarget, TargetEnum.class);
 
     }
 }

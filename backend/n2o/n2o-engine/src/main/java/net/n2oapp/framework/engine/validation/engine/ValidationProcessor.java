@@ -3,7 +3,7 @@ package net.n2oapp.framework.engine.validation.engine;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.exception.N2oValidationException;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.exception.ValidationMessage;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.engine.validation.engine.info.ObjectValidationInfo;
@@ -28,12 +28,12 @@ public class ValidationProcessor {
         this.domainProcessor = domainProcessor;
     }
 
-    public List<FailInfo> validate(ObjectValidationInfo info, N2oValidation.ServerMoment moment) {
+    public List<FailInfo> validate(ObjectValidationInfo info, N2oValidation.ServerMomentEnum moment) {
         Validator validator = buildValidator(info, moment);
         return collectFails(validator, info);
     }
 
-    public List<FailInfo> validate(QueryValidationInfo info, N2oValidation.ServerMoment moment) {
+    public List<FailInfo> validate(QueryValidationInfo info, N2oValidation.ServerMomentEnum moment) {
         Validator validator = buildValidator(info, moment);
         return collectFails(validator, info);
     }
@@ -47,7 +47,7 @@ public class ValidationProcessor {
         return fails;
     }
 
-    private Validator buildValidator(QueryValidationInfo info, N2oValidation.ServerMoment moment) {
+    private Validator buildValidator(QueryValidationInfo info, N2oValidation.ServerMomentEnum moment) {
         return Validator.newBuilder()
                 .addDataSet(info.getDataSet())
                 .addInvocationProcessor(invocationProcessor)
@@ -58,7 +58,7 @@ public class ValidationProcessor {
                 .build();
     }
 
-    private Validator buildValidator(ObjectValidationInfo info, N2oValidation.ServerMoment moment) {
+    private Validator buildValidator(ObjectValidationInfo info, N2oValidation.ServerMomentEnum moment) {
         return Validator.newBuilder()
                 .addDataSet(info.getDataSet())
                 .addInvocationProcessor(invocationProcessor)
@@ -71,7 +71,7 @@ public class ValidationProcessor {
     private List<FailInfo> getFailsWithDanger(List<FailInfo> fails) {
         return fails
                 .stream()
-                .filter(fail -> SeverityType.danger.equals(fail.getSeverity()))
+                .filter(fail -> SeverityTypeEnum.danger.equals(fail.getSeverity()))
                 .toList();
     }
 

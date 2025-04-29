@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
-import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 
@@ -43,7 +43,7 @@ public class ValidateOperation<S> implements PipelineOperation<S, S>, PipelineOp
     }
 
     @Override
-    public PipelineOperationType getPipelineOperationType() {
-        return PipelineOperationType.VALIDATE;
+    public PipelineOperationTypeEnum getPipelineOperationType() {
+        return PipelineOperationTypeEnum.VALIDATE;
     }
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 public class AlertActionPayload implements ActionPayload {
     @JsonProperty
-    private MessagePlacement key;
+    private MessagePlacementEnum key;
     @JsonProperty
     private List<ResponseMessage> alerts;
 }

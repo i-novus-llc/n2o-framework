@@ -2,9 +2,9 @@ package net.n2oapp.framework.autotest.impl.component.cell;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
-import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlaceEnum;
+import net.n2oapp.framework.api.metadata.meta.control.TextPositionEnum;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 
 import java.time.Duration;
@@ -26,7 +26,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     @Override
-    public void shouldHaveShape(ShapeType shape) {
+    public void shouldHaveShape(ShapeTypeEnum shape) {
         SelenideElement imageContainer = img().parent().parent();
         switch (shape) {
             case CIRCLE:
@@ -60,13 +60,13 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     @Override
-    public void shouldHaveTextPosition(TextPosition textPosition) {
+    public void shouldHaveTextPosition(TextPositionEnum textPosition) {
         element().$(".n2o-image__content")
                 .shouldHave(Condition.cssClass(textPosition.name()));
     }
 
     @Override
-    public void shouldHaveStatus(ImageStatusElementPlace position, int index, String title, Duration... duration) {
+    public void shouldHaveStatus(ImageStatusElementPlaceEnum position, int index, String title, Duration... duration) {
         should(
                 Condition.text(title),
                 getStatus(position, index).$(".n2o-status__text"),
@@ -75,7 +75,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     @Override
-    public void statusShouldHaveIcon(ImageStatusElementPlace position, int index, String icon) {
+    public void statusShouldHaveIcon(ImageStatusElementPlaceEnum position, int index, String icon) {
         if (icon != null && !icon.isEmpty()) {
             getStatus(position, index)
                     .$(String.format(".n2o-status__icon%s", icon))
@@ -83,7 +83,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
         }
     }
 
-    protected SelenideElement getStatus(ImageStatusElementPlace position, int index) {
+    protected SelenideElement getStatus(ImageStatusElementPlaceEnum position, int index) {
         return element().$$(String.format(".n2o-image-statuses .%s", position)).get(index);
     }
 

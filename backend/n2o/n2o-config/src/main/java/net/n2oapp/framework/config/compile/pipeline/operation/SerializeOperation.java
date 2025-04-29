@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
-import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -49,8 +49,8 @@ public class SerializeOperation<S extends SourceMetadata> implements PipelineOpe
     }
 
     @Override
-    public PipelineOperationType getPipelineOperationType() {
-        return PipelineOperationType.SERIALIZE;
+    public PipelineOperationTypeEnum getPipelineOperationType() {
+        return PipelineOperationTypeEnum.SERIALIZE;
     }
 
     @Override

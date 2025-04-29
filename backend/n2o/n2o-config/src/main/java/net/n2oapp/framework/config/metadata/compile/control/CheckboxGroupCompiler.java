@@ -30,7 +30,7 @@ public class CheckboxGroupCompiler extends ListControlCompiler<CheckboxGroup, N2
         checkboxGroup.setInline(castDefault(source.getInline(),
                 () -> p.resolve(property("n2o.api.control.checkbox_group.inline"), Boolean.class)));
         checkboxGroup.setType(castDefault(source.getType(),
-                () -> p.resolve(property("n2o.api.control.checkbox_group.type"), N2oCheckboxGroup.CheckboxGroupType.class)));
+                () -> p.resolve(property("n2o.api.control.checkbox_group.type"), N2oCheckboxGroup.CheckboxGroupTypeEnum.class)));
         StandardField<CheckboxGroup> result = compileListControl(checkboxGroup, source, context, p);
         return compileFetchDependencies(result, source, p);
     }

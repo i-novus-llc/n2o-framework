@@ -5,8 +5,8 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oLineChart;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oLineChartItem;
-import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLineType;
-import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartType;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLineTypeEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.LineChart;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.LineChartItem;
 import org.springframework.stereotype.Component;
@@ -24,13 +24,13 @@ public class LineChartCompiler extends StandardChartCompiler<LineChart, N2oLineC
     public LineChart compile(N2oLineChart source, CompileContext<?, ?> context, CompileProcessor p) {
         LineChart chart = new LineChart();
         build(chart, source, p, property("n2o.api.widget.chart.line.src"));
-        chart.setType(ChartType.line);
+        chart.setType(ChartTypeEnum.line);
         for (N2oLineChartItem item : source.getItems()) {
             LineChartItem component = new LineChartItem();
             component.setFieldId(item.getFieldId());
             component.setLabel(item.getLabel());
             component.setType(castDefault(item.getType(),
-                    () -> p.resolve(property("n2o.api.widget.chart.line.type"), ChartLineType.class)));
+                    () -> p.resolve(property("n2o.api.widget.chart.line.type"), ChartLineTypeEnum.class)));
             component.setColor(item.getColor());
             component.setHasLabel(castDefault(item.getHasLabel(),
                     () -> p.resolve(property("n2o.api.widget.chart.line.has_label"), Boolean.class)));

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.action;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -55,30 +55,30 @@ class AlertActionAT extends AutoTestBase {
         StandardWidget.WidgetToolbar toolbar = page.widget(FormWidget.class).toolbar();
 
         toolbar.topLeft().button("Тестирование текста и заголовка").click();
-        Alert alert = page.alerts(Alert.Placement.topLeft).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.topLeft).alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Простое уведомление");
         alert.shouldHaveText("Привет, мир!");
-        alert.shouldHaveColor(Colors.SECONDARY);
+        alert.shouldHaveColor(ColorsEnum.SECONDARY);
         alert.closeButton().shouldExists();
 
         toolbar.topLeft().button("Тестирование таймаута").click();
-        alert = page.alerts(Alert.Placement.topRight).alert(0);
-        alert.shouldHaveColor(Colors.INFO);
+        alert = page.alerts(Alert.PlacementEnum.topRight).alert(0);
+        alert.shouldHaveColor(ColorsEnum.INFO);
         alert.closeButton().shouldNotExists();
         alert.shouldNotExists();
 
         toolbar.topLeft().button("Тестирование кнопки закрыть").click();
-        alert = page.alerts(Alert.Placement.bottomRight).alert(0);
-        alert.shouldHaveColor(Colors.LIGHT);
+        alert = page.alerts(Alert.PlacementEnum.bottomRight).alert(0);
+        alert.shouldHaveColor(ColorsEnum.LIGHT);
         alert.closeButton().shouldExists();
         alert.closeButton().click();
         alert.shouldNotExists();
 
         toolbar.topLeft().button("Тестирование ссылки").click();
-        alert = page.alerts(Alert.Placement.bottomLeft).alert(0);
+        alert = page.alerts(Alert.PlacementEnum.bottomLeft).alert(0);
         alert.shouldExists();
-        alert.shouldHaveColor(Colors.WARNING);
+        alert.shouldHaveColor(ColorsEnum.WARNING);
         alert.closeButton().shouldExists();
         alert.shouldHaveUrl(getBaseUrl() + "/#/test");
         alert.shouldHaveText("Привет, мир!");

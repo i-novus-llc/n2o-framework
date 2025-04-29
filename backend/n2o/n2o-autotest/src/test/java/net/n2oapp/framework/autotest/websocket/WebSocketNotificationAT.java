@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.websocket;
 
 import com.codeborne.selenide.Configuration;
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -75,11 +75,11 @@ class WebSocketNotificationAT extends AutoTestBase {
 
         webSocketMessageController.sendAlert(DESTINATION, message);
         page.shouldBeVisible();
-        Alert alert = page.alerts(Alert.Placement.topLeft).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.topLeft).alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Title");
         alert.shouldHaveText("Text");
-        alert.shouldHaveColor(Colors.PRIMARY);
+        alert.shouldHaveColor(ColorsEnum.PRIMARY);
 
         message.clear();
 
@@ -90,10 +90,10 @@ class WebSocketNotificationAT extends AutoTestBase {
 
         webSocketMessageController.sendAlert(DESTINATION, message);
         page.shouldBeVisible();
-        alert = page.alerts(Alert.Placement.bottomRight).alert(0);
+        alert = page.alerts(Alert.PlacementEnum.bottomRight).alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Hello world");
         alert.shouldHaveText("Привет Мир");
-        alert.shouldHaveColor(Colors.DANGER);
+        alert.shouldHaveColor(ColorsEnum.DANGER);
     }
 }

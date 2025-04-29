@@ -7,9 +7,7 @@ import net.n2oapp.framework.config.register.storage.Node;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * Тестирование утилитного класса для работы с регистром
@@ -43,7 +41,7 @@ class RegisterUtilTest {
         Node node = Node.byDirectory(new File("/opt/n2o/conf/some/objects/some.object.xml"), "/opt/n2o/conf");
         InfoConstructor info = RegisterUtil.createXmlInfo(node, metaModelRegister);
         assert info.getId().equals("some");
-        assert info.getOrigin().equals(Origin.xml);
+        assert info.getOrigin().equals(OriginEnum.xml);
     }
 
     @Test
@@ -53,13 +51,13 @@ class RegisterUtilTest {
         InfoConstructor info = new InfoConstructor();
         info.setLocalPath("/some/objects/some.object.xml");
         info.setConfigId(new ConfigId("some", metaModelRegister.get(N2oObject.class)));
-        info.setOrigin(Origin.xml);
+        info.setOrigin(OriginEnum.xml);
         assert info.getDirectory().equals("/some/objects");
 
         info = new InfoConstructor();
         info.setLocalPath("some.object.xml");
         info.setConfigId(new ConfigId("some", metaModelRegister.get(N2oObject.class)));
-        info.setOrigin(Origin.xml);
+        info.setOrigin(OriginEnum.xml);
         assert info.getDirectory().equals("");
     }
 

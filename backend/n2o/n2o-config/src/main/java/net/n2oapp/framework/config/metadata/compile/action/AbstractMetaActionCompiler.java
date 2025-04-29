@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.metadata.action.N2oAbstractMetaAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
@@ -67,7 +67,7 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
                 }
                 meta.setRedirect(new RedirectSaga());
                 meta.getRedirect().setPath(backRoute);
-                meta.getRedirect().setTarget(Target.application);
+                meta.getRedirect().setTarget(TargetEnum.application);
             }
         }
     }

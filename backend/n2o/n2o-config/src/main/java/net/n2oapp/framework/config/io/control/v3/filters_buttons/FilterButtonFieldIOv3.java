@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.control.v3.filters_buttons;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.control.filter_buttons.N2oFilterButtonField;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.common.BadgeAwareIO;
@@ -15,7 +15,7 @@ public abstract class FilterButtonFieldIOv3<T extends N2oFilterButtonField> exte
         super.io(e, m, p);
         badge(e, m, p);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
-        p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModelEnum.class);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "color", m::getColor, m::setColor);
         p.attribute(e, "tooltip-position", m::getTooltipPosition, m::setTooltipPosition);

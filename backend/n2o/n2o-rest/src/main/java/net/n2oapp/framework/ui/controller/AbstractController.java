@@ -3,14 +3,14 @@ package net.n2oapp.framework.ui.controller;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.api.Sorting;
-import net.n2oapp.criteria.api.SortingDirection;
+import net.n2oapp.criteria.api.SortingDirectionEnum;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -171,7 +171,7 @@ public abstract class AbstractController {
             String fieldId = sortingMap.get(key);
             String value = data.getString(key);
             if (value != null) {
-                SortingDirection direction = SortingDirection.valueOf(value.toUpperCase());
+                SortingDirectionEnum direction = SortingDirectionEnum.valueOf(value.toUpperCase());
                 sortings.add(new Sorting(fieldId, direction));
             }
         }
@@ -192,9 +192,9 @@ public abstract class AbstractController {
 
     private void createFilter(CompiledQuery query, N2oPreparedCriteria criteria, Object value, String filterId) {
         if (query.getInvertFiltersMap().containsKey(filterId)) {
-            Map.Entry<String, FilterType> typeEntry = query.getInvertFiltersMap().get(filterId);
+            Map.Entry<String, FilterTypeEnum> typeEntry = query.getInvertFiltersMap().get(filterId);
             String fieldId = typeEntry.getKey();
-            FilterType filterType = typeEntry.getValue();
+            FilterTypeEnum filterType = typeEntry.getValue();
             Restriction restriction = new Restriction(fieldId, value, filterType);
             criteria.addRestriction(restriction);
         } else {
@@ -213,7 +213,7 @@ public abstract class AbstractController {
         requestInfo.setUser(user);
         requestInfo.setQuery(query);
         requestInfo.setData(data);
-        requestInfo.setMode(queryCtx.getMode() != null ? queryCtx.getMode() : DefaultValuesMode.query);
+        requestInfo.setMode(queryCtx.getMode() != null ? queryCtx.getMode() : DefaultValuesModeEnum.query);
         requestInfo.setCriteria(prepareCriteria(requestInfo.getQuery(), data, queryCtx));
         requestInfo.setMessagesForm(queryCtx.getMessagesForm());
         requestInfo.setSize(requestInfo.getCriteria().getSize());

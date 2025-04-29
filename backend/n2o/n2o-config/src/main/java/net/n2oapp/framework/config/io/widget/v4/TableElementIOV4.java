@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.io.widget.v4;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggle;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPosition;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggleEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPositionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
@@ -44,12 +44,12 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attributeBoolean(e, "text-wrap", t::getTextWrap, t::setTextWrap);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns, columns(p));
         p.child(e, null, "filters", t::getFilters, t::setFilters, N2oTable.N2oTableFilters::new, this::filters);
-        p.attributeEnum(e, "children", t::getChildren, t::setChildren, ChildrenToggle.class);
+        p.attributeEnum(e, "children", t::getChildren, t::setChildren, ChildrenToggleEnum.class);
         t.adapterV4();
     }
 
     private void filters(Element e, N2oTable.N2oTableFilters f, IOProcessor p) {
-        p.attributeEnum(e, "place", f::getPlace, f::setPlace, FilterPosition.class);
+        p.attributeEnum(e, "place", f::getPlace, f::setPlace, FilterPositionEnum.class);
         p.attribute(e, "default-values-query-id", f::getDefaultValuesQueryId, f::setDefaultValuesQueryId);
         p.attributeBoolean(e, "search-on-change", f::getFetchOnChange, f::setFetchOnChange);
         p.anyChildren(e, null, f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
@@ -69,10 +69,10 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attribute(e, "label", c::getLabel, c::setLabel);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
         p.attribute(e, "sorting-field-id", c::getSortingFieldId, c::setSortingFieldId);
-        p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, SortingDirection.class);
+        p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, SortingDirectionEnum.class);
         p.attribute(e, "width", c::getWidth, c::setWidth);
         p.attributeBoolean(e, "resizable", c::getResizable, c::setResizable);
-        p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPosition.class);
+        p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPositionEnum.class);
         p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(N2oBaseColumn.ColumnVisibility.class)
                 .add("visibility", N2oBaseColumn.ColumnVisibility.class, this::dependency));
         p.anyAttributes(e, c::getExtAttributes, c::setExtAttributes);
@@ -80,7 +80,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
 
     private void dependency(Element e, N2oBaseColumn.ColumnVisibility t, IOProcessor p) {
         p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", t::getModel, t::setModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", t::getModel, t::setModel, ReduxModelEnum.class);
         p.text(e, t::getValue, t::setValue);
     }
 

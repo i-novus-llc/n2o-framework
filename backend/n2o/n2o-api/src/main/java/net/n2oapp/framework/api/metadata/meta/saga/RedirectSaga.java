@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public class RedirectSaga implements Compiled {
     @JsonProperty
     private Map<String, BindLink> queryMapping = new LinkedHashMap<>();
     @JsonProperty
-    private Target target;
+    private TargetEnum target;
     /**
      * Признак, что ссылки в редиректе требуется разрещать на сервере
      */

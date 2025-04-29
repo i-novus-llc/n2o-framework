@@ -44,7 +44,7 @@ public interface StandardField extends Field {
      * Проверка положения метки
      * @param position ожидаемое положение метки
      */
-    void shouldHaveLabelLocation(FieldSet.LabelPosition position);
+    void shouldHaveLabelLocation(FieldSet.LabelPositionEnum position);
 
     /**
      * Проверка сообщения валидации на соответствие условию

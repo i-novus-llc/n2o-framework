@@ -1,6 +1,6 @@
 package net.n2oapp.criteria.filters.rule;
 
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.AlwaysConflictRule;
 
@@ -12,7 +12,7 @@ import net.n2oapp.criteria.filters.rule.base.AlwaysConflictRule;
 public class In_IsNull extends AlwaysConflictRule {
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.in, FilterType.isNull);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.in, FilterTypeEnum.isNull);
     }
 }

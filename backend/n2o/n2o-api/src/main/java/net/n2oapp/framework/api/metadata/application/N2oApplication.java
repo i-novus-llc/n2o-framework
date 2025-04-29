@@ -21,7 +21,7 @@ public class N2oApplication extends N2oMetadata {
     /**
      * Макет отображения элементов управления
      */
-    private NavigationLayout navigationLayout;
+    private NavigationLayoutEnum navigationLayout;
     /**
      * Зафиксированы ли header и sidebar
      */

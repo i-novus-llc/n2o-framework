@@ -3,23 +3,23 @@ package net.n2oapp.framework.api.metadata.action;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.control.PageRef;
+import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -37,9 +37,9 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     private String pageId;
     private String pageName;
     private String route;
-    private Target target;
+    private TargetEnum target;
     @Deprecated
-    private DefaultValuesMode mode;
+    private DefaultValuesModeEnum mode;
     @Deprecated
     private String masterFieldId;
     @Deprecated
@@ -56,29 +56,29 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
     @Deprecated
     private String submitLabel;
     @Deprecated
-    private ReduxModel submitModel;
+    private ReduxModelEnum submitModel;
     @Deprecated
-    private SubmitActionType submitActionType;
+    private SubmitActionTypeEnum submitActionType;
     @Deprecated
     private Boolean submitMessageOnSuccess;
     @Deprecated
     private Boolean submitMessageOnFail;
 
-    private CopyMode copyMode;
+    private CopyModeEnum copyMode;
     private String copyDatasourceId;
-    private ReduxModel copyModel;
+    private ReduxModelEnum copyModel;
     private String copyFieldId;
     private String targetDatasourceId;
-    private ReduxModel targetModel;
+    private ReduxModelEnum targetModel;
     private String targetFieldId;
-    private PageRef targetPage;
+    private PageRefEnum targetPage;
 
     @Deprecated
     private Boolean closeAfterSubmit;
     @Deprecated
     private String redirectUrlAfterSubmit;
     @Deprecated
-    private Target redirectTargetAfterSubmit;
+    private TargetEnum redirectTargetAfterSubmit;
     @Deprecated
     private Boolean refreshAfterSubmit;
     @JsonProperty("refreshDatasources")
@@ -104,21 +104,21 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
             if (getMode() != null) {
                 switch (getMode()) {
                     case query:
-                        datasource.setDefaultValuesMode(DefaultValuesMode.query);
+                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
                         break;
                     case defaults:
-                        datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
+                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.defaults);
                         break;
                     case merge:
-                        datasource.setDefaultValuesMode(DefaultValuesMode.merge);
+                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.merge);
                         break;
                 }
             }
 
-            if (getDetailFieldId() != null && !DefaultValuesMode.defaults.equals(getMode())) {
+            if (getDetailFieldId() != null && !DefaultValuesModeEnum.defaults.equals(getMode())) {
                 N2oPreFilter filter = new N2oPreFilter();
                 filter.setFieldId(getDetailFieldId());
-                filter.setType(FilterType.eq);
+                filter.setType(FilterTypeEnum.eq);
                 filter.setValueAttr(Placeholders.ref(getMasterFieldId() != null ? getMasterFieldId() : PK));
                 String param = getMasterParam();
                 if (param == null && getRoute() != null && getRoute().contains(":")) {
@@ -146,7 +146,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
                     }
                     if (!exists)
                         addPathParams(new N2oPathParam[]{pathParam});
-                } else if (!ReduxModel.filter.equals(filter.getModel())) {
+                } else if (!ReduxModelEnum.filter.equals(filter.getModel())) {
                     N2oQueryParam queryParam = new N2oQueryParam();
                     queryParam.setName(param);
                     queryParam.setDatasourceId(filter.getDatasourceId());

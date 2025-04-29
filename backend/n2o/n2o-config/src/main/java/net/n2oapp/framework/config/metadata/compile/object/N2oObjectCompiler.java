@@ -16,7 +16,7 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
-import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
+import net.n2oapp.framework.config.metadata.compile.action.DefaultActionsEnum;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import org.springframework.stereotype.Component;
@@ -179,7 +179,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 javaDataProvider.setClassName(source.getServiceClass());
             if (source.getEntityClass() != null && javaDataProvider.getArguments() != null)
                 Arrays.stream(javaDataProvider.getArguments())
-                        .filter(arg -> arg.getClassName() == null && arg.getType() == Argument.Type.ENTITY)
+                        .filter(arg -> arg.getClassName() == null && arg.getType() == Argument.TypeEnum.ENTITY)
                         .forEach(arg -> arg.setClassName(source.getEntityClass()));
         }
     }
@@ -342,7 +342,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             if (Boolean.TRUE.equals(parameter.getRequired())) {
                 MandatoryValidation validation = new MandatoryValidation(parameter.getId(),
                         p.getMessage("n2o.required.field"), parameter.getId());
-                validation.setMoment(N2oValidation.ServerMoment.beforeOperation);
+                validation.setMoment(N2oValidation.ServerMomentEnum.beforeOperation);
                 requiredParamValidations.add(validation);
             }
         }
@@ -420,7 +420,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setFailTitle(operation.getFailTitle());
         compiledOperation.setInvocation(operation.getInvocation());
         compiledOperation.setValidations(operation.getValidations());
-        DefaultActions defaultOperations = DefaultActions.get(operation.getId());
+        DefaultActionsEnum defaultOperations = DefaultActionsEnum.get(operation.getId());
         if (defaultOperations != null) {
             compiledOperation.setName(castDefault(operation.getName(), defaultOperations.getLabel()));
         }

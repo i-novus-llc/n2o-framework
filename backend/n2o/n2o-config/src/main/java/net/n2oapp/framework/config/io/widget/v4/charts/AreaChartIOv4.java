@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.widget.v4.charts;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oAreaChartItem;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oAreaChart;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLineType;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLineTypeEnum;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,7 @@ public class AreaChartIOv4 extends StandardChartIOv4<N2oAreaChart> {
 
     private void areaChartIOv4(Element e, N2oAreaChartItem i, IOProcessor p) {
         item(e, i, p);
-        p.attributeEnum(e, "line-type", i::getLineType, i::setLineType, ChartLineType.class);
+        p.attributeEnum(e, "line-type", i::getLineType, i::setLineType, ChartLineTypeEnum.class);
         p.attribute(e, "stroke-color", i::getStrokeColor, i::setStrokeColor);
     }
 

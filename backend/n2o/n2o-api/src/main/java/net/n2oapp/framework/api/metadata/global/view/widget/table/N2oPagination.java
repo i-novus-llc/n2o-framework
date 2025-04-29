@@ -14,7 +14,7 @@ public class N2oPagination implements Source {
     private String src;
     private Boolean prev;
     private Boolean next;
-    private ShowCountType showCount;
+    private ShowCountTypeEnum showCount;
     private Boolean showLast;
     @Deprecated
     private String prevLabel;
@@ -23,6 +23,6 @@ public class N2oPagination implements Source {
     private String nextIcon;
     private String className;
     private String style;
-    private Place place;
+    private PlaceEnum place;
     private Boolean routable;
 }

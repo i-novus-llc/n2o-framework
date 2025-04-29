@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.compile.enums.Color;
+import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.control.plain.N2oProgress;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -22,7 +22,7 @@ public class ProgressValidator implements SourceValidator<N2oProgress>, SourceCl
     @Override
     public void validate(N2oProgress source, SourceProcessor p) {
         if (source.getColor() != null && !StringUtils.isLink(source.getColor()) &&
-                !EnumUtils.isValidEnum(Color.class, source.getColor())) {
+                !EnumUtils.isValidEnum(ColorEnum.class, source.getColor())) {
             throw new N2oMetadataValidationException(
                     String.format("В поле <progress> указано недопустимое значение атрибута color=\"%s\"",
                             source.getColor()));

@@ -5,7 +5,7 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarToolbar;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
-import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.CalendarViewType;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.CalendarViewTypeEnum;
 
 /**
  * Панель действий календаря для автотестирования
@@ -57,7 +57,7 @@ public class N2oCalendarToolbar extends N2oComponent implements CalendarToolbar 
     }
 
     @Override
-    public void shouldHaveActiveView(CalendarViewType viewType) {
+    public void shouldHaveActiveView(CalendarViewTypeEnum viewType) {
         element().$(".rbc-active").shouldHave(Condition.text(viewType.getTitle()));
     }
 

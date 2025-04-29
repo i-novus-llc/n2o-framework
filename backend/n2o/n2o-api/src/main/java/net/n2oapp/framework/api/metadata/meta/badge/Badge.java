@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 
 /**
  * Клиентская модель значка
@@ -25,11 +25,11 @@ public class Badge implements Compiled {
     @JsonProperty
     private String image;
     @JsonProperty
-    private Position imagePosition;
+    private PositionEnum imagePosition;
     @JsonProperty
-    private ShapeType imageShape;
+    private ShapeTypeEnum imageShape;
     @JsonProperty
-    private Position position;
+    private PositionEnum position;
     @JsonProperty
-    private ShapeType shape;
+    private ShapeTypeEnum shape;
 }

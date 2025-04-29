@@ -39,7 +39,7 @@ public interface ScrollspyRegion extends Region {
      * Проверка соответствия позиции элемента меню
      * @param position ожидаемый заголовок
      */
-    void menuShouldHavePosition(MenuPosition position);
+    void menuShouldHavePosition(MenuPositionEnum position);
 
     /**
      * @return возвращает компонент меню для автотестирования
@@ -178,7 +178,7 @@ public interface ScrollspyRegion extends Region {
         void shouldNotHaveHeadline();
     }
 
-    enum MenuPosition {
+    enum MenuPositionEnum {
         left,
         right
     }

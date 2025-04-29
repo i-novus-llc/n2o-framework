@@ -38,7 +38,7 @@ class SpringRestDataProviderEngineTest {
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
         dataProvider.setQuery("http://www.example.org/{id}");
-        dataProvider.setMethod(N2oRestDataProvider.Method.POST);
+        dataProvider.setMethod(N2oRestDataProvider.MethodEnum.POST);
         Map<String, Object> request = new HashMap<>();
         request.put("id", 1);
         actionEngine.invoke(dataProvider, request);
@@ -52,7 +52,7 @@ class SpringRestDataProviderEngineTest {
         actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         dataProvider = new N2oRestDataProvider();
         dataProvider.setQuery("http://www.example.org/{id}/{id}");
-        dataProvider.setMethod(N2oRestDataProvider.Method.POST);
+        dataProvider.setMethod(N2oRestDataProvider.MethodEnum.POST);
         actionEngine.invoke(dataProvider, request);
         assertThat(restTemplate.getQuery(), is("http://www.example.org/1/1"));
     }
@@ -63,7 +63,7 @@ class SpringRestDataProviderEngineTest {
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         N2oRestDataProvider invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
-        invocation.setMethod(N2oRestDataProvider.Method.GET);
+        invocation.setMethod(N2oRestDataProvider.MethodEnum.GET);
         Map<String, Object> request = new HashMap<>();
 
         try {
@@ -87,7 +87,7 @@ class SpringRestDataProviderEngineTest {
         invocation.setQuery("http://www.example.org/");
         invocation.setForwardedHeaders("testForwardedHeader");
         invocation.setForwardedCookies("c1,c3");
-        invocation.setMethod(N2oRestDataProvider.Method.GET);
+        invocation.setMethod(N2oRestDataProvider.MethodEnum.GET);
         Map<String, Object> request = new HashMap<>();
 
         HttpServletRequest httpServletRequest = new MockHttpServletRequest() {
@@ -157,7 +157,7 @@ class SpringRestDataProviderEngineTest {
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         N2oRestDataProvider invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
-        invocation.setMethod(N2oRestDataProvider.Method.GET);
+        invocation.setMethod(N2oRestDataProvider.MethodEnum.GET);
         Map<String, Object> request = new HashMap<>();
 
         Object result = actionEngine.invoke(invocation, request);
@@ -168,7 +168,7 @@ class SpringRestDataProviderEngineTest {
         actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
-        invocation.setMethod(N2oRestDataProvider.Method.GET);
+        invocation.setMethod(N2oRestDataProvider.MethodEnum.GET);
         request = new HashMap<>();
 
         result = actionEngine.invoke(invocation, request);
@@ -180,7 +180,7 @@ class SpringRestDataProviderEngineTest {
         actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
-        invocation.setMethod(N2oRestDataProvider.Method.GET);
+        invocation.setMethod(N2oRestDataProvider.MethodEnum.GET);
         request = new HashMap<>();
 
         result = actionEngine.invoke(invocation, request);
@@ -193,7 +193,7 @@ class SpringRestDataProviderEngineTest {
         actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         invocation = new N2oRestDataProvider();
         invocation.setQuery("http://www.example.org/");
-        invocation.setMethod(N2oRestDataProvider.Method.GET);
+        invocation.setMethod(N2oRestDataProvider.MethodEnum.GET);
         request = new HashMap<>();
 
         result = actionEngine.invoke(invocation, request);
@@ -205,7 +205,7 @@ class SpringRestDataProviderEngineTest {
         TestRestTemplate restTemplate = new TestRestTemplate("");
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
-        dataProvider.setMethod(N2oRestDataProvider.Method.POST);
+        dataProvider.setMethod(N2oRestDataProvider.MethodEnum.POST);
 //        dataProvider.setFiltersSeparator("&");//by default
         dataProvider.setJoinSeparator(";");
         dataProvider.setSelectSeparator(";");
@@ -234,7 +234,7 @@ class SpringRestDataProviderEngineTest {
         restTemplate = new TestRestTemplate("");
         actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         dataProvider = new N2oRestDataProvider();
-        dataProvider.setMethod(N2oRestDataProvider.Method.POST);
+        dataProvider.setMethod(N2oRestDataProvider.MethodEnum.POST);
         dataProvider.setQuery("http://www.example.org/findAll?{filters}");
         dataProvider.setFiltersSeparator("&");
         request = new HashMap<>();
@@ -274,7 +274,7 @@ class SpringRestDataProviderEngineTest {
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         actionEngine.setBaseRestUrl("http://localhost:8080");
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
-        dataProvider.setMethod(N2oRestDataProvider.Method.POST);
+        dataProvider.setMethod(N2oRestDataProvider.MethodEnum.POST);
         dataProvider.setQuery("/findAll");
         Map<String, Object> request = new HashMap<>();
         actionEngine.invoke(dataProvider, request);
@@ -285,7 +285,7 @@ class SpringRestDataProviderEngineTest {
         actionEngine = new SpringRestDataProviderEngine(restTemplate, objectMapper);
         dataProvider = new N2oRestDataProvider();
         actionEngine.setBaseRestUrl("http://localhost:8080");
-        dataProvider.setMethod(N2oRestDataProvider.Method.POST);
+        dataProvider.setMethod(N2oRestDataProvider.MethodEnum.POST);
         dataProvider.setQuery("findAll");
         request = new HashMap<>();
         actionEngine.invoke(dataProvider, request);
@@ -350,7 +350,7 @@ class SpringRestDataProviderEngineTest {
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
         dataProvider.setFiltersSeparator("&");
         dataProvider.setQuery("http://www.example.org/path?{filters}");
-        dataProvider.setMethod(N2oRestDataProvider.Method.GET);
+        dataProvider.setMethod(N2oRestDataProvider.MethodEnum.GET);
         Map<String, Object> request = new HashMap<>();
         request.put("filters", new ArrayList<>());
         request.put("filter1*.id", Arrays.asList("1", "2", null));

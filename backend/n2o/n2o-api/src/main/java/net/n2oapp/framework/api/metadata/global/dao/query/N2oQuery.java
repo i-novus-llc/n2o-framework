@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.dao.query;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
@@ -139,7 +139,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String text;
         private String defaultValue;
         private Object compiledDefaultValue;
-        private FilterType type;
+        private FilterTypeEnum type;
         private String filterId;
         private String fieldId;
         private String domain;
@@ -153,25 +153,25 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String param;
         private boolean generated = false;
 
-        public Filter(String filterId, FilterType type) {
+        public Filter(String filterId, FilterTypeEnum type) {
             this.filterId = filterId;
             this.type = type;
         }
 
-        public Filter(String filterId, FilterType type, String filterBody) {
+        public Filter(String filterId, FilterTypeEnum type, String filterBody) {
             this.text = filterBody;
             this.filterId = filterId;
             this.type = type;
         }
 
-        public Filter(String filterId, FilterType type, String filterBody, String domain) {
+        public Filter(String filterId, FilterTypeEnum type, String filterBody, String domain) {
             this.filterId = filterId;
             this.type = type;
             this.text = filterBody;
             this.domain = domain;
         }
 
-        public Filter(String filterId, FilterType type, String filterBody, String domain, String normalize) {
+        public Filter(String filterId, FilterTypeEnum type, String filterBody, String domain, String normalize) {
             this.type = type;
             this.filterId = filterId;
             this.domain = domain;
@@ -195,19 +195,19 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String descExpression;
         private String additionalMapping;
         private N2oInvocation invocation;
-        private Type type;
+        private TypeEnum type;
 
-        public Selection(Type type) {
+        public Selection(TypeEnum type) {
             this.type = type;
         }
 
-        public Selection(Type type, N2oInvocation invocation) {
+        public Selection(TypeEnum type, N2oInvocation invocation) {
             this(type);
             this.invocation = invocation;
         }
 
 
-        public enum Type {
+        public enum TypeEnum {
             list, unique, count
         }
     }

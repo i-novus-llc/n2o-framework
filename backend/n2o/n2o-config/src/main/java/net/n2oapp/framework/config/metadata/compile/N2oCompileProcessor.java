@@ -67,7 +67,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
      */
     private DataModel model;
 
-    private CompileMode mode = CompileMode.READ;
+    private CompileModeEnum mode = CompileModeEnum.READ;
 
     private BindTerminalPipeline bindPipeline;
     private CompileTerminalPipeline<?> compilePipeline;
@@ -103,7 +103,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
      */
     public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params) {
         this(env);
-        this.mode = CompileMode.COMPILE;
+        this.mode = CompileModeEnum.COMPILE;
         this.context = context;
         this.params = params;
         model = new DataModel();
@@ -137,7 +137,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params,
                                SubModelsProcessor subModelsProcessor, Object... scopes) {
         this(env);
-        this.mode = CompileMode.BIND;
+        this.mode = CompileModeEnum.BIND;
         this.context = context;
         this.params = params;
         this.subModelsProcessor = subModelsProcessor;
@@ -631,10 +631,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     private boolean isBinding() {
-        return mode.equals(CompileMode.BIND);
+        return mode.equals(CompileModeEnum.BIND);
     }
 
-    enum CompileMode {
+    enum CompileModeEnum {
         READ, COMPILE, BIND
     }
 }
