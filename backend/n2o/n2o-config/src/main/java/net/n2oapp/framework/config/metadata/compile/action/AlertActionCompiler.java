@@ -38,7 +38,7 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
 
     @Override
     public AlertAction compile(N2oAlertAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         AlertAction alertAction = new AlertAction();
         alertAction.setType(p.resolve(property("n2o.api.action.alert.type"), String.class));
         compileAction(alertAction, source, p);

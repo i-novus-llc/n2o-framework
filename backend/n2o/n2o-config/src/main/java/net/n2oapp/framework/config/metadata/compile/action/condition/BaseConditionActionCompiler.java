@@ -21,7 +21,7 @@ public abstract class BaseConditionActionCompiler<S extends N2oConditionBranch>
 
     @Override
     public ConditionAction compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         PageIndexScope indexScope = p.getScope(PageIndexScope.class);
         setBranchId(source, indexScope);
         ConditionAction conditionAction = new ConditionAction();

@@ -68,7 +68,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         DataSourcesScope datasourcesScope = new DataSourcesScope();
         ClientDatasourceIdsScope clientDatasourceIdsScope = new ClientDatasourceIdsScope();
 
-        PageScope pageScope = initPageScope(page.getId(), widget, context, p);
+        PageScope pageScope = initPageScope(page.getId(), widget);
         PageIndexScope pageIndexScope = new PageIndexScope(page.getId());
         FiltersScope filtersScope = new FiltersScope();
         SubModelsScope subModelsScope = new SubModelsScope();
@@ -113,7 +113,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         return result;
     }
 
-    private PageScope initPageScope(String pageId, N2oWidget widget, PageContext context, CompileProcessor p) {
+    private PageScope initPageScope(String pageId, N2oWidget widget) {
         PageScope pageScope = new PageScope();
         pageScope.setPageId(pageId);
         pageScope.setResultWidgetId(widget.getId());

@@ -4,11 +4,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.*;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.copy;
@@ -19,7 +17,7 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.copy;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReproducerAccessPoint {
 
-    public static void reproduceAccessPoint(N2oObjectAccessPoint accessPoint, final List<AccessPoint> pointList, CompileProcessor p) {
+    public static void reproduceAccessPoint(N2oObjectAccessPoint accessPoint, final List<AccessPoint> pointList) {
         split(accessPoint, accessPoint.getAction(), N2oObjectAccessPoint::setAction, pointList);
     }
 
@@ -44,7 +42,7 @@ public class ReproducerAccessPoint {
         split(accessPoint, accessPoint.getColumnId(), N2oColumnAccessPoint::setColumnId, pointList);
     }
 
-    public static void reproduceAccessPoint(N2oFilterAccessPoint accessPoint, final List<AccessPoint> pointList){
+    public static void reproduceAccessPoint(N2oFilterAccessPoint accessPoint, final List<AccessPoint> pointList) {
         split(accessPoint, accessPoint.getFilterId(), N2oFilterAccessPoint::setFilterId, pointList);
     }
 

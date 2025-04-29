@@ -35,8 +35,7 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
 public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
     private static final String PROPERTY_PREFIX = "n2o.api.control.button";
 
-    protected void compileBase(AbstractButton button, N2oAbstractButton source,
-                               CompileContext<?, ?> context, CompileProcessor p) {
+    protected void compileBase(AbstractButton button, N2oAbstractButton source, CompileProcessor p) {
         button.setId(source.getId());
         button.setProperties(p.mapAttributes(source));
         button.setIcon(source.getIcon());
@@ -88,7 +87,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         return source.getColor();
     }
 
-    protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void initDefaults(S source, CompileProcessor p) {
         PageIndexScope pageIndexScope = p.getScope(PageIndexScope.class);
         String defaultId = ("_".equals(pageIndexScope.getPageId()) ? "mi" : pageIndexScope.getPageId() + "_mi") + pageIndexScope.get();
         source.setId(castDefault(source.getId(), defaultId));

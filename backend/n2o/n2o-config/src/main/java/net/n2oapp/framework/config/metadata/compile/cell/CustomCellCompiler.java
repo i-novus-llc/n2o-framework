@@ -20,7 +20,7 @@ public class CustomCellCompiler extends AbstractCellCompiler<CustomCell, N2oCust
     @Override
     public CustomCell compile(N2oCustomCell source, CompileContext<?, ?> context, CompileProcessor p) {
         CustomCell cell = new CustomCell();
-        build(cell, source, context, p, source.getSrc());
+        build(cell, source, p, source.getSrc());
         compileAction(cell, source, context, p);
         return cell;
     }

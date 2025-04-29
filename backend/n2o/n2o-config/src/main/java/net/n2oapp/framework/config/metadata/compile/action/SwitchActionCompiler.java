@@ -31,7 +31,7 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
 
     @Override
     public SwitchAction compile(N2oSwitchAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         SwitchAction switchAction = new SwitchAction();
         switchAction.setType(p.resolve(property("n2o.api.action.switch.type"), String.class));
         compilePayload(source, switchAction.getPayload(), context, p);

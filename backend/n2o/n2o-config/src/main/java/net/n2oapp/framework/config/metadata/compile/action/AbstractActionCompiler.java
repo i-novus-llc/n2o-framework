@@ -35,7 +35,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         compiled.setProperties(p.mapAttributes(source));
     }
 
-    protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void initDefaults(S source, CompileProcessor p) {
         source.setId(initId(source, p));
     }
 

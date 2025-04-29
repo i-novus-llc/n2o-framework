@@ -31,7 +31,7 @@ public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2o
 
     @Override
     public PrintAction compile(N2oPrintAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         PrintAction print = new PrintAction();
         source.setSrc(castDefault(source.getSrc(),
                 () -> p.resolve(property("n2o.api.action.link.src"), String.class)));

@@ -26,7 +26,7 @@ public class EditListActionCompiler extends AbstractActionCompiler<EditListActio
 
     @Override
     public EditListAction compile(N2oEditListAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         EditListAction action = new EditListAction();
         compileAction(action, source, p);
         action.setType(p.resolve(property("n2o.api.action.edit_list.type"), String.class));
@@ -39,8 +39,8 @@ public class EditListActionCompiler extends AbstractActionCompiler<EditListActio
     }
 
     @Override
-    protected void initDefaults(N2oEditListAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        super.initDefaults(source, context, p);
+    protected void initDefaults(N2oEditListAction source, CompileProcessor p) {
+        super.initDefaults(source, p);
         source.setPrimaryKey(castDefault(source.getPrimaryKey(),
                 () -> p.resolve(property("n2o.api.action.edit_list.primary_key"), String.class)));
         source.setItemDatasourceId(castDefault(source.getItemDatasourceId(), () -> getLocalDatasourceId(p)));

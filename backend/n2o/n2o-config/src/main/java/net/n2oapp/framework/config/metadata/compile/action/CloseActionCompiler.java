@@ -64,7 +64,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
     }
 
     private CloseAction getCloseAction(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         CloseAction closeAction = new CloseAction();
         compileAction(closeAction, source, p);
         closeAction.setType(p.resolve(property("n2o.api.action.close.type"), String.class));

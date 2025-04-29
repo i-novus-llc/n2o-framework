@@ -27,7 +27,7 @@ public class OpenPageCompiler extends AbstractOpenPageCompiler<LinkAction, N2oOp
 
     @Override
     public LinkAction compile(N2oOpenPage source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         LinkActionImpl openPage = new LinkActionImpl();
         source.setSrc(castDefault(source.getSrc(),
                 () -> p.resolve(property("n2o.api.action.link.src"), String.class)));

@@ -17,7 +17,7 @@ public class N2oUserException extends N2oException {
         setHttpStatus(400);
     }
 
-    public N2oUserException(String userMessage, String alertKey, List<ValidationMessage> messages) {
+    public N2oUserException(String userMessage, List<ValidationMessage> messages) {
         super();
         setUserMessage(userMessage);
         setHttpStatus(400);

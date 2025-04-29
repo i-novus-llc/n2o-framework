@@ -23,7 +23,7 @@ public class RatingCellCompiler extends AbstractCellCompiler<RatingCell, N2oRati
     @Override
     public RatingCell compile(N2oRatingCell source, CompileContext<?, ?> context, CompileProcessor p) {
         RatingCell cell = new RatingCell();
-        build(cell, source, context, p, property("n2o.api.cell.rating.src"));
+        build(cell, source, p, property("n2o.api.cell.rating.src"));
         cell.setShowTooltip(castDefault(source.getShowTooltip(),
                 () -> p.resolve(property("n2o.api.cell.rating.show_tooltip"), Boolean.class)));
         cell.setHalf(castDefault(source.getHalf(),

@@ -24,7 +24,7 @@ public class TooltipListCellCompiler extends AbstractCellCompiler<TooltipListCel
     @Override
     public TooltipListCell compile(N2oTooltipListCell source, CompileContext<?, ?> context, CompileProcessor p) {
         TooltipListCell cell = new TooltipListCell();
-        build(cell, source, context, p, property("n2o.api.cell.tooltip_list.src"));
+        build(cell, source, p, property("n2o.api.cell.tooltip_list.src"));
         cell.setLabel(source.getLabel());
         cell.setFewLabel(source.getFewLabel());
         cell.setManyLabel(source.getManyLabel());

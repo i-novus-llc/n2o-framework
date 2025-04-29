@@ -29,14 +29,14 @@ public class CustomActionCompiler extends AbstractMetaActionCompiler<CustomActio
 
     @Override
     public CustomAction compile(N2oCustomAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         CustomAction customAction = new CustomAction();
         compileAction(customAction, source, p);
         customAction.setType(source.getType());
 
         customAction.setPayload(initPayload(source, p));
-        customAction.getMeta().setSuccess(initSuccessMeta(customAction, source, context, p));
-        customAction.getMeta().setFail(initFailMeta(customAction, source, context));
+        customAction.getMeta().setSuccess(initSuccessMeta(source, context, p));
+        customAction.getMeta().setFail(initFailMeta(source, context));
 
         return customAction;
     }

@@ -23,7 +23,7 @@ public class SubmitActionCompiler extends AbstractActionCompiler<SubmitAction, N
 
     @Override
     public SubmitAction compile(N2oSubmitAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         SubmitAction submit = new SubmitAction();
         submit.setType(p.resolve(property("n2o.api.action.submit.type"), String.class));
         compileAction(submit, source, p);

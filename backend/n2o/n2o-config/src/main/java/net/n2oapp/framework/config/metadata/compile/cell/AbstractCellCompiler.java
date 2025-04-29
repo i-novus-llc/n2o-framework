@@ -28,7 +28,7 @@ import static net.n2oapp.framework.config.util.StylesResolver.resolveStyles;
 public abstract class AbstractCellCompiler<D extends AbstractCell, S extends N2oAbstractCell>
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
-    protected D build(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p, String defaultSrc) {
+    protected D build(D compiled, S source, CompileProcessor p, String defaultSrc) {
         ComponentScope columnScope = p.getScope(ComponentScope.class);
         if (columnScope != null) {
             N2oBaseColumn column = columnScope.unwrap(N2oBaseColumn.class);

@@ -24,7 +24,7 @@ public class ProgressBarCellCompiler extends AbstractCellCompiler<ProgressBarCel
     @Override
     public ProgressBarCell compile(N2oProgressBarCell source, CompileContext<?, ?> context, CompileProcessor p) {
         ProgressBarCell cell = new ProgressBarCell();
-        build(cell, source, context, p, property("n2o.api.cell.progress.bar.src"));
+        build(cell, source, p, property("n2o.api.cell.progress.bar.src"));
         cell.setStriped(castDefault(source.getStriped(),
                 () -> p.resolve(property("n2o.api.cell.progress.striped"), Boolean.class)));
         cell.setActive(castDefault(source.getActive(),

@@ -13,9 +13,7 @@ public class N2oValidationException extends N2oUserException {
         setField(fieldId);
     }
 
-    public N2oValidationException(String userMessage,
-                                  String failAlertWidgetId,
-                                  List<ValidationMessage> messages) {
-        super(userMessage, failAlertWidgetId, messages);
+    public N2oValidationException(String userMessage, List<ValidationMessage> messages) {
+        super(userMessage, messages);
     }
 }

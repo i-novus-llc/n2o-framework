@@ -24,7 +24,7 @@ public class FileUploadCellCompiler  extends AbstractCellCompiler<FileUploadCell
     @Override
     public FileUploadCell compile(N2oFileUploadCell source, CompileContext<?, ?> context, CompileProcessor p) {
         FileUploadCell cell = new FileUploadCell();
-        build(cell, source, context, p, property("n2o.api.cell.file_upload.src"));
+        build(cell, source, p, property("n2o.api.cell.file_upload.src"));
 
         cell.setUploadUrl(p.resolveJS(source.getUploadUrl()));
         cell.setDeleteUrl(p.resolveJS(source.getDeleteUrl()));

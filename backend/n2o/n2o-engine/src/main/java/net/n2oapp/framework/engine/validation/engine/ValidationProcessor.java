@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.exception.ValidationMessage;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.engine.validation.engine.info.ObjectValidationInfo;
 import net.n2oapp.framework.engine.validation.engine.info.QueryValidationInfo;
-import net.n2oapp.framework.engine.validation.engine.info.ValidationInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,19 +29,19 @@ public class ValidationProcessor {
 
     public List<FailInfo> validate(ObjectValidationInfo info, N2oValidation.ServerMomentEnum moment) {
         Validator validator = buildValidator(info, moment);
-        return collectFails(validator, info);
+        return collectFails(validator);
     }
 
     public List<FailInfo> validate(QueryValidationInfo info, N2oValidation.ServerMomentEnum moment) {
         Validator validator = buildValidator(info, moment);
-        return collectFails(validator, info);
+        return collectFails(validator);
     }
 
-    private List<FailInfo> collectFails(Validator validator, ValidationInfo info) {
+    private List<FailInfo> collectFails(Validator validator) {
         List<FailInfo> fails = validator.validate();
         List<FailInfo> failsWithDanger = getFailsWithDanger(fails);
         if (!failsWithDanger.isEmpty()) {
-            throwDangerException(failsWithDanger, info.getMessageForm());
+            throwDangerException(failsWithDanger);
         }
         return fails;
     }
@@ -75,7 +74,7 @@ public class ValidationProcessor {
                 .toList();
     }
 
-    private void throwDangerException(List<FailInfo> fails, String failWidgetId) {
+    private void throwDangerException(List<FailInfo> fails) {
         List<ValidationMessage> messages = new ArrayList<>();
         String userMessage = null;
         for (FailInfo fail : fails) {
@@ -85,6 +84,6 @@ public class ValidationProcessor {
             }
         }
 
-        throw new N2oValidationException(userMessage, failWidgetId, messages);
+        throw new N2oValidationException(userMessage, messages);
     }
 }

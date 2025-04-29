@@ -31,10 +31,9 @@ public class ModifiedClientCacheTemplate extends ClientCacheTemplate implements 
         return lastModified != null ? lastModified : -1;
     }
 
-    @Override
     protected void setLastModified(HttpServletRequest req, HttpServletResponse resp, long lastModified) {
         lastModified = lastModified > 0 ? lastModified : new Date().getTime();
-        super.setLastModified(req, resp, lastModified);
+        super.setLastModified(resp, lastModified);
         getCache().put(req.getRequestURI(), lastModified);
     }
 

@@ -25,8 +25,8 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
 public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2oAbstractMetaAction> extends AbstractActionCompiler<D, S> {
 
     @Override
-    protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        super.initDefaults(source, context, p);
+    protected void initDefaults(S source, CompileProcessor p) {
+        super.initDefaults(source, p);
         source.setDoubleCloseOnSuccess(castDefault(source.getDoubleCloseOnSuccess(), false));
         source.setCloseOnSuccess(source.getDoubleCloseOnSuccess() || castDefault(source.getCloseOnSuccess(), false));
         source.setCloseOnFail(castDefault(source.getCloseOnFail(), false));
@@ -34,8 +34,7 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
         source.setRefreshDatasourceIds(initRefreshDatasources(source, p));
     }
 
-    protected MetaSaga initSuccessMeta(D compiled, S source,
-                                       CompileContext<?, ?> context, CompileProcessor p) {
+    protected MetaSaga initSuccessMeta(S source, CompileContext<?, ?> context, CompileProcessor p) {
         MetaSaga meta = new MetaSaga();
         boolean redirect = source.getRedirectUrl() != null;
         boolean doubleCloseOnSuccess = source.getDoubleCloseOnSuccess();
@@ -46,8 +45,7 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
         return meta;
     }
 
-    protected MetaSaga initFailMeta(D compiled, S source,
-                                    CompileContext<?, ?> context) {
+    protected MetaSaga initFailMeta(S source, CompileContext<?, ?> context) {
         MetaSaga metaSaga = new MetaSaga();
         if (Boolean.TRUE.equals(source.getCloseOnFail()) && context instanceof ModalPageContext)
             metaSaga.setModalsToClose(1);

@@ -38,63 +38,63 @@ public class SimpleAccessSchemaCompiler extends  AccessSchemaCompiler<SimpleComp
     @Override
     public SimpleCompiledAccessSchema compile(N2oSimpleAccessSchema source, AccessContext context, CompileProcessor p) {
         SimpleCompiledAccessSchema compiled = new SimpleCompiledAccessSchema();
-        compileAccess(compiled, source, context, p);
+        compileAccess(compiled, source);
         if (source.getN2oPermissions() != null) {
-            reproduce(source.getN2oPermissions(), N2oPermission::getAccessPoints, N2oPermission::setAccessPoints, p);
+            reproduce(source.getN2oPermissions(), N2oPermission::getAccessPoints, N2oPermission::setAccessPoints);
             compiled.setN2oPermissions(asList(source.getN2oPermissions()));
         }
         if (source.getN2oRoles() != null) {
-            reproduce(source.getN2oRoles(), N2oRole::getAccessPoints, N2oRole::setAccessPoints, p);
+            reproduce(source.getN2oRoles(), N2oRole::getAccessPoints, N2oRole::setAccessPoints);
             compiled.setN2oRoles(asList(source.getN2oRoles()));
         }
         if (source.getPermitAllPoints() != null) {
-            compiled.setPermitAllPoints(reproduceAccessPoints(source.getPermitAllPoints(), p));
+            compiled.setPermitAllPoints(reproduceAccessPoints(source.getPermitAllPoints()));
         }
         if (source.getAuthenticatedPoints() != null) {
-            compiled.setAuthenticatedPoints(reproduceAccessPoints(source.getAuthenticatedPoints(), p));
+            compiled.setAuthenticatedPoints(reproduceAccessPoints(source.getAuthenticatedPoints()));
         }
         if (source.getN2oUserAccesses() != null) {
-            reproduce(source.getN2oUserAccesses(), N2oUserAccess::getAccessPoints, N2oUserAccess::setAccessPoints, p);
+            reproduce(source.getN2oUserAccesses(), N2oUserAccess::getAccessPoints, N2oUserAccess::setAccessPoints);
             compiled.setN2oUserAccesses(asList(source.getN2oUserAccesses()));
         }
         if (source.getAnonymousPoints() != null) {
-            compiled.setAnonymousPoints(reproduceAccessPoints(source.getAnonymousPoints(), p));
+            compiled.setAnonymousPoints(reproduceAccessPoints(source.getAnonymousPoints()));
         }
 
         return compiled;
     }
 
-    private <T> void reproduce(T[] val, Function<T, AccessPoint[]> getter, BiConsumer<T, AccessPoint[]> setter, CompileProcessor p) {
+    private <T> void reproduce(T[] val, Function<T, AccessPoint[]> getter, BiConsumer<T, AccessPoint[]> setter) {
         safeStreamOf(val).forEach(v -> {
-                    List<AccessPoint> accessPoints = reproduceAccessPoints(getter.apply(v), p);
+                    List<AccessPoint> accessPoints = reproduceAccessPoints(getter.apply(v));
                     setter.accept(v, accessPoints.toArray(new AccessPoint[accessPoints.size()]));
                 });
     }
 
-    private List<AccessPoint> reproduceAccessPoints(AccessPoint[] points, CompileProcessor p) { //todo return array
+    private List<AccessPoint> reproduceAccessPoints(AccessPoint[] points) { //todo return array
         if (points == null) {
             return Collections.emptyList();
         }
         List<AccessPoint> accessPoints = new ArrayList<>(Arrays.asList(points));
-        stream(points).forEach(ac -> reproduceAccessPoint(ac, accessPoints, p));
+        stream(points).forEach(ac -> reproduceAccessPoint(ac, accessPoints));
         return accessPoints;
     }
 
-    private void reproduceAccessPoint(AccessPoint accessPoint, final List<AccessPoint> pointList, CompileProcessor p) {
+    private void reproduceAccessPoint(AccessPoint accessPoint, final List<AccessPoint> pointList) {
         if (accessPoint instanceof N2oObjectAccessPoint ap) {
-            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList, p);
-        } else if (accessPoint instanceof N2oModuleAccessPoint ap) {
             ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
-        } else if (accessPoint instanceof N2oPageAccessPoint ap) {
-            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
-        } else if (accessPoint instanceof N2oContainerAccessPoint ap) {
-            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
-        } else if (accessPoint instanceof N2oMenuItemAccessPoint ap) {
-            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
-        } else if (accessPoint instanceof N2oColumnAccessPoint ap) {
-            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
-        } else if (accessPoint instanceof N2oFilterAccessPoint ap) {
-            ReproducerAccessPoint.reproduceAccessPoint(ap, pointList);
+        } else if (accessPoint instanceof N2oModuleAccessPoint moduleAccessPoint) {
+            ReproducerAccessPoint.reproduceAccessPoint(moduleAccessPoint, pointList);
+        } else if (accessPoint instanceof N2oPageAccessPoint pageAccessPoint) {
+            ReproducerAccessPoint.reproduceAccessPoint(pageAccessPoint, pointList);
+        } else if (accessPoint instanceof N2oContainerAccessPoint containerAccessPoint) {
+            ReproducerAccessPoint.reproduceAccessPoint(containerAccessPoint, pointList);
+        } else if (accessPoint instanceof N2oMenuItemAccessPoint menuItemAccessPoint) {
+            ReproducerAccessPoint.reproduceAccessPoint(menuItemAccessPoint, pointList);
+        } else if (accessPoint instanceof N2oColumnAccessPoint columnAccessPoint) {
+            ReproducerAccessPoint.reproduceAccessPoint(columnAccessPoint, pointList);
+        } else if (accessPoint instanceof N2oFilterAccessPoint filterAccessPoint) {
+            ReproducerAccessPoint.reproduceAccessPoint(filterAccessPoint, pointList);
         }
     }
 }

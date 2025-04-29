@@ -23,7 +23,7 @@ public class LifetimeClientCacheTemplate extends ClientCacheTemplate {
     }
 
     @Override
-    protected void setLastModified(HttpServletRequest req, HttpServletResponse resp, long lastModified) {
-        super.setLastModified(req, resp, new Date().getTime());
+    protected void setLastModified(HttpServletResponse resp, long lastModified) {
+        super.setLastModified(resp, new Date().getTime());
     }
 }
