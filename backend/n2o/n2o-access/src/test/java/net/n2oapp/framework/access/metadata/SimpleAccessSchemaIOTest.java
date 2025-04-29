@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 class SimpleAccessSchemaIOTest {
 
-    final static ION2oMetadataTester tester = new ION2oMetadataTester()
+    static final ION2oMetadataTester tester = new ION2oMetadataTester()
             .addIO(new ObjectAccessPointIOv2())
             .addIO(new SimpleAccessIOv2())
             .addIO(new UrlAccessPointIOv2());

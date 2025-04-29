@@ -11,7 +11,7 @@ import java.util.Map;
 @Setter
 public class N2oSwitch implements Source {
 
-    private final static String KEY_VALUE_FORMAT = "%s:%s";
+    private static final String KEY_VALUE_FORMAT = "%s:%s";
 
     private Map<String, String> cases;
     private Map<Object, String> resolvedCases;

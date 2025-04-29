@@ -15,8 +15,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class PropertiesInfoCollector {
 
-    private final static String GROUP_PREFIX = "##";
-    private final static String NAME_PREFIX = "#";
+    private static final String GROUP_PREFIX = "##";
+    private static final String NAME_PREFIX = "#";
 
     private final String locationPattern;
     private final String encode;

@@ -102,7 +102,7 @@ class ExamplesMetadataValidationTest extends N2oTestBase {
 
     public static class TestMetaDataRegister extends N2oMetadataRegister {
 
-        private final static String DEFAULT_XML = "META-INF/conf";
+        private static final String DEFAULT_XML = "META-INF/conf";
         private final Pattern uuidPattern = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
         public Map<String, List<UriMetadataId>> uriUUIDMap = new HashMap<>();
         public Map<String, String> uuidIdMap = new HashMap<>();

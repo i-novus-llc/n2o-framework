@@ -26,8 +26,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class ConfigStarter {
     private static final Logger logger = LoggerFactory.getLogger(ConfigStarter.class);
 
-    private volatile static boolean wasRunning = false;
-    private final static ReadWriteLock startingLock = new ReentrantReadWriteLock();//блокировка на время старта
+    private static volatile boolean wasRunning = false;
+    private static final ReadWriteLock startingLock = new ReentrantReadWriteLock();//блокировка на время старта
 
     private final N2oEventBus eventBus;
     private final ConfigMetadataLocker locker;

@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimp
 public class N2oListWidget extends N2oAbstractListWidget {
     private ContentElement[] content;
 
-    public static abstract class ContentElement extends N2oSimpleColumn {
+    public abstract static class ContentElement extends N2oSimpleColumn {
         public abstract String getPlace();
     }
 
