@@ -215,7 +215,7 @@ public class DomainProcessor {
         Interval<?> res = new Interval<>();
         Object begin;
         Object end;
-        String domainElement = domain.replaceAll("interval\\{", "").replaceAll("\\}", "");
+        String domainElement = domain.replace("interval{", "").replace("}", "");
         if (value instanceof String strValue
                 && (strValue.startsWith("{")
                 && strValue.endsWith("}"))) {
@@ -252,7 +252,7 @@ public class DomainProcessor {
      */
     private Object convertArray(Object value, String domain) {
         List<Object> resultList = new ArrayList<>();
-        String domainElement = domain.replaceAll("\\[\\]", "");
+        String domainElement = domain.replace("[]", "");
         if (value instanceof String strValue
                 && (strValue.startsWith("["))
                 && (strValue.endsWith("]"))) {

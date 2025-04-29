@@ -102,8 +102,8 @@ public class InfoStatus {
     private static boolean isIdenticalContent(String uri1, String uri2) throws IOException {
         String file1 = FileSystemUtil.getContentByUri(uri1);
         String file2 = FileSystemUtil.getContentByUri(uri2);
-        String resFile1 = file1.replaceAll("\r", "");
-        String resFile2 = file2.replaceAll("\r", "");
+        String resFile1 = file1.replace("\r", "");
+        String resFile2 = file2.replace("\r", "");
         return resFile1.equals(resFile2);
     }
 

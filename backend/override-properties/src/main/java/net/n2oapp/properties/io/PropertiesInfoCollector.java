@@ -148,7 +148,7 @@ public class PropertiesInfoCollector {
             this.group = group;
             this.name = name != null ? name.replaceFirst("#", "").trim() : null;
             this.description = description != null && !description.isEmpty() ?
-                    description.replaceFirst("#", "").replaceAll("\\n#", "\n").replaceAll("\\s+", " ").trim() : null;
+                    description.replaceFirst("#", "").replace("\n#", "\n").replaceAll("\\s+", " ").trim() : null;
         }
     }
 
