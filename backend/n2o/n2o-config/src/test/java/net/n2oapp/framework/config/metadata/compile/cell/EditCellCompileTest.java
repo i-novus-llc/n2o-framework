@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.cell.EditCell;
@@ -46,9 +46,9 @@ class EditCellCompileTest extends SourceCompileTestBase {
     @Test
     void testCompileEditCell() {
         PageContext context = new PageContext("testEditCell", "main/:id/open");
-        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModel.resolve, "main")));
+        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModelEnum.resolve, "main")));
         Map<String, ModelLink> mapping = new HashMap<>();
-        mapping.put("id", new ModelLink(ReduxModel.resolve, "main", "id"));
+        mapping.put("id", new ModelLink(ReduxModelEnum.resolve, "main", "id"));
         context.setPathRouteMapping(mapping);
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testEditCell.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/cell/testEditCell.object.xml")
@@ -68,7 +68,7 @@ class EditCellCompileTest extends SourceCompileTestBase {
         assertThat(((InvokeAction) cell.getAction()).getPayload().getDataProvider().getUrl(),
                 is("n2o/data/main/:id/open/actionTest"));
         assertThat(((InvokeAction) cell.getAction()).getPayload().getDataProvider().getPathMapping().get("id"),
-                is(new ModelLink(ReduxModel.resolve, "main", "id")));
+                is(new ModelLink(ReduxModelEnum.resolve, "main", "id")));
 
         cell = (EditCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getSrc(), is("EditableCell"));

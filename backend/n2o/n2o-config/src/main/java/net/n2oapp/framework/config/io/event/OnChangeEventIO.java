@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.event;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.event.N2oOnChangeEvent;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.common.ActionsAwareIO;
@@ -26,7 +26,7 @@ public class OnChangeEventIO extends AbstractEventIO<N2oOnChangeEvent> implement
     public void io(Element e, N2oOnChangeEvent m, IOProcessor p) {
         super.io(e, m, p);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
-        p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModelEnum.class);
         p.attribute(e, "field-id", m::getFieldId, m::setFieldId);
         action(e, m, p);
     }

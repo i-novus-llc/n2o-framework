@@ -34,11 +34,11 @@ public interface RadioGroup extends Control {
      * Проверка соответствия типа радио-кнопок
      * @param type ожидаемый тип радио-кнопок
      */
-    void shouldHaveType(RadioType type);
+    void shouldHaveType(RadioTypeEnum type);
 
     void shouldBeUnchecked(String label, Duration... duration);
 
-    enum RadioType {
+    enum RadioTypeEnum {
         DEFAULT,
         BTN,
         TABS;

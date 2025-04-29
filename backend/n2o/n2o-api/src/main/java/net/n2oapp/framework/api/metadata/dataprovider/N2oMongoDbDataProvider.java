@@ -13,9 +13,9 @@ public class N2oMongoDbDataProvider extends AbstractDataProvider implements N2oM
     private String connectionUrl;
     private String databaseName;
     private String collectionName;
-    private Operation operation;
+    private OperationEnum operation;
 
-    public enum Operation {
+    public enum OperationEnum {
         find,
         insertOne,
         updateOne,

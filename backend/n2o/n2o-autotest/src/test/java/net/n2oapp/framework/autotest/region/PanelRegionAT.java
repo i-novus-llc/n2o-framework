@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.region;
 
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.*;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -48,7 +48,7 @@ class PanelRegionAT extends AutoTestBase {
         panel1.shouldHaveTitle("Panel1");
         panel1.shouldHaveCssClass("css-on-panel");
         panel1.shouldHaveStyle("width: 90%;");
-        panel1.shouldHaveBorderColor(Colors.DANGER);
+        panel1.shouldHaveBorderColor(ColorsEnum.DANGER);
         panel1.shouldHaveIcon("fa-exclamation");
         panel1.shouldBeCollapsible();
         panel1.shouldBeCollapsed();

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
@@ -8,8 +8,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractB
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
@@ -41,7 +41,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         button.setProperties(p.mapAttributes(source));
         button.setIcon(source.getIcon());
         button.setIconPosition(castDefault(source.getIconPosition(),
-                () -> p.resolve(property("n2o.api.button.icon_position"), Position.class)));
+                () -> p.resolve(property("n2o.api.button.icon_position"), PositionEnum.class)));
         button.setLabel(p.resolveJS(source.getLabel()));
         button.setDatasource(DatasourceUtil.getClientDatasourceId(source.getDatasourceId(), p));
         button.setClassName(source.getCssClass());
@@ -99,7 +99,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         source.setColor(initColor(source, p));
 
         source.setDatasourceId(initDatasource(source, p));
-        source.setModel(castDefault(source.getModel(), ReduxModel.resolve));
+        source.setModel(castDefault(source.getModel(), ReduxModelEnum.resolve));
     }
 
     private String initTooltipPosition(S source, CompileProcessor p) {
@@ -126,12 +126,12 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
     private void compileLinkConditions(N2oAbstractButton source, AbstractButton button, CompileProcessor p) {
         String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
         if (isLink(source.getVisible()))
-            compileLink(button, clientDatasource, ValidationType.visible, source.getVisible(), source.getModel());
+            compileLink(button, clientDatasource, ValidationTypeEnum.visible, source.getVisible(), source.getModel());
         else
             button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
 
         if (isLink(source.getEnabled()))
-            compileLink(button, clientDatasource, ValidationType.enabled, source.getEnabled(), source.getModel());
+            compileLink(button, clientDatasource, ValidationTypeEnum.enabled, source.getEnabled(), source.getModel());
         else
             button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
     }
@@ -141,8 +141,8 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
     }
 
-    private void compileLink(AbstractButton button, String clientDatasource, ValidationType type,
-                             String linkCondition, ReduxModel model) {
+    private void compileLink(AbstractButton button, String clientDatasource, ValidationTypeEnum type,
+                             String linkCondition, ReduxModelEnum model) {
         Condition condition = new Condition();
         condition.setExpression(unwrapLink(linkCondition));
         condition.setModelLink(new ModelLink(model, clientDatasource).getBindLink());

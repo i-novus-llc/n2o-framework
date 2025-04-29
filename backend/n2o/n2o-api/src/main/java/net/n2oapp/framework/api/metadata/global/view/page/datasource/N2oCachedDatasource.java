@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.global.view.page.datasource;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.Submit;
-import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
+import net.n2oapp.framework.api.metadata.datasource.BrowserStorageTypeEnum;
 import net.n2oapp.framework.api.metadata.datasource.Submittable;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 
@@ -18,7 +18,7 @@ public class N2oCachedDatasource extends N2oDatasource implements Submittable {
     private String objectId;
     private String route;
     private String storageKey;
-    private BrowserStorageType storageType;
+    private BrowserStorageTypeEnum storageType;
     private String cacheExpires;
     private N2oPreFilter[] filters;
     private Submit submit;

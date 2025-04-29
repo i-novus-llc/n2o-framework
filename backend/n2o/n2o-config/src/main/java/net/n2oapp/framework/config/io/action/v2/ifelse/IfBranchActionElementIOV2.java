@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.action.v2.ifelse;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -26,6 +26,6 @@ public class IfBranchActionElementIOV2 extends ConditionBranchElementIOV2<N2oIfB
         super.io(e, a, p);
         p.attribute(e, "test", a::getTest, a::setTest);
         p.attribute(e, "datasource", a::getDatasourceId, a::setDatasourceId);
-        p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModelEnum.class);
     }
 }

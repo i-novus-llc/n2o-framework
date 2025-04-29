@@ -71,7 +71,7 @@ class InvocationProcessorTest {
         Argument entityTypeArgument = new Argument();
         entityTypeArgument.setName("entityTypeArgument");
         entityTypeArgument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
-        entityTypeArgument.setType(Argument.Type.ENTITY);
+        entityTypeArgument.setType(Argument.TypeEnum.ENTITY);
 
         method.setArguments(new Argument[]{entityTypeArgument});
 
@@ -103,22 +103,22 @@ class InvocationProcessorTest {
         Argument entityTypeArgument = new Argument();
         entityTypeArgument.setName("entityTypeArgument");
         entityTypeArgument.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass$Model");
-        entityTypeArgument.setType(Argument.Type.ENTITY);
+        entityTypeArgument.setType(Argument.TypeEnum.ENTITY);
 
         Argument primitiveTypeArgument = new Argument();
         primitiveTypeArgument.setName("primitiveTypeArgument");
         primitiveTypeArgument.setClassName("java.lang.Integer");
-        primitiveTypeArgument.setType(Argument.Type.PRIMITIVE);
+        primitiveTypeArgument.setType(Argument.TypeEnum.PRIMITIVE);
         primitiveTypeArgument.setDefaultValue("2");
 
         Argument noClassPrimitive = new Argument();
         noClassPrimitive.setName("noClassPrimitive");
-        noClassPrimitive.setType(Argument.Type.PRIMITIVE);
+        noClassPrimitive.setType(Argument.TypeEnum.PRIMITIVE);
 
         Argument classTypeArgument = new Argument();
         classTypeArgument.setName("classTypeArgument");
         classTypeArgument.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass$Model");
-        classTypeArgument.setType(Argument.Type.CLASS);
+        classTypeArgument.setType(Argument.TypeEnum.CLASS);
 
         method.setArguments(new Argument[]{entityTypeArgument, primitiveTypeArgument, noClassPrimitive, classTypeArgument});
 
@@ -177,7 +177,7 @@ class InvocationProcessorTest {
         Argument entityTypeArgument = new Argument();
         entityTypeArgument.setName("argument");
         entityTypeArgument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
-        entityTypeArgument.setType(Argument.Type.ENTITY);
+        entityTypeArgument.setType(Argument.TypeEnum.ENTITY);
         provider.setArguments(new Argument[]{entityTypeArgument});
 
         DataSet dataSet = new DataSet();
@@ -241,7 +241,7 @@ class InvocationProcessorTest {
     @Test
     void testMappingEnabledWithMapInvocationProvider() {
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setOperation(N2oTestDataProvider.Operation.echo);
+        provider.setOperation(N2oTestDataProvider.OperationEnum.echo);
 
         DataSet dataSet = new DataSet();
         DataSet inDataSet = new DataSet();
@@ -304,7 +304,7 @@ class InvocationProcessorTest {
         Argument entityTypeArgument = new Argument();
         entityTypeArgument.setName("argument");
         entityTypeArgument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
-        entityTypeArgument.setType(Argument.Type.ENTITY);
+        entityTypeArgument.setType(Argument.TypeEnum.ENTITY);
         method.setArguments(new Argument[]{entityTypeArgument});
 
         DataSet dataSet = new DataSet();
@@ -382,7 +382,7 @@ class InvocationProcessorTest {
         Argument entityTypeArgument = new Argument();
         entityTypeArgument.setName("argument");
         entityTypeArgument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
-        entityTypeArgument.setType(Argument.Type.ENTITY);
+        entityTypeArgument.setType(Argument.TypeEnum.ENTITY);
         method.setArguments(new Argument[]{entityTypeArgument});
 
         DataSet dataSet = new DataSet();
@@ -503,7 +503,7 @@ class InvocationProcessorTest {
 
         Argument entityTypeArgument = new Argument();
         entityTypeArgument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
-        entityTypeArgument.setType(Argument.Type.ENTITY);
+        entityTypeArgument.setType(Argument.TypeEnum.ENTITY);
 
         method.setArguments(new Argument[]{entityTypeArgument});
 
@@ -528,7 +528,7 @@ class InvocationProcessorTest {
     @Test
     void testListNormalizing() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
-        invocation.setOperation(N2oTestDataProvider.Operation.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
 
         ObjectSimpleField simpleField = new ObjectSimpleField();
         simpleField.setId("root_field");
@@ -595,7 +595,7 @@ class InvocationProcessorTest {
     @Test
     void testAdvancedNestingWithMapInvocationProvider() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
-        invocation.setOperation(N2oTestDataProvider.Operation.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
 
         // STRUCTURE
         //Reference
@@ -691,9 +691,9 @@ class InvocationProcessorTest {
         invocation.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass");
         invocation.setMethod("methodWithTwoArguments");
         Argument argument1 = new Argument();
-        argument1.setType(Argument.Type.PRIMITIVE);
+        argument1.setType(Argument.TypeEnum.PRIMITIVE);
         Argument argument2 = new Argument();
-        argument2.setType(Argument.Type.PRIMITIVE);
+        argument2.setType(Argument.TypeEnum.PRIMITIVE);
         invocation.setArguments(new Argument[]{argument1, argument2});
 
         // STRUCTURE
@@ -740,13 +740,13 @@ class InvocationProcessorTest {
         invocation.setMethod("methodWithThreeArguments");
         Argument argument1 = new Argument();
         argument1.setName("first");
-        argument1.setType(Argument.Type.PRIMITIVE);
+        argument1.setType(Argument.TypeEnum.PRIMITIVE);
         Argument argument2 = new Argument();
         argument2.setName("second");
-        argument2.setType(Argument.Type.PRIMITIVE);
+        argument2.setType(Argument.TypeEnum.PRIMITIVE);
         Argument argument3 = new Argument();
         argument3.setName("third");
-        argument3.setType(Argument.Type.PRIMITIVE);
+        argument3.setType(Argument.TypeEnum.PRIMITIVE);
         invocation.setArguments(new Argument[]{argument1, argument2, argument3});
 
         // STRUCTURE
@@ -784,7 +784,7 @@ class InvocationProcessorTest {
         invocation.setMethod("methodReturnedEntity");
         Argument argument = new Argument();
         argument.setClassName("net.n2oapp.framework.engine.util.TestEntity");
-        argument.setType(Argument.Type.ENTITY);
+        argument.setType(Argument.TypeEnum.ENTITY);
         invocation.setArguments(new Argument[]{argument});
 
         // STRUCTURE
@@ -870,7 +870,7 @@ class InvocationProcessorTest {
     void testResultMapping() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setResultMapping("['organization']");
-        invocation.setOperation(N2oTestDataProvider.Operation.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
 
         //Reference
         ObjectReferenceField refField = new ObjectReferenceField();
@@ -912,7 +912,7 @@ class InvocationProcessorTest {
     void testResultNormalize() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setResultNormalize("['organization']");
-        invocation.setOperation(N2oTestDataProvider.Operation.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
 
         //Reference
         ObjectReferenceField refField = new ObjectReferenceField();
@@ -954,7 +954,7 @@ class InvocationProcessorTest {
     void testSwitchInOutFields() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setResultNormalize("['organization']");
-        invocation.setOperation(N2oTestDataProvider.Operation.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
 
         //Reference
         ObjectReferenceField refField = new ObjectReferenceField();
@@ -1006,7 +1006,7 @@ class InvocationProcessorTest {
     @Test
     void testAutoCastObjectToListField() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
-        invocation.setOperation(N2oTestDataProvider.Operation.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
 
         //List
         ObjectListField listParam = new ObjectListField();

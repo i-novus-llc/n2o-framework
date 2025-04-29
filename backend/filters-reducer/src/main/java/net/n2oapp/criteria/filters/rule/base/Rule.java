@@ -2,7 +2,7 @@ package net.n2oapp.criteria.filters.rule.base;
 
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 
 /**
  * Правила объединения фильтров
@@ -21,6 +21,6 @@ public interface Rule {
      * Возвращает типы пары фильтров, для которой это правило работает
      * @return  типы фильтров
      */
-    Pair<FilterType> getType();
+    Pair<FilterTypeEnum> getType();
 
 }

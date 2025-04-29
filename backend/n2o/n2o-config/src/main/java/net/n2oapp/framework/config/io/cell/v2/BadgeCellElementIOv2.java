@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.cell.v2;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ public class BadgeCellElementIOv2 extends AbstractCellElementIOv2<N2oBadgeCell> 
     @Override
     public void io(Element e, N2oBadgeCell c, IOProcessor p) {
         super.io(e, c, p);
-        p.attributeEnum(e, "position", c::getPosition, c::setPosition, Position.class);
+        p.attributeEnum(e, "position", c::getPosition, c::setPosition, PositionEnum.class);
         p.attribute(e,"text",c::getText,c::setText);
         p.attribute(e,"text-format",c::getTextFormat,c::setTextFormat);
         p.attribute(e,"color",c::getColor,c::setColor);

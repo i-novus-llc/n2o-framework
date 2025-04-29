@@ -4,7 +4,7 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.autotest.api.component.control.ImageUploadControl;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 
@@ -106,7 +106,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public void uploadAreaShouldHaveShape(ShapeType shape) {
+    public void uploadAreaShouldHaveShape(ShapeTypeEnum shape) {
         element().shouldHave(Condition.cssClass(String.format("%s%s", UPLOAD_SHAPE_CLASS, shape.getId())));
     }
 

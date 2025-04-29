@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class InheritedDatasource extends AbstractDatasource {
         @JsonProperty
         private String sourceDs;
         @JsonProperty
-        private ReduxModel sourceModel;
+        private ReduxModelEnum sourceModel;
         @JsonProperty
         private String sourceField;
         @JsonProperty
@@ -47,11 +47,11 @@ public class InheritedDatasource extends AbstractDatasource {
         @JsonProperty
         private String type = "inherited";
         @JsonProperty
-        private ReduxModel model;
+        private ReduxModelEnum model;
         @JsonProperty
         private String targetDs;
         @JsonProperty
-        private ReduxModel targetModel;
+        private ReduxModelEnum targetModel;
         @JsonProperty
         private String targetField;
         @JsonProperty
@@ -64,7 +64,7 @@ public class InheritedDatasource extends AbstractDatasource {
     @Setter
     public static class Filter implements Compiled {
         @JsonProperty
-        private FilterType type;
+        private FilterTypeEnum type;
         @JsonProperty
         private String fieldId;
         @JsonProperty

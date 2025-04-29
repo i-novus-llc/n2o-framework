@@ -8,12 +8,12 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -28,11 +28,11 @@ public class MenuItem extends Component implements Compiled, PropertiesAware, Id
     @JsonProperty
     private String icon;
     @JsonProperty
-    private Position iconPosition;
+    private PositionEnum iconPosition;
     @JsonProperty
     private String imageSrc;
     @JsonProperty
-    private ShapeType imageShape;
+    private ShapeTypeEnum imageShape;
     @JsonProperty
     private String datasource;
     @JsonProperty("items")
@@ -40,9 +40,9 @@ public class MenuItem extends Component implements Compiled, PropertiesAware, Id
     @JsonProperty
     private String href;
     @JsonProperty
-    private LinkType linkType;
+    private LinkTypeEnum linkType;
     @JsonProperty
-    private Target target;
+    private TargetEnum target;
     @JsonProperty
     private Badge badge;
     @JsonProperty
@@ -59,7 +59,7 @@ public class MenuItem extends Component implements Compiled, PropertiesAware, Id
     public Map<String, Object> getJsonProperties() {
         return properties;
     }
-    public enum LinkType {
+    public enum LinkTypeEnum {
         inner, outer
     }
 }

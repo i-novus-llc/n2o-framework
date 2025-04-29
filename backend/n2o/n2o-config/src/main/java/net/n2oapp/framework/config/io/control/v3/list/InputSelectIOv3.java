@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.control.v3.list;
 
-import net.n2oapp.framework.api.metadata.control.list.ListType;
+import net.n2oapp.framework.api.metadata.control.list.ListTypeEnum;
 import net.n2oapp.framework.api.metadata.control.list.N2oInputSelect;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.common.BadgeAwareIO;
@@ -16,7 +16,7 @@ public class InputSelectIOv3 extends ListFieldIOv3<N2oInputSelect> implements Ba
     @Override
     public void io(Element e, N2oInputSelect m, IOProcessor p) {
         super.io(e, m, p);
-        p.attributeEnum(e, "type", m::getType, m::setType, ListType.class);
+        p.attributeEnum(e, "type", m::getType, m::setType, ListTypeEnum.class);
         p.attributeBoolean(e, "reset-on-blur", m::getResetOnBlur, m::setResetOnBlur);
         p.attribute(e, "description-field-id", m::getDescriptionFieldId, m::setDescriptionFieldId);
         p.attributeInteger(e, "max-tag-count", m::getMaxTagCount, m::setMaxTagCount);

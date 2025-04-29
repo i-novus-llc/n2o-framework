@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.plain.N2oOutputList;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.control.OutputList;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
@@ -36,9 +36,9 @@ public class OutputListCompiler extends StandardFieldCompiler<OutputList, N2oOut
         outputList.setHrefFieldId(castDefault(source.getHrefFieldId(),
                 () -> p.resolve(property("n2o.api.control.output_list.href_field_id"), String.class)));
         outputList.setTarget(castDefault(source.getTarget(),
-                () -> p.resolve(property("n2o.api.control.output_list.target"), Target.class)));
+                () -> p.resolve(property("n2o.api.control.output_list.target"), TargetEnum.class)));
         outputList.setDirection(castDefault(source.getDirection(),
-                () -> p.resolve(property("n2o.api.control.output_list.direction"), OutputList.Direction.class)));
+                () -> p.resolve(property("n2o.api.control.output_list.direction"), OutputList.DirectionEnum.class)));
         outputList.setSeparator(castDefault(source.getSeparator(),
                 () -> p.resolve(property("n2o.api.control.output_list.separator"), String.class)));
         return compileStandardField(outputList, source, context, p);

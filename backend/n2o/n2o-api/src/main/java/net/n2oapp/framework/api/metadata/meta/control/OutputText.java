@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 
 /**
  * Клиентская модель компонента вывода однострочного текста
@@ -18,5 +18,5 @@ public class OutputText extends Control {
     @JsonProperty
     private String format;
     @JsonProperty
-    private Position iconPosition;
+    private PositionEnum iconPosition;
 }

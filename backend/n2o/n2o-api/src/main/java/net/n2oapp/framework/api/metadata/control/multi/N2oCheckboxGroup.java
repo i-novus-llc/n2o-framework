@@ -13,15 +13,15 @@ import net.n2oapp.framework.api.metadata.control.list.Inlineable;
 @Setter
 public class N2oCheckboxGroup extends N2oMultiListFieldAbstract implements Inlineable {
     private Boolean inline;
-    private CheckboxGroupType type;
+    private CheckboxGroupTypeEnum type;
 
-    public enum CheckboxGroupType implements IdAware {
+    public enum CheckboxGroupTypeEnum implements IdAware {
         DEFAULT("default"),
         BTN("btn");
 
         private final String value;
 
-        CheckboxGroupType(String value) {
+        CheckboxGroupTypeEnum(String value) {
             this.value = value;
         }
 

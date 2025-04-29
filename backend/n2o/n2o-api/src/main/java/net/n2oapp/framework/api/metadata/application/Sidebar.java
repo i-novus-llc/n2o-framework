@@ -19,7 +19,7 @@ public class Sidebar extends Component {
     @JsonProperty
     private SimpleMenu extraMenu;
     @JsonProperty
-    private SidebarSide side;
+    private SidebarSideEnum side;
     @JsonProperty
     private String path;
     @JsonProperty
@@ -27,9 +27,9 @@ public class Sidebar extends Component {
     @JsonProperty
     private String subtitle;
     @JsonProperty
-    private SidebarState defaultState;
+    private SidebarStateEnum defaultState;
     @JsonProperty
-    private SidebarState toggledState;
+    private SidebarStateEnum toggledState;
     @JsonProperty
     private Boolean toggleOnHover;
     @JsonProperty

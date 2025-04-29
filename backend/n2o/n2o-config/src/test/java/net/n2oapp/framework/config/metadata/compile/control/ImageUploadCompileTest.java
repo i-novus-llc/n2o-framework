@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.ImageUpload;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -46,7 +46,7 @@ class ImageUploadCompileTest extends SourceCompileTestBase {
         ImageUpload imageUpload = (ImageUpload) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0)
                 .getCols().get(0).getFields().get(0)).getControl();
         assertThat(imageUpload.getSrc(), is("ImageUploader"));
-        assertThat(imageUpload.getListType(), is(ImageUpload.ListType.card));
+        assertThat(imageUpload.getListType(), is(ImageUpload.ListTypeEnum.card));
         assertThat(imageUpload.getCanLightbox(), is(true));
         assertThat(imageUpload.getCanDelete(), is(false));
         assertThat(imageUpload.getWidth(), is("500px"));
@@ -54,7 +54,7 @@ class ImageUploadCompileTest extends SourceCompileTestBase {
         assertThat(imageUpload.getIcon(), is("fa fa-plus"));
         assertThat(imageUpload.getIconSize(), is("150px"));
         assertThat(imageUpload.getShowTooltip(), is(false));
-        assertThat(imageUpload.getShape(), is(ShapeType.CIRCLE));
+        assertThat(imageUpload.getShape(), is(ShapeTypeEnum.CIRCLE));
         assertThat(imageUpload.getAjax(), is(false));
         assertThat(imageUpload.getMulti(), is(true));
         assertThat(imageUpload.getShowSize(), is(false));
@@ -74,7 +74,7 @@ class ImageUploadCompileTest extends SourceCompileTestBase {
 
         ImageUpload imageUpload2 = (ImageUpload) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(1)
                 .getCols().get(0).getFields().get(0)).getControl();
-        assertThat(imageUpload2.getListType(), is(ImageUpload.ListType.image));
+        assertThat(imageUpload2.getListType(), is(ImageUpload.ListTypeEnum.image));
         assertThat(imageUpload2.getCanLightbox(), is(false));
         assertThat(imageUpload2.getAjax(), is(true));
         assertThat(imageUpload2.getMulti(), is(false));
@@ -87,7 +87,7 @@ class ImageUploadCompileTest extends SourceCompileTestBase {
         assertThat(imageUpload2.getRequestParam(), is("file"));
         assertThat(imageUpload2.getCanDelete(), is(true));
         assertThat(imageUpload2.getShowTooltip(), is(true));
-        assertThat(imageUpload2.getShape(), is(ShapeType.ROUNDED));
+        assertThat(imageUpload2.getShape(), is(ShapeTypeEnum.ROUNDED));
         assertThat(imageUpload2.getWidth(), nullValue());
         assertThat(imageUpload2.getHeight(), nullValue());
         assertThat(imageUpload2.getIconSize(), nullValue());

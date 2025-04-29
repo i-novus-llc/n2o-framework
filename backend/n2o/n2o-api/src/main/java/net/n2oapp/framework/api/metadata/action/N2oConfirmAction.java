@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.action;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmTypeEnum;
 
 /**
  * Исходная модель действия подтверждения
@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 public class N2oConfirmAction extends N2oAbstractAction implements N2oAction{
     private String title;
     private String text;
-    private ConfirmType type;
+    private ConfirmTypeEnum type;
     private Boolean closeButton;
     private String className;
     private String style;

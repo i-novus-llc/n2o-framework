@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oBarChart;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oBarChartItem;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.BarChart;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.BarChartItem;
-import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartType;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartTypeEnum;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -23,7 +23,7 @@ public class BarChartCompiler extends StandardChartCompiler<BarChart, N2oBarChar
     public BarChart compile(N2oBarChart source, CompileContext<?, ?> context, CompileProcessor p) {
         BarChart chart = new BarChart();
         build(chart, source, p, property("n2o.api.widget.chart.bar.src"));
-        chart.setType(ChartType.bar);
+        chart.setType(ChartTypeEnum.bar);
         for (N2oBarChartItem item : source.getItems()) {
             BarChartItem component = new BarChartItem();
             component.setFieldId(item.getFieldId());

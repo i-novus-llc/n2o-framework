@@ -4,7 +4,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 import net.n2oapp.framework.api.exception.*;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 
@@ -45,10 +45,10 @@ public class AlertMessageBuilder {
         return prepareMessage(e, resp);
     }
 
-    public ResponseMessage buildMessage(RequestInfo requestInfo, SeverityType severityType) {
+    public ResponseMessage buildMessage(RequestInfo requestInfo, SeverityTypeEnum severityType) {
         ResponseMessage message = constructMessage(severityType);
         if (requestInfo.getMessagePlacement() != null)
-            message.setPlacement(MessagePlacement.valueOf(requestInfo.getMessagePlacement().name()));
+            message.setPlacement(MessagePlacementEnum.valueOf(requestInfo.getMessagePlacement().name()));
         return message;
     }
 
@@ -59,7 +59,7 @@ public class AlertMessageBuilder {
     }
 
     public ResponseMessage buildSuccessMessage(ActionRequestInfo<DataSet> requestInfo, DataSet data) {
-        ResponseMessage message = buildMessage(requestInfo, SeverityType.success);
+        ResponseMessage message = buildMessage(requestInfo, SeverityTypeEnum.success);
         message.setText(StringUtils.resolveLinks(requestInfo.getOperation().getSuccessText(), data));
         message.setTitle(StringUtils.resolveLinks(requestInfo.getOperation().getSuccessTitle(), data));
         return message;
@@ -70,8 +70,8 @@ public class AlertMessageBuilder {
         this.devMode = activeDevMode != null && activeDevMode;
     }
 
-    private SeverityType getExceptionSeverity(Exception e) {
-        return e instanceof N2oException n2oException ? n2oException.getSeverity() : SeverityType.danger;
+    private SeverityTypeEnum getExceptionSeverity(Exception e) {
+        return e instanceof N2oException n2oException ? n2oException.getSeverity() : SeverityTypeEnum.danger;
     }
 
     private ResponseMessage prepareMessage(Exception e, ResponseMessage resp) {
@@ -94,11 +94,11 @@ public class AlertMessageBuilder {
         return getStackFrames(getStackTrace(e));
     }
 
-    private ResponseMessage constructMessage(SeverityType severityType) {
+    private ResponseMessage constructMessage(SeverityTypeEnum severityType) {
         ResponseMessage message = new ResponseMessage();
         message.setSeverityType(severityType);
         if (propertyResolver != null) {
-            message.setPlacement(propertyResolver.getProperty("n2o.api.message.placement", MessagePlacement.class));
+            message.setPlacement(propertyResolver.getProperty("n2o.api.message.placement", MessagePlacementEnum.class));
             if (severityType != null) {
                 Integer timeout = Integer.parseInt(
                         propertyResolver.getProperty(String.format("n2o.api.message.%s.timeout", severityType.getId())));

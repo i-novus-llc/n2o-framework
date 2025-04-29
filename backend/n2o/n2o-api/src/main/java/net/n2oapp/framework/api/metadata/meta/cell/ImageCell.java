@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.cell;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 
 /**
@@ -15,7 +15,7 @@ public class ImageCell extends ActionCell {
     @JsonProperty
     private String width;
     @JsonProperty
-    private ShapeType shape;
+    private ShapeTypeEnum shape;
     @JsonProperty
     private String title;
     @JsonProperty
@@ -23,7 +23,7 @@ public class ImageCell extends ActionCell {
     @JsonProperty
     private String description;
     @JsonProperty
-    private N2oImageCell.Position textPosition;
+    private N2oImageCell.PositionEnum textPosition;
     @JsonProperty
     private ImageStatusElement[] statuses;
 }

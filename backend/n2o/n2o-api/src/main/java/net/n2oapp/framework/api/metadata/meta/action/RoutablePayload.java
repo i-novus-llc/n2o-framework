@@ -30,7 +30,7 @@ public class RoutablePayload extends PerformActionPayload {
         this.params = params;
     }
 
-    public enum Paging {
+    public enum PagingEnum {
         page, size
     }
 }

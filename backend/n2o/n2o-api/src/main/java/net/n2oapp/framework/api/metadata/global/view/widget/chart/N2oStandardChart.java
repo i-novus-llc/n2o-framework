@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget.chart;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLegendIconType;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLegendIconTypeEnum;
 
 /**
  * Исходная модель компонента стандартной диаграммы
@@ -11,10 +11,10 @@ import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLegendIconType;
 @Setter
 public class N2oStandardChart extends N2oAbstractChart {
     private String xFieldId;
-    private XAxisPosition xPosition;
+    private XAxisPositionEnum xPosition;
     private Boolean xHasLabel;
     private String yFieldId;
-    private YAxisPosition yPosition;
+    private YAxisPositionEnum yPosition;
     private Boolean yHasLabel;
     private Integer yMin;
     private Integer yMax;
@@ -22,12 +22,12 @@ public class N2oStandardChart extends N2oAbstractChart {
     private Boolean gridHorizontal;
     private Boolean gridVertical;
     private String tooltipSeparator;
-    private ChartLegendIconType legendIconType;
+    private ChartLegendIconTypeEnum legendIconType;
 
     /**
      * Положение оси X
      */
-    public enum XAxisPosition {
+    public enum XAxisPositionEnum {
         top,
         bottom
     }
@@ -35,7 +35,7 @@ public class N2oStandardChart extends N2oAbstractChart {
     /**
      * Положение оси y
      */
-    public enum YAxisPosition {
+    public enum YAxisPositionEnum {
         left,
         right
     }

@@ -1,13 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
-import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
+import net.n2oapp.framework.api.metadata.datasource.BrowserStorageTypeEnum;
 import net.n2oapp.framework.api.metadata.datasource.CachedDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oCachedDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -55,7 +55,7 @@ public class CachedDatasourceCompiler extends BaseDatasourceCompiler<N2oCachedDa
         provider.setKey(castDefault(source.getStorageKey(), source.getId()));
         provider.setType("cached");
         provider.setStorage(castDefault(source.getStorageType(),
-                () -> p.resolve(property("n2o.api.datasource.cached.storage_type"), BrowserStorageType.class)));
+                () -> p.resolve(property("n2o.api.datasource.cached.storage_type"), BrowserStorageTypeEnum.class)));
         provider.setSize(castDefault(source.getSize(), () -> p.resolve(property("n2o.api.datasource.size"), Integer.class)));
 
         String datasourceRoute = getDatasourceRoute(source.getId(), compiled.getId(), source.getRoute(), p);
@@ -64,7 +64,7 @@ public class CachedDatasourceCompiler extends BaseDatasourceCompiler<N2oCachedDa
         compileRoutes(source.getId(), compiled.getId(), filters, query, p);
         initDataProviderMappings(provider, filters, p);
         p.addRoute(getQueryContext(source.getId(), compiled.getId(), source.getQueryId(),
-                source.getSize(), DefaultValuesMode.query, context, p, datasourceRoute, filters, query));
+                source.getSize(), DefaultValuesModeEnum.query, context, p, datasourceRoute, filters, query));
 
         return provider;
     }
@@ -101,7 +101,7 @@ public class CachedDatasourceCompiler extends BaseDatasourceCompiler<N2oCachedDa
         submit.setClearCache(castDefault(source.getSubmit().getClearCacheAfterSubmit(),
                 () -> p.resolve(property("n2o.api.datasource.cached.clear_cache_after_submit"), Boolean.class)));
         submit.setKey(compiled.getProvider().getKey());
-        submit.setModel(ReduxModel.resolve);
+        submit.setModel(ReduxModelEnum.resolve);
         submit.setStorage(compiled.getProvider().getStorage());
         return submit;
     }

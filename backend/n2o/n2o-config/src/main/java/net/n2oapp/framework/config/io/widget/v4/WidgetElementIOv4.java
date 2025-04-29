@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.io.widget.v4;
 
-import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -38,11 +38,11 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
         p.attributeBoolean(e, "fetch-on-init", m::getFetchOnInit, m::setFetchOnInit);
         p.attributeInteger(e, "size", m::getSize, m::setSize);
-        p.attributeEnum(e, "upload", m::getUpload, m::setUpload, DefaultValuesMode.class);
+        p.attributeEnum(e, "upload", m::getUpload, m::setUpload, DefaultValuesModeEnum.class);
         p.attributeBoolean(e, "auto-focus", m::getAutoFocus, m::setAutoFocus);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionBar::new, this::action);
         p.childrenByEnum(e, "pre-filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
-                N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
+                N2oPreFilter::setType, N2oPreFilter::new, FilterTypeEnum.class, this::prefilter);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIO());
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         m.adapterV4();
@@ -60,7 +60,7 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", pf::getModel, pf::setModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", pf::getModel, pf::setModel, ReduxModelEnum.class);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }

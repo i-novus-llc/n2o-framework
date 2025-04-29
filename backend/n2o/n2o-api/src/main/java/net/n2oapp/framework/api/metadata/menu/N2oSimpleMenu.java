@@ -9,10 +9,10 @@ import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 
 import java.util.Map;
 
@@ -44,9 +44,9 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
         private String name;
         private String datasourceId;
         private String icon;
-        private Position iconPosition;
+        private PositionEnum iconPosition;
         private String image;
-        private ShapeType imageShape;
+        private ShapeTypeEnum imageShape;
         private String src;
         @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;
@@ -60,11 +60,11 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
     public static class MenuItem extends AbstractMenuItem implements BadgeAware {
         private String badge;
         private String badgeColor;
-        private Position badgePosition;
-        private ShapeType badgeShape;
+        private PositionEnum badgePosition;
+        private ShapeTypeEnum badgeShape;
         private String badgeImage;
-        private Position badgeImagePosition;
-        private ShapeType badgeImageShape;
+        private PositionEnum badgeImagePosition;
+        private ShapeTypeEnum badgeImageShape;
         private String cssClass;
         private String style;
 

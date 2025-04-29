@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.control.v3;
 
 import net.n2oapp.framework.api.metadata.control.N2oImageUpload;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.control.ImageUpload;
 import org.jdom2.Element;
@@ -16,7 +16,7 @@ public class ImageUploadIOv3 extends BaseFileUploadIOv3<N2oImageUpload> {
     @Override
     public void io(Element e, N2oImageUpload m, IOProcessor p) {
         super.io(e, m, p);
-        p.attributeEnum(e, "list-type", m::getListType, m::setListType, ImageUpload.ListType.class);
+        p.attributeEnum(e, "list-type", m::getListType, m::setListType, ImageUpload.ListTypeEnum.class);
         p.attributeBoolean(e, "can-lightbox", m::getCanLightbox, m::setCanLightbox);
         p.attributeBoolean(e, "can-delete", m::getCanDelete, m::setCanDelete);
         p.attribute(e, "width", m::getWidth, m::setWidth);
@@ -24,7 +24,7 @@ public class ImageUploadIOv3 extends BaseFileUploadIOv3<N2oImageUpload> {
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "icon-size", m::getIconSize, m::setIconSize);
         p.attributeBoolean(e, "show-tooltip", m::getShowTooltip, m::setShowTooltip);
-        p.attributeEnum(e, "shape", m::getShape, m::setShape, ShapeType.class);
+        p.attributeEnum(e, "shape", m::getShape, m::setShape, ShapeTypeEnum.class);
         p.attributeBoolean(e, "show-name", m::getShowName, m::setShowName);
     }
 

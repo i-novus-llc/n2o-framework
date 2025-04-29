@@ -64,14 +64,14 @@ public class FilterReducer {
         res.setRightFilter(right);
         Rule rule = rulesMap.get(new Pair<>(left.getType(), right.getType()));
         if (rule == null)
-            res.setType(Result.Type.notMergeable);
+            res.setType(Result.TypeEnum.notMergeable);
         else {
             Filter filter = rule.simplify(left, right);
             res.setResultFilter(filter);
             if (filter == null)
-                res.setType(Result.Type.conflict);
+                res.setType(Result.TypeEnum.conflict);
             else
-                res.setType(Result.Type.success);
+                res.setType(Result.TypeEnum.success);
         }
         return res;
     }

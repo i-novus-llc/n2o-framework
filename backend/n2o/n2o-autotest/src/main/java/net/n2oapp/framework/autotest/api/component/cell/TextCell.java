@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 
 import java.time.Duration;
 
@@ -24,5 +24,5 @@ public interface TextCell extends Cell {
      * Проверка существования иконки и соответствия ее позиции
      * @param position ожидаемая позиция иконки
      */
-    void shouldHaveIconPosition(Position position);
+    void shouldHaveIconPosition(PositionEnum position);
 }

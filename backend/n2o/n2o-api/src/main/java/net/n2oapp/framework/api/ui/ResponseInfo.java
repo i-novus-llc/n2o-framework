@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ public class ResponseInfo {
     private Map<String, Object> attributes;
 
 
-    public ResponseMessage constructMessage(RequestInfo requestInfo, SeverityType severityType,
+    public ResponseMessage constructMessage(RequestInfo requestInfo, SeverityTypeEnum severityType,
                                             AlertMessageBuilder alertMessageBuilder) {
         return alertMessageBuilder.buildMessage(requestInfo, severityType);
     }

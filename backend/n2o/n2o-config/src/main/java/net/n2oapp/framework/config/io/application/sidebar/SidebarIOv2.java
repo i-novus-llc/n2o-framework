@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.io.application.sidebar;
 
 import net.n2oapp.framework.api.metadata.application.N2oSidebar;
-import net.n2oapp.framework.api.metadata.application.SidebarSide;
-import net.n2oapp.framework.api.metadata.application.SidebarState;
+import net.n2oapp.framework.api.metadata.application.SidebarSideEnum;
+import net.n2oapp.framework.api.metadata.application.SidebarStateEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
@@ -38,13 +38,13 @@ public class SidebarIOv2 implements NamespaceIO<N2oSidebar> {
         p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "style", m::getStyle, m::setStyle);
-        p.attributeEnum(e, "side", m::getSide, m::setSide, SidebarSide.class);
+        p.attributeEnum(e, "side", m::getSide, m::setSide, SidebarSideEnum.class);
         p.attribute(e, "logo-src", m::getLogoSrc, m::setLogoSrc);
         p.attribute(e, "title", m::getTitle, m::setTitle);
         p.attribute(e, "home-page-url", m::getHomePageUrl, m::setHomePageUrl);
         p.attribute(e, "logo-class", m::getLogoClass, m::setLogoClass);
-        p.attributeEnum(e, "default-state", m::getDefaultState, m::setDefaultState, SidebarState.class);
-        p.attributeEnum(e, "toggled-state", m::getToggledState, m::setToggledState, SidebarState.class);
+        p.attributeEnum(e, "default-state", m::getDefaultState, m::setDefaultState, SidebarStateEnum.class);
+        p.attributeEnum(e, "toggled-state", m::getToggledState, m::setToggledState, SidebarStateEnum.class);
         p.attributeBoolean(e, "toggle-on-hover", m::getToggleOnHover, m::setToggleOnHover);
         p.attributeBoolean(e, "overlay", m::getOverlay, m::setOverlay);
         p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new NavMenuIOv3());

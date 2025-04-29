@@ -12,7 +12,7 @@ import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarEvent
 import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarToolbar;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarWidget;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.*;
-import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.CalendarViewType;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.CalendarViewTypeEnum;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -68,7 +68,7 @@ class CalendarAT extends AutoTestBase {
     void testCalendarMonthView() {
         toolbar.monthViewButton().click();
         CalendarMonthView monthView = calendar.monthView();
-        toolbar.shouldHaveActiveView(CalendarViewType.MONTH);
+        toolbar.shouldHaveActiveView(CalendarViewTypeEnum.MONTH);
 
         // проверка лэйблов тулбара
         toolbar.shouldHaveLabel("июль 2020");
@@ -120,7 +120,7 @@ class CalendarAT extends AutoTestBase {
 
         // клик по числу в ячейке должен открывать выбранный день
         monthView.clickOnDay("06");
-        toolbar.shouldHaveActiveView(CalendarViewType.DAY);
+        toolbar.shouldHaveActiveView(CalendarViewTypeEnum.DAY);
         toolbar.shouldHaveLabel("понедельник июль 06");
 
         // проверка сегодняшнего дня
@@ -134,7 +134,7 @@ class CalendarAT extends AutoTestBase {
     @Disabled
     void testCalendarDayView() {
         toolbar.dayViewButton().click();
-        toolbar.shouldHaveActiveView(CalendarViewType.DAY);
+        toolbar.shouldHaveActiveView(CalendarViewTypeEnum.DAY);
         CalendarDayView dayView = calendar.dayView();
 
         // проверка лэйблов тулбара
@@ -243,7 +243,7 @@ class CalendarAT extends AutoTestBase {
     @Test
     void testCalendarAgendaView() {
         toolbar.agendaViewButton().click();
-        toolbar.shouldHaveActiveView(CalendarViewType.AGENDA);
+        toolbar.shouldHaveActiveView(CalendarViewTypeEnum.AGENDA);
         CalendarAgendaView agendaView = calendar.agendaView();
         // проверка лэйблов тулбара
         toolbar.shouldHaveLabel("06 июля — 05 авг.");
@@ -269,7 +269,7 @@ class CalendarAT extends AutoTestBase {
     @Disabled
     void testCalendarWeekView() {
         toolbar.weekViewButton().click();
-        toolbar.shouldHaveActiveView(CalendarViewType.WEEK);
+        toolbar.shouldHaveActiveView(CalendarViewTypeEnum.WEEK);
         CalendarWeekView weekView = calendar.weekView();
 
         // проверка лэйблов тулбара
@@ -360,7 +360,7 @@ class CalendarAT extends AutoTestBase {
 
         // клик по числу в хэдере должен открывать выбранный день
         header1.clickDayCell("09");
-        toolbar.shouldHaveActiveView(CalendarViewType.DAY);
+        toolbar.shouldHaveActiveView(CalendarViewTypeEnum.DAY);
         toolbar.shouldHaveLabel("четверг июль 09");
     }
 }

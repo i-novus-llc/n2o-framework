@@ -15,7 +15,7 @@ public class LineChartItem extends AbstractChartItem {
     @JsonProperty
     private String label;
     @JsonProperty
-    private ChartLineType type;
+    private ChartLineTypeEnum type;
     @JsonProperty("stroke")
     private String color;
     @JsonProperty

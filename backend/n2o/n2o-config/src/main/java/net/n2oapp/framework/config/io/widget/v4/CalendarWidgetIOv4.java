@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.action.N2oAbstractAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCalendar;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarResource;
-import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarViewType;
+import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarViewTypeEnum;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ public class CalendarWidgetIOv4 extends WidgetElementIOv4<N2oCalendar> {
         super.io(e, m, p);
         p.attribute(e, "height", m::getHeight, m::setHeight);
         p.attribute(e, "default-date", m::getDefaultDate, m::setDefaultDate);
-        p.attributeEnum(e, "default-view", m::getDefaultView, m::setDefaultView, CalendarViewType.class);
+        p.attributeEnum(e, "default-view", m::getDefaultView, m::setDefaultView, CalendarViewTypeEnum.class);
         p.attributeArray(e, "views", ",", m::getViews, m::setViews);
         p.attribute(e, "min-time", m::getMinTime, m::setMinTime);
         p.attribute(e, "max-time", m::getMaxTime, m::setMaxTime);

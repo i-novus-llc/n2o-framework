@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.object.validation;
 
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -48,15 +48,15 @@ class ConstraintValidationCompileTest extends SourceCompileTestBase {
         assertThat(validations.size(), is(2));
 
         assertThat(validations.get(0).getId(), is("con1"));
-        assertThat(validations.get(0).getSeverity(), is(SeverityType.danger));
-        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.afterFailOperation));
+        assertThat(validations.get(0).getSeverity(), is(SeverityTypeEnum.danger));
+        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMomentEnum.afterFailOperation));
         assertThat(validations.get(0).getMessage(), is("message"));
         assertThat(validations.get(0).getEnabled(), is(false));
         assertThat(validations.get(0).getSide(), is("client,server"));
         assertThat(validations.get(0).getFieldId(), is("field1"));
 
         N2oTestDataProvider invocation = (N2oTestDataProvider) ((ConstraintValidation) validations.get(0)).getInvocation();
-        assertThat(invocation.getOperation(), is(N2oTestDataProvider.Operation.create));
+        assertThat(invocation.getOperation(), is(N2oTestDataProvider.OperationEnum.create));
         assertThat(invocation.getFile(), is("test.json"));
 
         List<AbstractParameter> inParametersList = ((ConstraintValidation) validations.get(0)).getInParametersList();
@@ -72,8 +72,8 @@ class ConstraintValidationCompileTest extends SourceCompileTestBase {
 
 
         assertThat(validations.get(1).getId(), is("con2"));
-        assertThat(validations.get(1).getSeverity(), is(SeverityType.info));
-        assertThat(validations.get(1).getMoment(), is(N2oValidation.ServerMoment.afterSuccessOperation));
+        assertThat(validations.get(1).getSeverity(), is(SeverityTypeEnum.info));
+        assertThat(validations.get(1).getMoment(), is(N2oValidation.ServerMomentEnum.afterSuccessOperation));
         outParametersList = ((ConstraintValidation) validations.get(1)).getOutParametersList();
         assertThat(outParametersList.size(), is(1));
         assertThat(outParametersList.get(0).getId(), is("validation"));

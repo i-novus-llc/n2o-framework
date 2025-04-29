@@ -12,12 +12,12 @@ import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 public class N2oCodeViewer extends N2oStandardField {
     private String text;
     private CodeLanguageEnum language;
-    private ColorTheme theme;
+    private ColorThemeEnum theme;
     private Boolean showLineNumbers;
     private Integer startingLineNumber;
     private Boolean hideButtons;
 
-    public enum ColorTheme {
+    public enum ColorThemeEnum {
         light, dark
     }
 }

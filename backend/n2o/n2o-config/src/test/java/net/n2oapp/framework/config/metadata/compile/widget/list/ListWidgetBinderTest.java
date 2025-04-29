@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget.list;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
@@ -36,6 +36,6 @@ class ListWidgetBinderTest extends SourceCompileTestBase {
         ListWidget listWidget = (ListWidget) ((StandardPage) pipeline.get(context, new DataSet().add("param", "1")))
                 .getRegions().get("single").get(0).getContent().get(8);
         assertThat(listWidget.getRowClick().getUrl(), is("https://www.google.com/"));
-        assertThat(listWidget.getRowClick().getTarget(), is(Target.self));
+        assertThat(listWidget.getRowClick().getTarget(), is(TargetEnum.self));
     }
 }

@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.aware.PipelineOperationTypeAware;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationFactory;
-import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 import net.n2oapp.framework.config.factory.AwareFactorySupport;
 
 import java.util.HashMap;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 public class N2oPipelineOperationFactory implements MetadataFactory<PipelineOperation>, PipelineOperationFactory,
         MetadataEnvironmentAware {
 
-    private Map<PipelineOperationType, PipelineOperation> enginesMap = new HashMap<>();
+    private Map<PipelineOperationTypeEnum, PipelineOperation> enginesMap = new HashMap<>();
 
     public N2oPipelineOperationFactory() {
         super();
@@ -34,7 +34,7 @@ public class N2oPipelineOperationFactory implements MetadataFactory<PipelineOper
     }
 
     @Override
-    public PipelineOperation<?, ?> produce(PipelineOperationType type) {
+    public PipelineOperation<?, ?> produce(PipelineOperationTypeEnum type) {
         PipelineOperation operation = enginesMap.get(type);
         if (operation == null)
             throw new EngineNotFoundException(type);

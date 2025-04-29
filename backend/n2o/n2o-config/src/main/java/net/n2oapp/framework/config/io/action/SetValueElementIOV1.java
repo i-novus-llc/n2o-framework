@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.action;
 
-import net.n2oapp.framework.api.metadata.action.MergeMode;
+import net.n2oapp.framework.api.metadata.action.MergeModeEnum;
 import net.n2oapp.framework.api.metadata.action.N2oSetValueAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -20,7 +20,7 @@ public class SetValueElementIOV1 extends AbstractActionElementIOV1<N2oSetValueAc
         p.attribute(e, "source-model", sv::getSourceModel, sv::setSourceModel);
         p.attribute(e, "target-widget", sv::getTargetWidget, sv::setTargetWidget);
         p.attribute(e, "target-model", sv::getTargetModel, sv::setTargetModel);
-        p.attributeEnum(e, "merge-mode", sv::getMergeMode, sv::setMergeMode, MergeMode.class);
+        p.attributeEnum(e, "merge-mode", sv::getMergeMode, sv::setMergeMode, MergeModeEnum.class);
         p.text(e, sv::getExpression, sv::setExpression);
     }
 

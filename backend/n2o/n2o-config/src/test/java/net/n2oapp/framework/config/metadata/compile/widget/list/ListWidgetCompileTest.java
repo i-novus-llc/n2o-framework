@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget.list;
 
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.cell.CheckboxCell;
@@ -80,7 +80,7 @@ class ListWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(listWidget.getPaging().getNext(), is(true));
         assertThat(listWidget.getPaging().getPrev(), is(true));
-        assertThat(listWidget.getPaging().getShowCount(), is(ShowCountType.ALWAYS));
+        assertThat(listWidget.getPaging().getShowCount(), is(ShowCountTypeEnum.ALWAYS));
         assertThat(listWidget.getPaging().getShowLast(), is(true));
         assertThat(listWidget.getPaging().getSize(), is(5));
         assertThat(listWidget.getPaging().getSrc(), is("pagingSrc"));

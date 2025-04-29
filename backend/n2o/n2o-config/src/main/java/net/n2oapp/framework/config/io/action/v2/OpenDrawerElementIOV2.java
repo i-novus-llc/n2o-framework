@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.io.action.v2;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oOpenDrawer;
-import net.n2oapp.framework.api.metadata.action.SubmitActionType;
-import net.n2oapp.framework.api.metadata.control.PageRef;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
+import net.n2oapp.framework.api.metadata.action.SubmitActionTypeEnum;
+import net.n2oapp.framework.api.metadata.control.PageRefEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyModeEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -25,15 +25,15 @@ public class OpenDrawerElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenDr
         p.attributeBoolean(e, "close-on-escape", od::getCloseOnEscape, od::setCloseOnEscape);
         p.attributeBoolean(e, "close-on-backdrop", od::getCloseOnBackdrop, od::setCloseOnBackdrop);
         p.attributeBoolean(e, "fixed-footer", od::getFixedFooter, od::setFixedFooter);
-        p.attributeEnum(e, "submit-action-type", od::getSubmitActionType, od::setSubmitActionType, SubmitActionType.class);
-        p.attributeEnum(e, "copy-model", od::getCopyModel, od::setCopyModel, ReduxModel.class);
+        p.attributeEnum(e, "submit-action-type", od::getSubmitActionType, od::setSubmitActionType, SubmitActionTypeEnum.class);
+        p.attributeEnum(e, "copy-model", od::getCopyModel, od::setCopyModel, ReduxModelEnum.class);
         p.attribute(e, "copy-datasource", od::getCopyDatasourceId, od::setCopyDatasourceId);
         p.attribute(e, "copy-field-id", od::getCopyFieldId, od::setCopyFieldId);
-        p.attributeEnum(e, "target-model", od::getTargetModel, od::setTargetModel, ReduxModel.class);
+        p.attributeEnum(e, "target-model", od::getTargetModel, od::setTargetModel, ReduxModelEnum.class);
         p.attribute(e, "target-datasource", od::getTargetDatasourceId, od::setTargetDatasourceId);
         p.attribute(e, "target-field-id", od::getTargetFieldId, od::setTargetFieldId);
-        p.attributeEnum(e, "target-page", od::getTargetPage, od::setTargetPage, PageRef.class);
-        p.attributeEnum(e, "copy-mode", od::getCopyMode, od::setCopyMode, CopyMode.class);
+        p.attributeEnum(e, "target-page", od::getTargetPage, od::setTargetPage, PageRefEnum.class);
+        p.attributeEnum(e, "copy-mode", od::getCopyMode, od::setCopyMode, CopyModeEnum.class);
     }
 
     @Override

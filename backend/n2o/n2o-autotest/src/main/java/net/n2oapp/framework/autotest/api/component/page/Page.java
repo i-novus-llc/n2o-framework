@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.page;
 
-import net.n2oapp.framework.api.metadata.application.NavigationLayout;
+import net.n2oapp.framework.api.metadata.application.NavigationLayoutEnum;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
@@ -66,7 +66,7 @@ public interface Page extends Component {
      * @param placement положение оповещения на странице
      * @return Компонент оповещение для автотестирования
      */
-    Alerts alerts(Alert.Placement placement);
+    Alerts alerts(Alert.PlacementEnum placement);
 
     /**
      * Проверка совпадения части ссылки страницы
@@ -94,7 +94,7 @@ public interface Page extends Component {
      * Проверка макета на соответствие
      * @param layout ожидаемый макет
      */
-    void shouldHaveLayout(NavigationLayout layout);
+    void shouldHaveLayout(NavigationLayoutEnum layout);
 
     /**
      * Проверка http-ошибки на странице

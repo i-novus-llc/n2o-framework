@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
@@ -192,7 +192,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 String datasourceId = widget.getId();
                 if (isNull(widget.getDatasource())) {
                     datasource = new N2oStandardDatasource();
-                    datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
+                    datasource.setDefaultValuesMode(DefaultValuesModeEnum.defaults);
                 } else {
                     datasource = widget.getDatasource();
                     datasourceId = nonNull(datasource.getId()) ? datasource.getId() : datasourceId;

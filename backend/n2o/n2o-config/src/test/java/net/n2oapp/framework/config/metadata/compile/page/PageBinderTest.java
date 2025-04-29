@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.api.Criteria;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
@@ -68,10 +68,10 @@ class PageBinderTest extends SourceCompileTestBase {
     @Test
     void pageNameResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
-        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModel.resolve, "page_master")));
+        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModelEnum.resolve, "page_master")));
         context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
-        ModelLink modelLink = new ModelLink(ReduxModel.resolve, "page_master");
+        ModelLink modelLink = new ModelLink(ReduxModelEnum.resolve, "page_master");
         modelLink.setValue("`name`");
         context.setPathRouteMapping(Collections.singletonMap("name_param", modelLink));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
@@ -109,10 +109,10 @@ class PageBinderTest extends SourceCompileTestBase {
         }).when(subModelsProcessor).executeSubModels(anyList(), any());
 
         PageContext context = new PageContext("testPageBinders", "/page/:id_param/view");
-        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModel.resolve, "page_master")));
+        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModelEnum.resolve, "page_master")));
         context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
-        ModelLink modelLink = new ModelLink(ReduxModel.resolve, "page_master", "id");
+        ModelLink modelLink = new ModelLink(ReduxModelEnum.resolve, "page_master", "id");
         modelLink.setSubModelQuery(new SubModelQuery("query1"));
         context.setPathRouteMapping(Collections.singletonMap("id_param", modelLink));
         context.setParentModelLinks(Collections.singletonList(modelLink));
@@ -124,10 +124,10 @@ class PageBinderTest extends SourceCompileTestBase {
     @Test
     void pageBreadcrumbResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
-        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModel.resolve, "page_master")));
+        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModelEnum.resolve, "page_master")));
         context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
-        ModelLink modelLink = new ModelLink(ReduxModel.resolve, "page_master");
+        ModelLink modelLink = new ModelLink(ReduxModelEnum.resolve, "page_master");
         modelLink.setValue("`name`");
         context.setPathRouteMapping(Collections.singletonMap("name_param", modelLink));
         context.setBreadcrumbs(singletonList(new Breadcrumb("prev", "/page")));
@@ -222,8 +222,8 @@ class PageBinderTest extends SourceCompileTestBase {
         context.setParentClientPageId("_");
         context.setParentClientWidgetId("table");
         context.setParentRoute("/table/:id");
-        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModel.resolve, "table", "id")));
-        context.setPathRouteMapping(Map.of("id", new ModelLink(ReduxModel.resolve, "_table", "id")));
+        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModelEnum.resolve, "table", "id")));
+        context.setPathRouteMapping(Map.of("id", new ModelLink(ReduxModelEnum.resolve, "_table", "id")));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/refModel/testRefModel.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/refModel/testRefModel.query.xml")
                 .get(context, data);

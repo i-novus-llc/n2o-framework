@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.button;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -53,7 +53,7 @@ class ButtonAT extends AutoTestBase {
         subMenu.shouldExists();
         subMenu.shouldHaveItems(2);
         subMenu.shouldHaveLabel("Все");
-        subMenu.shouldHaveColor(Colors.SUCCESS);
+        subMenu.shouldHaveColor(ColorsEnum.SUCCESS);
         subMenu.hover();
         Tooltip tooltip = subMenu.tooltip();
         tooltip.shouldExists();
@@ -64,7 +64,7 @@ class ButtonAT extends AutoTestBase {
 
         StandardButton button = list.toolbar().topLeft().button("All");
         button.shouldExists();
-        button.shouldHaveColor(Colors.PRIMARY);
+        button.shouldHaveColor(ColorsEnum.PRIMARY);
         button.hover();
         tooltip = button.tooltip();
         tooltip.shouldExists();
@@ -74,7 +74,7 @@ class ButtonAT extends AutoTestBase {
         item1.shouldExists();
         item1.click();
         subMenu.shouldHaveLabel("Непрочитанные");
-        subMenu.shouldHaveColor(Colors.DANGER);
+        subMenu.shouldHaveColor(ColorsEnum.DANGER);
         subMenu.hover();
         tooltip = subMenu.tooltip();
         tooltip.shouldExists();
@@ -82,7 +82,7 @@ class ButtonAT extends AutoTestBase {
 
         button = list.toolbar().topLeft().button("Unread");
         button.shouldExists();
-        button.shouldHaveColor(Colors.WARNING);
+        button.shouldHaveColor(ColorsEnum.WARNING);
         button.hover();
         tooltip = button.tooltip();
         tooltip.shouldExists();
@@ -92,7 +92,7 @@ class ButtonAT extends AutoTestBase {
         item2.shouldExists();
         item2.click();
         subMenu.shouldHaveLabel("Все");
-        subMenu.shouldHaveColor(Colors.SUCCESS);
+        subMenu.shouldHaveColor(ColorsEnum.SUCCESS);
         subMenu.hover();
         tooltip = subMenu.tooltip();
         tooltip.shouldExists();
@@ -100,7 +100,7 @@ class ButtonAT extends AutoTestBase {
 
         button = list.toolbar().topLeft().button("All");
         button.shouldExists();
-        button.shouldHaveColor(Colors.PRIMARY);
+        button.shouldHaveColor(ColorsEnum.PRIMARY);
         button.hover();
         tooltip = button.tooltip();
         tooltip.shouldExists();

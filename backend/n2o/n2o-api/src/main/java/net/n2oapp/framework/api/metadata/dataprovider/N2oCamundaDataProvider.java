@@ -11,9 +11,9 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oMapInvocation;
 @Getter
 @Setter
 public class N2oCamundaDataProvider extends AbstractDataProvider implements N2oMapInvocation {
-    private Operation operation;
+    private OperationEnum operation;
 
-    public enum Operation {
+    public enum OperationEnum {
         countTasks,
         findTasks,
         getTask,

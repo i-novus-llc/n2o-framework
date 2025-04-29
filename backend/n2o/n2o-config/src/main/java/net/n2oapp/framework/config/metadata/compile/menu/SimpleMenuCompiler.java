@@ -9,16 +9,16 @@ import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
@@ -70,10 +70,10 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         compiled.setId(source.getId());
         compiled.setIcon(source.getIcon());
         compiled.setIconPosition(castDefault(source.getIconPosition(),
-                () -> p.resolve(property("n2o.api.menu.item.icon_position"), Position.class)));
+                () -> p.resolve(property("n2o.api.menu.item.icon_position"), PositionEnum.class)));
         compiled.setImageSrc(p.resolveJS(source.getImage()));
         compiled.setImageShape(castDefault(source.getImageShape(),
-                () -> p.resolve(property("n2o.api.menu.item.image_shape"), ShapeType.class)));
+                () -> p.resolve(property("n2o.api.menu.item.image_shape"), ShapeTypeEnum.class)));
 
         if (hasLink(source.getName()) && (source.getDatasourceId() == null &&
                 p.getScope(ComponentScope.class).unwrap(DatasourceIdAware.class).getDatasourceId() == null))
@@ -119,10 +119,10 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
                 compiled.setPathMapping(linkAction.getPathMapping());
                 compiled.setQueryMapping(linkAction.getQueryMapping());
                 compiled.setTarget(linkAction.getTarget());
-                if (linkAction.getTarget().equals(Target.application))
-                    compiled.setLinkType(MenuItem.LinkType.inner);
+                if (linkAction.getTarget().equals(TargetEnum.application))
+                    compiled.setLinkType(MenuItem.LinkTypeEnum.inner);
                 else
-                    compiled.setLinkType(MenuItem.LinkType.outer);
+                    compiled.setLinkType(MenuItem.LinkTypeEnum.outer);
             } else {
                 compiled.setAction(action);
             }

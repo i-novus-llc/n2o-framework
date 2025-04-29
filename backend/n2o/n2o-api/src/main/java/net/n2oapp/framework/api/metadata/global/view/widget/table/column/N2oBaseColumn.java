@@ -4,7 +4,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table.column;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
@@ -28,11 +28,11 @@ public abstract class N2oBaseColumn extends N2oAbstractColumn implements Extensi
     private String visible;
     private Boolean resizable;
     private String sortingFieldId;
-    private SortingDirection sortingDirection;
-    private ColumnFixedPosition fixed;
+    private SortingDirectionEnum sortingDirection;
+    private ColumnFixedPositionEnum fixed;
     private ColumnVisibility[] columnVisibilities;
-    private Alignment alignment;
-    private Alignment contentAlignment;
+    private AlignmentEnum alignment;
+    private AlignmentEnum contentAlignment;
     @ExtAttributesSerializer
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 
@@ -41,7 +41,7 @@ public abstract class N2oBaseColumn extends N2oAbstractColumn implements Extensi
     public static class ColumnVisibility implements Source, DatasourceIdAware {
         private String value;
         private String datasourceId;
-        private ReduxModel model;
+        private ReduxModelEnum model;
 
         /**
          * @deprecated use {@link #getDatasourceId()} instead.

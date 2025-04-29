@@ -29,10 +29,10 @@ public class SearchBar implements Compiled {
     @Getter
     public static class SearchPageLocation implements Compiled {
         @JsonProperty
-        private LinkType linkType;
+        private LinkTypeEnum linkType;
     }
 
-    public enum LinkType {
+    public enum LinkTypeEnum {
         inner, outer
     }
 }

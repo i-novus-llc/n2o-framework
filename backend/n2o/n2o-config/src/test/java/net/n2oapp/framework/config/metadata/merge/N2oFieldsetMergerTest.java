@@ -40,8 +40,8 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getStyle(), is("color:red"));
         assertThat(fieldSet.getDependsOn(), is(new String[]{"a", "b"}));
         assertThat(fieldSet.getDescription(), is("desc"));
-        assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlign.LEFT));
-        assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocation.LEFT));
+        assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlignEnum.LEFT));
+        assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocationEnum.LEFT));
         assertThat(fieldSet.getFieldLabelWidth(), is("100px"));
         assertThat(fieldSet.getHelp(), is("help"));
         assertThat(fieldSet.getSrc(), is("test"));
@@ -62,8 +62,8 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getStyle(), is("color:red"));
         assertThat(fieldSet.getDependsOn(), is(new String[]{"a", "b"}));
         assertThat(fieldSet.getDescription(), is("desc"));
-        assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlign.LEFT));
-        assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocation.LEFT));
+        assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlignEnum.LEFT));
+        assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocationEnum.LEFT));
         assertThat(fieldSet.getFieldLabelWidth(), is("100px"));
         assertThat(fieldSet.getHelp(), is("help"));
         assertThat(fieldSet.getSrc(), is("test"));
@@ -97,8 +97,8 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getStyle(), is("color:red"));
         assertThat(fieldSet.getDependsOn(), is(new String[]{"a", "b"}));
         assertThat(fieldSet.getDescription(), is("desc"));
-        assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlign.LEFT));
-        assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocation.LEFT));
+        assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlignEnum.LEFT));
+        assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocationEnum.LEFT));
         assertThat(fieldSet.getFieldLabelWidth(), is("100px"));
         assertThat(fieldSet.getHelp(), is("help"));
         assertThat(fieldSet.getSrc(), is("test"));

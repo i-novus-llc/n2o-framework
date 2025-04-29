@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.plain.FractionFormatting;
+import net.n2oapp.framework.api.metadata.control.plain.FractionFormattingEnum;
 import net.n2oapp.framework.api.metadata.control.plain.N2oInputMoney;
 import net.n2oapp.framework.api.metadata.meta.control.InputMoney;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -42,8 +42,8 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
     }
 
     private void compileDecimalMode(InputMoney inputMoney, N2oInputMoney source, CompileProcessor p) {
-        FractionFormatting fractionFormatting =  castDefault(source.getFractionFormatting(),
-                () -> p.resolve(property("n2o.api.control.input_money.fraction_formatting"), FractionFormatting.class));
+        FractionFormattingEnum fractionFormatting =  castDefault(source.getFractionFormatting(),
+                () -> p.resolve(property("n2o.api.control.input_money.fraction_formatting"), FractionFormattingEnum.class));
         switch (fractionFormatting) {
             case manual: {
                 inputMoney.setAllowDecimal(true);

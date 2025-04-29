@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.AutoComplete;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -68,9 +68,9 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
 
         List<ControlDependency> dependencies = field.getDependencies();
         assertThat(dependencies.size(), is(2));
-        assertThat(dependencies.get(0).getType(), is(ValidationType.fetch));
+        assertThat(dependencies.get(0).getType(), is(ValidationTypeEnum.fetch));
         assertThat(dependencies.get(0).getOn(), is(Arrays.asList("auto2")));
-        assertThat(dependencies.get(1).getType(), is(ValidationType.reset));
+        assertThat(dependencies.get(1).getType(), is(ValidationTypeEnum.reset));
         assertThat(dependencies.get(1).getOn(), is(Arrays.asList("org_id")));
 
 

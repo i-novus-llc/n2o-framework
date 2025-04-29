@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.control.SubmitOn;
-import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
+import net.n2oapp.framework.api.metadata.control.SubmitOnEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 
 import java.util.Map;
 
@@ -26,7 +26,7 @@ public class ClientDataProvider implements Compiled {
     @JsonProperty
     private Map<String, ModelLink> formMapping;
     @JsonProperty
-    private RequestMethod method;
+    private RequestMethodEnum method;
     @JsonProperty
     private String quickSearchParam;
     @JsonProperty
@@ -36,5 +36,5 @@ public class ClientDataProvider implements Compiled {
     @JsonProperty
     private Integer size;
     @JsonProperty
-    private SubmitOn autoSubmitOn;
+    private SubmitOnEnum autoSubmitOn;
 }

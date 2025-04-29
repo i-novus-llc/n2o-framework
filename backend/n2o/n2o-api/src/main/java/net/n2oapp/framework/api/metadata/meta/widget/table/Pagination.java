@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.PlaceEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountTypeEnum;
 
 import java.util.Map;
 
@@ -24,7 +24,7 @@ public class Pagination implements Compiled {
     @JsonProperty
     private String src;
     @JsonProperty
-    private ShowCountType showCount;
+    private ShowCountTypeEnum showCount;
     @JsonProperty
     private Boolean showLast;
     @JsonProperty
@@ -40,5 +40,5 @@ public class Pagination implements Compiled {
     @JsonProperty
     private Map<String, String> style;
     @JsonProperty
-    private Place place;
+    private PlaceEnum place;
 }

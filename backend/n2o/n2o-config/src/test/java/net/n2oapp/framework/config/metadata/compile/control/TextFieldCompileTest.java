@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Text;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -48,7 +48,7 @@ class TextFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getVisible(), is(false));
 
         ControlDependency dependency = field.getDependencies().get(0);
-        assertThat(dependency.getType(),is(ValidationType.reRender));
+        assertThat(dependency.getType(),is(ValidationTypeEnum.reRender));
         assertThat(dependency.getOn().get(0), is("type"));
         assertThat(dependency.getExpression(), nullValue());
         assertThat(dependency.getApplyOnInit(), nullValue());

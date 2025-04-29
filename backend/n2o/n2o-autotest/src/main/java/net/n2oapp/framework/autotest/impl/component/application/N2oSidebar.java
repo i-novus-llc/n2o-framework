@@ -3,7 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.application;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.api.metadata.application.SidebarState;
+import net.n2oapp.framework.api.metadata.application.SidebarStateEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Menu;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
@@ -65,7 +65,7 @@ public class N2oSidebar extends N2oComponent implements Sidebar {
     }
 
     @Override
-    public void shouldHaveState(SidebarState state) {
+    public void shouldHaveState(SidebarStateEnum state) {
         element().shouldHave(Condition.cssClass(state.getId()));
     }
 

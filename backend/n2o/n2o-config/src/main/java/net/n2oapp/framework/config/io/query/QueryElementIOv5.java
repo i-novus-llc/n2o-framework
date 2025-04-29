@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.query;
 
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
@@ -26,13 +26,13 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
         p.children(e, null, "list", t::getLists, t::setLists,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.list), this::listSelection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list), this::listSelection);
         p.children(e, null, "unique", t::getUniques, t::setUniques,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.unique), this::uniqueSelection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.unique), this::uniqueSelection);
         p.children(e, null, "count", t::getCounts, t::setCounts,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.Type.count), this::countSelection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.count), this::countSelection);
         p.childrenByEnum(e, "filters", t::getFilters, t::setFilters, N2oQuery.Filter::getType,
-                N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterType.class, this::filter);
+                N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterTypeEnum.class, this::filter);
         p.anyChildren(e, "fields", t::getFields, t::setFields, p.oneOf(AbstractField.class)
                 .add("field", QuerySimpleField.class, this::field)
                 .add("reference", QueryReferenceField.class, this::reference)

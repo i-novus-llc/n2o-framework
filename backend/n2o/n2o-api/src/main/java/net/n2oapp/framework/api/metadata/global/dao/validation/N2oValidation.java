@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.dao.validation;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
@@ -15,8 +15,8 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 public abstract class N2oValidation implements IdAware, Source, NamespaceUriAware {
     private String id;
     private String fieldId;
-    private SeverityType severity;
-    private ServerMoment serverMoment;
+    private SeverityTypeEnum severity;
+    private ServerMomentEnum serverMoment;
     private String message;
     private String title;
     private String namespaceUri;
@@ -33,7 +33,7 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
         return "";
     }
 
-    public enum ServerMoment implements IdAware {
+    public enum ServerMomentEnum implements IdAware {
         beforeOperation("before-operation"),
         beforeQuery("before-query"),
         afterSuccessQuery("after-success-query"),
@@ -43,7 +43,7 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
 
         private String id;
 
-        ServerMoment(String id) {
+        ServerMomentEnum(String id) {
             this.id = id;
         }
 

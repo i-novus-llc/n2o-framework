@@ -69,6 +69,6 @@ class InvisibleFieldValidationAT extends AutoTestBase {
 
         radio.check("Скрыть поля");
         validateBtn.click();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Данные сохранены");
     }
 }

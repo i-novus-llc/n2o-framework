@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.action.N2oAbstractAction;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarResource;
-import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarViewType;
+import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarViewTypeEnum;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 public class N2oCalendar extends N2oWidget {
     private String height;
     private String defaultDate;
-    private CalendarViewType defaultView;
+    private CalendarViewTypeEnum defaultView;
     private String[] views;
     private String minTime;
     private String maxTime;

@@ -30,7 +30,7 @@ public class ProgressBarCellCompiler extends AbstractCellCompiler<ProgressBarCel
         cell.setActive(castDefault(source.getActive(),
                 () -> p.resolve(property("n2o.api.cell.progress.active"), Boolean.class)));
         cell.setSize(castDefault(source.getSize(),
-                () -> p.resolve(property("n2o.api.cell.progress.size"), N2oProgressBarCell.Size.class)));
+                () -> p.resolve(property("n2o.api.cell.progress.size"), N2oProgressBarCell.SizeEnum.class)));
         cell.setColor(source.getColor());
         return cell;
     }

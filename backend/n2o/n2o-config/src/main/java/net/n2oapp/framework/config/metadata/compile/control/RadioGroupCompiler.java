@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.list.N2oRadioGroup;
-import net.n2oapp.framework.api.metadata.control.list.RadioGroupType;
+import net.n2oapp.framework.api.metadata.control.list.RadioGroupTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.control.RadioGroup;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
@@ -28,11 +28,11 @@ public class RadioGroupCompiler extends ListControlCompiler<RadioGroup, N2oRadio
     @Override
     public StandardField<RadioGroup> compile(N2oRadioGroup source, CompileContext<?, ?> context, CompileProcessor p) {
         RadioGroup radioGroup = new RadioGroup();
-        radioGroup.setInline(castDefault(source.getInline(), source.getType() == RadioGroupType.TABS ?
+        radioGroup.setInline(castDefault(source.getInline(), source.getType() == RadioGroupTypeEnum.TABS ?
                 () -> p.resolve(property("n2o.api.control.radio_group.tabs_inline"), Boolean.class) :
                 () -> p.resolve(property("n2o.api.control.radio_group.inline"), Boolean.class)));
         radioGroup.setType(castDefault(source.getType(),
-                () -> p.resolve(property("n2o.api.control.radio_group.type"), RadioGroupType.class)));
+                () -> p.resolve(property("n2o.api.control.radio_group.type"), RadioGroupTypeEnum.class)));
         StandardField<RadioGroup> result = compileListControl(radioGroup, source, context, p);
         return compileFetchDependencies(result, source, p);
     }

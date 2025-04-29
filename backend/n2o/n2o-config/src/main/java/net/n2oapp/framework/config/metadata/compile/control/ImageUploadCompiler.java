@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oImageUpload;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.control.ImageUpload;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class ImageUploadCompiler extends BaseFileUploadCompiler<ImageUpload, N2o
     public StandardField<ImageUpload> compile(N2oImageUpload source, CompileContext<?, ?> context, CompileProcessor p) {
         ImageUpload imageUpload = new ImageUpload();
         imageUpload.setListType(castDefault(source.getListType(),
-                () -> p.resolve(property("n2o.api.control.image_upload.list_type"), ImageUpload.ListType.class)));
+                () -> p.resolve(property("n2o.api.control.image_upload.list_type"), ImageUpload.ListTypeEnum.class)));
         imageUpload.setCanLightbox(castDefault(source.getCanLightbox(),
                 () -> p.resolve(property("n2o.api.control.image_upload.can_lightbox"), Boolean.class)));
         imageUpload.setCanDelete(castDefault(source.getCanDelete(),
@@ -41,7 +41,7 @@ public class ImageUploadCompiler extends BaseFileUploadCompiler<ImageUpload, N2o
         imageUpload.setShowTooltip(castDefault(source.getShowTooltip(),
                 () -> p.resolve(property("n2o.api.control.image_upload.show_tooltip"), Boolean.class)));
         imageUpload.setShape(castDefault(source.getShape(),
-                () -> p.resolve(property("n2o.api.control.image_upload.shape"), ShapeType.class)));
+                () -> p.resolve(property("n2o.api.control.image_upload.shape"), ShapeTypeEnum.class)));
         imageUpload.setShowName(castDefault(source.getShowName(),
                 () -> p.resolve(property("n2o.api.control.image_upload.show_name"), Boolean.class)));
         return compileFileUpload(imageUpload, source, context, p);

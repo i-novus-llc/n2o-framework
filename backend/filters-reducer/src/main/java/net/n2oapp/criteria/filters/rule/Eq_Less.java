@@ -2,7 +2,7 @@ package net.n2oapp.criteria.filters.rule;
 
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.rule.base.Rule;
 
 /**
@@ -14,9 +14,9 @@ public class Eq_Less implements Rule {
     @Override
     @SuppressWarnings("unchecked")
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterType.eq) && left.getType().equals(FilterType.less))
+        if (right.getType().equals(FilterTypeEnum.eq) && left.getType().equals(FilterTypeEnum.less))
             return simplify(right, left);
-        else if (left.getType().equals(FilterType.eq) && right.getType().equals(FilterType.less)) {
+        else if (left.getType().equals(FilterTypeEnum.eq) && right.getType().equals(FilterTypeEnum.less)) {
             Comparable value = (Comparable) left.getValue();
             Comparable top = (Comparable) right.getValue();
             if (value.compareTo(top) < 0) return left;
@@ -27,7 +27,7 @@ public class Eq_Less implements Rule {
 
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.eq, FilterType.less);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.eq, FilterTypeEnum.less);
     }
 }

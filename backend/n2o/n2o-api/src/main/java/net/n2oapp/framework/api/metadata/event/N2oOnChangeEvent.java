@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.event;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
@@ -15,7 +15,7 @@ import net.n2oapp.framework.api.metadata.aware.ModelAware;
 @Setter
 public class N2oOnChangeEvent extends N2oAbstractEvent implements ActionsAware, DatasourceIdAware, ModelAware {
     private String datasourceId;
-    private ReduxModel model;
+    private ReduxModelEnum model;
     private String fieldId;
     private String actionId;
     private N2oAction[] actions;

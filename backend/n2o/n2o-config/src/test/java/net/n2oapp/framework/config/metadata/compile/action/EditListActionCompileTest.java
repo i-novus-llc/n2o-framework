@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.action.editlist.EditListAction;
-import net.n2oapp.framework.api.metadata.meta.action.editlist.ListOperationType;
+import net.n2oapp.framework.api.metadata.meta.action.editlist.ListOperationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -44,24 +44,24 @@ class EditListActionCompileTest extends SourceCompileTestBase {
 
         EditListAction action = (EditListAction) page.getToolbar().getButton("b1").getAction();
         assertThat(action.getType(), is("n2o/api/models/edit_list"));
-        assertThat(action.getPayload().getOperation(), is(ListOperationType.create));
+        assertThat(action.getPayload().getOperation(), is(ListOperationTypeEnum.create));
         assertThat(action.getPayload().getPrimaryKey(), is("name"));
         assertThat(action.getPayload().getList().getDatasource(), is("testEditListAction_ds1"));
-        assertThat(action.getPayload().getList().getModel(), is(ReduxModel.multi));
+        assertThat(action.getPayload().getList().getModel(), is(ReduxModelEnum.multi));
         assertThat(action.getPayload().getList().getField(), is("groups[{idx}]"));
         assertThat(action.getPayload().getItem().getDatasource(), is("testEditListAction_ds2"));
-        assertThat(action.getPayload().getItem().getModel(), is(ReduxModel.filter));
+        assertThat(action.getPayload().getItem().getModel(), is(ReduxModelEnum.filter));
         assertThat(action.getPayload().getItem().getField(), is("test2"));
 
         action = (EditListAction) page.getToolbar().getButton("b2").getAction();
         assertThat(action.getType(), is("n2o/api/models/edit_list"));
-        assertThat(action.getPayload().getOperation(), is(ListOperationType.delete));
+        assertThat(action.getPayload().getOperation(), is(ListOperationTypeEnum.delete));
         assertThat(action.getPayload().getPrimaryKey(), is("id"));
         assertThat(action.getPayload().getList().getDatasource(), is("testEditListAction_ds2"));
-        assertThat(action.getPayload().getList().getModel(), is(ReduxModel.resolve));
+        assertThat(action.getPayload().getList().getModel(), is(ReduxModelEnum.resolve));
         assertThat(action.getPayload().getList().getField(), nullValue());
         assertThat(action.getPayload().getItem().getDatasource(), is("testEditListAction_ds2"));
-        assertThat(action.getPayload().getItem().getModel(), is(ReduxModel.resolve));
+        assertThat(action.getPayload().getItem().getModel(), is(ReduxModelEnum.resolve));
         assertThat(action.getPayload().getItem().getField(), nullValue());
     }
 

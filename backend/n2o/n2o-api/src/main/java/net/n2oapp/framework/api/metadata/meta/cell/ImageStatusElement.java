@@ -16,5 +16,5 @@ public class ImageStatusElement implements SrcAware, Compiled {
     @JsonProperty
     private String icon;
     @JsonProperty
-    private ImageStatusElementPlace place;
+    private ImageStatusElementPlaceEnum place;
 }

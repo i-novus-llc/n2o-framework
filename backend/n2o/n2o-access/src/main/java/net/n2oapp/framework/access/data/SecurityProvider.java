@@ -2,7 +2,7 @@ package net.n2oapp.framework.access.data;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.access.exception.AccessDeniedException;
 import net.n2oapp.framework.access.exception.UnauthorizedException;
 import net.n2oapp.framework.access.metadata.Security;
@@ -135,7 +135,7 @@ public class SecurityProvider {
      * @param userContext     Контекст пользователя
      */
     public void checkQueryRestrictions(DataSet data, SecurityFilters securityFilters,
-                                       UserContext userContext, Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap) {
+                                       UserContext userContext, Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> filtersMap) {
         checkRestrictions(securityFilters, userContext, r -> {
             if (filtersMap.get(r.getFieldId()) == null) {
                 logger.warn("В схеме доступа указан фильтр {}, но его нет в выборке", r.getFieldId());
@@ -161,7 +161,7 @@ public class SecurityProvider {
         for (Restriction securityRestriction : restrictions) {
             Object realValue = realValueFunction.apply(securityRestriction);
             if (realValue != null || strictFiltering) {
-                if (FilterType.Arity.nullary.equals(securityRestriction.getType().arity)) {
+                if (FilterTypeEnum.ArityEnum.nullary.equals(securityRestriction.getType().arity)) {
                     Filter securityFilter = new Filter(securityRestriction.getType());
                     checkByField(securityRestriction.getFieldId(), realValue, securityFilter);
                 } else {

@@ -33,7 +33,7 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         final N2oObject.Operation operation = new N2oObject.Operation();
         operation.setId("test");
         final N2oTestDataProvider invocation = new N2oTestDataProvider();
-        invocation.setOperation(N2oTestDataProvider.Operation.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
         operation.setInvocation(invocation);
         n2oObject.setOperations(new N2oObject.Operation[]{operation});
 

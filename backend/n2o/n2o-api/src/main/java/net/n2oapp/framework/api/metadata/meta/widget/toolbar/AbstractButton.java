@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +28,7 @@ public abstract class AbstractButton extends Component implements IdAware {
     @JsonProperty
     private String icon;
     @JsonProperty
-    private Position iconPosition;
+    private PositionEnum iconPosition;
     @JsonProperty
     private String color;
     @JsonProperty
@@ -44,13 +44,13 @@ public abstract class AbstractButton extends Component implements IdAware {
     @JsonProperty
     private String hintPosition;
     @JsonProperty
-    private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
+    private Map<ValidationTypeEnum, List<Condition>> conditions = new HashMap<>();
     @JsonProperty
     private Badge badge;
     @JsonProperty
     private String datasource;
     @JsonProperty
-    private ReduxModel model;
+    private ReduxModelEnum model;
     /**
      * Список источников данных, которые нужно валидировать
      */

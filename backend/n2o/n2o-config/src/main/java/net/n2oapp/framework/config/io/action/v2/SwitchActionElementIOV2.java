@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.action.v2;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oSwitchAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.common.ActionsAwareIO;
@@ -27,7 +27,7 @@ public class SwitchActionElementIOV2 extends AbstractActionElementIOV2<N2oSwitch
         super.io(e, a, p);
         p.attribute(e, "value-field-id", a::getValueFieldId, a::setValueFieldId);
         p.attribute(e, "datasource", a::getDatasourceId, a::setDatasourceId);
-        p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModelEnum.class);
         p.anyChildren(e, null, a::getCases, a::setCases, p.oneOf(N2oSwitchAction.AbstractCase.class)
                 .add("case", N2oSwitchAction.Case.class, this::caseIo)
                 .add("default", N2oSwitchAction.DefaultCase.class, this::abstractCaseIO));

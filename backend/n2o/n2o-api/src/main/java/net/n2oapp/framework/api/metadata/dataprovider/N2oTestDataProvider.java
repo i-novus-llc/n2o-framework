@@ -11,12 +11,12 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oMapInvocation;
 @Setter
 public class N2oTestDataProvider extends AbstractDataProvider implements N2oMapInvocation {
     private String file;
-    private Operation operation;
+    private OperationEnum operation;
     private String primaryKey;
     private String primaryKeys;
-    private PrimaryKeyType primaryKeyType;
+    private PrimaryKeyTypeEnum primaryKeyType;
 
-    public enum Operation {
+    public enum OperationEnum {
         findAll,
         findOne,
         create,
@@ -29,7 +29,7 @@ public class N2oTestDataProvider extends AbstractDataProvider implements N2oMapI
         echo
     }
 
-    public enum PrimaryKeyType {
+    public enum PrimaryKeyTypeEnum {
         integer,
         string
     }

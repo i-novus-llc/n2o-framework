@@ -21,7 +21,7 @@ public class XmlInfo extends FileInfo {
 
     @Deprecated protected ConfigId configId;
     protected Set<ConfigId> dependents = new HashSet<>();//ссылки на контекстныальные метаданные, которые нужно сбросить, при изменении этого файла
-    @Deprecated protected Origin origin = Origin.xml;
+    @Deprecated protected OriginEnum origin = OriginEnum.xml;
     protected XmlInfo ancestor;
 
     @Deprecated
@@ -85,7 +85,7 @@ public class XmlInfo extends FileInfo {
         return this.uri;
     }
 
-    public Origin getOrigin() {
+    public OriginEnum getOrigin() {
         return origin;
     }
 

@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.badge;
 
 import net.n2oapp.framework.api.metadata.application.Application;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.control.ListControl;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -55,24 +55,24 @@ class BadgeCompileTest extends SourceCompileTestBase {
         Badge badge = ((ListControl) ((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getControl()).getBadge();
 
         assertThat(badge.getFieldId(), is("bfi1"));
-        assertThat(badge.getPosition(), is(Position.LEFT));
-        assertThat(badge.getShape(), is(ShapeType.ROUNDED));
+        assertThat(badge.getPosition(), is(PositionEnum.LEFT));
+        assertThat(badge.getShape(), is(ShapeTypeEnum.ROUNDED));
         assertThat(badge.getColorFieldId(), is("bcfi1"));
         assertThat(badge.getImageFieldId(), is("bifi1"));
-        assertThat(badge.getImagePosition(), is(Position.RIGHT));
-        assertThat(badge.getImageShape(), is(ShapeType.SQUARE));
+        assertThat(badge.getImagePosition(), is(PositionEnum.RIGHT));
+        assertThat(badge.getImageShape(), is(ShapeTypeEnum.SQUARE));
         assertThat(badge.getText(), nullValue());
         assertThat(badge.getColor(), nullValue());
         assertThat(badge.getImage(), nullValue());
 
         badge = ((ListControl) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl()).getBadge();
         assertThat(badge.getFieldId(), nullValue());
-        assertThat(badge.getPosition(), is(Position.RIGHT));
-        assertThat(badge.getShape(), is(ShapeType.SQUARE));
+        assertThat(badge.getPosition(), is(PositionEnum.RIGHT));
+        assertThat(badge.getShape(), is(ShapeTypeEnum.SQUARE));
         assertThat(badge.getColorFieldId(), nullValue());
         assertThat(badge.getImageFieldId(), is("bifi2"));
-        assertThat(badge.getImagePosition(), is(Position.LEFT));
-        assertThat(badge.getImageShape(), is(ShapeType.CIRCLE));
+        assertThat(badge.getImagePosition(), is(PositionEnum.LEFT));
+        assertThat(badge.getImageShape(), is(ShapeTypeEnum.CIRCLE));
         assertThat(badge.getText(), nullValue());
         assertThat(badge.getColor(), nullValue());
         assertThat(badge.getImage(), nullValue());
@@ -88,24 +88,24 @@ class BadgeCompileTest extends SourceCompileTestBase {
 
         Badge badge = ((Tree) page.getRegions().get("single").get(0).getContent().get(0)).getBadge();
         assertThat(badge.getFieldId(), is("bfi1"));
-        assertThat(badge.getPosition(), is(Position.LEFT));
-        assertThat(badge.getShape(), is(ShapeType.ROUNDED));
+        assertThat(badge.getPosition(), is(PositionEnum.LEFT));
+        assertThat(badge.getShape(), is(ShapeTypeEnum.ROUNDED));
         assertThat(badge.getColorFieldId(), is("bcfi1"));
         assertThat(badge.getImageFieldId(), is("bifi1"));
-        assertThat(badge.getImagePosition(), is(Position.RIGHT));
-        assertThat(badge.getImageShape(), is(ShapeType.SQUARE));
+        assertThat(badge.getImagePosition(), is(PositionEnum.RIGHT));
+        assertThat(badge.getImageShape(), is(ShapeTypeEnum.SQUARE));
         assertThat(badge.getText(), nullValue());
         assertThat(badge.getColor(), nullValue());
         assertThat(badge.getImage(), nullValue());
 
         badge = ((Tree) page.getRegions().get("single").get(0).getContent().get(1)).getBadge();
         assertThat(badge.getFieldId(), nullValue());
-        assertThat(badge.getPosition(), is(Position.RIGHT));
-        assertThat(badge.getShape(), is(ShapeType.SQUARE));
+        assertThat(badge.getPosition(), is(PositionEnum.RIGHT));
+        assertThat(badge.getShape(), is(ShapeTypeEnum.SQUARE));
         assertThat(badge.getColorFieldId(), nullValue());
         assertThat(badge.getImageFieldId(), is("bifi2"));
-        assertThat(badge.getImagePosition(), is(Position.LEFT));
-        assertThat(badge.getImageShape(), is(ShapeType.CIRCLE));
+        assertThat(badge.getImagePosition(), is(PositionEnum.LEFT));
+        assertThat(badge.getImageShape(), is(ShapeTypeEnum.CIRCLE));
         assertThat(badge.getText(), nullValue());
         assertThat(badge.getColor(), nullValue());
         assertThat(badge.getImage(), nullValue());
@@ -119,24 +119,24 @@ class BadgeCompileTest extends SourceCompileTestBase {
         Badge badge = ((ButtonField) ((FormWidgetComponent) page.getWidget().getComponent())
                 .getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getBadge();
         assertThat(badge.getText(), is("`bfi1`"));
-        assertThat(badge.getPosition(), is(Position.LEFT));
-        assertThat(badge.getShape(), is(ShapeType.ROUNDED));
+        assertThat(badge.getPosition(), is(PositionEnum.LEFT));
+        assertThat(badge.getShape(), is(ShapeTypeEnum.ROUNDED));
         assertThat(badge.getColor(), is("danger"));
         assertThat(badge.getImage(), is("/static/candidate.png"));
-        assertThat(badge.getImagePosition(), is(Position.RIGHT));
-        assertThat(badge.getImageShape(), is(ShapeType.SQUARE));
+        assertThat(badge.getImagePosition(), is(PositionEnum.RIGHT));
+        assertThat(badge.getImageShape(), is(ShapeTypeEnum.SQUARE));
         assertThat(badge.getFieldId(), nullValue());
         assertThat(badge.getColorFieldId(), nullValue());
         assertThat(badge.getImageFieldId(), nullValue());
 
         badge = page.getWidget().getToolbar().getButton("b2").getBadge();
         assertThat(badge.getText(), nullValue());
-        assertThat(badge.getPosition(), is(Position.RIGHT));
-        assertThat(badge.getShape(), is(ShapeType.CIRCLE));
+        assertThat(badge.getPosition(), is(PositionEnum.RIGHT));
+        assertThat(badge.getShape(), is(ShapeTypeEnum.CIRCLE));
         assertThat(badge.getColor(), nullValue());
         assertThat(badge.getImage(), is("`img`"));
-        assertThat(badge.getImagePosition(), is(Position.LEFT));
-        assertThat(badge.getImageShape(), is(ShapeType.CIRCLE));
+        assertThat(badge.getImagePosition(), is(PositionEnum.LEFT));
+        assertThat(badge.getImageShape(), is(ShapeTypeEnum.CIRCLE));
         assertThat(badge.getFieldId(), nullValue());
         assertThat(badge.getColorFieldId(), nullValue());
         assertThat(badge.getImageFieldId(), nullValue());
@@ -152,24 +152,24 @@ class BadgeCompileTest extends SourceCompileTestBase {
 
         Badge badge = application.getHeader().getMenu().getItems().get(0).getBadge();
         assertThat(badge.getText(), is("`badge`"));
-        assertThat(badge.getPosition(), is(Position.LEFT));
-        assertThat(badge.getShape(), is(ShapeType.ROUNDED));
+        assertThat(badge.getPosition(), is(PositionEnum.LEFT));
+        assertThat(badge.getShape(), is(ShapeTypeEnum.ROUNDED));
         assertThat(badge.getColor(), is("warning"));
         assertThat(badge.getImage(), is("`img`"));
-        assertThat(badge.getImagePosition(), is(Position.RIGHT));
-        assertThat(badge.getImageShape(), is(ShapeType.SQUARE));
+        assertThat(badge.getImagePosition(), is(PositionEnum.RIGHT));
+        assertThat(badge.getImageShape(), is(ShapeTypeEnum.SQUARE));
         assertThat(badge.getFieldId(), nullValue());
         assertThat(badge.getColorFieldId(), nullValue());
         assertThat(badge.getImageFieldId(), nullValue());
 
         badge = application.getHeader().getMenu().getItems().get(1).getBadge();
         assertThat(badge.getText(), nullValue());
-        assertThat(badge.getPosition(), is(Position.RIGHT));
-        assertThat(badge.getShape(), is(ShapeType.CIRCLE));
+        assertThat(badge.getPosition(), is(PositionEnum.RIGHT));
+        assertThat(badge.getShape(), is(ShapeTypeEnum.CIRCLE));
         assertThat(badge.getColor(), nullValue());
         assertThat(badge.getImage(), is("/static/candidate.png"));
-        assertThat(badge.getImagePosition(), is(Position.LEFT));
-        assertThat(badge.getImageShape(), is(ShapeType.CIRCLE));
+        assertThat(badge.getImagePosition(), is(PositionEnum.LEFT));
+        assertThat(badge.getImageShape(), is(ShapeTypeEnum.CIRCLE));
         assertThat(badge.getFieldId(), nullValue());
         assertThat(badge.getColorFieldId(), nullValue());
         assertThat(badge.getImageFieldId(), nullValue());

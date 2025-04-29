@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.events;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -32,7 +32,7 @@ public class OnChangeEventCompiler extends BaseEventCompiler<N2oOnChangeEvent, O
 
         event.setType(p.resolve(property("n2o.api.page.event.on_change.type"), String.class));
         event.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
-        event.setModel(castDefault(source.getModel(), ReduxModel.resolve));
+        event.setModel(castDefault(source.getModel(), ReduxModelEnum.resolve));
         event.setField(source.getFieldId());
         event.setAction(compileAction(source, context, p, null));
 

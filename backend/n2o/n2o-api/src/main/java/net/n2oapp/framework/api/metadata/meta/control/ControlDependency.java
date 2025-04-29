@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 public class ControlDependency implements Compiled {
     @JsonProperty
-    private ValidationType type;
+    private ValidationTypeEnum type;
     @JsonProperty
     private List<String> on = new ArrayList<>();
     @JsonProperty

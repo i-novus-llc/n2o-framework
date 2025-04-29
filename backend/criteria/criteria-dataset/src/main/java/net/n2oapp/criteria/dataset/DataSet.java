@@ -3,8 +3,8 @@ package net.n2oapp.criteria.dataset;
 import java.util.*;
 
 import static java.util.Objects.nonNull;
-import static net.n2oapp.criteria.dataset.ArrayMergeStrategy.MERGE;
-import static net.n2oapp.criteria.dataset.ArrayMergeStrategy.REPLACE;
+import static net.n2oapp.criteria.dataset.ArrayMergeStrategyEnum.MERGE;
+import static net.n2oapp.criteria.dataset.ArrayMergeStrategyEnum.REPLACE;
 
 /**
  * Данные объекта
@@ -40,7 +40,7 @@ public class DataSet extends NestedMap {
         merge(this, dataSet, ALWAYS_EXTEND_VALUE, MERGE, addNullValues);
     }
 
-    public void merge(DataSet dataSet, ArrayMergeStrategy mergeStrategy, Boolean addNullValues) {
+    public void merge(DataSet dataSet, ArrayMergeStrategyEnum mergeStrategy, Boolean addNullValues) {
         merge(this, dataSet, ALWAYS_EXTEND_VALUE, mergeStrategy, addNullValues);
     }
 
@@ -106,7 +106,7 @@ public class DataSet extends NestedMap {
 
 
     private static void merge(NestedMap main, NestedMap extend, ValuePickUpStrategy strategy,
-                              ArrayMergeStrategy mergeStrategy, Boolean addNullValues) {
+                              ArrayMergeStrategyEnum mergeStrategy, Boolean addNullValues) {
         if (main == extend) return;
         if (extend == null) return;
         for (String fieldName : extend.keySet()) {
@@ -161,7 +161,7 @@ public class DataSet extends NestedMap {
     }
 
 
-    private static void mergeArrays(List mainArray, List updateArray, ArrayMergeStrategy arrayMergeStrategy) {
+    private static void mergeArrays(List mainArray, List updateArray, ArrayMergeStrategyEnum arrayMergeStrategy) {
         if (REPLACE.equals(arrayMergeStrategy))
             mainArray.clear();
         mainArray.addAll(updateArray);

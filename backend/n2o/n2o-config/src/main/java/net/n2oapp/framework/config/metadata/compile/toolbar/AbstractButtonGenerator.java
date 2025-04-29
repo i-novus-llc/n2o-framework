@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
-import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAbstractAction;
 import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.compile.ButtonGenerator;
@@ -12,12 +12,12 @@ import net.n2oapp.framework.api.metadata.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
+import net.n2oapp.framework.config.metadata.compile.action.DefaultActionsEnum;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 import java.util.Collections;
@@ -27,15 +27,15 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 public abstract class AbstractButtonGenerator implements ButtonGenerator {
 
-    protected List<ToolbarItem> build(DefaultActions action, CompileProcessor p) {
+    protected List<ToolbarItem> build(DefaultActionsEnum action, CompileProcessor p) {
         N2oButton button = new N2oButton();
         button.setId(action.name());
         button.setLabel(p.getMessage(action.getLabel()));
         button.setIcon(action.getIcon());
         if (action.isContext()) {
-            button.setModel(ReduxModel.resolve);
+            button.setModel(ReduxModelEnum.resolve);
         } else {
-            button.setModel(ReduxModel.filter);
+            button.setModel(ReduxModelEnum.filter);
         }
         switch (action) {
             case delete: {
@@ -56,7 +56,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 modal.setPageName(p.getMessage(action.getPageName(), object.getName()));
                 modal.setSubmitOperationId(action.name());
                 N2oStandardDatasource datasource = new N2oStandardDatasource();
-                datasource.setDefaultValuesMode(DefaultValuesMode.defaults);
+                datasource.setDefaultValuesMode(DefaultValuesModeEnum.defaults);
                 modal.setDatasources(new N2oStandardDatasource[] { datasource });
                 modal.setCloseAfterSubmit(true);
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
@@ -80,9 +80,9 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 pathParam.setValue(Placeholders.ref(QuerySimpleField.PK));
                 modal.addPathParams(new N2oPathParam[]{pathParam});
                 N2oStandardDatasource datasource = new N2oStandardDatasource();
-                datasource.setDefaultValuesMode(DefaultValuesMode.query);
+                datasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
                 N2oPreFilter masterDetailFilter = new N2oPreFilter();
-                masterDetailFilter.setType(FilterType.eq);
+                masterDetailFilter.setType(FilterTypeEnum.eq);
                 masterDetailFilter.setFieldId(QuerySimpleField.PK);
                 masterDetailFilter.setParam(paramName);
                 datasource.setFilters(new N2oPreFilter[]{masterDetailFilter});

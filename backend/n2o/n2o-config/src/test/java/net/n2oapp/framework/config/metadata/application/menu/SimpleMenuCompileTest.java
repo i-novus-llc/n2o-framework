@@ -2,12 +2,12 @@ package net.n2oapp.framework.config.metadata.application.menu;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.application.Application;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -65,7 +65,7 @@ class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getSrc(), is("LinkMenuItem"));
         assertThat(menuItem.getTitle(), is("Уведомления"));
         assertThat(menuItem.getIcon(), is("fa fa-bell"));
-        assertThat(menuItem.getIconPosition(), is(Position.RIGHT));
+        assertThat(menuItem.getIconPosition(), is(PositionEnum.RIGHT));
         assertThat(menuItem.getBadge().getText(), is("2"));
         assertThat(menuItem.getBadge().getColor(), is("warning"));
         assertThat(menuItem.getDatasource(), is("ds1"));
@@ -76,7 +76,7 @@ class SimpleMenuCompileTest extends SourceCompileTestBase {
         menuItem = menu.getItems().get(1);
         assertThat(menuItem.getTitle(), nullValue());
         assertThat(menuItem.getImageSrc(), is("/static/users/ivan90.png"));
-        assertThat(menuItem.getImageShape(), is(ShapeType.SQUARE));
+        assertThat(menuItem.getImageShape(), is(ShapeTypeEnum.SQUARE));
         assertThat(menuItem.getHref(), is("/logout"));
     }
 
@@ -91,7 +91,7 @@ class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(dropdownMenu.getSrc(), is("DropdownMenuItem"));
         assertThat(dropdownMenu.getTitle(), is("Виктория"));
         assertThat(dropdownMenu.getImageSrc(), is("/static/users/vika91.png"));
-        assertThat(dropdownMenu.getImageShape(), is(ShapeType.CIRCLE));
+        assertThat(dropdownMenu.getImageShape(), is(ShapeTypeEnum.CIRCLE));
         assertThat(dropdownMenu.getSubItems().size(), is(2));
 
         // dropdown 1 -> dropdown
@@ -113,7 +113,7 @@ class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(subMenuItem.getSrc(), is("LinkMenuItem"));
         assertThat(subMenuItem.getTitle(), is("Профиль"));
         assertThat(subMenuItem.getIcon(), is("fa fa-user"));
-        assertThat(subMenuItem.getIconPosition(), is(Position.RIGHT));
+        assertThat(subMenuItem.getIconPosition(), is(PositionEnum.RIGHT));
         assertThat(subMenuItem.getHref(), is("/profile"));
 
 
@@ -121,13 +121,13 @@ class SimpleMenuCompileTest extends SourceCompileTestBase {
         dropdownMenu = menu.getItems().get(4);
         assertThat(dropdownMenu.getTitle(), is("Сообщения"));
         assertThat(dropdownMenu.getIcon(), is("fa fa-bell"));
-        assertThat(dropdownMenu.getIconPosition(), is(Position.RIGHT));
+        assertThat(dropdownMenu.getIconPosition(), is(PositionEnum.RIGHT));
 
         // dropdown 3 icon-position default value
         dropdownMenu = menu.getItems().get(5);
         assertThat(dropdownMenu.getTitle(), is("Добавить"));
         assertThat(dropdownMenu.getIcon(), is("fa fa-plus"));
-        assertThat(dropdownMenu.getIconPosition(), is(Position.LEFT));
+        assertThat(dropdownMenu.getIconPosition(), is(PositionEnum.LEFT));
     }
 
     @Test

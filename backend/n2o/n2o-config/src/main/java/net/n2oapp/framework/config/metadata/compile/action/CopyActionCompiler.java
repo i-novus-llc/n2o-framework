@@ -1,12 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.PageRef;
+import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.action.N2oCopyAction;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyModeEnum;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
@@ -56,11 +56,11 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     @Override
     protected void initDefaults(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
         super.initDefaults(source, context, p);
-        source.setMode(castDefault(source.getMode(), CopyMode.merge));
+        source.setMode(castDefault(source.getMode(), CopyModeEnum.merge));
         source.setSourceDatasourceId(castDefault(source.getSourceDatasourceId(), () -> getLocalDatasourceId(p)));
-        source.setSourceModel(castDefault(source.getSourceModel(), ReduxModel.resolve));
+        source.setSourceModel(castDefault(source.getSourceModel(), ReduxModelEnum.resolve));
         source.setTargetDatasourceId(castDefault(source.getTargetDatasourceId(), source.getSourceDatasourceId()));
-        source.setTargetModel(castDefault(source.getTargetModel(), ReduxModel.resolve));
+        source.setTargetModel(castDefault(source.getTargetModel(), ReduxModelEnum.resolve));
     }
 
     private MetaSaga compileMeta(N2oCopyAction source, CompileProcessor p) {
@@ -72,7 +72,7 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     }
 
     private String getClientTargetDatasourceId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getTargetPage() == PageRef.PARENT && context instanceof PageContext pageContext) {
+        if (source.getTargetPage() == PageRefEnum.PARENT && context instanceof PageContext pageContext) {
             Map<String, String> parentDatasourceIdsMap = pageContext.getParentDatasourceIdsMap();
             if (parentDatasourceIdsMap != null && parentDatasourceIdsMap.containsKey(source.getTargetDatasourceId()))
                 return parentDatasourceIdsMap.get(source.getTargetDatasourceId());

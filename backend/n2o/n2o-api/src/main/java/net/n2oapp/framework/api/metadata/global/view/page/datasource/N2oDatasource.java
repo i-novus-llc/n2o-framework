@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.global.view.page.datasource;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 
@@ -28,15 +28,15 @@ public abstract class N2oDatasource extends N2oAbstractDatasource implements Nam
     @Getter
     @Setter
     public static class FetchDependency extends Dependency {
-        private ReduxModel model;
+        private ReduxModelEnum model;
     }
 
     @Getter
     @Setter
     public static class CopyDependency extends Dependency {
         private String targetFieldId;
-        private ReduxModel targetModel;
-        private ReduxModel sourceModel;
+        private ReduxModelEnum targetModel;
+        private ReduxModelEnum sourceModel;
         private String sourceFieldId;
         private Boolean submit;
         private Boolean applyOnInit;

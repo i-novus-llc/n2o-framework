@@ -3,12 +3,12 @@ package net.n2oapp.framework.engine.data;
 import lombok.Setter;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.api.Sorting;
-import net.n2oapp.criteria.api.SortingDirection;
+import net.n2oapp.criteria.api.SortingDirectionEnum;
 import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterReducer;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.Result;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
@@ -118,13 +118,13 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     public CollectionPage<DataSet> executeOneSizeQuery(CompiledQuery query, N2oPreparedCriteria criteria) {
         N2oQuery.Selection selection = findUniqueSelection(query, criteria);
-        if (selection.getType().equals(N2oQuery.Selection.Type.unique)) {
+        if (selection.getType().equals(N2oQuery.Selection.TypeEnum.unique)) {
             criteria.setSize(2);
             criteria.setCount(2);
         }
         Object result = executeQuery(selection, query, criteria);
         criteria.setSize(1);
-        if (selection.getType().equals(N2oQuery.Selection.Type.list)) {
+        if (selection.getType().equals(N2oQuery.Selection.TypeEnum.list)) {
             CollectionPage<DataSet> page = preparePageResult(result, query, selection, criteria);
             if (CollectionUtils.isEmpty(page.getCollection())) {
                 throw new N2oRecordNotFoundException();
@@ -133,7 +133,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 throw new N2oFoundMoreThanOneRecordException();
             }
             return page;
-        } else if (selection.getType().equals(N2oQuery.Selection.Type.unique)) {
+        } else if (selection.getType().equals(N2oQuery.Selection.TypeEnum.unique)) {
             DataSet single = prepareSingleResult(result, query, selection);
             if (single.isEmpty()) {
                 throw new N2oRecordNotFoundException();
@@ -240,7 +240,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                         resFilters.add(reduceResult.getResultFilter());
                         notMergeable = false;
                         break;
-                    } else if (reduceResult.getType().equals(Result.Type.notMergeable)) {
+                    } else if (reduceResult.getType().equals(Result.TypeEnum.notMergeable)) {
                         notMergeable = true;
                     } else {
                         return true;
@@ -257,7 +257,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     }
 
     private void addDefaultFilters(CompiledQuery query, N2oPreparedCriteria criteria) {
-        for (Map.Entry<String, Map<FilterType, N2oQuery.Filter>> entry : query.getFiltersMap().entrySet()) {
+        for (Map.Entry<String, Map<FilterTypeEnum, N2oQuery.Filter>> entry : query.getFiltersMap().entrySet()) {
             for (N2oQuery.Filter filter : entry.getValue().values()) {
                 if (filter.getCompiledDefaultValue() != null && !criteria.containsRestriction(entry.getKey())) {
                     Object value = prepareFilterValue(filter.getCompiledDefaultValue(), filter, null);
@@ -302,8 +302,8 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
     }
 
-    private String getSortingDirectionExpression(SortingDirection direction, N2oQuery.Selection selection) {
-        if (direction == SortingDirection.ASC)
+    private String getSortingDirectionExpression(SortingDirectionEnum direction, N2oQuery.Selection selection) {
+        if (direction == SortingDirectionEnum.ASC)
             return Objects.requireNonNullElse(selection.getAscExpression(), ascExpression);
         else
             return Objects.requireNonNullElse(selection.getDescExpression(), descExpression);
@@ -438,7 +438,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             Object value = prepareFilterValue(restriction.getValue(), filter, data);
             if (value != null) {
                 restriction.setValue(value);
-            } else if (FilterType.Arity.nullary == restriction.getType().arity) {
+            } else if (FilterTypeEnum.ArityEnum.nullary == restriction.getType().arity) {
                 restriction.setValue(Boolean.TRUE);
             } else {
                 //удаляем фильтрацию, если в результате резолва контекста значение по умолчанию стало null

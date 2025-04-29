@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyModeEnum;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 
 /**
@@ -20,7 +20,7 @@ public class CopyActionPayload implements ActionPayload {
     private ClientModel target;
 
     @JsonProperty
-    private CopyMode mode;
+    private CopyModeEnum mode;
 
     @Getter
     @Setter

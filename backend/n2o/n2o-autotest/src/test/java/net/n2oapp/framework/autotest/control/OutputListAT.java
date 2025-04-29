@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.api.metadata.meta.control.OutputList.DirectionEnum;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.OutputList;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -11,8 +12,6 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static net.n2oapp.framework.api.metadata.meta.control.OutputList.Direction;
 
 /**
  * Автотест компонента вывода однострочного текста
@@ -56,13 +55,13 @@ class OutputListAT extends AutoTestBase {
         outputList.shouldHaveLinkValues(separator, new String[]{"test1", "test3"});
         outputList.shouldHaveLink("test1", "http://example.com/1");
         outputList.shouldHaveLink("test3", "http://example.com/2");
-        outputList.shouldHaveDirection(Direction.column);
+        outputList.shouldHaveDirection(DirectionEnum.column);
 
         OutputList outputList2 = fields.field("output2").control(OutputList.class);
         separator = "; ";
         outputList2.shouldHaveValues(separator, new String[]{"test2", "test4"});
         outputList2.shouldHaveLinkValues(separator, new String[]{"test1", "test3"});
-        outputList2.shouldHaveDirection(Direction.row);
+        outputList2.shouldHaveDirection(DirectionEnum.row);
 
         OutputList outputList3 = fields.field("output3").control(OutputList.class);
         outputList3.shouldBeEmpty();

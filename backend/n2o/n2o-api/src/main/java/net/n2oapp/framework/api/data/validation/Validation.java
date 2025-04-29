@@ -7,7 +7,7 @@ import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 
@@ -28,8 +28,8 @@ public abstract class Validation implements Compiled {
     private String jsonMessage;
     private Set<String> fields;
     @JsonProperty
-    private SeverityType severity = SeverityType.danger;
-    private N2oValidation.ServerMoment moment;
+    private SeverityTypeEnum severity = SeverityTypeEnum.danger;
+    private N2oValidation.ServerMomentEnum moment;
     private String side;
 
     private Boolean enabled;

@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.compile.MetadataBinderFactory;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
-import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 
 import java.util.function.Supplier;
@@ -44,7 +44,7 @@ public class BindOperation<D extends Compiled> implements PipelineOperation<D, D
     }
 
     @Override
-    public PipelineOperationType getPipelineOperationType() {
-        return PipelineOperationType.BIND;
+    public PipelineOperationTypeEnum getPipelineOperationType() {
+        return PipelineOperationTypeEnum.BIND;
     }
 }

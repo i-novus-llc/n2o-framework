@@ -34,10 +34,10 @@ public abstract class AbstractListWidgetElementIOv4<T extends N2oAbstractListWid
         p.read(e, page, (element, n2oPagination) -> {
             String attr = element.getAttributeValue("show-count");
             if ("true".equals(attr)) {
-                page.setShowCount(ShowCountType.ALWAYS);
+                page.setShowCount(ShowCountTypeEnum.ALWAYS);
             }
             else if ("false".equals(attr)) {
-                page.setShowCount(ShowCountType.NEVER);
+                page.setShowCount(ShowCountTypeEnum.NEVER);
             }
         });//deprecated
         p.attributeBoolean(e, "show-last", page::getShowLast, page::setShowLast);
@@ -47,7 +47,7 @@ public abstract class AbstractListWidgetElementIOv4<T extends N2oAbstractListWid
         p.attribute(e, "next-icon", page::getNextIcon, page::setNextIcon);
         p.attribute(e, "class", page::getClassName, page::setClassName);
         p.attribute(e, "style", page::getStyle, page::setStyle);
-        p.attributeEnum(e, "place", page::getPlace, page::setPlace, Place.class);
+        p.attributeEnum(e, "place", page::getPlace, page::setPlace, PlaceEnum.class);
     }
 
     private void rowClick(Element e, N2oRowClick m, IOProcessor p) {

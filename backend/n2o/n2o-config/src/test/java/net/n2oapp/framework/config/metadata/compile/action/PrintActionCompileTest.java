@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.PrintType;
+import net.n2oapp.framework.api.metadata.PrintTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.action.print.PrintAction;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -113,7 +113,7 @@ class PrintActionCompileTest extends SourceCompileTestBase {
         assertThat(print.getPayload().getLoader(), is(true));
         assertThat(print.getPayload().getLoaderText(), is("Loading..."));
         assertThat(print.getPayload().getKeepIndent(), is(false));
-        assertThat(print.getPayload().getType(), is(PrintType.pdf));
+        assertThat(print.getPayload().getType(), is(PrintTypeEnum.pdf));
         assertThat(print.getPayload().getBase64(), is(false));
     }
 }

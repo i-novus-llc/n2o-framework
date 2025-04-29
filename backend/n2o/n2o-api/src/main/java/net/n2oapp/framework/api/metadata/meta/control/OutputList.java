@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 
 /**
  * Клиентская модель компонента вывода многострочного текста
@@ -16,13 +16,13 @@ public class OutputList extends Control {
     @JsonProperty
     private String hrefFieldId;
     @JsonProperty
-    private Target target;
+    private TargetEnum target;
     @JsonProperty
-    private Direction direction;
+    private DirectionEnum direction;
     @JsonProperty
     private String separator;
 
-    public enum Direction {
+    public enum DirectionEnum {
         row,
         column
     }

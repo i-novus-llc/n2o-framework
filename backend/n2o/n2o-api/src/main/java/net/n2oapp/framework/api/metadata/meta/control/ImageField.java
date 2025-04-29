@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElement;
 
 /**
@@ -19,9 +19,9 @@ public class ImageField extends ActionField {
     @JsonProperty
     private String description;
     @JsonProperty
-    private TextPosition textPosition;
+    private TextPositionEnum textPosition;
     @JsonProperty
-    private ShapeType shape;
+    private ShapeTypeEnum shape;
     @JsonProperty
     private String width;
     @JsonProperty

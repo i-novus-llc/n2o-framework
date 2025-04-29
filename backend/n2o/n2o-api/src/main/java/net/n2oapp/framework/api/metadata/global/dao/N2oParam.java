@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.global.dao;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 
 /**
@@ -41,7 +41,7 @@ public class N2oParam implements Source {
     /**
      * Модель виджета, на который ссылается параметр
      */
-    private ReduxModel model;
+    private ReduxModelEnum model;
 
     /**
      * Идентификатор страницы, на которую ссылается параметр

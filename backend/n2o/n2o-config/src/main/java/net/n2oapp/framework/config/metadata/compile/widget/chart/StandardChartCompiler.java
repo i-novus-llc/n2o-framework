@@ -19,7 +19,7 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
         xAxis.setFieldId(source.getXFieldId());
         xAxis.setPosition((castDefault(source.getXPosition(),
                 () -> p.resolve(property("n2o.api.widget.chart.axis.x_position")),
-                () -> N2oStandardChart.XAxisPosition.class))
+                () -> N2oStandardChart.XAxisPositionEnum.class))
                 .toString());
         xAxis.setHasLabel(castDefault(source.getXHasLabel(),
                 () -> p.resolve(property("n2o.api.widget.chart.axis.has_label"), Boolean.class)));
@@ -29,7 +29,7 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
         yAxis.setFieldId(source.getYFieldId());
         yAxis.setPosition((castDefault(source.getYPosition(),
                 () -> p.resolve(property("n2o.api.widget.chart.axis.y_position")),
-                () -> N2oStandardChart.YAxisPosition.class))
+                () -> N2oStandardChart.YAxisPositionEnum.class))
                 .toString());
         yAxis.setHasLabel(castDefault(source.getYHasLabel(),
                 () -> p.resolve(property("n2o.api.widget.chart.axis.has_label"), Boolean.class)));
@@ -52,7 +52,7 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
 
         ChartLegend legend = new ChartLegend();
         legend.setIconType(castDefault(source.getLegendIconType(),
-                () -> p.resolve(property("n2o.api.widget.chart.legend.icon_type"), ChartLegendIconType.class)));
+                () -> p.resolve(property("n2o.api.widget.chart.legend.icon_type"), ChartLegendIconTypeEnum.class)));
         chart.setLegend(legend);
 
         return chart;

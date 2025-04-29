@@ -14,7 +14,7 @@ public class ProgressBarCellElementIOv2 extends AbstractCellElementIOv2<N2oProgr
     public void io(Element e, N2oProgressBarCell c, IOProcessor p) {
         super.io(e, c, p);
         p.attributeBoolean(e, "active", c::getActive, c::setActive);
-        p.attributeEnum(e, "size", c::getSize, c::setSize, N2oProgressBarCell.Size.class);
+        p.attributeEnum(e, "size", c::getSize, c::setSize, N2oProgressBarCell.SizeEnum.class);
         p.attributeBoolean(e, "striped", c::getStriped, c::setStriped);
         p.attribute(e, "color", c::getColor, c::setColor);
     }

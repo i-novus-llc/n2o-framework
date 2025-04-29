@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -52,12 +52,12 @@ class TextCellAT extends AutoTestBase {
         cell1.shouldHaveText("test1 1,1");
         cell1.shouldHaveSubText(new String[]{"1,1"});
         cell1.shouldHaveIcon("fa-plus");
-        cell1.shouldHaveIconPosition(Position.RIGHT);
+        cell1.shouldHaveIconPosition(PositionEnum.RIGHT);
 
         TextCell cell2 = rows.row(0).cell(2);
         cell2.shouldHaveText("1,23");
         cell2.shouldHaveIcon("fa-plus");
-        cell2.shouldHaveIconPosition(Position.LEFT);
+        cell2.shouldHaveIconPosition(PositionEnum.LEFT);
 
         cell1 = rows.row(1).cell(1);
         cell1.shouldHaveText("test1,test2,test3");

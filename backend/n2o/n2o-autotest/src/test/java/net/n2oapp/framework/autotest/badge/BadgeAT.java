@@ -1,8 +1,8 @@
 package net.n2oapp.framework.autotest.badge;
 
-import net.n2oapp.framework.autotest.BadgePosition;
-import net.n2oapp.framework.autotest.BadgeShape;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.BadgePositionEnum;
+import net.n2oapp.framework.autotest.BadgeShapeEnum;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.component.DropDown;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
@@ -75,11 +75,11 @@ class BadgeAT extends AutoTestBase {
         DropDown.DropDownItem itemDropDownInputSelect = dropDownInputSelect.item(0);
         itemDropDownInputSelect.badgeShouldExists();
         itemDropDownInputSelect.badgeShouldHaveText("Проект 1");
-        itemDropDownInputSelect.badgeShouldHaveShape(BadgeShape.SQUARE);
-        itemDropDownInputSelect.badgeShouldHavePosition(BadgePosition.RIGHT);
+        itemDropDownInputSelect.badgeShouldHaveShape(BadgeShapeEnum.SQUARE);
+        itemDropDownInputSelect.badgeShouldHavePosition(BadgePositionEnum.RIGHT);
         itemDropDownInputSelect.badgeShouldHaveImage("hamburg-3846525__340.jpg");
-        itemDropDownInputSelect.badgeShouldHaveImageShape(BadgeShape.CIRCLE);
-        itemDropDownInputSelect.badgeShouldHaveImagePosition(BadgePosition.LEFT);
+        itemDropDownInputSelect.badgeShouldHaveImageShape(BadgeShapeEnum.CIRCLE);
+        itemDropDownInputSelect.badgeShouldHaveImagePosition(BadgePositionEnum.LEFT);
 
         Select select = formWidget.fields().field("Выпадающий список").control(Select.class);
         select.openPopup();
@@ -90,11 +90,11 @@ class BadgeAT extends AutoTestBase {
         DropDown.DropDownItem itemDropDownSelect = dropDownSelect.item(0);
         itemDropDownSelect.badgeShouldExists();
         itemDropDownSelect.badgeShouldHaveText("Проект 1");
-        itemDropDownSelect.badgeShouldHaveShape(BadgeShape.ROUNDED);
-        itemDropDownSelect.badgeShouldHavePosition(BadgePosition.LEFT);
+        itemDropDownSelect.badgeShouldHaveShape(BadgeShapeEnum.ROUNDED);
+        itemDropDownSelect.badgeShouldHavePosition(BadgePositionEnum.LEFT);
         itemDropDownSelect.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        itemDropDownSelect.badgeShouldHaveImageShape(BadgeShape.ROUNDED);
-        itemDropDownSelect.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
+        itemDropDownSelect.badgeShouldHaveImageShape(BadgeShapeEnum.ROUNDED);
+        itemDropDownSelect.badgeShouldHaveImagePosition(BadgePositionEnum.RIGHT);
 
         InputSelectTree selectTree = formWidget.fields().field("Дерево").control(InputSelectTree.class);
         selectTree.openPopup();
@@ -112,11 +112,11 @@ class BadgeAT extends AutoTestBase {
         DropDownTree.DropDownTreeItem fourthTreeItem = dropDownTreeSelect.item(2);
         fourthTreeItem.badgeShouldHaveText("Проект 1.1.1");
         fourthTreeItem.badgeShouldExists();
-        fourthTreeItem.badgeShouldHaveShape(BadgeShape.CIRCLE);
-        itemDropDownSelect.badgeShouldHavePosition(BadgePosition.LEFT);
+        fourthTreeItem.badgeShouldHaveShape(BadgeShapeEnum.CIRCLE);
+        itemDropDownSelect.badgeShouldHavePosition(BadgePositionEnum.LEFT);
         fourthTreeItem.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        fourthTreeItem.badgeShouldHaveImageShape(BadgeShape.SQUARE);
-        fourthTreeItem.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
+        fourthTreeItem.badgeShouldHaveImageShape(BadgeShapeEnum.SQUARE);
+        fourthTreeItem.badgeShouldHaveImagePosition(BadgePositionEnum.RIGHT);
     }
 
     @Test
@@ -133,18 +133,18 @@ class BadgeAT extends AutoTestBase {
         rows.shouldHaveSize(3);
         BadgeCell cell = rows.row(0).cell(3, BadgeCell.class);
         cell.badgeShouldExists();
-        cell.badgeShouldHaveShape(BadgeShape.ROUNDED);
+        cell.badgeShouldHaveShape(BadgeShapeEnum.ROUNDED);
         cell.badgeShouldHaveText("Проект 3");
-        cell.badgeShouldHavePosition(BadgePosition.RIGHT);
+        cell.badgeShouldHavePosition(BadgePositionEnum.RIGHT);
         cell.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        cell.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
-        cell.badgeShouldHaveImageShape(BadgeShape.ROUNDED);
+        cell.badgeShouldHaveImagePosition(BadgePositionEnum.RIGHT);
+        cell.badgeShouldHaveImageShape(BadgeShapeEnum.ROUNDED);
 
         cell = rows.row(0).cell(4, BadgeCell.class);
         cell.badgeShouldExists();
-        cell.badgeShouldHaveShape(BadgeShape.ROUNDED);
+        cell.badgeShouldHaveShape(BadgeShapeEnum.ROUNDED);
         cell.badgeShouldHaveText("Проект 3");
-        cell.badgeShouldHavePosition(BadgePosition.LEFT);
+        cell.badgeShouldHavePosition(BadgePositionEnum.LEFT);
     }
 
     @Test
@@ -158,32 +158,32 @@ class BadgeAT extends AutoTestBase {
         StandardButton firstBtn = simplePage.toolbar().topLeft().button("Первая");
         firstBtn.shouldBeEnabled();
         firstBtn.badgeShouldExists();
-        firstBtn.badgeShouldHaveShape(BadgeShape.CIRCLE);
+        firstBtn.badgeShouldHaveShape(BadgeShapeEnum.CIRCLE);
         firstBtn.badgeShouldHaveText("new");
-        firstBtn.badgeShouldHavePosition(BadgePosition.RIGHT);
+        firstBtn.badgeShouldHavePosition(BadgePositionEnum.RIGHT);
         firstBtn.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        firstBtn.badgeShouldHaveImageShape(BadgeShape.CIRCLE);
-        firstBtn.badgeShouldHaveImagePosition(BadgePosition.LEFT);
+        firstBtn.badgeShouldHaveImageShape(BadgeShapeEnum.CIRCLE);
+        firstBtn.badgeShouldHaveImagePosition(BadgePositionEnum.LEFT);
 
         StandardButton secondBtn = simplePage.toolbar().topLeft().button("Вторая");
         firstBtn.shouldBeEnabled();
         secondBtn.badgeShouldExists();
-        secondBtn.badgeShouldHaveShape(BadgeShape.ROUNDED);
+        secondBtn.badgeShouldHaveShape(BadgeShapeEnum.ROUNDED);
         secondBtn.badgeShouldHaveText("new");
-        secondBtn.badgeShouldHavePosition(BadgePosition.LEFT);
+        secondBtn.badgeShouldHavePosition(BadgePositionEnum.LEFT);
         secondBtn.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        secondBtn.badgeShouldHaveImageShape(BadgeShape.ROUNDED);
-        secondBtn.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
+        secondBtn.badgeShouldHaveImageShape(BadgeShapeEnum.ROUNDED);
+        secondBtn.badgeShouldHaveImagePosition(BadgePositionEnum.RIGHT);
 
         StandardButton thirdBtn = simplePage.toolbar().topLeft().button("Третья");
         firstBtn.shouldBeEnabled();
         thirdBtn.badgeShouldExists();
-        thirdBtn.badgeShouldHaveShape(BadgeShape.SQUARE);
+        thirdBtn.badgeShouldHaveShape(BadgeShapeEnum.SQUARE);
         thirdBtn.badgeShouldHaveText("new");
-        thirdBtn.badgeShouldHavePosition(BadgePosition.LEFT);
+        thirdBtn.badgeShouldHavePosition(BadgePositionEnum.LEFT);
         thirdBtn.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        thirdBtn.badgeShouldHaveImageShape(BadgeShape.SQUARE);
-        thirdBtn.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
+        thirdBtn.badgeShouldHaveImageShape(BadgeShapeEnum.SQUARE);
+        thirdBtn.badgeShouldHaveImagePosition(BadgePositionEnum.RIGHT);
     }
 
     @Test
@@ -197,16 +197,16 @@ class BadgeAT extends AutoTestBase {
         buttonField.shouldExists();
         buttonField.badgeShouldExists();
         buttonField.badgeShouldHaveText("badge");
-        buttonField.badgeShouldHaveColor(Colors.SECONDARY);
-        buttonField.badgeShouldHaveShape(BadgeShape.SQUARE);
+        buttonField.badgeShouldHaveColor(ColorsEnum.SECONDARY);
+        buttonField.badgeShouldHaveShape(BadgeShapeEnum.SQUARE);
         buttonField.badgeShouldHaveImage("static/roma.png");
-        buttonField.badgeShouldHaveImageShape(BadgeShape.CIRCLE);
-        buttonField.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
-        buttonField.badgeShouldHavePosition(BadgePosition.LEFT);
+        buttonField.badgeShouldHaveImageShape(BadgeShapeEnum.CIRCLE);
+        buttonField.badgeShouldHaveImagePosition(BadgePositionEnum.RIGHT);
+        buttonField.badgeShouldHavePosition(BadgePositionEnum.LEFT);
 
         buttonField = page.widget(FormWidget.class).fields().field("Кнопка-поле 2", ButtonField.class);
         buttonField.shouldExists();
-        buttonField.badgeShouldHavePosition(BadgePosition.RIGHT);
+        buttonField.badgeShouldHavePosition(BadgePositionEnum.RIGHT);
     }
 
     @Test
@@ -230,17 +230,17 @@ class BadgeAT extends AutoTestBase {
 
         TreeWidget.TreeItem secondItemTree = treeWidget.item(1);
         secondItemTree.badgeShouldExists();
-        secondItemTree.badgeShouldHaveShape(BadgeShape.ROUNDED);
+        secondItemTree.badgeShouldHaveShape(BadgeShapeEnum.ROUNDED);
         secondItemTree.badgeShouldHaveText("Проект 1.1");
-        secondItemTree.badgeShouldHavePosition(BadgePosition.RIGHT);
+        secondItemTree.badgeShouldHavePosition(BadgePositionEnum.RIGHT);
         secondItemTree.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        secondItemTree.badgeShouldHaveImagePosition(BadgePosition.LEFT);
-        secondItemTree.badgeShouldHaveImageShape(BadgeShape.SQUARE);
+        secondItemTree.badgeShouldHaveImagePosition(BadgePositionEnum.LEFT);
+        secondItemTree.badgeShouldHaveImageShape(BadgeShapeEnum.SQUARE);
 
         treeWidget = page.regions().region(0, SimpleRegion.class).content().widget(1, TreeWidget.class);
         treeWidget.shouldExists();
         secondItemTree = treeWidget.item(1);
-        secondItemTree.badgeShouldHavePosition(BadgePosition.LEFT);
+        secondItemTree.badgeShouldHavePosition(BadgePositionEnum.LEFT);
     }
 
     @Test
@@ -261,14 +261,14 @@ class BadgeAT extends AutoTestBase {
         menuItem.shouldHaveIcon();
         menuItem.shouldHaveIconCssClass("fa fa-bell");
         menuItem.badgeShouldExists();
-        menuItem.badgeShouldHaveShape(BadgeShape.SQUARE);
+        menuItem.badgeShouldHaveShape(BadgeShapeEnum.SQUARE);
         menuItem.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        menuItem.badgeShouldHaveImageShape(BadgeShape.SQUARE);
-        menuItem.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
-        menuItem.badgeShouldHavePosition(BadgePosition.RIGHT);
+        menuItem.badgeShouldHaveImageShape(BadgeShapeEnum.SQUARE);
+        menuItem.badgeShouldHaveImagePosition(BadgePositionEnum.RIGHT);
+        menuItem.badgeShouldHavePosition(BadgePositionEnum.RIGHT);
 
         menuItem = simplePage.header().nav().anchor(1);
-        menuItem.badgeShouldHavePosition(BadgePosition.LEFT);
+        menuItem.badgeShouldHavePosition(BadgePositionEnum.LEFT);
     }
 
     @Test
@@ -280,17 +280,17 @@ class BadgeAT extends AutoTestBase {
 
         LineFieldSet fieldset = fieldsets.fieldset(0, LineFieldSet.class);
         fieldset.badgeShouldHaveText("12");
-        fieldset.badgeShouldHaveShape(BadgeShape.ROUNDED);
-        fieldset.badgeShouldHavePosition(BadgePosition.LEFT);
+        fieldset.badgeShouldHaveShape(BadgeShapeEnum.ROUNDED);
+        fieldset.badgeShouldHavePosition(BadgePositionEnum.LEFT);
 
         fieldset = fieldsets.fieldset(1, LineFieldSet.class);
         fieldset.badgeShouldHaveText("Humburg");
-        fieldset.badgeShouldHaveShape(BadgeShape.SQUARE);
-        fieldset.badgeShouldHavePosition(BadgePosition.RIGHT);
+        fieldset.badgeShouldHaveShape(BadgeShapeEnum.SQUARE);
+        fieldset.badgeShouldHavePosition(BadgePositionEnum.RIGHT);
         fieldset.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        fieldset.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
-        fieldset.badgeShouldHaveImageShape(BadgeShape.SQUARE);
-        fieldset.badgeShouldHaveColor(Colors.DANGER);
+        fieldset.badgeShouldHaveImagePosition(BadgePositionEnum.RIGHT);
+        fieldset.badgeShouldHaveImageShape(BadgeShapeEnum.SQUARE);
+        fieldset.badgeShouldHaveColor(ColorsEnum.DANGER);
 
         fieldset = fieldsets.fieldset(2, LineFieldSet.class);
         fieldset.badgeShouldNotExists();
@@ -311,17 +311,17 @@ class BadgeAT extends AutoTestBase {
 
         SimpleFieldSet fieldset = fieldsets.fieldset(0, SimpleFieldSet.class);
         fieldset.badgeShouldHaveText("12");
-        fieldset.badgeShouldHaveShape(BadgeShape.ROUNDED);
-        fieldset.badgeShouldHavePosition(BadgePosition.LEFT);
+        fieldset.badgeShouldHaveShape(BadgeShapeEnum.ROUNDED);
+        fieldset.badgeShouldHavePosition(BadgePositionEnum.LEFT);
 
         fieldset = fieldsets.fieldset(1, SimpleFieldSet.class);
         fieldset.badgeShouldHaveText("Humburg");
-        fieldset.badgeShouldHaveShape(BadgeShape.SQUARE);
-        fieldset.badgeShouldHavePosition(BadgePosition.RIGHT);
+        fieldset.badgeShouldHaveShape(BadgeShapeEnum.SQUARE);
+        fieldset.badgeShouldHavePosition(BadgePositionEnum.RIGHT);
         fieldset.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        fieldset.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
-        fieldset.badgeShouldHaveImageShape(BadgeShape.SQUARE);
-        fieldset.badgeShouldHaveColor(Colors.DANGER);
+        fieldset.badgeShouldHaveImagePosition(BadgePositionEnum.RIGHT);
+        fieldset.badgeShouldHaveImageShape(BadgeShapeEnum.SQUARE);
+        fieldset.badgeShouldHaveColor(ColorsEnum.DANGER);
 
         fieldset = fieldsets.fieldset(2, SimpleFieldSet.class);
         fieldset.badgeShouldNotExists();
@@ -342,17 +342,17 @@ class BadgeAT extends AutoTestBase {
 
         MultiFieldSet fieldset = fieldsets.fieldset(0, MultiFieldSet.class);
         fieldset.badgeShouldHaveText("12");
-        fieldset.badgeShouldHaveShape(BadgeShape.ROUNDED);
-        fieldset.badgeShouldHavePosition(BadgePosition.LEFT);
+        fieldset.badgeShouldHaveShape(BadgeShapeEnum.ROUNDED);
+        fieldset.badgeShouldHavePosition(BadgePositionEnum.LEFT);
 
         fieldset = fieldsets.fieldset(1, MultiFieldSet.class);
         fieldset.badgeShouldHaveText("Humburg");
-        fieldset.badgeShouldHaveShape(BadgeShape.SQUARE);
-        fieldset.badgeShouldHavePosition(BadgePosition.RIGHT);
+        fieldset.badgeShouldHaveShape(BadgeShapeEnum.SQUARE);
+        fieldset.badgeShouldHavePosition(BadgePositionEnum.RIGHT);
         fieldset.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
-        fieldset.badgeShouldHaveImagePosition(BadgePosition.RIGHT);
-        fieldset.badgeShouldHaveImageShape(BadgeShape.SQUARE);
-        fieldset.badgeShouldHaveColor(Colors.DANGER);
+        fieldset.badgeShouldHaveImagePosition(BadgePositionEnum.RIGHT);
+        fieldset.badgeShouldHaveImageShape(BadgeShapeEnum.SQUARE);
+        fieldset.badgeShouldHaveColor(ColorsEnum.DANGER);
 
         fieldset = fieldsets.fieldset(2, MultiFieldSet.class);
         fieldset.badgeShouldNotExists();

@@ -26,7 +26,7 @@ public class CompileInfo extends SourceInfo {
             .packs(new N2oSourceTypesPack())
             .getEnvironment().getSourceTypeRegister();
 
-    protected Origin origin = Origin.xml;
+    protected OriginEnum origin = OriginEnum.xml;
     private String path;
     private NamespaceReader<? extends N2oMetadata> metadataReader;
     private Class<? extends Compiled> compiledMetadataClass;
@@ -118,11 +118,11 @@ public class CompileInfo extends SourceInfo {
         this.metadataReader = metadataReader;
     }
 
-    public void setOrigin(Origin origin) {
+    public void setOrigin(OriginEnum origin) {
         this.origin = origin;
     }
 
-    public Origin getOrigin() {
+    public OriginEnum getOrigin() {
         return origin;
     }
 

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
@@ -11,7 +11,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode.query;
+import static net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum.query;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -39,11 +39,11 @@ class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
         assertThat(table.getDatasource().getFilters().length, is(3));
         assertThat(table.getDatasource().getFilters()[2].getDatasourceId(), is("f1"));
         assertThat(table.getDatasource().getFilters()[2].getFieldId(), is("id"));
-        assertThat(table.getDatasource().getFilters()[2].getModel(), is(ReduxModel.resolve));
+        assertThat(table.getDatasource().getFilters()[2].getModel(), is(ReduxModelEnum.resolve));
         assertThat(table.getDatasource().getRoute(), is("/test"));
         assertThat(table.getDatasource().getSize(), is(10));
         assertThat(table.getDatasource().getDependencies().length, is(1));
-        assertThat(((N2oStandardDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getModel(), is(ReduxModel.resolve));
+        assertThat(((N2oStandardDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getModel(), is(ReduxModelEnum.resolve));
         assertThat(table.getDatasource().getDependencies()[0].getOn(), is("f1"));
         assertThat(table.getDependencies().length, is(1));
         assertThat(table.getDependencies()[0].getDatasource(), is("f1"));

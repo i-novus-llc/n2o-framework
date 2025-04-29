@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.control.v3;
 
-import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.control.Submit;
@@ -9,15 +9,15 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
-import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
+import net.n2oapp.framework.api.metadata.global.dao.object.MapperTypeEnum;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraintValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatoryValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConditionValidation;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -50,7 +50,7 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
     private void constraint(Element e, N2oConstraintValidation t, IOProcessor p) {
         validation(e, t, p);
         p.attribute(e, "result", t::getResult, t::setResult);
-        p.childAttributeEnum(e, "result", "mapper", t::getMapper, t::setMapper, MapperType.class);
+        p.childAttributeEnum(e, "result", "mapper", t::getMapper, t::setMapper, MapperTypeEnum.class);
         p.anyChildren(e, "in", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
                 .add("field", ObjectSimpleField.class, this::param));
         if (t.getInFields() == null)
@@ -75,8 +75,8 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
 
     private void validation(Element e, N2oValidation t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
-        p.attributeEnum(e, "severity", t::getSeverity, t::setSeverity, SeverityType.class);
-        p.attributeEnum(e, "server-moment", t::getServerMoment, t::setServerMoment, N2oValidation.ServerMoment.class);
+        p.attributeEnum(e, "severity", t::getSeverity, t::setSeverity, SeverityTypeEnum.class);
+        p.attributeEnum(e, "server-moment", t::getServerMoment, t::setServerMoment, N2oValidation.ServerMomentEnum.class);
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
         p.attribute(e, "title", t::getTitle, t::setTitle);
@@ -90,8 +90,8 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
         p.attribute(e, "operation-id", t::getOperationId, t::setOperationId);
         p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);
-        p.attributeEnum(e, "message-position", t::getMessagePosition, t::setMessagePosition, MessagePosition.class);
-        p.attributeEnum(e, "message-placement", t::getMessagePlacement, t::setMessagePlacement, MessagePlacement.class);
+        p.attributeEnum(e, "message-position", t::getMessagePosition, t::setMessagePosition, MessagePositionEnum.class);
+        p.attributeEnum(e, "message-placement", t::getMessagePlacement, t::setMessagePlacement, MessagePlacementEnum.class);
         p.attributeBoolean(e, "refresh-on-success", t::getRefreshOnSuccess, t::setRefreshOnSuccess);
         p.attributeArray(e, "refresh-datasource", ",", t::getRefreshDatasourceIds, t::setRefreshDatasourceIds);
         p.attribute(e, "route", t::getRoute, t::setRoute);
@@ -104,14 +104,14 @@ public abstract class StandardFieldIOv3<T extends N2oStandardField> extends Fiel
         p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
         p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
     }
 
     private void submitFormParam(Element e, N2oFormParam t, IOProcessor p) {
         p.attribute(e, "id", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
         p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
     }
 
     private void param(Element e, ObjectSimpleField t, IOProcessor p) {

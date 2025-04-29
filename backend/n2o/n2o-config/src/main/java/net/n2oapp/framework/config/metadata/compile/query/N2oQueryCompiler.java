@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
@@ -152,8 +152,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
      * @param fieldsMap скомпилированные поля выборки
      * @return фильтры
      */
-    private Map<String, Map.Entry<String, FilterType>> initInvertFiltersMap(N2oQuery source, Map<String, AbstractField> fieldsMap) {
-        Map<String, Map.Entry<String, FilterType>> invertFiltersMap = new HashMap<>();
+    private Map<String, Map.Entry<String, FilterTypeEnum>> initInvertFiltersMap(N2oQuery source, Map<String, AbstractField> fieldsMap) {
+        Map<String, Map.Entry<String, FilterTypeEnum>> invertFiltersMap = new HashMap<>();
         fieldsMap.keySet()
                 .stream()
                 .filter(source::isSearchAvailable)
@@ -189,9 +189,9 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         return filterParams;
     }
 
-    private Map<String, N2oQuery.Filter> initFilterFieldsMap(Map<String, Map<FilterType, N2oQuery.Filter>> filtersMap) {
+    private Map<String, N2oQuery.Filter> initFilterFieldsMap(Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> filtersMap) {
         Map<String, N2oQuery.Filter> result = new HashMap<>();
-        for (Map<FilterType, N2oQuery.Filter> filterMap : filtersMap.values()) {
+        for (Map<FilterTypeEnum, N2oQuery.Filter> filterMap : filtersMap.values()) {
             for (N2oQuery.Filter filter : filterMap.values()) {
                 result.put(filter.getFilterId(), filter);
             }
@@ -227,15 +227,15 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         return selections;
     }
 
-    private Map<String, Map<FilterType, N2oQuery.Filter>> initFiltersMap(N2oQuery source, CompiledQuery query, CompileProcessor p) {
-        Map<String, Map<FilterType, N2oQuery.Filter>> result = new HashMap<>();
+    private Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> initFiltersMap(N2oQuery source, CompiledQuery query, CompileProcessor p) {
+        Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> result = new HashMap<>();
         query.getFieldsMap()
                 .keySet()
                 .stream()
                 .filter(source::isSearchAvailable)
                 .forEach(key -> {
                     AbstractField queryField = query.getFieldsMap().get(key);
-                    Map<FilterType, N2oQuery.Filter> filters = new EnumMap<>(FilterType.class);
+                    Map<FilterTypeEnum, N2oQuery.Filter> filters = new EnumMap<>(FilterTypeEnum.class);
                     for (N2oQuery.Filter f : source.getFiltersList(queryField.getAbsoluteId())) {
                         if (f.getDomain() == null && queryField instanceof QuerySimpleField simpleField) {
                             f.setDomain(DomainProcessor.getDomain(simpleField.getDomain(), f.getType()));
@@ -259,8 +259,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                     p.getMessage("n2o.required.filter"),
                     f.getFilterId()
             );
-            mandatory.setMoment(N2oValidation.ServerMoment.beforeQuery);
-            mandatory.setSeverity(SeverityType.danger);
+            mandatory.setMoment(N2oValidation.ServerMomentEnum.beforeQuery);
+            mandatory.setSeverity(SeverityTypeEnum.danger);
 
             if (query.getValidations() == null)
                 query.setValidations(new ArrayList<>());

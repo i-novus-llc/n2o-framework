@@ -14,7 +14,7 @@ import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
-import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -98,7 +98,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         source.setSubmitAll(castDefault(source.getSubmitAll(), true));
         source.setMethod(
                 castDefault(source.getMethod(),
-                        () -> p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class))
+                        () -> p.resolve(property("n2o.api.action.invoke.method"), RequestMethodEnum.class))
         );
         source.setClearOnSuccess(castDefault(source.getClearOnSuccess(), false));
     }

@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.io.control.v2;
 
-import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.control.N2oField;
-import net.n2oapp.framework.api.metadata.control.PageRef;
+import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.control.ComponentIO;
@@ -41,8 +41,8 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
                 .add("reset", N2oField.ResetDependency.class, this::dependency)
                 .add("fetch-value", N2oField.FetchValueDependency.class, this::fetchValueDependency));
         p.attributeArray(e, "depends-on", ",", m::getDependsOn, m::setDependsOn);
-        p.attributeEnum(e, "ref-model", m::getRefModel, m::setRefModel, ReduxModel.class);
-        p.attributeEnum(e, "ref-page", m::getRefPage, m::setRefPage, PageRef.class);
+        p.attributeEnum(e, "ref-model", m::getRefModel, m::setRefModel, ReduxModelEnum.class);
+        p.attributeEnum(e, "ref-page", m::getRefPage, m::setRefPage, PageRefEnum.class);
         p.attribute(e, "ref-widget-id", m::getRefWidgetId, m::setRefWidgetId);
         p.attribute(e, "ref-field-id", m::getRefFieldId, m::setRefFieldId);
     }
@@ -64,7 +64,7 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
         p.attribute(e, "value-field-id", t::getValueFieldId, t::setValueFieldId);
         p.attributeInteger(e, "size", t::getSize, t::setSize);
         p.childrenByEnum(e, "pre-filters", t::getPreFilters, t::setPreFilters, N2oPreFilter::getType,
-                N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
+                N2oPreFilter::setType, N2oPreFilter::new, FilterTypeEnum.class, this::prefilter);
     }
 
     protected void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {
@@ -74,7 +74,7 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
         p.attributeBoolean(e, "reset-on-change", pf::getResetOnChange, pf::setResetOnChange);
         p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", pf::getModel, pf::setModel, ReduxModel.class);
+        p.attributeEnum(e, "ref-model", pf::getModel, pf::setModel, ReduxModelEnum.class);
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
         p.attribute(e, "param", pf::getParam, pf::setParam);
     }

@@ -28,7 +28,7 @@ public class CardsWidgetIOV4 extends AbstractListWidgetElementIOv4<N2oCards> {
     @Override
     public void io(Element e, N2oCards t, IOProcessor p) {
         super.io(e, t, p);
-        p.attributeEnum(e, "vertical-align", t::getVerticalAlign, t::setVerticalAlign, Cards.Position.class);
+        p.attributeEnum(e, "vertical-align", t::getVerticalAlign, t::setVerticalAlign, Cards.PositionEnum.class);
         p.attribute(e, "height", t::getHeight, t::setHeight);
         p.children(e, "content", "col", t::getContent, t::setContent, N2oCards.N2oCol::new, this::col);
     }

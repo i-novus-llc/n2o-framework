@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.event.N2oAbstractEvent;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.application.N2oSidebar;
-import net.n2oapp.framework.api.metadata.application.NavigationLayout;
+import net.n2oapp.framework.api.metadata.application.NavigationLayoutEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.application.header.HeaderIOv3;
@@ -38,7 +38,7 @@ public class ApplicationIOv3 implements NamespaceIO<N2oApplication> {
     @Override
     public void io(Element e, N2oApplication m, IOProcessor p) {
         p.attribute(e, "welcome-page-id", m::getWelcomePageId, m::setWelcomePageId);
-        p.attributeEnum(e, "navigation-layout", m::getNavigationLayout, m::setNavigationLayout, NavigationLayout.class);
+        p.attributeEnum(e, "navigation-layout", m::getNavigationLayout, m::setNavigationLayout, NavigationLayoutEnum.class);
         p.attributeBoolean(e, "navigation-layout-fixed", m::getNavigationLayoutFixed, m::setNavigationLayoutFixed);
         p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources, p.anyOf(N2oAbstractDatasource.class), DatasourceIOv1.NAMESPACE);
         p.child(e, null, "header", m::getHeader, m::setHeader, new HeaderIOv3());

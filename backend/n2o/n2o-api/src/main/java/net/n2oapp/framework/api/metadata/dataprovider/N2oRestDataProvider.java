@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oMapInvocation;
 @Setter
 public class N2oRestDataProvider extends AbstractDataProvider implements N2oMapInvocation {
     private String query;
-    private Method method;
+    private MethodEnum method;
     private String filtersSeparator;
     private String sortingSeparator;
     private String selectSeparator;
@@ -22,7 +22,7 @@ public class N2oRestDataProvider extends AbstractDataProvider implements N2oMapI
     private String forwardedHeaders;
     private String forwardedCookies;
 
-    public enum Method {
+    public enum MethodEnum {
         GET, PUT, POST, REMOVE, HEAD, DELETE, PATCH
     }
 

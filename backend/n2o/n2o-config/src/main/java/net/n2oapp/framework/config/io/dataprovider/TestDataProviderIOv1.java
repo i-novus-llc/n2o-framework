@@ -22,8 +22,8 @@ public class TestDataProviderIOv1 implements NamespaceIO<N2oTestDataProvider>, D
     @Override
     public void io(Element e, N2oTestDataProvider m, IOProcessor p) {
         p.attribute(e, "file", m::getFile, m::setFile);
-        p.attributeEnum(e, "operation", m::getOperation, m::setOperation, N2oTestDataProvider.Operation.class);
-        p.attributeEnum(e, "primary-key-type", m::getPrimaryKeyType, m::setPrimaryKeyType, N2oTestDataProvider.PrimaryKeyType.class);
+        p.attributeEnum(e, "operation", m::getOperation, m::setOperation, N2oTestDataProvider.OperationEnum.class);
+        p.attributeEnum(e, "primary-key-type", m::getPrimaryKeyType, m::setPrimaryKeyType, N2oTestDataProvider.PrimaryKeyTypeEnum.class);
         p.attribute(e, "primary-key", m::getPrimaryKey, m::setPrimaryKey);
     }
 }

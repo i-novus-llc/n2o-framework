@@ -37,8 +37,8 @@ public class CompileOperation<D extends Compiled, S> implements PipelineOperatio
     }
 
     @Override
-    public PipelineOperationType getPipelineOperationType() {
-        return PipelineOperationType.COMPILE;
+    public PipelineOperationTypeEnum getPipelineOperationType() {
+        return PipelineOperationTypeEnum.COMPILE;
     }
 
     @Override

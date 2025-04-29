@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.meta.control.Status;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -43,11 +43,11 @@ class StatusFieldCompileTest extends SourceCompileTestBase {
         assertThat(status.getSrc(), is("StatusText"));
         assertThat(status.getColor(), is("success"));
         assertThat(status.getText(), is("Task completed"));
-        assertThat(status.getTextPosition(), is(Position.LEFT));
+        assertThat(status.getTextPosition(), is(PositionEnum.LEFT));
 
         status = (Status) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(status.getSrc(), is("StatusText"));
         assertThat(status.getText(), is("test"));
-        assertThat(status.getTextPosition(), is(Position.RIGHT));
+        assertThat(status.getTextPosition(), is(PositionEnum.RIGHT));
     }
 }

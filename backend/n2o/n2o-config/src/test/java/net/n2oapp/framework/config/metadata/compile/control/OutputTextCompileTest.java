@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.meta.control.OutputText;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -45,13 +45,13 @@ class OutputTextCompileTest extends SourceCompileTestBase {
                 .get(0).getCols().get(0).getFields().get(0))).getControl();
         assertThat(outputText.getSrc(), is("OutputText"));
         assertThat(outputText.getIcon(), is("icon"));
-        assertThat(outputText.getIconPosition(), is(Position.RIGHT));
+        assertThat(outputText.getIconPosition(), is(PositionEnum.RIGHT));
         assertThat(outputText.getFormat(), is("number 0,0.00"));
 
         outputText = (OutputText) ((StandardField) (form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0))).getControl();
         assertThat(outputText.getIcon(), nullValue());
-        assertThat(outputText.getIconPosition(), is(Position.LEFT));
+        assertThat(outputText.getIconPosition(), is(PositionEnum.LEFT));
         assertThat(outputText.getFormat(), nullValue());
     }
 }

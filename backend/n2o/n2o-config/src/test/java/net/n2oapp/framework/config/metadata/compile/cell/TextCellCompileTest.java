@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -48,7 +48,7 @@ class TextCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSubTextFormat(), is("date DD.MM.YYYY"));
         assertThat(cell.getTooltipFieldId(), is("tooltipId"));
         assertThat(cell.getIcon(), is("icon"));
-        assertThat(cell.getIconPosition(), is(Position.LEFT));
+        assertThat(cell.getIconPosition(), is(PositionEnum.LEFT));
 
         cell = (TextCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getSrc(), is("TextCell"));
@@ -57,6 +57,6 @@ class TextCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSubTextFieldKey(), is("subtext2"));
         assertThat(cell.getSubTextFormat(), is("date DD.MM.YYYY"));
         assertThat(cell.getElementAttributes().get("className"), is("`test2 == 1 ? 'a' : test2 == 2 ? 'b' : test2 == 3 ? 'c' : null`"));
-        assertThat(cell.getIconPosition(), is(Position.RIGHT));
+        assertThat(cell.getIconPosition(), is(PositionEnum.RIGHT));
     }
 }

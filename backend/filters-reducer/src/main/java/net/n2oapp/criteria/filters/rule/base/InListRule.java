@@ -1,7 +1,7 @@
 package net.n2oapp.criteria.filters.rule.base;
 
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ public abstract class InListRule implements Rule {
         if (res.size() == 0) {
             return null;
         } else if (res.size() == 1) {
-            return new Filter(res.get(0), FilterType.eq);
+            return new Filter(res.get(0), FilterTypeEnum.eq);
         }
-        return new Filter(res, FilterType.in);
+        return new Filter(res, FilterTypeEnum.in);
     }
 
 }

@@ -48,23 +48,23 @@ class AlertStackAT extends AutoTestBase {
         Button alert2 = page.widget(FormWidget.class).toolbar().topLeft().button("Алерт 2");
 
         alert1.click();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 1");
+        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Алерт 1");
 
         alert2.click();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 2");
-        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 1");
+        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Алерт 2");
+        page.alerts(Alert.PlacementEnum.top).alert(1).shouldHaveText("Алерт 1");
 
         alert2.click();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 2");
-        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 2");
-        page.alerts(Alert.Placement.top).alert(2).shouldHaveText("Алерт 1");
+        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Алерт 2");
+        page.alerts(Alert.PlacementEnum.top).alert(1).shouldHaveText("Алерт 2");
+        page.alerts(Alert.PlacementEnum.top).alert(2).shouldHaveText("Алерт 1");
 
         alert1.click();
-        page.alerts(Alert.Placement.top).alert(0).shouldHaveText("Алерт 1");
-        page.alerts(Alert.Placement.top).alert(1).shouldHaveText("Алерт 2");
-        page.alerts(Alert.Placement.top).alert(2).shouldHaveText("Алерт 2");
+        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Алерт 1");
+        page.alerts(Alert.PlacementEnum.top).alert(1).shouldHaveText("Алерт 2");
+        page.alerts(Alert.PlacementEnum.top).alert(2).shouldHaveText("Алерт 2");
 
-        page.alerts(Alert.Placement.bottom).shouldBeEmpty();
+        page.alerts(Alert.PlacementEnum.bottom).shouldBeEmpty();
         Button alert3 = page.widget(FormWidget.class).toolbar().topLeft().button("Алерт 3");
         Button alert4 = page.widget(FormWidget.class).toolbar().topLeft().button("Алерт 4");
 
@@ -72,8 +72,8 @@ class AlertStackAT extends AutoTestBase {
         alert4.click();
         alert4.click();
 
-        page.alerts(Alert.Placement.bottom).alert(0).shouldHaveText("Алерт 4");
-        page.alerts(Alert.Placement.bottom).alert(1).shouldHaveText("Алерт 4");
-        page.alerts(Alert.Placement.bottom).alert(2).shouldHaveText("Алерт 3");
+        page.alerts(Alert.PlacementEnum.bottom).alert(0).shouldHaveText("Алерт 4");
+        page.alerts(Alert.PlacementEnum.bottom).alert(1).shouldHaveText("Алерт 4");
+        page.alerts(Alert.PlacementEnum.bottom).alert(2).shouldHaveText("Алерт 3");
     }
 }

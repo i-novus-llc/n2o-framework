@@ -8,8 +8,8 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 
-import static net.n2oapp.framework.api.exception.SeverityType.danger;
-import static net.n2oapp.framework.api.exception.SeverityType.warning;
+import static net.n2oapp.framework.api.exception.SeverityTypeEnum.danger;
+import static net.n2oapp.framework.api.exception.SeverityTypeEnum.warning;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
@@ -26,9 +26,9 @@ public abstract class BaseValidationCompiler<D extends Validation, S extends N2o
         compiled.setJsonMessage((String) ScriptProcessor.resolveExpression(source.getMessage()));
         resolveEnabled(compiled, source, p);
         if (danger.equals(source.getSeverity()) || warning.equals(source.getSeverity()))
-            compiled.setMoment(castDefault(source.getServerMoment(), N2oValidation.ServerMoment.beforeOperation));
+            compiled.setMoment(castDefault(source.getServerMoment(), N2oValidation.ServerMomentEnum.beforeOperation));
         else
-            compiled.setMoment(castDefault(source.getServerMoment(), N2oValidation.ServerMoment.afterSuccessOperation));
+            compiled.setMoment(castDefault(source.getServerMoment(), N2oValidation.ServerMomentEnum.afterSuccessOperation));
     }
 
     private void resolveEnabled(D compiled, S source, CompileProcessor p) {

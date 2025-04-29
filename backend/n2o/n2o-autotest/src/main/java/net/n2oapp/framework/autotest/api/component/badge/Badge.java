@@ -1,9 +1,9 @@
 package net.n2oapp.framework.autotest.api.component.badge;
 
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.BadgePosition;
-import net.n2oapp.framework.autotest.BadgeShape;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.BadgePositionEnum;
+import net.n2oapp.framework.autotest.BadgeShapeEnum;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.Component;
 
 import java.time.Duration;
@@ -40,7 +40,7 @@ public interface Badge extends Component {
      * Проверка баджа на соответствие ожидаемой форме
      * @param shape ожидаемая форма баджа
      */
-    default void badgeShouldHaveShape(BadgeShape shape) {
+    default void badgeShouldHaveShape(BadgeShapeEnum shape) {
         element().$(".n2o-badge")
                 .shouldHave(Condition.cssClass(shape.name("n2o-badge--")));
     }
@@ -49,8 +49,8 @@ public interface Badge extends Component {
      * Проверка позиции баджа на соответствие ожидаемой позиции
      * @param position ожидаемая позиция баджа
      */
-    default void badgeShouldHavePosition(BadgePosition position) {
-        if (position.equals(BadgePosition.LEFT))
+    default void badgeShouldHavePosition(BadgePositionEnum position) {
+        if (position.equals(BadgePositionEnum.LEFT))
             element().$$("span").get(0).shouldHave(Condition.cssClass("badge"));
         else
             element().$$("span").get(1).shouldHave(Condition.cssClass("badge"));
@@ -60,7 +60,7 @@ public interface Badge extends Component {
      * Проверка картинки внутри баджа на соответствие ожидаемой форме
      * @param shape ожидаемая форма картинки
      */
-    default void badgeShouldHaveImageShape(BadgeShape shape) {
+    default void badgeShouldHaveImageShape(BadgeShapeEnum shape) {
         element().$(".n2o-badge")
                 .$(".n2o-badge-image")
                 .shouldHave(Condition.cssClass(shape.name("n2o-badge-image--")));
@@ -70,7 +70,7 @@ public interface Badge extends Component {
      * Проверка позиции картинки внутри баджа на соответствие ожидаемой позиции
      * @param position ожидаемая позиция картинки
      */
-    default void badgeShouldHaveImagePosition(BadgePosition position) {
+    default void badgeShouldHaveImagePosition(BadgePositionEnum position) {
         element().$(".n2o-badge")
                 .$(".n2o-badge-image")
                 .shouldHave(Condition.cssClass(position.name("n2o-badge-image--")));
@@ -95,7 +95,7 @@ public interface Badge extends Component {
      * Проверка цвета на соответствие
      * @param color ожидаемый цвет баджа
      */
-    default void badgeShouldHaveColor(Colors color){
+    default void badgeShouldHaveColor(ColorsEnum color){
         element().$(".n2o-badge")
                 .shouldHave(Condition.cssClass(String.format("badge-%s", color.name().toLowerCase())));
     }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 
 /**
  * Клиентская модель источника, хранящего данные в браузере
@@ -28,7 +28,7 @@ public class BrowserStorageDatasource extends AbstractDatasource {
         @JsonProperty
         private String key;
         @JsonProperty
-        private BrowserStorageType storage;
+        private BrowserStorageTypeEnum storage;
     }
 
     @Getter
@@ -41,8 +41,8 @@ public class BrowserStorageDatasource extends AbstractDatasource {
         @JsonProperty
         private Boolean auto;
         @JsonProperty
-        private ReduxModel model;
+        private ReduxModelEnum model;
         @JsonProperty
-        private BrowserStorageType storage;
+        private BrowserStorageTypeEnum storage;
     }
 }

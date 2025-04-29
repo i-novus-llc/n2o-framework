@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.button;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.button.Button;
@@ -43,7 +43,7 @@ public abstract class N2oButton extends N2oComponent implements Button {
     }
 
     @Override
-    public void shouldHaveColor(Colors color) {
+    public void shouldHaveColor(ColorsEnum color) {
         element().shouldHave(Condition.cssClass(color.name("btn-")));
     }
 }

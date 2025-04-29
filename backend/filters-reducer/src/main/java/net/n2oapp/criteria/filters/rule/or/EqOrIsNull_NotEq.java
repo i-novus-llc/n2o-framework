@@ -1,7 +1,7 @@
 package net.n2oapp.criteria.filters.rule.or;
 
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.Rule;
 
@@ -14,13 +14,13 @@ public class EqOrIsNull_NotEq implements Rule {
     @Override
     public Filter simplify(Filter left, Filter right) {
         if (left.getValue().equals(right.getValue()))
-            return new Filter(FilterType.isNull);
-        if (left.getType().equals(FilterType.eqOrIsNull)) return left;
+            return new Filter(FilterTypeEnum.isNull);
+        if (left.getType().equals(FilterTypeEnum.eqOrIsNull)) return left;
         else return right;
     }
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.eqOrIsNull, FilterType.notEq);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.eqOrIsNull, FilterTypeEnum.notEq);
     }
 }

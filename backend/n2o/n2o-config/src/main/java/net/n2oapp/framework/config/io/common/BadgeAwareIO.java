@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.io.common;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import org.jdom2.Element;
 
 /**
@@ -35,9 +35,9 @@ public interface BadgeAwareIO<T extends BadgeAware> {
      * Чтение/запись общих свойств
      */
     private void base(Element e, T m, IOProcessor p) {
-        p.attributeEnum(e, "badge-position", m::getBadgePosition, m::setBadgePosition, Position.class);
-        p.attributeEnum(e, "badge-shape", m::getBadgeShape, m::setBadgeShape, ShapeType.class);
-        p.attributeEnum(e, "badge-image-position", m::getBadgeImagePosition, m::setBadgeImagePosition, Position.class);
-        p.attributeEnum(e, "badge-image-shape", m::getBadgeImageShape, m::setBadgeImageShape, ShapeType.class);
+        p.attributeEnum(e, "badge-position", m::getBadgePosition, m::setBadgePosition, PositionEnum.class);
+        p.attributeEnum(e, "badge-shape", m::getBadgeShape, m::setBadgeShape, ShapeTypeEnum.class);
+        p.attributeEnum(e, "badge-image-position", m::getBadgeImagePosition, m::setBadgeImagePosition, PositionEnum.class);
+        p.attributeEnum(e, "badge-image-shape", m::getBadgeImageShape, m::setBadgeImageShape, ShapeTypeEnum.class);
     }
 }

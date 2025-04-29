@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAlertAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -48,8 +48,8 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
 
     private AlertActionPayload initPayload(N2oAlertAction source, CompileProcessor p) {
         AlertActionPayload payload = new AlertActionPayload();
-        payload.setKey(castDefault(p.resolve(source.getPlacement(), MessagePlacement.class),
-                () -> p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));
+        payload.setKey(castDefault(p.resolve(source.getPlacement(), MessagePlacementEnum.class),
+                () -> p.resolve(property("n2o.api.action.alert.placement"), MessagePlacementEnum.class)));
         payload.setAlerts(initMessage(source, p));
         return payload;
     }
@@ -68,15 +68,15 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
                 () -> p.resolve(property("n2o.api.action.alert.color"), String.class)));
         message.setCloseButton(castDefault(source.getCloseButton(),
                 () -> p.resolve(property("n2o.api.action.alert.close_button"), Boolean.class)));
-        message.setPlacement(castDefault(p.resolve(source.getPlacement(), MessagePlacement.class),
-                () -> p.resolve(property("n2o.api.action.alert.placement"), MessagePlacement.class)));
+        message.setPlacement(castDefault(p.resolve(source.getPlacement(), MessagePlacementEnum.class),
+                () -> p.resolve(property("n2o.api.action.alert.placement"), MessagePlacementEnum.class)));
         message.setTimeout(castDefault(p.resolve(source.getTimeout(), Integer.class),
                 () -> p.resolve(property(String.format("n2o.api.message.%s.timeout", message.getSeverity())), Integer.class)));
         message.setTime(initTimeStamp(source));
 
         if (isJs(message.getText()) || isJs(message.getTitle()) || isJs(message.getHref())) {
             String datasourceId = castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p));
-            ReduxModel reduxModel = castDefault(source.getModel(), () -> getLocalModel(p));
+            ReduxModelEnum reduxModel = castDefault(source.getModel(), () -> getLocalModel(p));
             if (datasourceId == null) {
                 throw new N2oException("Источник данных не найден для действия \"<alert>\" со связанными атрибутами");
             }

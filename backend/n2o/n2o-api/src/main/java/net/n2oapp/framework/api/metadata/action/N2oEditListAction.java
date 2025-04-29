@@ -2,8 +2,8 @@ package net.n2oapp.framework.api.metadata.action;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.meta.action.editlist.ListOperationType;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.meta.action.editlist.ListOperationTypeEnum;
 
 /**
  * Исходная модель действия редактирования записи списка
@@ -11,13 +11,13 @@ import net.n2oapp.framework.api.metadata.meta.action.editlist.ListOperationType;
 @Getter
 @Setter
 public class N2oEditListAction extends N2oAbstractAction {
-    private ListOperationType operation;
+    private ListOperationTypeEnum operation;
     private String primaryKey;
     private String datasourceId;
-    private ReduxModel model;
+    private ReduxModelEnum model;
     private String listFieldId;
     private String itemDatasourceId;
-    private ReduxModel itemModel;
+    private ReduxModelEnum itemModel;
     private String itemFieldId;
 
 }

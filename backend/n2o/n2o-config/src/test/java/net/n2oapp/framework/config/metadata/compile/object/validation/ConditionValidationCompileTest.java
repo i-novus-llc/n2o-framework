@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.object.validation;
 
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -42,8 +42,8 @@ class ConditionValidationCompileTest extends SourceCompileTestBase {
         assertThat(validations.size(), is(4));
 
         assertThat(validations.get(0).getId(), is("con1"));
-        assertThat(validations.get(0).getSeverity(), is(SeverityType.danger));
-        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.afterFailOperation));
+        assertThat(validations.get(0).getSeverity(), is(SeverityTypeEnum.danger));
+        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMomentEnum.afterFailOperation));
         assertThat(validations.get(0).getMessage(), is("message"));
         assertThat(validations.get(0).getEnabled(), is(false));
         assertThat(validations.get(0).getSide(), is("client,server"));
@@ -52,14 +52,14 @@ class ConditionValidationCompileTest extends SourceCompileTestBase {
         assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("field1 == 'test'"));
 
         assertThat(validations.get(1).getId(), is("con2"));
-        assertThat(validations.get(1).getSeverity(), is(SeverityType.info));
-        assertThat(validations.get(1).getMoment(), is(N2oValidation.ServerMoment.afterSuccessOperation));
+        assertThat(validations.get(1).getSeverity(), is(SeverityTypeEnum.info));
+        assertThat(validations.get(1).getMoment(), is(N2oValidation.ServerMomentEnum.afterSuccessOperation));
         assertThat(((ConditionValidation) validations.get(1)).getExpression(), is("field1 == 'test'"));
 
         assertThat(validations.get(2).getId(), is("con3"));
-        assertThat(validations.get(2).getSeverity(), is(SeverityType.warning));
-        assertThat(validations.get(2).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
+        assertThat(validations.get(2).getSeverity(), is(SeverityTypeEnum.warning));
+        assertThat(validations.get(2).getMoment(), is(N2oValidation.ServerMomentEnum.beforeOperation));
 
-        assertThat(validations.get(3).getSeverity(), is(SeverityType.danger));
+        assertThat(validations.get(3).getSeverity(), is(SeverityTypeEnum.danger));
     }
 }

@@ -26,9 +26,9 @@ public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider>{
     public StandardField<Slider> compile(N2oSlider source, CompileContext<?, ?> context, CompileProcessor p) {
         Slider slider = new Slider();
 
-        N2oSlider.Mode mode = castDefault(source.getMode(),
-                () -> p.resolve(property("n2o.api.control.slider.mode"), N2oSlider.Mode.class));
-        slider.setMultiple(N2oSlider.Mode.range.equals(mode));
+        N2oSlider.ModeEnum mode = castDefault(source.getMode(),
+                () -> p.resolve(property("n2o.api.control.slider.mode"), N2oSlider.ModeEnum.class));
+        slider.setMultiple(N2oSlider.ModeEnum.range.equals(mode));
         boolean isVertical = Boolean.TRUE.equals((castDefault(source.getVertical(),
                 () -> p.resolve(property("n2o.api.control.slider.vertical"), Boolean.class))));
         slider.setVertical(isVertical);

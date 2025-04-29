@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
@@ -57,7 +57,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
         return source.getId();
     }
 
-    protected ReduxModel getModelFromComponentScope(CompileProcessor p) {
+    protected ReduxModelEnum getModelFromComponentScope(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             ModelAware modelAware = componentScope.unwrap(ModelAware.class);
@@ -65,7 +65,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                 return modelAware.getModel();
             }
         }
-        return ReduxModel.resolve;
+        return ReduxModelEnum.resolve;
     }
 
     /**
@@ -112,7 +112,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                                 Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping,
                                 CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        ReduxModel defaultModel = getModelFromComponentScope(p);
+        ReduxModelEnum defaultModel = getModelFromComponentScope(p);
         if (widgetScope != null) {
             String defaultClientWidgetId = getDefaultClientWidgetId(p);
             if (pathParams != null)
@@ -154,9 +154,9 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      * @param p Процессор сборки метаданных
      * @return Модель действия из ComponentScope или модель resolve, если модель из скоупа равна null
      */
-    protected ReduxModel getLocalModel(CompileProcessor p) {
+    protected ReduxModelEnum getLocalModel(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
-        return castDefault(ComponentScope.getFirstNotNull(componentScope, ModelAware.class, ModelAware::getModel), ReduxModel.resolve);
+        return castDefault(ComponentScope.getFirstNotNull(componentScope, ModelAware.class, ModelAware::getModel), ReduxModelEnum.resolve);
     }
 
     /**
@@ -168,7 +168,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      * @param p                     Процессор сборки метаданных
      * @return Модель ссылки параметра
      */
-    private ModelLink initParamModelLink(N2oParam param, String defaultClientWidgetId, ReduxModel defaultModel, CompileProcessor p) {
+    private ModelLink initParamModelLink(N2oParam param, String defaultClientWidgetId, ReduxModelEnum defaultModel, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         String widgetId = castDefault(getClientDatasourceId(param.getRefWidgetId(), p), defaultClientWidgetId);
 

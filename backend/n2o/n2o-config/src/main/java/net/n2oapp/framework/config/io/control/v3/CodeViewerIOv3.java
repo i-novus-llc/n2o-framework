@@ -17,7 +17,7 @@ public class CodeViewerIOv3 extends StandardFieldIOv3<N2oCodeViewer>{
         super.io(e, m, p);
         p.text(e, m::getText, m::setText);
         p.attributeEnum(e, "language", m::getLanguage, m::setLanguage, CodeLanguageEnum.class);
-        p.attributeEnum(e, "theme", m::getTheme, m::setTheme, N2oCodeViewer.ColorTheme.class);
+        p.attributeEnum(e, "theme", m::getTheme, m::setTheme, N2oCodeViewer.ColorThemeEnum.class);
         p.attributeBoolean(e, "show-line-numbers", m::getShowLineNumbers, m::setShowLineNumbers);
         p.attributeInteger(e, "starting-line-number", m::getStartingLineNumber, m::setStartingLineNumber);
         p.attributeBoolean(e, "hide-buttons", m::getHideButtons, m::setHideButtons);

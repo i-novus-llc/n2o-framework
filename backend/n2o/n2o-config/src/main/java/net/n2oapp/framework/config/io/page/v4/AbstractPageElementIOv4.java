@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.page.v4;
 
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -21,7 +21,7 @@ public abstract class AbstractPageElementIOv4<T extends N2oPage> implements Name
         p.attribute(e, "html-title", m::getHtmlTitle, m::setHtmlTitle);
         p.attribute(e, "route", m::getRoute, m::setRoute);
         p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
-        p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModelEnum.class);
         p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "style", m::getStyle, m::setStyle);

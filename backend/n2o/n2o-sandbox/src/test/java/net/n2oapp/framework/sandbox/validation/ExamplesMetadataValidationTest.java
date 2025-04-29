@@ -11,7 +11,7 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.InfoConstructor;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
-import net.n2oapp.framework.config.register.Origin;
+import net.n2oapp.framework.config.register.OriginEnum;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
 import net.n2oapp.framework.config.test.N2oTestBase;
@@ -117,7 +117,7 @@ class ExamplesMetadataValidationTest extends N2oTestBase {
             newInfo.setLocalPath(casted.getLocalPath());
             newInfo.setUri(casted.getUri());
             newInfo.setScannerClass(casted.getScannerClass());
-            newInfo.setOrigin(Origin.xml);
+            newInfo.setOrigin(OriginEnum.xml);
             newInfo.setReaderClass(XmlMetadataLoader.class);
             uuidIdMap.put(uuid, casted.getId());
             String truncatedFilePath = truncateFilePath(newInfo.getURI());

@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -38,10 +38,10 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         compiled.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
 
         if (source.getFieldLabelLocation() != null) {
-            compiled.setLabelPosition(FieldSet.LabelPosition.map(source.getFieldLabelLocation(), source.getFieldLabelAlign()));
+            compiled.setLabelPosition(FieldSet.LabelPositionEnum.map(source.getFieldLabelLocation(), source.getFieldLabelAlign()));
         }
         if (source.getFieldLabelAlign() != null) {
-            compiled.setLabelAlignment(FieldSet.LabelAlignment.map(source.getFieldLabelAlign()));
+            compiled.setLabelAlignment(FieldSet.LabelAlignmentEnum.map(source.getFieldLabelAlign()));
         }
         compiled.setLabelWidth(prepareSizeAttribute(source.getFieldLabelWidth()));
 
@@ -51,7 +51,7 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         if (source.getDependsOn() != null) {
             ControlDependency[] dependency = new ControlDependency[1];
             ControlDependency dep = new ControlDependency();
-            dep.setType(ValidationType.reRender);
+            dep.setType(ValidationTypeEnum.reRender);
             List<String> ons = Arrays.asList(source.getDependsOn());
             dep.setOn(ons);
             dependency[0] = dep;

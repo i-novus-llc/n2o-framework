@@ -16,17 +16,17 @@ public class Result {
      * conflict - фильтры несовместимы(дают пустое множество),
      * notMergeable - не найдено правило для слития
      */
-    public enum Type {
+    public enum TypeEnum {
         success, conflict, notMergeable;
     }
 
     public boolean isSuccess() {
-        return getType().equals(Type.success);
+        return getType().equals(TypeEnum.success);
     }
 
     private Filter leftFilter;
     private Filter rightFilter;
     private Filter resultFilter;
-    private Type type;
+    private TypeEnum type;
 
 }

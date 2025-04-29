@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.dataprovider;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -13,9 +13,9 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
-import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
@@ -43,11 +43,11 @@ public class ClientDataProviderUtil {
     public static ClientDataProvider compile(N2oClientDataProvider source, CompileContext<?, ?> context, CompileProcessor p) {
         ClientDataProvider dataProvider = new ClientDataProvider();
         String path = null;
-        ReduxModel targetModel = getTargetActionModel(p, source.getTargetModel());
+        ReduxModelEnum targetModel = getTargetActionModel(p, source.getTargetModel());
 
-        if (RequestMethod.POST == source.getMethod() ||
-                RequestMethod.PUT == source.getMethod() ||
-                RequestMethod.DELETE == source.getMethod()) {
+        if (RequestMethodEnum.POST == source.getMethod() ||
+                RequestMethodEnum.PUT == source.getMethod() ||
+                RequestMethodEnum.DELETE == source.getMethod()) {
             Map<String, ModelLink> pathMapping = new HashMap<>();
             pathMapping.putAll(compileParams(source.getPathParams(), context, p, targetModel, source.getClientDatasourceId()));
             dataProvider.setFormMapping(compileParams(source.getFormParams(), context, p, targetModel, source.getClientDatasourceId()));
@@ -85,7 +85,7 @@ public class ClientDataProviderUtil {
     }
 
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
-                                                        CompileProcessor p, ReduxModel defaultModel,
+                                                        CompileProcessor p, ReduxModelEnum defaultModel,
                                                         String defaultClientDatasourceId) {
         if (params == null)
             return Collections.emptyMap();
@@ -108,7 +108,7 @@ public class ClientDataProviderUtil {
         return result;
     }
 
-    private static ModelLink getModelLink(CompileProcessor p, ReduxModel model, String defaultClientDatasourceId, N2oParam param) {
+    private static ModelLink getModelLink(CompileProcessor p, ReduxModelEnum model, String defaultClientDatasourceId, N2oParam param) {
         ModelLink link;
         Object value = param.getValueList() != null ? param.getValueList() :
                 ScriptProcessor.resolveExpression(param.getValue());
@@ -189,9 +189,9 @@ public class ClientDataProviderUtil {
             actionContext.setMessageOnFail(castDefault(actionContextData.isMessageOnFail(), true));
             actionContext.setUseFailOut(actionContextData.isUseFailOut());
             actionContext.setMessagePosition(castDefault(actionContextData.getMessagePosition(),
-                    () -> p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
+                    () -> p.resolve(property("n2o.api.message.position"), MessagePositionEnum.class)));
             actionContext.setMessagePlacement(castDefault(actionContextData.getMessagePlacement(),
-                    () -> p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
+                    () -> p.resolve(property("n2o.api.message.placement"), MessagePlacementEnum.class)));
 
             Set<String> formParams = new HashSet<>();
             if (source.getFormParams() != null)
@@ -214,7 +214,7 @@ public class ClientDataProviderUtil {
     /**
      * Инициализация модели целевого виджета
      */
-    private static ReduxModel getTargetActionModel(CompileProcessor p, ReduxModel defaultModel) {
+    private static ReduxModelEnum getTargetActionModel(CompileProcessor p, ReduxModelEnum defaultModel) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             ModelAware modelAware = componentScope.unwrap(ModelAware.class);

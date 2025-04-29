@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.compile.enums.Color;
+import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oLineFieldSet;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -22,7 +22,7 @@ public class LineFieldSetValidator implements SourceValidator<N2oLineFieldSet>, 
         p.safeStreamOf(source.getItems()).forEach(p::validate);
 
         if (source.getBadgeColor() != null && !StringUtils.isLink(source.getBadgeColor()) &&
-                !EnumUtils.isValidEnum(Color.class, source.getBadgeColor())) {
+                !EnumUtils.isValidEnum(ColorEnum.class, source.getBadgeColor())) {
             throw new N2oMetadataValidationException(
                     String.format("Филдсет <line> использует недопустимое значение атрибута badge-color=\"%s\"",
                             source.getBadgeColor()));

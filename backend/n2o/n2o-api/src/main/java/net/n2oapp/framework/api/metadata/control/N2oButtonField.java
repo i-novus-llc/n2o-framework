@@ -2,15 +2,15 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
@@ -22,13 +22,13 @@ public class N2oButtonField extends N2oActionField implements Button, BadgeAware
     private String icon;
     private String badge;
     private String badgeColor;
-    private Position badgePosition;
-    private ShapeType badgeShape;
+    private PositionEnum badgePosition;
+    private ShapeTypeEnum badgeShape;
     private String badgeImage;
-    private Position badgeImagePosition;
-    private ShapeType badgeImageShape;
+    private PositionEnum badgeImagePosition;
+    private ShapeTypeEnum badgeImageShape;
     private String datasourceId;
-    private ReduxModel model;
+    private ReduxModelEnum model;
     private String color;
     private Boolean validate;
     private String[] validateDatasourceIds;
@@ -37,7 +37,7 @@ public class N2oButtonField extends N2oActionField implements Button, BadgeAware
     @Deprecated
     private String confirm;
     @Deprecated
-    private ConfirmType confirmType;
+    private ConfirmTypeEnum confirmType;
     @Deprecated
     private String confirmText;
     @Deprecated

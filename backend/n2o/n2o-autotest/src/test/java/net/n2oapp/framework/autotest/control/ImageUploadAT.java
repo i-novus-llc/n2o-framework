@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.ImageUploadControl;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -63,7 +63,7 @@ class ImageUploadAT extends AutoTestBase {
         fileStoreController.clearFileStore();
 
         imageUpload.uploadAreaShouldHaveIcon("fa fa-upload");
-        imageUpload.uploadAreaShouldHaveShape(ShapeType.SQUARE);
+        imageUpload.uploadAreaShouldHaveShape(ShapeTypeEnum.SQUARE);
 
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/image_upload/image.png");
         imageUpload.shouldHaveSize(1);
@@ -101,7 +101,7 @@ class ImageUploadAT extends AutoTestBase {
         imageUpload.shouldHaveSize(1);
 
         imageUpload.shouldHaveNameInfo(0);
-        imageUpload.uploadAreaShouldHaveShape(ShapeType.CIRCLE);
+        imageUpload.uploadAreaShouldHaveShape(ShapeTypeEnum.CIRCLE);
         imageUpload.shouldHaveName(0, "image.png");
         imageUpload.shouldHaveSize(0, "186");
         imageUpload.shouldHavePreview(0);

@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.action;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.aware.ActionsAware;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
@@ -22,7 +21,7 @@ import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 public class N2oSwitchAction extends N2oAbstractAction implements DatasourceIdAware {
     private String valueFieldId;
     private String datasourceId;
-    private ReduxModel model;
+    private ReduxModelEnum model;
     private AbstractCase[] cases;
 
     public List<Case> getValueCases() {

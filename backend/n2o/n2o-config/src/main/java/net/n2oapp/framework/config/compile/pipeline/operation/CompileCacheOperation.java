@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
-import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.NoOpCacheManager;
@@ -61,8 +61,8 @@ public class CompileCacheOperation<S> extends MetadataChangeListener implements 
     }
 
     @Override
-    public PipelineOperationType getPipelineOperationType() {
-        return PipelineOperationType.COMPILE_CACHE;
+    public PipelineOperationTypeEnum getPipelineOperationType() {
+        return PipelineOperationTypeEnum.COMPILE_CACHE;
     }
 
 

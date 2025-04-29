@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
@@ -51,20 +51,20 @@ class SwitchActionCompileTest extends SourceCompileTestBase {
                 .getToolbar().getButton("b1").getAction();
         assertThat(action.getType(), is("n2o/api/action/switch"));
         assertThat(action.getPayload().getDatasource(), is("testSwitchAction_ds1"));
-        assertThat(action.getPayload().getModel(), is(ReduxModel.multi));
+        assertThat(action.getPayload().getModel(), is(ReduxModelEnum.multi));
         assertThat(action.getPayload().getValueFieldId(), is("test1"));
         assertThat(action.getPayload().getCases().size(), is(2));
         assertThat(action.getPayload().getCases().get("A"), instanceOf(MultiAction.class));
         assertThat(action.getPayload().getCases().get("B"), instanceOf(SwitchAction.class));
         assertThat(((SwitchAction) action.getPayload().getCases().get("B")).getPayload().getDatasource(), is("testSwitchAction_ds2"));
-        assertThat(((SwitchAction) action.getPayload().getCases().get("B")).getPayload().getModel(), is(ReduxModel.edit));
+        assertThat(((SwitchAction) action.getPayload().getCases().get("B")).getPayload().getModel(), is(ReduxModelEnum.edit));
         assertThat(action.getPayload().getDefaultCase(), instanceOf(CustomAction.class));
 
         action = (SwitchAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("b2").getAction();
         assertThat(action.getType(), is("n2o/api/action/switch"));
         assertThat(action.getPayload().getDatasource(), is("testSwitchAction_ds2"));
-        assertThat(action.getPayload().getModel(), is(ReduxModel.filter));
+        assertThat(action.getPayload().getModel(), is(ReduxModelEnum.filter));
 
         //Проверка использования датасорса страницы для switch в тулбаре (при отсутствии своего ds и ds у кнопки, для switch любой вложенности берется датасорс страницы)
         action = (SwitchAction) page.getToolbar().getButton("b3").getAction();

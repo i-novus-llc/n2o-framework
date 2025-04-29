@@ -44,7 +44,7 @@ class ScrollspyRegionAT extends AutoTestBase {
 
         ScrollspyRegion region = page.regions().region(0, ScrollspyRegion.class);
         region.shouldExists();
-        region.menuShouldHavePosition(ScrollspyRegion.MenuPosition.right);
+        region.menuShouldHavePosition(ScrollspyRegion.MenuPositionEnum.right);
         ScrollspyRegion.Menu menu = region.menu();
         menu.menuItem("Личные данные").shouldBeVisible();
         menu.menuItem("Дополнительная информация").shouldBeVisible();
@@ -178,7 +178,7 @@ class ScrollspyRegionAT extends AutoTestBase {
 
         ScrollspyRegion region = page.regions().region(0, TabsRegion.class).tab(0).content().region(ScrollspyRegion.class);
         region.shouldExists();
-        region.menuShouldHavePosition(ScrollspyRegion.MenuPosition.left);
+        region.menuShouldHavePosition(ScrollspyRegion.MenuPositionEnum.left);
         region.activeMenuItemShouldHaveTitle("Дополнительная информация");
         region.activeContentItemShouldHaveTitle("Дополнительная информация");
     }

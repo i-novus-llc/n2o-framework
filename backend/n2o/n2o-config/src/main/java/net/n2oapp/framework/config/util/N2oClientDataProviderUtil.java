@@ -10,9 +10,9 @@ import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePosition;
-import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -102,7 +102,7 @@ public class N2oClientDataProviderUtil {
             throw new N2oException(String.format("For compilation submit for field [%s] is necessary object!", fieldId));
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        dataProvider.setMethod(RequestMethod.POST);
+        dataProvider.setMethod(RequestMethodEnum.POST);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         dataProvider.setUrl(castDefault(submit.getRoute(), widgetScope.getDatasourceId()));
         dataProvider.setTargetModel(widgetScope.getModel());
@@ -118,9 +118,9 @@ public class N2oClientDataProviderUtil {
         actionContextData.setMessageOnSuccess(castDefault(submit.getMessageOnSuccess(), false));
         actionContextData.setMessageOnFail(castDefault(submit.getMessageOnFail(), false));
         actionContextData.setMessagePosition(castDefault(submit.getMessagePosition(),
-                () -> p.resolve(property("n2o.api.message.position"), MessagePosition.class)));
+                () -> p.resolve(property("n2o.api.message.position"), MessagePositionEnum.class)));
         actionContextData.setMessagePlacement(castDefault(submit.getMessagePlacement(),
-                () -> p.resolve(property("n2o.api.message.placement"), MessagePlacement.class)));
+                () -> p.resolve(property("n2o.api.message.placement"), MessagePlacementEnum.class)));
         actionContextData.setMessagesForm(submit.getMessageWidgetId());
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
         if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {

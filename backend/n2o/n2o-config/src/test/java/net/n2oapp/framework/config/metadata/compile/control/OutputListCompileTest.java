@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.control.OutputList;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -45,16 +45,16 @@ class OutputListCompileTest extends SourceCompileTestBase {
         assertThat(outputList.getSrc(), is("OutputList"));
         assertThat(outputList.getLabelFieldId(), is("label"));
         assertThat(outputList.getHrefFieldId(), is("link"));
-        assertThat(outputList.getTarget(), is(Target.application));
-        assertThat(outputList.getDirection(), is(OutputList.Direction.row));
+        assertThat(outputList.getTarget(), is(TargetEnum.application));
+        assertThat(outputList.getDirection(), is(OutputList.DirectionEnum.row));
         assertThat(outputList.getSeparator(), is(","));
 
         outputList = (OutputList) ((StandardField) (form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0))).getControl();
         assertThat(outputList.getLabelFieldId(), is("name"));
         assertThat(outputList.getHrefFieldId(), is("href"));
-        assertThat(outputList.getTarget(), is(Target.newWindow));
-        assertThat(outputList.getDirection(), is(OutputList.Direction.column));
+        assertThat(outputList.getTarget(), is(TargetEnum.newWindow));
+        assertThat(outputList.getDirection(), is(OutputList.DirectionEnum.column));
         assertThat(outputList.getSeparator(), is(" "));
     }
 }

@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Tooltip;
@@ -98,9 +98,9 @@ class TableAT extends AutoTestBase {
         table.filters().shouldBeHidden();
         table.toolbar().topRight().button(0, StandardButton.class).click();
 
-        table.columns().rows().row(0).shouldHaveColor(Colors.DANGER);
-        table.columns().rows().row(1).shouldHaveColor(Colors.INFO);
-        table.columns().rows().row(2).shouldHaveColor(Colors.SUCCESS);
+        table.columns().rows().row(0).shouldHaveColor(ColorsEnum.DANGER);
+        table.columns().rows().row(1).shouldHaveColor(ColorsEnum.INFO);
+        table.columns().rows().row(2).shouldHaveColor(ColorsEnum.SUCCESS);
 
         for (int i = 0; i < 3; i++) {
             table.columns().rows().row(i).cell(0).shouldBeVisible();
@@ -155,7 +155,7 @@ class TableAT extends AutoTestBase {
         StandardButton button = toolbar.button("Кнопка");
         button.shouldExists();
         button.click();
-        page.alerts(Alert.Placement.topLeft).alert(0).shouldHaveTitle("Уведомление по кнопке");
+        page.alerts(Alert.PlacementEnum.topLeft).alert(0).shouldHaveTitle("Уведомление по кнопке");
 
         DropdownButton dropdownButton = toolbar.dropdown();
         dropdownButton.shouldExists();
@@ -164,7 +164,7 @@ class TableAT extends AutoTestBase {
 
         dropdownButton.menuItem("Кнопка1").shouldExists();
         dropdownButton.menuItem("Кнопка1").click();
-        page.alerts(Alert.Placement.topRight).alert(0).shouldHaveTitle("Уведомление по menu-item");
+        page.alerts(Alert.PlacementEnum.topRight).alert(0).shouldHaveTitle("Уведомление по menu-item");
 
     }
 

@@ -59,7 +59,7 @@ class CamundaDataProviderEngineTest {
     void getCountTasksTest() {
         when(taskQuery.count()).thenReturn(99L);
 
-        invocation.setOperation(N2oCamundaDataProvider.Operation.countTasks);
+        invocation.setOperation(N2oCamundaDataProvider.OperationEnum.countTasks);
         Object result = engine.invoke(invocation, new HashMap<>());
 
         assertThat(result, instanceOf(Long.class));
@@ -80,7 +80,7 @@ class CamundaDataProviderEngineTest {
                     put("salary", "100500");
                 }});
 
-        invocation.setOperation(N2oCamundaDataProvider.Operation.findTasks);
+        invocation.setOperation(N2oCamundaDataProvider.OperationEnum.findTasks);
         Map<String, Object> params = new HashMap<>();
         params.put("select", Collections.singletonList("position"));
 
@@ -104,7 +104,7 @@ class CamundaDataProviderEngineTest {
             put("salary", "100500");
         }});
 
-        invocation.setOperation(N2oCamundaDataProvider.Operation.getTask);
+        invocation.setOperation(N2oCamundaDataProvider.OperationEnum.getTask);
 
         Map<String, Object> params = new HashMap<String, Object>() {{
             put("id", "1-1");
@@ -117,7 +117,7 @@ class CamundaDataProviderEngineTest {
 
     @Test
     void setTaskVariablesTest() {
-        invocation.setOperation(N2oCamundaDataProvider.Operation.setTaskVariables);
+        invocation.setOperation(N2oCamundaDataProvider.OperationEnum.setTaskVariables);
 
         Map<String, Object> params = new HashMap<String, Object>() {{
             put("id", "3-3-3");
@@ -133,7 +133,7 @@ class CamundaDataProviderEngineTest {
 
     @Test
     void completeTaskVariablesTest() {
-        invocation.setOperation(N2oCamundaDataProvider.Operation.completeTask);
+        invocation.setOperation(N2oCamundaDataProvider.OperationEnum.completeTask);
 
         Map<String, Object> params = new HashMap<String, Object>() {{
             put("id", "3-4-5");
@@ -155,7 +155,7 @@ class CamundaDataProviderEngineTest {
             return res;
         });
 
-        invocation.setOperation(N2oCamundaDataProvider.Operation.startProcess);
+        invocation.setOperation(N2oCamundaDataProvider.OperationEnum.startProcess);
 
         Map<String, Object> params = new HashMap<String, Object>() {{
             put("id", "recruitment");

@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.header;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.autotest.api.component.header.MenuItem;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
@@ -24,7 +24,7 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
     }
 
     @Override
-    public void imageShouldHaveShape(ShapeType shape) {
+    public void imageShouldHaveShape(ShapeTypeEnum shape) {
         switch (shape) {
             case SQUARE:
                 checkShape(String.format("mr-2 n2o-nav-image %s", shape.getId()));

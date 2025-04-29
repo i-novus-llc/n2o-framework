@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.application;
 
-import net.n2oapp.framework.api.metadata.application.SidebarState;
+import net.n2oapp.framework.api.metadata.application.SidebarStateEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
@@ -56,7 +56,7 @@ class SidebarsAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.NONE);
+        page.sidebar().shouldHaveState(SidebarStateEnum.NONE);
     }
 
     @Test
@@ -74,7 +74,7 @@ class SidebarsAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.NONE);
+        page.sidebar().shouldHaveState(SidebarStateEnum.NONE);
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
         form.toolbar().bottomLeft().button("Open").click();
@@ -107,7 +107,7 @@ class SidebarsAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.NONE);
+        page.sidebar().shouldHaveState(SidebarStateEnum.NONE);
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
         form.toolbar().bottomLeft().button("Open").click();
@@ -140,7 +140,7 @@ class SidebarsAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.NONE);
+        page.sidebar().shouldHaveState(SidebarStateEnum.NONE);
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
         form.toolbar().bottomLeft().button("Open").click();
@@ -174,7 +174,7 @@ class SidebarsAT extends AutoTestBase {
         page.sidebar().shouldHaveTitle("Лого");
         page.sidebar().shouldHaveBrandLogo("images/logoWhite.png");
         header.switchSidebar();
-        page.sidebar().shouldHaveState(SidebarState.NONE);
+        page.sidebar().shouldHaveState(SidebarStateEnum.NONE);
         FormWidget form = page.widget(FormWidget.class);
         form.shouldExists();
         form.toolbar().bottomLeft().button("Open").click();
@@ -191,7 +191,7 @@ class SidebarsAT extends AutoTestBase {
         list.sidebar().shouldHaveTitle("Лист");
         list.sidebar().shouldHaveBrandLogo("images/logoList.png");
         openHeader.switchSidebar();
-        list.sidebar().shouldHaveState(SidebarState.NONE);
+        list.sidebar().shouldHaveState(SidebarStateEnum.NONE);
 
         form = list.widget(FormWidget.class);
         form.shouldExists();
@@ -234,7 +234,7 @@ class SidebarsAT extends AutoTestBase {
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/person/1/profile");
         page.breadcrumb().crumb(1).shouldHaveLabel("Страница профиля");
         sidebar.shouldExists();
-        sidebar.shouldHaveState(SidebarState.MINI);
+        sidebar.shouldHaveState(SidebarStateEnum.MINI);
         sidebar.shouldHaveTitle("test1");
         sidebar.shouldHaveSubtitle("type11");
         sidebar.clickToggleBtn();

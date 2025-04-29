@@ -4,11 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.domain.Domain;
+import net.n2oapp.framework.api.metadata.domain.DomainEnum;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -61,7 +61,7 @@ public class DomainProcessor {
                 return null;
             if (StringUtils.isEscapedString(strValue)) {
                 value = StringUtils.unwrapEscapedString(strValue);
-                domain = Domain.STRING.getName();
+                domain = DomainEnum.STRING.getName();
             }
         }
 
@@ -92,7 +92,7 @@ public class DomainProcessor {
      * @return Конвертированное значение
      * @throws ClassCastException Если конвертированное значение не соответствует классу
      */
-    public Object deserialize(Object value, Domain domain) {
+    public Object deserialize(Object value, DomainEnum domain) {
         return deserialize(value, domain != null ? domain.getName() : null);
     }
 
@@ -107,7 +107,7 @@ public class DomainProcessor {
     public Object deserialize(Object value, Class<?> clazz) {
         if (clazz.isEnum())
             return deserializeEnum(value, (Class<? extends Enum>) clazz);
-        Object result = deserialize(value, Domain.getByClass(clazz));
+        Object result = deserialize(value, DomainEnum.getByClass(clazz));
         if (result != null
                 && !StringUtils.isDynamicValue(result)
                 && !clazz.isAssignableFrom(result.getClass())) {
@@ -301,58 +301,58 @@ public class DomainProcessor {
         }
         if (value instanceof String strValue) {
             String val = strValue.toLowerCase();
-            if (val.equals("true") || val.equals("false")) return Domain.BOOLEAN.getName();
+            if (val.equals("true") || val.equals("false")) return DomainEnum.BOOLEAN.getName();
             if (val.length() <= 6 && val.chars().allMatch(Character::isDigit)) {
                 try {
                     Integer.parseInt(val);
                 } catch (NumberFormatException e) {
                     throw new N2oException("Value is not Integer [" + val + "]. Set domain explicitly!", e);
                 }
-                return Domain.INTEGER.getName();
+                return DomainEnum.INTEGER.getName();
             }
-            return Domain.STRING.getName();
+            return DomainEnum.STRING.getName();
         }
-        Domain domain = Domain.getByClass(value.getClass());//подбираем домен по классу значения
+        DomainEnum domain = DomainEnum.getByClass(value.getClass());//подбираем домен по классу значения
         return domain != null ? domain.getName() : null;
     }
 
     private Object toObject(String domain, String value) throws ParseException, IOException {
         if ((value == null) || (value.isEmpty()))
             return null;
-        if (Domain.STRING.getName().equals(domain))
+        if (DomainEnum.STRING.getName().equals(domain))
             return value;
-        if (Domain.BOOLEAN.getName().equals(domain))
+        if (DomainEnum.BOOLEAN.getName().equals(domain))
             return Boolean.parseBoolean(value);
-        if (Domain.DATE.getName().equals(domain))
+        if (DomainEnum.DATE.getName().equals(domain))
             return objectMapper.getDateFormat().parse(value);
-        if (Domain.ZONEDDATETIME.getName().equals(domain))
+        if (DomainEnum.ZONEDDATETIME.getName().equals(domain))
             return ZonedDateTime.parse(value, DateTimeFormatter.ISO_ZONED_DATE_TIME);
-        if (Domain.OFFSETDATETIME.getName().equals(domain))
+        if (DomainEnum.OFFSETDATETIME.getName().equals(domain))
             return OffsetDateTime.parse(value, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-        if (Domain.LOCALDATETIME.getName().equals(domain))
+        if (DomainEnum.LOCALDATETIME.getName().equals(domain))
             return LocalDateTime.parse(value, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        if (Domain.LOCALDATE.getName().equals(domain))
+        if (DomainEnum.LOCALDATE.getName().equals(domain))
             return LocalDate.parse(value, new DateTimeFormatterBuilder()
                     .append(ISO_LOCAL_DATE)
                     .optionalStart().appendLiteral('T')
                     .append(ISO_LOCAL_TIME).toFormatter());
-        if (Domain.BYTE.getName().equals(domain))
+        if (DomainEnum.BYTE.getName().equals(domain))
             return Byte.parseByte(value);
-        if (Domain.SHORT.getName().equals(domain))
+        if (DomainEnum.SHORT.getName().equals(domain))
             return Short.parseShort(value);
-        if (Domain.INTEGER.getName().equals(domain))
+        if (DomainEnum.INTEGER.getName().equals(domain))
             return Integer.parseInt(value);
-        if (Domain.LONG.getName().equals(domain))
+        if (DomainEnum.LONG.getName().equals(domain))
             return Long.parseLong(value);
-        if (Domain.NUMERIC.getName().equals(domain))
+        if (DomainEnum.NUMERIC.getName().equals(domain))
             return new BigDecimal(value.replace(",", "."));
-        if (Domain.OBJECT.getName().equals(domain))
+        if (DomainEnum.OBJECT.getName().equals(domain))
             return objectMapper.readValue(value, DataSet.class);
         return value;
     }
 
 
-    public static String getDomain(String simpleDomain, FilterType type) {
+    public static String getDomain(String simpleDomain, FilterTypeEnum type) {
         switch (type.arity) {
             case unary:
                 return simpleDomain;

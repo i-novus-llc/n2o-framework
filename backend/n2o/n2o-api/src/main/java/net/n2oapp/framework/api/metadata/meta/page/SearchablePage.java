@@ -28,7 +28,7 @@ public class SearchablePage extends StandardPage {
         @JsonProperty
         private String className;
         @JsonProperty
-        private TriggerType trigger;
+        private TriggerTypeEnum trigger;
         @JsonProperty
         private String placeholder;
         @JsonProperty
@@ -41,7 +41,7 @@ public class SearchablePage extends StandardPage {
         /**
          * Тригер вызова поиска
          */
-        public enum TriggerType {
+        public enum TriggerTypeEnum {
             CHANGE,
             ENTER,
             BUTTON

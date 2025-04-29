@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 @Setter
 public class ProgressBarCell extends AbstractCell {
     @JsonProperty
-    private N2oProgressBarCell.Size size;
+    private N2oProgressBarCell.SizeEnum size;
     @JsonProperty
     private Boolean striped;
     @JsonProperty("animated")

@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageDatasource;
-import net.n2oapp.framework.api.metadata.datasource.BrowserStorageType;
+import net.n2oapp.framework.api.metadata.datasource.BrowserStorageTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oBrowserStorageDatasource;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +37,7 @@ public class BrowserStorageDatasourceCompiler extends BaseDatasourceCompiler<N2o
         BrowserStorageDatasource.Provider provider = new BrowserStorageDatasource.Provider();
         provider.setKey(castDefault(source.getKey(), source.getId()));
         provider.setStorage(castDefault(source.getStorageType(),
-                () -> p.resolve(property("n2o.api.datasource.browser.storage_type"), BrowserStorageType.class)));
+                () -> p.resolve(property("n2o.api.datasource.browser.storage_type"), BrowserStorageTypeEnum.class)));
         return provider;
     }
 
@@ -48,8 +48,8 @@ public class BrowserStorageDatasourceCompiler extends BaseDatasourceCompiler<N2o
         submit.setKey(castDefault(source.getSubmit().getKey(), source.getKey(), source.getId()));
         submit.setAuto(castDefault(source.getSubmit().getAuto(),
                 () -> p.resolve(property("n2o.api.datasource.browser.submit.auto"), Boolean.class)));
-        submit.setModel(castDefault(source.getSubmit().getModel(), ReduxModel.resolve));
-        submit.setStorage(castDefault(source.getSubmit().getStorageType(), source.getStorageType(), BrowserStorageType.sessionStorage));
+        submit.setModel(castDefault(source.getSubmit().getModel(), ReduxModelEnum.resolve));
+        submit.setStorage(castDefault(source.getSubmit().getStorageType(), source.getStorageType(), BrowserStorageTypeEnum.sessionStorage));
         return submit;
     }
 }

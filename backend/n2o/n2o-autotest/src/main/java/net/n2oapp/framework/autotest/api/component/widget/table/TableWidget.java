@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.widget.table;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirectionEnum;
 import net.n2oapp.framework.autotest.api.collection.*;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
@@ -154,6 +154,6 @@ public interface TableWidget extends StandardWidget {
          * @param columnIndex номер колонки
          * @param direction   направление сортировки
          */
-        void columnShouldBeSortedBy(int columnIndex, SortingDirection direction);
+        void columnShouldBeSortedBy(int columnIndex, SortingDirectionEnum direction);
     }
 }

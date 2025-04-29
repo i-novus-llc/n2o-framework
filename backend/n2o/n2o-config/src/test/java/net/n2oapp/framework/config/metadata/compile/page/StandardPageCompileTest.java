@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -160,7 +159,7 @@ class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getPageProperty().getTitle(), is("Page {name}"));
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
         assertThat(page.getPageProperty().getDatasource(), is("testStandardPageTitle_ds1"));
-        assertThat(page.getPageProperty().getModel(), is(ReduxModel.resolve));
+        assertThat(page.getPageProperty().getModel(), is(ReduxModelEnum.resolve));
     }
 
     @Test
@@ -177,7 +176,7 @@ class StandardPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testBreadcrumb"));
 
         assertThat(page.getPageProperty().getDatasource(), is("testBreadcrumb_ds1"));
-        assertThat(page.getPageProperty().getModel(), is(ReduxModel.resolve));
+        assertThat(page.getPageProperty().getModel(), is(ReduxModelEnum.resolve));
         assertThat(page.getBreadcrumb().get(0).getLabel(), is("First page"));
         assertThat(page.getBreadcrumb().get(0).getPath(), is("/"));
         assertThat(page.getBreadcrumb().get(1).getLabel(), is("`'Second '+name1+' page'`"));

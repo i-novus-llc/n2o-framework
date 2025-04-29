@@ -42,7 +42,7 @@ public class N2oSidebar extends N2oMetadata implements DatasourceIdAware, Extens
     /**
      * Сторона появления боковой панели
      */
-    private SidebarSide side;
+    private SidebarSideEnum side;
     /**
      * Путь, по которому будет отображаться боковая панель
      */
@@ -66,11 +66,11 @@ public class N2oSidebar extends N2oMetadata implements DatasourceIdAware, Extens
     /**
      * Исходное состояние боковой панели
      */
-    private SidebarState defaultState;
+    private SidebarStateEnum defaultState;
     /**
      * Состояние боковой панели принимаемое при нажатии на иконку, задаваемую атрибутом sidebar-toggled-icon шапки
      */
-    private SidebarState toggledState;
+    private SidebarStateEnum toggledState;
     /**
      * Открывается ли панель по hover
      */

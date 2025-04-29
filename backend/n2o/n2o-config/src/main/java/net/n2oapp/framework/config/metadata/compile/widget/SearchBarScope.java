@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 
 /**
  * Информация о поисковой строке
@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 @Setter
 @NoArgsConstructor
 public class SearchBarScope {
-    private ReduxModel modelPrefix = ReduxModel.filter;
+    private ReduxModelEnum modelPrefix = ReduxModelEnum.filter;
     private String datasource;
     private String filterId;
     private String param;

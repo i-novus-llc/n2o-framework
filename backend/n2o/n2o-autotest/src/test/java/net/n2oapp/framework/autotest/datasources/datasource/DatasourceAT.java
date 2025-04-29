@@ -201,7 +201,7 @@ class DatasourceAT extends AutoTestBase {
         DateInput birthdayInput = page.regions().region(0, SimpleRegion.class).content().widget(2, FormWidget.class)
                 .fields().field("Дата рождения").control(DateInput.class);
         Button createButton = page.toolbar().bottomLeft().button("Создать");
-        Alert alert = page.alerts(Alert.Placement.top).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
 
         nameInput.click();
         nameInput.setValue(name);

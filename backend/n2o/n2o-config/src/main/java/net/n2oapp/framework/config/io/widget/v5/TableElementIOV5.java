@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.io.widget.v5;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggle;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPosition;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggleEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPositionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
@@ -45,11 +45,11 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attributeBoolean(e, "text-wrap", t::getTextWrap, t::setTextWrap);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns, columns(p));
         p.child(e, null, "filters", t::getFilters, t::setFilters, N2oTable.N2oTableFilters::new, this::filters);
-        p.attributeEnum(e, "children", t::getChildren, t::setChildren, ChildrenToggle.class);
+        p.attributeEnum(e, "children", t::getChildren, t::setChildren, ChildrenToggleEnum.class);
     }
 
     private void filters(Element e, N2oTable.N2oTableFilters f, IOProcessor p) {
-        p.attributeEnum(e, "place", f::getPlace, f::setPlace, FilterPosition.class);
+        p.attributeEnum(e, "place", f::getPlace, f::setPlace, FilterPositionEnum.class);
         p.attributeBoolean(e, "fetch-on-change", f::getFetchOnChange, f::setFetchOnChange);
         p.attributeBoolean(e, "fetch-on-clear", f::getFetchOnClear, f::setFetchOnClear);
         p.attribute(e, "datasource", f::getDatasourceId, f::setDatasourceId);
@@ -67,10 +67,10 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attribute(e, "tooltip-field-id", c::getTooltipFieldId, c::setTooltipFieldId);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
         p.attribute(e, "sorting-field-id", c::getSortingFieldId, c::setSortingFieldId);
-        p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, SortingDirection.class);
+        p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, SortingDirectionEnum.class);
         p.attribute(e, "width", c::getWidth, c::setWidth);
         p.attributeBoolean(e, "resizable", c::getResizable, c::setResizable);
-        p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPosition.class);
+        p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPositionEnum.class);
         p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(N2oBaseColumn.ColumnVisibility.class)
                 .add("visibility", N2oBaseColumn.ColumnVisibility.class, this::dependency));
         p.anyAttributes(e, c::getExtAttributes, c::setExtAttributes);
@@ -78,7 +78,7 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
 
     private void dependency(Element e, N2oBaseColumn.ColumnVisibility t, IOProcessor p) {
         p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
         p.text(e, t::getValue, t::setValue);
     }
 
@@ -121,7 +121,7 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attribute(e, "style", c::getStyle, c::setStyle);
         p.attribute(e, "visible", c::getVisible, c::setVisible);
         p.attribute(e, "width", c::getWidth, c::setWidth);
-        p.attributeEnum(e, "alignment", c::getAlignment, c::setAlignment, Alignment.class);
-        p.attributeEnum(e, "content-alignment", c::getContentAlignment, c::setContentAlignment, Alignment.class);
+        p.attributeEnum(e, "alignment", c::getAlignment, c::setAlignment, AlignmentEnum.class);
+        p.attributeEnum(e, "content-alignment", c::getContentAlignment, c::setContentAlignment, AlignmentEnum.class);
     }
 }

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.component;
 
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 
 import java.time.Duration;
 
@@ -54,7 +54,7 @@ public interface DropDownTree extends Component {
         }
 
         @Override
-        default void shouldHaveStatusColor(Colors color) {
+        default void shouldHaveStatusColor(ColorsEnum color) {
             throw new UnsupportedOperationException();
         }
 

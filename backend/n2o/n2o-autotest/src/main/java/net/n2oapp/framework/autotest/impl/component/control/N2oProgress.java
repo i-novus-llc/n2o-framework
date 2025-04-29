@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.control.Progress;
 
 import java.time.Duration;
@@ -43,7 +43,7 @@ public class N2oProgress extends N2oControl implements Progress {
     }
 
     @Override
-    public void shouldHaveColor(Colors color) {
+    public void shouldHaveColor(ColorsEnum color) {
         progressBar().shouldHave(Condition.cssClass(color.name("bg-")));
     }
 

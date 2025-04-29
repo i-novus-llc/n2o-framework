@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
@@ -21,7 +21,6 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -70,7 +69,7 @@ class IntervalFieldCompileTest extends SourceCompileTestBase {
 
         ActionContext actionContext = (ActionContext)route("/testIntervalField/submit", CompiledObject.class);
         List<Validation> serverValidations = actionContext.getValidations();
-        assertThat(serverValidations.get(0).getSeverity(), is(SeverityType.danger));
+        assertThat(serverValidations.get(0).getSeverity(), is(SeverityTypeEnum.danger));
         assertThat(serverValidations.get(0).getFieldId(), is("range"));
 
         assertThat(page.getModels().get("resolve['testIntervalField_w1'].range.begin").getValue(), is(5));

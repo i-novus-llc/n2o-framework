@@ -3,7 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.button;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.autotest.BadgePosition;
+import net.n2oapp.framework.autotest.BadgePositionEnum;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import org.openqa.selenium.interactions.Actions;
 
@@ -36,7 +36,7 @@ public class N2oStandardButton extends N2oButton implements StandardButton {
     }
 
     @Override
-    public void badgeShouldHavePosition(BadgePosition position) {
+    public void badgeShouldHavePosition(BadgePositionEnum position) {
         shouldHaveCssClass(position.name("btn-badge-position--"));
     }
 

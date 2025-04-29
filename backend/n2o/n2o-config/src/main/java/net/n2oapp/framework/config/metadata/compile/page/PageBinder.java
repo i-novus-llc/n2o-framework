@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
@@ -122,7 +122,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                         data.forEach((k, v) -> {
                             //todo NNO-7523   && !p.canResolveParam(f.getParam())
                             if (v != null) {
-                                page.getModels().add(ReduxModel.filter, w.getDatasource(), k, new ModelLink(v));
+                                page.getModels().add(ReduxModelEnum.filter, w.getDatasource(), k, new ModelLink(v));
                             }
                         });
                     }

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 
@@ -12,11 +12,11 @@ import java.util.Map;
  */
 public class ModelsScope {
 
-    private ReduxModel model;
+    private ReduxModelEnum model;
     private String globalDatasource;
     private Models models;
 
-    public ModelsScope(ReduxModel model, String globalDatasource, Models models) {
+    public ModelsScope(ReduxModelEnum model, String globalDatasource, Models models) {
         this.model = model;
         this.globalDatasource = globalDatasource;
         this.models = models;

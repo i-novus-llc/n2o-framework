@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 
 /**
  * Клиентская модель компонента отображения статуса
@@ -16,5 +16,5 @@ public class Status extends Field {
     @JsonProperty
     private String text;
     @JsonProperty
-    private Position textPosition;
+    private PositionEnum textPosition;
 }

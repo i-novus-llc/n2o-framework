@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
@@ -108,17 +108,17 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
 
     private void compileLinkConditions(N2oTabsRegion.Tab source, TabsRegion.Tab tab, CompileProcessor p) {
         if (isLink(source.getVisible()))
-            compileLink(tab, ValidationType.visible, source.getVisible(), ReduxModel.resolve);
+            compileLink(tab, ValidationTypeEnum.visible, source.getVisible(), ReduxModelEnum.resolve);
         else
             tab.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
 
         if (isLink(source.getEnabled()))
-            compileLink(tab, ValidationType.enabled, source.getEnabled(), ReduxModel.resolve);
+            compileLink(tab, ValidationTypeEnum.enabled, source.getEnabled(), ReduxModelEnum.resolve);
         else
             tab.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
     }
 
-    private void compileLink(TabsRegion.Tab tab, ValidationType type, String linkCondition, ReduxModel model) {
+    private void compileLink(TabsRegion.Tab tab, ValidationTypeEnum type, String linkCondition, ReduxModelEnum model) {
         if (tab.getDatasource() == null)
             throw new N2oException(
                     String.format("Для вкладки '%s' не может быть реализовано условие 'visible'/'enabled', т.к. не задан 'datasource'",

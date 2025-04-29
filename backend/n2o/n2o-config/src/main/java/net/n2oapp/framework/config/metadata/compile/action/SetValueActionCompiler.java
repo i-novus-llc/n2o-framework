@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.action.MergeMode;
+import net.n2oapp.framework.api.metadata.action.MergeModeEnum;
 import net.n2oapp.framework.api.metadata.action.N2oSetValueAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -35,7 +35,7 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
                 () -> p.resolve(property("n2o.api.action.set_value.validate"), Boolean.class)));
 
         String defaultDatasource = getClientDatasourceId(getLocalDatasourceId(p), p);
-        ReduxModel model = getModelFromComponentScope(p);
+        ReduxModelEnum model = getModelFromComponentScope(p);
 
         String sourceDatasourceId = source.getSourceDatasourceId() == null ? defaultDatasource :
                 getClientDatasourceId(source.getSourceDatasourceId(), p);
@@ -50,7 +50,7 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         setValueAction.getPayload().setTarget(targetModel);
 
         setValueAction.getPayload().setSourceMapper(ScriptProcessor.resolveFunction(source.getExpression()));
-        setValueAction.getPayload().setMode(castDefault(source.getMergeMode(), MergeMode.replace));
+        setValueAction.getPayload().setMode(castDefault(source.getMergeMode(), MergeModeEnum.replace));
 
         return setValueAction;
     }

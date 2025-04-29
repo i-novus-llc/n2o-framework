@@ -2,7 +2,7 @@ package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.ContextEngine;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.processing.DataProcessing;
@@ -134,7 +134,7 @@ class DataControllerTest extends DataControllerTestBase {
         assertThat(response.getMeta().getMessages().getForm(), is("page_w1"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(1));
         assertThat(response.getMeta().getMessages().getFields().get("id7").getField(), is("id7"));
-        assertThat(response.getMeta().getMessages().getFields().get("id7").getSeverity(), is(SeverityType.danger.getId()));
+        assertThat(response.getMeta().getMessages().getFields().get("id7").getSeverity(), is(SeverityTypeEnum.danger.getId()));
     }
 
     /**

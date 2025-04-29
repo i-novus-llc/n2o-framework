@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.cell.v2;
 
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -17,7 +17,7 @@ public class LinkCellElementIOv2 extends AbstractActionCellElementIOv2<N2oLinkCe
         super.io(e, c, p);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
         p.attribute(e, "url", c::getUrl, c::setUrl);
-        p.attributeEnum(e, "target", c::getTarget, c::setTarget, Target.class);
+        p.attributeEnum(e, "target", c::getTarget, c::setTarget, TargetEnum.class);
     }
 
     @Override

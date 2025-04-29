@@ -70,7 +70,7 @@ public final class InfoConstructor extends XmlInfo {
         this.uri = uri;
     }
 
-    public void setOrigin(Origin origin) {
+    public void setOrigin(OriginEnum origin) {
         this.origin = origin;
     }
 

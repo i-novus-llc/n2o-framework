@@ -33,7 +33,7 @@ public interface Drawer extends Component {
      * Проверка соответствия положения окна
      * @param placement ожидаемое положение окна
      */
-    void shouldHavePlacement(Placement placement);
+    void shouldHavePlacement(PlacementEnum placement);
 
     /**
      * Проверка соответствия ширины выезжаемого окна
@@ -82,7 +82,7 @@ public interface Drawer extends Component {
      */
     void scrollDown();
 
-    enum Placement {
+    enum PlacementEnum {
         left, top, bottom, right
     }
 

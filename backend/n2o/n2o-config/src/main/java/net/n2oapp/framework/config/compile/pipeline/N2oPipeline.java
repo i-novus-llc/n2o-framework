@@ -26,7 +26,7 @@ public abstract class N2oPipeline implements Pipeline {
         this.env = env;
     }
 
-    protected void pullOp(PipelineOperationType type) {
+    protected void pullOp(PipelineOperationTypeEnum type) {
         pullOp(env.getPipelineOperationFactory().produce(type));
     }
 

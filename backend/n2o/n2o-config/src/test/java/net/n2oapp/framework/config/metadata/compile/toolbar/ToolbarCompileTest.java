@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -86,24 +86,24 @@ class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b1.getId(), is("testId1"));
         assertThat(b1.getRounded(), is(true));
         assertThat(b1.getAction(), notNullValue());
-        assertThat(b1.getConditions().get(ValidationType.enabled).size(), is(1));
-        assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("!$.isEmptyModel(this)"));
-        assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testToolbar_w1']"));
+        assertThat(b1.getConditions().get(ValidationTypeEnum.enabled).size(), is(1));
+        assertThat(b1.getConditions().get(ValidationTypeEnum.enabled).get(0).getExpression(), is("!$.isEmptyModel(this)"));
+        assertThat(b1.getConditions().get(ValidationTypeEnum.enabled).get(0).getModelLink(), is("models.resolve['testToolbar_w1']"));
 
         AbstractButton b2 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(0);
         assertThat(b2.getId(), is("testId2"));
         assertThat(b2.getRounded(), is(false));
         assertThat(b2.getAction(), notNullValue());
         assertThat(b2.getLabel(), is("Label1"));
-        assertThat(b2.getConditions().get(ValidationType.enabled), nullValue());
+        assertThat(b2.getConditions().get(ValidationTypeEnum.enabled), nullValue());
 
         AbstractButton b3 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(1);
         assertThat(b3.getId(), is("testId3"));
         assertThat(f.getToolbar().getButton("testId3"), notNullValue());
-        assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
+        assertThat(b3.getConditions().get(ValidationTypeEnum.enabled).size(), is(1));
         assertThat(b3.getSrc(), is("StandardButton"));
         assertThat(((LinkAction) b3.getAction()).getUrl(), is("http://example.com"));
-        assertThat(((LinkAction) b3.getAction()).getTarget(), is(Target.self));
+        assertThat(((LinkAction) b3.getAction()).getTarget(), is(TargetEnum.self));
 
         AbstractButton b7 = f.getToolbar().get("topLeft").get(0).getButtons().get(1);
         assertThat(b7.getId(), is("testId4"));

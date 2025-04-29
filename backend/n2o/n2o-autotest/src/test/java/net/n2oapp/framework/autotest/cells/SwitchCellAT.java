@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.cell.BadgeCell;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.cell.IconCell;
@@ -57,7 +57,7 @@ class SwitchCellAT extends AutoTestBase {
         BadgeCell cell1 = rows.row(0).cell(0, BadgeCell.class);
         cell1.shouldExists();
         cell1.badgeShouldHaveText("test1");
-        cell1.shouldHaveColor(Colors.INFO);
+        cell1.shouldHaveColor(ColorsEnum.INFO);
         IconCell cell2 = rows.row(1).cell(0, IconCell.class);
         cell2.shouldExists();
         cell2.shouldHaveText("test2");

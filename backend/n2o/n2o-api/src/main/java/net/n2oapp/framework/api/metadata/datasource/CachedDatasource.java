@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
@@ -32,7 +32,7 @@ public class CachedDatasource extends AbstractDatasource {
         @JsonProperty
         private String key;
         @JsonProperty
-        private BrowserStorageType storage;
+        private BrowserStorageTypeEnum storage;
         @JsonProperty
         private String cacheExpires;
         @JsonProperty
@@ -55,8 +55,8 @@ public class CachedDatasource extends AbstractDatasource {
         @JsonProperty
         private String key;
         @JsonProperty
-        private ReduxModel model;
+        private ReduxModelEnum model;
         @JsonProperty
-        private BrowserStorageType storage;
+        private BrowserStorageTypeEnum storage;
     }
 }

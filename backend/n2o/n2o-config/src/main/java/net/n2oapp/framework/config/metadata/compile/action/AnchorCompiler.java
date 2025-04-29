@@ -2,13 +2,13 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
@@ -46,9 +46,9 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
 
         String path = source.getHref();
-        Target target = castDefault(source.getTarget(), Target.self);
+        TargetEnum target = castDefault(source.getTarget(), TargetEnum.self);
         if (!StringUtils.isLink(source.getHref())) {
-            if (Target.application.equals(target)) {
+            if (TargetEnum.application.equals(target)) {
                 path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null);
             }
             path = RouteUtil.normalize(path);
@@ -65,7 +65,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         linkAction.setUrl(resolvedPath);
         if (StringUtils.isJs(resolvedPath)) {
             String datasourceId = castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p));
-            ReduxModel reduxModel = castDefault(source.getModel(), () -> getLocalModel(p));
+            ReduxModelEnum reduxModel = castDefault(source.getModel(), () -> getLocalModel(p));
             if (datasourceId == null) {
                 throw new N2oException("Источник данных не найден для действия \"<a>\" со связанным 'href' " + source.getHref());
             }

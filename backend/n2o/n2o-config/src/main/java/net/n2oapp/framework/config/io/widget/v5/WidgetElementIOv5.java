@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.widget.v5;
 
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -52,7 +52,7 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
 
     private void dependency(Element e, N2oDependency t, IOProcessor p) {
         p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
         p.text(e, t::getValue, t::setValue);
     }
 

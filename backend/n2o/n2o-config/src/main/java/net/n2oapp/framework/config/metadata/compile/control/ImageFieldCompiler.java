@@ -5,12 +5,12 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oImageField;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElement;
-import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlace;
+import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlaceEnum;
 import net.n2oapp.framework.api.metadata.meta.control.ImageField;
-import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
+import net.n2oapp.framework.api.metadata.meta.control.TextPositionEnum;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -42,11 +42,11 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
         imageField.setTitle(p.resolveJS(source.getTitle()));
         imageField.setDescription(p.resolveJS(source.getDescription()));
         imageField.setTextPosition(castDefault(source.getTextPosition(),
-                () -> p.resolve(property("n2o.api.control.image.text_position"), TextPosition.class)));
+                () -> p.resolve(property("n2o.api.control.image.text_position"), TextPositionEnum.class)));
         imageField.setWidth(prepareSizeAttribute(castDefault(source.getWidth(),
                 () -> p.resolve(property("n2o.api.control.image.width"), String.class))));
         imageField.setShape(castDefault(source.getShape(),
-                () -> p.resolve(property("n2o.api.control.image.shape"), ShapeType.class)));
+                () -> p.resolve(property("n2o.api.control.image.shape"), ShapeTypeEnum.class)));
         imageField.setStatuses(compileStatuses(source.getStatuses(), p));
         compileAction(source, imageField, context, p);
         return imageField;
@@ -63,7 +63,7 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
             statusElement.setFieldId(e.getFieldId());
             statusElement.setIcon(p.resolveJS(e.getIcon()));
             statusElement.setPlace(castDefault(e.getPlace(),
-                    () -> p.resolve(property("n2o.api.control.image.status.place"), ImageStatusElementPlace.class)));
+                    () -> p.resolve(property("n2o.api.control.image.status.place"), ImageStatusElementPlaceEnum.class)));
             statusElements[i++] = statusElement;
         }
         return statusElements;

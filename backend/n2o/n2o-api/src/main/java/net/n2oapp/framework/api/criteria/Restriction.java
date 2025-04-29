@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.criteria;
 
 import lombok.Getter;
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 
 import java.util.Objects;
 
@@ -20,12 +20,12 @@ public class Restriction extends Filter {
         this.fieldId = fieldId;
     }
 
-    public Restriction(String fieldId, Object value, FilterType type) {
+    public Restriction(String fieldId, Object value, FilterTypeEnum type) {
         super(value, type);
         this.fieldId = fieldId;
     }
 
-    public Restriction(String id, String fieldId, Object value, FilterType type) {
+    public Restriction(String id, String fieldId, Object value, FilterTypeEnum type) {
         super(value, type);
         this.fieldId = fieldId;
         this.id = id;

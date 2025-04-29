@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.control.list.ListType;
+import net.n2oapp.framework.api.metadata.control.list.ListTypeEnum;
 
 /**
  * Клиентская модель компонента выбора из выпадающего списка
@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.control.list.ListType;
 @Setter
 public class Select extends ListControl {
     @JsonProperty
-    private ListType type;
+    private ListTypeEnum type;
     @JsonProperty
     private Boolean cleanable;
     @JsonProperty

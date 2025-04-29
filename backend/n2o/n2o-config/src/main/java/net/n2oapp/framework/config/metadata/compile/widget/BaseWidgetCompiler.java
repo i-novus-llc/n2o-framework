@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oCachedDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -92,7 +92,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (isNull(source.getDatasourceId())) {
             if (isNull(source.getDatasource())) {
                 datasource = new N2oStandardDatasource();
-                ((N2oStandardDatasource) datasource).setDefaultValuesMode(DefaultValuesMode.defaults);
+                ((N2oStandardDatasource) datasource).setDefaultValuesMode(DefaultValuesModeEnum.defaults);
             } else {
                 datasource = source.getDatasource();
                 source.setDatasource(null);
@@ -213,7 +213,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 String datasourceId = dep.getDatasource() == null ? compiled.getDatasource() :
                         getClientDatasourceId(dep.getDatasource(), p);
                 ModelLink link = new ModelLink(
-                        castDefault(dep.getModel(), ReduxModel.resolve),
+                        castDefault(dep.getModel(), ReduxModelEnum.resolve),
                         datasourceId);
                 condition.setOn(link.getBindLink());
                 if (dep instanceof N2oVisibilityDependency) {

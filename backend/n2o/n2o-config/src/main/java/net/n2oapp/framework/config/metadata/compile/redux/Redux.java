@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.redux;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
@@ -32,7 +32,7 @@ public abstract class Redux {
      * @return Redux действие
      */
     @Deprecated
-    public static BindLink createBindLink(String datasource, ReduxModel model, String field) {
+    public static BindLink createBindLink(String datasource, ReduxModelEnum model, String field) {
         //todo если поле genders*.id то нужно его превращать через js в массив и сетить в value
         return new ModelLink(model, datasource, field);
     }
@@ -45,7 +45,7 @@ public abstract class Redux {
      * @return Redux действие
      */
     @Deprecated
-    public static BindLink createBindLink(String datasource, ReduxModel model) {
+    public static BindLink createBindLink(String datasource, ReduxModelEnum model) {
         return new ModelLink(model, datasource);
     }
 
@@ -78,14 +78,14 @@ public abstract class Redux {
      */
     public static BindLink createBindLink(ReduxAction reduxAction) {
         if (reduxAction.getType().equals("n2o/widgets/CHANGE_SELECTED_ID")) {
-            ReduxModel reduxModel = ReduxModel.resolve;
+            ReduxModelEnum reduxModel = ReduxModelEnum.resolve;
             //todo нужна типизация по widgetId и field
             String widgetId = ((SelectedWidgetPayload) reduxAction.getPayload()).getWidgetId();
             return createBindLink(widgetId, reduxModel, "id");
         } else {
             if (reduxAction.getType().equals("n2o/models/UPDATE")) {
                 UpdateModelPayload payload = (UpdateModelPayload) reduxAction.getPayload();
-                return createBindLink(payload.getKey(), ReduxModel.valueOf(payload.getPrefix().toUpperCase()), payload.getField());
+                return createBindLink(payload.getKey(), ReduxModelEnum.valueOf(payload.getPrefix().toUpperCase()), payload.getField());
             } else {
                 throw new UnsupportedOperationException("Redux action type " + reduxAction.getType() + " unsupported");
             }
@@ -99,7 +99,7 @@ public abstract class Redux {
      * @param paging       Тип параметра
      * @return Ссылка на параметры пагинации
      */
-    public static BindLink createRoutablePagingLink(String datasourceId, RoutablePayload.Paging paging) {
+    public static BindLink createRoutablePagingLink(String datasourceId, RoutablePayload.PagingEnum paging) {
         return new BindLink("datasource." + datasourceId + ".paging." + paging.toString());
     }
 
@@ -131,7 +131,7 @@ public abstract class Redux {
      * @param value    Значение
      * @return Redux действие
      */
-    public static ReduxAction dispatchUpdateModel(String widgetId, ReduxModel model, String field, Object value) {
+    public static ReduxAction dispatchUpdateModel(String widgetId, ReduxModelEnum model, String field, Object value) {
         UpdateModelPayload payload = new UpdateModelPayload(model.getId(), widgetId, field, value);
         return new ReduxAction("n2o/models/UPDATE", payload);
     }

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.api.metadata.aware;
 
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.Map;
@@ -22,9 +22,9 @@ public interface UrlAware {
      */
     void setUrl(String url);
 
-    Target getTarget();
+    TargetEnum getTarget();
 
-    void setTarget(Target target);
+    void setTarget(TargetEnum target);
 
     Map<String, ModelLink> getPathMapping();
     void setPathMapping(Map<String, ModelLink> pathMapping);

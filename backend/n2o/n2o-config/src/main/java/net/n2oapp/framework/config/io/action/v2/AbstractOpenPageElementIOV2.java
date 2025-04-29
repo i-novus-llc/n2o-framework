@@ -1,14 +1,14 @@
 package net.n2oapp.framework.config.io.action.v2;
 
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPathParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQueryParam;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.datasource.DatasourceIOv1;
@@ -27,12 +27,12 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attribute(e, "page-name", op::getPageName, op::setPageName);
         p.attribute(e, "submit-operation-id", op::getSubmitOperationId, op::setSubmitOperationId);
         p.attribute(e, "submit-label", op::getSubmitLabel, op::setSubmitLabel);
-        p.attributeEnum(e, "submit-model", op::getSubmitModel, op::setSubmitModel, ReduxModel.class);
-        p.attributeEnum(e, "target", op::getTarget, op::setTarget, Target.class);
+        p.attributeEnum(e, "submit-model", op::getSubmitModel, op::setSubmitModel, ReduxModelEnum.class);
+        p.attributeEnum(e, "target", op::getTarget, op::setTarget, TargetEnum.class);
         p.attribute(e, "object-id", op::getObjectId, op::setObjectId);
         p.attributeBoolean(e, "close-after-submit", op::getCloseAfterSubmit, op::setCloseAfterSubmit);
         p.attribute(e, "redirect-url-after-submit", op::getRedirectUrlAfterSubmit, op::setRedirectUrlAfterSubmit);
-        p.attributeEnum(e, "redirect-target-after-submit", op::getRedirectTargetAfterSubmit, op::setRedirectTargetAfterSubmit, Target.class);
+        p.attributeEnum(e, "redirect-target-after-submit", op::getRedirectTargetAfterSubmit, op::setRedirectTargetAfterSubmit, TargetEnum.class);
         p.attributeBoolean(e, "refresh-after-submit", op::getRefreshAfterSubmit, op::setRefreshAfterSubmit);
         p.attributeBoolean(e, "refresh-on-close", op::getRefreshOnClose, op::setRefreshOnClose);
         p.attributeArray(e, "refresh-datasources", ",", op::getRefreshDatasourceIds, op::setRefreshDatasourceIds);
@@ -61,7 +61,7 @@ public abstract class AbstractOpenPageElementIOV2<T extends N2oAbstractPageActio
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
         p.attribute(e, "datasource", param::getDatasourceId, param::setDatasourceId);
-        p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModelEnum.class);
     }
 
     private void action(Element e, ActionBar a, IOProcessor p) {

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageCell;
 import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -70,7 +70,7 @@ class TilesWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(tiles.getPaging().getNext(), is(true));
         assertThat(tiles.getPaging().getPrev(), is(true));
-        assertThat(tiles.getPaging().getShowCount(), is(ShowCountType.NEVER));
+        assertThat(tiles.getPaging().getShowCount(), is(ShowCountTypeEnum.NEVER));
         assertThat(tiles.getPaging().getShowLast(), is(true));
         assertThat(tiles.getPaging().getSrc(), is("pagingSrc"));
 
@@ -86,7 +86,7 @@ class TilesWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(tiles.getPaging().getNext(), is(false));
         assertThat(tiles.getPaging().getPrev(), is(false));
-        assertThat(tiles.getPaging().getShowCount(), is(ShowCountType.ALWAYS));
+        assertThat(tiles.getPaging().getShowCount(), is(ShowCountTypeEnum.ALWAYS));
         assertThat(tiles.getPaging().getSize(), is(10));
     }
 }

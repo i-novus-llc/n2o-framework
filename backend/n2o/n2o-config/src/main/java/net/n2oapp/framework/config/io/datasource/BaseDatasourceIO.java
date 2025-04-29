@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.datasource;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -28,7 +28,7 @@ public abstract class BaseDatasourceIO<T extends N2oDatasource> extends Abstract
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attribute(e, "datasource", pf::getDatasourceId, pf::setDatasourceId);
-        p.attributeEnum(e, "model", pf::getModel, pf::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", pf::getModel, pf::setModel, ReduxModelEnum.class);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
@@ -39,14 +39,14 @@ public abstract class BaseDatasourceIO<T extends N2oDatasource> extends Abstract
 
     private void fetch(Element e, N2oDatasource.FetchDependency t, IOProcessor p) {
         dependency(e, t, p);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModel.class);
+        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
     }
 
     private void copy(Element e, N2oDatasource.CopyDependency c, IOProcessor p) {
         dependency(e, c, p);
         p.attribute(e, "target-field-id", c::getTargetFieldId, c::setTargetFieldId);
-        p.attributeEnum(e, "target-model", c::getTargetModel, c::setTargetModel, ReduxModel.class);
-        p.attributeEnum(e, "source-model", c::getSourceModel, c::setSourceModel, ReduxModel.class);
+        p.attributeEnum(e, "target-model", c::getTargetModel, c::setTargetModel, ReduxModelEnum.class);
+        p.attributeEnum(e, "source-model", c::getSourceModel, c::setSourceModel, ReduxModelEnum.class);
         p.attribute(e, "source-field-id", c::getSourceFieldId, c::setSourceFieldId);
         p.attributeBoolean(e, "submit", c::getSubmit, c::setSubmit);
         p.attributeBoolean(e, "apply-on-init", c::getApplyOnInit, c::setApplyOnInit);

@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
-import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLegendIconType;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLegendIconTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.LineChart;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -47,7 +47,7 @@ class StandardChartCompileTest extends SourceCompileTestBase {
         assertThat(chart1.getGrid().getStrokeDashArray(), is("3 3"));
         assertThat(chart1.getGrid().getHorizontal(), is(false));
         assertThat(chart1.getGrid().getVertical(), is(false));
-        assertThat(chart1.getLegend().getIconType(), is(ChartLegendIconType.diamond));
+        assertThat(chart1.getLegend().getIconType(), is(ChartLegendIconTypeEnum.diamond));
         assertThat(chart1.getTooltip().getSeparator(), is(":"));
 
         LineChart chart2 = (LineChart) ((Chart) page.getRegions().get("single").get(0).getContent().get(1)).getComponent();
@@ -57,7 +57,7 @@ class StandardChartCompileTest extends SourceCompileTestBase {
         assertThat(chart2.getYAxis().getHasLabel(), is(false));
         assertThat(chart2.getGrid().getHorizontal(), is(true));
         assertThat(chart2.getGrid().getVertical(), is(true));
-        assertThat(chart2.getLegend().getIconType(), is(ChartLegendIconType.line));
+        assertThat(chart2.getLegend().getIconType(), is(ChartLegendIconTypeEnum.line));
         assertThat(chart2.getTooltip().getSeparator(), is(" "));
     }
 }

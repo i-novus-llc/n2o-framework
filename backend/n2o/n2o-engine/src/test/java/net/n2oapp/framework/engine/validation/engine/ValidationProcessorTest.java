@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oValidationException;
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -22,8 +22,8 @@ import org.junit.jupiter.api.Test;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static net.n2oapp.framework.api.exception.SeverityType.*;
-import static net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation.ServerMoment.*;
+import static net.n2oapp.framework.api.exception.SeverityTypeEnum.*;
+import static net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation.ServerMomentEnum.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
 class ValidationProcessorTest {
 
     /**
-     * Проверка сортировки валидаций. Заданы все типы SeverityType, Field/Widget, тип валидации
+     * Проверка сортировки валидаций. Заданы все типы SeverityTypeEnum, Field/Widget, тип валидации
      * <p>
      * Порядок сортировки:
      * Danger - Field - Mandatory
@@ -95,99 +95,99 @@ class ValidationProcessorTest {
         Iterator<Validation> iterator = Validator.newBuilder().addValidations(validations).build().iterator();
 
         Validation validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.danger));
         assertThat(validation.getType(), is("required"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.danger));
         assertThat(validation.getType(), is("condition"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.danger));
         assertThat(validation.getType(), is("constraint"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.danger));
         assertThat(validation.getType(), is("required"));
         assertThat(validation.isForField(), is(false));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.danger));
         assertThat(validation.getType(), is("condition"));
         assertThat(validation.isForField(), is(false));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.danger));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.danger));
         assertThat(validation.getType(), is("constraint"));
         assertThat(validation.isForField(), is(false));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.warning));
         assertThat(validation.getType(), is("required"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.warning));
         assertThat(validation.getType(), is("condition"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.warning));
         assertThat(validation.getType(), is("constraint"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.warning));
         assertThat(validation.getType(), is("required"));
         assertThat(validation.isForField(), is(false));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.warning));
         assertThat(validation.getType(), is("condition"));
         assertThat(validation.isForField(), is(false));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.warning));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.warning));
         assertThat(validation.getType(), is("constraint"));
         assertThat(validation.isForField(), is(false));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.info));
         assertThat(validation.getType(), is("required"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.info));
         assertThat(validation.getType(), is("condition"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.info));
         assertThat(validation.getType(), is("constraint"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.info));
         assertThat(validation.getType(), is("required"));
         assertThat(validation.isForField(), is(false));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.info));
         assertThat(validation.getType(), is("condition"));
         assertThat(validation.isForField(), is(false));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.info));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.info));
         assertThat(validation.getType(), is("constraint"));
         assertThat(validation.isForField(), is(false));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.success));
         assertThat(validation.getType(), is("required"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.success));
         assertThat(validation.getType(), is("condition"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.success));
         assertThat(validation.getType(), is("constraint"));
         assertThat(validation.isForField(), is(true));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.success));
         assertThat(validation.getType(), is("required"));
         assertThat(validation.isForField(), is(false));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.success));
         assertThat(validation.getType(), is("condition"));
         assertThat(validation.isForField(), is(false));
         validation = iterator.next();
-        assertThat(validation.getSeverity(), is(SeverityType.success));
+        assertThat(validation.getSeverity(), is(SeverityTypeEnum.success));
         assertThat(validation.getType(), is("constraint"));
         assertThat(validation.isForField(), is(false));
 
@@ -207,10 +207,10 @@ class ValidationProcessorTest {
         StandardField f = new StandardField();
         f.setControl(new InputText());
         f.getControl().setId("id");
-        Validation mandatory = mandatoryValidation("id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        Validation mandatory = mandatoryValidation("id", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation);
 
         ((MandatoryValidation) mandatory).setField(f);
-        Validation condition = conditionValidation(null, "id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "id !== null");
+        Validation condition = conditionValidation(null, "id", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation, "id !== null");
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(mandatory, condition));
@@ -232,8 +232,8 @@ class ValidationProcessorTest {
         dataSet.put("id", null);
         dataSet.put("name", null);
 
-        Validation condition1 = conditionValidation(null, "id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "id !== null");
-        Validation condition2 = conditionValidation(null, "id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "name !== null");
+        Validation condition1 = conditionValidation(null, "id", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation, "id !== null");
+        Validation condition2 = conditionValidation(null, "id", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation, "name !== null");
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
 
@@ -259,14 +259,14 @@ class ValidationProcessorTest {
         StandardField f1 = new StandardField();
         f1.setControl(new InputText());
         f1.getControl().setId("id");
-        Validation mandatory1 = mandatoryValidation("id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        Validation mandatory1 = mandatoryValidation("id", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation);
         mandatory1.setFieldId("id");
         ((MandatoryValidation) mandatory1).setField(f1);
 
         StandardField f2 = new StandardField();
         f2.setControl(new InputText());
         f2.getControl().setId("widgetId");
-        Validation mandatory2 = mandatoryValidation("id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        Validation mandatory2 = mandatoryValidation("id", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation);
         mandatory2.setFieldId("widgetId");
         ((MandatoryValidation) mandatory2).setField(f2);
 
@@ -286,8 +286,8 @@ class ValidationProcessorTest {
     void testDangerValidations() {
         ValidationProcessor processor = new ValidationProcessor(null);
 
-        MandatoryValidation mandatory1 = mandatoryValidation("id", SeverityType.danger, N2oValidation.ServerMoment.beforeOperation);
-        MandatoryValidation mandatory2 = mandatoryValidation("name", SeverityType.danger, N2oValidation.ServerMoment.beforeOperation);
+        MandatoryValidation mandatory1 = mandatoryValidation("id", SeverityTypeEnum.danger, N2oValidation.ServerMomentEnum.beforeOperation);
+        MandatoryValidation mandatory2 = mandatoryValidation("name", SeverityTypeEnum.danger, N2oValidation.ServerMomentEnum.beforeOperation);
 
         StandardField f1 = new StandardField();
         f1.setControl(new InputText());
@@ -332,7 +332,7 @@ class ValidationProcessorTest {
         ValidationProcessor processor = new ValidationProcessor(null);
 
         ConditionValidation condition1 = conditionValidation("checkEmailContainsAt", null,
-                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "email.indexOf('@') > -1");
+                SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation, "email.indexOf('@') > -1");
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(condition1));
@@ -372,11 +372,11 @@ class ValidationProcessorTest {
         ValidationProcessor processor = new ValidationProcessor(null);
 
         ConditionValidation condition1 = conditionValidation("checkEmailContainsAt1", "email",
-                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "email.indexOf('@') > -1");
+                SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation, "email.indexOf('@') > -1");
         ConditionValidation condition2 = conditionValidation("checkEmailContainsAt2", "email",
-                SeverityType.warning, N2oValidation.ServerMoment.afterSuccessOperation, "email.indexOf('@') > -1");
+                SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.afterSuccessOperation, "email.indexOf('@') > -1");
         ConditionValidation condition3 = conditionValidation("checkEmailContainsAt3", "email",
-                SeverityType.warning, N2oValidation.ServerMoment.afterFailOperation, "email.indexOf('@') > -1");
+                SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.afterFailOperation, "email.indexOf('@') > -1");
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(condition1, condition2, condition3));
@@ -410,25 +410,25 @@ class ValidationProcessorTest {
         StandardField f = new StandardField();
         f.setControl(new InputText());
         f.getControl().setId("id");
-        Validation mandatory1 = mandatoryValidation("id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        Validation mandatory1 = mandatoryValidation("id", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation);
         ((MandatoryValidation) mandatory1).setField(f);
 
         StandardField f2 = new StandardField();
         f2.setControl(new InputText());
         f2.getControl().setId("oneMoreId");
-        Validation mandatory2 = mandatoryValidation("oneMoreId", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        Validation mandatory2 = mandatoryValidation("oneMoreId", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation);
         ((MandatoryValidation) mandatory2).setField(f2);
 
         StandardField f3 = new StandardField();
         f3.setControl(new InputText());
         f3.getControl().setId("name");
-        Validation mandatory3 = mandatoryValidation("name", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        Validation mandatory3 = mandatoryValidation("name", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation);
         ((MandatoryValidation) mandatory3).setField(f3);
 
         StandardField f4 = new StandardField();
         f4.setControl(new InputText());
         f4.getControl().setId("number");
-        Validation mandatory4 = mandatoryValidation("number", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        Validation mandatory4 = mandatoryValidation("number", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation);
         ((MandatoryValidation) mandatory4).setField(f4);
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
@@ -465,19 +465,19 @@ class ValidationProcessorTest {
         StandardField f = new StandardField();
         f.setControl(new InputText());
         f.getControl().setId("id");
-        Validation mandatory1 = mandatoryValidation("members[index].id", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        Validation mandatory1 = mandatoryValidation("members[index].id", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation);
         ((MandatoryValidation) mandatory1).setField(f);
 
         StandardField f2 = new StandardField();
         f2.setControl(new InputText());
         f2.getControl().setId("name");
-        Validation mandatory2 = mandatoryValidation("members[index].name", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        Validation mandatory2 = mandatoryValidation("members[index].name", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation);
         ((MandatoryValidation) mandatory2).setField(f2);
 
         StandardField f3 = new StandardField();
         f3.setControl(new InputText());
         f3.getControl().setId("orgs");
-        Validation mandatory3 = mandatoryValidation("members[index].orgs[$index_1].name", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        Validation mandatory3 = mandatoryValidation("members[index].orgs[$index_1].name", SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation);
         ((MandatoryValidation) mandatory3).setField(f3);
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
@@ -502,11 +502,11 @@ class ValidationProcessorTest {
         dataSet.put("date", new Date(0));
 
         Validation condition1 = conditionValidation("id", "id",
-                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "id !== null");
+                SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation, "id !== null");
         Validation condition2 = conditionValidation("oneMoreId", "oneMoreId",
-                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null");
+                SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation, "oneMoreId === null");
         Validation condition3 = conditionValidation("date", "date",
-                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null && date === '"
+                SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation, "oneMoreId === null && date === '"
                         + new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format(new Date(0)) + "'");
         ((ConditionValidation) condition3).setExpressionOn(new String[]{"date", "oneMoreId"});
         CompiledObject.Operation operation = new CompiledObject.Operation();
@@ -535,9 +535,9 @@ class ValidationProcessorTest {
         dataSet.put("members", dl);
 
         Validation condition1 = conditionValidation("id", "members[index].id",
-                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "members[index].id !== null");
+                SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation, "members[index].id !== null");
         Validation condition2 = conditionValidation("name", "members[index].name",
-                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "members[index].name === 'Ivan'");
+                SeverityTypeEnum.warning, N2oValidation.ServerMomentEnum.beforeOperation, "members[index].name === 'Ivan'");
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
 
@@ -570,8 +570,8 @@ class ValidationProcessorTest {
         when(invocationProcessor.invoke(null, dataSet, inParamList, null)).thenReturn(mockedDataSet);
         dataSet.put("id", "1");
 
-        ConstraintValidation constraint1 = constraintValidation("id", SeverityType.warning,
-                N2oValidation.ServerMoment.beforeOperation, inParamList);
+        ConstraintValidation constraint1 = constraintValidation("id", SeverityTypeEnum.warning,
+                N2oValidation.ServerMomentEnum.beforeOperation, inParamList);
 
         CompiledObject.Operation operation = new CompiledObject.Operation();
         operation.setValidationList(Arrays.asList(constraint1));
@@ -588,7 +588,7 @@ class ValidationProcessorTest {
         assertThat(fails.size(), is(0));
     }
 
-    private MandatoryValidation mandatoryValidation(String fieldId, SeverityType severity, N2oValidation.ServerMoment moment) {
+    private MandatoryValidation mandatoryValidation(String fieldId, SeverityTypeEnum severity, N2oValidation.ServerMomentEnum moment) {
         MandatoryValidation mandatory = new MandatoryValidation();
         mandatory.setId(fieldId + "Required");
         mandatory.setMoment(moment);
@@ -598,8 +598,8 @@ class ValidationProcessorTest {
         return mandatory;
     }
 
-    private ConditionValidation conditionValidation(String id, String fieldId, SeverityType severity,
-                                                    N2oValidation.ServerMoment moment, String expression) {
+    private ConditionValidation conditionValidation(String id, String fieldId, SeverityTypeEnum severity,
+                                                    N2oValidation.ServerMomentEnum moment, String expression) {
         ConditionValidation condition = new ConditionValidation();
         condition.setId(id == null ? fieldId + "Required" : id);
         condition.setMoment(moment);
@@ -610,8 +610,8 @@ class ValidationProcessorTest {
         return condition;
     }
 
-    private ConstraintValidation constraintValidation(String fieldId, SeverityType severity,
-                                                      N2oValidation.ServerMoment moment, List<AbstractParameter> inParams) {
+    private ConstraintValidation constraintValidation(String fieldId, SeverityTypeEnum severity,
+                                                      N2oValidation.ServerMomentEnum moment, List<AbstractParameter> inParams) {
         ConstraintValidation constraint = new ConstraintValidation();
         constraint.setId(fieldId + "Constraint");
         constraint.setMoment(moment);

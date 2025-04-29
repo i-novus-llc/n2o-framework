@@ -37,7 +37,7 @@ class LineChartCompileTest extends SourceCompileTestBase {
         Chart chart = (Chart) page.getWidget();
         LineChart lineChart = (LineChart) chart.getComponent();
         assertThat(lineChart.getSrc(), is("LineChart"));
-        assertThat(lineChart.getType(), is(ChartType.line));
+        assertThat(lineChart.getType(), is(ChartTypeEnum.line));
 
         List<LineChartItem> items = lineChart.getItems();
         assertThat(items.size(), is(2));
@@ -45,11 +45,11 @@ class LineChartCompileTest extends SourceCompileTestBase {
         assertThat(items.get(0).getFieldId(), is("test1"));
         assertThat(items.get(0).getLabel(), is("name"));
         assertThat(items.get(0).getColor(), is("#8884d8"));
-        assertThat(items.get(0).getType(), is(ChartLineType.monotone));
+        assertThat(items.get(0).getType(), is(ChartLineTypeEnum.monotone));
         assertThat(items.get(0).getHasLabel(), is(true));
 
         assertThat(items.get(1).getFieldId(), is("test2"));
-        assertThat(items.get(1).getType(), is(ChartLineType.linear));
+        assertThat(items.get(1).getType(), is(ChartLineTypeEnum.linear));
         assertThat(items.get(1).getHasLabel(), is(false));
     }
 }

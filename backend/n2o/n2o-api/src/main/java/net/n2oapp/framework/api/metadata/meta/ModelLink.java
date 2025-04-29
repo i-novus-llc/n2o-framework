@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 
 /**
@@ -16,7 +16,7 @@ public class ModelLink extends BindLink {
     /**
      * Тип модели
      */
-    private ReduxModel model;
+    private ReduxModelEnum model;
     /**
      * Клиентский идентификатор источника данных
      */
@@ -66,13 +66,13 @@ public class ModelLink extends BindLink {
         setObserve(link.isObserve());
     }
 
-    public ModelLink(ReduxModel model, String datasource) {
+    public ModelLink(ReduxModelEnum model, String datasource) {
         super(createBindLink(model, datasource, null));
         this.model = model;
         this.datasource = datasource;
     }
 
-    public ModelLink(ReduxModel model, String datasource, String fieldId) {
+    public ModelLink(ReduxModelEnum model, String datasource, String fieldId) {
         super(createBindLink(model, datasource, fieldId));
         this.model = model;
         this.datasource = datasource;
@@ -177,7 +177,7 @@ public class ModelLink extends BindLink {
         return first.getBindLink().equals(second.getBindLink());
     }
 
-    private static String createBindLink(ReduxModel model, String widgetId, String fieldId) {
+    private static String createBindLink(ReduxModelEnum model, String widgetId, String fieldId) {
         if (model == null)
             return null;
         return fieldId == null

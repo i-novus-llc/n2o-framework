@@ -1,7 +1,7 @@
 package net.n2oapp.criteria.filters.rule;
 
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.Rule;
 
@@ -16,7 +16,7 @@ import java.util.Set;
 public class Contains_Contains implements Rule {
     @Override
     public Filter simplify(Filter left, Filter right) {
-        Filter result = new Filter(FilterType.contains);
+        Filter result = new Filter(FilterTypeEnum.contains);
         Set res = new HashSet<>();
         List list1 = (List) left.getValue();
         List list2 = (List) right.getValue();
@@ -31,7 +31,7 @@ public class Contains_Contains implements Rule {
 
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.contains, FilterType.contains);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.contains, FilterTypeEnum.contains);
     }
 }

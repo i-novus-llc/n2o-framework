@@ -1,7 +1,7 @@
 package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.rest.ControllerType;
+import net.n2oapp.framework.api.rest.ControllerTypeEnum;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
@@ -16,8 +16,8 @@ public class TestSetController extends SetController {
     }
 
     @Override
-    public ControllerType getControllerType() {
-        return ControllerType.operation;
+    public ControllerTypeEnum getControllerType() {
+        return ControllerTypeEnum.operation;
     }
 
     @Override

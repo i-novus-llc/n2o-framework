@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.collection;
 
 import com.codeborne.selenide.WebElementCondition;
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 
@@ -67,5 +67,5 @@ public interface Cells extends ComponentsCollection {
      * Проверка цвета строки по css классу
      * @param color enum с цветовыми кодами
      */
-    void shouldHaveColor(Colors color);
+    void shouldHaveColor(ColorsEnum color);
 }

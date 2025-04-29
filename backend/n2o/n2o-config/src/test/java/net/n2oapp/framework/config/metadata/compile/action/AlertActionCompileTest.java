@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacement;
+import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -43,22 +43,22 @@ class AlertActionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testAlert"));
 
         assertThat(((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getType(), is("n2o/api/alerts/add"));
-        assertThat(((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getPayload()).getKey(), is(MessagePlacement.top));
+        assertThat(((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getPayload()).getKey(), is(MessagePlacementEnum.top));
         ResponseMessage message = ((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("defaultAlert").getAction()).getPayload()).getAlerts().get(0);
         assertThat(message.getId(), notNullValue());
         assertThat(message.getTitle(), is("title"));
         assertThat(message.getText(), is("text"));
         assertThat(message.getTimeout(), is(3000));
-        assertThat(message.getPlacement(), is(MessagePlacement.top));
+        assertThat(message.getPlacement(), is(MessagePlacementEnum.top));
         assertThat(message.getCloseButton(), is(true));
 
         assertThat(((AlertAction) page.getToolbar().getButton("alert").getAction()).getType(), is("n2o/api/alerts/add"));
-        assertThat(((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("alert").getAction()).getPayload()).getKey(), is(MessagePlacement.bottomRight));
+        assertThat(((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("alert").getAction()).getPayload()).getKey(), is(MessagePlacementEnum.bottomRight));
         message = ((AlertActionPayload) ((AlertAction) page.getToolbar().getButton("alert").getAction()).getPayload()).getAlerts().get(0);
         assertThat(message.getId(), notNullValue());
         assertThat(message.getTitle(), is("`'Title '+message`"));
         assertThat(message.getText(), is("`'Text '+message`"));
-        assertThat(message.getPlacement(), is(MessagePlacement.bottomRight));
+        assertThat(message.getPlacement(), is(MessagePlacementEnum.bottomRight));
         assertThat(message.getCloseButton(), is(false));
         assertThat(message.getClassName(), is("css-on-action"));
         assertThat(message.getStyle().get("width"), is("90%"));

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -53,7 +53,7 @@ public class EditListActionCompiler extends AbstractActionCompiler<EditListActio
         source.setModel(castDefault(source.getModel(), source.getItemModel()));
     }
 
-    private EditListActionPayload.EditInfo constructEditInfo(String datasourceId, ReduxModel model, String fieldId, CompileProcessor p) {
+    private EditListActionPayload.EditInfo constructEditInfo(String datasourceId, ReduxModelEnum model, String fieldId, CompileProcessor p) {
         return new EditListActionPayload.EditInfo(getClientDatasourceId(datasourceId, p), model, fieldId);
     }
 }

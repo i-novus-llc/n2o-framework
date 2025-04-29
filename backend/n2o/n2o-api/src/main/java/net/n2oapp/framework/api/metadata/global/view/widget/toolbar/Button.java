@@ -21,9 +21,9 @@ public interface Button extends DatasourceIdAware, ModelAware, ActionsAware, IdA
 
     void setConfirm(String confirm);
 
-    ConfirmType getConfirmType();
+    ConfirmTypeEnum getConfirmType();
 
-    void setConfirmType(ConfirmType confirmType);
+    void setConfirmType(ConfirmTypeEnum confirmType);
 
     String getConfirmText();
 

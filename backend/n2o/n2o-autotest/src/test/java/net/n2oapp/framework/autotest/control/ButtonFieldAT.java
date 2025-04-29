@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
@@ -48,7 +48,7 @@ class ButtonFieldAT extends AutoTestBase {
         buttonField.shouldExists();
         buttonField.shouldBeRounded();
         buttonField.shouldHaveIcon("fa fa-search");
-        buttonField.shouldHaveColor(Colors.PRIMARY);
+        buttonField.shouldHaveColor(ColorsEnum.PRIMARY);
         buttonField.hover();
         buttonField.tooltip().shouldExists();
         buttonField.tooltip().shouldHaveText(new String[]{"description"});
@@ -57,16 +57,16 @@ class ButtonFieldAT extends AutoTestBase {
         buttonField = page.widget(FormWidget.class).fields().field("Кнопка-поле1", ButtonField.class);
         buttonField.shouldExists();
         buttonField.shouldNotBeRounded();
-        buttonField.shouldHaveColor(Colors.SUCCESS);
+        buttonField.shouldHaveColor(ColorsEnum.SUCCESS);
         buttonField.shouldHaveStyle("text-decoration: underline;");
 
         Checkbox checkbox = fields.field("Checkbox1").control(Checkbox.class);
         checkbox.shouldExists();
         checkbox.shouldNotBeChecked();
         checkbox.setChecked(true);
-        buttonField.shouldHaveColor(Colors.DANGER);
+        buttonField.shouldHaveColor(ColorsEnum.DANGER);
         checkbox.setChecked(false);
-        buttonField.shouldHaveColor(Colors.SUCCESS);
+        buttonField.shouldHaveColor(ColorsEnum.SUCCESS);
 
         buttonField = fields.field("Кнопка в контроле закругленная", ButtonField.class);
         buttonField.shouldExists();

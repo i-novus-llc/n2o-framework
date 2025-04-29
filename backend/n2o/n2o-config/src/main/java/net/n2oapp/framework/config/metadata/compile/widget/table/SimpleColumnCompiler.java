@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.widget.table;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Alignment;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AlignmentEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.cell.Cell;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.table.SimpleColumn;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.script.ScriptProcessor;
@@ -49,7 +49,7 @@ public class SimpleColumnCompiler<S extends N2oSimpleColumn> extends BaseColumnC
         source.setId(castDefault(source.getId(), source.getTextFieldId(), "cell" + indexNumber));
         source.setSortingFieldId(castDefault(source.getSortingFieldId(), source.getTextFieldId()));
         source.setAlignment(castDefault(source.getAlignment(),
-                () -> p.resolve(property("n2o.api.widget.column.alignment"), Alignment.class)));
+                () -> p.resolve(property("n2o.api.widget.column.alignment"), AlignmentEnum.class)));
         source.setContentAlignment(castDefault(source.getContentAlignment(), source.getAlignment()));
 
         N2oCell cell = source.getCell();
@@ -77,14 +77,14 @@ public class SimpleColumnCompiler<S extends N2oSimpleColumn> extends BaseColumnC
         if (source.getColumnVisibilities() != null) {
             for (N2oBaseColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
                 String datasourceId = getClientDatasourceId(castDefault(visibility.getDatasourceId(), widgetScope.getDatasourceId()), p);
-                ReduxModel refModel = castDefault(visibility.getModel(), ReduxModel.filter);
+                ReduxModelEnum refModel = castDefault(visibility.getModel(), ReduxModelEnum.filter);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
                 condition.setModelLink(new ModelLink(refModel, datasourceId).getBindLink());
-                if (!compiled.getConditions().containsKey(ValidationType.visible)) {
-                    compiled.getConditions().put(ValidationType.visible, new ArrayList<>());
+                if (!compiled.getConditions().containsKey(ValidationTypeEnum.visible)) {
+                    compiled.getConditions().put(ValidationTypeEnum.visible, new ArrayList<>());
                 }
-                compiled.getConditions().get(ValidationType.visible).add(condition);
+                compiled.getConditions().get(ValidationTypeEnum.visible).add(condition);
             }
         }
 

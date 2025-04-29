@@ -1,7 +1,7 @@
 package net.n2oapp.framework.api.metadata.meta;
 
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 
 import java.util.HashMap;
 
@@ -10,13 +10,13 @@ import java.util.HashMap;
  */
 public class Models extends HashMap<String, ModelLink> implements Compiled {
 
-    public void add(ReduxModel model, String widgetId, String field, ModelLink value) {
+    public void add(ReduxModelEnum model, String widgetId, String field, ModelLink value) {
         if (field != null)
             put(String.format("%s['%s'].%s", model.getId(), widgetId, field), new ModelLink(value));
         else add(model, widgetId, value);
     }
 
-    public void add(ReduxModel model, String widgetId, ModelLink value) {
+    public void add(ReduxModelEnum model, String widgetId, ModelLink value) {
         put(String.format("%s['%s']", model.getId(), widgetId), new ModelLink(value));
     }
 
@@ -28,7 +28,7 @@ public class Models extends HashMap<String, ModelLink> implements Compiled {
         add(link.getModel(), link.getDatasource(), link.getFieldId(), new ModelLink(value));
     }
 
-    public ModelLink get(ReduxModel model, String widgetId, String field) {
+    public ModelLink get(ReduxModelEnum model, String widgetId, String field) {
         return get(String.format("%s['%s'].%s", model.getId(), widgetId, field));
     }
 

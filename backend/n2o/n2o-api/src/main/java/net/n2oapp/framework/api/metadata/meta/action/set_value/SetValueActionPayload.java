@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.action.MergeMode;
+import net.n2oapp.framework.api.metadata.action.MergeModeEnum;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 
 /**
@@ -20,7 +20,7 @@ public class SetValueActionPayload implements ActionPayload {
     @JsonProperty
     private ClientModel target;
     @JsonProperty
-    private MergeMode mode;
+    private MergeModeEnum mode;
 
     @Getter
     @Setter

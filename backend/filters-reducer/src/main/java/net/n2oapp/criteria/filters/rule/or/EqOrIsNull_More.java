@@ -1,7 +1,7 @@
 package net.n2oapp.criteria.filters.rule.or;
 
 import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.rule.base.Rule;
 
@@ -14,9 +14,9 @@ public class EqOrIsNull_More implements Rule {
     @Override
     @SuppressWarnings("unchecked")
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterType.eqOrIsNull) && left.getType().equals(FilterType.more))
+        if (right.getType().equals(FilterTypeEnum.eqOrIsNull) && left.getType().equals(FilterTypeEnum.more))
             return simplify(right, left);
-        else if (left.getType().equals(FilterType.eqOrIsNull) && right.getType().equals(FilterType.more)) {
+        else if (left.getType().equals(FilterTypeEnum.eqOrIsNull) && right.getType().equals(FilterTypeEnum.more)) {
             Comparable value = (Comparable) left.getValue();
             Comparable bottom = (Comparable) right.getValue();
             if (value.compareTo(bottom) > 0) return new Filter(left.getValue());
@@ -27,7 +27,7 @@ public class EqOrIsNull_More implements Rule {
 
 
     @Override
-    public Pair<FilterType> getType() {
-        return new Pair<>(FilterType.eqOrIsNull, FilterType.more);
+    public Pair<FilterTypeEnum> getType() {
+        return new Pair<>(FilterTypeEnum.eqOrIsNull, FilterTypeEnum.more);
     }
 }

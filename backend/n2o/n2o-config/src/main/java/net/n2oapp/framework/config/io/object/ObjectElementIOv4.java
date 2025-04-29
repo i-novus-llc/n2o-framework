@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.object;
 
-import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
@@ -142,8 +142,8 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
 
     private void validation(Element e, N2oValidation t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
-        p.attributeEnum(e, "severity", t::getSeverity, t::setSeverity, SeverityType.class);
-        p.attributeEnum(e, "server-moment", t::getServerMoment, t::setServerMoment, N2oValidation.ServerMoment.class);
+        p.attributeEnum(e, "severity", t::getSeverity, t::setSeverity, SeverityTypeEnum.class);
+        p.attributeEnum(e, "server-moment", t::getServerMoment, t::setServerMoment, N2oValidation.ServerMomentEnum.class);
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
         p.attribute(e, "title", t::getTitle, t::setTitle);

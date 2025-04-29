@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.BadgeCell;
 import net.n2oapp.framework.api.metadata.meta.cell.IconCell;
 import net.n2oapp.framework.api.metadata.meta.cell.SwitchCell;
@@ -68,7 +68,7 @@ class SwitchCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSwitchList().get("type2").getSrc(), is("IconCell"));
         assertThat(((IconCell) cell.getSwitchList().get("type2")).getText(), is("text"));
         assertThat(((IconCell) cell.getSwitchList().get("type2")).getIcon(), is("icon"));
-        assertThat(((IconCell) cell.getSwitchList().get("type2")).getPosition(), is(Position.LEFT));
+        assertThat(((IconCell) cell.getSwitchList().get("type2")).getPosition(), is(PositionEnum.LEFT));
 
         // проверка default ячейки
         assertThat(cell.getSwitchDefault(), instanceOf(TextCell.class));
@@ -98,7 +98,7 @@ class SwitchCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSwitchList().get("type2").getSrc(), is("IconCell"));
         assertThat(((IconCell) cell.getSwitchList().get("type2")).getText(), is("text"));
         assertThat(((IconCell) cell.getSwitchList().get("type2")).getIcon(), is("icon"));
-        assertThat(((IconCell) cell.getSwitchList().get("type2")).getPosition(), is(Position.LEFT));
+        assertThat(((IconCell) cell.getSwitchList().get("type2")).getPosition(), is(PositionEnum.LEFT));
 
         // проверка отсутствия default ячейки
         assertThat(cell.getSwitchDefault(), Matchers.nullValue());

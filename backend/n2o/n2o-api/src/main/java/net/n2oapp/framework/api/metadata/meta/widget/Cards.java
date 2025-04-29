@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 public class Cards extends Widget {
     @JsonProperty
-    private Position verticalAlign;
+    private PositionEnum verticalAlign;
     @JsonProperty
     private String height;
     @JsonProperty
@@ -46,7 +46,7 @@ public class Cards extends Widget {
         private Cell component;
     }
 
-    public enum Position {
+    public enum PositionEnum {
         center, top, bottom
     }
 }

@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -65,39 +65,39 @@ class SubMenuCompileTest extends SourceCompileTestBase {
         assertThat(updateBtn.getId(), is("update"));
         assertThat(updateBtn.getLabel(), is("Изменить"));
         assertThat(updateBtn.getAction(), instanceOf(ShowModal.class));
-        assertThat(updateBtn.getConditions().get(ValidationType.enabled).size(), is(1));
+        assertThat(updateBtn.getConditions().get(ValidationTypeEnum.enabled).size(), is(1));
 
 
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi3");
         assertThat(subMenu.getShowToggleIcon(), is(true));
         assertThat(subMenu.getSubMenu(), nullValue());
-        assertThat(subMenu.getConditions().get(ValidationType.enabled).size(), is(1));
-        assertThat(subMenu.getConditions().get(ValidationType.visible).size(), is(1));
-        Condition condition = subMenu.getConditions().get(ValidationType.enabled).get(0);
+        assertThat(subMenu.getConditions().get(ValidationTypeEnum.enabled).size(), is(1));
+        assertThat(subMenu.getConditions().get(ValidationTypeEnum.visible).size(), is(1));
+        Condition condition = subMenu.getConditions().get(ValidationTypeEnum.enabled).get(0);
         assertThat(condition.getExpression(), is("name != null"));
         assertThat(condition.getModelLink(), is("models.filter['testSubMenu_form']"));
-        condition = subMenu.getConditions().get(ValidationType.visible).get(0);
+        condition = subMenu.getConditions().get(ValidationTypeEnum.visible).get(0);
         assertThat(condition.getExpression(), is("name != null"));
         assertThat(condition.getModelLink(), is("models.filter['testSubMenu_form']"));
 
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi4");
-        assertThat(subMenu.getConditions().get(ValidationType.enabled).size(), is(1));
-        assertThat(subMenu.getConditions().get(ValidationType.visible).size(), is(1));
-        condition = subMenu.getConditions().get(ValidationType.enabled).get(0);
+        assertThat(subMenu.getConditions().get(ValidationTypeEnum.enabled).size(), is(1));
+        assertThat(subMenu.getConditions().get(ValidationTypeEnum.visible).size(), is(1));
+        condition = subMenu.getConditions().get(ValidationTypeEnum.enabled).get(0);
         assertThat(condition.getExpression(), is("name != null"));
         assertThat(condition.getModelLink(), is("models.resolve['testSubMenu_table']"));
-        condition = subMenu.getConditions().get(ValidationType.visible).get(0);
+        condition = subMenu.getConditions().get(ValidationTypeEnum.visible).get(0);
         assertThat(condition.getExpression(), is("name != null"));
         assertThat(condition.getModelLink(), is("models.resolve['testSubMenu_table']"));
 
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi5");
         assertThat(subMenu.getIcon(), is("fa fa-plus"));
-        assertThat(subMenu.getIconPosition(), is(Position.RIGHT));
-        assertThat(subMenu.getSubMenu().get(0).getModel(), is(ReduxModel.datasource));
+        assertThat(subMenu.getIconPosition(), is(PositionEnum.RIGHT));
+        assertThat(subMenu.getSubMenu().get(0).getModel(), is(ReduxModelEnum.datasource));
         assertThat(subMenu.getSubMenu().get(0).getDatasource(), is("testSubMenu_table"));
         assertThat(subMenu.getSubMenu().get(0).getIcon(), is("fa fa-pencil"));
-        assertThat(subMenu.getSubMenu().get(0).getIconPosition(), is(Position.RIGHT));
-        assertThat(subMenu.getSubMenu().get(1).getModel(), is(ReduxModel.resolve));
+        assertThat(subMenu.getSubMenu().get(0).getIconPosition(), is(PositionEnum.RIGHT));
+        assertThat(subMenu.getSubMenu().get(1).getModel(), is(ReduxModelEnum.resolve));
         assertThat(subMenu.getSubMenu().get(1).getDatasource(), is("testSubMenu_ds"));
 
         assertThat(subMenu.getSubMenu().size(), is(3));

@@ -1,15 +1,15 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.action.ModalSize;
+import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.action.ModalSizeEnum;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyModeEnum;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
@@ -28,7 +28,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
-import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -90,7 +90,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         ShowModalPayload payload = ((ShowModal) table.getToolbar().getButton("create").getAction()).getPayload();
         //create
         assertThat(payload.getPageUrl(), is("/p/create"));
-        assertThat(payload.getSize(), is(ModalSize.sm));
+        assertThat(payload.getSize(), is(ModalSizeEnum.sm));
         assertThat(payload.getScrollable(), is(true));
         assertThat(payload.getPageId(), is("p_create"));
         assertThat(payload.getPrompt(), is(false));
@@ -105,7 +105,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getDatasources().get(0).getId(),
                 is("parent_second"));
         assertThat(((N2oStandardDatasource) modalContext.getDatasources().get(1)).getDefaultValuesMode(),
-                is(DefaultValuesMode.defaults));
+                is(DefaultValuesModeEnum.defaults));
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_create"));
         assertThat(modalPage.getBreadcrumb(), nullValue());
@@ -115,7 +115,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
 
         Widget modalWidget = modalPage.getWidget();
         assertThat(((StandardDatasource) modalPage.getDatasources().get(modalWidget.getDatasource())).getDefaultValuesMode(),
-                is(DefaultValuesMode.defaults));
+                is(DefaultValuesModeEnum.defaults));
         assertThat(((StandardDatasource) modalPage.getDatasources().get(modalWidget.getDatasource())).getProvider(), nullValue());
 
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
@@ -128,9 +128,9 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         InvokeAction submit = (InvokeAction) ((MultiAction) modalPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/create/multi1"));
-        assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethod.POST));
+        assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethodEnum.POST));
         assertThat(submitPayload.getDatasource(), is("p_create_modal"));
-        assertThat(submitPayload.getModel(), is(ReduxModel.edit));
+        assertThat(submitPayload.getModel(), is(ReduxModelEnum.edit));
         RefreshAction refresh = (RefreshAction) ((MultiAction) modalPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
         assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("p_second"));
         CloseAction close = (CloseAction) ((MultiAction) modalPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
@@ -153,7 +153,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
 
         //update
         assertThat(payload.getPageUrl(), is("/p/:id/update"));
-        assertThat(payload.getSize(), is(ModalSize.lg));
+        assertThat(payload.getSize(), is(ModalSizeEnum.lg));
         assertThat(payload.getPrompt(), is(false));
         assertThat(payload.getHasHeader(), is(true));
         assertThat(payload.getBackdrop(), is("static"));
@@ -163,14 +163,14 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getDatasources().get(0).getId(),
                 is("parent_main"));
         assertThat(((N2oStandardDatasource) modalContext.getDatasources().get(1)).getDefaultValuesMode(),
-                is(DefaultValuesMode.query));
+                is(DefaultValuesModeEnum.query));
         N2oPreFilter[] filters = ((N2oStandardDatasource) modalContext.getDatasources().get(1)).getFilters();
         assertThat(filters.length, is(1));
         assertThat(filters[0].getDatasourceId(), is("main"));
         assertThat(filters[0].getRefPageId(), is("p"));
         assertThat(filters[0].getFieldId(), is(QuerySimpleField.PK));
-        assertThat(filters[0].getType(), is(FilterType.eq));
-        assertThat(filters[0].getModel(), is(ReduxModel.resolve));
+        assertThat(filters[0].getType(), is(FilterTypeEnum.eq));
+        assertThat(filters[0].getModel(), is(ReduxModelEnum.resolve));
 
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_update"));
@@ -180,7 +180,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(ds.getProvider().getQueryMapping().size(), is(0));
         assertThat(ds.getProvider().getPathMapping().get("id").getParam(), is("id"));
         assertThat(ds.getProvider().getPathMapping().get("id").normalizeLink(), is("models.resolve['p_main'].id"));
-        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.query));
+        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesModeEnum.query));
         DataSet data = new DataSet();
         data.put("id", 222);
         modalPage = (SimplePage) read().compile().bind().get(modalContext, data);
@@ -291,14 +291,14 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getDatasources().get(0).getId(),
                 is("parent_main"));
         assertThat(((N2oStandardDatasource) modalContext.getDatasources().get(1)).getDefaultValuesMode(),
-                is(DefaultValuesMode.query));
+                is(DefaultValuesModeEnum.query));
         N2oPreFilter[] filters = ((N2oStandardDatasource) modalContext.getDatasources().get(1)).getFilters();
         assertThat(filters.length, is(1));
         assertThat(filters[0].getDatasourceId(), is("main"));
         assertThat(filters[0].getRefPageId(), is("p"));
         assertThat(filters[0].getFieldId(), is(QuerySimpleField.PK));
-        assertThat(filters[0].getType(), is(FilterType.eq));
-        assertThat(filters[0].getModel(), is(ReduxModel.resolve));
+        assertThat(filters[0].getType(), is(FilterTypeEnum.eq));
+        assertThat(filters[0].getModel(), is(ReduxModelEnum.resolve));
         assertThat(filters[0].getValue(), is("{id}"));
 
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
@@ -310,7 +310,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(ds.getProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(ds.getProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
         assertThat(ds.getProvider().getQueryMapping().get("name").getValue(), is("`name`"));
-        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesMode.query));
+        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesModeEnum.query));
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.size(), is(2));
         assertThat(buttons.get(0).getId(), is("submit"));
@@ -360,13 +360,13 @@ class ShowModalCompileTest extends SourceCompileTestBase {
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getType(), is("n2o/models/COPY"));
-        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.resolve.getId()));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModelEnum.resolve.getId()));
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyAction_update_modal"));
         assertThat(submit.getPayload().getSource().getField(), nullValue());
-        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.edit.getId()));
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModelEnum.edit.getId()));
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyAction_table1"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
-        assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
+        assertThat(submit.getPayload().getMode(), is(CopyModeEnum.replace));
         assertThat(submit.getMeta().getModalsToClose(), is(1));
 
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
@@ -384,13 +384,13 @@ class ShowModalCompileTest extends SourceCompileTestBase {
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getType(), is("n2o/models/COPY"));
-        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.multi.getId()));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModelEnum.multi.getId()));
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidget_update_table2"));
         assertThat(submit.getPayload().getSource().getField(), is("id"));
-        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.multi.getId()));
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModelEnum.multi.getId()));
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidget_table1"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
-        assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
+        assertThat(submit.getPayload().getMode(), is(CopyModeEnum.replace));
         assertThat(submit.getMeta().getModalsToClose(), is(1));
 
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
@@ -408,13 +408,13 @@ class ShowModalCompileTest extends SourceCompileTestBase {
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
         assertThat(submit.getType(), is("n2o/models/COPY"));
-        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.resolve.getId()));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModelEnum.resolve.getId()));
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_update_master"));
         assertThat(submit.getPayload().getSource().getField(), nullValue());
-        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.edit.getId()));
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModelEnum.edit.getId()));
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_ignore_table"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
-        assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
+        assertThat(submit.getPayload().getMode(), is(CopyModeEnum.replace));
         assertThat(submit.getMeta().getModalsToClose(), is(1));
 
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
@@ -449,14 +449,14 @@ class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testShowModalDefaults", "/p"));
         PageContext modalCtx = (PageContext) route("/p/update", Page.class);
         assertThat(modalCtx.getDatasources().size(), is(1));
-        assertThat(((N2oStandardDatasource) modalCtx.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(((N2oStandardDatasource) modalCtx.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesModeEnum.defaults));
         SimplePage modalPage = (SimplePage) routeAndGet("/p/update", Page.class);
         StandardDatasource datasource = (StandardDatasource) modalPage.getDatasources().get("p_update_modal");
         assertThat(datasource.getProvider(), nullValue());
 
         modalCtx = (PageContext) route("/p/update2", Page.class);
         assertThat(modalCtx.getDatasources().size(), is(1));
-        assertThat(((N2oStandardDatasource) modalCtx.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesMode.defaults));
+        assertThat(((N2oStandardDatasource) modalCtx.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesModeEnum.defaults));
         StandardPage modalPage2 = (StandardPage) routeAndGet("/p/update2", Page.class);
         StandardDatasource datasource1 = (StandardDatasource) modalPage2.getDatasources().get("p_update2_main");
         assertThat(datasource1.getProvider(), nullValue());

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.button;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.badge.Badge;
 
@@ -37,5 +37,5 @@ public interface Button extends Badge {
      * Проверка цвета кнопки на соответствие ожидаемому значению
      * @param color ожидаемый цвет кнопки
      */
-    void shouldHaveColor(Colors color);
+    void shouldHaveColor(ColorsEnum color);
 }

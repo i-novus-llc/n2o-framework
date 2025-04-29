@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.control.list.CheckingStrategy;
+import net.n2oapp.framework.api.metadata.control.list.CheckingStrategyEnum;
 
 /**
  * Клиентская реализация компонента ввода с выбором в выпадающем списке в виде дерева
@@ -24,7 +24,7 @@ public class InputSelectTree extends ListControl {
     @JsonProperty
     private boolean ajax;
     @JsonProperty("showCheckedStrategy")
-    private CheckingStrategy checkingStrategy;
+    private CheckingStrategyEnum checkingStrategy;
     @JsonProperty
     private Integer maxTagCount;
     @JsonProperty

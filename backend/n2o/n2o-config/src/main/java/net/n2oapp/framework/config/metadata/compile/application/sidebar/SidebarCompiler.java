@@ -48,12 +48,12 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
                 ? p.compile(source.getExtraMenu(), context, componentScope)
                 : new SimpleMenu());
         sidebar.setSide(castDefault(source.getSide(),
-                () -> p.resolve(property("n2o.api.sidebar.side"), SidebarSide.class)));
-        sidebar.setDefaultState(castDefault(source.getDefaultState(), SidebarState.MAXI));
+                () -> p.resolve(property("n2o.api.sidebar.side"), SidebarSideEnum.class)));
+        sidebar.setDefaultState(castDefault(source.getDefaultState(), SidebarStateEnum.MAXI));
         sidebar.setToggledState(castDefault(source.getToggledState(),
-                SidebarState.MAXI.equals(sidebar.getDefaultState())
-                        ? SidebarState.MINI
-                        : SidebarState.MAXI));
+                SidebarStateEnum.MAXI.equals(sidebar.getDefaultState())
+                        ? SidebarStateEnum.MINI
+                        : SidebarStateEnum.MAXI));
         sidebar.setOverlay(castDefault(source.getOverlay(),
                 () -> p.resolve(property("n2o.api.sidebar.overlay"), Boolean.class)));
         sidebar.setToggleOnHover(castDefault(source.getToggleOnHover(),

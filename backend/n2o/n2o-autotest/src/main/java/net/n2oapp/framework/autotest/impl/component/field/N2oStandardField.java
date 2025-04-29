@@ -47,7 +47,7 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public void shouldHaveLabelLocation(FieldSet.LabelPosition position) {
+    public void shouldHaveLabelLocation(FieldSet.LabelPositionEnum position) {
         element().shouldHave(Condition.cssClass(String.format("label-%s", position.getId())));
     }
 

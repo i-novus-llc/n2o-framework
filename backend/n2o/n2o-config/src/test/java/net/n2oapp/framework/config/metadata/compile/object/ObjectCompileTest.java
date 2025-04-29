@@ -57,13 +57,13 @@ class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(provider.getClassName(), is("TestService"));
         assertThat(provider.getArguments()[0].getName(), is("arg1"));
         assertThat(provider.getArguments()[0].getClassName(), is("TestEntity"));
-        assertThat(provider.getArguments()[0].getType(), is(Argument.Type.ENTITY));
+        assertThat(provider.getArguments()[0].getType(), is(Argument.TypeEnum.ENTITY));
         assertThat(provider.getArguments()[1].getName(), is("arg2"));
         assertThat(provider.getArguments()[1].getClassName(), is("EntityClass"));
-        assertThat(provider.getArguments()[1].getType(), is(Argument.Type.ENTITY));
+        assertThat(provider.getArguments()[1].getType(), is(Argument.TypeEnum.ENTITY));
         assertThat(provider.getArguments()[2].getName(), is("arg3"));
         assertThat(provider.getArguments()[2].getClassName(), nullValue());
-        assertThat(provider.getArguments()[2].getType(), is(Argument.Type.PRIMITIVE));
+        assertThat(provider.getArguments()[2].getType(), is(Argument.TypeEnum.PRIMITIVE));
 
         assertThat(createOperation.getInParametersMap().size(), is(2));
         assertThat(createOperation.getInParametersMap().containsKey("in1"), is(true));
@@ -99,26 +99,26 @@ class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(val1Provider.getClassName(), is("TestService"));
         assertThat(val1Provider.getArguments()[0].getName(), is("arg1"));
         assertThat(val1Provider.getArguments()[0].getClassName(), is("TestEntity"));
-        assertThat(val1Provider.getArguments()[0].getType(), is(Argument.Type.ENTITY));
+        assertThat(val1Provider.getArguments()[0].getType(), is(Argument.TypeEnum.ENTITY));
         assertThat(val1Provider.getArguments()[1].getName(), is("arg2"));
         assertThat(val1Provider.getArguments()[1].getClassName(), is("EntityClass"));
-        assertThat(val1Provider.getArguments()[1].getType(), is(Argument.Type.ENTITY));
+        assertThat(val1Provider.getArguments()[1].getType(), is(Argument.TypeEnum.ENTITY));
         assertThat(val1Provider.getArguments()[2].getName(), is("arg3"));
         assertThat(val1Provider.getArguments()[2].getClassName(), nullValue());
-        assertThat(val1Provider.getArguments()[2].getType(), is(Argument.Type.PRIMITIVE));
+        assertThat(val1Provider.getArguments()[2].getType(), is(Argument.TypeEnum.PRIMITIVE));
 
         N2oJavaDataProvider v2Provider =
                 (N2oJavaDataProvider) ((ConstraintValidation) all.getValidationsMap().get("v2")).getInvocation();
         assertThat(v2Provider.getClassName(), is("TestService"));
         assertThat(v2Provider.getArguments()[0].getName(), is("arg1"));
         assertThat(v2Provider.getArguments()[0].getClassName(), is("TestEntity"));
-        assertThat(v2Provider.getArguments()[0].getType(), is(Argument.Type.ENTITY));
+        assertThat(v2Provider.getArguments()[0].getType(), is(Argument.TypeEnum.ENTITY));
         assertThat(v2Provider.getArguments()[1].getName(), is("arg2"));
         assertThat(v2Provider.getArguments()[1].getClassName(), is("EntityClass"));
-        assertThat(v2Provider.getArguments()[1].getType(), is(Argument.Type.ENTITY));
+        assertThat(v2Provider.getArguments()[1].getType(), is(Argument.TypeEnum.ENTITY));
         assertThat(v2Provider.getArguments()[2].getName(), is("arg3"));
         assertThat(v2Provider.getArguments()[2].getClassName(), nullValue());
-        assertThat(v2Provider.getArguments()[2].getType(), is(Argument.Type.PRIMITIVE));
+        assertThat(v2Provider.getArguments()[2].getType(), is(Argument.TypeEnum.PRIMITIVE));
     }
 
     @Test

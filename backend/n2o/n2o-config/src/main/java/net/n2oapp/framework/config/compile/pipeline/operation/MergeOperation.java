@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.aware.PipelineOperationTypeAware;
 import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
-import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 
 import java.util.function.Supplier;
 
@@ -57,7 +57,7 @@ public class MergeOperation<S> implements PipelineOperation<S, S>, PipelineOpera
     }
 
     @Override
-    public PipelineOperationType getPipelineOperationType() {
-        return PipelineOperationType.MERGE;
+    public PipelineOperationTypeEnum getPipelineOperationType() {
+        return PipelineOperationTypeEnum.MERGE;
     }
 }

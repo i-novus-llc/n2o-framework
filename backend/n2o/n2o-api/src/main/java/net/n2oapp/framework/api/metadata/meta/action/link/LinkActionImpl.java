@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.meta.action.link;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
@@ -36,12 +36,12 @@ public class LinkActionImpl extends AbstractAction<LinkActionPayload, MetaSaga> 
     }
 
     @Override
-    public Target getTarget() {
+    public TargetEnum getTarget() {
         return getPayload().getTarget();
     }
 
     @Override
-    public void setTarget(Target target) {
+    public void setTarget(TargetEnum target) {
         getPayload().setTarget(target);
     }
 

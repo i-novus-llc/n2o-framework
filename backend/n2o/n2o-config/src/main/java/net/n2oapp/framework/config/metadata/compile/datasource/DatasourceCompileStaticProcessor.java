@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.exception.SeverityTypeEnum;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -17,7 +17,7 @@ import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatoryValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
@@ -26,7 +26,7 @@ import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
-import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
@@ -107,9 +107,9 @@ public class DatasourceCompileStaticProcessor {
         }
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        dataProvider.setMethod(RequestMethod.POST);
+        dataProvider.setMethod(RequestMethodEnum.POST);
         dataProvider.setUrl(RouteUtil.normalize(submit.getRoute()));
-        dataProvider.setTargetModel(ReduxModel.resolve);
+        dataProvider.setTargetModel(ReduxModelEnum.resolve);
         dataProvider.setPathParams(submit.getPathParams());
         dataProvider.setHeaderParams(submit.getHeaderParams());
         dataProvider.setFormParams(submit.getFormParams());
@@ -147,7 +147,7 @@ public class DatasourceCompileStaticProcessor {
      */
     public static void compileSubmitClientDataProvider(N2oClientDataProvider source, ClientDataProvider submit, CompileContext<?, ?> context, CompileProcessor p) {
         String clientDatasourceId = source.getClientDatasourceId();
-        ReduxModel targetModel = initTargetWidgetModel(p, source.getTargetModel());
+        ReduxModelEnum targetModel = initTargetWidgetModel(p, source.getTargetModel());
 
         Map<String, ModelLink> pathMapping = new HashMap<>(compileParams(source.getPathParams(), context, targetModel, clientDatasourceId));
         submit.setFormMapping(compileParams(source.getFormParams(), context, targetModel, clientDatasourceId));
@@ -291,12 +291,12 @@ public class DatasourceCompileStaticProcessor {
         n2oMandatoryValidation.setId(queryFilter.getFilterId());
         n2oMandatoryValidation.setMessage(p.getMessage("n2o.required.filter"));
         n2oMandatoryValidation.setFieldId(queryFilter.getFilterId());
-        n2oMandatoryValidation.setServerMoment(N2oValidation.ServerMoment.beforeQuery);
-        n2oMandatoryValidation.setSeverity(SeverityType.danger);
+        n2oMandatoryValidation.setServerMoment(N2oValidation.ServerMomentEnum.beforeQuery);
+        n2oMandatoryValidation.setSeverity(SeverityTypeEnum.danger);
         MandatoryValidation v = p.compile(n2oMandatoryValidation, context);
 
         ValidationScope validationScope = p.getScope(ValidationScope.class);
-        validationScope.add(datasourceId, ReduxModel.filter, v);
+        validationScope.add(datasourceId, ReduxModelEnum.filter, v);
     }
 
     /**
@@ -315,7 +315,7 @@ public class DatasourceCompileStaticProcessor {
                                                String datasourceCompiledId,
                                                String queryId,
                                                Integer size,
-                                               DefaultValuesMode mode,
+                                               DefaultValuesModeEnum mode,
                                                CompileContext<?, ?> context,
                                                CompileProcessor p,
                                                String route,
@@ -324,7 +324,7 @@ public class DatasourceCompileStaticProcessor {
         QueryContext queryContext = new QueryContext(queryId, route, context.getUrlPattern());
 
         ValidationScope validationScope = p.getScope(ValidationScope.class);
-        List<Validation> validations = validationScope == null ? null : validationScope.get(datasourceId, ReduxModel.filter);
+        List<Validation> validations = validationScope == null ? null : validationScope.get(datasourceId, ReduxModelEnum.filter);
         queryContext.setValidations(validations);
         queryContext.setFilters(filters);
         queryContext.setMode(mode);
@@ -397,7 +397,7 @@ public class DatasourceCompileStaticProcessor {
             String clientDatasourceId = preFilter.getRefPageId() != null
                     ? getClientDatasourceId(preFilter.getDatasourceId(), preFilter.getRefPageId(), p)
                     : getClientDatasourceId(preFilter.getDatasourceId(), p);
-            ReduxModel model = castDefault(preFilter.getModel(), ReduxModel.resolve);
+            ReduxModelEnum model = castDefault(preFilter.getModel(), ReduxModelEnum.resolve);
             ModelLink link = new ModelLink(
                     model,
                     clientDatasourceId != null ? clientDatasourceId : getClientDatasourceId(datasourceId, p)
@@ -422,7 +422,7 @@ public class DatasourceCompileStaticProcessor {
         return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
     }
 
-    private static ReduxModel initTargetWidgetModel(CompileProcessor p, ReduxModel defaultModel) {
+    private static ReduxModelEnum initTargetWidgetModel(CompileProcessor p, ReduxModelEnum defaultModel) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope == null) {
             return defaultModel;
@@ -435,7 +435,7 @@ public class DatasourceCompileStaticProcessor {
     }
 
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
-                                                        ReduxModel model, String clientDatasourceId) {
+                                                        ReduxModelEnum model, String clientDatasourceId) {
         if (params == null) {
             return Collections.emptyMap();
         }
@@ -450,7 +450,7 @@ public class DatasourceCompileStaticProcessor {
         return result;
     }
 
-    private static ModelLink getModelLink(ReduxModel model, String clientDatasourceId, N2oParam param) {
+    private static ModelLink getModelLink(ReduxModelEnum model, String clientDatasourceId, N2oParam param) {
         Object value = param.getValueList() != null
                 ? param.getValueList()
                 : ScriptProcessor.resolveExpression(param.getValue());

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
-import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -46,7 +46,7 @@ class AlertFieldAT extends AutoTestBase {
 
         alert.shouldHaveText("Read this message!");
         alert.shouldHaveTitle("Warning");
-        alert.shouldHaveColor(Colors.WARNING);
+        alert.shouldHaveColor(ColorsEnum.WARNING);
         alert.shouldHaveUrl("http://example.org/");
         alert.closeButton().shouldExists();
         alert.closeButton().click();

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
-import net.n2oapp.framework.api.metadata.meta.control.OutputList.Direction;
+import net.n2oapp.framework.api.metadata.meta.control.OutputList.DirectionEnum;
 
 import java.time.Duration;
 
@@ -27,7 +27,7 @@ public interface OutputList extends Control {
      * Проверка направления отображения данных
      * @param direction ожидаемое направление
      */
-    void shouldHaveDirection(Direction direction);
+    void shouldHaveDirection(DirectionEnum direction);
 
     /**
      * Проверка соответствия ссылки у отображаемой опции

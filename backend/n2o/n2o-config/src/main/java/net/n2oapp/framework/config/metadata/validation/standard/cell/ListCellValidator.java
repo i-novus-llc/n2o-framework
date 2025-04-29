@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.compile.enums.Color;
+import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oListCell;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -31,7 +31,7 @@ public class ListCellValidator implements SourceValidator<N2oListCell>, SourceCl
                 throw new N2oMetadataValidationException("При наличии внутренней ячейки должен быть задан label-field-id в ячейке <list>");
         }
         if (source.getColor() != null && !StringUtils.isLink(source.getColor()) &&
-                !EnumUtils.isValidEnum(Color.class, source.getColor())) {
+                !EnumUtils.isValidEnum(ColorEnum.class, source.getColor())) {
             throw new N2oMetadataValidationException(
                     String.format("В ячейке <list> виджета %s указано недопустимое значение атрибута color=\"%s\"",
                             ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId()), source.getColor()));

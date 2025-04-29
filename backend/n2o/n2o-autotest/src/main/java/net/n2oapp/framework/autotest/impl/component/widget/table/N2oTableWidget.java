@@ -4,7 +4,7 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirection;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirectionEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.*;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
@@ -135,10 +135,10 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         @Override
-        public void columnShouldBeSortedBy(int columnIndex, SortingDirection direction) {
+        public void columnShouldBeSortedBy(int columnIndex, SortingDirectionEnum direction) {
             ElementsCollection elements = element().should(Condition.exist).$$(".table-row td:nth-child(" + (++columnIndex) + ")");
 
-            Comparator<String> comparator = direction == SortingDirection.ASC
+            Comparator<String> comparator = direction == SortingDirectionEnum.ASC
                     ? Comparator.naturalOrder()
                     : Comparator.reverseOrder();
 

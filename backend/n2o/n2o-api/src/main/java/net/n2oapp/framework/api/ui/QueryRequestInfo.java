@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.ui;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesMode;
+import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 
 /**
@@ -14,7 +14,7 @@ public class QueryRequestInfo extends RequestInfo {
     private N2oPreparedCriteria criteria;
     private DataSet data;
 
-    private DefaultValuesMode mode;
+    private DefaultValuesModeEnum mode;
     private int size;
 
     public CompiledQuery getQuery() {
@@ -50,11 +50,11 @@ public class QueryRequestInfo extends RequestInfo {
         this.size = size;
     }
 
-    public DefaultValuesMode getMode() {
+    public DefaultValuesModeEnum getMode() {
         return mode;
     }
 
-    public void setMode(DefaultValuesMode mode) {
+    public void setMode(DefaultValuesModeEnum mode) {
         this.mode = mode;
     }
 

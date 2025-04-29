@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeType;
-import net.n2oapp.framework.api.metadata.meta.badge.Position;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.BadgeCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -53,18 +53,18 @@ class BadgeCellCompileTest extends SourceCompileTestBase {
 
         cell = (BadgeCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getColor(), is("info"));
-        assertThat(cell.getShape(), is(ShapeType.SQUARE));
+        assertThat(cell.getShape(), is(ShapeTypeEnum.SQUARE));
 
         cell = (BadgeCell) table.getComponent().getBody().getCells().get(2);
-        assertThat(cell.getShape(), is(ShapeType.ROUNDED));
+        assertThat(cell.getShape(), is(ShapeTypeEnum.ROUNDED));
         assertThat(cell.getImageFieldId(), is("image"));
-        assertThat(cell.getImagePosition(), is(Position.RIGHT));
-        assertThat(cell.getImageShape(), is(ShapeType.SQUARE));
+        assertThat(cell.getImagePosition(), is(PositionEnum.RIGHT));
+        assertThat(cell.getImageShape(), is(ShapeTypeEnum.SQUARE));
 
         cell = (BadgeCell) table.getComponent().getBody().getCells().get(3);
-        assertThat(cell.getShape(), is(ShapeType.SQUARE));
+        assertThat(cell.getShape(), is(ShapeTypeEnum.SQUARE));
         assertThat(cell.getImageFieldId(), is("img"));
-        assertThat(cell.getImagePosition(), is(Position.LEFT));
-        assertThat(cell.getImageShape(), is(ShapeType.CIRCLE));
+        assertThat(cell.getImagePosition(), is(PositionEnum.LEFT));
+        assertThat(cell.getImageShape(), is(ShapeTypeEnum.CIRCLE));
     }
 }
