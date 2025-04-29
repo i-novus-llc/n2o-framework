@@ -21,9 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-import static net.n2oapp.framework.api.StringUtils.*;
+import static net.n2oapp.framework.api.StringUtils.hasLink;
+import static net.n2oapp.framework.api.StringUtils.isJs;
 
 /**
  * Утилитный класс для генерации js скриптов
@@ -47,7 +47,7 @@ public class ScriptProcessor {
         if (hasLink(text)) {
             String expr = text;
             if (TERNARY_IN_LINK_PATTERN.matcher(expr).matches()) {
-                expr = expr.replaceAll("\\{", "{(").replaceAll("}", ")}");
+                expr = expr.replace("{", "{(").replace("}", ")}");
             }
             if (expr.contains("${")) {
                 while (expr.contains("${")) {
@@ -76,9 +76,9 @@ public class ScriptProcessor {
             }
             if (hasLink(expr)) {
                 expr = resolveToJsString(expr);
-                return toJsExpression(expr.replaceAll("#<", "#{").replaceAll("\\$<", "\\${").replaceAll(">>", "}"));
+                return toJsExpression(expr.replace("#<", "#{").replace("$<", "${").replace(">>", "}"));
             } else {
-                return expr.replaceAll("#<", "#{").replaceAll("\\$<", "\\${").replaceAll(">>", "}");
+                return expr.replace("#<", "#{").replace("$<", "${").replace(">>", "}");
             }
         }
         return text;
@@ -200,7 +200,7 @@ public class ScriptProcessor {
 
     public static Object removeJsBraces(Object expression) {
         if (expression instanceof String str)
-            return str.replaceAll("`", "");
+            return str.replace("`", "");
         return expression;
     }
 
