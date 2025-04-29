@@ -41,7 +41,7 @@ public class ModifiedClientCacheTemplate extends ClientCacheTemplate implements 
     protected Cache getCache() {
         Cache cache = cacheManager.getCache(cacheRegion);
         if (cache == null) {
-            logger.warn("Cannot find cache named [" + cacheRegion + "] for CacheTemplate");
+            logger.warn("Cannot find cache named [{}] for CacheTemplate", cacheRegion);
             return new NoOpCache(cacheRegion);
         }
         return cache;

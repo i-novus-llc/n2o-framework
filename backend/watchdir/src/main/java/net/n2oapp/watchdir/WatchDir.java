@@ -287,7 +287,7 @@ public class WatchDir {
     }
 
     static void usage() {
-        System.err.println("usage: java WatchDir [-r] dir");
+        logger.error("usage: java WatchDir [-r] dir");
         System.exit(-1);
     }
 
@@ -309,17 +309,17 @@ public class WatchDir {
         WatchDir watchDir = new WatchDir(dir, recursive, new FileChangeListener() {
             @Override
             public void fileModified(Path file) {
-                System.out.format("modified: %s\n", file);
+                logger.info("modified: {}", file);
             }
 
             @Override
             public void fileCreated(Path file) {
-                System.out.format("created: %s\n", file);
+                logger.info("created: {}", file);
             }
 
             @Override
             public void fileDeleted(Path file) {
-                System.out.format("deleted: %s\n", file);
+                logger.info("deleted: {}", file);
             }
         });
         watchDir.start();

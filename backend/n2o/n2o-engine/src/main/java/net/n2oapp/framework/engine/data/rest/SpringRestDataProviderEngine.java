@@ -127,7 +127,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         copyForwardedHeaders(resolveForwardedHeaders(invocation), headers);
         copyForwardedCookies(resolveForwardedCookies(invocation), headers);
 
-        log.debug("Execute REST query: " + finalQuery);
+        log.debug("Execute REST query: {}", finalQuery);
         try {
             ResponseEntity<Object> result = switch (method.name()) {
                 case "GET" -> exchange(finalQuery, method, headers);

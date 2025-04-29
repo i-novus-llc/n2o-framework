@@ -91,7 +91,7 @@ public class ConfigStarter {
             logger.info("Monitoring did not start: path is null");
             return;
         }
-        logger.info("Start monitoring path: " + configPaths);
+        logger.info("Start monitoring path: {}", configPaths);
 
         //Запустить мониторинг файлов
         for (String path : configPaths) {
