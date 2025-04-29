@@ -41,8 +41,8 @@ class NestedMapTest {
 
         assertTrue(map.get("foo*.bar") instanceof List);
         assertTrue(map.get("['foo']*.bar") instanceof List);
-        assertEquals(1, ((List) map.get("foo*.bar")).get(0));
-        assertEquals(2, ((List) map.get("foo*.bar")).get(1));
+        assertEquals(1, ((List<?>) map.get("foo*.bar")).get(0));
+        assertEquals(2, ((List<?>) map.get("foo*.bar")).get(1));
 
         map = new NestedMap();
         list = new NestedList();
@@ -87,56 +87,56 @@ class NestedMapTest {
         map = new NestedMap();
         map.put("foo.bar", 1);
         assertTrue(map.get("foo") instanceof Map);
-        assertEquals(1, ((Map) map.get("foo")).get("bar"));
+        assertEquals(1, ((Map<?, ?>) map.get("foo")).get("bar"));
 
         map = new NestedMap();
         map.put("foo['bar']", 1);
         assertTrue(map.get("foo") instanceof Map);
-        assertEquals(1, ((Map) map.get("foo")).get("bar"));
+        assertEquals(1, ((Map<?, ?>) map.get("foo")).get("bar"));
 
         map = new NestedMap();
         map.put("['foo']['bar']", 1);
         assertTrue(map.get("foo") instanceof Map);
-        assertEquals(1, ((Map) map.get("foo")).get("bar"));
+        assertEquals(1, ((Map<?, ?>) map.get("foo")).get("bar"));
 
         map = new NestedMap();
         map.put("foo[2]", 1);
         assertTrue(map.get("foo") instanceof List);
-        assertEquals(1, ((List) map.get("foo")).get(2));
+        assertEquals(1, ((List<?>) map.get("foo")).get(2));
 
         map = new NestedMap();
         map.put("foo*.bar", Arrays.asList(1, 2, 3));
         assertTrue(map.get("foo") instanceof List);
-        assertTrue(((List) map.get("foo")).get(0) instanceof Map);
-        assertEquals(2, ((Map) ((List) map.get("foo")).get(1)).get("bar"));
+        assertTrue(((List<?>) map.get("foo")).get(0) instanceof Map);
+        assertEquals(2, ((Map<?, ?>) ((List<?>) map.get("foo")).get(1)).get("bar"));
 
         //put map
         map = new NestedMap();
         Map<String, Object> map2 = new HashMap<>();
         map2.put("bar", 1);
         map.put("foo", map2);
-        assertEquals(1, ((Map) map.get("foo")).get("bar"));
+        assertEquals(1, ((Map<?, ?>) map.get("foo")).get("bar"));
 
         //put map 2
         map = new NestedMap();
         map2 = new HashMap<>();
         map2.put("bar.test", 1);
         map.put("foo", map2);
-        assertEquals(1, ((Map) map.get("foo")).get("['bar.test']"));
+        assertEquals(1, ((Map<?, ?>) map.get("foo")).get("['bar.test']"));
 
         //put map 3
         map = new NestedMap();
         map2 = new HashMap<>();
         map2.put("bar['test']", 1);
         map.put("foo", map2);
-        assertEquals(1, ((Map) map.get("foo")).get("[\"bar['test']\"]"));
+        assertEquals(1, ((Map<?, ?>) map.get("foo")).get("[\"bar['test']\"]"));
 
         //put map 4
         map = new NestedMap();
         map2 = new HashMap<>();
         map2.put("2019-01-01", 1);
         map.put("foo", map2);
-        assertEquals(1, ((Map) map.get("foo")).get("['2019-01-01']"));
+        assertEquals(1, ((Map<?, ?>) map.get("foo")).get("['2019-01-01']"));
 
         //negative
         map = new NestedMap();
@@ -173,7 +173,7 @@ class NestedMapTest {
         map2 = new HashMap<>();
         map2.put("foo", Arrays.asList(1, 2, 3));
         map.putAll(map2);
-        assertEquals(3, ((List) map.get("foo")).size());
+        assertEquals(3, ((List<?>) map.get("foo")).size());
 
         map = new NestedMap();
         map2 = new HashMap<>();
@@ -583,7 +583,7 @@ class NestedMapTest {
         assertNull(map.put("a[2]", 3));
         assertTrue(map.containsKey("a"));
         assertTrue(map.get("a") instanceof List);
-        assertEquals(3, ((List) map.get("a")).size());
+        assertEquals(3, ((List<?>) map.get("a")).size());
         assertTrue(map.containsKey("a[0]"));
         assertEquals(1, map.get("a[0]"));
         assertTrue(map.containsKey("a[1]"));
@@ -592,7 +592,7 @@ class NestedMapTest {
         assertEquals(3, map.get("a[2]"));
         assertFalse(map.containsKey("a[3]"));
         assertEquals(2, map.remove("a[1]"));//after remove array size became is 2
-        assertEquals(2, ((List) map.get("a")).size());
+        assertEquals(2, ((List<?>) map.get("a")).size());
         assertFalse(map.containsKey("a[3]"));
 
         //nested index
@@ -644,10 +644,10 @@ class NestedMapTest {
         assertTrue(map.containsKey("foo"));
         assertNotNull(map.get("foo"));
         assertTrue(map.get("foo") instanceof Map);
-        assertTrue(((Map) map.get("foo")).containsKey("id"));
-        assertTrue(((Map) map.get("foo")).containsKey("name"));
-        assertEquals(1, ((Map) map.get("foo")).get("id"));
-        assertEquals("test", ((Map) map.get("foo")).get("name"));
+        assertTrue(((Map<?, ?>) map.get("foo")).containsKey("id"));
+        assertTrue(((Map<?, ?>) map.get("foo")).containsKey("name"));
+        assertEquals(1, ((Map<?, ?>) map.get("foo")).get("id"));
+        assertEquals("test", ((Map<?, ?>) map.get("foo")).get("name"));
         assertFalse(map.containsKey("id"));
         assertFalse(map.containsKey("name"));
 
@@ -659,10 +659,10 @@ class NestedMapTest {
         assertTrue(map.containsKey("foo"));
         assertNotNull(map.get("foo"));
         assertTrue(map.get("foo") instanceof NestedMap);
-        assertTrue(((Map) map.get("foo")).containsKey("id"));
-        assertEquals(1, ((Map) map.get("foo")).get("id"));
-        assertTrue(((Map) map.get("foo")).containsKey("name"));
-        assertEquals("test", ((Map) map.get("foo")).get("name"));
+        assertTrue(((Map<?, ?>) map.get("foo")).containsKey("id"));
+        assertEquals(1, ((Map<?, ?>) map.get("foo")).get("id"));
+        assertTrue(((Map<?, ?>) map.get("foo")).containsKey("name"));
+        assertEquals("test", ((Map<?, ?>) map.get("foo")).get("name"));
         assertTrue(map.containsKey("foo.id"));
         assertTrue(map.containsKey("foo.name"));
         assertEquals(1, map.get("foo.id"));
@@ -694,13 +694,13 @@ class NestedMapTest {
         map.put("foo.id", 1);
         assertEquals(1, map.size());
         assertEquals(1, map.entrySet().size());
-        assertEquals(1, ((Map) (map.get("foo"))).size());
-        assertEquals(1, ((Map) (map.get("foo"))).entrySet().size());
+        assertEquals(1, ((Map<?, ?>) (map.get("foo"))).size());
+        assertEquals(1, ((Map<?, ?>) (map.get("foo"))).entrySet().size());
         map.put("foo.id2", 2);
         assertEquals(1, map.size());
         assertEquals(1, map.entrySet().size());
-        assertEquals(2, ((Map) (map.get("foo"))).size());
-        assertEquals(2, ((Map) (map.get("foo"))).entrySet().size());
+        assertEquals(2, ((Map<?, ?>) (map.get("foo"))).size());
+        assertEquals(2, ((Map<?, ?>) (map.get("foo"))).entrySet().size());
     }
 
     @Test
@@ -749,7 +749,7 @@ class NestedMapTest {
         map.put("foo[0]", 2);
         assertEquals(1, map.size());
         assertEquals(1, map.entrySet().size());
-        assertEquals(2, ((List) map.get("foo")).size());
+        assertEquals(2, ((List<?>) map.get("foo")).size());
     }
 
     @Test
@@ -757,11 +757,11 @@ class NestedMapTest {
         NestedMap map = new NestedMap();
         map.put("a.b.c[0].d[1].e", 1);
         assertEquals(1, map.size());
-        assertEquals(((Map) map.get("a")).get("b"), map.get("a.b"));
+        assertEquals(((Map<?, ?>) map.get("a")).get("b"), map.get("a.b"));
         assertTrue(map.get("a.b.c") instanceof List);
-        assertEquals(((List) ((Map) ((Map) map.get("a")).get("b")).get("c")).get(0), map.get("a.b.c[0]"));
+        assertEquals(((List<?>) ((Map<?, ?>) ((Map<?, ?>) map.get("a")).get("b")).get("c")).get(0), map.get("a.b.c[0]"));
         assertTrue(map.get("a.b.c[0].d") instanceof List);
-        assertEquals(((List) ((Map) ((List) ((Map) ((Map) map.get("a")).get("b")).get("c")).get(0)).get("d")).get(1), map.get("a.b.c[0].d[1]"));
+        assertEquals(((List<?>) ((Map<?, ?>) ((List<?>) ((Map<?, ?>) ((Map<?, ?>) map.get("a")).get("b")).get("c")).get(0)).get("d")).get(1), map.get("a.b.c[0].d[1]"));
         assertEquals(1, map.get("a.b.c[0].d[1].e"));
     }
 
@@ -798,8 +798,8 @@ class NestedMapTest {
         map.put("foo[0].name", "oleg");
         value2 = map.get("foo*.name");
         assertNotNull(value2);
-        assertEquals("oleg", ((List) value2).get(0));
-        assertNull(((List) value2).get(1));
+        assertEquals("oleg", ((List<?>) value2).get(0));
+        assertNull(((List<?>) value2).get(1));
 
         map = new NestedMap();
         map.put("gender.id", 1);
@@ -835,7 +835,7 @@ class NestedMapTest {
             map.put("foo[1].bar[1].id", "11");
 
             //уровень вложенности spread = 1
-            List<String> fooIds = (List) map.get("foo*.id");
+            List fooIds = (List) map.get("foo*.id");
             assertEquals(2, fooIds.size());
             assertEquals("0", fooIds.get(0));
             assertEquals("1", fooIds.get(1));
@@ -894,20 +894,20 @@ class NestedMapTest {
         map = new NestedMap();
         map.put("foo*.bar*.id", Arrays.asList(Arrays.asList(0, 1, 2), Arrays.asList(0, 1)));
         assertTrue(map.get("foo") instanceof List);
-        assertEquals(2, ((List) map.get("foo")).size());
+        assertEquals(2, ((List<?>) map.get("foo")).size());
         assertTrue(map.get("foo[0].bar") instanceof List);
-        assertEquals(3, ((List) map.get("foo[0].bar")).size());
+        assertEquals(3, ((List<?>) map.get("foo[0].bar")).size());
         assertTrue(map.get("foo[1].bar") instanceof List);
-        assertEquals(2, ((List) map.get("foo[1].bar")).size());
+        assertEquals(2, ((List<?>) map.get("foo[1].bar")).size());
         assertEquals(2, map.get("foo[0].bar[2].id"));
         assertEquals(0, map.get("foo[1].bar[0].id"));
 
         map = new NestedMap();
         map.put("foo[0].bar*.id", Arrays.asList(0, 1));
         assertTrue(map.get("foo") instanceof List);
-        assertEquals(1, ((List) map.get("foo")).size());
+        assertEquals(1, ((List<?>) map.get("foo")).size());
         assertTrue(map.get("foo[0].bar") instanceof List);
-        assertEquals(2, ((List) map.get("foo[0].bar")).size());
+        assertEquals(2, ((List<?>) map.get("foo[0].bar")).size());
         assertEquals(0, map.get("foo[0].bar[0].id"));
         assertEquals(1, map.get("foo[0].bar[1].id"));
 
@@ -921,16 +921,16 @@ class NestedMapTest {
 
         map = new NestedMap();
         map.put("foo*.bar.id", Arrays.asList(1, 2, 3));
-        assertEquals(map.get("foo*.bar.id"), Arrays.asList(1, 2, 3));
+        assertEquals(Arrays.asList(1, 2, 3), map.get("foo*.bar.id"));
         map.put("foo*.bar.id2", Arrays.asList(1, 2, 3, 4));
-        assertEquals(map.get("foo*.bar.id"), Arrays.asList(1, 2, 3, null));
-        assertEquals(map.get("foo*.bar.id2"), Arrays.asList(1, 2, 3, 4));
+        assertEquals(Arrays.asList(1, 2, 3, null), map.get("foo*.bar.id"));
+        assertEquals(Arrays.asList(1, 2, 3, 4), map.get("foo*.bar.id2"));
 
         //test put array
         map = new NestedMap();
         map.put("test*.name", Arrays.asList("test1", "test2", "test3"));
         assertTrue(map.get("test") instanceof List);
-        assertEquals(3, ((List) map.get("test")).size());
+        assertEquals(3, ((List<?>) map.get("test")).size());
     }
 
     @Test
@@ -945,7 +945,7 @@ class NestedMapTest {
     @Test
     void testSpreadPutUnmodifiable() {
         NestedMap map = new NestedMap();
-        map.put("foo*.id", Collections.unmodifiableList(Arrays.asList(0, 1, 2)));
+        map.put("foo*.id", List.of(0, 1, 2));
         assertEquals(0, map.get("foo[0].id"));
         assertEquals(1, map.get("foo[1].id"));
         assertEquals(2, map.get("foo[2].id"));
@@ -1000,7 +1000,7 @@ class NestedMapTest {
         map.put("a", foo);
 
         assertTrue(map.get("a") instanceof List);
-        assertEquals(4, ((List) map.get("a")).size());
+        assertEquals(4, ((List<?>) map.get("a")).size());
         assertEquals(1, map.get("a[0]"));
         assertEquals(1, map.get("a[1].id"));
         assertNull(map.get("a[2]"));
@@ -1020,10 +1020,10 @@ class NestedMapTest {
         map.put("list[0].id", 1);
         map.put("list[1].id", 2);
         map.put("list[1].name", "Олег");
-        assertEquals(2, ((List) map.get("list")).size());
-        assertEquals(1, ((Map) ((List) map.get("list")).get(0)).get("id"));
-        assertEquals(2, ((Map) ((List) map.get("list")).get(1)).get("id"));
-        assertEquals("Олег", ((Map) ((List) map.get("list")).get(1)).get("name"));
+        assertEquals(2, ((List<?>) map.get("list")).size());
+        assertEquals(1, ((Map<?, ?>) ((List<?>) map.get("list")).get(0)).get("id"));
+        assertEquals(2, ((Map<?, ?>) ((List<?>) map.get("list")).get(1)).get("id"));
+        assertEquals("Олег", ((Map<?, ?>) ((List<?>) map.get("list")).get(1)).get("name"));
         //get
         assertEquals(1, map.get("list[0].id"));
         assertEquals(2, map.get("list[1].id"));
@@ -1034,16 +1034,16 @@ class NestedMapTest {
         assertTrue(map.containsKey("list[1].name"));
         //remove
         assertEquals(1, map.remove("list[0].id"));
-        assertEquals(2, ((List) map.get("list")).size());
-        assertNull(((Map) ((List) map.get("list")).get(0)).get("id"));
-        assertEquals(2, ((Map) ((List) map.get("list")).get(1)).get("id"));
-        assertEquals("Олег", ((Map) ((List) map.get("list")).get(1)).get("name"));
+        assertEquals(2, ((List<?>) map.get("list")).size());
+        assertNull(((Map<?, ?>) ((List<?>) map.get("list")).get(0)).get("id"));
+        assertEquals(2, ((Map<?, ?>) ((List<?>) map.get("list")).get(1)).get("id"));
+        assertEquals("Олег", ((Map<?, ?>) ((List<?>) map.get("list")).get(1)).get("name"));
 
         //check double remove
         map.clear();
         map.put("list[0].id", 1);
-        assertEquals(1, ((Map) map.remove("list[0]")).get("id"));
-        assertEquals(0, ((List) map.get("list")).size());
+        assertEquals(1, ((Map<?, ?>) map.remove("list[0]")).get("id"));
+        assertEquals(0, ((List<?>) map.get("list")).size());
         assertNull(map.remove("list[0].id"));
         assertNull(map.remove("list[0]"));
     }

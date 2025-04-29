@@ -84,7 +84,7 @@ class RouteRegisterTest {
         repository.save(key, context);
 
         assertFalse(register.iterator().hasNext());
-        assertEquals(repository.getAll().size(), 2);
+        assertEquals(2, repository.getAll().size());
 
         register.addRoute("/p/w/c", new MockCompileContext<>("/p/w/c", "pWc", null, Page.class));
         String[] sortedUrl = new String[]{"/p/w/c/b", "/p/w/c", "/p/w"};
@@ -94,7 +94,7 @@ class RouteRegisterTest {
             assertEquals(sortedUrl[i], info.getKey().getUrlMatching());
         }
 
-        assertEquals(repository.getAll().size(), 3);
+        assertEquals(3, repository.getAll().size());
     }
 
     private RouteRegister getRegister() {
