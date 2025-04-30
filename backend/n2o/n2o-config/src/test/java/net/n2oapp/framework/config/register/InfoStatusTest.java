@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Properties;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * Тестирование статуса метаданной
@@ -45,30 +45,30 @@ class InfoStatusTest {
         //system path
         InfoConstructor info = new InfoConstructor(new ConfigId("page", metaModelRegister.get(N2oPage.class)));
         info.setLocalPath("page.page.xml");
-        assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.StatusEnum.SYSTEM);
+        assertSame(InfoStatus.calculateStatusByFile(info), InfoStatus.StatusEnum.SYSTEM);
 
         //system path, test dir
         info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setLocalPath("test/page.page.xml");
-        assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.StatusEnum.SYSTEM);
+        assertSame(InfoStatus.calculateStatusByFile(info), InfoStatus.StatusEnum.SYSTEM);
 
         //server path
         info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setLocalPath("page.page.xml");
         info.setOverride(true);
-        assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.StatusEnum.SERVER);
+        assertSame(InfoStatus.calculateStatusByFile(info), InfoStatus.StatusEnum.SERVER);
 
         //server path, test dir
         info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setLocalPath("test/page.page.xml");
         info.setOverride(true);
-        assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.StatusEnum.SERVER);
+        assertSame(InfoStatus.calculateStatusByFile(info), InfoStatus.StatusEnum.SERVER);
     }
 
     @Test
     void testEqAncestor(@TempDir Path tempFolder) throws Exception {
         File modified = new File(tempFolder.toAbsolutePath() + "testObj.object.xml");
-        createFile("classpath:/net/n2oapp/framework/config/ancestor/testObj2.object.xml",modified);
+        createFile("classpath:/net/n2oapp/framework/config/ancestor/testObj2.object.xml", modified);
 
         //server -> system
         InfoConstructor info = new InfoConstructor("page", metaModelRegister.get(N2oObject.class));
@@ -80,10 +80,10 @@ class InfoStatusTest {
         info2.setAncestor(info);
         info2.setOverride(true);
 
-        assertTrue(InfoStatus.calculateStatusByFile(info2) == InfoStatus.StatusEnum.MODIFY);
+        assertSame(InfoStatus.calculateStatusByFile(info2), InfoStatus.StatusEnum.MODIFY);
 
         File unmodified = new File(tempFolder.toAbsolutePath() + "testObj.object.xml");
-        createFile("classpath:/net/n2oapp/framework/config/ancestor/testObj.object.xml",unmodified);
+        createFile("classpath:/net/n2oapp/framework/config/ancestor/testObj.object.xml", unmodified);
         //system -> server
         info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setLocalPath("config/ancestor/testObj.object.xml");
@@ -94,7 +94,7 @@ class InfoStatusTest {
         info2.setUri(PathUtil.convertRootPathToUrl(modified.getAbsolutePath()));
         info2.setOverride(true);
         info2.setAncestor(info);
-        assertTrue(InfoStatus.calculateStatusByFile(info2) == InfoStatus.StatusEnum.SYSTEM);
+        assertSame(InfoStatus.calculateStatusByFile(info2), InfoStatus.StatusEnum.SYSTEM);
     }
 
     @Test
@@ -108,7 +108,7 @@ class InfoStatusTest {
         info2.setUri("jar:/system/path/test2/page.page.xml");
         info2.setOverride(true);
         info2.setAncestor(info);
-        assertTrue(InfoStatus.calculateStatusByFile(info2) == InfoStatus.StatusEnum.DUPLICATE);
+        assertSame(InfoStatus.calculateStatusByFile(info2), InfoStatus.StatusEnum.DUPLICATE);
 
         //system1 -> server2
         info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
@@ -119,7 +119,7 @@ class InfoStatusTest {
         info2.setUri("jar:/system/path/test2/page.page.xml");
         info2.setOverride(true);
         info.setAncestor(info2);
-        assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.StatusEnum.DUPLICATE);
+        assertSame(InfoStatus.calculateStatusByFile(info), InfoStatus.StatusEnum.DUPLICATE);
 
         //system1 -> system2
         info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
@@ -129,7 +129,7 @@ class InfoStatusTest {
         info2.setLocalPath("test2/page.page.xml");
         info2.setUri("jar:/system/path/test2/page.page.xml");
         info.setAncestor(info2);
-        assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.StatusEnum.DUPLICATE);
+        assertSame(InfoStatus.calculateStatusByFile(info), InfoStatus.StatusEnum.DUPLICATE);
 
         //server1 -> system2 -> system1
         info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
@@ -144,7 +144,7 @@ class InfoStatusTest {
         info3.setOverride(true);
         info3.setAncestor(info2);
         info2.setAncestor(info);
-        assertTrue(InfoStatus.calculateStatusByFile(info3) == InfoStatus.StatusEnum.DUPLICATE);
+        assertSame(InfoStatus.calculateStatusByFile(info3), InfoStatus.StatusEnum.DUPLICATE);
     }
 
     private static File createFile(String uri, File file) throws IOException {
