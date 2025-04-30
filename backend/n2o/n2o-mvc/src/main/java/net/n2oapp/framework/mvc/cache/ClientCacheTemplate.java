@@ -30,7 +30,7 @@ public abstract class ClientCacheTemplate {
         if (ifNotModifiedSince(lastModifiedFromClient, lastModifiedFromServer)) {
             resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
             if (logger.isDebugEnabled())
-                logger.debug("Not Modified " + req.getRequestURI());
+                logger.debug("Not Modified {}", req.getRequestURI());
         } else {
             setLastModified(req, resp, lastModifiedFromServer);
             callback.doGet(req, resp);

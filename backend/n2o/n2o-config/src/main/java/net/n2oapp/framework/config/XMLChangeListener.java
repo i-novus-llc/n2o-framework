@@ -48,9 +48,9 @@ public class XMLChangeListener implements FileChangeListener {
 
             configRegister.update(info);
             eventBus.publish(new MetadataChangedEvent(this, info.getId(), info.getBaseSourceClass()));
-            log.debug("Modified handled: " + file);
+            log.debug("Modified handled: {}", file);
         } catch (Exception e) {
-            log.error("Fail modified handled: " + file, e);
+            log.error("Fail modified handled: {}", file, e);
         }
     }
 
@@ -71,14 +71,14 @@ public class XMLChangeListener implements FileChangeListener {
                     );
                 } catch (IOException ignored) {
                     if (file.toFile().isDirectory()) {
-                        log.error("Created not handled: error add directory " + file);
+                        log.error("Created not handled: error add directory {}", file);
                     }
                 }
                 return;
             }
             addSourceFromMemory(file);
         } catch (Exception e) {
-            log.error("Fail created handled: " + file, e);
+            log.error("Fail created handled {}", file, e);
         }
     }
 
@@ -99,7 +99,7 @@ public class XMLChangeListener implements FileChangeListener {
         SourceInfo info = getSourceInfo(path);
         configRegister.remove(info.getId(), info.getBaseSourceClass());
         eventBus.publish(new MetadataChangedEvent(this, info.getId(), info.getBaseSourceClass()));
-        log.debug("Deleted handled: " + path);
+        log.debug("Deleted handled: {}", path);
     }
 
     private void deleteSourceFromMemoryByPath(String path) {
@@ -111,7 +111,7 @@ public class XMLChangeListener implements FileChangeListener {
             configRegister.remove(info.getId(), info.getBaseSourceClass());
             eventBus.publish(new MetadataChangedEvent(this, info.getId(), info.getBaseSourceClass()));
         }
-        log.debug("Deleted handled: " + path);
+        log.debug("Deleted handled: {}", path);
     }
 
     private SourceInfo getSourceInfo(String path) {
@@ -122,7 +122,7 @@ public class XMLChangeListener implements FileChangeListener {
         SourceInfo info = getSourceInfo(path.toString());
         configRegister.add(info);
         eventBus.publish(new MetadataChangedEvent(this, info.getId(), info.getBaseSourceClass()));
-        log.debug("Created handled: " + path);
+        log.debug("Created handled: {}", path);
     }
 
     private static boolean isXMl(Path file) {

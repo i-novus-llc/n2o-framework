@@ -230,7 +230,7 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
         build();
         List<? extends SourceInfo> sources = environment.getMetadataScannerFactory().scan();
         environment.getMetadataRegister().addAll(sources);
-        logger.info("Scanned " + sources.size() + " metadata");
+        logger.info("Scanned {} metadata", sources.size());
         return this;
     }
 

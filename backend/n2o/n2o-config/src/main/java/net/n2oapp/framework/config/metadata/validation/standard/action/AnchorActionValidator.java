@@ -22,13 +22,13 @@ public class AnchorActionValidator implements SourceValidator<N2oAnchor>, Source
     public void validate(N2oAnchor source, SourceProcessor p) {
         if (source.getHref() == null)
             ValidationUtils.checkDatasourceExistence(source.getDatasourceId(), p,
-                    String.format("Для действия <a> не задан `href`"));
+                    "Для действия <a> не задан `href`");
 
 
         if (source.getTarget() != null && source.getTarget().equals(TargetEnum.application)
                 && source.getHref() != null && source.getHref().startsWith("http")) {
             throw new N2oMetadataValidationException(
-                    String.format("Для действия <a> при абсолютном пути (http\\https) не может быть задан target=\"application\""));
+                    "Для действия <a> при абсолютном пути (http\\https) не может быть задан target=\"application\"");
         }
     }
 }

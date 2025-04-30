@@ -26,7 +26,7 @@ public class HeaderWarmUpper implements EnvironmentAware {
     public void warmUp() {
         String applicationId = environment.getProperty("n2o.application.id", String.class);
         String welcomePageId = environment.getProperty("n2o.homepage.id", String.class);
-        // необходимо чтобы зарегистрировать рутовые страницы в RouteRegister
+        // необходимо, чтобы зарегистрировать рутовые страницы в RouteRegister
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = applicationBuilder
                 .read().transform().validate().cache()
                 .compile().transform().cache();
@@ -37,7 +37,7 @@ public class HeaderWarmUpper implements EnvironmentAware {
             try {
            	    pipeline.get(context);
             } catch (MetadataNotFoundException ignore) {
-                log.error("Main page by id " + welcomePageId + " not found ");
+                log.error("Main page by id {} not found", welcomePageId);
             }
         }
     }
