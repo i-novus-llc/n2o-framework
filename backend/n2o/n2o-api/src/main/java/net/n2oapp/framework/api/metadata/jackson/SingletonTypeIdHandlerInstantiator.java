@@ -41,9 +41,8 @@ public class SingletonTypeIdHandlerInstantiator extends HandlerInstantiator {
 
     @Override
     public TypeIdResolver typeIdResolverInstance(MapperConfig<?> config, Annotated annotated, Class<?> resolverClass) {
-        if (!typeIdResolverMap.containsKey(resolverClass))
-            typeIdResolverMap.put(resolverClass, (TypeIdResolver) ClassUtil.createInstance(resolverClass, true));
-        return typeIdResolverMap.get(resolverClass);
+        return typeIdResolverMap.computeIfAbsent(resolverClass,
+                k -> (TypeIdResolver) ClassUtil.createInstance(resolverClass, true));
     }
 
     public void addTypeIdResolver(Class<?> resolverClass, TypeIdResolver typeIdResolver) {

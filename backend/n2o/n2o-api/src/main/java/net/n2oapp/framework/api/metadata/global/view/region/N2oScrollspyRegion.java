@@ -39,8 +39,7 @@ public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
         @Override
         public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
             if (content != null) {
-                if (!ids.containsKey(prefix))
-                    ids.put(prefix, 1);
+                ids.putIfAbsent(prefix, 1);
                 for (SourceComponent component : content) {
                     if (component instanceof RegionItem regionItem)
                         regionItem.collectWidgets(result, ids, prefix);
@@ -57,8 +56,7 @@ public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
         @Override
         public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
             if (subMenu != null) {
-                if (!ids.containsKey(prefix))
-                    ids.put(prefix, 1);
+                ids.putIfAbsent(prefix, 1);
                 for (AbstractMenuItem mi : subMenu) {
                     mi.collectWidgets(result, ids, prefix);
                 }
@@ -72,11 +70,11 @@ public class N2oScrollspyRegion extends N2oRegion implements RoutableRegion {
 
         private Boolean headline;
         private AbstractMenuItem[] group;
+
         @Override
         public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
             if (group != null) {
-                if (!ids.containsKey(prefix))
-                    ids.put(prefix, 1);
+                ids.putIfAbsent(prefix, 1);
                 for (AbstractMenuItem mi : group) {
                     mi.collectWidgets(result, ids, prefix);
                 }

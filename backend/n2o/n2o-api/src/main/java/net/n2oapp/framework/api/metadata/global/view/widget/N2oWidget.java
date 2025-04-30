@@ -158,8 +158,7 @@ public abstract class N2oWidget extends N2oMetadata
 
     @Override
     public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
-        if (!ids.containsKey(prefix))
-            ids.put(prefix, 1);
+        ids.putIfAbsent(prefix, 1);
         if (getId() == null)
             setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
         result.add(this);
