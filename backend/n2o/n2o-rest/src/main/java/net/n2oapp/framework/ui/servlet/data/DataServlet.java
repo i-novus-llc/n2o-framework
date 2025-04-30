@@ -1,7 +1,6 @@
 package net.n2oapp.framework.ui.servlet.data;
 
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -20,11 +19,6 @@ public class DataServlet extends N2oServlet {
 
     public DataServlet(DataController controller) {
         this.controller = controller;
-    }
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
     }
 
     @Override

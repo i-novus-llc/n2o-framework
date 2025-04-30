@@ -1,6 +1,5 @@
 package net.n2oapp.framework.ui.servlet.table;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,11 +21,6 @@ public class ExportServlet extends N2oServlet {
 
     public ExportServlet(ExportController controller) {
         this.controller = controller;
-    }
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
     }
 
     @Override

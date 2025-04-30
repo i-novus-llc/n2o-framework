@@ -33,6 +33,9 @@ public class TestContextEngine extends HashMap<String, Object> implements Contex
 
     @Override
     public Object get(String name) {
+        if (name == null) {
+            return null;
+        }
         return super.get(name);
     }
 

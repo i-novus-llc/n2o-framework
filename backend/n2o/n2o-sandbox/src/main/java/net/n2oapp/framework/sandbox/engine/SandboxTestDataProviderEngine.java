@@ -19,7 +19,10 @@ import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 import static net.n2oapp.framework.sandbox.utils.FileUtil.isTemplate;
@@ -34,11 +37,6 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
     private ProjectTemplateHolder templatesHolder;
     @Autowired
     private SandboxRestClient restClient;
-
-    @Override
-    public Object invoke(N2oTestDataProvider invocation, Map<String, Object> inParams) {
-        return super.invoke(invocation, inParams);
-    }
 
     @Override
     protected synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
