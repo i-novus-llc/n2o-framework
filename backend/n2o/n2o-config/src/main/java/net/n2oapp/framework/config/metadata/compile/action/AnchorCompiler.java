@@ -36,7 +36,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
 
     @Override
     public LinkAction compile(N2oAnchor source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         LinkActionImpl linkAction = new LinkActionImpl();
         source.setSrc(castDefault(source.getSrc(),
                 () -> p.resolve(Placeholders.property("n2o.api.action.link.src"), String.class)));

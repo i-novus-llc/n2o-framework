@@ -57,8 +57,8 @@ import static net.n2oapp.framework.config.util.PageContextCompileUtil.*;
 public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAbstractPageAction> extends AbstractActionCompiler<D, S> {
 
     @Override
-    protected void initDefaults(S source, CompileContext<?, ?> context, CompileProcessor p) {
-        super.initDefaults(source, context, p);
+    protected void initDefaults(S source, CompileProcessor p) {
+        super.initDefaults(source, p);
 
         if (source.getDatasources() != null) {
             Stream.of(source.getDatasources())

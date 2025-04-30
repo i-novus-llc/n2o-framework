@@ -28,7 +28,7 @@ public class BadgeCellCompiler extends AbstractCellCompiler<BadgeCell, N2oBadgeC
     @Override
     public BadgeCell compile(N2oBadgeCell source, CompileContext<?, ?> context, CompileProcessor p) {
         BadgeCell cell = new BadgeCell();
-        build(cell, source, context, p, property("n2o.api.cell.badge.src"));
+        build(cell, source, p, property("n2o.api.cell.badge.src"));
         ComponentScope scope = p.getScope(ComponentScope.class);
         if (scope != null) {
             N2oBaseColumn column = scope.unwrap(N2oBaseColumn.class);

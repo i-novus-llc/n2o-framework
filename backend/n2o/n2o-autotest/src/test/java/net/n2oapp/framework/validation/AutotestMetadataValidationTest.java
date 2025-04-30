@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.pack.*;
-import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.InfoConstructor;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.OriginEnum;
@@ -108,7 +107,6 @@ class AutotestMetadataValidationTest extends N2oTestBase {
             newInfo.setUri(casted.getUri());
             newInfo.setScannerClass(casted.getScannerClass());
             newInfo.setOrigin(OriginEnum.xml);
-            newInfo.setReaderClass(XmlMetadataLoader.class);
             uuidIdMap.put(uuid, casted.getId());
             String truncatedFilePath = truncateFilePath(newInfo.getURI());
             uriUUIDMap.computeIfAbsent(truncatedFilePath.substring(0, truncatedFilePath.lastIndexOf('/')), k -> new ArrayList<>()).add(new UriMetadataId(casted.getId(), uuid, newInfo.getBaseSourceClass()));

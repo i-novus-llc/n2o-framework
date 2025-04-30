@@ -27,7 +27,7 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
 
     @Override
     public SetValueAction compile(N2oSetValueAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         SetValueAction setValueAction = new SetValueAction();
         compileAction(setValueAction, source, p);
         setValueAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));

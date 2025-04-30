@@ -29,7 +29,7 @@ public class ImageCellCompiler extends AbstractCellCompiler<ImageCell, N2oImageC
     @Override
     public ImageCell compile(N2oImageCell source, CompileContext<?, ?> context, CompileProcessor p) {
         ImageCell cell = new ImageCell();
-        build(cell, source, context, p, property("n2o.api.cell.image.src"));
+        build(cell, source, p, property("n2o.api.cell.image.src"));
         cell.setShape(castDefault(source.getShape(),
                 () -> p.resolve(property("n2o.api.cell.image.shape"), ShapeTypeEnum.class)));
         cell.setWidth(prepareSizeAttribute(castDefault(source.getWidth(),

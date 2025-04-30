@@ -27,7 +27,7 @@ public class CheckboxCellCompiler extends AbstractCellCompiler<CheckboxCell, N2o
             cell.setDisabled("true");
         }
 
-        build(cell, source, context, p, property("n2o.api.cell.checkbox.src"));
+        build(cell, source, p, property("n2o.api.cell.checkbox.src"));
         compileAction(cell, source, context, p);
         return cell;
     }

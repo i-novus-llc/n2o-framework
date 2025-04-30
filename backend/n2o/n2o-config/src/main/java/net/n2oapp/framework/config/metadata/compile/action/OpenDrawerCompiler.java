@@ -25,7 +25,7 @@ public class OpenDrawerCompiler extends AbstractModalCompiler<OpenDrawer, N2oOpe
 
     @Override
     public OpenDrawer compile(N2oOpenDrawer source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         OpenDrawer drawer = new OpenDrawer();
         compileModal(source, drawer, context, p);
         drawer.setType(p.resolve(property("n2o.api.action.open_drawer.type"), String.class));

@@ -24,7 +24,7 @@ public class TextCellCompiler extends AbstractCellCompiler<TextCell, N2oTextCell
     @Override
     public TextCell compile(N2oTextCell source, CompileContext<?, ?> context, CompileProcessor p) {
         TextCell cell = new TextCell();
-        build(cell, source, context, p, property("n2o.api.cell.text.src"));
+        build(cell, source, p, property("n2o.api.cell.text.src"));
         if (source.getClassSwitch() != null)
             cell.getElementAttributes().put("className", castDefault(source.getCssClass(), () -> compileSwitch(source.getClassSwitch(), p)));
         cell.setFormat(source.getFormat());

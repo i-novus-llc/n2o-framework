@@ -32,12 +32,12 @@ public abstract class ClientCacheTemplate {
             if (logger.isDebugEnabled())
                 logger.debug("Not Modified {}", req.getRequestURI());
         } else {
-            setLastModified(req, resp, lastModifiedFromServer);
+            setLastModified(resp, lastModifiedFromServer);
             callback.doGet(req, resp);
         }
     }
 
-    protected void setLastModified(HttpServletRequest req, HttpServletResponse resp, long lastModified) {
+    protected void setLastModified(HttpServletResponse resp, long lastModified) {
         resp.addDateHeader(LAST_MODIFIED, lastModified);
     }
 

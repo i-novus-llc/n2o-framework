@@ -64,8 +64,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         }
 
         PerformButton button = new PerformButton();
-        initDefaults(source, context, p);
-        compileBase(button, source, context, p);
+        initDefaults(source, p);
+        compileBase(button, source, p);
         button.setSrc(source.getSrc());
         button.setRounded(source.getRounded());
         button.setValidate(compileValidate(source,
@@ -80,9 +80,9 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     @Override
-    protected void initDefaults(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void initDefaults(N2oButton source, CompileProcessor p) {
         source.setId(castDefault(source.getId(), source.getActionId()));
-        super.initDefaults(source, context, p);
+        super.initDefaults(source, p);
 
         source.setDatasourceId(initDatasource(source, p));
         source.setSrc(castDefault(source.getSrc(),

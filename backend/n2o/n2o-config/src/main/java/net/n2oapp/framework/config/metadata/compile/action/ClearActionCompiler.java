@@ -24,7 +24,7 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
 
     @Override
     public ClearAction compile(N2oClearAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         ClearAction clearAction = new ClearAction();
         compileAction(clearAction, source, p);
         clearAction.setType(p.resolve(property("n2o.api.action.clear.type"), String.class));

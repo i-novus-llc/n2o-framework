@@ -45,11 +45,11 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
 
     @Override
     public Submenu compile(N2oSubmenu source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
 
         Submenu submenu = new Submenu();
         IndexScope idx = p.getScope(IndexScope.class);
-        compileBase(submenu, source, context, p);
+        compileBase(submenu, source, p);
         submenu.setId(source.getId() == null ? "subMenu" + idx.get() : source.getId());
         source.setId(submenu.getId());
         submenu.setSrc(castDefault(source.getSrc(),

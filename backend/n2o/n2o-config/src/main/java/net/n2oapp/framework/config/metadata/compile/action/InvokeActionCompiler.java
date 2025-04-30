@@ -46,7 +46,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
 
     @Override
     public InvokeAction compile(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        initDefaults(source, context, p);
+        initDefaults(source, p);
         InvokeAction invokeAction = new InvokeAction();
         compileAction(invokeAction, source, p);
         invokeAction.setOperationId(source.getOperationId());
@@ -64,9 +64,8 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         return invokeAction;
     }
 
-    @Override
     protected MetaSaga initSuccessMeta(InvokeAction compiled, N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        MetaSaga metaSaga = super.initSuccessMeta(compiled, source, context, p);
+        MetaSaga metaSaga = super.initSuccessMeta(source, context, p);
         metaSaga.setMessageWidgetId(
                 getMessageWidgetId(compiled, context, source.getCloseOnSuccess() || source.getDoubleCloseOnSuccess())
         );
@@ -75,9 +74,8 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         return metaSaga;
     }
 
-    @Override
     protected MetaSaga initFailMeta(InvokeAction compiled, N2oInvokeAction source, CompileContext<?, ?> context) {
-        MetaSaga metaSaga = super.initFailMeta(compiled, source, context);
+        MetaSaga metaSaga = super.initFailMeta(source, context);
         metaSaga.setMessageWidgetId(compiled.getPayload().getWidgetId());
 
         return metaSaga;
@@ -87,8 +85,8 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         return p.resolve(property("n2o.api.action.invoke.type"), String.class);
     }
 
-    protected void initDefaults(N2oInvokeAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        super.initDefaults(source, context, p);
+    protected void initDefaults(N2oInvokeAction source, CompileProcessor p) {
+        super.initDefaults(source, p);
         source.setRoute(castDefault(RouteUtil.normalize(source.getRoute()), "/" + source.getId()));
         initSubmitMessageDefaults(source);
         source.setOptimistic(

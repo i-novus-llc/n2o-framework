@@ -118,7 +118,6 @@ class ExamplesMetadataValidationTest extends N2oTestBase {
             newInfo.setUri(casted.getUri());
             newInfo.setScannerClass(casted.getScannerClass());
             newInfo.setOrigin(OriginEnum.xml);
-            newInfo.setReaderClass(XmlMetadataLoader.class);
             uuidIdMap.put(uuid, casted.getId());
             String truncatedFilePath = truncateFilePath(newInfo.getURI());
             uriUUIDMap.computeIfAbsent(truncatedFilePath.substring(0, truncatedFilePath.lastIndexOf('/')), k -> new ArrayList<>()).add(new UriMetadataId(casted.getId(), uuid, newInfo.getBaseSourceClass()));

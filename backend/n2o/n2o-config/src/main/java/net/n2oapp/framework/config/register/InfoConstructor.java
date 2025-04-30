@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.register;
 
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.MetaType;
 
 import java.util.HashSet;
@@ -51,7 +50,8 @@ public final class InfoConstructor extends XmlInfo {
     }
 
 
-    public void setReaderClass(Class<? extends SourceLoader> readerClass) {
+    public void setReaderClass() {
+        // no implementation
     }
 
     public void setDependents(Set<ConfigId> dependents) {

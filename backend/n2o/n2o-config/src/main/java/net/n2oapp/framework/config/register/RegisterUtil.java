@@ -88,12 +88,10 @@ public class RegisterUtil {
     @Deprecated
     private static void baseForDynamicInfo(InfoConstructor info) {
         info.setOrigin(OriginEnum.dynamic);
-        info.setReaderClass(JavaSourceLoader.class);
     }
 
     private static void baseForXmlInfo(InfoConstructor info) {
         info.setOrigin(OriginEnum.xml);
-        info.setReaderClass(XmlMetadataLoader.class);
     }
 
     public static <T extends SourceInfo> List<T> collectInfo(List<Node> nodes,

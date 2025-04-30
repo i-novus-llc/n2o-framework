@@ -103,7 +103,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         component.setWidth(prepareSizeAttribute(source.getWidth()));
         component.setHeight(prepareSizeAttribute(source.getHeight()));
         component.setTextWrap(castDefault(source.getTextWrap(), p.resolve(property("n2o.api.widget.table.text_wrap"), Boolean.class)));
-        component.getBody().setRow(initRows(source, context, p, object, widgetScope, widgetActions, component));
+        component.getBody().setRow(initRows(source, context, p, object, widgetScope, component));
         table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p, widgetScope));
         table.setChildren(castDefault(source.getChildren(), () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggleEnum.class)));
         table.setSaveSettings(shouldSaveSettings(source, p));
@@ -112,7 +112,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         return table;
     }
 
-    private TableWidgetComponent.BodyRow initRows(S source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject object, WidgetScope widgetScope, MetaActions widgetActions, TableWidgetComponent component) {
+    private TableWidgetComponent.BodyRow initRows(S source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject object, WidgetScope widgetScope, TableWidgetComponent component) {
         if (source.getRows() == null)
             return component.getBody().getRow();
 
