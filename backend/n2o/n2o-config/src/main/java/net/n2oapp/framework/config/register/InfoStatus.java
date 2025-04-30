@@ -57,7 +57,7 @@ public class InfoStatus {
                         && info.getUri().equals(info.getAncestor().getUri())) {
                     return StatusEnum.SERVER;
                 }
-                boolean isIdenticalContent = isIdenticalContentSimple(info.getAncestor().getURI(), info.getURI(), checkDiff);
+                boolean isIdenticalContent = isIdenticalContentSimple(info.getAncestor().getXmlURI(), info.getXmlURI(), checkDiff);
                 if (isIdenticalContent) {
                     return StatusEnum.SYSTEM;
                 } else {

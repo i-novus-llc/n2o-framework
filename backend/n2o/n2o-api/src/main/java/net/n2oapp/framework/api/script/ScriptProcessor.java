@@ -573,20 +573,6 @@ public class ScriptProcessor {
         return res.toString();
     }
 
-    public static String and(List<String> operands) {
-        return reduce("&&", operands);
-    }
-
-    public static String or(List<String> operands) {
-        return reduce("||", operands);
-    }
-
-
-    private static String reduce(String operator, List<String> operands) {
-        if (operands == null || operands.isEmpty()) return null;
-        return operands.stream().reduce((s1, s2) -> "(" + s1 + ") " + operator + " (" + s2 + ")").orElseGet(null);
-    }
-
     private static List<String> retrieve(String[] fields) {
         List<String> res = new ArrayList<>();
         for (String field : fields) {

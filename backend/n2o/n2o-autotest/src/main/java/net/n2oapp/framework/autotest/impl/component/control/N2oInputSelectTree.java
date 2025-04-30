@@ -41,7 +41,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void setFilter(String value) {
-        input().setValue(value);
+        inputElement().setValue(value);
     }
 
 
@@ -60,7 +60,7 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void clearSearchField() {
-        input().clear();
+        inputElement().clear();
     }
 
     @Override
@@ -129,14 +129,14 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
     public void shouldBeDisabled() {
-        input().shouldBe(Condition.disabled);
+        inputElement().shouldBe(Condition.disabled);
     }
 
     protected SelenideElement switcher() {
         return element().$(".n2o-select-tree-arrow");
     }
 
-    protected SelenideElement input() {
+    protected SelenideElement inputElement() {
         return element().$(".n2o-select-tree-selection-search-input");
     }
 

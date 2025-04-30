@@ -163,10 +163,6 @@ public class ActionCompileStaticProcessor {
      */
     public static Action compileAction(ActionsAware source, CompileContext<?, ?> context, CompileProcessor p,
                                        @Nullable CompiledObject dsObject, Object... scopes) {
-        N2oAction[] n2oActions = source.getActions();
-        if (n2oActions == null)
-            return null;
-
         return compileAction(source.getActions(), dsObject, context, p,
                 new ComponentScope(source, p.getScope(ComponentScope.class)), scopes);
     }

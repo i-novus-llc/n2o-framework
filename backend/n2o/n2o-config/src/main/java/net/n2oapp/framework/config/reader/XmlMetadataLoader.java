@@ -34,7 +34,7 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
     @Override
     public <S extends SourceMetadata> S load(XmlInfo info, String params) {
         Class<? extends SourceMetadata> sourceClass = info.getBaseSourceClass();
-        try (InputStream inputStream = FileSystemUtil.getContentAsStream(info.getURI())) {
+        try (InputStream inputStream = FileSystemUtil.getContentAsStream(info.getXmlURI())) {
             MetadataParamHolder.setParams(RouteUtil.parseQueryParams(params));
             S source = read(info.getId(), inputStream);
             if (!sourceClass.isAssignableFrom(source.getClass()))
@@ -43,7 +43,7 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
         } catch (N2oException e) {
             throw e;
         } catch (Exception e) {
-            throw new N2oMetadataReaderException(e, info.getId(), info.getURI(), info.getConfigId().getType());
+            throw new N2oMetadataReaderException(e, info.getId(), info.getXmlURI(), info.getConfigId().getType());
         } finally {
             MetadataParamHolder.setParams(null);
         }
