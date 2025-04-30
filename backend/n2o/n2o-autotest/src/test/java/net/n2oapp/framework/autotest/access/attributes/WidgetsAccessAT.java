@@ -40,7 +40,7 @@ class WidgetsAccessAT extends AutoTestBase {
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/access/attributes/widgets/index.page.xml"),
-                new CompileInfo("META-INF/conf/default.access.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/access/attributes/widgets/default.access.xml"));
     }
 
     @Test
