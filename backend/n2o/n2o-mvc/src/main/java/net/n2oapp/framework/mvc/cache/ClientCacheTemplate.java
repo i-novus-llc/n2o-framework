@@ -13,8 +13,8 @@ import java.io.IOException;
  */
 public abstract class ClientCacheTemplate {
     private static final Logger logger = LoggerFactory.getLogger(ClientCacheTemplate.class);
-    private final static String IF_MODIFIED_SINCE = "If-Modified-Since";
-    private final static String LAST_MODIFIED = "Last-Modified";
+    private static final String IF_MODIFIED_SINCE = "If-Modified-Since";
+    private static final String LAST_MODIFIED = "Last-Modified";
 
     /**
      * Выполнить запрос с кэшированием "If-Modified-Since"

@@ -27,7 +27,7 @@ import static java.util.UUID.randomUUID;
 
 class AutotestMetadataValidationTest extends N2oTestBase {
 
-    private final static String CLASSES = "/classes/";
+    private static final String CLASSES = "/classes/";
     private final Pattern uuidPattern = Pattern.compile("\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}");
     private TestMetaDataRegister testMetaDataRegister = new TestMetaDataRegister();
     private String[] foldersToScan = {"/net/n2oapp/framework/autotest"};

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 class AccessPointXmlIOv2Test {
 
-    final static ION2oMetadataTester tester = new ION2oMetadataTester()
+    static final ION2oMetadataTester tester = new ION2oMetadataTester()
             .addPack(new AccessPointsIOV2Pack());
 
     @Test

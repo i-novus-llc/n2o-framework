@@ -12,12 +12,13 @@ import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSc
 import net.n2oapp.framework.access.metadata.schema.user.N2oUserAccess;
 import net.n2oapp.framework.api.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 
@@ -28,20 +29,20 @@ import static java.util.Arrays.stream;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PermissionAndRoleCollector {
 
-    public final static BiFunction<String, String, Predicate<N2oObjectAccessPoint>> OBJECT_ACCESS = (objectId, actionId) ->
+    public static final BiFunction<String, String, Predicate<N2oObjectAccessPoint>> OBJECT_ACCESS = (objectId, actionId) ->
             ac -> StringUtils.maskMatch(ac.getObjectId(), objectId) &&
                     (actionId == null || StringUtils.maskMatch(ac.getAction(), actionId));
 
-    public final static Function<String, Predicate<N2oUrlAccessPoint>> URL_ACCESS = pattern -> ac -> ac.getMatcher().matches(pattern);
+    public static final Function<String, Predicate<N2oUrlAccessPoint>> URL_ACCESS = pattern -> ac -> ac.getMatcher().matches(pattern);
 
-    public final static Function<String, Predicate<N2oPageAccessPoint>> PAGE_ACCESS = pageId -> ac -> ac.getPage().equals(pageId);
+    public static final Function<String, Predicate<N2oPageAccessPoint>> PAGE_ACCESS = pageId -> ac -> ac.getPage().equals(pageId);
 
-    public final static Function<String, Predicate<N2oReferenceAccessPoint>> REFERENCE_ACCESS = objectId -> ac -> ac.getObjectId().equals(objectId);
+    public static final Function<String, Predicate<N2oReferenceAccessPoint>> REFERENCE_ACCESS = objectId -> ac -> ac.getObjectId().equals(objectId);
 
-    public final static TripleFunction<String, String, String, Predicate<N2oColumnAccessPoint>> COLUMN_ACCESS = (pageId, containerId, columnId) ->
+    public static final TripleFunction<String, String, String, Predicate<N2oColumnAccessPoint>> COLUMN_ACCESS = (pageId, containerId, columnId) ->
             ac -> ac.getPageId().equals(pageId) && ac.getContainerId().equals(containerId) && ac.getColumnId().equals(columnId);
 
-    public final static BiFunction<String, String, Predicate<N2oFilterAccessPoint>> FILTER_ACCESS = (queryId, filterId) ->
+    public static final BiFunction<String, String, Predicate<N2oFilterAccessPoint>> FILTER_ACCESS = (queryId, filterId) ->
             ac -> ac.getQueryId().equals(queryId) && ac.getFilterId().equals(filterId);
 
     /**
@@ -96,9 +97,9 @@ public class PermissionAndRoleCollector {
             return Collections.emptyList();
         }
         return ts.stream().filter(p -> stream(getter.apply(p))
-                .filter(type::isInstance)
-                .map(type::cast)
-                .anyMatch(predicate))
+                        .filter(type::isInstance)
+                        .map(type::cast)
+                        .anyMatch(predicate))
                 .toList();
     }
 

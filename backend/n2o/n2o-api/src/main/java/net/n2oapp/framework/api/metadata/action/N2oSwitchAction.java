@@ -51,7 +51,7 @@ public class N2oSwitchAction extends N2oAbstractAction implements DatasourceIdAw
 
     @Getter
     @Setter
-    public static abstract class AbstractCase implements ActionsAware, IdAware {
+    public abstract static class AbstractCase implements ActionsAware, IdAware {
         private String id;
         private String actionId;
         private N2oAction[] actions;
