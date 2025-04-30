@@ -340,9 +340,9 @@ public class IOProcessorImpl implements IOProcessor {
             if (values == null) return;
             Element seqE;
             seqE = persistSequences(element, sequences);
-            for (String k : values.keySet()) {
+            for (Map.Entry<String, Object> entry : values.entrySet()) {
                 Element childE = new Element(childrenName, element.getNamespace());
-                childE.setAttribute(k, values.get(k).toString());
+                childE.setAttribute(entry.getKey(), entry.getValue().toString());
                 seqE.addContent(childE);
             }
         }
@@ -431,15 +431,13 @@ public class IOProcessorImpl implements IOProcessor {
         if (values == null) return;
         Element seqE;
         seqE = persistSequences(element, sequences);
-        for (String k : values.keySet()) {
+        for (Map.Entry<String, T> entry : values.entrySet()) {
             Element childE = new Element(childrenName, element.getNamespace());
-            childE.setAttribute(keyName, k);
+            childE.setAttribute(keyName, entry.getKey());
             if (valueName == null) {
-                childE.setText(values.get(k).toString());
-            } else {
-                if (values.get(k) != null) {
-                    childE.setAttribute(valueName, values.get(k).toString());
-                }
+                childE.setText(entry.getValue().toString());
+            } else if (entry.getValue() != null) {
+                childE.setAttribute(valueName, entry.getValue().toString());
             }
             seqE.addContent(childE);
         }

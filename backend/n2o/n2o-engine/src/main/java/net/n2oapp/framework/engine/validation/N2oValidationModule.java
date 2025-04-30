@@ -88,14 +88,21 @@ public class N2oValidationModule implements DataProcessing {
         DataSet dataSet = inDataSet != null ? inDataSet : requestInfo.getData();
         DataSet result = new DataSet();
         Map<String, String> paramsMap = requestInfo.getQuery().getParamToFilterIdMap();
-        for (String key : dataSet.keySet()) {
+
+        for (Map.Entry<String, Object> entry : dataSet.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
             if (paramsMap.containsKey(key)) {
-                if (DataSet.isSpreadKey(paramsMap.get(key)) && !(dataSet.get(key) instanceof Collection))
-                    result.put(paramsMap.get(key), Collections.singletonList(dataSet.get(key)));
-                else
-                    result.put(paramsMap.get(key), dataSet.get(key));
-            } else
-                result.put(key, dataSet.get(key));
+                String mappedKey = paramsMap.get(key);
+                if (DataSet.isSpreadKey(mappedKey) && !(value instanceof Collection)) {
+                    result.put(mappedKey, Collections.singletonList(value));
+                } else {
+                    result.put(mappedKey, value);
+                }
+            } else {
+                result.put(key, value);
+            }
         }
         return new QueryValidationInfo(
                 requestInfo.getQuery().getObject(),

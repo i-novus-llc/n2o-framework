@@ -25,7 +25,7 @@ public class DataSet extends NestedMap {
 
     public DataSet(Map<? extends String, ?> m) {
         super();
-        m.forEach((k, v) -> put(k, v instanceof DataSet dataSet ? new DataSet(dataSet) : v instanceof DataList dataList? new DataList(dataList) : v));
+        m.forEach((k, v) -> put(k, v instanceof DataSet dataSet ? new DataSet(dataSet) : v instanceof DataList dataList ? new DataList(dataList) : v));
     }
 
     public String getId() {
@@ -109,9 +109,10 @@ public class DataSet extends NestedMap {
                               ArrayMergeStrategyEnum mergeStrategy, Boolean addNullValues) {
         if (main == extend) return;
         if (extend == null) return;
-        for (String fieldName : extend.keySet()) {
+        for (Map.Entry<String, Object> entry : extend.entrySet()) {
+            String fieldName = entry.getKey();
+            Object extendValue = entry.getValue();
             Object mainValue = main.get(fieldName);
-            Object extendValue = extend.get(fieldName);
             if (mainValue instanceof NestedMap mainVal && extendValue instanceof NestedMap extendVal) {
                 merge(mainVal, extendVal, strategy, mergeStrategy, addNullValues);
             } else if (mainValue instanceof List mainVal && extendValue instanceof List extendVal) {
