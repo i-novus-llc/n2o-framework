@@ -43,7 +43,7 @@ public class HeaderAccessAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/menu2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/menu3.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/menu4.page.xml"),
-                new CompileInfo("META-INF/conf/default.access.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/default.access.xml"));
     }
 
     @Test
