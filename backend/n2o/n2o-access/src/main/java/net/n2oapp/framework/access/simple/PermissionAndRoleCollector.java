@@ -2,7 +2,6 @@ package net.n2oapp.framework.access.simple;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import net.n2oapp.framework.access.api.model.filter.N2oAccessFilter;
 import net.n2oapp.framework.access.functions.TripleFunction;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.*;
@@ -12,7 +11,6 @@ import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSc
 import net.n2oapp.framework.access.metadata.schema.user.N2oUserAccess;
 import net.n2oapp.framework.api.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -54,7 +52,7 @@ public class PermissionAndRoleCollector {
      * @return
      */
     public static <A extends AccessPoint> List<N2oRole> collectRoles(Class<A> type, Predicate<A> predicate, SimpleCompiledAccessSchema schema) {
-        return collect(() -> schema.getN2oRoles(), N2oRole::getAccessPoints, type, predicate);
+        return collect(schema::getN2oRoles, N2oRole::getAccessPoints, type, predicate);
     }
 
     /**
@@ -66,7 +64,7 @@ public class PermissionAndRoleCollector {
      * @return
      */
     public static <A extends AccessPoint> List<N2oPermission> collectPermission(Class<A> type, Predicate<A> predicate, SimpleCompiledAccessSchema schema) {
-        return collect(() -> schema.getN2oPermissions(), N2oPermission::getAccessPoints, type, predicate);
+        return collect(schema::getN2oPermissions, N2oPermission::getAccessPoints, type, predicate);
     }
 
     /**
@@ -78,7 +76,7 @@ public class PermissionAndRoleCollector {
      * @return
      */
     public static <A extends AccessPoint> List<N2oUserAccess> collectUsers(Class<A> type, Predicate<A> predicate, SimpleCompiledAccessSchema schema) {
-        return collect(() -> schema.getN2oUserAccesses(), N2oUserAccess::getAccessPoints, type, predicate);
+        return collect(schema::getN2oUserAccesses, N2oUserAccess::getAccessPoints, type, predicate);
     }
 
     /**
@@ -93,7 +91,7 @@ public class PermissionAndRoleCollector {
     public static <T, A extends AccessPoint> List<T> collect(Supplier<List<T>> supplier, Function<T, AccessPoint[]> getter,
                                                              Class<A> type, Predicate<A> predicate) {
         List<T> ts = supplier.get();
-        if (ts == null || ts.size() == 0) {
+        if (ts == null || ts.isEmpty()) {
             return Collections.emptyList();
         }
         return ts.stream().filter(p -> stream(getter.apply(p))
@@ -101,54 +99,5 @@ public class PermissionAndRoleCollector {
                         .map(type::cast)
                         .anyMatch(predicate))
                 .toList();
-    }
-
-    /**
-     * Возвращает все фильтры доступа по объекту и действию
-     *
-     * @param rolePredicate       функция проверки обрабатываемых единиц(role) на соответствие заданным условиям
-     * @param permissionPredicate функция проверки обрабатываемых единиц(permission) на соответствие заданным условиям
-     * @param userPredicate       функция проверки обрабатываемых единиц(user) на соответствие заданным условиям
-     * @param objectId            id проверяемого объекта
-     * @param actionId            id проверяемого действия
-     * @return фильтры доступа
-     */
-    public static List<N2oAccessFilter> collectFilters(Predicate<N2oRole> rolePredicate, Predicate<N2oPermission> permissionPredicate,
-                                                       Predicate<N2oUserAccess> userPredicate, String objectId,
-                                                       String actionId, SimpleCompiledAccessSchema schema) {
-        List<N2oRole> roles = collectRoles(N2oObjectAccessPoint.class, PermissionAndRoleCollector.OBJECT_ACCESS.apply(objectId, actionId), schema)
-                .stream().filter(rolePredicate).toList();
-        List<N2oPermission> permissions = collectPermission(N2oObjectAccessPoint.class,
-                PermissionAndRoleCollector.OBJECT_ACCESS.apply(objectId, actionId), schema)
-                .stream().filter(permissionPredicate).toList();
-        List<N2oUserAccess> users = collectUsers(N2oObjectAccessPoint.class, PermissionAndRoleCollector.OBJECT_ACCESS.apply(objectId, actionId), schema)
-                .stream().filter(userPredicate).toList();
-        List<N2oAccessFilter> filters = new ArrayList<>();
-        filters.addAll(collectFilters(roles, N2oRole::getAccessPoints, objectId, actionId));
-        filters.addAll(collectFilters(permissions, N2oPermission::getAccessPoints, objectId, actionId));
-        filters.addAll(collectFilters(users, N2oUserAccess::getAccessPoints, objectId, actionId));
-        return filters;
-    }
-
-    private static <T> List<N2oAccessFilter> collectFilters(List<T> list, Function<T, AccessPoint[]> getter, String objectId, String actionId) {
-        return null;
-        //todo изменилась логика сборки фильтров. данный код надо удалить или переписать с учетом новой логики
-        /*return list.stream()
-                .map(getter)
-                .filter(Objects::nonNull)
-                .flatMap(Arrays::stream)
-                .filter(N2oObjectAccessPoint.class::isInstance)
-                .map(N2oObjectAccessPoint.class::cast)
-                .filter(o -> o.getObjectId().equals(objectId) && o.getAction().equals(actionId))
-                .filter(o -> o.getAccessFilters() != null)
-                .flatMap(o -> o.getAccessFiltersAsList().stream())
-                .map(ac -> {
-                    if (ac.getValues() != null && ac.getValues().length>0) {
-                        return new N2oAccessFilter(ac.getFieldId(), Arrays.asList(ac.getValues()), ac.getType());
-                    } else {
-                        return new N2oAccessFilter(ac.getFieldId(), ac.getValue(), ac.getType());
-                    }
-                })
-                .toList();*/
     }
 }
