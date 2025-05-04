@@ -19,6 +19,7 @@ public class N2oForm extends N2oWidget {
     @Deprecated
     private Submit submit;
 
+    @Override
     @Deprecated
     public void adapterV4() {
         super.adapterV4();

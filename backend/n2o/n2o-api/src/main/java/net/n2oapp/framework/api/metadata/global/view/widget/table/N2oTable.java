@@ -29,6 +29,7 @@ public class N2oTable extends N2oAbstractTable {
         private String defaultValuesQueryId;
     }
 
+    @Override
     @Deprecated
     public void adapterV4() {
         super.adapterV4();

@@ -36,10 +36,12 @@ public final class InfoConstructor extends XmlInfo {
         return new XmlInfo(this);
     }
 
+    @Override
     public String getId() {
         return configId.getId();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Class<? extends SourceMetadata> getBaseSourceClass() {
         return configId.getBaseSourceClass();

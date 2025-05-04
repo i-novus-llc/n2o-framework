@@ -95,6 +95,7 @@ public class N2oPage extends N2oComponent implements Page {
         element().sendKeys(Keys.END);
     }
 
+    @Override
     public void shouldHaveCssClass(String classname) {
         body().shouldHave(Condition.cssClass(classname));
     }

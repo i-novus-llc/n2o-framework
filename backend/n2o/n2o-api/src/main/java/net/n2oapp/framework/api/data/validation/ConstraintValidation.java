@@ -29,6 +29,7 @@ public class ConstraintValidation extends InvocationValidation {
         this.requiredFields = validation.getRequiredFields();
     }
 
+    @Override
     public void setInParametersList(List<AbstractParameter> inParametersList) {
         super.setInParametersList(inParametersList);
         this.requiredFields = inParametersList.stream()

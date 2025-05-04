@@ -65,6 +65,7 @@ public class ReloadableProperties extends OverrideProperties {
     }
 
     //переопределяем, чтобы "дернуть" наш специальный get
+    @Override
     public String superGetProperty(String key) {
         Object oval = get(key);
         String sval = (oval instanceof String ovalString) ? ovalString : null;
@@ -165,16 +166,19 @@ public class ReloadableProperties extends OverrideProperties {
         return (timeStamp + cacheTimeLong) < currentTime;
     }
 
+    @Override
     public synchronized void load(Reader reader) throws IOException {
         timeStamp = System.currentTimeMillis();
         super.load(reader);
     }
 
+    @Override
     public synchronized void load(InputStream inStream) throws IOException {
         timeStamp = System.currentTimeMillis();
         super.load(inStream);
     }
 
+    @Override
     public synchronized void loadFromXML(InputStream in)
             throws IOException {
         timeStamp = System.currentTimeMillis();

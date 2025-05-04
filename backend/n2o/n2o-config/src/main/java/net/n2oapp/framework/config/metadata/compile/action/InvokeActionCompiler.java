@@ -85,6 +85,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         return p.resolve(property("n2o.api.action.invoke.type"), String.class);
     }
 
+    @Override
     protected void initDefaults(N2oInvokeAction source, CompileProcessor p) {
         super.initDefaults(source, p);
         source.setRoute(castDefault(RouteUtil.normalize(source.getRoute()), "/" + source.getId()));

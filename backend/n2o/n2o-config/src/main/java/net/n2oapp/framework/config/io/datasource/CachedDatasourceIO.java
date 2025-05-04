@@ -36,6 +36,7 @@ public class CachedDatasourceIO extends BaseDatasourceIO<N2oCachedDatasource> {
                 N2oPreFilter::setType, N2oPreFilter::new, FilterTypeEnum.class, this::filters);
     }
 
+    @Override
     protected void filters(Element e, N2oPreFilter pf, IOProcessor p) {
         p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
         p.attribute(e, "param", pf::getParam, pf::setParam);

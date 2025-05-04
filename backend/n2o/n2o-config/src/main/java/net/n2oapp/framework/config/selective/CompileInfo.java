@@ -93,6 +93,7 @@ public class CompileInfo extends SourceInfo {
         return FolderInfoScanner.class;
     }
 
+    @Override
     public String getId() {
         if (id != null)
             return id;
