@@ -81,7 +81,7 @@ public class XmlInfo extends FileInfo {
         return ancestor;
     }
 
-    public String getURI() {
+    public String getXmlURI() {
         return this.uri;
     }
 

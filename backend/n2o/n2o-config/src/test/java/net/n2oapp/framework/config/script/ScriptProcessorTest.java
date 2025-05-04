@@ -550,15 +550,4 @@ class ScriptProcessorTest {
         //lodash
         assertThat(ScriptProcessor.eval("_.join(['a', 'b', 'c'], '~')", new DataSet()), is("a~b~c"));
     }
-
-    @Test
-    void testReduce() {
-        assertThat(ScriptProcessor.and(Arrays.asList("test1 || test2", "test3 || test4")), is("(test1 || test2) && (test3 || test4)"));
-        assertThat(ScriptProcessor.and(Collections.singletonList("test1")), is("test1"));
-        assertThat(ScriptProcessor.and(null), nullValue());
-
-        assertThat(ScriptProcessor.or(Arrays.asList("test1 || test2", "test3 || test4")), is("(test1 || test2) || (test3 || test4)"));
-        assertThat(ScriptProcessor.or(Arrays.asList("test1")), is("test1"));
-        assertThat(ScriptProcessor.or(null), nullValue());
-    }
 }

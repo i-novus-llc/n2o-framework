@@ -21,23 +21,23 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void setValue(String value) {
-        input().setValue(value);
+        inputElement().setValue(value);
     }
 
     @Override
     public void setMultiValue(String... values) {
-        Arrays.stream(values).forEach(s -> input().setValue(s).pressEnter());
+        Arrays.stream(values).forEach(s -> inputElement().setValue(s).pressEnter());
     }
 
     @Override
     public void pressEnter() {
-        input().pressEnter();
+        inputElement().pressEnter();
     }
 
     @Override
     public void shouldHaveValue(String value, Duration... duration) {
-        if (input().exists())
-            should(Condition.value(value), input(), duration);
+        if (inputElement().exists())
+            should(Condition.value(value), inputElement(), duration);
         else
             should(Condition.text(value), cellInputElement(), duration);
     }
@@ -70,14 +70,14 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void clear() {
-        input().clear();
+        inputElement().clear();
     }
 
     @Override
     public void shouldBeEmpty() {
-        input().shouldBe(Condition.empty);
+        inputElement().shouldBe(Condition.empty);
         if (isMulti())
-            input().parent().$(".selected-item").shouldNot(Condition.exist);
+            inputElement().parent().$(".selected-item").shouldNot(Condition.exist);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void backspace() {
-        input().sendKeys(Keys.BACK_SPACE);
+        inputElement().sendKeys(Keys.BACK_SPACE);
     }
 
     protected SelenideElement popupIcon() {
@@ -139,7 +139,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
         return element().$$(".selected-item");
     }
 
-    protected SelenideElement input() {
+    protected SelenideElement inputElement() {
         return element().$(".n2o-inp");
     }
 
@@ -148,6 +148,6 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     private boolean isMulti() {
-        return input().has(Condition.cssClass("n2o-inp--multi"));
+        return inputElement().has(Condition.cssClass("n2o-inp--multi"));
     }
 }

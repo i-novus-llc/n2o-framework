@@ -95,7 +95,7 @@ public class MetadataPersister {
             throw new RuntimeException(e);
         }
         InfoConstructor info = findOrCreateXmlInfo(n2o, directory);
-        String path = PathUtil.convertUrlToAbsolutePath(info.getURI());
+        String path = PathUtil.convertUrlToAbsolutePath(info.getXmlURI());
         if (path == null)
             throw new IllegalStateException();
         watchDir.skipOn(path);
@@ -115,7 +115,7 @@ public class MetadataPersister {
         checkLock();
         T n2o = metadataReader.read(id, xml, metadataClass);
         InfoConstructor infoC = findOrCreateXmlInfo(n2o, directory);
-        String path = PathUtil.convertUrlToAbsolutePath(infoC.getURI());
+        String path = PathUtil.convertUrlToAbsolutePath(infoC.getXmlURI());
         if (path == null)
             throw new IllegalStateException();
         try {
@@ -160,13 +160,13 @@ public class MetadataPersister {
     public void remove(String id, Class<? extends N2oMetadata> metadataClass) {
         checkLock();
         XmlInfo info = (XmlInfo) metadataRegister.get(id, metadataClass);
-        if (info != null && info.getURI() != null) {
-            String path = PathUtil.convertUrlToAbsolutePath(info.getURI());
+        if (info != null && info.getXmlURI() != null) {
+            String path = PathUtil.convertUrlToAbsolutePath(info.getXmlURI());
             if (path == null)
                 throw new IllegalStateException();
-            watchDir.skipOn(info.getURI());
+            watchDir.skipOn(info.getXmlURI());
             try {
-                if (removeContentByUri(info.getURI())) {
+                if (removeContentByUri(info.getXmlURI())) {
                     ConfigId configId = info.getConfigId();
                     metadataRegister.remove(configId.getId(), configId.getBaseSourceClass());
                     eventBus.publish(new MetadataRemovedEvent(this, info));

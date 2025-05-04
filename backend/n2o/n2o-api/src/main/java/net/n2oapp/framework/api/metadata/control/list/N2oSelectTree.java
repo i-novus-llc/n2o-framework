@@ -15,7 +15,6 @@ public class N2oSelectTree extends N2oListField {
     private String parentFieldId;
     private String parentIsNullFieldId;
     private String hasChildrenFieldId;
-    private Boolean search;
     private Boolean checkboxes;
     private CheckingStrategyEnum checkingStrategy;
     private Integer maxTagCount;
