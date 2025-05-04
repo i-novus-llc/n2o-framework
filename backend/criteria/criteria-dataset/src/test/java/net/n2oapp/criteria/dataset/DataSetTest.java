@@ -7,14 +7,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-class DataSetTest {
+import static org.junit.jupiter.api.Assertions.*;
 
+class DataSetTest {
 
     @Test
     void testSelfMerge() {
         DataSet dataSet = new DataSet("test", new ArrayList<>(Arrays.asList(1, 2)));
         dataSet.merge(dataSet);
-        assert dataSet.get("test").equals(Arrays.asList(1, 2));
+        assertEquals(Arrays.asList(1, 2), dataSet.get("test"));
     }
 
     @Test
@@ -33,28 +34,26 @@ class DataSetTest {
 
         mainDataSet.merge(extendDataSet);
 
-        assert mainDataSet.get("id").equals(2);
-        assert mainDataSet.get("gender.id").equals(2);
-        assert mainDataSet.get("gender.name").equals("Мужской");
-        List address = (List) mainDataSet.get("address");
-        assert address.size() == 2;
-        assert address.contains("kazan");
-        assert address.contains("chistopol");
+        assertEquals(2, mainDataSet.get("id"));
+        assertEquals(2, mainDataSet.get("gender.id"));
+        assertEquals("Мужской", mainDataSet.get("gender.name"));
+
+        List<?> address = (List<?>) mainDataSet.get("address");
+        assertEquals(2, address.size());
+        assertTrue(address.contains("kazan"));
+        assertTrue(address.contains("chistopol"));
     }
 
     @Test
     void testWithStrategy() {
-
         DataSet mainDataSet = new DataSet();
         mainDataSet.put("id", 1);
         mainDataSet.put("gender.id", 1);
-
 
         DataSet extendDataSet = new DataSet();
         extendDataSet.put("id", 2);
         extendDataSet.put("gender.id", 2);
         extendDataSet.put("gender.name", "мужской");
-
 
         mainDataSet.merge(extendDataSet, (mainValue, extendValue) -> {
             if (mainValue != null)
@@ -62,28 +61,24 @@ class DataSetTest {
             return null;
         });
 
-        assert mainDataSet.get("id").equals(2);
-        assert mainDataSet.get("gender.id").equals(2);
-        assert mainDataSet.get("gender.name") == null;
+        assertEquals(2, mainDataSet.get("id"));
+        assertEquals(2, mainDataSet.get("gender.id"));
+        assertNull(mainDataSet.get("gender.name"));
 
         //EXTEND_IF_VALUE_NOT_NULL
         mainDataSet = new DataSet();
         mainDataSet.put("id", 1);
         mainDataSet.put("gender.id", 1);
 
-
         extendDataSet = new DataSet();
         extendDataSet.put("id", 2);
         extendDataSet.put("gender.name", "мужской");
 
-
         mainDataSet.merge(extendDataSet, DataSet.EXTEND_IF_VALUE_NOT_NULL);
 
-        assert mainDataSet.get("id").equals(2);
-        assert mainDataSet.get("gender.id").equals(1);
-        assert mainDataSet.get("gender.name").equals("мужской");
-
-
+        assertEquals(2, mainDataSet.get("id"));
+        assertEquals(1, mainDataSet.get("gender.id"));
+        assertEquals("мужской", mainDataSet.get("gender.name"));
     }
 
     @Test
@@ -97,15 +92,15 @@ class DataSetTest {
         list.add("second");
         extendDataSet.put("persons", list);
 
-        //добавляем первый раз со стратегией merge
+        // Добавляем первый раз со стратегией merge
         mainDataSet.merge(extendDataSet, ArrayMergeStrategyEnum.MERGE, true);
-        assert mainDataSet.get("id").equals(1);
-        assert mainDataSet.get("name").equals("Ivan");
-        assert ((List)mainDataSet.get("persons")).size() == 2;
+        assertEquals(1, mainDataSet.get("id"));
+        assertEquals("Ivan", mainDataSet.get("name"));
+        assertEquals(2, ((List<?>) mainDataSet.get("persons")).size());
 
-        //добавляем второй раз со стратегией merge, список должен увеличиться
+        // Добавляем второй раз со стратегией merge, список должен увеличиться
         mainDataSet.merge(extendDataSet, ArrayMergeStrategyEnum.MERGE, true);
-        assert ((List)mainDataSet.get("persons")).size() == 4;
+        assertEquals(4, ((List<?>) mainDataSet.get("persons")).size());
     }
 
     @Test
@@ -125,11 +120,11 @@ class DataSetTest {
         extendDataSet.put("persons", list2);
 
         mainDataSet.merge(extendDataSet, ArrayMergeStrategyEnum.REPLACE, true);
-        assert mainDataSet.get("id").equals(1);
-        assert mainDataSet.get("name").equals("Ivan");
-        assert ((List)mainDataSet.get("persons")).size() == 2;
-        assert ((List)mainDataSet.get("persons")).get(0).equals("third");
-        assert ((List)mainDataSet.get("persons")).get(1).equals("fourth");
+        assertEquals(1, mainDataSet.get("id"));
+        assertEquals("Ivan", mainDataSet.get("name"));
+        assertEquals(2, ((List<?>) mainDataSet.get("persons")).size());
+        assertEquals("third", ((List<?>) mainDataSet.get("persons")).get(0));
+        assertEquals("fourth", ((List<?>) mainDataSet.get("persons")).get(1));
     }
 
     @Test
@@ -144,14 +139,14 @@ class DataSetTest {
         dataSet.put("list", Arrays.asList(1, 2, 3));
         dataSet.put("set", Collections.singleton(1));
 
-        assert dataSet.getInteger("int") == 1;
-        assert dataSet.getLong("long") == 100L;
-        assert dataSet.getString("str").equals("test");
-        assert dataSet.getBoolean("bool");
-        assert dataSet.getDataSet("data").getString("key").equals("value");
-        assert dataSet.getList("array").size() == 3;
-        assert dataSet.getList("list").size() == 3;
-        assert dataSet.getList("set").size() == 1;
+        assertEquals(1, dataSet.getInteger("int"));
+        assertEquals(100L, dataSet.getLong("long"));
+        assertEquals("test", dataSet.getString("str"));
+        assertTrue(dataSet.getBoolean("bool"));
+        assertEquals("value", dataSet.getDataSet("data").getString("key"));
+        assertEquals(3, dataSet.getList("array").size());
+        assertEquals(3, dataSet.getList("list").size());
+        assertEquals(1, dataSet.getList("set").size());
     }
 
     @Test
@@ -166,11 +161,11 @@ class DataSetTest {
         dataSet.put("list[1]", "2");
         dataSet.put("list[2]", "3");
 
-        assert dataSet.getInteger("int") == 1;
-        assert dataSet.getLong("long") == 100L;
-        assert dataSet.getString("str").equals("test");
-        assert dataSet.getBoolean("bool");
-        assert dataSet.getDataSet("data").getString("key").equals("value");
-        assert dataSet.getList("list").size() == 3;
+        assertEquals(1, dataSet.getInteger("int"));
+        assertEquals(100L, dataSet.getLong("long"));
+        assertEquals("test", dataSet.getString("str"));
+        assertTrue(dataSet.getBoolean("bool"));
+        assertEquals("value", dataSet.getDataSet("data").getString("key"));
+        assertEquals(3, dataSet.getList("list").size());
     }
 }

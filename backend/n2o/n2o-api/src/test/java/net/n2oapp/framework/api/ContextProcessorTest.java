@@ -1,8 +1,8 @@
 package net.n2oapp.framework.api;
 
 import net.n2oapp.framework.api.context.Context;
-import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
 import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,12 +10,13 @@ import java.util.Arrays;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Тесты процессора контекста
  */
 class ContextProcessorTest {
-    
+
     private ContextProcessor processor;
 
     @BeforeEach
@@ -36,68 +37,66 @@ class ContextProcessorTest {
 
         @Override
         public void set(Map<String, Object> dataSet) {
-
         }
     }
 
     @Test
     void testResolve() {
-        assert processor.resolve(null) == null;
-        assert processor.resolve("").equals("");
-        assert processor.resolve("bla bla").equals("bla bla");
-        assert processor.resolve("#{name?}").equals("oleg");
-        assert processor.resolve("#{name}").equals("oleg");
-        assert processor.resolve("#{name!}").equals("oleg");
+        assertNull(processor.resolve(null));
+        assertEquals("", processor.resolve(""));
+        assertEquals("bla bla", processor.resolve("bla bla"));
+        assertEquals("oleg", processor.resolve("#{name?}"));
+        assertEquals("oleg", processor.resolve("#{name}"));
+        assertEquals("oleg", processor.resolve("#{name!}"));
         assertOnException(() -> processor.resolve("#{surname!}"), NotFoundContextPlaceholderException.class, e -> {
-            assert "n2o.fieldNotFoundInContext".equals(e.getUserMessage());
-            assert "surname".equals(e.getData());
+            assertEquals("n2o.fieldNotFoundInContext", e.getUserMessage());
+            assertEquals("surname", e.getData());
         });
-        assert processor.resolve("#{surname}") == null;
-        assert processor.resolve("#{surname?}") == null;
-        assert processor.resolve("#{surname?none}").equals("none");
-        assert processor.resolve(Arrays.asList(1, 2, "#{three}")).equals(Arrays.asList(1, 2, 3));
+        assertNull(processor.resolve("#{surname}"));
+        assertNull(processor.resolve("#{surname?}"));
+        assertEquals("none", processor.resolve("#{surname?none}"));
+        assertEquals(Arrays.asList(1, 2, 3), processor.resolve(Arrays.asList(1, 2, "#{three}")));
 
         assertOnException(() -> processor.resolve("#{empty!}"), NotFoundContextPlaceholderException.class, e -> {
-            assert "n2o.fieldNotFoundInContext".equals(e.getUserMessage());
-            assert "empty".equals(e.getData());
+            assertEquals("n2o.fieldNotFoundInContext", e.getUserMessage());
+            assertEquals("empty", e.getData());
         });
-        assert processor.resolve("#{empty?val}").equals("val");
+        assertEquals("val", processor.resolve("#{empty?val}"));
     }
 
     @Test
     void hasContext() {
-        assert processor.hasContext("aaa #{name} bbb");
-        assert processor.hasContext("aaa #{surname} bbb");
-        assert !processor.hasContext(null);
-        assert !processor.hasContext("");
-        assert !processor.hasContext("aaaa");
-        assert !processor.hasContext("{name}");
-        assert !processor.hasContext("}#{name");
-        assert !processor.hasContext("${name!}");
+        assertTrue(processor.hasContext("aaa #{name} bbb"));
+        assertTrue(processor.hasContext("aaa #{surname} bbb"));
+        assertFalse(processor.hasContext(null));
+        assertFalse(processor.hasContext(""));
+        assertFalse(processor.hasContext("aaaa"));
+        assertFalse(processor.hasContext("{name}"));
+        assertFalse(processor.hasContext("}#{name"));
+        assertFalse(processor.hasContext("${name!}"));
     }
 
     @Test
     void testNotExpression() {
-        assert processor.resolve("#name}").equals("#name}");
-        assert processor.resolve("}#{name").equals("}#{name");
-        assert processor.resolve("name:{name}").equals("name:{name}");
+        assertEquals("#name}", processor.resolve("#name}"));
+        assertEquals("}#{name", processor.resolve("}#{name"));
+        assertEquals("name:{name}", processor.resolve("name:{name}"));
     }
 
     @Test
     void testResolveText() {
-        assert processor.resolveText("text").equals("text");
-        assert processor.resolveText("#{name}").equals("oleg");
-        assert processor.resolveText("#{surname}").equals("");
-        assert processor.resolveText("#{surname?}").equals("");
-        assert processor.resolveText("name:#{name}").equals("name:oleg");
-        assert processor.resolveText("name:#{name?}").equals("name:oleg");
-        assert processor.resolveText("name:#{name?none}").equals("name:oleg");
-        assert processor.resolveText("name:#{unknown}").equals("name:");
-        assert processor.resolveText("name:#{unknown?none}").equals("name:none");
-        assert processor.resolveText("name:#{name} surname:#{surname?none}").equals("name:oleg surname:none");
+        assertEquals("text", processor.resolveText("text"));
+        assertEquals("oleg", processor.resolveText("#{name}"));
+        assertEquals("", processor.resolveText("#{surname}"));
+        assertEquals("", processor.resolveText("#{surname?}"));
+        assertEquals("name:oleg", processor.resolveText("name:#{name}"));
+        assertEquals("name:oleg", processor.resolveText("name:#{name?}"));
+        assertEquals("name:oleg", processor.resolveText("name:#{name?none}"));
+        assertEquals("name:", processor.resolveText("name:#{unknown}"));
+        assertEquals("name:none", processor.resolveText("name:#{unknown?none}"));
+        assertEquals("name:oleg surname:none", processor.resolveText("name:#{name} surname:#{surname?none}"));
 
         assertOnException(() -> processor.resolveText("#{empty!}"), NotFoundContextPlaceholderException.class);
-        assert processor.resolveText("#{empty?val}").equals("val");
+        assertEquals("val", processor.resolveText("#{empty?val}"));
     }
-
 }

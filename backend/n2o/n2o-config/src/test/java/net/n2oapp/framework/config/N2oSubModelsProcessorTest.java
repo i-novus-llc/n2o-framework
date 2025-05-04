@@ -6,8 +6,8 @@ import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
-import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineFunction;
@@ -23,6 +23,8 @@ import java.util.function.BiFunction;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 class N2oSubModelsProcessorTest {
@@ -50,25 +52,25 @@ class N2oSubModelsProcessorTest {
         SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", false, null);
         DataSet dataSet = new DataSet("gender.id", 1);
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
-        assert ((Map) dataSet.get("gender")).size() == 3;
-        assert dataSet.get("gender.id").equals(1);
-        assert dataSet.get("gender.label").equals("someLabel");
-        assert dataSet.get("gender.someField").equals("someFieldValue");
+        assertEquals(3, ((Map<?, ?>) dataSet.get("gender")).size());
+        assertEquals(1, dataSet.get("gender.id"));
+        assertEquals("someLabel", dataSet.get("gender.label"));
+        assertEquals("someFieldValue", dataSet.get("gender.someField"));
 
         //label уже есть
         subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", false, null);
         dataSet = new DataSet("gender.id", 1).add("gender.label", "someLabel");
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
-        assert ((Map) dataSet.get("gender")).size() == 2;
-        assert dataSet.get("gender.id").equals(1);
-        assert dataSet.get("gender.label").equals("someLabel");
+        assertEquals(2, ((Map) dataSet.get("gender")).size());
+        assertEquals(1, dataSet.get("gender.id"));
+        assertEquals("someLabel", dataSet.get("gender.label"));
 
         //value == null
         subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", false, null);
         dataSet = new DataSet("gender.id", null);
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
-        assert ((Map) dataSet.get("gender")).size() == 1;
-        assert dataSet.get("gender.id") == null;
+        assertEquals(1, ((Map) dataSet.get("gender")).size());
+        assertNull(dataSet.get("gender.id"));
 
     }
 
@@ -87,25 +89,25 @@ class N2oSubModelsProcessorTest {
         SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", true, null);
         DataSet dataSet = new DataSet("gender[0].id", 1).add("gender[1].id", 2);
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
-        assert ((List) dataSet.get("gender")).size() == 2;
-        assert dataSet.get("gender[0].id").equals(1);
-        assert dataSet.get("gender[1].id").equals(1);
-        assert dataSet.get("gender[0].label").equals("someLabel");
-        assert dataSet.get("gender[1].label").equals("someLabel");
-        assert dataSet.get("gender[0].someField").equals("someFieldValue");
-        assert dataSet.get("gender[1].someField").equals("someFieldValue");
+        assertEquals(2, ((List<?>) dataSet.get("gender")).size());
+        assertEquals(1, dataSet.get("gender[0].id"));
+        assertEquals(1, dataSet.get("gender[1].id"));
+        assertEquals("someLabel", dataSet.get("gender[0].label"));
+        assertEquals("someLabel", dataSet.get("gender[1].label"));
+        assertEquals("someFieldValue", dataSet.get("gender[0].someField"));
+        assertEquals("someFieldValue", dataSet.get("gender[1].someField"));
 
         //label уже есть
         subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", true, null);
         dataSet = new DataSet("gender[0].id", 1).add("gender[1].id", 2).add("gender[0].label", "someLabel").add("gender[1].label", "someLabel");
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
-        assert ((List) dataSet.get("gender")).size() == 2;
-        assert dataSet.get("gender[0].id").equals(1);
-        assert dataSet.get("gender[1].id").equals(2);
-        assert dataSet.get("gender[0].label").equals("someLabel");
-        assert dataSet.get("gender[1].label").equals("someLabel");
-        assert dataSet.get("gender[0].someField") == null;
-        assert dataSet.get("gender[1].someField") == null;
+        assertEquals(2, ((List<?>) dataSet.get("gender")).size());
+        assertEquals(1, dataSet.get("gender[0].id"));
+        assertEquals(2, dataSet.get("gender[1].id"));
+        assertEquals("someLabel", dataSet.get("gender[0].label"));
+        assertEquals("someLabel", dataSet.get("gender[1].label"));
+        assertNull(dataSet.get("gender[0].someField"));
+        assertNull(dataSet.get("gender[1].someField"));
 
         //value == null
         subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", true, null);
@@ -129,7 +131,7 @@ class N2oSubModelsProcessorTest {
         optionsMap.put("id", 2);
         dataSet = new DataSet("gender[0].id", "2");
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
-        assert "test".equals(((Map) ((List) dataSet.get("gender")).get(0)).get("name"));
+        assertEquals("test", ((Map) ((List) dataSet.get("gender")).get(0)).get("name"));
     }
 
 

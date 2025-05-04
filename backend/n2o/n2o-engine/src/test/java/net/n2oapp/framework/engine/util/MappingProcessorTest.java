@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReference
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.BeanFactory;
@@ -20,7 +19,7 @@ import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -38,10 +37,10 @@ class MappingProcessorTest {
         MappingProcessor.inMap(result, "valueInt", "valueInt", 55);
         MappingProcessor.inMap(result, "innerObj.valueStr", "innerObj.valueStr", "inner");
         MappingProcessor.inMap(result, "innerObj.valueInt", "innerObj.valueInt", 66);
-        assert result.getInnerObj().getValueStr().equals("inner");
-        assert result.getInnerObj().getValueInt().equals(66);
-        assert result.getValueStr().equals("object");
-        assert result.getValueInt().equals(55);
+        assertEquals("inner", result.getInnerObj().getValueStr());
+        assertEquals(66, result.getInnerObj().getValueInt());
+        assertEquals("object", result.getValueStr());
+        assertEquals(55, result.getValueInt());
     }
 
     @Test
@@ -49,15 +48,15 @@ class MappingProcessorTest {
         TestEntity test = new TestEntity();
         test.setValueStr("string");
         String result = MappingProcessor.outMap(test, "valueStr", String.class);
-        assert result.equals("string");
+        assertEquals("string", result);
 
         ContextProcessor contextProcessor = Mockito.mock(ContextProcessor.class);
         Mockito.when(contextProcessor.resolve(11)).thenReturn(11);
         DataSet res = new DataSet();
         MappingProcessor.outMap(res, test, "fieldId", "valueStr", null, contextProcessor);
         MappingProcessor.outMap(res, test, "fieldId2", "valueInt", 11, contextProcessor);
-        assert res.get("fieldId").equals("string");
-        assert res.get("fieldId2").equals(11);
+        assertEquals("string", res.get("fieldId"));
+        assertEquals(11, res.get("fieldId2"));
     }
 
     @Test
@@ -79,7 +78,7 @@ class MappingProcessorTest {
         param.setFields(new AbstractParameter[]{childParam1, childParam2});
 
         DataSet innerDataSet = new DataSet();
-        innerDataSet.put("id", 666);
+        innerDataSet.put("id", 123);
         innerDataSet.put("name", "testStr");
 
         DataSet outerDataSet = new DataSet();
@@ -87,9 +86,10 @@ class MappingProcessorTest {
 
         MappingProcessor.mapParameter(param, outerDataSet);
 
-        assert outerDataSet.get("entity") instanceof TestEntity.InnerEntity;
-        assert ((TestEntity.InnerEntity) outerDataSet.get("entity")).getValueInt().equals(666);
-        assert ((TestEntity.InnerEntity) outerDataSet.get("entity")).getValueStr().equals("testStr");
+        assertTrue(outerDataSet.get("entity") instanceof TestEntity.InnerEntity);
+        TestEntity.InnerEntity innerEntity = (TestEntity.InnerEntity) outerDataSet.get("entity");
+        assertEquals(123, innerEntity.getValueInt());
+        assertEquals("testStr", innerEntity.getValueStr());
     }
 
     private void testEntityCollectionMapping() {
@@ -106,7 +106,7 @@ class MappingProcessorTest {
         listParam.setFields(new AbstractParameter[]{childParam1, childParam2});
 
         DataSet innerDataSet1 = new DataSet();
-        innerDataSet1.put("id", 666);
+        innerDataSet1.put("id", 123);
         innerDataSet1.put("name", "testStr1");
 
         DataSet innerDataSet2 = new DataSet();
@@ -122,11 +122,12 @@ class MappingProcessorTest {
 
         MappingProcessor.mapParameter(listParam, outerDataSetWithList);
 
-        assert outerDataSetWithList.get("entities") instanceof List;
-        assert ((TestEntity.InnerEntity) ((List) outerDataSetWithList.get("entities")).get(0)).getValueInt().equals(666);
-        assert ((TestEntity.InnerEntity) ((List) outerDataSetWithList.get("entities")).get(0)).getValueStr().equals("testStr1");
-        assert ((TestEntity.InnerEntity) ((List) outerDataSetWithList.get("entities")).get(1)).getValueInt().equals(777);
-        assert ((TestEntity.InnerEntity) ((List) outerDataSetWithList.get("entities")).get(1)).getValueStr().equals("testStr2");
+        assertTrue(outerDataSetWithList.get("entities") instanceof List);
+        List<TestEntity.InnerEntity> entities = (List<TestEntity.InnerEntity>) outerDataSetWithList.get("entities");
+        assertEquals(123, entities.get(0).getValueInt());
+        assertEquals("testStr1", entities.get(0).getValueStr());
+        assertEquals(777, entities.get(1).getValueInt());
+        assertEquals("testStr2", entities.get(1).getValueStr());
 
 
         //Set
@@ -142,7 +143,7 @@ class MappingProcessorTest {
         setParam.setFields(new AbstractParameter[]{childParam1, childParam2});
 
         innerDataSet1 = new DataSet();
-        innerDataSet1.put("id", 666);
+        innerDataSet1.put("id", 123);
         innerDataSet1.put("name", "testStr1");
 
         innerDataSet2 = new DataSet();
@@ -158,8 +159,8 @@ class MappingProcessorTest {
 
         MappingProcessor.mapParameter(setParam, outerDataSetWithSet);
 
-        assert outerDataSetWithSet.get("entities") instanceof Set;
-        assert ((Set) outerDataSetWithSet.get("entities")).containsAll((List) outerDataSetWithList.get("entities"));
+        assertTrue(outerDataSetWithSet.get("entities") instanceof Set);
+        assertTrue(((Set) outerDataSetWithSet.get("entities")).containsAll((List) outerDataSetWithList.get("entities")));
     }
 
     @Test

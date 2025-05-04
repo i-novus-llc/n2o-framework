@@ -9,13 +9,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * User: iryabov
  * Date: 28.05.2014
  * Time: 10:58
  */
 class ScriptableNestedMapTest {
-    private ScriptEngineManager engineMgr = new ScriptEngineManager();
+    private final ScriptEngineManager engineMgr = new ScriptEngineManager();
 
     @Test
     void testGetMap() throws Exception {
@@ -25,7 +28,7 @@ class ScriptableNestedMapTest {
         scriptEngine.put("a", map);
         Object val = scriptEngine.eval("a.b.c");
         System.out.println(val);
-        assert Integer.valueOf(1) == val;
+        assertEquals(1, val);
     }
 
     @Test
@@ -35,14 +38,14 @@ class ScriptableNestedMapTest {
         map.put("list[0]", 1);
         map.put("list[1]", new HashMap<>());
         map.put("list[1].b", 10);
-        scriptEngine.put("a",map);
+        scriptEngine.put("a", map);
         Object val = scriptEngine.eval("a.list");
-        assert val instanceof Collection;
-        assert 2 == ((Collection) val).size();
+        assertTrue(val instanceof Collection);
+        assertEquals(2, ((Collection<?>) val).size());
         val = scriptEngine.eval("a.list[0]");
-        assert Integer.valueOf(1) == val;
+        assertEquals(1, val);
         val = scriptEngine.eval("a.list[1].b");
-        assert Integer.valueOf(10) == val;
+        assertEquals(10, val);
     }
 
     @Test
@@ -50,11 +53,11 @@ class ScriptableNestedMapTest {
         ScriptEngine scriptEngine = engineMgr.getEngineByName("JavaScript");
         scriptEngine.put("list", Arrays.asList(1, 2, 10).toArray());
         Object val = scriptEngine.eval("list[0]");
-        assert Integer.valueOf(1) == val;
+        assertEquals(1, val);
         val = scriptEngine.eval("list[1]");
-        assert Integer.valueOf(2) == val;
+        assertEquals(2, val);
         val = scriptEngine.eval("list[2]");
-        assert Integer.valueOf(10) == val;
+        assertEquals(10, val);
     }
 
     @Test
@@ -63,6 +66,6 @@ class ScriptableNestedMapTest {
         NestedMap map = new NestedMap();
         scriptEngine.put("a", map);
         Boolean val = (Boolean) scriptEngine.eval("typeof b == 'undefined'");
-        assert val;
+        assertTrue(val);
     }
 }

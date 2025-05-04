@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * User: operhod
  * Date: 07.04.14
@@ -41,75 +43,70 @@ class PropertiesReaderTest {
     @Test
     void testFileSystemProperties() throws Exception {
         File file = File.createTempFile("proptest", "properties");
-        try(PrintWriter out = new PrintWriter(file)){
+        try (PrintWriter out = new PrintWriter(file)) {
             out.println("test=123");
         }
         file.deleteOnExit();
         ReloadableProperties fsProps = PropertiesReader.getReloadableFromFilesystem(file.getAbsolutePath(), 60);
-        assert "123".equals(fsProps.get("test"));
+        assertEquals("123", fsProps.get("test"));
     }
 
     private void checkContextPathAndProp1AndProp2Merge(Properties properties) {
         //get
-        assert properties.get("test.one").equals("one");
-        assert properties.get("test.two").equals("two");
-        assert properties.get("test.three").equals("three");
-        assert properties.get("test.four").equals("test");
-        assert properties.get("test.five").equals("test");
+        assertEquals("one", properties.get("test.one"));
+        assertEquals("two", properties.get("test.two"));
+        assertEquals("three", properties.get("test.three"));
+        assertEquals("test", properties.get("test.four"));
+        assertEquals("test", properties.get("test.five"));
         //getProperty
-        assert properties.getProperty("test.one").equals("one");
-        assert properties.getProperty("test.two").equals("two");
-        assert properties.getProperty("test.three").equals("three");
-        assert properties.getProperty("test.four").equals("test");
-        assert properties.getProperty("test.five").equals("test");
+        assertEquals("one", properties.getProperty("test.one"));
+        assertEquals("two", properties.getProperty("test.two"));
+        assertEquals("three", properties.getProperty("test.three"));
+        assertEquals("test", properties.getProperty("test.four"));
+        assertEquals("test", properties.getProperty("test.five"));
         //containsKey
-        assert properties.containsKey("test.one");
-        assert properties.containsKey("test.two");
-        assert properties.containsKey("test.three");
-        assert properties.containsKey("test.four");
-        assert properties.containsKey("test.five");
-        assert !properties.containsKey("test.six");
+        assertTrue(properties.containsKey("test.one"));
+        assertTrue(properties.containsKey("test.two"));
+        assertTrue(properties.containsKey("test.three"));
+        assertTrue(properties.containsKey("test.four"));
+        assertTrue(properties.containsKey("test.five"));
+        assertFalse(properties.containsKey("test.six"));
         //containsValue
-        assert properties.contains("one");
-        assert properties.contains("two");
-        assert properties.contains("three");
-        assert properties.contains("test");
-        assert !properties.contains("six");
-        assert properties.containsValue("one");
-        assert properties.containsValue("two");
-        assert properties.containsValue("three");
-        assert properties.containsValue("test");
-        assert !properties.containsValue("six");
+        assertTrue(properties.contains("one"));
+        assertTrue(properties.contains("two"));
+        assertTrue(properties.contains("three"));
+        assertTrue(properties.contains("test"));
+        assertFalse(properties.contains("six"));
+        assertTrue(properties.containsValue("one"));
+        assertTrue(properties.containsValue("two"));
+        assertTrue(properties.containsValue("three"));
+        assertTrue(properties.containsValue("test"));
+        assertFalse(properties.containsValue("six"));
     }
-
 
     private void checkProp1AndProp2Merge(Properties properties) {
-        assert properties.get("test.one").equals("one");
-        assert properties.get("test.two").equals("two");
-        assert properties.get("test.three").equals("three");
-        assert properties.get("test.four").equals("four");
-        assert properties.getProperty("test.one").equals("one");
-        assert properties.getProperty("test.two").equals("two");
-        assert properties.getProperty("test.three").equals("three");
-        assert properties.getProperty("test.four").equals("four");
-        assert properties.containsKey("test.one");
-        assert properties.containsKey("test.two");
-        assert properties.containsKey("test.three");
-        assert properties.containsKey("test.four");
-        assert !properties.containsKey("test.five");
-        assert properties.contains("one");
-        assert properties.contains("two");
-        assert properties.contains("three");
-        assert properties.contains("four");
-        assert !properties.contains("five");
-        assert properties.containsValue("one");
-        assert properties.containsValue("two");
-        assert properties.containsValue("three");
-        assert properties.containsValue("four");
-        assert !properties.containsValue("five");
+        assertEquals("one", properties.get("test.one"));
+        assertEquals("two", properties.get("test.two"));
+        assertEquals("three", properties.get("test.three"));
+        assertEquals("four", properties.get("test.four"));
+        assertEquals("one", properties.getProperty("test.one"));
+        assertEquals("two", properties.getProperty("test.two"));
+        assertEquals("three", properties.getProperty("test.three"));
+        assertEquals("four", properties.getProperty("test.four"));
+        assertTrue(properties.containsKey("test.one"));
+        assertTrue(properties.containsKey("test.two"));
+        assertTrue(properties.containsKey("test.three"));
+        assertTrue(properties.containsKey("test.four"));
+        assertFalse(properties.containsKey("test.five"));
+        assertTrue(properties.contains("one"));
+        assertTrue(properties.contains("two"));
+        assertTrue(properties.contains("three"));
+        assertTrue(properties.contains("four"));
+        assertFalse(properties.contains("five"));
+        assertTrue(properties.containsValue("one"));
+        assertTrue(properties.containsValue("two"));
+        assertTrue(properties.containsValue("three"));
+        assertTrue(properties.containsValue("four"));
+        assertFalse(properties.containsValue("five"));
     }
-
-
-
-
 }

@@ -22,6 +22,8 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = "spring.main.allow-bean-definition-overriding=true")
@@ -62,7 +64,7 @@ class AppConfigTest {
 
     @Test
     void testMessageSourceConfig() {
-        assert "серверный".equals(messageSource.getMessage("n2o.server", null, Locale.forLanguageTag("ru")));
-        assert "несистемный".equals(messageSource.getMessage("n2o.system", null, Locale.forLanguageTag("ru")));
+        assertEquals("серверный", messageSource.getMessage("n2o.server", null, Locale.forLanguageTag("ru")));
+        assertEquals("несистемный", messageSource.getMessage("n2o.system", null, Locale.forLanguageTag("ru")));
     }
 }

@@ -4,7 +4,7 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 
 public class TestPageObject {
-    private LeftRightPage n2o = N2oSelenide.page(LeftRightPage.class);
+    private final LeftRightPage n2o = N2oSelenide.page(LeftRightPage.class);
 
     public TestWidget getLeftWidget0() {
         return n2o.left().region(0, TestRegion.class).content().widget(TestWidget.class);

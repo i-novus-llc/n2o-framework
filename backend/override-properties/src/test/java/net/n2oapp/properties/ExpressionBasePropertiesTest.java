@@ -3,6 +3,8 @@ package net.n2oapp.properties;
 import net.n2oapp.properties.reader.PropertiesReader;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * @author iryabov
  * @since 26.02.2016
@@ -13,76 +15,62 @@ class ExpressionBasePropertiesTest {
     void testOverride() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties(PropertiesReader
                 .getPropertiesFromClasspath("web/env.properties", "web/build.properties", "web/default.properties"));
-        assert properties.get("test.level").equals("env");
-        assert properties.getProperty("test.level").equals("env");
+        assertEquals("env", properties.get("test.level"));
+        assertEquals("env", properties.getProperty("test.level"));
     }
 
     @Test
     void testWithoutExpr() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties();
         properties.setProperty("test", "123");
-        assert properties.get("test").equals("123");
-        assert properties.getProperty("test").equals("123");
+        assertEquals("123", properties.get("test"));
+        assertEquals("123", properties.getProperty("test"));
     }
 
     @Test
     void testWithExpr() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties();
         properties.setProperty("test", "#{123}");
-        assert properties.get("test").equals("123");
-        assert properties.getProperty("test").equals("123");
+        assertEquals("123", properties.get("test"));
+        assertEquals("123", properties.getProperty("test"));
 
         properties.setProperty("test2", "te#{123}st");
-        assert properties.get("test2").equals("te123st");
-        assert properties.getProperty("test2").equals("te123st");
+        assertEquals("te123st", properties.get("test2"));
+        assertEquals("te123st", properties.getProperty("test2"));
 
         properties.setProperty("test3", "te#{123}");
-        assert properties.get("test3").equals("te123");
-        assert properties.getProperty("test3").equals("te123");
+        assertEquals("te123", properties.get("test3"));
+        assertEquals("te123", properties.getProperty("test3"));
 
         properties.setProperty("test4", "#{123}st");
-        assert properties.get("test4").equals("123st");
-        assert properties.getProperty("test4").equals("123st");
+        assertEquals("123st", properties.get("test4"));
+        assertEquals("123st", properties.getProperty("test4"));
     }
 
     @Test
     void testExprError() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties();
         properties.setProperty("test", "#{123");
-        try {
-            properties.get("test");
-            assert false;
-        } catch (Exception e) {
-            assert true;
-        }
-        properties.setProperty("test", "#{{123}");
-        try {
-            properties.get("test");
-            assert false;
-        } catch (Exception e) {
-            assert true;
-        }
-        properties.setProperty("test", "#{}");
-        try {
-            properties.get("test");
-            assert false;
-        } catch (Exception e) {
-            assert true;
-        }
+        assertThrows(Exception.class, () -> properties.get("test"));
 
+        properties.setProperty("test", "#{{123}");
+        assertThrows(Exception.class, () -> properties.get("test"));
+
+        properties.setProperty("test", "#{}");
+        assertThrows(Exception.class, () -> properties.get("test"));
     }
 
     @Test
     void testExprNull() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties();
         properties.setProperty("test", "#{null}");
-        assert "".equals(properties.get("test"));
+        assertEquals("", properties.get("test"));
     }
 
     @Test
     void testSystemVariables() {
         ExpressionBasedProperties properties = new ExpressionBasedProperties();
         properties.setProperty("system", "#{systemProperties['user.name']}");
-        assert properties.get("system").equals(System.getProperty("user.name"));
+        assertEquals(properties.get("system"), System.getProperty("user.name"));
     }
 }

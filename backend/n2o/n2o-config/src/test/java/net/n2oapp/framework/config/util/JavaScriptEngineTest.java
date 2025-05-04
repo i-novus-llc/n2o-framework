@@ -9,6 +9,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * @author iryabov
  * @since 17.04.2015
@@ -23,7 +25,7 @@ class JavaScriptEngineTest {
         bindings.put("org", 1);
         Object value = engine.eval("org == 1", bindings);
         System.out.println(value);
-        assert (Boolean) value == true;
+        assertTrue((Boolean) value);
     }
 
     @Test
@@ -32,6 +34,6 @@ class JavaScriptEngineTest {
         dataSet.put("org.id", 1);
         Object value = ScriptProcessor.eval("org.id == 1", dataSet);
         System.out.println(value);
-        assert (Boolean) value == true;
+        assertTrue((Boolean) value);
     }
 }
