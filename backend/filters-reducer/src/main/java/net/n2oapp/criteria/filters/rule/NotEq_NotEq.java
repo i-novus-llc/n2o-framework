@@ -15,9 +15,6 @@ import java.util.List;
  */
 public class NotEq_NotEq extends NotInListRule {
 
-    public NotEq_NotEq() {
-    }
-
     @Override
     public Filter simplify(Filter left, Filter right) {
         return toRestriction(getResultList(left, right));

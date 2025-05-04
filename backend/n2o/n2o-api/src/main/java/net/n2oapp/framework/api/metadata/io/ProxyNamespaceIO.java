@@ -9,6 +9,7 @@ import org.jdom2.Namespace;
 
 /**
  * Проксирующий считыватель элементов по неймспейсу
+ *
  * @param <T> Тип модели элемента
  */
 public class ProxyNamespaceIO<T extends NamespaceUriAware> implements NamespaceReader<T>, NamespacePersister<T>, IOProcessorAware {
@@ -61,6 +62,7 @@ public class ProxyNamespaceIO<T extends NamespaceUriAware> implements NamespaceR
 
     @Override
     public void setNamespaceUri(String namespaceUri) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

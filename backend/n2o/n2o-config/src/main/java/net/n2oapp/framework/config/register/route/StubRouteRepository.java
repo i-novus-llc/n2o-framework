@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.register.route;
 
-
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.config.register.ConfigRepository;
@@ -25,5 +24,6 @@ public class StubRouteRepository implements ConfigRepository<RouteInfoKey, Compi
 
     @Override
     public void clearAll() {
+        // no implementation
     }
 }

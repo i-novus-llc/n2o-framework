@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.register;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.MetadataRegister;
+import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.reader.MetadataNotFoundException;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * Реализация реестра метаданных
@@ -74,7 +73,7 @@ public class N2oMetadataRegister implements MetadataRegister {
 
     @Override
     public <I extends SourceInfo> void update(I info) {
-
+        // no implementation
     }
 
     @Override

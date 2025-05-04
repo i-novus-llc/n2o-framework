@@ -11,9 +11,8 @@ import java.util.Map;
  */
 public class PropertiesElementIO implements ElementIO<Map<String, Object>> {
 
-
     @Override
     public void io(Element e, Map<String, Object> t, IOProcessor p) {
-
+        // no implementation
     }
 }

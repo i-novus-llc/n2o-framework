@@ -12,16 +12,16 @@ import java.time.Duration;
  */
 public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
-    private final String OPTION_LOCATOR = ".n2o-select-tree-tree-list .n2o-select-tree-tree-treenode";
+    private static final String OPTION_LOCATOR = ".n2o-select-tree-tree-list .n2o-select-tree-tree-treenode";
 
     @Override
     public void shouldBeEmpty() {
-
+        inputElement().shouldBe(Condition.empty);
     }
 
     @Override
     public void shouldHaveValue(String value, Duration... duration) {
-
+        should(Condition.text(value), selectedItems().get(0), duration);
     }
 
     @Override

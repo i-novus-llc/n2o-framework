@@ -9,7 +9,4 @@ import net.n2oapp.criteria.api.Criteria;
 public class PersonCriteria extends Criteria {
 
     private String firstName;
-
-    public PersonCriteria() {
-    }
 }

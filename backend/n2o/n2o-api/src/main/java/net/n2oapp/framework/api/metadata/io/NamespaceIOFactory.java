@@ -52,6 +52,7 @@ public interface NamespaceIOFactory<T extends NamespaceUriAware, R extends Names
 
             @Override
             public void setNamespaceUri(String namespaceUri) {
+                throw new UnsupportedOperationException();
             }
 
             @Override

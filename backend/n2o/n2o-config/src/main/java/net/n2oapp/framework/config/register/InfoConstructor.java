@@ -49,7 +49,6 @@ public final class InfoConstructor extends XmlInfo {
         this.configId = configId;
     }
 
-
     public void setReaderClass() {
         // no implementation
     }

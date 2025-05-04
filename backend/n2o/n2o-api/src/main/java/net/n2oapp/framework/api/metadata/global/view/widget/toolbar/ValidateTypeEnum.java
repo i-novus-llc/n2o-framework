@@ -17,5 +17,6 @@ public enum ValidateTypeEnum implements IdAware {
 
     @Override
     public void setId(String id) {
+        // no implementation
     }
 }
