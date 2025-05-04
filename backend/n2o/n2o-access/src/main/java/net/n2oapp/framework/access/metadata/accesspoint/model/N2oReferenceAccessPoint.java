@@ -7,10 +7,6 @@ public class N2oReferenceAccessPoint extends AccessPoint {
 
     private String objectId;
 
-
-    public N2oReferenceAccessPoint() {
-    }
-
     public String getObjectId() {
         return objectId;
     }

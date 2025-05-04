@@ -10,9 +10,9 @@ import net.n2oapp.framework.api.metadata.aware.PipelineOperationTypeAware;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
-import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.NoOpCacheManager;
 
@@ -36,7 +36,7 @@ public class CompileCacheOperation<S> extends MetadataChangeListener implements 
     }
 
     @Override
-    public S execute(CompileContext<?,?> context, DataSet data, Supplier<S> supplier,
+    public S execute(CompileContext<?, ?> context, DataSet data, Supplier<S> supplier,
                      CompileProcessor compileProcessor,
                      BindProcessor bindProcessor,
                      SourceProcessor sourceProcessor) {
@@ -58,6 +58,7 @@ public class CompileCacheOperation<S> extends MetadataChangeListener implements 
 
     @Override
     public void setEnvironment(MetadataEnvironment environment) {
+        // no implementation
     }
 
     @Override

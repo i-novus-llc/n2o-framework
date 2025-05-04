@@ -33,7 +33,7 @@ public class AppConfigServlet extends HttpServlet {
 
     @Override
     public void init() {
-
+        // no implementation
     }
 
     @Override

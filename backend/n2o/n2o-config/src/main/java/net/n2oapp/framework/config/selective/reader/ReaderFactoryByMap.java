@@ -29,9 +29,6 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
     private Map<String, Map<String, NamespaceReader>> map = new HashMap<>();
     private IOProcessor ioProcessor = new IOProcessorImpl(this);
 
-    public ReaderFactoryByMap() {
-    }
-
     public ReaderFactoryByMap register(NamespaceReader reader) {
         add(reader);
         return this;

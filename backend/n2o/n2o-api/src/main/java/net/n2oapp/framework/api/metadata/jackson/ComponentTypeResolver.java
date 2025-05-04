@@ -17,6 +17,7 @@ public class ComponentTypeResolver implements TypeIdResolver {
 
     @Override
     public void init(JavaType javaType) {
+        // no implementation
     }
 
     @Override
