@@ -7,7 +7,7 @@ import net.n2oapp.framework.engine.test.source.StaticInvocationTestClass;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Тестирование вызова статического метода
@@ -25,7 +25,7 @@ class StaticDataProviderEngineTest {
         Object[] dataSet = new Object[0];
         JavaDataProviderEngine javaInvocation = new JavaDataProviderEngine();
         String resultDataSet = (String) javaInvocation.invoke(method, dataSet);
-        assert resultDataSet.equals("Invocation success");
+        assertEquals("Invocation success", resultDataSet);
     }
 
     /**
@@ -44,7 +44,7 @@ class StaticDataProviderEngineTest {
         dataSet[0] = "1";
         JavaDataProviderEngine javaInvocation = new JavaDataProviderEngine();
         String resultDataSet = (String) javaInvocation.invoke(method, dataSet);
-        assert resultDataSet.equals("1 invocation success");
+        assertEquals("1 invocation success", resultDataSet);
     }
 
     /**
@@ -67,7 +67,7 @@ class StaticDataProviderEngineTest {
         dataSet[1] = 2;
         JavaDataProviderEngine javaInvocation = new JavaDataProviderEngine();
         String resultDataSet = (String) javaInvocation.invoke(method, dataSet);
-        assert resultDataSet.equals("Invocation success. First argument: 1, Second argument: 2");
+        assertEquals("Invocation success. First argument: 1, Second argument: 2", resultDataSet);
     }
 
     /**
@@ -86,7 +86,7 @@ class StaticDataProviderEngineTest {
         dataSet[0] = "1";
         JavaDataProviderEngine javaInvocation = new JavaDataProviderEngine();
         Object resultDataSet = javaInvocation.invoke(method, dataSet);
-        assert resultDataSet == null;
+        assertNull(resultDataSet);
     }
 
     /**
@@ -107,7 +107,7 @@ class StaticDataProviderEngineTest {
         dataSet[0] = model;
         JavaDataProviderEngine javaInvocation = new JavaDataProviderEngine();
         Integer resultDataSet = (Integer) javaInvocation.invoke(method, dataSet);
-        assert resultDataSet.equals(1);
+        assertEquals(1, resultDataSet);
     }
 
     /**
@@ -163,6 +163,6 @@ class StaticDataProviderEngineTest {
 
         JavaDataProviderEngine javaInvocation = new JavaDataProviderEngine();
         Integer resultDataSet = (Integer) javaInvocation.invoke(method, dataSet);
-        assert resultDataSet.equals(110);
+        assertEquals(110, resultDataSet);
     }
 }

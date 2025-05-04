@@ -27,6 +27,7 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Тестирование получения данных sql запросом
@@ -45,24 +46,24 @@ class DataTest {
         String queryPath = "/n2o/data/test/java/v4";
         String fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&sorting.value=desc";
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
-        assert response.getStatusCode().equals(HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         GetDataResponse result = response.getBody();
-        assert result.getPaging().getCount() == 15;
-        assert result.getPaging().getSize() == 10;
-        assert result.getPaging().getPage() == 1;
-        assert result.getList().size() == 10;
+        assertEquals(15, result.getPaging().getCount());
+        assertEquals(10, result.getPaging().getSize());
+        assertEquals(1, result.getPaging().getPage());
+        assertEquals(10, result.getList().size());
 
         //test data by id
         fooResourceUrl = "http://localhost:" + port + queryPath + "?queryId=testJavaQuery4&size=1&page=1&id=3";
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
-        assert response.getStatusCode().equals(HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         result = response.getBody();
-        assert result.getPaging().getCount() == 1;
-        assert result.getPaging().getSize() == 1;
-        assert result.getPaging().getPage() == 1;
-        assert result.getList().size() == 1;
-        assert result.getList().get(0).get("id").equals(3);
-        assert result.getList().get(0).get("value").equals("value3");
+        assertEquals(1, result.getPaging().getCount());
+        assertEquals(1, result.getPaging().getSize());
+        assertEquals(1, result.getPaging().getPage());
+        assertEquals(1, result.getList().size());
+        assertEquals(3, result.getList().get(0).get("id"));
+        assertEquals("value3", result.getList().get(0).get("value"));
     }
 
     @Test

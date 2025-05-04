@@ -16,9 +16,7 @@ import java.util.*;
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -116,23 +114,23 @@ class PlaceHoldersResolverTest {
         Set result;
 
         result = placeHoldersResolver.extractPlaceHolders("{test}");
-        assert result.size() == 1;
-        assert result.contains("test");
+        assertEquals(1, result.size());
+        assertTrue(result.contains("test"));
 
         result = placeHoldersResolver.extractPlaceHolders("aaa{test1}bb{test2}cc");
-        assert result.size() == 2;
-        assert result.contains("test1");
-        assert result.contains("test2");
+        assertEquals(2, result.size());
+        assertTrue(result.contains("test1"));
+        assertTrue(result.contains("test2"));
 
         result = placeHoldersResolver.extractPlaceHolders("{test1}bb{test2}");
-        assert result.size() == 2;
-        assert result.contains("test1");
-        assert result.contains("test2");
+        assertEquals(2, result.size());
+        assertTrue(result.contains("test1"));
+        assertTrue(result.contains("test2"));
 
         result = placeHoldersResolver.extractPlaceHolders("{test1}{test2}");
-        assert result.size() == 2;
-        assert result.contains("test1");
-        assert result.contains("test2");
+        assertEquals(2, result.size());
+        assertTrue(result.contains("test1"));
+        assertTrue(result.contains("test2"));
     }
 
     @Test

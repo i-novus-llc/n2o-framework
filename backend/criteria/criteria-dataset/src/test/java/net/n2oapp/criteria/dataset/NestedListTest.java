@@ -5,19 +5,21 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 import java.util.function.Supplier;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class NestedListTest {
 
     @Test
     void get() {
         NestedList list = new NestedList();
         list.add(1);
-        assert list.get("[0]").equals(1);
+        assertEquals(1, list.get("[0]"));
 
         list = new NestedList();
         Map<String, Object> map = new HashMap<>();
         map.put("foo", 1);
         list.add(map);
-        assert list.get("[0].foo").equals(1);
+        assertEquals(1, list.get("[0].foo"));
 
         list = new NestedList();
         List<Object> nested = new ArrayList<>();
@@ -28,64 +30,65 @@ class NestedListTest {
         map2.put("foo", 2);
         nested.add(map2);
         list.add(nested);
-        assert list.get("[0]*.foo") instanceof List;
-        assert ((List) list.get("[0]*.foo")).get(0).equals(1);
-        assert ((List) list.get("[0]*.foo")).get(1).equals(2);
+        assertInstanceOf(List.class, list.get("[0]*.foo"));
+        List<?> fooList = (List<?>) list.get("[0]*.foo");
+        assertEquals(1, fooList.get(0));
+        assertEquals(2, fooList.get(1));
 
         list = new NestedList();
         nested = new NestedList();
         nested.add(1);
         list.add(nested);
-        assert list.get("[0][0]").equals(1);
+        assertEquals(1, list.get("[0][0]"));
 
         //empty
         list = new NestedList();
         list.add(1);
-        assert list.get("[1]") == null;//safe index of bound
+        assertNull(list.get("[1]"));//safe index of bound
 
         list = new NestedList();
         list.add(null);
-        assert list.get("[0].foo") == null;//safe get on null
+        assertNull(list.get("[0].foo"));//safe get on null
 
         list = new NestedList();
         list.add(1);
-        assert list.get("[0].foo") == null;//not a map
+        assertNull(list.get("[0].foo"));//not a map
 
         list = new NestedList();
         list.add(1);
-        assert list.get("[0]*.foo") == null;//not a list
+        assertNull(list.get("[0]*.foo"));//not a list
     }
 
     @Test
     void put() {
         NestedList list = new NestedList();
         list.put("[1]", 1);
-        assert list.get(1).equals(1);
+        assertEquals(1, list.get(1));
 
         list = new NestedList();
         list.put("[1].foo", 1);
-        assert list.get(1) instanceof Map;
-        assert ((Map) list.get(1)).get("foo").equals(1);
+        assertInstanceOf(Map.class, list.get(1));
+        assertEquals(1, ((Map<?, ?>) list.get(1)).get("foo"));
 
         list = new NestedList();
         list.put("[1][2]", 1);
-        assert list.get(1) instanceof List;
-        assert ((List) list.get(1)).get(2).equals(1);
+        assertInstanceOf(List.class, list.get(1));
+        assertEquals(1, ((List<?>) list.get(1)).get(2));
 
         list = new NestedList();
         list.put("[1]*.foo", Arrays.asList(1, 2, 3));
-        assert list.get(1) instanceof List;
-        assert ((List) list.get(1)).get(0) instanceof Map;
-        assert ((Map) ((List) list.get(1)).get(0)).get("foo").equals(1);
+        assertInstanceOf(List.class, list.get(1));
+        assertInstanceOf(Map.class, ((List<?>) list.get(1)).get(0));
+        assertEquals(1, ((Map<?, ?>) ((List<?>) list.get(1)).get(0)).get("foo"));
 
         //negative
         list = new NestedList();
         list.put("[0]", 1);
-        assert list.put("[0]*.foo", null).equals(1);
-        assert list.get(0) == null;
+        assertEquals(1, list.put("[0]*.foo", null));
+        assertNull(list.get(0));
 
         NestedList list2 = new NestedList();
-        assert fail(() -> list2.put("[1]*.foo", 1), IllegalArgumentException.class);//value not an iterable
+        assertThrows(IllegalArgumentException.class, () -> list2.put("[1]*.foo", 1)); //value not an iterable
     }
 
     @Test
@@ -94,23 +97,23 @@ class NestedListTest {
                 1,
                 Arrays.asList(1, 2),
                 Collections.singletonMap("foo", 1)));
-        assert list.size() == 3;
-        assert list.get(0).equals(1);
-        assert list.get(1) instanceof NestedList;
-        assert list.get(2) instanceof NestedMap;
+        assertEquals(3, list.size());
+        assertEquals(1, list.get(0));
+        assertInstanceOf(NestedList.class, list.get(1));
+        assertInstanceOf(NestedMap.class, list.get(2));
     }
 
     @Test
     void negative() {
         NestedList list = new NestedList();
-        assert fail(() -> list.put(null, 1), IllegalArgumentException.class);//null key
-        assert fail(() -> list.put("", 1), IllegalArgumentException.class);//empty key
-        assert fail(() -> list.put("0", 1), IllegalArgumentException.class);//there isn't a '['
-        assert fail(() -> list.put("[0", 1), IllegalArgumentException.class);//there isn't a ']'
-        assert fail(() -> list.put("[foo]", 1), IllegalArgumentException.class);//not a numeric
-        assert fail(() -> list.put("[0].123", 1), IllegalArgumentException.class);//not a java var
-        assert fail(() -> list.put("[0]*.123", 1), IllegalArgumentException.class);//not a java var in spread
-        assert fail(() -> list.put("[0]123", 1), IllegalArgumentException.class);//there isn't a '.'
+        assertThrows(IllegalArgumentException.class, () -> list.put(null, 1));//null key
+        assertThrows(IllegalArgumentException.class, () -> list.put("", 1));//empty key
+        assertThrows(IllegalArgumentException.class, () -> list.put("0", 1));//there isn't a '['
+        assertThrows(IllegalArgumentException.class, () -> list.put("[0", 1));//there isn't a ']'
+        assertThrows(IllegalArgumentException.class, () -> list.put("[foo]", 1));//not a numeric
+        assertThrows(IllegalArgumentException.class, () -> list.put("[0].123", 1));//not a java var
+        assertThrows(IllegalArgumentException.class, () -> list.put("[0]*.123", 1));//not a java var in spread
+        assertThrows(IllegalArgumentException.class, () -> list.put("[0]123", 1));//there isn't a '.'
     }
 
     private boolean fail(Supplier<Object> test, Class<? extends Exception> exClass) {

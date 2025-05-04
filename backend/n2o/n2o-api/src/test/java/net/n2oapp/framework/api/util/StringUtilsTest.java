@@ -12,6 +12,7 @@ import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author iryabov
@@ -28,33 +29,33 @@ class StringUtilsTest {
 
         //простой тест
         String text = "${name}";
-        assert StringUtils.resolveProperties(text, map).equals("john");
+        assertEquals("john", StringUtils.resolveProperties(text, map));
 
         //пробелы
         text = " ${name} ";
-        assert StringUtils.resolveProperties(text, map).equals(" john ");
+        assertEquals(" john ", StringUtils.resolveProperties(text, map));
 
         //доп символы
         text = "1${id}3";
-        assert StringUtils.resolveProperties(text, map).equals("123");
+        assertEquals("123", StringUtils.resolveProperties(text, map));
 
         //json
         text = "{\"id\":${id}, \"name\":\"${name}\"}";
         System.out.println("before: " + text);
         String res = StringUtils.resolveProperties(text, map);
-        assert StringUtils.resolveProperties(text, map).equals("{\"id\":2, \"name\":\"john\"}");
+        assertEquals("{\"id\":2, \"name\":\"john\"}", StringUtils.resolveProperties(text, map));
         System.out.println("after: " + res);
     }
 
     @Test
-    void testIsDynamicValue() throws Exception {
-        assert !StringUtils.isDynamicValue(1);
-        assert !StringUtils.isDynamicValue(new Date());
-        assert !StringUtils.isDynamicValue("Олег");
-        assert StringUtils.isDynamicValue("{id}");
-        assert StringUtils.isDynamicValue("{$.now()}");
-        assert StringUtils.isDynamicValue("tomorrow()");
-        assert StringUtils.isDynamicValue("`1==1`");
+    void testIsDynamicValue() {
+        assertFalse(StringUtils.isDynamicValue(1));
+        assertFalse(StringUtils.isDynamicValue(new Date()));
+        assertFalse(StringUtils.isDynamicValue("Олег"));
+        assertTrue(StringUtils.isDynamicValue("{id}"));
+        assertTrue(StringUtils.isDynamicValue("{$.now()}"));
+        assertTrue(StringUtils.isDynamicValue("tomorrow()"));
+        assertTrue(StringUtils.isDynamicValue("`1==1`"));
     }
 
     @Test
@@ -105,29 +106,29 @@ class StringUtilsTest {
 
     @Test
     void testMaskEquals() {
-        assert StringUtils.maskMatch("*", "test");
-        assert StringUtils.maskMatch("1Aba?", "1Aba?");
-        assert !StringUtils.maskMatch("1Aba", "0Aba");
+        assertTrue(StringUtils.maskMatch("*", "test"));
+        assertTrue(StringUtils.maskMatch("1Aba?", "1Aba?"));
+        assertFalse(StringUtils.maskMatch("1Aba", "0Aba"));
 
-        assert StringUtils.maskMatch("1Aba?*", "1Aba?");
-        assert !StringUtils.maskMatch("1Aba*", "1A000ba");
-        assert !StringUtils.maskMatch("1Aba*", "0001Aba");
-        assert StringUtils.maskMatch("1Aba*", "1Aba1000");
+        assertTrue(StringUtils.maskMatch("1Aba?*", "1Aba?"));
+        assertFalse(StringUtils.maskMatch("1Aba*", "1A000ba"));
+        assertFalse(StringUtils.maskMatch("1Aba*", "0001Aba"));
+        assertTrue(StringUtils.maskMatch("1Aba*", "1Aba1000"));
 
-        assert StringUtils.maskMatch("*1Aba?", "1Aba?");
-        assert !StringUtils.maskMatch("*1Aba", "1A000ba");
-        assert StringUtils.maskMatch("*1Aba", "0001Aba");
-        assert !StringUtils.maskMatch("*1Aba", "1Aba1000");
+        assertTrue(StringUtils.maskMatch("*1Aba?", "1Aba?"));
+        assertFalse(StringUtils.maskMatch("*1Aba", "1A000ba"));
+        assertTrue(StringUtils.maskMatch("*1Aba", "0001Aba"));
+        assertFalse(StringUtils.maskMatch("*1Aba", "1Aba1000"));
 
-        assert StringUtils.maskMatch("1A*ba?", "1Aba?");
-        assert StringUtils.maskMatch("1A*ba", "1A000ba");
-        assert !StringUtils.maskMatch("1A*ba", "0001Aba");
-        assert !StringUtils.maskMatch("1A*ba", "1Aba000");
+        assertTrue(StringUtils.maskMatch("1A*ba?", "1Aba?"));
+        assertTrue(StringUtils.maskMatch("1A*ba", "1A000ba"));
+        assertFalse(StringUtils.maskMatch("1A*ba", "0001Aba"));
+        assertFalse(StringUtils.maskMatch("1A*ba", "1Aba000"));
 
-        assert StringUtils.maskMatch("*1Aba?*", "1Aba?");
-        assert StringUtils.maskMatch("*1Aba*", "zzz1Aba");
-        assert StringUtils.maskMatch("*1Aba*", "1Abazzz");
-        assert StringUtils.maskMatch("*1Aba*", "zzz1Abazzz");
+        assertTrue(StringUtils.maskMatch("*1Aba?*", "1Aba?"));
+        assertTrue(StringUtils.maskMatch("*1Aba*", "zzz1Aba"));
+        assertTrue(StringUtils.maskMatch("*1Aba*", "1Abazzz"));
+        assertTrue(StringUtils.maskMatch("*1Aba*", "zzz1Abazzz"));
     }
 
     @Test

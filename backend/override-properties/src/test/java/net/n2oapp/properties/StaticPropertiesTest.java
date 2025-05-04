@@ -20,7 +20,7 @@ class StaticPropertiesTest {
 
     @Test
     void runTest() {
-        //тесты не атомарные. В первом тесте происходит инициализация
+        //Тесты не атомарные. В первом тесте происходит инициализация
         testInitialization();
         testGet();
         testList();

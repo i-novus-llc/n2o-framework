@@ -7,58 +7,57 @@ import net.n2oapp.framework.config.register.storage.Node;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.List;
+
+import static net.n2oapp.framework.config.register.RegisterUtil.createXmlInfo;
+import static net.n2oapp.framework.config.register.RegisterUtil.getIdAndPostfix;
+import static net.n2oapp.framework.config.register.storage.Node.byDirectory;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование утилитного класса для работы с регистром
  */
 class RegisterUtilTest {
-    
-    @Test
-    void testGetIdAndPostfix() throws Exception {
-        String[] idAndPostfix = RegisterUtil.getIdAndPostfix("/opt/n2o/conf/objects/some/some.object.xml");
-        assert idAndPostfix[0].equals("some");
-        assert idAndPostfix[1].equals("object");
-        try {
-            RegisterUtil.getIdAndPostfix("/opt/n2o/conf/objects/some/some.object.page.xml");
-            assert false;
-        } catch (IllegalStateException e) {
-            assert true;
-        }
 
+    @Test
+    void testGetIdAndPostfix() {
+        String[] idAndPostfix = getIdAndPostfix("/opt/n2o/conf/objects/some/some.object.xml");
+        assertEquals("some", idAndPostfix[0]);
+        assertEquals("object", idAndPostfix[1]);
+        assertThrows(IllegalStateException.class, () -> getIdAndPostfix("/opt/n2o/conf/objects/some/some.object.page.xml"));
     }
 
     @Test
-    void testCyrillic() throws Exception {
-        String[] res = RegisterUtil.getIdAndPostfix("file:/opt/rmis/rmis-conf/report/form/report_002_О_у_10_journal_of_arms_221.widget.xml");
-        assert res.length == 3;
+    void testCyrillic() {
+        String[] res = getIdAndPostfix("file:/opt/rmis/rmis-conf/report/form/report_002_О_у_10_journal_of_arms_221.widget.xml");
+        assertEquals(3, res.length);
     }
 
     @Test
-    void testCreateXmlInfo() throws Exception {
+    void testCreateXmlInfo() {
         SourceTypeRegister metaModelRegister = new N2oSourceTypeRegister();
-        metaModelRegister.addAll(Arrays.asList(new MetaType("object", N2oObject.class)));
-        Node node = Node.byDirectory(new File("/opt/n2o/conf/some/objects/some.object.xml"), "/opt/n2o/conf");
-        InfoConstructor info = RegisterUtil.createXmlInfo(node, metaModelRegister);
-        assert info.getId().equals("some");
-        assert info.getOrigin().equals(OriginEnum.xml);
+        metaModelRegister.addAll(List.of(new MetaType("object", N2oObject.class)));
+        Node node = byDirectory(new File("/opt/n2o/conf/some/objects/some.object.xml"), "/opt/n2o/conf");
+        InfoConstructor info = createXmlInfo(node, metaModelRegister);
+        assertEquals("some", info.getId());
+        assertEquals(OriginEnum.xml, info.getOrigin());
     }
 
     @Test
-    void testInfoGetDirectory() throws Exception {
+    void testInfoGetDirectory() {
         SourceTypeRegister metaModelRegister = new N2oSourceTypeRegister();
-        metaModelRegister.addAll(Arrays.asList(new MetaType("object", N2oObject.class)));
+        metaModelRegister.addAll(List.of(new MetaType("object", N2oObject.class)));
         InfoConstructor info = new InfoConstructor();
         info.setLocalPath("/some/objects/some.object.xml");
         info.setConfigId(new ConfigId("some", metaModelRegister.get(N2oObject.class)));
         info.setOrigin(OriginEnum.xml);
-        assert info.getDirectory().equals("/some/objects");
+        assertEquals("/some/objects", info.getDirectory());
 
         info = new InfoConstructor();
         info.setLocalPath("some.object.xml");
         info.setConfigId(new ConfigId("some", metaModelRegister.get(N2oObject.class)));
         info.setOrigin(OriginEnum.xml);
-        assert info.getDirectory().equals("");
+        assertEquals("", info.getDirectory());
     }
-
 }

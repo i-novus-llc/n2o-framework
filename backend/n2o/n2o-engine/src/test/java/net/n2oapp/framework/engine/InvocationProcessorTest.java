@@ -29,6 +29,7 @@ import java.util.*;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -164,8 +165,8 @@ class InvocationProcessorTest {
         outMapping.add(outParam);
 
         DataSet resultDataSet = invocationProcessor.invoke(method, dataSet, inMapping, outMapping);
-        assert resultDataSet.size() == 6;
-        assert resultDataSet.get("sum").equals(110);
+        assertEquals(6, resultDataSet.size());
+        assertEquals(110, resultDataSet.get("sum"));
     }
 
     @Test
@@ -491,8 +492,8 @@ class InvocationProcessorTest {
         N2oSqlDataProvider invocation = new N2oSqlDataProvider();
         invocation.setQuery("select 1");
         DataSet result = invocationProcessor.invoke(invocation, dataSet, inMapping, outMapping);
-        assert result.size() == 1;
-        assert result.get("id").equals(1);
+        assertEquals(1, result.size());
+        assertEquals(1, result.get("id"));
     }
 
     @Test
@@ -944,7 +945,7 @@ class InvocationProcessorTest {
         DataSet dataSet = new DataSet("organization", innerDataSet);
 
         DataSet result = invocationProcessor.invoke(invocation, dataSet, singletonList(refField),
-         Arrays.asList(simpleOutId, simpleOutName));
+                Arrays.asList(simpleOutId, simpleOutName));
 
         assertThat(result.getInteger("myId"), is(1));
         assertThat(result.getString("myName"), is("test1"));

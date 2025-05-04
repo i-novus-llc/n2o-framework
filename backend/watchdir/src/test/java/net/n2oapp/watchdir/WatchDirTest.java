@@ -12,8 +12,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class WatchDirTest {
@@ -143,35 +142,18 @@ class WatchDirTest {
     void incorrectCreate() {
         watchDir = new WatchDir();
         //старт без listener
-        try {
-            watchDir.start();
-            assert false;
-        } catch (WatchDirException e) {
-            assert true;
-        }
+        assertThrows(WatchDirException.class, () -> watchDir.start());
+
         watchDir.setListener(listener);
         //старт без единого пути
-        try {
-            watchDir.start();
-            assert false;
-        } catch (WatchDirException e) {
-            assert true;
-        }
+        assertThrows(WatchDirException.class, () -> watchDir.start());
+
         watchDir.addPath(TEST_DIR);
         //успешный старт
-        try {
-            watchDir.start();
-            assert true;
-        } catch (WatchDirException e) {
-            assert false;
-        }
+        watchDir.start();
+
         //повторный старт
-        try {
-            watchDir.start();
-            assert false;
-        } catch (WatchDirException e) {
-            assert true;
-        }
+        assertThrows(WatchDirException.class, () -> watchDir.start());
         watchDir.stop();
     }
 
@@ -182,18 +164,9 @@ class WatchDirTest {
         watchDir.addPath(TEST_DIR);
         watchDir.start();
         //смена listener после старта
-        try {
-            watchDir.setListener(listener);
-            assert false;
-        } catch (WatchDirException e) {
-            assert true;
-        }
+        assertThrows(WatchDirException.class, () -> watchDir.setListener(listener));
+
         //добавление пути после старта
-        try {
-            watchDir.addPath(TEST_DIR);
-            assert false;
-        } catch (WatchDirException e) {
-            assert true;
-        }
+        assertThrows(WatchDirException.class, () -> watchDir.addPath(TEST_DIR));
     }
 }

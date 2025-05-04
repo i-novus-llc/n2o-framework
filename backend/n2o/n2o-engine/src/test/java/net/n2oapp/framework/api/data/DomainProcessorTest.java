@@ -16,6 +16,7 @@ import java.util.*;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Тесты для {@link DomainProcessor}
@@ -27,47 +28,47 @@ class DomainProcessorTest {
         DomainProcessor proc = new DomainProcessor();
         String nullDomain = null;
         Object val = proc.deserialize(null, nullDomain);
-        assert val == null;
+        assertNull(val);
         val = proc.deserialize("", nullDomain);
-        assert val == null;
+        assertNull(val);
         val = proc.deserialize(" ", nullDomain);
-        assert val != null;
+        assertNotNull(val);
         val = proc.deserialize(null, "string");
-        assert val == null;
+        assertNull(val);
         val = proc.deserialize(null, "integer");
-        assert val == null;
+        assertNull(val);
         val = proc.deserialize("", "integer");
-        assert val == null;
+        assertNull(val);
         val = proc.deserialize(null, "numeric");
-        assert val == null;
+        assertNull(val);
         val = proc.deserialize("", "numeric");
-        assert val == null;
+        assertNull(val);
         val = proc.deserialize(null, "long");
-        assert val == null;
+        assertNull(val);
         val = proc.deserialize(null, "short");
-        assert val == null;
+        assertNull(val);
         val = proc.deserialize(null, "byte");
-        assert val == null;
+        assertNull(val);
     }
 
     @Test
     void testDynamicValue() {
         DomainProcessor proc = new DomainProcessor();
-        assert "{id}".equals(proc.deserialize("{id}", "integer"));
-        assert "`1 == 1`".equals(proc.deserialize("`1 == 1`", "boolean"));
-        assert proc.deserialize("{{\"id\" : 1}}", "object") instanceof Map;
+        assertEquals("{id}", proc.deserialize("{id}", "integer"));
+        assertEquals("`1 == 1`", proc.deserialize("`1 == 1`", "boolean"));
+        assertTrue(proc.deserialize("{{\"id\" : 1}}", "object") instanceof Map);
     }
 
     @Test
     void testAutoCast() {
         DomainProcessor proc = new DomainProcessor();
-        assert proc.deserialize("abc123") instanceof String;
-        assert proc.deserialize(100) instanceof Integer;
-        assert proc.deserialize(100L) instanceof Long;
-        assert proc.deserialize(true) instanceof Boolean;
-        assert proc.deserialize("true") instanceof Boolean;
-        assert proc.deserialize("123") instanceof Integer;
-        assert proc.deserialize("1234567") instanceof String;//more than 6 digets
+        assertTrue(proc.deserialize("abc123") instanceof String);
+        assertTrue(proc.deserialize(100) instanceof Integer);
+        assertTrue(proc.deserialize(100L) instanceof Long);
+        assertTrue(proc.deserialize(true) instanceof Boolean);
+        assertTrue(proc.deserialize("true") instanceof Boolean);
+        assertTrue(proc.deserialize("123") instanceof Integer);
+        assertTrue(proc.deserialize("1234567") instanceof String);//more than 6 digets
     }
 
     @Test
@@ -84,27 +85,27 @@ class DomainProcessorTest {
     @Test
     void testSimpleTyping() {
         DomainProcessor proc = new DomainProcessor();
-        assert proc.deserialize("true", "Boolean") instanceof Boolean;
-        assert proc.deserialize("1", "Byte") instanceof Byte;
-        assert proc.deserialize("32", "Short") instanceof Short;
-        assert proc.deserialize("123", "Integer") instanceof Integer;
-        assert proc.deserialize("123", "Long") instanceof Long;
-        assert proc.deserialize("123", "String") instanceof String;
-        assert proc.deserialize("2014-02-01T18:15:00", "Date") instanceof Date;
-        assert proc.deserialize("2014-02-01", "LocalDate") instanceof LocalDate;
-        assert proc.deserialize("2014-02-01T18:15:00", "LocalDateTime") instanceof LocalDateTime;
-        assert proc.deserialize("2019-12-15T23:50:40Z[Europe/Moscow]", "zoneddatetime") instanceof ZonedDateTime;
-        assert proc.deserialize("2019-12-15T23:50:40-03:00", "offsetdatetime") instanceof OffsetDateTime;
-        assert proc.deserialize("125.888", "Numeric") instanceof BigDecimal;
-        assert proc.deserialize("11444,878", "Numeric") instanceof BigDecimal;
+        assertTrue(proc.deserialize("true", "Boolean") instanceof Boolean);
+        assertThat(proc.deserialize("1", "Byte"), instanceOf(Byte.class));
+        assertThat(proc.deserialize("32", "Short"), instanceOf(Short.class));
+        assertThat(proc.deserialize("123", "Integer"), instanceOf(Integer.class));
+        assertThat(proc.deserialize("123", "Long"), instanceOf(Long.class));
+        assertThat(proc.deserialize("123", "String"), instanceOf(String.class));
+        assertThat(proc.deserialize("2014-02-01T18:15:00", "Date"), instanceOf(Date.class));
+        assertThat(proc.deserialize("2014-02-01", "LocalDate"), instanceOf(LocalDate.class));
+        assertThat(proc.deserialize("2014-02-01T18:15:00", "LocalDateTime"), instanceOf(LocalDateTime.class));
+        assertThat(proc.deserialize("2019-12-15T23:50:40Z[Europe/Moscow]", "zoneddatetime"), instanceOf(ZonedDateTime.class));
+        assertThat(proc.deserialize("2019-12-15T23:50:40-03:00", "offsetdatetime"), instanceOf(OffsetDateTime.class));
+        assertThat(proc.deserialize("125.888", "Numeric"), instanceOf(BigDecimal.class));
+        assertThat(proc.deserialize("11444,878", "Numeric"), instanceOf(BigDecimal.class));
         Object dataSet = proc.deserialize("{{\"id\":1, \"name\":\"Олег\", \"gender.name\":\"Мужской\", \"age\":\"24.5\", \"real_age\":\"29,8\"}}", "Object");
-        assert dataSet instanceof DataSet;
-        assert ((DataSet) dataSet).get("id").equals(1);
-        assert ((DataSet) dataSet).get("name").equals("Олег");
-        assert ((DataSet) dataSet).get("gender") != null;
-        assert ((DataSet) dataSet).get("gender.name").equals("Мужской");
-        assert ((DataSet) dataSet).get("age").equals("24.5");
-        assert ((DataSet) dataSet).get("real_age").equals("29,8");
+        assertThat(dataSet, instanceOf(DataSet.class));
+        assertEquals(1, ((DataSet) dataSet).get("id"));
+        assertEquals("Олег", ((DataSet) dataSet).get("name"));
+        assertNotNull(((DataSet) dataSet).get("gender"));
+        assertEquals("Мужской", ((DataSet) dataSet).get("gender.name"));
+        assertEquals("24.5", ((DataSet) dataSet).get("age"));
+        assertEquals("29,8", ((DataSet) dataSet).get("real_age"));
     }
 
     @Test
@@ -231,16 +232,16 @@ class DomainProcessorTest {
     @Test
     void serialize() throws ParseException {
         DomainProcessor proc = new DomainProcessor();
-        assert "test".equals(proc.serialize("test"));
-        assert "true".equals(proc.serialize(true));
-        assert "123".equals(proc.serialize(123));
+        assertEquals("test", proc.serialize("test"));
+        assertEquals("true", proc.serialize(true));
+        assertEquals("123", proc.serialize(123));
         Date date = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("01.01.2019 11:11");
         assertThat(proc.serialize(date), is("2019-01-01T11:11:00"));
     }
 
     private void checkDates(Date date1, Date date2, Interval<?> interval) {
-        assert interval.size() == 2;
-        assert interval.getBegin().equals(date1);
-        assert interval.getEnd().equals(date2);
+        assertEquals(2, interval.size());
+        assertEquals(date1, interval.getBegin());
+        assertEquals(date2, interval.getEnd());
     }
 }

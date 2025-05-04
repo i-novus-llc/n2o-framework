@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static net.n2oapp.framework.autotest.run.AutoTestUtil.checkChromeDriver;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest(classes = AutoTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SimpleTest {
@@ -47,7 +48,7 @@ class SimpleTest {
     @Disabled
     void selenide() {
         TestPageObject page = Selenide.open("http://localhost:" + port + "/test.html", TestPageObject.class);
-        page.getLeftWidget0().textShouldBe("Left Region 0 Widget 0");
+        assertDoesNotThrow(() -> page.getLeftWidget0().textShouldBe("Left Region 0 Widget 0"));
         page.getLeftWidget1().textShouldBe("Left Region 0 Widget 1");
         page.getRightWidget0().textShouldBe("Right Region 0 Widget 0");
     }

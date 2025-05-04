@@ -19,18 +19,16 @@ import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SimpleMenuCompileTest extends SourceCompileTestBase {
-    
+
     @Override
     @BeforeEach
     public void setUp() throws Exception {
@@ -181,14 +179,15 @@ class SimpleMenuCompileTest extends SourceCompileTestBase {
     @Test
     void testValidateResolveNameDropdownNonDS() {
         N2oException exception = assertThrows(N2oException.class,
-                ()-> compile("net/n2oapp/framework/config/metadata/menu/testValidateResolveNameDropdownNonDS.application.xml")
+                () -> compile("net/n2oapp/framework/config/metadata/menu/testValidateResolveNameDropdownNonDS.application.xml")
                         .get(new ApplicationContext("testValidateResolveNameDropdownNonDS")));
         assertEquals("Меню имеет плейсхолдер 'name='{test}'', но при этом не указан источник данных", exception.getMessage());
     }
 
     @Test
     void testValidateResolveNameDS() {
-        compile("net/n2oapp/framework/config/metadata/menu/testValidateResolveNameDS.application.xml")
-                .get(new ApplicationContext("testValidateResolveNameDS"));
+        assertDoesNotThrow(
+                () -> compile("net/n2oapp/framework/config/metadata/menu/testValidateResolveNameDS.application.xml")
+                        .get(new ApplicationContext("testValidateResolveNameDS")));
     }
 }

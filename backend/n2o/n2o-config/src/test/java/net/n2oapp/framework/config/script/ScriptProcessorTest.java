@@ -18,7 +18,7 @@ import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.springframework.test.util.AssertionErrors.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ScriptProcessorTest {
 
@@ -38,7 +38,8 @@ class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveLinks("`test`"), is("`test`"));
         assertThat(ScriptProcessor.resolveLinks("true"), is("true"));
         assertThat(ScriptProcessor.resolveLinks("false"), is("false"));
-        assertThat(ScriptProcessor.resolveLinks("Hello, {test == 1 ? 2 : test == 2 ? 3 : 4} . {test == 1 ? 2 : 3}"), is("`'Hello, '+(test == 1 ? 2 : test == 2 ? 3 : 4)+' . '+(test == 1 ? 2 : 3)`"));
+        assertThat(ScriptProcessor.resolveLinks("Hello, {test == 1 ? 2 : test == 2 ? 3 : 4} . {test == 1 ? 2 : 3}"),
+                is("`'Hello, '+(test == 1 ? 2 : test == 2 ? 3 : 4)+' . '+(test == 1 ? 2 : 3)`"));
     }
 
     @Test
@@ -51,11 +52,13 @@ class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveExpression("`1+1`"), is("`1+1`"));
         assertThat(ScriptProcessor.resolveExpression("Test{id}"), is("`'Test'+id`"));
         assertThat(ScriptProcessor.resolveExpression("Test {surname} {name}"), is("`'Test '+surname+' '+name`"));
-        assertThat(ScriptProcessor.resolveExpression("Test {id} #{surname} {name} ${patr}"), is("`'Test '+id+' #{surname} '+name+' ${patr}'`"));
+        assertThat(ScriptProcessor.resolveExpression("Test {id} #{surname} {name} ${patr}"),
+                is("`'Test '+id+' #{surname} '+name+' ${patr}'`"));
         assertThat(ScriptProcessor.resolveExpression("#{id}"), is("#{id}"));
         assertThat(ScriptProcessor.resolveExpression("${id}"), is("${id}"));
         assertThat(ScriptProcessor.resolveExpression("{gender*.id}"), is("`gender.map(function(t){return t.id})`"));
-        assertThat(ScriptProcessor.resolveExpression("{name} test {gender*.id}"), is("`name+' test '+gender.map(function(t){return t.id})`"));
+        assertThat(ScriptProcessor.resolveExpression("{name} test {gender*.id}"),
+                is("`name+' test '+gender.map(function(t){return t.id})`"));
         assertThat(ScriptProcessor.resolveExpression("{test == 1}"), is("`test == 1`"));
         assertThat(ScriptProcessor.resolveExpression("Hello, {test + 1}"), is("`'Hello, '+test + 1`"));
 
@@ -63,11 +66,6 @@ class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveArrayExpression("1", "2"), is(Arrays.asList(1, 2)));
         assertThat(ScriptProcessor.resolveArrayExpression("Test1", "Test2"), is(Arrays.asList("Test1", "Test2")));
         assertThat(ScriptProcessor.resolveArrayExpression("true", "false"), is(Arrays.asList(true, false)));
-        //todo реализовать для сложных вариантов
-        //assertThat( scriptProcessor.resolveArrayExpression("{id}"), is("`[id]`"));
-        //assertThat( scriptProcessor.resolveArrayExpression("{id1}", "{id2}"), is("`[id1,id2]`"));
-        //assertThat( scriptProcessor.resolveArrayExpression("{id1}", "test"), is("`[id1,'test']`"));
-        //assertThat( scriptProcessor.resolveArrayExpression("Test{id1}", "Test{id2}"), is("`['Test'+id1,'Test'+id2]`"));
     }
 
     @Test
@@ -132,10 +130,12 @@ class ScriptProcessorTest {
         cases.put(1, "blue");
         cases.put(2, "red");
         n2oSwitch.setResolvedCases(cases);
-        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), is("`status == 1 ? 'blue' : status == 2 ? 'red' : null`"));
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch),
+                is("`status == 1 ? 'blue' : status == 2 ? 'red' : null`"));
 
         n2oSwitch.setDefaultCase("gray");
-        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), is("`status == 1 ? 'blue' : status == 2 ? 'red' : 'gray'`"));
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch),
+                is("`status == 1 ? 'blue' : status == 2 ? 'red' : 'gray'`"));
 
         cases.put(3, "{name == 'Нина' ? 'black' : 'white'}");
         assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch),
@@ -147,52 +147,50 @@ class ScriptProcessorTest {
         n2oSwitch.setResolvedCases(cases);
         n2oSwitch.setDefaultCase("gray");
 
-        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), is("`status == 'ok' ? 'blue' : status == 'failed' ? 'red' : 'gray'`"));
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch),
+                is("`status == 'ok' ? 'blue' : status == 'failed' ? 'red' : 'gray'`"));
     }
 
 
     @Test
     void testCreateFunctionCall() {
-        assert ScriptProcessor.createFunctionCall("func").equals("func()");
-        assert ScriptProcessor.createFunctionCall("func", "arg1").equals("func('arg1')");
-        assert ScriptProcessor.createFunctionCall("func", "arg1", "arg2").equals("func('arg1','arg2')");
-        assert ScriptProcessor.createFunctionCall("func", "arg1", "arg2").equals("func('arg1','arg2')");
-        assert ScriptProcessor.createFunctionCall("func", "arg1", 1, true).equals("func('arg1',1,true)");
-
+        assertThat(ScriptProcessor.createFunctionCall("func"), is("func()"));
+        assertThat(ScriptProcessor.createFunctionCall("func", "arg1"), is("func('arg1')"));
+        assertThat(ScriptProcessor.createFunctionCall("func", "arg1", "arg2"), is("func('arg1','arg2')"));
+        assertThat(ScriptProcessor.createFunctionCall("func", "arg1", "arg2"), is("func('arg1','arg2')"));
+        assertThat(ScriptProcessor.createFunctionCall("func", "arg1", 1, true), is("func('arg1',1,true)"));
     }
 
     @Test
     void createSelfInvokingFunction() {
-        assert ScriptProcessor.createSelfInvokingFunction("1==1").equals("function(){1==1}()");
+        assertThat(ScriptProcessor.createSelfInvokingFunction("1==1"), is("function(){1==1}()"));
     }
 
     @Test
     void testIfNotUndefined() {
         //строки
         String exp1 = ScriptProcessor.ifNotUndefined("id == 1", "id");
-        assert exp1.equals("(typeof id === 'undefined') || (id == 1)");
+        assertThat(exp1, is("(typeof id === 'undefined') || (id == 1)"));
         String exp2 = ScriptProcessor.ifNotUndefined("indiv.id == dep.org.id", "indiv.id", "dep.org.id");
-        assert exp2.equals(
+        assertThat(exp2, is(
                 "(typeof indiv === 'undefined') || " +
                         "(typeof indiv.id === 'undefined') || " +
                         "(typeof dep === 'undefined') || " +
                         "(typeof dep.org === 'undefined') || " +
                         "(typeof dep.org.id === 'undefined') || " +
-                        "(indiv.id == dep.org.id)");
+                        "(indiv.id == dep.org.id)"));
 
         //вычислялки
-        assert ScriptProcessor.evalForBoolean(exp1, new DataSet());
-        assert ScriptProcessor.evalForBoolean(exp1, new DataSet("id", 1));
-        assert !ScriptProcessor.evalForBoolean(exp1, new DataSet("id", 2));
+        assertTrue(ScriptProcessor.evalForBoolean(exp1, new DataSet()));
+        assertTrue(ScriptProcessor.evalForBoolean(exp1, new DataSet("id", 1)));
+        assertFalse(ScriptProcessor.evalForBoolean(exp1, new DataSet("id", 2)));
 
-        assert ScriptProcessor.evalForBoolean(exp2, new DataSet());
-        assert ScriptProcessor.evalForBoolean(exp2, new DataSet("indiv", 1));
-        assert ScriptProcessor.evalForBoolean(exp2, new DataSet("indiv.id", 1));
-        assert ScriptProcessor.evalForBoolean(exp2, new DataSet("indiv.id", 1).add("dep.org.id", 1));
-        assert !ScriptProcessor.evalForBoolean(exp2, new DataSet("indiv.id", 1).add("dep.org.id", 2));
-
+        assertTrue(ScriptProcessor.evalForBoolean(exp2, new DataSet()));
+        assertTrue(ScriptProcessor.evalForBoolean(exp2, new DataSet("indiv", 1)));
+        assertTrue(ScriptProcessor.evalForBoolean(exp2, new DataSet("indiv.id", 1)));
+        assertTrue(ScriptProcessor.evalForBoolean(exp2, new DataSet("indiv.id", 1).add("dep.org.id", 1)));
+        assertFalse(ScriptProcessor.evalForBoolean(exp2, new DataSet("indiv.id", 1).add("dep.org.id", 2)));
     }
-
 
     @Test
     void testEvalForBoolean() {
@@ -203,226 +201,177 @@ class ScriptProcessorTest {
                 throw new RuntimeException(e);
             }
         }, RuntimeException.class);
-        assert !(ScriptProcessor.evalForBoolean("bas script", new DataSet()));
-        assert (ScriptProcessor.evalForBoolean("test", new DataSet("test", true)));
-        assert (ScriptProcessor.evalForBoolean("test", new DataSet("test", "some value")));
-        assert !(ScriptProcessor.evalForBoolean("test", new DataSet("test", false)));
+        assertFalse(ScriptProcessor.evalForBoolean("bas script", new DataSet()));
+        assertTrue(ScriptProcessor.evalForBoolean("test", new DataSet("test", true)));
+        assertTrue(ScriptProcessor.evalForBoolean("test", new DataSet("test", "some value")));
+        assertFalse(ScriptProcessor.evalForBoolean("test", new DataSet("test", false)));
     }
 
     @Test
     void buildIsNullExpressionTest() {
         String exp = scriptProcessor.buildIsNullExpression("indiv.gender.id");
-        assert exp.equals("(typeof indiv === 'undefined') || (typeof indiv.gender === 'undefined') || (typeof indiv.gender.id === 'undefined') || (indiv.gender.id === null)");
+        String str = "(typeof indiv === 'undefined') || (typeof indiv.gender === 'undefined') || (typeof indiv.gender.id === 'undefined') || (indiv.gender.id === null)";
+        assertEquals(str, exp);
         exp = scriptProcessor.buildIsNullExpression("name");
-        assert exp.equals("(typeof name === 'undefined') || (name === null)");
+        assertEquals(("(typeof name === 'undefined') || (name === null)"), exp);
     }
 
     @Test
     void buildIsNotNullExpressionTest() {
         String exp = scriptProcessor.buildIsNotNullExpression("name");
-        assert exp.equals("name != null");
+        assertEquals("name != null", exp);
     }
 
     @Test
-    void buildMoreExpressionTest() {
+    void buildMoreExpressionTest() throws ScriptException {
         //числа
         String exp = scriptProcessor.buildMoreExpression("num", 5);
         ScriptEngine engine = getScriptEngine();
-        try {
-            engine.put("num", 6);
-            assert (Boolean) engine.eval(exp);
-            engine.put("num", 9);
-            assert (Boolean) engine.eval(exp);
-            engine.put("num", 4);
-            assert !(Boolean) engine.eval(exp);
-            engine.put("num", 5);
-            assert !(Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+
+        engine.put("num", 6);
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("num", 9);
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("num", 4);
+        assertFalse((Boolean) engine.eval(exp));
+        engine.put("num", 5);
+        assertFalse((Boolean) engine.eval(exp));
     }
 
     @Test
-    void buildLessExpressionTest() {
+    void buildLessExpressionTest() throws ScriptException {
         //числа
         String exp = scriptProcessor.buildLessExpression("num", 5);
         ScriptEngine engine = getScriptEngine();
-        try {
-            engine.put("num", 6);
-            assert !(Boolean) engine.eval(exp);
-            engine.put("num", 9);
-            assert !(Boolean) engine.eval(exp);
-            engine.put("num", 4);
-            assert (Boolean) engine.eval(exp);
-            engine.put("num", 5);
-            assert !(Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+        engine.put("num", 6);
+        assertFalse((Boolean) engine.eval(exp));
+        engine.put("num", 9);
+        assertFalse((Boolean) engine.eval(exp));
+        engine.put("num", 4);
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("num", 5);
+        assertFalse((Boolean) engine.eval(exp));
     }
 
 
     @Test
-    void buildInIntervalExpressionTest() {
+    void buildInIntervalExpressionTest() throws ScriptException {
         //числа
-        String exp = scriptProcessor.buildInIntervalExpression("num", new Interval(1, 10));
+        String exp = scriptProcessor.buildInIntervalExpression("num", new Interval<>(1, 10));
         ScriptEngine engine = getScriptEngine();
-        try {
-            engine.put("num", 2);
-            assert (Boolean) engine.eval(exp);
-            engine.put("num", 9);
-            assert (Boolean) engine.eval(exp);
-            engine.put("num", 11);
-            assert !(Boolean) engine.eval(exp);
-            engine.put("num", 10);
-            assert !(Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+        engine.put("num", 2);
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("num", 9);
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("num", 11);
+        assertFalse((Boolean) engine.eval(exp));
+        engine.put("num", 10);
+        assertFalse((Boolean) engine.eval(exp));
     }
 
 
     @Test
-    void buildInListExpressionTest() {
+    void buildInListExpressionTest() throws ScriptException {
         String exp = scriptProcessor.buildInListExpression("name", Arrays.asList("John", "Marry"));
         ScriptEngine engine = getScriptEngine();
-        try {
-            engine.put("name", "John");
-            assert (Boolean) engine.eval(exp);
-            engine.put("name", "Marry");
-            assert (Boolean) engine.eval(exp);
-            engine.put("name", "Bobby");
-            assert !(Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+        engine.put("name", "John");
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("name", "Marry");
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("name", "Bobby");
+        assertFalse((Boolean) engine.eval(exp));
+
         exp = scriptProcessor.buildInListExpression("someBoolean", Arrays.asList(true, false));
         engine = getScriptEngine();
-        try {
-            engine.put("someBoolean", true);
-            assert (Boolean) engine.eval(exp);
-            engine.put("someBoolean", false);
-            assert (Boolean) engine.eval(exp);
-            engine.put("someBoolean", "s");
-            assert !(Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+        engine.put("someBoolean", true);
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("someBoolean", false);
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("someBoolean", "s");
+        assertFalse((Boolean) engine.eval(exp));
     }
 
     @Test
-    void buildLikeAndLikeStartExpressionTest() {
+    void buildLikeAndLikeStartExpressionTest() throws ScriptException {
         String exp = scriptProcessor
                 .buildLikeExpression("name", "est str");
         ScriptEngine engine = getScriptEngine();
-        try {
-            engine.put("name", "Test string");
-            assert (Boolean) engine.eval(exp);
-            engine.put("name", "Not");
-            assert !(Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+        engine.put("name", "Test string");
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("name", "Not");
+        assertFalse((Boolean) engine.eval(exp));
 
         exp = scriptProcessor
                 .buildLikeStartExpression("name", "Test");
         engine = getScriptEngine();
-        try {
-            engine.put("name", "Test string");
-            assert (Boolean) engine.eval(exp);
-            engine.put("name", "est string");
-            assert !(Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+        engine.put("name", "Test string");
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("name", "est string");
+        assertFalse((Boolean) engine.eval(exp));
     }
 
     @Test
-    void buildNotInListExpressionTest() {
+    void buildNotInListExpressionTest() throws ScriptException {
         String exp = scriptProcessor.buildNotInListExpression("name", Arrays.asList("John", "Marry"));
         ScriptEngine engine = getScriptEngine();
-        try {
-            engine.put("name", "John");
-            assert !(Boolean) engine.eval(exp);
-            engine.put("name", "Marry");
-            assert !(Boolean) engine.eval(exp);
-            engine.put("name", "Bobby");
-            assert (Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+        engine.put("name", "John");
+        assertFalse((Boolean) engine.eval(exp));
+        engine.put("name", "Marry");
+        assertFalse((Boolean) engine.eval(exp));
+        engine.put("name", "Bobby");
+        assertTrue((Boolean) engine.eval(exp));
     }
 
     @Test
-    void buildEqualExpressionTest() {
+    void buildEqualExpressionTest() throws ScriptException {
         String exp = scriptProcessor.buildEqualExpression("name", "John");
-        assert exp.equals("name == 'John'");
+        assertEquals("name == 'John'", exp);
         ScriptEngine engine = getScriptEngine();
-        try {
-            engine.put("name", "John");
-            assert (Boolean) engine.eval(exp);
-            engine.put("name", "Bobby");
-            assert !(Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+        engine.put("name", "John");
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("name", "Bobby");
+        assertFalse((Boolean) engine.eval(exp));
+
         exp = scriptProcessor.buildEqualExpression("num", 1);
-        try {
-            engine.put("num", 1);
-            assert (Boolean) engine.eval(exp);
-            engine.put("num", 2);
-            assert !(Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+        engine.put("num", 1);
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("num", 2);
+        assertFalse((Boolean) engine.eval(exp));
+
         Date value = new Date();
         exp = scriptProcessor.buildEqualExpression("date", value);
         String actualValue = new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format(value);
-        try {
-            engine.put("date", actualValue);
-            assertTrue("", (Boolean) engine.eval(exp));
-            engine.put("date", "01.01.1970 03:01");
-            assert !(Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+        engine.put("date", actualValue);
+        assertTrue((Boolean) engine.eval(exp));
+        engine.put("date", "01.01.1970 03:01");
+        assertFalse((Boolean) engine.eval(exp));
     }
-
 
     @Test
-    void buildNotEqualExpressionTest() {
+    void buildNotEqualExpressionTest() throws ScriptException {
         String exp = scriptProcessor.buildNotEqExpression("name", "John");
-        assert exp.equals("name != 'John'");
+        assertEquals("name != 'John'", exp);
         ScriptEngine engine = getScriptEngine();
-        try {
-            engine.put("name", "John");
-            assert !(Boolean) engine.eval(exp);
-            engine.put("name", "Bobby");
-            assert (Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
+        engine.put("name", "John");
+        assertFalse((Boolean) engine.eval(exp));
+        engine.put("name", "Bobby");
+        assertTrue((Boolean) engine.eval(exp));
+
         exp = scriptProcessor.buildNotEqExpression("num", 1);
-        try {
-            engine.put("num", 1);
-            assert !(Boolean) engine.eval(exp);
-            engine.put("num", 2);
-            assert (Boolean) engine.eval(exp);
-        } catch (ScriptException e) {
-            assert false;
-        }
-
+        engine.put("num", 1);
+        assertFalse((Boolean) engine.eval(exp));
+        engine.put("num", 2);
+        assertTrue((Boolean) engine.eval(exp));
     }
-
 
     @Test
     void testVarExtractor() {
         String script = "a == 1 && a.b.c == 1 && b[0].c == 1";
         Set<String> names = ScriptProcessor.extractVars(script);
-        assert 3 == names.size();
-        assert names.contains("a");
-        assert names.contains("a.b.c");
-        assert names.contains("b[0].c");
+        assertEquals(3, names.size());
+        assertTrue(names.contains("a"));
+        assertTrue(names.contains("a.b.c"));
+        assertTrue(names.contains("b[0].c"));
     }
 
     @Test
@@ -430,9 +379,9 @@ class ScriptProcessorTest {
         String script = "a == 1 && a.b.c == 1 && b.c == 1 && x.y == 1";
         Map<String, Set<String>> names = ScriptProcessor
                 .extractPropertiesOf(script, Arrays.asList("a", "b"));
-        assert 2 == names.size();
-        assert names.get("a").contains("b");
-        assert names.get("b").contains("c");
+        assertEquals(2, names.size());
+        assertTrue(names.get("a").contains("b"));
+        assertTrue(names.get("b").contains("c"));
     }
 
     @Test
@@ -440,21 +389,20 @@ class ScriptProcessorTest {
         String script = "a == 1 && a.b.c == 1 && b.c == 1 && x.y == 1";
         String modScript = ScriptProcessor.addContextFor(script, "z", Arrays.asList("a", "b"));
         System.out.println(modScript);
-        assert modScript.contains("z.a == 1 && z.a.b.c == 1 && z.b.c == 1 && x.y == 1");
+        assertTrue(modScript.contains("z.a == 1 && z.a.b.c == 1 && z.b.c == 1 && x.y == 1"));
     }
 
     @Test
     void testAddContextForAll() {
         String script = "a == 1 && b == 1 && x.y == 1";
         String modScript = ScriptProcessor.addContextForAll(script, "z");
-        assert modScript.contains("z.a == 1 && z.b == 1 && z.x.y == 1");
+        assertTrue(modScript.contains("z.a == 1 && z.b == 1 && z.x.y == 1"));
     }
 
     @Test
     void testSimplifyArrayLinks() {
-        assert ScriptProcessor
-                .simplifyArrayLinks("id, name, address.id, gender[0].id, gender[0].name")
-                .equals("id, name, address.id, gender");
+        assertEquals("id, name, address.id, gender", ScriptProcessor
+                .simplifyArrayLinks("id, name, address.id, gender[0].id, gender[0].name"));
     }
 
     /*
@@ -464,7 +412,7 @@ class ScriptProcessorTest {
     void testAddMomentJs() throws ExecutionException, InterruptedException {
         String js = "moment(day, 'DD.MM.YYYY').format('DD-MM-YY');";
         MultiThreadRunner runner = new MultiThreadRunner();
-        runner.run(() -> {
+        int errorCount = runner.run(() -> {
             Random random = new Random();
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
             SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yy");
@@ -475,6 +423,7 @@ class ScriptProcessorTest {
             String result = ScriptProcessor.eval(js, dataSet);
             return result.equals(format1.format(day.getTime()));
         });
+        assertThat(errorCount, is(0));
     }
 
     /*
@@ -486,7 +435,7 @@ class ScriptProcessorTest {
         String todayJs = "(new Date()).getTime()";
         String yesterdayJs = "(new Date(new Date() - 1)).getTime()";
         MultiThreadRunner runner = new MultiThreadRunner();
-        runner.run(() -> {
+        int errorCount = runner.run(() -> {
             Calendar today = new GregorianCalendar();
             Calendar yesterday = new GregorianCalendar();
             yesterday.add(Calendar.DAY_OF_YEAR, -1);
@@ -497,23 +446,25 @@ class ScriptProcessorTest {
             return nowRes == today.getTimeInMillis() && todayRes == today.getTimeInMillis()
                     && yesterdayRes == yesterday.getTimeInMillis();
         });
+        assertThat(errorCount, is(50));
     }
 
     @Test
     void testAddNumeralJs() throws ExecutionException, InterruptedException {
         String js = "var number = numeral(); number.set(num); var val = 100; var difference = number.difference(val); difference;";
         MultiThreadRunner runner = new MultiThreadRunner();
-        runner.run(() -> {
+        int errorCount = runner.run(() -> {
             Random random = new Random();
-            Double temp = Double.valueOf(random.nextInt(100000));
+            double temp = random.nextInt(100000);
             DataSet dataSet = new DataSet();
             dataSet.put("num", temp);
             Double result = ScriptProcessor.eval(js, dataSet);
-            Double diff = Math.abs(temp - Double.valueOf(100));
+            Double diff = Math.abs(temp - 100.0);
             if (!result.equals(diff))
                 System.out.println("temp=" + temp + ", result = " + result + ", diff=" + diff);
             return result.equals(diff);
         });
+        assertThat(errorCount, is(0));
     }
 
     /*
@@ -523,7 +474,7 @@ class ScriptProcessorTest {
     void testAddUnderscoreJs() throws ExecutionException, InterruptedException {
         String js = "var sum = _.reduce(arr, function(memo, num){ return memo + num; }, 0); sum;";
         MultiThreadRunner runner = new MultiThreadRunner();
-        runner.run(() -> {
+        int errorCount = runner.run(() -> {
             Random random = new Random();
             int[] temp = new int[10];
             int summ = 0;
@@ -534,11 +485,12 @@ class ScriptProcessorTest {
             DataSet dataSet = new DataSet();
             dataSet.put("arr", temp);
             Double result = ScriptProcessor.eval(js, dataSet);
-            Double sum = Double.valueOf(summ);
+            Double sum = (double) summ;
             if (!result.equals(sum))
-                System.out.println("temp=" + Arrays.asList(temp) + ", summ = " + sum + ", result=" + result);
+                System.out.println("temp=" + List.of(temp) + ", summ = " + sum + ", result=" + result);
             return result.equals(sum);
         });
+        assertThat(errorCount, is(0));
     }
 
     @Test
