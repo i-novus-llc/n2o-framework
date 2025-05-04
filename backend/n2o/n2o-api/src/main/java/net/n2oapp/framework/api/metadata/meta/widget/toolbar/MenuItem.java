@@ -42,6 +42,7 @@ public class MenuItem extends Component implements IdAware {
     @JsonProperty
     private String validatedWidgetId;
 
+    @Override
     @JsonAnyGetter
     public Map<String, Object> getJsonProperties() {
         return getProperties();

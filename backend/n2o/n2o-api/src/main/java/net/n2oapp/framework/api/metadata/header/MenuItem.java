@@ -55,6 +55,7 @@ public class MenuItem extends Component implements Compiled, PropertiesAware, Id
     @JsonProperty
     private Action action;
 
+    @Override
     @JsonAnyGetter
     public Map<String, Object> getJsonProperties() {
         return properties;
