@@ -1,6 +1,5 @@
 package net.n2oapp.framework.api.metadata.header;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,11 +54,6 @@ public class MenuItem extends Component implements Compiled, PropertiesAware, Id
     @JsonProperty
     private Action action;
 
-    @Override
-    @JsonAnyGetter
-    public Map<String, Object> getJsonProperties() {
-        return properties;
-    }
     public enum LinkTypeEnum {
         inner, outer
     }

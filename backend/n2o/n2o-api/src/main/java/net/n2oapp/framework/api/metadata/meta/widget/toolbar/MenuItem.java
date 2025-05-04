@@ -1,6 +1,5 @@
 package net.n2oapp.framework.api.metadata.meta.widget.toolbar;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,10 +40,4 @@ public class MenuItem extends Component implements IdAware {
     private Boolean validate;
     @JsonProperty
     private String validatedWidgetId;
-
-    @Override
-    @JsonAnyGetter
-    public Map<String, Object> getJsonProperties() {
-        return getProperties();
-    }
 }
