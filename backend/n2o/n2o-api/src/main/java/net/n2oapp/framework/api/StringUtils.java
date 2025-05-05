@@ -7,7 +7,9 @@ import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.lang.Nullable;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -395,5 +397,22 @@ public abstract class StringUtils {
      */
     public static boolean isBoolean(String value) {
         return "true".equals(value) || "false".equals(value);
+    }
+
+
+    /**
+     * Удалить все лишние пробелы, оставив перенос строк
+     *
+     * @param value Текст
+     * @return результат
+     */
+    public static String removeSpaces(String value) {
+        StringJoiner trimmedText = new StringJoiner("\n");
+        Arrays.stream(value.split("\n")).map(String::trim).forEach(s -> {
+            if (!s.isBlank()) {
+                trimmedText.add(s);
+            }
+        });
+       return trimmedText.toString();
     }
 }
