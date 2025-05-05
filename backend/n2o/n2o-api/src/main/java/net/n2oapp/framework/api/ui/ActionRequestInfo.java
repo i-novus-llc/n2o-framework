@@ -51,19 +51,19 @@ public class ActionRequestInfo<D> extends RequestInfo {
     }
 
     private void copyParams(Map<String, AbstractParameter> source, Map<String, AbstractParameter> result) {
-        if (source != null)
-            for (String paramId : source.keySet()) {
-                AbstractParameter sourceParam = source.get(paramId);
-                AbstractParameter param;
-                if (sourceParam instanceof ObjectSimpleField o)
-                    param = new ObjectSimpleField(o);
-                else if (sourceParam instanceof ObjectListField o)
-                    param = new ObjectListField(o);
-                else if (sourceParam instanceof ObjectSetField o)
-                    param = new ObjectSetField(o);
-                else
-                    param = new ObjectReferenceField((ObjectReferenceField) sourceParam);
-                result.put(paramId, param);
-            }
+        if (source == null) return;
+        for (Map.Entry<String, AbstractParameter> entry : source.entrySet()) {
+            AbstractParameter sourceParam = entry.getValue();
+            AbstractParameter param;
+            if (sourceParam instanceof ObjectSimpleField o)
+                param = new ObjectSimpleField(o);
+            else if (sourceParam instanceof ObjectListField o)
+                param = new ObjectListField(o);
+            else if (sourceParam instanceof ObjectSetField o)
+                param = new ObjectSetField(o);
+            else
+                param = new ObjectReferenceField((ObjectReferenceField) sourceParam);
+            result.put(entry.getKey(), param);
+        }
     }
 }

@@ -72,11 +72,10 @@ public abstract class NestedUtils {
         if (value instanceof NestedMap || value instanceof NestedList)
             return value;
         if (value instanceof Map map) {
-            for (Object key : map.keySet()) {
-                Object entryValue = map.get(key);
-                Object entryWrap = wrapValue(map.get(key), mapConstructor, listConstructor);
-                if (entryWrap != entryValue)
-                    map.put(key, entryWrap);
+            for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) map).entrySet()) {
+                Object entryWrap = wrapValue(entry.getValue(), mapConstructor, listConstructor);
+                if (entryWrap != entry.getValue())
+                    entry.setValue(entryWrap);
             }
             return mapConstructor.apply(map);
         } else if (value instanceof List list) {

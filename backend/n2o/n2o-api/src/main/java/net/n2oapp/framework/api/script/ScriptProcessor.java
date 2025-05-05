@@ -265,16 +265,22 @@ public class ScriptProcessor {
             return null;
         Map<Object, String> cases = resolveSwitchCases(n2oSwitch.getResolvedCases() != null ? n2oSwitch.getResolvedCases() : n2oSwitch.getCases());
         StringBuilder b = new StringBuilder("`");
-        for (Object key : cases.keySet()) {
-            b.append(n2oSwitch.getValueFieldId() + " == " + key + " ? ");
-            b.append(cases.get(key) + " : ");
+        for (Map.Entry<Object, String> entry : cases.entrySet()) {
+            b.append(n2oSwitch.getValueFieldId())
+                    .append(" == ")
+                    .append(entry.getKey())
+                    .append(" ? ")
+                    .append(entry.getValue())
+                    .append(" : ");
         }
         if (n2oSwitch.getDefaultCase() != null) {
-            b.append("'" + ScriptProcessor.resolveExpression(n2oSwitch.getDefaultCase()) + "'");
+            b.append("'")
+                    .append(ScriptProcessor.resolveExpression(n2oSwitch.getDefaultCase()))
+                    .append("'");
         } else {
             b.append("null");
         }
-        return b.toString() + "`";
+        return b.append("`").toString();
     }
 
 
@@ -532,13 +538,12 @@ public class ScriptProcessor {
         Bindings global = scriptEngine.getContext().getBindings(ScriptContext.GLOBAL_SCOPE);
         Bindings bindings = scriptEngine.createBindings();
         bindings.putAll(global);
-        for (String key : dataSet.keySet()) {
-            Object value = dataSet.get(key);
-            if (value instanceof Collection collectionValue) {
-                bindings.put(key, collectionValue.toArray());
-            } else {
-                bindings.put(key, value);
-            }
+        for (Map.Entry<String, Object> entry : dataSet.entrySet()) {
+            Object value = entry.getValue();
+            bindings.put(entry.getKey(),
+                    value instanceof Collection collection ?
+                            collection.toArray() :
+                            value);
         }
         if (isNeedMoment(script)) {
             scriptEngine.eval(momentJs, bindings);

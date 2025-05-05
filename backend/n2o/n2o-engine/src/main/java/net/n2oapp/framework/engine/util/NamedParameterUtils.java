@@ -3,14 +3,7 @@ package net.n2oapp.framework.engine.util;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  *
@@ -52,8 +45,8 @@ public class NamedParameterUtils {
 
         //заменяем плохие литералы
         for (String par : new ArrayList<>(finalArgs.keySet())) {
-            for (String forReplace : literalsForReplacers.keySet()) {
-                String tmp = par.replace(forReplace, literalsForReplacers.get(forReplace));
+            for (Map.Entry<String, String> entry : literalsForReplacers.entrySet()) {
+                String tmp = par.replace(entry.getKey(), entry.getValue());
                 if (!tmp.equals(par)) {
                     finalArgs.put(tmp, finalArgs.get(par));
                     finalArgs.remove(par);

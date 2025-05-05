@@ -167,12 +167,11 @@ public abstract class AbstractController {
         List<Sorting> sortings = new ArrayList<>();
         if (sortingMap == null)
             return sortings;
-        for (String key : sortingMap.keySet()) {
-            String fieldId = sortingMap.get(key);
-            String value = data.getString(key);
+        for (Map.Entry<String, String> entry : sortingMap.entrySet()) {
+            String value = data.getString(entry.getKey());
             if (value != null) {
                 SortingDirectionEnum direction = SortingDirectionEnum.valueOf(value.toUpperCase());
-                sortings.add(new Sorting(fieldId, direction));
+                sortings.add(new Sorting(entry.getValue(), direction));
             }
         }
         return sortings;
