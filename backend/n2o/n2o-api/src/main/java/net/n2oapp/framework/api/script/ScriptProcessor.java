@@ -98,7 +98,7 @@ public class ScriptProcessor {
     public static String resolveFunction(String text) {
         if (text == null)
             return null;
-        String trimmedText = text.trim();
+        String trimmedText = removeSpaces(text);
         if (trimmedText.startsWith("(function")) {
             return text;
         }

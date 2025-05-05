@@ -84,7 +84,7 @@ class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveFunction("function(){if (gender.id = 1) return 'М'; else return 'Ж';}"),
                 is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';}).call(this)"));
         assertThat(ScriptProcessor.resolveFunction("function () {function helper() \n { return Math.random(); } const a = helper() return a;}"),
-                is("(function () {function helper() \n { return Math.random(); } const a = helper() return a;}).call(this)"));
+                is("(function () {function helper()\n{ return Math.random(); } const a = helper() return a;}).call(this)"));
         assertThat(ScriptProcessor.resolveFunction("(function(){ '123'; })()"),
                 is("(function(){ '123'; })()"));
         assertThat(ScriptProcessor.resolveFunction(ScriptProcessor.resolveFunction("gender.id == 1")),

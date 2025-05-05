@@ -70,16 +70,14 @@ class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(inh3.getProvider().getSourceDs(), is("testInheritedDatasource_ds2"));
         assertThat(inh3.getProvider().getSourceModel(), is(ReduxModelEnum.datasource));
         assertThat(inh3.getProvider().getSourceField(), is("name"));
-        assertThat(inh3.getProvider().getFetchValueExpression(), is("(function(){var result = source\n" +
-                "                return result}).call(this)"));
+        assertThat(inh3.getProvider().getFetchValueExpression(), is("(function(){var result = source\nreturn result}).call(this)"));
         assertThat(inh3.getSubmit().getType(), is("inherited"));
         assertThat(inh3.getSubmit().getAuto(), is(true));
         assertThat(inh3.getSubmit().getModel(), is(ReduxModelEnum.filter));
         assertThat(inh3.getSubmit().getTargetDs(), is("testInheritedDatasource_ds1"));
         assertThat(inh3.getSubmit().getTargetModel(), is(ReduxModelEnum.filter));
         assertThat(inh3.getSubmit().getTargetField(), is("name2"));
-        assertThat(inh3.getSubmit().getSubmitValueExpression(), is("(function(){var result = target\n" +
-                "                    return result}).call(this)"));
+        assertThat(inh3.getSubmit().getSubmitValueExpression(), is("(function(){var result = target\nreturn result}).call(this)"));
         assertThat(inh3.getDependencies().size(), is(2));
         Dependency dependency = inh3.getDependencies().get(0);
         assertThat(dependency.getOn(), is("models.resolve['testInheritedDatasource_ds']"));
@@ -110,7 +108,6 @@ class InheritedDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(inh4.getSubmit().getTargetDs(), is("testInheritedDatasource_ds1"));
         assertThat(inh4.getSubmit().getTargetModel(), is(ReduxModelEnum.datasource));
         assertThat(inh4.getSubmit().getTargetField(), nullValue());
-        assertThat(inh4.getSubmit().getSubmitValueExpression(), is("(function(){var result = target\n" +
-                "                    return result}).call(this)"));
+        assertThat(inh4.getSubmit().getSubmitValueExpression(), is("(function(){var result = target\nreturn result}).call(this)"));
     }
 }
