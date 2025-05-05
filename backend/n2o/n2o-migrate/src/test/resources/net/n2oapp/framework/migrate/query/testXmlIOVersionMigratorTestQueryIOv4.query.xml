@@ -6,7 +6,6 @@
     <list result-mapping="${result2}">
         <rest
                 method="GET"
-                content-type="application/json"
                 filters-separator="&amp;"
                 sorting-separator="&amp;"
                 join-separator=","

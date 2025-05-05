@@ -16,7 +16,6 @@ public class N2oRestDataProvider extends AbstractDataProvider implements N2oMapI
     private String sortingSeparator;
     private String selectSeparator;
     private String joinSeparator;
-    private String contentType;
     private String proxyHost;
     private Integer proxyPort;
     private String forwardedHeaders;

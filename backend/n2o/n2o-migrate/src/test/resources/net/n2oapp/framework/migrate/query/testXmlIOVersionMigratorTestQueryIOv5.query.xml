@@ -10,7 +10,6 @@
               sorting-separator="&amp;"
               select-separator=","
               join-separator=","
-              content-type="application/json"
               proxy-host="localhost"
               forwarded-headers="testHeader"
               forwarded-cookies="testCookie"

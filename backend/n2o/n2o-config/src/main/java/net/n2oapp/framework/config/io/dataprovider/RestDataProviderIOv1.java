@@ -26,7 +26,6 @@ public class RestDataProviderIOv1 implements NamespaceIO<N2oRestDataProvider>, D
         p.attribute(e, "sorting-separator", m::getSortingSeparator, m::setSortingSeparator);
         p.attribute(e, "select-separator", m::getSelectSeparator, m::setSelectSeparator);
         p.attribute(e, "join-separator", m::getJoinSeparator, m::setJoinSeparator);
-        p.attribute(e, "content-type", m::getContentType, m::setContentType);
         p.attribute(e, "proxy-host", m::getProxyHost, m::setProxyHost);
         p.attribute(e, "forwarded-headers", m::getForwardedHeaders, m::setForwardedHeaders);
         p.attribute(e, "forwarded-cookies", m::getForwardedCookies, m::setForwardedCookies);
