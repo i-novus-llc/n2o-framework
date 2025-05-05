@@ -16,8 +16,7 @@ public class FiltersScope {
     private Map<String, List<Filter>> datasourceFilters = new HashMap<>();
 
     public List<Filter> getFilters(String sourceDatasource) {
-        if (!datasourceFilters.containsKey(sourceDatasource))
-            datasourceFilters.put(sourceDatasource, new ArrayList<>());
+        datasourceFilters.computeIfAbsent(sourceDatasource, k -> new ArrayList<>());
         return datasourceFilters.get(sourceDatasource);
     }
 

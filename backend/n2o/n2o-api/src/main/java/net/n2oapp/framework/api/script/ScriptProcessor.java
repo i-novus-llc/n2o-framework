@@ -455,18 +455,10 @@ public class ScriptProcessor {
                 String prefix = var + ".";
                 int idx = name.indexOf(prefix);
                 if (idx >= 0) {
-                    Set<String> properties = result.get(var);
-                    if (properties == null) {
-                        properties = new LinkedHashSet<>();
-                        result.put(var, properties);
-                    }
+                    Set<String> properties = result.computeIfAbsent(var, k -> new LinkedHashSet<>());
                     String afterGet = name.substring(idx + prefix.length());
                     int endIdx = afterGet.indexOf(".");
-                    if (endIdx >= 0) {
-                        properties.add(afterGet.substring(0, endIdx));
-                    } else {
-                        properties.add(afterGet);
-                    }
+                    properties.add(endIdx >= 0 ? afterGet.substring(0, endIdx) : afterGet);
                 }
             }
         }

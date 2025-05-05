@@ -11,11 +11,8 @@ public class CopiedFieldScope {
     public void addCopiedFields(String id, String sourceDatasourceId) {
         if (datasourceCopiedFields == null) {
             datasourceCopiedFields = new HashMap<>();
-            datasourceCopiedFields.put(sourceDatasourceId, new HashSet<>());
         }
-        if (!datasourceCopiedFields.containsKey(sourceDatasourceId))
-            datasourceCopiedFields.put(sourceDatasourceId, new LinkedHashSet<>());
-        datasourceCopiedFields.get(sourceDatasourceId).add(id);
+        datasourceCopiedFields.computeIfAbsent(sourceDatasourceId, k -> new LinkedHashSet<>()).add(id);
     }
 
     public Set<String> getCopiedFields(String datasource) {

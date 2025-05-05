@@ -46,8 +46,7 @@ public class N2oTabsRegion extends N2oRegion implements RegionItem, RoutableRegi
         @Override
         public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
             if (content != null) {
-                if (!ids.containsKey(prefix))
-                    ids.put(prefix, 1);
+                ids.putIfAbsent(prefix, 1);
                 for (SourceComponent component : content) {
                     if (component instanceof RegionItem regionItem)
                         regionItem.collectWidgets(result, ids, prefix);
@@ -85,6 +84,6 @@ public class N2oTabsRegion extends N2oRegion implements RegionItem, RoutableRegi
     public void collectWidgets(List<N2oWidget> result, Map<String, Integer> ids, String prefix) {
         if (tabs != null)
             for (Tab tab : tabs)
-                 tab.collectWidgets(result, ids, getAlias());
+                tab.collectWidgets(result, ids, getAlias());
     }
 }
