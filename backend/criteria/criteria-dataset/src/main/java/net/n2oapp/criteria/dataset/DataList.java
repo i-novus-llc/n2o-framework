@@ -13,7 +13,15 @@ public class DataList extends NestedList {
 
     public DataList(Collection<?> c) {
         super();
-        c.forEach(e -> add(e instanceof DataSet dataSet ? new DataSet(dataSet) : e instanceof DataList dataList ? new DataList(dataList) : e));
+        c.forEach(e -> {
+            if (e instanceof DataSet dataSet) {
+                add(new DataSet(dataSet));
+            } else if (e instanceof DataList dataList) {
+                add(new DataList(dataList));
+            } else {
+                add(e);
+            }
+        });
     }
 
     @Override
