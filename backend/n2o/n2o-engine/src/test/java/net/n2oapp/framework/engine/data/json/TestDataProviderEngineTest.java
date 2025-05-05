@@ -22,8 +22,7 @@ import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider
 import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyTypeEnum.string;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Тест {@link TestDataProviderEngine}
@@ -832,7 +831,7 @@ class TestDataProviderEngineTest {
         inParamsForRead.put("filters", Arrays.asList("id :eq :id"));
         List<Map> readingResult = (List<Map>) engine.invoke(provider, inParams);
 
-        assertTrue(readingResult.get(0).equals(result));
+        assertEquals(readingResult.get(0), result);
     }
 
     @Test
@@ -988,7 +987,7 @@ class TestDataProviderEngineTest {
         inParamsForRead.put("filters", Arrays.asList("id :eq :id"));
         List<Map> readingResult = (List<Map>) engine.invoke(provider, inParams);
 
-        assertTrue(readingResult.get(0).equals(result));
+        assertEquals(readingResult.get(0), result);
     }
 
     @Test
