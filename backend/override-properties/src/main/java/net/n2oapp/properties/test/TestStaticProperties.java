@@ -12,7 +12,7 @@ public class TestStaticProperties extends StaticProperties {
 
     @Override
     public void setPropertyResolver(PropertyResolver propertyResolver) {
-        TestStaticProperties.propertyResolver = propertyResolver;
+        StaticProperties.propertyResolver = propertyResolver;
     }
 
     public Properties properties;

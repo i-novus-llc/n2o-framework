@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;
 import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.metadata.meta.DependencyTypeEnum;
@@ -51,15 +50,15 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
     protected List<Dependency> initDependencies(N2oDatasource source, CompileProcessor p) {
         List<Dependency> dependencies = new ArrayList<>();
         if (source.getDependencies() != null) {
-            for (N2oStandardDatasource.Dependency d : source.getDependencies()) {
-                if (d instanceof N2oStandardDatasource.FetchDependency dependency) {
+            for (N2oDatasource.Dependency d : source.getDependencies()) {
+                if (d instanceof N2oDatasource.FetchDependency dependency) {
                     Dependency fetchDependency = new Dependency();
                     ModelLink link = new ModelLink(castDefault(dependency.getModel(), ReduxModelEnum.resolve),
                             getClientDatasourceId(dependency.getOn(), p));
                     fetchDependency.setOn(link.getBindLink());
                     fetchDependency.setType(DependencyTypeEnum.fetch);
                     dependencies.add(fetchDependency);
-                } else if (d instanceof N2oStandardDatasource.CopyDependency dependency) {
+                } else if (d instanceof N2oDatasource.CopyDependency dependency) {
                     CopyDependency copyDependency = new CopyDependency();
                     ModelLink link = new ModelLink(castDefault(dependency.getSourceModel(), ReduxModelEnum.resolve),
                             getClientDatasourceId(dependency.getOn(), p), dependency.getSourceFieldId());

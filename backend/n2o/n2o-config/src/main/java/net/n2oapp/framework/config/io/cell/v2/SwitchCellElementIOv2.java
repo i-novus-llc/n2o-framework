@@ -21,7 +21,7 @@ public class SwitchCellElementIOv2 implements CellIOv2, NamespaceIO<N2oSwitchCel
         p.anyChild(e, "default", c::getDefaultCase, c::setDefaultCase, p.anyOf(N2oAbstractCell.class), getNamespace());
     }
 
-    protected void caseItem(Element e, N2oSwitchCell.Case<N2oAbstractCell> c, IOProcessor p) {
+    protected void caseItem(Element e, N2oAbstractSwitch.Case<N2oAbstractCell> c, IOProcessor p) {
         p.attribute(e, "value", c::getValue, c::setValue);
         p.anyChild(e, null, c::getItem, c::setItem, p.anyOf(N2oAbstractCell.class), getNamespace());
     }

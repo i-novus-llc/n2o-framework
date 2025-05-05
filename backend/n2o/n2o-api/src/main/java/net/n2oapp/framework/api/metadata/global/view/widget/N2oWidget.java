@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
@@ -116,10 +117,10 @@ public abstract class N2oWidget extends N2oMetadata
             }
 
             if (getDependsOn() != null) {
-                N2oStandardDatasource.FetchDependency fetchDependency = new N2oStandardDatasource.FetchDependency();
+                N2oDatasource.FetchDependency fetchDependency = new N2oStandardDatasource.FetchDependency();
                 fetchDependency.setOn(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 fetchDependency.setModel(ReduxModelEnum.resolve);
-                datasource.setDependencies(new N2oStandardDatasource.Dependency[]{fetchDependency});
+                datasource.setDependencies(new N2oDatasource.Dependency[]{fetchDependency});
                 //поддержка master-detail связи
                 if (getDetailFieldId() != null) {
                     List<N2oPreFilter> preFilters = datasource.getFilters() == null ?

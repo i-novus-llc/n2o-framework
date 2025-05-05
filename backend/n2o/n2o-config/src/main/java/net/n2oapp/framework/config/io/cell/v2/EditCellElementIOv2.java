@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.cell.v2;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oEditCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.control.v2.FieldIOv2;
+import net.n2oapp.framework.config.io.control.v2.ControlIOv2;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class EditCellElementIOv2 extends AbstractActionCellElementIOv2<N2oEditCe
         super.io(e, c, p);
         p.attribute(e, "format", c::getFormat, c::setFormat);
         p.attribute(e, "enabled", c::getEnabled, c::setEnabled);
-        p.anyChild(e, null, c::getN2oField, c::setN2oField, p.anyOf(N2oField.class), FieldIOv2.NAMESPACE);
+        p.anyChild(e, null, c::getN2oField, c::setN2oField, p.anyOf(N2oField.class), ControlIOv2.NAMESPACE);
     }
 
     @Override
