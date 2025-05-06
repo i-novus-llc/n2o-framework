@@ -22,7 +22,6 @@ import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
 import net.n2oapp.framework.engine.validation.N2oValidationModule;
 import net.n2oapp.framework.engine.validation.engine.ValidationProcessor;
 import net.n2oapp.framework.ui.controller.action.OperationController;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
@@ -254,8 +253,8 @@ class DataControllerTest extends DataControllerTestBase {
 
         //Параметры не превращаются в body, но учитываются в in field
         Map<String, String[]> params = new HashMap<>();
-        params.put("param1", new String[] {"value11"});
-        params.put("param3", new String[] {"value33"});
+        params.put("param1", new String[]{"value11"});
+        params.put("param3", new String[]{"value33"});
         DataSet body = new DataSet();
         body.put("field1", "value1");
         body.put("field2", "value2");
@@ -281,7 +280,7 @@ class DataControllerTest extends DataControllerTestBase {
 
         //В in field нет значения по умолчанию для param, параметры похожие на in field id не превращаются в параметры
         params = new HashMap<>();
-        params.put("field2", new String[] {"value22"});
+        params.put("field2", new String[]{"value22"});
         body = new DataSet();
         body.put("field1", "value1");
         body.put("field2", "value2");
@@ -343,7 +342,7 @@ class DataControllerTest extends DataControllerTestBase {
         AlertMessageBuilder messageBuilder = new AlertMessageBuilder(builder.getEnvironment().getMessageSource(), null);
         N2oAlertMessagesConstructor messagesConstructor = new N2oAlertMessagesConstructor(messageBuilder);
         OperationController operationController = new OperationController(dataProcessingStack, operationProcessor,
-                messageBuilder, builder.getEnvironment(), messagesConstructor);
+                messageBuilder, messagesConstructor);
         map.put("operationController", operationController);
 
         N2oControllerFactory factory = new N2oControllerFactory(map);
@@ -351,7 +350,7 @@ class DataControllerTest extends DataControllerTestBase {
 
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
         controller.setMessageBuilder(messageBuilder);
-        return controller.setData(path, params , null, body, new UserContext(contextEngine));
+        return controller.setData(path, params, null, body, new UserContext(contextEngine));
     }
 
 }

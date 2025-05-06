@@ -1,20 +1,17 @@
 package net.n2oapp.framework.config.selective;
 
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
-import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.register.*;
+import net.n2oapp.framework.config.metadata.pack.N2oSourceTypesPack;
+import net.n2oapp.framework.config.register.OriginEnum;
+import net.n2oapp.framework.config.register.RegisterUtil;
+import net.n2oapp.framework.config.register.XmlInfo;
 import net.n2oapp.framework.config.register.scanner.FolderInfoScanner;
 import net.n2oapp.framework.config.register.storage.PathUtil;
-import net.n2oapp.framework.config.metadata.pack.N2oSourceTypesPack;
 
 
 /**
@@ -28,8 +25,6 @@ public class CompileInfo extends SourceInfo {
 
     protected OriginEnum origin = OriginEnum.xml;
     private String path;
-    private NamespaceReader<? extends N2oMetadata> metadataReader;
-    private Class<? extends Compiled> compiledMetadataClass;
     private Class<? extends SourceMetadata> sourceMetadataClass;
 
     public CompileInfo(XmlInfo info) {
@@ -40,20 +35,6 @@ public class CompileInfo extends SourceInfo {
 
     public CompileInfo(String path) {
         this.path = PathUtil.convertPathToClasspathUri(path);
-    }
-
-    public CompileInfo(String path, NamespaceReader<? extends N2oMetadata> metadataReader,
-                       Class<? extends Compiled> compiledMetadataClass) {
-        this(path);
-        this.metadataReader = metadataReader;
-        this.compiledMetadataClass = compiledMetadataClass;
-    }
-
-    public CompileInfo(String path, NamespaceIO<? extends N2oMetadata> metadataIO,
-                       Class<? extends Compiled> compiledMetadataClass) {
-        this(path);
-        this.metadataReader = new ProxyNamespaceIO<>(metadataIO);
-        this.compiledMetadataClass = compiledMetadataClass;
     }
 
     public CompileInfo(String id, Class<? extends SourceMetadata> metadataSourceClass) {
@@ -107,16 +88,8 @@ public class CompileInfo extends SourceInfo {
         return RegisterUtil.getIdAndPostfix(path)[1];
     }
 
-    public void setCompiledMetadataClass(Class<? extends Compiled> compiledMetadataClass) {
-        this.compiledMetadataClass = compiledMetadataClass;
-    }
-
     public void setSourceMetadataClass(Class<? extends SourceMetadata> sourceMetadataClass) {
         this.sourceMetadataClass = sourceMetadataClass;
-    }
-
-    public void setMetadataReader(NamespaceReader<? extends N2oMetadata> metadataReader) {
-        this.metadataReader = metadataReader;
     }
 
     public void setOrigin(OriginEnum origin) {

@@ -5,9 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageStatusElement;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlaceEnum;
-import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ImageCellElementIOv3 extends AbstractActionCellElementIOv3<N2oImageCell> {
-    private Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
     @Override
     public void io(Element e, N2oImageCell c, IOProcessor p) {

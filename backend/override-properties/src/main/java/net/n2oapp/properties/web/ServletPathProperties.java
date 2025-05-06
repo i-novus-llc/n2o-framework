@@ -1,13 +1,11 @@
 package net.n2oapp.properties.web;
 
+import jakarta.servlet.ServletContext;
 import net.n2oapp.properties.ReloadableProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.context.ServletContextAware;
 
-import jakarta.servlet.ServletContext;
 import java.util.Properties;
 
 /**
@@ -17,8 +15,6 @@ import java.util.Properties;
  * Properties, which lie at a root of classpath with name equal to contextPath of web application
  */
 public class ServletPathProperties extends ReloadableProperties implements ServletContextAware {
-
-    private static Logger log = LoggerFactory.getLogger(ServletPathProperties.class);
 
     private String propertyName;
 
