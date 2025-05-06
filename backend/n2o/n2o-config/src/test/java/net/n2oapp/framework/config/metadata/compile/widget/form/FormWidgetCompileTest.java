@@ -195,26 +195,26 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(link.getValue(), is("value1"));
         assertThat(link.getModel(), nullValue());
         assertThat(link.getDatasource(), nullValue());
-        assertThat(link.getBindLink(), nullValue());
+        assertThat(link.getLink(), nullValue());
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
         assertThat(link.getModel(), is(ReduxModelEnum.filter));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
-        assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form']"));
+        assertThat(link.getLink(), is("models.filter['testFormSubmit_form']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
         assertThat(link.getModel(), is(ReduxModelEnum.resolve));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
-        assertThat(link.getBindLink(), is("models.resolve['testFormSubmit_form']"));
+        assertThat(link.getLink(), is("models.resolve['testFormSubmit_form']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
         assertThat(link.getModel(), is(ReduxModelEnum.filter));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
-        assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form']"));
+        assertThat(link.getLink(), is("models.filter['testFormSubmit_form']"));
     }
 
     @Test
@@ -241,7 +241,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormAsFilter.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormAsFilter.query.xml")
                 .get(new PageContext("testFormAsFilter"));
-        assertThat(page.getRoutes().getQueryMapping().get("period").getOnSet().getBindLink(), is("models.resolve['testFormAsFilter_filters'].period"));
+        assertThat(page.getRoutes().getQueryMapping().get("period").getOnSet().getLink(), is("models.resolve['testFormAsFilter_filters'].period"));
         assertThat(page.getRoutes().getQueryMapping().get("period").getOnSet().getValue(), is("`id`"));
     }
 

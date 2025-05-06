@@ -33,7 +33,7 @@ public class HtmlCompiler extends FieldCompiler<Html, N2oHtml> {
             String content = source.getHtml();
             if (hasLink(content))
                 content = content.replace("'", "\\\'");
-            html.setHtml(p.resolveJS(content.trim()));
+            html.setHtmlStr(p.resolveJS(content.trim()));
         }
         initDefaults(source, context, p);
         compileField(html, source, context, p);

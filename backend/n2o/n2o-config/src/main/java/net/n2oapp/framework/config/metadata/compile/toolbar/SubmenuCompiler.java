@@ -68,7 +68,7 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
     private void initMenuItems(N2oSubmenu source, Submenu button, IndexScope idx,
                                CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getMenuItems() != null) {
-            button.setSubMenu(Stream.of(source.getMenuItems())
+            button.setButtonList(Stream.of(source.getMenuItems())
                     .map(mi -> {
                         if (mi.getDatasourceId() == null)
                             mi.setDatasourceId(source.getDatasourceId());
@@ -86,14 +86,14 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
     private void initGenerate(N2oSubmenu sub, Submenu button,
                               CompileContext<?, ?> context, CompileProcessor p) {
         if (!ArrayUtils.isEmpty(sub.getGenerate())) {
-            if (button.getSubMenu() == null)
-                button.setSubMenu(new ArrayList<>());
+            if (button.getButtonList() == null)
+                button.setButtonList(new ArrayList<>());
 
             N2oToolbar toolbar = p.getScope(N2oToolbar.class);
             toolbar.setGeneratedForSubMenu(true);
 
             List<AbstractButton> generatedButtons = generateButtons(sub, toolbar, buttonGeneratorFactory, context, p);
-            button.getSubMenu().addAll(
+            button.getButtonList().addAll(
                     generatedButtons.stream()
                             .map(b -> (PerformButton) b)
                             .peek(b -> b.setColor(null))

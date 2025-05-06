@@ -111,7 +111,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         Map<String, ModelLink> pathMapping = testAction.getPayload().getDataProvider().getPathMapping();
         assertThat(pathMapping.size(), is(1));
-        assertThat(pathMapping.get("id").getBindLink(), is("models.resolve['w_w1']"));
+        assertThat(pathMapping.get("id").getLink(), is("models.resolve['w_w1']"));
         assertThat(pathMapping.get("id").getValue(), is("`id`"));
 
         testAction = (InvokeAction) table.getToolbar().getButton("testDelete").getAction();
@@ -223,7 +223,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(provider1.getFormMapping().get("fpName1").getValue(), is("`fpValue1`"));
         assertThat(provider1.getFormMapping().get("fpName1").getModel(), is(ReduxModelEnum.multi));
         assertThat(provider1.getFormMapping().get("fpName1").getDatasource(), is("w_test"));
-        assertThat(provider1.getFormMapping().get("fpName1").getBindLink(), is("models.multi['w_test']"));
+        assertThat(provider1.getFormMapping().get("fpName1").getLink(), is("models.multi['w_test']"));
         //default datasource and model
         assertThat(provider1.getPathMapping().get("ppName1").getValue(), is("`ppValue1`"));
 

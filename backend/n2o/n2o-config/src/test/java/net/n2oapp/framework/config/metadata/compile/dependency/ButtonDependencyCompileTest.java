@@ -83,7 +83,7 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
         assertThat(condition.getExpression(), is("c==d"));
         assertThat(condition.getMessage(), is("Не указана дата"));
 
-        List<PerformButton> submenu = ((Submenu) buttons.get(6)).getSubMenu();
+        List<PerformButton> submenu = ((Submenu) buttons.get(6)).getButtonList();
         assertThat(submenu.get(0).getVisible(), is(false));
         assertThat(submenu.get(0).getEnabled(), is(false));
         assertThat(submenu.get(1).getVisible(), nullValue());
@@ -153,7 +153,7 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
         assertThat(condition.getExpression(), is("c==d"));
         assertThat(condition.getMessage(), is("Не указана дата"));
 
-        List<PerformButton> submenu = ((Submenu) buttons.get(6)).getSubMenu();
+        List<PerformButton> submenu = ((Submenu) buttons.get(6)).getButtonList();
         assertThat(submenu.get(0).getVisible(), is(false));
         assertThat(submenu.get(0).getEnabled(), is(false));
         assertThat(submenu.get(1).getVisible(), nullValue());

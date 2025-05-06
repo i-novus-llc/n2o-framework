@@ -41,9 +41,9 @@ class CardsCompileTest extends SourceCompileTestBase {
         assertThat(cards.getSrc(), is("CardsTest"));
         assertThat(cards.getVerticalAlign(), is(Cards.PositionEnum.center));
         assertThat(cards.getHeight(), is("400px"));
-        assertThat(cards.getCards().size(), is(2));
+        assertThat(cards.getCardList().size(), is(2));
 
-        Cards.Card card = cards.getCards().get(0);
+        Cards.Card card = cards.getCardList().get(0);
         assertThat(card.getSize(), is(6));
         assertThat(card.getContent().size(), is(2));
         assertThat(card.getContent().get(0).getClassName(), is("font-weight-bold"));
@@ -61,7 +61,7 @@ class CardsCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSrc(), is("cell12"));
         assertThat(cell.getId(), is("12"));
 
-        card = cards.getCards().get(1);
+        card = cards.getCardList().get(1);
         assertThat(card.getSize(), is(nullValue()));
         assertThat(card.getContent().size(), is(1));
 
@@ -80,9 +80,9 @@ class CardsCompileTest extends SourceCompileTestBase {
         assertThat(cards.getSrc(), is("CardsWidget"));
         assertThat(cards.getVerticalAlign(), is(Cards.PositionEnum.top));
         assertThat(cards.getHeight(), is("300px"));
-        assertThat(cards.getCards().size(), is(1));
+        assertThat(cards.getCardList().size(), is(1));
 
-        card = cards.getCards().get(0);
+        card = cards.getCardList().get(0);
         assertThat(card.getSize(), is(nullValue()));
         assertThat(card.getContent().size(), is(1));
 

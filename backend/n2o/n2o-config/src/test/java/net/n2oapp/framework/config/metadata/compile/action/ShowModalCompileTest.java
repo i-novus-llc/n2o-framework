@@ -306,9 +306,9 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalPage.getBreadcrumb(), nullValue());
         Widget modalWidget = modalPage.getWidget();
         StandardDatasource ds = (StandardDatasource) modalPage.getDatasources().get(modalWidget.getDatasource());
-        assertThat(ds.getProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
+        assertThat(ds.getProvider().getPathMapping().get("id").getLink(), is("models.resolve['p_main']"));
         assertThat(ds.getProvider().getPathMapping().get("id").getValue(), is("`id`"));
-        assertThat(ds.getProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
+        assertThat(ds.getProvider().getQueryMapping().get("name").getLink(), is("models.filter['p_second']"));
         assertThat(ds.getProvider().getQueryMapping().get("name").getValue(), is("`name`"));
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesModeEnum.query));
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
@@ -344,7 +344,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         ShowModal showModal = (ShowModal) ((Widget) rootPage.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("updateEditWithPrefilters").getAction();
-        assertThat(showModal.getPayload().getQueryMapping().get("id").getBindLink(), is("models.edit['p_main']"));
+        assertThat(showModal.getPayload().getQueryMapping().get("id").getLink(), is("models.edit['p_main']"));
 
         Page showModalPage = routeAndGet("/p/updateEditWithPrefilters", Page.class);
         assertThat(showModalPage.getId(), is("p_updateEditWithPrefilters"));

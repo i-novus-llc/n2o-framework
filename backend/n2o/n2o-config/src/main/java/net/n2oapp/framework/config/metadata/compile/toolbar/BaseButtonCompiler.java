@@ -144,7 +144,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
                              String linkCondition, ReduxModelEnum model) {
         Condition condition = new Condition();
         condition.setExpression(unwrapLink(linkCondition));
-        condition.setModelLink(new ModelLink(model, clientDatasource).getBindLink());
+        condition.setModelLink(new ModelLink(model, clientDatasource).getLink());
         if (!button.getConditions().containsKey(type))
             button.getConditions().put(type, new ArrayList<>());
         button.getConditions().get(type).add(condition);

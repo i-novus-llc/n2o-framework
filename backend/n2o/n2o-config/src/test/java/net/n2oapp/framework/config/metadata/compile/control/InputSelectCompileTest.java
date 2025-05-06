@@ -97,7 +97,7 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(0), instanceOf(FetchValueDependency.class));
         assertThat(field.getDependencies().get(0).getOn(), is(Arrays.asList("testId2")));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getUrl(), is("n2o/data/selectFetch"));
-        assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getBindLink(), is("models.resolve['testInputSelect_main']"));
+        assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getLink(), is("models.resolve['testInputSelect_main']"));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getValue(), is("`testId2`"));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getSize(), is(7));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getValueFieldId(), nullValue());
@@ -112,7 +112,7 @@ class InputSelectCompileTest extends SourceCompileTestBase {
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
         assertThat(cdp.getUrl(), is("n2o/data/test"));
         assertThat(cdp.getQuickSearchParam(), is("search"));
-        assertThat(cdp.getQueryMapping().get("noRef").getBindLink(), is("models.filter['testInputSelect_main']"));
+        assertThat(cdp.getQueryMapping().get("noRef").getLink(), is("models.filter['testInputSelect_main']"));
         assertThat(cdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
         assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
     }

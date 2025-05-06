@@ -168,12 +168,12 @@ class ScrollspyRegionCompileTest extends SourceCompileTestBase {
         assertThat(queryMapping.get("scrollspy0").getOnGet().getType(), is("n2o/regions/SET_ACTIVE_REGION_ENTITY"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("scrollspy0").getOnGet().getPayload()).getRegionId(), is("scrollspy0"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("scrollspy0").getOnGet().getPayload()).getActiveEntity(), is(":scrollspy0"));
-        assertThat(queryMapping.get("scrollspy0").getOnSet().getBindLink(), is("regions.scrollspy0.activeEntity"));
+        assertThat(queryMapping.get("scrollspy0").getOnSet().getLink(), is("regions.scrollspy0.activeEntity"));
 
         assertThat(queryMapping.get("item"), notNullValue());
         assertThat(queryMapping.get("item").getOnGet().getType(), is("n2o/regions/SET_ACTIVE_REGION_ENTITY"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("item").getOnGet().getPayload()).getRegionId(), is("scrollspy1"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("item").getOnGet().getPayload()).getActiveEntity(), is(":item"));
-        assertThat(queryMapping.get("item").getOnSet().getBindLink(), is("regions.scrollspy1.activeEntity"));
+        assertThat(queryMapping.get("item").getOnSet().getLink(), is("regions.scrollspy1.activeEntity"));
     }
 }

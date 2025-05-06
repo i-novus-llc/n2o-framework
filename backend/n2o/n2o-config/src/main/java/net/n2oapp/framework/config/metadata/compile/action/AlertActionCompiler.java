@@ -80,7 +80,7 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
             if (datasourceId == null) {
                 throw new N2oException("Источник данных не найден для действия \"<alert>\" со связанными атрибутами");
             }
-            message.setModelLink(new ModelLink(reduxModel, getClientDatasourceId(datasourceId, p)).getBindLink());
+            message.setModelLink(new ModelLink(reduxModel, getClientDatasourceId(datasourceId, p)).getLink());
         }
 
         return Collections.singletonList(message);

@@ -13,8 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 public class Submenu extends AbstractButton {
-    @JsonProperty
-    private List<PerformButton> subMenu;
+    @JsonProperty("subMenu")
+    private List<PerformButton> buttonList;
     @JsonProperty
     private Boolean showToggleIcon;
 }

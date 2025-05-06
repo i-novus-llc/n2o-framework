@@ -124,7 +124,7 @@ class OpenPageCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
         LinkActionImpl action = (LinkActionImpl) page.getWidget().getToolbar().getButton("id2").getAction();
-        assertThat(action.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(action.getPathMapping().get("page_test_id").getLink(), is("models.resolve['page_test']"));
         assertThat(action.getPathMapping().get("page_test_id").getValue(), is("`id`"));
         assertThat(action.getQueryMapping().size(), is(0));
 
@@ -150,7 +150,7 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(openPage.getBreadcrumb().get(1).getLabel(), is("second"));
 
         ClientDataProvider provider = ((StandardDatasource) openPage.getDatasources().get(openPage.getWidget().getDatasource())).getProvider();
-        assertThat(provider.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(provider.getPathMapping().get("page_test_id").getLink(), is("models.resolve['page_test']"));
         assertThat(provider.getPathMapping().get("page_test_id").getValue(), is("`id`"));
 
         InvokeAction submit = (InvokeAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
@@ -322,10 +322,10 @@ class OpenPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
 
         LinkActionImpl linkAction = (LinkActionImpl) page.getWidget().getToolbar().getButton("masterDetail").getAction();
-        assertThat(linkAction.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(linkAction.getPathMapping().get("page_test_id").getLink(), is("models.resolve['page_test']"));
         assertThat(linkAction.getPathMapping().get("page_test_id").getValue(), is("`id`"));
-        assertThat(linkAction.getQueryMapping().get("name").getBindLink(), is("models.filter['page_test']"));
-        assertThat(linkAction.getQueryMapping().get("secondName").getBindLink(), nullValue());
+        assertThat(linkAction.getQueryMapping().get("name").getLink(), is("models.filter['page_test']"));
+        assertThat(linkAction.getQueryMapping().get("secondName").getLink(), nullValue());
 
         PageContext context = (PageContext) route("/page/gender/masterDetail", Page.class);
         assertThat(context.getPreFilters().size(), is(1));
@@ -344,11 +344,11 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         Widget openPageWidget = ((Widget) openPage.getRegions().get("single").get(0).getContent().get(0));
         StandardDatasource ds = (StandardDatasource) openPage.getDatasources().get(openPageWidget.getDatasource());
         assertThat(ds.getProvider().getQueryMapping().get("name").getValue(), is("`name`"));
-        assertThat(ds.getProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['page_test']"));
+        assertThat(ds.getProvider().getQueryMapping().get("name").getLink(), is("models.filter['page_test']"));
         assertThat(ds.getProvider().getQueryMapping().get("surname").getValue(), is("`surname`"));
-        assertThat(ds.getProvider().getQueryMapping().get("surname").getBindLink(), is("models.filter['page_test']"));
+        assertThat(ds.getProvider().getQueryMapping().get("surname").getLink(), is("models.filter['page_test']"));
         assertThat(ds.getProvider().getQueryMapping().get("secondName").getValue(), is("test"));
-        assertThat(ds.getProvider().getQueryMapping().get("secondName").getBindLink(), nullValue());
+        assertThat(ds.getProvider().getQueryMapping().get("secondName").getLink(), nullValue());
         assertThat(ds.getProvider().getPathMapping().get("page_test_id").normalizeLink(), is("models.resolve['page_test'].masterId"));
 
         PageContext detailContext = (PageContext) route("/page/gender/masterDetail", Page.class);
@@ -367,7 +367,7 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(queryMapping.get("secondName").getValue(), is("test"));
 
         assertThat(context.getQueryRouteMapping().get("surname").getValue(), is("`surname`"));
-        assertThat(context.getQueryRouteMapping().get("surname").getBindLink(), is("models.filter['page_test']"));
+        assertThat(context.getQueryRouteMapping().get("surname").getLink(), is("models.filter['page_test']"));
     }
 
     @Test
@@ -442,23 +442,23 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(payload.getKey(), is("page_defaultValue_w1"));
         assertThat(payload.getField(), is("surname"));
         assertThat(payload.getValue(), is(":name"));
-        assertThat(queryMapping.get("name").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_w1'].surname"));
+        assertThat(queryMapping.get("name").getOnSet().getLink(), is("models.resolve['page_defaultValue_w1'].surname"));
         payload = (UpdateModelPayload) queryMapping.get("gender_id").getOnGet().getPayload();
         assertThat(payload.getPrefix(), is("resolve"));
         assertThat(payload.getKey(), is("page_defaultValue_w1"));
         assertThat(payload.getField(), is("gender.id"));
         assertThat(payload.getValue(), is(":gender_id"));
-        assertThat(queryMapping.get("gender_id").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_w1'].gender"));
+        assertThat(queryMapping.get("gender_id").getOnSet().getLink(), is("models.resolve['page_defaultValue_w1'].gender"));
 
         payload = (UpdateModelPayload) queryMapping.get("start").getOnGet().getPayload();
         assertThat(payload.getField(), is("birthDate.begin"));
         assertThat(payload.getValue(), is(":start"));
-        assertThat(queryMapping.get("start").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_w1'].birthDate.begin"));
+        assertThat(queryMapping.get("start").getOnSet().getLink(), is("models.resolve['page_defaultValue_w1'].birthDate.begin"));
 
         payload = (UpdateModelPayload) queryMapping.get("end").getOnGet().getPayload();
         assertThat(payload.getField(), is("birthDate.end"));
         assertThat(payload.getValue(), is(":end"));
-        assertThat(queryMapping.get("end").getOnSet().getBindLink(), is("models.resolve['page_defaultValue_w1'].birthDate.end"));
+        assertThat(queryMapping.get("end").getOnSet().getLink(), is("models.resolve['page_defaultValue_w1'].birthDate.end"));
 
         DataSet data = new DataSet();
         data.put("detailId", 222);
@@ -495,15 +495,15 @@ class OpenPageCompileTest extends SourceCompileTestBase {
 
         PerformButton btn1 = (PerformButton) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("btn1");
         assertThat(((LinkAction) btn1.getAction()).getPathMapping().size(), is(1));
-        assertThat(((LinkAction) btn1.getAction()).getPathMapping().get("client_id").getBindLink(), nullValue());
+        assertThat(((LinkAction) btn1.getAction()).getPathMapping().get("client_id").getLink(), nullValue());
         assertThat(((LinkAction) btn1.getAction()).getPathMapping().get("client_id").getValue(), is(123));
 
         PerformButton btn2 = (PerformButton) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("btn2");
         assertThat(((LinkAction) btn2.getAction()).getPathMapping().size(), is(1));
-        assertThat(((LinkAction) btn2.getAction()).getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_master']"));
+        assertThat(((LinkAction) btn2.getAction()).getPathMapping().get("account_id").getLink(), is("models.resolve['page_master']"));
         assertThat(((LinkAction) btn2.getAction()).getPathMapping().get("account_id").getValue(), is("`accountId`"));
         ModelLink link = page.getModels().get("resolve['page_master'].accountId");
-        assertThat(link.getBindLink(), is("models.resolve['page_master']"));
+        assertThat(link.getLink(), is("models.resolve['page_master']"));
         assertThat(link.getValue(), is(111));
     }
 

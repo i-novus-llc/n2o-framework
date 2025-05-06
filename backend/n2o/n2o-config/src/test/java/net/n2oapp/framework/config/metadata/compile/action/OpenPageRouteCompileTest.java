@@ -114,12 +114,12 @@ class OpenPageRouteCompileTest extends SourceCompileTestBase {
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
         ModelLink queryMappingModelLink = queryMapping.get("number");
-        assertThat(queryMappingModelLink.getBindLink(), is("models.resolve['test_main']"));
+        assertThat(queryMappingModelLink.getLink(), is("models.resolve['test_main']"));
         assertThat(queryMappingModelLink.getValue(), is("`number`"));
 
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(1));
-        assertThat(pathMapping.get("version").getBindLink(), is("models.resolve['test_main']"));
+        assertThat(pathMapping.get("version").getLink(), is("models.resolve['test_main']"));
         assertThat(pathMapping.get("version").getValue(), is("`version`"));
     }
 
@@ -141,10 +141,10 @@ class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(2));
-        assertThat(pathMapping.get("version").getBindLink(), is("models.resolve['test_main']"));
+        assertThat(pathMapping.get("version").getLink(), is("models.resolve['test_main']"));
         assertThat(pathMapping.get("version").getValue(), is("`version`"));
         // master widget route params
-        assertThat(pathMapping.get("test_main_id").getBindLink(), is("models.resolve['test_main']"));
+        assertThat(pathMapping.get("test_main_id").getLink(), is("models.resolve['test_main']"));
         assertThat(pathMapping.get("test_main_id").getValue(), is("`id`"));
     }
 
@@ -162,13 +162,13 @@ class OpenPageRouteCompileTest extends SourceCompileTestBase {
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
         ModelLink queryMappingModelLink = queryMapping.get("number");
-        assertThat(queryMappingModelLink.getBindLink(), is("models.resolve['test_main']"));
+        assertThat(queryMappingModelLink.getLink(), is("models.resolve['test_main']"));
         assertThat(queryMappingModelLink.getValue(), is("`number`"));
 
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(2));
         assertThat(pathMapping.get("main_id").normalizeLink(), is("models.resolve['test_main'].id"));
-        assertThat(pathMapping.get("version").getBindLink(), is("models.resolve['test_main']"));
+        assertThat(pathMapping.get("version").getLink(), is("models.resolve['test_main']"));
         assertThat(pathMapping.get("version").getValue(), is("`version`"));
     }
 
@@ -206,7 +206,7 @@ class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .getToolbar().get("topLeft").get(0).getButtons().get(0).getAction();
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(1));
-        assertThat(pathMapping.get("id").getBindLink(), is("models.resolve['test_master']"));
+        assertThat(pathMapping.get("id").getLink(), is("models.resolve['test_master']"));
         assertThat(pathMapping.get("id").getValue(), is("`clientId`"));
 
         // with default (from button) model and widget-id
@@ -214,7 +214,7 @@ class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .getToolbar().get("topLeft").get(0).getButtons().get(0).getAction();
         pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(1));
-        assertThat(pathMapping.get("id").getBindLink(), is("models.filter['test_dependent2']"));
+        assertThat(pathMapping.get("id").getLink(), is("models.filter['test_dependent2']"));
         assertThat(pathMapping.get("id").getValue(), is("`clientId`"));
     }
 

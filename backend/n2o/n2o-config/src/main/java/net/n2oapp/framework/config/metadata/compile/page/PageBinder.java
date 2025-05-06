@@ -96,7 +96,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         String modelLinkValue = StringUtils.unwrapJs((String) modelLink.getValue());
         if (Objects.isNull(modelLinkValue))
             return;
-        String modelId = modelLink.getBindLink().split("\\.")[1] + "." + modelLinkValue.split("\\.")[0];
+        String modelId = modelLink.getLink().split("\\.")[1] + "." + modelLinkValue.split("\\.")[0];
         ModelLink link = page.getModels().get(modelId);
         if (link != null && link.getValue() instanceof DefaultValues defaultValues) {
             defaultValues.getValues().remove(modelLinkValue.split("\\.")[1]);

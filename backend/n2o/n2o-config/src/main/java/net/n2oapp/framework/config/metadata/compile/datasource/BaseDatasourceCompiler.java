@@ -55,14 +55,14 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
                     Dependency fetchDependency = new Dependency();
                     ModelLink link = new ModelLink(castDefault(dependency.getModel(), ReduxModelEnum.resolve),
                             getClientDatasourceId(dependency.getOn(), p));
-                    fetchDependency.setOn(link.getBindLink());
+                    fetchDependency.setOn(link.getLink());
                     fetchDependency.setType(DependencyTypeEnum.fetch);
                     dependencies.add(fetchDependency);
                 } else if (d instanceof N2oDatasource.CopyDependency dependency) {
                     CopyDependency copyDependency = new CopyDependency();
                     ModelLink link = new ModelLink(castDefault(dependency.getSourceModel(), ReduxModelEnum.resolve),
                             getClientDatasourceId(dependency.getOn(), p), dependency.getSourceFieldId());
-                    copyDependency.setOn(link.getBindLink());
+                    copyDependency.setOn(link.getLink());
                     copyDependency.setModel(castDefault(dependency.getTargetModel(), ReduxModelEnum.resolve));
                     copyDependency.setField(dependency.getTargetFieldId());
                     copyDependency.setType(DependencyTypeEnum.copy);

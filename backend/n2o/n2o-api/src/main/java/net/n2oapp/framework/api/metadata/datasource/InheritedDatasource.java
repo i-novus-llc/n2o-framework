@@ -78,7 +78,7 @@ public class InheritedDatasource extends AbstractDatasource {
 
         @JsonProperty
         public Object getLink() {
-            return modelLink.getBindLink();
+            return modelLink.getLink();
         }
     }
 }

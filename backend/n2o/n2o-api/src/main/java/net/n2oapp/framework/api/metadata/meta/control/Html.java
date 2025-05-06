@@ -10,6 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Html extends Field {
-    @JsonProperty
-    private String html;
+    @JsonProperty("html")
+    private String htmlStr;
 }

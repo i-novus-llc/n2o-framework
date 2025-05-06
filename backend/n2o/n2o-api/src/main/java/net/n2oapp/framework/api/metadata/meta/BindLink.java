@@ -15,8 +15,8 @@ public class BindLink implements Compiled {
     /**
      * Адрес ссылки в Redux
      */
-    @JsonProperty("link")
-    private String bindLink;
+    @JsonProperty
+    private String link;
     /**
      * Константное значение или ссылка на поле в модели bindLink
      */
@@ -26,23 +26,23 @@ public class BindLink implements Compiled {
     public BindLink() {
     }
 
-    public BindLink(String bindLink) {
-        this.bindLink = bindLink;
+    public BindLink(String link) {
+        this.link = link;
     }
 
-    public BindLink(String bindLink, Object value) {
-        this.bindLink = bindLink;
+    public BindLink(String link, Object value) {
+        this.link = link;
         this.value = value;
     }
 
-    public String getBindLink() {
-        return bindLink;
+    public String getLink() {
+        return link;
     }
 
     public String normalizeLink() {
         if (StringUtils.isJs(getValue()))
-            return getBindLink() + "." + StringUtils.unwrapJs(value.toString());
-        return getBindLink();
+            return getLink() + "." + StringUtils.unwrapJs(value.toString());
+        return getLink();
     }
 
     public Object getValue() {
@@ -54,11 +54,11 @@ public class BindLink implements Compiled {
     }
 
     public boolean isConst() {
-        return !isEmpty() && !StringUtils.isJs(getValue()) || bindLink == null;
+        return !isEmpty() && !StringUtils.isJs(getValue()) || link == null;
     }
 
     public boolean isLink() {
-        return getBindLink() != null || StringUtils.isJs(getValue());
+        return getLink() != null || StringUtils.isJs(getValue());
     }
 
     public void setValue(Object value) {
@@ -85,7 +85,7 @@ public class BindLink implements Compiled {
             return true;
         if (!(o instanceof BindLink link))
             return false;
-        if (getBindLink() == null || link.getBindLink() == null)
+        if (getLink() == null || link.getLink() == null)
             return false;
         return Objects.equals(normalizeLink(), link.normalizeLink());
     }
@@ -101,26 +101,26 @@ public class BindLink implements Compiled {
             return true;
         if (!(o instanceof BindLink link))
             return false;
-        return Objects.equals(getBindLink(), link.getBindLink());
+        return Objects.equals(getLink(), link.getLink());
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BindLink bindLink1)) return false;
-        return Objects.equals(bindLink, bindLink1.bindLink) &&
+        return Objects.equals(link, bindLink1.link) &&
                 Objects.equals(value, bindLink1.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bindLink, value);
+        return Objects.hash(link, value);
     }
 
     @Override
     public String toString() {
         return "BindLink{" +
-                "bindLink='" + bindLink + '\'' +
+                "bindLink='" + link + '\'' +
                 ", value=" + value +
                 '}';
     }

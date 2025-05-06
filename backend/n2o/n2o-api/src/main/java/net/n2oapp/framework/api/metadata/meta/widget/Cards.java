@@ -23,8 +23,8 @@ public class Cards extends Widget {
     private String height;
     @JsonProperty
     private Pagination paging;
-    @JsonProperty
-    private List<Card> cards;
+    @JsonProperty("cards")
+    private List<Card> cardList;
 
     @Getter
     @Setter

@@ -68,7 +68,7 @@ class N2oCompileProcessorTest extends N2oTestBase {
         testML = new ModelLink(ReduxModelEnum.resolve, "widgetId");
         resultLink = processor.resolveLink(testML);
         //проверяем, что замена не произошла
-        assertThat(resultLink.getBindLink(), is("models.resolve['widgetId']"));
+        assertThat(resultLink.getLink(), is("models.resolve['widgetId']"));
 
         //проверяем строгое и нестрогое сравнение ссылок
         ModelLink m2 = new ModelLink(ReduxModelEnum.resolve, "_zagsBirth");
