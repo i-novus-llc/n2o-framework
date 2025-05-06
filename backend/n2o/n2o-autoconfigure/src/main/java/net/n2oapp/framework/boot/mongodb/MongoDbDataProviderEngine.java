@@ -83,8 +83,8 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
                     .applyConnectionString(connectionString)
                     .build();
 
-            try (MongoClient mongoClient = MongoClients.create(mongoClientSettings)) {
-                MongoCollection<Document> collection = mongoClient
+            try (MongoClient client = MongoClients.create(mongoClientSettings)) {
+                MongoCollection<Document> collection = client
                         .getDatabase(dbName)
                         .getCollection(invocation.getCollectionName());
                 return execute(invocation, inParams, collection);
