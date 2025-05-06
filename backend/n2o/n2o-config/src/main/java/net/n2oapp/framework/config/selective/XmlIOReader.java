@@ -45,8 +45,10 @@ public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder
                     Persisted:
                     {}
                     Similar? {}
-                    Identical? {}""", s2, s1, similar, diff.identical());
-            logger.debug(diff.toString());
+                    Identical? {}
+                    """, s2, s1, similar, diff.identical());
+            if (logger.isErrorEnabled())
+                logger.debug(diff.toString());
             return similar;
         } catch (Exception e) {
             throw new RuntimeException(e);

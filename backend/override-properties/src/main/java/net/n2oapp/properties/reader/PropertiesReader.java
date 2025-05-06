@@ -108,14 +108,14 @@ public class PropertiesReader {
             boolean isJar = absPath.contains("jar");
             boolean isWar = absPath.contains("war");
             if (isJar)
-                log.warn(String.format("Reloadable properties [%s] found in jar by path [%s]", location, absPath));
+                log.warn("Reloadable properties [{}] found in jar by path [{}]", location, absPath);
             if (isWar)
-                log.warn(String.format("Reloadable properties [%s] found in war by path [%s]", location, absPath));
+                log.warn("Reloadable properties [{}] found in war by path [{}]", location, absPath);
             else
-                log.debug(String.format("Reloadable properties [%s] found by path [%s]", location, absPath));
+                log.debug("Reloadable properties [{}] found by path [{}]", location, absPath);
             return classPathResource;
         } catch (IOException e) {
-            log.error(String.format("Malformed classpath location [%s] for reloadable properties", location));
+            log.error("Malformed classpath location [{}] for reloadable properties", location);
         }
         return null;
     }
@@ -124,6 +124,4 @@ public class PropertiesReader {
         File file = new File(location);
         return new FileSystemResource(file);
     }
-
-
 }
