@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ButtonFieldIOv2 extends FieldIOv2<N2oButtonField> implements ControlIOv2, ButtonIOAware<N2oButtonField> {
 
-    private final Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
+    private static final Namespace ACTION_DEFAULT_NAMESPACE = ActionIOv1.NAMESPACE;
 
     @Override
     public void io(Element e, N2oButtonField m, IOProcessor p) {
         super.io(e, m, p);
-        button(e, m, p, actionDefaultNamespace);
+        button(e, m, p, ACTION_DEFAULT_NAMESPACE);
 
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "color", m::getColor, m::setColor);

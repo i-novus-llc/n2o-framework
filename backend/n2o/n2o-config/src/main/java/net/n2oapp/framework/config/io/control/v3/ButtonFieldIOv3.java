@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ButtonFieldIOv3 extends ActionFieldIOv3<N2oButtonField> implements ControlIOv3, BadgeAwareIO<N2oButtonField>, ButtonIOAware<N2oButtonField> {
 
-
     @Override
     public void io(Element e, N2oButtonField m, IOProcessor p) {
         super.io(e, m, p);
