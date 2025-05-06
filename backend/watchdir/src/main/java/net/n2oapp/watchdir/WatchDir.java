@@ -15,6 +15,7 @@ import static java.nio.file.StandardWatchEventKinds.*;
 
 /**
  * Watch changes in directory
+ *
  * @link http://docs.oracle.com/javase/tutorial/essential/io/examples/WatchDir.java
  */
 public class WatchDir {
@@ -27,7 +28,7 @@ public class WatchDir {
     //monitoring directories
     private Set<Path> dirs;
 
-    private final Map<WatchKey,Path> keys = new HashMap<>();
+    private final Map<WatchKey, Path> keys = new HashMap<>();
     private final Map<Path, Long> lastModifiedMap = new HashMap<>();
     private final Set<Path> skips = new HashSet<>();
 
@@ -37,7 +38,7 @@ public class WatchDir {
 
     @SuppressWarnings("unchecked")
     static <T> WatchEvent<T> cast(WatchEvent<?> event) {
-        return (WatchEvent<T>)event;
+        return (WatchEvent<T>) event;
     }
 
     public WatchDir() {
@@ -171,8 +172,7 @@ public class WatchDir {
         Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-                    throws IOException
-            {
+                    throws IOException {
                 synchronized (skips) {
                     if (skips.contains(dir))
                         return FileVisitResult.SKIP_SUBTREE;
@@ -187,83 +187,83 @@ public class WatchDir {
      * Process all events for keys queued to the watcher
      */
     void processEvents() {
-        for (;;) try {
-
-            // wait for key to be signalled
-            WatchKey key;
+        for (; ; )
             try {
-                key = watcher.take();
-            } catch (InterruptedException | ClosedWatchServiceException x) {
-                return;
-            }
 
-            Set<Path> takeSkipSet = null;
-            synchronized (skips) {
-                if (!skips.isEmpty()) {
-                    takeSkipSet = new HashSet<>(skips);
-                }
-            }
-
-            Path dir = keys.get(key);
-            if (dir == null) {
-                logger.error("WatchKey not recognized!!");
-                continue;
-            }
-
-            for (WatchEvent<?> event: key.pollEvents()) {
-                WatchEvent.Kind kind = event.kind();
-
-                // TBD - provide example of how OVERFLOW event is handled
-                if (kind == OVERFLOW) {
-                    continue;
+                // wait for key to be signalled
+                WatchKey key;
+                try {
+                    key = watcher.take();
+                } catch (InterruptedException | ClosedWatchServiceException x) {
+                    return;
                 }
 
-                // Context for directory entry event is the file name of entry
-                WatchEvent<Path> ev = cast(event);
-                Path name = ev.context();
-                Path child = dir.resolve(name);
-
-                //skip muted events
-                if (takeSkipSet != null && takeSkipSet.contains(child)) {
-                    logger.debug("skip {}", child);
-                    continue;
-                }
-                // event handling
-                handleEvent(event, child);
-
-                // if directory is created, and watching recursively, then
-                // register it and its sub-directories
-                if (recursive && (kind == ENTRY_CREATE)) {
-                    try {
-                        if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
-                            registerAll(child);
-                        }
-                    } catch (IOException x) {
-                        logger.error(x.getMessage(), x);
+                Set<Path> takeSkipSet = null;
+                synchronized (skips) {
+                    if (!skips.isEmpty()) {
+                        takeSkipSet = new HashSet<>(skips);
                     }
                 }
-            }
 
-            // reset key and remove from set if directory no longer accessible
-            boolean valid = key.reset();
-            if (!valid) {
-                keys.remove(key);
-
-                // all directories are inaccessible
-                if (keys.isEmpty()) {
-                    break;
+                Path dir = keys.get(key);
+                if (dir == null) {
+                    logger.error("WatchKey not recognized!!");
+                    continue;
                 }
+
+                for (WatchEvent<?> event : key.pollEvents()) {
+                    WatchEvent.Kind kind = event.kind();
+
+                    // TBD - provide example of how OVERFLOW event is handled
+                    if (kind == OVERFLOW) {
+                        continue;
+                    }
+
+                    // Context for directory entry event is the file name of entry
+                    WatchEvent<Path> ev = cast(event);
+                    Path name = ev.context();
+                    Path child = dir.resolve(name);
+
+                    //skip muted events
+                    if (takeSkipSet != null && takeSkipSet.contains(child)) {
+                        logger.debug("skip {}", child);
+                        continue;
+                    }
+                    // event handling
+                    handleEvent(event, child);
+
+                    // if directory is created, and watching recursively, then
+                    // register it and its sub-directories
+                    if (recursive && (kind == ENTRY_CREATE)) {
+                        try {
+                            if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
+                                registerAll(child);
+                            }
+                        } catch (IOException x) {
+                            logger.error(x.getMessage(), x);
+                        }
+                    }
+                }
+
+                // reset key and remove from set if directory no longer accessible
+                boolean valid = key.reset();
+                if (!valid) {
+                    keys.remove(key);
+
+                    // all directories are inaccessible
+                    if (keys.isEmpty()) {
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
             }
-        }
-        catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
     }
 
 
-
     private void handleEvent(WatchEvent<?> event, Path child) {
-        logger.debug("{}: {}", event.kind().name(), child);
+        if (logger.isErrorEnabled())
+            logger.debug("{}: {}", event.kind().name(), child);
         WatchEvent.Kind kind = event.kind();
         if (kind == ENTRY_CREATE) {
             listener.fileCreated(child);

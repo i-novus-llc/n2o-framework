@@ -9,8 +9,9 @@ import org.springframework.http.HttpMethod;
 public class N2oRestLoggingHandler implements RestLoggingHandler {
 
     private static final Logger log = LoggerFactory.getLogger(SpringRestDataProviderEngine.class);
+
     @Override
     public void handleError(Exception e, HttpMethod method, String query, HttpHeaders headers) {
-        log.error("Execution error with REST query: " + query, e);
+        log.error("Execution error with REST query: {}", query, e);
     }
 }
