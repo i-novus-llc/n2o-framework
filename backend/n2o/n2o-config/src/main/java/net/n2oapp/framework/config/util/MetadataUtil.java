@@ -16,7 +16,7 @@ import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MetadataUtil {
-    public static final Map<? extends Class<? extends SourceMetadata>, String> XML_BY_METADATA = Map.of(
+    public static final Map<Class<? extends SourceMetadata>, String> XML_BY_METADATA = Map.of(
             N2oObject.class, "object.xml",
             N2oQuery.class, "query.xml",
             N2oPage.class, "page.xml",

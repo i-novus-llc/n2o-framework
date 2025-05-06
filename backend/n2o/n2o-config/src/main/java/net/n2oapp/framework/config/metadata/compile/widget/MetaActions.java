@@ -13,7 +13,7 @@ public class MetaActions extends HashMap<String, ActionBar> {
     public MetaActions() {
     }
 
-    public MetaActions(Map<? extends String, ? extends ActionBar> m) {
+    public MetaActions(Map<String, ? extends ActionBar> m) {
         super(m);
     }
 

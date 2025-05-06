@@ -23,7 +23,7 @@ public class DataSet extends NestedMap {
         return this;
     }
 
-    public DataSet(Map<? extends String, ?> m) {
+    public DataSet(Map<String, ?> m) {
         super();
         m.forEach((k, v) -> {
             if (v instanceof DataSet dataSet) {
