@@ -1,11 +1,10 @@
 package net.n2oapp.framework.config;
 
-import net.n2oapp.framework.api.event.N2oReadyEvent;
-import net.n2oapp.framework.api.event.N2oStartedEvent;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.event.N2oEventBus;
+import net.n2oapp.framework.api.event.N2oReadyEvent;
+import net.n2oapp.framework.api.event.N2oStartedEvent;
 import net.n2oapp.framework.api.event.N2oStoppedEvent;
-import net.n2oapp.framework.api.metadata.reader.ConfigMetadataLocker;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.watchdir.WatchDir;
@@ -30,7 +29,6 @@ public class ConfigStarter {
     private static final ReadWriteLock startingLock = new ReentrantReadWriteLock();//блокировка на время старта
 
     private final N2oEventBus eventBus;
-    private final ConfigMetadataLocker locker;
     private final WatchDir watchDir;
     private final Collection<String> configPaths;
     private final N2oApplicationBuilder applicationBuilder;
@@ -42,11 +40,9 @@ public class ConfigStarter {
 
     public ConfigStarter(N2oApplicationBuilder applicationBuilder,
                          N2oEventBus eventBus,
-                         ConfigMetadataLocker locker,
                          WatchDir watchDir,
                          Collection<String> configPath) {
         this.eventBus = eventBus;
-        this.locker = locker;
         this.applicationBuilder = applicationBuilder;
         this.watchDir = watchDir;
         this.configPaths = configPath;

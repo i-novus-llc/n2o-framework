@@ -527,7 +527,7 @@ public class ViewController {
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
                 subModelsProcessor, messageBuilder, messagesConstructor));
         beans.put("operationController", new OperationController(dataProcessingStack,
-                operationProcessor, messageBuilder, environment, messagesConstructor));
+                operationProcessor, messageBuilder, messagesConstructor));
         beans.put("validationController", new ValidationController(serviceProvider, domainProcessor));
         beans.put("mergeValuesController", new MergeValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 messageBuilder));
