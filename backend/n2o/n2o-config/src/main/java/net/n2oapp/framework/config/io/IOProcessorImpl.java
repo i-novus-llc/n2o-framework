@@ -23,10 +23,7 @@ import org.springframework.core.env.PropertyResolver;
 
 import java.lang.reflect.Array;
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -117,7 +114,7 @@ public class IOProcessorImpl implements IOProcessor {
     public <T> void child(Element element, String sequences, String childName,
                           Supplier<T> getter, Consumer<T> setter,
                           Class<T> elementClass, ElementIO<T> io) {
-        child(element, sequences, childName, getter, setter, new TypedElementIO<T>() {
+        child(element, sequences, childName, getter, setter, new TypedElementIO<>() {
             @Override
             public Class<T> getElementClass() {
                 return elementClass;
@@ -763,7 +760,8 @@ public class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    public void childAttributeBoolean(Element element, String childName, String name, Supplier<Boolean> getter, Consumer<Boolean> setter) {
+    public void childAttributeBoolean(Element element, String childName, String name,
+                                      Supplier<Boolean> getter, Consumer<Boolean> setter) {
         if (r) {
             Element child = element.getChild(childName, element.getNamespace());
             if (child == null) return;
@@ -807,7 +805,8 @@ public class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    public <T extends Enum<T>> void childAttributeEnum(Element element, String childName, String name, Supplier<T> getter, Consumer<T> setter, Class<T> enumClass) {
+    public <T extends Enum<T>> void childAttributeEnum(Element element, String childName, String
+            name, Supplier<T> getter, Consumer<T> setter, Class<T> enumClass) {
         if (r) {
             Element child = element.getChild(childName, element.getNamespace());
             if (child == null) return;
@@ -858,7 +857,8 @@ public class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    public void childAnyAttributes(Element element, String childName, Supplier<Map<N2oNamespace, Map<String, String>>> getter, Consumer<Map<N2oNamespace, Map<String, String>>> setter) {
+    public void childAnyAttributes(Element element, String
+            childName, Supplier<Map<N2oNamespace, Map<String, String>>> getter, Consumer<Map<N2oNamespace, Map<String, String>>> setter) {
         if (r) {
             Element child = element.getChild(childName, element.getNamespace());
             if (child == null) return;
@@ -920,7 +920,7 @@ public class IOProcessorImpl implements IOProcessor {
         if (r) {
             Attribute attribute = element.getAttribute(name);
             if (attribute != null) {
-                setter.accept(Integer.valueOf(process(attribute.getValue())));
+                setter.accept(Integer.parseInt(process(attribute.getValue())));
             }
         } else {
             if (getter.get() == null) return;
@@ -929,7 +929,8 @@ public class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    public void attributeArray(Element element, String name, String separator, Supplier<String[]> getter, Consumer<String[]> setter) {
+    public void attributeArray(Element element, String name, String separator, Supplier<String[]>
+            getter, Consumer<String[]> setter) {
         if (r) {
             Attribute attribute = element.getAttribute(name);
             if (attribute != null) {
@@ -946,7 +947,8 @@ public class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    public <T extends Enum<T>> void attributeEnum(Element element, String name, Supplier<T> getter, Consumer<T> setter, Class<T> enumClass) {
+    public <T extends Enum<T>> void attributeEnum(Element element, String
+            name, Supplier<T> getter, Consumer<T> setter, Class<T> enumClass) {
         if (r) {
             Attribute attribute = element.getAttribute(name);
             if (attribute != null) {
@@ -983,12 +985,12 @@ public class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    public void hasElement(Element element, String name, Supplier<Boolean> getter, Consumer<Boolean> setter) {
+    public void hasElement(Element element, String name, BooleanSupplier getter, Consumer<Boolean> setter) {
         if (r) {
             Element child = element.getChild(name, element.getNamespace());
             setter.accept(child != null);
         } else {
-            if (getter.get() == null || !getter.get()) return;
+            if (!getter.getAsBoolean()) return;
             if (element.getChild(name, element.getNamespace()) == null) {
                 Element childElement = new Element(name, element.getNamespace());
                 element.addContent(childElement);
@@ -997,22 +999,26 @@ public class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    public <T, R extends TypedElementReader<? extends T>, P extends TypedElementPersister<? super T>> ElementIOFactory<T, R, P> oneOf(Class<T> baseElementClass) {
+    public <T, R extends TypedElementReader<? extends T>, P extends TypedElementPersister<? super T>>
+    ElementIOFactory<T, R, P> oneOf(Class<T> baseElementClass) {
         return new ElementIOFactoryByMap<>(baseElementClass);
     }
 
     @Override
-    public <T extends NamespaceUriAware, R extends NamespaceReader<? extends T>, P extends NamespacePersister<? super T>> NamespaceIOFactory<T, R, P> anyOf(Class<T> baseElementClass) {
+    public <T extends NamespaceUriAware, R extends NamespaceReader<? extends T>, P extends
+            NamespacePersister<? super T>> NamespaceIOFactory<T, R, P> anyOf(Class<T> baseElementClass) {
         return new NamespaceIOFactoryByMap<>(baseElementClass, readerFactory, persisterFactory);
     }
 
     @Override
-    public <T extends NamespaceUriAware, R extends NamespaceReader<? extends T>, P extends NamespacePersister<? super T>> NamespaceIOFactory<T, R, P> anyOf() {
+    public <T extends NamespaceUriAware, R extends NamespaceReader<? extends T>, P extends
+            NamespacePersister<? super T>> NamespaceIOFactory<T, R, P> anyOf() {
         return new NamespaceIOFactoryByMap<>(null, readerFactory, persisterFactory);
     }
 
     @Override
-    public void additionalNamespaces(Element element, Supplier<List<Namespace>> getter, Consumer<List<Namespace>> setter) {
+    public void additionalNamespaces(Element
+                                             element, Supplier<List<Namespace>> getter, Consumer<List<Namespace>> setter) {
         if (r) {
             setter.accept(element.getAdditionalNamespaces());
         } else {
@@ -1128,7 +1134,8 @@ public class IOProcessorImpl implements IOProcessor {
 
     private <T,
             R extends TypedElementReader<? extends T>,
-            P extends TypedElementPersister<? super T>> Element persist(ElementIOFactory<T, R, P> factory, T entity, Namespace namespace) {
+            P extends TypedElementPersister<? super T>> Element persist(ElementIOFactory<T, R, P> factory, T
+            entity, Namespace namespace) {
         P persister = factory.produce(entity);
         if (persister != null) {
             if (persister instanceof IOProcessorAware ioProcessorAware)
