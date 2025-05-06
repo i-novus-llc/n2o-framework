@@ -34,7 +34,7 @@ public class NotEq_NotEq extends NotInListRule {
     }
 
     private Filter toRestriction(List res) {
-        if (res.size() == 0) {
+        if (res.isEmpty()) {
             return null;
         } else if (res.size() == 1) {
             return new Filter(res.get(0), FilterTypeEnum.notEq);

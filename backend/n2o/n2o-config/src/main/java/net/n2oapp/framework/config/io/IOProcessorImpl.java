@@ -263,7 +263,7 @@ public class IOProcessorImpl implements IOProcessor {
                 T entity = read(io, childE);
                 result.add(entity);
             }
-            if (result.size() > 0) {
+            if (!result.isEmpty()) {
                 T[] res = (T[]) Array.newInstance(io.getElementClass(), result.size());
                 res = result.toArray(res);
                 setter.accept(res);
@@ -570,7 +570,7 @@ public class IOProcessorImpl implements IOProcessor {
                     result.add(childT);
                 }
             }
-            if (result.size() > 0) {
+            if (!result.isEmpty()) {
                 @SuppressWarnings("unchecked") T[] res;
                 if (factory.getBaseElementClass() == null) {
                     res = (T[]) Array.newInstance(NamespaceUriAware.class, result.size());
@@ -622,7 +622,7 @@ public class IOProcessorImpl implements IOProcessor {
                     result.add(entity);
                 }
             }
-            if (result.size() > 0) {
+            if (!result.isEmpty()) {
                 T[] res = (T[]) Array.newInstance(io.getElementClass(), result.size());
                 res = result.toArray(res);
                 setterList.accept(res);
