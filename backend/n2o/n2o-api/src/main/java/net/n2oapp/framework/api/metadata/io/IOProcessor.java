@@ -11,10 +11,7 @@ import org.jdom2.Namespace;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 /**
  * Процессор считывания и записи DOM элементов
@@ -469,7 +466,7 @@ public interface IOProcessor {
      * @param getter  получение атрибута
      * @param setter  запись атрибута
      */
-    void hasElement(Element element, String name, Supplier<Boolean> getter, Consumer<Boolean> setter);
+    void hasElement(Element element, String name, BooleanSupplier getter, Consumer<Boolean> setter);
 
     /**
      * Билдер считывателей элементов определенного базового класса

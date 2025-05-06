@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 import static java.util.Collections.emptyList;
@@ -15,7 +16,7 @@ import static java.util.Collections.emptyList;
  */
 public class StaticProperties {
 
-    private static final Function<String, String> DUMMY_MAPPER = s -> s;
+    private static final UnaryOperator<String> DUMMY_MAPPER = s -> s;
 
     protected static PropertyResolver propertyResolver = null;
 

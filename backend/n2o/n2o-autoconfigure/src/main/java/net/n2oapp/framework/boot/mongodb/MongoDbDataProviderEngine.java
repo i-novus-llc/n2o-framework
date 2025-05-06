@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.in;
@@ -50,7 +50,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
 
     private ObjectMapper mapper;
 
-    private static final Function<String, Integer> defaultSuffixIdx = str -> {
+    private static final ToIntFunction<String> defaultSuffixIdx = str -> {
         if (str.startsWith("."))
             return 0;
         String[] ends = str.split("[^A-Za-z0-9_\\.]");

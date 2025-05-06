@@ -18,7 +18,7 @@ import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 
 
@@ -33,13 +33,19 @@ public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder
     }
 
     private static final Logger logger = LoggerFactory.getLogger(XmlIOReader.class);
-    private static final BiFunction<String, String, Boolean> CANONICAL_COMPARATOR = (String s1, String s2) -> {
+    private static final BiPredicate<String, String> CANONICAL_COMPARATOR = (String s1, String s2) -> {
         try {
             Diff diff = XMLUnit.compareXML(s1, s2);
             diff.overrideElementQualifier(new ElementNameQualifier());
             boolean similar = diff.similar();
-            logger.debug("Comparing two xml..." +
-                    "\nSource:\n{}\nPersisted:\n{}\nSimilar? {}\nIdentical? {}", s2, s1, similar, diff.identical());
+            logger.debug("""
+                    Comparing two xml...
+                    Source:
+                    {}
+                    Persisted:
+                    {}
+                    Similar? {}
+                    Identical? {}""", s2, s1, similar, diff.identical());
             logger.debug(diff.toString());
             return similar;
         } catch (Exception e) {
@@ -48,8 +54,8 @@ public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder
     };
 
     private static final XMLOutputter XML_OUTPUTTER = new XMLOutputter(Format.getPrettyFormat());
-    private PersisterFactoryByMap persisterFactory;
-    private IOProcessor persisterProcessor;
+    private final PersisterFactoryByMap persisterFactory;
+    private final IOProcessor persisterProcessor;
 
     public XmlIOReader() {
         super(new ReaderFactoryByMap());
@@ -84,11 +90,11 @@ public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder
     }
 
     public boolean persistAndCompareWithSample(NamespaceUriAware n2o, String sample) {
-        return compareWithSample(n2o, sample, CANONICAL_COMPARATOR);
+        return compareWithSample(n2o, sample);
     }
 
-    private boolean compareWithSample(NamespaceUriAware n2o, String sample, BiFunction<String, String, Boolean> comparator) {
-        return comparator.apply(toString(n2o), sample);
+    private boolean compareWithSample(NamespaceUriAware n2o, String sample) {
+        return XmlIOReader.CANONICAL_COMPARATOR.test(toString(n2o), sample);
     }
 
     private String toString(NamespaceUriAware n2o) {
