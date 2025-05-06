@@ -38,9 +38,9 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public abstract class BaseAccessTransformer<D extends Compiled, C extends CompileContext<?, ?>>
         implements CompileTransformer<D, C>, CompiledClassAware {
 
-    private static String DEFAULT_OBJECT_ACCESS_DENIED = "n2o.access.deny_objects";
-    private static String DEFAULT_PAGE_ACCESS_DENIED = "n2o.access.deny_pages";
-    private static String DEFAULT_URL_ACCESS_DENIED = "n2o.access.deny_urls";
+    private static final String DEFAULT_OBJECT_ACCESS_DENIED = "n2o.access.deny_objects";
+    private static final String DEFAULT_PAGE_ACCESS_DENIED = "n2o.access.deny_pages";
+    private static final String DEFAULT_URL_ACCESS_DENIED = "n2o.access.deny_urls";
 
     protected void collectObjectAccess(PropertiesAware compiled, String objectId,
                                        String operationId, SimpleCompiledAccessSchema schema,

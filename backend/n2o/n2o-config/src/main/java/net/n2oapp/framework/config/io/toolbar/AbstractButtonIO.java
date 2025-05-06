@@ -12,7 +12,7 @@ import org.jdom2.Namespace;
  */
 public abstract class AbstractButtonIO<T extends N2oAbstractButton> extends ComponentIO<T> {
 
-    public static Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/button-1.0");
+    public static final Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/button-1.0");
 
     protected Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
 
