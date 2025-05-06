@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class N2oNamespaceDeserializer extends KeyDeserializer {
 
-    private final String SEPARATOR = "$";
+    private static final String SEPARATOR = "$";
 
     @Override
     public N2oNamespace deserializeKey(

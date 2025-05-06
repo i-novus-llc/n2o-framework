@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public class N2oDropdownButton extends N2oButton implements DropdownButton {
 
-    private final String DROPDOWN = ".n2o-dropdown-menu,.dropdown-menu";
+    private static final String DROPDOWN = ".n2o-dropdown-menu,.dropdown-menu";
 
     @Override
     public void shouldHaveLabel(String label, Duration... duration) {
