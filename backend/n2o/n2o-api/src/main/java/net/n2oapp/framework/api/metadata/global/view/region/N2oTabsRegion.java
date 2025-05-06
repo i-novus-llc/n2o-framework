@@ -58,13 +58,13 @@ public class N2oTabsRegion extends N2oRegion implements RegionItem, RoutableRegi
     @Deprecated
     public void setWidgets(N2oWidget[] widgets) {
         if (widgets != null) {
-            Tab[] tabs = new Tab[widgets.length];
+            Tab[] tabArray = new Tab[widgets.length];
             for (int i = 0; i < widgets.length; i++) {
                 Tab tab = new Tab();
                 tab.setContent(new SourceComponent[]{widgets[i]});
-                tabs[i] = tab;
+                tabArray[i] = tab;
             }
-            this.tabs = tabs;
+            this.tabs = tabArray;
         }
     }
 

@@ -31,21 +31,21 @@ public class RouteInfoKey implements Comparable<RouteInfoKey> {
     }
 
     public void setUrlMatching(String urlPattern) {
-        StringBuilder urlMatching;
+        StringBuilder url;
         String[] splited = urlPattern.split("/");
         if (splited.length > 0) {
-            urlMatching = new StringBuilder(splited[0]);
+            url = new StringBuilder(splited[0]);
             for (int i = 1; i < splited.length; i++) {
                 if (splited[i].startsWith(":")) {
-                    urlMatching.append("/").append("*");
+                    url.append("/").append("*");
                 } else {
-                    urlMatching.append("/").append(splited[i]);
+                    url.append("/").append(splited[i]);
                 }
             }
         } else {
-            urlMatching = new StringBuilder(urlPattern);
+            url = new StringBuilder(urlPattern);
         }
-        this.urlMatching = urlMatching.toString();
+        this.urlMatching = url.toString();
     }
 
     public String getUrlMatching() {

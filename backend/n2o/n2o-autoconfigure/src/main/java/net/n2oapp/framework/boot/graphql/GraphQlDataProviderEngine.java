@@ -93,7 +93,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private DataSet execute(N2oGraphQlDataProvider invocation, String query, Map<String, Object> data) {
         Map<String, Object> payload = initPayload(invocation, query, data);
-        String endpoint = initEndpoint(invocation.getEndpoint());
+        String initEndpoint = initEndpoint(invocation.getEndpoint());
 
         HttpHeaders headers = new HttpHeaders();
         copyForwardedHeaders(resolveForwardedHeaders(invocation), headers);
@@ -102,7 +102,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         addAuthorization(invocation, headers);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
         try {
-            DataSet result = restTemplate.postForObject(endpoint, entity, DataSet.class);
+            DataSet result = restTemplate.postForObject(initEndpoint, entity, DataSet.class);
             checkErrors(result, query);
             return result;
         } catch (RestClientResponseException e) {
@@ -237,7 +237,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
                 placeholder = "$".concat(placeholder);
                 value = escapeJson(toGraphQlString(entry.getValue()));
             } else {
-                value = placeholderKeys.contains(entry.getKey()) || contains(invocation.getEnums(),entry.getKey()) ?
+                value = placeholderKeys.contains(entry.getKey()) || contains(invocation.getEnums(), entry.getKey()) ?
                         (String) entry.getValue() :
                         toGraphQlString(entry.getValue());
             }

@@ -8,7 +8,6 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
-
 import lombok.Setter;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
@@ -77,8 +76,8 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
                     .applyConnectionString(connectionString)
                     .build();
 
-            try (MongoClient mongoClient = MongoClients.create(mongoClientSettings)) {
-                MongoCollection<Document> collection = mongoClient
+            try (MongoClient client = MongoClients.create(mongoClientSettings)) {
+                MongoCollection<Document> collection = client
                         .getDatabase(dbName)
                         .getCollection(invocation.getCollectionName());
                 return execute(invocation, inParams, collection);
