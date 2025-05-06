@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationFactory;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 import net.n2oapp.framework.config.factory.AwareFactorySupport;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 public class N2oPipelineOperationFactory implements MetadataFactory<PipelineOperation>, PipelineOperationFactory,
         MetadataEnvironmentAware {
 
-    private Map<PipelineOperationTypeEnum, PipelineOperation> enginesMap = new HashMap<>();
+    private Map<PipelineOperationTypeEnum, PipelineOperation> enginesMap = new EnumMap<>(PipelineOperationTypeEnum.class);
 
     public N2oPipelineOperationFactory() {
         super();
