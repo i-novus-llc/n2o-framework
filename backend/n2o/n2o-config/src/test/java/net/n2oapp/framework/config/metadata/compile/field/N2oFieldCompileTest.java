@@ -64,6 +64,6 @@ class N2oFieldCompileTest extends SourceCompileTestBase {
         assertThat(buttons.size(), is(1));
         assertThat(buttons.get(0), instanceOf(Submenu.class));
         Submenu submenu = (Submenu) buttons.get(0);
-        assertThat(((LinkAction) submenu.getButtonList().get(0).getAction()).getUrl(), is("/n2o.i-novus.ru"));
+        assertThat(((LinkAction) submenu.getContent().get(0).getAction()).getUrl(), is("/n2o.i-novus.ru"));
     }
 }

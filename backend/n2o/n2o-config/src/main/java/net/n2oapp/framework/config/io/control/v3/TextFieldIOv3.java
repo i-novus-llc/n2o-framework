@@ -15,7 +15,7 @@ public class TextFieldIOv3 extends FieldIOv3<N2oText> implements ControlIOv3 {
     @Override
     public void io(Element e, N2oText m, IOProcessor p) {
         super.io(e, m, p);
-        p.text(e, m::getText, m::setText);
+        p.text(e, m::getContent, m::setContent);
         p.attribute(e, "format", m::getFormat, m::setFormat);
     }
 

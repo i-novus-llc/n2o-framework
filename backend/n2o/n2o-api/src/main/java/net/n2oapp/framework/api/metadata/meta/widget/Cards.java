@@ -24,7 +24,7 @@ public class Cards extends Widget {
     @JsonProperty
     private Pagination paging;
     @JsonProperty("cards")
-    private List<Card> cardList;
+    private List<Card> content;
 
     @Getter
     @Setter

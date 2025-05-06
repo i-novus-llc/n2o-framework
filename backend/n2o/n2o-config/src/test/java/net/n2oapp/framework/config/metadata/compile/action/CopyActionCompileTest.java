@@ -52,7 +52,7 @@ class CopyActionCompileTest extends SourceCompileTestBase {
 
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
-        CopyAction action = (CopyAction) ((Submenu)table.getToolbar().getGroup(0).getButtons().get(0)).getButtonList().get(0).getAction();
+        CopyAction action = (CopyAction) ((Submenu)table.getToolbar().getGroup(0).getButtons().get(0)).getContent().get(0).getAction();
         assertThat(action.getType(), is("n2o/models/COPY"));
         assertThat(action.getValidate(), is(true));
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));

@@ -9,5 +9,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oHtml extends N2oPlainField {
-    private String html;
+    private String content;
 }

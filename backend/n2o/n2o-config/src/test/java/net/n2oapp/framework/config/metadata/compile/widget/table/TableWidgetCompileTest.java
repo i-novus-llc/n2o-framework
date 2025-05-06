@@ -97,9 +97,9 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("paddingTop"), is("0"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("testTable5Compile_mi1"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getShowToggleIcon(), is(true));
-        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getButtonList().get(0).getId(), is("testAction2"));
-        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getButtonList().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
-        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getButtonList().get(0).getStyle().get("paddingTop"), is("0"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getContent().get(0).getId(), is("testAction2"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getContent().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getContent().get(0).getStyle().get("paddingTop"), is("0"));
         //columns
         assertThat(table.getComponent().getHeader().getCells().size(), is(7));
 

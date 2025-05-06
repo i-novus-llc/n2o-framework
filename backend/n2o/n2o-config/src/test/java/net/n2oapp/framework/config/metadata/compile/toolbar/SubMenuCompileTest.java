@@ -55,7 +55,7 @@ class SubMenuCompileTest extends SourceCompileTestBase {
         assertThat(subMenu.getVisible(), is(false));
         assertThat(subMenu.getEnabled(), is(false));
 
-        List<PerformButton> items = subMenu.getButtonList();
+        List<PerformButton> items = subMenu.getContent();
         assertThat(items.size(), is(2));
         PerformButton createBtn = items.get(0);
         assertThat(createBtn.getId(), is("create"));
@@ -70,7 +70,7 @@ class SubMenuCompileTest extends SourceCompileTestBase {
 
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi3");
         assertThat(subMenu.getShowToggleIcon(), is(true));
-        assertThat(subMenu.getButtonList(), nullValue());
+        assertThat(subMenu.getContent(), nullValue());
         assertThat(subMenu.getConditions().get(ValidationTypeEnum.enabled).size(), is(1));
         assertThat(subMenu.getConditions().get(ValidationTypeEnum.visible).size(), is(1));
         Condition condition = subMenu.getConditions().get(ValidationTypeEnum.enabled).get(0);
@@ -93,16 +93,16 @@ class SubMenuCompileTest extends SourceCompileTestBase {
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi5");
         assertThat(subMenu.getIcon(), is("fa fa-plus"));
         assertThat(subMenu.getIconPosition(), is(PositionEnum.RIGHT));
-        assertThat(subMenu.getButtonList().get(0).getModel(), is(ReduxModelEnum.datasource));
-        assertThat(subMenu.getButtonList().get(0).getDatasource(), is("testSubMenu_table"));
-        assertThat(subMenu.getButtonList().get(0).getIcon(), is("fa fa-pencil"));
-        assertThat(subMenu.getButtonList().get(0).getIconPosition(), is(PositionEnum.RIGHT));
-        assertThat(subMenu.getButtonList().get(1).getModel(), is(ReduxModelEnum.resolve));
-        assertThat(subMenu.getButtonList().get(1).getDatasource(), is("testSubMenu_ds"));
+        assertThat(subMenu.getContent().get(0).getModel(), is(ReduxModelEnum.datasource));
+        assertThat(subMenu.getContent().get(0).getDatasource(), is("testSubMenu_table"));
+        assertThat(subMenu.getContent().get(0).getIcon(), is("fa fa-pencil"));
+        assertThat(subMenu.getContent().get(0).getIconPosition(), is(PositionEnum.RIGHT));
+        assertThat(subMenu.getContent().get(1).getModel(), is(ReduxModelEnum.resolve));
+        assertThat(subMenu.getContent().get(1).getDatasource(), is("testSubMenu_ds"));
 
-        assertThat(subMenu.getButtonList().size(), is(3));
-        assertThat(subMenu.getButtonList().get(2).getId(), is("close"));
-        assertThat(subMenu.getButtonList().get(2).getLabel(), is("Закрыть"));
-        assertThat(subMenu.getButtonList().get(2).getAction(), instanceOf(LinkAction.class));
+        assertThat(subMenu.getContent().size(), is(3));
+        assertThat(subMenu.getContent().get(2).getId(), is("close"));
+        assertThat(subMenu.getContent().get(2).getLabel(), is("Закрыть"));
+        assertThat(subMenu.getContent().get(2).getAction(), instanceOf(LinkAction.class));
     }
 }

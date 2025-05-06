@@ -9,6 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oText extends N2oField {
-    private String text;
+    private String content;
     private String format;
 }

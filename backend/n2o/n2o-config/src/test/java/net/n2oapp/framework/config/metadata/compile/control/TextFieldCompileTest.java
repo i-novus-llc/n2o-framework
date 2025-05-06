@@ -42,7 +42,7 @@ class TextFieldCompileTest extends SourceCompileTestBase {
         Text field = (Text)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
         assertThat(field.getSrc(), is("TextField"));
-        assertThat(field.getTextStr(), is("`'Hello, '+username`"));
+        assertThat(field.getContent(), is("`'Hello, '+username`"));
         assertThat(field.getFormat(), is("formatTest"));
         assertThat(field.getClassName(), is("testClass"));
         assertThat(field.getVisible(), is(false));

@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class Text extends Field {
     @JsonProperty("text")
-    private String textStr;
+    private String content;
     @JsonProperty
     private String format;
 }

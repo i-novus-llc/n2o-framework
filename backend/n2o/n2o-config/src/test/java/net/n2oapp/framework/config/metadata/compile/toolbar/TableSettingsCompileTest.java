@@ -46,7 +46,7 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
         checkButtons(buttons, AbstractButton::getHint);
         assertThat(buttons.get(9).getSrc(), is("DropdownButton"));
 
-        buttons = ((Submenu) buttons.get(9)).getButtonList().stream().map(AbstractButton.class::cast).toList();
+        buttons = ((Submenu) buttons.get(9)).getContent().stream().map(AbstractButton.class::cast).toList();
         checkButtons(buttons, AbstractButton::getLabel);
         assertThat(buttons.get(9).getSrc(), is("StandardButton"));
         assertThat(buttons.get(9).getId(), is("action1"));
@@ -55,7 +55,7 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
         checkButtons(buttons, AbstractButton::getHint);
         assertThat(buttons.get(9).getSrc(), is("DropdownButton"));
 
-        buttons = ((Submenu) buttons.get(9)).getButtonList().stream().map(AbstractButton.class::cast).toList();
+        buttons = ((Submenu) buttons.get(9)).getContent().stream().map(AbstractButton.class::cast).toList();
         checkButtons(buttons, AbstractButton::getLabel);
         assertThat(buttons.get(9).getSrc(), is("StandardButton"));
         assertThat(buttons.get(9).getId(), is("action2"));
