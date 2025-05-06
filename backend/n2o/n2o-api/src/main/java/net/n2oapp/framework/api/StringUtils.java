@@ -408,11 +408,10 @@ public abstract class StringUtils {
      */
     public static String removeSpaces(String value) {
         StringJoiner trimmedText = new StringJoiner("\n");
-        Arrays.stream(value.split("\n")).map(String::trim).forEach(s -> {
-            if (!s.isBlank()) {
-                trimmedText.add(s);
-            }
-        });
+        Arrays.stream(value.split("\n"))
+                .map(String::trim)
+                .filter(s -> !s.isBlank())
+                .forEach(trimmedText::add);
        return trimmedText.toString();
     }
 }

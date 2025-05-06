@@ -22,8 +22,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
-import static net.n2oapp.framework.api.StringUtils.hasLink;
-import static net.n2oapp.framework.api.StringUtils.isJs;
+import static net.n2oapp.framework.api.StringUtils.*;
 
 /**
  * Утилитный класс для генерации js скриптов
