@@ -125,7 +125,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                             tab.getLabel()));
         Condition condition = new Condition();
         condition.setExpression(unwrapLink(linkCondition));
-        condition.setModelLink(new ModelLink(model, tab.getDatasource()).getBindLink());
+        condition.setModelLink(new ModelLink(model, tab.getDatasource()).getLink());
         tab.getConditions().put(type, List.of(condition));
     }
 

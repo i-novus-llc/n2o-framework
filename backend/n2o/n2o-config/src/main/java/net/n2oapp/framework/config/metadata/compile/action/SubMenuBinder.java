@@ -16,7 +16,7 @@ public class SubMenuBinder implements BaseMetadataBinder<Submenu> {
 
     @Override
     public Submenu bind(Submenu submenu, BindProcessor p) {
-        for (PerformButton item : submenu.getSubMenu()) {
+        for (PerformButton item : submenu.getButtonList()) {
             p.bind(item.getAction());
         }
         return submenu;

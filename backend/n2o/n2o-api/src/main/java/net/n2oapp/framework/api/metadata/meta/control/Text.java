@@ -10,8 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Text extends Field {
-    @JsonProperty
-    private String text;
+    @JsonProperty("text")
+    private String textStr;
     @JsonProperty
     private String format;
 }

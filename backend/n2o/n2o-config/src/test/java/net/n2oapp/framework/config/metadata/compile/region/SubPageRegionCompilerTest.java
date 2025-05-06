@@ -97,7 +97,7 @@ class SubPageRegionCompilerTest extends SourceCompileTestBase {
 
         Map<String, ModelLink> pathMappings = pageContext.getPathRouteMapping();
         assertThat(pathMappings.size(), is(1));
-        assertThat(pathMappings.get("parentId").getBindLink(), is("models.resolve['main'].id"));
+        assertThat(pathMappings.get("parentId").getLink(), is("models.resolve['main'].id"));
         assertThat(pathMappings.get("parentId").getValue(), nullValue());
         Map<String, ModelLink> queryMappings = pageContext.getQueryRouteMapping();
         assertThat(queryMappings.size(), is(0));

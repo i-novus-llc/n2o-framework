@@ -97,9 +97,9 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("paddingTop"), is("0"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("testTable5Compile_mi1"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getShowToggleIcon(), is(true));
-        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("testAction2"));
-        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
-        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getButtonList().get(0).getId(), is("testAction2"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getButtonList().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getButtonList().get(0).getStyle().get("paddingTop"), is("0"));
         //columns
         assertThat(table.getComponent().getHeader().getCells().size(), is(7));
 
@@ -262,7 +262,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
 
         //table filter gendersLink
         ModelLink gendersLink = ((StandardDatasource) page.getDatasources().get("page_main")).getProvider().getQueryMapping().get("main_genders_id");
-        assertThat(gendersLink.getBindLink(), is("models.filter['page_main']"));
+        assertThat(gendersLink.getLink(), is("models.filter['page_main']"));
         assertThat(gendersLink.getValue(), is("`genders.map(function(t){return t.id})`"));
         assertThat(page.getRoutes().getQueryMapping().get("main_genders_id").getOnSet(), is(gendersLink));
         assertThat(queryCtx.getFilters().stream().anyMatch(f -> f.getFilterId().equals("genders*.id")), is(true));
@@ -343,12 +343,12 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((SimpleColumn) columns.get(0)).getFilterField().getId(), is("name"));
 
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("w1_name");
-        assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_w1']"));
+        assertThat(query.getOnSet().getLink(), is("models.filter['testFilterColumns_w1']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
         BindLink link = ((StandardDatasource) page.getDatasources().get("testFilterColumns_w1")).getProvider().getQueryMapping().get("w1_name");
         assertThat(link.getValue(), is("`name`"));
-        assertThat(link.getBindLink(), is("models.filter['testFilterColumns_w1']"));
+        assertThat(link.getLink(), is("models.filter['testFilterColumns_w1']"));
 
         List<Cell> cells = ((Table) page.getWidget()).getComponent().getBody().getCells();
         assertThat(cells.get(0), instanceOf(BadgeCell.class));
@@ -387,12 +387,12 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
 
         // проверка компиляции фильтруемого столбца внутри мульти-столбца
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
-        assertThat(query.getOnSet().getBindLink(), is("models.filter['testMultiColumn_table']"));
+        assertThat(query.getOnSet().getLink(), is("models.filter['testMultiColumn_table']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 
         BindLink link = ((StandardDatasource) page.getDatasources().get("testMultiColumn_table")).getProvider().getQueryMapping().get("table_name");
         assertThat(link.getValue(), is("`name`"));
-        assertThat(link.getBindLink(), is("models.filter['testMultiColumn_table']"));
+        assertThat(link.getLink(), is("models.filter['testMultiColumn_table']"));
 
         baseColumns = ((MultiColumn) baseColumns.get(0)).getChildren();
         assertThat(baseColumns.size(), is(2));
@@ -617,12 +617,12 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertEquals("testRoutable_table", ((RoutablePayload) routes.getQueryMapping().get("page").getOnGet().getPayload()).getId());
         assertEquals(":page", ((RoutablePayload) routes.getQueryMapping().get("page").getOnGet().getPayload()).getParams().get("paging.page"));
         assertFalse(((RoutablePayload) routes.getQueryMapping().get("page").getOnGet().getPayload()).getParams().containsKey("paging.size"));
-        assertEquals("datasource.testRoutable_table.paging.page", (routes.getQueryMapping().get("page").getOnSet().getBindLink()));
+        assertEquals("datasource.testRoutable_table.paging.page", (routes.getQueryMapping().get("page").getOnSet().getLink()));
         assertEquals("n2o/api/datasource/mapParam", routes.getQueryMapping().get("size").getOnGet().getType());
         assertEquals("testRoutable_table", ((RoutablePayload) routes.getQueryMapping().get("size").getOnGet().getPayload()).getId());
         assertEquals(":size", ((RoutablePayload) routes.getQueryMapping().get("size").getOnGet().getPayload()).getParams().get("paging.size"));
         assertFalse(((RoutablePayload) routes.getQueryMapping().get("size").getOnGet().getPayload()).getParams().containsKey("paging.page"));
-        assertEquals("datasource.testRoutable_table.paging.size", (routes.getQueryMapping().get("size").getOnSet().getBindLink()));
+        assertEquals("datasource.testRoutable_table.paging.size", (routes.getQueryMapping().get("size").getOnSet().getLink()));
     }
 
     @Test
@@ -638,11 +638,11 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertEquals("testRoutableManyWidgets_ds1", ((RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload()).getId());
         assertEquals(":table_page", ((RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload()).getParams().get("paging.page"));
         assertFalse(((RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload()).getParams().containsKey("paging.size"));
-        assertEquals("datasource.testRoutableManyWidgets_ds1.paging.page", (routes.getQueryMapping().get("table_page").getOnSet().getBindLink()));
+        assertEquals("datasource.testRoutableManyWidgets_ds1.paging.page", (routes.getQueryMapping().get("table_page").getOnSet().getLink()));
         assertEquals("n2o/api/datasource/mapParam", routes.getQueryMapping().get("table_size").getOnGet().getType());
         assertEquals("testRoutableManyWidgets_ds1", ((RoutablePayload) routes.getQueryMapping().get("table_size").getOnGet().getPayload()).getId());
         assertEquals(":table_size", ((RoutablePayload) routes.getQueryMapping().get("table_size").getOnGet().getPayload()).getParams().get("paging.size"));
         assertFalse(((RoutablePayload) routes.getQueryMapping().get("table_size").getOnGet().getPayload()).getParams().containsKey("paging.page"));
-        assertEquals("datasource.testRoutableManyWidgets_ds1.paging.size", (routes.getQueryMapping().get("table_size").getOnSet().getBindLink()));
+        assertEquals("datasource.testRoutableManyWidgets_ds1.paging.size", (routes.getQueryMapping().get("table_size").getOnSet().getLink()));
     }
 }

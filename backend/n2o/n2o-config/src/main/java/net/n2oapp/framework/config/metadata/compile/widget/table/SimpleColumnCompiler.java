@@ -80,7 +80,7 @@ public class SimpleColumnCompiler<S extends N2oSimpleColumn> extends BaseColumnC
                 ReduxModelEnum refModel = castDefault(visibility.getModel(), ReduxModelEnum.filter);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
-                condition.setModelLink(new ModelLink(refModel, datasourceId).getBindLink());
+                condition.setModelLink(new ModelLink(refModel, datasourceId).getLink());
                 if (!compiled.getConditions().containsKey(ValidationTypeEnum.visible)) {
                     compiled.getConditions().put(ValidationTypeEnum.visible, new ArrayList<>());
                 }

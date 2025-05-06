@@ -59,8 +59,8 @@ class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getLabel(), is("label"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getIcon(), is("icon"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getClassName(), is("class"));
-        assertThat(((Submenu)toolbar.getToolbar().get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("linkAction"));
-        assertThat(((Submenu)toolbar.getToolbar().get(0).getButtons().get(1)).getSubMenu().get(0).getVisible(), is("`test==1`"));
+        assertThat(((Submenu)toolbar.getToolbar().get(0).getButtons().get(1)).getButtonList().get(0).getId(), is("linkAction"));
+        assertThat(((Submenu)toolbar.getToolbar().get(0).getButtons().get(1)).getButtonList().get(0).getVisible(), is("`test==1`"));
 
         assertThat(toolbar.getToolbar().get(0).getButtons().get(2).getVisible(), is(false));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(2).getEnabled(), is(false));
@@ -106,7 +106,7 @@ class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(submenu.getConditions().get(ValidationTypeEnum.visible).get(0).getExpression(), is("value == 2"));
         assertThat(submenu.getVisible(), nullValue());
 
-        PerformButton button = submenu.getSubMenu().get(0);
+        PerformButton button = submenu.getButtonList().get(0);
         assertThat(button.getConditions().size(), is(1));
         assertThat(button.getConditions().get(ValidationTypeEnum.enabled).get(0).getModelLink(),
                 is("models.edit['testToolbarCellExternalDatasources_ds']"));

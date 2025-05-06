@@ -80,13 +80,13 @@ class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(detailProvider.getUrl(), is("n2o/data/testStandardPageDependency/detail"));
         Map<String, ModelLink> detailQueryMapping = ((StandardDatasource) page.getDatasources().get(detail.getDatasource())).getProvider().getQueryMapping();
         assertThat(detailQueryMapping.get("detail_parent_id").getParam(), is("detail_parent_id"));
-        assertThat(detailQueryMapping.get("detail_parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_master']"));
+        assertThat(detailQueryMapping.get("detail_parent_id").getLink(), is("models.resolve['testStandardPageDependency_master']"));
         assertThat(detailQueryMapping.get("detail_parent_id").getValue(), is("`id`"));
         ClientDataProvider panelProvider = ((StandardDatasource) page.getDatasources().get(panel.getDatasource())).getProvider();
         assertThat(panelProvider.getUrl(), is("n2o/data/testStandardPageDependency/panel1"));
         Map<String, ModelLink> panelQueryMapping = ((StandardDatasource) page.getDatasources().get(panel.getDatasource())).getProvider().getQueryMapping();
         assertThat(panelQueryMapping.get("panel1_parent_id").getParam(), is("panel1_parent_id"));
-        assertThat(panelQueryMapping.get("panel1_parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_detail']"));
+        assertThat(panelQueryMapping.get("panel1_parent_id").getLink(), is("models.resolve['testStandardPageDependency_detail']"));
         assertThat(panelQueryMapping.get("panel1_parent_id").getValue(), is("`parent.id`"));
 
         assertThat(((QueryContext) route("/testStandardPageDependency/detail", CompiledQuery.class))
@@ -106,10 +106,10 @@ class StandardPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testWidgetPrefilters"));
 
         ClientDataProvider detail1Ds = ((StandardDatasource) page.getDatasources().get("testWidgetPrefilters_detail1")).getProvider();
-        assertThat(detail1Ds.getQueryMapping().get("detail1_parent_id").getBindLink(), is("models.resolve['testWidgetPrefilters_master1']"));
+        assertThat(detail1Ds.getQueryMapping().get("detail1_parent_id").getLink(), is("models.resolve['testWidgetPrefilters_master1']"));
         assertThat(detail1Ds.getQueryMapping().get("detail1_parent_id").getValue(), is("`id`"));
         assertThat(detail1Ds.getQueryMapping().get("detail1_genders_id").getValue(), is(Arrays.asList(1, 2)));
-        assertThat(detail1Ds.getQueryMapping().get("nameParam").getBindLink(), nullValue());
+        assertThat(detail1Ds.getQueryMapping().get("nameParam").getLink(), nullValue());
         assertThat(detail1Ds.getQueryMapping().get("nameParam").getValue(), is("test"));
 
         QueryContext detail1QueryCtx = (QueryContext) route("/testWidgetPrefilters/detail1", CompiledQuery.class);
@@ -117,9 +117,9 @@ class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(detail1QueryCtx.getFilters().stream().map(Filter::getParam).toList(), hasItems("nameParam", "detail1_parent_id", "detail1_genders_id"));
 
         ClientDataProvider detail2Ds = ((StandardDatasource) page.getDatasources().get("testWidgetPrefilters_detail2")).getProvider();
-        assertThat(detail2Ds.getQueryMapping().get("detail2_name").getBindLink(), is("models.filter['testWidgetPrefilters_master2']"));
+        assertThat(detail2Ds.getQueryMapping().get("detail2_name").getLink(), is("models.filter['testWidgetPrefilters_master2']"));
         assertThat(detail2Ds.getQueryMapping().get("detail2_name").getValue(), is("`name`"));
-        assertThat(detail2Ds.getQueryMapping().get("detail2_genders_id").getBindLink(), is("models.filter['testWidgetPrefilters_master2']"));
+        assertThat(detail2Ds.getQueryMapping().get("detail2_genders_id").getLink(), is("models.filter['testWidgetPrefilters_master2']"));
         assertThat(detail2Ds.getQueryMapping().get("detail2_genders_id").getValue(), is("`genders.map(function(t){return t.id})`"));
 
         QueryContext detail2QueryCtx = (QueryContext) route("/testWidgetPrefilters/detail2", CompiledQuery.class);

@@ -215,7 +215,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 ModelLink link = new ModelLink(
                         castDefault(dep.getModel(), ReduxModelEnum.resolve),
                         datasourceId);
-                condition.setOn(link.getBindLink());
+                condition.setOn(link.getLink());
                 if (dep instanceof N2oVisibilityDependency) {
                     findByCondition(visibleConditions, unwrapped).ifPresent(visibleConditions::remove);
                     visibleConditions.add(condition);

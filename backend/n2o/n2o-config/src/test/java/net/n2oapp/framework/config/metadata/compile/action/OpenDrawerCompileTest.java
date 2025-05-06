@@ -161,7 +161,7 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         StandardDatasource datasource = (StandardDatasource) drawerPage.getDatasources().get(drawerPage.getWidget().getId());
         assertThat(datasource.getProvider().getUrl(), is("n2o/data/p/:id/update/w1"));
         assertThat(datasource.getProvider().getQueryMapping().size(), is(0));
-        assertThat(datasource.getProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
+        assertThat(datasource.getProvider().getPathMapping().get("id").getLink(), is("models.resolve['p_main']"));
         assertThat(datasource.getProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.query));
 
@@ -278,9 +278,9 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerPage.getBreadcrumb(), nullValue());
         StandardDatasource datasource = (StandardDatasource) drawerPage.getDatasources().get(drawerPage.getWidget().getId());
         assertThat(datasource.getProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/modal"));
-        assertThat(datasource.getProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
+        assertThat(datasource.getProvider().getPathMapping().get("id").getLink(), is("models.resolve['p_main']"));
         assertThat(datasource.getProvider().getPathMapping().get("id").getValue(), is("`id`"));
-        assertThat(datasource.getProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
+        assertThat(datasource.getProvider().getQueryMapping().get("name").getLink(), is("models.filter['p_second']"));
         assertThat(datasource.getProvider().getQueryMapping().get("name").getValue(), is("`name`"));
         assertThat(datasource.getProvider().getQueryMapping().get("modal_secondId").getParam(), is("modal_secondId"));
         assertThat(datasource.getProvider().getQueryMapping().get("modal_secondId").getValue(), is(1));
@@ -319,7 +319,7 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         OpenDrawer openDrawer = (OpenDrawer) ((Widget) rootPage.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("updateEditWithPrefilters").getAction();
-        assertThat(openDrawer.getPayload().getQueryMapping().get("id").getBindLink(), is("models.edit['p_main']"));
+        assertThat(openDrawer.getPayload().getQueryMapping().get("id").getLink(), is("models.edit['p_main']"));
 
         Page openDrawerPage = routeAndGet("/p/updateEditWithPrefilters", Page.class);
         assertThat(openDrawerPage.getId(), is("p_updateEditWithPrefilters"));

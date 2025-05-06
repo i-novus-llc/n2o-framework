@@ -64,31 +64,31 @@ class FieldModelsCompileTest extends SourceCompileTestBase {
 
         //parent select
         link = models.get("resolve['modalPage_info'].selectParentFull");
-        assertThat(link.getBindLink(), is("models.filter['_testForm']"));
+        assertThat(link.getLink(), is("models.filter['_testForm']"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("id"), is("`address.id`"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("name"), is("`address.name`"));
 
         assertThat(models.get("resolve['modalPage_info'].selectRefField").normalizeLink(), is("models.filter['_testForm'].address"));
 
         link = models.get("resolve['modalPage_info'].selectParentDefaults");
-        assertThat(link.getBindLink(), is("models.resolve['_form']"));
+        assertThat(link.getLink(), is("models.resolve['_form']"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("id"), is("`address.id`"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("name"), is("`address.name`"));
 
         //this
         link = models.get("resolve['modalPage_info'].selectThisFull");
-        assertThat(link.getBindLink(), is("models.filter['modalPage_testForm']"));
+        assertThat(link.getLink(), is("models.filter['modalPage_testForm']"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("id"), is("`address.id`"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("name"), is("`address.name`"));
 
         link = models.get("resolve['modalPage_info'].selectThisDefaults");
-        assertThat(link.getBindLink(), is("models.resolve['modalPage_info']"));
+        assertThat(link.getLink(), is("models.resolve['modalPage_info']"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("id"), is("`address.id`"));
         assertThat(((DefaultValues) link.getValue()).getValues().get("name"), is("`address.name`"));
         assertThat(link.isObserve(), is(false));
 
         link = models.get("resolve['modalPage_info'].id");
-        assertThat(link.getBindLink(), is("models.resolve['modalPage_info']"));
+        assertThat(link.getLink(), is("models.resolve['modalPage_info']"));
         assertThat(link.getValue(), is("`$.uuid()`"));
         assertThat(link.isObserve(), is(false));
     }

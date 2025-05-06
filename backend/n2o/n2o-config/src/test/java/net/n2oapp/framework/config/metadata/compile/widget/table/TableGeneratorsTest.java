@@ -143,7 +143,7 @@ class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(buttons.get(0), instanceOf(Submenu.class));
         assertThat(buttons.get(0).getIcon(), is("fa fa-gear"));
 
-        List<PerformButton> subMenuButtons = ((Submenu) buttons.get(0)).getSubMenu();
+        List<PerformButton> subMenuButtons = ((Submenu) buttons.get(0)).getButtonList();
         assertThat(subMenuButtons.get(0).getLabel(), is("Фильтры"));
         assertThat(subMenuButtons.get(0).getIcon(), nullValue());
         assertThat(subMenuButtons.get(0).getHint(), nullValue());

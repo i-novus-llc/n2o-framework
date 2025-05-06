@@ -52,9 +52,9 @@ class PageBinderTest extends SourceCompileTestBase {
                 .get(new PageContext("testPageBinders"), new DataSet());
 
         assertThat(page.getModels().get("resolve['testPageBinders_main'].name").getValue(), is("Test"));
-        assertThat(page.getModels().get("resolve['testPageBinders_main'].gender").getBindLink(), is("models.resolve['testPageBinders_main'].gender"));
+        assertThat(page.getModels().get("resolve['testPageBinders_main'].gender").getLink(), is("models.resolve['testPageBinders_main'].gender"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].gender").getValue()).getValues().get("id"), is("Test"));
-        assertThat(page.getModels().get("resolve['testPageBinders_main'].birthday").getBindLink(), is("models.resolve['testPageBinders_main']"));
+        assertThat(page.getModels().get("resolve['testPageBinders_main'].birthday").getLink(), is("models.resolve['testPageBinders_main']"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].birthday").getValue()).getValues().get("begin"), is("01.11.2018"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].birthday").getValue()).getValues().get("end"), is("11.11.2018"));
         assertThat(page.getModels().get("resolve['testPageBinders_main'].intervalTest.end").getValue(), is(156));
@@ -230,7 +230,7 @@ class PageBinderTest extends SourceCompileTestBase {
         //ссылка на родительский виджет
         ModelLink mainId = page.getModels().get("resolve['table_modal_dependent'].mainId");
         assertThat(mainId.isObserve(), is(true));
-        assertThat(mainId.getBindLink(), is("models.resolve['table_modal_main']"));
+        assertThat(mainId.getLink(), is("models.resolve['table_modal_main']"));
         assertThat(mainId.getValue(), is("`id`"));
         //ссылка на родительскую страницу
         ModelLink mainId2 = page.getModels().get("resolve['table_modal_dependent'].mainId2");

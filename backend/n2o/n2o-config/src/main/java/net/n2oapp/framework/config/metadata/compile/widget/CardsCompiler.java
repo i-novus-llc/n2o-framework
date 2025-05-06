@@ -50,7 +50,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         compileToolbarAndAction(cards, source, context, p, widgetScope, widgetActions, object, null);
 
         if (source.getContent() != null)
-            cards.setCards(compileCols(source.getContent(), context, p, object, widgetScope, widgetActions));
+            cards.setCardList(compileCols(source.getContent(), context, p, object, widgetScope, widgetActions));
         cards.setVerticalAlign(castDefault(source.getVerticalAlign(),
                 () -> p.resolve(property("n2o.api.widget.cards.vertical_align"), Cards.PositionEnum.class)));
         cards.setHeight(prepareSizeAttribute(castDefault(source.getHeight(),

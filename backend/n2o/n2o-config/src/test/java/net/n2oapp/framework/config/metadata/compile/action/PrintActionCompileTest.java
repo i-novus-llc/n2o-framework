@@ -54,12 +54,12 @@ class PrintActionCompileTest extends SourceCompileTestBase {
 
         assertThat(print2.getPayload().getUrl(), is("/test2/:param1/:param2?param3=:param3"));
         assertThat(print2.getPayload().getPathMapping().size(), is(2));
-        assertThat(print2.getPayload().getPathMapping().get("param1").getBindLink(), is("models.filter['page_secondWgt']"));
+        assertThat(print2.getPayload().getPathMapping().get("param1").getLink(), is("models.filter['page_secondWgt']"));
         assertThat(print2.getPayload().getPathMapping().get("param1").getValue(), is("`field1`"));
-        assertThat(print2.getPayload().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(print2.getPayload().getPathMapping().get("param2").getLink(), is("models.resolve['page_test']"));
         assertThat(print2.getPayload().getPathMapping().get("param2").getValue(), is("`field2`"));
         assertThat(print2.getPayload().getQueryMapping().size(), is(1));
-        assertThat(print2.getPayload().getQueryMapping().get("param3").getBindLink(), is("models.filter['page_secondWgt']"));
+        assertThat(print2.getPayload().getQueryMapping().get("param3").getLink(), is("models.filter['page_secondWgt']"));
         assertThat(print2.getPayload().getQueryMapping().get("param3").getValue(), is("`field3`"));
 
         PrintAction print3 = (PrintAction) toolbar.getButton("id3").getAction();
@@ -73,7 +73,7 @@ class PrintActionCompileTest extends SourceCompileTestBase {
 
         assertThat(linkSecond.getPayload().getUrl(), is("/test/:minPrice"));
         assertThat(linkSecond.getPayload().getPathMapping().size(), is(1));
-        assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
+        assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
 
         //Modal page
@@ -87,12 +87,12 @@ class PrintActionCompileTest extends SourceCompileTestBase {
         print2 = (PrintAction) modalPage.getWidget().getToolbar().getButton("id2").getAction();
         assertThat(print2.getPayload().getUrl(), is("/page/id4/test2/:param1/:param2?param3=:param3"));
         assertThat(print2.getPayload().getPathMapping().size(), is(2));
-        assertThat(print2.getPayload().getPathMapping().get("param1").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(print2.getPayload().getPathMapping().get("param1").getLink(), is("models.resolve['page_id4_test']"));
         assertThat(print2.getPayload().getPathMapping().get("param1").getValue(), is("`field1`"));
-        assertThat(print2.getPayload().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(print2.getPayload().getPathMapping().get("param2").getLink(), is("models.resolve['page_id4_test']"));
         assertThat(print2.getPayload().getPathMapping().get("param2").getValue(), is("`field2`"));
         assertThat(print2.getPayload().getQueryMapping().size(), is(1));
-        assertThat(print2.getPayload().getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(print2.getPayload().getQueryMapping().get("param3").getLink(), is("models.resolve['page_id4_test']"));
         assertThat(print2.getPayload().getQueryMapping().get("param3").getValue(), is("`field3`"));
 
         print3 = (PrintAction) modalPage.getWidget().getToolbar().getButton("id3").getAction();

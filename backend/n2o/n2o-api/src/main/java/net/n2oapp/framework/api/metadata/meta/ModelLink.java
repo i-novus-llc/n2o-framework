@@ -174,7 +174,7 @@ public class ModelLink extends BindLink {
         if ((first.getValue() == null && second.getValue() == null) ||
                 (first.getValue() != null && second.getValue() != null))
             return firstSubModelQueryLink.startsWith(secondSubModelQueryLink + ".");
-        return first.getBindLink().equals(second.getBindLink());
+        return first.getLink().equals(second.getLink());
     }
 
     private static String createBindLink(ReduxModelEnum model, String widgetId, String fieldId) {

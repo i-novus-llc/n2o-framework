@@ -123,7 +123,7 @@ class ToolbarCompileTest extends SourceCompileTestBase {
 
         assertThat(f.getToolbar().size(), is(2));
         Submenu button = (Submenu) f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
-        PerformButton item = button.getSubMenu().get(0);
+        PerformButton item = button.getButtonList().get(0);
         assertThat(item.getId(), is("tesId10"));
     }
 

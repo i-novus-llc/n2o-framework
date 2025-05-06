@@ -58,12 +58,12 @@ class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(link2.getUrl(), is("/test2/:param1/:param2?param3=:param3"));
         assertThat(link2.getTarget(), is(TargetEnum.application));
         assertThat(link2.getPathMapping().size(), is(2));
-        assertThat(link2.getPathMapping().get("param1").getBindLink(), is("models.filter['page_secondWgt']"));
+        assertThat(link2.getPathMapping().get("param1").getLink(), is("models.filter['page_secondWgt']"));
         assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
-        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(link2.getPathMapping().get("param2").getLink(), is("models.resolve['page_test']"));
         assertThat(link2.getPathMapping().get("param2").getValue(), is("`field2`"));
         assertThat(link2.getQueryMapping().size(), is(1));
-        assertThat(link2.getQueryMapping().get("param3").getBindLink(), is("models.filter['page_secondWgt']"));
+        assertThat(link2.getQueryMapping().get("param3").getLink(), is("models.filter['page_secondWgt']"));
         assertThat(link2.getQueryMapping().get("param3").getValue(), is("`field3`"));
 
         LinkActionImpl link3 = (LinkActionImpl) toolbar.getButton("id3").getAction();
@@ -76,7 +76,7 @@ class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(linkSecond.getUrl(), is("/test/:minPrice"));
         assertThat(linkSecond.getTarget(), is(TargetEnum.newWindow));
         assertThat(linkSecond.getPathMapping().size(), is(1));
-        assertThat(linkSecond.getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
+        assertThat(linkSecond.getPathMapping().get("minPrice").getLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
 
         LinkActionImpl linkWithParam = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
@@ -97,12 +97,12 @@ class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(link2.getUrl(), is("/test2/:param1/:param2?param3=:param3"));
         assertThat(link2.getTarget(), is(TargetEnum.application));
         assertThat(link2.getPathMapping().size(), is(2));
-        assertThat(link2.getPathMapping().get("param1").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(link2.getPathMapping().get("param1").getLink(), is("models.resolve['page_id4_test']"));
         assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
-        assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(link2.getPathMapping().get("param2").getLink(), is("models.resolve['page_id4_test']"));
         assertThat(link2.getPathMapping().get("param2").getValue(), is("`field2`"));
         assertThat(link2.getQueryMapping().size(), is(1));
-        assertThat(link2.getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_id4_test']"));
+        assertThat(link2.getQueryMapping().get("param3").getLink(), is("models.resolve['page_id4_test']"));
         assertThat(link2.getQueryMapping().get("param3").getValue(), is("`field3`"));
 
         link3 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id3").getAction();
@@ -126,7 +126,7 @@ class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getQueryMapping().size(), is(1));
         assertThat(menuItem.getQueryMapping().get("name").getModel(), is(ReduxModelEnum.resolve));
         assertThat(menuItem.getQueryMapping().get("name").getDatasource(), is("doc"));
-        assertThat(menuItem.getQueryMapping().get("name").getBindLink(), is("models.resolve['doc']"));
+        assertThat(menuItem.getQueryMapping().get("name").getLink(), is("models.resolve['doc']"));
         assertThat(menuItem.getQueryMapping().get("name").getValue(), is("`name`"));
 
         menuItem = application.getSidebars().get(0).getMenu().getItems().get(1);
@@ -138,7 +138,7 @@ class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getQueryMapping().size(), is(1));
         assertThat(menuItem.getQueryMapping().get("name").getModel(), is(ReduxModelEnum.resolve));
         assertThat(menuItem.getQueryMapping().get("name").getDatasource(), is("person"));
-        assertThat(menuItem.getQueryMapping().get("name").getBindLink(), is("models.resolve['person']"));
+        assertThat(menuItem.getQueryMapping().get("name").getLink(), is("models.resolve['person']"));
         assertThat(menuItem.getQueryMapping().get("name").getValue(), is("`name`"));
     }
 

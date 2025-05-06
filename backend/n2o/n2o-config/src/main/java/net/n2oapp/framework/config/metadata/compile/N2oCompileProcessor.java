@@ -428,7 +428,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
                 resultLink = new ModelLink(modelLink);
                 ((ModelLink) resultLink).setObserve(false);
             } else
-                resultLink = new BindLink(link.getBindLink());
+                resultLink = new BindLink(link.getLink());
             resultLink.setValue(value);
             return resultLink;
         }

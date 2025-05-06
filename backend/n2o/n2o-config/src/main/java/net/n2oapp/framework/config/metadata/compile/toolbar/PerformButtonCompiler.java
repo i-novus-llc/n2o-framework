@@ -176,7 +176,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         if (DisableOnEmptyModelTypeEnum.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
             Condition condition = new Condition();
             condition.setExpression("!$.isEmptyModel(this)");
-            condition.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
+            condition.setModelLink(new ModelLink(source.getModel(), clientDatasource).getLink());
 
             return condition;
         }
@@ -205,7 +205,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         String datasource = (dependency.getDatasource() != null) ?
                 getClientDatasourceId(dependency.getDatasource(), p) :
                 buttonDatasource;
-        condition.setModelLink(new ModelLink(refModel, datasource, null).getBindLink());
+        condition.setModelLink(new ModelLink(refModel, datasource, null).getLink());
         if (dependency instanceof N2oButton.EnablingDependency enablingDependency)
             condition.setMessage(enablingDependency.getMessage());
 
