@@ -310,7 +310,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 if (componentScope != null) {
                     N2oFilterColumn component = componentScope.unwrap(N2oFilterColumn.class);
                     if (component != null) {
-                        validations.forEach(v -> v.addEnablingCondition(String.format("%s || %s === 0",source.getId(),source.getId())));
+                        validations.forEach(v -> v.addEnablingCondition(String.format("%s || %s === 0", source.getId(), source.getId())));
                     }
                 }
             }
@@ -567,15 +567,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      */
     private ModelLink getDefaultValueModelLink(S source, CompileContext<?, ?> context, CompileProcessor p) {
         String clientDatasourceId = null;
-        switch (source.getRefPage()) {
-            case THIS:
-                clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), p);
-                break;
-            case PARENT:
-                if (context instanceof PageContext pageContext) {
-                    clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), pageContext.getParentClientPageId(), p);
-                } else
-                    throw new N2oException(String.format("Поле '%s' имеет атрибут 'ref-page=parent', но PageContext не найден", source.getId()));
+        if (Objects.requireNonNull(source.getRefPage()) == PageRefEnum.THIS) {
+            clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), p);
+        } else if (source.getRefPage() == PageRefEnum.PARENT) {
+            if (context instanceof PageContext pageContext) {
+                clientDatasourceId = getClientDatasourceId(source.getRefDatasourceId(), pageContext.getParentClientPageId(), p);
+            } else
+                throw new N2oException(String.format("Поле '%s' имеет атрибут 'ref-page=parent', но PageContext не найден", source.getId()));
         }
         ModelLink defaultValue;
         if (source.getRefFieldId() != null) {

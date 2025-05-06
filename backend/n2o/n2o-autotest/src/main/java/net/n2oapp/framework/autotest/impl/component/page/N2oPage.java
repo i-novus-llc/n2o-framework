@@ -20,6 +20,7 @@ import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
 import java.time.Duration;
+import java.util.Objects;
 
 import static com.codeborne.selenide.CheckResult.Verdict.ACCEPT;
 import static com.codeborne.selenide.CheckResult.Verdict.REJECT;
@@ -107,13 +108,10 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public void shouldHaveLayout(NavigationLayoutEnum layout) {
-        switch (layout) {
-            case fullSizeHeader:
-                element().$(".n2o-layout-full-size-header").should(Condition.exist);
-                break;
-            case fullSizeSidebar:
-                element().$(".n2o-layout-full-size-sidebar").should(Condition.exist);
-                break;
+        if (Objects.requireNonNull(layout) == NavigationLayoutEnum.fullSizeHeader) {
+            element().$(".n2o-layout-full-size-header").should(Condition.exist);
+        } else if (layout == NavigationLayoutEnum.fullSizeSidebar) {
+            element().$(".n2o-layout-full-size-sidebar").should(Condition.exist);
         }
     }
 

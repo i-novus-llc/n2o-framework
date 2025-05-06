@@ -48,7 +48,8 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
-import static net.n2oapp.framework.config.util.PageContextCompileUtil.*;
+import static net.n2oapp.framework.config.util.PageContextCompileUtil.initMapping;
+import static net.n2oapp.framework.config.util.PageContextCompileUtil.initParentDatasourceIdsMap;
 
 /**
  * Абстрактная реализация компиляция open-page, show-modal
@@ -337,70 +338,65 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             Boolean closeOnSuccess = castDefault(source.getCloseAfterSubmit(), true);
             Boolean refreshOnSuccessSubmit = castDefault(source.getRefreshAfterSubmit(), true);
 
-            switch (submitActionType) {
-                case copy: {
-                    N2oCopyAction copyAction = new N2oCopyAction();
-                    copyAction.setSourceModel(source.getCopyModel());
-                    copyAction.setSourceDatasourceId(source.getCopyDatasourceId());
-                    copyAction.setSourceFieldId(source.getCopyFieldId());
-                    copyAction.setTargetModel(source.getTargetModel());
-                    copyAction.setTargetPage(castDefault(source.getTargetPage(), PageRefEnum.PARENT));
-                    if (copyAction.getTargetPage().equals(PageRefEnum.PARENT)) {
-                        copyAction.setTargetDatasourceId(castDefault(source.getTargetDatasourceId(), () -> getLocalDatasourceId(p)));
-                    } else {
-                        copyAction.setTargetDatasourceId(source.getTargetDatasourceId());
-                    }
-                    copyAction.setTargetFieldId(source.getTargetFieldId());
-                    copyAction.setMode(source.getCopyMode());
-                    copyAction.setCloseOnSuccess(closeOnSuccess);
-                    actions = new N2oAction[]{copyAction};
-                    saveButtonModel = source.getCopyModel();
+            if (submitActionType == SubmitActionTypeEnum.copy) {
+                N2oCopyAction copyAction = new N2oCopyAction();
+                copyAction.setSourceModel(source.getCopyModel());
+                copyAction.setSourceDatasourceId(source.getCopyDatasourceId());
+                copyAction.setSourceFieldId(source.getCopyFieldId());
+                copyAction.setTargetModel(source.getTargetModel());
+                copyAction.setTargetPage(castDefault(source.getTargetPage(), PageRefEnum.PARENT));
+                if (copyAction.getTargetPage().equals(PageRefEnum.PARENT)) {
+                    copyAction.setTargetDatasourceId(castDefault(source.getTargetDatasourceId(), () -> getLocalDatasourceId(p)));
+                } else {
+                    copyAction.setTargetDatasourceId(source.getTargetDatasourceId());
                 }
-                break;
-                case invoke: {
-                    List<N2oAction> actionList = new ArrayList<>();
-                    N2oInvokeAction invokeAction = new N2oInvokeAction();
-                    actionList.add(invokeAction);
-                    if (refreshOnSuccessSubmit) {
-                        if (closeOnSuccess) {
-                            invokeAction.setCloseOnSuccess(false);
-                            invokeAction.setRefreshOnSuccess(false);
-                            String[] refreshDatasourceIds = getRefreshDatasourceId(source, p);
-                            for (String refreshDatasourceId : refreshDatasourceIds) {
-                                // добавляем refresh action для каждого датасурса
-                                N2oRefreshAction refreshAction = new N2oRefreshAction();
-                                refreshAction.setDatasourceId("parent_" + refreshDatasourceId);
-                                actionList.add(refreshAction);
-                                // добавляем parent-datasource чтобы в модалке был этот датасурс
-                                if (context.getDatasources() == null)
-                                    context.setDatasources(new ArrayList<>());
-                                N2oParentDatasource parentDatasource = new N2oParentDatasource("parent_" + refreshDatasourceId, refreshDatasourceId, false);
-                                context.getDatasources().add(parentDatasource);
-                            }
-                            N2oCloseAction closeAction = new N2oCloseAction();
-                            closeAction.setPrompt(false);
-                            actionList.add(closeAction);
-                        } else {
-                            invokeAction.setRefreshOnSuccess(true);
-                            invokeAction.setCloseOnSuccess(false);
-                            invokeAction.setRefreshDatasourceIds(source.getRefreshDatasourceIds());
-                        }
-                    } else {
-                        invokeAction.setCloseOnSuccess(closeOnSuccess);
+                copyAction.setTargetFieldId(source.getTargetFieldId());
+                copyAction.setMode(source.getCopyMode());
+                copyAction.setCloseOnSuccess(closeOnSuccess);
+                actions = new N2oAction[]{copyAction};
+                saveButtonModel = source.getCopyModel();
+            } else if (submitActionType == SubmitActionTypeEnum.invoke) {
+                List<N2oAction> actionList = new ArrayList<>();
+                N2oInvokeAction invokeAction = new N2oInvokeAction();
+                actionList.add(invokeAction);
+                if (refreshOnSuccessSubmit) {
+                    if (closeOnSuccess) {
+                        invokeAction.setCloseOnSuccess(false);
                         invokeAction.setRefreshOnSuccess(false);
+                        String[] refreshDatasourceIds = getRefreshDatasourceId(source, p);
+                        for (String refreshDatasourceId : refreshDatasourceIds) {
+                            // добавляем refresh action для каждого датасурса
+                            N2oRefreshAction refreshAction = new N2oRefreshAction();
+                            refreshAction.setDatasourceId("parent_" + refreshDatasourceId);
+                            actionList.add(refreshAction);
+                            // добавляем parent-datasource чтобы в модалке был этот датасурс
+                            if (context.getDatasources() == null)
+                                context.setDatasources(new ArrayList<>());
+                            N2oParentDatasource parentDatasource = new N2oParentDatasource("parent_" + refreshDatasourceId, refreshDatasourceId, false);
+                            context.getDatasources().add(parentDatasource);
+                        }
+                        N2oCloseAction closeAction = new N2oCloseAction();
+                        closeAction.setPrompt(false);
+                        actionList.add(closeAction);
+                    } else {
+                        invokeAction.setRefreshOnSuccess(true);
+                        invokeAction.setCloseOnSuccess(false);
+                        invokeAction.setRefreshDatasourceIds(source.getRefreshDatasourceIds());
                     }
-
-                    if (source.getRedirectUrlAfterSubmit() != null) {
-                        invokeAction.setRedirectTarget(castDefault(source.getRedirectTargetAfterSubmit(),
-                                () -> (RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? TargetEnum.application : TargetEnum.self)));
-                        invokeAction.setRedirectUrl(source.getRedirectUrlAfterSubmit());
-                    }
-
-                    invokeAction.setOperationId(source.getSubmitOperationId());
-                    actions = actionList.toArray(new N2oAction[0]);
-                    saveButtonModel = source.getSubmitModel();
+                } else {
+                    invokeAction.setCloseOnSuccess(closeOnSuccess);
+                    invokeAction.setRefreshOnSuccess(false);
                 }
-                break;
+
+                if (source.getRedirectUrlAfterSubmit() != null) {
+                    invokeAction.setRedirectTarget(castDefault(source.getRedirectTargetAfterSubmit(),
+                            () -> (RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? TargetEnum.application : TargetEnum.self)));
+                    invokeAction.setRedirectUrl(source.getRedirectUrlAfterSubmit());
+                }
+
+                invokeAction.setOperationId(source.getSubmitOperationId());
+                actions = actionList.toArray(new N2oAction[0]);
+                saveButtonModel = source.getSubmitModel();
             }
             saveButton.setLabel(castDefault(source.getSubmitLabel(), () -> p.getMessage("n2o.api.action.toolbar.button.submit.label")));
             saveButton.setActions(actions);
