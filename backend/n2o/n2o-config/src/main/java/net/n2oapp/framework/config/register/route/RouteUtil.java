@@ -222,7 +222,7 @@ public abstract class RouteUtil {
         }
         Set<String> pathParams = new HashSet<>(getParams(url));
         if (whiteList != null) {
-            pathParams = pathParams.stream().filter(s -> whiteList.contains(s)).collect(Collectors.toSet());
+            pathParams = pathParams.stream().filter(whiteList::contains).collect(Collectors.toSet());
         }
         if (blackList != null) {
             pathParams.removeAll(blackList);

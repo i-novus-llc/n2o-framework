@@ -20,8 +20,8 @@ public class Contains_Contains implements Rule {
         Set res = new HashSet<>();
         List list1 = (List) left.getValue();
         List list2 = (List) right.getValue();
-        list1.stream().forEach(v -> res.add(v));
-        list2.stream().forEach(v -> res.add(v));
+        list1.stream().forEach(res::add);
+        list2.stream().forEach(res::add);
         if (res.isEmpty()) {
             return null;
         }

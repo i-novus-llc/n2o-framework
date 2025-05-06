@@ -43,13 +43,13 @@ public class N2oMetadataScannerFactory implements MetadataFactory<MetadataScanne
         for (MetadataScanner scanner : allScaners) {
             if (scanner instanceof OverrideInfoScanner infoScanner) {
                 overrideInfoScanners.add(infoScanner);
-            } else if (scanner instanceof DefaultInfoScanner){
+            } else if (scanner instanceof DefaultInfoScanner) {
                 sorted.addFirst(scanner);
             } else {
                 sorted.addLast(scanner);
             }
         }
-        overrideInfoScanners.forEach(s -> sorted.addLast(s));
+        overrideInfoScanners.forEach(sorted::addLast);
         return sorted;
     }
 
