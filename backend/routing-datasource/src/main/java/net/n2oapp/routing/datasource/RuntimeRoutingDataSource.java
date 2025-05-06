@@ -22,7 +22,7 @@ public abstract class RuntimeRoutingDataSource<T> extends AbstractDataSource {
 
     private DataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
 
-    private Map<T, DataSource> resolvedDataSources = new ConcurrentHashMap<T, DataSource>();
+    private Map<T, DataSource> resolvedDataSources = new ConcurrentHashMap<>();
 
     public void setDefaultTargetDataSource(DataSource defaultTargetDataSource) {
         this.defaultTargetDataSource = defaultTargetDataSource;
@@ -72,7 +72,7 @@ public abstract class RuntimeRoutingDataSource<T> extends AbstractDataSource {
         T lookupKey = determineCurrentLookupKey();
         T key = lookupKey != null ? lookupKey : defaultLookupKey;
         DataSource dataSource = key != null ? this.resolvedDataSources.get(key) : null;
-        if(dataSource == null) {
+        if (dataSource == null) {
             if (key != null && key.equals(defaultLookupKey) && defaultTargetDataSource != null) {
                 dataSource = defaultTargetDataSource;
             } else if (key != null && lazyDetermineDS) {

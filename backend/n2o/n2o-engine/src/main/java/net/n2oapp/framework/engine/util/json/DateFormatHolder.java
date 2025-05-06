@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateFormatHolder {
     private static final ThreadLocal<String> contextHolder =
-            new ThreadLocal<String>();
+            new ThreadLocal<>();
 
     public static void setDateFormat(String dateFormat) {
         contextHolder.set(dateFormat);
