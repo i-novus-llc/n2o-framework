@@ -34,6 +34,7 @@ public class LineFieldSetCompiler extends AbstractFieldSetCompiler<LineFieldSet,
                 () -> p.resolve(property("n2o.api.fieldset.line.expand"), Boolean.class)));
         fieldSet.setSrc(castDefault(source.getSrc(),
                 () -> p.resolve(property("n2o.api.fieldset.line.src"), String.class)));
+        fieldSet.setType("line");
         return fieldSet;
     }
 }

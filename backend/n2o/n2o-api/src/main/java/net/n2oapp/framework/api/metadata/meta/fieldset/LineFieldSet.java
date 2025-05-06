@@ -17,5 +17,5 @@ public class LineFieldSet extends FieldSet {
     @JsonProperty
     private Boolean expand;
     @JsonProperty
-    private final String type = "line";
+    private String type;
 }

@@ -46,6 +46,7 @@ class LineFieldSetCompileTest extends SourceCompileTestBase {
 
         LineFieldSet lineFieldSet = (LineFieldSet) fields.get(0);
         assertThat(lineFieldSet.getSrc(), is("LineFieldset"));
+        assertThat(lineFieldSet.getType(), is("line"));
         assertThat(lineFieldSet.getLabel(), is(nullValue()));
         assertThat(lineFieldSet.getCollapsible(), is(true));
         assertThat(lineFieldSet.getHasSeparator(), is(true));
