@@ -214,16 +214,16 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
 
     public void adapterV4() {
         if (nonNull(fields)) {
-            List<Filter> filters = new ArrayList<>();
+            List<Filter> filterList = new ArrayList<>();
             for (AbstractField field : fields) {
                 if (nonNull(((QuerySimpleField) field).getFilterList())) {
                     for (Filter filter : ((QuerySimpleField) field).getFilterList()) {
                         filter.setFieldId(field.getId());
-                        filters.add(filter);
+                        filterList.add(filter);
                     }
                 }
             }
-            setFilters(filters.toArray(new Filter[0]));
+            setFilters(filterList.toArray(new Filter[0]));
         }
     }
 }

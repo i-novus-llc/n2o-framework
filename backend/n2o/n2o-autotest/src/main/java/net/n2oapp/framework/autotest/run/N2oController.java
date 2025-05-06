@@ -167,7 +167,7 @@ public class N2oController {
 
     private DataSet getBody(Object body) {
         if (body instanceof Map)
-            return new DataSet((Map<? extends String, ?>) body);
+            return new DataSet((Map<String, ?>) body);
         else {
             DataSet dataSet = new DataSet("$list", body);
             dataSet.put("$count", body != null ? ((List) body).size() : 0);
@@ -193,7 +193,7 @@ public class N2oController {
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
                 subModelsProcessor, messageBuilder, messagesConstructor));
         beans.put("operationController", new OperationController(dataProcessingStack,
-                operationProcessor, messageBuilder, environment, messagesConstructor));
+                operationProcessor, messageBuilder, messagesConstructor));
         beans.put("validationController", new ValidationController(serviceProvider, domainProcessor));
         beans.put("mergeValuesController", new MergeValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 messageBuilder));

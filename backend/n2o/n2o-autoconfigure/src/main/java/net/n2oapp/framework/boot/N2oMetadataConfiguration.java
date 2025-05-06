@@ -106,12 +106,11 @@ public class N2oMetadataConfiguration {
     @Bean(destroyMethod = "stop")
     @ConditionalOnMissingBean
     public ConfigStarter configStarter(N2oEventBus eventBus,
-                                       ConfigMetadataLocker locker,
                                        WatchDir watchDir,
                                        N2oApplicationBuilder applicationBuilder,
                                        XmlInfoScanner xmlInfoScanner) {
         Collection<String> configPaths = PathUtil.getConfigPaths(configPath, projectPaths, xmlInfoScanner.getPattern(), ignores);
-        return new ConfigStarter(applicationBuilder, eventBus, locker, watchDir, configPaths);
+        return new ConfigStarter(applicationBuilder, eventBus, watchDir, configPaths);
     }
 
     @Bean

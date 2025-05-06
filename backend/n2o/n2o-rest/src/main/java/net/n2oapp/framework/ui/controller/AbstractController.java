@@ -139,7 +139,7 @@ public abstract class AbstractController {
             dataSet.put("$count", bodyList.size());
             return dataSet;
         }
-        return new DataSet((Map<? extends String, ?>) body);
+        return new DataSet((Map<String, ?>) body);
     }
 
     private N2oPreparedCriteria prepareCriteria(CompiledQuery query, DataSet data, QueryContext queryCtx) {
@@ -147,9 +147,13 @@ public abstract class AbstractController {
         Integer page = data.getInteger("page");
         criteria.setPage(page != null ? page : 1);
         Integer size = data.getInteger("size");
-        criteria.setSize(
-                size != null ? size : (queryCtx.getQuerySize() != null ? queryCtx.getQuerySize() : 10)
-        );
+        if (size != null) {
+            criteria.setSize(size);
+        } else if (queryCtx.getQuerySize() != null) {
+            criteria.setSize(queryCtx.getQuerySize());
+        } else {
+            criteria.setSize(10);
+        }
         Integer count = data.getInteger("count");
         criteria.setCount(count);
         Boolean withCount = data.getBoolean("withCount");

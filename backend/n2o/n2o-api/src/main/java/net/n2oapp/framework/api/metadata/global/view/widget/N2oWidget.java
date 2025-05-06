@@ -92,27 +92,27 @@ public abstract class N2oWidget extends N2oMetadata
         if (getQueryId() != null || getDefaultValuesQueryId() != null || getPreFilters() != null ||
                 getObjectId() != null ||
                 this.getUpload() != null || getDependsOn() != null) {
-            N2oStandardDatasource datasource = new N2oStandardDatasource();
-            setDatasource(datasource);
-            datasource.setQueryId(getQueryId());
-            datasource.setObjectId(getObjectId());
-            datasource.setFilters(getPreFilters());
-            datasource.setRoute(getRoute());
+            N2oStandardDatasource standardDatasource = new N2oStandardDatasource();
+            setDatasource(standardDatasource);
+            standardDatasource.setQueryId(getQueryId());
+            standardDatasource.setObjectId(getObjectId());
+            standardDatasource.setFilters(getPreFilters());
+            standardDatasource.setRoute(getRoute());
 
             if (this.getUpload() != null) {
                 switch (this.getUpload()) {
                     case query:
-                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
+                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
                         break;
                     case merge:
-                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.merge);
+                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.merge);
                         break;
                     case defaults:
-                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.defaults);
-                        datasource.setQueryId(getDefaultValuesQueryId());
+                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.defaults);
+                        standardDatasource.setQueryId(getDefaultValuesQueryId());
                         break;
                     default:
-                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
+                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
                 }
             }
 
@@ -120,12 +120,12 @@ public abstract class N2oWidget extends N2oMetadata
                 N2oDatasource.FetchDependency fetchDependency = new N2oStandardDatasource.FetchDependency();
                 fetchDependency.setOn(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 fetchDependency.setModel(ReduxModelEnum.resolve);
-                datasource.setDependencies(new N2oDatasource.Dependency[]{fetchDependency});
+                standardDatasource.setDependencies(new N2oDatasource.Dependency[]{fetchDependency});
                 //поддержка master-detail связи
                 if (getDetailFieldId() != null) {
-                    List<N2oPreFilter> preFilters = datasource.getFilters() == null ?
+                    List<N2oPreFilter> preFilterList = standardDatasource.getFilters() == null ?
                             new ArrayList<>() :
-                            new ArrayList<>(Arrays.asList(datasource.getFilters()));
+                            new ArrayList<>(Arrays.asList(standardDatasource.getFilters()));
                     String value = Placeholders.ref(getMasterFieldId() == null ? QuerySimpleField.PK : getMasterFieldId());
                     N2oPreFilter masterFilter = new N2oPreFilter(getDetailFieldId(), value, FilterTypeEnum.eq);
                     String param = getMasterParam();
@@ -136,15 +136,15 @@ public abstract class N2oWidget extends N2oMetadata
                     masterFilter.setModel(ReduxModelEnum.resolve);
                     masterFilter.setDatasourceId(getDependsOn());
                     masterFilter.setRequired(true);
-                    preFilters.add(masterFilter);
-                    datasource.setFilters(preFilters.toArray(new N2oPreFilter[0]));
+                    preFilterList.add(masterFilter);
+                    standardDatasource.setFilters(preFilterList.toArray(new N2oPreFilter[0]));
                 }
-                if (datasource.getFilters() != null) {
-                    for (N2oPreFilter filter : datasource.getFilters())
+                if (standardDatasource.getFilters() != null) {
+                    for (N2oPreFilter filter : standardDatasource.getFilters())
                         filter.setDatasourceId(getDependsOn());
                 }
             }
-            datasource.setSize(getSize());
+            standardDatasource.setSize(getSize());
             if (getVisible() != null) {
                 N2oVisibilityDependency visibilityDependency = new N2oVisibilityDependency();
                 visibilityDependency.setValue(StringUtils.unwrapLink(getVisible()));

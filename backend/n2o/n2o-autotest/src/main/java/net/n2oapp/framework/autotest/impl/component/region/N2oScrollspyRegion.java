@@ -9,6 +9,7 @@ import net.n2oapp.framework.autotest.api.component.region.ScrollspyRegion;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  * Регион с отслеживанием прокрутки для автотестирования
@@ -43,13 +44,10 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
     @Override
     public void menuShouldHavePosition(MenuPositionEnum position) {
         SelenideElement element = element().parent().$(".position-right");
-        switch (position) {
-            case left:
-                element.shouldNotBe(Condition.exist);
-                break;
-            case right:
-                element.shouldHave(Condition.exist);
-                break;
+        if (Objects.requireNonNull(position) == MenuPositionEnum.left) {
+            element.shouldNotBe(Condition.exist);
+        } else if (position == MenuPositionEnum.right) {
+            element.shouldHave(Condition.exist);
         }
     }
 
@@ -58,10 +56,12 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
         public N2oContentItem(SelenideElement element) {
             setElement(element);
         }
+
         @Override
         public RegionItems content() {
             return content("nested-content");
         }
+
         @Override
         public RegionItems content(String className) {
             return N2oSelenide.collection(firstLevelElements(".n2o-scroll-spy-region__content", "." + className), RegionItems.class);
@@ -79,6 +79,7 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
 
 
     }
+
     public static class N2oMenu extends N2oComponent implements Menu {
 
         public N2oMenu(SelenideElement element) {
@@ -132,6 +133,7 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
             return element().$$(".n2o-scroll-spy-region__group-items");
         }
     }
+
     public static class N2oMenuItem extends N2oComponent implements MenuItem {
 
         public N2oMenuItem(SelenideElement element) {

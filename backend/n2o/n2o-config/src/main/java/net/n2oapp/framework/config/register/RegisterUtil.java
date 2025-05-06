@@ -6,8 +6,6 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
-import net.n2oapp.framework.config.reader.XmlMetadataLoader;
-import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
 import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import org.slf4j.Logger;
@@ -24,7 +22,7 @@ import java.util.function.Function;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegisterUtil {
     private static final Logger log = LoggerFactory.getLogger(RegisterUtil.class);
-    public static String DEFAULT_DYNAMIC_LOCAL_PATH = "java/override/";
+    public static final String DEFAULT_DYNAMIC_LOCAL_PATH = "java/override/";
 
     /**
      * Получить ConfigId по локальному пути файла

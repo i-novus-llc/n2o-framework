@@ -38,7 +38,6 @@ public class Permission {
     private boolean allowed;
     private String detailedMessage;
     private String techMessage;
-    private Object placeholders;
 
     public Permission(boolean allowed) {
         this.allowed = allowed;
@@ -50,10 +49,6 @@ public class Permission {
 
     public void setTechMessage(String techMessage) {
         this.techMessage = techMessage;
-    }
-
-    public void setPlaceholders(Object placeholders) {
-        this.placeholders = placeholders;
     }
 
     public boolean isAllowed() {

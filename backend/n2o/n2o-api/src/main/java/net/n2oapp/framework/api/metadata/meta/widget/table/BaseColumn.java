@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnF
 import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public abstract class BaseColumn extends AbstractColumn implements JsonPropertie
     @JsonProperty
     private ColumnFixedPositionEnum fixed;
     @JsonProperty
-    private Map<ValidationTypeEnum, List<Condition>> conditions = new HashMap<>();
+    private Map<ValidationTypeEnum, List<Condition>> conditions = new EnumMap<>(ValidationTypeEnum.class);
     @JsonProperty
     private Map<String, Object> elementAttributes = new HashMap<>();
     private Map<String, Object> properties;

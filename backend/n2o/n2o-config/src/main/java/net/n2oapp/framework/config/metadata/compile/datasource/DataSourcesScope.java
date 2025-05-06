@@ -10,7 +10,7 @@ public class DataSourcesScope extends HashMap<String, N2oAbstractDatasource> {
     public DataSourcesScope() {
     }
 
-    public DataSourcesScope(Map<? extends String, ? extends N2oAbstractDatasource> m) {
+    public DataSourcesScope(Map<String, ? extends N2oAbstractDatasource> m) {
         super(m);
     }
 }

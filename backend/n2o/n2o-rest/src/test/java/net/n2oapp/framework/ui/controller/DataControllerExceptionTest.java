@@ -25,7 +25,6 @@ import net.n2oapp.framework.engine.validation.N2oValidationModule;
 import net.n2oapp.framework.engine.validation.engine.ValidationProcessor;
 import net.n2oapp.framework.ui.controller.action.OperationController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
@@ -141,7 +140,7 @@ class DataControllerExceptionTest extends DataControllerTestBase {
         AlertMessageBuilder messageBuilder = new AlertMessageBuilder(builder.getEnvironment().getMessageSource(), null);
         N2oAlertMessagesConstructor messagesConstructor = new N2oAlertMessagesConstructor(messageBuilder);
         OperationController operationController = new OperationController(dataProcessingStack,
-                operationProcessor, messageBuilder, builder.getEnvironment(), messagesConstructor);
+                operationProcessor, messageBuilder, messagesConstructor);
         QueryController queryController = new QueryController(dataProcessingStack, queryProcessor, null,
                 messageBuilder, messagesConstructor);
         map.put("operationController", operationController);

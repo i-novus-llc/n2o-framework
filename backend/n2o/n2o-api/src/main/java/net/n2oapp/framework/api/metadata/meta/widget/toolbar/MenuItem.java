@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +35,7 @@ public class MenuItem extends Component implements IdAware {
     @JsonProperty
     private String hintPosition;
     @JsonProperty
-    private Map<ValidationTypeEnum, List<Condition>> conditions = new HashMap<>();
+    private Map<ValidationTypeEnum, List<Condition>> conditions = new EnumMap<>(ValidationTypeEnum.class);
     @JsonProperty
     private Boolean validate;
     @JsonProperty

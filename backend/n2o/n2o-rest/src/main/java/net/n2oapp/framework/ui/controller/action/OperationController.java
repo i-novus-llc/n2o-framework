@@ -2,7 +2,6 @@ package net.n2oapp.framework.ui.controller.action;
 
 import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.rest.ControllerTypeEnum;
 import net.n2oapp.framework.api.rest.SetDataResponse;
@@ -21,16 +20,13 @@ public class OperationController extends SetController {
 
     private final AlertMessageBuilder messageBuilder;
     private final AlertMessagesConstructor messagesConstructor;
-    private final MetadataEnvironment environment;
 
     public OperationController(DataProcessingStack dataProcessingStack,
                                N2oOperationProcessor operationProcessor,
                                AlertMessageBuilder messageBuilder,
-                               MetadataEnvironment environment,
                                AlertMessagesConstructor messagesConstructor) {
         super(dataProcessingStack, operationProcessor);
         this.messageBuilder = messageBuilder;
-        this.environment = environment;
         this.messagesConstructor = messagesConstructor;
     }
 

@@ -3,11 +3,9 @@ package net.n2oapp.framework.config.io.control.v3;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
 import net.n2oapp.framework.config.io.common.BadgeAwareIO;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOAware;
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ButtonFieldIOv3 extends ActionFieldIOv3<N2oButtonField> implements ControlIOv3, BadgeAwareIO<N2oButtonField>, ButtonIOAware<N2oButtonField> {
 
-    private final Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
     @Override
     public void io(Element e, N2oButtonField m, IOProcessor p) {

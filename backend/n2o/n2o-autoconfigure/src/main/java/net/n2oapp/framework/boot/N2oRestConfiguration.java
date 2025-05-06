@@ -76,9 +76,8 @@ public class N2oRestConfiguration {
     public OperationController operationController(DataProcessingStack dataProcessingStack,
                                                    N2oOperationProcessor operationProcessor,
                                                    AlertMessageBuilder messageBuilder,
-                                                   MetadataEnvironment environment,
                                                    AlertMessagesConstructor messagesConstructor) {
-        return new OperationController(dataProcessingStack, operationProcessor, messageBuilder, environment, messagesConstructor);
+        return new OperationController(dataProcessingStack, operationProcessor, messageBuilder, messagesConstructor);
     }
 
     @Bean
