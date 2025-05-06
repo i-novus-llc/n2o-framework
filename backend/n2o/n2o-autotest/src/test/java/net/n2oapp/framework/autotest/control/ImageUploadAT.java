@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -115,7 +116,8 @@ class ImageUploadAT extends AutoTestBase {
         imageUpload.shouldNotHaveDeleteButton(0);
     }
 
-    // убрали аннатоцию тест, потому что у selenide есть баг с загрузкой нескольких файлов и тест конфликтует с FileUploadAT
+    @Test
+    @Disabled("У selenide есть баг с загрузкой нескольких файлов и тест конфликтует с FileUploadAT")
     void multiImageUploadTest() {
         ImageUploadControl imageUpload = getFields().field("imageUpload3").control(ImageUploadControl.class);
         imageUpload.shouldBeEnabled();
