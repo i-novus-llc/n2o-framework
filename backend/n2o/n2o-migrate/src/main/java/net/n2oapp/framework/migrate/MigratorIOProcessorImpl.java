@@ -107,9 +107,9 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
         return entity;
     }
 
-    private void attribute(Element element, String name,
-                           Supplier getter, Consumer setter,
-                           Function<String, Object> valueFunction) {
+    private <T> void attribute(Element element, String name,
+                               Supplier<T> getter, Consumer<T> setter,
+                               Function<String, T> valueFunction) {
         if (isR()) {
             readAttribute(element, name, setter, valueFunction);
         } else {
@@ -117,9 +117,9 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
         }
     }
 
-    private void childAttribute(Element element, String childName, String name,
-                                Supplier getter, Consumer setter,
-                                Function<String, Object> valueFunction) {
+    private <T> void childAttribute(Element element, String childName, String name,
+                                    Supplier<T> getter, Consumer<T> setter,
+                                    Function<String, T> valueFunction) {
         Element child = element.getChild(childName, element.getNamespace());
         if (super.isR()) {
             if (child == null) return;
@@ -133,8 +133,8 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
         }
     }
 
-    private static void readAttribute(Element element, String name, Consumer setter,
-                                      Function<String, Object> valueFunction) {
+    private static <T> void readAttribute(Element element, String name, Consumer<T> setter,
+                                          Function<String, T> valueFunction) {
         Attribute attribute = element.getAttribute(name);
         if (attribute != null) {
             String value = attribute.getValue();
@@ -145,9 +145,10 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
                 setter.accept(valueFunction.apply(value));
             }
         }
+
     }
 
-    private static void writeAttribute(Element element, String name, Supplier getter) {
+    private static <T> void writeAttribute(Element element, String name, Supplier<T> getter) {
         if (getter.get() != null) {
             element.setAttribute(new Attribute(name, getter.get().toString()));
         } else if (MigratorInfoHolder.getProperty(name) != null) {

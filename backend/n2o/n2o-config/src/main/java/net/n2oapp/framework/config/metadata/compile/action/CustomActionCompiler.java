@@ -49,7 +49,7 @@ public class CustomActionCompiler extends AbstractMetaActionCompiler<CustomActio
                 Map<String, String> resolved = v.keySet().stream()
                         .collect(Collectors.toMap(Function.identity(), key -> p.resolveJS(v.get(key))));
                 Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(resolved, k.getUri(), p);
-                res = CompileUtil.resolveNestedAttributes(res, Function.identity());
+                res = CompileUtil.resolveNestedAttributes(res, s -> s);
                 if (!res.isEmpty()) {
                     payload.setAttributes(res);
                 }

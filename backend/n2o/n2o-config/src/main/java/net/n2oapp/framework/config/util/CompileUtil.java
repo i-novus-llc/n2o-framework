@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 /**
  * Утилита для генерации различных свойств во время компиляции
@@ -21,7 +21,7 @@ public class CompileUtil {
      * @return объемная мапа атрибутов
      */
     @SuppressWarnings("unchecked")
-    public static Map<String, Object> resolveNestedAttributes(Map<String, Object> attributes, Function<Object, Object> transformer) {
+    public static Map<String, Object> resolveNestedAttributes(Map<String, Object> attributes, UnaryOperator<Object> transformer) {
         Map<String, Object> result = new HashMap<>();
 
         for (Map.Entry<String, Object> entry : attributes.entrySet()) {

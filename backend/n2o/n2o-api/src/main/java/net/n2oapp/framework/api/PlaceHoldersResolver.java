@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.ToIntFunction;
 import java.util.regex.Pattern;
 
 /**
@@ -30,7 +31,7 @@ public class PlaceHoldersResolver {
     private String prefix;
     private String suffix;
     private Boolean onlyJavaVariable;
-    private Function<String, Integer> defaultSuffixIdx = str -> {
+    private ToIntFunction<String> defaultSuffixIdx = str -> {
         String[] ends = str.split("\\W");
         return ends.length > 0 ? ends[0].length() : 0;
     };
@@ -55,7 +56,7 @@ public class PlaceHoldersResolver {
      * @param onlyJavaVariable Учитывать плейсхолдеры соответствующие только спецификации java переменных
      * @param defaultSuffixIdx Функция вычисления индекса конца плейсхолдера
      */
-    public PlaceHoldersResolver(String prefix, String suffix, Boolean onlyJavaVariable, Function<String, Integer> defaultSuffixIdx) {
+    public PlaceHoldersResolver(String prefix, String suffix, Boolean onlyJavaVariable, ToIntFunction<String> defaultSuffixIdx) {
         this.prefix = prefix;
         this.suffix = suffix;
         this.defaultSuffixIdx = defaultSuffixIdx;
@@ -235,7 +236,7 @@ public class PlaceHoldersResolver {
                     sb.append(split[i].substring(idxNext));
                 }
             } else {
-                idxSuffix = defaultSuffixIdx.apply(split[i]);
+                idxSuffix = defaultSuffixIdx.applyAsInt(split[i]);
                 idxNext = idxSuffix;
                 if (idxSuffix == 0) {
                     sb.append(prefix);

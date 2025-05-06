@@ -1,5 +1,6 @@
 package net.n2oapp.framework.engine.data;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -7,14 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -138,7 +138,7 @@ public abstract class QueryUtil {
     }
 
     public static String replaceListPlaceholder(String baseQuery, String placeholder, Object list, String defaultValue,
-                                                Function<String, String> resolver,
+                                                UnaryOperator<String> resolver,
                                                 BinaryOperator<String> reducer) {
         if (!baseQuery.contains(placeholder)) return baseQuery;
         String clause = defaultValue;
@@ -150,7 +150,7 @@ public abstract class QueryUtil {
 
     public static String replaceListPlaceholder(String baseQuery, String placeholder, Object list,
                                                 String defaultValue, BinaryOperator<String> reducer) {
-        return replaceListPlaceholder(baseQuery, placeholder, list, defaultValue, Function.identity(), reducer);
+        return replaceListPlaceholder(baseQuery, placeholder, list, defaultValue, s -> s, reducer);
     }
 
     public static String reduceAnd(String a, String b) {
