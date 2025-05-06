@@ -167,7 +167,7 @@ public class N2oController {
 
     private DataSet getBody(Object body) {
         if (body instanceof Map)
-            return new DataSet((Map<? extends String, ?>) body);
+            return new DataSet((Map<String, ?>) body);
         else {
             DataSet dataSet = new DataSet("$list", body);
             dataSet.put("$count", body != null ? ((List) body).size() : 0);

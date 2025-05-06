@@ -27,7 +27,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
     public NestedMap() {
     }
 
-    public NestedMap(Map<? extends String, ?> m) {
+    public NestedMap(Map<String, ?> m) {
         putAll(m);
     }
 

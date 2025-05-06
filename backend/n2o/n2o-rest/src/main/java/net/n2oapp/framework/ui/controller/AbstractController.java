@@ -139,7 +139,7 @@ public abstract class AbstractController {
             dataSet.put("$count", bodyList.size());
             return dataSet;
         }
-        return new DataSet((Map<? extends String, ?>) body);
+        return new DataSet((Map<String, ?>) body);
     }
 
     private N2oPreparedCriteria prepareCriteria(CompiledQuery query, DataSet data, QueryContext queryCtx) {
