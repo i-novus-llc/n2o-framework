@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +58,7 @@ public class TabsRegion extends Region implements CompiledRegionItem {
         @JsonProperty
         private Object enabled;
         @JsonProperty
-        private Map<ValidationTypeEnum, List<Condition>> conditions = new HashMap<>();
+        private Map<ValidationTypeEnum, List<Condition>> conditions = new EnumMap<>(ValidationTypeEnum.class);
         private Map<String, Object> properties;
 
         @Override

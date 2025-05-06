@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +44,7 @@ public abstract class AbstractButton extends Component implements IdAware {
     @JsonProperty
     private String hintPosition;
     @JsonProperty
-    private Map<ValidationTypeEnum, List<Condition>> conditions = new HashMap<>();
+    private Map<ValidationTypeEnum, List<Condition>> conditions = new EnumMap<>(ValidationTypeEnum.class);
     @JsonProperty
     private Badge badge;
     @JsonProperty
