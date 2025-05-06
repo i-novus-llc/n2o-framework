@@ -9,6 +9,7 @@ import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  * Ячейка с текстом для автотестирования
@@ -29,13 +30,10 @@ public class N2oTextCell extends N2oCell implements TextCell {
     public void shouldHaveIconPosition(PositionEnum position) {
         SelenideElement iconContainer = element().$(".icon-cell-container");
         if (iconContainer.$(".n2o-icon").is(Condition.exist)) {
-            switch (position) {
-                case LEFT:
-                    iconContainer.shouldNotHave(Condition.cssClass("icon-cell-container__text-left"));
-                    break;
-                case RIGHT:
-                    iconContainer.shouldHave(Condition.cssClass("icon-cell-container__text-left"));
-                    break;
+            if (Objects.requireNonNull(position) == PositionEnum.LEFT) {
+                iconContainer.shouldNotHave(Condition.cssClass("icon-cell-container__text-left"));
+            } else if (position == PositionEnum.RIGHT) {
+                iconContainer.shouldHave(Condition.cssClass("icon-cell-container__text-left"));
             }
         }
     }

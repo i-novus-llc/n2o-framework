@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.metadata.meta.control.InputMoney;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
@@ -42,19 +44,14 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
     }
 
     private void compileDecimalMode(InputMoney inputMoney, N2oInputMoney source, CompileProcessor p) {
-        FractionFormattingEnum fractionFormatting =  castDefault(source.getFractionFormatting(),
+        FractionFormattingEnum fractionFormatting = castDefault(source.getFractionFormatting(),
                 () -> p.resolve(property("n2o.api.control.input_money.fraction_formatting"), FractionFormattingEnum.class));
-        switch (fractionFormatting) {
-            case manual: {
-                inputMoney.setAllowDecimal(true);
-                inputMoney.setRequireDecimal(false);
-                break;
-            }
-            case auto: {
-                inputMoney.setAllowDecimal(true);
-                inputMoney.setRequireDecimal(true);
-                break;
-            }
+        if (Objects.requireNonNull(fractionFormatting) == FractionFormattingEnum.manual) {
+            inputMoney.setAllowDecimal(true);
+            inputMoney.setRequireDecimal(false);
+        } else if (fractionFormatting == FractionFormattingEnum.auto) {
+            inputMoney.setAllowDecimal(true);
+            inputMoney.setRequireDecimal(true);
         }
     }
 }
