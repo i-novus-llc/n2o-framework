@@ -8,7 +8,6 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
-
 import lombok.Setter;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
@@ -64,7 +63,14 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
 
     @Override
     public Object invoke(N2oMongoDbDataProvider invocation, Map<String, Object> inParams) {
-        String dbName = invocation.getDatabaseName() != null ? invocation.getDatabaseName() : !StringUtils.isEmpty(databaseName) ? databaseName : springDatabaseName;
+        String dbName;
+        if (invocation.getDatabaseName() != null) {
+            dbName = invocation.getDatabaseName();
+        } else if (!StringUtils.isEmpty(databaseName)) {
+            dbName = databaseName;
+        } else {
+            dbName = springDatabaseName;
+        }
 
         if (invocation.getConnectionUrl() == null) {
             MongoCollection<Document> collection = mongoClient

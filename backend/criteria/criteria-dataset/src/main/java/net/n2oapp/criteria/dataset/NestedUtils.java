@@ -47,16 +47,21 @@ public abstract class NestedUtils {
         int endOfWord = -1;
         int dotIdx = key.indexOf('.');
         int spreadIdx = key.indexOf("*.");
-        endOfWord = dotIdx < 0 && spreadIdx < 0 ? -1
-                : dotIdx > 0 && spreadIdx < 0 ? dotIdx
-                : dotIdx < 0 && spreadIdx > 0 ? spreadIdx
-                : Math.min(dotIdx, spreadIdx);
+        endOfWord = calculateEndOfWord(dotIdx, spreadIdx);
         int bracketIdx = key.indexOf('[');
-        endOfWord = endOfWord < 0 && bracketIdx < 0 ? -1
-                : endOfWord > 0 && bracketIdx < 0 ? endOfWord
-                : endOfWord < 0 && bracketIdx > 0 ? bracketIdx
-                : Math.min(endOfWord, bracketIdx);
+        endOfWord = calculateEndOfWord(endOfWord, bracketIdx);
         return endOfWord;
+    }
+
+    private static int calculateEndOfWord(int firstIdx, int secondIdx) {
+        if (firstIdx < 0 && secondIdx < 0) {
+            return -1;
+        } else if (firstIdx > 0 && secondIdx < 0) {
+            return firstIdx;
+        } else if (firstIdx < 0 && secondIdx > 0) {
+            return secondIdx;
+        }
+        return Math.min(firstIdx, secondIdx);
     }
 
     public static void fillArray(List<Object> list, int idx) {

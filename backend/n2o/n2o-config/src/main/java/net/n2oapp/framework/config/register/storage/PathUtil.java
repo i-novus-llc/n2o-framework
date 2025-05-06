@@ -20,7 +20,10 @@ import java.util.*;
 public class PathUtil {
 
     public static String concatFileNameAndBasePath(String fileName, String basePath) {
-        return basePath != null ? basePath.endsWith("/") ? basePath + fileName : basePath + "/" + fileName : fileName;
+        if (basePath == null) {
+            return fileName;
+        }
+        return basePath.endsWith("/") ? basePath + fileName : basePath + "/" + fileName;
     }
 
     public static String convertPathToClasspathUri(String path) {

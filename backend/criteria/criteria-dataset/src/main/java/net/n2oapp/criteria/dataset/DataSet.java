@@ -25,7 +25,15 @@ public class DataSet extends NestedMap {
 
     public DataSet(Map<? extends String, ?> m) {
         super();
-        m.forEach((k, v) -> put(k, v instanceof DataSet dataSet ? new DataSet(dataSet) : v instanceof DataList dataList ? new DataList(dataList) : v));
+        m.forEach((k, v) -> {
+            if (v instanceof DataSet dataSet) {
+                put(k, new DataSet(dataSet));
+            } else if (v instanceof DataList dataList) {
+                put(k, new DataList(dataList));
+            } else {
+                put(k, v);
+            }
+        });
     }
 
     public String getId() {
