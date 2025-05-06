@@ -32,7 +32,7 @@ class ExamplesMetadataValidationTest extends N2oTestBase {
     private TestMetaDataRegister testMetaDataRegister = new TestMetaDataRegister();
     private String[] foldersToScan = {"/examples", "/uxcomponents", "/interactions", "/uxcases", "/versions", "/applications"};
 
-    public static String truncateFilePath(String uri) {
+    private static String truncateFilePath(String uri) {
         return uri.substring(uri.indexOf(CLASSES) + CLASSES.length());
     }
 
@@ -140,7 +140,8 @@ class ExamplesMetadataValidationTest extends N2oTestBase {
             Optional<UriMetadataId> first = uriUUIDMap.get(currentUri).stream().filter(uriId -> uriId.id.equals(parsedPath) && uriId.metadataClass.equals(sourceClass)).findFirst();
             if (first.isPresent())
                 return first.get().uuid;
-            else return uriUUIDMap.get(DEFAULT_XML).stream().filter(uriId -> uriId.id.equals(parsedPath) && uriId.metadataClass.equals(sourceClass)).findFirst().orElse(new UriMetadataId(id, id)).uuid;
+            else
+                return uriUUIDMap.get(DEFAULT_XML).stream().filter(uriId -> uriId.id.equals(parsedPath) && uriId.metadataClass.equals(sourceClass)).findFirst().orElse(new UriMetadataId(id, id)).uuid;
         }
     }
 }

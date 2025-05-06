@@ -8,7 +8,7 @@
     </count>
     <filters>
         <eq filter-id="id" field-id="id">{ _id: new ObjectId('#id') }</eq>
-        <in normalize="T(net.n2oapp.framework.test.MongodbDataProviderEngineTest).mapIdIn(#this)" domain="string" filter-id="idIn" field-id="id">{ _id: {$in: #idIn }}</in>
+        <in normalize="T(net.n2oapp.framework.test.TestMongoConfiguration).mapIdIn(#this)" domain="string" filter-id="idIn" field-id="id">{ _id: {$in: #idIn }}</in>
         <eq filter-id="name" field-id="name"/>
         <notEq filter-id="notName" field-id="name"/>
         <in domain="string[]" filter-id="userNameIn" field-id="name"/>

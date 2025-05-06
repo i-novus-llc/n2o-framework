@@ -31,7 +31,7 @@ class AutotestMetadataValidationTest extends N2oTestBase {
     private TestMetaDataRegister testMetaDataRegister = new TestMetaDataRegister();
     private String[] foldersToScan = {"/net/n2oapp/framework/autotest"};
 
-    public static String truncateFilePath(String uri) {
+    private static String truncateFilePath(String uri) {
         return uri.substring(uri.indexOf(CLASSES) + CLASSES.length());
     }
 

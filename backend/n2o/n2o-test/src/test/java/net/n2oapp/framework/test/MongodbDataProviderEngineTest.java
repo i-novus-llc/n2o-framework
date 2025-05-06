@@ -3,7 +3,6 @@ package net.n2oapp.framework.test;
 import de.flapdoodle.embed.mongo.config.Net;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -21,7 +20,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import static net.n2oapp.framework.boot.ObjectMapperConstructor.dataObjectMapper;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -372,13 +374,5 @@ class MongodbDataProviderEngineTest {
             this.id = id;
             this.name = name;
         }
-    }
-
-    // normalize method for testFilters() method
-    public static String mapIdIn(DataList ids) {
-        StringJoiner res = new StringJoiner(",", "[", "]");
-        for (Object o : ids)
-            res.add("new ObjectId('" + o + "')");
-        return res.toString();
     }
 }

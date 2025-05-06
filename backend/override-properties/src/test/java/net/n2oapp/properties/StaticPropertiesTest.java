@@ -36,7 +36,7 @@ class StaticPropertiesTest {
     }
 
 
-    public void testInitialization() {
+    private void testInitialization() {
         TestUtil.Closure getProperty = () -> StaticProperties.get("test.property");
         TestUtil.Closure initProperties = () -> new StaticProperties().setProperties(properties);
         //успешно инициализируемся properties
@@ -48,7 +48,7 @@ class StaticPropertiesTest {
     }
 
 
-    public void testGet() {
+    private void testGet() {
         //init
         properties.setProperty("test.property.string", "someString");
         properties.setProperty("test.property.boolean", "true");
@@ -86,7 +86,7 @@ class StaticPropertiesTest {
     }
 
 
-    public void testList() {
+    private void testList() {
         //init
         properties.setProperty("test.property.strings", "oleg; egor ; ; igor");
         properties.setProperty("test.property.numbers", "1, 2,    3, 7, 99");
