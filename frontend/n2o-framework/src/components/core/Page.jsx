@@ -18,6 +18,7 @@ import {
 import { ErrorContainer } from '../../core/error/Container'
 
 import withMetadata from './withMetadata'
+import withActions from './withActions'
 
 function Page(props) {
     const {
@@ -65,6 +66,7 @@ export default compose(
         }),
     ),
     withMetadata,
+    withActions,
     defaultProps({
         metadata: {},
         spinner: {},
