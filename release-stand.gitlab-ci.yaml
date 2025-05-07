@@ -17,13 +17,12 @@ extract_release_version:
 
 build:
   extends: .build maven
-  needs: [extract release version]
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^release\/[0-9]+\.[0-9]+$/'
 
 deploy dev stand:
   extends: .deploy
-  needs: [extract release version]
+  needs: [extract_release_version]
   environment: "dev-${RELEASE_VERSION}"
   variables:
     K8S_INGRESS_HOST: "${RELEASE_VERSION//./-}.n2oapp-dev.net"
