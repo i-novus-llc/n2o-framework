@@ -12,8 +12,11 @@ import { State } from '../../ducks/State'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { WithMetadata, type WithMetadataProps } from './withMetadata'
+import { WithActions, type WithActionsProps } from './withActions'
 
-export interface PageProps extends WithMetadataProps {
+type EnhancedProps = WithMetadataProps & WithActionsProps
+
+export interface PageProps extends EnhancedProps {
     spinner: Record<string, unknown>
     disabled: boolean
 }
@@ -59,5 +62,9 @@ function PageBody(props: PageProps) {
 
 const mapStateToProps = (state: State, { pageId }: PageProps) => ({ disabled: makePageDisabledByIdSelector(pageId)(state) })
 
-export const Page = flowRight(connect(mapStateToProps), WithMetadata<PageProps>)(PageBody)
+export const Page = flowRight(
+    connect(mapStateToProps),
+    WithMetadata<PageProps>,
+    WithActions<PageProps>,
+)(PageBody)
 export default Page

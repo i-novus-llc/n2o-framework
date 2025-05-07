@@ -12,13 +12,10 @@ import { ErrorContainer } from '../../core/error/Container'
 import { State } from '../../ducks/State'
 
 import { WithMetadata, type WithMetadataProps } from './withMetadata'
-import { WithActions, type WithActionsProps } from './withActions'
 import OverlayPages from './OverlayPages'
 import { PageProps } from './Page'
 
-type EnhancedProps = WithMetadataProps & WithActionsProps
-
-export interface RootPageProps extends EnhancedProps {
+export interface RootPageProps extends WithMetadataProps {
     spinner: Record<string, unknown>
     disabled: boolean
     defaultTemplate: ExoticComponent<{ children?: ReactNode }>
@@ -39,6 +36,7 @@ function RootPageBody(props: RootPageProps) {
     } = props
     const src = get(metadata, 'src')
     const regions = get(metadata, 'regions', {})
+    const toolbar = get(metadata, 'toolbar', {})
 
     return (
         <>
@@ -50,6 +48,7 @@ function RootPageBody(props: RootPageProps) {
                             src={src}
                             level={PAGES}
                             regions={regions}
+                            toolbar={toolbar}
                             {...props}
                             match={match}
                             rootPageId={rootPageId}
@@ -91,7 +90,6 @@ export const RootPage = flowRight(
     connect(mapStateToProps),
     WithComputedProps,
     WithMetadata<RootPageProps>,
-    WithActions<RootPageProps>,
 )(RootPageBody)
 
 export default RootPage
