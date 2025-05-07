@@ -6,6 +6,10 @@ include:
       - story.gitlab-ci.yml
       - merge-request.gitlab-ci.yml
 
+build maven:
+  variables:
+    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+
 build and verify:
   variables:
     MAVEN_GOAL: 'install'
