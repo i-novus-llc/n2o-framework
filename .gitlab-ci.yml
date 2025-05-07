@@ -1,0 +1,18 @@
+include:
+  - project: ${PIPELINE_REPOSITORY_PREFIX}devenv/gitlab/pipelines
+    ref: '3.2.2'
+    file:
+      - dev-stand.gitlab-ci.yml
+      - story.gitlab-ci.yml
+      - merge-request.gitlab-ci.yml
+
+build and verify:
+  variables:
+    MAVEN_GOAL: 'install'
+    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+
+autotesting mr stand:
+  extends: .autotesting mr stand
+  variables:
+    AUTOTEST_PARAMS: '-Pautotests'
+    AUTOTEST_MODULE_DIR: './backend/n2o/n2o-autotest'

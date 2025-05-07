@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.run;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -12,6 +13,7 @@ import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.properties.OverrideProperties;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -55,7 +57,7 @@ public class AutoTestBase extends N2oTestBase {
     public static void configureSelenide() {
         checkChromeDriver();
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
+        System.setProperty("chromeoptions.args", "--disable-dev-shm-usage,--no-sandbox,--verbose,--whitelisted-ips=''");
         System.setProperty("selenide.timeout", "20000");
         headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));
 
@@ -91,6 +93,11 @@ public class AutoTestBase extends N2oTestBase {
         for (LogEntry log : logs.get(LogType.BROWSER))
             if (log.getLevel() == Level.SEVERE)
                 System.out.println("BROWSER LOG:" + " " + log.getLevel() + " " + log.getMessage());
+    }
+
+    @AfterAll
+    static void tearDown() {
+        Selenide.closeWebDriver();
     }
 
     @Override
