@@ -1,4 +1,8 @@
-include: '.maven-k8s.gitlab-ci.yml'
+include:
+  - project: ${PIPELINE_REPOSITORY_PREFIX}devenv/gitlab/pipelines
+    ref: '3.2.2'
+    file:
+      - .maven-k8s.gitlab-ci.yml
 
 .extract_release_version:
   stage: prepare
