@@ -5,6 +5,7 @@ include:
       - dev-stand.gitlab-ci.yml
       - story.gitlab-ci.yml
       - merge-request.gitlab-ci.yml
+      - release-stand.gitlab-ci.yml
 
 build:
   variables:
@@ -20,3 +21,7 @@ autotesting mr stand:
   variables:
     AUTOTEST_PARAMS: '-Pautotests'
     AUTOTEST_MODULE_DIR: './backend/n2o/n2o-autotest'
+
+deploy dev stand:
+  variables:
+    K8S_INGRESS_HOST: 'next.n2oapp-dev.net'
