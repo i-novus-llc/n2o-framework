@@ -24,6 +24,8 @@ springServices:
     env:
       N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
       SPRING_PROFILES_ACTIVE: test
+      MONGO_HOST: 'sandbox-mongodb'
+      MONGO_PASSWORD: "passwd"
     replicaCount: 1
     contextPath: tests
     ingress:
