@@ -19,7 +19,6 @@ import { rootPageSelector } from '../../ducks/global/selectors'
 import { ErrorContainer } from '../../core/error/Container'
 
 import withMetadata from './withMetadata'
-import withActions from './withActions'
 import OverlayPages from './OverlayPages'
 
 function RootPage(props) {
@@ -31,6 +30,7 @@ function RootPage(props) {
     } = props
     const src = get(metadata, 'src')
     const regions = get(metadata, 'regions', {})
+    const toolbar = get(metadata, 'toolbar', {})
 
     return (
         <>
@@ -42,6 +42,7 @@ function RootPage(props) {
                             src={src}
                             level={PAGES}
                             regions={regions}
+                            toolbar={toolbar}
                             rootPage
                             {...props}
                         />
@@ -80,5 +81,4 @@ export default compose(
         }),
     ),
     withMetadata,
-    withActions,
 )(RootPage)
