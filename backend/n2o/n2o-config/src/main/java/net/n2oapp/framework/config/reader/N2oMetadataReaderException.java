@@ -18,7 +18,6 @@ public class N2oMetadataReaderException extends N2oException {
         this.type = type;
     }
 
-
     public String getMetadataId() {
         return metadataId;
     }

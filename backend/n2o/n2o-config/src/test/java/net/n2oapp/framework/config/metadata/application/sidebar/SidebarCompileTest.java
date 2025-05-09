@@ -86,24 +86,6 @@ class SidebarCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    void externalMenu() {
-        Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
-                "net/n2oapp/framework/config/metadata/application/sidebar/sidebarWithExternalMenu.application.xml",
-                "net/n2oapp/framework/config/metadata/application/testPage.page.xml",
-                "net/n2oapp/framework/config/metadata/application/testMenu.menu.xml")
-                .get(new ApplicationContext("sidebarWithExternalMenu"));
-
-        Sidebar sidebar = application.getSidebars().get(0);
-        assertThat(sidebar.getLogo().getHref(), is("http://google.com/"));
-        assertThat(sidebar.getMenu().getItems().size(), is(3));
-        assertThat(sidebar.getMenu().getItems().get(0).getSubItems().size(), is(2));
-        assertThat(sidebar.getMenu().getItems().get(0).getSubItems().get(0).getTitle(), is("test2"));
-        assertThat(sidebar.getMenu().getItems().get(0).getSubItems().get(0).getProperties().get("testAttr"), is("testAttribute"));
-        assertThat(sidebar.getMenu().getItems().get(0).getSubItems().get(0).getJsonProperties().get("testAttr"), is("testAttribute"));
-        assertThat(sidebar.getMenu().getItems().get(1).getTitle(), is("headerLabel"));
-    }
-
-    @Test
     void sidebars() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/sidebar/sidebars.application.xml")
                 .get(new ApplicationContext("sidebars"));

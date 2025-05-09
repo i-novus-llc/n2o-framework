@@ -1210,10 +1210,6 @@
           "name": "Ссылки в ячейках"
         },
         {
-          "templateId": "versions/7.0/case24",
-          "name": "Тестирование динамических страниц"
-        },
-        {
           "templateId": "versions/7.0/case25",
           "name": "Десериализация LocalDateTime"
         },

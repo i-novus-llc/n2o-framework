@@ -35,34 +35,6 @@ class ApplicationValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void  testHeaderMenuRefIdExistence() {
-        builder.sources(new CompileInfo("menuForHeaderValidation", N2oSimpleMenu.class));
-        validate("net/n2oapp/framework/config/metadata/application/header/applicationHeaderMenuValidate.application.xml");
-    }
-
-    @Test
-    void testHeaderMenuRefIdExistenceFail() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/application/header/applicationHeaderMenuValidateFail.application.xml"));
-        assertEquals("<menu> хедера приложения 'applicationHeaderMenuValidateFail' ссылается на несуществующий 'ref-id = test'", exception.getMessage());
-    }
-
-    @Test
-    void  testHeaderExtraMenuRefIdExistence() {
-        builder.sources(new CompileInfo("menuForHeaderValidation", N2oSimpleMenu.class));
-        validate("net/n2oapp/framework/config/metadata/application/header/applicationHeaderExtraMenuValidate.application.xml");
-    }
-
-    @Test
-    void testHeaderExtraMenuRefIdExistenceFail() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/application/header/applicationHeaderExtraMenuValidateFail.application.xml"));
-        assertEquals("<extra-menu> хедера приложения 'applicationHeaderExtraMenuValidateFail' ссылается на несуществующий 'ref-id = test'", exception.getMessage());
-    }
-
-    @Test
     void testCheckDatasourceIdsUnique() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,

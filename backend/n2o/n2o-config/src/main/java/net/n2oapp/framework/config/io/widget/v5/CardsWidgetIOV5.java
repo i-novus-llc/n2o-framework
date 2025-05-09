@@ -31,6 +31,7 @@ public class CardsWidgetIOV5 extends AbstractListWidgetElementIOv5<N2oCards> {
         p.attributeEnum(e, "vertical-align", t::getVerticalAlign, t::setVerticalAlign, Cards.PositionEnum.class);
         p.attribute(e, "height", t::getHeight, t::setHeight);
         p.children(e, "content", "col", t::getContent, t::setContent, N2oCards.N2oCol::new, this::col);
+        p.merge(t,getElementName());
     }
 
     private void col(Element e, N2oCards.N2oCol col, IOProcessor p) {

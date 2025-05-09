@@ -33,6 +33,7 @@ public class TilesWidgetIOV4 extends AbstractListWidgetElementIOv4<N2oTiles> {
         p.attribute(e, "width", t::getWidth, t::setWidth);
         p.attribute(e, "height", t::getHeight, t::setHeight);
         p.children(e, "content", "block", t::getContent, t::setContent, N2oBlock::new, this::block);
+        p.merge(t,getElementName());
     }
 
     private void block(Element e, N2oBlock b, IOProcessor p) {

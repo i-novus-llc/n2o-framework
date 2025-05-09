@@ -1,9 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.dynamic;
 
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.action.N2oShowModal;
+import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
@@ -22,7 +24,7 @@ import java.util.List;
 
 public class TestDynamicProvider implements DynamicMetadataProvider {
 
-    public static final String TEST_DYNAMIC = "testDynamic";
+    private static final String TEST_DYNAMIC = "testDynamic";
 
     @Override
     public String getCode() {
@@ -34,7 +36,9 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         N2oSimplePage page = new N2oSimplePage();
         N2oForm form = new N2oForm();
         form.setName(context);
-        form.setRefId("formForTestDynamic");
+        N2oInputText inputText = new N2oInputText();
+        inputText.setId("id");
+        form.setItems(new SourceComponent[]{inputText});
         form.setQueryId("testDynamic?Dummy");
         form.adapterV4();
         page.setWidget(form);
@@ -44,7 +48,7 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         n2oObject.setName(TEST_DYNAMIC + "Object");
 
         N2oQuery query = new N2oQuery();
-        query.setId(TEST_DYNAMIC + "?" +context);
+        query.setId(TEST_DYNAMIC + "?" + context);
         N2oQuery.Selection selection = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list);
         N2oSqlDataProvider invocation = new N2oSqlDataProvider();
         invocation.setQuery("test select");
@@ -79,13 +83,10 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         update.setActions(new N2oShowModal[]{updShowModal});
 
 
-
         toolbar.setItems(new ToolbarItem[]{create, update});
         table.setToolbars(new N2oToolbar[]{toolbar});
         table.adapterV4();
 
         return Arrays.asList(n2oObject, query, table, page);
     }
-
-
 }

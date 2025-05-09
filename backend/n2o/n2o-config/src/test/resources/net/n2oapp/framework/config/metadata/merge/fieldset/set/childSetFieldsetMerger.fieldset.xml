@@ -6,6 +6,13 @@
      help="help"
      label="child-label"
      src="test"
+     badge="testBadge"
+     badge-shape="circle"
+     badge-position="left"
+     badge-color="danger"
+     badge-image="testImage"
+     badge-image-position="right"
+     badge-image-shape="rounded"
 >
     <input-text id="childField"/>
 </set>

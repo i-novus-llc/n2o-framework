@@ -65,7 +65,7 @@ public class N2oServletConfiguration {
                                                AlertMessagesConstructor messagesConstructor) {
         PageServlet pageServlet = new PageServlet();
         ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
-                .read().transform().validate().cache().copy()
+                .read().transform().validate().copy()
                 .compile().transform().cache().copy()
                 .bind();
         pageServlet.setPipeline(pipeline);
@@ -124,7 +124,7 @@ public class N2oServletConfiguration {
         appConfigServlet.setMessageSource(clientMessageSource);
         appConfigServlet.setEnvironment(env);
         ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
-                .read().transform().validate().cache().copy()
+                .read().transform().validate().copy()
                 .compile().transform().cache().copy()
                 .bind();
         appConfigServlet.setPipeline(pipeline);

@@ -479,8 +479,8 @@ class IOProcessorTest {
 
     @Test
     void testChildrenToMap() throws Exception {
-        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
-        IOProcessor pR = new IOProcessorImpl(readerFactory);
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
+        IOProcessor pR = new IOProcessorImpl(readerFactory,null);
         readerFactory.register(new BodyNamespaceEntityIO());
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor7.xml");
         MapNamespaceEntity map = new MapNamespaceEntity();
@@ -497,8 +497,8 @@ class IOProcessorTest {
 
     @Test
     void testChildrenAttributesToMap() throws Exception {
-        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
-        IOProcessor pR = new IOProcessorImpl(readerFactory);
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
+        IOProcessor pR = new IOProcessorImpl(readerFactory,null);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor24.xml");
         MapNamespaceEntity map = new MapNamespaceEntity();
         pR.childrenAttributesToMap(in, "children", "el", map::getEntityMap, map::setEntityMap);
@@ -515,8 +515,8 @@ class IOProcessorTest {
 
     @Test
     void testChildrenToMapString() throws Exception {
-        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
-        IOProcessor p = new IOProcessorImpl(readerFactory);
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
+        IOProcessor p = new IOProcessorImpl(readerFactory,null);
         readerFactory.register(new BodyNamespaceEntityIO());
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor7.xml");
         MapStringNamespaceEntity map = new MapStringNamespaceEntity();
@@ -586,8 +586,8 @@ class IOProcessorTest {
 
     @Test
     void testChildrenText() throws Exception {
-        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
-        IOProcessor p = new IOProcessorImpl(readerFactory);
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
+        IOProcessor p = new IOProcessorImpl(readerFactory,null);
         readerFactory.register(new BodyNamespaceEntityIO());
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor10.xml");
         ChildEntity childrenEntity = new ChildEntity();
@@ -603,10 +603,10 @@ class IOProcessorTest {
 
     @Test
     void testChildrenAttributes() throws Exception {
-        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new EnumNamespaceEntityIO());
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessor p = new IOProcessorImpl(readerFactory);
+        IOProcessor p = new IOProcessorImpl(readerFactory,null);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor11.xml");
         ChildEntity childrenEntity = new ChildEntity();
         p.childAttribute(in, "el1", "attr", childrenEntity::getAtt, childrenEntity::setAtt);
@@ -631,9 +631,9 @@ class IOProcessorTest {
 
     @Test
     void testElement() throws Exception {
-        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessor p = new IOProcessorImpl(readerFactory);
+        IOProcessor p = new IOProcessorImpl(readerFactory,null);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor17.xml");
         BaseEntity baseEntity = new BaseEntity();
         p.element(in, "attr", baseEntity::getAttr, baseEntity::setAttr);
@@ -649,9 +649,9 @@ class IOProcessorTest {
     @Test
     void testProps() throws Exception {
         //test properties
-        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessorImpl p = new IOProcessorImpl(readerFactory);
+        IOProcessorImpl p = new IOProcessorImpl(readerFactory,null);
         Properties properties = new Properties();
         properties.setProperty("testProp1", "testProp1");
         PropertyResolver systemProperties = new SimplePropertyResolver(properties);
@@ -661,7 +661,7 @@ class IOProcessorTest {
         //test params
         HashMap<String, String[]> params = new HashMap<>();
         params.put("testProp1", new String[]{"testProp2"});
-        p = new IOProcessorImpl(readerFactory);
+        p = new IOProcessorImpl(readerFactory,null);
         try {
             MetadataParamHolder.setParams(params);
             testElementWithProperty(p, "testProp2");
@@ -670,7 +670,7 @@ class IOProcessorTest {
         }
 
         //test messages
-        p = new IOProcessorImpl(readerFactory);
+        p = new IOProcessorImpl(readerFactory,null);
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasenames("test_messages");
         messageSource.setDefaultEncoding("UTF-8");
@@ -678,7 +678,7 @@ class IOProcessorTest {
         testElementWithProperty(p, "testProp3");
 
         //test override
-        p = new IOProcessorImpl(readerFactory);
+        p = new IOProcessorImpl(readerFactory,null);
         p.setSystemProperties(systemProperties);
         p.setMessageSourceAccessor(new MessageSourceAccessor(messageSource));
         try {
@@ -689,7 +689,7 @@ class IOProcessorTest {
         }
 
         //test fail fast
-        p = new IOProcessorImpl(readerFactory);
+        p = new IOProcessorImpl(readerFactory,null);
         p.setFailFast(true);
         //p.setSystemProperties(systemProperties); not set to fail
         try {
@@ -699,7 +699,7 @@ class IOProcessorTest {
         }
 
         //test fail tolerance
-        p = new IOProcessorImpl(readerFactory);
+        p = new IOProcessorImpl(readerFactory,null);
         p.setFailFast(false);
         //p.setSystemProperties(systemProperties); not set to fail
         try {
@@ -721,9 +721,9 @@ class IOProcessorTest {
 
     @Test
     void testChildren() throws Exception {
-        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessor p = new IOProcessorImpl(readerFactory);
+        IOProcessor p = new IOProcessorImpl(readerFactory ,null);
         Element in1 = dom("net/n2oapp/framework/config/io/ioprocessor12.xml");
         Element in2 = dom("net/n2oapp/framework/config/io/ioprocessor15.xml");
         ChildrenEntityList childrenEntityList1 = new ChildrenEntityList();
@@ -751,9 +751,9 @@ class IOProcessorTest {
 
     @Test
     void testChild() throws Exception {
-        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessor p = new IOProcessorImpl(readerFactory);
+        IOProcessor p = new IOProcessorImpl(readerFactory,null);
         Element in1 = dom("net/n2oapp/framework/config/io/ioprocessor13.xml");
         Element in2 = dom("net/n2oapp/framework/config/io/ioprocessor14.xml");
         ChildEntity childrenEntity1 = new ChildEntity();
@@ -952,7 +952,7 @@ class IOProcessorTest {
             public void add(NamespaceReader reader) {
 
             }
-        });
+        }, null);
         Element in3 = dom("net/n2oapp/framework/config/io/ioprocessor23.xml");
         BaseEntity entity = new BaseEntity();
         try {
@@ -971,10 +971,10 @@ class IOProcessorTest {
 
     @Test
     void anyChildrenByNamespace() throws Exception {
-        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new EnumNamespaceEntityIO());
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessor p = new IOProcessorImpl(readerFactory);
+        IOProcessor p = new IOProcessorImpl(readerFactory,null);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor5.xml");
         ListNamespaceEntity listNamespaceEntity = new ListNamespaceEntity();
         p.anyChildren(in, "children", listNamespaceEntity::getEntityList, listNamespaceEntity::setEntityList,

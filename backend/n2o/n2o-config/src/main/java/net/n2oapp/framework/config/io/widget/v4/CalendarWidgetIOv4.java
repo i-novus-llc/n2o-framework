@@ -41,6 +41,7 @@ public class CalendarWidgetIOv4 extends WidgetElementIOv4<N2oCalendar> {
         p.anyChild(e, "action-on-select-event", m::getActionOnSelectEvent, m::setActionOnSelectEvent,
                 p.anyOf(N2oAbstractAction.class), ActionIOv1.NAMESPACE);
         p.childrenToStringMap(e, "formats", "format", "id", "value", m::getFormats, m::setFormats);
+        p.merge(m,getElementName());
     }
 
     private void resource(Element e, CalendarResource r, IOProcessor p) {

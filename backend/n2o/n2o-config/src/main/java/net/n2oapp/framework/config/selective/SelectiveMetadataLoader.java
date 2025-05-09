@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.selective;
 
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -21,8 +22,8 @@ public class SelectiveMetadataLoader implements SourceLoader<CompileInfo> {
         this.readerFactory = readerFactory;
     }
 
-    public SelectiveMetadataLoader() {
-        readerFactory = new ReaderFactoryByMap();
+    public SelectiveMetadataLoader(MetadataEnvironment environment) {
+        readerFactory = environment.getNamespaceReaderFactory();
     }
 
     public SelectiveMetadataLoader add(NamespaceReader<? extends NamespaceUriAware> reader) {

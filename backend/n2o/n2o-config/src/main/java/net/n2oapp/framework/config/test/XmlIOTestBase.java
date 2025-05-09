@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.test;
 
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
+import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import net.n2oapp.framework.config.selective.XmlIOReader;
 
@@ -12,7 +13,7 @@ public abstract class XmlIOTestBase {
     protected ION2oMetadataTester tester;
 
     public void setUp() throws Exception {
-        XmlIOReader reader = new XmlIOReader();
+        XmlIOReader reader = new XmlIOReader(new N2oEnvironment());
         configure(reader);
         tester = new ION2oMetadataTester(reader);
     }

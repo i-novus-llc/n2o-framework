@@ -38,14 +38,6 @@ class SidebarValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testValidationFail() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/application/sidebar/validationFail.application.xml"));
-        assertEquals("<menu> сайдбара ссылается на несуществующий 'ref-id = test'", exception.getMessage());
-    }
-
-    @Test
     void testEmptyPathValidationFail() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,

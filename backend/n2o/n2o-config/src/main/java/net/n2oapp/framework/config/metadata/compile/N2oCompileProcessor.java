@@ -300,8 +300,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
-    public <S extends Source> S merge(S source, S override) {
-        return env.getSourceMergerFactory().merge(source, override);
+    public <S extends Source> S merge(S ref, S source) {
+        return env.getSourceMergerFactory().merge(ref, source);
     }
 
     @Override
@@ -528,8 +528,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     @Override
     public <T extends Source> void validate(T metadata, Object... scope) {
         if (metadata == null)
-            return;
-        if (metadata instanceof RefIdAware refIdAware && refIdAware.getRefId() != null)
             return;
 
         env.getSourceValidatorFactory().validate(metadata, new N2oCompileProcessor(this, scope));

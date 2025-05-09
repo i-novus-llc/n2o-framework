@@ -25,6 +25,7 @@ public class MultiFieldsetElementIOv5 extends FieldsetElementIOv5<N2oMultiFieldS
         p.attribute(e, "can-copy", fs::getCanCopy, fs::setCanCopy);
         p.attribute(e, "primary-key", fs::getPrimaryKey, fs::setPrimaryKey);
         p.attributeBoolean(e, "generate-primary-key", fs::getGeneratePrimaryKey, fs::setGeneratePrimaryKey);
+        p.merge(fs,getElementName());
     }
 
     @Override

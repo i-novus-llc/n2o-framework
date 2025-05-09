@@ -29,6 +29,7 @@ public class FormElementIOV4 extends WidgetElementIOv4<N2oForm> {
         p.attribute(e, "default-values-query-id", f::getDefaultValuesQueryId, f::setDefaultValuesQueryId);
         p.anyChildren(e, "fields", f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
         p.child(e, null, "submit", f::getSubmit, f::setSubmit, Submit.class, this::submit);
+        p.merge(f,getElementName());
         f.adapterV4();
     }
 

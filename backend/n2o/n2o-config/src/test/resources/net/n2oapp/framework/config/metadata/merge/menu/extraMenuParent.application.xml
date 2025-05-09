@@ -2,7 +2,10 @@
 <application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
     <sidebars>
         <sidebar>
-            <nav ref-id="test"/>
+            <extra-menu ref-id="childExtraMenu">
+                <menu-item name="testParentItem"/>
+
+            </extra-menu>
         </sidebar>
     </sidebars>
 </application>

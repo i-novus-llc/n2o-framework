@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.selective;
 
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
@@ -8,7 +9,6 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
-import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.ElementNameQualifier;
 import org.custommonkey.xmlunit.XMLUnit;
@@ -59,8 +59,8 @@ public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder
     private final PersisterFactoryByMap persisterFactory;
     private final IOProcessor persisterProcessor;
 
-    public XmlIOReader() {
-        super(new ReaderFactoryByMap());
+    public XmlIOReader(MetadataEnvironment env) {
+        super(env);
         this.persisterFactory = new PersisterFactoryByMap();
         this.persisterProcessor = new IOProcessorImpl(persisterFactory);
     }

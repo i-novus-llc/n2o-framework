@@ -20,9 +20,7 @@ import java.util.function.BiFunction;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class XmlIOVersionMigratorTest extends N2oTestBase {
-    private XmlIOVersionMigrator migrator;
     private static final Logger logger = LoggerFactory.getLogger(XmlIOVersionMigratorTest.class);
-
     private static final BiFunction<String, String, Boolean> CANONICAL_COMPARATOR = (String s1, String s2) -> {
         try {
             Diff diff = XMLUnit.compareXML(s1, s2);
@@ -43,6 +41,7 @@ class XmlIOVersionMigratorTest extends N2oTestBase {
             throw new RuntimeException(e);
         }
     };
+    private XmlIOVersionMigrator migrator;
 
     @Override
     @BeforeEach

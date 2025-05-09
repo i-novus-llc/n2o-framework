@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class N2oObjectReferenceFieldMerger extends N2oObjectFieldMerger<ObjectReferenceField> {
     @Override
-    public ObjectReferenceField merge(ObjectReferenceField source, ObjectReferenceField override) {
-        super.merge(source, override);
-        setIfNotNull(source::setEntityClass, override::getEntityClass);
-        setIfNotNull(source::setReferenceObjectId, override::getReferenceObjectId);
+    public ObjectReferenceField merge(ObjectReferenceField ref, ObjectReferenceField source) {
+        super.merge(ref, source);
+        setIfNotNull(source::setEntityClass, source::getEntityClass, ref::getEntityClass);
+        setIfNotNull(source::setReferenceObjectId, source::getReferenceObjectId, ref::getReferenceObjectId);
         return source;
     }
 

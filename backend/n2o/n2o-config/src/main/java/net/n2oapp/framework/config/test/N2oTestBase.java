@@ -25,7 +25,7 @@ public abstract class N2oTestBase {
     public void setUp() throws Exception {
         N2oEnvironment environment = new N2oEnvironment();
         environment.setNamespacePersisterFactory(new PersisterFactoryByMap());
-        environment.setNamespaceReaderFactory(new ReaderFactoryByMap());
+        environment.setNamespaceReaderFactory(new ReaderFactoryByMap(environment));
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.addBasenames("n2o_api_messages", "n2o_api_messages",  "n2o_config_messages", "test_messages", "messages");
         messageSource.setDefaultEncoding("UTF-8");

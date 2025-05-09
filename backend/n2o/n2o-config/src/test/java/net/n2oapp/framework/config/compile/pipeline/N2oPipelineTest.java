@@ -93,8 +93,8 @@ class N2oPipelineTest {
         PipelineOperationFactory pof = new MockPipelineOperationFactory();
         when(env.getPipelineOperationFactory()).thenReturn(pof);
 
-        when(env.getReadPipelineFunction()).thenReturn(p -> p.read().transform().validate().cache());
-        when(env.getReadCompilePipelineFunction()).thenReturn(p -> p.read().transform().validate().cache().copy().compile().transform().cache().copy());
+        when(env.getReadPipelineFunction()).thenReturn(p -> p.read().transform().validate());
+        when(env.getReadCompilePipelineFunction()).thenReturn(p -> p.read().transform().validate().copy().compile().transform().cache().copy());
         when(env.getCompilePipelineFunction()).thenReturn(p -> p.compile().transform().cache());
         when(env.getBindPipelineFunction()).thenReturn(p -> p.bind());
 
@@ -137,22 +137,10 @@ class N2oPipelineTest {
         N2oSimplePage deserializedPage = N2oPipelineSupport.deserializePipeline(env).deserialize().get(pageJsonInputStream, N2oSimplePage.class);
         assertThat(source.getName(), is(deserializedPage.getName()));
 
-        // read + cache
-        ReadTerminalPipeline<ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline>> readPipeline = N2oPipelineSupport.readPipeline(env).read().cache();
-        source = readPipeline.get("pageId", N2oSimplePage.class);
-        assertThat(source.getName(), is("test"));//cache miss
-
-        source = readPipeline.get("pageId", N2oSimplePage.class);
-        assertThat(source.getName(), is("cached test"));//cache hit
 
         // read + compile
         Page compiled = new N2oReadPipeline(env).read().compile().get(context);
         assertThat(compiled.getPageProperty().getTitle(), is("compiled test"));
-
-        // read + cache + compile
-        ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> compilePipeline = N2oPipelineSupport.readPipeline(env).read().cache().copy().compile();
-        compiled = compilePipeline.get(context);
-        assertThat(compiled.getPageProperty().getTitle(), is("compiled cached test"));//second cache hit
 
         // read + compile + transform
         compiled = N2oPipelineSupport.readPipeline(env).read().compile().transform().get(context);

@@ -17,6 +17,7 @@ public class LineFieldsetElementIOv5 extends FieldsetElementIOv5<N2oLineFieldSet
         p.attributeBoolean(e, "has-separator", fs::getHasSeparator, fs::setHasSeparator);
         p.attributeBoolean(e, "collapsible", fs::getCollapsible, fs::setCollapsible);
         p.attributeBoolean(e, "expand", fs::getExpand, fs::setExpand);
+        p.merge(fs,getElementName());
     }
 
     @Override

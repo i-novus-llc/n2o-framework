@@ -21,7 +21,6 @@ public class SimpleEngineLocator<G> implements EngineLocator<G> {
     }
 
     public void add(G engine) {
-//        if (engines.stream().noneMatch(e -> e.getClass().equals(engine.getClass())))
         engines.add(engine);
     }
 }

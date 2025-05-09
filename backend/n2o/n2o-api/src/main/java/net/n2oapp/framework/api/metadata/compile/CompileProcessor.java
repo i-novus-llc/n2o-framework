@@ -152,12 +152,12 @@ public interface CompileProcessor {
     /**
      * Заменить свойства исходной метаданной значениями перекрывающей метаданной, если они не пусты
      *
-     * @param source   Исходная метаданная
-     * @param override Перекрывающая метаданная
+     * @param ref   Перекрывающая метаданная
+     * @param source  Исходная метаданная
      * @param <S>      Тип значения
      * @return Исходная метаданная с перекрытыми свойствами
      */
-    <S extends Source> S merge(S source, S override);
+    <S extends Source> S merge(S ref, S source);
 
     /**
      * Получить содержимое файла

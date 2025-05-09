@@ -6,11 +6,11 @@ import net.n2oapp.framework.config.metadata.compile.BaseSourceMerger;
 public abstract class N2oObjectFieldMerger<T extends AbstractParameter> implements BaseSourceMerger<T> {
 
     @Override
-    public T merge(T source, T override) {
-        setIfNotNull(source::setMapping, override::getMapping);
-        setIfNotNull(source::setRequired, override::getRequired);
-        setIfNotNull(source::setEnabled, override::getEnabled);
-        setIfNotNull(source::setNormalize, override::getNormalize);
+    public T merge(T ref, T source) {
+        setIfNotNull(source::setMapping, source::getMapping,ref::getMapping);
+        setIfNotNull(source::setRequired, source::getRequired,ref::getRequired);
+        setIfNotNull(source::setEnabled, source::getEnabled,ref::getEnabled);
+        setIfNotNull(source::setNormalize, source::getNormalize,ref::getNormalize);
         return source;
     }
 }

@@ -162,7 +162,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
     }
 
     /**
-     * Метод поиска CompiledObject, который может лежать в контексте, либо в локальном datasource, либо в query, либо в методанных.
+     * Метод поиска CompiledObject, который может лежать в контексте, либо в локальном datasource, либо в query, либо в метаданных.
      * В случае отсутствия бросается исключение N2oException
      *
      * @param source - модель действия вызова операции

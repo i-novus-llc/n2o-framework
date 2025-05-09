@@ -28,8 +28,7 @@ public class HeaderWarmUpper implements EnvironmentAware {
         String welcomePageId = environment.getProperty("n2o.homepage.id", String.class);
         // необходимо, чтобы зарегистрировать рутовые страницы в RouteRegister
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = applicationBuilder
-                .read().transform().validate().cache()
-                .compile().transform().cache();
+                .read().transform().validate().compile().transform().cache();
         if (applicationId != null && !applicationId.isEmpty()) {
             pipeline.get(new ApplicationContext(applicationId));
         } else if (welcomePageId != null && !welcomePageId.isEmpty()) {

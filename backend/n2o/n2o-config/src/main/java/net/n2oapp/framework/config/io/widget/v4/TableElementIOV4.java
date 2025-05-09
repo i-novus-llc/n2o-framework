@@ -45,6 +45,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.anyChildren(e, "columns", t::getColumns, t::setColumns, columns(p));
         p.child(e, null, "filters", t::getFilters, t::setFilters, N2oTable.N2oTableFilters::new, this::filters);
         p.attributeEnum(e, "children", t::getChildren, t::setChildren, ChildrenToggleEnum.class);
+        p.merge(t, getElementName());
         t.adapterV4();
     }
 

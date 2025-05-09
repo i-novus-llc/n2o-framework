@@ -31,7 +31,7 @@ public abstract class DataControllerTestBase {
     public void setUp() {
         N2oEnvironment environment = new N2oEnvironment();
         environment.setNamespacePersisterFactory(new PersisterFactoryByMap());
-        environment.setNamespaceReaderFactory(new ReaderFactoryByMap());
+        environment.setNamespaceReaderFactory(new ReaderFactoryByMap(environment));
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasenames("n2o_messages", "messages");
         messageSource.setDefaultEncoding("UTF-8");

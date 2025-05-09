@@ -1,12 +1,14 @@
 package net.n2oapp.framework.config.io;
 
 import lombok.Getter;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.io.*;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
@@ -14,6 +16,7 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
+import net.n2oapp.framework.config.metadata.merge.MergeUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jdom2.Attribute;
 import org.jdom2.Element;
@@ -47,15 +50,23 @@ public class IOProcessorImpl implements IOProcessor {
     private boolean failFast = true;
     private final DomainProcessor domainProcessor = new DomainProcessor();
 
+    private MetadataEnvironment environment;
+
     public IOProcessorImpl(boolean read) {
         this.r = read;
     }
 
-    public IOProcessorImpl(NamespaceReaderFactory readerFactory) {
+    public IOProcessorImpl(NamespaceReaderFactory readerFactory, MetadataEnvironment environment) {
         this.r = true;
+        this.environment = environment;
         this.readerFactory = readerFactory;
         if (readerFactory instanceof IOProcessorAware ioProcessorAware)
             ioProcessorAware.setIOProcessor(this);
+    }
+
+    public IOProcessorImpl(NamespacePersisterFactory persisterFactory, MetadataEnvironment environment) {
+        this(persisterFactory);
+        this.environment = environment;
     }
 
     public IOProcessorImpl(NamespacePersisterFactory persisterFactory) {
@@ -1212,5 +1223,18 @@ public class IOProcessorImpl implements IOProcessor {
 
     public void setFailFast(boolean failFast) {
         this.failFast = failFast;
+    }
+
+    @Override
+    public <T extends RefIdAware> void merge(T source, String elementName) {
+        MergeUtil.merge(source, environment, elementName);
+    }
+
+    public MetadataEnvironment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(MetadataEnvironment environment) {
+        this.environment = environment;
     }
 }
