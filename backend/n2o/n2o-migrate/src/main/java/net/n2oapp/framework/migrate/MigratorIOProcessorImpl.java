@@ -1,5 +1,7 @@
 package net.n2oapp.framework.migrate;
 
+import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.io.ClassedElementIO;
 import net.n2oapp.framework.api.metadata.io.ElementIOFactory;
 import net.n2oapp.framework.api.metadata.io.NamedElementIO;
@@ -23,12 +25,12 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
 
     private static final String BODY_KEY = "body";
 
-    public MigratorIOProcessorImpl(NamespaceReaderFactory readerFactory) {
-        super(readerFactory);
+    public MigratorIOProcessorImpl(NamespaceReaderFactory readerFactory, MetadataEnvironment environment) {
+        super(readerFactory, environment);
     }
 
-    public MigratorIOProcessorImpl(NamespacePersisterFactory persisterFactory) {
-        super(persisterFactory);
+    public MigratorIOProcessorImpl(NamespacePersisterFactory persisterFactory, MetadataEnvironment environment) {
+        super(persisterFactory, environment);
     }
 
     @Override
@@ -107,9 +109,14 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
         return entity;
     }
 
+    @Override
+    public <T extends RefIdAware> void merge(T source, String elementName) {
+        // not applicable to migration process
+    }
+
     private <T> void attribute(Element element, String name,
-                               Supplier<T> getter, Consumer<T> setter,
-                               Function<String, T> valueFunction) {
+                           Supplier<T> getter, Consumer<T> setter,
+                           Function<String, T> valueFunction) {
         if (isR()) {
             readAttribute(element, name, setter, valueFunction);
         } else {

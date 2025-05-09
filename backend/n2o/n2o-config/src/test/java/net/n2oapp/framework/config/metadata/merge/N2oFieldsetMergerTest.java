@@ -2,6 +2,8 @@ package net.n2oapp.framework.config.metadata.merge;
 
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.*;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
@@ -43,6 +45,13 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlignEnum.LEFT));
         assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocationEnum.LEFT));
         assertThat(fieldSet.getFieldLabelWidth(), is("100px"));
+        assertThat(fieldSet.getBadge(), is("testBadge"));
+        assertThat(fieldSet.getBadgeShape(), is(ShapeTypeEnum.CIRCLE));
+        assertThat(fieldSet.getBadgePosition(), is(PositionEnum.LEFT));
+        assertThat(fieldSet.getBadgeColor(), is("danger"));
+        assertThat(fieldSet.getBadgeImage(), is("testImage"));
+        assertThat(fieldSet.getBadgeImagePosition(), is(PositionEnum.RIGHT));
+        assertThat(fieldSet.getBadgeImageShape(), is(ShapeTypeEnum.ROUNDED));
         assertThat(fieldSet.getHelp(), is("help"));
         assertThat(fieldSet.getSrc(), is("test"));
         assertThat(fieldSet.getItems().length, is(1));
@@ -101,6 +110,8 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocationEnum.LEFT));
         assertThat(fieldSet.getFieldLabelWidth(), is("100px"));
         assertThat(fieldSet.getHelp(), is("help"));
+        assertThat(fieldSet.getPrimaryKey(), is("testPK"));
+        assertThat(fieldSet.getGeneratePrimaryKey(), is(Boolean.TRUE));
         assertThat(fieldSet.getSrc(), is("test"));
         assertThat(fieldSet.getAddButtonLabel(), is("addLabel"));
         assertThat(fieldSet.getChildrenLabel(), is("childrenLabel"));

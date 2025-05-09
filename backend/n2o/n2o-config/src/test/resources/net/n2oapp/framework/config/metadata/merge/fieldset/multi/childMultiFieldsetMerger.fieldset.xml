@@ -21,6 +21,8 @@
            can-remove="false"
            can-remove-all="false"
            can-remove-first="false"
+           primary-key="testPK"
+           generate-primary-key="true"
 >
     <input-text id="childField"/>
 </multi-set>

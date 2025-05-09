@@ -6,6 +6,8 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.api.metadata.jackson.ComponentTypeResolver;
 import net.n2oapp.framework.api.metadata.jackson.SingletonTypeIdHandlerInstantiator;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
+import net.n2oapp.framework.config.compile.pipeline.operation.*;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllIOPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -41,7 +43,7 @@ class SerializeDeserializeTest extends SourceCompileTestBase {
         ComponentTypeResolver typeIdResolver = new ComponentTypeResolver();
         typeIdResolver.setRegister(builder.getEnvironment().getComponentTypeRegister());
         instantiator.addTypeIdResolver(ComponentTypeResolver.class, typeIdResolver);
-        reader = new XmlIOReader();
+        reader = new XmlIOReader(builder.getEnvironment());
         reader.packs(new N2oAllIOPack());
     }
 

@@ -27,7 +27,11 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
     @Setter
     // первый параметр - namespace, второй element
     private Map<String, Map<String, NamespaceReader>> map = new HashMap<>();
-    private IOProcessor ioProcessor = new IOProcessorImpl(this);
+    private IOProcessor ioProcessor;
+
+    public ReaderFactoryByMap(MetadataEnvironment environment) {
+        ioProcessor = new IOProcessorImpl(this, environment);
+    }
 
     public ReaderFactoryByMap register(NamespaceReader reader) {
         add(reader);

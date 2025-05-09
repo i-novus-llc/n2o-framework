@@ -73,7 +73,7 @@ class QueryProcessorTest {
         queryProcessor.setEnvironment(environment);
         builder = new N2oApplicationBuilder(environment)
                 .types(new MetaType("query", N2oQuery.class))
-                .loaders(new SelectiveMetadataLoader()
+                .loaders(new SelectiveMetadataLoader(environment)
                         .add(new QueryElementIOv4())
                         .add(new QueryElementIOv5())
                         .add(new TestDataProviderIOv1())

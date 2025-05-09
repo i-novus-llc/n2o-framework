@@ -191,7 +191,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
             for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
                 String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
                 if (dataSourcesScope.containsKey(dsId) && ctxDs instanceof N2oStandardDatasource)
-                    dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));
+                    dataSourcesScope.put(dsId, p.merge(ctxDs, dataSourcesScope.get(dsId)));
                 else {
                     ctxDs.setId(dsId);
                     if (ctxDs instanceof N2oApplicationDatasource applicationDatasource) {

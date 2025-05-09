@@ -21,6 +21,7 @@ public class FormElementIOV5 extends WidgetElementIOv5<N2oForm> {
         p.attributeBoolean(e, "unsaved-data-prompt", f::getUnsavedDataPrompt, f::setUnsavedDataPrompt);
         p.attributeEnum(e, "mode", f::getMode, f::setMode, FormModeEnum.class);
         p.anyChildren(e, "fields", f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv5.NAMESPACE, ControlIOv3.NAMESPACE);
+        p.merge(f,getElementName());
     }
 
     @Override

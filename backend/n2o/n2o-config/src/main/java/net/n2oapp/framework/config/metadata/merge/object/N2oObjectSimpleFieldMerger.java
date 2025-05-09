@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 public class N2oObjectSimpleFieldMerger extends N2oObjectFieldMerger<ObjectSimpleField> {
 
     @Override
-    public ObjectSimpleField merge(ObjectSimpleField source, ObjectSimpleField override) {
-        super.merge(source, override);
-        setIfNotNull(source::setDefaultValue, override::getDefaultValue);
-        setIfNotNull(source::setDomain, override::getDomain);
-        setIfNotNull(source::setParam, override::getParam);
-        setIfNotNull(source::setValidationFailKey, override::getValidationFailKey);
+    public ObjectSimpleField merge(ObjectSimpleField ref, ObjectSimpleField source) {
+        super.merge(ref, source);
+        setIfNotNull(source::setDefaultValue, source::getDefaultValue, ref::getDefaultValue);
+        setIfNotNull(source::setDomain, source::getDomain, ref::getDomain);
+        setIfNotNull(source::setParam, source::getParam, ref::getParam);
+        setIfNotNull(source::setValidationFailKey, source::getValidationFailKey, ref::getValidationFailKey);
         return source;
     }
 

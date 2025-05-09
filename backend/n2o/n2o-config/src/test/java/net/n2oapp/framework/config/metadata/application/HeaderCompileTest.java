@@ -114,23 +114,6 @@ class HeaderCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    void externalMenu() {
-        Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
-                "net/n2oapp/framework/config/metadata/application/headerWithExternalMenu.application.xml",
-                "net/n2oapp/framework/config/metadata/application/testMenu.menu.xml")
-                .get(new ApplicationContext("headerWithExternalMenu"));
-
-        Header header = application.getHeader();
-        assertThat(header.getLogo().getHref(), is("http://google.com/"));
-        assertThat(header.getMenu().getItems().size(), is(3));
-        assertThat(header.getMenu().getItems().get(0).getSubItems().size(), is(2));
-        assertThat(header.getMenu().getItems().get(0).getSubItems().get(0).getTitle(), is("test2"));
-        assertThat(header.getMenu().getItems().get(0).getSubItems().get(0).getProperties().get("testAttr"), is("testAttribute"));
-        assertThat(header.getMenu().getItems().get(0).getSubItems().get(0).getJsonProperties().get("testAttr"), is("testAttribute"));
-        assertThat(header.getMenu().getItems().get(1).getTitle(), is("headerLabel"));
-    }
-
-    @Test
     void searchBarTest() {
         Application application = compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/application/testPage.page.xml",

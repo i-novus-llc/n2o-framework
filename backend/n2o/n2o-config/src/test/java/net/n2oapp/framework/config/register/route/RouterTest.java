@@ -33,7 +33,7 @@ class RouterTest {
         N2oEnvironment env = new N2oEnvironment();
         env.setSystemProperties(new SimplePropertyResolver(new Properties()));
         env.setNamespacePersisterFactory(new PersisterFactoryByMap());
-        env.setNamespaceReaderFactory(new ReaderFactoryByMap());
+        env.setNamespaceReaderFactory(new ReaderFactoryByMap(env));
         builder = new N2oApplicationBuilder(env).packs(new N2oOperationsPack());
     }
 

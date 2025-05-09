@@ -54,7 +54,7 @@ class SpelExceptionTest extends DataControllerTestBase{
     public void setUp() {
         N2oEnvironment environment = new N2oEnvironment();
         environment.setNamespacePersisterFactory(new PersisterFactoryByMap());
-        environment.setNamespaceReaderFactory(new ReaderFactoryByMap());
+        environment.setNamespaceReaderFactory(new ReaderFactoryByMap(environment));
         environment.setContextProcessor(new ContextProcessor(new UserContext(Mockito.mock(ContextEngine.class))));
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasenames("n2o_messages", "messages");

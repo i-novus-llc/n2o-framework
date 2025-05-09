@@ -16,6 +16,7 @@ public class HtmlWidgetElementIOv5 extends WidgetElementIOv5<N2oHtmlWidget> {
         super.io(e, m, p);
         p.childAttribute(e, "content", "url", m::getUrl, m::setUrl);
         p.childrenText(e, "content", m::getHtml, m::setHtml);
+        p.merge(m,getElementName());
     }
 
     @Override

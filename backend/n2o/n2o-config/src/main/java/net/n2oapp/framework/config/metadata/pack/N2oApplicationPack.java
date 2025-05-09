@@ -12,10 +12,11 @@ import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import net.n2oapp.framework.config.metadata.compile.N2oComponentMerger;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationBinder;
 import net.n2oapp.framework.config.metadata.compile.application.ApplicationCompiler;
-import net.n2oapp.framework.config.metadata.compile.application.sidebar.N2oSidebarMerger;
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarCompiler;
 import net.n2oapp.framework.config.metadata.compile.header.SearchBarCompiler;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuCompiler;
+import net.n2oapp.framework.config.metadata.merge.menu.N2oSimpleMenuMerger;
+import net.n2oapp.framework.config.metadata.merge.sidebar.N2oSidebarMerger;
 
 /**
  * Набор для сборки приложения
@@ -35,6 +36,6 @@ public class N2oApplicationPack implements MetadataPack<N2oApplicationBuilder> {
                 new SidebarCompiler()
         );
         b.binders(new ApplicationBinder());
-        b.mergers(new N2oSidebarMerger<>(), new N2oComponentMerger<>());
+        b.mergers(new N2oSidebarMerger<>(), new N2oComponentMerger<>(), new N2oSimpleMenuMerger());
     }
 }

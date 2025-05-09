@@ -500,13 +500,13 @@ public class ViewController {
         env.setSystemProperties(propertyResolver);
         env.setMessageSource(getMessageSourceAccessor(path));
         env.setContextProcessor(new ContextProcessor(sandboxContext));
-        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(env);
         env.setNamespaceReaderFactory(readerFactory);
         PersisterFactoryByMap persisterFactory = new PersisterFactoryByMap();
         env.setNamespacePersisterFactory(persisterFactory);
         IOProcessorImpl persistProcessor = new IOProcessorImpl(persisterFactory);
         persistProcessor.setSystemProperties(env.getSystemProperties());
-        env.setReadPipelineFunction(p -> p.read().transform().validate());
+        env.setReadPipelineFunction(p -> p.read().transform());
         env.setReadCompilePipelineFunction(p -> p.read().transform().validate().compile().transform());
         env.setReadCompileBindTerminalPipelineFunction(p -> p.read().transform().validate().compile().transform().bind());
         env.setDynamicMetadataProviderFactory(dynamicMetadataProviderFactory);

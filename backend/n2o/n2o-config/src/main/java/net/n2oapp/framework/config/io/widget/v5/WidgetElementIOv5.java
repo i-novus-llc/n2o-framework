@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.io.widget.v5;
 
-
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
@@ -19,7 +18,8 @@ import org.jdom2.Namespace;
 /**
  * Чтение\запись виджета версии 5.0
  */
-public abstract class WidgetElementIOv5<T extends N2oWidget> implements NamespaceIO<T>, WidgetIOv5 {
+public abstract class WidgetElementIOv5<T extends N2oWidget> implements NamespaceIO<T>,
+        WidgetIOv5 {
 
     private Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
 
@@ -55,5 +55,4 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
         p.text(e, t::getValue, t::setValue);
     }
-
 }

@@ -1,9 +1,14 @@
 package net.n2oapp.framework.config.selective;
 
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
+import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
+import net.n2oapp.framework.config.compile.pipeline.operation.*;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.springframework.core.io.ClassPathResource;
 
@@ -15,9 +20,15 @@ import java.util.stream.Stream;
  */
 public class ION2oMetadataTester implements XmlIOBuilder<ION2oMetadataTester> {
 
-    private XmlIOReader xmlIOReader = new XmlIOReader();
+    private XmlIOReader xmlIOReader;
 
     public ION2oMetadataTester() {
+        N2oEnvironment env = new N2oEnvironment();
+        this.xmlIOReader = new XmlIOReader(env);
+    }
+
+    public ION2oMetadataTester(MetadataEnvironment environment) {
+        this.xmlIOReader = new XmlIOReader(environment);
     }
 
     public ION2oMetadataTester(XmlIOReader xmlIOReader) {

@@ -26,6 +26,7 @@ public class TreeElementIOv4 extends WidgetElementIOv4<N2oTree> {
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
         p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
+        p.merge(m,getElementName());
     }
 
     @Override

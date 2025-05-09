@@ -50,5 +50,6 @@ public class SidebarIOv2 implements NamespaceIO<N2oSidebar> {
         p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new NavMenuIOv3());
         p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new ExtraMenuIOv3());
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
+        p.merge(m, getElementName());
     }
 }

@@ -1,7 +1,9 @@
 package net.n2oapp.framework.api.metadata.io;
 
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
@@ -490,7 +492,6 @@ public interface IOProcessor {
             R extends NamespaceReader<? extends T>,
             P extends NamespacePersister<? super T>> NamespaceIOFactory<T, R, P> anyOf(Class<T> baseElementClass);
 
-
     /**
      * Фабрика считывателей элементов по неймспейсу
      *
@@ -509,5 +510,20 @@ public interface IOProcessor {
      * @param setter  запись атрибута
      */
     void additionalNamespaces(Element element, Supplier<List<Namespace>> getter, Consumer<List<Namespace>> setter);
+
+    /**
+     * Получить окружение сборки метаданных
+     *
+     * @return Окружение сборки метаданных
+     */
+    MetadataEnvironment getEnvironment();
+
+    /**
+     * Слияние метаданных через ref-id
+     *
+     * @param source      элемент с ref-id
+     * @param elementName имя тега элемента
+     */
+    <T extends RefIdAware> void merge(T source, String elementName);
 }
 

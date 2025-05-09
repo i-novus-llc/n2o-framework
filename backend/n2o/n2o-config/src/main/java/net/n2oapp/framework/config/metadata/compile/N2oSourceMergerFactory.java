@@ -21,17 +21,16 @@ public class N2oSourceMergerFactory extends BaseMetadataFactory<SourceMerger<?>>
 
     @SuppressWarnings("unchecked")
     @Override
-    public <S> S merge(S source, S override) {
-        List<SourceMerger<?>> mergers = produceList(FactoryPredicates::isSourceAssignableFrom, source);
-        S result = (S) SerializationUtils.deserialize(SerializationUtils.serialize(source));
+    public <S> S merge(S ref, S source) {
+        List<SourceMerger<?>> mergers = produceList(FactoryPredicates::isSourceAssignableFrom, ref);
         for (SourceMerger<?> merger : mergers) {
             SourceMerger<S> castedMerger = (SourceMerger<S>) merger;
             Class<?> mergerClass = getMergerClass(castedMerger);
             // skip merger if its parametrized type not compatible with override class
-            if (mergerClass != null && mergerClass.isAssignableFrom(override.getClass()))
-                result = castedMerger.merge(result, override);
+            if (mergerClass != null && mergerClass.isAssignableFrom(source.getClass()))
+                source = castedMerger.merge(ref, source);
         }
-        return result;
+        return source;
     }
 
     private Class<?> getMergerClass(SourceMerger<?> merger) {

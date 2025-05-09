@@ -72,11 +72,11 @@ public class N2oEnvironment implements MetadataEnvironment {
     private ButtonGeneratorFactory buttonGeneratorFactory;
 
     private PipelineFunction<ReadTerminalPipeline<?>> readPipelineFunction = p -> p.read().transform().validate().cache();
-    private PipelineFunction<ReadCompileTerminalPipeline<?>> readCompilePipelineFunction = p -> p.read().transform().validate().cache().copy().compile().transform().cache();
-    private PipelineFunction<ReadCompileBindTerminalPipeline> readCompileBindTerminalPipelineFunction = p -> p
-            .read().transform().validate().cache().copy()
-            .compile().transform().cache().copy().bind();
-    private PipelineFunction<CompileTerminalPipeline<?>> compilePipelineFunction = p -> p.merge().transform().compile().transform();
+    private PipelineFunction<ReadCompileTerminalPipeline<?>> readCompilePipelineFunction = p ->
+            p.read().transform().validate().copy().compile().transform().cache();
+    private PipelineFunction<ReadCompileBindTerminalPipeline> readCompileBindTerminalPipelineFunction = p ->
+            p.read().transform().validate().copy().compile().transform().cache().copy().bind();
+    private PipelineFunction<CompileTerminalPipeline<?>> compilePipelineFunction = p -> p.compile().transform();
     private PipelineFunction<BindTerminalPipeline> bindPipelineFunction = p -> p.bind();
 
     public N2oEnvironment() {
@@ -92,7 +92,7 @@ public class N2oEnvironment implements MetadataEnvironment {
         this.serializeObjectMapper = createDefaultSerializeObjectMapper();
         this.externalFilesLoader = new N2oExternalFilesLoader();
 
-        this.namespaceReaderFactory = new ReaderFactoryByMap();
+        this.namespaceReaderFactory = new ReaderFactoryByMap(this);
         this.namespacePersisterFactory = new PersisterFactoryByMap();
         this.dynamicMetadataProviderFactory = new N2oDynamicMetadataProviderFactory();
         this.metadataScannerFactory = new N2oMetadataScannerFactory();

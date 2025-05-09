@@ -10,26 +10,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class N2oTableMerger extends N2oWidgetMerger<N2oTable> {
     @Override
-    public N2oTable merge(N2oTable source, N2oTable override) {
-        setIfNotNull(source::setPagination, override::getPagination);
-        setIfNotNull(source::setRows, override::getRows);
-        setIfNotNull(source::setAutoSelect, override::getAutoSelect);
-        setIfNotNull(source::setSelection, override::getSelection);
-        setIfNotNull(source::setWidth, override::getWidth);
-        setIfNotNull(source::setHeight, override::getHeight);
-        setIfNotNull(source::setTextWrap, override::getTextWrap);
-        if (override.getFilters() != null) {
-            if (source.getFilters() == null)
-                source.setFilters(new N2oTable.N2oTableFilters());
-            setIfNotNull(source.getFilters()::setPlace, override.getFilters()::getPlace);
-            setIfNotNull(source.getFilters()::setDatasourceId, override.getFilters()::getDatasourceId);
-            setIfNotNull(source.getFilters()::setDatasource, override.getFilters()::getDatasource);
-            setIfNotNull(source.getFilters()::setFetchOnChange, override.getFilters()::getFetchOnChange);
-            setIfNotNull(source.getFilters()::setFetchOnClear, override.getFilters()::getFetchOnClear);
-            addIfNotNull(source.getFilters(), override.getFilters(), N2oTable.N2oTableFilters::setItems, N2oTable.N2oTableFilters::getItems);
+    public N2oTable merge(N2oTable ref, N2oTable source) {
+        setIfNotNull(source::setPagination, source::getPagination, ref::getPagination);
+        setIfNotNull(source::setRows, source::getRows, ref::getRows);
+        setIfNotNull(source::setAutoSelect, source::getAutoSelect, ref::getAutoSelect);
+        setIfNotNull(source::setSelection, source::getSelection, ref::getSelection);
+        setIfNotNull(source::setWidth, source::getWidth, ref::getWidth);
+        setIfNotNull(source::setHeight, source::getHeight, ref::getHeight);
+        setIfNotNull(source::setTextWrap, source::getTextWrap, ref::getTextWrap);
+        if (source.getFilters() != null) {
+            if (ref.getFilters() == null)
+                ref.setFilters(new N2oTable.N2oTableFilters());
+            setIfNotNull(source.getFilters()::setPlace, source.getFilters()::getPlace, ref.getFilters()::getPlace);
+            setIfNotNull(source.getFilters()::setDatasourceId, source.getFilters()::getDatasourceId, ref.getFilters()::getDatasourceId);
+            setIfNotNull(source.getFilters()::setDatasource, source.getFilters()::getDatasource, ref.getFilters()::getDatasource);
+            setIfNotNull(source.getFilters()::setFetchOnChange, source.getFilters()::getFetchOnChange, ref.getFilters()::getFetchOnChange);
+            setIfNotNull(source.getFilters()::setFetchOnClear, source.getFilters()::getFetchOnClear, ref.getFilters()::getFetchOnClear);
+            addIfNotNull(ref.getFilters(), source.getFilters(), N2oTable.N2oTableFilters::setItems, N2oTable.N2oTableFilters::getItems);
         }
-        setIfNotNull(source::setChildren, override::getChildren);
-        addIfNotNull(source, override, N2oTable::setColumns, N2oTable::getColumns);
+        setIfNotNull(source::setChildren, source::getChildren, ref::getChildren);
+        addIfNotNull(ref, source, N2oTable::setColumns, N2oTable::getColumns);
         return source;
     }
 

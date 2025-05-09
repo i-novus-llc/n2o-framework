@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.reader.SourceLoaderFactory;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.factory.BaseMetadataFactory;
+import net.n2oapp.framework.config.selective.CompileInfo;
 
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public class N2oSourceLoaderFactory extends BaseMetadataFactory<SourceLoader> im
     public <S extends SourceMetadata, I extends SourceInfo> S read(I info, String params) {
         SourceLoader<I> reader = produce((g, i) -> info.getReaderClass().isAssignableFrom(g.getClass()), info);
         CurrentElementHolder.setSourceInfo(info);
+        if (info instanceof CompileInfo compileInfo && compileInfo.getPath() == null)
+            throw new MetadataNotFoundException(info.getId(), info.getBaseSourceClass());
         try {
             return reader.load(info, params);
         } finally {

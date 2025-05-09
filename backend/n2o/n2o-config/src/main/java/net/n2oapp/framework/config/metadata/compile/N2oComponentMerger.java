@@ -16,11 +16,11 @@ public class N2oComponentMerger<T extends N2oComponent> implements BaseSourceMer
     }
 
     @Override
-    public T merge(T source, T override) {
-        setIfNotNull(source::setSrc, override::getSrc);
-        setIfNotNull(source::setCssClass, override::getCssClass);
-        setIfNotNull(source::setStyle, override::getStyle);
-        mergeExtAttributes(source, override);
+    public T merge(T ref, T source) {
+        setIfNotNull(source::setSrc, source::getSrc, ref::getSrc);
+        setIfNotNull(source::setCssClass, source::getCssClass, ref::getCssClass);
+        setIfNotNull(source::setStyle, source::getStyle, ref::getStyle);
+        mergeExtAttributes(ref, source);
         return source;
     }
 }

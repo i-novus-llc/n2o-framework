@@ -57,7 +57,6 @@ class DynamicMetadataCompileTest extends SourceCompileTestBase {
     @Test
     void testDynamicPage() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicObject.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/dynamic/formForTestDynamic.widget.xml",
                 "net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml",
                 "net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml")
                 .get(new PageContext("testDynamicObject", "/test/route"));

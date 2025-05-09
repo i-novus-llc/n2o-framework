@@ -30,6 +30,7 @@ public class ListWidgetElementIOv4 extends AbstractListWidgetElementIOv4<N2oList
                 .add("right-top", N2oListWidget.RightTop.class, this::element)
                 .add("right-bottom", N2oListWidget.RightBottom.class, this::element)
                 .add("extra", N2oListWidget.Extra.class, this::element));
+        p.merge(m,getElementName());
     }
 
     public void element(Element e, N2oListWidget.ContentElement m, IOProcessor p) {

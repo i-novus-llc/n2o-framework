@@ -24,19 +24,11 @@ public class SidebarValidator implements SourceValidator<N2oSidebar>, SourceClas
 
     @Override
     public void validate(N2oSidebar sidebar, SourceProcessor p) {
-        if (sidebar.getMenu() != null) {
-            p.checkForExists(sidebar.getMenu().getRefId(), N2oSimpleMenu.class,
-                    String.format("<menu> сайдбара ссылается на несуществующий 'ref-id = %s'",
-                            sidebar.getMenu().getRefId()));
+        if (sidebar.getMenu() != null)
             p.validate(sidebar.getMenu(), p.getScope(ValidatorDatasourceIdsScope.class));
-        }
-        if (sidebar.getExtraMenu() != null) {
-            if (sidebar.getExtraMenu().getRefId() != null)
-                p.checkForExists(sidebar.getExtraMenu().getRefId(), N2oSimpleMenu.class,
-                        String.format("<extra-menu> сайдбара ссылается на несуществующий 'ref-id = %s'",
-                                sidebar.getMenu().getRefId()));
+        if (sidebar.getExtraMenu() != null)
             p.validate(sidebar.getExtraMenu(), p.getScope(ValidatorDatasourceIdsScope.class));
-        }
+
         ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
 
         if (sidebar.getDatasource() != null) {

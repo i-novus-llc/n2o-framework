@@ -15,7 +15,7 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 
 /**
- * Чтение\запись виджета  версии 4.0
+ * Чтение\запись виджета версии 4.0
  */
 public abstract class WidgetElementIOv4<T extends N2oWidget> implements NamespaceIO<T>, WidgetIOv4 {
 

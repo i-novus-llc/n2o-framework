@@ -45,7 +45,7 @@ class AutotestMetadataValidationTest extends N2oTestBase {
     protected void configure(N2oApplicationBuilder b) {
         super.configure(b);
         ((N2oEnvironment) builder.getEnvironment()).setMetadataRegister(testMetaDataRegister);
-        b.packs(new N2oAllPack(), new N2oAllValidatorsPack(), new N2oAllDataPack(), new N2oAllPagesPack(), new N2oApplicationPack(), new AccessSchemaPack());
+        b.packs(new N2oAllPack(), new AccessSchemaPack(), new N2oApplicationPack(), new N2oAllValidatorsPack());
         XmlInfoScanner[] scanners = new XmlInfoScanner[foldersToScan.length];
         for (int i = 0; i < foldersToScan.length; i++)
             scanners[i] = new XmlInfoScanner("classpath*:" + foldersToScan[i] + "/**/*.xml");
@@ -127,7 +127,8 @@ class AutotestMetadataValidationTest extends N2oTestBase {
             if (uuidPattern.matcher(id).matches())
                 return id;
             String parsedPath = RouteUtil.parsePath(id);
-            Optional<UriMetadataId> first = uriUUIDMap.get(currentUri).stream().filter(uriId -> uriId.id.equals(parsedPath) && uriId.metadataClass.equals(sourceClass)).findFirst();
+            Optional<UriMetadataId> first = uriUUIDMap.get(currentUri).stream().filter(uriId ->
+                    uriId.id.equals(parsedPath) && uriId.metadataClass.isAssignableFrom(sourceClass)).findFirst();
             if (first.isPresent())
                 return first.get().uuid;
             else throw new N2oMetadataValidationException("Metadata not found: " + id);

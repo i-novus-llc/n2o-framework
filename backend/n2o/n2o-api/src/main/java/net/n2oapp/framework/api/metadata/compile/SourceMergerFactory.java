@@ -9,9 +9,9 @@ public interface SourceMergerFactory extends MetadataFactory<SourceMerger<?>> {
     /**
      * Заменить свойства исходной метаданной значениями перекрывающей метаданной, если они не пусты
      *
-     * @param source   Исходная метаданная
-     * @param override Перекрывающая метаданная
+     * @param ref   Перекрывающая метаданная
+     * @param source Исходная метаданная
      * @return Исходная метаданная с перекрытыми свойствами
      */
-    <S> S merge(S source, S override);
+    <S> S merge(S ref, S source);
 }

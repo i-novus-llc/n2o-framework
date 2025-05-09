@@ -395,8 +395,8 @@ public class N2oEnvironmentConfiguration {
         @Bean
         IOProcessor readerProcessor(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
                                     NamespaceReaderFactory readerFactory,
-                                    ConfigurableEnvironment environment) {
-            IOProcessorImpl ioProcessor = new IOProcessorImpl(readerFactory);
+                                    ConfigurableEnvironment environment, MetadataEnvironment metadataEnvironment) {
+            IOProcessorImpl ioProcessor = new IOProcessorImpl(readerFactory, metadataEnvironment);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
             ioProcessor.setSystemProperties(environment);
             ioProcessor.setFailFast(environment.getProperty("n2o.config.fail_fast", Boolean.class, true));

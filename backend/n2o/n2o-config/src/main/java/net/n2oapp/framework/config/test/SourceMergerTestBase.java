@@ -10,7 +10,7 @@ public abstract class SourceMergerTestBase extends N2oTestBase {
 
     protected ReadTerminalPipeline<?> merge(String sourceXml, String overrideXml) {
         return builder.sources(new CompileInfo(sourceXml), new CompileInfo(overrideXml))
-                .read().merge();
+                .read();
     }
 
 }

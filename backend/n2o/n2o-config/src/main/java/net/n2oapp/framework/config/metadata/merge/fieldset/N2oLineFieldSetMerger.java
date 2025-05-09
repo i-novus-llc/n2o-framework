@@ -15,10 +15,10 @@ public class N2oLineFieldSetMerger extends N2oFieldSetMerger<N2oLineFieldSet> {
     }
 
     @Override
-    public N2oLineFieldSet merge(N2oLineFieldSet source, N2oLineFieldSet override) {
-        setIfNotNull(source::setExpand, override::getExpand);
-        setIfNotNull(source::setCollapsible, override::getCollapsible);
-        setIfNotNull(source::setHasSeparator, override::getHasSeparator);
+    public N2oLineFieldSet merge(N2oLineFieldSet ref, N2oLineFieldSet source) {
+        setIfNotNull(source::setExpand, source::getExpand, ref::getExpand);
+        setIfNotNull(source::setCollapsible, source::getCollapsible, ref::getCollapsible);
+        setIfNotNull(source::setHasSeparator, source::getHasSeparator, ref::getHasSeparator);
         return source;
     }
 }

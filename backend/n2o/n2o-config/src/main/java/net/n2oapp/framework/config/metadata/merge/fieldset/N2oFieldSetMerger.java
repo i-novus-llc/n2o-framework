@@ -16,22 +16,29 @@ public class N2oFieldSetMerger<T extends N2oFieldSet> implements BaseSourceMerge
     }
 
     @Override
-    public T merge(T source, T override) {
-        setIfNotNull(source::setId, override::getId);
-        setIfNotNull(source::setItems, override::getItems);
-        setIfNotNull(source::setLabel, override::getLabel);
-        setIfNotNull(source::setDescription, override::getDescription);
-        setIfNotNull(source::setCssClass, override::getCssClass);
-        setIfNotNull(source::setStyle, override::getStyle);
-        setIfNotNull(source::setSrc, override::getSrc);
-        setIfNotNull(source::setFieldLabelLocation, override::getFieldLabelLocation);
-        setIfNotNull(source::setFieldLabelAlign, override::getFieldLabelAlign);
-        setIfNotNull(source::setFieldLabelWidth, override::getFieldLabelWidth);
-        setIfNotNull(source::setVisible, override::getVisible);
-        setIfNotNull(source::setEnabled, override::getEnabled);
-        setIfNotNull(source::setDependsOn, override::getDependsOn);
-        setIfNotNull(source::setHelp, override::getHelp);
-        mergeExtAttributes(source, override);
+    public T merge(T ref, T source) {
+        setIfNotNull(source::setId, source::getId, ref::getId);
+        setIfNotNull(source::setItems, source::getItems, ref::getItems);
+        setIfNotNull(source::setLabel, source::getLabel, ref::getLabel);
+        setIfNotNull(source::setDescription, source::getDescription, ref::getDescription);
+        setIfNotNull(source::setCssClass, source::getCssClass, ref::getCssClass);
+        setIfNotNull(source::setStyle, source::getStyle, ref::getStyle);
+        setIfNotNull(source::setSrc, source::getSrc, ref::getSrc);
+        setIfNotNull(source::setFieldLabelLocation, source::getFieldLabelLocation, ref::getFieldLabelLocation);
+        setIfNotNull(source::setFieldLabelAlign, source::getFieldLabelAlign, ref::getFieldLabelAlign);
+        setIfNotNull(source::setFieldLabelWidth, source::getFieldLabelWidth, ref::getFieldLabelWidth);
+        setIfNotNull(source::setVisible, source::getVisible, ref::getVisible);
+        setIfNotNull(source::setEnabled, source::getEnabled, ref::getEnabled);
+        setIfNotNull(source::setDependsOn, source::getDependsOn, ref::getDependsOn);
+        setIfNotNull(source::setHelp, source::getHelp, ref::getHelp);
+        setIfNotNull(source::setBadge, source::getBadge, ref::getBadge);
+        setIfNotNull(source::setBadgeColor, source::getBadgeColor, ref::getBadgeColor);
+        setIfNotNull(source::setBadgePosition, source::getBadgePosition, ref::getBadgePosition);
+        setIfNotNull(source::setBadgeShape, source::getBadgeShape, ref::getBadgeShape);
+        setIfNotNull(source::setBadgeImage, source::getBadgeImage, ref::getBadgeImage);
+        setIfNotNull(source::setBadgeImagePosition, source::getBadgeImagePosition, ref::getBadgeImagePosition);
+        setIfNotNull(source::setBadgeImageShape, source::getBadgeImageShape, ref::getBadgeImageShape);
+        mergeExtAttributes(ref, source);
         return source;
     }
 }

@@ -74,10 +74,6 @@ public final class ValidationUtils {
         ValidatorDatasourceIdsScope datasourceIdsScope = p.getScope(ValidatorDatasourceIdsScope.class);
         ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
 
-        //ToDo исправить, после переработки механизма pipeline
-        if (dataSourcesScope == null && datasourceIdsScope == null)
-            return;
-
         if ((datasourceIdsScope == null || !datasourceIdsScope.contains(dsId))
                 && (dataSourcesScope == null || !dataSourcesScope.containsKey(dsId))) {
             throw new N2oMetadataValidationException(msg);

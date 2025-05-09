@@ -23,6 +23,7 @@ public class MultiFieldsetElementIOv4 extends FieldsetElementIOv4<N2oMultiFieldS
         p.attribute(e, "can-remove-all", fs::getCanRemoveAll, fs::setCanRemoveAll);
         p.attribute(e, "remove-all-label", fs::getRemoveAllButtonLabel, fs::setRemoveAllButtonLabel);
         p.attribute(e, "can-copy", fs::getCanCopy, fs::setCanCopy);
+        p.merge(fs, getElementName());
     }
 
     @Override

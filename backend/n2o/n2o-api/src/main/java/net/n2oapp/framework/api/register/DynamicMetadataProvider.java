@@ -1,8 +1,8 @@
 package net.n2oapp.framework.api.register;
 
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -46,4 +46,13 @@ public interface DynamicMetadataProvider {
     default boolean cache(String params) {
         return false;
     }
+
+//    /**
+//     * Слияние переданной модели с моделью считанной через id
+//     *
+//     * @param id Идентификатор модели для считывания
+//     * @param m  модель в которую будут слиты данные из считанной
+//     * @return true кэшировать
+//     */
+//    <T extends SourceMetadata> T merge(String id, T m);
 }

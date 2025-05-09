@@ -52,27 +52,14 @@ public class ApplicationValidator implements SourceValidator<N2oApplication>, So
                 throw new N2oMetadataValidationException(String.format("<header> ссылается на несуществующий источник данных %s",
                         ValidationUtils.getIdOrEmptyString(source.getHeader().getDatasourceId())));
 
-            if (source.getHeader().getExtraMenu() != null) {
-                p.checkForExists(source.getHeader().getExtraMenu().getRefId(), N2oSimpleMenu.class,
-                        String.format("<extra-menu> хедера приложения %s ссылается на несуществующий 'ref-id = %s'",
-                                ValidationUtils.getIdOrEmptyString(source.getId()),
-                                source.getHeader().getExtraMenu().getRefId()));
+            if (source.getHeader().getExtraMenu() != null)
                 p.validate(source.getHeader().getExtraMenu(), datasourceIdsScope);
-            }
-            if (source.getHeader().getMenu() != null) {
-                p.checkForExists(source.getHeader().getMenu().getRefId(), N2oSimpleMenu.class,
-                        String.format("<menu> хедера приложения %s ссылается на несуществующий 'ref-id = %s'",
-                                ValidationUtils.getIdOrEmptyString(source.getId()),
-                                source.getHeader().getMenu().getRefId()));
+            if (source.getHeader().getMenu() != null)
                 p.validate(source.getHeader().getMenu(), datasourceIdsScope);
-            }
+
         }
 
         if (!ArrayUtils.isEmpty(source.getSidebars())) {
-            p.safeStreamOf(sidebars).forEach(sidebar -> p.checkForExists(sidebar.getRefId(), N2oSidebar.class,
-                    String.format("<sidebar> приложения %s ссылается на несуществующий 'ref-id = %s'",
-                            ValidationUtils.getIdOrEmptyString(source.getId()),
-                            sidebar.getRefId())));
             SidebarPathsScope sidebarsPaths = new SidebarPathsScope();
             p.safeStreamOf(sidebars).forEach(sidebar -> p.validate(sidebar, sidebarsPaths, dataSourcesScope, datasourceIdsScope));
         }

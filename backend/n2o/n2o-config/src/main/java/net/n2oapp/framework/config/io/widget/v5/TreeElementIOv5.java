@@ -26,6 +26,7 @@ public class TreeElementIOv5 extends WidgetElementIOv5<N2oTree> implements Badge
         p.attribute(e, "image-field-id", m::getImageFieldId, m::setImageFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         refBadge(e, m, p);
+        p.merge(m,getElementName());
     }
 
     @Override

@@ -58,7 +58,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         compileBaseProperties(source, page, context, p);
         String pageRoute = initPageRoute(source, context, p);
 
-        List<N2oWidget> sourceWidgets = collectWidgets(source, p);
+        List<N2oWidget> sourceWidgets = source.getWidgets();
         N2oWidget resultWidget = initResultWidget(sourceWidgets);
 
         BreadcrumbList breadcrumb = initBreadcrumb(source, pageName, context, p);
@@ -235,22 +235,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 compiledDataSources.put(compiled.getId(), compiled);
             }
         return compiledDataSources;
-    }
-
-    protected List<N2oWidget> collectWidgets(S source, CompileProcessor p) {
-        List<N2oWidget> widgets = source.getWidgets();
-        return mergeNotDynamic(widgets, p);
-    }
-
-    private List<N2oWidget> mergeNotDynamic(List<N2oWidget> widgets, CompileProcessor p) {
-        List<N2oWidget> result = new ArrayList<>();
-        for (N2oWidget w : widgets) {
-            String refId = w.getRefId();
-            if (nonNull(refId) && !DynamicUtil.isDynamic(refId))
-                w = p.merge(p.getSource(refId, N2oWidget.class), w);
-            result.add(w);
-        }
-        return result;
     }
 
     /**

@@ -34,8 +34,8 @@ public class XmlIOVersionMigrator {
     );
 
     public XmlIOVersionMigrator(N2oApplicationBuilder builder) {
-        ReaderFactoryByMap readerFactoryByMap = new ReaderFactoryByMap();
-        readerFactoryByMap.setIOProcessor(new MigratorIOProcessorImpl(readerFactoryByMap));
+        ReaderFactoryByMap readerFactoryByMap = new ReaderFactoryByMap(builder.getEnvironment());
+        readerFactoryByMap.setIOProcessor(new MigratorIOProcessorImpl(readerFactoryByMap, builder.getEnvironment()));
         if (builder.getEnvironment().getNamespaceReaderFactory() instanceof ReaderFactoryByMap factoryByMap) {
             factoryByMap.getMap().values().stream()
                     .flatMap(v -> v.values().stream())
@@ -45,7 +45,7 @@ public class XmlIOVersionMigrator {
         this.readerFactory = readerFactoryByMap;
 
         PersisterFactoryByMap persisterFactoryByMap = new PersisterFactoryByMap();
-        persisterFactoryByMap.setIOProcessor(new MigratorIOProcessorImpl(persisterFactoryByMap));
+        persisterFactoryByMap.setIOProcessor(new MigratorIOProcessorImpl(persisterFactoryByMap, builder.getEnvironment()));
         if (builder.getEnvironment().getNamespacePersisterFactory() instanceof PersisterFactoryByMap factoryByMap) {
             factoryByMap.getMap().values().stream()
                     .flatMap(v -> v.values().stream())
