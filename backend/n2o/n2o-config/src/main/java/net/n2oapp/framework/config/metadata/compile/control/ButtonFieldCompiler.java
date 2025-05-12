@@ -5,9 +5,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
-import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.config.util.DatasourceUtil;
@@ -53,16 +50,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         button.setProperties(p.mapAttributes(source));
         button.setIcon(source.getIcon());
         button.setLabel(p.resolveJS(source.getLabel()));
-        CompiledObject.Operation operation = null;
-        Action action = compileAction(source, button, context, p);
 
-        if (action instanceof InvokeAction invokeAction) {
-            String objectId = invokeAction.getObjectId() == null ? source.getWidgetId() : invokeAction.getObjectId();
-            CompiledObject compiledObject = getCompiledObject(p, objectId);
-            operation = compiledObject != null && compiledObject.getOperations() != null
-                    && compiledObject.getOperations().containsKey(invokeAction.getOperationId()) ?
-                    compiledObject.getOperations().get(invokeAction.getOperationId()) : null;
-        }
+        compileAction(source, button, context, p);
 
         String hint;
         hint = source.getDescription();

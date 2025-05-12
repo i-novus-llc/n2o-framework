@@ -30,6 +30,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,7 +95,7 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
             if (resourceLoader == null)
                 throw new IllegalStateException("Resource Loader should not be null");
             try (InputStream is = resourceLoader.getResource(invocation.getFilePath()).getInputStream()) {
-                return IOUtils.toString(is, "UTF-8");
+                return IOUtils.toString(is, StandardCharsets.UTF_8);
             } catch (IOException e) {
                 throw new N2oException(e);
             }
@@ -192,7 +193,7 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
             sqlMessage = badSqlGE.getSQLException().getMessage();
         Matcher matcher = SQL_ERROR_PATTERN.matcher(sqlMessage);
         if (matcher.find())
-            return "Bad SQL grammar: " + (matcher.group().startsWith("\n")  ?
+            return "Bad SQL grammar: " + (matcher.group().startsWith("\n") ?
                     StringUtils.substringBetween(matcher.group(), "\n", "; SQL statement:")
                     : StringUtils.substringBefore(matcher.group(), "; SQL statement:"));
         return sqlMessage;

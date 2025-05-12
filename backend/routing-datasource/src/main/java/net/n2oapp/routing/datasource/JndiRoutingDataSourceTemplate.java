@@ -22,9 +22,7 @@ public class JndiRoutingDataSourceTemplate {
 
     public <T> T execute(String jndiName, final TransactionCallback<T> action) {
         if (transactionTemplate == null) throw new IllegalStateException("transactionTemplate is null");
-        return execute(jndiName, () -> {
-            return transactionTemplate.execute(action);
-        });
+        return execute(jndiName, () -> transactionTemplate.execute(action));
     }
 
     public void setTransactionTemplate(TransactionTemplate transactionTemplate) {

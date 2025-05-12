@@ -506,7 +506,7 @@ public class ScriptProcessor {
         Set<String> buffer = new HashSet<>();
         boolean begin = true;
         for (String tmp : src.split("\\,")) {
-            String s[] = tmp.split("\\[");
+            String[] s = tmp.split("\\[");
             if (s.length > 1) tmp = s[0];
             else {
                 s = tmp.split("\\*");

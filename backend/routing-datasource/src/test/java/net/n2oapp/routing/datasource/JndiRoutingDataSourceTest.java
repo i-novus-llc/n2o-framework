@@ -8,7 +8,6 @@ import java.sql.Connection;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +31,7 @@ class JndiRoutingDataSourceTest {
         DataSource dataSource = mock(DataSource.class);
         Connection connection = mock(Connection.class);
         when(dataSource.getConnection()).thenReturn(connection);
-        when(dataSourceLookup.getDataSource(eq("test"))).thenReturn(dataSource);
+        when(dataSourceLookup.getDataSource("test")).thenReturn(dataSource);
         jndiRoutingDataSource = new JndiRoutingDataSource();
         jndiRoutingDataSource.setLazyDetermineDS(true);
         jndiRoutingDataSource.setDataSourceLookup(dataSourceLookup);

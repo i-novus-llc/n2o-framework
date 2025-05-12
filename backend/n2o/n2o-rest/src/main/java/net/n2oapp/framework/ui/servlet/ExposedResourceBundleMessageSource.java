@@ -10,7 +10,7 @@ import java.util.Set;
 public class ExposedResourceBundleMessageSource extends ResourceBundleMessageSource {
     public Set<String> getKeys(String basename, Locale locale) {
         ResourceBundle bundle = getResourceBundle(basename, locale);
-        if (bundle == null) return Collections.EMPTY_SET;
+        if (bundle == null) return Collections.emptySet();
         return bundle.keySet();
     }
 }

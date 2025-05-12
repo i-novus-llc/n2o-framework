@@ -69,9 +69,7 @@ public class RouteInfo implements Comparable<RouteInfo> {
         int res = 0;
         for (int i = 0; i < splitUrl.length && i < splitUrl2.length; i++) {
             res = splitUrl[i].compareTo(splitUrl2[i]);
-            if (res == 0) {
-                continue;
-            } else {
+            if (res != 0) {
                 return res > 0 ? -1 : 1;
             }
         }
