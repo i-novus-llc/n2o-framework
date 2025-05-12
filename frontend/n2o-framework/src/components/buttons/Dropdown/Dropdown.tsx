@@ -18,11 +18,13 @@ function DropdownButtonBody({
     storeButtons,
     subMenu = EMPTY_ARRAY,
     showToggleIcon = true,
-    visible: globalVisible = true,
+    visible = true,
     ...rest
 }: DropdownProps) {
     const [open, setOpen] = useState(false)
     const [popperKey, setPopperKey] = useState(0)
+
+    if (!visible) { return null }
 
     const toggle = () => {
         let newPopperKey = popperKey
@@ -35,22 +37,16 @@ function DropdownButtonBody({
 
     const onClick = () => setOpen(false)
 
-    const visible = storeButtons
-        ? subMenu.some((item) => {
-            const { visible } = item || {}
+    const childrenVisible = storeButtons && subMenu.some((item) => {
+        const { visible, id } = item || {}
 
-            if (visible !== undefined) { return visible }
-
-            const { id } = item
-
-            return get(storeButtons, `${id}.visible`)
-        })
-        : false
+        return visible !== undefined ? visible : get(storeButtons, `${id}.visible`)
+    })
 
     return (
         <Popper
             {...rest}
-            visible={visible && globalVisible}
+            visible={childrenVisible}
             actionCallback={actionCallback}
             toggle={toggle}
             onClick={onClick}
