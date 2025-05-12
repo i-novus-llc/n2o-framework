@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import { Toolbar, ToolbarProps } from '../buttons/Toolbar'
 import { ModelPrefix } from '../../core/datasource/const'
 
-import Page from './Page'
+import { OverlayPage } from './Page'
 import { PageTitle } from './PageTitle'
 import withOverlayMethods from './withOverlayMethods'
 
@@ -76,7 +76,7 @@ const ModalPage = ({
     const renderModalBody = () => {
         if (pageUrl) {
             return (
-                <Page
+                <OverlayPage
                     pageUrl={pageUrl}
                     pageId={pageId}
                     pageMapping={pageMapping}
