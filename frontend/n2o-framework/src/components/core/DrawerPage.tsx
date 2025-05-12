@@ -6,7 +6,7 @@ import { Spinner, SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinne
 import Toolbar, { type ToolbarProps } from '../buttons/Toolbar'
 
 import { WithOverlayMethods, type WithOverlayMethodsProps } from './withOverlayMethods'
-import Page from './Page'
+import { OverlayPage } from './Page'
 
 interface Props extends WithOverlayMethodsProps {
     visible?: boolean
@@ -75,7 +75,7 @@ function DrawerPage({
     const renderPage = () => {
         if (pageUrl) {
             return (
-                <Page
+                <OverlayPage
                     pageUrl={pageUrl}
                     pageId={pageId}
                     pageMapping={pageMapping}

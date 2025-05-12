@@ -67,4 +67,8 @@ export const Page = flowRight(
     WithMetadata<PageProps>,
     WithActions<PageProps>,
 )(PageBody)
-export default Page
+
+export const OverlayPage = flowRight(
+    connect(mapStateToProps),
+    WithMetadata<PageProps>,
+)(PageBody)
