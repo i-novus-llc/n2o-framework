@@ -6,7 +6,7 @@ import { Toolbar, ToolbarProps } from '../buttons/Toolbar'
 import { ModelPrefix } from '../../core/datasource/const'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
-import Page from './Page'
+import { OverlayPage } from './Page'
 import { PageTitle } from './PageTitle'
 import { WithOverlayMethods, type WithOverlayMethodsProps } from './withOverlayMethods'
 
@@ -72,7 +72,7 @@ const ModalPage = ({
     const renderModalBody = () => {
         if (pageUrl) {
             return (
-                <Page
+                <OverlayPage
                     pageUrl={pageUrl}
                     pageId={pageId}
                     pageMapping={pageMapping}
@@ -112,17 +112,11 @@ const ModalPage = ({
                 </ModalHeader>
             )}
 
-            <ModalBody className={classes}>
-                {renderModalBody()}
-            </ModalBody>
+            <ModalBody className={classes}>{renderModalBody()}</ModalBody>
 
             {toolbar && (
                 <ModalFooter className={classes}>
-                    <div
-                        className={classNames('n2o-modal-actions', {
-                            'n2o-disabled': disabled,
-                        })}
-                    >
+                    <div className={classNames('n2o-modal-actions', { 'n2o-disabled': disabled })}>
                         <Toolbar toolbar={toolbar.bottomLeft} entityKey={entityKey} />
                         <Toolbar toolbar={toolbar.bottomCenter} entityKey={entityKey} />
                         <Toolbar toolbar={toolbar.bottomRight} entityKey={entityKey} />

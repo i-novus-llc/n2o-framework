@@ -13,7 +13,7 @@ import { State } from '../../ducks/State'
 
 import { WithMetadata, type WithMetadataProps } from './withMetadata'
 import OverlayPages from './OverlayPages'
-import { PageProps } from './Page'
+import { type PageProps } from './Page'
 
 export interface RootPageProps extends WithMetadataProps {
     spinner: Record<string, unknown>
