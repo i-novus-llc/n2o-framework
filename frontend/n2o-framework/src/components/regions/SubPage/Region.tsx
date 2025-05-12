@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import { Switch, Route, matchPath } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-import Page from '../../core/Page'
+import { Page } from '../../core/Page'
 import { PageContext } from '../../core/router/context'
 import { resolvePath } from '../../core/router/resolvePath'
 import { useLocation } from '../../core/router/useLocation'

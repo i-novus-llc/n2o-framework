@@ -20,7 +20,7 @@ import { ErrorContainer } from '../../core/error/Container'
 import withMetadata from './withMetadata'
 import withActions from './withActions'
 
-function Page(props) {
+function PageBody(props) {
     const {
         metadata,
         loading,
@@ -44,19 +44,19 @@ function Page(props) {
     )
 }
 
-Page.propTypes = {
+PageBody.propTypes = {
     metadata: PropTypes.object,
     error: PropTypes.object,
     loading: PropTypes.bool,
 }
 
-export { Page }
+export { PageBody }
 
 const mapStateToProps = createStructuredSelector({
     disabled: (state, { pageId }) => makePageDisabledByIdSelector(pageId)(state),
 })
 
-export default compose(
+export const Page = compose(
     connect(mapStateToProps),
     withPropsOnChange(
         ['pageId', 'pageUrl'],
@@ -73,4 +73,22 @@ export default compose(
         loading: false,
         disabled: false,
     }),
-)(Page)
+)(PageBody)
+
+export const OverlayPage = compose(
+    connect(mapStateToProps),
+    withPropsOnChange(
+        ['pageId', 'pageUrl'],
+        ({ pageId, pageUrl }) => ({
+            pageId: pageId || pageUrl || null,
+            pageUrl: pageUrl || '/',
+        }),
+    ),
+    withMetadata,
+    defaultProps({
+        metadata: {},
+        spinner: {},
+        loading: false,
+        disabled: false,
+    }),
+)(PageBody)
