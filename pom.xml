@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -14,7 +15,9 @@
     <version>7.27.30-SNAPSHOT</version>
 
     <name>N2O Framework</name>
-    <description>Framework for creating web applications with rich user interface without deep knowledge of WEB technologies and Frontend frameworks. Based on Java и ReactJS</description>
+    <description>Framework for creating web applications with rich user interface without deep knowledge of WEB
+        technologies and Frontend frameworks. Based on Java и ReactJS
+    </description>
     <url>https://n2oapp.net</url>
     <licenses>
         <license>
@@ -40,9 +43,7 @@
         <maven.failsafe.version>2.22.2</maven.failsafe.version>
         <maven.javadoc.version>3.2.0</maven.javadoc.version>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-
         <lombok.version>1.18.22</lombok.version>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -51,10 +52,14 @@
         <junit-jupiter.version>5.5.2</junit-jupiter.version>
         <allure-junit5.version>2.13.3</allure-junit5.version>
         <selenium.version>4.11.0</selenium.version>
+        <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <h2.version>1.4.200</h2.version>
-
         <httpclient5.version>5.2.1</httpclient5.version>
         <webdrivermanager.version>5.3.2</webdrivermanager.version>
+        <docker.image.tag>${project.version}-${maven.build.timestamp}</docker.image.tag>
     </properties>
 
     <build>
@@ -77,7 +82,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${jococo-maven-plugin.version}</version>
+                    <version>${jacoco-maven-plugin.version}</version>
                     <configuration>
                         <destFile>${project.build.directory}/jacoco.exec</destFile>
                     </configuration>
@@ -102,7 +107,7 @@
                         <execution>
                             <id>attach-sources</id>
                             <goals>
-                                <goal>jar-no-fork</goal>
+                                <goal>jar</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -129,14 +134,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -144,6 +141,7 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
             <plugin>
@@ -155,6 +153,16 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
                     <skip>false</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven-release-plugin.version}</version>
+                <configuration>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <releaseProfiles>releases</releaseProfiles>
                 </configuration>
             </plugin>
             <plugin>
@@ -171,16 +179,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>${maven-release-plugin.version}</version>
-                <configuration>
-                    <tagNameFormat>@{project.version}</tagNameFormat>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <releaseProfiles>releases</releaseProfiles>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
                 <version>2.10.0</version>
@@ -189,47 +187,79 @@
                     <resultsDirectory>../allure-results</resultsDirectory>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-docker-resources</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.basedir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/.docker-compose</directory>
+                                    <targetPath>${project.basedir}/.docker-compose/target</targetPath>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>*.yml</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/target/**</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-k8s-resources</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.basedir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/.k8s</directory>
+                                    <targetPath>${project.basedir}/.k8s/target</targetPath>
+                                    <filtering>true</filtering>
+                                    <excludes>
+                                        <exclude>**/target/**</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-k8s-local-resources</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.basedir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/.k8s-local/helm</directory>
+                                    <targetPath>${project.basedir}/.k8s-local/target</targetPath>
+                                    <filtering>true</filtering>
+                                    <excludes>
+                                        <exclude>**/target/**</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
-
     <profiles>
-        <profile>
-            <id>autotests</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven.failsafe.version}</version>
-                        <configuration>
-                            <argLine>-Dfile.encoding=UTF-8</argLine>
-                            <additionalClasspathElements>
-                                <additionalClasspathElement>${basedir}/target/classes</additionalClasspathElement>
-                            </additionalClasspathElements>
-                            <includes>
-                                <include>**/*AT.java</include>
-                            </includes>
-                            <excludes>
-                                <exclude>**/*Test.java</exclude>
-                                <exclude>**/*Tests.java</exclude>
-                            </excludes>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>frontend</id>
             <activation>
@@ -288,6 +318,47 @@
             </modules>
         </profile>
         <profile>
+            <id>autotests</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>3.2.5</version>
+                        <configuration>
+                            <testFailureIgnore>false</testFailureIgnore>
+                            <argLine>
+                                -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                            </argLine>
+                            <includes>
+                                <include>**/*AT.java</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/*Test.java</exclude>
+                                <exclude>**/*Tests.java</exclude>
+                            </excludes>
+                            <properties>
+                                <property>
+                                    <name>listener</name>
+                                    <value>io.qameta.allure.junit5.AllureJunit5</value>
+                                </property>
+                            </properties>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.aspectj</groupId>
+                                <artifactId>aspectjweaver</artifactId>
+                                <version>${aspectj.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>release</id>
             <activation>
                 <property>
@@ -298,16 +369,12 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>${maven-gpg-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -327,7 +394,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.13</version>
+                        <version>${nexus-staging-maven-plugin.version}</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
@@ -339,6 +406,17 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>ci-build</id>
+            <activation>
+                <property>
+                    <name>ci.commit.sha</name>
+                </property>
+            </activation>
+            <properties>
+                <docker.env.name><!--do not delete, property overrides at ci-build--></docker.env.name>
+                <docker.image.tag>${project.version}${ci.commit.sha}${docker.env.name}</docker.image.tag>
+            </properties>
+        </profile>
     </profiles>
-
 </project>

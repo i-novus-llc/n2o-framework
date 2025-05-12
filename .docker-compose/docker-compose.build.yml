@@ -1,0 +1,15 @@
+services:
+  demo:
+    image: "${DOCKER_REGISTRY}/n2o/demo:${docker.image.tag}"
+    build:
+      context: ${project.basedir}/demo/server
+
+  docusaurus:
+    image: "${DOCKER_REGISTRY}/n2o/docusaurus:${docker.image.tag}"
+    build:
+      context: ${project.basedir}/frontend/docs
+
+  n2o-sandbox:
+    image: "${DOCKER_REGISTRY}/n2o/n2o-sandbox:${docker.image.tag}"
+    build:
+      context: ${project.basedir}/sandbox/server
