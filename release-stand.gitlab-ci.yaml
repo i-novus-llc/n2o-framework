@@ -16,6 +16,7 @@ deploy release stand:
     K8S_INGRESS_HOST: "7-27.n2oapp-dev.net"
     K8S_NAMESPACE: "release-7-27"
     HELM_OPTIONAL_VALUES: "-f $HELM_CHART_PATH/values.release.yaml --take-ownership"
+    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
   tags: [dev]
