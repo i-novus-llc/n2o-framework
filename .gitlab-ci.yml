@@ -5,7 +5,6 @@ include:
       - dev-stand.gitlab-ci.yml
       - story.gitlab-ci.yml
       - merge-request.gitlab-ci.yml
-  - local: 'release-stand.gitlab-ci.yaml'
 
 build:
   variables:
