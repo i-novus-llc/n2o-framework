@@ -66,19 +66,19 @@ class DndColumnAT extends AutoTestBase {
         headers.header(0).shouldNotBeDraggable();
 
         headers.header(1).shouldHaveTitle("firstName");
-        headers.header(1).shouldHaveDndIcon();
+        headers.header(1).shouldNotHaveDndIcon();
         headers.header(1).shouldNotBeDraggable();
 
         headers.header(2).shouldHaveTitle("lastName");
-        headers.header(2).shouldHaveDndIcon();
+        headers.header(2).shouldNotHaveDndIcon();
         headers.header(2).shouldNotBeDraggable();
 
         headers.header(3).shouldHaveTitle("phone");
-        headers.header(3).shouldHaveDndIcon();
+        headers.header(3).shouldNotHaveDndIcon();
         headers.header(3).shouldNotBeDraggable();
 
         headers.header(4).shouldHaveTitle("birthday");
-        headers.header(4).shouldHaveDndIcon();
+        headers.header(4).shouldNotHaveDndIcon();
         headers.header(4).shouldNotBeDraggable();
 
         // Проверка dnd-колонок в настройках
@@ -172,19 +172,19 @@ class DndColumnAT extends AutoTestBase {
 
         button.menuItem(1).shouldHaveLabel("firstName");
         button.menuItem(1).shouldNotBeDraggable();
-        button.menuItem(1).shouldHaveDndIcon();
+        button.menuItem(1).shouldNotHaveDndIcon();
 
         button.menuItem(2).shouldHaveLabel("lastName");
         button.menuItem(2).shouldNotBeDraggable();
-        button.menuItem(2).shouldHaveDndIcon();
+        button.menuItem(2).shouldNotHaveDndIcon();
 
         button.menuItem(3).shouldHaveLabel("phone");
         button.menuItem(3).shouldNotBeDraggable();
-        button.menuItem(3).shouldHaveDndIcon();
+        button.menuItem(3).shouldNotHaveDndIcon();
 
         button.menuItem(4).shouldHaveLabel("birthday");
         button.menuItem(4).shouldNotBeDraggable();
-        button.menuItem(4).shouldHaveDndIcon();
+        button.menuItem(4).shouldNotHaveDndIcon();
         button.click();
 
         // Драг-н-дроп в таблице: переносим столбец "firstName" после "phone"
