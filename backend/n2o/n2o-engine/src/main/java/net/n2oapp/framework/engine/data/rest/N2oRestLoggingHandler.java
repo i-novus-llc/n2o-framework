@@ -8,7 +8,7 @@ import org.springframework.http.HttpMethod;
 
 public class N2oRestLoggingHandler implements RestLoggingHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(SpringRestDataProviderEngine.class);
+    private static final Logger log = LoggerFactory.getLogger(N2oRestLoggingHandler.class);
 
     @Override
     public void handleError(Exception e, HttpMethod method, String query, HttpHeaders headers) {

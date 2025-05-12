@@ -52,7 +52,7 @@ public abstract class RouteUtil {
      * @return Нормализованный параметр
      */
     public static String normalizeParam(String field) {
-        return field.replaceAll("\\W", "_").replaceAll("_{1,}", "_");
+        return field.replaceAll("\\W", "_").replaceAll("_+", "_");
     }
 
     /**

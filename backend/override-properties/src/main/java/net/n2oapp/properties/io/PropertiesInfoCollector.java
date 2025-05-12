@@ -40,7 +40,7 @@ public class PropertiesInfoCollector {
 
     public String getGroup(String property) {
         return getPropertyInfoMap().entrySet().stream()
-                .filter(e -> e.getValue().stream().filter(p -> p.key.equals(property)).findFirst().isPresent())
+                .filter(e -> e.getValue().stream().anyMatch(p -> p.key.equals(property)))
                 .findFirst().map(Map.Entry::getKey).orElse(null);
     }
 

@@ -11,7 +11,4 @@ public abstract class N2oAccessSchema extends N2oMetadata {
     public String getPostfix() {
         return "access";
     }
-
-    @Override
-    public abstract Class<? extends N2oAccessSchema> getSourceBaseClass();
 }

@@ -31,7 +31,7 @@ public class N2oPreparedCriteria extends Criteria {
     public N2oPreparedCriteria(String fieldId, Object fieldValue, int size) {
         super();
         setSize(size);
-        setSortings(Collections.EMPTY_LIST);
+        setSortings(Collections.emptyList());
         addRestriction(new Restriction(fieldId, fieldValue));
     }
 
