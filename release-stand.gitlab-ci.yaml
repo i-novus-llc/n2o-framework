@@ -1,0 +1,33 @@
+include:
+  - project: ${PIPELINE_REPOSITORY_PREFIX}devenv/gitlab/pipelines
+    ref: '3.2.2'
+    file:
+      - .maven-k8s.gitlab-ci.yml
+
+extract release version:
+  stage: deploy
+  script:
+    - export RELEASE_VERSION=$(echo "$CI_COMMIT_BRANCH" | grep -oP '(?<=release/)[0-9]+\.[0-9]+')
+    - echo "RELEASE_VERSION=$RELEASE_VERSION" >> release.env
+  artifacts:
+    reports:
+      dotenv: release.env
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
+
+build release stand:
+  extends: .build maven
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
+
+deploy release stand:
+  extends: .deploy
+  needs: [extract release version]
+  environment: "dev-${RELEASE_VERSION}"
+  variables:
+    K8S_INGRESS_HOST: "${RELEASE_VERSION//./-}.n2oapp-dev.net"
+    HELM_OPTIONAL_VALUES: "-f $HELM_CHART_PATH/values.release.yaml --take-ownership"
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
+  tags:
+    - "release"
