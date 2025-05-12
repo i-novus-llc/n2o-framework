@@ -1,9 +1,3 @@
-include:
-  - project: ${PIPELINE_REPOSITORY_PREFIX}devenv/gitlab/pipelines
-    ref: '3.2.2'
-    file:
-      - .maven-k8s.gitlab-ci.yml
-
 build release stand:
   extends: .build maven
   variables:
@@ -15,7 +9,7 @@ deploy release stand:
   extends: .deploy
   environment: "release-7-27"
   variables:
-    K8S_INGRESS_HOST: "7-27.n2oapp-dev.net"
+    K8S_INGRESS_HOST: "n2o-framework-7-27-dev.i-novus.ru"
     K8S_NAMESPACE: "release-7-27"
     HELM_OPTIONAL_VALUES: "-f $HELM_CHART_PATH/values.release.yaml --take-ownership"
   rules:
