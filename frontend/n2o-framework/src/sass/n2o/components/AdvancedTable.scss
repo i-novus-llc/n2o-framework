@@ -13,6 +13,11 @@
     text-align: center;
 }
 
+.n2o-advanced-table-header-cell__header {
+    display: flex;
+    align-items: center;
+}
+
 @each $alignment, $inline-value in $table-alignments-inline {
     .n2o-advanced-table-header-cel.alignment-#{$alignment} {
         text-align: $inline-value;

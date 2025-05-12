@@ -9,7 +9,7 @@ import { getTableParam, makeTableByIdSelector } from '../../../ducks/table/selec
 import { VISIBLE_STATE, IS_DEFAULT_COLUMNS } from '../../../ducks/table/constants'
 import { useReduxButton } from '../useReduxButton'
 import { getAllValuesByKey } from '../../Table/utils'
-import { HeaderCell } from '../../../ducks/table/Table'
+import { type HeaderCell } from '../../../ducks/table/Table'
 import { TableActionsProvider } from '../../Table/provider/TableActions'
 
 import { type Props } from './types'

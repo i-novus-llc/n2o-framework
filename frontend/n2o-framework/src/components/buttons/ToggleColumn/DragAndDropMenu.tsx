@@ -51,7 +51,7 @@ export function DragAndDropMenu({ items, id, onClick, lockedColumns, moveMode, g
 
         return (
             <section className={classNames(DRAG_WRAPPER_CLASS)} key={item.id}>
-                <DragHandle label={item.label} {...elementAttributes} />
+                <DragHandle label={item.label} {...elementAttributes} empty={!draggable} />
                 <DropdownItem
                     item={item}
                     onClick={onClick}

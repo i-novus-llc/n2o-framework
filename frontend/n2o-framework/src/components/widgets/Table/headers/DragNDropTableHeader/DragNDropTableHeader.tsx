@@ -72,7 +72,7 @@ export function DragNDropTableHeader(props: ChildrenTableHeaderProps) {
                 ...child.elementAttributes,
                 ...(isDraggable ? omit(draggableAttributes, 'style') : {}),
             }}
-            dragAttributes={getMergedAttributes(child)}
+            dragAttributes={isDraggable ? getMergedAttributes(child) : null}
             {...omit(child, ['elementAttributes', 'id'])}
         />
     )
