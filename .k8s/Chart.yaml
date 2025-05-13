@@ -1,0 +1,17 @@
+apiVersion: v2
+name: n2o-framework
+version: ${project.version}
+
+dependencies:
+  # template chart for application spring services
+  - name: spring-app-template
+    version: 1.2.0
+    repository: oci://harbor.i-novus.ru/library/helm/n2o
+    alias: springServices
+  - name: generic-app-template
+    version: 1.2.2
+    repository: oci://images.digitalms.ru/inovus/base/egisz-helm/helm/n2o
+    alias: supportingServices
+  - name: mongodb
+    version: 16.4.2
+    repository: oci://registry-1.docker.io/bitnamicharts
