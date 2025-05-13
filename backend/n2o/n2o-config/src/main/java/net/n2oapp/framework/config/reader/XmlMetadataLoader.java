@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
+import org.xml.sax.SAXParseException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +60,7 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
         try {
             doc = getSAXBuilder().build(xml);
         } catch (JDOMException | IOException e) {
-            throw new N2oException("Error reading metadata " + id, e);
+            throw new N2oException(getErrorMessage(id, e), e);
         }
         Element root = doc.getRootElement();
         T n2o = (T) elementReaderFactory.produce(root).read(root);
@@ -67,6 +68,18 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
             throw new MetadataReaderException("Xml Element Reader must return not null object");
         n2o.setId(id);
         return n2o;
+    }
+
+    private String getErrorMessage(String id, Exception e) {
+        StringBuilder message = new StringBuilder();
+        message.append("Error reading metadata \"").append(id).append("\".\n");
+        if (e.getCause() instanceof SAXParseException exception) {
+            message
+                    .append("Error on line ").append(exception.getLineNumber())
+                    .append(", column ").append(exception.getColumnNumber()).append(": ");
+        }
+        message.append(e.getCause().getLocalizedMessage());
+        return message.toString();
     }
 
     public <T extends SourceMetadata> T read(String id, InputStream xml, Class<T> metadataClass) {

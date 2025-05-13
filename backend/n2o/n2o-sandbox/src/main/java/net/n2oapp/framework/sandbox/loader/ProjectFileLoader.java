@@ -48,7 +48,7 @@ public class ProjectFileLoader implements SourceLoader<ProjectFileInfo> {
         try {
             doc = getSAXBuilder().build(xml);
         } catch (JDOMException | IOException e) {
-            throw new N2oException("Error reading metadata " + id, e);
+            throw new N2oException("Error reading metadata \"" + id + "\".\n" + e.getLocalizedMessage(), e);
         }
         Element root = doc.getRootElement();
         T n2o = (T) elementReaderFactory.produce(root).read(root);
