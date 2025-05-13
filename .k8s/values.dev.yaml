@@ -35,7 +35,7 @@ mongodb:
   persistence:
     storageClass: nfs-retain
     enabled: true
-    size: '2Gi'
+    size: '1Gi'
   auth:
     rootPassword: "passwd"
   service:
