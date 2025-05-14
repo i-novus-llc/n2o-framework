@@ -1,8 +1,7 @@
 package net.n2oapp.framework.sandbox.cases.dialog;
 
-import org.springframework.stereotype.Service;
-
 import jakarta.persistence.NonUniqueResultException;
+import org.springframework.stereotype.Service;
 
 @Deprecated(since = "7.28")
 @Service

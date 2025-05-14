@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.widget.v4.charts;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oAreaChartItem;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oAreaChart;
+import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oAreaChartItem;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLineTypeEnum;
 import org.jdom2.Element;

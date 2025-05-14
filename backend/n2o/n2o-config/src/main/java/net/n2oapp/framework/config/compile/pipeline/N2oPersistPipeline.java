@@ -8,7 +8,10 @@ import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum.*;
 

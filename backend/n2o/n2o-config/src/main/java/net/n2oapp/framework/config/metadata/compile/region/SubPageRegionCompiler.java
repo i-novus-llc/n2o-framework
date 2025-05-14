@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
-import static net.n2oapp.framework.config.util.PageContextCompileUtil.*;
+import static net.n2oapp.framework.config.util.PageContextCompileUtil.initParentDatasourceIdsMap;
 
 /**
  * Компиляция региона `<sub-page>`

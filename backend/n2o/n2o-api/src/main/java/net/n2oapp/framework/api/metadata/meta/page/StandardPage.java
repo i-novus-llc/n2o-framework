@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 /**
  * Клиентская модель страницы с регионами

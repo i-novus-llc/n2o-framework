@@ -6,7 +6,6 @@ import net.n2oapp.framework.config.io.action.v2.AnchorElementIOV2;
 import net.n2oapp.framework.config.io.action.v2.OpenPageElementIOV2;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
 import net.n2oapp.framework.config.test.XmlIOTestBase;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

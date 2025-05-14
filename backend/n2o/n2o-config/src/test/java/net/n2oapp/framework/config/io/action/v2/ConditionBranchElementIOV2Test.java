@@ -5,7 +5,6 @@ import net.n2oapp.framework.config.io.action.v2.ifelse.ElseIfBranchActionElement
 import net.n2oapp.framework.config.io.action.v2.ifelse.IfBranchActionElementIOV2;
 import net.n2oapp.framework.config.io.page.v4.StandardPageElementIOv4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-
 import org.junit.jupiter.api.Test;
 
 /**

@@ -6,13 +6,12 @@ import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.application.N2oSidebar;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.application.sidebar.SidebarPathsScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
-import net.n2oapp.framework.config.metadata.validation.standard.ValidatorDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
+import net.n2oapp.framework.config.metadata.validation.standard.ValidatorDatasourceIdsScope;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 

@@ -5,7 +5,6 @@ import net.n2oapp.framework.config.io.page.v4.StandardPageElementIOv4;
 import net.n2oapp.framework.config.io.region.v3.PanelRegionIOv3;
 import net.n2oapp.framework.config.io.widget.v5.FormElementIOV5;
 import net.n2oapp.framework.config.test.XmlIOTestBase;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

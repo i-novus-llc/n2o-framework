@@ -1,13 +1,8 @@
 package net.n2oapp.framework.test;
 
 import net.n2oapp.criteria.api.CollectionPage;
-import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.test.engine.TestCriteria;
 import net.n2oapp.framework.test.engine.TestRow;
-import org.camunda.bpm.engine.ProcessEngine;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

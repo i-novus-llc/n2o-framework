@@ -1,8 +1,8 @@
 package net.n2oapp.criteria.filters.rule.base;
 
-import net.n2oapp.criteria.filters.Pair;
 import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.criteria.filters.Pair;
 
 /**
  * Правила объединения фильтров

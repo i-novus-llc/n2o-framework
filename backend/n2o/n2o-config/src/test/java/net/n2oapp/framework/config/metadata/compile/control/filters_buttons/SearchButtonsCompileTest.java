@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.control.filters_buttons;
 
-import net.n2oapp.framework.api.metadata.meta.control.filters_buttons.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.filters_buttons.ClearButton;
 import net.n2oapp.framework.api.metadata.meta.control.filters_buttons.SearchButton;
+import net.n2oapp.framework.api.metadata.meta.control.filters_buttons.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;

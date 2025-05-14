@@ -1,6 +1,9 @@
 package net.n2oapp.framework.autotest.api.component;
 
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
+import com.codeborne.selenide.WebElementsCondition;
 import net.n2oapp.framework.api.exception.N2oException;
 
 import java.time.Duration;

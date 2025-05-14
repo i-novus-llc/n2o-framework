@@ -13,7 +13,6 @@ import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.StaticProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;

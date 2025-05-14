@@ -4,7 +4,10 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.*;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

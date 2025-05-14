@@ -1,11 +1,13 @@
 package net.n2oapp.framework.config.metadata.application;
 
-import net.n2oapp.framework.api.metadata.application.*;
+import net.n2oapp.framework.api.metadata.application.Application;
+import net.n2oapp.framework.api.metadata.application.Sidebar;
+import net.n2oapp.framework.api.metadata.application.StompDatasource;
 import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
-import net.n2oapp.framework.api.metadata.meta.event.StompEvent;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.meta.event.Event;
+import net.n2oapp.framework.api.metadata.meta.event.StompEvent;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
@@ -14,7 +16,6 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.apache.commons.lang3.StringUtils;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.env.PropertyResolver;

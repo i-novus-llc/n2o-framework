@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.validate;
 
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
-import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.config.factory.BaseMetadataFactory;
 import net.n2oapp.framework.config.factory.FactoryPredicates;
 

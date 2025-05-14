@@ -4,7 +4,6 @@ import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
 import net.n2oapp.framework.config.io.page.v4.StandardPageElementIOv4;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-
 import org.junit.jupiter.api.Test;
 
 /**

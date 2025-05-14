@@ -11,7 +11,6 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Утилита по работе с QueryContext

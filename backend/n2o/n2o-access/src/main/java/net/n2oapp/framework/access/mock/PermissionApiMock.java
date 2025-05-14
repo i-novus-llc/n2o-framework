@@ -1,6 +1,7 @@
 package net.n2oapp.framework.access.mock;
-import net.n2oapp.framework.api.user.UserContext;
+
 import net.n2oapp.framework.access.simple.PermissionApi;
+import net.n2oapp.framework.api.user.UserContext;
 
 import java.util.ArrayList;
 import java.util.List;

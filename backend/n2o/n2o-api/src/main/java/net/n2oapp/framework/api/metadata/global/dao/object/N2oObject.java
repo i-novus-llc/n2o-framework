@@ -13,7 +13,8 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Исходная модель объекта, описывающий object.xml файл

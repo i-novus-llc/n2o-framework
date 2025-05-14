@@ -1,5 +1,7 @@
 package net.n2oapp.framework.ui.servlet;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.n2oapp.framework.api.event.MetadataChangedEvent;
 import net.n2oapp.framework.api.event.N2oEventListener;
 import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
@@ -9,8 +11,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.support.NoOpCache;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**

@@ -30,9 +30,10 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileAction;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 

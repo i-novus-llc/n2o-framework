@@ -2,7 +2,8 @@ package net.n2oapp.framework.config.properties;
 
 import org.springframework.core.env.PropertyResolver;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;

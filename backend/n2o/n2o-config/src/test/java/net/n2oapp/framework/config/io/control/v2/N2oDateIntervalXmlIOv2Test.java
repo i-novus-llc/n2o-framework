@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.io.control.v2;
 import net.n2oapp.framework.config.io.control.v2.interval.DateIntervalIOv2;
 import net.n2oapp.framework.config.io.widget.v4.FormElementIOV4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-
 import org.junit.jupiter.api.Test;
 
 class N2oDateIntervalXmlIOv2Test {

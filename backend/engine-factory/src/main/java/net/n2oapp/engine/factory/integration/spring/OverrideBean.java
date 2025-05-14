@@ -1,6 +1,7 @@
 package net.n2oapp.engine.factory.integration.spring;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Бин, который переопределяет другой бин.

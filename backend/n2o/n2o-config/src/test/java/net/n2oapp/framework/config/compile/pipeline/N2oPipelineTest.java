@@ -18,7 +18,9 @@ import net.n2oapp.framework.api.metadata.jackson.SingletonTypeIdHandlerInstantia
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
-import net.n2oapp.framework.api.metadata.pipeline.*;
+import net.n2oapp.framework.api.metadata.pipeline.CompileBindTerminalPipeline;
+import net.n2oapp.framework.api.metadata.pipeline.CompileTerminalPipeline;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationFactory;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -33,7 +35,6 @@ import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.apache.commons.io.IOUtils;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

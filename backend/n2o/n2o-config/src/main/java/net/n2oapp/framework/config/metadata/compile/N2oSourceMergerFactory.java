@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.compile.SourceMergerFactory;
 import net.n2oapp.framework.config.factory.BaseMetadataFactory;
 import net.n2oapp.framework.config.factory.FactoryPredicates;
 import org.springframework.core.GenericTypeResolver;
-import org.springframework.util.SerializationUtils;
 
 import java.util.List;
 import java.util.Map;

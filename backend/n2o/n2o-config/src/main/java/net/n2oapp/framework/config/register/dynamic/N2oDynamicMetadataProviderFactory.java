@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.register.dynamic;
 import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.register.DynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.factory.BaseMetadataFactory;
+
 import java.util.Map;
 
 /**

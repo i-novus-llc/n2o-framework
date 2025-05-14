@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.config.io.MetadataParamHolder;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 
 /**
  * Считыватель тестовых метаданных из xml

@@ -10,7 +10,9 @@ import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.test.TestContextEngine;
 import org.springframework.core.env.PropertyResolver;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Map;
 
 /**

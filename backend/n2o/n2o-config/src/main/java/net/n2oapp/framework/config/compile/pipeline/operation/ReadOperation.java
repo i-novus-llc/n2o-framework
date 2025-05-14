@@ -3,18 +3,17 @@ package net.n2oapp.framework.config.compile.pipeline.operation;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.aware.PipelineOperationTypeAware;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
-import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.reader.SourceLoaderFactory;
-import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.MetadataRegister;
+import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.function.Supplier;

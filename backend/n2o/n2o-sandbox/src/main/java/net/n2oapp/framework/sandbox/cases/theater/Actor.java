@@ -1,9 +1,8 @@
 package net.n2oapp.framework.sandbox.cases.theater;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "actors")

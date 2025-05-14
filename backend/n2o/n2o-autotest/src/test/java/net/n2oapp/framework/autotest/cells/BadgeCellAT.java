@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.cells;
 
 import net.n2oapp.framework.autotest.ColorsEnum;
-import net.n2oapp.framework.autotest.api.component.cell.*;
+import net.n2oapp.framework.autotest.api.component.cell.BadgeCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;

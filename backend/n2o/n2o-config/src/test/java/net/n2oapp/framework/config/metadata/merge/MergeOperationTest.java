@@ -7,7 +7,6 @@ import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.StandardDatasourceCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
-import net.n2oapp.framework.config.metadata.validation.standard.application.SidebarValidator;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

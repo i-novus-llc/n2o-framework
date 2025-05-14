@@ -9,7 +9,10 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.engine.data.normalize.Normalizer;
 
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class StaticInvocationTestClass {
 

@@ -1,8 +1,8 @@
 package net.n2oapp.properties.example;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import static net.n2oapp.properties.StaticProperties.*;
+
+import static net.n2oapp.properties.StaticProperties.get;
 
 /**
  * @author iryabov

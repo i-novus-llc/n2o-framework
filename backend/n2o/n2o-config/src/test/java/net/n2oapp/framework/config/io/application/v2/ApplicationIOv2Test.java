@@ -6,7 +6,6 @@ import net.n2oapp.framework.config.io.datasource.BrowserStorageDatasourceIO;
 import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
 import net.n2oapp.framework.config.io.datasource.StompDatasourceIO;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-
 import org.junit.jupiter.api.Test;
 
 /**

@@ -1,5 +1,7 @@
 package net.n2oapp.framework.ui.context;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.user.UserContext;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -7,8 +9,6 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 

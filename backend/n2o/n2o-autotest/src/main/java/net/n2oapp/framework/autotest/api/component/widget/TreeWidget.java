@@ -1,8 +1,8 @@
 package net.n2oapp.framework.autotest.api.component.widget;
 
-import net.n2oapp.framework.autotest.api.component.badge.Badge;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.Expandable;
+import net.n2oapp.framework.autotest.api.component.badge.Badge;
 
 /**
  * Виджет дерево для автотестирования

@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.application.sidebar;
 
 import net.n2oapp.framework.api.metadata.application.Application;
-import net.n2oapp.framework.api.metadata.application.SidebarSideEnum;
 import net.n2oapp.framework.api.metadata.application.Sidebar;
+import net.n2oapp.framework.api.metadata.application.SidebarSideEnum;
 import net.n2oapp.framework.api.metadata.application.SidebarStateEnum;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;

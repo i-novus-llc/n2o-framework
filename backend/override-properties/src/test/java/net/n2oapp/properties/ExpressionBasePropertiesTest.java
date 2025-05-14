@@ -3,7 +3,8 @@ package net.n2oapp.properties;
 import net.n2oapp.properties.reader.PropertiesReader;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author iryabov

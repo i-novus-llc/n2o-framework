@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.io.cell.v3;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
-import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;

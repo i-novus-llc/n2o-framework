@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.io.action.v2;
 
 
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
-import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.action.N2oCopyAction;
+import net.n2oapp.framework.api.metadata.control.PageRefEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyModeEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;

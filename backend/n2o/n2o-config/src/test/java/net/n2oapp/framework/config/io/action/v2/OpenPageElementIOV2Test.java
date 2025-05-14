@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.io.action.v2;
 import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
 import net.n2oapp.framework.config.io.page.v4.StandardPageElementIOv4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
-
 import org.junit.jupiter.api.Test;
 
 /**

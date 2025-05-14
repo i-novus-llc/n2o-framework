@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.io.dataprovider;
 
+import net.n2oapp.framework.api.metadata.dataprovider.DIProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.EjbProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
-import net.n2oapp.framework.api.metadata.dataprovider.DIProvider;
 import net.n2oapp.framework.api.metadata.dataprovider.SpringProvider;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.Argument;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;

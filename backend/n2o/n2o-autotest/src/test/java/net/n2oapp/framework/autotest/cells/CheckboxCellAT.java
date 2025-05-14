@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.autotest.api.component.cell.*;
+import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;

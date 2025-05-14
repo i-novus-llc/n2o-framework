@@ -7,7 +7,6 @@ import net.n2oapp.framework.config.metadata.compile.datasource.ClientDatasourceI
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Утилита для компиляции источников данных

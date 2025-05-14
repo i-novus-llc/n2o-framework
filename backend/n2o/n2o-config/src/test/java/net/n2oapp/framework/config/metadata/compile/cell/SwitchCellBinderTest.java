@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
-import net.n2oapp.framework.api.metadata.meta.cell.EditCell;
 import net.n2oapp.framework.api.metadata.meta.cell.SwitchCell;
 import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;

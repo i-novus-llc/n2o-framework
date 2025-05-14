@@ -2,6 +2,7 @@ package net.n2oapp.properties.example;
 
 import net.n2oapp.properties.StaticProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
+
 import java.util.Properties;
 
 import static net.n2oapp.properties.StaticProperties.*;

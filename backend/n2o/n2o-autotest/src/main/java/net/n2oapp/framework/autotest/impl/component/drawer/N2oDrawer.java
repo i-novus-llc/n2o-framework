@@ -9,7 +9,6 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
-
 import java.time.Duration;
 
 import static com.codeborne.selenide.CheckResult.Verdict.ACCEPT;

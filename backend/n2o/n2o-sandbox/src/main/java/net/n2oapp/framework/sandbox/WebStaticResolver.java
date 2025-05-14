@@ -1,11 +1,11 @@
 package net.n2oapp.framework.sandbox;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.ResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class WebStaticResolver implements ResourceResolver {
