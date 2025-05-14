@@ -12,7 +12,7 @@ public abstract class XmlIOTestBase {
 
     protected ION2oMetadataTester tester;
 
-    public void setUp() throws Exception {
+    public void setUp() {
         XmlIOReader reader = new XmlIOReader(new N2oEnvironment());
         configure(reader);
         tester = new ION2oMetadataTester(reader);

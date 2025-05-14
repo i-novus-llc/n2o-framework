@@ -28,7 +28,7 @@ class CloseActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

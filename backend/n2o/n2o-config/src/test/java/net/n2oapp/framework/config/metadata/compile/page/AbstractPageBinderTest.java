@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
-import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -21,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 class AbstractPageBinderTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

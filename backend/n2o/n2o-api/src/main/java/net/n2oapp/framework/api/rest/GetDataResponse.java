@@ -41,7 +41,7 @@ public class GetDataResponse extends N2oResponse {
     }
 
     public GetDataResponse(CollectionPage<DataSet> collectionPage, QueryResponseInfo responseInfo, String widgetId) {
-        list = (List<DataSet>) collectionPage.getCollection();
+        list = collectionPage.getCollection();
         if (collectionPage.getHasNext() != null)
             paging = new Paging(collectionPage.getCriteria().getPage(), collectionPage.getCriteria().getSize(), collectionPage.getHasNext());
         else

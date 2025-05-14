@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class N2oPlainFieldXmlIOv3Test extends XmlIOTestBase {
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.nullValue;
 class ConstraintValidationCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

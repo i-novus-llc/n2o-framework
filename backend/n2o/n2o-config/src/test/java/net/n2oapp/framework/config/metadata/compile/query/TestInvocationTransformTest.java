@@ -19,7 +19,7 @@ class TestInvocationTransformTest extends SourceTransformTestBase {
 
     @BeforeEach
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.mock;
 class EditListActionBinderTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

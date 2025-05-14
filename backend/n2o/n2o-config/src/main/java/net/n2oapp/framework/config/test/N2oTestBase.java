@@ -22,12 +22,12 @@ import java.util.Locale;
 public abstract class N2oTestBase {
     protected N2oApplicationBuilder builder;
 
-    public void setUp() throws Exception {
+    public void setUp() {
         N2oEnvironment environment = new N2oEnvironment();
         environment.setNamespacePersisterFactory(new PersisterFactoryByMap());
         environment.setNamespaceReaderFactory(new ReaderFactoryByMap(environment));
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.addBasenames("n2o_api_messages", "n2o_api_messages",  "n2o_config_messages", "test_messages", "messages");
+        messageSource.addBasenames("n2o_api_messages", "n2o_api_messages", "n2o_config_messages", "test_messages", "messages");
         messageSource.setDefaultEncoding("UTF-8");
         Locale locale = new Locale("ru");
         LocaleContextHolder.setLocale(locale);

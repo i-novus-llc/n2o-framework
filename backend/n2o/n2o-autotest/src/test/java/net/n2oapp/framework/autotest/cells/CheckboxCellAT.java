@@ -25,7 +25,7 @@ class CheckboxCellAT extends AutoTestBase {
 
     @BeforeEach
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
 
         setResourcePath("net/n2oapp/framework/autotest/cells/checkbox");

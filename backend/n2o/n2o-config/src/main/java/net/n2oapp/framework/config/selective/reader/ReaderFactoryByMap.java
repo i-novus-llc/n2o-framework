@@ -63,7 +63,7 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
 
     @Override
     public void add(NamespaceReader reader) {
-        map.computeIfAbsent(reader.getNamespaceUri(), (n) -> new HashMap<>()).put(reader.getElementName(), reader);
+        map.computeIfAbsent(reader.getNamespaceUri(), n -> new HashMap<>()).put(reader.getElementName(), reader);
     }
 
     @Override

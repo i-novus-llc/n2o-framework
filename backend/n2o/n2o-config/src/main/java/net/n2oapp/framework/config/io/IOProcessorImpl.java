@@ -1084,7 +1084,7 @@ public class IOProcessorImpl implements IOProcessor {
         }
         String resolved = StringUtils.resolveProperties(text, MetadataParamHolder.getParams());
         resolved = systemProperties == null ? resolved : StringUtils.resolveProperties(resolved, systemProperties::getProperty);
-        resolved = messageSourceAccessor == null ? resolved : StringUtils.resolveProperties(resolved, (msg) -> messageSourceAccessor.getMessage(msg, msg));
+        resolved = messageSourceAccessor == null ? resolved : StringUtils.resolveProperties(resolved, msg -> messageSourceAccessor.getMessage(msg, msg));
         if (failFast && StringUtils.hasProperty(resolved))
             throw new N2oException("Cannot resolve property in '" + text + "'");
         return resolved;

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import net.n2oapp.criteria.dataset.DataSet;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -28,7 +29,7 @@ public class CsvFileGenerator implements FileGenerator {
         byte[] fileBytes = null;
 
         try {
-            String fullFileName = fileDir + "/" + fileName + "." + FILE_FORMAT;
+            String fullFileName = fileDir + File.separator + fileName + "." + FILE_FORMAT;
 
             FileWriter fileWriter = new FileWriter(fullFileName, Charset.forName(charset));
             CSVWriter writer = new CSVWriter(
@@ -79,7 +80,7 @@ public class CsvFileGenerator implements FileGenerator {
                 Object value = str.get(key);
                 if (value != null)
                     csvStr[i] = value instanceof String valueStr ?
-                            quoteWrapper.apply(valueStr):
+                            quoteWrapper.apply(valueStr) :
                             value.toString();
                 i++;
             }

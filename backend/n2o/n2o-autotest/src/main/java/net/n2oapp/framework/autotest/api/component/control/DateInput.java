@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
-import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.PopupControl;
 
 import java.time.Duration;
@@ -12,6 +11,7 @@ public interface DateInput extends Control, PopupControl {
 
     /**
      * Возвращает значение из поля ввода
+     *
      * @return Выбранная дата
      */
     String getValue();
@@ -20,22 +20,25 @@ public interface DateInput extends Control, PopupControl {
      * Установка значения в поле ввода даты
      *
      * <p>
-     *     Пример использования: {@code
-     *          date.setValue("15.02.2020");
-     *     }
+     * Пример использования: {@code
+     * date.setValue("15.02.2020");
+     * }
      * </p>
+     *
      * @param value значение даты
      */
     void setValue(String value);
 
     /**
      * Проверка подсказки для ввода
+     *
      * @param value ожидаемое значение подсказки
      */
     void shouldHavePlaceholder(String value);
 
     /**
      * Проверка текста кнопки времени
+     *
      * @param label ожидаемое значение текста
      */
     void timeButtonShouldHaveLabel(String label);
@@ -44,12 +47,12 @@ public interface DateInput extends Control, PopupControl {
      * Ввод времени
      *
      * <p>
-     *     Пример использования: {@code
-     *          date.timeVal("23", "59", "58");
-     *     }
+     * Пример использования: {@code
+     * date.timeVal("23", "59", "58");
+     * }
      * </p>
      *
-     * @param hours часы в формате 24
+     * @param hours   часы в формате 24
      * @param minutes минуты
      * @param seconds секунды
      */
@@ -62,36 +65,42 @@ public interface DateInput extends Control, PopupControl {
 
     /**
      * Проверка выбранности дня в календаре
+     *
      * @param day проверяемый день
      */
     void shouldBeActiveDay(String day);
 
     /**
      * Клик по дню в календаре для выбора
+     *
      * @param day выбираемый день
      */
     void clickDay(String day);
 
     /**
      * Проверка недоступности дня в календаре для выбора
+     *
      * @param day проверяемый день
      */
     void shouldBeDisableDay(String day);
 
     /**
      * Проверка доступности дня в календаре для выбора
+     *
      * @param day проверяемый день
      */
     void shouldNotBeDisableDay(String day);
 
     /**
      * Проверка текущего месяца в календаре
+     *
      * @param month ожидаемый текущий месяц
      */
     void shouldHaveCurrentMonth(String month, Duration... duration);
 
     /**
      * Проверка текущего года в календаре
+     *
      * @param year ожидаемый текущий год
      */
     void shouldHaveCurrentYear(String year, Duration... duration);

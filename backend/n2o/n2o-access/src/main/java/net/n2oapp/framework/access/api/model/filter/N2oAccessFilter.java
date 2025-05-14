@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterTypeEnum;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Фильтр доступа
@@ -46,12 +47,10 @@ public class N2oAccessFilter {
 
         N2oAccessFilter that = (N2oAccessFilter) o;
 
-        if (fieldId != null ? !fieldId.equals(that.fieldId) : that.fieldId != null) return false;
+        if (!Objects.equals(fieldId, that.fieldId)) return false;
         if (type != that.type) return false;
-        if (value != null ? !value.equals(that.value) : that.value != null) return false;
-        if (values != null ? !values.equals(that.values) : that.values != null) return false;
-
-        return true;
+        if (!Objects.equals(value, that.value)) return false;
+        return Objects.equals(values, that.values);
     }
 
     @Override

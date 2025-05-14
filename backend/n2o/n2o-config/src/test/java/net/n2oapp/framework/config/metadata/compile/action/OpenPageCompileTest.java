@@ -63,7 +63,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class OpenPageCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

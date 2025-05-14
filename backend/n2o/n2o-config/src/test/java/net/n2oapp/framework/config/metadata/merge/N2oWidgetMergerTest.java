@@ -36,7 +36,7 @@ class N2oWidgetMergerTest extends SourceMergerTestBase {
 
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

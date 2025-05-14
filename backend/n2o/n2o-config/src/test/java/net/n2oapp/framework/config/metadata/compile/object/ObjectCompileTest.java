@@ -32,7 +32,7 @@ import static org.hamcrest.core.Is.is;
 class ObjectCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

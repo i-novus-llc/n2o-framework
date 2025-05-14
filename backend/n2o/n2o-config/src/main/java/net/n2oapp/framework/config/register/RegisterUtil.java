@@ -66,7 +66,7 @@ public class RegisterUtil {
     }
 
     public static InfoConstructor createXmlInfo(Node node, SourceTypeRegister sourceTypeRegister) {
-        return createXmlInfo(node.getLocalPath(), node.getURI(), sourceTypeRegister);
+        return createXmlInfo(node.getLocalPath(), node.getUri(), sourceTypeRegister);
     }
 
 

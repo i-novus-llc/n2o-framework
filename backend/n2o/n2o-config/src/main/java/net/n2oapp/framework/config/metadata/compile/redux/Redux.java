@@ -106,10 +106,10 @@ public abstract class Redux {
     /**
      * Создать ссылку для обновления сортировки
      *
-     * @param id    идентификатор источника данных
+     * @param id        идентификатор источника данных
      * @param fieldId   индентификатор поля сортировки
-     * @param sortParam     параметр сортировки
-     * @return  Redux действие
+     * @param sortParam параметр сортировки
+     * @return Redux действие
      */
     public static ReduxAction dispatchRoutableSortingLink(String id, String fieldId, String sortParam, CompileProcessor p) {
         RoutablePayload payload = new RoutablePayload();
@@ -117,8 +117,7 @@ public abstract class Redux {
         HashMap<String, String> params = new HashMap<>();
         params.put("sorting.".concat(fieldId), ":".concat(sortParam));
         payload.setParams(params);
-        ReduxAction onGet = new ReduxAction(p.resolve(property("n2o.api.widget.list.paging.routable.type"), String.class), payload);
-        return onGet;
+        return new ReduxAction(p.resolve(property("n2o.api.widget.list.paging.routable.type"), String.class), payload);
     }
 
 

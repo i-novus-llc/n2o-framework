@@ -12,7 +12,7 @@ class N2oListFieldXmlV3IOTest extends XmlIOTestBase {
     
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

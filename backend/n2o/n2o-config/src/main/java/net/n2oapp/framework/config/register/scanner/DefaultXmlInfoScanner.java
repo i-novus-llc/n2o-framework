@@ -37,11 +37,10 @@ public class DefaultXmlInfoScanner implements DefaultInfoScanner<InfoConstructor
 
     @Override
     public List<InfoConstructor> scan() {
-        List<InfoConstructor> infoConstructors = collectInfo(
+        return collectInfo(
                 FileSystemUtil.getNodesByLocationPattern(pattern),
-                (node) ->
-                        RegisterUtil.createXmlInfo(DefaultXmlInfoScanner.class, node.getLocalPath(), node.getURI(), sourceTypeRegister));
-        return infoConstructors;
+                node ->
+                        RegisterUtil.createXmlInfo(DefaultXmlInfoScanner.class, node.getLocalPath(), node.getUri(), sourceTypeRegister));
     }
 
     @Override

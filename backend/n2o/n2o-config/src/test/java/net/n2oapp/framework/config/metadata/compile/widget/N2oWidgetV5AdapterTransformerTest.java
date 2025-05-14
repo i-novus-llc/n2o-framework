@@ -19,7 +19,7 @@ class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
 
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 class TreeWidgetCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

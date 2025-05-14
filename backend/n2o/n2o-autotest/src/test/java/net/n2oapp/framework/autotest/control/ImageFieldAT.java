@@ -27,7 +27,7 @@ class ImageFieldAT extends AutoTestBase {
 
     @BeforeEach
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
 
         page = open(SimplePage.class);

@@ -31,7 +31,7 @@ class MultiColumnAT extends AutoTestBase {
 
     @BeforeEach
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
 
         StandardPage page = open(StandardPage.class);

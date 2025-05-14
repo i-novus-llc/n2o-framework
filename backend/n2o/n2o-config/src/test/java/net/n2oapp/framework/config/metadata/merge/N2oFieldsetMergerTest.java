@@ -18,7 +18,7 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
 
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 
