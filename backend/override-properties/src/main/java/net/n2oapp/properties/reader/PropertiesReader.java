@@ -33,16 +33,12 @@ public class PropertiesReader {
 
     public static OverrideProperties getPropertiesFromURI(String locationPattern) {
         OverrideProperties properties = new OverrideProperties();
-        PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
         try {
-            for (Resource resource : r.getResources(locationPattern)) {
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            for (Resource resource : resolver.getResources(locationPattern)) {
                 try (InputStream is = resource.getInputStream()) {
                     if (is != null) {
-                        try {
-                            properties.load(is);
-                        } catch (IOException e) {
-                            throw new IllegalStateException(e);
-                        }
+                        loadPropertiesFromStream(properties, is);
                     } else {
                         log.debug("{} not found.", locationPattern);
                     }
@@ -53,6 +49,14 @@ public class PropertiesReader {
             log.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    private static void loadPropertiesFromStream(OverrideProperties properties, InputStream is) {
+        try {
+            properties.load(is);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     public static OverrideProperties getPropertiesFromClasspath(OverrideProperties... parentProperties) {

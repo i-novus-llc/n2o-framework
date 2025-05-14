@@ -62,7 +62,7 @@ public class RouteInfoKey implements Comparable<RouteInfoKey> {
             if (res != 0)
                 return res > 0 ? -1 : 1;
         }
-        if (res == 0 && splitUrl.length != splitUrl2.length) {
+        if (splitUrl.length != splitUrl2.length) {
             return splitUrl.length < splitUrl2.length ? 1 : -1;
         }
         if (this.compiledClass.equals(routeInfo.getCompiledClass())) {

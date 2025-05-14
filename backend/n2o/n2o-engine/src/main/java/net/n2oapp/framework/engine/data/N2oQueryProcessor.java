@@ -311,14 +311,13 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
 
     private void prepareSelectKeys(Map<String, Object> map, List<AbstractField> fields, CompiledQuery query) {
         for (AbstractField field : fields) {
-            if (field instanceof QueryReferenceField referenceField) {
-                if (referenceField.getSelectKey() != null) {
-                    List<AbstractField> displayedInnerFields = query.getDisplayedInnerFields(referenceField);
-                    map.put(referenceField.getSelectKey(),
-                            displayedInnerFields.stream().map(AbstractField::getSelectExpression).toList());
-                    prepareSelectKeys(map, displayedInnerFields, query);
-                }
+            if (field instanceof QueryReferenceField referenceField && referenceField.getSelectKey() != null) {
+                List<AbstractField> displayedInnerFields = query.getDisplayedInnerFields(referenceField);
+                map.put(referenceField.getSelectKey(),
+                        displayedInnerFields.stream().map(AbstractField::getSelectExpression).toList());
+                prepareSelectKeys(map, displayedInnerFields, query);
             }
+
         }
     }
 

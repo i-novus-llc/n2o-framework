@@ -203,11 +203,10 @@ public class FileSystemUtil {
                     throw exception;
                 }
             }
-            if (dir.listFiles() == null || dir.listFiles().length == 0) {
-                if (!dir.delete()) {
-                    throw new IOException("Unable to delete directory: " + dir);
-                }
+            if ((dir.listFiles() == null || dir.listFiles().length == 0) && !dir.delete()) {
+                throw new IOException("Unable to delete directory: " + dir);
             }
+
         } else {
             if (!dir.delete()) {
                 throw new IOException("Unable to delete file: " + dir);

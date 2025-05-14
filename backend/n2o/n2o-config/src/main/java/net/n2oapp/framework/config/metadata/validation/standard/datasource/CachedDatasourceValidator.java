@@ -36,12 +36,11 @@ public class CachedDatasourceValidator extends AbstractDatasourceValidator<N2oCa
         checkSubmit(datasource.getId(), datasource.getSubmit(), p);
         checkPrefilters(datasource.getId(), datasource.getFilters(), query, p);
 
-        if (datasource.getCacheExpires() != null) {
-            if (!CACHES_EXPIRES_PATTERN.matcher(datasource.getCacheExpires()).matches()) {
-                throw new N2oMetadataValidationException(
-                        String.format("Периодичность проверки кэша в источнике данных %s указана в неверном формате",
-                                getIdOrEmptyString(datasource.getId())));
-            }
+        if (datasource.getCacheExpires() != null && !CACHES_EXPIRES_PATTERN.matcher(datasource.getCacheExpires()).matches()) {
+            throw new N2oMetadataValidationException(
+                    String.format("Периодичность проверки кэша в источнике данных %s указана в неверном формате",
+                            getIdOrEmptyString(datasource.getId())));
         }
+
     }
 }

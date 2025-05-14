@@ -68,7 +68,7 @@ public class PropertiesInfoCollector {
         Map<String, List<PropertiesInfoCollector.PropertyInfo>> propertyMap = new HashMap<>();
         PathMatchingResourcePatternResolver pathPatternResolver = new PathMatchingResourcePatternResolver();
         Resource[] resources = pathPatternResolver.getResources(locationPattern);
-        if (resources == null || resources.length == 0) {
+        if (resources.length == 0) {
             return Collections.unmodifiableMap(new HashMap<>());
         }
         Arrays.stream(resources).map(this::retrieve)

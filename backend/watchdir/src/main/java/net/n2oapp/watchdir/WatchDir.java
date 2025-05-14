@@ -168,7 +168,7 @@ public class WatchDir {
      * WatchService.
      */
     private void registerAll(final Path start) throws IOException {
-        // register directory and sub-directories
+        // register directory and subdirectories
         Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
@@ -189,14 +189,9 @@ public class WatchDir {
     void processEvents() {
         for (; ; )
             try {
-
                 // wait for key to be signalled
-                WatchKey key;
-                try {
-                    key = watcher.take();
-                } catch (InterruptedException | ClosedWatchServiceException x) {
-                    return;
-                }
+                WatchKey key = getWatchKey();
+                if (key == null) return;
 
                 Set<Path> takeSkipSet = null;
                 synchronized (skips) {
@@ -233,15 +228,9 @@ public class WatchDir {
                     handleEvent(event, child);
 
                     // if directory is created, and watching recursively, then
-                    // register it and its sub-directories
+                    // register it and its subdirectories
                     if (recursive && (kind == ENTRY_CREATE)) {
-                        try {
-                            if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
-                                registerAll(child);
-                            }
-                        } catch (IOException x) {
-                            logger.error(x.getMessage(), x);
-                        }
+                        tryRegisterAll(child);
                     }
                 }
 
@@ -260,6 +249,25 @@ public class WatchDir {
             }
     }
 
+    private void tryRegisterAll(Path child) {
+        try {
+            if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
+                registerAll(child);
+            }
+        } catch (IOException x) {
+            logger.error(x.getMessage(), x);
+        }
+    }
+
+    private WatchKey getWatchKey() {
+        WatchKey key;
+        try {
+            key = watcher.take();
+        } catch (InterruptedException | ClosedWatchServiceException x) {
+            return null;
+        }
+        return key;
+    }
 
     private void handleEvent(WatchEvent<?> event, Path child) {
         if (logger.isErrorEnabled())

@@ -73,7 +73,7 @@ public class RouteInfo implements Comparable<RouteInfo> {
                 return res > 0 ? -1 : 1;
             }
         }
-        if (res == 0 && splitUrl.length != splitUrl2.length) {
+        if (splitUrl.length != splitUrl2.length) {
             return splitUrl.length < splitUrl2.length ? 1 : -1;
         }
         if (context.getCompiledClass().equals(routeInfo.getContext().getCompiledClass())) {
