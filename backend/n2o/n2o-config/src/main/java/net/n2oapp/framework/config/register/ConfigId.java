@@ -40,9 +40,7 @@ public class ConfigId implements Serializable {
         ConfigId configId = (ConfigId) o;
 
         if (!id.equals(configId.id)) return false;
-        if (!type.equals(configId.type)) return false;
-
-        return true;
+        return type.equals(configId.type);
     }
 
     @Override

@@ -494,7 +494,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     public DataSet executeQuery(String queryId) {
         if (subModelsProcessor == null) return null;
 
-        return ((List<DataSet>) subModelsProcessor.getQueryResult(queryId, params)
+        return (subModelsProcessor.getQueryResult(queryId, params)
                 .getCollection()).get(0);
     }
 
@@ -520,7 +520,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     @Override
     public String resolveTextByParams(String text) {
         if (LINK_RESOLVER.hasPlaceHolders(text)) {
-            return LINK_RESOLVER.resolve(text,  ps -> params.get(ps));
+            return LINK_RESOLVER.resolve(text, ps -> params.get(ps));
         }
         return text;
     }

@@ -17,7 +17,7 @@ class ApplicationIOv3Test extends N2oTestBase {
 
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

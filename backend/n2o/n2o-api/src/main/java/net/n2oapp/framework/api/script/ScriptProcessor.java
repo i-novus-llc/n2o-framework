@@ -385,8 +385,7 @@ public class ScriptProcessor {
     }
 
     public String buildInIntervalExpression(String variable, Interval interval) {
-        if (interval.getDomain().equals(Date.class)) return buildInDateIntervalExpression(variable,
-                (Interval<Date>) interval);
+        if (interval.getDomain().equals(Date.class)) return buildInDateIntervalExpression(variable, interval);
         StringBuilder exp = new StringBuilder();
         exp.append(variable);
         exp.append(" > ");

@@ -41,7 +41,7 @@ class CalendarAT extends AutoTestBase {
 
     @BeforeEach
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
 
         SimplePage page = open(SimplePage.class);

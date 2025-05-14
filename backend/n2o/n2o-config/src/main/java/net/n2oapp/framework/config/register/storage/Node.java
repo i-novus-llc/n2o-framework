@@ -14,7 +14,7 @@ import java.io.IOException;
 public class Node {
 
     private String name;
-    private String URI;
+    private String uri;
     private String localPath;
     private File file;
 
@@ -25,7 +25,7 @@ public class Node {
     public static Node byAbsolutePath(String absolutePath, String configPath) {
         Node node = new Node();
         node.localPath = PathUtil.convertAbsolutePathToLocalPath(absolutePath, configPath);
-        node.URI = PathUtil.convertRootPathToUrl(absolutePath);
+        node.uri = PathUtil.convertRootPathToUrl(absolutePath);
         return node;
     }
 
@@ -37,7 +37,7 @@ public class Node {
 
         node.localPath = calculateLocalPathByLocationPattern(locationPattern, uri);
         node.name = resource.getFilename();
-        node.URI = uri;
+        node.uri = uri;
         node.file = resource.getURI().getScheme().equals("file") ? resource.getFile() : null;
         return node;
     }
@@ -51,14 +51,14 @@ public class Node {
 
         node.localPath = calculateLocalPathByDirectoryPath(dirPath, uri);
         node.name = file.getName();
-        node.URI = uri;
+        node.uri = uri;
         node.file = file;
         return node;
     }
 
 
     public String retrieveContent() {
-        return FileSystemUtil.getContentByUri(getURI());
+        return FileSystemUtil.getContentByUri(getUri());
     }
 
     //есть тест
@@ -110,8 +110,8 @@ public class Node {
         return name;
     }
 
-    public String getURI() {
-        return URI;
+    public String getUri() {
+        return uri;
     }
 
 
@@ -128,21 +128,19 @@ public class Node {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Node node)) return false;
-        if (!URI.equals(node.URI)) return false;
-
-        return true;
+        return uri.equals(node.uri);
     }
 
     @Override
     public int hashCode() {
-        return URI.hashCode();
+        return uri.hashCode();
     }
 
     @Override
     public String toString() {
         return "Node{" +
                 "localPath='" + localPath + '\'' +
-                ", absolutePath='" + URI + '\'' +
+                ", absolutePath='" + uri + '\'' +
                 '}';
     }
 }

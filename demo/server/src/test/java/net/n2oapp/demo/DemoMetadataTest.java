@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 public class DemoMetadataTest extends N2oTestBase {
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

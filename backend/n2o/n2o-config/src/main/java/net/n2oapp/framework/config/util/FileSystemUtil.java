@@ -113,7 +113,7 @@ public class FileSystemUtil {
     }
 
     public static String getContent(Node node) {
-        return getContentByUri(node.getURI());
+        return getContentByUri(node.getUri());
     }
 
     public static String getContentByUri(String uri) {

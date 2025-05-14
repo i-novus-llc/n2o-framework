@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.nullValue;
 class ButtonDependencyCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

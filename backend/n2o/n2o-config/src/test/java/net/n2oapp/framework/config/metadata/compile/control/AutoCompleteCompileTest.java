@@ -29,7 +29,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 class AutoCompleteCompileTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

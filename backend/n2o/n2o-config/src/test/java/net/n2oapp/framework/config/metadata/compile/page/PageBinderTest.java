@@ -34,7 +34,7 @@ import static org.mockito.Mockito.*;
 class PageBinderTest extends SourceCompileTestBase {
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

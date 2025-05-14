@@ -75,7 +75,7 @@ public class AutoTestBase extends N2oTestBase {
     }
 
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         n2oController.setUp(builder);
     }

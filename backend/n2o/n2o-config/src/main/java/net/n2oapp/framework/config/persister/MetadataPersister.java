@@ -144,8 +144,7 @@ public class MetadataPersister {
                     return infoC;
                 } else {
                     //update server file
-                    InfoConstructor infoConstructor = new InfoConstructor(xmlInfo);
-                    return infoConstructor;
+                    return new InfoConstructor(xmlInfo);
                 }
             }
         }

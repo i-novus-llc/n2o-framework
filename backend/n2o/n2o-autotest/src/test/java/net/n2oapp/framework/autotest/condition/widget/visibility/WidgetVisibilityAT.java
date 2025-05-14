@@ -28,7 +28,7 @@ class WidgetVisibilityAT extends AutoTestBase {
 
     @BeforeEach
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

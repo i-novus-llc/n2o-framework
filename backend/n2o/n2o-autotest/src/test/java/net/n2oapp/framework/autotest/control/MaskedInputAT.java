@@ -26,7 +26,7 @@ class MaskedInputAT extends AutoTestBase {
 
     @BeforeEach
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
 
         simplePage = open(SimplePage.class);

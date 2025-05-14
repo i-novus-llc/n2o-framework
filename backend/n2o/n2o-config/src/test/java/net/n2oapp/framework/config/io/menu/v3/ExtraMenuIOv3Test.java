@@ -17,7 +17,7 @@ class ExtraMenuIOv3Test extends XmlIOTestBase {
 
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
     }
 

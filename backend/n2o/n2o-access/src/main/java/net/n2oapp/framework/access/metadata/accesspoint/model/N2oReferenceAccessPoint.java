@@ -3,6 +3,8 @@ package net.n2oapp.framework.access.metadata.accesspoint.model;
 
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 
+import java.util.Objects;
+
 public class N2oReferenceAccessPoint extends AccessPoint {
 
     private String objectId;
@@ -20,8 +22,7 @@ public class N2oReferenceAccessPoint extends AccessPoint {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         N2oReferenceAccessPoint that = (N2oReferenceAccessPoint) o;
-        if (objectId != null ? !objectId.equals(that.objectId) : that.objectId != null) return false;
-        return true;
+        return Objects.equals(objectId, that.objectId);
     }
 
     @Override

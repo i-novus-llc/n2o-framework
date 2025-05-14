@@ -490,7 +490,7 @@ public class ViewController {
 
     private N2oEnvironment createEnvironment(String projectId) {
         N2oEnvironment env = new N2oEnvironment();
-        String path = basePath + "/" + projectId;
+        String path = basePath + File.separator + projectId;
 
         TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
         Map<String, String> runtimeProperties = new HashMap<>();

@@ -16,7 +16,7 @@ class CheckFieldIdTest extends N2oTestBase {
 
     @Override
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         processor = new N2oCompileProcessor(builder.getEnvironment());
         field = new N2oInputText();

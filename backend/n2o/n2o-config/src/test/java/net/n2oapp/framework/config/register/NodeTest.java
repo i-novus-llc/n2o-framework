@@ -47,15 +47,15 @@ class NodeTest {
         assertEquals("config/register/test-resource.xml", node.getLocalPath());
         assertEquals("test-resource.xml", node.getName());
         assertNotNull(node.getFile());
-        assertTrue(node.getURI().endsWith("/n2oapp/framework/config/register/test-resource.xml"));
-        assertTrue(node.getURI().startsWith("file:"));
+        assertTrue(node.getUri().endsWith("/n2oapp/framework/config/register/test-resource.xml"));
+        assertTrue(node.getUri().startsWith("file:"));
 
         node = Node.byLocationPattern(resource, "classpath*:net\\n2oapp\\framework\\**\\*.xml");
         assertEquals("config/register/test-resource.xml", node.getLocalPath());
         assertEquals("test-resource.xml", node.getName());
         assertNotNull(node.getFile());
-        assertTrue(node.getURI().endsWith("/n2oapp/framework/config/register/test-resource.xml"));
-        assertTrue(node.getURI().startsWith("file:"));
+        assertTrue(node.getUri().endsWith("/n2oapp/framework/config/register/test-resource.xml"));
+        assertTrue(node.getUri().startsWith("file:"));
     }
 
     @Test
@@ -65,14 +65,14 @@ class NodeTest {
         assertEquals("config/test-resource.xml", node.getLocalPath());
         assertEquals("test-resource.xml", node.getName());
         assertNotNull(node.getFile());
-        assertTrue(node.getURI().startsWith("file:"));
-        assertTrue(node.getURI().endsWith("net/n2oapp/framework/config/test-resource.xml"));
+        assertTrue(node.getUri().startsWith("file:"));
+        assertTrue(node.getUri().endsWith("net/n2oapp/framework/config/test-resource.xml"));
 
         file = new File("net/n2oapp/framework/config/test-resource.xml");
         node = Node.byDirectory(file, "net\\n2oapp\\framework\\");
         assertEquals("config/test-resource.xml", node.getLocalPath());
         assertEquals("test-resource.xml", node.getName());
-        assertTrue(node.getURI().startsWith("file:"));
-        assertTrue(node.getURI().endsWith("net/n2oapp/framework/config/test-resource.xml"));
+        assertTrue(node.getUri().startsWith("file:"));
+        assertTrue(node.getUri().endsWith("net/n2oapp/framework/config/test-resource.xml"));
     }
 }

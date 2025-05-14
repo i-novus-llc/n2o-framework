@@ -1,5 +1,6 @@
 package net.n2oapp.framework.boot.route;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import jakarta.annotation.PostConstruct;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -23,7 +23,7 @@ public class RedisRouteRepository implements ConfigRepository<RouteInfoKey, Comp
     private RedisTemplate redisTemplate;
 
     @Value("${n2o.config.register.redis.key:routes}")
-    private String HASH_KEY;
+    private String hashKey;
 
     private HashOperations<String, String, CompileContext> hashOperations;
 
@@ -35,8 +35,8 @@ public class RedisRouteRepository implements ConfigRepository<RouteInfoKey, Comp
 
     @Override
     public CompileContext save(RouteInfoKey key, CompileContext value) {
-        CompileContext contextInHash = hashOperations.get(HASH_KEY, key.getUrlMatching());
-        hashOperations.put(HASH_KEY, key.getUrlMatching(), value);
+        CompileContext contextInHash = hashOperations.get(hashKey, key.getUrlMatching());
+        hashOperations.put(hashKey, key.getUrlMatching(), value);
 
         String action = contextInHash == null ? "Inserted" : "Updated";
         log.info(String.format("%s route: '%s' to [%s]", action, value, key.getUrlMatching()));
@@ -46,7 +46,7 @@ public class RedisRouteRepository implements ConfigRepository<RouteInfoKey, Comp
 
     @Override
     public Map<RouteInfoKey, CompileContext> getAll() {
-        Map<RouteInfoKey, CompileContext> result = hashOperations.entries(HASH_KEY).entrySet().stream()
+        Map<RouteInfoKey, CompileContext> result = hashOperations.entries(hashKey).entrySet().stream()
                 .collect(Collectors.toMap(
                         row -> new RouteInfoKey(row.getKey(), row.getValue().getCompiledClass()),
                         Map.Entry::getValue, (a, b) -> b)
@@ -57,6 +57,6 @@ public class RedisRouteRepository implements ConfigRepository<RouteInfoKey, Comp
 
     @Override
     public void clearAll() {
-        redisTemplate.delete(HASH_KEY);
+        redisTemplate.delete(hashKey);
     }
 }

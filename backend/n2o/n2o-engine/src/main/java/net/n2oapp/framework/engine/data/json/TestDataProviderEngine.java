@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import jakarta.servlet.http.HttpSession;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.NestedList;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
@@ -15,7 +16,6 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
-import jakarta.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -472,7 +472,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     private List<DataSet> inFilterData(String field, Object pattern, List<DataSet> data) {
-        List patterns = pattern instanceof List patternList? patternList : Arrays.asList(pattern);
+        List patterns = pattern instanceof List patternList ? patternList : Arrays.asList(pattern);
         if (patterns != null) {
             String[] splittedField = field.split("\\.");
             String parent = splittedField[0];
@@ -485,7 +485,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                                 return false;
                             if (m.get(parent) instanceof NestedList nestedList) {
                                 return nestedList.stream().anyMatch(c ->
-                                    ((DataSet) c).containsKey(child) && patterns.contains(((DataSet) c).get(child))
+                                        ((DataSet) c).containsKey(child) && patterns.contains(((DataSet) c).get(child))
                                 );
                             } else {
                                 return m.containsKey(field) && patterns.contains(m.get(field));
@@ -720,7 +720,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     protected String validateFilename(String filename) {
         if (filename != null && !filename.startsWith("/")) {
-            filename = "/" + filename;
+            filename = File.separator + filename;
         }
         return filename;
     }
@@ -812,15 +812,16 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             throw new N2oException("Формат даты и времени, используемый в json, не соответствует ISO_LOCAL_DATE_TIME", e);
         }
     }
+
     private String getPrimaryKey(N2oTestDataProvider invocation) {
-        return invocation.getPrimaryKey()!= null ? invocation.getPrimaryKey() : "id";
+        return invocation.getPrimaryKey() != null ? invocation.getPrimaryKey() : "id";
     }
 
     private String getPrimaryKeys(N2oTestDataProvider invocation) {
-       return getPrimaryKey(invocation) + "s";
+        return getPrimaryKey(invocation) + "s";
     }
 
     public PrimaryKeyTypeEnum getPrimaryKeyType(N2oTestDataProvider invocation) {
-        return invocation.getPrimaryKeyType()!= null ? invocation.getPrimaryKeyType() : integer;
+        return invocation.getPrimaryKeyType() != null ? invocation.getPrimaryKeyType() : integer;
     }
 }
