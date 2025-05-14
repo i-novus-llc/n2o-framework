@@ -16,6 +16,10 @@ build and verify:
     MAVEN_GOAL: 'install'
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
 
+build story:
+  variables:
+    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+
 autotesting mr stand:
   extends: .autotesting mr stand
   variables:
