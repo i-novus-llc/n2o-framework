@@ -125,16 +125,14 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
 
     private Object getResult(GeneratedKeyHolder generatedKeyHolder) {
         List<Map<String, Object>> keyList = generatedKeyHolder.getKeyList();
-        if (keyList != null) {
-            if (keyList.size() > 1) {
-                List<Object> rows = new ArrayList<>(keyList.size());
-                for (Map<String, Object> row : keyList) {
-                    rows.add(row.values().toArray());
-                }
-                return rows.toArray();
-            } else if (keyList.size() == 1) {
-                return keyList.get(0).values().toArray();
+        if (keyList.size() > 1) {
+            List<Object> rows = new ArrayList<>(keyList.size());
+            for (Map<String, Object> row : keyList) {
+                rows.add(row.values().toArray());
             }
+            return rows.toArray();
+        } else if (keyList.size() == 1) {
+            return keyList.get(0).values().toArray();
         }
         return null;
     }

@@ -72,7 +72,8 @@ public class Validator implements Iterable<Validation> {
                             } else {
                                 validateField(copiedValidation, fails);
                             }
-                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                                 NoSuchMethodException e) {
                             throw new N2oException("Failed copy validation", e);
                         }
                     }
@@ -88,6 +89,7 @@ public class Validator implements Iterable<Validation> {
 
     /**
      * Получить максимально возможный индекс для мультисетов с префиксом
+     *
      * @param fieldId идетификатор поля
      */
     private int getMaxLevel(String fieldId) {
@@ -117,7 +119,8 @@ public class Validator implements Iterable<Validation> {
                         return;
                     }
                     validateByIndex(copiedValidation, level + 1, maxLevel, (DataSet) ((DataList) currentDs.get(multiSetId)).get(i));
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                         NoSuchMethodException e) {
                     throw new N2oException("Failed copy validation", e);
                 }
             }
@@ -193,18 +196,17 @@ public class Validator implements Iterable<Validation> {
     }
 
     private boolean checkRequiredConstraint(Validation validation) {
-        if (validation instanceof ConstraintValidation v) {
-            if (v.getInParametersList() != null) {
-                for (AbstractParameter inParam : v.getInParametersList()) {
-                    if (inParam.getRequired() != null
-                            && inParam.getRequired()
-                            && v.getRequiredFields().contains(inParam.getId())
-                            && !dataSet.containsKey(inParam.getId())) {
-                        return false;
-                    }
+        if (validation instanceof ConstraintValidation v && v.getInParametersList() != null) {
+            for (AbstractParameter inParam : v.getInParametersList()) {
+                if (inParam.getRequired() != null
+                        && inParam.getRequired()
+                        && v.getRequiredFields().contains(inParam.getId())
+                        && !dataSet.containsKey(inParam.getId())) {
+                    return false;
                 }
             }
         }
+
         return true;
     }
 

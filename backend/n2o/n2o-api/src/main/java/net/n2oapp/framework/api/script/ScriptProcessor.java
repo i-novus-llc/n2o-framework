@@ -358,9 +358,9 @@ public class ScriptProcessor {
 
     private String buildLessExpressionForDate(String variable, Date date) {
         StringBuilder exp = new StringBuilder();
-        String var = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
-        var = String.format(var, variable);
-        exp.append(var);
+        String str = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
+        str = String.format(str, variable);
+        exp.append(str);
         exp.append(" < ");
         String s = "new Date('%s').getTime()";
         exp.append(String.format(s, new SimpleDateFormat("MM.dd.yyyy HH:mm:SS").format(date)));
@@ -375,9 +375,9 @@ public class ScriptProcessor {
 
     private String buildMoreExpressionForDate(String variable, Date date) {
         StringBuilder exp = new StringBuilder();
-        String var = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
-        var = String.format(var, variable);
-        exp.append(var);
+        String str = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
+        str = String.format(str, variable);
+        exp.append(str);
         exp.append(" > ");
         String s = "new Date('%s').getTime()";
         exp.append(String.format(s, new SimpleDateFormat("MM.dd.yyyy HH:mm:SS").format(date)));
@@ -400,14 +400,14 @@ public class ScriptProcessor {
 
     private String buildInDateIntervalExpression(String variable, Interval<Date> interval) {
         StringBuilder exp = new StringBuilder();
-        String var = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
-        var = String.format(var, variable);
-        exp.append(var);
+        String str = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
+        str = String.format(str, variable);
+        exp.append(str);
         exp.append(" > ");
         String s = "new Date('%s').getTime()";
         exp.append(String.format(s, new SimpleDateFormat("MM.dd.yyyy HH:mm:SS").format(interval.getBegin())));
         exp.append(" && ");
-        exp.append(var);
+        exp.append(str);
         exp.append(" < ");
         exp.append(String.format(s, new SimpleDateFormat("MM.dd.yyyy HH:mm:SS").format(interval.getEnd())));
         return exp.toString();
@@ -449,11 +449,11 @@ public class ScriptProcessor {
         final Map<String, Set<String>> result = new LinkedHashMap<>();
         final Set<String> names = extractVars(script);
         for (String name : names) {
-            for (String var : vars) {
-                String prefix = var + ".";
+            for (String str : vars) {
+                String prefix = str + ".";
                 int idx = name.indexOf(prefix);
                 if (idx >= 0) {
-                    Set<String> properties = result.computeIfAbsent(var, k -> new LinkedHashSet<>());
+                    Set<String> properties = result.computeIfAbsent(str, k -> new LinkedHashSet<>());
                     String afterGet = name.substring(idx + prefix.length());
                     int endIdx = afterGet.indexOf(".");
                     properties.add(endIdx >= 0 ? afterGet.substring(0, endIdx) : afterGet);

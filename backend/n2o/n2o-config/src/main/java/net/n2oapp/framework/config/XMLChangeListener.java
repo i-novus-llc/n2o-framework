@@ -8,12 +8,15 @@ import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.config.register.FileInfo;
 import net.n2oapp.framework.config.register.RegisterUtil;
 import net.n2oapp.framework.config.register.storage.Node;
+import net.n2oapp.watchdir.FileChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.n2oapp.watchdir.FileChangeListener;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collection;
 import java.util.List;
@@ -58,22 +61,7 @@ public class XMLChangeListener implements FileChangeListener {
     public void fileCreated(Path file) {
         try {
             if (file.toFile().isDirectory() || !isXMl(file)) {
-                try {
-                    Files.walkFileTree(file,
-                            new SimpleFileVisitor<Path>() {
-                                @Override
-                                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws
-                                        IOException {
-                                    if (isXMl(file)) addSourceFromMemory(file);
-                                    return super.visitFile(file, attrs);
-                                }
-                            }
-                    );
-                } catch (IOException ignored) {
-                    if (file.toFile().isDirectory()) {
-                        log.error("Created not handled: error add directory {}", file);
-                    }
-                }
+                processDirectoryOrNonXmlFile(file);
                 return;
             }
             addSourceFromMemory(file);
@@ -81,6 +69,27 @@ public class XMLChangeListener implements FileChangeListener {
             log.error("Fail created handled {}", file, e);
         }
     }
+
+    private void processDirectoryOrNonXmlFile(Path file) {
+        try {
+            Files.walkFileTree(file,
+                    new SimpleFileVisitor<Path>() {
+                        @Override
+                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                            if (isXMl(file)) {
+                                addSourceFromMemory(file);
+                            }
+                            return super.visitFile(file, attrs);
+                        }
+                    }
+            );
+        } catch (IOException ignored) {
+            if (file.toFile().isDirectory()) {
+                log.error("Created not handled: error add directory {}", file);
+            }
+        }
+    }
+
 
     @Override
     public void fileDeleted(Path file) {
