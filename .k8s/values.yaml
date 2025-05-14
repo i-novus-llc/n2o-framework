@@ -1,5 +1,8 @@
 global:
   imageTag: "${docker.image.tag}"
+  spring:
+    env:
+      SPRING_CLOUD_CONSUL_CONFIG_PREFIX: n2o-framework
 
 springServices:
   n2o-sandbox:
@@ -11,9 +14,6 @@ springServices:
     env:
       N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
       SPRING_CONFIG_IMPORT: "consul:"
-      SPRING_CLOUD_CONSUL_CONFIG_ENABLED: true
-      SPRING_CLOUD_CONSUL_CONFIG_FORMAT: YAML
-      SPRING_CLOUD_CONSUL_CONFIG_PREFIX: n2o-framework
     replicaCount: 1
     contextPath: sandbox
     ingress:
