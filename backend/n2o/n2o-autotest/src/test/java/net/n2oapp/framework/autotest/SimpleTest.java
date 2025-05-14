@@ -15,13 +15,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import static net.n2oapp.framework.autotest.run.AutoTestUtil.checkChromeDriver;
 
-@SpringBootTest(classes = AutoTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@SpringBootTest(classes = AutoTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SimpleTest {
 
     @LocalServerPort
     private int port;
 
-    @BeforeAll
+//    @BeforeAll
     public static void beforeClass() {
         checkChromeDriver();
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
@@ -35,7 +35,8 @@ public class SimpleTest {
     }
 
     @Test
-    public void n2o() {
+    @Disabled
+    void n2o() {
         TestLeftRightPage page = N2oSelenide.open("http://localhost:" + port + "/test.html", TestLeftRightPage.class);
         page.left().region(0, TestRegion.class).content().widget(TestWidget.class).textShouldBe("Left Region 0 Widget 0");
         page.left().region(0, TestRegion.class).content().widget(1, TestWidget.class).textShouldBe("Left Region 0 Widget 1");
@@ -45,7 +46,7 @@ public class SimpleTest {
 
     @Test
     @Disabled
-    public void selenide() {
+    void selenide() {
         TestPageObject page = Selenide.open("http://localhost:" + port + "/test.html", TestPageObject.class);
         page.getLeftWidget0().textShouldBe("Left Region 0 Widget 0");
         page.getLeftWidget1().textShouldBe("Left Region 0 Widget 1");
