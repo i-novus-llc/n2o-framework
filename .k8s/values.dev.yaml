@@ -1,3 +1,7 @@
+global:
+  spring:
+    useDefaultConsul: false
+    
 springServices:
   demo:
     imageName: n2o/demo
