@@ -1,7 +1,3 @@
-global:
-  spring:
-    useDefaultConsul: false
-
 springServices:
   demo:
     imageName: n2o/demo
@@ -16,6 +12,9 @@ springServices:
   n2o-sandbox:
     ingress:
       path: /sandbox
+    env:
+      MONGO_HOST: 'sandbox-mongodb'
+      MONGO_PASSWORD: "passwd"
 
 mongodb:
   persistence:
