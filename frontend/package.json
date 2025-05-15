@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "engines": {
     "npm": "please-use-yarn",
-    "node": "^18.0.0"
+    "node": "20.x || 22.x"
   },
   "workspaces": [
     "n2o-framework",

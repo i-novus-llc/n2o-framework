@@ -4,7 +4,7 @@
   "description": "N2O React",
   "homepage": "https://n2oapp.net/",
   "engines": {
-    "node": "^18.0.0"
+    "node": "20.x || 22.x"
   },
   "repository": {
     "type": "git",
