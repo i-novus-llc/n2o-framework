@@ -2,6 +2,7 @@ import {
     put,
     call,
     select,
+    delay,
 } from 'redux-saga/effects'
 
 import { setModel } from '../../models/store'
@@ -68,6 +69,17 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
         const query = getQuery(provider.type)
 
         const response: QueryResult = yield query(id, provider, options, apiProvider)
+
+        /*
+        * Костыль для локальных источников (тут чтобы не дублировать в несколько провайдеров)
+        * Задержка, чтобы несколько запросов от разных виджетов при ините схлопнулись в один
+        * Иначе может возникнуть ситуация:
+        * получение данных => срабатывание зависимостей => повторное чтение данных => модель перетирается, теряется результат зависимостей
+        * => нету повторного вызова зависимостей, т.к. поля, на которые ссылается on не изменялись между первым и последующим чтением данных
+        */
+        if (provider.type !== ProviderType.service) {
+            yield delay(100)
+        }
 
         yield put(setModel(ModelPrefix.source, id, response.list, true))
 

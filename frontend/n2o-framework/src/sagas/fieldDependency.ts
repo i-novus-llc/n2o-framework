@@ -379,9 +379,7 @@ function* compareAndResolve(
             for (const dep of dependency) {
                 const { on = [], applyOnInit } = dep
 
-                if (isDefault && !applyOnInit) {
-                    continue
-                }
+                if (isDefault && !applyOnInit) { continue }
 
                 const isSomeFieldChanged = on.some((fieldPath: string) => {
                     const currentValue = get(model, fieldPath)
