@@ -1429,7 +1429,8 @@
         <xs:attribute name="value" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Значение параметра
+                    Значение параметра.
+                    Возможно использование плейсхолдеров
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

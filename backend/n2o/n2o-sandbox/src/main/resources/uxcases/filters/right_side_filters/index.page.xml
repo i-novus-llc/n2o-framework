@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Картотека и фильтры справа от списка">
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+                 name="Картотека и фильтры справа от списка">
     <datasources>
         <datasource id="filters"/>
         <datasource id="ds1" query-id="data">
@@ -8,12 +9,13 @@
             </dependencies>
             <filters>
                 <like field-id="name" value="{name}" datasource="filters"/>
-                <eq field-id="author" value="{author.id == 1 ? null : author}" datasource="filters"/>
+                <eq field-id="author" value="{author.id == 1 ? null : author.id}" datasource="filters"/>
                 <in field-id="genre" values="{genre*.id}" datasource="filters"/>
                 <in field-id="type" values="{type*.id}" datasource="filters"/>
             </filters>
         </datasource>
     </datasources>
+
     <left width="70%">
         <tiles datasource="ds1" id="tiles" width="350" height="200" route="/w1">
             <content>
