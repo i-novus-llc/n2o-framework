@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Использование JS выражений в query и path параметрах">
+    <datasources>
+        <datasource id="formDs" query-id="test"/>
+    </datasources>
+
+    <regions>
+        <form datasource="formDs">
+            <fields>
+                <input-select id="type" type="checkboxes"
+                              description="Если среди выбранных вариантов есть TWO, то при открытии страницы будет получена ВТОРАЯ запись, иначе - ПЕРВАЯ">
+                    <options>
+                        <option id="One" name="One"/>
+                        <option id="Two" name="Two"/>
+                        <option id="Three" name="Three"/>
+                    </options>
+                </input-select>
+            </fields>
+
+            <toolbar>
+                <button label="Открыть страницу (query-param)">
+                    <open-page page-id="page">
+                        <params>
+                            <query-param name="check"
+                                         value="{type ? type.some( t => t['name'] === 'Two' ) : false}"/>
+                        </params>
+                    </open-page>
+                </button>
+                <button label="Открыть страницу (path-param)">
+                    <open-page page-id="page" route="/open/:check">
+                        <params>
+                            <path-param name="check"
+                                        value="{type ? type.some( t => t['name'] === 'Two' ) : false}"/>
+                        </params>
+                    </open-page>
+                </button>
+            </toolbar>
+        </form>
+    </regions>
+</page>

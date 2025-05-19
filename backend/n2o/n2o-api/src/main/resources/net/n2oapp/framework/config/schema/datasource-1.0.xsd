@@ -276,7 +276,7 @@
                 <xs:attribute name="key" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Ключ, под которым будут хранится данные.
+                            Ключ, под которым будут храниться данные.
                             По умолчанию: глобальный идентификатор источника
                         </xs:documentation>
                     </xs:annotation>
@@ -655,7 +655,8 @@
                 <xs:attribute name="value" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Значение фильтра (одно значение)
+                            Значение фильтра.
+                            Возможно использование плейсхолдеров
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -688,7 +689,8 @@
                 <xs:attribute name="values" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Значения фильтра (через запятую)
+                            Значение фильтра.
+                            Возможно использование плейсхолдеров
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

@@ -3,12 +3,14 @@
     <list>
         <test file="data.json" operation="findAll"/>
     </list>
+
     <filters>
         <like filter-id="name" field-id="name"/>
         <eq mapping="['author.id']" filter-id="author.id" field-id="author"/>
         <in mapping="['genre']" filter-id="genre*.id" field-id="genre">genre.id:in:genre</in>
         <in mapping="['type']" filter-id="type*.id" field-id="type">type.id:in:type</in>
     </filters>
+
     <fields>
         <field id="id"/>
         <field id="name"/>

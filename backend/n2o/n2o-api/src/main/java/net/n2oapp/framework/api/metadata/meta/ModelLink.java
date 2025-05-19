@@ -82,7 +82,8 @@ public class ModelLink extends BindLink {
     public String getFieldId() {
         String result = null;
         String fieldValue = getFieldValue();
-        if (fieldId != null) result = fieldId;
+        if (fieldId != null)
+            result = fieldId;
         if (fieldValue != null) {
             if (result != null) {
                 result += "." + fieldValue;

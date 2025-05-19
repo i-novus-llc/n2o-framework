@@ -19,6 +19,10 @@
         {
           "templateId": "uxcomponents/tables/settings",
           "name": "Настройки таблицы"
+        },
+        {
+          "templateId": "versions/7.29/expressions_in_query_path_parameters",
+          "name": "Использование JS выражений в query и path параметрах"
         }
       ]
     },

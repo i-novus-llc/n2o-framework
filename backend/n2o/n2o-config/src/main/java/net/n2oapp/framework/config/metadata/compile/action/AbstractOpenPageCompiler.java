@@ -425,5 +425,4 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String datasource = getLocalDatasourceId(p);
         return datasource != null ? new String[]{datasource} : null;
     }
-
 }

@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "name": "test1",
+    "check": false
+  },
+  {
+    "id": 2,
+    "name": "test2",
+    "check": true
+  }
+]

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 /**
  * Модель данных
@@ -18,7 +19,8 @@ public class DataModel {
     /**
      * Хранение моделей данных виджетов
      */
-    private Map<ModelLink, DataSet> store;
+    private final Map<ModelLink, DataSet> store;
+    private static final Pattern ILLEGAL_KEY_CHARS = Pattern.compile(".*[()?+=\\\\|/<> ,!:&%^#].*");
 
     public DataModel() {
         this.store = new HashMap<>();
@@ -50,7 +52,7 @@ public class DataModel {
     public Object add(String key, ModelLink link, Object value) {
         ModelLink widgetLink = link.getWidgetLink();
         String fieldId = link.getFieldId();
-        if (fieldId != null) {
+        if (fieldId != null && !ILLEGAL_KEY_CHARS.matcher(fieldId).matches()) {
             if (widgetLink != null && widgetLink.getSubModelQuery() != null)
                 addSubModelToStoreKey(widgetLink);
             return storeData(widgetLink, fieldId, value);
