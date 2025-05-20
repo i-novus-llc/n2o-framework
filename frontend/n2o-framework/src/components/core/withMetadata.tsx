@@ -11,7 +11,7 @@ import { getLocation } from '../../ducks/global/selectors'
 import { State } from '../../ducks/State'
 import { Mapping } from '../../ducks/datasource/Provider'
 import { Metadata } from '../../ducks/pages/Pages'
-import type { ErrorContainerProps } from '../../core/error/types'
+import { type ErrorContainerError } from '../../core/error/types'
 
 import { resolvePath } from './router/resolvePath'
 import { PageContext } from './router/context'
@@ -24,7 +24,7 @@ export interface WithMetadataProps {
     parentId: string
     metadata: Metadata
     loading: boolean
-    error: ErrorContainerProps['error']
+    error: ErrorContainerError
     getMetadata(
         pageId: string,
         pageUrl: string,

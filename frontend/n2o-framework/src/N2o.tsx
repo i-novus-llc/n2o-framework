@@ -26,7 +26,7 @@ import Application from './components/core/Application'
 import { Template } from './components/core/templates'
 import globalFnDate from './utils/globalFnDate'
 import { errorTemplates } from './components/errors/errorTemplates'
-import { locales } from './locales'
+import { type LocalesPreset, defaultLocalesPreset } from './locales'
 import { ErrorHandlersProvider } from './core/error/Container'
 import { ExpressionContext } from './core/Expression/Context'
 import '@fortawesome/fontawesome-free/css/all.css'
@@ -37,6 +37,7 @@ import { State } from './ducks/State'
 import { TemplateProps } from './components/core/templates/types'
 import { WindowType } from './components/core/WindowType'
 import { ErrorContainerProviderProps } from './core/error/types'
+import { EMPTY_OBJECT } from './utils/emptyTypes'
 
 const { version } = packageJson
 
@@ -62,7 +63,7 @@ export interface N2OProps extends WithTranslation {
     apiProvider?: Function
     evalContext?: object
     children?: ReactNode
-    locales?: Record<string, unknown>
+    locales?: LocalesPreset
     initialState?: object
     extraDefaultErrorPages?: Record<number | string, React.ComponentType>
     defaultTemplate?: ComponentType<TemplateProps>
@@ -154,7 +155,7 @@ class N2oBody extends Component<N2OProps, N2OState> {
         const {
             children,
             i18n,
-            locales: customLocales = {},
+            locales: customLocalesPreset = EMPTY_OBJECT,
             evalContext,
             extraDefaultErrorPages,
             defaultTemplate,
@@ -178,9 +179,8 @@ class N2oBody extends Component<N2OProps, N2OState> {
                             <FactoryProvider config={config} securityBlackList={['actions']}>
                                 <Application
                                     i18n={i18n}
-                                    // @ts-ignore FIXME разобраться в типизации
-                                    locales={locales}
-                                    customLocales={customLocales}
+                                    localesPreset={defaultLocalesPreset}
+                                    customLocales={customLocalesPreset}
                                     render={() => <Router defaultTemplate={defaultTemplate}>{children}</Router>}
                                 />
                             </FactoryProvider>

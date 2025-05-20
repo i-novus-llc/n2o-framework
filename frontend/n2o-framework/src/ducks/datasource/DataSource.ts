@@ -2,6 +2,7 @@
 import type { DataSourceDependency, SortDirection } from '../../core/datasource/const'
 import { ModelPrefix } from '../../core/datasource/const'
 import { ValidationsKey, Validation, ValidationResult } from '../../core/validation/types'
+import { type ErrorContainerError } from '../../core/error/types'
 
 import type { Provider, SubmitProvider, Paging, ServiceSubmit } from './Provider'
 
@@ -25,7 +26,7 @@ export interface DataSourceState {
     ModelPrefix,
     Partial<Record<string, ValidationResult[]>>
     >
-    error?: object
+    error?: ErrorContainerError
     fetchOnInit?: boolean
 }
 
