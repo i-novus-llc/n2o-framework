@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import { LOCATION_CHANGE } from 'connected-react-router'
 
 import { metadataSuccess, resetPage } from '../pages/store'
+import { type ErrorContainerError } from '../../core/error/types'
+import { Locale } from '../../locales'
 
 import { State as Global } from './Global'
 
@@ -9,7 +11,7 @@ export const initialState: Global = {
     ready: false,
     loading: false,
     error: null,
-    locale: 'ru',
+    locale: Locale.ru,
     messages: {},
     menu: {},
     rootPageId: null,
@@ -44,7 +46,7 @@ export const globalSlice = createSlice({
                 }
             },
 
-            reducer(state: Global, action: { payload: object }) {
+            reducer(state: Global, action: { payload: ErrorContainerError }) {
                 state.loading = false
                 state.error = action.payload
             },

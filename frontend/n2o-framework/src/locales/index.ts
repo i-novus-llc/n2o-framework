@@ -1,7 +1,7 @@
 import ru from './ru/translation'
 import en from './en/translation'
 
-export const locales = {
+export const defaultLocalesPreset = {
     ru: {
         translation: ru,
     },
@@ -10,4 +10,13 @@ export const locales = {
     },
 }
 
-export default locales
+export enum Locale {
+    en = 'en',
+    ru = 'ru',
+}
+
+export type LocaleArray = string[]
+
+export type LocalesPreset = Record<string, { translation: Record<string, string> }>
+
+export default defaultLocalesPreset

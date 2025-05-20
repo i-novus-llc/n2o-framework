@@ -103,7 +103,7 @@ export const dataSourceFieldError = (
 
 export const dataSourceError = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
-    state => (state.error || EMPTY_OBJECT),
+    state => (state.error || null),
 )
 
 export const dataSourceAdditionalInfo = (sourceId: string) => createSelector(

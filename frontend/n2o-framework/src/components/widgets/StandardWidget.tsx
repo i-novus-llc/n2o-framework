@@ -1,17 +1,17 @@
-import React, { Children, useCallback, useMemo, ReactNode, CSSProperties, memo } from 'react'
+import React, { Children, useCallback, useMemo, ReactNode, CSSProperties, memo, isValidElement, cloneElement } from 'react'
 import classNames from 'classnames'
+import isEmpty from 'lodash/isEmpty'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { isEmpty } from 'lodash'
 import { Spinner, SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 
-import Toolbar, { ToolbarProps } from '../buttons/Toolbar'
+import { Toolbar, type ToolbarProps } from '../buttons/Toolbar'
 import { dataSourceError } from '../../ducks/datasource/selectors'
 import { ErrorContainer } from '../../core/error/Container'
 import { State } from '../../ducks/State'
-import { type ErrorContainerProps } from '../../core/error/types'
-import { Model } from '../../ducks/models/selectors'
-import { Widget } from '../../ducks/widgets/Widgets'
+import { type ErrorContainerError } from '../../core/error/types'
+import { type Model } from '../../ducks/models/selectors'
+import { type Widget } from '../../ducks/widgets/Widgets'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { WidgetFilters, type Props as WidgetFiltersProps } from './WidgetFilters'
@@ -43,18 +43,13 @@ export interface Props extends Widget {
     style?: CSSProperties
     children?: ReactNode
     loading: boolean
-    error: ErrorContainerProps['error']
+    error?: ErrorContainerError
     activeModel?: Model | Model[]
     showCount?: boolean
 }
 
 /**
- * Виджет таблица
- * @reactProps {string} widgetId - id виджета
- * @reactProps {Object} toolbar
- * @reactProps {Object} filter
- * @reactProps {boolean} disabled - флаг активности
- * @reactProps {node} children - элемент потомок компонента StandardWidget
+ * Обертка над виджетами, размещает filters и toolbars, отображает loading
  */
 const StandardWidget = memo(({
     widgetId,
@@ -70,9 +65,12 @@ const StandardWidget = memo(({
     toolbar = EMPTY_OBJECT,
     pagination = EMPTY_OBJECT,
 }: Props) => {
-    const renderToolbar = useCallback((place) => {
-        const paginationComponent = pagination[place]
-        const currentToolbar = toolbar[place]
+    const renderToolbar = useCallback((place: PLACES) => {
+        const { [place]: placePagination } = pagination
+        const { [place]: placeToolbar } = toolbar
+
+        if (!placePagination && !placeToolbar) { return null }
+
         const toolbarClassNames = classNames(
             'd-flex',
             'flex-column',
@@ -84,16 +82,14 @@ const StandardWidget = memo(({
         )
 
         return (
-            currentToolbar || paginationComponent ? (
-                <div className={toolbarClassNames} key={place}>
-                    {paginationComponent}
-                    {currentToolbar ? <Toolbar toolbar={currentToolbar} entityKey={widgetId} /> : null}
-                </div>
-            ) : null
+            <div className={toolbarClassNames} key={place}>
+                {placePagination}
+                {placeToolbar && <Toolbar toolbar={placeToolbar} entityKey={widgetId} />}
+            </div>
         )
     }, [pagination, toolbar, widgetId])
 
-    const filterComponent = (
+    const filterComponent = useMemo(() => (
         <WidgetFilters
             widgetId={widgetId}
             fetchData={fetchData}
@@ -101,7 +97,7 @@ const StandardWidget = memo(({
             fieldsets={filter.filterFieldsets}
             {...filter}
         />
-    )
+    ), [widgetId, fetchData, datasource, filter])
 
     const { topToolbars, bottomToolbars } = useMemo(() => ({
         topToolbars: [
@@ -122,11 +118,13 @@ const StandardWidget = memo(({
         { 'n2o-disabled': disabled },
     ])
 
-    const errorComponent = isEmpty(error) ? null : <ErrorContainer error={error} />
+    const errorComponent = useMemo(() => (
+        isEmpty(error) ? null : <ErrorContainer error={error} />
+    ), [error])
 
     const childrenWithError = Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
-            return React.cloneElement(child, { errorComponent } as never)
+        if (isValidElement<Record<string, unknown>>(child)) {
+            return cloneElement(child, { errorComponent })
         }
 
         return child
@@ -134,52 +132,54 @@ const StandardWidget = memo(({
 
     return (
         <div className={classes} style={style}>
-            {filter.filterPlace === PLACES.left ? (
+            {filter.filterPlace === PLACES.left && (
                 <div className="n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--left">
                     {filterComponent}
                 </div>
-            ) : null}
+            )}
             <div className="n2o-standard-widget-layout-center">
-                {filter.filterPlace === PLACES.top ? (
+                {filter.filterPlace === PLACES.top && (
                     <div className="n2o-standard-widget-layout-center-filter">
                         {filterComponent}
                     </div>
-                ) : null}
-                {topToolbars.length ? (
+                )}
+                {!!topToolbars.length && (
                     <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar-top">
                         {topToolbars}
                     </div>
-                ) : null}
+                )}
                 <div className="n2o-standard-widget-layout-content">
                     <Spinner loading={loading} type={SpinnerType.cover}>
                         {childrenWithError}
                     </Spinner>
                 </div>
-                {bottomToolbars.length ? (
+                {!!bottomToolbars.length && (
                     <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar-bottom">
                         {bottomToolbars}
                     </div>
-                ) : null}
+                )}
             </div>
-            {filter.filterPlace === PLACES.right ? (
+            {filter.filterPlace === PLACES.right && (
                 <div className="n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--right">
                     {filterComponent}
                 </div>
-            ) : null}
+            )}
         </div>
     )
 })
 
-const mapStateToProps = createStructuredSelector({
-    // @ts-ignore TODO объеденить типы ErrorContainerProps['error'] и dataSourceError, убрать as never
-    error: (state: State, { datasource }: Props) => {
-        if (state.datasource[datasource]) {
-            return dataSourceError(datasource)(state)
+const mapStateToProps = createStructuredSelector<
+    State,
+    Props,
+    { error: ErrorContainerError }
+>({
+    error: (state: State, props: Props) => {
+        if (state.datasource[props.datasource]) {
+            return dataSourceError(props.datasource)(state)
         }
 
         return null
     },
 })
 
-// @ts-ignore TODO объеденить типы ErrorContainerProps['error'] и dataSourceError, убрать as never
 export default connect(mapStateToProps)(StandardWidget)

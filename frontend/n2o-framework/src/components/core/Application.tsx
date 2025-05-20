@@ -8,16 +8,13 @@ import { type i18n } from 'i18next'
 import { Block } from '@i-novus/n2o-components/lib/display/Block'
 
 import { ErrorContainer } from '../../core/error/Container'
+import { type ErrorContainerError } from '../../core/error/types'
 import { State } from '../../ducks/State'
-import {
-    requestConfig as requestConfigAction,
-    registerLocales,
-} from '../../ducks/global/store'
+import { requestConfig as requestConfigAction, registerLocales } from '../../ducks/global/store'
 import { globalSelector } from '../../ducks/global/selectors'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
 import { FactoryContext } from '../../core/factory/context'
-import { ErrorContainerProps } from '../../core/error/types'
-import { locales } from '../../locales'
+import { Locale, type LocaleArray, type LocalesPreset } from '../../locales'
 import { type SidebarProps } from '../../plugins/SideBar/types'
 import { type SimpleHeaderBodyProps } from '../../plugins/Header/SimpleHeader/SimpleHeader'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
@@ -34,24 +31,22 @@ export interface Config {
 export interface ApplicationProps extends ReturnType<typeof mapDispatchToProps> {
     ready?: boolean
     loading: boolean
-    locale: string
-    error?: ErrorContainerProps['error']
+    locale: Locale
+    error?: ErrorContainerError
     i18n: i18n
-    locales?: typeof locales
-    customLocales?: Record<string, unknown>
+    localesPreset: LocalesPreset
+    customLocales?: LocalesPreset
     render(): ReactNode
-    // eslint-disable-next-line react/no-unused-prop-types
-    menu: Config
 }
 
 export interface ApplicationContextValue {
     getFromConfig(key: string): Config | undefined
-    configLocale: string
+    configLocale: Locale
 }
 
 export const ApplicationContext = createContext<ApplicationContextValue>({
     getFromConfig: () => undefined,
-    configLocale: 'en',
+    configLocale: Locale.en,
 })
 
 function Application(props: ApplicationProps) {
@@ -60,7 +55,7 @@ function Application(props: ApplicationProps) {
         i18n,
         registerLocales,
         requestConfig,
-        locales = EMPTY_OBJECT,
+        localesPreset = EMPTY_OBJECT,
         locale,
         ready,
         loading,
@@ -74,7 +69,7 @@ function Application(props: ApplicationProps) {
             i18n.addResourceBundle(locale, 'translation', value)
         })
 
-        registerLocales(keys({ ...locales, ...customLocales }))
+        registerLocales(keys({ ...localesPreset, ...customLocales }))
         requestConfig()
         numeral.locale(locale)
     }, [])
@@ -105,14 +100,11 @@ function Application(props: ApplicationProps) {
     )
 }
 
-const mapStateToProps = (state: State) => ({
-    ...globalSelector(state),
-})
+const mapStateToProps = (state: State) => ({ ...globalSelector(state) })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     requestConfig: bindActionCreators(requestConfigAction, dispatch),
-    registerLocales: (locales: string[]) => dispatch(registerLocales(locales)),
+    registerLocales: (locale: LocaleArray) => dispatch(registerLocales(locale)),
 })
 
-// @ts-ignore TODO объеденить типы ErrorContainerProps['error'] и error из Global
 export default connect(mapStateToProps, mapDispatchToProps)(Application)

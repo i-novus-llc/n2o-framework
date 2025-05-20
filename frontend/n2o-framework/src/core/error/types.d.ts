@@ -23,8 +23,10 @@ export type ErrorHandler = (error: Error) => (
 
 export type ErrorContainerContextType = ErrorHandler[]
 
+export type ErrorContainerError = Error & { status?: number } | null | undefined
+
 export type ErrorContainerProps = {
-    error?: Error & { status?: number } | null
+    error?: ErrorContainerError
     onReset?<TArg = unknown>(arg: TArg): void
     children?: ReactNode | undefined
 }
