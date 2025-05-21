@@ -22,22 +22,22 @@ public class FilterReducer {
 
     private static Map<Pair, Rule> rulesMap;
     private static List<? extends Rule> ruleList = Arrays.asList(
-            new Eq_Eq(), new Eq_In(), new Eq_Less(), new Eq_More(), new Eq_NotEq(), new Eq_IsNull(), new Eq_IsNotNull(), new Eq_NotIn(),
-            new NotEq_NotEq(), new NotEq_NotIn(),
-            new In_In(), new In_Less(), new In_More(), new In_IsNull(), new In_IsNotNull(), new In_NotEq(), new In_NotIn(),
-            new IsNull_IsNotNull(), new IsNull_NotEq(), new IsNull_NotIn(),
-            new Less_Less(), new More_More(), new Less_IsNull(), new More_IsNull(), new More_IsNotNull(), new Less_IsNotNull(),
-            new NotIn_NotIn(),
+            new EqAndEq(), new EqAndIn(), new EqAndLess(), new EqAndMore(), new EqAndNotEq(), new EqAndIsNull(), new EqAndIsNotNull(), new EqAndNotIn(),
+            new NotEqAndNotEq(), new NotEqAndNotIn(),
+            new InAndIn(), new InAndLess(), new InAndMore(), new InAndIsNull(), new InAndIsNotNull(), new InAndNotEq(), new InAndNotIn(),
+            new IsNullAndIsNotNull(), new IsNullAndNotEq(), new IsNullAndNotIn(),
+            new LessAndLess(), new MoreAndMore(), new LessAndIsNull(), new MoreAndIsNull(), new MoreAndIsNotNull(), new LessAndIsNotNull(),
+            new NotInAndNotIn(),
             //eqOrIsNull
-            new EqOrIsNull_Eq(), new EqOrIsNull_EqOrIsNull(), new EqOrIsNull_In(), new EqOrIsNull_IsNotNull(),
-            new EqOrIsNull_IsNull(), new EqOrIsNull_Less(), new EqOrIsNull_More(), new EqOrIsNull_NotEq(), new EqOrIsNull_NotIn(),
-            new EqOrIsNull_Like(), new EqOrIsNull_LikeStart(), new EqOrIsNull_Contains(),
+            new EqOrIsNullAndEq(), new EqOrIsNullAndEqOrIsNull(), new EqOrIsNullAndIn(), new EqOrIsNullAndIsNotNull(),
+            new EqOrIsNullAndIsNull(), new EqOrIsNullAndLess(), new EqOrIsNullAndMore(), new EqOrIsNullAndNotEq(), new EqOrIsNullAndNotIn(),
+            new EqOrIsNullAndLike(), new EqOrIsNullAndLikeStart(), new EqOrIsNullAndContains(),
             //like, likeStart
-            new Eq_Like(), new Eq_LikeStart(), new Like_IsNotNull(), new Like_IsNull(), new Like_Like(), new Like_LikeStart(),
-            new LikeStart_IsNotNull(), new LikeStart_IsNull(), new LikeStart_LikeStart(),
+            new EqAndLike(), new EqAndLikeStart(), new LikeAndIsNotNull(), new LikeAndIsNull(), new LikeAndLike(), new LikeAndLikeStart(),
+            new LikeStartAndIsNotNull(), new LikeStartAndIsNull(), new LikeStartAndLikeStart(),
             //contains
-            new Eq_Contains(), new Contains_NotEq(), new Contains_Contains(),
-            new Contains_IsNull(), new Contains_IsNotNull()
+            new EqAndContains(), new ContainsAndNotEq(), new ContainsAndContains(),
+            new ContainsAndIsNull(), new ContainsAndIsNotNull()
     );
 
 
