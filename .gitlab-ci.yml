@@ -16,30 +16,32 @@ build and verify:
     MAVEN_GOAL: 'verify'
     MAVEN_EXTRA_GOAL: 'install:install'
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
-  cache:
-    - key: m2-$CI_COMMIT_REF_SLUG
-      paths:
-        - $CI_PROJECT_DIR/.m2/repository
-      fallback_keys:
-        - m2
-      when: 'always'
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/.m2/repository
 
 autotesting mr stand:
   extends: .autotesting mr stand
   variables:
     AUTOTEST_PARAMS: '-Pautotests -o'
     AUTOTEST_MODULE_DIR: './backend/n2o/n2o-autotest'
-  cache:
-    - key: m2-$CI_COMMIT_REF_SLUG
-      paths:
-        - $CI_PROJECT_DIR/.m2/repository
-      fallback_keys:
-        - m2
-      when: 'always'
+  dependencies:
+    - build and verify
+    - deploy mr stand
+#  cache:
+#    - key: m2-$CI_COMMIT_REF_SLUG
+#      paths:
+#        - $CI_PROJECT_DIR/.m2/repository
+#      fallback_keys:
+#        - m2
+#      when: 'always'
 
 build story:
   variables:
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+
+cleanup:
+  dependencies: []
 
 #deploy dev stand:
 #  variables:
