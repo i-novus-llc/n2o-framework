@@ -1,3 +1,7 @@
+global:
+  spring:
+    useDefaultConsul: false
+
 springServices:
   demo:
     imageName: n2o/demo
@@ -12,9 +16,6 @@ springServices:
   n2o-sandbox:
     ingress:
       path: /sandbox
-    env:
-      MONGO_HOST: 'sandbox-mongodb'
-      MONGO_PASSWORD: "passwd"
   n2o-test:
     imageName: n2o/n2o-sandbox
     resources:
@@ -24,8 +25,7 @@ springServices:
     env:
       N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
       SPRING_PROFILES_ACTIVE: test
-      MONGO_HOST: 'sandbox-mongodb'
-      MONGO_PASSWORD: "passwd"
+      SPRING_CONFIG_IMPORT: "consul:"
     replicaCount: 1
     contextPath: tests
     ingress:
@@ -35,7 +35,7 @@ mongodb:
   persistence:
     storageClass: nfs-retain
     enabled: true
-    size: '1Gi'
+    size: '2Gi'
   auth:
     rootPassword: "passwd"
   service:
