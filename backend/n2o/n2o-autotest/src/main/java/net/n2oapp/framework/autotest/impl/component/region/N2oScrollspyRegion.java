@@ -15,6 +15,7 @@ import java.util.Objects;
  * Регион с отслеживанием прокрутки для автотестирования
  */
 public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
+    private static final String MENU_WRAPPER_CLASS = ".n2o-scroll-spy-region__menu-wrapper";
 
     @Override
     public ContentItem contentItem(int index) {
@@ -28,7 +29,7 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
 
     @Override
     public Menu menu() {
-        return new N2oMenu(element().$(".n2o-scroll-spy-region__menu-wrapper"));
+        return new N2oMenu(element().$(MENU_WRAPPER_CLASS));
     }
 
     @Override
@@ -175,12 +176,12 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
 
         @Override
         public void shouldBeExpand() {
-            element().$(".n2o-scroll-spy-region__menu-wrapper").shouldHave(Condition.cssClass("visible"));
+            element().$(MENU_WRAPPER_CLASS).shouldHave(Condition.cssClass("visible"));
         }
 
         @Override
         public void shouldBeCollapse() {
-            element().$(".n2o-scroll-spy-region__menu-wrapper").shouldNotHave(Condition.cssClass("visible"));
+            element().$(MENU_WRAPPER_CLASS).shouldNotHave(Condition.cssClass("visible"));
         }
 
         @Override

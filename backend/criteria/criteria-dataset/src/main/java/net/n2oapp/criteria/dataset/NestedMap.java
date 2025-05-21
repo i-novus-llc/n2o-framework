@@ -23,6 +23,8 @@ import static net.n2oapp.criteria.dataset.NestedUtils.*;
  * </pre>
  */
 public class NestedMap extends LinkedHashMap<String, Object> {
+    private static final String ERROR_KEY_MUST_BE_STRING = "Key must be String, but was ";
+    private static final String ERROR_TEMPLATE = "Key '%s' does not match the naming convention of java variables";
 
     public NestedMap() {
     }
@@ -40,7 +42,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
     @Override
     public boolean containsKey(Object oKey) {
         if (!(oKey instanceof String key))
-            throw new IllegalArgumentException("Key must be String, but was " + oKey);
+            throw new IllegalArgumentException(ERROR_KEY_MUST_BE_STRING + oKey);
         KeyInfo info = getKeyInfo(key);
         Object value = super.get(info.getProperty());
         if (value == null)
@@ -63,7 +65,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
     @Override
     public Object get(Object oKey) {
         if (!(oKey instanceof String key))
-            throw new IllegalArgumentException("Key must be String, but was " + oKey);
+            throw new IllegalArgumentException(ERROR_KEY_MUST_BE_STRING + oKey);
         KeyInfo info = getKeyInfo(key);
         Object value = super.get(info.getProperty());
         if (value == null)
@@ -142,7 +144,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
     @Override
     public Object remove(Object oKey) {
         if (!(oKey instanceof String key))
-            throw new IllegalArgumentException("Key must be String, but was " + oKey);
+            throw new IllegalArgumentException(ERROR_KEY_MUST_BE_STRING + oKey);
         KeyInfo info = getKeyInfo(key);
         if (!info.isNesting()) {
             //case: "foo"
@@ -215,8 +217,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
                 left = key.substring(0, endLeft);//case: "ab.cd", "ab*.cd"
             }
             if (!NestedUtils.isJavaVariable(left))
-                throw new IllegalArgumentException("Key '"
-                        + key + "' does not match the naming convention of java variables");
+                throw new IllegalArgumentException(String.format(ERROR_TEMPLATE, key));
         }
         if (endLeft < 0 || key.length() <= endLeft)
             return new KeyInfo(left);
@@ -225,13 +226,11 @@ public class NestedMap extends LinkedHashMap<String, Object> {
             spread = true;
             right = right.substring(2);
             if (!isFirstJavaVariable(right))
-                throw new IllegalArgumentException("Key '"
-                        + right + "' does not match the naming convention of java variables");
+                throw new IllegalArgumentException(String.format(ERROR_TEMPLATE, right));
         } else if (right.startsWith(".")) {
             right = right.substring(1);
             if (!isFirstJavaVariable(right))
-                throw new IllegalArgumentException("Key '"
-                        + right + "' does not match the naming convention of java variables");
+                throw new IllegalArgumentException(String.format(ERROR_TEMPLATE, right));
         } else if (!right.startsWith("[")) {
             throw new IllegalArgumentException("Key must start with '[', but was " + right);
         }

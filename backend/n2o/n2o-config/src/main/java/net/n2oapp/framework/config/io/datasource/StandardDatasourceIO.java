@@ -21,6 +21,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource> {
 
+    private static final String DATASOURCE = "datasource";
+
     @Override
     public Class<N2oStandardDatasource> getElementClass() {
         return N2oStandardDatasource.class;
@@ -28,7 +30,7 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
 
     @Override
     public String getElementName() {
-        return "datasource";
+        return DATASOURCE;
     }
 
     @Override
@@ -64,14 +66,14 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
     private void submitParam(Element e, N2oParam t, IOProcessor p) {
         p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
-        p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
+        p.attribute(e, DATASOURCE, t::getDatasourceId, t::setDatasourceId);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
     }
 
     private void submitFormParam(Element e, N2oFormParam t, IOProcessor p) {
         p.attribute(e, "id", t::getName, t::setName);
         p.attribute(e, "value", t::getValue, t::setValue);
-        p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
+        p.attribute(e, DATASOURCE, t::getDatasourceId, t::setDatasourceId);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
     }
 

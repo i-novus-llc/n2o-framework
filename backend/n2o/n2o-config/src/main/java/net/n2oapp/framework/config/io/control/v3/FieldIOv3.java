@@ -14,6 +14,7 @@ import org.jdom2.Element;
  * Чтение/запись базовых свойств поля
  */
 public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> implements ControlIOv3 {
+    private static final String VALIDATE = "validate";
 
     @Override
     public void io(Element e, T m, IOProcessor p) {
@@ -64,17 +65,17 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
 
     private void requiringDependency(Element e, N2oField.RequiringDependency t, IOProcessor p) {
         dependency(e, t, p);
-        p.attributeBoolean(e, "validate", t::getValidate, t::setValidate);
+        p.attributeBoolean(e, VALIDATE, t::getValidate, t::setValidate);
     }
 
     private void setValueDependency(Element e, N2oField.SetValueDependency t, IOProcessor p) {
         dependency(e, t, p);
-        p.attributeBoolean(e, "validate", t::getValidate, t::setValidate);
+        p.attributeBoolean(e, VALIDATE, t::getValidate, t::setValidate);
     }
 
     private void resetDependency(Element e, N2oField.ResetDependency t, IOProcessor p) {
         dependency(e, t, p);
-        p.attributeBoolean(e, "validate", t::getValidate, t::setValidate);
+        p.attributeBoolean(e, VALIDATE, t::getValidate, t::setValidate);
     }
 
     private void fetchValueDependency(Element e, N2oField.FetchValueDependency t, IOProcessor p) {

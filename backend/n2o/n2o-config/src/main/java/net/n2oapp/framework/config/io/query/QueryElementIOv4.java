@@ -17,6 +17,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
+    private static final String SELECT = "select";
+    private static final String SORTING = "sorting";
+    private static final String MAPPING = "mapping";
 
     @Override
     public void io(Element e, N2oQuery t, IOProcessor p) {
@@ -45,21 +48,21 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "id", t::getId, t::setId);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "name", t::getName, t::setName);
-        p.hasElement(e, "sorting", t::getIsSorted, t::setIsSorted);
-        p.element(e, "sorting", t::getSortingExpression, t::setSortingExpression);
-        p.childAttribute(e, "sorting", "mapping", t::getSortingMapping, t::setSortingMapping);
-        p.hasElement(e, "select", t::getIsSelected, t::setIsSelected);
-        p.element(e, "select", t::getSelectExpression, t::setSelectExpression);
-        p.childAttribute(e, "select", "default-value", t::getDefaultValue, t::setDefaultValue);
-        p.childAttribute(e, "select", "mapping", t::getMapping, t::setMapping);
-        p.childAttribute(e, "select", "normalize", t::getNormalize, t::setNormalize);
+        p.hasElement(e, SORTING, t::getIsSorted, t::setIsSorted);
+        p.element(e, SORTING, t::getSortingExpression, t::setSortingExpression);
+        p.childAttribute(e, SORTING, MAPPING, t::getSortingMapping, t::setSortingMapping);
+        p.hasElement(e, SELECT, t::getIsSelected, t::setIsSelected);
+        p.element(e, SELECT, t::getSelectExpression, t::setSelectExpression);
+        p.childAttribute(e, SELECT, "default-value", t::getDefaultValue, t::setDefaultValue);
+        p.childAttribute(e, SELECT, MAPPING, t::getMapping, t::setMapping);
+        p.childAttribute(e, SELECT, "normalize", t::getNormalize, t::setNormalize);
         p.childrenByEnum(e, "filters", t::getFilterList, t::setFilterList, N2oQuery.Filter::getType,
                 N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterTypeEnum.class, this::filter);
     }
 
     private void filter(Element e, N2oQuery.Filter t, IOProcessor p) {
         p.attribute(e, "normalize", t::getNormalize, t::setNormalize);
-        p.attribute(e, "mapping", t::getMapping, t::setMapping);
+        p.attribute(e, MAPPING, t::getMapping, t::setMapping);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "filter-id", t::getFilterId, t::setFilterId);

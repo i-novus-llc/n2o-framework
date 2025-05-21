@@ -17,6 +17,7 @@ import java.util.stream.StreamSupport;
 public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
     private static final String SCROLL_BAR = "scrollable";
+    private static final String ACTIVE = "active";
 
     @Override
     public TabItem tab(int index) {
@@ -62,7 +63,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         @Override
         public RegionItems content(String className) {
             SelenideElement elm = element().parent().parent().parent().$$(".tabs__content--single")
-                    .findBy(Condition.cssClass("active"));
+                    .findBy(Condition.cssClass(ACTIVE));
 
             ElementsCollection nestingElements = elm.$$(".tabs__content--single.active .tabs__content--single.active > div > ." + className);
             ElementsCollection firstLevelElements = elm.$$(".tabs__content--single.active > div > ." + className)
@@ -94,12 +95,12 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
         @Override
         public void shouldBeActive() {
-            element().shouldHave(Condition.cssClass("active"));
+            element().shouldHave(Condition.cssClass(ACTIVE));
         }
 
         @Override
         public void shouldNotBeActive() {
-            element().shouldNotHave(Condition.cssClass("active"));
+            element().shouldNotHave(Condition.cssClass(ACTIVE));
         }
 
         @Override

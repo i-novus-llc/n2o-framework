@@ -49,6 +49,7 @@ public class IOProcessorImpl implements IOProcessor {
     private PropertyResolver systemProperties;
     private boolean failFast = true;
     private final DomainProcessor domainProcessor = new DomainProcessor();
+    private static final String EXCEPTION_MESSAGE = "you should first call #newInstance(Element)";
 
     private MetadataEnvironment environment;
 
@@ -158,7 +159,7 @@ public class IOProcessorImpl implements IOProcessor {
             @Override
             public Class<T> getElementClass() {
                 if (elementClass == null)
-                    throw new IllegalStateException("you shall first to call #newInstance(Element)");
+                    throw new IllegalStateException(EXCEPTION_MESSAGE);
                 return elementClass;
             }
 
@@ -491,7 +492,7 @@ public class IOProcessorImpl implements IOProcessor {
             @Override
             public Class<T> getElementClass() {
                 if (elementClass == null)
-                    throw new IllegalStateException("you shall first to call #newInstance(Element)");
+                    throw new IllegalStateException(EXCEPTION_MESSAGE);
                 return elementClass;
             }
 
@@ -679,7 +680,7 @@ public class IOProcessorImpl implements IOProcessor {
                     @Override
                     public Class<T> getElementClass() {
                         if (elementClass == null)
-                            throw new IllegalStateException("you shall first to call #newInstance(Element)");
+                            throw new IllegalStateException(EXCEPTION_MESSAGE);
                         return elementClass;
                     }
 

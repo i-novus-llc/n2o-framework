@@ -11,6 +11,7 @@ import java.time.Duration;
  * Компонент ввода времени для автотестирования
  */
 public class N2oTimePicker extends N2oControl implements TimePicker {
+    private static final String ACTIVE = "active";
 
     @Override
     public void shouldBeEmpty() {
@@ -149,14 +150,14 @@ public class N2oTimePicker extends N2oControl implements TimePicker {
     }
 
     protected SelenideElement hoursActiveItem() {
-        return hoursItems().findBy(Condition.cssClass("active"));
+        return hoursItems().findBy(Condition.cssClass(ACTIVE));
     }
 
     protected SelenideElement minutesActiveItem() {
-        return minutesItems().findBy(Condition.cssClass("active"));
+        return minutesItems().findBy(Condition.cssClass(ACTIVE));
     }
 
     protected SelenideElement secondsActiveItem() {
-        return secondsItems().findBy(Condition.cssClass("active"));
+        return secondsItems().findBy(Condition.cssClass(ACTIVE));
     }
 }

@@ -25,6 +25,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElementIOv5<T> {
 
+    private static final String WIDTH = "width";
+
     @Override
     public String getElementName() {
         return "table";
@@ -40,7 +42,7 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         super.io(e, t, p);
         p.attributeEnum(e, "selection", t::getSelection, t::setSelection, RowSelectionEnum.class);
         p.attributeBoolean(e, "auto-select", t::getAutoSelect, t::setAutoSelect);
-        p.attribute(e, "width", t::getWidth, t::setWidth);
+        p.attribute(e, WIDTH, t::getWidth, t::setWidth);
         p.attribute(e, "height", t::getHeight, t::setHeight);
         p.attributeBoolean(e, "text-wrap", t::getTextWrap, t::setTextWrap);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns, columns(p));
@@ -69,7 +71,7 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attribute(e, "icon", c::getIcon, c::setIcon);
         p.attribute(e, "sorting-field-id", c::getSortingFieldId, c::setSortingFieldId);
         p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, SortingDirectionEnum.class);
-        p.attribute(e, "width", c::getWidth, c::setWidth);
+        p.attribute(e, WIDTH, c::getWidth, c::setWidth);
         p.attributeBoolean(e, "resizable", c::getResizable, c::setResizable);
         p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPositionEnum.class);
         p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(N2oBaseColumn.ColumnVisibility.class)
@@ -121,7 +123,7 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attribute(e, "class", c::getCssClass, c::setCssClass);
         p.attribute(e, "style", c::getStyle, c::setStyle);
         p.attribute(e, "visible", c::getVisible, c::setVisible);
-        p.attribute(e, "width", c::getWidth, c::setWidth);
+        p.attribute(e, WIDTH, c::getWidth, c::setWidth);
         p.attributeEnum(e, "alignment", c::getAlignment, c::setAlignment, AlignmentEnum.class);
         p.attributeEnum(e, "content-alignment", c::getContentAlignment, c::setContentAlignment, AlignmentEnum.class);
     }

@@ -22,6 +22,7 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
         WidgetIOv5 {
 
     private Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
+    private static final String DATASOURCE = "datasource";
 
     @Override
     public void io(Element e, T m, IOProcessor p) {
@@ -31,13 +32,13 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attribute(e, "visible", m::getVisible, m::setVisible);
-        p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
+        p.attribute(e, DATASOURCE, m::getDatasourceId, m::setDatasourceId);
         p.attributeBoolean(e, "fetch-on-init", m::getFetchOnInit, m::setFetchOnInit);
         p.attributeBoolean(e, "fetch-on-visibility", m::getFetchOnVisibility, m::setFetchOnVisibility);
         p.attributeBoolean(e, "auto-focus", m::getAutoFocus, m::setAutoFocus);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionBar::new, this::action);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIOv2());
-        p.child(e, null, "datasource", m::getDatasource, m::setDatasource, new StandardDatasourceIO());
+        p.child(e, null, DATASOURCE, m::getDatasource, m::setDatasource, new StandardDatasourceIO());
         p.anyChildren(e, "dependencies", m::getDependencies, m::setDependencies,
                 p.oneOf(N2oDependency.class)
                         .add("visibility", N2oVisibilityDependency.class, this::dependency)
@@ -51,7 +52,7 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
     }
 
     private void dependency(Element e, N2oDependency t, IOProcessor p) {
-        p.attribute(e, "datasource", t::getDatasource, t::setDatasource);
+        p.attribute(e, DATASOURCE, t::getDatasource, t::setDatasource);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
         p.text(e, t::getValue, t::setValue);
     }

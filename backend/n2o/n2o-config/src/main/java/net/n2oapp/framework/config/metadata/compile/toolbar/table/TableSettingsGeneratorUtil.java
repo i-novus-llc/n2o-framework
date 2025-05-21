@@ -24,6 +24,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TableSettingsGeneratorUtil {
 
+    private static final String WIDGET_ID = "widgetId";
     public static N2oButton generateColumns(boolean isForSubMenu, CompileProcessor p) {
         N2oButton columnsButton = new N2oButton();
         fillButton(columnsButton, isForSubMenu, "columns", p);
@@ -39,7 +40,7 @@ public class TableSettingsGeneratorUtil {
         fillButton(filterButton, isForSubMenu, "filters", p);
         N2oCustomAction filterAction = new N2oCustomAction();
         filterAction.setType(p.resolve(property("n2o.api.generate.button.filters.action.type"), String.class));
-        Map<String, String> payload = Collections.singletonMap("widgetId", widgetId);
+        Map<String, String> payload = Collections.singletonMap(WIDGET_ID, widgetId);
         filterAction.setPayload(payload);
         filterButton.setActions(new N2oCustomAction[]{filterAction});
         filterButton.setModel(ReduxModelEnum.filter);
@@ -70,7 +71,7 @@ public class TableSettingsGeneratorUtil {
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         Map<String, String> payload = new HashMap<>();
-        payload.put("widgetId", widgetScope.getClientWidgetId());
+        payload.put(WIDGET_ID, widgetScope.getClientWidgetId());
         payload.put("paramKey", p.resolve(property("n2o.api.generate.button.wordwrap.action.param_key"), String.class));
 
         wordWrapButton.setSrc(p.resolve(property("n2o.api.generate.button.wordwrap.action.src"), String.class));
@@ -108,7 +109,7 @@ public class TableSettingsGeneratorUtil {
         Map<String, String> payload = new HashMap<>();
         payload.put("baseURL", exportUrl);
         payload.put("exportDatasource", exportDatasource);
-        payload.put("widgetId", clientWidgetId);
+        payload.put(WIDGET_ID, clientWidgetId);
         payload.put("configDatasource", configDatasource);
         payload.put("allLimit", allLimit);
         downloadAction.setPayload(payload);

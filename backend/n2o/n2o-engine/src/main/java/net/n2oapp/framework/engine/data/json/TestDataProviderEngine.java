@@ -43,6 +43,7 @@ import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider
  */
 public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataProvider>, ResourceLoaderAware {
 
+    private static final String FILTERS = "filters";
     /**
      * Путь к файлу для чтения с диска
      */
@@ -186,7 +187,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     private List<DataSet> findAll(Map<String, Object> inParams, List<DataSet> data) {
         List<String> sortings = (List<String>) inParams.get("sorting");
-        List<String> filters = (List<String>) inParams.get("filters");
+        List<String> filters = (List<String>) inParams.get(FILTERS);
         Integer limit = (Integer) inParams.get("limit");
         Integer offset = (Integer) inParams.get("offset");
         Integer count = (Integer) inParams.get("count");
@@ -198,7 +199,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     private DataSet findOne(Map<String, Object> inParams, List<DataSet> data) {
-        List<String> filters = (List<String>) inParams.get("filters");
+        List<String> filters = (List<String>) inParams.get(FILTERS);
         if (filters == null)
             filters = inParams.keySet().stream().map(k -> k + " :eq :" + k).toList();
         List<DataSet> modifiableData = new ArrayList<>(data);
@@ -208,7 +209,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     private int count(Map<String, Object> inParams,
                       List<DataSet> data) {
-        List<String> filters = (List<String>) inParams.get("filters");
+        List<String> filters = (List<String>) inParams.get(FILTERS);
         List<DataSet> modifiableData = new ArrayList<>(data);
         return filter(filters, inParams, modifiableData).size();
     }

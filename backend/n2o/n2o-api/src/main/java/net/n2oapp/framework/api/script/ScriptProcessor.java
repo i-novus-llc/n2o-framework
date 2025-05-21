@@ -39,6 +39,9 @@ public class ScriptProcessor {
     private static final Pattern FUNCTION_PATTERN = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
     private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*\\{.*\\?.*:.*}.*");
     private static final Pattern FUNCTION_CONTENT_PATTERN = Pattern.compile("\\b(return|if|var|switch|const|let|for|while)\\b");
+    private static final String EUROPEAN_DATE_TO_TIMESTAMP_TEMPLATE = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
+    private static final String ISO_DATE_TO_TIMESTAMP_TEMPLATE = "new Date('%s').getTime()";
+    private static final String TIMESTAMP_FORMAT = "MM.dd.yyyy HH:mm:SS";
 
     public static String resolveLinks(String text) {
         if (text == null)
@@ -298,7 +301,9 @@ public class ScriptProcessor {
                 res.append(" || ");
             res.append(buildUndefinedExpression(tmpVar.toString()));
         }
-        res.append(" || (" + variable + " === null)");
+        if (res == null)
+            return null;
+        res.append(" || (").append(variable).append(" === null)");
         return res.toString();
     }
 
@@ -358,12 +363,11 @@ public class ScriptProcessor {
 
     private String buildLessExpressionForDate(String variable, Date date) {
         StringBuilder exp = new StringBuilder();
-        String str = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
-        str = String.format(str, variable);
+        String str = String.format(EUROPEAN_DATE_TO_TIMESTAMP_TEMPLATE, variable);
         exp.append(str);
         exp.append(" < ");
-        String s = "new Date('%s').getTime()";
-        exp.append(String.format(s, new SimpleDateFormat("MM.dd.yyyy HH:mm:SS").format(date)));
+        String s = ISO_DATE_TO_TIMESTAMP_TEMPLATE;
+        exp.append(String.format(s, new SimpleDateFormat(TIMESTAMP_FORMAT).format(date)));
         return exp.toString();
     }
 
@@ -375,12 +379,11 @@ public class ScriptProcessor {
 
     private String buildMoreExpressionForDate(String variable, Date date) {
         StringBuilder exp = new StringBuilder();
-        String str = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
-        str = String.format(str, variable);
+        String str = String.format(EUROPEAN_DATE_TO_TIMESTAMP_TEMPLATE, variable);
         exp.append(str);
         exp.append(" > ");
-        String s = "new Date('%s').getTime()";
-        exp.append(String.format(s, new SimpleDateFormat("MM.dd.yyyy HH:mm:SS").format(date)));
+        String s = ISO_DATE_TO_TIMESTAMP_TEMPLATE;
+        exp.append(String.format(s, new SimpleDateFormat(TIMESTAMP_FORMAT).format(date)));
         return exp.toString();
     }
 
@@ -400,16 +403,15 @@ public class ScriptProcessor {
 
     private String buildInDateIntervalExpression(String variable, Interval<Date> interval) {
         StringBuilder exp = new StringBuilder();
-        String str = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
-        str = String.format(str, variable);
+        String str = String.format(EUROPEAN_DATE_TO_TIMESTAMP_TEMPLATE, variable);
         exp.append(str);
         exp.append(" > ");
-        String s = "new Date('%s').getTime()";
-        exp.append(String.format(s, new SimpleDateFormat("MM.dd.yyyy HH:mm:SS").format(interval.getBegin())));
+        String s = ISO_DATE_TO_TIMESTAMP_TEMPLATE;
+        exp.append(String.format(s, new SimpleDateFormat(TIMESTAMP_FORMAT).format(interval.getBegin())));
         exp.append(" && ");
         exp.append(str);
         exp.append(" < ");
-        exp.append(String.format(s, new SimpleDateFormat("MM.dd.yyyy HH:mm:SS").format(interval.getEnd())));
+        exp.append(String.format(s, new SimpleDateFormat(TIMESTAMP_FORMAT).format(interval.getEnd())));
         return exp.toString();
     }
 
@@ -648,13 +650,11 @@ public class ScriptProcessor {
             String resultValue;
             if (hasLink(entry.getValue())) {
                 resultValue = ScriptProcessor.resolveLinks(entry.getValue());
-                resultValue = resultValue.substring(1, resultValue.length() - 1);
+                resultValue = resultValue == null ? null : resultValue.substring(1, resultValue.length() - 1);
             } else
                 resultValue = "'" + entry.getValue() + "'";
             result.put(resultKey, resultValue);
         }
         return result;
     }
-
-
 }

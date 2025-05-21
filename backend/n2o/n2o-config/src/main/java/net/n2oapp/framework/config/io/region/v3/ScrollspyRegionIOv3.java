@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ScrollspyRegionIOv3 extends AbstractRegionIOv3<N2oScrollspyRegion> {
+    private static final String MENU_ITEM = "menu-item";
+    private static final String SUB_MENU = "sub-menu";
 
     @Override
     public void io(Element e, N2oScrollspyRegion r, IOProcessor p) {
@@ -24,9 +26,9 @@ public class ScrollspyRegionIOv3 extends AbstractRegionIOv3<N2oScrollspyRegion> 
         p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
         p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
         p.anyChildren(e, null, r::getMenu, r::setMenu, p.oneOf(N2oScrollspyRegion.AbstractMenuItem.class)
-            .add("menu-item", N2oScrollspyRegion.MenuItem.class, this::menuItem)
-            .add("sub-menu", N2oScrollspyRegion.SubMenuItem.class, this::subMenu)
-            .add("group", N2oScrollspyRegion.GroupItem.class, this::group));
+                .add(MENU_ITEM, N2oScrollspyRegion.MenuItem.class, this::menuItem)
+                .add(SUB_MENU, N2oScrollspyRegion.SubMenuItem.class, this::subMenu)
+                .add("group", N2oScrollspyRegion.GroupItem.class, this::group));
     }
 
     private void menuItem(Element e, N2oScrollspyRegion.MenuItem m, IOProcessor p) {
@@ -38,16 +40,16 @@ public class ScrollspyRegionIOv3 extends AbstractRegionIOv3<N2oScrollspyRegion> 
     private void subMenu(Element e, N2oScrollspyRegion.SubMenuItem m, IOProcessor p) {
         initItem(e, m, p);
         p.anyChildren(e, null, m::getSubMenu, m::setSubMenu, p.oneOf(N2oScrollspyRegion.AbstractMenuItem.class)
-            .add("menu-item", N2oScrollspyRegion.MenuItem.class, this::menuItem)
-            .add("sub-menu", N2oScrollspyRegion.SubMenuItem.class, this::subMenu));
+                .add(MENU_ITEM, N2oScrollspyRegion.MenuItem.class, this::menuItem)
+                .add(SUB_MENU, N2oScrollspyRegion.SubMenuItem.class, this::subMenu));
     }
 
     private void group(Element e, N2oScrollspyRegion.GroupItem g, IOProcessor p) {
         initItem(e, g, p);
         p.attributeBoolean(e, "headline", g::getHeadline, g::setHeadline);
         p.anyChildren(e, null, g::getGroup, g::setGroup, p.oneOf(N2oScrollspyRegion.AbstractMenuItem.class)
-            .add("menu-item", N2oScrollspyRegion.MenuItem.class, this::menuItem)
-            .add("sub-menu", N2oScrollspyRegion.SubMenuItem.class, this::subMenu));
+                .add(MENU_ITEM, N2oScrollspyRegion.MenuItem.class, this::menuItem)
+                .add(SUB_MENU, N2oScrollspyRegion.SubMenuItem.class, this::subMenu));
     }
 
     private void initItem(Element e, N2oScrollspyRegion.AbstractMenuItem m, IOProcessor p) {

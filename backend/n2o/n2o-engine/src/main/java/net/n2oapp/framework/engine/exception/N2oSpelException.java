@@ -12,6 +12,7 @@ public class N2oSpelException extends N2oException {
     private static final String DEFAULT_QUERY_FIELD_MESSAGE = "Spel expression conversion error with %s of field '%s' from metadata %s";
     private static final String DEFAULT_OBJECT_FIELD_MESSAGE = "Spel expression conversion error with %s of field '%s' in operation '%s' from metadata %s";
     private static final String DEFAULT_OBJECT_MESSAGE = "Spel expression conversion error with %s in operation '%s' from metadata %s";
+    private static final String CAUSE = ". Cause: ";
 
     private String file;
     private String mapping;
@@ -51,18 +52,18 @@ public class N2oSpelException extends N2oException {
     }
 
     private static String defaultMessage(N2oSpelException e, String file) {
-        return String.format(DEFAULT_MESSAGE, e.getMapping(), file) + ". Cause: " + e.getMessage();
+        return String.format(DEFAULT_MESSAGE, e.getMapping(), file) + CAUSE + e.getMessage();
     }
 
     private static String defaultQueryFieldMessage(N2oSpelException e, String file) {
-        return String.format(DEFAULT_QUERY_FIELD_MESSAGE, e.getMapping(), e.getFieldId(), file) + ". Cause: " + e.getMessage();
+        return String.format(DEFAULT_QUERY_FIELD_MESSAGE, e.getMapping(), e.getFieldId(), file) + CAUSE + e.getMessage();
     }
 
     private static String defaultObjectFieldMessage(N2oSpelException e, String file) {
-        return String.format(DEFAULT_OBJECT_FIELD_MESSAGE, e.getMapping(), e.getFieldId(), e.getOperationId(), file) + ". Cause: " + e.getMessage();
+        return String.format(DEFAULT_OBJECT_FIELD_MESSAGE, e.getMapping(), e.getFieldId(), e.getOperationId(), file) + CAUSE + e.getMessage();
     }
 
     private static String defaultObjectMessage(N2oSpelException e, String file) {
-        return String.format(DEFAULT_OBJECT_MESSAGE, e.getMapping(), e.getOperationId(), file) + ". Cause: " + e.getMessage();
+        return String.format(DEFAULT_OBJECT_MESSAGE, e.getMapping(), e.getOperationId(), file) + CAUSE + e.getMessage();
     }
 }

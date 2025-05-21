@@ -59,6 +59,7 @@ public class N2oController {
     private final DomainProcessor domainProcessor;
     private final InvocationProcessor serviceProvider;
     private static final String DEFAULT_APP_ID = "default";
+    private static final String DATA_REQUEST_PREFIX = "/n2o/data";
 
     @Value("${n2o.config.path}")
     private String basePath;
@@ -106,7 +107,7 @@ public class N2oController {
 
     @GetMapping({"/n2o/data/**", "/n2o/data/", "/n2o/data"})
     public ResponseEntity<GetDataResponse> getData(HttpServletRequest request) {
-        String path = getPath(request, "/n2o/data");
+        String path = getPath(request, DATA_REQUEST_PREFIX);
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
         dataController.setMessageBuilder(messageBuilder);
         GetDataResponse response = dataController.getData(path, request.getParameterMap(), null);
@@ -115,7 +116,7 @@ public class N2oController {
 
     @PostMapping({"/n2o/data/**", "/n2o/data/", "/n2o/data"})
     public ResponseEntity<SetDataResponse> setData(@RequestBody Object body, HttpServletRequest request) {
-        String path = getPath(request, "/n2o/data");
+        String path = getPath(request, DATA_REQUEST_PREFIX);
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
         dataController.setMessageBuilder(messageBuilder);
         SetDataResponse dataResponse = dataController.setData(path, request.getParameterMap(), getHeaders(request), getBody(body), null);
@@ -142,7 +143,7 @@ public class N2oController {
         String format = request.getParameter("format");
         String charset = request.getParameter("charset");
 
-        String dataPrefix = "/n2o/data";
+        String dataPrefix = DATA_REQUEST_PREFIX;
         String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
         Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
         if (params == null)
