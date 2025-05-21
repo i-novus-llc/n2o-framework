@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => {
         base: process.env.PUBLIC_URL,
         publicDir: './public',
         build: {
+            sourcemap: true,
             outDir: 'build',
             emptyOutDir: true,
             rollupOptions: {
