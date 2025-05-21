@@ -1,7 +1,5 @@
-// TODO: дописать @return в jsDoc для функций prepare()
 import { createSlice, createSelector, current } from '@reduxjs/toolkit'
 
-// @ts-ignore ignore import error from js file
 import createActionHelper from '../../actions/createActionHelper'
 import { State as StoreState } from '../State'
 

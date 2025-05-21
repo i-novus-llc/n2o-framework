@@ -6,7 +6,6 @@ import isUndefined from 'lodash/isUndefined'
 
 import { Action, Meta } from '../Action'
 import { State as GlobalState } from '../State'
-// @ts-ignore ignore import error from js file
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { executeExpression } from '../../core/Expression/execute'
 import { parseExpression } from '../../core/Expression/parse'

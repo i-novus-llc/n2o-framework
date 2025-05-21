@@ -1,6 +1,5 @@
 import isEmpty from 'lodash/isEmpty'
 
-// @ts-ignore ignore import error from js file
 import { EXPRESSION_SYMBOL } from '../withItemsResolver/utils'
 
 type valueToReplaceType = string

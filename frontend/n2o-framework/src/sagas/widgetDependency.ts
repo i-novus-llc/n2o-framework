@@ -1,15 +1,9 @@
-import {
-    select,
-    call,
-    takeEvery,
-} from 'redux-saga/effects'
+import { select, call, takeEvery } from 'redux-saga/effects'
 import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
 import sortBy from 'lodash/sortBy'
 
-import {
-    REGISTER_DEPENDENCY,
-} from '../constants/dependency'
+import { REGISTER_DEPENDENCY } from '../constants/dependency'
 import {
     clearModel,
     copyModel,
@@ -27,22 +21,37 @@ import { State } from '../ducks/State'
 
 import { getWidgetDependency } from './widgetDependency/getWidgetDependency'
 import { resolveDependency } from './widgetDependency/resolve'
-import { Dependency, WidgetDependencies } from './widgetDependency/WidgetTypes'
+import {
+    type Dependencies,
+    type OptionsType,
+    type WidgetDependencies,
+    type WidgetsDependencies,
+} from './widgetDependency/WidgetTypes'
 
-let widgetsDependencies: WidgetDependencies = {}
+let widgetsDependencies: WidgetsDependencies = {}
 
 interface RegisterDependencyPayload {
     widgetId: string
-    dependency: Dependency
+    dependency: Dependencies
 }
 export function* registerDependency({ payload, type }: { payload: RegisterDependencyPayload, type: string }) {
     const { widgetId, dependency } = payload
     const state: State = yield select()
 
-    // @ts-ignore FIXME не знаю как поправить
-    widgetsDependencies = yield call(getWidgetDependency, widgetsDependencies, widgetId, dependency)
-    // @ts-ignore FIXME не знаю как поправить
-    yield call(resolveWidgetDependency, type, {}, state, widgetsDependencies)
+    widgetsDependencies = yield call<typeof getWidgetDependency>(
+        getWidgetDependency,
+        widgetsDependencies,
+        widgetId,
+        dependency,
+    )
+
+    yield call<typeof resolveWidgetDependency>(
+        resolveWidgetDependency,
+        type,
+        {} as State,
+        state,
+        widgetsDependencies,
+    )
 }
 
 export function* updateModelSaga({ type, meta }: { type: string, meta: { prevState: State } }) {
@@ -83,7 +92,7 @@ export function* resolveWidgetDependency(
         for (let j = 0; j < widgetDependenciesKeys.length; j += 1) {
             const dep = dependency[widgetDependenciesKeys[j]]
             const prevModel = getModelsByDependency(dep)(prevState)
-            const model = getModelsByDependency(dep)(state)
+            const model = getModelsByDependency(dep)(state) as OptionsType
             const isFormActionType = [
                 updateModel.type,
                 appendFieldToArray.type,
@@ -93,8 +102,12 @@ export function* resolveWidgetDependency(
             const isEqualModel = isFormActionType ? true : !isEqual(prevModel, model)
 
             if (isEqualModel) {
-                // @ts-ignore FIXME не знаю как поправить
-                yield call(resolveDependency, widgetDependenciesKeys[j], widgetId, model)
+                yield call<typeof resolveDependency>(
+                    resolveDependency,
+                    widgetDependenciesKeys[j],
+                    widgetId,
+                    model,
+                )
             }
         }
     }

@@ -1,10 +1,9 @@
 import { Resolve, propsResolver as resolver } from '../core/Expression/propsResolver'
 
-// @ts-ignore ignore import error from js file
 import warning from './warning'
 import { DEFAULT_CONTEXT } from './evalExpression'
 
-warning('"./utils/propsResolver" is deprecated, use "./core/Expression/useResolver"')
+warning(true, '"./utils/propsResolver" is deprecated, use "./core/Expression/useResolver"')
 
 /**
  * Функция преобразует шаблоные props свойства вида \`name\` в константные данные из контекста

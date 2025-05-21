@@ -2,7 +2,6 @@ import { replace } from 'connected-react-router'
 import { call, put, takeEvery, select } from 'redux-saga/effects'
 
 import { FETCH_ERROR } from '../../constants/fetch'
-// @ts-ignore ignore import error from js file
 import { fetchErrorContinue } from '../../actions/fetch'
 import { getAuthUrl } from '../global/selectors'
 import { Action } from '../Action'

@@ -4,17 +4,18 @@ import isUndefined from 'lodash/isUndefined'
 import isNil from 'lodash/isNil'
 import isBoolean from 'lodash/isBoolean'
 
-import evalExpression, { parseExpression } from './evalExpression'
+import { State } from '../ducks/State'
 
+import { evalExpression, parseExpression } from './evalExpression'
+
+interface LinkProps {
+    link: string,
+    value?: string
+}
 /**
  * Получение значения по ссылке и выражению.
- * @param {Object} state
- * @param {Object} params
- * @param {string} [params.link]
- * @param [params.value]
- * @returns {*}
  */
-export default function linkResolver(state, { link, value }, evalContext = {}) {
+export function linkResolver(state: State, { link, value }: LinkProps, evalContext?: Record<string, unknown>) {
     if (!link && isNil(value)) { return undefined }
     if (isBoolean(value)) { return value }
     if (isNumber(value)) { return value }
@@ -29,9 +30,11 @@ export default function linkResolver(state, { link, value }, evalContext = {}) {
         const expression = parseExpression(val)
 
         if (expression) {
-            return evalExpression(expression, model, evalContext)
+            return evalExpression(expression, model, evalContext || {})
         }
 
         return val
     })
 }
+
+export default linkResolver

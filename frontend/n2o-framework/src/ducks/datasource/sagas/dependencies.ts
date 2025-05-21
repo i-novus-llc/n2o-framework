@@ -1,9 +1,6 @@
-import {
-    put,
-    select,
-    fork,
-} from 'redux-saga/effects'
-import { get, isEqual } from 'lodash'
+import { put, select, fork } from 'redux-saga/effects'
+import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 
 import { DataSourceDependency, DependencyTypes } from '../../../core/datasource/const'
 import { dataRequest, startValidate, submit as submitAction } from '../store'
@@ -24,7 +21,6 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
 
     switch (type) {
         case DependencyTypes.fetch: {
-            // @ts-ignore непонял как поправить FIXME
             yield put(dataRequest(id, { page: 1 }))
 
             break
