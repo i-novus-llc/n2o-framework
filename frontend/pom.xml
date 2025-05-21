@@ -22,75 +22,58 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <version>1.6</version>
-                        <configuration>
-                            <installDirectory>target</installDirectory>
-                        </configuration>
-
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
                         <executions>
-
                             <execution>
-                                <id>install-node-and-yarn</id>
+                                <id>yarn install --immutable</id>
+                                <phase>generate-resources</phase>
                                 <goals>
-                                    <goal>install-node-and-yarn</goal>
+                                    <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <nodeVersion>v18.20.1</nodeVersion>
-                                    <yarnVersion>v1.22.11</yarnVersion>
+                                    <executable>yarn</executable>
+                                    <arguments>
+                                        <argument>install</argument>
+                                    </arguments>
                                 </configuration>
                             </execution>
 
-                            <execution>
-                                <id>yarn install</id>
-                                <goals>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <configuration>
-                                    <environmentVariables>
-                                        <max_old_space_size>4096</max_old_space_size>
-                                    </environmentVariables>
-                                    <arguments>install</arguments>
-                                </configuration>
-                            </execution>
-
+                            <!-- yarn build -->
                             <execution>
                                 <id>yarn run build</id>
+                                <phase>generate-resources</phase>
                                 <goals>
-                                    <goal>yarn</goal>
+                                    <goal>exec</goal>
                                 </goals>
                                 <configuration>
+                                    <executable>yarn</executable>
+                                    <arguments>
+                                        <argument>run</argument>
+                                        <argument>build</argument>
+                                    </arguments>
                                     <environmentVariables>
-                                        <max_old_space_size>4096</max_old_space_size>
+                                        <NODE_OPTIONS>--max_old_space_size=4096</NODE_OPTIONS>
                                     </environmentVariables>
-                                    <arguments>run build</arguments>
                                 </configuration>
                             </execution>
 
+                            <!-- yarn lint -->
                             <execution>
-                                <id>yarn run lint</id>
+                                <id>yarn-lint</id>
+                                <phase>verify</phase>
                                 <goals>
-                                    <goal>yarn</goal>
+                                    <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <arguments>run lint</arguments>
+                                    <executable>yarn</executable>
+                                    <arguments>
+                                        <argument>run</argument>
+                                        <argument>lint</argument>
+                                    </arguments>
                                 </configuration>
                             </execution>
-<!--  NNO-9298
-                            <execution>
-                                <id>yarn run test</id>
-                                <goals>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <configuration>
-                                    <environmentVariables>
-                                        <max_old_space_size>4096</max_old_space_size>
-                                    </environmentVariables>
-                                    <arguments>run test</arguments>
-                                </configuration>
-                            </execution>
--->
                         </executions>
                     </plugin>
                 </plugins>
