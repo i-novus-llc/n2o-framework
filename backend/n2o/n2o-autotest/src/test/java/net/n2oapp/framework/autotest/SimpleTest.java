@@ -6,23 +6,24 @@ import net.n2oapp.framework.autotest.api.component.widget.Widget;
 import net.n2oapp.framework.autotest.impl.collection.N2oRegions;
 import net.n2oapp.framework.autotest.impl.collection.N2oWidgets;
 import net.n2oapp.framework.autotest.impl.component.region.N2oRegionItems;
-import net.n2oapp.framework.autotest.run.*;
-import org.junit.jupiter.api.BeforeAll;
+import net.n2oapp.framework.autotest.run.TestLeftRightPage;
+import net.n2oapp.framework.autotest.run.TestPageObject;
+import net.n2oapp.framework.autotest.run.TestRegion;
+import net.n2oapp.framework.autotest.run.TestWidget;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static net.n2oapp.framework.autotest.run.AutoTestUtil.checkChromeDriver;
 
 //@SpringBootTest(classes = AutoTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SimpleTest {
+class SimpleTest {
 
     @LocalServerPort
     private int port;
 
-//    @BeforeAll
-    public static void beforeClass() {
+    //    @BeforeAll
+    static void beforeClass() {
         checkChromeDriver();
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
         Configuration.headless = true;

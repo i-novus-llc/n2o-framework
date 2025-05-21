@@ -13,6 +13,7 @@ build:
 
 build and verify:
   variables:
+    MAVEN_GOAL: 'verify'
     MAVEN_EXTRA_GOAL: 'install:install'
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
   cache:
@@ -28,7 +29,6 @@ autotesting mr stand:
   variables:
     AUTOTEST_PARAMS: '-Pautotests -o'
     AUTOTEST_MODULE_DIR: './backend/n2o/n2o-autotest'
-    MAVEN_PIPELINE_OPTIONS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dci.commit.sha=-$CI_COMMIT_SHORT_SHA"
   cache:
     - key: m2-$CI_COMMIT_REF_SLUG
       paths:
@@ -40,7 +40,3 @@ autotesting mr stand:
 build story:
   variables:
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
-
-#deploy dev stand:
-#  variables:
-#    K8S_INGRESS_HOST: 'n2o.i-novus.ru'
