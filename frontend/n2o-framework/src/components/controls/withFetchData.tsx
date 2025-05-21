@@ -35,8 +35,10 @@ export interface Props {
     searchMinLength: number
     searchMinLengthHint?: string
     value: Record<string, string> | null
+    page: number
+    count: number
     addAlert(obj: object): void
-    fetchError(obj: object): void
+    fetchError(obj: Error): void
     fetchData(obj: object): void
     setFilter(obj: object): void
     setRef(): void
@@ -53,6 +55,7 @@ interface State {
     abortController?: AbortController | null
     searchMinLengthHint: SearchMinLengthHint
     quickSearchParam: string
+    merge: boolean
 }
 
 export type getSearchMinLengthHintType = (
@@ -100,6 +103,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 page: 1,
                 searchMinLengthHint: false,
                 quickSearchParam: dataProvider?.quickSearchParam || 'search',
+                merge: false,
             }
 
             this.fetchData = this.fetchData.bind(this)
@@ -123,12 +127,17 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
         componentDidUpdate({ datasourceModel: prevDatasourceModel }: Props) {
             const { datasourceModel } = this.props
 
-            if (datasourceModel) {
-                const isNotEqual = !isEqual(datasourceModel, prevDatasourceModel)
+            if (datasourceModel && !isEqual(datasourceModel, prevDatasourceModel)) {
+                const { merge } = this.state
+                const { page, count, size } = this.props
 
-                if (isNotEqual) {
-                    this.setState({ data: datasourceModel })
-                }
+                // @INFO данные полученные datasource fetchData
+                this.setState({
+                    data: merge ? [...prevDatasourceModel, ...datasourceModel] : datasourceModel,
+                    page,
+                    count,
+                    size,
+                })
             }
         }
 
@@ -303,12 +312,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
          * @private
          */
         async fetchData(extraParams: Record<string, string> = {}, merge = false, cacheReset = false): Promise<void> {
-            const {
-                dataProvider,
-                fetchError,
-                datasource,
-                searchMinLength,
-            } = this.props
+            const { dataProvider, fetchError, datasource, searchMinLength } = this.props
             const { data, quickSearchParam } = this.state
 
             if (searchMinLength) {
@@ -323,22 +327,25 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 this.setState({ searchMinLengthHint: false })
             }
 
+            this.setState({ merge })
+
             if (datasource) {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const { search } = extraParams as any
+                const { search } = extraParams
                 const { sortFieldId, setFilter, fetchData } = this.props
 
                 setFilter({ [sortFieldId]: search })
-
                 fetchData({ ...omit(extraParams, 'search'), [sortFieldId]: search })
 
                 return
             }
 
             if (!dataProvider) { return }
+
             this.setState({ loading: true })
+
             try {
                 if (!merge && !data) { this.setState({ data: [] }) }
+
                 const response = await this.fetchDataProvider(
                     dataProvider,
                     extraParams,
