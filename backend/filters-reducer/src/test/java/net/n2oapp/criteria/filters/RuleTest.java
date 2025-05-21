@@ -1,7 +1,7 @@
 package net.n2oapp.criteria.filters;
 
-import net.n2oapp.criteria.filters.rule.Eq_Eq;
-import net.n2oapp.criteria.filters.rule.or.EqOrIsNull_Eq;
+import net.n2oapp.criteria.filters.rule.EqAndEq;
+import net.n2oapp.criteria.filters.rule.or.EqOrIsNullAndEq;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.system.CapturedOutput;
@@ -14,7 +14,7 @@ class RuleTest {
 
     @Test
     void testEq_Eq(CapturedOutput output) {
-        Eq_Eq rule = new Eq_Eq();
+        EqAndEq rule = new EqAndEq();
         Filter left = new Filter(1, FilterTypeEnum.eq);
         Filter right = new Filter(1L, FilterTypeEnum.eq);
         rule.simplify(left, right);
@@ -27,7 +27,7 @@ class RuleTest {
 
     @Test
     void testEqOrIsNull_Eq(CapturedOutput output) {
-        EqOrIsNull_Eq rule = new EqOrIsNull_Eq();
+        EqOrIsNullAndEq rule = new EqOrIsNullAndEq();
         Filter left = new Filter(1, FilterTypeEnum.eqOrIsNull);
         Filter right = new Filter(1L, FilterTypeEnum.eq);
         rule.simplify(left, right);
