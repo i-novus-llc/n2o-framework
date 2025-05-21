@@ -59,6 +59,7 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
  */
 public abstract class FieldCompiler<D extends Field, S extends N2oField> extends ComponentCompiler<D, S, CompileContext<?, ?>> {
 
+    private static final String FALSE = "false";
     private static final Pattern EXT_EXPRESSION_PATTERN = Pattern.compile(".*\\(.*\\).*");
 
     @Override
@@ -87,8 +88,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         source.setRefModel(castDefault(source.getRefModel(),
                 () -> Optional.ofNullable(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
                 () -> ReduxModelEnum.resolve));
-        initCondition(source, source::getVisible, new N2oField.VisibilityDependency(), b -> source.setVisible(b.toString()), !"false".equals(source.getVisible()));
-        initCondition(source, source::getEnabled, new N2oField.EnablingDependency(), b -> source.setEnabled(b.toString()), !"false".equals(source.getEnabled()));
+        initCondition(source, source::getVisible, new N2oField.VisibilityDependency(), b -> source.setVisible(b.toString()), !FALSE.equals(source.getVisible()));
+        initCondition(source, source::getEnabled, new N2oField.EnablingDependency(), b -> source.setEnabled(b.toString()), !FALSE.equals(source.getEnabled()));
         initCondition(source, source::getRequired, new N2oField.RequiringDependency(), b -> source.setRequired(b.toString()), "true".equals(source.getRequired()));
     }
 
@@ -379,8 +380,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                             dependency.getClass().equals(N2oField.EnablingDependency.class))
                         fieldVisibilityConditions.add(dependency.getValue());
                 }
-            } else if ("false".equals(source.getVisible()) || "false".equals(source.getEnabled())) {
-                fieldVisibilityConditions.add("false");
+            } else if (FALSE.equals(source.getVisible()) || FALSE.equals(source.getEnabled())) {
+                fieldVisibilityConditions.add(FALSE);
             }
 
             for (N2oValidation v : validations.getInlineValidations()) {

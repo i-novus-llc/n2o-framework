@@ -56,6 +56,7 @@ import static net.n2oapp.framework.config.util.PageContextCompileUtil.initParent
  */
 @Component
 public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAbstractPageAction> extends AbstractActionCompiler<D, S> {
+    private static final String WIDGET_ID = "$widgetId";
 
     @Override
     protected void initDefaults(S source, CompileProcessor p) {
@@ -83,10 +84,10 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 return pageScope.getPageId();
             return null;
         }));
-        if (param.getName() != null && param.getName().contains("$widgetId")) {
+        if (param.getName() != null && param.getName().contains(WIDGET_ID)) {
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
             String clientWidgetId = widgetScope != null ? widgetScope.getClientWidgetId() : "";
-            param.setName(param.getName().replace("$widgetId", clientWidgetId));//todo убрать после удаления adaptV1
+            param.setName(param.getName().replace(WIDGET_ID, clientWidgetId));//todo убрать после удаления adaptV1
         }
     }
 
@@ -110,9 +111,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             filter.setModel(castDefault(filter.getModel(), modelFromComponentScope));
             filter.setDatasourceId(castDefault(filter.getDatasourceId(), localDatasourceId));
             filter.setRefPageId(castDefault(filter.getRefPageId(), pageId));
-            if (filter.getParam() != null && filter.getParam().contains("$widgetId")) {
+            if (filter.getParam() != null && filter.getParam().contains(WIDGET_ID)) {
                 //todo убрать после удаления adaptV1
-                filter.setParam(filter.getParam().replace("$widgetId", clientWidgetId));
+                filter.setParam(filter.getParam().replace(WIDGET_ID, clientWidgetId));
             }
         }
     }

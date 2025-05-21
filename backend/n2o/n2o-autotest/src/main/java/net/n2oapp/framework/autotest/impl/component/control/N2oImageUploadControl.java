@@ -16,6 +16,8 @@ import java.time.Duration;
  */
 public class N2oImageUploadControl extends N2oControl implements ImageUploadControl {
     private static final String UPLOAD_SHAPE_CLASS = "n2o-image-uploader-control--shape-";
+    private static final String INPUT = "input";
+    private static final String STYLE = "style";
 
     @Override
     public void shouldBeEmpty() {
@@ -31,12 +33,12 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public File uploadImage(File... image) {
-        return element().$("input").uploadFile(image);
+        return element().$(INPUT).uploadFile(image);
     }
 
     @Override
     public File uploadFromClasspath(String... imageName) {
-        return element().$("input").uploadFromClasspath(imageName);
+        return element().$(INPUT).uploadFromClasspath(imageName);
     }
 
     @Override
@@ -117,25 +119,25 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public void uploadAreaShouldHaveIconSize(int size) {
-        getUploadAreaElement().shouldHave(Condition.attributeMatching("style",
+        getUploadAreaElement().shouldHave(Condition.attributeMatching(STYLE,
                 String.format(".*font-size: %dpx.*", size)));
     }
 
     @Override
     public void uploadAreaShouldHaveWidth(int width) {
-        element().shouldHave(Condition.attributeMatching("style",
+        element().shouldHave(Condition.attributeMatching(STYLE,
                 String.format(".*max-width: %dpx.*", width)));
     }
 
     @Override
     public void uploadAreaShouldHaveHeight(int height) {
-        element().shouldHave(Condition.attributeMatching("style",
+        element().shouldHave(Condition.attributeMatching(STYLE,
                 String.format(".*max-height: %dpx.*", height)));
     }
 
     @Override
     public void shouldBeDisabled() {
-        element().$("input").shouldBe(Condition.disabled);
+        element().$(INPUT).shouldBe(Condition.disabled);
     }
 
     protected ElementsCollection getFilesItems() {

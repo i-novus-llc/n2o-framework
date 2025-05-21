@@ -13,6 +13,7 @@ import org.jdom2.Element;
  * Чтение\запись базовых свойств списковых виджетов
  */
 public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWidget> extends WidgetElementIOv5<T> {
+    private static final String CLASS = "class";
 
     @Override
     public void io(Element e, T m, IOProcessor p) {
@@ -23,7 +24,7 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
 
     private void rows(Element e, N2oRow r, IOProcessor p) {
         p.attribute(e, "src", r::getSrc, r::setSrc);
-        p.attribute(e, "class", r::getRowClass, r::setRowClass);
+        p.attribute(e, CLASS, r::getRowClass, r::setRowClass);
         p.attribute(e, "style", r::getStyle, r::setStyle);
         p.child(e, null, "click", r::getRowClick, r::setRowClick, N2oRowClick::new, this::rowClick);
         p.child(e, null, "switch", r::getColor, r::setColor, new SwitchIO());
@@ -40,7 +41,7 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
         p.attribute(e, "prev-icon", page::getPrevIcon, page::setPrevIcon);
         p.attribute(e, "next-label", page::getNextLabel, page::setNextLabel);
         p.attribute(e, "next-icon", page::getNextIcon, page::setNextIcon);
-        p.attribute(e, "class", page::getClassName, page::setClassName);
+        p.attribute(e, CLASS, page::getClassName, page::setClassName);
         p.attribute(e, "style", page::getStyle, page::setStyle);
         p.attributeEnum(e, "place", page::getPlace, page::setPlace, PlaceEnum.class);
         p.attributeBoolean(e, "routable", page::getRoutable, page::setRoutable);
@@ -53,7 +54,7 @@ public abstract class AbstractListWidgetElementIOv5<T extends N2oAbstractListWid
     }
 
     private void rowOverlay(Element e, N2oRowOverlay m, IOProcessor p) {
-        p.attribute(e, "class", m::getClassName, m::setClassName);
+        p.attribute(e, CLASS, m::getClassName, m::setClassName);
         p.child(e, null, "toolbar", m::getToolbar, m::setToolbar, new ToolbarIOv2());
     }
 }

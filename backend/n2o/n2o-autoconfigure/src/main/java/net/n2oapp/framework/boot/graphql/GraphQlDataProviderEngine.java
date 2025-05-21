@@ -39,7 +39,9 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
     private final Pattern placeholderKeyPattern = Pattern.compile("\\$\\$\\w+\\s*:");
     private final Pattern selectKeyPattern = Pattern.compile("\\$\\$\\w+\\W");
     private final Pattern placeholderStringEscapePattern = Pattern.compile("\\$\\$\\$\\w+");
-
+    private static final String SELECT = "select";
+    private static final String SORTING = "sorting";
+    private static final String FILTERS = "filters";
     @Value("${n2o.engine.graphql.endpoint:}")
     private String endpoint;
     @Value("${n2o.engine.graphql.access-token:}")
@@ -201,17 +203,18 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      * @return Строка GraphQl запроса с плейсхолдерами, замененными данными
      */
     private String resolvePlaceholders(N2oGraphQlDataProvider invocation, Map<String, Object> data) {
+
         String query = invocation.getQuery();
         Map<String, Object> args = new HashMap<>(data);
 
         resolveHierarchicalSelect(args);
-        query = replaceListPlaceholder(query, "$$select", args.remove("select"), "", QueryUtil::reduceSpace);
-        if (args.get("sorting") != null) {
+        query = replaceListPlaceholder(query, "$$select", args.remove(SELECT), "", QueryUtil::reduceSpace);
+        if (args.get(SORTING) != null) {
             String prefix = Objects.requireNonNullElse(invocation.getSortingPrefix(), defaultSortingPrefix);
             String suffix = Objects.requireNonNullElse(invocation.getSortingSuffix(), defaultSortingSuffix);
-            args.put("sorting", QueryUtil.insertPrefixSuffix((List<String>) args.get("sorting"), prefix, suffix));
+            args.put(SORTING, QueryUtil.insertPrefixSuffix((List<String>) args.get(SORTING), prefix, suffix));
             String sortingSeparator = Objects.requireNonNullElse(invocation.getSortingSeparator(), defaultSortingSeparator);
-            query = replaceListPlaceholder(query, "$$sorting", args.remove("sorting"),
+            query = replaceListPlaceholder(query, "$$sorting", args.remove(SORTING),
                     "", (a, b) -> QueryUtil.reduceSeparator(a, b, sortingSeparator));
         }
         if (invocation.getPageMapping() == null)
@@ -219,12 +222,12 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
         if (invocation.getSizeMapping() == null)
             query = replacePlaceholder(query, "$$size", args.remove("limit"), "10");
         query = replacePlaceholder(query, "$$offset", args.remove("offset"), "0");
-        if (args.get("filters") != null) {
+        if (args.get(FILTERS) != null) {
             String prefix = Objects.requireNonNullElse(invocation.getFilterPrefix(), defaultFilterPrefix);
             String suffix = Objects.requireNonNullElse(invocation.getFilterSuffix(), defaultFilterSuffix);
-            args.put("filters", QueryUtil.insertPrefixSuffix((List<String>) args.get("filters"), prefix, suffix));
+            args.put(FILTERS, QueryUtil.insertPrefixSuffix((List<String>) args.get(FILTERS), prefix, suffix));
             String filterSeparator = Objects.requireNonNullElse(invocation.getFilterSeparator(), defaultFilterSeparator);
-            query = replaceListPlaceholder(query, "$$filters", args.remove("filters"),
+            query = replaceListPlaceholder(query, "$$filters", args.remove(FILTERS),
                     "", (a, b) -> QueryUtil.reduceSeparator(a, b, filterSeparator));
         }
 
@@ -255,7 +258,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
      */
     private void resolveHierarchicalSelect(Map<String, Object> args) {
         @SuppressWarnings("unchecked")//Всегда приходит в виде списка из select-expression
-        List<String> selectExpressions = (List<String>) args.get("select");
+        List<String> selectExpressions = (List<String>) args.get(SELECT);
         if (selectExpressions == null)
             return;
         List<String> resolvedExpressions = new ArrayList<>();
@@ -265,7 +268,7 @@ public class GraphQlDataProviderEngine implements MapInvocationEngine<N2oGraphQl
             }
             resolvedExpressions.add(selectExpression);
         }
-        args.put("select", resolvedExpressions);
+        args.put(SELECT, resolvedExpressions);
     }
 
     /**

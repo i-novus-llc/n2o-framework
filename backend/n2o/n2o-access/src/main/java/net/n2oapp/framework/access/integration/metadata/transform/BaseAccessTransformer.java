@@ -41,6 +41,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
     private static final String DEFAULT_OBJECT_ACCESS_DENIED = "n2o.access.deny_objects";
     private static final String DEFAULT_PAGE_ACCESS_DENIED = "n2o.access.deny_pages";
     private static final String DEFAULT_URL_ACCESS_DENIED = "n2o.access.deny_urls";
+    private static final String CUSTOM = "custom";
 
     protected void collectObjectAccess(PropertiesAware compiled, String objectId,
                                        String operationId, SimpleCompiledAccessSchema schema,
@@ -50,7 +51,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         SecurityObject securityObject = new SecurityObject();
         if (CollectionUtils.isNotEmpty(security) &&
                 (nonNull(security.get(0).get("object"))
-                        || nonNull(security.get(0).get("custom")))) return;
+                        || nonNull(security.get(0).get(CUSTOM)))) return;
 
         if (nonNull(schema.getPermitAllPoints())) {
             schema.getPermitAllPoints().stream()
@@ -143,7 +144,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         Security security = getSecurity(compiled);
         if (CollectionUtils.isNotEmpty(security) &&
                 (nonNull(security.get(0).get("page"))
-                        || nonNull(security.get(0).get("custom")))) return;
+                        || nonNull(security.get(0).get(CUSTOM)))) return;
 
         SecurityObject securityObject = new SecurityObject();
 
@@ -242,7 +243,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         Security security = getSecurity(compiled);
         if (CollectionUtils.isNotEmpty(security) &&
                 (nonNull(security.get(0).get("url"))
-                        || nonNull(security.get(0).get("custom")))) return;
+                        || nonNull(security.get(0).get(CUSTOM)))) return;
 
         SecurityObject securityObject = new SecurityObject();
 

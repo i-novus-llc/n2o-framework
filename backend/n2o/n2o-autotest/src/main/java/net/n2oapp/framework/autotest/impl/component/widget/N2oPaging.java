@@ -11,6 +11,7 @@ import java.time.Duration;
  * Компонент пагинации для автотестирования
  */
 public class N2oPaging extends N2oComponent implements Paging {
+    private static final String DISABLED = "disabled";
 
     protected String ellipsisLocator = ".ellipsis";
 
@@ -78,12 +79,12 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     @Override
     public void prevButtonShouldBeEnabled() {
-        prevButton().shouldNotHave(Condition.cssClass("disabled"));
+        prevButton().shouldNotHave(Condition.cssClass(DISABLED));
     }
 
     @Override
     public void prevButtonShouldBeDisabled() {
-        prevButton().shouldHave(Condition.cssClass("disabled"));
+        prevButton().shouldHave(Condition.cssClass(DISABLED));
     }
 
     @Override
@@ -128,12 +129,12 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     @Override
     public void nextButtonShouldBeEnabled() {
-        nextButton().shouldNotHave(Condition.cssClass("disabled"));
+        nextButton().shouldNotHave(Condition.cssClass(DISABLED));
     }
 
     @Override
     public void nextButtonShouldBeDisabled() {
-        nextButton().shouldHave(Condition.cssClass("disabled"));
+        nextButton().shouldHave(Condition.cssClass(DISABLED));
     }
 
 
@@ -146,8 +147,7 @@ public class N2oPaging extends N2oComponent implements Paging {
     public void selectFirst() {
         if (firstPage().$(pageItemLocator).exists()) {
             firstPage().$(pageItemLocator).click();
-        }
-        else {
+        } else {
             firstPage().click();
         }
     }
@@ -171,8 +171,7 @@ public class N2oPaging extends N2oComponent implements Paging {
     public void selectLast() {
         if (lastPage().$(pageItemLocator).is(Condition.exist)) {
             lastPage().$(pageItemLocator).click();
-        }
-        else {
+        } else {
             lastPage().click();
         }
     }
@@ -181,6 +180,7 @@ public class N2oPaging extends N2oComponent implements Paging {
     public void firstPageShouldHaveEllipsis() {
         firstPage().$(ellipsisLocator).shouldBe(Condition.visible);
     }
+
     @Override
     public void firstPageShouldNotHaveEllipsis() {
         firstPage().$(ellipsisLocator).shouldNotBe(Condition.exist);
@@ -251,11 +251,11 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     protected SelenideElement firstPage() {
-        return element().$$(pagesLocator.concat( " > .page-item, .extra-page-item")).first();
+        return element().$$(pagesLocator.concat(" > .page-item, .extra-page-item")).first();
     }
 
     protected SelenideElement lastPage() {
-       return element().$$(pagesLocator.concat( " > .page-item, .extra-page-item")).last();
+        return element().$$(pagesLocator.concat(" > .page-item, .extra-page-item")).last();
     }
 
     protected SelenideElement countButton() {

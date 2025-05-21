@@ -19,6 +19,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CachedDatasourceIO extends BaseDatasourceIO<N2oCachedDatasource> {
+    private static final String VALUE = "value";
+    private static final String DATASOURCE = "datasource";
+    private static final String MODEL = "model";
 
     @Override
     public void io(Element e, N2oCachedDatasource ds, IOProcessor p) {
@@ -41,11 +44,11 @@ public class CachedDatasourceIO extends BaseDatasourceIO<N2oCachedDatasource> {
         p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
         p.attribute(e, "param", pf::getParam, pf::setParam);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
-        p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
+        p.attribute(e, VALUE, pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
-        p.attribute(e, "datasource", pf::getDatasourceId, pf::setDatasourceId);
-        p.attributeEnum(e, "model", pf::getModel, pf::setModel, ReduxModelEnum.class);
-        p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
+        p.attribute(e, DATASOURCE, pf::getDatasourceId, pf::setDatasourceId);
+        p.attributeEnum(e, MODEL, pf::getModel, pf::setModel, ReduxModelEnum.class);
+        p.childrenToStringArray(e, null, VALUE, pf::getValueList, pf::setValueList);
     }
 
     private void submit(Element e, Submit t, IOProcessor p) {
@@ -67,16 +70,16 @@ public class CachedDatasourceIO extends BaseDatasourceIO<N2oCachedDatasource> {
 
     private void submitParam(Element e, N2oParam t, IOProcessor p) {
         p.attribute(e, "name", t::getName, t::setName);
-        p.attribute(e, "value", t::getValue, t::setValue);
-        p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
+        p.attribute(e, VALUE, t::getValue, t::setValue);
+        p.attribute(e, DATASOURCE, t::getDatasourceId, t::setDatasourceId);
+        p.attributeEnum(e, MODEL, t::getModel, t::setModel, ReduxModelEnum.class);
     }
 
     private void submitFormParam(Element e, N2oFormParam t, IOProcessor p) {
         p.attribute(e, "id", t::getName, t::setName);
-        p.attribute(e, "value", t::getValue, t::setValue);
-        p.attribute(e, "datasource", t::getDatasourceId, t::setDatasourceId);
-        p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
+        p.attribute(e, VALUE, t::getValue, t::setValue);
+        p.attribute(e, DATASOURCE, t::getDatasourceId, t::setDatasourceId);
+        p.attributeEnum(e, MODEL, t::getModel, t::setModel, ReduxModelEnum.class);
     }
 
     @Override

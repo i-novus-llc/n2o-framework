@@ -16,6 +16,7 @@ import org.jdom2.Element;
  * Абстрактная реализация чтения/записи действия открытия старницы или модального окна
  */
 public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageAction> extends AbstractActionElementIOV1<T> {
+    private static final String VALUE = "value";
     @Override
     public void io(Element e, T op, IOProcessor p) {
         super.io(e, op, p);
@@ -46,18 +47,18 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
 
     private void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {
         p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
-        p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
+        p.attribute(e, VALUE, pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "param", pf::getParam, pf::setParam);
         p.attributeBoolean(e, "routable", pf::getRoutable, pf::setRoutable);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
         p.attributeEnum(e, "ref-model", pf::getModel, pf::setModel, ReduxModelEnum.class);
-        p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
+        p.childrenToStringArray(e, null, VALUE, pf::getValueList, pf::setValueList);
     }
 
     private void param(Element e, N2oParam param, IOProcessor p) {
         p.attribute(e, "name", param::getName, param::setName);
-        p.attribute(e, "value", param::getValue, param::setValue);
+        p.attribute(e, VALUE, param::getValue, param::setValue);
         p.attribute(e, "ref-widget-id", param::getRefWidgetId, param::setRefWidgetId);
         p.attributeEnum(e, "ref-model", param::getModel, param::setModel, ReduxModelEnum.class);
     }

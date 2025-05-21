@@ -24,28 +24,33 @@ import static java.util.Objects.nonNull;
  */
 @Component
 public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
+    private static final String ENTITY_CLASS = "entity-class";
+    private static final String FIELD = "field";
+    private static final String REFERENCE = "reference";
+    private static final String INVOCATION = "invocation";
+    private static final String ENABLED = "enabled";
     private Namespace defaultNamespace = DataProviderIOv1.NAMESPACE;
 
     @Override
     public void io(Element e, N2oObject t, IOProcessor p) {
         p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "table-name", t::getTableName, t::setTableName);
-        p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
+        p.attribute(e, ENTITY_CLASS, t::getEntityClass, t::setEntityClass);
         p.attribute(e, "service-class", t::getServiceClass, t::setServiceClass);
         p.attribute(e, "service-name", t::getServiceName, t::setServiceName);
         p.attribute(e, "app-name", t::getAppName, t::setAppName);
         p.attribute(e, "module-name", t::getModuleName, t::setModuleName);
         p.children(e, "operations", "operation", t::getOperations, t::setOperations, N2oObject.Operation::new, this::operation);
         p.anyChildren(e, "fields", t::getObjectFields, t::setObjectFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectSimpleField.class, this::inField)
-                .add("reference", ObjectReferenceField.class, this::inReference)
+                .add(FIELD, ObjectSimpleField.class, this::inField)
+                .add(REFERENCE, ObjectReferenceField.class, this::inReference)
                 .add("list", ObjectListField.class, this::inReference)
                 .add("set", ObjectSetField.class, this::inReference));
         p.anyChildren(e, "validations", t::getN2oValidations, t::setN2oValidations, p.oneOf(N2oValidation.class)
                 .add("constraint", N2oConstraintValidation.class, this::constraint)
                 .add("condition", N2oConditionValidation.class, this::condition)
                 .add("mandatory", N2oMandatoryValidation.class, this::mandatory));
-        p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
+        p.attribute(e, ENTITY_CLASS, t::getEntityClass, t::setEntityClass);
     }
 
     private void operation(Element e, N2oObject.Operation t, IOProcessor p) {
@@ -59,23 +64,23 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
         invocation(e, t, p);
         p.anyChildren(e, "in", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectSimpleField.class, this::inField)
-                .add("reference", ObjectReferenceField.class, this::inReference)
+                .add(FIELD, ObjectSimpleField.class, this::inField)
+                .add(REFERENCE, ObjectReferenceField.class, this::inReference)
                 .add("list", ObjectListField.class, this::inReference)
                 .add("set", ObjectSetField.class, this::inReference));
         p.anyChildren(e, "out", t::getOutFields, t::setOutFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectSimpleField.class, this::outField)
-                .add("reference", ObjectReferenceField.class, this::outReference)
+                .add(FIELD, ObjectSimpleField.class, this::outField)
+                .add(REFERENCE, ObjectReferenceField.class, this::outReference)
                 .add("list", ObjectListField.class, this::outReference));
-        p.children(e, "fail-out", "field", t::getFailOutFields, t::setFailOutFields, ObjectSimpleField.class, this::outField);
+        p.children(e, "fail-out", FIELD, t::getFailOutFields, t::setFailOutFields, ObjectSimpleField.class, this::outField);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
     }
 
     private void invocation(Element e, N2oObject.Operation t, IOProcessor p) {
-        p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
+        p.anyChild(e, INVOCATION, t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
         if (nonNull(t.getInvocation())) {
-            p.childAttribute(e, "invocation", "result-mapping", t.getInvocation()::getResultMapping, t.getInvocation()::setResultMapping);
-            p.childAttribute(e, "invocation", "result-normalize", t.getInvocation()::getResultNormalize, t.getInvocation()::setResultNormalize);
+            p.childAttribute(e, INVOCATION, "result-mapping", t.getInvocation()::getResultMapping, t.getInvocation()::setResultMapping);
+            p.childAttribute(e, INVOCATION, "result-normalize", t.getInvocation()::getResultNormalize, t.getInvocation()::setResultNormalize);
         }
     }
 
@@ -112,7 +117,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
 
     private void inField(Element e, ObjectSimpleField t, IOProcessor p) {
         field(e, t, p);
-        p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
+        p.attribute(e, ENABLED, t::getEnabled, t::setEnabled);
         p.attribute(e, "param", t::getParam, t::setParam);
         p.attribute(e, "validation-fail-key", t::getValidationFailKey, t::setValidationFailKey);
         p.child(e, null, "switch", t::getN2oSwitch, t::setN2oSwitch, new SwitchIO());
@@ -121,22 +126,22 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
     private void inReference(Element e, ObjectReferenceField t, IOProcessor p) {
         abstractParameter(e, t, p);
         p.attribute(e, "object-id", t::getReferenceObjectId, t::setReferenceObjectId);
-        p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
+        p.attribute(e, ENTITY_CLASS, t::getEntityClass, t::setEntityClass);
         p.anyChildren(e, null, t::getFields, t::setFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectSimpleField.class, this::inField)
-                .add("reference", ObjectReferenceField.class, this::inReference)
+                .add(FIELD, ObjectSimpleField.class, this::inField)
+                .add(REFERENCE, ObjectReferenceField.class, this::inReference)
                 .add("list", ObjectListField.class, this::inReference)
                 .add("set", ObjectSetField.class, this::inReference));
-        p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
+        p.attribute(e, ENABLED, t::getEnabled, t::setEnabled);
     }
 
     private void outReference(Element e, ObjectReferenceField t, IOProcessor p) {
         abstractParameter(e, t, p);
         p.attribute(e, "object-id", t::getReferenceObjectId, t::setReferenceObjectId);
-        p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
+        p.attribute(e, ENTITY_CLASS, t::getEntityClass, t::setEntityClass);
         p.anyChildren(e, null, t::getFields, t::setFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectSimpleField.class, this::outField)
-                .add("reference", ObjectReferenceField.class, this::outReference)
+                .add(FIELD, ObjectSimpleField.class, this::outField)
+                .add(REFERENCE, ObjectReferenceField.class, this::outReference)
                 .add("list", ObjectListField.class, this::outReference));
     }
 
@@ -147,21 +152,21 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
         p.attribute(e, "title", t::getTitle, t::setTitle);
-        p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
+        p.attribute(e, ENABLED, t::getEnabled, t::setEnabled);
         p.attribute(e, "side", t::getSide, t::setSide);
     }
 
     private void invocationValidation(Element e, N2oInvocationValidation t, IOProcessor p) {
         validation(e, t, p);
         p.anyChildren(e, "in", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
-                .add("field", ObjectSimpleField.class, this::inField)
-                .add("reference", ObjectReferenceField.class, this::inReference)
+                .add(FIELD, ObjectSimpleField.class, this::inField)
+                .add(REFERENCE, ObjectReferenceField.class, this::inReference)
                 .add("list", ObjectListField.class, this::inReference)
                 .add("set", ObjectSetField.class, this::inReference));
-        p.children(e, "out", "field", t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::outField);
-        p.anyChild(e, "invocation", t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
+        p.children(e, "out", FIELD, t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::outField);
+        p.anyChild(e, INVOCATION, t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
         if (nonNull(t.getN2oInvocation()))
-            p.childAttribute(e, "invocation", "result-mapping", t.getN2oInvocation()::getResultMapping, t.getN2oInvocation()::setResultMapping);
+            p.childAttribute(e, INVOCATION, "result-mapping", t.getN2oInvocation()::getResultMapping, t.getN2oInvocation()::setResultMapping);
     }
 
     private void constraint(Element e, N2oConstraintValidation t, IOProcessor p) {

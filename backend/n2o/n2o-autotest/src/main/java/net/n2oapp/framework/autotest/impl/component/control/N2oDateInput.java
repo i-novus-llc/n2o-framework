@@ -13,6 +13,7 @@ import java.time.Duration;
  * Компонент ввода даты для автотестирования
  */
 public class N2oDateInput extends N2oControl implements DateInput {
+    private static final String DISABLED = "disabled";
 
     @Override
     public void shouldBeEmpty() {
@@ -91,21 +92,21 @@ public class N2oDateInput extends N2oControl implements DateInput {
     @Override
     public void clickDay(String day) {
         calendarDays().filter(Condition.text(day))
-                .exclude(Condition.cssClass("disabled"))
+                .exclude(Condition.cssClass(DISABLED))
                 .exclude(Condition.cssClass("other-month"))
                 .get(0).shouldBe(Condition.exist).click();
     }
 
     @Override
     public void shouldBeDisableDay(String day) {
-        calendarDays().filterBy(Condition.cssClass("disabled"))
+        calendarDays().filterBy(Condition.cssClass(DISABLED))
                 .find(Condition.text(day))
                 .shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldNotBeDisableDay(String day) {
-        calendarDays().filterBy(Condition.cssClass("disabled"))
+        calendarDays().filterBy(Condition.cssClass(DISABLED))
                 .find(Condition.text(day))
                 .shouldNotBe(Condition.exist);
     }

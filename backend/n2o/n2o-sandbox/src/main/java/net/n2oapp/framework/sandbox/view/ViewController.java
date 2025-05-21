@@ -91,6 +91,7 @@ public class ViewController {
     @Value("${spring.messages.basename:messages}")
     private String messageBundleBasename;
     private static final String DEFAULT_APP_ID = "default";
+    private static final String DATA_REQUEST_PREFIX = "/n2o/data";
 
     private final DataProcessingStack dataProcessingStack;
     private final AlertMessageBuilder messageBuilder;
@@ -243,7 +244,7 @@ public class ViewController {
             String format = request.getParameter("format");
             String charset = request.getParameter("charset");
 
-            String dataPrefix = "/n2o/data";
+            String dataPrefix = DATA_REQUEST_PREFIX;
             String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
             Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
             if (params == null)
@@ -274,7 +275,7 @@ public class ViewController {
             N2oApplicationBuilder builder = getBuilder(projectId);
             getIndex(builder);
             getMenu(builder);
-            String path = getPath(request, "/n2o/data");
+            String path = getPath(request, DATA_REQUEST_PREFIX);
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
             GetDataResponse response = dataController.getData(path, request.getParameterMap(),
@@ -313,7 +314,7 @@ public class ViewController {
             N2oApplicationBuilder builder = getBuilder(projectId);
             getIndex(builder);
             getMenu(builder);
-            String path = getPath(request, "/n2o/data");
+            String path = getPath(request, DATA_REQUEST_PREFIX);
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
             dataController.setMessageBuilder(messageBuilder);
             SetDataResponse dataResponse = dataController.setData(path,
