@@ -8,8 +8,7 @@ import { insert } from '../overlays/store'
 import { Meta } from '../Action'
 import { executeExpression } from '../../core/Expression/execute'
 import { parseExpression } from '../../core/Expression/parse'
-// @ts-ignore ignore import error from js file
-import linkResolver from '../../utils/linkResolver'
+import { linkResolver } from '../../utils/linkResolver'
 import { State } from '../State'
 
 import { ACTIONS_PREFIX } from './constants'

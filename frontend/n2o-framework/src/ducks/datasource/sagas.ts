@@ -45,7 +45,6 @@ import { autoSubmit } from './sagas/autoSubmit'
 export function* runDataRequest({ payload }: ChangePageAction) {
     const { id, page, options = {} } = payload
 
-    // @ts-ignore поправить типы
     yield put(dataRequest(id, { ...options, page: page || 1 }))
 }
 

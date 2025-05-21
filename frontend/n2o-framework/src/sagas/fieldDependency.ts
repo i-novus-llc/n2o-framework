@@ -169,7 +169,7 @@ export function* modify(
     const { formName, datasource, modelPrefix, fields } = form
     const { type, expression, validate } = dependency
 
-    const evalResult = expression && executeExpression<unknown>(expression, values, field.ctx)
+    const evalResult = expression && executeExpression<boolean | string>(expression, values, field.ctx)
 
     switch (type) {
         case 'enabled': {

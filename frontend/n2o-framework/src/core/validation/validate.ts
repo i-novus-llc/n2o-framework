@@ -38,7 +38,6 @@ export const validate = async (
     )(state)
     const model = dataSourceModelByPrefixSelector(datasourceId, prefix)(state)
 
-    // @ts-ignore FIXME кол-во аргументов
     dispatch(resetValidation(datasourceId, [], prefix))
 
     const pageId = dataSourcePageIdSelector(datasourceId)(state) || ''
@@ -47,7 +46,6 @@ export const validate = async (
     const messages = await validateModel(model, validation, { datasourceId, pageUrl })
 
     if (!isEmpty(messages)) {
-        // @ts-ignore поправить типы
         dispatch(failValidate(datasourceId, messages, prefix, { touched }))
     }
 

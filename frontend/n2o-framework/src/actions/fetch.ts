@@ -6,7 +6,6 @@ import {
     FETCH_ERROR_CONTINUE,
 } from '../constants/fetch'
 
-// @ts-ignore ignore import error from js file
 import createActionHelper from './createActionHelper'
 
 export function fetchStart(fetchType: string, options: Record<string, unknown>) {

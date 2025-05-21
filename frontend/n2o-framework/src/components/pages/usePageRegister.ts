@@ -20,7 +20,6 @@ export const usePageRegister = (dispatch: Dispatch, datasources?: Record<string,
             const { paging: initialPaging = {} as Paging } = dataSourceByIdSelector(id)(state)
             const { paging: configPaging = {} as Paging, ...rest } = config
 
-            // @ts-ignore FIXME разобраться TS2554: Expected 1 arguments, but got 2
             dispatch(register(id, {
                 pageId,
                 // FIXME обход Автотеста

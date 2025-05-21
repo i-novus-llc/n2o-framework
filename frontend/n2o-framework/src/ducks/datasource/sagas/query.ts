@@ -6,7 +6,6 @@ import {
 } from 'redux-saga/effects'
 
 import { setModel } from '../../models/store'
-// @ts-ignore ignore import error from js file
 import { generateErrorMeta } from '../../../utils/generateErrorMeta'
 import { id as generateId } from '../../../utils/id'
 import { ModelPrefix } from '../../../core/datasource/const'

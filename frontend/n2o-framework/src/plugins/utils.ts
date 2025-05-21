@@ -3,7 +3,6 @@ import get from 'lodash/get'
 import merge from 'lodash/merge'
 
 import { dataProviderResolver } from '../core/dataProviderResolver'
-// @ts-ignore ignore import error from js file
 import propsResolver from '../utils/propsResolver'
 import { DataSourceModels } from '../core/datasource/const'
 
@@ -21,7 +20,6 @@ export const getFromSource = (
     const { href, pathMapping = {}, queryMapping = {} } = props
 
     if (!isEmpty(pathMapping) || !isEmpty(queryMapping)) {
-        // @ts-ignore import from js file
         const { url } = dataProviderResolver(props, { url: href, pathMapping, queryMapping })
 
         props.href = url

@@ -1,4 +1,3 @@
-// @ts-ignore ignore import error from js file
 import warning from '../../utils/warning'
 
 import { createFunction } from './utils/createFunction'

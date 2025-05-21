@@ -12,9 +12,7 @@ export const reduceFunction = (isTrue: boolean, { model, config }: Model) => isT
 /**
  * Резолв видимости
  */
-
 export function* resolveVisible(widgetId: string, model: OptionsType) {
-    // @ts-ignore import from js file
     const visible = reduce(model, reduceFunction, true)
 
     if (visible) {
@@ -28,7 +26,6 @@ export function* resolveVisible(widgetId: string, model: OptionsType) {
  * Резолв активности
  */
 export function* resolveEnabled(widgetId: string, model: OptionsType) {
-    // @ts-ignore import from js file
     const enabled = reduce(model, reduceFunction, true)
 
     if (enabled) {

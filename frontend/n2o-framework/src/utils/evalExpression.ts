@@ -1,7 +1,6 @@
 import { executeExpression } from '../core/Expression/execute'
 
-// @ts-ignore ignore import error from js file
-import functions from './functions'
+import { functions } from './functions'
 
 export { parseExpression } from '../core/Expression/parse'
 

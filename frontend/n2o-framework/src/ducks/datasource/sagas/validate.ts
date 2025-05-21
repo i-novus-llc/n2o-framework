@@ -77,12 +77,10 @@ export function* validate({ payload, meta }: StartValidateAction) {
     const fieldsToReset = fields2Validate.filter(field => isEmpty(messages[field]))
 
     if (!isEmpty(fieldsToReset)) {
-        // @ts-ignore поправить типы
         yield put(resetValidation(id, fieldsToReset, prefix))
     }
 
     if (!isEmpty(messages) && !isEqual(messages, fieldsMessages)) {
-        // @ts-ignore поправить типы
         yield put(failValidate(id, messages, prefix, meta))
     }
 
