@@ -13,6 +13,7 @@ build:
 
 build and verify:
   variables:
+    MAVEN_GOAL: 'verify'
     MAVEN_EXTRA_GOAL: 'install:install'
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
   cache:
