@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -122,7 +121,6 @@ class SimpleFieldSetAT extends AutoTestBase {
      * Тест проверяет работу параметра visible у просто филдсета в фильтрах
      */
     @Test
-    @Disabled
     void testVisibilityConditionsInFilters() {
         setResourcePath("net/n2oapp/framework/autotest/fieldset/simple/visible_in_filters");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/visible_in_filters/index.page.xml"),

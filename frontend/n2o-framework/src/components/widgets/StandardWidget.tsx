@@ -89,7 +89,7 @@ const StandardWidget = memo(({
         )
     }, [pagination, toolbar, widgetId])
 
-    const filterComponent = useMemo(() => (
+    const filterComponent = (
         <WidgetFilters
             widgetId={widgetId}
             fetchData={fetchData}
@@ -97,7 +97,7 @@ const StandardWidget = memo(({
             fieldsets={filter.filterFieldsets}
             {...filter}
         />
-    ), [widgetId, fetchData, datasource, filter])
+    )
 
     const { topToolbars, bottomToolbars } = useMemo(() => ({
         topToolbars: [
