@@ -107,13 +107,12 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
         this.fieldsVisibility = []
     }
 
-    componentDidUpdate() {
+    resolveAvailability = () => {
         const { visible, enabled, activeModel, propsResolver } = this.props
         const {
             enabled: enabledFromState,
             visible: visibleFromState,
         } = this.state
-
         const newEnabled = isNil(enabled) || propsResolver?.(enabled, activeModel) as boolean
         const newVisible = isNil(visible) || propsResolver?.(visible, activeModel) as boolean
 
@@ -125,6 +124,8 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
             this.setVisible(newVisible)
         }
     }
+
+    componentDidUpdate() { this.resolveAvailability() }
 
     setVisible = (nextVisibleField: boolean) => {
         const { setMultiFieldVisible } = this.props
