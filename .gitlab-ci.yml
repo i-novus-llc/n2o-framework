@@ -39,4 +39,5 @@ cleanup:
 
 deploy dev stand:
   variables:
+    K8S_NAMESPACE: 'n2o-framework'
     K8S_INGRESS_HOST: 'next-n2o.i-novus.ru'
