@@ -62,7 +62,7 @@ export type SetSortDirectionAction = DatasourceAction<{
 
 export type SetAdditionalInfoAction = DatasourceAction<{
     id: string
-    additionalInfo: object
+    additionalInfo: unknown
 }>
 
 export type UpdatePagingAction = DatasourceAction<{

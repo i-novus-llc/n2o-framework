@@ -80,10 +80,9 @@ export function* dataRequest({ payload }: DataRequestAction, apiProvider: unknow
 
         yield put(setModel(ModelPrefix.source, id, response.list, true))
 
-        if (response.additionalInfo) {
-            // @ts-ignore Проблема с типизацией
-            yield put(setAdditionalInfo(id, response.additionalInfo))
-        }
+        // @ts-ignore сломана типизация стора datasource привела к кривому типу Aaction-creator, пофикшено в 7.29
+        yield put(setAdditionalInfo(id, response.additionalInfo))
+
         if (response.active) {
             yield put(setModel(ModelPrefix.active, id, response.active, true))
         }
