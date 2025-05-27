@@ -19,6 +19,7 @@ build and verify:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/.m2/repository
+    expire_in: 1 days
 
 autotesting mr stand:
   extends: .autotesting mr stand
