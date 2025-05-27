@@ -9,8 +9,9 @@ deploy release stand:
   extends: .deploy
   environment: "release-7-28"
   variables:
-    K8S_INGRESS_HOST: "n2o-framework-7-28-dev.i-novus.ru"
-    K8S_NAMESPACE: "release-7-28"
+    RELEASE_VERSION: ${CI_COMMIT_REF_NAME#release/}
+    K8S_INGRESS_HOST: "n2o-framework-${RELEASE_VERSION//./-}-dev.i-novus.ru"
+    K8S_NAMESPACE: "release-${RELEASE_VERSION//./-}"
     HELM_OPTIONAL_VALUES: "-f $HELM_CHART_PATH/values.release.yaml --take-ownership"
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
