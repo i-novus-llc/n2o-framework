@@ -5,11 +5,19 @@ build release stand:
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
+release version:
+  script:
+    # Извлекаем версию (release/7.28 → 7.28)
+    - RELEASE_VERSION=$(echo "$CI_COMMIT_REF_NAME" | sed 's|^release/||')
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
+
 deploy release stand:
   extends: .deploy
   environment: "release-7-28"
+  needs:
+    - release version
   variables:
-    RELEASE_VERSION: ${CI_COMMIT_REF_NAME#release/}
     K8S_INGRESS_HOST: "n2o-framework-${RELEASE_VERSION//./-}-dev.i-novus.ru"
     K8S_NAMESPACE: "release-${RELEASE_VERSION//./-}"
     HELM_OPTIONAL_VALUES: "-f $HELM_CHART_PATH/values.release.yaml --take-ownership"
