@@ -28,13 +28,6 @@ autotesting mr stand:
   dependencies:
     - build and verify
     - deploy mr stand
-#  cache:
-#    - key: m2-$CI_COMMIT_REF_SLUG
-#      paths:
-#        - $CI_PROJECT_DIR/.m2/repository
-#      fallback_keys:
-#        - m2
-#      when: 'always'
 
 build story:
   variables:
@@ -43,6 +36,6 @@ build story:
 cleanup:
   dependencies: []
 
-#deploy dev stand:
-#  variables:
-#    K8S_INGRESS_HOST: 'n2o.i-novus.ru'
+deploy dev stand:
+  variables:
+    K8S_INGRESS_HOST: 'next-n2o.i-novus.ru'
