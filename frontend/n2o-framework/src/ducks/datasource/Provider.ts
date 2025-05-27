@@ -87,7 +87,7 @@ export interface Paging {
 export interface QueryResult<TModel extends object = Record<string, unknown>> {
     list: TModel[]
     active?: TModel
-    additionalInfo?: object
+    additionalInfo?: unknown
     paging: Paging
     meta?: Meta
 }

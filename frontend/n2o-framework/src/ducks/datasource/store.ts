@@ -206,7 +206,7 @@ export const datasource = createSlice({
         },
 
         setAdditionalInfo: {
-            prepare(id: string, additionalInfo: object) {
+            prepare(id: string, additionalInfo: unknown) {
                 return ({
                     payload: {
                         id,
