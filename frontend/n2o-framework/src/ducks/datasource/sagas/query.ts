@@ -81,11 +81,8 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
         }
 
         yield put(setModel(ModelPrefix.source, id, response.list, true))
+        yield put(setAdditionalInfo(id, response.additionalInfo))
 
-        if (response.additionalInfo) {
-            // @ts-ignore Проблема с типизацией
-            yield put(setAdditionalInfo(id, response.additionalInfo))
-        }
         if (response.active) {
             yield put(setModel(ModelPrefix.active, id, response.active, true))
         }
