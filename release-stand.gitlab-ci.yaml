@@ -20,7 +20,7 @@ release version:
 
 deploy release stand:
   extends: .deploy
-  environment: "n2o-release-7-28"
+  environment: "release-7-28"
   needs:
     - release version
   script:
