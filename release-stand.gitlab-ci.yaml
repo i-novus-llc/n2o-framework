@@ -20,7 +20,7 @@ release version:
 
 deploy release stand:
   extends: .deploy
-  environment: "release-7-28"
+  environment: "n2o-release-7-28"
   needs:
     - release version
   script:
@@ -28,7 +28,7 @@ deploy release stand:
       echo "Formatted version: $FORMATTED_VERSION"
   variables:
     K8S_INGRESS_HOST: "n2o-framework-$FORMATTED_VERSION-dev.i-novus.ru"
-    K8S_NAMESPACE: "release-$FORMATTED_VERSION"
+    K8S_NAMESPACE: "n2o-release-$FORMATTED_VERSION"
     HELM_OPTIONAL_VALUES: "-f $HELM_CHART_PATH/values.release.yaml --take-ownership"
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
