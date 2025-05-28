@@ -10,9 +10,8 @@ release version:
     - |
       RELEASE_VERSION=$(echo "$CI_COMMIT_REF_NAME" | sed 's|^release/||')
       FORMATTED_VERSION=$(echo "$RELEASE_VERSION" | tr '.' '-')
-      echo "Release branch: $CI_COMMIT_REF_NAME"
-      echo "Release version: $RELEASE_VERSION"
       echo "Formatted version: $FORMATTED_VERSION"
+      echo "FORMATTED_VERSION=$FORMATTED_VERSION" >> release.env
   artifacts:
     reports:
       dotenv: release.env
@@ -24,6 +23,8 @@ deploy release stand:
   environment: "release-7-28"
   needs:
     - release version
+  script:
+    - echo "Formatted version: $FORMATTED_VERSION"
   variables:
     K8S_INGRESS_HOST: "n2o-framework-$FORMATTED_VERSION-dev.i-novus.ru"
     K8S_NAMESPACE: "release-$FORMATTED_VERSION"
