@@ -947,7 +947,11 @@ public class IOProcessorImpl implements IOProcessor {
             Attribute attribute = element.getAttribute(name);
             if (attribute != null) {
                 String value = process(attribute.getValue());
-                setter.accept(value.trim().split("\\s*" + separator + "\\s*"));
+                if (value != null) {
+                    setter.accept(value.trim().split("\\s*" + separator + "\\s*"));
+                } else {
+                    setter.accept(null);
+                }
             }
         } else {
             if (getter.get() == null) return;

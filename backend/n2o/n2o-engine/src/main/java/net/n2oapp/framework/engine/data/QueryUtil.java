@@ -53,8 +53,9 @@ public abstract class QueryUtil {
     public static void copyForwardedHeaders(Set<String> forwardedHeaders, HttpHeaders headers) {
         if (isEmpty(forwardedHeaders) || isNull(getRequestAttributes()))
             return;
-
-        HttpServletRequest request = ((ServletRequestAttributes) getRequestAttributes()).getRequest();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) getRequestAttributes();
+        if (attributes == null) return;
+        HttpServletRequest request = attributes.getRequest();
         logger.info("Forwarded headers for request: {}", request.getRequestURL());
         if (forwardedHeaders.contains("*"))
             forwardedHeaders = new HashSet<>(Collections.list(request.getHeaderNames()));
@@ -77,7 +78,9 @@ public abstract class QueryUtil {
     public static void copyForwardedCookies(Set<String> forwardedCookies, HttpHeaders headers) {
         if (isNull(getRequestAttributes()))
             return;
-        HttpServletRequest request = ((ServletRequestAttributes) getRequestAttributes()).getRequest();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) getRequestAttributes();
+        if (attributes == null) return;
+        HttpServletRequest request = attributes.getRequest();
         if (isEmpty(forwardedCookies) || isNull(request.getCookies()))
             return;
 

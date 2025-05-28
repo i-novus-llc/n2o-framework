@@ -149,6 +149,9 @@ public class PathUtil {
     public static String convertAbsolutePathToLocalPath(String absolutePath, String configPath) {
         absolutePath = normalize(absolutePath);
         configPath = normalize(configPath);
+        if (absolutePath == null || configPath == null) {
+            return "";
+        }
         return absolutePath.substring(absolutePath.indexOf(configPath) + configPath.length() + 1).replace("\\", "/");
     }
 

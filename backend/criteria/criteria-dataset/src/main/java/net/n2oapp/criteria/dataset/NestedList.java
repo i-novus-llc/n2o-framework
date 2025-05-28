@@ -122,7 +122,9 @@ public class NestedList extends ArrayList<Object> {
         } else {
             if (!info.isSpread()) {
                 //case: "foo.bar"
-                Object rightValue = size() > info.getIndex() ? super.get(info.getIndex()) : null;
+                if (size() <= info.getIndex())
+                    return null;
+                Object rightValue = super.get(info.getIndex());
                 if (!applicableFor(rightValue, info.getRight())) {
                     return null;
                 }

@@ -134,6 +134,8 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
                 case "DELETE", "POST", "PUT", "PATCH" -> exchange(finalQuery, method, args, headers);
                 default -> throw new UnsupportedOperationException("Method " + method.name() + " unsupported");
             };
+            if (result == null)
+                return null;
             loggingHandlers.forEach(handler -> handler.handle(result.getStatusCode().value(), method, finalQuery.toString(), headers));
             return result.getBody();
         } catch (RestClientResponseException e) {

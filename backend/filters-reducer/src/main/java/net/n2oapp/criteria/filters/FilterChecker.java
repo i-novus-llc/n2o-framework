@@ -58,6 +58,8 @@ public class FilterChecker {
 
     private static boolean equals(Object filterValue, Object realValue) {
         filterValue = castToRealType(filterValue, realValue);
+        if (filterValue == null)
+            return false;
         if (filterValue instanceof Number filterNumber && realValue instanceof Number realNumber) {
             return filterNumber.longValue() == realNumber.longValue();
         }
@@ -94,6 +96,8 @@ public class FilterChecker {
     @SuppressWarnings("unchecked")
     private static int compare(Object filterValue, Object realValue) {
         Object value = castToRealType(filterValue, realValue);
+        if (value == null)
+            return 0;
         if (value instanceof Number valueNumber && realValue instanceof Number realNumber) {
             return (int) (valueNumber.longValue() - realNumber.longValue());
         }

@@ -42,6 +42,7 @@ public class StylesResolver {
     public static String resolveStylesToString(String input) {
         if (input == null) return null;
         Map<String, String> styleMap = resolveStyles(input);
+        if (styleMap == null) return null;
         return styleMap.keySet().stream().map(key -> key + ":" + styleMap.get(key))
                 .collect(Collectors.joining(";"));
     }
