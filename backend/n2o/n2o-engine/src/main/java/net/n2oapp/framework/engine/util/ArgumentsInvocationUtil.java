@@ -75,7 +75,7 @@ public class ArgumentsInvocationUtil {
     public static Object[] mapToArgs(N2oArgumentsInvocation invocation, DataSet dataSet,
                                      Map<String, FieldMapping> inMapping, DomainProcessor domainProcessor) {
         if (ArrayUtils.isEmpty(invocation.getArguments()))
-            return null;
+            return new Object[0];
 
         Object[] result = instantiateArguments(invocation.getArguments());
 
@@ -155,7 +155,7 @@ public class ArgumentsInvocationUtil {
      * @return Массив экземпляров
      */
     private static Object[] instantiateArguments(Argument[] arguments) {
-        if (arguments == null) return null;
+        if (arguments == null) return new Object[0];
         Object[] argumentInstances = new Object[arguments.length];
 
         for (int k = 0; k < argumentInstances.length; k++) {

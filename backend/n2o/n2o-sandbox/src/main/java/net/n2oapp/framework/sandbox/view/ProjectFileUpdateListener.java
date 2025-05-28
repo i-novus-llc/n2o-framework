@@ -28,13 +28,15 @@ public class ProjectFileUpdateListener implements N2oEventListener<ProjectFileUp
 
     @Override
     public void handleEvent(ProjectFileUpdateEvent projectFileUpdateEvent) {
-        Cache cache = cacheTemplate.getCacheManager().getCache(CACHE_REGION);
-        if (cache != null) {
-            SourceInfo sourceInfo = RegisterUtil.createFolderInfo(Node.byAbsolutePath(projectFileUpdateEvent.getFileName(), basePath),
-                    sourceTypeRegister);
-            cacheTemplate.getCacheManager().getCache(CACHE_REGION)
-                    .evict(getKey(projectFileUpdateEvent.getProjectId(), sourceInfo.getId(), sourceInfo.getBaseSourceClass()));
-        }
+        CacheManager cacheManager = cacheTemplate.getCacheManager();
+        if (cacheManager == null)
+            return;
+        Cache cache = cacheManager.getCache(CACHE_REGION);
+        if (cache == null)
+            return;
+        SourceInfo sourceInfo = RegisterUtil.createFolderInfo(Node.byAbsolutePath(projectFileUpdateEvent.getFileName(), basePath),
+                sourceTypeRegister);
+        cache.evict(getKey(projectFileUpdateEvent.getProjectId(), sourceInfo.getId(), sourceInfo.getBaseSourceClass()));
     }
 
     private String getKey(String projectId, String id, Class<? extends SourceMetadata> sourceClass) {

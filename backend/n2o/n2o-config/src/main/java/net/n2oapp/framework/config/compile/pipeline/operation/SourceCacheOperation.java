@@ -16,6 +16,7 @@ import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationTypeEnum;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.register.SourceInfo;
 import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.support.NoOpCacheManager;
 
 import java.util.function.Supplier;
@@ -56,9 +57,15 @@ public class SourceCacheOperation<S extends SourceMetadata> extends MetadataChan
 
     @Override
     public void handleAllMetadataChange() {
-        Cache cache = cacheTemplate.getCacheManager().getCache(CACHE_REGION);
-        if (cache != null)
-            cacheTemplate.getCacheManager().getCache(CACHE_REGION).clear();
+        CacheManager cacheManager = cacheTemplate.getCacheManager();
+        if (cacheManager == null) {
+            return;
+        }
+        Cache cache = cacheManager.getCache(CACHE_REGION);
+        if (cache == null) {
+            return;
+        }
+        cache.clear();
     }
 
     @Override

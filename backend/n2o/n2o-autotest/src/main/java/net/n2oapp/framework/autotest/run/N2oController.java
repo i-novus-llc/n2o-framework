@@ -87,7 +87,7 @@ public class N2oController {
         Assert.isTrue(!apps.isEmpty(), "Not found application.xml file");
 
         String applicationId = builder.getEnvironment().getSystemProperties().getProperty("n2o.application.id");
-        if (applicationId.equals(DEFAULT_APP_ID)) {
+        if (DEFAULT_APP_ID.equals(applicationId)) {
             Optional<SourceInfo> applicationInfo = builder.getEnvironment().getMetadataRegister().find(N2oApplication.class).stream().filter(a -> !a.getId().equals(DEFAULT_APP_ID)).findFirst();
             applicationId = applicationInfo.isPresent() ? applicationInfo.get().getId() : DEFAULT_APP_ID;
         }

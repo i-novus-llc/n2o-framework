@@ -69,8 +69,8 @@ public class AlertMessageBuilder {
     }
 
     private void initDevMode(PropertyResolver propertyResolver) {
-        Boolean activeDevMode = propertyResolver != null ? propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class) : null;
-        this.devMode = activeDevMode != null && activeDevMode;
+        Boolean activeDevMode = propertyResolver != null ? propertyResolver.getProperty("n2o.ui.message.dev-mode", Boolean.class) : Boolean.FALSE;
+        this.devMode = Boolean.TRUE.equals(activeDevMode);
     }
 
     private SeverityTypeEnum getExceptionSeverity(Exception e) {

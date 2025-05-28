@@ -58,16 +58,24 @@ public class SandboxSourceCacheOperation<S extends SourceMetadata> extends Metad
 
     @Override
     public void handleAllMetadataChange() {
-        Cache cache = cacheTemplate.getCacheManager().getCache(CACHE_REGION);
-        if (cache != null)
-            cacheTemplate.getCacheManager().getCache(CACHE_REGION).clear();
+        CacheManager cacheManager = cacheTemplate.getCacheManager();
+        if (cacheManager == null)
+            return;
+        Cache cache = cacheManager.getCache(CACHE_REGION);
+        if (cache == null)
+            return;
+        cache.clear();
     }
 
     @Override
     public void handleMetadataChange(String id, Class<? extends SourceMetadata> sourceClass) {
-        Cache cache = cacheTemplate.getCacheManager().getCache(CACHE_REGION);
-        if (cache != null)
-            cacheTemplate.getCacheManager().getCache(CACHE_REGION).evict(getKey(id, sourceClass));
+        CacheManager cacheManager = cacheTemplate.getCacheManager();
+        if (cacheManager == null)
+            return;
+        Cache cache = cacheManager.getCache(CACHE_REGION);
+        if (cache == null)
+            return;
+        cache.evict(getKey(id, sourceClass));
     }
 
     @Override
