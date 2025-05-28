@@ -1,0 +1,49 @@
+name: Stage release to Maven Central
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          yarn install
+          yarn run build
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Set up Apache Maven Central
+        uses: actions/setup-java@v3  # running setup-java again overwrites the settings.xml
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          server-id: central # Value of the distributionManagement/repository/id field of the pom.xml
+          server-username: SONATYPE_USER # env variable for username in deploy
+          server-password: SONATYPE_PASSWORD # env variable for token in deploy
+
+      - name: Publish to Apache Maven Central
+        run: mvn deploy -Prelease,frontend,backend,!demo,!docs,!frontend-build -DskipTests=true
+        env:
+          SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          MAVEN_GPG_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
