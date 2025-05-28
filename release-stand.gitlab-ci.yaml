@@ -20,12 +20,9 @@ release version:
 
 deploy release stand:
   extends: .deploy
-  environment: "release-7-28"
+  environment: "n2o-release-7-28"
   needs:
     - release version
-  script:
-    - |
-      echo "Formatted version: $FORMATTED_VERSION"
   variables:
     K8S_INGRESS_HOST: "n2o-framework-$FORMATTED_VERSION-dev.i-novus.ru"
     K8S_NAMESPACE: "n2o-release-$FORMATTED_VERSION"
