@@ -9,8 +9,13 @@ release version:
   script:
     - |
       RELEASE_VERSION=$(echo "$CI_COMMIT_REF_NAME" | sed 's|^release/||')
+      FORMATTED_VERSION=$(echo "$RELEASE_VERSION" | tr '.' '-')
       echo "Release branch: $CI_COMMIT_REF_NAME"
       echo "Release version: $RELEASE_VERSION"
+      echo "Formatted version: $FORMATTED_VERSION"
+  artifacts:
+    reports:
+      dotenv: release.env
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
@@ -20,8 +25,8 @@ deploy release stand:
   needs:
     - release version
   variables:
-    K8S_INGRESS_HOST: "n2o-framework-${RELEASE_VERSION//./-}-dev.i-novus.ru"
-    K8S_NAMESPACE: "release-${RELEASE_VERSION//./-}"
+    K8S_INGRESS_HOST: "n2o-framework-$FORMATTED_VERSION-dev.i-novus.ru"
+    K8S_NAMESPACE: "release-$FORMATTED_VERSION"
     HELM_OPTIONAL_VALUES: "-f $HELM_CHART_PATH/values.release.yaml --take-ownership"
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
