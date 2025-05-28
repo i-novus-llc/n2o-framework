@@ -24,7 +24,8 @@ deploy release stand:
   needs:
     - release version
   script:
-    - echo "Formatted version: $FORMATTED_VERSION"
+    - |
+      echo "Formatted version: $FORMATTED_VERSION"
   variables:
     K8S_INGRESS_HOST: "n2o-framework-$FORMATTED_VERSION-dev.i-novus.ru"
     K8S_NAMESPACE: "release-$FORMATTED_VERSION"
