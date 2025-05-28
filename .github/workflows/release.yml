@@ -22,7 +22,7 @@ jobs:
       - name: Build Frontend
         run: |
           cd frontend
-          yarn install
+          yarn install --no-package-lock --ignore-engines
           yarn run build
 
       - name: Set up JDK
