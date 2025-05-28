@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
@@ -19,14 +20,17 @@ import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.metadata.merge.MergeUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jdom2.Attribute;
+import org.jdom2.Content;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
+import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.*;
+import java.util.regex.Pattern;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -36,6 +40,7 @@ import static org.springframework.util.StringUtils.hasText;
 /**
  * Реализация процессора считывания и записи DOM элементов
  */
+@Slf4j
 public class IOProcessorImpl implements IOProcessor {
 
     /**
@@ -50,6 +55,7 @@ public class IOProcessorImpl implements IOProcessor {
     private boolean failFast = true;
     private final DomainProcessor domainProcessor = new DomainProcessor();
     private static final String EXCEPTION_MESSAGE = "you should first call #newInstance(Element)";
+    private static final Pattern XML_ESCAPE_SYMBOLS = Pattern.compile("[&<>'\"]");
 
     private MetadataEnvironment environment;
 
@@ -717,6 +723,7 @@ public class IOProcessorImpl implements IOProcessor {
     @Override
     public void text(Element element, Supplier<String> getter, Consumer<String> setter) {
         if (r) {
+            checkCDataContent(element);
             String text = element.getText();
             if (text != null && !text.isEmpty()) {
                 setter.accept(process(text));
@@ -732,6 +739,7 @@ public class IOProcessorImpl implements IOProcessor {
         if (r) {
             Element child = element.getChild(childName, element.getNamespace());
             if (child == null) return;
+            checkCDataContent(child);
             String text = child.getText();
             if (text != null && !text.isEmpty()) {
                 setter.accept(process(text));
@@ -1212,6 +1220,17 @@ public class IOProcessorImpl implements IOProcessor {
             parent.addContent(seqE);
         }
         return seqE;
+    }
+
+    private void checkCDataContent(Element element) {
+
+        if (CollectionUtils.isEmpty(element.getContent()))
+            return;
+        element.getContent().stream().filter(c -> Content.CType.CDATA.equals(c.getCType())).forEach(c ->{
+            if (!(XML_ESCAPE_SYMBOLS.matcher(c.getValue()).find())){
+                log.warn("JS выражение компонента {} обернуто в CDATA, но не содержит специальных символов", element.getName());
+            }
+        });
     }
 
     public void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {
