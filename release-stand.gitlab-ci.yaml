@@ -1,4 +1,5 @@
 release version:
+  stage: .pre
   script:
     - |
       RELEASE_VERSION=$(echo "$CI_COMMIT_REF_NAME" | sed 's|^release/||')
