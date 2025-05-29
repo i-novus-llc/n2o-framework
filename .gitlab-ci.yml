@@ -1,6 +1,6 @@
 include:
   - project: ${PIPELINE_REPOSITORY_PREFIX}devenv/gitlab/pipelines
-    ref: '3.2.2'
+    ref: 3.5.0
     file:
       - dev-stand.gitlab-ci.yml
       - story.gitlab-ci.yml
@@ -13,15 +13,28 @@ build:
 
 build and verify:
   variables:
-    MAVEN_GOAL: 'install'
+    MAVEN_GOAL: 'verify'
+    MAVEN_EXTRA_GOAL: 'install:install'
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/.m2/repository/net/n2oapp
+      - $CI_PROJECT_DIR/.m2/repository/org/apache/maven/plugins
+    expire_in: 1 days
+  cache: []
 
 autotesting mr stand:
   extends: .autotesting mr stand
   variables:
-    AUTOTEST_PARAMS: '-Pautotests'
+    AUTOTEST_PARAMS: '-Pautotests -o'
     AUTOTEST_MODULE_DIR: './backend/n2o/n2o-autotest'
+  dependencies:
+    - build and verify
+    - deploy mr stand
 
-#deploy dev stand:
-#  variables:
-#    K8S_INGRESS_HOST: 'n2o.i-novus.ru'
+build story:
+  variables:
+    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+
+cleanup:
+  dependencies: []
