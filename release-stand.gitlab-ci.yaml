@@ -23,6 +23,7 @@ deploy release stand:
   environment: "n2o-release-7-28"
   needs:
     - release version
+    - build release stand
   variables:
     K8S_INGRESS_HOST: "n2o-framework-$FORMATTED_VERSION-dev.i-novus.ru"
     K8S_NAMESPACE: "n2o-release-$FORMATTED_VERSION"
