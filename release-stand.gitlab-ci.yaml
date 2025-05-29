@@ -1,10 +1,3 @@
-build release stand:
-  extends: .build maven
-  variables:
-    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
-  rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
-
 release version:
   script:
     - |
@@ -15,6 +8,16 @@ release version:
   artifacts:
     reports:
       dotenv: release.env
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
+
+build release stand:
+  extends: .build maven
+  needs:
+    - release version
+  variables:
+    K8S_NAMESPACE: "n2o-release-$FORMATTED_VERSION"
+    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
