@@ -18,8 +18,10 @@ build and verify:
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
   artifacts:
     paths:
-      - $CI_PROJECT_DIR/.m2/repository
+      - $CI_PROJECT_DIR/.m2/repository/net/n2oapp
+      - $CI_PROJECT_DIR/.m2/repository/org/apache/maven/plugins
     expire_in: 1 days
+  cache: []
 
 autotesting mr stand:
   extends: .autotesting mr stand
