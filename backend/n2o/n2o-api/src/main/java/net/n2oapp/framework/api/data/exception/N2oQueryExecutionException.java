@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.exception.N2oException;
  */
 public class N2oQueryExecutionException extends N2oException {
 
-    private String query;
+    private final String query;
 
     public N2oQueryExecutionException(String message, String query) {
         super(message);

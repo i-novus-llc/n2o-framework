@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.data.exception.N2oQueryExecutionException;
 public class N2oGraphQlException extends N2oQueryExecutionException {
 
     @Getter
-    private DataSet response;
+    private final DataSet response;
 
     public N2oGraphQlException(String message, String query, DataSet response) {
         super(message, query);
