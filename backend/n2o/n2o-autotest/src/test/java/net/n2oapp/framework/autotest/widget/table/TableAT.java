@@ -155,7 +155,7 @@ class TableAT extends AutoTestBase {
         StandardButton button = toolbar.button("Кнопка");
         button.shouldExists();
         button.click();
-        page.alerts(Alert.PlacementEnum.topLeft).alert(0).shouldHaveTitle("Уведомление по кнопке");
+        page.alerts(Alert.PlacementEnum.TOP_LEFT).alert(0).shouldHaveTitle("Уведомление по кнопке");
 
         DropdownButton dropdownButton = toolbar.dropdown();
         dropdownButton.shouldExists();
@@ -164,7 +164,7 @@ class TableAT extends AutoTestBase {
 
         dropdownButton.menuItem("Кнопка1").shouldExists();
         dropdownButton.menuItem("Кнопка1").click();
-        page.alerts(Alert.PlacementEnum.topRight).alert(0).shouldHaveTitle("Уведомление по menu-item");
+        page.alerts(Alert.PlacementEnum.TOP_RIGHT).alert(0).shouldHaveTitle("Уведомление по menu-item");
 
     }
 

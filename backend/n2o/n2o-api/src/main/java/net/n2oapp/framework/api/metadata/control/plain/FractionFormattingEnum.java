@@ -1,22 +1,29 @@
 package net.n2oapp.framework.api.metadata.control.plain;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
+
 /**
  * Режим форматирования дробной части компонента <input-money/>
  */
-public enum FractionFormattingEnum {
-
+@RequiredArgsConstructor
+@Getter
+public enum FractionFormattingEnum implements N2oEnum {
     /**
      * Форматирования дробной части отключено
      */
-    off,
+    OFF("off"),
 
     /**
      * Ручное форматирование дробной части
      */
-    manual,
+    MANUAL("manual"),
 
     /**
      * Автозаполнение дробной части
      */
-    auto
+    AUTO("auto");
+
+    private final String id;
 }

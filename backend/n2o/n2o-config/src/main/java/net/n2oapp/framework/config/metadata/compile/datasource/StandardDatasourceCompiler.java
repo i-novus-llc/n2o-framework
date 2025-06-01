@@ -42,8 +42,8 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         compiled.setDefaultValuesMode(castDefault(
                 source.getDefaultValuesMode(),
                 source.getQueryId() == null
-                        ? DefaultValuesModeEnum.defaults
-                        : DefaultValuesModeEnum.query
+                        ? DefaultValuesModeEnum.DEFAULTS
+                        : DefaultValuesModeEnum.QUERY
         ));
         CompiledQuery query = initQuery(source.getQueryId(), p);
         CompiledObject object = initObject(source.getObjectId(), source.getQueryId(), p);
@@ -70,7 +70,7 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         p.addRoute(getQueryContext(source.getId(), compiled.getId(), source.getQueryId(),
                 source.getSize(), source.getDefaultValuesMode(), context, p, url, filters, query));
 
-        return defaultValuesMode == DefaultValuesModeEnum.defaults ? null : dataProvider;
+        return defaultValuesMode == DefaultValuesModeEnum.DEFAULTS ? null : dataProvider;
     }
 
     private void initDataProviderMappings(ClientDataProvider dataProvider, List<Filter> filters, CompileProcessor p) {

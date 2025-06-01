@@ -108,7 +108,7 @@ class AutotestMetadataValidationTest extends N2oTestBase {
             newInfo.setLocalPath(casted.getLocalPath());
             newInfo.setUri(casted.getUri());
             newInfo.setScannerClass(casted.getScannerClass());
-            newInfo.setOrigin(OriginEnum.xml);
+            newInfo.setOrigin(OriginEnum.XML);
             uuidIdMap.put(uuid, casted.getId());
             String truncatedFilePath = truncateFilePath(newInfo.getXmlURI());
             uriUUIDMap.computeIfAbsent(truncatedFilePath.substring(0, truncatedFilePath.lastIndexOf('/')), k -> new ArrayList<>()).add(new UriMetadataId(casted.getId(), uuid, newInfo.getBaseSourceClass()));

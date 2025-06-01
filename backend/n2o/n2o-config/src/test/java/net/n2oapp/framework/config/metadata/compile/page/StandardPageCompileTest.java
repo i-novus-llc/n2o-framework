@@ -159,7 +159,7 @@ class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getPageProperty().getTitle(), is("Page {name}"));
         assertThat(page.getPageProperty().getHtmlTitle(), is("tab title"));
         assertThat(page.getPageProperty().getDatasource(), is("testStandardPageTitle_ds1"));
-        assertThat(page.getPageProperty().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(page.getPageProperty().getModel(), is(ReduxModelEnum.RESOLVE));
     }
 
     @Test
@@ -176,7 +176,7 @@ class StandardPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testBreadcrumb"));
 
         assertThat(page.getPageProperty().getDatasource(), is("testBreadcrumb_ds1"));
-        assertThat(page.getPageProperty().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(page.getPageProperty().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(page.getBreadcrumb().get(0).getLabel(), is("First page"));
         assertThat(page.getBreadcrumb().get(0).getPath(), is("/"));
         assertThat(page.getBreadcrumb().get(1).getLabel(), is("`'Second '+name1+' page'`"));

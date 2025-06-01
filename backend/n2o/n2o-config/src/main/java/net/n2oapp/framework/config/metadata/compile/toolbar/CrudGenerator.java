@@ -33,7 +33,7 @@ public class CrudGenerator implements ButtonGenerator {
         if (p.getScope(CompiledObject.class) != null) {
             List<ToolbarItem> items = new ArrayList<>();
             for (DefaultActionsEnum action : DefaultActionsEnum.values()) {
-                List<ToolbarItem> toolbarItems = buttonGeneratorFactory.generate(action.name(), toolbar, context, p);
+                List<ToolbarItem> toolbarItems = buttonGeneratorFactory.generate(action.getId(), toolbar, context, p);
                 if (toolbarItems != null)
                     items.addAll(toolbarItems);
             }

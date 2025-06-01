@@ -292,7 +292,7 @@ class MenuAT extends AutoTestBase {
 
         menuItem.click();
         page.shouldExists();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Алерт");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Алерт");
 
         menu.anchor(1).click();
         N2oSelenide.modal().shouldHaveTitle("Модальное окно");

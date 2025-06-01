@@ -216,7 +216,7 @@ public abstract class AbstractController {
         requestInfo.setUser(user);
         requestInfo.setQuery(query);
         requestInfo.setData(data);
-        requestInfo.setMode(queryCtx.getMode() != null ? queryCtx.getMode() : DefaultValuesModeEnum.query);
+        requestInfo.setMode(queryCtx.getMode() != null ? queryCtx.getMode() : DefaultValuesModeEnum.QUERY);
         requestInfo.setCriteria(prepareCriteria(requestInfo.getQuery(), data, queryCtx));
         requestInfo.setMessagesForm(queryCtx.getMessagesForm());
         requestInfo.setSize(requestInfo.getCriteria().getSize());

@@ -1,7 +1,9 @@
 package net.n2oapp.framework.api.metadata.control.list;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 
 /**
  * Компонент Slider (ползунок)
@@ -16,7 +18,12 @@ public class N2oSlider extends N2oSingleListFieldAbstract {
     private Integer max;
     private Integer step;
 
-    public enum ModeEnum {
-        single, range
+    @RequiredArgsConstructor
+    @Getter
+    public enum ModeEnum implements N2oEnum {
+        SINGLE("single"),
+        RANGE("range");
+
+        private final String id;
     }
 }

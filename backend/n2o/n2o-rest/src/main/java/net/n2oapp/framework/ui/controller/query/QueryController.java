@@ -46,6 +46,6 @@ public class QueryController extends GetController {
 
     @Override
     public ControllerTypeEnum getControllerType() {
-        return ControllerTypeEnum.query;
+        return ControllerTypeEnum.QUERY;
     }
 }

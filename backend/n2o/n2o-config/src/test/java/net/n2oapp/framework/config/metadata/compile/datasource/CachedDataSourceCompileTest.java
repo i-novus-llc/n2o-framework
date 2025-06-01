@@ -57,7 +57,7 @@ class CachedDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(datasource.getProvider().getSize(), is(12));
         assertThat(datasource.getProvider().getType(), is("cached"));
         assertThat(datasource.getProvider().getKey(), is("test_key"));
-        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageTypeEnum.sessionStorage));
+        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageTypeEnum.SESSION_STORAGE));
         assertThat(datasource.getProvider().getCacheExpires(), is("1d"));
         assertThat(datasource.getProvider().getUrl(), is("n2o/data/testCachedDatasource/test"));
 
@@ -69,21 +69,21 @@ class CachedDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(opCtx.getOperationId(), is("update"));
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(false));
-        assertThat(opCtx.getMessagePosition(), is(MessagePositionEnum.fixed));
-        assertThat(opCtx.getMessagePlacement(), is(MessagePlacementEnum.top));
-        ModelLink link = new ModelLink(ReduxModelEnum.resolve, "testCachedDatasource_ds1");
+        assertThat(opCtx.getMessagePosition(), is(MessagePositionEnum.FIXED));
+        assertThat(opCtx.getMessagePlacement(), is(MessagePlacementEnum.TOP));
+        ModelLink link = new ModelLink(ReduxModelEnum.RESOLVE, "testCachedDatasource_ds1");
         link.setValue("`id`");
         assertThat(datasource.getSubmit().getFormMapping(), hasEntry("id", link));
         assertThat(datasource.getFetchOnInit(), is(false));
         assertThat(datasource.getDependencies().size(), is(2));
         Dependency dependency = datasource.getDependencies().get(0);
         assertThat(dependency.getOn(), is("models.filter['testCachedDatasource_master']"));
-        assertThat(dependency.getType(), is(DependencyTypeEnum.fetch));
+        assertThat(dependency.getType(), is(DependencyTypeEnum.FETCH));
 
         dependency = datasource.getDependencies().get(1);
-        assertThat(dependency.getType(), is(DependencyTypeEnum.copy));
+        assertThat(dependency.getType(), is(DependencyTypeEnum.COPY));
         assertThat(dependency.getOn(), is("models.filter['testCachedDatasource_master'].source"));
-        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModelEnum.datasource));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModelEnum.DATASOURCE));
         assertThat(((CopyDependency) dependency).getField(), is("target"));
         assertThat(((CopyDependency) dependency).getSubmit(), is(true));
         assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));

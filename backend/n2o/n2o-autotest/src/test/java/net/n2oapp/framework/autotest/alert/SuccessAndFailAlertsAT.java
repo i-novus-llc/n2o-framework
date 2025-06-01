@@ -52,7 +52,7 @@ class SuccessAndFailAlertsAT extends AutoTestBase {
         StandardButton button = page.widget(FormWidget.class).toolbar().bottomLeft().button("Отправить");
         button.click();
 
-        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldHaveColor(ColorsEnum.SUCCESS);
         alert.shouldHaveTitle("Заголовок успеха. Введенные данные: 2342");
         alert.shouldHaveText("Текст успеха. Введенные данные: 2342");
@@ -77,7 +77,7 @@ class SuccessAndFailAlertsAT extends AutoTestBase {
         StandardButton button = page.widget(FormWidget.class).toolbar().bottomLeft().button("Отправить");
         button.click();
 
-        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldHaveColor(ColorsEnum.DANGER);
         alert.shouldHaveTitle("Заголовок валидации. Введенные данные: 1223");
         alert.shouldHaveText("Сообщение валидации. Введенные данные: 1223");

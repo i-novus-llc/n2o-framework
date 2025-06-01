@@ -79,7 +79,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         WidgetScope widgetScope = new WidgetScope(
                 source.getId(),
                 source.getDatasourceId(),
-                ReduxModelEnum.filter, p
+                ReduxModelEnum.FILTER, p
         );
         SubModelsScope subModelsScope = castDefault(p.getScope(SubModelsScope.class), SubModelsScope::new);
         ValidationScope validationScope = castDefault(p.getScope(ValidationScope.class), ValidationScope::new);
@@ -90,9 +90,9 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
 
         table.setFilter(initFilter(
                 table, source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModelEnum.filter, widgetScope.getClientDatasourceId(), p.getScope(Models.class)),
+                new ModelsScope(ReduxModelEnum.FILTER, widgetScope.getClientDatasourceId(), p.getScope(Models.class)),
                 subModelsScope,
-                new MomentScope(N2oValidation.ServerMomentEnum.beforeQuery),
+                new MomentScope(N2oValidation.ServerMomentEnum.BEFORE_QUERY),
                 validationScope,
                 tableFiltersScope
         ));

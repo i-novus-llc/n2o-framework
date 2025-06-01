@@ -20,17 +20,17 @@ public class CamundaDataProviderEngine implements MapInvocationEngine<N2oCamunda
             return engine.findTasks(inParams);
 
         switch (invocation.getOperation()) {
-            case countTasks:
+            case COUNT_TASKS:
                 return engine.getCountTasks(inParams);
-            case findTasks:
+            case FIND_TASKS:
                 return engine.findTasks(inParams);
-            case getTask:
+            case GET_TASK:
                 return getTask(inParams);
-            case setTaskVariables:
+            case SET_TASK_VARIABLES:
                 return setTaskVariables(inParams);
-            case completeTask:
+            case COMPLETE_TASK:
                 return completeTask(inParams);
-            case startProcess:
+            case START_PROCESS:
                 return startProcess(inParams);
         }
 

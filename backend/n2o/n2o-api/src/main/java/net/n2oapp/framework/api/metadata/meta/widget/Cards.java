@@ -2,10 +2,12 @@ package net.n2oapp.framework.api.metadata.meta.widget;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 
@@ -46,7 +48,13 @@ public class Cards extends Widget {
         private Cell component;
     }
 
-    public enum PositionEnum {
-        center, top, bottom
+    @RequiredArgsConstructor
+    @Getter
+    public enum PositionEnum implements N2oEnum {
+        CENTER("center"),
+        TOP("top"),
+        BOTTOM("bottom");
+
+        private final String id;
     }
 }

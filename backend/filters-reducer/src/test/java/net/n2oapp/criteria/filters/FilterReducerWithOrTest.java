@@ -17,186 +17,186 @@ class FilterReducerWithOrTest {
     void testEqOrIsNull() {
         //eq
         Result result = reduce(
-                new Filter(1, FilterTypeEnum.eqOrIsNull),
-                new Filter(1, FilterTypeEnum.eq));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter(1, FilterTypeEnum.EQ_OR_IS_NULL),
+                new Filter(1, FilterTypeEnum.EQ));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(1, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(1, FilterTypeEnum.eq),
-                new Filter(1, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter(1, FilterTypeEnum.EQ),
+                new Filter(1, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(1, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(2, FilterTypeEnum.eq),
-                new Filter(1, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.conflict, result.getType());
+                new Filter(2, FilterTypeEnum.EQ),
+                new Filter(1, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.CONFLICT, result.getType());
 
         //eqOrIsNull
         result = reduce(
-                new Filter(1, FilterTypeEnum.eqOrIsNull),
-                new Filter(1, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eqOrIsNull, result.getResultFilter().getType());
+                new Filter(1, FilterTypeEnum.EQ_OR_IS_NULL),
+                new Filter(1, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ_OR_IS_NULL, result.getResultFilter().getType());
         assertEquals(1, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(2, FilterTypeEnum.eqOrIsNull),
-                new Filter(1, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.isNull, result.getResultFilter().getType());
+                new Filter(2, FilterTypeEnum.EQ_OR_IS_NULL),
+                new Filter(1, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.IS_NULL, result.getResultFilter().getType());
 
         //notEq
         result = reduce(
-                new Filter(1, FilterTypeEnum.eqOrIsNull),
-                new Filter(1, FilterTypeEnum.notEq));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.isNull, result.getResultFilter().getType());
+                new Filter(1, FilterTypeEnum.EQ_OR_IS_NULL),
+                new Filter(1, FilterTypeEnum.NOT_EQ));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.IS_NULL, result.getResultFilter().getType());
         result = reduce(
-                new Filter(1, FilterTypeEnum.notEq),
-                new Filter(1, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.isNull, result.getResultFilter().getType());
+                new Filter(1, FilterTypeEnum.NOT_EQ),
+                new Filter(1, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.IS_NULL, result.getResultFilter().getType());
         result = reduce(
-                new Filter(1, FilterTypeEnum.notEq),
-                new Filter(2, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eqOrIsNull, result.getResultFilter().getType());
+                new Filter(1, FilterTypeEnum.NOT_EQ),
+                new Filter(2, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ_OR_IS_NULL, result.getResultFilter().getType());
         assertEquals(2, result.getResultFilter().getValue());
 
         //more
         result = reduce(
-                new Filter(4, FilterTypeEnum.eqOrIsNull),
-                new Filter(1, FilterTypeEnum.more));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL),
+                new Filter(1, FilterTypeEnum.MORE));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(4, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(1, FilterTypeEnum.more),
-                new Filter(4, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter(1, FilterTypeEnum.MORE),
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(4, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(4, FilterTypeEnum.more),
-                new Filter(4, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.conflict, result.getType());
+                new Filter(4, FilterTypeEnum.MORE),
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.CONFLICT, result.getType());
 
         //less
         result = reduce(
-                new Filter(4, FilterTypeEnum.eqOrIsNull),
-                new Filter(7, FilterTypeEnum.less));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL),
+                new Filter(7, FilterTypeEnum.LESS));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(4, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(7, FilterTypeEnum.less),
-                new Filter(4, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter(7, FilterTypeEnum.LESS),
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(4, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(4, FilterTypeEnum.less),
-                new Filter(4, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.conflict, result.getType());
+                new Filter(4, FilterTypeEnum.LESS),
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.CONFLICT, result.getType());
 
         //isNull
         result = reduce(
-                new Filter(4, FilterTypeEnum.eqOrIsNull),
-                new Filter(FilterTypeEnum.isNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.isNull, result.getResultFilter().getType());
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL),
+                new Filter(FilterTypeEnum.IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.IS_NULL, result.getResultFilter().getType());
         result = reduce(
-                new Filter(FilterTypeEnum.isNull),
-                new Filter(4, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.isNull, result.getResultFilter().getType());
+                new Filter(FilterTypeEnum.IS_NULL),
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.IS_NULL, result.getResultFilter().getType());
 
         //isNotNull
         result = reduce(
-                new Filter(4, FilterTypeEnum.eqOrIsNull),
-                new Filter(FilterTypeEnum.isNotNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL),
+                new Filter(FilterTypeEnum.IS_NOT_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(4, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(FilterTypeEnum.isNotNull),
-                new Filter(4, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter(FilterTypeEnum.IS_NOT_NULL),
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(4, result.getResultFilter().getValue());
 
         //in
         result = reduce(
-                new Filter(4, FilterTypeEnum.eqOrIsNull),
-                new Filter(asList(4, 5, 6), FilterTypeEnum.in));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL),
+                new Filter(asList(4, 5, 6), FilterTypeEnum.IN));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(4, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(asList(4, 5, 6), FilterTypeEnum.in),
-                new Filter(4, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter(asList(4, 5, 6), FilterTypeEnum.IN),
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(4, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(asList(7, 8, 9), FilterTypeEnum.in),
-                new Filter(4, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.conflict, result.getType());
+                new Filter(asList(7, 8, 9), FilterTypeEnum.IN),
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.CONFLICT, result.getType());
 
         //notIn
         result = reduce(
-                new Filter(4, FilterTypeEnum.eqOrIsNull),
-                new Filter(asList(5, 6), FilterTypeEnum.notIn));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eqOrIsNull, result.getResultFilter().getType());
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL),
+                new Filter(asList(5, 6), FilterTypeEnum.NOT_IN));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ_OR_IS_NULL, result.getResultFilter().getType());
         assertEquals(4, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(asList(5, 6), FilterTypeEnum.notIn),
-                new Filter(4, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eqOrIsNull, result.getResultFilter().getType());
+                new Filter(asList(5, 6), FilterTypeEnum.NOT_IN),
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ_OR_IS_NULL, result.getResultFilter().getType());
         assertEquals(4, result.getResultFilter().getValue());
         result = reduce(
-                new Filter(asList(4, 5), FilterTypeEnum.notIn),
-                new Filter(4, FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.isNull, result.getResultFilter().getType());
+                new Filter(asList(4, 5), FilterTypeEnum.NOT_IN),
+                new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.IS_NULL, result.getResultFilter().getType());
 
         //like
         result = reduce(
-                new Filter("es", FilterTypeEnum.like),
-                new Filter("test", FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter("es", FilterTypeEnum.LIKE),
+                new Filter("test", FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals("test", result.getResultFilter().getValue());
         result = reduce(
-                new Filter("esy", FilterTypeEnum.like),
-                new Filter("test", FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.conflict, result.getType());
+                new Filter("esy", FilterTypeEnum.LIKE),
+                new Filter("test", FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.CONFLICT, result.getType());
 
         //likeStart
         result = reduce(
-                new Filter("tes", FilterTypeEnum.likeStart),
-                new Filter("test", FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter("tes", FilterTypeEnum.LIKE_START),
+                new Filter("test", FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals("test", result.getResultFilter().getValue());
         result = reduce(
-                new Filter("es", FilterTypeEnum.likeStart),
-                new Filter("test", FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.conflict, result.getType());
+                new Filter("es", FilterTypeEnum.LIKE_START),
+                new Filter("test", FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.CONFLICT, result.getType());
 
         //contains
         result = reduce(
-                new Filter(Arrays.asList(1, 2), FilterTypeEnum.contains),
-                new Filter(Arrays.asList(1, 2, 4), FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.success, result.getType());
-        assertEquals(FilterTypeEnum.eq, result.getResultFilter().getType());
+                new Filter(Arrays.asList(1, 2), FilterTypeEnum.CONTAINS),
+                new Filter(Arrays.asList(1, 2, 4), FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.SUCCESS, result.getType());
+        assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(Arrays.asList(1, 2, 4), result.getResultFilter().getValue());
         result = reduce(
-                new Filter(Arrays.asList(1, 2), FilterTypeEnum.contains),
-                new Filter(Arrays.asList(5, 2), FilterTypeEnum.eqOrIsNull));
-        assertEquals(Result.TypeEnum.conflict, result.getType());
+                new Filter(Arrays.asList(1, 2), FilterTypeEnum.CONTAINS),
+                new Filter(Arrays.asList(5, 2), FilterTypeEnum.EQ_OR_IS_NULL));
+        assertEquals(Result.TypeEnum.CONFLICT, result.getType());
     }
 }

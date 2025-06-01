@@ -206,9 +206,10 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
             this.invocation = invocation;
         }
 
-
         public enum TypeEnum {
-            list, unique, count
+            LIST,
+            UNIQUE,
+            COUNT
         }
     }
 

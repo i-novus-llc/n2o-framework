@@ -78,7 +78,7 @@ public abstract class Redux {
      */
     public static BindLink createBindLink(ReduxAction reduxAction) {
         if (reduxAction.getType().equals("n2o/widgets/CHANGE_SELECTED_ID")) {
-            ReduxModelEnum reduxModel = ReduxModelEnum.resolve;
+            ReduxModelEnum reduxModel = ReduxModelEnum.RESOLVE;
             //todo нужна типизация по widgetId и field
             String widgetId = ((SelectedWidgetPayload) reduxAction.getPayload()).getWidgetId();
             return createBindLink(widgetId, reduxModel, "id");
@@ -100,7 +100,7 @@ public abstract class Redux {
      * @return Ссылка на параметры пагинации
      */
     public static BindLink createRoutablePagingLink(String datasourceId, RoutablePayload.PagingEnum paging) {
-        return new BindLink("datasource." + datasourceId + ".paging." + paging.toString());
+        return new BindLink("datasource." + datasourceId + ".paging." + paging.getId());
     }
 
     /**

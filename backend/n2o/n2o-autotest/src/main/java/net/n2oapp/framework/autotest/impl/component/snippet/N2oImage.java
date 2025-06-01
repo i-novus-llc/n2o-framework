@@ -40,7 +40,7 @@ public class N2oImage extends N2oSnippet implements Image {
 
     @Override
     public void shouldHaveTextPosition(TextPositionEnum position) {
-        element().$(".n2o-image__content").should(Condition.cssClass(position.name()));
+        element().$(".n2o-image__content").should(Condition.cssClass(position.getId()));
     }
 
     @Override

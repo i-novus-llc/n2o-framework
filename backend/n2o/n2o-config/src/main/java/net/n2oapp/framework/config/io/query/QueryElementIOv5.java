@@ -26,11 +26,11 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
         p.children(e, null, "list", t::getLists, t::setLists,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list), this::listSelection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST), this::listSelection);
         p.children(e, null, "unique", t::getUniques, t::setUniques,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.unique), this::uniqueSelection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.UNIQUE), this::uniqueSelection);
         p.children(e, null, "count", t::getCounts, t::setCounts,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.count), this::countSelection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.COUNT), this::countSelection);
         p.childrenByEnum(e, "filters", t::getFilters, t::setFilters, N2oQuery.Filter::getType,
                 N2oQuery.Filter::setType, N2oQuery.Filter::new, FilterTypeEnum.class, this::filter);
         p.anyChildren(e, "fields", t::getFields, t::setFields, p.oneOf(AbstractField.class)

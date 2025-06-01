@@ -11,6 +11,6 @@ public class ContainsAndNotEq extends AlwaysConflictRule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.contains, FilterTypeEnum.notEq);
+        return new Pair<>(FilterTypeEnum.CONTAINS, FilterTypeEnum.NOT_EQ);
     }
 }

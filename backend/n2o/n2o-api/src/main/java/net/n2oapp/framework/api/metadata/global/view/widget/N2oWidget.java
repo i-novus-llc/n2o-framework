@@ -101,25 +101,25 @@ public abstract class N2oWidget extends N2oMetadata
 
             if (this.getUpload() != null) {
                 switch (this.getUpload()) {
-                    case query:
-                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
+                    case QUERY:
+                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.QUERY);
                         break;
-                    case merge:
-                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.merge);
+                    case MERGE:
+                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.MERGE);
                         break;
-                    case defaults:
-                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.defaults);
+                    case DEFAULTS:
+                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.DEFAULTS);
                         standardDatasource.setQueryId(getDefaultValuesQueryId());
                         break;
                     default:
-                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
+                        standardDatasource.setDefaultValuesMode(DefaultValuesModeEnum.QUERY);
                 }
             }
 
             if (getDependsOn() != null) {
                 N2oDatasource.FetchDependency fetchDependency = new N2oStandardDatasource.FetchDependency();
                 fetchDependency.setOn(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
-                fetchDependency.setModel(ReduxModelEnum.resolve);
+                fetchDependency.setModel(ReduxModelEnum.RESOLVE);
                 standardDatasource.setDependencies(new N2oDatasource.Dependency[]{fetchDependency});
                 //поддержка master-detail связи
                 if (getDetailFieldId() != null) {
@@ -127,13 +127,13 @@ public abstract class N2oWidget extends N2oMetadata
                             new ArrayList<>() :
                             new ArrayList<>(Arrays.asList(standardDatasource.getFilters()));
                     String value = Placeholders.ref(getMasterFieldId() == null ? QuerySimpleField.PK : getMasterFieldId());
-                    N2oPreFilter masterFilter = new N2oPreFilter(getDetailFieldId(), value, FilterTypeEnum.eq);
+                    N2oPreFilter masterFilter = new N2oPreFilter(getDetailFieldId(), value, FilterTypeEnum.EQ);
                     String param = getMasterParam();
                     if (param == null && getRoute() != null && getRoute().contains(":")) {
                         param = getRoute().substring(getRoute().indexOf(":") + 1, getRoute().lastIndexOf("/"));
                     }
                     masterFilter.setParam(param);
-                    masterFilter.setModel(ReduxModelEnum.resolve);
+                    masterFilter.setModel(ReduxModelEnum.RESOLVE);
                     masterFilter.setDatasourceId(getDependsOn());
                     masterFilter.setRequired(true);
                     preFilterList.add(masterFilter);
@@ -151,7 +151,7 @@ public abstract class N2oWidget extends N2oMetadata
                 if (getDependsOn() != null) {
                     visibilityDependency.setDatasource(getDependsOn());//не учитывается, что виджет может использовать datasource из 7.19
                 }
-                visibilityDependency.setModel(ReduxModelEnum.resolve);
+                visibilityDependency.setModel(ReduxModelEnum.RESOLVE);
                 setDependencies(new N2oDependency[]{visibilityDependency});
             }
         }

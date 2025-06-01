@@ -77,7 +77,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidget();
         assertThat(form.getComponent().getPrompt(), is(true));
         StandardDatasource datasource = (StandardDatasource) page.getDatasources().get("testFormCompile_w1");
-        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.defaults));
+        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.DEFAULTS));
         assertThat(datasource.getProvider(), nullValue());
     }
 
@@ -88,7 +88,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidget().getId(), is("testFormCompile2_w1"));
         assertThat(page.getWidget().getDatasource(), notNullValue());
         StandardDatasource datasource = (StandardDatasource) page.getDatasources().get(page.getWidget().getDatasource());
-        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.query));
+        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.QUERY));
         assertThat(datasource.getPaging().getSize(), is(1));
         QueryContext queryContext = (QueryContext) route("/testFormCompile2/w1", CompiledQuery.class);
         assertThat(queryContext, notNullValue());
@@ -129,7 +129,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(7).getSide().contains("client"), is(true));
 
         assertThat(validations.get(8).getId(), is("Condition1"));
-        assertThat(validations.get(8).getMoment(), is(N2oValidation.ServerMomentEnum.beforeOperation));
+        assertThat(validations.get(8).getMoment(), is(N2oValidation.ServerMomentEnum.BEFORE_OPERATION));
         assertThat(validations.get(8).getSide().contains("client"), is(true));
 
         assertThat(validations.get(9).getId(), is("Condition2"));
@@ -198,21 +198,21 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(link.getLink(), nullValue());
         link = dataProvider.getPathMapping().get("name2");
         assertThat(link.getValue(), nullValue());
-        assertThat(link.getModel(), is(ReduxModelEnum.filter));
+        assertThat(link.getModel(), is(ReduxModelEnum.FILTER));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
         assertThat(link.getLink(), is("models.filter['testFormSubmit_form']"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
         assertThat(link.getValue(), is("`a`"));
-        assertThat(link.getModel(), is(ReduxModelEnum.resolve));
+        assertThat(link.getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
         assertThat(link.getLink(), is("models.resolve['testFormSubmit_form']"));
 
         assertThat(dataProvider.getFormMapping().size(), is(1));
         link = dataProvider.getFormMapping().get("name4");
         assertThat(link.getValue(), is("`b`"));
-        assertThat(link.getModel(), is(ReduxModelEnum.filter));
+        assertThat(link.getModel(), is(ReduxModelEnum.FILTER));
         assertThat(link.getDatasource(), is("testFormSubmit_form"));
         assertThat(link.getLink(), is("models.filter['testFormSubmit_form']"));
     }

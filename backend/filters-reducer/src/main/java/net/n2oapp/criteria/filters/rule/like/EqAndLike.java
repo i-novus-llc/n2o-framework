@@ -12,9 +12,9 @@ public class EqAndLike implements Rule {
 
     @Override
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.eq) && left.getType().equals(FilterTypeEnum.like))
+        if (right.getType().equals(FilterTypeEnum.EQ) && left.getType().equals(FilterTypeEnum.LIKE))
             return simplify(right, left);
-        else if (left.getType().equals(FilterTypeEnum.eq) && right.getType().equals(FilterTypeEnum.like)) {
+        else if (left.getType().equals(FilterTypeEnum.EQ) && right.getType().equals(FilterTypeEnum.LIKE)) {
             if (!(right.getValue() instanceof String) || !(left.getValue() instanceof String leftValue))
                 return null;
             if (leftValue.matches(".*" + right.getValue() + ".*")) return left;
@@ -25,6 +25,6 @@ public class EqAndLike implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eq, FilterTypeEnum.like);
+        return new Pair<>(FilterTypeEnum.EQ, FilterTypeEnum.LIKE);
     }
 }

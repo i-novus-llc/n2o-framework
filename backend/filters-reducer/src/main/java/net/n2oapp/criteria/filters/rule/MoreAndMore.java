@@ -24,6 +24,6 @@ public class MoreAndMore implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.more, FilterTypeEnum.more);
+        return new Pair<>(FilterTypeEnum.MORE, FilterTypeEnum.MORE);
     }
 }

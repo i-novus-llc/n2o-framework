@@ -30,11 +30,11 @@ public abstract class BaseColumnCompiler<S extends N2oBaseColumn> extends Abstra
             Condition condition = new Condition();
             condition.setExpression(unwrapLink(source.getVisible()));
             String datasourceId = widgetScope.getClientDatasourceId();
-            condition.setModelLink(new ModelLink(ReduxModelEnum.filter, datasourceId).getLink());
-            if (!compiled.getConditions().containsKey(ValidationTypeEnum.visible)) {
-                compiled.getConditions().put(ValidationTypeEnum.visible, new ArrayList<>());
+            condition.setModelLink(new ModelLink(ReduxModelEnum.FILTER, datasourceId).getLink());
+            if (!compiled.getConditions().containsKey(ValidationTypeEnum.VISIBLE)) {
+                compiled.getConditions().put(ValidationTypeEnum.VISIBLE, new ArrayList<>());
             }
-            compiled.getConditions().get(ValidationTypeEnum.visible).add(condition);
+            compiled.getConditions().get(ValidationTypeEnum.VISIBLE).add(condition);
         } else {
             compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
         }

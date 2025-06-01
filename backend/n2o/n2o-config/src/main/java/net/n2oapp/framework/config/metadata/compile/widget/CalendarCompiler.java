@@ -41,7 +41,7 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
         compileBaseWidget(calendar, source, context, p);
         N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModelEnum.resolve, p);
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModelEnum.RESOLVE, p);
 
         CalendarWidgetComponent component = calendar.getComponent();
         component.setSize(castDefault(source.getSize(), () -> p.resolve(property("n2o.api.widget.calendar.size"), Integer.class)));
@@ -51,7 +51,9 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
         component.setDefaultView(source.getDefaultView() != null ?
                 source.getDefaultView().getTitle() :
                 p.resolve(property("n2o.api.widget.calendar.view"), String.class));
-        component.setViews(Arrays.stream(source.getViews()).map(v -> CalendarViewTypeEnum.valueOf(v).getTitle()).toArray(String[]::new));
+        component.setViews(Arrays.stream(source.getViews())
+                .flatMap(view -> Arrays.stream(CalendarViewTypeEnum.values()).filter(value -> value.getId().equals(view)).map(CalendarViewTypeEnum::getTitle))
+                .toArray(String[]::new));
         component.setMinTime(p.resolveJS(source.getMinTime()));
         component.setMaxTime(p.resolveJS(source.getMaxTime()));
         component.setMarkDaysOff(castDefault(source.getMarkDaysOff(),

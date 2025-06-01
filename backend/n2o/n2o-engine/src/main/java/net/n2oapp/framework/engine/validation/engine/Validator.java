@@ -164,7 +164,7 @@ public class Validator implements Iterable<Validation> {
     }
 
     private void afterFail(Validation v) {
-        if (SeverityTypeEnum.danger.equals(v.getSeverity()))
+        if (SeverityTypeEnum.DANGER.equals(v.getSeverity()))
             afterDanger = true;
         if (!v.isForField())
             widgetWasValidated = true;
@@ -189,7 +189,7 @@ public class Validator implements Iterable<Validation> {
     }
 
     private boolean checkAfterDanger(Validation validation) {
-        if (SeverityTypeEnum.danger.equals(validation.getSeverity()))
+        if (SeverityTypeEnum.DANGER.equals(validation.getSeverity()))
             return true;
 
         return !afterDanger;

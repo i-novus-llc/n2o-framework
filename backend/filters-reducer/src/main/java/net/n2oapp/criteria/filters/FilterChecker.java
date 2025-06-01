@@ -23,33 +23,33 @@ public class FilterChecker {
     @SuppressWarnings("unchecked")
     public static boolean check(Filter filter, Object value) {
         switch (filter.getType()) {
-            case eq:
+            case EQ:
                 return equals(filter.getValue(), value);
-            case notEq:
+            case NOT_EQ:
                 return !equals(filter.getValue(), value);
-            case in:
+            case IN:
                 return containsOne((List) filter.getValue(), value);
-            case notIn:
+            case NOT_IN:
                 return !containsOne((List) filter.getValue(), value);
-            case more:
+            case MORE:
                 return compare(filter.getValue(), value) < 0;
-            case less:
+            case LESS:
                 return compare(filter.getValue(), value) > 0;
-            case isNull:
+            case IS_NULL:
                 return value == null;
-            case isNotNull:
+            case IS_NOT_NULL:
                 return value != null;
-            case eqOrIsNull:
+            case EQ_OR_IS_NULL:
                 return equals(filter.getValue(), value) || value == null;
-            case inOrIsNull:
+            case IN_OR_IS_NULL:
                 return contains((List) filter.getValue(), value) || value == null;
-            case like:
+            case LIKE:
                 return like(filter.getValue(), value);
-            case likeStart:
+            case LIKE_START:
                 return likeStart(filter.getValue(), value);
-            case overlaps:
+            case OVERLAPS:
                 return overlap((List) filter.getValue(), value);
-            case contains:
+            case CONTAINS:
                 return contains((List) filter.getValue(), value);
             default:
                 throw new IllegalArgumentException(String.format("Unknown filter-type '%s'", filter.getType()));

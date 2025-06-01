@@ -16,11 +16,11 @@ public class EqOrIsNullAndNotIn implements Rule {
     @Override
     @SuppressWarnings("unchecked")
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.eqOrIsNull) && left.getType().equals(FilterTypeEnum.notIn))
+        if (right.getType().equals(FilterTypeEnum.EQ_OR_IS_NULL) && left.getType().equals(FilterTypeEnum.NOT_IN))
             return simplify(right, left);
-        else if (left.getType().equals(FilterTypeEnum.eqOrIsNull) && right.getType().equals(FilterTypeEnum.notIn)) {
+        else if (left.getType().equals(FilterTypeEnum.EQ_OR_IS_NULL) && right.getType().equals(FilterTypeEnum.NOT_IN)) {
             if (((List) right.getValue()).contains(left.getValue())) {
-                return new Filter(FilterTypeEnum.isNull);
+                return new Filter(FilterTypeEnum.IS_NULL);
             } else return left;
         }
         throw new RuntimeException("Incorrect restriction's type");
@@ -29,6 +29,6 @@ public class EqOrIsNullAndNotIn implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eqOrIsNull, FilterTypeEnum.notIn);
+        return new Pair<>(FilterTypeEnum.EQ_OR_IS_NULL, FilterTypeEnum.NOT_IN);
     }
 }

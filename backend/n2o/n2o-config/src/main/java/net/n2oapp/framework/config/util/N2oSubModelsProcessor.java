@@ -68,7 +68,7 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
 
         if (subModels == null) return;
 
-        if (subQuery != null && subQuery.containsFilter("id", FilterTypeEnum.eq))
+        if (subQuery != null && subQuery.containsFilter("id", FilterTypeEnum.EQ))
             executeQuery(subQuery, subModelQuery, subModels, labelFieldId, valueFieldId);
         else if (subQuery == null)
             resolveOptions(subModelQuery, subModels, labelFieldId, valueFieldId);

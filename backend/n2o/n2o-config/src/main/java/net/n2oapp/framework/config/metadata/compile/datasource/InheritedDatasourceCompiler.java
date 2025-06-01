@@ -48,9 +48,9 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
         N2oInheritedDatasource.Submit sourceSubmit = source.getSubmit();
         submit.setAuto(castDefault(sourceSubmit.getAuto(),
                 () -> p.resolve(property("n2o.api.datasource.inherited.submit.auto"), Boolean.class)));
-        submit.setModel(castDefault(sourceSubmit.getModel(), ReduxModelEnum.resolve));
+        submit.setModel(castDefault(sourceSubmit.getModel(), ReduxModelEnum.RESOLVE));
         submit.setTargetDs(getClientDatasourceId(castDefault(sourceSubmit.getTargetDatasource(), source.getSourceDatasource()), p));
-        submit.setTargetModel(castDefault(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModelEnum.resolve));
+        submit.setTargetModel(castDefault(sourceSubmit.getTargetModel(), source.getSourceModel(), ReduxModelEnum.RESOLVE));
         submit.setTargetField(sourceSubmit.getTargetDatasource() != null ? sourceSubmit.getTargetFieldId() : source.getSourceFieldId());
         submit.setSubmitValueExpression(ScriptProcessor.resolveFunction(source.getSubmit().getSubmitValue()));
         return submit;
@@ -59,7 +59,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
     private InheritedDatasource.Provider initProvider(N2oInheritedDatasource source, CompileProcessor p) {
         InheritedDatasource.Provider provider = new InheritedDatasource.Provider();
         provider.setSourceDs(getClientDatasourceId(source.getSourceDatasource(), p));
-        provider.setSourceModel(castDefault(source.getSourceModel(), ReduxModelEnum.resolve));
+        provider.setSourceModel(castDefault(source.getSourceModel(), ReduxModelEnum.RESOLVE));
         provider.setSourceField(source.getSourceFieldId());
         provider.setFetchValueExpression(ScriptProcessor.resolveFunction(source.getFetchValue()));
         return provider;
@@ -86,7 +86,7 @@ public class InheritedDatasourceCompiler extends BaseDatasourceCompiler<N2oInher
                 String clientDatasourceId = sourceFilter.getRefPageId() != null ?
                         getClientDatasourceId(sourceFilter.getDatasourceId(), sourceFilter.getRefPageId(), p) :
                         getClientDatasourceId(sourceFilter.getDatasourceId(), p);
-                ReduxModelEnum model = castDefault(sourceFilter.getModel(), ReduxModelEnum.resolve);
+                ReduxModelEnum model = castDefault(sourceFilter.getModel(), ReduxModelEnum.RESOLVE);
                 ModelLink link = new ModelLink(model, clientDatasourceId);
                 link.setValue(value);
                 link.setParam(sourceFilter.getParam());

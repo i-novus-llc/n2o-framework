@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyTypeEnum.integer;
+import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyTypeEnum.INTEGER;
 
 /**
  * Тестовый провайдер данных из json файла
@@ -110,7 +110,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             InputStream inputStream = getResourceInputStream(invocation);
             List<DataSet> data = loadJson(inputStream, getPrimaryKeyType(invocation), getPrimaryKey(invocation));
             repository.put(richKey(invocation.getFile()), data);
-            if (integer.equals(getPrimaryKeyType(invocation))) {
+            if (INTEGER.equals(getPrimaryKeyType(invocation))) {
                 long maxId = data
                         .stream()
                         .filter(v -> v.get(getPrimaryKey(invocation)) != null)
@@ -161,25 +161,25 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         if (invocation.getOperation() == null)
             return findAll(inParams, data);
         switch (invocation.getOperation()) {
-            case create:
+            case CREATE:
                 return create(invocation, inParams, data);
-            case findAll:
+            case FIND_ALL:
                 return findAll(inParams, data);
-            case findOne:
+            case FIND_ONE:
                 return findOne(inParams, data);
-            case update:
+            case UPDATE:
                 return update(invocation, inParams, data);
-            case updateMany:
+            case UPDATE_MANY:
                 return updateMany(invocation, inParams, data);
-            case updateField:
+            case UPDATE_FIELD:
                 return updateField(invocation, inParams, data);
-            case delete:
+            case DELETE:
                 return delete(invocation, inParams, data);
-            case deleteMany:
+            case DELETE_MANY:
                 return deleteMany(invocation, inParams, data);
-            case count:
+            case COUNT:
                 return count(inParams, data);
-            case echo:
+            case ECHO:
                 return inParams;
         }
         throw new N2oException("Unsupported invocation's operation");
@@ -327,14 +327,14 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
 
     private static Predicate<DataSet> buildPredicate(PrimaryKeyTypeEnum primaryKeyType, String primaryKeyFieldId, Map<String, Object> data) {
-        if (integer.equals(primaryKeyType))
+        if (INTEGER.equals(primaryKeyType))
             return obj -> ((Number) data.get(primaryKeyFieldId)).longValue() == ((Number) obj.get(primaryKeyFieldId)).longValue();
         else
             return obj -> data.get(primaryKeyFieldId).equals(obj.get(primaryKeyFieldId));
     }
 
     private static Predicate<DataSet> buildListPredicate(PrimaryKeyTypeEnum primaryKeyType, String primaryKeyFieldId, String primaryKeysFieldId, Map<String, Object> data) {
-        if (integer.equals(primaryKeyType)) {
+        if (INTEGER.equals(primaryKeyType)) {
             Set<Long> list = (Set<Long>) ((List) data.get(primaryKeysFieldId)).stream()
                     .map(o -> ((Number) o).longValue()).collect(Collectors.toSet());
             return obj -> list.contains(((Number) obj.get(primaryKeyFieldId)).longValue());
@@ -344,7 +344,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     private Object generateKey(PrimaryKeyTypeEnum primaryKeyType, String fileName) {
-        if (integer.equals(primaryKeyType)) {
+        if (INTEGER.equals(primaryKeyType)) {
             return sequences.get(richKey(fileName)).incrementAndGet();
         } else {
             return UUID.randomUUID().toString();
@@ -684,7 +684,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 List.class, DataSet.class);
         List<DataSet> dataList = objectMapper.readValue(is, collectionType);
         for (DataSet data : dataList) {
-            if (data.containsKey(primaryKeyFieldId) && integer.equals(primaryKeyType))
+            if (data.containsKey(primaryKeyFieldId) && INTEGER.equals(primaryKeyType))
                 data.put(primaryKeyFieldId, ((Number) data.get(primaryKeyFieldId)).longValue());
         }
         return dataList;
@@ -823,6 +823,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     public PrimaryKeyTypeEnum getPrimaryKeyType(N2oTestDataProvider invocation) {
-        return invocation.getPrimaryKeyType() != null ? invocation.getPrimaryKeyType() : integer;
+        return invocation.getPrimaryKeyType() != null ? invocation.getPrimaryKeyType() : INTEGER;
     }
 }

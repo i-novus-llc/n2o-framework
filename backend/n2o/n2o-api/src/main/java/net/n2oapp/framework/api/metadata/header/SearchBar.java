@@ -2,8 +2,10 @@ package net.n2oapp.framework.api.metadata.header;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 
 /**
@@ -32,7 +34,12 @@ public class SearchBar implements Compiled {
         private LinkTypeEnum linkType;
     }
 
-    public enum LinkTypeEnum {
-        inner, outer
+    @RequiredArgsConstructor
+    @Getter
+    public enum LinkTypeEnum implements N2oEnum {
+        INNER("inner"),
+        OUTER("outer");
+
+        private final String id;
     }
 }

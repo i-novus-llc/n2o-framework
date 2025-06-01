@@ -65,7 +65,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
                 return modelAware.getModel();
             }
         }
-        return ReduxModelEnum.resolve;
+        return ReduxModelEnum.RESOLVE;
     }
 
     /**
@@ -156,7 +156,7 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
      */
     protected ReduxModelEnum getLocalModel(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
-        return castDefault(ComponentScope.getFirstNotNull(componentScope, ModelAware.class, ModelAware::getModel), ReduxModelEnum.resolve);
+        return castDefault(ComponentScope.getFirstNotNull(componentScope, ModelAware.class, ModelAware::getModel), ReduxModelEnum.RESOLVE);
     }
 
     /**

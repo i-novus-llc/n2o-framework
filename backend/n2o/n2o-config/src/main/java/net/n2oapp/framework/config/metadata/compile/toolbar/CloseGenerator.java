@@ -29,12 +29,12 @@ public class CloseGenerator implements ButtonGenerator {
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
         String datasource = toolbar.getDatasourceId();
         N2oButton closeButton = new N2oButton();
-        closeButton.setId(GenerateTypeEnum.close.name());
+        closeButton.setId(GenerateTypeEnum.CLOSE.getId());
         closeButton.setLabel(p.getMessage("n2o.api.action.toolbar.button.close.label"));
         N2oCloseAction cancelAction = new N2oCloseAction();
-        cancelAction.setId(GenerateTypeEnum.close.name());
+        cancelAction.setId(GenerateTypeEnum.CLOSE.getId());
         closeButton.setDatasourceId(datasource);
-        closeButton.setModel(ReduxModelEnum.filter);
+        closeButton.setModel(ReduxModelEnum.FILTER);
         if (context instanceof PageContext pageContext)
             cancelAction.setRefresh(pageContext.getRefreshOnClose());
         closeButton.setActions(new N2oCloseAction[]{cancelAction});

@@ -179,7 +179,7 @@ class SpelExceptionTest extends DataControllerTestBase{
         operation.setOutParametersMap(outParametersMap);
         N2oTestDataProvider testDataProvider = new N2oTestDataProvider();
         testDataProvider.setFile("net/n2oapp/framework/ui/controller/testData.json");
-        testDataProvider.setOperation(N2oTestDataProvider.OperationEnum.create);
+        testDataProvider.setOperation(N2oTestDataProvider.OperationEnum.CREATE);
         operation.setInvocation(testDataProvider);
         actionRequestInfo.setOperation(operation);
         actionRequestInfo.setData(new DataSet());
@@ -209,7 +209,7 @@ class SpelExceptionTest extends DataControllerTestBase{
 
         operation.setInParametersMap(inParametersMap);
         operation.setOutParametersMap(outParametersMap);
-        testDataProvider.setOperation(N2oTestDataProvider.OperationEnum.create);
+        testDataProvider.setOperation(N2oTestDataProvider.OperationEnum.CREATE);
         operation.setInvocation(testDataProvider);
         actionRequestInfo.setOperation(operation);
         actionRequestInfo.setData(new DataSet());
@@ -239,7 +239,7 @@ class SpelExceptionTest extends DataControllerTestBase{
 
         operation.setInParametersMap(inParametersMap);
         operation.setOutParametersMap(outParametersMap);
-        testDataProvider.setOperation(N2oTestDataProvider.OperationEnum.create);
+        testDataProvider.setOperation(N2oTestDataProvider.OperationEnum.CREATE);
         testDataProvider.setResultMapping("['test'].toUpperCase(");
         operation.setInvocation(testDataProvider);
         actionRequestInfo.setOperation(operation);
@@ -270,7 +270,7 @@ class SpelExceptionTest extends DataControllerTestBase{
 
         operation.setInParametersMap(inParametersMap);
         operation.setOutParametersMap(outParametersMap);
-        testDataProvider.setOperation(N2oTestDataProvider.OperationEnum.create);
+        testDataProvider.setOperation(N2oTestDataProvider.OperationEnum.CREATE);
         testDataProvider.setResultNormalize("['test'].toUpperCase(");
         operation.setInvocation(testDataProvider);
         actionRequestInfo.setOperation(operation);
@@ -293,7 +293,7 @@ class SpelExceptionTest extends DataControllerTestBase{
         displayFields.add(field);
         query.setDisplayFields(displayFields);
 
-        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list, testDataProvider);
+        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST, testDataProvider);
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
         lists[0] = list;
         query.setLists(lists);
@@ -320,7 +320,7 @@ class SpelExceptionTest extends DataControllerTestBase{
         displayFields.add(field);
         query.setDisplayFields(displayFields);
 
-        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list, testDataProvider);
+        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST, testDataProvider);
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
         lists[0] = list;
         query.setLists(lists);
@@ -351,7 +351,7 @@ class SpelExceptionTest extends DataControllerTestBase{
         simpleFieldsMap.put("name", field);
         query.setSimpleFieldsMap(simpleFieldsMap);
 
-        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list, testDataProvider);
+        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST, testDataProvider);
         list.setResultMapping("['test'].toUpperCase(");
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
         lists[0] = list;
@@ -379,7 +379,7 @@ class SpelExceptionTest extends DataControllerTestBase{
         displayFields.add(field);
         query.setDisplayFields(displayFields);
 
-        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list, testDataProvider);
+        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST, testDataProvider);
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
         list.setResultNormalize("['test'].toUpperCase(");
         lists[0] = list;
@@ -411,15 +411,15 @@ class SpelExceptionTest extends DataControllerTestBase{
         simpleFieldsMap.put("name", field);
         query.setSimpleFieldsMap(simpleFieldsMap);
 
-        N2oQuery.Filter filter = new N2oQuery.Filter("name", FilterTypeEnum.eq);
+        N2oQuery.Filter filter = new N2oQuery.Filter("name", FilterTypeEnum.EQ);
         filter.setFieldId("name");
         filter.setNormalize("#this.toUpperCase(");
         filter.setDefaultValue("test");
         Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> filtersMap = new LinkedHashMap<>();
-        filtersMap.put("name", Map.of(FilterTypeEnum.eq, filter));
+        filtersMap.put("name", Map.of(FilterTypeEnum.EQ, filter));
         query.setFiltersMap(filtersMap);
 
-        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list, testDataProvider);
+        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST, testDataProvider);
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
         lists[0] = list;
         query.setLists(lists);
@@ -451,15 +451,15 @@ class SpelExceptionTest extends DataControllerTestBase{
         simpleFieldsMap.put("name", field);
         query.setSimpleFieldsMap(simpleFieldsMap);
 
-        N2oQuery.Filter filter = new N2oQuery.Filter("name", FilterTypeEnum.eq);
+        N2oQuery.Filter filter = new N2oQuery.Filter("name", FilterTypeEnum.EQ);
         filter.setFieldId("name");
         filter.setMapping("['test'].toUpperCase(");
         filter.setDefaultValue("test");
         Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> filtersMap = new LinkedHashMap<>();
-        filtersMap.put("name", Map.of(FilterTypeEnum.eq, filter));
+        filtersMap.put("name", Map.of(FilterTypeEnum.EQ, filter));
         query.setFiltersMap(filtersMap);
 
-        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list, testDataProvider);
+        N2oQuery.Selection list = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST, testDataProvider);
         N2oQuery.Selection[] lists = new N2oQuery.Selection[1];
         lists[0] = list;
         query.setLists(lists);

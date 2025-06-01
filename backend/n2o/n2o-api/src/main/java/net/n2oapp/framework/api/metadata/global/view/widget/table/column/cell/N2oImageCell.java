@@ -1,7 +1,9 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 
 /**
@@ -18,7 +20,14 @@ public class N2oImageCell extends N2oActionCell {
     private PositionEnum textPosition;
     private N2oImageStatusElement[] statuses;
 
-    public enum PositionEnum {
-        top, left, right, bottom
+    @RequiredArgsConstructor
+    @Getter
+    public enum PositionEnum implements N2oEnum {
+        TOP("top"),
+        LEFT("left"),
+        RIGHT("right"),
+        BOTTOM("bottom");
+
+        private final String id;
     }
 }

@@ -98,11 +98,11 @@ class QueryCompileTest extends SourceCompileTestBase {
     void testRequiredPrefilters() {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testRequiredFilters.query.xml")
                 .get(new QueryContext("testRequiredFilters"));
-        assertThat(query.getFiltersMap().get("test").get(FilterTypeEnum.eq).getRequired(), is(true));
+        assertThat(query.getFiltersMap().get("test").get(FilterTypeEnum.EQ).getRequired(), is(true));
         assertThat(query.getValidations().get(0).getId(), is("test"));
         assertThat(query.getValidations().get(0).getFieldId(), is("test"));
-        assertThat(query.getValidations().get(0).getSeverity(), is(SeverityTypeEnum.danger));
-        assertThat(query.getValidations().get(0).getMoment(), is(N2oValidation.ServerMomentEnum.beforeQuery));
+        assertThat(query.getValidations().get(0).getSeverity(), is(SeverityTypeEnum.DANGER));
+        assertThat(query.getValidations().get(0).getMoment(), is(N2oValidation.ServerMomentEnum.BEFORE_QUERY));
     }
 
     /**

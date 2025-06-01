@@ -101,17 +101,17 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         if (invocation.getOperation() == null)
             return find(inParams, collection);
         switch (invocation.getOperation()) {
-            case find:
+            case FIND:
                 return find(inParams, collection);
-            case insertOne:
+            case INSERT_ONE:
                 return insertOne(inParams, collection);
-            case updateOne:
+            case UPDATE_ONE:
                 return updateOne(inParams, collection);
-            case deleteOne:
+            case DELETE_ONE:
                 return deleteOne(inParams, collection);
-            case deleteMany:
+            case DELETE_MANY:
                 return deleteMany(inParams, collection);
-            case countDocuments:
+            case COUNT_DOCUMENTS:
                 return countDocument(inParams, collection);
             default:
                 throw new N2oException("Unsupported invocation's operation");

@@ -45,7 +45,7 @@ class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.getSrc(), is("InputSelectTree"));
         assertThat(ist.getParentFieldId(), is("testParentFieldId"));
         assertThat(ist.getHasChildrenFieldId(), is("testHasChildrenFieldId"));
-        assertThat(ist.getCheckingStrategy(), is(CheckingStrategyEnum.child));
+        assertThat(ist.getCheckingStrategy(), is(CheckingStrategyEnum.CHILD));
         assertThat(ist.getMaxTagCount(), is(5));
         assertThat(ist.getSize(), is(200));
         assertThat(ist.isHasCheckboxes(), is(true));
@@ -62,6 +62,6 @@ class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.getThrottleDelay(), is(300));
         assertThat(ist.isAjax(), is(false));
         assertThat(ist.isHasCheckboxes(), is(false));
-        assertThat(ist.getCheckingStrategy(), is(CheckingStrategyEnum.all));
+        assertThat(ist.getCheckingStrategy(), is(CheckingStrategyEnum.ALL));
     }
 }

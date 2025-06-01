@@ -70,7 +70,7 @@ public class ValidationProcessor {
     private List<FailInfo> getFailsWithDanger(List<FailInfo> fails) {
         return fails
                 .stream()
-                .filter(fail -> SeverityTypeEnum.danger.equals(fail.getSeverity()))
+                .filter(fail -> SeverityTypeEnum.DANGER.equals(fail.getSeverity()))
                 .toList();
     }
 

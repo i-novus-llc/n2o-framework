@@ -52,10 +52,10 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
         } else if (context instanceof PageContext pageContext) {
             String backRoute = pageContext.getParentRoute();
             anchor.setHref(castDefault(backRoute, "/"));
-            anchor.setTarget(TargetEnum.application);
+            anchor.setTarget(TargetEnum.APPLICATION);
         } else {
             anchor.setHref("/");
-            anchor.setTarget(TargetEnum.application);
+            anchor.setTarget(TargetEnum.APPLICATION);
         }
         LinkActionImpl compiled = p.compile(anchor, context);
         compiled.setRestore(Boolean.TRUE);

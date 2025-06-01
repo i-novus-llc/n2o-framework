@@ -12,9 +12,9 @@ public class EqOrIsNullAndLike implements Rule {
 
     @Override
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.eqOrIsNull) && left.getType().equals(FilterTypeEnum.like))
+        if (right.getType().equals(FilterTypeEnum.EQ_OR_IS_NULL) && left.getType().equals(FilterTypeEnum.LIKE))
             return simplify(right, left);
-        else if (left.getType().equals(FilterTypeEnum.eqOrIsNull) && right.getType().equals(FilterTypeEnum.like)) {
+        else if (left.getType().equals(FilterTypeEnum.EQ_OR_IS_NULL) && right.getType().equals(FilterTypeEnum.LIKE)) {
             if (!(right.getValue() instanceof String) || !(left.getValue() instanceof String leftValue))
                 return null;
             if (leftValue.matches(".*" + right.getValue() + ".*")) return new Filter(left.getValue());
@@ -25,6 +25,6 @@ public class EqOrIsNullAndLike implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eqOrIsNull, FilterTypeEnum.like);
+        return new Pair<>(FilterTypeEnum.EQ_OR_IS_NULL, FilterTypeEnum.LIKE);
     }
 }

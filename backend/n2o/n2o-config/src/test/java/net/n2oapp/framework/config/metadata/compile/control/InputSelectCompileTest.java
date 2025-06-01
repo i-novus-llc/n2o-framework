@@ -62,7 +62,7 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         StandardField field = ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0));
         assertThat(field.getDependencies().size(), is(1));
-        assertThat(field.getDependencies().get(0).getType(), is(ValidationTypeEnum.reset));
+        assertThat(field.getDependencies().get(0).getType(), is(ValidationTypeEnum.RESET));
         assertThat(field.getDependencies().get(0).getOn().get(0), is("someField"));
         assertThat(field.getDependencies().get(0).getExpression(), is("true"));
         assertThat(field.getDependencies().get(0).getApplyOnInit(), is(false));
@@ -102,7 +102,7 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getSize(), is(7));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getValueFieldId(), nullValue());
         assertThat(field.getDependencies().get(0).getApplyOnInit(), is(true));
-        assertThat(field.getDependencies().get(0).getType(), is(ValidationTypeEnum.fetchValue));
+        assertThat(field.getDependencies().get(0).getType(), is(ValidationTypeEnum.FETCH_VALUE));
 
         CompiledQuery compiledQuery = routeAndGet("/selectFetch", CompiledQuery.class);
         assertThat(compiledQuery.getId(), is("testSelectFetch"));

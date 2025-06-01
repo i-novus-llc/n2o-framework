@@ -79,15 +79,15 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
             pageIndex = "page";
             sizeIndex = "size";
         }
-        addPagingQueryMapping(pageRoutes, pageIndex, widgetScope, RoutablePayload.PagingEnum.page, p);
-        addPagingQueryMapping(pageRoutes, sizeIndex, widgetScope, RoutablePayload.PagingEnum.size, p);
+        addPagingQueryMapping(pageRoutes, pageIndex, widgetScope, RoutablePayload.PagingEnum.PAGE, p);
+        addPagingQueryMapping(pageRoutes, sizeIndex, widgetScope, RoutablePayload.PagingEnum.SIZE, p);
     }
 
     private void addPagingQueryMapping(PageRoutes pageRoutes, String param, WidgetScope widgetScope, RoutablePayload.PagingEnum paramType, CompileProcessor p) {
         RoutablePayload payload = new RoutablePayload();
         payload.setId(widgetScope.getClientDatasourceId());
         HashMap<String, String> paging = new HashMap<>();
-        paging.put("paging.".concat(paramType.name()), ":".concat(param));
+        paging.put("paging.".concat(paramType.getId()), ":".concat(param));
         payload.setParams(paging);
         ReduxAction onGet = new ReduxAction(p.resolve(property("n2o.api.widget.list.paging.routable.type"), String.class), payload);
         pageRoutes.addQueryMapping(param, onGet, createRoutablePagingLink(widgetScope.getClientDatasourceId(), paramType));

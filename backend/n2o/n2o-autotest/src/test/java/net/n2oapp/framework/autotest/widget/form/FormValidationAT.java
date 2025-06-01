@@ -62,13 +62,13 @@ class FormValidationAT extends AutoTestBase {
         form1Control.shouldBeEmpty();
         validateFormBtn.click();
         form1Field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        page.alerts(Alert.PlacementEnum.top).shouldBeEmpty();
+        page.alerts(Alert.PlacementEnum.TOP).shouldBeEmpty();
 
         form1Control.click();
         form1Control.setValue("value1");
         validateFormBtn.click();
         form1Field.shouldHaveValidationMessage(Condition.empty);
-        page.alerts(Alert.PlacementEnum.top).shouldHaveSize(1);
+        page.alerts(Alert.PlacementEnum.TOP).shouldHaveSize(1);
 
         // validate all forms
         tabs.tab(2).click();
@@ -78,7 +78,7 @@ class FormValidationAT extends AutoTestBase {
         form3Control.setValue("value3");
 
         validatePageBtn.click();
-        page.alerts(Alert.PlacementEnum.top).shouldBeEmpty();
+        page.alerts(Alert.PlacementEnum.TOP).shouldBeEmpty();
 
         tabs.tab(1).click();
         StandardField form2Field = tabs.tab(1).content().widget(FormWidget.class).fields().field("form2.name");
@@ -87,7 +87,7 @@ class FormValidationAT extends AutoTestBase {
         form2Control.setValue("value2");
 
         validatePageBtn.click();
-        page.alerts(Alert.PlacementEnum.top).shouldHaveSize(1);
+        page.alerts(Alert.PlacementEnum.TOP).shouldHaveSize(1);
 
     }
 }

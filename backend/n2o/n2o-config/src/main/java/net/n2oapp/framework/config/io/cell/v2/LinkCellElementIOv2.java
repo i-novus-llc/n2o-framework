@@ -7,7 +7,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись ячейки с ссылкой
+ * Чтение\запись ячейки со ссылкой
  */
 @Component
 public class LinkCellElementIOv2 extends AbstractActionCellElementIOv2<N2oLinkCell> {

@@ -48,15 +48,15 @@ class ConstraintValidationCompileTest extends SourceCompileTestBase {
         assertThat(validations.size(), is(2));
 
         assertThat(validations.get(0).getId(), is("con1"));
-        assertThat(validations.get(0).getSeverity(), is(SeverityTypeEnum.danger));
-        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMomentEnum.afterFailOperation));
+        assertThat(validations.get(0).getSeverity(), is(SeverityTypeEnum.DANGER));
+        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMomentEnum.AFTER_FAIL_OPERATION));
         assertThat(validations.get(0).getMessage(), is("message"));
         assertThat(validations.get(0).getEnabled(), is(false));
         assertThat(validations.get(0).getSide(), is("client,server"));
         assertThat(validations.get(0).getFieldId(), is("field1"));
 
         N2oTestDataProvider invocation = (N2oTestDataProvider) ((ConstraintValidation) validations.get(0)).getInvocation();
-        assertThat(invocation.getOperation(), is(N2oTestDataProvider.OperationEnum.create));
+        assertThat(invocation.getOperation(), is(N2oTestDataProvider.OperationEnum.CREATE));
         assertThat(invocation.getFile(), is("test.json"));
 
         List<AbstractParameter> inParametersList = ((ConstraintValidation) validations.get(0)).getInParametersList();
@@ -72,8 +72,8 @@ class ConstraintValidationCompileTest extends SourceCompileTestBase {
 
 
         assertThat(validations.get(1).getId(), is("con2"));
-        assertThat(validations.get(1).getSeverity(), is(SeverityTypeEnum.info));
-        assertThat(validations.get(1).getMoment(), is(N2oValidation.ServerMomentEnum.afterSuccessOperation));
+        assertThat(validations.get(1).getSeverity(), is(SeverityTypeEnum.INFO));
+        assertThat(validations.get(1).getMoment(), is(N2oValidation.ServerMomentEnum.AFTER_SUCCESS_OPERATION));
         outParametersList = ((ConstraintValidation) validations.get(1)).getOutParametersList();
         assertThat(outParametersList.size(), is(1));
         assertThat(outParametersList.get(0).getId(), is("validation"));

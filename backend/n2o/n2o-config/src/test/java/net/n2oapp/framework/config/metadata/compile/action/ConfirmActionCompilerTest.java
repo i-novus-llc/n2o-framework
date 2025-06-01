@@ -43,7 +43,7 @@ class ConfirmActionCompilerTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getStyle().get("pageBreakBefore"), CoreMatchers.is("avoid"));
         assertThat(testAction.getPayload().getStyle().get("paddingTop"), CoreMatchers.is("0"));
         assertThat(testAction.getPayload().getMode(), is(ConfirmTypeEnum.MODAL));
-        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(testAction.getPayload().getDatasource(), is("testConfirmAction_ds"));
         assertThat(testAction.getPayload().getCloseButton(), is(false));
         assertThat(testAction.getPayload().getReverseButtons(), is(false));
@@ -71,8 +71,8 @@ class ConfirmActionCompilerTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getCloseButton(), is(false));
         assertThat(testAction.getPayload().getReverseButtons(), is(false));
         assertThat(testAction.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(testAction.getPayload().getOk().getColor(), is(ColorEnum.primary.name()));
+        assertThat(testAction.getPayload().getOk().getColor(), is(ColorEnum.PRIMARY.getId()));
         assertThat(testAction.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(testAction.getPayload().getCancel().getColor(), is(ColorEnum.secondary.name()));
+        assertThat(testAction.getPayload().getCancel().getColor(), is(ColorEnum.SECONDARY.getId()));
     }
 }

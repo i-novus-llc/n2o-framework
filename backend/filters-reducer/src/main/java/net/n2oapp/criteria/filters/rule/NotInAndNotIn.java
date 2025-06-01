@@ -33,6 +33,6 @@ public class NotInAndNotIn extends NotInListRule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.notIn, FilterTypeEnum.notIn);
+        return new Pair<>(FilterTypeEnum.NOT_IN, FilterTypeEnum.NOT_IN);
     }
 }

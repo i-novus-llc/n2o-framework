@@ -113,7 +113,7 @@ public class PageContextCompileUtil {
                     ModelLink link = Redux.linkParam(param, p);
                     String datasource = param.getDatasourceId();
                     DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
-                    if (ReduxModelEnum.resolve.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
+                    if (ReduxModelEnum.RESOLVE.equals(link.getModel()) && Objects.equals(link.getFieldId(), "id")
                             && dataSourcesScope.get(datasource) instanceof N2oStandardDatasource sd) {
                         link.setSubModelQuery(new SubModelQuery(sd.getQueryId()));
                     }

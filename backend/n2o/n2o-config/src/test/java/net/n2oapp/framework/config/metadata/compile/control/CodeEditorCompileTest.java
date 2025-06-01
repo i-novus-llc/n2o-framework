@@ -44,7 +44,7 @@ class CodeEditorCompileTest extends SourceCompileTestBase {
                 .get(0).getCols().get(0).getFields().get(0)).getControl();
         assertThat(codeEditor.getSrc(), is("CodeEditor"));
         assertThat(codeEditor.getName(), is("test"));
-        assertThat(codeEditor.getLang(), is(CodeLanguageEnum.html));
+        assertThat(codeEditor.getLang(), is(CodeLanguageEnum.HTML));
         assertThat(codeEditor.getAutocomplete(), is(true));
         assertThat(codeEditor.getMinLines(), is(10));
         assertThat(codeEditor.getMaxLines(), is(20));

@@ -100,7 +100,7 @@ public abstract class AbstractDatasourceValidator<S extends N2oAbstractDatasourc
                             String.format("В выборке %s поле %s не содержит фильтр типа %s!",
                                     getIdOrEmptyString(queryId),
                                     getIdOrEmptyString(preFilter.getFieldId()),
-                                    getIdOrEmptyString(preFilter.getType().name())));
+                                    getIdOrEmptyString(preFilter.getType().getId())));
             }
         }
     }

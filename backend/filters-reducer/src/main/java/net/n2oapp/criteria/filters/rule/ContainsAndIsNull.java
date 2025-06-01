@@ -11,6 +11,6 @@ public class ContainsAndIsNull extends AlwaysConflictRule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.contains, FilterTypeEnum.isNull);
+        return new Pair<>(FilterTypeEnum.CONTAINS, FilterTypeEnum.IS_NULL);
     }
 }

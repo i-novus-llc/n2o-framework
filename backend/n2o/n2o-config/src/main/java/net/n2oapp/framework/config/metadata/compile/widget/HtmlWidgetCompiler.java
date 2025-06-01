@@ -27,7 +27,7 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         compileBaseWidget(widget, source, context, p);
         N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledObject object = getObject(source, datasource, p);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModelEnum.resolve, p);
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModelEnum.RESOLVE, p);
         MetaActions widgetActions = initMetaActions(source, p);
         String html = castDefault(source.getHtml(), () -> p.getExternalFile(RouteUtil.normalize(source.getUrl())));
         if (html != null) {

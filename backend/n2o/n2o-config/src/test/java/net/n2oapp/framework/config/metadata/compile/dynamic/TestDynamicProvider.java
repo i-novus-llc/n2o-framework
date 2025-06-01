@@ -49,7 +49,7 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
 
         N2oQuery query = new N2oQuery();
         query.setId(TEST_DYNAMIC + "?" + context);
-        N2oQuery.Selection selection = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list);
+        N2oQuery.Selection selection = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST);
         N2oSqlDataProvider invocation = new N2oSqlDataProvider();
         invocation.setQuery("test select");
 
@@ -72,14 +72,14 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         create.setId("create");
         N2oShowModal showModal = new N2oShowModal();
         showModal.setPageId("testDynamic?Dummy");
-        create.setModel(ReduxModelEnum.filter);
+        create.setModel(ReduxModelEnum.FILTER);
         create.setActions(new N2oShowModal[]{showModal});
 
         N2oButton update = new N2oButton();
         update.setId("update");
         N2oShowModal updShowModal = new N2oShowModal();
         updShowModal.setPageId("testDynamic?Dummy");
-        update.setModel(ReduxModelEnum.resolve);
+        update.setModel(ReduxModelEnum.RESOLVE);
         update.setActions(new N2oShowModal[]{updShowModal});
 
 

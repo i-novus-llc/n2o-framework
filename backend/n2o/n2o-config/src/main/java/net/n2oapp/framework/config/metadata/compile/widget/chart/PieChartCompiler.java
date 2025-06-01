@@ -21,7 +21,7 @@ public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChar
     public PieChart compile(N2oPieChart source, CompileContext<?, ?> context, CompileProcessor p) {
         PieChart chart = new PieChart();
         build(chart, source, p, property("n2o.api.widget.chart.pie.src"));
-        chart.setType(ChartTypeEnum.pie);
+        chart.setType(ChartTypeEnum.PIE);
         chart.getComponent().setCenterX(source.getCenterX());
         chart.getComponent().setCenterY(source.getCenterY());
         chart.getComponent().setInnerRadius(castDefault(source.getInnerRadius(),

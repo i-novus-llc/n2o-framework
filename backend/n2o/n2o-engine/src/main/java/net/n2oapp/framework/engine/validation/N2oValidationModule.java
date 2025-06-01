@@ -32,27 +32,27 @@ public class N2oValidationModule implements DataProcessing {
 
     @Override
     public void processAction(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
-        List<FailInfo> fails = processor.validate(buildInfo(requestInfo, dataSet), beforeOperation);
+        List<FailInfo> fails = processor.validate(buildInfo(requestInfo, dataSet), BEFORE_OPERATION);
         prepareResponse(fails, requestInfo, responseInfo);
     }
 
     @Override
     public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet, N2oException exception) {
-        List<FailInfo> fails = processor.validate(buildInfo(requestInfo, dataSet), afterFailOperation);
+        List<FailInfo> fails = processor.validate(buildInfo(requestInfo, dataSet), AFTER_FAIL_OPERATION);
         prepareResponse(fails, requestInfo, responseInfo);
         DataProcessing.super.processActionError(requestInfo, responseInfo, dataSet, exception);
     }
 
     @Override
     public void processActionResult(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
-        List<FailInfo> fails = processor.validate(buildInfo(requestInfo, dataSet), afterSuccessOperation);
+        List<FailInfo> fails = processor.validate(buildInfo(requestInfo, dataSet), AFTER_SUCCESS_OPERATION);
         prepareResponse(fails, requestInfo, responseInfo);
     }
 
     @Override
     public void processQueryError(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, N2oException exception) {
         if (requestInfo.isValidationEnable() && requestInfo.getSize() == 1) {
-            List<FailInfo> fails = processor.validate(buildInfo(requestInfo, requestInfo.getData()), afterFailQuery);
+            List<FailInfo> fails = processor.validate(buildInfo(requestInfo, requestInfo.getData()), AFTER_FAIL_QUERY);
             prepareResponse(fails, requestInfo, responseInfo);
         }
         DataProcessing.super.processQueryError(requestInfo, responseInfo, exception);
@@ -61,7 +61,7 @@ public class N2oValidationModule implements DataProcessing {
     @Override
     public void processQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         if (requestInfo.isValidationEnable()) {
-            List<FailInfo> fails = processor.validate(buildInfo(requestInfo, requestInfo.getData()), beforeQuery);
+            List<FailInfo> fails = processor.validate(buildInfo(requestInfo, requestInfo.getData()), BEFORE_QUERY);
             prepareResponse(fails, requestInfo, responseInfo);
         }
     }
@@ -70,7 +70,7 @@ public class N2oValidationModule implements DataProcessing {
     public void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
         final Collection<DataSet> list = page.getCollection();
         if (requestInfo.isValidationEnable() && !list.isEmpty()) {
-            List<FailInfo> fails = processor.validate(buildInfo(requestInfo, list.iterator().next()), afterSuccessQuery);
+            List<FailInfo> fails = processor.validate(buildInfo(requestInfo, list.iterator().next()), AFTER_SUCCESS_QUERY);
             prepareResponse(fails, requestInfo, responseInfo);
         }
     }

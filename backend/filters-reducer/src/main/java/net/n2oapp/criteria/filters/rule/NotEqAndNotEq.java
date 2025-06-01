@@ -37,14 +37,14 @@ public class NotEqAndNotEq extends NotInListRule {
         if (res.isEmpty()) {
             return null;
         } else if (res.size() == 1) {
-            return new Filter(res.get(0), FilterTypeEnum.notEq);
+            return new Filter(res.get(0), FilterTypeEnum.NOT_EQ);
         }
-        return new Filter(res, FilterTypeEnum.notIn);
+        return new Filter(res, FilterTypeEnum.NOT_IN);
     }
 
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.notEq, FilterTypeEnum.notEq);
+        return new Pair<>(FilterTypeEnum.NOT_EQ, FilterTypeEnum.NOT_EQ);
     }
 }

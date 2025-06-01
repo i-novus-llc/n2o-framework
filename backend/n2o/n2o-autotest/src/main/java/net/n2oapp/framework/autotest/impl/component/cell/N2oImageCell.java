@@ -62,7 +62,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     @Override
     public void shouldHaveTextPosition(TextPositionEnum textPosition) {
         element().$(".n2o-image__content")
-                .shouldHave(Condition.cssClass(textPosition.name()));
+                .shouldHave(Condition.cssClass(textPosition.getId()));
     }
 
     @Override
@@ -84,7 +84,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     protected SelenideElement getStatus(ImageStatusElementPlaceEnum position, int index) {
-        return element().$$(String.format(".n2o-image-statuses .%s", position)).get(index);
+        return element().$$(String.format(".n2o-image-statuses .%s", position.getId())).get(index);
     }
 
     protected SelenideElement img() {

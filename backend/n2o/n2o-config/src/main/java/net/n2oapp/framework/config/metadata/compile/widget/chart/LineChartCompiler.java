@@ -24,7 +24,7 @@ public class LineChartCompiler extends StandardChartCompiler<LineChart, N2oLineC
     public LineChart compile(N2oLineChart source, CompileContext<?, ?> context, CompileProcessor p) {
         LineChart chart = new LineChart();
         build(chart, source, p, property("n2o.api.widget.chart.line.src"));
-        chart.setType(ChartTypeEnum.line);
+        chart.setType(ChartTypeEnum.LINE);
         for (N2oLineChartItem item : source.getItems()) {
             LineChartItem component = new LineChartItem();
             component.setFieldId(item.getFieldId());

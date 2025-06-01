@@ -107,7 +107,7 @@ class TableSelectionAT extends AutoTestBase {
         rows.shouldHaveSize(3);
         rows.shouldNotHaveSelectedRows();
         rows.row(1).click();
-        Alert alert = page.alerts(Alert.PlacementEnum.topLeft).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP_LEFT).alert(0);
         alert.shouldExists();
     }
 

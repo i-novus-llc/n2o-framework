@@ -33,7 +33,7 @@ public class LinkCellCompiler extends AbstractCellCompiler<LinkCell, N2oLinkCell
             cell.setUrl(StringUtils.hasLink(source.getUrl())
                     ? p.resolveJS(source.getUrl())
                     : RouteUtil.normalize(source.getUrl()));
-            TargetEnum defaultTarget = RouteUtil.isApplicationUrl(source.getUrl()) ? TargetEnum.application : TargetEnum.self;
+            TargetEnum defaultTarget = RouteUtil.isApplicationUrl(source.getUrl()) ? TargetEnum.APPLICATION : TargetEnum.SELF;
             cell.setTarget(castDefault(source.getTarget(), defaultTarget));
         }
 

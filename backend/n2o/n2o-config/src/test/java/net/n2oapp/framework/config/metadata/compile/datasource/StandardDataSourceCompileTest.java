@@ -61,7 +61,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
         StandardDatasource ds = (StandardDatasource) page.getDatasources().get("testDSStandardPage_ds1");
         assertThat(ds, notNullValue());
-        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesModeEnum.defaults));
+        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesModeEnum.DEFAULTS));
         assertThat(ds.getProvider(), nullValue());
         assertThat(ds.getFetchOnInit(), is(false));
 
@@ -77,7 +77,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
         ds = (StandardDatasource) simplePage.getDatasources().get("testDSSimplePage_w1");
         assertThat(ds, notNullValue());
-        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesModeEnum.defaults));
+        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesModeEnum.DEFAULTS));
         assertThat(ds.getProvider(), nullValue());
     }
 
@@ -89,7 +89,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
         StandardDatasource ds = (StandardDatasource) page.getDatasources().get("_ds1");
         assertThat(ds, notNullValue());
-        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesModeEnum.query));
+        assertThat(ds.getDefaultValuesMode(), is(DefaultValuesModeEnum.QUERY));
         assertThat(ds.getProvider(), notNullValue());
         assertThat(ds.getProvider().getUrl(), is("n2o/data/_ds1"));
         QueryContext queryCtx = ((QueryContext)route("/_ds1", CompiledQuery.class));
@@ -112,7 +112,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
         ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds2");
         assertThat(ds.getProvider().getUrl(), is("n2o/data/p/w/a/ds2"));
-        ModelLink link = new ModelLink(ReduxModelEnum.resolve, "p_w_a_ds3");
+        ModelLink link = new ModelLink(ReduxModelEnum.RESOLVE, "p_w_a_ds3");
         link.setValue("`id`");
         assertThat(ds.getProvider().getQueryMapping(), hasEntry("ds2_id", link));
         assertThat(ds.getProvider().getQueryMapping().get("ds2_id").isRequired(), is(true));
@@ -130,12 +130,12 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getDependencies().size(), is(2));
         Dependency dependency = ds.getDependencies().get(0);
         assertThat(dependency.getOn(), is("models.filter['p_w_a_master']"));
-        assertThat(dependency.getType(), is(DependencyTypeEnum.fetch));
+        assertThat(dependency.getType(), is(DependencyTypeEnum.FETCH));
 
         dependency = ds.getDependencies().get(1);
-        assertThat(dependency.getType(), is(DependencyTypeEnum.copy));
+        assertThat(dependency.getType(), is(DependencyTypeEnum.COPY));
         assertThat(dependency.getOn(), is("models.filter['p_w_a_detail'].source"));
-        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModelEnum.datasource));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModelEnum.DATASOURCE));
         assertThat(((CopyDependency) dependency).getField(), is("target"));
         assertThat(((CopyDependency) dependency).getSubmit(), is(true));
         assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
@@ -157,14 +157,14 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(opCtx.getOperationId(), is("update"));
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(true));
-        assertThat(opCtx.getMessagePosition(), is(MessagePositionEnum.fixed));
-        assertThat(opCtx.getMessagePlacement(), is(MessagePlacementEnum.top));
+        assertThat(opCtx.getMessagePosition(), is(MessagePositionEnum.FIXED));
+        assertThat(opCtx.getMessagePlacement(), is(MessagePlacementEnum.TOP));
 
         //        with form-param
         ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds2");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getSubmitForm(), is(false));
-        ModelLink link = new ModelLink(ReduxModelEnum.resolve, "p_w_a_ds2");
+        ModelLink link = new ModelLink(ReduxModelEnum.RESOLVE, "p_w_a_ds2");
         link.setValue("`id`");
         assertThat(ds.getSubmit().getFormMapping(), hasEntry("id", link));
 
@@ -174,14 +174,14 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         opCtx = ((ActionContext)route("/p/w/a/ds3", CompiledObject.class));
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(true));
-        assertThat(opCtx.getMessagePosition(), is(MessagePositionEnum.fixed));
-        assertThat(opCtx.getMessagePlacement(), is(MessagePlacementEnum.bottom));
+        assertThat(opCtx.getMessagePosition(), is(MessagePositionEnum.FIXED));
+        assertThat(opCtx.getMessagePlacement(), is(MessagePlacementEnum.BOTTOM));
 
         //        with path-param
         ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds4");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
         assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/:_id/update"));
-        link = new ModelLink(ReduxModelEnum.resolve, "p_w_a_ds4");
+        link = new ModelLink(ReduxModelEnum.RESOLVE, "p_w_a_ds4");
         link.setValue("`id`");
         assertThat(ds.getSubmit().getPathMapping(), hasEntry("_id", link));
         opCtx = ((ActionContext)route("/p/w/a/123/update", CompiledObject.class));

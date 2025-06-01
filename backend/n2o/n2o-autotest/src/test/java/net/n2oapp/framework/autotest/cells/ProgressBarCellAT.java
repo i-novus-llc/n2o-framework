@@ -60,8 +60,8 @@ class ProgressBarCellAT extends AutoTestBase {
         rows.row(2).cell(col, ProgressBarCell.class).shouldHaveValue("100");
         rows.row(3).cell(col, ProgressBarCell.class).shouldHaveValue("150");
 
-        rows.row(0).cell(col, ProgressBarCell.class).shouldHaveSize(ProgressBarCell.SizeEnum.normal);
-        rows.row(1).cell(col, ProgressBarCell.class).shouldHaveSize(ProgressBarCell.SizeEnum.normal);
+        rows.row(0).cell(col, ProgressBarCell.class).shouldHaveSize(ProgressBarCell.SizeEnum.NORMAL);
+        rows.row(1).cell(col, ProgressBarCell.class).shouldHaveSize(ProgressBarCell.SizeEnum.NORMAL);
 
         rows.row(1).cell(col, ProgressBarCell.class).shouldBeAnimated();
         rows.row(2).cell(col, ProgressBarCell.class).shouldBeAnimated();

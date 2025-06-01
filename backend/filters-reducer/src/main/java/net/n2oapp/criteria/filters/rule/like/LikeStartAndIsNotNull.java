@@ -10,11 +10,11 @@ import net.n2oapp.criteria.filters.rule.base.AlwaysSuccessRule;
 public class LikeStartAndIsNotNull extends AlwaysSuccessRule {
 
     public LikeStartAndIsNotNull() {
-        super(FilterTypeEnum.likeStart);
+        super(FilterTypeEnum.LIKE_START);
     }
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.likeStart, FilterTypeEnum.isNotNull);
+        return new Pair<>(FilterTypeEnum.LIKE_START, FilterTypeEnum.IS_NOT_NULL);
     }
 }

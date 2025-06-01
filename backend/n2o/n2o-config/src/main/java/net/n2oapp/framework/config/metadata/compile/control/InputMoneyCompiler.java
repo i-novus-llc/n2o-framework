@@ -46,10 +46,10 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
     private void compileDecimalMode(InputMoney inputMoney, N2oInputMoney source, CompileProcessor p) {
         FractionFormattingEnum fractionFormatting = castDefault(source.getFractionFormatting(),
                 () -> p.resolve(property("n2o.api.control.input_money.fraction_formatting"), FractionFormattingEnum.class));
-        if (Objects.requireNonNull(fractionFormatting) == FractionFormattingEnum.manual) {
+        if (Objects.requireNonNull(fractionFormatting) == FractionFormattingEnum.MANUAL) {
             inputMoney.setAllowDecimal(true);
             inputMoney.setRequireDecimal(false);
-        } else if (fractionFormatting == FractionFormattingEnum.auto) {
+        } else if (fractionFormatting == FractionFormattingEnum.AUTO) {
             inputMoney.setAllowDecimal(true);
             inputMoney.setRequireDecimal(true);
         }

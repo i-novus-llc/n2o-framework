@@ -37,7 +37,7 @@ class PieChartCompileTest extends SourceCompileTestBase {
 
         PieChart pieChart1 = (PieChart) ((Chart) page.getRegions().get("single").get(0).getContent().get(0)).getComponent();
         assertThat(pieChart1.getSrc(), is("PieChart"));
-        assertThat(pieChart1.getType(), is(ChartTypeEnum.pie));
+        assertThat(pieChart1.getType(), is(ChartTypeEnum.PIE));
 
         assertThat(pieChart1.getComponent().getValueFieldId(), is("valueField"));
         assertThat(pieChart1.getComponent().getNameFieldId(), is("name"));

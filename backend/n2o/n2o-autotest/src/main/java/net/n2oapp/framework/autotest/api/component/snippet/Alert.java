@@ -1,5 +1,8 @@
 package net.n2oapp.framework.autotest.api.component.snippet;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.Component;
 
@@ -12,18 +15,21 @@ public interface Alert extends Snippet {
 
     /**
      * Проверка цвета на соответствие
+     *
      * @param color ожидаемый цвет предупреждения
      */
     void shouldHaveColor(ColorsEnum color);
 
     /**
      * Проверка заголовка на соответствие
+     *
      * @param text ожидаемый заголовок предупреждения
      */
     void shouldHaveTitle(String text, Duration... duration);
 
     /**
      * Проверка ссылки на соответвие
+     *
      * @param url ожидаемая ссылка
      */
     void shouldHaveUrl(String url);
@@ -40,6 +46,7 @@ public interface Alert extends Snippet {
 
     /**
      * Проверка того, что предупреждение отсутствует
+     *
      * @param duration задержка
      */
     void shouldNotExists(Duration... duration);
@@ -64,13 +71,16 @@ public interface Alert extends Snippet {
          */
         void click();
     }
+    @RequiredArgsConstructor
+    @Getter
+    enum PlacementEnum implements N2oEnum {
+        TOP("top"),
+        BOTTOM("bottom"),
+        TOP_LEFT("topLeft"),
+        TOP_RIGHT("topRight"),
+        BOTTOM_LEFT("bottomLeft"),
+        BOTTOM_RIGHT("bottomRight");
 
-    enum PlacementEnum {
-        top,
-        bottom,
-        topLeft,
-        topRight,
-        bottomLeft,
-        bottomRight
+        private final String id;
     }
 }

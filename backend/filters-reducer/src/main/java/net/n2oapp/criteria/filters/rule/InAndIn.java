@@ -31,6 +31,6 @@ public class InAndIn extends InListRule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.in, FilterTypeEnum.in);
+        return new Pair<>(FilterTypeEnum.IN, FilterTypeEnum.IN);
     }
 }

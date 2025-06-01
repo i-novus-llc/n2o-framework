@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * Тест на компиляцию ячейки с ссылкой
+ * Тест на компиляцию ячейки со ссылкой
  */
 class LinkCellCompileTest extends SourceCompileTestBase {
 
@@ -62,7 +62,7 @@ class LinkCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getId(), is("test3"));
         assertThat(cell.getAction(), nullValue());
         assertThat(cell.getUrl(), is("`'/test/'+uid`"));
-        assertThat(cell.getTarget(), is(TargetEnum.newWindow));
+        assertThat(cell.getTarget(), is(TargetEnum.NEW_WINDOW));
 
         cell = (LinkCell) table.getComponent().getBody().getCells().get(4);
         assertThat(cell.getId(), is("test4"));

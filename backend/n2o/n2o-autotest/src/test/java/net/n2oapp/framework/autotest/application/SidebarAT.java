@@ -74,7 +74,7 @@ class SidebarAT extends AutoTestBase {
         header.shouldExists();
         header.shouldHaveSidebarSwitcher();
         header.switchSidebar();
-        page.shouldHaveLayout(NavigationLayoutEnum.fullSizeSidebar);
+        page.shouldHaveLayout(NavigationLayoutEnum.FULL_SIZE_SIDEBAR);
     }
 
     @Test

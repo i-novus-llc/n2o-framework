@@ -32,8 +32,8 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
         compiled.setPaging(new Paging(castDefault(source.getSize(),
                 () -> p.resolve(property("n2o.api.datasource.size"), Integer.class))));
         compiled.setDependencies(initDependencies(source, p));
-        compiled.setValidations(initValidations(source, p, ReduxModelEnum.resolve));
-        compiled.setFilterValidations(initValidations(source, p, ReduxModelEnum.filter));
+        compiled.setValidations(initValidations(source, p, ReduxModelEnum.RESOLVE));
+        compiled.setFilterValidations(initValidations(source, p, ReduxModelEnum.FILTER));
         compiled.setSorting(source.getSorting());
     }
 
@@ -53,19 +53,19 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
             for (N2oDatasource.Dependency d : source.getDependencies()) {
                 if (d instanceof N2oDatasource.FetchDependency dependency) {
                     Dependency fetchDependency = new Dependency();
-                    ModelLink link = new ModelLink(castDefault(dependency.getModel(), ReduxModelEnum.resolve),
+                    ModelLink link = new ModelLink(castDefault(dependency.getModel(), ReduxModelEnum.RESOLVE),
                             getClientDatasourceId(dependency.getOn(), p));
                     fetchDependency.setOn(link.getLink());
-                    fetchDependency.setType(DependencyTypeEnum.fetch);
+                    fetchDependency.setType(DependencyTypeEnum.FETCH);
                     dependencies.add(fetchDependency);
                 } else if (d instanceof N2oDatasource.CopyDependency dependency) {
                     CopyDependency copyDependency = new CopyDependency();
-                    ModelLink link = new ModelLink(castDefault(dependency.getSourceModel(), ReduxModelEnum.resolve),
+                    ModelLink link = new ModelLink(castDefault(dependency.getSourceModel(), ReduxModelEnum.RESOLVE),
                             getClientDatasourceId(dependency.getOn(), p), dependency.getSourceFieldId());
                     copyDependency.setOn(link.getLink());
-                    copyDependency.setModel(castDefault(dependency.getTargetModel(), ReduxModelEnum.resolve));
+                    copyDependency.setModel(castDefault(dependency.getTargetModel(), ReduxModelEnum.RESOLVE));
                     copyDependency.setField(dependency.getTargetFieldId());
-                    copyDependency.setType(DependencyTypeEnum.copy);
+                    copyDependency.setType(DependencyTypeEnum.COPY);
                     copyDependency.setSubmit(castDefault(dependency.getSubmit(),
                             () -> p.resolve(property("n2o.api.datasource.dependency.copy.submit"), Boolean.class)));
                     copyDependency.setApplyOnInit(castDefault(dependency.getApplyOnInit(),

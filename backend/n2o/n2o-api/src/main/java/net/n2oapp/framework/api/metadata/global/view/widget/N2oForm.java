@@ -38,7 +38,7 @@ public class N2oForm extends N2oWidget {
                         new String[]{getId()});//не учитываются datasource у виджета в 7.19
             }
             getDatasource().getSubmit().setMessageWidgetId(getId());
-            getDatasource().getSubmit().setSubmitOn(SubmitOnEnum.change);
+            getDatasource().getSubmit().setSubmitOn(SubmitOnEnum.CHANGE);
         }
     }
 }

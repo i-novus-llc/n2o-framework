@@ -85,11 +85,11 @@ public class RegisterUtil {
 
     @Deprecated
     private static void baseForDynamicInfo(InfoConstructor info) {
-        info.setOrigin(OriginEnum.dynamic);
+        info.setOrigin(OriginEnum.DYNAMIC);
     }
 
     private static void baseForXmlInfo(InfoConstructor info) {
-        info.setOrigin(OriginEnum.xml);
+        info.setOrigin(OriginEnum.XML);
     }
 
     public static <T extends SourceInfo> List<T> collectInfo(List<Node> nodes,

@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.OperationEnum.*;
-import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyTypeEnum.string;
+import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyTypeEnum.STRING;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,7 +59,7 @@ class TestDataProviderEngineTest {
         provider.setFile(testFile.getName());
 
         //Проверка, что после создания json файл содержит ожидаемые данные
-        provider.setOperation(findAll);
+        provider.setOperation(FIND_ALL);
 
         List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
         assertThat(result.size(), is(1));
@@ -78,7 +78,7 @@ class TestDataProviderEngineTest {
         provider.setFile(testFile.getName());
 
         //Добавление новых данных
-        provider.setOperation(create);
+        provider.setOperation(CREATE);
 
         Map<String, Object> inParamsForCreate = new LinkedHashMap<>();
         inParamsForCreate.put("id", 9L);
@@ -114,7 +114,7 @@ class TestDataProviderEngineTest {
         provider.setFile(testFile.getName());
 
         //Добавление новых данных
-        provider.setOperation(create);
+        provider.setOperation(CREATE);
 
         Map<String, Object> inParamsForCreate = new LinkedHashMap<>();
         inParamsForCreate.put("id", 9L);
@@ -132,7 +132,7 @@ class TestDataProviderEngineTest {
         //Проверяем, что новые данные не записались в файл
         assertThat(result.size(), is(1));
 
-        provider.setOperation(count);
+        provider.setOperation(COUNT);
         Map<String, Object> inParams = Collections.emptyMap();
 
         Integer resultCount = (Integer) engine.invoke(provider, inParams);
@@ -149,7 +149,7 @@ class TestDataProviderEngineTest {
         provider.setFile(testFile.getName());
 
         //Обновление данных
-        provider.setOperation(update);
+        provider.setOperation(UPDATE);
 
         Map<String, Object> inParamsForUpdate = new LinkedHashMap<>();
         inParamsForUpdate.put("id", 1L);
@@ -181,7 +181,7 @@ class TestDataProviderEngineTest {
         provider.setFile(testFile.getName());
 
         //Обновление данных поля
-        provider.setOperation(updateField);
+        provider.setOperation(UPDATE_FIELD);
 
         Map<String, Object> inParamsForUpdate = new LinkedHashMap<>();
         inParamsForUpdate.put("id", 1L);
@@ -219,7 +219,7 @@ class TestDataProviderEngineTest {
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(testFile.getName());
         //Обновление данных
-        provider.setOperation(updateMany);
+        provider.setOperation(UPDATE_MANY);
 
         Map<String, Object> inParamsForUpdate = new LinkedHashMap<>();
         inParamsForUpdate.put("ids", Arrays.asList(1, 8));
@@ -250,7 +250,7 @@ class TestDataProviderEngineTest {
         provider.setFile(testFile.getName());
 
         //Удаление данных
-        provider.setOperation(delete);
+        provider.setOperation(DELETE);
 
         Map<String, Object> inParamsForDelete = new LinkedHashMap<>();
         inParamsForDelete.put("id", 1L);
@@ -284,7 +284,7 @@ class TestDataProviderEngineTest {
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(testFile.getName());
         //Удаление нескольких строк данных
-        provider.setOperation(deleteMany);
+        provider.setOperation(DELETE_MANY);
 
         Map<String, Object> inParamsForDelete = new LinkedHashMap<>();
         inParamsForDelete.put("ids", Arrays.asList(1L, 8L));
@@ -365,7 +365,7 @@ class TestDataProviderEngineTest {
         inParams.put("filters", Arrays.asList("id :eq :id"));
         inParams.put("id", 9L);
 
-        provider.setOperation(findOne);
+        provider.setOperation(FIND_ONE);
 
         Map resultAfterChange = (Map) engine.invoke(provider, inParams);
         assertThat(resultAfterChange.get("id"), is(9L));
@@ -399,7 +399,7 @@ class TestDataProviderEngineTest {
         fileWriter.close();
 
         //Проверка, что после изменения json, количество записей корректно
-        provider.setOperation(count);
+        provider.setOperation(COUNT);
 
         Map<String, Object> inParams = new LinkedHashMap<>();
         inParams.put("filters", Collections.emptyList());
@@ -438,7 +438,7 @@ class TestDataProviderEngineTest {
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile("testNumericPrimaryKey.json");
-        provider.setOperation(findOne);
+        provider.setOperation(FIND_ONE);
 
         Map<String, Object> inParams = new LinkedHashMap<>();
         inParams.put("filters", Arrays.asList("id :eq :id"));
@@ -457,7 +457,7 @@ class TestDataProviderEngineTest {
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile("testNumericPrimaryKey.json");
-        provider.setOperation(findOne);
+        provider.setOperation(FIND_ONE);
 
         Map<String, Object> inParams = new LinkedHashMap<>();
         inParams.put("age", 20);
@@ -473,7 +473,7 @@ class TestDataProviderEngineTest {
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile("testNumericPrimaryKey.json");
-        provider.setOperation(count);
+        provider.setOperation(COUNT);
 
         Map<String, Object> inParams = new LinkedHashMap<>();
         inParams.put("filters", Collections.emptyList());
@@ -519,7 +519,7 @@ class TestDataProviderEngineTest {
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile("testNumericPrimaryKey.json");
-        provider.setOperation(findAll);
+        provider.setOperation(FIND_ALL);
 
         Map<String, Object> inParams = new LinkedHashMap<>();
         inParams.put("sorting", new ArrayList<>());
@@ -784,7 +784,7 @@ class TestDataProviderEngineTest {
     void testEchoOperation() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setOperation(echo);
+        provider.setOperation(ECHO);
 
         Map<String, Object> inParams = new LinkedHashMap<>();
         inParams.put("test", 1);
@@ -800,7 +800,7 @@ class TestDataProviderEngineTest {
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile("testNumericPrimaryKey.json");
-        provider.setOperation(create);
+        provider.setOperation(CREATE);
 
         Map<String, Object> inParams = new LinkedHashMap<>();
         inParams.put("name", "test");
@@ -821,7 +821,7 @@ class TestDataProviderEngineTest {
         assertThat(result.get("birthday"), is(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date(0))));
 
         //Проверка, что после создания элемент появился в хранилище
-        provider.setOperation(findAll);
+        provider.setOperation(FIND_ALL);
         Map<String, Object> inParamsForRead = new LinkedHashMap<>();
         inParamsForRead.put("id", 5607776L);
         inParamsForRead.put("sorting", new ArrayList<>());
@@ -857,7 +857,7 @@ class TestDataProviderEngineTest {
         assertThat(((Map) result.get(0).get("gender")).get("name"), is("Женский"));
 
 
-        provider.setOperation(update);
+        provider.setOperation(UPDATE);
         Map<String, Object> inParamsForUpdate = new LinkedHashMap<>();
         inParamsForUpdate.put("id", 5607676L);
         inParamsForUpdate.put("name", "test");
@@ -875,7 +875,7 @@ class TestDataProviderEngineTest {
         assertThat(updatedResult.get("gender.name"), is("Мужской"));
         assertThat(updatedResult.get("vip"), is(false));
 
-        provider.setOperation(findAll);
+        provider.setOperation(FIND_ALL);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
         assertThat(result.get(0).get("name"), is("test"));
         assertThat(result.get(0).get("birthday"), is(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date(0))));
@@ -903,14 +903,14 @@ class TestDataProviderEngineTest {
         assertThat(result.get(0).get("name"), is("Людмила"));
 
         // изменяем поле name
-        provider.setOperation(updateField);
+        provider.setOperation(UPDATE_FIELD);
         Map<String, Object> inParamsForUpdateField = new LinkedHashMap<>();
         inParamsForUpdateField.put("id", 5607629L);
         inParamsForUpdateField.put("key", "name");
         inParamsForUpdateField.put("value", "Ольга");
         engine.invoke(provider, inParamsForUpdateField);
 
-        provider.setOperation(findAll);
+        provider.setOperation(FIND_ALL);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
         assertThat(result.get(0).get("name"), is("Ольга"));
     }
@@ -923,7 +923,7 @@ class TestDataProviderEngineTest {
         Map<String, Object> inParamsForRead = new LinkedHashMap<>();
 
         provider.setFile("testNumericPrimaryKey.json");
-        provider.setOperation(findAll);
+        provider.setOperation(FIND_ALL);
 
         inParamsForRead.put("sorting", new ArrayList<>());
         inParamsForRead.put("limit", 151);
@@ -938,7 +938,7 @@ class TestDataProviderEngineTest {
 
         Map<String, Object> inParamsForDelete = new LinkedHashMap<>();
         inParamsForDelete.put("id", 5607676);
-        provider.setOperation(delete);
+        provider.setOperation(DELETE);
         engine.invoke(provider, inParamsForDelete);
 
         //Проверка, что удаление прошло успешно
@@ -953,9 +953,9 @@ class TestDataProviderEngineTest {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setPrimaryKeyType(string);
+        provider.setPrimaryKeyType(STRING);
         provider.setFile("testStringPrimaryKey.json");
-        provider.setOperation(create);
+        provider.setOperation(CREATE);
         provider.setPrimaryKey("testId");
 
         Map<String, Object> inParams = new LinkedHashMap<>();
@@ -977,7 +977,7 @@ class TestDataProviderEngineTest {
         assertThat(result.get("birthday"), is(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date(0))));
 
         //Проверка, что после создания элемент появился в хранилище
-        provider.setOperation(findAll);
+        provider.setOperation(FIND_ALL);
         Map<String, Object> inParamsForRead = new LinkedHashMap<>();
         inParamsForRead.put("id", 5607776L);
         inParamsForRead.put("sorting", new ArrayList<>());
@@ -995,7 +995,7 @@ class TestDataProviderEngineTest {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setPrimaryKeyType(string);
+        provider.setPrimaryKeyType(STRING);
         provider.setPrimaryKey("testId");
         provider.setFile("testStringPrimaryKey.json");
 
@@ -1015,7 +1015,7 @@ class TestDataProviderEngineTest {
         assertThat(((Map) result.get(0).get("gender")).get("name"), is("Женский"));
 
 
-        provider.setOperation(update);
+        provider.setOperation(UPDATE);
         Map<String, Object> inParamsForUpdate = new LinkedHashMap<>();
         inParamsForUpdate.put("testId", "abcd");
         inParamsForUpdate.put("name", "test");
@@ -1033,7 +1033,7 @@ class TestDataProviderEngineTest {
         assertThat(updatedResult.get("gender.name"), is("Мужской"));
         assertThat(updatedResult.get("vip"), is(false));
 
-        provider.setOperation(findAll);
+        provider.setOperation(FIND_ALL);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
         assertThat(result.get(0).get("name"), is("test"));
         assertThat(result.get(0).get("birthday"), is(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date(0))));
@@ -1047,7 +1047,7 @@ class TestDataProviderEngineTest {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setPrimaryKeyType(string);
+        provider.setPrimaryKeyType(STRING);
         provider.setPrimaryKey("testId");
         provider.setFile("testStringPrimaryKey.json");
 
@@ -1068,14 +1068,14 @@ class TestDataProviderEngineTest {
         assertThat(result.get(2).get("name"), is("Анастасия"));
         assertThat(result.get(2).get("birthday"), is("08.04.1995 00:00:00"));
 
-        provider.setOperation(updateMany);
+        provider.setOperation(UPDATE_MANY);
         Map<String, Object> inParamsForUpdate = new LinkedHashMap<>();
         inParamsForUpdate.put("testIds", Arrays.asList("c4d954d4-496b-4777-af57-8827f8018f09", "a7e0973e-5dfc-4f77-8e1b-2c284d70453d"));
         inParamsForUpdate.put("name", "new test");
 
         engine.invoke(provider, inParamsForUpdate);
 
-        provider.setOperation(findAll);
+        provider.setOperation(FIND_ALL);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
         assertThat(result.get(0).get("name"), is("new test"));
         assertThat(result.get(0).get("birthday"), is("26.10.2012 00:00:00"));
@@ -1090,7 +1090,7 @@ class TestDataProviderEngineTest {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setPrimaryKeyType(string);
+        provider.setPrimaryKeyType(STRING);
         provider.setPrimaryKey("testId");
         provider.setFile("testStringPrimaryKey.json");
 
@@ -1106,14 +1106,14 @@ class TestDataProviderEngineTest {
         assertThat(result.get(0).get("name"), is("Наталья"));
 
         // изменяем поле name
-        provider.setOperation(updateField);
+        provider.setOperation(UPDATE_FIELD);
         Map<String, Object> inParamsForUpdateField = new LinkedHashMap<>();
         inParamsForUpdateField.put("testId", "37128f45-e004-450e-b1c5-6afd2adf593c");
         inParamsForUpdateField.put("key", "name");
         inParamsForUpdateField.put("value", "Ольга");
         engine.invoke(provider, inParamsForUpdateField);
 
-        provider.setOperation(findAll);
+        provider.setOperation(FIND_ALL);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
         assertThat(result.get(0).get("name"), is("Ольга"));
     }
@@ -1124,8 +1124,8 @@ class TestDataProviderEngineTest {
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile("testStringPrimaryKey.json");
-        provider.setOperation(findAll);
-        provider.setPrimaryKeyType(string);
+        provider.setOperation(FIND_ALL);
+        provider.setPrimaryKeyType(STRING);
         provider.setPrimaryKey("testId");
 
         Map<String, Object> inParamsForRead = new LinkedHashMap<>();
@@ -1142,7 +1142,7 @@ class TestDataProviderEngineTest {
 
         Map<String, Object> inParamsForDelete = new LinkedHashMap<>();
         inParamsForDelete.put("testId", "a7e0973e-5dfc-4f77-8e1b-2c284d70453d");
-        provider.setOperation(delete);
+        provider.setOperation(DELETE);
         engine.invoke(provider, inParamsForDelete);
 
         //Проверка, что удаление прошло успешно
@@ -1157,7 +1157,7 @@ class TestDataProviderEngineTest {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setPrimaryKeyType(string);
+        provider.setPrimaryKeyType(STRING);
         provider.setPrimaryKey("testId");
         provider.setFile("testStringPrimaryKey.json");
 
@@ -1175,12 +1175,12 @@ class TestDataProviderEngineTest {
         assertThat(result.get(0).get("name"), is("НИКОЛАЙ"));
         assertThat(result.get(1).get("name"), is("АНАСТАСИЯ"));
 
-        provider.setOperation(deleteMany);
+        provider.setOperation(DELETE_MANY);
         Map<String, Object> inParamsForDeleteMany = new LinkedHashMap<>();
         inParamsForDeleteMany.put("testIds", ids);
         engine.invoke(provider, inParamsForDeleteMany);
 
-        provider.setOperation(findAll);
+        provider.setOperation(FIND_ALL);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
         assertThat(result.size(), is(0));
     }
@@ -1195,7 +1195,7 @@ class TestDataProviderEngineTest {
         provider.setFile(emptyFile.getName());
 
         //Добавление новых данных в пустой файл
-        provider.setOperation(create);
+        provider.setOperation(CREATE);
 
         Map<String, Object> inParamsForCreate = new LinkedHashMap<>();
         inParamsForCreate.put("name", "test10");

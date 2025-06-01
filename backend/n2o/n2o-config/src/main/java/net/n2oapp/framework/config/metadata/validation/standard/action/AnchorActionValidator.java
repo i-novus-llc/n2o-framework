@@ -25,7 +25,7 @@ public class AnchorActionValidator implements SourceValidator<N2oAnchor>, Source
                     "Для действия <a> не задан `href`");
 
 
-        if (source.getTarget() != null && source.getTarget().equals(TargetEnum.application)
+        if (source.getTarget() != null && source.getTarget().equals(TargetEnum.APPLICATION)
                 && source.getHref() != null && source.getHref().startsWith("http")) {
             throw new N2oMetadataValidationException(
                     "Для действия <a> при абсолютном пути (http\\https) не может быть задан target=\"application\"");

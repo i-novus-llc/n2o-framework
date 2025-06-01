@@ -18,7 +18,7 @@ public class NotEqAndNotIn extends NotInListRule {
     @Override
     @SuppressWarnings("unchecked")
     protected List getResultList(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.notEq))
+        if (right.getType().equals(FilterTypeEnum.NOT_EQ))
             return getResultList(right, left);
         List res = new ArrayList();
         List list = (List) right.getValue();
@@ -31,6 +31,6 @@ public class NotEqAndNotIn extends NotInListRule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.notEq, FilterTypeEnum.notIn);
+        return new Pair<>(FilterTypeEnum.NOT_EQ, FilterTypeEnum.NOT_IN);
     }
 }

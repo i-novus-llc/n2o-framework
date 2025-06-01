@@ -23,7 +23,7 @@ public class N2oControllerFactory extends BaseMetadataFactory implements Control
 
     @Override
     public GetDataResponse execute(QueryRequestInfo request, QueryResponseInfo response) {
-        DefaultValuesModeEnum formModel = request.getMode() != null ? request.getMode() : DefaultValuesModeEnum.query;
+        DefaultValuesModeEnum formModel = request.getMode() != null ? request.getMode() : DefaultValuesModeEnum.QUERY;
         BiPredicate<ControllerTypeAware, DefaultValuesModeEnum> predicate = (controller, uploadType) -> formModel.name().equals(controller.getControllerType().name());
         GetController controller = (GetController) produce(predicate, formModel);
         return controller.execute(request, response);
@@ -31,14 +31,14 @@ public class N2oControllerFactory extends BaseMetadataFactory implements Control
 
     @Override
     public SetDataResponse execute(ActionRequestInfo request, ActionResponseInfo response) {
-        BiPredicate<ControllerTypeAware, ?> predicate = (controller, something) -> ControllerTypeEnum.operation == controller.getControllerType();
+        BiPredicate<ControllerTypeAware, ?> predicate = (controller, something) -> ControllerTypeEnum.OPERATION == controller.getControllerType();
         SetController controller = (SetController) produce(predicate, null);
         return controller.execute(request, response);
     }
 
     @Override
     public ValidationDataResponse execute(ValidationRequestInfo request, ValidationResponseInfo response) {
-        BiPredicate<ControllerTypeAware, ?> predicate = (controller, something) -> ControllerTypeEnum.validation == controller.getControllerType();
+        BiPredicate<ControllerTypeAware, ?> predicate = (controller, something) -> ControllerTypeEnum.VALIDATION == controller.getControllerType();
         ValidationController controller = (ValidationController) produce(predicate, null);
         return controller.execute(request, response);
     }

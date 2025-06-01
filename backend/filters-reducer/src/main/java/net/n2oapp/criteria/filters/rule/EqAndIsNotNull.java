@@ -12,11 +12,11 @@ import net.n2oapp.criteria.filters.rule.base.AlwaysSuccessRule;
 public class EqAndIsNotNull extends AlwaysSuccessRule {
 
     public EqAndIsNotNull() {
-        super(FilterTypeEnum.eq);
+        super(FilterTypeEnum.EQ);
     }
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eq, FilterTypeEnum.isNotNull);
+        return new Pair<>(FilterTypeEnum.EQ, FilterTypeEnum.IS_NOT_NULL);
     }
 }

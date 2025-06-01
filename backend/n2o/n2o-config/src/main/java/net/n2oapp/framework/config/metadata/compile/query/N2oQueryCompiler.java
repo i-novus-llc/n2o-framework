@@ -259,8 +259,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                     p.getMessage("n2o.required.filter"),
                     f.getFilterId()
             );
-            mandatory.setMoment(N2oValidation.ServerMomentEnum.beforeQuery);
-            mandatory.setSeverity(SeverityTypeEnum.danger);
+            mandatory.setMoment(N2oValidation.ServerMomentEnum.BEFORE_QUERY);
+            mandatory.setSeverity(SeverityTypeEnum.DANGER);
 
             if (query.getValidations() == null)
                 query.setValidations(new ArrayList<>());

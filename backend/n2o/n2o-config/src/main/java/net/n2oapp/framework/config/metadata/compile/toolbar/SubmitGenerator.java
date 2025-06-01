@@ -32,7 +32,7 @@ public class SubmitGenerator implements ButtonGenerator {
             throw new IllegalStateException("Need PageContext");
         String datasource = toolbar.getDatasourceId();
         N2oButton saveButton = new N2oButton();
-        saveButton.setId(GenerateTypeEnum.submit.name());
+        saveButton.setId(GenerateTypeEnum.SUBMIT.getId());
         saveButton.setColor("primary");
         N2oInvokeAction invokeAction = new N2oInvokeAction();
         invokeAction.setCloseOnSuccess(false);
@@ -41,7 +41,7 @@ public class SubmitGenerator implements ButtonGenerator {
         saveButton.setLabel(p.getMessage("n2o.api.action.toolbar.button.submit.label"));
         saveButton.setDatasourceId(datasource);
         saveButton.setActions(new N2oAction[]{invokeAction});
-        saveButton.setModel(ReduxModelEnum.resolve);
+        saveButton.setModel(ReduxModelEnum.RESOLVE);
         saveButton.setValidate(true);
         return Collections.singletonList(saveButton);
     }

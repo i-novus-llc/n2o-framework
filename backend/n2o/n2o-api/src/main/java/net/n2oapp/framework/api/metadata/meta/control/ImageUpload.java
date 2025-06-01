@@ -2,7 +2,9 @@ package net.n2oapp.framework.api.metadata.meta.control;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 
 /**
@@ -32,8 +34,12 @@ public class ImageUpload extends FileUpload {
     @JsonProperty
     private Boolean showName;
 
-    public enum ListTypeEnum {
-        image,
-        card
+    @RequiredArgsConstructor
+    @Getter
+    public enum ListTypeEnum implements N2oEnum {
+        IMAGE("image"),
+        CARD("card");
+
+        private final String id;
     }
 }

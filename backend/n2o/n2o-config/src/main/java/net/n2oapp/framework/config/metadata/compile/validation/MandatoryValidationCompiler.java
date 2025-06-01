@@ -27,7 +27,7 @@ public class MandatoryValidationCompiler extends BaseValidationCompiler<Mandator
     public MandatoryValidation compile(N2oMandatoryValidation source, CompileContext<?, ?> context, CompileProcessor p) {
         MandatoryValidation validation = new MandatoryValidation();
         compileValidation(validation, source, p);
-        validation.setSeverity(castDefault(source.getSeverity(), SeverityTypeEnum.danger));
+        validation.setSeverity(castDefault(source.getSeverity(), SeverityTypeEnum.DANGER));
         if (!"server".equals(source.getSide())) {
             ComponentScope scope = p.getScope(ComponentScope.class);
             if (scope != null) {

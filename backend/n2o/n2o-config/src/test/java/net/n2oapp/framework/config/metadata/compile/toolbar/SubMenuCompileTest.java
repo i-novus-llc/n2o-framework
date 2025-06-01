@@ -65,39 +65,39 @@ class SubMenuCompileTest extends SourceCompileTestBase {
         assertThat(updateBtn.getId(), is("update"));
         assertThat(updateBtn.getLabel(), is("Изменить"));
         assertThat(updateBtn.getAction(), instanceOf(ShowModal.class));
-        assertThat(updateBtn.getConditions().get(ValidationTypeEnum.enabled).size(), is(1));
+        assertThat(updateBtn.getConditions().get(ValidationTypeEnum.ENABLED).size(), is(1));
 
 
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi3");
         assertThat(subMenu.getShowToggleIcon(), is(true));
         assertThat(subMenu.getContent(), nullValue());
-        assertThat(subMenu.getConditions().get(ValidationTypeEnum.enabled).size(), is(1));
-        assertThat(subMenu.getConditions().get(ValidationTypeEnum.visible).size(), is(1));
-        Condition condition = subMenu.getConditions().get(ValidationTypeEnum.enabled).get(0);
+        assertThat(subMenu.getConditions().get(ValidationTypeEnum.ENABLED).size(), is(1));
+        assertThat(subMenu.getConditions().get(ValidationTypeEnum.VISIBLE).size(), is(1));
+        Condition condition = subMenu.getConditions().get(ValidationTypeEnum.ENABLED).get(0);
         assertThat(condition.getExpression(), is("name != null"));
         assertThat(condition.getModelLink(), is("models.filter['testSubMenu_form']"));
-        condition = subMenu.getConditions().get(ValidationTypeEnum.visible).get(0);
+        condition = subMenu.getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
         assertThat(condition.getExpression(), is("name != null"));
         assertThat(condition.getModelLink(), is("models.filter['testSubMenu_form']"));
 
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi4");
-        assertThat(subMenu.getConditions().get(ValidationTypeEnum.enabled).size(), is(1));
-        assertThat(subMenu.getConditions().get(ValidationTypeEnum.visible).size(), is(1));
-        condition = subMenu.getConditions().get(ValidationTypeEnum.enabled).get(0);
+        assertThat(subMenu.getConditions().get(ValidationTypeEnum.ENABLED).size(), is(1));
+        assertThat(subMenu.getConditions().get(ValidationTypeEnum.VISIBLE).size(), is(1));
+        condition = subMenu.getConditions().get(ValidationTypeEnum.ENABLED).get(0);
         assertThat(condition.getExpression(), is("name != null"));
         assertThat(condition.getModelLink(), is("models.resolve['testSubMenu_table']"));
-        condition = subMenu.getConditions().get(ValidationTypeEnum.visible).get(0);
+        condition = subMenu.getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
         assertThat(condition.getExpression(), is("name != null"));
         assertThat(condition.getModelLink(), is("models.resolve['testSubMenu_table']"));
 
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi5");
         assertThat(subMenu.getIcon(), is("fa fa-plus"));
         assertThat(subMenu.getIconPosition(), is(PositionEnum.RIGHT));
-        assertThat(subMenu.getContent().get(0).getModel(), is(ReduxModelEnum.datasource));
+        assertThat(subMenu.getContent().get(0).getModel(), is(ReduxModelEnum.DATASOURCE));
         assertThat(subMenu.getContent().get(0).getDatasource(), is("testSubMenu_table"));
         assertThat(subMenu.getContent().get(0).getIcon(), is("fa fa-pencil"));
         assertThat(subMenu.getContent().get(0).getIconPosition(), is(PositionEnum.RIGHT));
-        assertThat(subMenu.getContent().get(1).getModel(), is(ReduxModelEnum.resolve));
+        assertThat(subMenu.getContent().get(1).getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(subMenu.getContent().get(1).getDatasource(), is("testSubMenu_ds"));
 
         assertThat(subMenu.getContent().size(), is(3));

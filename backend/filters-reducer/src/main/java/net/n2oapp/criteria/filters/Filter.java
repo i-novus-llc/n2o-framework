@@ -28,7 +28,7 @@ public class Filter implements Serializable {
 
     public Filter(Object value) {
         this.value = value;
-        this.type = FilterTypeEnum.eq;
+        this.type = FilterTypeEnum.EQ;
     }
 
     public Filter(FilterTypeEnum type) {

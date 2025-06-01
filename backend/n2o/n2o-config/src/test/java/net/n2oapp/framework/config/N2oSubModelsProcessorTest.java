@@ -155,7 +155,7 @@ class N2oSubModelsProcessorTest {
             this.displayFields = Arrays.asList(idField, new QuerySimpleField("label"), new QuerySimpleField("someField"));
             N2oQuery.Filter filter = new N2oQuery.Filter();
             Map<FilterTypeEnum, N2oQuery.Filter> filterMap = new HashMap<>();
-            filterMap.put(FilterTypeEnum.eq, filter);
+            filterMap.put(FilterTypeEnum.EQ, filter);
             this.getFiltersMap().put("id", filterMap);
         }
     }

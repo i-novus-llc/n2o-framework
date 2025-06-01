@@ -124,7 +124,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         control.setId("id");
         field.setControl(control);
         MandatoryValidation mandatory = new MandatoryValidation("id_validation", "id is required", field.getControl().getId());
-        mandatory.setMoment(N2oValidation.ServerMomentEnum.beforeQuery);
+        mandatory.setMoment(N2oValidation.ServerMomentEnum.BEFORE_QUERY);
         context.setValidations(Arrays.asList(mandatory));
         context.setMessagesForm("testTable.filter");
         return context;
@@ -168,11 +168,11 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         control.setId("id");
         field.setControl(control);
         MandatoryValidation mandatory = new MandatoryValidation("required_id", "Id is null", field.getControl().getId());
-        mandatory.setMoment(N2oValidation.ServerMomentEnum.beforeOperation);
+        mandatory.setMoment(N2oValidation.ServerMomentEnum.BEFORE_OPERATION);
         validations.add(mandatory);
         ConditionValidation conditionValidation = new ConditionValidation();
         conditionValidation.setId("testName");
-        conditionValidation.setSeverity(SeverityTypeEnum.danger);
+        conditionValidation.setSeverity(SeverityTypeEnum.DANGER);
         conditionValidation.setExpression("name === 'testName'");
         conditionValidation.setFieldId("name");
         conditionValidation.setMessage("Name should be testName");

@@ -13,6 +13,6 @@ public class IsNullAndIsNotNull extends AlwaysConflictRule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.isNotNull, FilterTypeEnum.isNull);
+        return new Pair<>(FilterTypeEnum.IS_NOT_NULL, FilterTypeEnum.IS_NULL);
     }
 }

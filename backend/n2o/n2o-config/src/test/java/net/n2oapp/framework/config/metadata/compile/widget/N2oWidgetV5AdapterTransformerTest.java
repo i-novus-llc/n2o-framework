@@ -11,7 +11,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum.query;
+import static net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum.QUERY;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -35,15 +35,15 @@ class N2oWidgetV5AdapterTransformerTest extends SourceCompileTestBase {
                 .merge().transform().get("testWidgetTransformer", N2oTable.class);
         assertThat(table.getDatasource().getQueryId(), is("test"));
         assertThat(table.getDatasource().getObjectId(), is("test"));
-        assertThat(table.getDatasource().getDefaultValuesMode(), is(query));
+        assertThat(table.getDatasource().getDefaultValuesMode(), is(QUERY));
         assertThat(table.getDatasource().getFilters().length, is(3));
         assertThat(table.getDatasource().getFilters()[2].getDatasourceId(), is("f1"));
         assertThat(table.getDatasource().getFilters()[2].getFieldId(), is("id"));
-        assertThat(table.getDatasource().getFilters()[2].getModel(), is(ReduxModelEnum.resolve));
+        assertThat(table.getDatasource().getFilters()[2].getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(table.getDatasource().getRoute(), is("/test"));
         assertThat(table.getDatasource().getSize(), is(10));
         assertThat(table.getDatasource().getDependencies().length, is(1));
-        assertThat(((N2oStandardDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getModel(), is(ReduxModelEnum.resolve));
+        assertThat(((N2oStandardDatasource.FetchDependency)table.getDatasource().getDependencies()[0]).getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(table.getDatasource().getDependencies()[0].getOn(), is("f1"));
         assertThat(table.getDependencies().length, is(1));
         assertThat(table.getDependencies()[0].getDatasource(), is("f1"));

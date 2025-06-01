@@ -103,22 +103,22 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
 
             if (getMode() != null) {
                 switch (getMode()) {
-                    case query:
-                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
+                    case QUERY:
+                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.QUERY);
                         break;
-                    case defaults:
-                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.defaults);
+                    case DEFAULTS:
+                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.DEFAULTS);
                         break;
-                    case merge:
-                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.merge);
+                    case MERGE:
+                        datasource.setDefaultValuesMode(DefaultValuesModeEnum.MERGE);
                         break;
                 }
             }
 
-            if (getDetailFieldId() != null && !DefaultValuesModeEnum.defaults.equals(getMode())) {
+            if (getDetailFieldId() != null && !DefaultValuesModeEnum.DEFAULTS.equals(getMode())) {
                 N2oPreFilter filter = new N2oPreFilter();
                 filter.setFieldId(getDetailFieldId());
-                filter.setType(FilterTypeEnum.eq);
+                filter.setType(FilterTypeEnum.EQ);
                 filter.setValueAttr(Placeholders.ref(getMasterFieldId() != null ? getMasterFieldId() : PK));
                 String param = getMasterParam();
                 if (param == null && getRoute() != null && getRoute().contains(":")) {
@@ -146,7 +146,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction implements
                     }
                     if (!exists)
                         addPathParams(new N2oPathParam[]{pathParam});
-                } else if (!ReduxModelEnum.filter.equals(filter.getModel())) {
+                } else if (!ReduxModelEnum.FILTER.equals(filter.getModel())) {
                     N2oQueryParam queryParam = new N2oQueryParam();
                     queryParam.setName(param);
                     queryParam.setDatasourceId(filter.getDatasourceId());

@@ -47,7 +47,7 @@ class SearchablePageCompileTest extends SourceCompileTestBase {
 
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
         assertThat(query.getOnSet().normalizeLink(), is("models.filter['testSearchablePage_table'].name"));
-        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModelEnum.filter));
+        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModelEnum.FILTER));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage_table"));
 
         BindLink bindLink = ((StandardDatasource) page.getDatasources().get("testSearchablePage_table")).getProvider().getQueryMapping().get("table_name");
@@ -63,7 +63,7 @@ class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getSrc(), is("SearchablePage"));
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("name");
         assertThat(query.getOnSet().normalizeLink(), is("models.filter['testSearchablePage2_table'].name"));
-        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModelEnum.filter));
+        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModelEnum.FILTER));
         assertThat(((ModelLink) query.getOnSet()).getDatasource(), is("testSearchablePage2_table"));
 
         BindLink bindLink = ((StandardDatasource) page.getDatasources().get("testSearchablePage2_table")).getProvider().getQueryMapping().get("name");

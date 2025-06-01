@@ -75,7 +75,7 @@ class WebSocketNotificationAT extends AutoTestBase {
 
         webSocketMessageController.sendAlert(DESTINATION, message);
         page.shouldBeVisible();
-        Alert alert = page.alerts(Alert.PlacementEnum.topLeft).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP_LEFT).alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Title");
         alert.shouldHaveText("Text");
@@ -90,7 +90,7 @@ class WebSocketNotificationAT extends AutoTestBase {
 
         webSocketMessageController.sendAlert(DESTINATION, message);
         page.shouldBeVisible();
-        alert = page.alerts(Alert.PlacementEnum.bottomRight).alert(0);
+        alert = page.alerts(Alert.PlacementEnum.BOTTOM_RIGHT).alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Hello world");
         alert.shouldHaveText("Привет Мир");

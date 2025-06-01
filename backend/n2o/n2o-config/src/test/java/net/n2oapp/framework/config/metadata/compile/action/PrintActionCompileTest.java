@@ -113,7 +113,7 @@ class PrintActionCompileTest extends SourceCompileTestBase {
         assertThat(print.getPayload().getLoader(), is(true));
         assertThat(print.getPayload().getLoaderText(), is("Loading..."));
         assertThat(print.getPayload().getKeepIndent(), is(false));
-        assertThat(print.getPayload().getType(), is(PrintTypeEnum.pdf));
+        assertThat(print.getPayload().getType(), is(PrintTypeEnum.PDF));
         assertThat(print.getPayload().getBase64(), is(false));
     }
 }

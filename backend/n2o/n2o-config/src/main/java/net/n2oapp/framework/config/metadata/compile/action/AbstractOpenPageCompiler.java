@@ -282,7 +282,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         actionRoute = normalize(source.getId());
         // генерация маршрута для динамической страницы с моделью resolve
         boolean isDynamicPage = hasRefs(source.getPageId()) || isDynamic(source.getPageId());
-        if (isDynamicPage && actionModelLink != null && ReduxModelEnum.resolve.equals(actionModelLink.getModel())) {
+        if (isDynamicPage && actionModelLink != null && ReduxModelEnum.RESOLVE.equals(actionModelLink.getModel())) {
             String masterIdParam = actionModelLink.getDatasource() + "_id";
             String dynamicPageActionRoute = normalize(colon(masterIdParam)) + actionRoute;
             pathMapping.put(masterIdParam, actionModelLink);
@@ -320,7 +320,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      */
     @Deprecated
     protected void initToolbarBySubmitOperation(S source, PageContext context, CompileProcessor p) {
-        if (!StringUtils.isBlank(source.getSubmitOperationId()) || SubmitActionTypeEnum.copy.equals(source.getSubmitActionType())) {
+        if (!StringUtils.isBlank(source.getSubmitOperationId()) || SubmitActionTypeEnum.COPY.equals(source.getSubmitActionType())) {
             N2oToolbar n2oToolbar = new N2oToolbar();
             if (context.getToolbars() == null) {
                 context.setToolbars(new ArrayList<>());
@@ -331,15 +331,15 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
             //create submit button
             N2oButton saveButton = new N2oButton();
-            saveButton.setId(GenerateTypeEnum.submit.name());
+            saveButton.setId(GenerateTypeEnum.SUBMIT.getId());
             saveButton.setColor("primary");
             N2oAction[] actions = null;
             ReduxModelEnum saveButtonModel = null;
-            SubmitActionTypeEnum submitActionType = castDefault(source.getSubmitActionType(), SubmitActionTypeEnum.invoke);
+            SubmitActionTypeEnum submitActionType = castDefault(source.getSubmitActionType(), SubmitActionTypeEnum.INVOKE);
             Boolean closeOnSuccess = castDefault(source.getCloseAfterSubmit(), true);
             Boolean refreshOnSuccessSubmit = castDefault(source.getRefreshAfterSubmit(), true);
 
-            if (submitActionType == SubmitActionTypeEnum.copy) {
+            if (submitActionType == SubmitActionTypeEnum.COPY) {
                 N2oCopyAction copyAction = new N2oCopyAction();
                 copyAction.setSourceModel(source.getCopyModel());
                 copyAction.setSourceDatasourceId(source.getCopyDatasourceId());
@@ -356,7 +356,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 copyAction.setCloseOnSuccess(closeOnSuccess);
                 actions = new N2oAction[]{copyAction};
                 saveButtonModel = source.getCopyModel();
-            } else if (submitActionType == SubmitActionTypeEnum.invoke) {
+            } else if (submitActionType == SubmitActionTypeEnum.INVOKE) {
                 List<N2oAction> actionList = new ArrayList<>();
                 N2oInvokeAction invokeAction = new N2oInvokeAction();
                 actionList.add(invokeAction);
@@ -391,7 +391,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
                 if (source.getRedirectUrlAfterSubmit() != null) {
                     invokeAction.setRedirectTarget(castDefault(source.getRedirectTargetAfterSubmit(),
-                            () -> (RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? TargetEnum.application : TargetEnum.self)));
+                            () -> (RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? TargetEnum.APPLICATION : TargetEnum.SELF)));
                     invokeAction.setRedirectUrl(source.getRedirectUrlAfterSubmit());
                 }
 
@@ -401,17 +401,17 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             }
             saveButton.setLabel(castDefault(source.getSubmitLabel(), () -> p.getMessage("n2o.api.action.toolbar.button.submit.label")));
             saveButton.setActions(actions);
-            saveButton.setModel(castDefault(saveButtonModel, ReduxModelEnum.resolve));
+            saveButton.setModel(castDefault(saveButtonModel, ReduxModelEnum.RESOLVE));
             saveButton.setValidate(true);
             items[0] = saveButton;
 
             //create close button
             N2oButton closeButton = new N2oButton();
-            closeButton.setId(GenerateTypeEnum.close.name());
+            closeButton.setId(GenerateTypeEnum.CLOSE.getId());
             closeButton.setLabel(p.getMessage("n2o.api.action.toolbar.button.close.label"));
             N2oCloseAction cancelAction = new N2oCloseAction();
-            cancelAction.setId(GenerateTypeEnum.close.name());
-            closeButton.setModel(ReduxModelEnum.filter);
+            cancelAction.setId(GenerateTypeEnum.CLOSE.getId());
+            closeButton.setModel(ReduxModelEnum.FILTER);
             cancelAction.setRefresh(source.getRefreshOnClose());
             closeButton.setActions(new N2oCloseAction[]{cancelAction});
             closeButton.setValidate(false);

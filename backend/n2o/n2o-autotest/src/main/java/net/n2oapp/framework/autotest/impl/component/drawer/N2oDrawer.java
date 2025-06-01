@@ -35,7 +35,7 @@ public class N2oDrawer extends N2oComponent implements Drawer {
 
     @Override
     public void shouldHavePlacement(PlacementEnum placement) {
-        element().shouldHave(Condition.cssClass("drawer-" + placement.name()));
+        element().shouldHave(Condition.cssClass("drawer-" + placement.name().toLowerCase()));
     }
 
     @Override

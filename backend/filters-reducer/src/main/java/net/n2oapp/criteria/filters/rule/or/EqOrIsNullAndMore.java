@@ -14,9 +14,9 @@ public class EqOrIsNullAndMore implements Rule {
     @Override
     @SuppressWarnings("unchecked")
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.eqOrIsNull) && left.getType().equals(FilterTypeEnum.more))
+        if (right.getType().equals(FilterTypeEnum.EQ_OR_IS_NULL) && left.getType().equals(FilterTypeEnum.MORE))
             return simplify(right, left);
-        else if (left.getType().equals(FilterTypeEnum.eqOrIsNull) && right.getType().equals(FilterTypeEnum.more)) {
+        else if (left.getType().equals(FilterTypeEnum.EQ_OR_IS_NULL) && right.getType().equals(FilterTypeEnum.MORE)) {
             Comparable value = (Comparable) left.getValue();
             Comparable bottom = (Comparable) right.getValue();
             if (value.compareTo(bottom) > 0) return new Filter(left.getValue());
@@ -28,6 +28,6 @@ public class EqOrIsNullAndMore implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eqOrIsNull, FilterTypeEnum.more);
+        return new Pair<>(FilterTypeEnum.EQ_OR_IS_NULL, FilterTypeEnum.MORE);
     }
 }

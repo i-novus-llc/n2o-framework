@@ -68,9 +68,9 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
 
         List<ControlDependency> dependencies = field.getDependencies();
         assertThat(dependencies.size(), is(2));
-        assertThat(dependencies.get(0).getType(), is(ValidationTypeEnum.fetch));
+        assertThat(dependencies.get(0).getType(), is(ValidationTypeEnum.FETCH));
         assertThat(dependencies.get(0).getOn(), is(Arrays.asList("auto2")));
-        assertThat(dependencies.get(1).getType(), is(ValidationTypeEnum.reset));
+        assertThat(dependencies.get(1).getType(), is(ValidationTypeEnum.RESET));
         assertThat(dependencies.get(1).getOn(), is(Arrays.asList("org_id")));
 
 

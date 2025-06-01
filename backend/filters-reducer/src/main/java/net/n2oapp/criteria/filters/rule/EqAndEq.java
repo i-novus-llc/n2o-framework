@@ -32,6 +32,6 @@ public class EqAndEq implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eq, FilterTypeEnum.eq);
+        return new Pair<>(FilterTypeEnum.EQ, FilterTypeEnum.EQ);
     }
 }

@@ -84,7 +84,7 @@ class MultiActionAT extends AutoTestBase {
 
         inputText.setValue("test");
         button.click();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldExists();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
         inputText.shouldHaveValue("test");
 
         inputText.setValue("123");
@@ -110,12 +110,12 @@ class MultiActionAT extends AutoTestBase {
         Modal modalPage = N2oSelenide.modal();
         modalPage.shouldExists();
         modalPage.shouldHaveTitle("Страница 2");
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldNotExists();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
         modalPage.close();
         modalPage.shouldNotExists();
         checkbox.setChecked(false);
         button.click();
-        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldExists();
         alert.shouldHaveText("Модальное окно не будет открыто");
 
@@ -125,11 +125,11 @@ class MultiActionAT extends AutoTestBase {
         SimplePage openPage = N2oSelenide.page(SimplePage.class);
         openPage.shouldExists();
         page.breadcrumb().crumb(1).shouldHaveLabel("Страница 2");
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldNotExists();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
         page.breadcrumb().crumb(0).click();
         checkbox.setChecked(false);
         button.click();
-        alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldExists();
         alert.shouldHaveText("Страница не будет открыта");
 
@@ -139,11 +139,11 @@ class MultiActionAT extends AutoTestBase {
         Drawer drawerPage = N2oSelenide.drawer();
         drawerPage.shouldExists();
         drawerPage.shouldHaveTitle("Страница 2");
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldNotExists();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
         drawerPage.close();
         checkbox.setChecked(false);
         button.click();
-        alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldExists();
         alert.shouldHaveText("Выдвижное окно не будет открыто");
     }

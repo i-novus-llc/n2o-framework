@@ -17,11 +17,11 @@ public class Result {
      * notMergeable - не найдено правило для слития
      */
     public enum TypeEnum {
-        success, conflict, notMergeable;
+        SUCCESS, CONFLICT, NOT_MERGEABLE;
     }
 
     public boolean isSuccess() {
-        return getType().equals(TypeEnum.success);
+        return getType().equals(TypeEnum.SUCCESS);
     }
 
     private Filter leftFilter;

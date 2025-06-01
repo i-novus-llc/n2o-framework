@@ -55,7 +55,7 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
                 .getToolbar().getButton("b1").getAction()).getPayload().getActions().get(0);
         assertThat(condition.getType(), is("n2o/api/action/condition"));
         assertThat(condition.getPayload().getDatasource(), is("testConditionAction_ds1"));
-        assertThat(condition.getPayload().getModel(), is(ReduxModelEnum.edit));
+        assertThat(condition.getPayload().getModel(), is(ReduxModelEnum.EDIT));
         assertThat(condition.getPayload().getCondition(), is("code == 'A' && type == 1"));
 
         //success if-а верхнего уровня
@@ -66,7 +66,7 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
         //вложенный if success-a if-а верхнего уровня
         ConditionAction successCondition = (ConditionAction) success.getPayload().getActions().get(1);
         assertThat(successCondition.getPayload().getDatasource(), is("testConditionAction_ds1"));
-        assertThat(successCondition.getPayload().getModel(), is(ReduxModelEnum.edit));
+        assertThat(successCondition.getPayload().getModel(), is(ReduxModelEnum.EDIT));
         assertThat(successCondition.getPayload().getCondition(), is("name == 'test1'"));
         assertThat(successCondition.getPayload().getSuccess(), instanceOf(MultiAction.class));
 
@@ -77,7 +77,7 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
         //else-if верхнего уровня, он же - fail if-а верхнего уровня
         ConditionAction fail = (ConditionAction) condition.getPayload().getFail();
         assertThat(fail.getPayload().getDatasource(), is("testConditionAction_ds1"));
-        assertThat(fail.getPayload().getModel(), is(ReduxModelEnum.edit));
+        assertThat(fail.getPayload().getModel(), is(ReduxModelEnum.EDIT));
         assertThat(fail.getPayload().getCondition(), is("code == 'A' && type == 2"));
         assertThat(fail.getPayload().getSuccess(), instanceOf(MultiAction.class));
 
@@ -89,7 +89,7 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
         //вложенный if success-a else-if-a верхнего уровня
         ConditionAction failSuccessCondition = (ConditionAction) failSuccess.getPayload().getActions().get(0);
         assertThat(failSuccessCondition.getPayload().getDatasource(), is("testConditionAction_ds2"));
-        assertThat(failSuccessCondition.getPayload().getModel(), is(ReduxModelEnum.filter));
+        assertThat(failSuccessCondition.getPayload().getModel(), is(ReduxModelEnum.FILTER));
         assertThat(failSuccessCondition.getPayload().getCondition(), is("name == 'test2'"));
         assertThat(failSuccessCondition.getPayload().getSuccess(), instanceOf(CustomAction.class));
 
@@ -106,7 +106,7 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
                 .getToolbar().getButton("b1").getAction()).getPayload().getActions().get(1);
         assertThat(condition.getType(), is("n2o/api/action/condition"));
         assertThat(condition.getPayload().getDatasource(), is("testConditionAction_ds1"));
-        assertThat(condition.getPayload().getModel(), is(ReduxModelEnum.edit));
+        assertThat(condition.getPayload().getModel(), is(ReduxModelEnum.EDIT));
         assertThat(condition.getPayload().getCondition(), is("code == 'B'"));
         assertThat(condition.getPayload().getSuccess(), instanceOf(AlertAction.class));
 

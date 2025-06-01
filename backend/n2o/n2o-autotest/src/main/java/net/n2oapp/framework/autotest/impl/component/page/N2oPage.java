@@ -71,7 +71,7 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public Alerts alerts(Alert.PlacementEnum placement) {
-        return N2oSelenide.collection(element().$$(String.format(".n2o-alerts-container .%s .n2o-alert", placement.name())), Alerts.class);
+        return N2oSelenide.collection(element().$$(String.format(".n2o-alerts-container .%s .n2o-alert", placement.getId())), Alerts.class);
     }
 
     @Override
@@ -108,9 +108,9 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public void shouldHaveLayout(NavigationLayoutEnum layout) {
-        if (Objects.requireNonNull(layout) == NavigationLayoutEnum.fullSizeHeader) {
+        if (Objects.requireNonNull(layout) == NavigationLayoutEnum.FULL_SIZE_HEADER) {
             element().$(".n2o-layout-full-size-header").should(Condition.exist);
-        } else if (layout == NavigationLayoutEnum.fullSizeSidebar) {
+        } else if (layout == NavigationLayoutEnum.FULL_SIZE_SIDEBAR) {
             element().$(".n2o-layout-full-size-sidebar").should(Condition.exist);
         }
     }

@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum DefaultActionsEnum {
-    create(false, false, true, "n2o.create", true, "fa fa-plus", "n2o.save", "n2o.page.creating", DefaultValuesModeEnum.defaults),
-    update(true, true, "n2o.update", true, "fa fa-pencil", "n2o.save", "n2o.page.updating", DefaultValuesModeEnum.query),
-    delete(true, false, "n2o.delete", false, "fa fa-trash");
+    CREATE("create", false, false, true, "n2o.create", true, "fa fa-plus", "n2o.save", "n2o.page.creating", DefaultValuesModeEnum.DEFAULTS),
+    UPDATE("update", true, true, "n2o.update", true, "fa fa-pencil", "n2o.save", "n2o.page.updating", DefaultValuesModeEnum.QUERY),
+    DELETE("delete", true, false, "n2o.delete", false, "fa fa-trash");
 
     private static final Map<String, DefaultActionsEnum> actionsByNameMap = new HashMap<>();
 
@@ -17,6 +17,7 @@ public enum DefaultActionsEnum {
             actionsByNameMap.put(da.name(), da);
     }
 
+    private final String id;
     private boolean context;
     private boolean defaultAction;
     private boolean primary;
@@ -27,8 +28,9 @@ public enum DefaultActionsEnum {
     private String pageName;
     private DefaultValuesModeEnum mode;
 
-    DefaultActionsEnum(boolean context, boolean defaultAction, String label, boolean modal,
+    DefaultActionsEnum(String id, boolean context, boolean defaultAction, String label, boolean modal,
                        String icon, String formSubmitLabel, String pageName, DefaultValuesModeEnum upload) {
+        this.id = id;
         this.context = context;
         this.defaultAction = defaultAction;
         this.label = label;
@@ -39,8 +41,9 @@ public enum DefaultActionsEnum {
         this.mode = upload;
     }
 
-    DefaultActionsEnum(boolean context, boolean defaultAction, boolean primary, String label, boolean modal,
+    DefaultActionsEnum(String id, boolean context, boolean defaultAction, boolean primary, String label, boolean modal,
                        String icon, String formSubmitLabel, String pageName, DefaultValuesModeEnum upload) {
+        this.id = id;
         this.context = context;
         this.defaultAction = defaultAction;
         this.primary = primary;
@@ -52,7 +55,8 @@ public enum DefaultActionsEnum {
         this.mode = upload;
     }
 
-    DefaultActionsEnum(boolean context, boolean defaultAction, String label, boolean modal, String icon) {
+    DefaultActionsEnum(String id, boolean context, boolean defaultAction, String label, boolean modal, String icon) {
+        this.id = id;
         this.context = context;
         this.defaultAction = defaultAction;
         this.label = label;
@@ -60,6 +64,9 @@ public enum DefaultActionsEnum {
         this.icon = icon;
     }
 
+    public String getId() {
+        return id;
+    }
     public static DefaultActionsEnum get(String name) {
         return actionsByNameMap.get(name);
     }

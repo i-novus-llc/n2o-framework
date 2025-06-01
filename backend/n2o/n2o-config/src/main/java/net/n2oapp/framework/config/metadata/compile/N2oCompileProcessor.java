@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
+import static net.n2oapp.framework.config.util.StylesResolver.camelToSnake;
 
 /**
  * Реализация процессора сборки метаданных
@@ -251,6 +253,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     public <T> T resolve(String placeholder, Class<T> clazz) {
         Object value = resolveProperty(placeholder, true);
         value = resolveContext(value);
+        if (N2oEnum.class.isAssignableFrom(clazz)) value = camelToSnake(value);
         return (T) env.getDomainProcessor().deserialize(value, clazz);
     }
 

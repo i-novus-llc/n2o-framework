@@ -104,7 +104,7 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/action1/multi1"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethodEnum.POST));
-        assertThat(submitPayload.getModel(), is(ReduxModelEnum.resolve));
+        assertThat(submitPayload.getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(submitPayload.getDatasource(), is("page_action1_w1"));
         RefreshAction refresh = (RefreshAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
         assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("page_test"));
@@ -115,7 +115,7 @@ class OpenPageCompileTest extends SourceCompileTestBase {
 
         LinkActionImpl close = (LinkActionImpl) openPage.getToolbar().getButton("close").getAction();
         assertThat(close.getUrl(), is("/page"));
-        assertThat(close.getTarget(), is(TargetEnum.application));
+        assertThat(close.getTarget(), is(TargetEnum.APPLICATION));
     }
 
     @Test
@@ -132,9 +132,9 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().size(), is(1));
         assertThat(context.getPreFilters().get(0).getRefPageId(), is("page"));
         assertThat(context.getPreFilters().get(0).getDatasourceId(), is("test"));
-        assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModelEnum.resolve));
+        assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(context.getPreFilters().get(0).getParam(), is("page_test_id"));
-        assertThat(context.getPreFilters().get(0).getType(), is(FilterTypeEnum.eq));
+        assertThat(context.getPreFilters().get(0).getType(), is(FilterTypeEnum.EQ));
         assertThat(context.getParentModelLinks().get(1).getFieldId(), is("id"));
         assertThat(context.getParentModelLinks().get(1).getDatasource(), is("page_test"));
         assertThat(context.getParentModelLinks().get(1).getSubModelQuery(), notNullValue());
@@ -157,7 +157,7 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/page/:page_test_id/action2/multi1"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethodEnum.POST));
-        assertThat(submitPayload.getModel(), is(ReduxModelEnum.resolve));
+        assertThat(submitPayload.getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(submitPayload.getDatasource(), is("page_action2_main"));
         RefreshAction refresh = (RefreshAction) ((MultiAction) openPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
         assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("page_test"));
@@ -169,7 +169,7 @@ class OpenPageCompileTest extends SourceCompileTestBase {
 
         LinkActionImpl close = (LinkActionImpl) openPage.getToolbar().getButton("close").getAction();
         assertThat(close.getUrl(), is("/page"));
-        assertThat(close.getTarget(), is(TargetEnum.application));
+        assertThat(close.getTarget(), is(TargetEnum.APPLICATION));
     }
 
     @Test
@@ -331,9 +331,9 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().size(), is(1));
         assertThat(context.getPreFilters().get(0).getRefPageId(), is("page"));
         assertThat(context.getPreFilters().get(0).getDatasourceId(), is("test"));
-        assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModelEnum.resolve));
+        assertThat(context.getPreFilters().get(0).getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(context.getPreFilters().get(0).getValue(), is("{masterId}"));
-        assertThat(context.getPreFilters().get(0).getType(), is(FilterTypeEnum.eq));
+        assertThat(context.getPreFilters().get(0).getType(), is(FilterTypeEnum.EQ));
 
         StandardPage openPage = (StandardPage) read().compile().get(context);
         assertThat(openPage.getId(), is("page_masterDetail"));
@@ -551,18 +551,18 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         Toolbar toolbar = page.getWidget().getToolbar();
         LinkAction link = (LinkAction) toolbar.getButton("id1").getAction();
         assertThat(link.getUrl(), is("/testSimpleOpenPage/id1"));
-        assertThat(link.getTarget(), is(TargetEnum.application));
+        assertThat(link.getTarget(), is(TargetEnum.APPLICATION));
 
         link = (LinkAction) toolbar.getButton("id2").getAction();
         assertThat(link.getUrl(), is("#/testSimpleOpenPage/view"));
-        assertThat(link.getTarget(), is(TargetEnum.newWindow));
+        assertThat(link.getTarget(), is(TargetEnum.NEW_WINDOW));
     }
 
     @Test
     void testCustomBreadcrumb() {
         DataSet data = new DataSet("id", 123);
         PageContext context = new PageContext("testOpenPageParent", "/page/:id/view");
-        ModelLink modelLink = new ModelLink(ReduxModelEnum.resolve, "ds1");
+        ModelLink modelLink = new ModelLink(ReduxModelEnum.RESOLVE, "ds1");
         modelLink.setValue("`id`");
         context.setPathRouteMapping(Collections.singletonMap("id", modelLink));
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageParent.page.xml")

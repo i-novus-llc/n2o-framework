@@ -24,5 +24,4 @@ public class N2oRestDataProvider extends AbstractDataProvider implements N2oMapI
     public enum MethodEnum {
         GET, PUT, POST, REMOVE, HEAD, DELETE, PATCH
     }
-
 }

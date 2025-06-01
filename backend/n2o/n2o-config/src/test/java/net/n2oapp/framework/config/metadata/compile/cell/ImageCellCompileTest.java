@@ -53,22 +53,22 @@ class ImageCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getTitle(), is("`Title`"));
         assertThat(cell.getDescription(), is("`Description`"));
         assertThat(cell.getData(), is("`'data:image/jpeg;base64'+image`"));
-        assertThat(cell.getTextPosition(), is(N2oImageCell.PositionEnum.left));
+        assertThat(cell.getTextPosition(), is(N2oImageCell.PositionEnum.LEFT));
         assertThat(cell.getStatuses().length, is(2));
         assertThat(cell.getStatuses()[0].getSrc(), is("testSrc"));
         assertThat(cell.getStatuses()[0].getFieldId(), is("status1"));
         assertThat(cell.getStatuses()[0].getIcon(), is("`icon1`"));
-        assertThat(cell.getStatuses()[0].getPlace(), is(ImageStatusElementPlaceEnum.topRight));
+        assertThat(cell.getStatuses()[0].getPlace(), is(ImageStatusElementPlaceEnum.TOP_RIGHT));
         assertThat(cell.getStatuses()[1].getFieldId(), is("id"));
         assertThat(cell.getStatuses()[1].getSrc(), is("Status"));
         assertThat(cell.getStatuses()[1].getIcon(), is(nullValue()));
-        assertThat(cell.getStatuses()[1].getPlace(), is(ImageStatusElementPlaceEnum.topLeft));
+        assertThat(cell.getStatuses()[1].getPlace(), is(ImageStatusElementPlaceEnum.TOP_LEFT));
 
         assertThat(cell.getAction(), instanceOf(LinkActionImpl.class));
 
         cell = (ImageCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getWidth(), nullValue());
-        assertThat(cell.getTextPosition(), is(N2oImageCell.PositionEnum.right));
+        assertThat(cell.getTextPosition(), is(N2oImageCell.PositionEnum.RIGHT));
         assertThat(cell.getShape(), is(ShapeTypeEnum.SQUARE));
 
         cell = (ImageCell) table.getComponent().getBody().getCells().get(2);

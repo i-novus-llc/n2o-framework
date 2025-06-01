@@ -24,6 +24,6 @@ public class LessAndLess implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.less, FilterTypeEnum.less);
+        return new Pair<>(FilterTypeEnum.LESS, FilterTypeEnum.LESS);
     }
 }

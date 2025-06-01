@@ -1,47 +1,33 @@
 package net.n2oapp.framework.api.metadata;
 
-
+import com.fasterxml.jackson.annotation.JsonValue;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 /**
  * Модель на клиенте
  */
 public enum ReduxModelEnum implements IdAware {
-    resolve {
-        @Override
-        public String getId() {
-            return "resolve";
-        }
-    }, filter() {
-        @Override
-        public String getId() {
-            return "filter";
-        }
-    }, selected() {
-        @Override
-        public String getId() {
-            return "selected";
-        }
-    }, edit() {
-        @Override
-        public String getId() {
-            return "edit";
-        }
-    }, multi() {
-        @Override
-        public String getId() {
-            return "multi";
-        }
-    }, datasource() {
-        @Override
-        public String getId() {
-            return "datasource";
-        }
-    };
+    RESOLVE("resolve"),
+    FILTER("filter"),
+    SELECTED("selected"),
+    EDIT("edit"),
+    MULTI("multi"),
+    DATASOURCE("datasource");
 
+    private final String id;
+
+    ReduxModelEnum(String id) {
+        this.id = id;
+    }
 
     @Override
     public void setId(String id) {
         // no implementation
+    }
+
+    @Override
+    @JsonValue
+    public String getId() {
+        return id;
     }
 }

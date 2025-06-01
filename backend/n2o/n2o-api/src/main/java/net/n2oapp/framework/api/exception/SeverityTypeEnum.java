@@ -9,10 +9,10 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
  * Time: 14:49
  */
 public enum SeverityTypeEnum implements IdAware {
-    danger("danger"),
-    warning("warning"),
-    info("info"),
-    success("success");
+    DANGER("danger"),
+    WARNING("warning"),
+    INFO("info"),
+    SUCCESS("success");
 
     private String name;
 

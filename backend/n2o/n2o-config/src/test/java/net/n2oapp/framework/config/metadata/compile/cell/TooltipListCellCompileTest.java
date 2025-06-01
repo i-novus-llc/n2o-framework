@@ -47,12 +47,12 @@ class TooltipListCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getFewLabel(), is("{size} объекта"));
         assertThat(cell.getManyLabel(), is("{size} объектов"));
         assertThat(cell.getDashedLabel(), is(false));
-        assertThat(cell.getTrigger(), is(TriggerEnum.click));
+        assertThat(cell.getTrigger(), is(TriggerEnum.CLICK));
 
         cell = (TooltipListCell) table.getComponent().getBody().getCells().get(1);
         assertThat(cell.getFieldKey(), is("test2"));
         assertThat(cell.getLabel(), is("Объектов {size} шт"));
-        assertThat(cell.getTrigger(), is(TriggerEnum.hover));
+        assertThat(cell.getTrigger(), is(TriggerEnum.HOVER));
         assertThat(cell.getDashedLabel(), is(true));
     }
 }

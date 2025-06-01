@@ -187,10 +187,10 @@ class RouteUtilTest {
     @Test
     void addQueryParams() {
         Map<String, ModelLink> queryMapping = new LinkedHashMap<>();
-        ModelLink nameLink = new ModelLink(ReduxModelEnum.resolve, "main", "name");
+        ModelLink nameLink = new ModelLink(ReduxModelEnum.RESOLVE, "main", "name");
         nameLink.setParam("nameParam");
         queryMapping.put("name", nameLink);
-        ModelLink surnameLink = new ModelLink(ReduxModelEnum.resolve, "main", "surname");
+        ModelLink surnameLink = new ModelLink(ReduxModelEnum.RESOLVE, "main", "surname");
         queryMapping.put("surname", surnameLink);
         ModelLink vipLink = new ModelLink(true);
         vipLink.setParam("vipParam");

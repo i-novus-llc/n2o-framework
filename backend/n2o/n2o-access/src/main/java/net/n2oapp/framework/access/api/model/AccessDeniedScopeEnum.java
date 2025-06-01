@@ -5,5 +5,5 @@ package net.n2oapp.framework.access.api.model;
 * Time: 17:15
 */
 public enum AccessDeniedScopeEnum {
-    object, data
+    OBJECT, DATA
 }

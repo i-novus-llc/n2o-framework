@@ -15,9 +15,9 @@ import java.util.List;
 public class EqOrIsNullAndContains implements Rule {
     @Override
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.eqOrIsNull) && left.getType().equals(FilterTypeEnum.contains))
+        if (right.getType().equals(FilterTypeEnum.EQ_OR_IS_NULL) && left.getType().equals(FilterTypeEnum.CONTAINS))
             return simplify(right, left);
-        else if (left.getType().equals(FilterTypeEnum.eqOrIsNull) && right.getType().equals(FilterTypeEnum.contains)) {
+        else if (left.getType().equals(FilterTypeEnum.EQ_OR_IS_NULL) && right.getType().equals(FilterTypeEnum.CONTAINS)) {
             List eqValues = left.getValue() instanceof List list ? list : Arrays.asList(left.getValue());
             if (((Collection) right.getValue()).stream().anyMatch(v -> !eqValues.contains(v)))
                 return null;
@@ -28,6 +28,6 @@ public class EqOrIsNullAndContains implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eqOrIsNull, FilterTypeEnum.contains);
+        return new Pair<>(FilterTypeEnum.EQ_OR_IS_NULL, FilterTypeEnum.CONTAINS);
     }
 }

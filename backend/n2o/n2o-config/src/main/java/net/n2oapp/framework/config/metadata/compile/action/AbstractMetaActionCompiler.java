@@ -65,7 +65,7 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
                 }
                 meta.setRedirect(new RedirectSaga());
                 meta.getRedirect().setPath(backRoute);
-                meta.getRedirect().setTarget(TargetEnum.application);
+                meta.getRedirect().setTarget(TargetEnum.APPLICATION);
             }
         }
     }

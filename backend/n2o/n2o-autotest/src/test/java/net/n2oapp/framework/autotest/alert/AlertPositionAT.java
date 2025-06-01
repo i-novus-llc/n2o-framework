@@ -59,13 +59,13 @@ class AlertPositionAT extends AutoTestBase {
 
         // success
         toolbar.button("Успех").click();
-        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldHaveText("Данные сохранены");
         alert.shouldHaveColor(ColorsEnum.SUCCESS);
 
         // fail
         toolbar.button("Ошибка валидации").click();
-        alert = page.alerts(Alert.PlacementEnum.bottom).alert(0);
+        alert = page.alerts(Alert.PlacementEnum.BOTTOM).alert(0);
         alert.shouldHaveText("Ошибка");
         alert.shouldHaveColor(ColorsEnum.DANGER);
 
@@ -77,7 +77,7 @@ class AlertPositionAT extends AutoTestBase {
 
         Toolbar modalToolbar = modal.content(SimplePage.class).widget(FormWidget.class).toolbar().topLeft();
         modalToolbar.button("Успех").click();
-        Alert modalAlert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        Alert modalAlert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         modalAlert.shouldHaveText("Данные сохранены");
         modalAlert.shouldHaveColor(ColorsEnum.SUCCESS);
 

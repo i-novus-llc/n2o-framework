@@ -45,16 +45,16 @@ class OutputListCompileTest extends SourceCompileTestBase {
         assertThat(outputList.getSrc(), is("OutputList"));
         assertThat(outputList.getLabelFieldId(), is("label"));
         assertThat(outputList.getHrefFieldId(), is("link"));
-        assertThat(outputList.getTarget(), is(TargetEnum.application));
-        assertThat(outputList.getDirection(), is(OutputList.DirectionEnum.row));
+        assertThat(outputList.getTarget(), is(TargetEnum.APPLICATION));
+        assertThat(outputList.getDirection(), is(OutputList.DirectionEnum.ROW));
         assertThat(outputList.getSeparator(), is(","));
 
         outputList = (OutputList) ((StandardField) (form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0))).getControl();
         assertThat(outputList.getLabelFieldId(), is("name"));
         assertThat(outputList.getHrefFieldId(), is("href"));
-        assertThat(outputList.getTarget(), is(TargetEnum.newWindow));
-        assertThat(outputList.getDirection(), is(OutputList.DirectionEnum.column));
+        assertThat(outputList.getTarget(), is(TargetEnum.NEW_WINDOW));
+        assertThat(outputList.getDirection(), is(OutputList.DirectionEnum.COLUMN));
         assertThat(outputList.getSeparator(), is(" "));
     }
 }

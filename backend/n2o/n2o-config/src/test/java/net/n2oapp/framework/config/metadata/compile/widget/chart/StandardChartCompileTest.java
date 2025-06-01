@@ -47,7 +47,7 @@ class StandardChartCompileTest extends SourceCompileTestBase {
         assertThat(chart1.getGrid().getStrokeDashArray(), is("3 3"));
         assertThat(chart1.getGrid().getHorizontal(), is(false));
         assertThat(chart1.getGrid().getVertical(), is(false));
-        assertThat(chart1.getLegend().getIconType(), is(ChartLegendIconTypeEnum.diamond));
+        assertThat(chart1.getLegend().getIconType(), is(ChartLegendIconTypeEnum.DIAMOND));
         assertThat(chart1.getTooltip().getSeparator(), is(":"));
 
         LineChart chart2 = (LineChart) ((Chart) page.getRegions().get("single").get(0).getContent().get(1)).getComponent();
@@ -57,7 +57,7 @@ class StandardChartCompileTest extends SourceCompileTestBase {
         assertThat(chart2.getYAxis().getHasLabel(), is(false));
         assertThat(chart2.getGrid().getHorizontal(), is(true));
         assertThat(chart2.getGrid().getVertical(), is(true));
-        assertThat(chart2.getLegend().getIconType(), is(ChartLegendIconTypeEnum.line));
+        assertThat(chart2.getLegend().getIconType(), is(ChartLegendIconTypeEnum.LINE));
         assertThat(chart2.getTooltip().getSeparator(), is(" "));
     }
 }

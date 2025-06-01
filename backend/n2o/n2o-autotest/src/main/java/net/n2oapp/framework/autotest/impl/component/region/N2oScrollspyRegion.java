@@ -45,9 +45,9 @@ public class N2oScrollspyRegion extends N2oRegion implements ScrollspyRegion {
     @Override
     public void menuShouldHavePosition(MenuPositionEnum position) {
         SelenideElement element = element().parent().$(".position-right");
-        if (Objects.requireNonNull(position) == MenuPositionEnum.left) {
+        if (Objects.requireNonNull(position) == MenuPositionEnum.LEFT) {
             element.shouldNotBe(Condition.exist);
-        } else if (position == MenuPositionEnum.right) {
+        } else if (position == MenuPositionEnum.RIGHT) {
             element.shouldHave(Condition.exist);
         }
     }

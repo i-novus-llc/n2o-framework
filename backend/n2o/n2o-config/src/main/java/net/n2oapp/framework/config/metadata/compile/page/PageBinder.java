@@ -122,7 +122,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                         data.forEach((k, v) -> {
                             //todo NNO-7523   && !p.canResolveParam(f.getParam())
                             if (v != null) {
-                                page.getModels().add(ReduxModelEnum.filter, w.getDatasource(), k, new ModelLink(v));
+                                page.getModels().add(ReduxModelEnum.FILTER, w.getDatasource(), k, new ModelLink(v));
                             }
                         });
                     }

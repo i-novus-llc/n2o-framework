@@ -61,7 +61,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         }
 
         if (source.getModel() == null)
-            source.setModel(ReduxModelEnum.resolve);
+            source.setModel(ReduxModelEnum.RESOLVE);
 
         String datasource = initDatasource(source, p);
         boolean validate = initValidate(source, datasource);

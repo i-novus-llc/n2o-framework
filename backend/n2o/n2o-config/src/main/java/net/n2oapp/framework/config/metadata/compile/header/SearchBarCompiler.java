@@ -42,9 +42,9 @@ public class SearchBarCompiler implements BaseSourceCompiler<SearchBar, N2oSearc
 
     private SearchBar.SearchPageLocation initPageLocation(N2oSearchBar source) {
         SearchBar.SearchPageLocation pageLocation = new SearchBar.SearchPageLocation();
-        pageLocation.setLinkType(source.getTarget() == TargetEnum.newWindow
-                ? SearchBar.LinkTypeEnum.outer
-                : SearchBar.LinkTypeEnum.inner);
+        pageLocation.setLinkType(source.getTarget() == TargetEnum.NEW_WINDOW
+                ? SearchBar.LinkTypeEnum.OUTER
+                : SearchBar.LinkTypeEnum.INNER);
         return pageLocation;
     }
 

@@ -55,7 +55,7 @@ class AlertActionAT extends AutoTestBase {
         StandardWidget.WidgetToolbar toolbar = page.widget(FormWidget.class).toolbar();
 
         toolbar.topLeft().button("Тестирование текста и заголовка").click();
-        Alert alert = page.alerts(Alert.PlacementEnum.topLeft).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP_LEFT).alert(0);
         alert.shouldExists();
         alert.shouldHaveTitle("Простое уведомление");
         alert.shouldHaveText("Привет, мир!");
@@ -63,20 +63,20 @@ class AlertActionAT extends AutoTestBase {
         alert.closeButton().shouldExists();
 
         toolbar.topLeft().button("Тестирование таймаута").click();
-        alert = page.alerts(Alert.PlacementEnum.topRight).alert(0);
+        alert = page.alerts(Alert.PlacementEnum.TOP_RIGHT).alert(0);
         alert.shouldHaveColor(ColorsEnum.INFO);
         alert.closeButton().shouldNotExists();
         alert.shouldNotExists();
 
         toolbar.topLeft().button("Тестирование кнопки закрыть").click();
-        alert = page.alerts(Alert.PlacementEnum.bottomRight).alert(0);
+        alert = page.alerts(Alert.PlacementEnum.BOTTOM_RIGHT).alert(0);
         alert.shouldHaveColor(ColorsEnum.LIGHT);
         alert.closeButton().shouldExists();
         alert.closeButton().click();
         alert.shouldNotExists();
 
         toolbar.topLeft().button("Тестирование ссылки").click();
-        alert = page.alerts(Alert.PlacementEnum.bottomLeft).alert(0);
+        alert = page.alerts(Alert.PlacementEnum.BOTTOM_LEFT).alert(0);
         alert.shouldExists();
         alert.shouldHaveColor(ColorsEnum.WARNING);
         alert.closeButton().shouldExists();

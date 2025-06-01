@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
 /**
  * Утилита преобразования стилей
  */
@@ -63,4 +65,11 @@ public class StylesResolver {
         return builder.toString();
     }
 
+    /**
+     * Преобразовать строку из camelCase в UPPER_SNAKE_CASE
+     */
+    public static String camelToSnake(Object camelCase) {
+        if (camelCase == null) return null;
+        return join(splitByCharacterTypeCamelCase(camelCase.toString()), "_").toUpperCase();
+    }
 }

@@ -14,13 +14,13 @@ public class EqOrIsNullAndNotEq implements Rule {
     @Override
     public Filter simplify(Filter left, Filter right) {
         if (left.getValue().equals(right.getValue()))
-            return new Filter(FilterTypeEnum.isNull);
-        if (left.getType().equals(FilterTypeEnum.eqOrIsNull)) return left;
+            return new Filter(FilterTypeEnum.IS_NULL);
+        if (left.getType().equals(FilterTypeEnum.EQ_OR_IS_NULL)) return left;
         else return right;
     }
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eqOrIsNull, FilterTypeEnum.notEq);
+        return new Pair<>(FilterTypeEnum.EQ_OR_IS_NULL, FilterTypeEnum.NOT_EQ);
     }
 }

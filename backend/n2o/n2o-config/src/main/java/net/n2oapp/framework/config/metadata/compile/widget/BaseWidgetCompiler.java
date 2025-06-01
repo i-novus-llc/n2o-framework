@@ -93,7 +93,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (isNull(source.getDatasourceId())) {
             if (isNull(source.getDatasource())) {
                 datasource = new N2oStandardDatasource();
-                ((N2oStandardDatasource) datasource).setDefaultValuesMode(DefaultValuesModeEnum.defaults);
+                ((N2oStandardDatasource) datasource).setDefaultValuesMode(DefaultValuesModeEnum.DEFAULTS);
             } else {
                 datasource = source.getDatasource();
                 source.setDatasource(null);
@@ -214,7 +214,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 String datasourceId = dep.getDatasource() == null ? compiled.getDatasource() :
                         getClientDatasourceId(dep.getDatasource(), p);
                 ModelLink link = new ModelLink(
-                        castDefault(dep.getModel(), ReduxModelEnum.resolve),
+                        castDefault(dep.getModel(), ReduxModelEnum.RESOLVE),
                         datasourceId);
                 condition.setOn(link.getLink());
                 if (dep instanceof N2oVisibilityDependency) {

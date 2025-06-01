@@ -42,6 +42,6 @@ public class ValidationController implements ControllerTypeAware {
 
     @Override
     public ControllerTypeEnum getControllerType() {
-        return ControllerTypeEnum.validation;
+        return ControllerTypeEnum.VALIDATION;
     }
 }

@@ -18,6 +18,6 @@ public class UpdateGenerator extends AbstractButtonGenerator {
 
     @Override
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
-        return build(DefaultActionsEnum.update, p);
+        return build(DefaultActionsEnum.UPDATE, p);
     }
 }
