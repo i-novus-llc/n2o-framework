@@ -4,7 +4,7 @@ package net.n2oapp.engine.factory;
  * Исключение, выбрасываемое фабрикой движков, когда по типу не был найден движок.
  */
 public class EngineNotFoundException extends RuntimeException {
-    private Object type;
+    private final Object type;
 
     /**
      * Создать исключение по типу

@@ -7,9 +7,9 @@ import net.n2oapp.framework.api.exception.N2oException;
  */
 public class N2oMetadataReaderException extends N2oException {
 
-    private String metadataId;
-    private String type;
-    private String path;
+    private final String metadataId;
+    private final String type;
+    private final String path;
 
     public N2oMetadataReaderException(Exception cause, String metadataId, String path, String type) {
         super(cause.getMessage(), cause);

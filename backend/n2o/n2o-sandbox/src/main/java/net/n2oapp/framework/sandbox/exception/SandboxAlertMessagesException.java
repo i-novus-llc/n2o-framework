@@ -9,7 +9,7 @@ import java.util.List;
 public class SandboxAlertMessagesException extends N2oUserException {
 
     @Getter
-    private List<ResponseMessage> responseMessages;
+    private final List<ResponseMessage> responseMessages;
 
     public SandboxAlertMessagesException(List<ResponseMessage> responseMessages) {
         super(null);

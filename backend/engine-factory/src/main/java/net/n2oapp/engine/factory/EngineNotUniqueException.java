@@ -1,7 +1,7 @@
 package net.n2oapp.engine.factory;
 
 public class EngineNotUniqueException extends RuntimeException {
-    private Object type;
+    private final Object type;
 
     /**
      * Создать исключение по типу

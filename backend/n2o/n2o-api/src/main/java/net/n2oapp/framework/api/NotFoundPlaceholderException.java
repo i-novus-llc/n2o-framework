@@ -1,7 +1,7 @@
 package net.n2oapp.framework.api;
 
 public class NotFoundPlaceholderException extends RuntimeException {
-    private String placeholder;
+    private final String placeholder;
 
     public NotFoundPlaceholderException(String placeholder) {
         super();
