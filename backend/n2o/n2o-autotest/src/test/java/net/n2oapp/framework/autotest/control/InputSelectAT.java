@@ -510,4 +510,30 @@ class InputSelectAT extends AutoTestBase {
         dropdown.scrollDown();
         dropdown.shouldHaveOptions(12);
     }
+
+    @Test
+    void testInputSelectWithDatasourceAndScrollDown() {
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/datasource_scroll");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/datasource_scroll/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/datasource_scroll/test.query.xml")
+        );
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        InputSelect inputSelect = simplePage.widget(FormWidget.class).fields().field("select").control(InputSelect.class);
+        inputSelect.openPopup();
+        DropDown dropdown = inputSelect.dropdown();
+
+        dropdown.shouldHaveOptions(7);
+
+        dropdown.scrollDown();
+        dropdown.shouldHaveOptions(14);
+
+        dropdown.shouldHaveOptions(new String[]{
+                "Первый", "Второй", "Третий", "Четвертый", "Пятый", "Шестой", "Седьмой",
+                "Восьмой", "Девятый", "Десятый", "Одиннадцатый", "Двенадцатый", "Тринадцатый", "Четырнадцатый"
+        });
+    }
 }
