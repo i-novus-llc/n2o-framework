@@ -12,9 +12,9 @@ class ModelsTest {
     @Test
     void test() {
         Models models = new Models();
-        models.add(new ModelLink(ReduxModelEnum.resolve, "w1", "f1.id"), 1);
-        models.add(new ModelLink(ReduxModelEnum.resolve, "w1", "f2"), new DefaultValues().add("id", 2));
-        assertThat(models.get(new ModelLink(ReduxModelEnum.resolve, "w1", "f1.id")), Matchers.is(new ModelLink(1)));
-        assertThat(models.get(new ModelLink(ReduxModelEnum.resolve, "w1", "f2")), Matchers.is(new ModelLink(new DefaultValues().add("id", 2))));
+        models.add(new ModelLink(ReduxModelEnum.RESOLVE, "w1", "f1.id"), 1);
+        models.add(new ModelLink(ReduxModelEnum.RESOLVE, "w1", "f2"), new DefaultValues().add("id", 2));
+        assertThat(models.get(new ModelLink(ReduxModelEnum.RESOLVE, "w1", "f1.id")), Matchers.is(new ModelLink(1)));
+        assertThat(models.get(new ModelLink(ReduxModelEnum.RESOLVE, "w1", "f2")), Matchers.is(new ModelLink(new DefaultValues().add("id", 2))));
     }
 }

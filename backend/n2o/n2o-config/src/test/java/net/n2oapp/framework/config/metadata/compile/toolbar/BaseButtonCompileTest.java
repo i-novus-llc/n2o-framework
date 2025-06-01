@@ -81,7 +81,7 @@ class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(btn.getDatasource(), is("testButton_table"));
 
         btn = page.getToolbar().getButton("btn6");
-        assertThat(btn.getModel(), is(ReduxModelEnum.datasource));
+        assertThat(btn.getModel(), is(ReduxModelEnum.DATASOURCE));
 
         btn = page.getToolbar().getButton("btn7");
         assertThat(btn.getAction().getClass(), is(MultiAction.class));
@@ -92,9 +92,9 @@ class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));
         assertThat(confirm.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
         assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.primary.name()));
+        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.PRIMARY.getId()));
         assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.secondary.name()));
+        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.SECONDARY.getId()));
 
         btn = page.getToolbar().getButton("btn8");
         confirm = (ConfirmAction) btn.getAction();
@@ -102,9 +102,9 @@ class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getPayload().getTitle(), is("Предупреждение"));
         assertThat(confirm.getPayload().getText(), is("Подтвердите действие"));
         assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.danger.name()));
+        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.DANGER.getId()));
         assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.primary.name()));
+        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.PRIMARY.getId()));
 
         btn = page.getToolbar().getButton("btn9");
         assertThat(btn.getAction().getClass(), is(ConditionAction.class));
@@ -119,9 +119,9 @@ class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(confirm.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));
         assertThat(confirm.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
         assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.primary.name()));
+        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.PRIMARY.getId()));
         assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.secondary.name()));
+        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.SECONDARY.getId()));
     }
 
     @Test

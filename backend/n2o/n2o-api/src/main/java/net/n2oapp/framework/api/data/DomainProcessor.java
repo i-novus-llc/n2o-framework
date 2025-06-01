@@ -354,11 +354,11 @@ public class DomainProcessor {
 
     public static String getDomain(String simpleDomain, FilterTypeEnum type) {
         switch (type.arity) {
-            case unary:
+            case UNARY:
                 return simpleDomain;
-            case n_ary:
+            case N_ARY:
                 return simpleDomain != null ? simpleDomain + "[]" : null;
-            case nullary:
+            case NULLARY:
                 return "boolean";
         }
         throw new IllegalStateException(String.format("arity '%s' for filter-type '%s' is unknown", type.arity, type));

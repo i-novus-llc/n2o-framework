@@ -123,7 +123,7 @@ public class N2oPreFilter implements Source {
     }
 
     public boolean isBoolean() {
-        return FilterTypeEnum.isNull.equals(getType()) || FilterTypeEnum.isNotNull.equals(getType());
+        return FilterTypeEnum.IS_NULL.equals(getType()) || FilterTypeEnum.IS_NOT_NULL.equals(getType());
     }
 
     public boolean isArray() {

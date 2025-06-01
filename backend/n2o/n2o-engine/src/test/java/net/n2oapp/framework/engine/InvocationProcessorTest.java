@@ -242,7 +242,7 @@ class InvocationProcessorTest {
     @Test
     void testMappingEnabledWithMapInvocationProvider() {
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setOperation(N2oTestDataProvider.OperationEnum.echo);
+        provider.setOperation(N2oTestDataProvider.OperationEnum.ECHO);
 
         DataSet dataSet = new DataSet();
         DataSet inDataSet = new DataSet();
@@ -529,7 +529,7 @@ class InvocationProcessorTest {
     @Test
     void testListNormalizing() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
-        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.ECHO);
 
         ObjectSimpleField simpleField = new ObjectSimpleField();
         simpleField.setId("root_field");
@@ -596,7 +596,7 @@ class InvocationProcessorTest {
     @Test
     void testAdvancedNestingWithMapInvocationProvider() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
-        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.ECHO);
 
         // STRUCTURE
         //Reference
@@ -871,7 +871,7 @@ class InvocationProcessorTest {
     void testResultMapping() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setResultMapping("['organization']");
-        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.ECHO);
 
         //Reference
         ObjectReferenceField refField = new ObjectReferenceField();
@@ -913,7 +913,7 @@ class InvocationProcessorTest {
     void testResultNormalize() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setResultNormalize("['organization']");
-        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.ECHO);
 
         //Reference
         ObjectReferenceField refField = new ObjectReferenceField();
@@ -955,7 +955,7 @@ class InvocationProcessorTest {
     void testSwitchInOutFields() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
         invocation.setResultNormalize("['organization']");
-        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.ECHO);
 
         //Reference
         ObjectReferenceField refField = new ObjectReferenceField();
@@ -1007,7 +1007,7 @@ class InvocationProcessorTest {
     @Test
     void testAutoCastObjectToListField() {
         N2oTestDataProvider invocation = new N2oTestDataProvider();
-        invocation.setOperation(N2oTestDataProvider.OperationEnum.echo);
+        invocation.setOperation(N2oTestDataProvider.OperationEnum.ECHO);
 
         //List
         ObjectListField listParam = new ObjectListField();

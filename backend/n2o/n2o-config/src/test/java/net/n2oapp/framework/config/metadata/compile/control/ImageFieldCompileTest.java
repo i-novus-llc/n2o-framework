@@ -48,30 +48,30 @@ class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getData(), is("`'data:image/jpeg;base64'+image`"));
         assertThat(field.getTitle(), is("`title`"));
         assertThat(field.getDescription(), is("`Description`"));
-        assertThat(field.getTextPosition(), is(TextPositionEnum.top));
+        assertThat(field.getTextPosition(), is(TextPositionEnum.TOP));
         assertThat(field.getShape(), is(ShapeTypeEnum.CIRCLE));
         assertThat(field.getWidth(), is("500px"));
         assertThat(field.getStatuses().length, is(2));
         assertThat(field.getStatuses()[0].getSrc(), Matchers.is("testSrc"));
         assertThat(field.getStatuses()[0].getFieldId(), Matchers.is("status1"));
         assertThat(field.getStatuses()[0].getIcon(), Matchers.is("`icon1`"));
-        assertThat(field.getStatuses()[0].getPlace(), Matchers.is(ImageStatusElementPlaceEnum.topRight));
+        assertThat(field.getStatuses()[0].getPlace(), Matchers.is(ImageStatusElementPlaceEnum.TOP_RIGHT));
         assertThat(field.getStatuses()[1].getSrc(), Matchers.is("Status"));
         assertThat(field.getStatuses()[1].getFieldId(), Matchers.is("id"));
         assertThat(field.getStatuses()[1].getIcon(), Matchers.is(nullValue()));
-        assertThat(field.getStatuses()[1].getPlace(), Matchers.is(ImageStatusElementPlaceEnum.topLeft));
+        assertThat(field.getStatuses()[1].getPlace(), Matchers.is(ImageStatusElementPlaceEnum.TOP_LEFT));
         assertThat(field.getAction(),  notNullValue());
         assertThat(((LinkAction) field.getAction()).getUrl(), is("http://example.com"));
 
         ControlDependency dependency = field.getDependencies().get(0);
-        assertThat(dependency.getType(), is(ValidationTypeEnum.reRender));
+        assertThat(dependency.getType(), is(ValidationTypeEnum.RE_RENDER));
         assertThat(dependency.getOn().get(0), is("name"));
         assertThat(dependency.getOn().get(1), is("type"));
 
         field = (ImageField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("testId2"));
         assertThat(field.getSrc(), is("ImageField"));
-        assertThat(field.getTextPosition(), is(TextPositionEnum.right));
+        assertThat(field.getTextPosition(), is(TextPositionEnum.RIGHT));
         assertThat(field.getShape(), is(ShapeTypeEnum.ROUNDED));
 
         field = (ImageField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);

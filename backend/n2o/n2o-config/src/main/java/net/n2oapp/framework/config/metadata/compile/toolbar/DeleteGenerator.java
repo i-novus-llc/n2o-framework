@@ -18,6 +18,6 @@ public class DeleteGenerator extends AbstractButtonGenerator {
 
     @Override
     public List<ToolbarItem> generate(N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
-        return build(DefaultActionsEnum.delete, p);
+        return build(DefaultActionsEnum.DELETE, p);
     }
 }

@@ -15,9 +15,9 @@ import java.util.List;
 public class EqAndContains implements Rule {
     @Override
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.eq) && left.getType().equals(FilterTypeEnum.contains))
+        if (right.getType().equals(FilterTypeEnum.EQ) && left.getType().equals(FilterTypeEnum.CONTAINS))
             return simplify(right, left);
-        else if (left.getType().equals(FilterTypeEnum.eq) && right.getType().equals(FilterTypeEnum.contains)) {
+        else if (left.getType().equals(FilterTypeEnum.EQ) && right.getType().equals(FilterTypeEnum.CONTAINS)) {
             List eqValues = left.getValue() instanceof List valueList ? valueList : Arrays.asList(left.getValue());
             if (((Collection)right.getValue()).stream().anyMatch(v -> !eqValues.contains(v)))
                 return null;
@@ -29,6 +29,6 @@ public class EqAndContains implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eq, FilterTypeEnum.contains);
+        return new Pair<>(FilterTypeEnum.EQ, FilterTypeEnum.CONTAINS);
     }
 }

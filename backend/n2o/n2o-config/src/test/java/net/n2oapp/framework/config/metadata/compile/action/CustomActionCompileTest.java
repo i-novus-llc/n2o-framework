@@ -56,7 +56,7 @@ class CustomActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getMeta().getSuccess().getRefresh().getDatasources().get(0), is("testCustomAction_ds1"));
         assertThat(action.getMeta().getSuccess().getRefresh().getDatasources().get(1), is("testCustomAction_ds2"));
         assertThat(action.getMeta().getSuccess().getRedirect().getPath(), is("/main"));
-        assertThat(action.getMeta().getSuccess().getRedirect().getTarget(), is(TargetEnum.application));
+        assertThat(action.getMeta().getSuccess().getRedirect().getTarget(), is(TargetEnum.APPLICATION));
         assertThat(action.getMeta().getFail(), notNullValue());
     }
 }

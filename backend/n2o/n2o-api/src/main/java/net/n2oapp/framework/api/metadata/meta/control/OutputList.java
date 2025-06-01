@@ -2,7 +2,9 @@ package net.n2oapp.framework.api.metadata.meta.control;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 
 /**
@@ -22,8 +24,12 @@ public class OutputList extends Control {
     @JsonProperty
     private String separator;
 
-    public enum DirectionEnum {
-        row,
-        column
+    @RequiredArgsConstructor
+    @Getter
+    public enum DirectionEnum implements N2oEnum {
+        ROW("row"),
+        COLUMN("column");
+
+        private final String id;
     }
 }

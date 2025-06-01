@@ -1,7 +1,9 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.chart;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLegendIconTypeEnum;
 
 /**
@@ -27,16 +29,24 @@ public class N2oStandardChart extends N2oAbstractChart {
     /**
      * Положение оси X
      */
-    public enum XAxisPositionEnum {
-        top,
-        bottom
+    @RequiredArgsConstructor
+    @Getter
+    public enum XAxisPositionEnum implements N2oEnum {
+        TOP("top"),
+        BOTTOM("bottom");
+
+        private final String id;
     }
 
     /**
      * Положение оси y
      */
-    public enum YAxisPositionEnum {
-        left,
-        right
+    @RequiredArgsConstructor
+    @Getter
+    public enum YAxisPositionEnum implements N2oEnum {
+        LEFT("left"),
+        RIGHT("right");
+
+        private final String id;
     }
 }

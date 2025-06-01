@@ -86,10 +86,10 @@ class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(tab2, instanceOf(TabsRegion.Tab.class));
         assertThat(tab2.getLabel(), is("Tab2"));
         assertThat(tab2.getDatasource(), is("testTabsRegion_ds1"));
-        assertThat(tab2.getConditions().get(ValidationTypeEnum.enabled).get(0).getExpression(), is("id!=1"));
-        assertThat(tab2.getConditions().get(ValidationTypeEnum.enabled).get(0).getModelLink(), is("models.resolve['testTabsRegion_ds1']"));
-        assertThat(tab2.getConditions().get(ValidationTypeEnum.visible).get(0).getExpression(), is("id!=1"));
-        assertThat(tab2.getConditions().get(ValidationTypeEnum.visible).get(0).getModelLink(), is("models.resolve['testTabsRegion_ds1']"));
+        assertThat(tab2.getConditions().get(ValidationTypeEnum.ENABLED).get(0).getExpression(), is("id!=1"));
+        assertThat(tab2.getConditions().get(ValidationTypeEnum.ENABLED).get(0).getModelLink(), is("models.resolve['testTabsRegion_ds1']"));
+        assertThat(tab2.getConditions().get(ValidationTypeEnum.VISIBLE).get(0).getExpression(), is("id!=1"));
+        assertThat(tab2.getConditions().get(ValidationTypeEnum.VISIBLE).get(0).getModelLink(), is("models.resolve['testTabsRegion_ds1']"));
         // tab1 tabs tab2 form
         assertThat(tabsItems.get(0).getContent().size(), is(1));
         assertThat(tabsItems.get(0).getContent().get(0), instanceOf(Form.class));

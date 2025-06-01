@@ -161,7 +161,7 @@ public class SecurityProvider {
         for (Restriction securityRestriction : restrictions) {
             Object realValue = realValueFunction.apply(securityRestriction);
             if (realValue != null || strictFiltering) {
-                if (FilterTypeEnum.ArityEnum.nullary.equals(securityRestriction.getType().arity)) {
+                if (FilterTypeEnum.ArityEnum.NULLARY.equals(securityRestriction.getType().arity)) {
                     Filter securityFilter = new Filter(securityRestriction.getType());
                     checkByField(securityRestriction.getFieldId(), realValue, securityFilter);
                 } else {

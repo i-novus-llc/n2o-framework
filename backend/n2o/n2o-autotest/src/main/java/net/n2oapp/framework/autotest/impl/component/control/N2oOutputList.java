@@ -35,7 +35,7 @@ public class N2oOutputList extends N2oControl implements OutputList {
 
     @Override
     public void shouldHaveDirection(DirectionEnum direction) {
-        element().shouldHave(Condition.cssClass(String.format("n2o-output-list--%s", direction.name())));
+        element().shouldHave(Condition.cssClass(String.format("n2o-output-list--%s", direction.getId())));
     }
 
     @Override

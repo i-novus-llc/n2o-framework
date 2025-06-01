@@ -24,7 +24,7 @@ public class AreaChartCompiler extends StandardChartCompiler<AreaChart, N2oAreaC
     public AreaChart compile(N2oAreaChart source, CompileContext<?, ?> context, CompileProcessor p) {
         AreaChart chart = new AreaChart();
         build(chart, source, p, property("n2o.api.widget.chart.area.src"));
-        chart.setType(ChartTypeEnum.area);
+        chart.setType(ChartTypeEnum.AREA);
         for (N2oAreaChartItem item : source.getItems()) {
             AreaChartItem component = new AreaChartItem();
             component.setFieldId(item.getFieldId());

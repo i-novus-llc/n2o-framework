@@ -295,7 +295,7 @@ class MongodbDataProviderEngineTest {
     @Disabled
     @Order(4)
     void deleteManyOperationTest() {
-        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.insertOne);
+        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.INSERT_ONE);
         HashMap<String, Object> inParams = new HashMap<>();
         inParams.put("name", "test2");
         String id1 = (String) engine.invoke(provider, inParams);
@@ -305,7 +305,7 @@ class MongodbDataProviderEngineTest {
         String id2 = (String) engine.invoke(provider, inParams);
 
         // проверяем, что произошла вставка
-        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.find);
+        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.FIND);
         inParams = new HashMap<>();
         inParams.put("filters", new ArrayList<>(Arrays.asList("{ _id: {$in: #idIn }}")));
         inParams.put("idIn", "[new ObjectId('" + id1 + "'), new ObjectId('" + id2 + "')]");
@@ -313,13 +313,13 @@ class MongodbDataProviderEngineTest {
         assertThat(documents.size(), is(2));
 
         // удаляем
-        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.deleteMany);
+        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.DELETE_MANY);
         inParams = new HashMap<>();
         inParams.put("ids", Arrays.asList(id1, id2));
         engine.invoke(provider, inParams);
 
         // проверяем, что документы удалены
-        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.find);
+        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.FIND);
         inParams = new HashMap<>();
         inParams.put("filters", new ArrayList<>(Arrays.asList("{ _id: {$in: #idIn }}")));
         inParams.put("idIn", "[new ObjectId('" + id1 + "'), new ObjectId('" + id2 + "')]");
@@ -330,7 +330,7 @@ class MongodbDataProviderEngineTest {
     @Test
     @Disabled
     void isNullFilterTest() {
-        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.find);
+        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.FIND);
         HashMap<Object, Object> inParams = new HashMap<>();
         inParams.put("filters", new ArrayList<>(Arrays.asList("{info:null}")));
 
@@ -343,7 +343,7 @@ class MongodbDataProviderEngineTest {
     @Test
     @Disabled
     void isNotNullFilterTest() {
-        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.find);
+        provider.setOperation(N2oMongoDbDataProvider.OperationEnum.FIND);
         HashMap<Object, Object> inParams = new HashMap<>();
         inParams.put("filters", new ArrayList<>(Arrays.asList("{ info: {$ne:null}}")));
 

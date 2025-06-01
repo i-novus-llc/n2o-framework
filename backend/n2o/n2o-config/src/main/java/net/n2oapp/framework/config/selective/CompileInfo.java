@@ -23,7 +23,7 @@ public class CompileInfo extends SourceInfo {
             .packs(new N2oSourceTypesPack())
             .getEnvironment().getSourceTypeRegister();
 
-    protected OriginEnum origin = OriginEnum.xml;
+    protected OriginEnum origin = OriginEnum.XML;
     private String path;
     private Class<? extends SourceMetadata> sourceMetadataClass;
 

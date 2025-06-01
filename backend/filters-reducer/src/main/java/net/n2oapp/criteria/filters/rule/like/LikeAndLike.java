@@ -24,6 +24,6 @@ public class LikeAndLike implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.like, FilterTypeEnum.like);
+        return new Pair<>(FilterTypeEnum.LIKE, FilterTypeEnum.LIKE);
     }
 }

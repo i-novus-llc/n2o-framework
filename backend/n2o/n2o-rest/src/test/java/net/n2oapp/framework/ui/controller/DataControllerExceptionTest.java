@@ -84,7 +84,7 @@ class DataControllerExceptionTest extends DataControllerTestBase {
         doThrow(e).when(dataProcessingStack).processQuery(any(QueryRequestInfo.class), any(QueryResponseInfo.class));
         DataController controller = buildController(dataProcessingStack);
         GetDataResponse response = controller.getData("/page/w1", null, null);
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), is(SeverityTypeEnum.danger.toString()));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), is(SeverityTypeEnum.DANGER.getId()));
         assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("net.n2oapp.framework.api.exception.N2oException: Message"));
 
         List<ValidationMessage> messages = new ArrayList<>();

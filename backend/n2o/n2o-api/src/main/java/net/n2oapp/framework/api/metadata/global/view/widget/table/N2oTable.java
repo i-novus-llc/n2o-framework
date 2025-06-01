@@ -37,7 +37,7 @@ public class N2oTable extends N2oAbstractTable {
             N2oStandardDatasource datasource = new N2oStandardDatasource();
             getFilters().setDatasource(datasource);
             datasource.setQueryId(getFilters().getDefaultValuesQueryId());
-            datasource.setDefaultValuesMode(DefaultValuesModeEnum.merge);
+            datasource.setDefaultValuesMode(DefaultValuesModeEnum.MERGE);
         }
     }
 }

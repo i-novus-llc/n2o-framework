@@ -61,7 +61,7 @@ class RatingCellAT extends AutoTestBase {
         //проверка редактируемых ячеек
         RatingCell cell = rows.row(0).cell(1, RatingCell.class);
         cell.shouldHaveMax(10);
-        Alerts alerts = simplePage.alerts(Alert.PlacementEnum.top);
+        Alerts alerts = simplePage.alerts(Alert.PlacementEnum.TOP);
 
         cell.value("5");
         cell.shouldExists();

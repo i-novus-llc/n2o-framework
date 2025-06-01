@@ -29,34 +29,34 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
 
     protected List<ToolbarItem> build(DefaultActionsEnum action, CompileProcessor p) {
         N2oButton button = new N2oButton();
-        button.setId(action.name());
+        button.setId(action.getId());
         button.setLabel(p.getMessage(action.getLabel()));
         button.setIcon(action.getIcon());
         if (action.isContext()) {
-            button.setModel(ReduxModelEnum.resolve);
+            button.setModel(ReduxModelEnum.RESOLVE);
         } else {
-            button.setModel(ReduxModelEnum.filter);
+            button.setModel(ReduxModelEnum.FILTER);
         }
         switch (action) {
-            case delete: {
+            case DELETE: {
                 N2oConfirmAction confirmAction = new N2oConfirmAction();
                 N2oInvokeAction invokeAction = new N2oInvokeAction();
-                invokeAction.setOperationId(action.name());
+                invokeAction.setOperationId(action.getId());
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
                 String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
                 invokeAction.setRoute(normalize("/" + widgetId + "/delete"));
                 button.setActions(new N2oAbstractAction[]{confirmAction, invokeAction});
             }
             break;
-            case create: {
+            case CREATE: {
                 N2oShowModal modal = new N2oShowModal();
                 CompiledObject object = p.getScope(CompiledObject.class);
                 modal.setPageId(object.getId());
                 modal.setObjectId(object.getId());
                 modal.setPageName(p.getMessage(action.getPageName(), object.getName()));
-                modal.setSubmitOperationId(action.name());
+                modal.setSubmitOperationId(action.getId());
                 N2oStandardDatasource datasource = new N2oStandardDatasource();
-                datasource.setDefaultValuesMode(DefaultValuesModeEnum.defaults);
+                datasource.setDefaultValuesMode(DefaultValuesModeEnum.DEFAULTS);
                 modal.setDatasources(new N2oStandardDatasource[] { datasource });
                 modal.setCloseAfterSubmit(true);
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
@@ -65,7 +65,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 button.setActions(new N2oShowModal[]{modal});
             }
             break;
-            case update: {
+            case UPDATE: {
                 N2oShowModal modal = new N2oShowModal();
                 CompiledObject object = p.getScope(CompiledObject.class);
                 modal.setPageId(object.getId());
@@ -80,14 +80,14 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 pathParam.setValue(Placeholders.ref(QuerySimpleField.PK));
                 modal.addPathParams(new N2oPathParam[]{pathParam});
                 N2oStandardDatasource datasource = new N2oStandardDatasource();
-                datasource.setDefaultValuesMode(DefaultValuesModeEnum.query);
+                datasource.setDefaultValuesMode(DefaultValuesModeEnum.QUERY);
                 N2oPreFilter masterDetailFilter = new N2oPreFilter();
-                masterDetailFilter.setType(FilterTypeEnum.eq);
+                masterDetailFilter.setType(FilterTypeEnum.EQ);
                 masterDetailFilter.setFieldId(QuerySimpleField.PK);
                 masterDetailFilter.setParam(paramName);
                 datasource.setFilters(new N2oPreFilter[]{masterDetailFilter});
                 modal.setDatasources(new N2oStandardDatasource[]{datasource});
-                modal.setSubmitOperationId(action.name());
+                modal.setSubmitOperationId(action.getId());
                 modal.setCloseAfterSubmit(true);
                 button.setActions(new N2oShowModal[]{modal});
             }

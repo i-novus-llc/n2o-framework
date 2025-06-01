@@ -148,26 +148,26 @@ class QueryProcessorTest {
         when(factory.produce(any())).thenReturn(new JavaDataProviderEngine());
         CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4Java"));
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        criteria.addRestriction(new Restriction("id", "1", FilterTypeEnum.eq));
-        criteria.addRestriction(new Restriction("id", "45", FilterTypeEnum.eq));
+        criteria.addRestriction(new Restriction("id", "1", FilterTypeEnum.EQ));
+        criteria.addRestriction(new Restriction("id", "45", FilterTypeEnum.EQ));
         CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(0));
 
         criteria = new N2oPreparedCriteria();
-        criteria.addRestriction(new Restriction("name", "test", FilterTypeEnum.eq));
-        criteria.addRestriction(new Restriction("name", "test", FilterTypeEnum.eq));
+        criteria.addRestriction(new Restriction("name", "test", FilterTypeEnum.EQ));
+        criteria.addRestriction(new Restriction("name", "test", FilterTypeEnum.EQ));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(1));
 
         criteria = new N2oPreparedCriteria();
-        criteria.addRestriction(new Restriction("id", "1", FilterTypeEnum.more));
-        criteria.addRestriction(new Restriction("id", "45", FilterTypeEnum.less));
+        criteria.addRestriction(new Restriction("id", "1", FilterTypeEnum.MORE));
+        criteria.addRestriction(new Restriction("id", "45", FilterTypeEnum.LESS));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(10));
 
         criteria = new N2oPreparedCriteria();
-        criteria.addRestriction(new Restriction("id", "0", FilterTypeEnum.eq));
-        criteria.addRestriction(new Restriction("name", "test", FilterTypeEnum.eq));
+        criteria.addRestriction(new Restriction("id", "0", FilterTypeEnum.EQ));
+        criteria.addRestriction(new Restriction("name", "test", FilterTypeEnum.EQ));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(1));
         DataSet dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
@@ -441,14 +441,14 @@ class QueryProcessorTest {
         assertThat(query.getInvertFiltersMap().get("organization_code_eq").getKey(), is("organization.code"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        Filter filter = new Filter(31, FilterTypeEnum.eq);
+        Filter filter = new Filter(31, FilterTypeEnum.EQ);
         criteria.addRestriction(new Restriction("organization.code", filter));
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCollection().size(), is(1));
         assertThat(result.getCollection().iterator().next().getDataSet("organization").getInteger("code"), is(31));
 
         criteria = new N2oPreparedCriteria();
-        filter = new Filter(null, FilterTypeEnum.isNull);
+        filter = new Filter(null, FilterTypeEnum.IS_NULL);
         criteria.addRestriction(new Restriction("organization", filter));
         result = queryProcessor.execute(query, criteria);
         assertThat(result.getCollection().size(), is(1));
@@ -463,7 +463,7 @@ class QueryProcessorTest {
         CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testNestedFieldsMappingFiltering"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        Filter filter = new Filter("org", FilterTypeEnum.like);
+        Filter filter = new Filter("org", FilterTypeEnum.LIKE);
         criteria.addRestriction(new Restriction("myOrganization.myTitle", filter));
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         List<DataSet> collection = (List<DataSet>) result.getCollection();
@@ -472,7 +472,7 @@ class QueryProcessorTest {
         assertThat(collection.get(1).getDataSet("myOrganization").getString("myTitle"), is("4orgTitle"));
 
         criteria = new N2oPreparedCriteria();
-        filter = new Filter(null, FilterTypeEnum.isNotNull);
+        filter = new Filter(null, FilterTypeEnum.IS_NOT_NULL);
         criteria.addRestriction(new Restriction("myOrganization", filter));
         result = queryProcessor.execute(query, criteria);
         collection = (List<DataSet>) result.getCollection();
@@ -488,7 +488,7 @@ class QueryProcessorTest {
         CompiledQuery query = builder.read().compile().get(new QueryContext("testHierarchicalSelect"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        N2oQuery.Selection selection = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list);
+        N2oQuery.Selection selection = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST);
         Map<String, Object> map = new LinkedHashMap<>();
         queryProcessor.prepareMapForQuery(map, selection, query, criteria);
 
@@ -562,13 +562,13 @@ class QueryProcessorTest {
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         criteria.addSorting(new Sorting("name", SortingDirectionEnum.DESC));
-        N2oQuery.Selection selection = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list);
+        N2oQuery.Selection selection = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST);
         Map<String, Object> map = new LinkedHashMap<>();
 
         queryProcessor.prepareMapForQuery(map, selection, query, criteria);
         assertThat(map.get("nameDirection"), is("desc"));
 
-        selection = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list);
+        selection = new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST);
         selection.setDescExpression("DESC");
         queryProcessor.prepareMapForQuery(map, selection, query, criteria);
         assertThat(map.get("nameDirection"), is("DESC"));
@@ -581,9 +581,9 @@ class QueryProcessorTest {
         CompiledQuery query = builder.read().compile().get(new QueryContext("testDataInFilterNormalize"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        Filter nameFilter = new Filter("abc", FilterTypeEnum.eq);
+        Filter nameFilter = new Filter("abc", FilterTypeEnum.EQ);
         criteria.addRestriction(new Restriction("name", nameFilter));
-        Filter upperCaseFilter = new Filter("true", FilterTypeEnum.eq);
+        Filter upperCaseFilter = new Filter("true", FilterTypeEnum.EQ);
         criteria.addRestriction(new Restriction("upperCase", upperCaseFilter));
 
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);

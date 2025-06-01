@@ -144,7 +144,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         }
 
         if (!enabledConditions.isEmpty()) {
-            button.getConditions().put(ValidationTypeEnum.enabled, enabledConditions);
+            button.getConditions().put(ValidationTypeEnum.ENABLED, enabledConditions);
         }
 
         if (source.getDependencies() != null)
@@ -171,7 +171,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
         boolean autoDisableCondition = DisableOnEmptyModelTypeEnum.AUTO.equals(disableOnEmptyModel) &&
-                (ReduxModelEnum.resolve.equals(source.getModel()) || ReduxModelEnum.multi.equals(source.getModel())) &&
+                (ReduxModelEnum.RESOLVE.equals(source.getModel()) || ReduxModelEnum.MULTI.equals(source.getModel())) &&
                 parentIsNotCell;
 
         if (DisableOnEmptyModelTypeEnum.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
@@ -190,9 +190,9 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         for (N2oButton.Dependency d : dependencies) {
             ValidationTypeEnum validationType = null;
             if (d instanceof N2oButton.EnablingDependency)
-                validationType = ValidationTypeEnum.enabled;
+                validationType = ValidationTypeEnum.ENABLED;
             else if (d instanceof N2oButton.VisibilityDependency)
-                validationType = ValidationTypeEnum.visible;
+                validationType = ValidationTypeEnum.VISIBLE;
 
             compileDependencyCondition(d, button, validationType, clientDatasource, buttonModel, p);
         }
@@ -200,7 +200,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
     private void compileDependencyCondition(N2oButton.Dependency dependency, PerformButton button, ValidationTypeEnum validationType,
                                             String buttonDatasource, ReduxModelEnum buttonModel, CompileProcessor p) {
-        ReduxModelEnum refModel = castDefault(dependency.getModel(), buttonModel, ReduxModelEnum.resolve);
+        ReduxModelEnum refModel = castDefault(dependency.getModel(), buttonModel, ReduxModelEnum.RESOLVE);
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
         String datasource = (dependency.getDatasource() != null) ?

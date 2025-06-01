@@ -10,18 +10,21 @@ public interface ProgressBarCell extends Cell {
 
     /**
      * Проверка соответствия цвета ячейки
+     *
      * @param color ожидаемый цвет
      */
     void shouldHaveColor(ColorsEnum color);
 
     /**
      * Проверка соответствия текста внутри ячейки
+     *
      * @param value ожидаемый текст
      */
     void shouldHaveValue(String value);
 
     /**
      * Проверка соответствия размера ячейки
+     *
      * @param size ожидаемый размер
      */
     void shouldHaveSize(SizeEnum size);
@@ -40,6 +43,8 @@ public interface ProgressBarCell extends Cell {
      * {@link N2oProgressBarCell.SizeEnum}
      */
     enum SizeEnum {
-        small, normal, large
+        SMALL,
+        NORMAL,
+        LARGE;
     }
 }

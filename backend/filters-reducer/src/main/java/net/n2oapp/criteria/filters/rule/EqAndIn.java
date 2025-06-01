@@ -15,9 +15,9 @@ import java.util.List;
 public class EqAndIn implements Rule {
     @Override
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.eq) && left.getType().equals(FilterTypeEnum.in))
+        if (right.getType().equals(FilterTypeEnum.EQ) && left.getType().equals(FilterTypeEnum.IN))
             return simplify(right, left);
-        else if (left.getType().equals(FilterTypeEnum.eq) && right.getType().equals(FilterTypeEnum.in)) {
+        else if (left.getType().equals(FilterTypeEnum.EQ) && right.getType().equals(FilterTypeEnum.IN)) {
             if (((List) right.getValue()).contains(left.getValue())) return left;
             else return null;
         }
@@ -27,6 +27,6 @@ public class EqAndIn implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eq, FilterTypeEnum.in);
+        return new Pair<>(FilterTypeEnum.EQ, FilterTypeEnum.IN);
     }
 }

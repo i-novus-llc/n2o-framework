@@ -61,6 +61,6 @@ public class MergeValuesController extends GetController {
 
     @Override
     public ControllerTypeEnum getControllerType() {
-        return ControllerTypeEnum.merge;
+        return ControllerTypeEnum.MERGE;
     }
 }

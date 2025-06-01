@@ -77,14 +77,14 @@ public class SimpleColumnCompiler<S extends N2oSimpleColumn> extends BaseColumnC
         if (source.getColumnVisibilities() != null) {
             for (N2oBaseColumn.ColumnVisibility visibility : source.getColumnVisibilities()) {
                 String datasourceId = getClientDatasourceId(castDefault(visibility.getDatasourceId(), widgetScope.getDatasourceId()), p);
-                ReduxModelEnum refModel = castDefault(visibility.getModel(), ReduxModelEnum.filter);
+                ReduxModelEnum refModel = castDefault(visibility.getModel(), ReduxModelEnum.FILTER);
                 Condition condition = new Condition();
                 condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
                 condition.setModelLink(new ModelLink(refModel, datasourceId).getLink());
-                if (!compiled.getConditions().containsKey(ValidationTypeEnum.visible)) {
-                    compiled.getConditions().put(ValidationTypeEnum.visible, new ArrayList<>());
+                if (!compiled.getConditions().containsKey(ValidationTypeEnum.VISIBLE)) {
+                    compiled.getConditions().put(ValidationTypeEnum.VISIBLE, new ArrayList<>());
                 }
-                compiled.getConditions().get(ValidationTypeEnum.visible).add(condition);
+                compiled.getConditions().get(ValidationTypeEnum.VISIBLE).add(condition);
             }
         }
 

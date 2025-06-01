@@ -84,7 +84,7 @@ class ImageCellAT extends AutoTestBase {
         cell.shouldHaveWidth(40);
         cell.shouldHaveTitle("Заголовок1");
         cell.shouldHaveDescription("Описание1");
-        cell.shouldHaveTextPosition(TextPositionEnum.left);
+        cell.shouldHaveTextPosition(TextPositionEnum.LEFT);
 
         cell = rows.row(1).cell(0, ImageCell.class);
         cell.shouldHaveSrc(getBaseUrl() + "/images/hamburg-3846525__340.jpg");
@@ -110,10 +110,10 @@ class ImageCellAT extends AutoTestBase {
 
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.shouldExists();
-        cell.shouldHaveStatus(ImageStatusElementPlaceEnum.topRight, 0, "Статус1");
-        cell.statusShouldHaveIcon(ImageStatusElementPlaceEnum.topRight, 0, ".fa.fa-plus");
+        cell.shouldHaveStatus(ImageStatusElementPlaceEnum.TOP_RIGHT, 0, "Статус1");
+        cell.statusShouldHaveIcon(ImageStatusElementPlaceEnum.TOP_RIGHT, 0, ".fa.fa-plus");
 
         cell = rows.row(1).cell(0, ImageCell.class);
-        cell.shouldHaveStatus(ImageStatusElementPlaceEnum.topRight, 0, "Статус2");
+        cell.shouldHaveStatus(ImageStatusElementPlaceEnum.TOP_RIGHT, 0, "Статус2");
     }
 }

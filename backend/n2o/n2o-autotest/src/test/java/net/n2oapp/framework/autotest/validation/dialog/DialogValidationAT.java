@@ -80,7 +80,7 @@ class DialogValidationAT extends AutoTestBase {
         modalSaveBtn.click();
 
         modal.shouldNotExists();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(3);
         tableRows.row(0).cell(0).shouldHaveText("3");
         tableRows.row(0).cell(1).shouldHaveText("Mark");
@@ -108,7 +108,7 @@ class DialogValidationAT extends AutoTestBase {
         agreeBnt.click();
 
         modal.shouldNotExists();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(4);
         tableRows.row(0).cell(0).shouldHaveText("4");
         tableRows.row(0).cell(1).shouldHaveText("default");
@@ -137,7 +137,7 @@ class DialogValidationAT extends AutoTestBase {
         agreeBnt.click();
 
         modal.shouldNotExists();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
         tableRows.shouldHaveSize(5);
         tableRows.row(0).cell(0).shouldHaveText("5");
         tableRows.row(0).cell(1).shouldHaveText("Ann");

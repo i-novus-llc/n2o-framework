@@ -46,7 +46,7 @@ class ImageUploadCompileTest extends SourceCompileTestBase {
         ImageUpload imageUpload = (ImageUpload) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0)
                 .getCols().get(0).getFields().get(0)).getControl();
         assertThat(imageUpload.getSrc(), is("ImageUploader"));
-        assertThat(imageUpload.getListType(), is(ImageUpload.ListTypeEnum.card));
+        assertThat(imageUpload.getListType(), is(ImageUpload.ListTypeEnum.CARD));
         assertThat(imageUpload.getCanLightbox(), is(true));
         assertThat(imageUpload.getCanDelete(), is(false));
         assertThat(imageUpload.getWidth(), is("500px"));
@@ -74,7 +74,7 @@ class ImageUploadCompileTest extends SourceCompileTestBase {
 
         ImageUpload imageUpload2 = (ImageUpload) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(1)
                 .getCols().get(0).getFields().get(0)).getControl();
-        assertThat(imageUpload2.getListType(), is(ImageUpload.ListTypeEnum.image));
+        assertThat(imageUpload2.getListType(), is(ImageUpload.ListTypeEnum.IMAGE));
         assertThat(imageUpload2.getCanLightbox(), is(false));
         assertThat(imageUpload2.getAjax(), is(true));
         assertThat(imageUpload2.getMulti(), is(false));

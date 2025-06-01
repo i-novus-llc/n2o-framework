@@ -98,7 +98,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         source.setColor(initColor(source, p));
 
         source.setDatasourceId(initDatasource(source, p));
-        source.setModel(castDefault(source.getModel(), ReduxModelEnum.resolve));
+        source.setModel(castDefault(source.getModel(), ReduxModelEnum.RESOLVE));
     }
 
     private String initTooltipPosition(S source, CompileProcessor p) {
@@ -125,12 +125,12 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
     private void compileLinkConditions(N2oAbstractButton source, AbstractButton button, CompileProcessor p) {
         String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
         if (isLink(source.getVisible()))
-            compileLink(button, clientDatasource, ValidationTypeEnum.visible, source.getVisible(), source.getModel());
+            compileLink(button, clientDatasource, ValidationTypeEnum.VISIBLE, source.getVisible(), source.getModel());
         else
             button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
 
         if (isLink(source.getEnabled()))
-            compileLink(button, clientDatasource, ValidationTypeEnum.enabled, source.getEnabled(), source.getModel());
+            compileLink(button, clientDatasource, ValidationTypeEnum.ENABLED, source.getEnabled(), source.getModel());
         else
             button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
     }

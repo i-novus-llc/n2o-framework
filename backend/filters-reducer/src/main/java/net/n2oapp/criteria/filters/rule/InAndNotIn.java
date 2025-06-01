@@ -18,7 +18,7 @@ public class InAndNotIn extends InListRule {
     @Override
     @SuppressWarnings("unchecked")
     protected List getResultList(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.in))
+        if (right.getType().equals(FilterTypeEnum.IN))
             return getResultList(right, left);
         List listIn = (List) left.getValue();
         List listNotIn = (List) right.getValue();
@@ -33,6 +33,6 @@ public class InAndNotIn extends InListRule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.in, FilterTypeEnum.notIn);
+        return new Pair<>(FilterTypeEnum.IN, FilterTypeEnum.NOT_IN);
     }
 }

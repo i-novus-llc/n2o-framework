@@ -78,7 +78,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         //resolve model
         InvokeAction menuItem0action = (InvokeAction) table.getToolbar().getButton("test1").getAction();
         assertThat(menuItem0action.getType(), is("n2o/actionImpl/START_INVOKE"));
-        assertThat(menuItem0action.getPayload().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(menuItem0action.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(menuItem0action.getPayload().getDatasource(), is("w_w1"));
         assertThat(menuItem0action.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("w_w1"));
         ClientDataProvider dataProvider = menuItem0action.getPayload().getDataProvider();
@@ -104,7 +104,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
 
         testAction = (InvokeAction) table.getToolbar().getButton("testPut").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
-        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(testAction.getPayload().getDatasource(), is("w_w1"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethodEnum.PUT));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/:id"));
@@ -116,7 +116,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
 
         testAction = (InvokeAction) table.getToolbar().getButton("testDelete").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
-        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(testAction.getPayload().getDatasource(), is("w_w1"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethodEnum.DELETE));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDelete"));
@@ -195,7 +195,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testPageInvokeAction", "/p"));
         InvokeAction testAction = (InvokeAction) page.getToolbar().getButton("test").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
-        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
     }
 
     @Test
@@ -221,7 +221,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(provider1.getHeadersMapping().get("hpName1").getValue(), is("hpValue1"));
         //setting datasource and model
         assertThat(provider1.getFormMapping().get("fpName1").getValue(), is("`fpValue1`"));
-        assertThat(provider1.getFormMapping().get("fpName1").getModel(), is(ReduxModelEnum.multi));
+        assertThat(provider1.getFormMapping().get("fpName1").getModel(), is(ReduxModelEnum.MULTI));
         assertThat(provider1.getFormMapping().get("fpName1").getDatasource(), is("w_test"));
         assertThat(provider1.getFormMapping().get("fpName1").getLink(), is("models.multi['w_test']"));
         //default datasource and model
@@ -248,13 +248,13 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         InvokeAction action = (InvokeAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("b1").getAction();
         assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/:main_id"));
         assertThat(action.getType(), is("n2o/actionImpl/START_INVOKE"));
-        assertThat(action.getPayload().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(action.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(action.getPayload().getDatasource(), is("routeAndPath_w2"));
 
         action = (InvokeAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("b2").getAction();
         assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/b2"));
         assertThat(action.getType(), is("n2o/actionImpl/START_INVOKE"));
-        assertThat(action.getPayload().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(action.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(action.getPayload().getDatasource(), is("routeAndPath_w2"));
     }
 
@@ -317,18 +317,18 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         Form widget = (Form) page.getRegions().values().iterator().next().get(0).getContent().get(0);
         InvokeAction testAction1 = (InvokeAction) widget.getToolbar().getButton("test1").getAction();
         assertThat(testAction1.getType(), is("n2o/actionImpl/START_INVOKE"));
-        assertThat(testAction1.getPayload().getModel(), is(ReduxModelEnum.filter));
+        assertThat(testAction1.getPayload().getModel(), is(ReduxModelEnum.FILTER));
         assertThat(testAction1.getPayload().getDatasource(), is("testInvokeActionDatasource_main"));
         assertThat(testAction1.getPayload().getDataProvider().getMethod(), is(RequestMethodEnum.POST));
         assertThat(testAction1.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test1"));
 
         InvokeAction testAction2 = (InvokeAction) widget.getToolbar().getButton("test2").getAction();
-        assertThat(testAction2.getPayload().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(testAction2.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(testAction2.getPayload().getDatasource(), is("testInvokeActionDatasource_outer"));
         assertThat(testAction2.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test2"));
 
         InvokeAction testAction = (InvokeAction) page.getToolbar().getButton("test").getAction();
-        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(testAction.getPayload().getDatasource(), is("testInvokeActionDatasource_outer"));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test"));
     }

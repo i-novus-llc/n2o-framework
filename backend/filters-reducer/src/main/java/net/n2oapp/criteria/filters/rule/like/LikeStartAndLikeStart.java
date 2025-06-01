@@ -24,6 +24,6 @@ public class LikeStartAndLikeStart implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.likeStart, FilterTypeEnum.likeStart);
+        return new Pair<>(FilterTypeEnum.LIKE_START, FilterTypeEnum.LIKE_START);
     }
 }

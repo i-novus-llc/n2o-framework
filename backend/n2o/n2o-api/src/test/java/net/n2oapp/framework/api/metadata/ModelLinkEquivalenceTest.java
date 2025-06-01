@@ -11,27 +11,27 @@ class ModelLinkEquivalenceTest {
 
     @Test
     void testSimple() {
-        ModelLink link1 = new ModelLink(ReduxModelEnum.resolve, "widget", "id");
-        ModelLink link2 = new ModelLink(ReduxModelEnum.resolve, "widget");
+        ModelLink link1 = new ModelLink(ReduxModelEnum.RESOLVE, "widget", "id");
+        ModelLink link2 = new ModelLink(ReduxModelEnum.RESOLVE, "widget");
         link2.setValue("`id`");
         assertTrue(link1.equalsLink(link2));
     }
 
     @Test
     void testEquals() {
-        ModelLink withSubModelQuery1 = new ModelLink(ReduxModelEnum.resolve, "widget", "multi[index].field.id");
+        ModelLink withSubModelQuery1 = new ModelLink(ReduxModelEnum.RESOLVE, "widget", "multi[index].field.id");
         SubModelQuery subModelQuery1 = new SubModelQuery("multi[index]", "field", "queryId", "id", "name", false,null);
         withSubModelQuery1.setSubModelQuery(subModelQuery1);
 
-        ModelLink withSubModelQuery2 = new ModelLink(ReduxModelEnum.resolve, "widget");
+        ModelLink withSubModelQuery2 = new ModelLink(ReduxModelEnum.RESOLVE, "widget");
         SubModelQuery subModelQuery2 = new SubModelQuery(null, "queryId", "id", "name", false, null);
         withSubModelQuery2.setValue("`multi[index].field.id`");
         withSubModelQuery2.setSubModelQuery(subModelQuery2);
 
-        ModelLink modelLink1 = new ModelLink(ReduxModelEnum.resolve, "widget");
+        ModelLink modelLink1 = new ModelLink(ReduxModelEnum.RESOLVE, "widget");
         modelLink1.setValue("`multi[index].field.name`");
-        ModelLink modelLink2 = new ModelLink(ReduxModelEnum.resolve, "widget", "multi[index].field");
-        ModelLink modelLink3 = new ModelLink(ReduxModelEnum.resolve, "widget", "multi[index].field.name");
+        ModelLink modelLink2 = new ModelLink(ReduxModelEnum.RESOLVE, "widget", "multi[index].field");
+        ModelLink modelLink3 = new ModelLink(ReduxModelEnum.RESOLVE, "widget", "multi[index].field.name");
 
         assertFalse(withSubModelQuery1.equalsLink(modelLink1));
         assertTrue(withSubModelQuery1.equalsLink(modelLink2));
@@ -54,19 +54,19 @@ class ModelLinkEquivalenceTest {
 
     @Test
     void testNotEquals() {
-        ModelLink withSubModelQuery1 = new ModelLink(ReduxModelEnum.resolve, "widget", "field.id");
+        ModelLink withSubModelQuery1 = new ModelLink(ReduxModelEnum.RESOLVE, "widget", "field.id");
         SubModelQuery subModelQuery1 = new SubModelQuery("field", "queryId", "id", "name", false, null);
         withSubModelQuery1.setSubModelQuery(subModelQuery1);
 
-        ModelLink withSubModelQuery3 = new ModelLink(ReduxModelEnum.resolve, "widget", "id");
+        ModelLink withSubModelQuery3 = new ModelLink(ReduxModelEnum.RESOLVE, "widget", "id");
         SubModelQuery subModelQuery3 = new SubModelQuery(null, "queryId", null, null, false, null);
         withSubModelQuery3.setSubModelQuery(subModelQuery3);
 
-        ModelLink modelLink1 = new ModelLink(ReduxModelEnum.resolve, "widget1");
+        ModelLink modelLink1 = new ModelLink(ReduxModelEnum.RESOLVE, "widget1");
         modelLink1.setValue("`field.name`");
-        ModelLink modelLink2 = new ModelLink(ReduxModelEnum.resolve, "widget", "field1");
+        ModelLink modelLink2 = new ModelLink(ReduxModelEnum.RESOLVE, "widget", "field1");
         modelLink2.setValue("`name`");
-        ModelLink modelLink3 = new ModelLink(ReduxModelEnum.resolve, "widget", "field");
+        ModelLink modelLink3 = new ModelLink(ReduxModelEnum.RESOLVE, "widget", "field");
 
         assertFalse(withSubModelQuery1.equalsLink(modelLink1));
         assertFalse(withSubModelQuery1.equalsLink(modelLink2));
@@ -80,13 +80,13 @@ class ModelLinkEquivalenceTest {
 
     @Test
     void testEqualsNormalizedLink() {
-        ModelLink link1 = new ModelLink(ReduxModelEnum.resolve, "widget", "id");
-        ModelLink link2 = new ModelLink(ReduxModelEnum.resolve, "widget");
+        ModelLink link1 = new ModelLink(ReduxModelEnum.RESOLVE, "widget", "id");
+        ModelLink link2 = new ModelLink(ReduxModelEnum.RESOLVE, "widget");
         link2.setValue("`id`");
         assertTrue(link1.equalsLink(link2));
 
-        link1 = new ModelLink(ReduxModelEnum.resolve, "widget", "person.id");
-        link2 = new ModelLink(ReduxModelEnum.resolve, "widget", "person");
+        link1 = new ModelLink(ReduxModelEnum.RESOLVE, "widget", "person.id");
+        link2 = new ModelLink(ReduxModelEnum.RESOLVE, "widget", "person");
         link2.setValue("`id`");
         assertTrue(link1.equalsLink(link2));
 

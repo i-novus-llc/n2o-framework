@@ -23,9 +23,9 @@ public abstract class NotInListRule implements Rule {
         if (res.isEmpty()) {
             return null;
         } else if (res.size() == 1) {
-            return new Filter(res.get(0), FilterTypeEnum.notEq);
+            return new Filter(res.get(0), FilterTypeEnum.NOT_EQ);
         }
-        return new Filter(res, FilterTypeEnum.notIn);
+        return new Filter(res, FilterTypeEnum.NOT_IN);
     }
 
 }

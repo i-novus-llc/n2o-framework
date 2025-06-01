@@ -11,6 +11,7 @@ public interface ScrollspyRegion extends Region {
 
     /**
      * Возвращает содержание (Виджеты/Регионы) страницы по номеру
+     *
      * @param index номер необходимого блока
      * @return Компонент содержащий содержание страницы для автотестирования
      */
@@ -18,6 +19,7 @@ public interface ScrollspyRegion extends Region {
 
     /**
      * Возвращает содержание (Виджеты/Регионы) страницы по заголовку
+     *
      * @param title заголовок необходимого блока
      * @return Компонент содержащий содержание страницы для автотестирования
      */
@@ -25,18 +27,21 @@ public interface ScrollspyRegion extends Region {
 
     /**
      * Проверка соответствия заголовка у активного элемента
+     *
      * @param title ожидаемый заголовок
      */
     void activeContentItemShouldHaveTitle(String title, Duration... duration);
 
     /**
      * Проверка соответствия заголовка у активного элемента меню
+     *
      * @param title ожидаемый заголовок
      */
     void activeMenuItemShouldHaveTitle(String title, Duration... duration);
 
     /**
      * Проверка соответствия позиции элемента меню
+     *
      * @param position ожидаемый заголовок
      */
     void menuShouldHavePosition(MenuPositionEnum position);
@@ -77,12 +82,14 @@ public interface ScrollspyRegion extends Region {
 
         /**
          * Проверка заголовка меню на соответствие
+         *
          * @param title ожидаемый заголовок меню
          */
         void shouldHaveTitle(String title, Duration... duration);
 
         /**
          * Возвращает элемент меню для автотестирования по номеру
+         *
          * @param index номер возвращаемого элемента
          * @return элемент меню для автотестирования
          */
@@ -90,6 +97,7 @@ public interface ScrollspyRegion extends Region {
 
         /**
          * Возвращает элемент меню в регионе для автотестирования по заголовку
+         *
          * @param title номер возвращаемого элемента
          * @return элемент меню для автотестирования
          */
@@ -97,6 +105,7 @@ public interface ScrollspyRegion extends Region {
 
         /**
          * Возвращает элементы меню из выпадающего списка по номеру
+         *
          * @param index номер возвращаемого элемента
          * @return элементы меню выпадающего списка для автотестирования
          */
@@ -104,6 +113,7 @@ public interface ScrollspyRegion extends Region {
 
         /**
          * Возвращает элементы меню из выпадающего списка по метке
+         *
          * @param label метка возвращаемого элемента
          * @return элементы меню выпадающего списка для автотестирования
          */
@@ -111,6 +121,7 @@ public interface ScrollspyRegion extends Region {
 
         /**
          * Возвращает элементы меню из групп по номеру
+         *
          * @param index номер возвращаемого элемента
          * @return элементы меню выпадающего списка для автотестирования
          */
@@ -118,6 +129,7 @@ public interface ScrollspyRegion extends Region {
 
         /**
          * Возвращает элементы меню из групп по метке
+         *
          * @param label метка возвращаемого элемента
          * @return элементы меню выпадающего списка для автотестирования
          */
@@ -128,6 +140,7 @@ public interface ScrollspyRegion extends Region {
 
         /**
          * Проверка текста
+         *
          * @param text ожидаемый текст
          */
         void shouldHaveText(String text, Duration... duration);
@@ -142,6 +155,7 @@ public interface ScrollspyRegion extends Region {
 
         /**
          * Возвращает элемент меню для автотестирования по номеру
+         *
          * @param index номер возвращаемого элемента
          * @return элемент меню для автотестирования
          */
@@ -149,6 +163,7 @@ public interface ScrollspyRegion extends Region {
 
         /**
          * Возвращает элемент меню в регионе для автотестирования по заголовку
+         *
          * @param title номер возвращаемого элемента
          * @return элемент меню для автотестирования
          */
@@ -179,7 +194,7 @@ public interface ScrollspyRegion extends Region {
     }
 
     enum MenuPositionEnum {
-        left,
-        right
+        LEFT,
+        RIGHT
     }
 }

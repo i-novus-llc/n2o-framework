@@ -14,9 +14,9 @@ public class EqAndLess implements Rule {
     @Override
     @SuppressWarnings("unchecked")
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.eq) && left.getType().equals(FilterTypeEnum.less))
+        if (right.getType().equals(FilterTypeEnum.EQ) && left.getType().equals(FilterTypeEnum.LESS))
             return simplify(right, left);
-        else if (left.getType().equals(FilterTypeEnum.eq) && right.getType().equals(FilterTypeEnum.less)) {
+        else if (left.getType().equals(FilterTypeEnum.EQ) && right.getType().equals(FilterTypeEnum.LESS)) {
             Comparable value = (Comparable) left.getValue();
             Comparable top = (Comparable) right.getValue();
             if (value.compareTo(top) < 0) return left;
@@ -28,6 +28,6 @@ public class EqAndLess implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eq, FilterTypeEnum.less);
+        return new Pair<>(FilterTypeEnum.EQ, FilterTypeEnum.LESS);
     }
 }

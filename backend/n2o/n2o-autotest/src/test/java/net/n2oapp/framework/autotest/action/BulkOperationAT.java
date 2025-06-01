@@ -95,7 +95,7 @@ class BulkOperationAT extends AutoTestBase {
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(2);
         name1.shouldHaveText("test3");
         name2.shouldHaveText("test4");
@@ -152,7 +152,7 @@ class BulkOperationAT extends AutoTestBase {
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
         table.columns().rows().shouldHaveSize(1);
     }
 }

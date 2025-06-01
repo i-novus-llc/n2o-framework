@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
@@ -17,6 +18,7 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Nonnull;
@@ -27,6 +29,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.stream.Stream;
+
+import static net.n2oapp.framework.api.StringUtils.isLink;
+import static net.n2oapp.framework.config.util.StylesResolver.camelToSnake;
 
 /**
  * Утилиты проверки метаданных
@@ -260,6 +265,12 @@ public final class ValidationUtils {
                 }
             }
         }
+    }
+
+    public static boolean isInvalidColor(String color) {
+        return color != null
+                && !isLink(color)
+                && !EnumUtils.isValidEnum(ColorEnum.class, camelToSnake(color));
     }
 
     private static boolean isValidDateByFormat(String date, SimpleDateFormat dateFormat) {

@@ -15,12 +15,12 @@ public class EqAndNotEq implements Rule {
     public Filter simplify(Filter left, Filter right) {
         if (left.getValue().equals(right.getValue()))
             return null;
-        if (left.getType().equals(FilterTypeEnum.eq)) return left;
+        if (left.getType().equals(FilterTypeEnum.EQ)) return left;
         else return right;
     }
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eq, FilterTypeEnum.notEq);
+        return new Pair<>(FilterTypeEnum.EQ, FilterTypeEnum.NOT_EQ);
     }
 }

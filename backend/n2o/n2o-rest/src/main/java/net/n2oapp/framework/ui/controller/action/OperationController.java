@@ -77,7 +77,7 @@ public class OperationController extends SetController {
 
     @Override
     public ControllerTypeEnum getControllerType() {
-        return ControllerTypeEnum.operation;
+        return ControllerTypeEnum.OPERATION;
     }
 
 }

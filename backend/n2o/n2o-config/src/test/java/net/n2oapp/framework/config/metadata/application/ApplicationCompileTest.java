@@ -129,7 +129,7 @@ class ApplicationCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getId(), is("mi1"));
         assertThat(menuItem.getTitle(), is("Документы"));
         assertThat(menuItem.getHref(), is("/person/:person_id/docs"));
-        assertThat(menuItem.getLinkType(), is(MenuItem.LinkTypeEnum.inner));
+        assertThat(menuItem.getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
         assertThat(menuItem.getSrc(), is("LinkMenuItem"));
         assertThat(menuItem.getPathMapping().get("person_id").getValue(), is(":person_id"));
         assertThat(menuItem.getQueryMapping().get("fio").getLink(), is("models.resolve['person']"));

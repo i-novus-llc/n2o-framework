@@ -58,7 +58,7 @@ class MultiActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getActions().get(1), instanceOf(SetValueAction.class));
         assertThat(action.getPayload().getActions().get(2), instanceOf(LinkAction.class));
         assertThat(((LinkAction) action.getPayload().getActions().get(2)).getUrl(), is("/test1"));
-        assertThat(((LinkAction) action.getPayload().getActions().get(2)).getTarget(), is(TargetEnum.application));
+        assertThat(((LinkAction) action.getPayload().getActions().get(2)).getTarget(), is(TargetEnum.APPLICATION));
 
         button = (PerformButton) page.getToolbar().getButton("test2");
         action = (MultiAction) button.getAction();
@@ -68,7 +68,7 @@ class MultiActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getActions().get(0), instanceOf(CustomAction.class));
         assertThat(action.getPayload().getActions().get(1), instanceOf(LinkAction.class));
         assertThat(((LinkAction) action.getPayload().getActions().get(1)).getUrl(), is("/test2"));
-        assertThat(((LinkAction) action.getPayload().getActions().get(1)).getTarget(), is(TargetEnum.application));
+        assertThat(((LinkAction) action.getPayload().getActions().get(1)).getTarget(), is(TargetEnum.APPLICATION));
     }
 
     @Test

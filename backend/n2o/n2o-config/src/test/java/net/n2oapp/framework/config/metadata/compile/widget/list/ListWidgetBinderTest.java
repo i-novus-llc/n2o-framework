@@ -36,6 +36,6 @@ class ListWidgetBinderTest extends SourceCompileTestBase {
         ListWidget listWidget = (ListWidget) ((StandardPage) pipeline.get(context, new DataSet().add("param", "1")))
                 .getRegions().get("single").get(0).getContent().get(8);
         assertThat(listWidget.getRowClick().getUrl(), is("https://www.google.com/"));
-        assertThat(listWidget.getRowClick().getTarget(), is(TargetEnum.self));
+        assertThat(listWidget.getRowClick().getTarget(), is(TargetEnum.SELF));
     }
 }

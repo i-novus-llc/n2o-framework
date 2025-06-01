@@ -19,6 +19,8 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.isInvalidColor;
+import static net.n2oapp.framework.config.util.StylesResolver.camelToSnake;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
 /**
@@ -73,7 +75,7 @@ public class BaseButtonValidator implements SourceValidator<Button>, SourceClass
         String color = source.getColor();
         boolean isIncorrectColor = !Objects.equals(color, "link")
                 && !color.startsWith("outline")
-                && !EnumUtils.isValidEnum(ColorEnum.class, color);
+                && !EnumUtils.isValidEnum(ColorEnum.class, camelToSnake(color));
         if (isIncorrectColor && !StringUtils.isLink(color)) {
             throw new N2oMetadataValidationException(
                     String.format("Кнопка %s использует недопустимое значение атрибута color=\"%s\"", getLabelOrId(source), color)
@@ -86,8 +88,7 @@ public class BaseButtonValidator implements SourceValidator<Button>, SourceClass
      */
     private void checkBadgeColor(Button source) {
         String badgeColor = ((BadgeAware) source).getBadgeColor();
-        if (badgeColor != null && !StringUtils.isLink(badgeColor)
-                && !EnumUtils.isValidEnum(ColorEnum.class, badgeColor)) {
+        if (isInvalidColor(badgeColor)) {
             throw new N2oMetadataValidationException(
                     String.format("Кнопка %s использует недопустимое значение атрибута badge-color=\"%s\"", getLabelOrId(source), badgeColor)
             );

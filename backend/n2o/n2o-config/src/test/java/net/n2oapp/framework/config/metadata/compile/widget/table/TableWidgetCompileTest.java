@@ -146,7 +146,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getValidations(), notNullValue());
         assertThat(queryContext.getValidations().size(), is(1));
         assertThat(queryContext.getValidations().get(0), instanceOf(MandatoryValidation.class));
-        assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMomentEnum.beforeQuery));
+        assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMomentEnum.BEFORE_QUERY));
         assertThat(queryContext.getMessagesForm(), is("testTable5Compile_w1"));
 
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.CHECKBOX));
@@ -198,7 +198,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getBody().getRow().getOverlay().getClassName(), is("top"));
         LinkAction linkAction = (LinkAction) table.getComponent().getBody().getRow().getOverlay().getToolbar().get(0).getButtons().get(0).getAction();
         assertThat(linkAction.getUrl(), is("/test"));
-        assertThat(linkAction.getTarget(), is(TargetEnum.application));
+        assertThat(linkAction.getTarget(), is(TargetEnum.APPLICATION));
         assertThat(linkAction.getPathMapping().size(), is(0));
         assertThat(linkAction.getQueryMapping().size(), is(0));
     }
@@ -307,8 +307,8 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(queryContext.getValidations().get(0).getId(), is("genders*.id"));
         assertThat(queryContext.getValidations().get(0).getFieldId(), is("genders*.id"));
-        assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMomentEnum.beforeQuery));
-        assertThat(queryContext.getValidations().get(0).getSeverity(), is(SeverityTypeEnum.danger));
+        assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMomentEnum.BEFORE_QUERY));
+        assertThat(queryContext.getValidations().get(0).getSeverity(), is(SeverityTypeEnum.DANGER));
     }
 
     @Test
@@ -317,12 +317,12 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testTableColumnVisibility"));
         List<AbstractColumn> columns = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getHeader().getCells();
         assertThat(((BaseColumn) columns.get(0)).getVisible(), nullValue());
-        assertThat(((BaseColumn) columns.get(0)).getConditions().get(ValidationTypeEnum.visible).get(0).getExpression(), is("abc == 1"));
-        assertThat(((BaseColumn) columns.get(0)).getConditions().get(ValidationTypeEnum.visible).get(0).getModelLink(), is("models.filter['testTableColumnVisibility_table']"));
+        assertThat(((BaseColumn) columns.get(0)).getConditions().get(ValidationTypeEnum.VISIBLE).get(0).getExpression(), is("abc == 1"));
+        assertThat(((BaseColumn) columns.get(0)).getConditions().get(ValidationTypeEnum.VISIBLE).get(0).getModelLink(), is("models.filter['testTableColumnVisibility_table']"));
         assertThat(((BaseColumn) columns.get(1)).getVisible(), is(Boolean.TRUE));
         assertThat(((BaseColumn) columns.get(2)).getVisible(), nullValue());
-        assertThat(((BaseColumn) columns.get(3)).getConditions().get(ValidationTypeEnum.visible).get(0).getExpression(), is("type == 1"));
-        assertThat(((BaseColumn) columns.get(3)).getConditions().get(ValidationTypeEnum.visible).get(0).getModelLink(), is("models.resolve['testTableColumnVisibility_form']"));
+        assertThat(((BaseColumn) columns.get(3)).getConditions().get(ValidationTypeEnum.VISIBLE).get(0).getExpression(), is("type == 1"));
+        assertThat(((BaseColumn) columns.get(3)).getConditions().get(ValidationTypeEnum.VISIBLE).get(0).getModelLink(), is("models.resolve['testTableColumnVisibility_form']"));
     }
 
     @Test
@@ -454,7 +454,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
         assertThat(pagination.getClassName(), is("class"));
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
-        assertThat(pagination.getPlace(), is(PlaceEnum.topLeft));
+        assertThat(pagination.getPlace(), is(PlaceEnum.TOP_LEFT));
     }
 
     @Test
@@ -478,7 +478,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getNextIcon(), is("fa fa-angle-right"));
         assertThat(pagination.getClassName(), is(nullValue()));
         assertThat(pagination.getStyle(), is(nullValue()));
-        assertThat(pagination.getPlace(), is(PlaceEnum.bottomLeft));
+        assertThat(pagination.getPlace(), is(PlaceEnum.BOTTOM_LEFT));
     }
 
     @Test
@@ -635,9 +635,10 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertTrue(routes.getQueryMapping().containsKey("table_page"));
         assertTrue(routes.getQueryMapping().containsKey("table_size"));
         assertEquals("n2o/api/datasource/mapParam", routes.getQueryMapping().get("table_page").getOnGet().getType());
-        assertEquals("testRoutableManyWidgets_ds1", ((RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload()).getId());
-        assertEquals(":table_page", ((RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload()).getParams().get("paging.page"));
-        assertFalse(((RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload()).getParams().containsKey("paging.size"));
+        RoutablePayload routablePayload = (RoutablePayload) routes.getQueryMapping().get("table_page").getOnGet().getPayload();
+        assertEquals("testRoutableManyWidgets_ds1", routablePayload.getId());
+        assertEquals(":table_page", routablePayload.getParams().get("paging.page"));
+        assertFalse(routablePayload.getParams().containsKey("paging.size"));
         assertEquals("datasource.testRoutableManyWidgets_ds1.paging.page", (routes.getQueryMapping().get("table_page").getOnSet().getLink()));
         assertEquals("n2o/api/datasource/mapParam", routes.getQueryMapping().get("table_size").getOnGet().getType());
         assertEquals("testRoutableManyWidgets_ds1", ((RoutablePayload) routes.getQueryMapping().get("table_size").getOnGet().getPayload()).getId());

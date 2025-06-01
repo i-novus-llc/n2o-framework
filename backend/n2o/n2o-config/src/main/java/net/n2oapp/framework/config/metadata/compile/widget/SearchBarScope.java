@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 @Setter
 @NoArgsConstructor
 public class SearchBarScope {
-    private ReduxModelEnum modelPrefix = ReduxModelEnum.filter;
+    private ReduxModelEnum modelPrefix = ReduxModelEnum.FILTER;
     private String datasource;
     private String filterId;
     private String param;

@@ -15,12 +15,12 @@ class RuleTest {
     @Test
     void testEq_Eq(CapturedOutput output) {
         EqAndEq rule = new EqAndEq();
-        Filter left = new Filter(1, FilterTypeEnum.eq);
-        Filter right = new Filter(1L, FilterTypeEnum.eq);
+        Filter left = new Filter(1, FilterTypeEnum.EQ);
+        Filter right = new Filter(1L, FilterTypeEnum.EQ);
         rule.simplify(left, right);
         assertThat(output.getOut()).contains("Не получилось объединить фильтры <eq> и <eq> со значениями 1, имеющие разные типы Integer и Long");
 
-        right = new Filter(2, FilterTypeEnum.eq);
+        right = new Filter(2, FilterTypeEnum.EQ);
         rule.simplify(left, right);
         assertThat(output.getOut()).contains("Не получилось объединить фильтры <eq> и <eq> со значениями 1 и 2");
     }
@@ -28,12 +28,12 @@ class RuleTest {
     @Test
     void testEqOrIsNull_Eq(CapturedOutput output) {
         EqOrIsNullAndEq rule = new EqOrIsNullAndEq();
-        Filter left = new Filter(1, FilterTypeEnum.eqOrIsNull);
-        Filter right = new Filter(1L, FilterTypeEnum.eq);
+        Filter left = new Filter(1, FilterTypeEnum.EQ_OR_IS_NULL);
+        Filter right = new Filter(1L, FilterTypeEnum.EQ);
         rule.simplify(left, right);
         assertThat(output.getOut()).contains("Не получилось объединить фильтры <eqOrIsNull> и <eq> со значениями 1, имеющие разные типы Integer и Long");
 
-        right = new Filter(2, FilterTypeEnum.eq);
+        right = new Filter(2, FilterTypeEnum.EQ);
         rule.simplify(left, right);
         assertThat(output.getOut()).contains("Не получилось объединить фильтры <eqOrIsNull> и <eq> со значениями 1 и 2");
     }

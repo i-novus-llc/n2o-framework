@@ -71,32 +71,32 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
                 filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
             if (filter.getText() == null) {
                 if ("id".equals(filter.getFieldId())) {
-                    if (filter.getType().equals(FilterTypeEnum.eq))
+                    if (filter.getType().equals(FilterTypeEnum.EQ))
                         filter.setText("{ _id: new ObjectId('#" + filter.getFilterId() + "') }");
                 } else {
                     switch (filter.getType()) {
-                        case eq:
+                        case EQ:
                             filter.setText("{ '" + filter.getFieldId() + "': " + getFilterField(filter, domain) + " }");
                             break;
-                        case notEq:
+                        case NOT_EQ:
                             filter.setText("{ '" + filter.getFieldId()  + "': {$ne: " + getFilterField(filter, domain) + " }}");
                             break;
-                        case like:
+                        case LIKE:
                             filter.setText("{ '" + filter.getFieldId()  + "': {$regex: '.*" + hash(filter.getFilterId()) + ".*'}}");
                             break;
-                        case likeStart:
+                        case LIKE_START:
                             filter.setText("{ '" + filter.getFieldId()  + "': {$regex: '" + hash(filter.getFilterId()) + ".*'}}");
                             break;
-                        case more:
+                        case MORE:
                             filter.setText("{ '" + filter.getFieldId()  + "': {$gte: " + getFilterField(filter, domain) + "}}");
                             break;
-                        case less:
+                        case LESS:
                             filter.setText("{ '" + filter.getFieldId()  + "': {$lte: " + getFilterField(filter, domain) + "}}");
                             break;
-                        case in:
+                        case IN:
                             filter.setText("{ '" + filter.getFieldId()  + "': {$in: " + getFilterField(filter, domain) + "}}");
                             break;
-                        case notIn:
+                        case NOT_IN:
                             filter.setText("{ '" + filter.getFieldId()  + "': {$nin: " + getFilterField(filter, domain) + "}}");
                             break;
                         default:

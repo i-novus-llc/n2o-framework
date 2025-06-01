@@ -119,10 +119,10 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
                 compiled.setPathMapping(linkAction.getPathMapping());
                 compiled.setQueryMapping(linkAction.getQueryMapping());
                 compiled.setTarget(linkAction.getTarget());
-                if (linkAction.getTarget().equals(TargetEnum.application))
-                    compiled.setLinkType(MenuItem.LinkTypeEnum.inner);
+                if (linkAction.getTarget().equals(TargetEnum.APPLICATION))
+                    compiled.setLinkType(MenuItem.LinkTypeEnum.INNER);
                 else
-                    compiled.setLinkType(MenuItem.LinkTypeEnum.outer);
+                    compiled.setLinkType(MenuItem.LinkTypeEnum.OUTER);
             } else {
                 compiled.setAction(action);
             }

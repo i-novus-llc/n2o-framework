@@ -44,25 +44,25 @@ class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(datasource.getPaging().getSize(), is(13));
         assertThat(datasource.getFetchOnInit(), is(false));
 
-        assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageTypeEnum.localStorage));
+        assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageTypeEnum.LOCAL_STORAGE));
         assertThat(datasource.getSubmit().getType(), is("browser"));
         assertThat(datasource.getSubmit().getAuto(), is(false));
-        assertThat(datasource.getSubmit().getModel(), is(ReduxModelEnum.filter));
+        assertThat(datasource.getSubmit().getModel(), is(ReduxModelEnum.FILTER));
         assertThat(datasource.getSubmit().getKey(), is("submit_test_key"));
 
-        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageTypeEnum.localStorage));
+        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageTypeEnum.LOCAL_STORAGE));
         assertThat(datasource.getProvider().getType(), is("browser"));
         assertThat(datasource.getProvider().getKey(), is("test_key"));
 
         assertThat(datasource.getDependencies().size(), is(2));
         Dependency dependency = datasource.getDependencies().get(0);
         assertThat(dependency.getOn(), is("models.resolve['testBrowserStorageDatasource_ds']"));
-        assertThat(dependency.getType(), is(DependencyTypeEnum.fetch));
+        assertThat(dependency.getType(), is(DependencyTypeEnum.FETCH));
 
         dependency = datasource.getDependencies().get(1);
-        assertThat(dependency.getType(), is(DependencyTypeEnum.copy));
+        assertThat(dependency.getType(), is(DependencyTypeEnum.COPY));
         assertThat(dependency.getOn(), is("models.filter['testBrowserStorageDatasource_ds'].source"));
-        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModelEnum.filter));
+        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModelEnum.FILTER));
         assertThat(((CopyDependency) dependency).getSubmit(), is(true));
         assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
 
@@ -70,13 +70,13 @@ class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
         // default
         datasource = (BrowserStorageDatasource) page.getDatasources().get("testBrowserStorageDatasource_ds2");
         assertThat(datasource.getPaging().getSize(), is(10));
-        assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageTypeEnum.sessionStorage));
+        assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageTypeEnum.SESSION_STORAGE));
         assertThat(datasource.getSubmit().getType(), is("browser"));
         assertThat(datasource.getSubmit().getAuto(), is(true));
-        assertThat(datasource.getSubmit().getModel(), is(ReduxModelEnum.resolve));
+        assertThat(datasource.getSubmit().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(datasource.getSubmit().getKey(), is("test_key"));
 
-        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageTypeEnum.sessionStorage));
+        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageTypeEnum.SESSION_STORAGE));
         assertThat(datasource.getProvider().getType(), is("browser"));
         assertThat(datasource.getProvider().getKey(), is("test_key"));
         assertThat(datasource.getFetchOnInit(), is(false));

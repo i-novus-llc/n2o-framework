@@ -49,14 +49,14 @@ class AnchorCompileTest extends SourceCompileTestBase {
         Toolbar toolbar = ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
         LinkAction link1 = (LinkAction) toolbar.getButton("id1").getAction();
         assertThat(link1.getUrl(), is("/test"));
-        assertThat(link1.getTarget(), is(TargetEnum.application));
+        assertThat(link1.getTarget(), is(TargetEnum.APPLICATION));
         assertThat(link1.getPathMapping().size(), is(0));
         assertThat(link1.getQueryMapping().size(), is(0));
 
 
         LinkActionImpl link2 = (LinkActionImpl) toolbar.getButton("id2").getAction();
         assertThat(link2.getUrl(), is("/test2/:param1/:param2?param3=:param3"));
-        assertThat(link2.getTarget(), is(TargetEnum.application));
+        assertThat(link2.getTarget(), is(TargetEnum.APPLICATION));
         assertThat(link2.getPathMapping().size(), is(2));
         assertThat(link2.getPathMapping().get("param1").getLink(), is("models.filter['page_secondWgt']"));
         assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
@@ -68,13 +68,13 @@ class AnchorCompileTest extends SourceCompileTestBase {
 
         LinkActionImpl link3 = (LinkActionImpl) toolbar.getButton("id3").getAction();
         assertThat(link3.getUrl(), is("http://google.com"));
-        assertThat(link3.getTarget(), is(TargetEnum.self));
+        assertThat(link3.getTarget(), is(TargetEnum.SELF));
 
         LinkActionImpl linkSecond = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
                 .getToolbar().getButton("secWgt").getAction();
 
         assertThat(linkSecond.getUrl(), is("/test/:minPrice"));
-        assertThat(linkSecond.getTarget(), is(TargetEnum.newWindow));
+        assertThat(linkSecond.getTarget(), is(TargetEnum.NEW_WINDOW));
         assertThat(linkSecond.getPathMapping().size(), is(1));
         assertThat(linkSecond.getPathMapping().get("minPrice").getLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
@@ -89,13 +89,13 @@ class AnchorCompileTest extends SourceCompileTestBase {
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         link1 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id1").getAction();
         assertThat(link1.getUrl(), is("/test"));
-        assertThat(link1.getTarget(), is(TargetEnum.application));
+        assertThat(link1.getTarget(), is(TargetEnum.APPLICATION));
         assertThat(link1.getPathMapping().size(), is(0));
         assertThat(link1.getQueryMapping().size(), is(0));
 
         link2 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id2").getAction();
         assertThat(link2.getUrl(), is("/test2/:param1/:param2?param3=:param3"));
-        assertThat(link2.getTarget(), is(TargetEnum.application));
+        assertThat(link2.getTarget(), is(TargetEnum.APPLICATION));
         assertThat(link2.getPathMapping().size(), is(2));
         assertThat(link2.getPathMapping().get("param1").getLink(), is("models.resolve['page_id4_test']"));
         assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
@@ -107,7 +107,7 @@ class AnchorCompileTest extends SourceCompileTestBase {
 
         link3 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id3").getAction();
         assertThat(link3.getUrl(), is("/test3"));
-        assertThat(link3.getTarget(), is(TargetEnum.application));
+        assertThat(link3.getTarget(), is(TargetEnum.APPLICATION));
         assertThat(link3.getPathMapping().size(), is(0));
         assertThat(link3.getQueryMapping().size(), is(0));
     }
@@ -120,11 +120,11 @@ class AnchorCompileTest extends SourceCompileTestBase {
         MenuItem menuItem = application.getSidebars().get(0).getMenu().getItems().get(0);
         assertThat(menuItem.getSrc(), is("LinkMenuItem"));
         assertThat(menuItem.getHref(), is("/person/:id/docs"));
-        assertThat(menuItem.getLinkType(), is(MenuItem.LinkTypeEnum.inner));
+        assertThat(menuItem.getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
         assertThat(menuItem.getPathMapping().size(), is(1));
         assertThat(menuItem.getPathMapping().get("id").getValue(), is(":id"));
         assertThat(menuItem.getQueryMapping().size(), is(1));
-        assertThat(menuItem.getQueryMapping().get("name").getModel(), is(ReduxModelEnum.resolve));
+        assertThat(menuItem.getQueryMapping().get("name").getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(menuItem.getQueryMapping().get("name").getDatasource(), is("doc"));
         assertThat(menuItem.getQueryMapping().get("name").getLink(), is("models.resolve['doc']"));
         assertThat(menuItem.getQueryMapping().get("name").getValue(), is("`name`"));
@@ -132,11 +132,11 @@ class AnchorCompileTest extends SourceCompileTestBase {
         menuItem = application.getSidebars().get(0).getMenu().getItems().get(1);
         assertThat(menuItem.getSrc(), is("LinkMenuItem"));
         assertThat(menuItem.getHref(), is("/person/:id/profile"));
-        assertThat(menuItem.getLinkType(), is(MenuItem.LinkTypeEnum.inner));
+        assertThat(menuItem.getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
         assertThat(menuItem.getPathMapping().size(), is(1));
         assertThat(menuItem.getPathMapping().get("id").getValue(), is(":id"));
         assertThat(menuItem.getQueryMapping().size(), is(1));
-        assertThat(menuItem.getQueryMapping().get("name").getModel(), is(ReduxModelEnum.resolve));
+        assertThat(menuItem.getQueryMapping().get("name").getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(menuItem.getQueryMapping().get("name").getDatasource(), is("person"));
         assertThat(menuItem.getQueryMapping().get("name").getLink(), is("models.resolve['person']"));
         assertThat(menuItem.getQueryMapping().get("name").getValue(), is("`name`"));

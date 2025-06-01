@@ -72,7 +72,7 @@ class ClearActionAT extends AutoTestBase {
                 .region(0, SimpleRegion.class)
                 .content()
                 .widget(FormWidget.class);
-
+        form.shouldExists();
         InputText id = form.fields().field("id").control(InputText.class);
         InputText name = form.fields().field("name").control(InputText.class);
         id.shouldHaveValue("3");

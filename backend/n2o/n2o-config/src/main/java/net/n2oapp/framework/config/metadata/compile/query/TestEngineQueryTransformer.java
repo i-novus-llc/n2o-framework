@@ -40,12 +40,12 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
                 if (filter.getMapping() != null) {
                     if (isBlank(filter.getText())) {
                         String mapping = unwrapSpel(filter.getMapping());
-                        filter.setText(mapping + " " + colon(filter.getType().name()) + " " + colon(mapping));}
+                        filter.setText(mapping + " " + colon(filter.getType().getId()) + " " + colon(mapping));}
                 } else {
                     if (filter.getFilterId() == null)
-                        filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType());
+                        filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType().getId());
                     if (isBlank(filter.getText()))
-                        filter.setText(filter.getFieldId() + " " + colon(filter.getType().name()) + " " + colon(filter.getFilterId()));
+                        filter.setText(filter.getFieldId() + " " + colon(filter.getType().getId()) + " " + colon(filter.getFilterId()));
                 }
             }
         }

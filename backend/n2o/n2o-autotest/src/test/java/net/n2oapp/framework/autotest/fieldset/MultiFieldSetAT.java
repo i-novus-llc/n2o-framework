@@ -429,6 +429,7 @@ class MultiFieldSetAT extends AutoTestBase {
         FormWidget widgetModal = modalPage.regions().region(0, N2oSimpleRegion.class).content().widget(FormWidget.class);
 
         InputText surnameModal = widgetModal.fields().field("Фамилия").control(InputText.class);
+        surnameModal.shouldExists();
         surnameModal.shouldHaveValue("text");
         surnameModal.click();
         surnameModal.setValue("text2");

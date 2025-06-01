@@ -62,7 +62,7 @@ public class AlertMessageBuilder {
     }
 
     public ResponseMessage buildSuccessMessage(ActionRequestInfo<DataSet> requestInfo, DataSet data) {
-        ResponseMessage message = buildMessage(requestInfo, SeverityTypeEnum.success);
+        ResponseMessage message = buildMessage(requestInfo, SeverityTypeEnum.SUCCESS);
         message.setText(StringUtils.resolveLinks(requestInfo.getOperation().getSuccessText(), data));
         message.setTitle(StringUtils.resolveLinks(requestInfo.getOperation().getSuccessTitle(), data));
         return message;
@@ -74,7 +74,7 @@ public class AlertMessageBuilder {
     }
 
     private SeverityTypeEnum getExceptionSeverity(Exception e) {
-        return e instanceof N2oException n2oException ? n2oException.getSeverity() : SeverityTypeEnum.danger;
+        return e instanceof N2oException n2oException ? n2oException.getSeverity() : SeverityTypeEnum.DANGER;
     }
 
     private ResponseMessage prepareMessage(Exception e, ResponseMessage resp) {

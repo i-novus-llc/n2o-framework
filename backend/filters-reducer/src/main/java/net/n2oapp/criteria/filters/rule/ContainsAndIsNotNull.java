@@ -10,11 +10,11 @@ import net.n2oapp.criteria.filters.rule.base.AlwaysSuccessRule;
 public class ContainsAndIsNotNull extends AlwaysSuccessRule {
 
     public ContainsAndIsNotNull() {
-        super(FilterTypeEnum.contains);
+        super(FilterTypeEnum.CONTAINS);
     }
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.contains, FilterTypeEnum.isNotNull);
+        return new Pair<>(FilterTypeEnum.CONTAINS, FilterTypeEnum.IS_NOT_NULL);
     }
 }

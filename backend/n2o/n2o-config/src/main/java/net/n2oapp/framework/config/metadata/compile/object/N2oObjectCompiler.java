@@ -342,7 +342,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             if (Boolean.TRUE.equals(parameter.getRequired())) {
                 MandatoryValidation validation = new MandatoryValidation(parameter.getId(),
                         p.getMessage("n2o.required.field"), parameter.getId());
-                validation.setMoment(N2oValidation.ServerMomentEnum.beforeOperation);
+                validation.setMoment(N2oValidation.ServerMomentEnum.BEFORE_OPERATION);
                 requiredParamValidations.add(validation);
             }
         }

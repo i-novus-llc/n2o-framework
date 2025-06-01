@@ -13,6 +13,7 @@ public interface Drawer extends Component {
 
     /**
      * Возвращает страницу контента, лежащего внутри компонента drawer
+     *
      * @param pageClass тип возвращаемой страницы
      * @return компонент страница для автотестирования
      */
@@ -25,24 +26,28 @@ public interface Drawer extends Component {
 
     /**
      * Проверяет соответствие заголовка окна
+     *
      * @param text ожидаемый текст заголовка
      */
     void shouldHaveTitle(String text, Duration... duration);
 
     /**
      * Проверка соответствия положения окна
+     *
      * @param placement ожидаемое положение окна
      */
     void shouldHavePlacement(PlacementEnum placement);
 
     /**
      * Проверка соответствия ширины выезжаемого окна
+     *
      * @param width ожидаемая ширина окна
      */
     void shouldHaveWidth(String width);
 
     /**
      * Проверка соответствия высоты выезжаемого окна
+     *
      * @param height ожидаемая высота окна
      */
     void shouldHaveHeight(String height);
@@ -83,7 +88,10 @@ public interface Drawer extends Component {
     void scrollDown();
 
     enum PlacementEnum {
-        left, top, bottom, right
+        LEFT,
+        TOP,
+        BOTTOM,
+        RIGHT;
     }
 
     interface DrawerToolbar extends Modal.ModalToolbar {

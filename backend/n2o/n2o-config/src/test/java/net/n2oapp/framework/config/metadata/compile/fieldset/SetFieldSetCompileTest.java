@@ -158,7 +158,7 @@ class SetFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(fieldSet.getLabel(), is("`'Label '+master`"));
         ControlDependency dependency = fieldSet.getDependency()[0];
         assertThat(dependency.getOn(), is(Arrays.asList("a.b.c", "z.x.c")));
-        assertThat(dependency.getType().toString(), is("reRender"));
+        assertThat(dependency.getType().getId(), is("reRender"));
     }
 
     /**

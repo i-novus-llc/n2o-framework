@@ -17,9 +17,9 @@ public class InAndLess extends InListRule {
     @Override
     @SuppressWarnings("unchecked")
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.in) && left.getType().equals(FilterTypeEnum.less))
+        if (right.getType().equals(FilterTypeEnum.IN) && left.getType().equals(FilterTypeEnum.LESS))
             return simplify(right, left);
-        else if (left.getType().equals(FilterTypeEnum.in) && right.getType().equals(FilterTypeEnum.less)) {
+        else if (left.getType().equals(FilterTypeEnum.IN) && right.getType().equals(FilterTypeEnum.LESS)) {
             return super.simplify(left, right);
         }
         throw new RuntimeException("Incorrect restriction's type");
@@ -41,6 +41,6 @@ public class InAndLess extends InListRule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.in, FilterTypeEnum.less);
+        return new Pair<>(FilterTypeEnum.IN, FilterTypeEnum.LESS);
     }
 }

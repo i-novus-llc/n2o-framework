@@ -87,7 +87,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }));
         source.setRefModel(castDefault(source.getRefModel(),
                 () -> Optional.ofNullable(p.getScope(WidgetScope.class)).map(WidgetScope::getModel).orElse(null),
-                () -> ReduxModelEnum.resolve));
+                () -> ReduxModelEnum.RESOLVE));
         initCondition(source, source::getVisible, new N2oField.VisibilityDependency(), b -> source.setVisible(b.toString()), !FALSE.equals(source.getVisible()));
         initCondition(source, source::getEnabled, new N2oField.EnablingDependency(), b -> source.setEnabled(b.toString()), !FALSE.equals(source.getEnabled()));
         initCondition(source, source::getRequired, new N2oField.RequiringDependency(), b -> source.setRequired(b.toString()), "true".equals(source.getRequired()));
@@ -164,7 +164,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             ControlDependency dependency = new ControlDependency();
             List<String> ons = Arrays.asList(source.getDependsOn());
             dependency.setOn(ons);
-            dependency.setType(ValidationTypeEnum.reRender);
+            dependency.setType(ValidationTypeEnum.RE_RENDER);
             field.addDependency(dependency);
         }
     }
@@ -197,42 +197,42 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
         if (source instanceof N2oField.FetchValueDependency fetchValue) {
             FetchValueDependency fetchValueDependency = new FetchValueDependency();
-            fetchValueDependency.setType(ValidationTypeEnum.fetchValue);
+            fetchValueDependency.setType(ValidationTypeEnum.FETCH_VALUE);
             fetchValueDependency.setValueFieldId(fetchValue.getValueFieldId());
             fetchValueDependency.setDataProvider(compileFetchDependencyDataProvider((N2oField.FetchValueDependency) source, context, p));
             return fetchValueDependency;
         } else if (source instanceof N2oField.EnablingDependency enabling) {
             EnablingDependency enablingDependency = new EnablingDependency();
-            enablingDependency.setType(ValidationTypeEnum.enabled);
+            enablingDependency.setType(ValidationTypeEnum.ENABLED);
             enablingDependency.setMessage(enabling.getMessage());
             dependency = enablingDependency;
         } else if (source instanceof N2oField.RequiringDependency requiring) {
             RequiringDependency requiringDependency = new RequiringDependency();
-            requiringDependency.setType(ValidationTypeEnum.required);
+            requiringDependency.setType(ValidationTypeEnum.REQUIRED);
             requiringDependency.setValidate(castDefault(requiring.getValidate(),
                     () -> p.resolve(property("n2o.api.control.dependency.requiring.validate"), Boolean.class)));
             dependency = requiringDependency;
         } else if (source instanceof N2oField.VisibilityDependency visibility) {
-            dependency.setType(ValidationTypeEnum.visible);
+            dependency.setType(ValidationTypeEnum.VISIBLE);
             Boolean isResettable = castDefault(visibility.getReset(),
                     () -> p.resolve(property("n2o.api.control.dependency.visibility.reset"), Boolean.class));
             if (Boolean.TRUE.equals(isResettable)) {
                 ControlDependency reset = new ControlDependency();
-                reset.setType(ValidationTypeEnum.reset);
+                reset.setType(ValidationTypeEnum.RESET);
                 reset.setExpression(ScriptProcessor.resolveFunction(source.getValue()));
                 addToField(reset, field, source, p);
             }
         } else if (source instanceof N2oField.SetValueDependency setValue) {
             SetValueDependency setValueDependency = new SetValueDependency();
-            setValueDependency.setType(ValidationTypeEnum.setValue);
+            setValueDependency.setType(ValidationTypeEnum.SET_VALUE);
             setValueDependency.setValidate(castDefault(setValue.getValidate(),
                     () -> p.resolve(property("n2o.api.control.dependency.set_value.validate"), Boolean.class)));
             dependency = setValueDependency;
         } else if (source instanceof N2oField.FetchDependency)
-            dependency.setType(ValidationTypeEnum.fetch);
+            dependency.setType(ValidationTypeEnum.FETCH);
         else if (source instanceof N2oField.ResetDependency reset) {
             ResetDependency resetDependency = new ResetDependency();
-            resetDependency.setType(ValidationTypeEnum.reset);
+            resetDependency.setType(ValidationTypeEnum.RESET);
             resetDependency.setValidate(castDefault(reset.getValidate(),
                     () -> p.resolve(property("n2o.api.control.dependency.reset.validate"), Boolean.class)));
             if (source.getValue() == null) {
@@ -265,7 +265,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 filter.setParam(castDefault(source.getParam(), () -> widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
-                ModelLink link = new ModelLink(ReduxModelEnum.filter, widgetScope.getClientDatasourceId());
+                ModelLink link = new ModelLink(ReduxModelEnum.FILTER, widgetScope.getClientDatasourceId());
                 link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterId())));
                 link.setParam(filter.getParam());
@@ -325,7 +325,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private Validation initRequiredValidation(String fieldId, Field field, S source, CompileProcessor p, Set<String> visibilityConditions) {
         MomentScope momentScope = p.getScope(MomentScope.class);
         String requiredMessage = momentScope != null
-                && N2oValidation.ServerMomentEnum.beforeQuery.equals(momentScope.getMoment())
+                && N2oValidation.ServerMomentEnum.BEFORE_QUERY.equals(momentScope.getMoment())
                 ? "n2o.required.filter" : "n2o.required.field";
         if (source.containsDependency(N2oField.RequiringDependency.class)) {
             MandatoryValidation mandatory = new MandatoryValidation(fieldId, p.getMessage(requiredMessage), fieldId);

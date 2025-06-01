@@ -11,6 +11,6 @@ public class LikeStartAndIsNull extends AlwaysConflictRule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.likeStart, FilterTypeEnum.isNull);
+        return new Pair<>(FilterTypeEnum.LIKE_START, FilterTypeEnum.IS_NULL);
     }
 }

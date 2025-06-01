@@ -192,7 +192,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 String datasourceId = widget.getId();
                 if (isNull(widget.getDatasource())) {
                     datasource = new N2oStandardDatasource();
-                    datasource.setDefaultValuesMode(DefaultValuesModeEnum.defaults);
+                    datasource.setDefaultValuesMode(DefaultValuesModeEnum.DEFAULTS);
                 } else {
                     datasource = widget.getDatasource();
                     datasourceId = nonNull(datasource.getId()) ? datasource.getId() : datasourceId;

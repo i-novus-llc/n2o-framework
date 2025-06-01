@@ -23,7 +23,7 @@ public class N2oProgressBarCell extends N2oCell implements ProgressBarCell {
     public void shouldHaveSize(SizeEnum size) {
         progressBar()
                 .parent()
-                .shouldBe(Condition.cssClass(size.name()));
+                .shouldBe(Condition.cssClass(size.name().toLowerCase()));
     }
 
     @Override

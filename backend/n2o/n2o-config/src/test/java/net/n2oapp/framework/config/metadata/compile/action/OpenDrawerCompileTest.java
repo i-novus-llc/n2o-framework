@@ -88,7 +88,7 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getDatasources().get(0).getId(),
                 is("parent_second"));
         assertThat(((N2oStandardDatasource) drawerContext.getDatasources().get(1)).getDefaultValuesMode(),
-                is(DefaultValuesModeEnum.defaults));
+                is(DefaultValuesModeEnum.DEFAULTS));
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_create"));
         assertThat(drawerPage.getBreadcrumb(), nullValue());
@@ -97,7 +97,7 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerPage.getToolbar().getButton("close"), notNullValue());
 
         assertThat(((StandardDatasource) drawerPage.getDatasources().get(drawerPage.getWidget().getId())).getDefaultValuesMode(),
-                is(DefaultValuesModeEnum.defaults));
+                is(DefaultValuesModeEnum.DEFAULTS));
 
         List<AbstractButton> buttons = drawerPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.size(), is(2));
@@ -111,7 +111,7 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         InvokeActionPayload submitPayload = submit.getPayload();
         assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/create/multi1"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethodEnum.POST));
-        assertThat(submitPayload.getModel(), is(ReduxModelEnum.edit));
+        assertThat(submitPayload.getModel(), is(ReduxModelEnum.EDIT));
         assertThat(submitPayload.getDatasource(), is("p_create_modal"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh(), nullValue());
@@ -149,12 +149,12 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getRefWidgetId(), is("main"));
         assertThat(drawerContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(QuerySimpleField.PK));
-        assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterTypeEnum.eq));
-        assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModelEnum.resolve));
+        assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterTypeEnum.EQ));
+        assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(drawerContext.getDatasources().get(0).getId(),
                 is("parent_main"));
         assertThat(((N2oStandardDatasource) drawerContext.getDatasources().get(1)).getDefaultValuesMode(),
-                is(DefaultValuesModeEnum.query));
+                is(DefaultValuesModeEnum.QUERY));
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_update"));
         assertThat(drawerPage.getBreadcrumb(), nullValue());
@@ -163,7 +163,7 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(datasource.getProvider().getQueryMapping().size(), is(0));
         assertThat(datasource.getProvider().getPathMapping().get("id").getLink(), is("models.resolve['p_main']"));
         assertThat(datasource.getProvider().getPathMapping().get("id").getValue(), is("`id`"));
-        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.query));
+        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.QUERY));
 
         DataSet data = new DataSet();
         data.put("id", 222);
@@ -265,13 +265,13 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerContext.getPreFilters().get(0).getRefWidgetId(), is("main"));
         assertThat(drawerContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(QuerySimpleField.PK));
-        assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterTypeEnum.eq));
-        assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModelEnum.resolve));
+        assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterTypeEnum.EQ));
+        assertThat(drawerContext.getPreFilters().get(0).getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(drawerContext.getPreFilters().get(0).getValue(), is("{id}"));
         assertThat(drawerContext.getDatasources().get(0).getId(),
                 is("parent_main"));
         assertThat(((N2oStandardDatasource) drawerContext.getDatasources().get(1)).getDefaultValuesMode(),
-                is(DefaultValuesModeEnum.query));
+                is(DefaultValuesModeEnum.QUERY));
 
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_updateWithPrefilters"));

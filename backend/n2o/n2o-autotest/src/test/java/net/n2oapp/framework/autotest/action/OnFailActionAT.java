@@ -53,7 +53,7 @@ class OnFailActionAT extends AutoTestBase {
         StandardButton saveBtn = form.toolbar().bottomLeft().button("Сохранить");
         saveBtn.click();
 
-        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldExists();
         alert.shouldHaveText("Действие завершилось ошибкой");
         alert.shouldHaveColor(ColorsEnum.DANGER);

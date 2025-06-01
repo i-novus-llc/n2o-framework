@@ -41,17 +41,17 @@ class OnChangeEventCompileTest extends SourceCompileTestBase {
 
         OnChangeEvent event = (OnChangeEvent) page.getEvents().get(0);
         assertThat(event.getDatasource(), is("testOnChangeEvent_ds1"));
-        assertThat(event.getModel(), is(ReduxModelEnum.resolve));
+        assertThat(event.getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(event.getField(), is("test"));
         assertThat(event.getAction(), instanceOf(MultiAction.class));
 
         event = (OnChangeEvent) page.getEvents().get(1);
         assertThat(event.getDatasource(), is("testOnChangeEvent_ds1"));
-        assertThat(event.getModel(), is(ReduxModelEnum.edit));
+        assertThat(event.getModel(), is(ReduxModelEnum.EDIT));
         assertThat(event.getField(), nullValue());
         assertThat(event.getAction(), instanceOf(ConditionAction.class));
 
         assertThat(((ConditionAction) event.getAction()).getPayload().getDatasource(), is("testOnChangeEvent_ds1"));
-        assertThat(((ConditionAction) event.getAction()).getPayload().getModel(), is(ReduxModelEnum.edit));
+        assertThat(((ConditionAction) event.getAction()).getPayload().getModel(), is(ReduxModelEnum.EDIT));
     }
 }

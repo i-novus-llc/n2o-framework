@@ -55,7 +55,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         page.setId(castDefault(context.getClientPageId(), () -> RouteUtil.convertPathToId(initPageRoute(source, context, p))));
         Models models = new Models();
         page.setModels(models);
-        page.getPageProperty().setModel(castDefault(source.getModel(), ReduxModelEnum.resolve));
+        page.getPageProperty().setModel(castDefault(source.getModel(), ReduxModelEnum.RESOLVE));
     }
 
     /**

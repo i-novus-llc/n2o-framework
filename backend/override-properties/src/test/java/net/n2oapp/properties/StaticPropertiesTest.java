@@ -1,5 +1,6 @@
 package net.n2oapp.properties;
 
+import lombok.Getter;
 import net.n2oapp.properties.test.TestUtil;
 import org.junit.jupiter.api.Test;
 
@@ -79,9 +80,9 @@ class StaticPropertiesTest {
         assert StaticProperties.getInteger("test.property.int") == 1;
         assert StaticProperties.getInteger("test.property.integer") == null;
         //enum
-        assert StaticProperties.getEnum("test.property.enum1", TestEnum.class) == TestEnum.test1;
-        assert StaticProperties.getEnum("test.property.enum2", TestEnum.class) == TestEnum.Test_2;
-        assert StaticProperties.getEnum("test.property.enum3", TestEnum.class) == TestEnum.TEST__3;
+        assert StaticProperties.getEnum("test.property.enum1", TestEnum.class) == TestEnum.TEST_1;
+        assert StaticProperties.getEnum("test.property.enum2", TestEnum.class) == TestEnum.TEST_2;
+        assert StaticProperties.getEnum("test.property.enum3", TestEnum.class) == TestEnum.TEST_3;
         assert StaticProperties.getEnum("test.property.enum4", TestEnum.class) == null;
     }
 
@@ -96,10 +97,12 @@ class StaticPropertiesTest {
 
     }
 
-
-    private enum TestEnum {
-        test1, Test_2, TEST__3
+    @Getter
+    private enum TestEnum{
+        TEST_1("test1"), TEST_2("Test_2"), TEST_3("TEST__3");
+        private final String id;
+        TestEnum(String id) {
+            this.id = id;
+        }
     }
-
-
 }

@@ -43,7 +43,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         N2oAbstractDatasource datasource = getDatasourceById(source.getDatasourceId(), p);
         CompiledQuery query = getQuery(datasource, p);
         CompiledObject object = getObject(source, datasource, p);
-        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModelEnum.resolve, p);
+        WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModelEnum.RESOLVE, p);
         MetaActions widgetActions = initMetaActions(source, p);
         Models models = p.getScope(Models.class);
         SubModelsScope subModelsScope = castDefault(p.getScope(SubModelsScope.class), SubModelsScope::new);
@@ -53,9 +53,9 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         form.getComponent().setPrompt(initPrompt(source, p));
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p,
                 widgetScope, query, object, widgetActions,
-                new ModelsScope(ReduxModelEnum.resolve, widgetScope.getClientDatasourceId(), models),
+                new ModelsScope(ReduxModelEnum.RESOLVE, widgetScope.getClientDatasourceId(), models),
                 subModelsScope,
-                new MomentScope(N2oValidation.ServerMomentEnum.beforeOperation),
+                new MomentScope(N2oValidation.ServerMomentEnum.BEFORE_OPERATION),
                 copiedFieldScope,
                 paramScope,
                 new ComponentScope(source),

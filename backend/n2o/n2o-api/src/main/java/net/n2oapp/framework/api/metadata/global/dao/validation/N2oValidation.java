@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.global.dao.validation;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.exception.SeverityTypeEnum;
@@ -34,12 +35,12 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
     }
 
     public enum ServerMomentEnum implements IdAware {
-        beforeOperation("before-operation"),
-        beforeQuery("before-query"),
-        afterSuccessQuery("after-success-query"),
-        afterFailQuery("after-fail-query"),
-        afterFailOperation("after-fail-operation"),
-        afterSuccessOperation("after-success-operation");
+        BEFORE_OPERATION("before-operation"),
+        BEFORE_QUERY("before-query"),
+        AFTER_SUCCESS_QUERY("after-success-query"),
+        AFTER_FAIL_QUERY("after-fail-query"),
+        AFTER_FAIL_OPERATION("after-fail-operation"),
+        AFTER_SUCCESS_OPERATION("after-success-operation");
 
         private String id;
 
@@ -48,6 +49,7 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
         }
 
         @Override
+        @JsonValue
         public String getId() {
             return id;
         }

@@ -7,12 +7,12 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
  * Представление компонента
  */
 public enum LayoutEnum implements IdAware {
-    bordered("bordered"),
-    flat("flat"),
-    separated("separated"),
-    borderedRounded("bordered-rounded"),
-    flatRounded("flat-rounded"),
-    separatedRounded("separated-rounded");
+    BORDERED("bordered"),
+    FLAT("flat"),
+    SEPARATED("separated"),
+    BORDERED_ROUNDED("bordered-rounded"),
+    FLAT_ROUNDED("flat-rounded"),
+    SEPARATED_ROUNDED("separated-rounded");
 
     private final String value;
 

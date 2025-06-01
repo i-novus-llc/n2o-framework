@@ -41,7 +41,7 @@ class RegisterUtilTest {
         Node node = byDirectory(new File("/opt/n2o/conf/some/objects/some.object.xml"), "/opt/n2o/conf");
         InfoConstructor info = createXmlInfo(node, metaModelRegister);
         assertEquals("some", info.getId());
-        assertEquals(OriginEnum.xml, info.getOrigin());
+        assertEquals(OriginEnum.XML, info.getOrigin());
     }
 
     @Test
@@ -51,13 +51,13 @@ class RegisterUtilTest {
         InfoConstructor info = new InfoConstructor();
         info.setLocalPath("/some/objects/some.object.xml");
         info.setConfigId(new ConfigId("some", metaModelRegister.get(N2oObject.class)));
-        info.setOrigin(OriginEnum.xml);
+        info.setOrigin(OriginEnum.XML);
         assertEquals("/some/objects", info.getDirectory());
 
         info = new InfoConstructor();
         info.setLocalPath("some.object.xml");
         info.setConfigId(new ConfigId("some", metaModelRegister.get(N2oObject.class)));
-        info.setOrigin(OriginEnum.xml);
+        info.setOrigin(OriginEnum.XML);
         assertEquals("", info.getDirectory());
     }
 }

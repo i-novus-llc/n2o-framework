@@ -44,7 +44,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
 
         NavigationLayoutEnum navLayout = castDefault(source.getNavigationLayout(),
                 () -> p.resolve(property("n2o.application.navigation_layout"), NavigationLayoutEnum.class));
-        layout.setFullSizeHeader(navLayout.equals(NavigationLayoutEnum.fullSizeHeader));
+        layout.setFullSizeHeader(navLayout.equals(NavigationLayoutEnum.FULL_SIZE_HEADER));
 
         application.setLayout(layout);
 

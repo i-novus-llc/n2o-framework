@@ -1,14 +1,13 @@
 package net.n2oapp.framework.config.metadata.validation.standard.menu;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
-import org.apache.commons.lang3.EnumUtils;
+
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.isInvalidColor;
 
 /**
  * Валидатор простого меню навигации
@@ -45,9 +44,7 @@ public class SimpleMenuValidator extends TypedMetadataValidator<N2oSimpleMenu> {
                     String.format("<menu-item name=%s> ссылается на несуществующий источник данных %s",
                             ValidationUtils.getIdOrEmptyString(menuItem.getName()),
                             ValidationUtils.getIdOrEmptyString(menuItem.getDatasourceId())));
-
-        if (menuItem.getBadgeColor() != null && !StringUtils.isLink(menuItem.getBadgeColor()) &&
-                !EnumUtils.isValidEnum(ColorEnum.class, menuItem.getBadgeColor())) {
+        if (isInvalidColor(menuItem.getBadgeColor())) {
             throw new N2oMetadataValidationException(
                     String.format("<menu-item name=%s> использует недопустимое значение атрибута badge-color=\"%s\"",
                             ValidationUtils.getIdOrEmptyString(menuItem.getName()),

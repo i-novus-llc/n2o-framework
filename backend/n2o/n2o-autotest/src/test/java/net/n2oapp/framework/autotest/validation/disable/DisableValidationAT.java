@@ -68,7 +68,7 @@ class DisableValidationAT extends AutoTestBase {
         field1.shouldHaveValidationMessage(Condition.empty);
         field2.shouldHaveValidationMessage(Condition.empty);
         validateBtn.click();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Готово");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Готово");
 
         /// set-value
         InputText value = fields.field("value").control(InputText.class);

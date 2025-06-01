@@ -98,7 +98,7 @@ class ConstraintValidationAT extends AutoTestBase {
         firstName.shouldHaveValidationMessage(Condition.empty);
         middleName.shouldHaveValidationMessage(Condition.empty);
         form.toolbar().bottomLeft().button("Create").click();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
         address.shouldHaveValidationMessage(Condition.text("Адрес address уже существует"));
         input4.setValue("address0");
         address.shouldHaveValidationMessage(Condition.empty);

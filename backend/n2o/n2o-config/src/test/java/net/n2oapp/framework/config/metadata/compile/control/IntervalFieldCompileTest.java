@@ -69,7 +69,7 @@ class IntervalFieldCompileTest extends SourceCompileTestBase {
 
         ActionContext actionContext = (ActionContext)route("/testIntervalField/submit", CompiledObject.class);
         List<Validation> serverValidations = actionContext.getValidations();
-        assertThat(serverValidations.get(0).getSeverity(), is(SeverityTypeEnum.danger));
+        assertThat(serverValidations.get(0).getSeverity(), is(SeverityTypeEnum.DANGER));
         assertThat(serverValidations.get(0).getFieldId(), is("range"));
 
         assertThat(page.getModels().get("resolve['testIntervalField_w1'].range.begin").getValue(), is(5));

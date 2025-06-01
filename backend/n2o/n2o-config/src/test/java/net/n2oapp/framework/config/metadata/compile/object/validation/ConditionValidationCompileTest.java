@@ -42,8 +42,8 @@ class ConditionValidationCompileTest extends SourceCompileTestBase {
         assertThat(validations.size(), is(4));
 
         assertThat(validations.get(0).getId(), is("con1"));
-        assertThat(validations.get(0).getSeverity(), is(SeverityTypeEnum.danger));
-        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMomentEnum.afterFailOperation));
+        assertThat(validations.get(0).getSeverity(), is(SeverityTypeEnum.DANGER));
+        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMomentEnum.AFTER_FAIL_OPERATION));
         assertThat(validations.get(0).getMessage(), is("message"));
         assertThat(validations.get(0).getEnabled(), is(false));
         assertThat(validations.get(0).getSide(), is("client,server"));
@@ -52,14 +52,14 @@ class ConditionValidationCompileTest extends SourceCompileTestBase {
         assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("field1 == 'test'"));
 
         assertThat(validations.get(1).getId(), is("con2"));
-        assertThat(validations.get(1).getSeverity(), is(SeverityTypeEnum.info));
-        assertThat(validations.get(1).getMoment(), is(N2oValidation.ServerMomentEnum.afterSuccessOperation));
+        assertThat(validations.get(1).getSeverity(), is(SeverityTypeEnum.INFO));
+        assertThat(validations.get(1).getMoment(), is(N2oValidation.ServerMomentEnum.AFTER_SUCCESS_OPERATION));
         assertThat(((ConditionValidation) validations.get(1)).getExpression(), is("field1 == 'test'"));
 
         assertThat(validations.get(2).getId(), is("con3"));
-        assertThat(validations.get(2).getSeverity(), is(SeverityTypeEnum.warning));
-        assertThat(validations.get(2).getMoment(), is(N2oValidation.ServerMomentEnum.beforeOperation));
+        assertThat(validations.get(2).getSeverity(), is(SeverityTypeEnum.WARNING));
+        assertThat(validations.get(2).getMoment(), is(N2oValidation.ServerMomentEnum.BEFORE_OPERATION));
 
-        assertThat(validations.get(3).getSeverity(), is(SeverityTypeEnum.danger));
+        assertThat(validations.get(3).getSeverity(), is(SeverityTypeEnum.DANGER));
     }
 }

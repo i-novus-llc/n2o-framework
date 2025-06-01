@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 
 import java.util.Map;
 
@@ -30,7 +32,12 @@ public class RoutablePayload extends PerformActionPayload {
         this.params = params;
     }
 
-    public enum PagingEnum {
-        page, size
+    @RequiredArgsConstructor
+    @Getter
+    public enum PagingEnum implements N2oEnum {
+        PAGE("page"),
+        SIZE("size");
+
+        private final String id;
     }
 }

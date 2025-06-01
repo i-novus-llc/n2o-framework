@@ -16,9 +16,9 @@ public class EqAndNotIn implements Rule {
     @Override
     @SuppressWarnings("unchecked")
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.eq) && left.getType().equals(FilterTypeEnum.notIn))
+        if (right.getType().equals(FilterTypeEnum.EQ) && left.getType().equals(FilterTypeEnum.NOT_IN))
             return simplify(right, left);
-        else if (left.getType().equals(FilterTypeEnum.eq) && right.getType().equals(FilterTypeEnum.notIn)) {
+        else if (left.getType().equals(FilterTypeEnum.EQ) && right.getType().equals(FilterTypeEnum.NOT_IN)) {
             if (((List) right.getValue()).contains(left.getValue())) {
                 return null;
             } else return left;
@@ -29,6 +29,6 @@ public class EqAndNotIn implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eq, FilterTypeEnum.notIn);
+        return new Pair<>(FilterTypeEnum.EQ, FilterTypeEnum.NOT_IN);
     }
 }

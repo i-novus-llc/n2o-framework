@@ -50,7 +50,7 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         setValueAction.getPayload().setTarget(targetModel);
 
         setValueAction.getPayload().setSourceMapper(ScriptProcessor.resolveFunction(source.getExpression()));
-        setValueAction.getPayload().setMode(castDefault(source.getMergeMode(), MergeModeEnum.replace));
+        setValueAction.getPayload().setMode(castDefault(source.getMergeMode(), MergeModeEnum.REPLACE));
 
         return setValueAction;
     }

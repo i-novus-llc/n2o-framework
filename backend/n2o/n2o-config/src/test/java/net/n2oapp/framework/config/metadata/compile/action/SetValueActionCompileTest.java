@@ -53,7 +53,7 @@ class SetValueActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getTarget().getKey(), is("w_form2"));
         assertThat(testAction.getPayload().getTarget().getPrefix(), is("filter"));
         assertThat(testAction.getPayload().getTarget().getField(), is("filedId"));
-        assertThat(testAction.getPayload().getMode(), is(MergeModeEnum.add));
+        assertThat(testAction.getPayload().getMode(), is(MergeModeEnum.ADD));
         assertThat(testAction.getPayload().getSourceMapper(), is("(function(){return false;}).call(this)"));
 
         SetValueAction menuItem0action = (SetValueAction) table.getToolbar().getButton("test2").getAction();
@@ -63,6 +63,6 @@ class SetValueActionCompileTest extends SourceCompileTestBase {
         assertThat(menuItem0action.getPayload().getSource().getPrefix(), is("resolve"));
         assertThat(menuItem0action.getPayload().getTarget().getKey(), is("w_table"));
         assertThat(menuItem0action.getPayload().getTarget().getPrefix(), is("resolve"));
-        assertThat(menuItem0action.getPayload().getMode(), is(MergeModeEnum.replace));
+        assertThat(menuItem0action.getPayload().getMode(), is(MergeModeEnum.REPLACE));
     }
 }

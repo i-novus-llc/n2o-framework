@@ -48,7 +48,7 @@ class SubPageRegionCompilerTest extends SourceCompileTestBase {
     void testSubPageRegion() {
         PageContext parentPageContext = new PageContext("testSubPageRegion", "/user/:parentId");
         Map<String, ModelLink> parentPathMapping = new HashMap<>();
-        parentPathMapping.put("parentId", new ModelLink(ReduxModelEnum.resolve, "main", "id"));
+        parentPathMapping.put("parentId", new ModelLink(ReduxModelEnum.RESOLVE, "main", "id"));
         parentPageContext.setPathRouteMapping(parentPathMapping);
 
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testSubPageRegion.page.xml")

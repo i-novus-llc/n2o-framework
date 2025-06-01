@@ -10,6 +10,8 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.util.StylesResolver.camelToSnake;
+
 @Component
 public class AlertFieldValidator implements SourceValidator<N2oAlertField>, SourceClassAware {
 
@@ -21,7 +23,7 @@ public class AlertFieldValidator implements SourceValidator<N2oAlertField>, Sour
     @Override
     public void validate(N2oAlertField source, SourceProcessor p) {
         if (source.getColor() != null &&
-                !EnumUtils.isValidEnum(ColorEnum.class, source.getColor())) {
+                !EnumUtils.isValidEnum(ColorEnum.class, camelToSnake(source.getColor()))) {
             throw new N2oMetadataValidationException(
                     String.format("В поле <alert> указано недопустимое значение атрибута color=\"%s\"",
                             source.getColor()));

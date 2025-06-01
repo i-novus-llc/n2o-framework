@@ -78,7 +78,7 @@ class ListCellCompileTest extends SourceCompileTestBase {
         assertThat(listCell.getContent().getSrc(), is("LinkCell"));
         LinkCell linkCell = (LinkCell) listCell.getContent();
         assertThat(linkCell.getUrl(), is("/test"));
-        assertThat(linkCell.getTarget(), is(TargetEnum.newWindow));
+        assertThat(linkCell.getTarget(), is(TargetEnum.NEW_WINDOW));
         assertThat(linkCell.getFieldKey(), is("linkField"));
 
         // list с badge

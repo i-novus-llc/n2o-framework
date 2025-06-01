@@ -229,7 +229,8 @@ class CachedDatasourceAT extends AutoTestBase {
                 .widget(0, FormWidget.class).fields().field("text1").control(InputText.class);
         OutputText copy = page.regions().region(0, SimpleRegion.class).content()
                 .widget(1, FormWidget.class).fields().field("text2").control(OutputText.class);
-
+        source.shouldExists();
+        copy.shouldExists();
         source.click();
         source.setValue("test");
         copy.shouldHaveValue("test");

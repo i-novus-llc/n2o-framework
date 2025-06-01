@@ -108,12 +108,12 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
 
     private void compileLinkConditions(N2oTabsRegion.Tab source, TabsRegion.Tab tab, CompileProcessor p) {
         if (isLink(source.getVisible()))
-            compileLink(tab, ValidationTypeEnum.visible, source.getVisible(), ReduxModelEnum.resolve);
+            compileLink(tab, ValidationTypeEnum.VISIBLE, source.getVisible(), ReduxModelEnum.RESOLVE);
         else
             tab.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
 
         if (isLink(source.getEnabled()))
-            compileLink(tab, ValidationTypeEnum.enabled, source.getEnabled(), ReduxModelEnum.resolve);
+            compileLink(tab, ValidationTypeEnum.ENABLED, source.getEnabled(), ReduxModelEnum.RESOLVE);
         else
             tab.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
     }

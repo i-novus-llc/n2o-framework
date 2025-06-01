@@ -77,12 +77,12 @@ class WebSocketAT extends AutoTestBase {
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeColor("danger");
 
-        BadgeColorEnum exceptedColor = BadgeColorEnum.primary;
+        BadgeColorEnum exceptedColor = BadgeColorEnum.PRIMARY;
         webSocketMessageController.sendColor(DESTINATION, exceptedColor);
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeColor(exceptedColor.toString());
 
-        exceptedColor = BadgeColorEnum.danger;
+        exceptedColor = BadgeColorEnum.DANGER;
         webSocketMessageController.sendColor(DESTINATION, exceptedColor);
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeColor(exceptedColor.toString());

@@ -15,9 +15,9 @@ import java.util.List;
 public class EqOrIsNullAndIn implements Rule {
     @Override
     public Filter simplify(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.eqOrIsNull) && left.getType().equals(FilterTypeEnum.in))
+        if (right.getType().equals(FilterTypeEnum.EQ_OR_IS_NULL) && left.getType().equals(FilterTypeEnum.IN))
             return simplify(right, left);
-        else if (left.getType().equals(FilterTypeEnum.eqOrIsNull) && right.getType().equals(FilterTypeEnum.in)) {
+        else if (left.getType().equals(FilterTypeEnum.EQ_OR_IS_NULL) && right.getType().equals(FilterTypeEnum.IN)) {
             if (((List) right.getValue()).contains(left.getValue())) return new Filter(left.getValue());
             else return null;
         }
@@ -27,6 +27,6 @@ public class EqOrIsNullAndIn implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eqOrIsNull, FilterTypeEnum.in);
+        return new Pair<>(FilterTypeEnum.EQ_OR_IS_NULL, FilterTypeEnum.IN);
     }
 }

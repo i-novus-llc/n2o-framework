@@ -23,9 +23,9 @@ public abstract class InListRule implements Rule {
         if (res.isEmpty()) {
             return null;
         } else if (res.size() == 1) {
-            return new Filter(res.get(0), FilterTypeEnum.eq);
+            return new Filter(res.get(0), FilterTypeEnum.EQ);
         }
-        return new Filter(res, FilterTypeEnum.in);
+        return new Filter(res, FilterTypeEnum.IN);
     }
 
 }

@@ -18,9 +18,9 @@ public class InAndNotEq extends InListRule {
 
     @Override
     protected List getResultList(Filter left, Filter right) {
-        if (right.getType().equals(FilterTypeEnum.in) && left.getType().equals(FilterTypeEnum.notEq))
+        if (right.getType().equals(FilterTypeEnum.IN) && left.getType().equals(FilterTypeEnum.NOT_EQ))
             return getResultList(right, left);
-        else if (left.getType().equals(FilterTypeEnum.in) && right.getType().equals(FilterTypeEnum.notEq)) {
+        else if (left.getType().equals(FilterTypeEnum.IN) && right.getType().equals(FilterTypeEnum.NOT_EQ)) {
             List list = new ArrayList((List) left.getValue());
             if (((List) left.getValue()).contains(right.getValue())) {
                 list.remove(right.getValue());
@@ -33,6 +33,6 @@ public class InAndNotEq extends InListRule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.in, FilterTypeEnum.notEq);
+        return new Pair<>(FilterTypeEnum.IN, FilterTypeEnum.NOT_EQ);
     }
 }

@@ -78,7 +78,7 @@ class FieldRequiredAT extends AutoTestBase {
 
         nameField.shouldHaveValidationMessage(Condition.empty);
 
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
     }
     
     @Test

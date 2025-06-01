@@ -32,7 +32,7 @@ public class OnChangeEventCompiler extends BaseEventCompiler<N2oOnChangeEvent, O
 
         event.setType(p.resolve(property("n2o.api.page.event.on_change.type"), String.class));
         event.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
-        event.setModel(castDefault(source.getModel(), ReduxModelEnum.resolve));
+        event.setModel(castDefault(source.getModel(), ReduxModelEnum.RESOLVE));
         event.setField(source.getFieldId());
         event.setAction(compileAction(source, context, p, null));
 

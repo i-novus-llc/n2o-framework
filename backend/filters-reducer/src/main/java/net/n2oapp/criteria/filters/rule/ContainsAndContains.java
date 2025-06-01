@@ -16,7 +16,7 @@ import java.util.Set;
 public class ContainsAndContains implements Rule {
     @Override
     public Filter simplify(Filter left, Filter right) {
-        Filter result = new Filter(FilterTypeEnum.contains);
+        Filter result = new Filter(FilterTypeEnum.CONTAINS);
         Set res = new HashSet<>();
         List list1 = (List) left.getValue();
         List list2 = (List) right.getValue();
@@ -32,6 +32,6 @@ public class ContainsAndContains implements Rule {
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.contains, FilterTypeEnum.contains);
+        return new Pair<>(FilterTypeEnum.CONTAINS, FilterTypeEnum.CONTAINS);
     }
 }

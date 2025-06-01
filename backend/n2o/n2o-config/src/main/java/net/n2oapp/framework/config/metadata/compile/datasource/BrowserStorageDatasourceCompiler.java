@@ -48,8 +48,8 @@ public class BrowserStorageDatasourceCompiler extends BaseDatasourceCompiler<N2o
         submit.setKey(castDefault(source.getSubmit().getKey(), source.getKey(), source.getId()));
         submit.setAuto(castDefault(source.getSubmit().getAuto(),
                 () -> p.resolve(property("n2o.api.datasource.browser.submit.auto"), Boolean.class)));
-        submit.setModel(castDefault(source.getSubmit().getModel(), ReduxModelEnum.resolve));
-        submit.setStorage(castDefault(source.getSubmit().getStorageType(), source.getStorageType(), BrowserStorageTypeEnum.sessionStorage));
+        submit.setModel(castDefault(source.getSubmit().getModel(), ReduxModelEnum.RESOLVE));
+        submit.setStorage(castDefault(source.getSubmit().getStorageType(), source.getStorageType(), BrowserStorageTypeEnum.SESSION_STORAGE));
         return submit;
     }
 }

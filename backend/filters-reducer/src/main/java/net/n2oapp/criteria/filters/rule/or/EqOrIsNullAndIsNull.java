@@ -13,11 +13,11 @@ public class EqOrIsNullAndIsNull extends AlwaysSuccessRule {
 
 
     public EqOrIsNullAndIsNull() {
-        super(FilterTypeEnum.isNull);
+        super(FilterTypeEnum.IS_NULL);
     }
 
     @Override
     public Pair<FilterTypeEnum> getType() {
-        return new Pair<>(FilterTypeEnum.eqOrIsNull, FilterTypeEnum.isNull);
+        return new Pair<>(FilterTypeEnum.EQ_OR_IS_NULL, FilterTypeEnum.IS_NULL);
     }
 }

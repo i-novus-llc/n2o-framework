@@ -42,8 +42,8 @@ class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
         assertThat(field.getSelectExpression(), nullValue());
         assertThat(field.getMapping(), is("['gender.id']"));
         assertThat(field.getSortingExpression(), nullValue());
-        assertThat(query.getFiltersMap().get("gender.id").get(FilterTypeEnum.eq).getMapping(), is("['gender.id']"));
-        assertThat(query.getFiltersMap().get("gender.id").get(FilterTypeEnum.eq).getText(), nullValue());
+        assertThat(query.getFiltersMap().get("gender.id").get(FilterTypeEnum.EQ).getMapping(), is("['gender.id']"));
+        assertThat(query.getFiltersMap().get("gender.id").get(FilterTypeEnum.EQ).getText(), nullValue());
     }
 
     @Test
@@ -54,7 +54,7 @@ class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
         assertThat(name.getMapping(), is("['name']"));
         assertThat(name.getSortingExpression(), nullValue());
         assertThat(name.getSortingMapping(), is("['nameDirection']"));
-        N2oQuery.Filter filter = query.getFiltersMap().get("name").get(FilterTypeEnum.eq);
+        N2oQuery.Filter filter = query.getFiltersMap().get("name").get(FilterTypeEnum.EQ);
         assertThat(filter.getText(), nullValue());
         assertThat(filter.getMapping(), is("['filter']"));
     }

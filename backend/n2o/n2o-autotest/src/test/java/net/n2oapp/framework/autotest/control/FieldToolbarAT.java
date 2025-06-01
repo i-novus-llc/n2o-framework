@@ -74,7 +74,7 @@ class FieldToolbarAT extends AutoTestBase {
         fields.field("id").control(InputText.class).click();
         fields.field("id").control(InputText.class).setValue("test");
         toolbar.button("Показать текст").click();
-        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldHaveColor(ColorsEnum.SUCCESS);
         alert.shouldHaveText("test");
 
@@ -123,7 +123,7 @@ class FieldToolbarAT extends AutoTestBase {
         fields.field("sub").control(InputText.class).setValue("notForShow");
         dropdownButton.click();
         dropdownButton.menuItem("Показать текст").click();
-        Alert alert = page.alerts(Alert.PlacementEnum.top).alert(0);
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldHaveColor(ColorsEnum.SUCCESS);
         alert.shouldHaveText("test");
 

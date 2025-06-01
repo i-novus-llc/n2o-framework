@@ -327,14 +327,14 @@ class SecurityProviderTest {
         SecurityFilters securityFilters = new SecurityFilters();
         //проверка добавления фильтров применимых ко всем
         ArrayList<N2oObjectFilter> permitAllFilters = new ArrayList<>();
-        permitAllFilters.add(new N2oObjectFilter("gender", "man", FilterTypeEnum.eq, "genderFilter"));
-        permitAllFilters.add(new N2oObjectFilter("position", "developer", FilterTypeEnum.eq, "positionFilter"));
+        permitAllFilters.add(new N2oObjectFilter("gender", "man", FilterTypeEnum.EQ, "genderFilter"));
+        permitAllFilters.add(new N2oObjectFilter("position", "developer", FilterTypeEnum.EQ, "positionFilter"));
         securityFilters.setPermitAllFilters(permitAllFilters);
 
         List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.size(), is(2));
-        assertThat(restrictions.contains(new Restriction("gender", "man", FilterTypeEnum.eq)), is(true));
-        assertThat(restrictions.contains(new Restriction("position", "developer", FilterTypeEnum.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("gender", "man", FilterTypeEnum.EQ)), is(true));
+        assertThat(restrictions.contains(new Restriction("position", "developer", FilterTypeEnum.EQ)), is(true));
     }
 
     @Test
@@ -344,24 +344,24 @@ class SecurityProviderTest {
         SecurityFilters securityFilters = new SecurityFilters();
         //проверка добавления фильтров применимых к авторизованным пользователям
         ArrayList<N2oObjectFilter> authFilters = new ArrayList<>();
-        authFilters.add(new N2oObjectFilter("authGender", "man", FilterTypeEnum.eq, "authGenderFilter"));
-        authFilters.add(new N2oObjectFilter("authPosition", "developer", FilterTypeEnum.eq, "authPositionFilter"));
+        authFilters.add(new N2oObjectFilter("authGender", "man", FilterTypeEnum.EQ, "authGenderFilter"));
+        authFilters.add(new N2oObjectFilter("authPosition", "developer", FilterTypeEnum.EQ, "authPositionFilter"));
         securityFilters.setAuthenticatedFilters(authFilters);
         ArrayList<N2oObjectFilter> anonymFilters = new ArrayList<>();
-        anonymFilters.add(new N2oObjectFilter("anonymGender", "man", FilterTypeEnum.eq, "anonymGenderFilter"));
-        anonymFilters.add(new N2oObjectFilter("anonymPosition", "developer", FilterTypeEnum.eq, "anonymPositionFilter"));
+        anonymFilters.add(new N2oObjectFilter("anonymGender", "man", FilterTypeEnum.EQ, "anonymGenderFilter"));
+        anonymFilters.add(new N2oObjectFilter("anonymPosition", "developer", FilterTypeEnum.EQ, "anonymPositionFilter"));
         securityFilters.setAnonymousFilters(anonymFilters);
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.size(), is(2));
-        assertThat(restrictions.contains(new Restriction("authGender", "man", FilterTypeEnum.eq)), is(true));
-        assertThat(restrictions.contains(new Restriction("authPosition", "developer", FilterTypeEnum.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("authGender", "man", FilterTypeEnum.EQ)), is(true));
+        assertThat(restrictions.contains(new Restriction("authPosition", "developer", FilterTypeEnum.EQ)), is(true));
         //проверка добавления фильтров применимых к неавторизованным пользователям
         when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
         restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.size(), is(2));
-        assertThat(restrictions.contains(new Restriction("anonymGender", "man", FilterTypeEnum.eq)), is(true));
-        assertThat(restrictions.contains(new Restriction("anonymPosition", "developer", FilterTypeEnum.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("anonymGender", "man", FilterTypeEnum.EQ)), is(true));
+        assertThat(restrictions.contains(new Restriction("anonymPosition", "developer", FilterTypeEnum.EQ)), is(true));
     }
 
     @Test
@@ -374,17 +374,17 @@ class SecurityProviderTest {
         when(permissionApi.hasRole(userContext, "role1")).thenReturn(false);
         when(permissionApi.hasRole(userContext, "role2")).thenReturn(true);
         List<N2oObjectFilter> role1Filters = new ArrayList<>();
-        role1Filters.add(new N2oObjectFilter("role1Gender", "man", FilterTypeEnum.eq, "role1GenderFilter"));
-        role1Filters.add(new N2oObjectFilter("role1Position", "developer", FilterTypeEnum.eq, "role1PositionFilter"));
+        role1Filters.add(new N2oObjectFilter("role1Gender", "man", FilterTypeEnum.EQ, "role1GenderFilter"));
+        role1Filters.add(new N2oObjectFilter("role1Position", "developer", FilterTypeEnum.EQ, "role1PositionFilter"));
         List<N2oObjectFilter> role2Filters = new ArrayList<>();
-        role2Filters.add(new N2oObjectFilter("role2Gender", "man", FilterTypeEnum.eq, "role2GenderFilter"));
+        role2Filters.add(new N2oObjectFilter("role2Gender", "man", FilterTypeEnum.EQ, "role2GenderFilter"));
         Map<String, List<N2oObjectFilter>> roleFilters = new HashMap<>();
         roleFilters.put("role1", role1Filters);
         roleFilters.put("role2", role2Filters);
         securityFilters.setRoleFilters(roleFilters);
         List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.size(), is(1));
-        assertThat(restrictions.contains(new Restriction("role2Gender", "man", FilterTypeEnum.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("role2Gender", "man", FilterTypeEnum.EQ)), is(true));
     }
 
     @Test
@@ -396,19 +396,19 @@ class SecurityProviderTest {
         when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
         when(permissionApi.hasPermission(userContext, "permission2")).thenReturn(true);
         List<N2oObjectFilter> permission1Filters = new ArrayList<>();
-        permission1Filters.add(new N2oObjectFilter("permission1Gender", "man", FilterTypeEnum.eq, "permission1GenderFilter"));
-        permission1Filters.add(new N2oObjectFilter("permission1Position", "developer", FilterTypeEnum.eq, "permission1PositionFilter"));
+        permission1Filters.add(new N2oObjectFilter("permission1Gender", "man", FilterTypeEnum.EQ, "permission1GenderFilter"));
+        permission1Filters.add(new N2oObjectFilter("permission1Position", "developer", FilterTypeEnum.EQ, "permission1PositionFilter"));
         List<N2oObjectFilter> permission2Filters = new ArrayList<>();
-        permission2Filters.add(new N2oObjectFilter("permission2Gender", "man", FilterTypeEnum.eq, "permission2GenderFilter"));
+        permission2Filters.add(new N2oObjectFilter("permission2Gender", "man", FilterTypeEnum.EQ, "permission2GenderFilter"));
         Map<String, List<N2oObjectFilter>> permissionFilters = new HashMap<>();
         permissionFilters.put("permission1", permission1Filters);
         permissionFilters.put("permission2", permission2Filters);
         securityFilters.setPermissionFilters(permissionFilters);
         List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.size(), is(3));
-        assertThat(restrictions.contains(new Restriction("permission1Gender", "man", FilterTypeEnum.eq)), is(true));
-        assertThat(restrictions.contains(new Restriction("permission1Position", "developer", FilterTypeEnum.eq)), is(true));
-        assertThat(restrictions.contains(new Restriction("permission2Gender", "man", FilterTypeEnum.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("permission1Gender", "man", FilterTypeEnum.EQ)), is(true));
+        assertThat(restrictions.contains(new Restriction("permission1Position", "developer", FilterTypeEnum.EQ)), is(true));
+        assertThat(restrictions.contains(new Restriction("permission2Gender", "man", FilterTypeEnum.EQ)), is(true));
     }
 
     @Test
@@ -420,15 +420,15 @@ class SecurityProviderTest {
         when(permissionApi.hasUsername(userContext, "username1")).thenReturn(true);
         Map<String, List<N2oObjectFilter>> userFilters = new HashMap<>();
         List<N2oObjectFilter> user1Filters = new ArrayList<>();
-        user1Filters.add(new N2oObjectFilter("userGender", "man", FilterTypeEnum.eq, "userGenderFilter"));
+        user1Filters.add(new N2oObjectFilter("userGender", "man", FilterTypeEnum.EQ, "userGenderFilter"));
         List<N2oObjectFilter> user2Filters = new ArrayList<>();
-        user2Filters.add(new N2oObjectFilter("userGender", "woman", FilterTypeEnum.eq, "userGenderFilter2"));
+        user2Filters.add(new N2oObjectFilter("userGender", "woman", FilterTypeEnum.EQ, "userGenderFilter2"));
         userFilters.put("username1", user1Filters);
         userFilters.put("username2", user2Filters);
         securityFilters.setUserFilters(userFilters);
         List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.size(), is(1));
-        assertThat(restrictions.contains(new Restriction("userGender", "man", FilterTypeEnum.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("userGender", "man", FilterTypeEnum.EQ)), is(true));
     }
 
     @Test
@@ -441,8 +441,8 @@ class SecurityProviderTest {
         when(permissionApi.hasUsername(userContext, "username1")).thenReturn(true);
         Map<String, List<N2oObjectFilter>> userFilters = new HashMap<>();
         List<N2oObjectFilter> user1Filters = new ArrayList<>();
-        user1Filters.add(new N2oObjectFilter("userGender", "man", FilterTypeEnum.eq, "userGenderFilter"));
-        user1Filters.add(new N2oObjectFilter("userName", "Joe", FilterTypeEnum.eq, "userGenderFilter2"));
+        user1Filters.add(new N2oObjectFilter("userGender", "man", FilterTypeEnum.EQ, "userGenderFilter"));
+        user1Filters.add(new N2oObjectFilter("userName", "Joe", FilterTypeEnum.EQ, "userGenderFilter2"));
         userFilters.put("username1", user1Filters);
         securityFilters.setUserFilters(userFilters);
         Set<String> user1RemoveFilters = new HashSet<>();
@@ -453,8 +453,8 @@ class SecurityProviderTest {
 
         List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.size(), is(1));
-        assertThat(restrictions.contains(new Restriction("userGender", "man", FilterTypeEnum.eq)), is(false));
-        assertThat(restrictions.contains(new Restriction("userName", "Joe", FilterTypeEnum.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("userGender", "man", FilterTypeEnum.EQ)), is(false));
+        assertThat(restrictions.contains(new Restriction("userName", "Joe", FilterTypeEnum.EQ)), is(true));
     }
 
     @Test
@@ -466,10 +466,10 @@ class SecurityProviderTest {
         when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
         when(permissionApi.hasPermission(userContext, "permission2")).thenReturn(true);
         List<N2oObjectFilter> permission1Filters = new ArrayList<>();
-        permission1Filters.add(new N2oObjectFilter("permission1Gender", "man", FilterTypeEnum.eq, "permission1GenderFilter"));
-        permission1Filters.add(new N2oObjectFilter("permission1Position", "developer", FilterTypeEnum.eq, "permission1PositionFilter"));
+        permission1Filters.add(new N2oObjectFilter("permission1Gender", "man", FilterTypeEnum.EQ, "permission1GenderFilter"));
+        permission1Filters.add(new N2oObjectFilter("permission1Position", "developer", FilterTypeEnum.EQ, "permission1PositionFilter"));
         List<N2oObjectFilter> permission2Filters = new ArrayList<>();
-        permission2Filters.add(new N2oObjectFilter("permission2Gender", "man", FilterTypeEnum.eq, "permission2GenderFilter"));
+        permission2Filters.add(new N2oObjectFilter("permission2Gender", "man", FilterTypeEnum.EQ, "permission2GenderFilter"));
         Map<String, List<N2oObjectFilter>> permissionFilters = new HashMap<>();
         permissionFilters.put("permission1", permission1Filters);
         permissionFilters.put("permission2", permission2Filters);
@@ -483,9 +483,9 @@ class SecurityProviderTest {
         securityFilters.setRemovePermissionFilters(permissionRemoveFilters);
         List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.size(), is(1));
-        assertThat(restrictions.contains(new Restriction("permission1Gender", "man", FilterTypeEnum.eq)), is(true));
-        assertThat(restrictions.contains(new Restriction("permission1Position", "developer", FilterTypeEnum.eq)), is(false));
-        assertThat(restrictions.contains(new Restriction("permission2Gender", "man", FilterTypeEnum.eq)), is(false));
+        assertThat(restrictions.contains(new Restriction("permission1Gender", "man", FilterTypeEnum.EQ)), is(true));
+        assertThat(restrictions.contains(new Restriction("permission1Position", "developer", FilterTypeEnum.EQ)), is(false));
+        assertThat(restrictions.contains(new Restriction("permission2Gender", "man", FilterTypeEnum.EQ)), is(false));
     }
 
     @Test
@@ -497,10 +497,10 @@ class SecurityProviderTest {
         when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
         when(permissionApi.hasRole(userContext, "role2")).thenReturn(true);
         List<N2oObjectFilter> role1Filters = new ArrayList<>();
-        role1Filters.add(new N2oObjectFilter("role1Gender", "man", FilterTypeEnum.eq, "role1GenderFilter"));
-        role1Filters.add(new N2oObjectFilter("role1Position", "developer", FilterTypeEnum.eq, "role1PositionFilter"));
+        role1Filters.add(new N2oObjectFilter("role1Gender", "man", FilterTypeEnum.EQ, "role1GenderFilter"));
+        role1Filters.add(new N2oObjectFilter("role1Position", "developer", FilterTypeEnum.EQ, "role1PositionFilter"));
         List<N2oObjectFilter> role2Filters = new ArrayList<>();
-        role2Filters.add(new N2oObjectFilter("role2Gender", "man", FilterTypeEnum.eq, "role2GenderFilter"));
+        role2Filters.add(new N2oObjectFilter("role2Gender", "man", FilterTypeEnum.EQ, "role2GenderFilter"));
         Map<String, List<N2oObjectFilter>> roleFilters = new HashMap<>();
         roleFilters.put("role1", role1Filters);
         roleFilters.put("role2", role2Filters);
@@ -513,9 +513,9 @@ class SecurityProviderTest {
         securityFilters.setRemoveRoleFilters(roleRemoveFilters);
         List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.size(), is(2));
-        assertThat(restrictions.contains(new Restriction("role2Gender", "man", FilterTypeEnum.eq)), is(false));
-        assertThat(restrictions.contains(new Restriction("role1Gender", "man", FilterTypeEnum.eq)), is(true));
-        assertThat(restrictions.contains(new Restriction("role1Position", "developer", FilterTypeEnum.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("role2Gender", "man", FilterTypeEnum.EQ)), is(false));
+        assertThat(restrictions.contains(new Restriction("role1Gender", "man", FilterTypeEnum.EQ)), is(true));
+        assertThat(restrictions.contains(new Restriction("role1Position", "developer", FilterTypeEnum.EQ)), is(true));
     }
 
     @Test
@@ -524,12 +524,12 @@ class SecurityProviderTest {
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         ArrayList<N2oObjectFilter> anonymFilters = new ArrayList<>();
-        anonymFilters.add(new N2oObjectFilter("anonymGender", "man", FilterTypeEnum.eq, "anonymGenderFilter"));
-        anonymFilters.add(new N2oObjectFilter("anonymPosition", "developer", FilterTypeEnum.eq, "anonymPositionFilter"));
+        anonymFilters.add(new N2oObjectFilter("anonymGender", "man", FilterTypeEnum.EQ, "anonymGenderFilter"));
+        anonymFilters.add(new N2oObjectFilter("anonymPosition", "developer", FilterTypeEnum.EQ, "anonymPositionFilter"));
         securityFilters.setAnonymousFilters(anonymFilters);
         ArrayList<N2oObjectFilter> authFilters = new ArrayList<>();
-        authFilters.add(new N2oObjectFilter("authGender", "man", FilterTypeEnum.eq, "authGenderFilter"));
-        authFilters.add(new N2oObjectFilter("authPosition", "developer", FilterTypeEnum.eq, "authPositionFilter"));
+        authFilters.add(new N2oObjectFilter("authGender", "man", FilterTypeEnum.EQ, "authGenderFilter"));
+        authFilters.add(new N2oObjectFilter("authPosition", "developer", FilterTypeEnum.EQ, "authPositionFilter"));
         securityFilters.setAuthenticatedFilters(authFilters);
 
         //проверка удаления фильтров по неавторизованным пользователям
@@ -538,8 +538,8 @@ class SecurityProviderTest {
         anonymRemoveFilters.add("anonymGenderFilter");
         securityFilters.setRemoveAnonymousFilters(anonymRemoveFilters);
         List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.contains(new Restriction("anonymGender", "man", FilterTypeEnum.eq)), is(false));
-        assertThat(restrictions.contains(new Restriction("anonymPosition", "developer", FilterTypeEnum.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("anonymGender", "man", FilterTypeEnum.EQ)), is(false));
+        assertThat(restrictions.contains(new Restriction("anonymPosition", "developer", FilterTypeEnum.EQ)), is(true));
 
         //проверка удаления фильтров по авторизованным пользователям
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -547,8 +547,8 @@ class SecurityProviderTest {
         authRemoveFilters.add("authGenderFilter");
         securityFilters.setRemoveAuthenticatedFilters(authRemoveFilters);
         restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.contains(new Restriction("authGender", "man", FilterTypeEnum.eq)), is(false));
-        assertThat(restrictions.contains(new Restriction("authPosition", "developer", FilterTypeEnum.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("authGender", "man", FilterTypeEnum.EQ)), is(false));
+        assertThat(restrictions.contains(new Restriction("authPosition", "developer", FilterTypeEnum.EQ)), is(true));
     }
 
     @Test
@@ -557,8 +557,8 @@ class SecurityProviderTest {
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         ArrayList<N2oObjectFilter> authFilters = new ArrayList<>();
-        authFilters.add(new N2oObjectFilter("authGender", "man", FilterTypeEnum.eq, "authGenderFilter"));
-        authFilters.add(new N2oObjectFilter("authPosition", "developer", FilterTypeEnum.eq, "authPositionFilter"));
+        authFilters.add(new N2oObjectFilter("authGender", "man", FilterTypeEnum.EQ, "authGenderFilter"));
+        authFilters.add(new N2oObjectFilter("authPosition", "developer", FilterTypeEnum.EQ, "authPositionFilter"));
         securityFilters.setAuthenticatedFilters(authFilters);
 
         //проверка удаления фильтров по всем пользователям
@@ -567,8 +567,8 @@ class SecurityProviderTest {
         permitAllRemoveFilters.add("authPositionFilter");
         securityFilters.setRemovePermitAllFilters(permitAllRemoveFilters);
         List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.contains(new Restriction("authPosition", "developer", FilterTypeEnum.eq)), is(false));
-        assertThat(restrictions.contains(new Restriction("authGender", "man", FilterTypeEnum.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("authPosition", "developer", FilterTypeEnum.EQ)), is(false));
+        assertThat(restrictions.contains(new Restriction("authGender", "man", FilterTypeEnum.EQ)), is(true));
     }
 
     @Test
@@ -578,29 +578,29 @@ class SecurityProviderTest {
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> filtersMap = Map.of(
-                "foo", Map.of(FilterTypeEnum.eq, new N2oQuery.Filter("foo.val", FilterTypeEnum.eq),
-                        FilterTypeEnum.notEq, new N2oQuery.Filter("foo.val", FilterTypeEnum.notEq)),
-                "name", Map.of(FilterTypeEnum.isNotNull, new N2oQuery.Filter("name", FilterTypeEnum.isNotNull),
-                        FilterTypeEnum.eq, new N2oQuery.Filter("name", FilterTypeEnum.eq)),
-                "surname", Map.of(FilterTypeEnum.eqOrIsNull, new N2oQuery.Filter("surname", FilterTypeEnum.eqOrIsNull)),
-                "age", Map.of(FilterTypeEnum.isNull, new N2oQuery.Filter("age", FilterTypeEnum.isNull)),
-                "bar", Map.of(FilterTypeEnum.in, new N2oQuery.Filter("bar", FilterTypeEnum.in)),
-                "list", Map.of(FilterTypeEnum.contains, new N2oQuery.Filter("list", FilterTypeEnum.contains))
+                "foo", Map.of(FilterTypeEnum.EQ, new N2oQuery.Filter("foo.val", FilterTypeEnum.EQ),
+                        FilterTypeEnum.NOT_EQ, new N2oQuery.Filter("foo.val", FilterTypeEnum.NOT_EQ)),
+                "name", Map.of(FilterTypeEnum.IS_NOT_NULL, new N2oQuery.Filter("name", FilterTypeEnum.IS_NOT_NULL),
+                        FilterTypeEnum.EQ, new N2oQuery.Filter("name", FilterTypeEnum.EQ)),
+                "surname", Map.of(FilterTypeEnum.EQ_OR_IS_NULL, new N2oQuery.Filter("surname", FilterTypeEnum.EQ_OR_IS_NULL)),
+                "age", Map.of(FilterTypeEnum.IS_NULL, new N2oQuery.Filter("age", FilterTypeEnum.IS_NULL)),
+                "bar", Map.of(FilterTypeEnum.IN, new N2oQuery.Filter("bar", FilterTypeEnum.IN)),
+                "list", Map.of(FilterTypeEnum.CONTAINS, new N2oQuery.Filter("list", FilterTypeEnum.CONTAINS))
         );
 
         securityFilters.setAuthenticatedFilters(Arrays.asList(
-                new N2oObjectFilter("foo", "1", FilterTypeEnum.eq, "filter1"),
-                new N2oObjectFilter("name", FilterTypeEnum.isNotNull, "filter7"),
-                new N2oObjectFilter("surname", "1", FilterTypeEnum.eqOrIsNull, "filter6")));
+                new N2oObjectFilter("foo", "1", FilterTypeEnum.EQ, "filter1"),
+                new N2oObjectFilter("name", FilterTypeEnum.IS_NOT_NULL, "filter7"),
+                new N2oObjectFilter("surname", "1", FilterTypeEnum.EQ_OR_IS_NULL, "filter6")));
         securityFilters.setAnonymousFilters(Arrays.asList(
-                new N2oObjectFilter("age", FilterTypeEnum.isNull, "filter8"),
-                new N2oObjectFilter("foo", "1", FilterTypeEnum.notEq, "filter2")));
+                new N2oObjectFilter("age", FilterTypeEnum.IS_NULL, "filter8"),
+                new N2oObjectFilter("foo", "1", FilterTypeEnum.NOT_EQ, "filter2")));
         securityFilters.setRoleFilters(Collections.singletonMap("role1", Collections.singletonList(
-                new N2oObjectFilter("bar", new String[]{"1", "2", "3"}, FilterTypeEnum.in, "filter3"))));
+                new N2oObjectFilter("bar", new String[]{"1", "2", "3"}, FilterTypeEnum.IN, "filter3"))));
         securityFilters.setPermissionFilters(Collections.singletonMap("permission1", Collections.singletonList(
-                new N2oObjectFilter("list", new String[]{"1", "2", "#{three}"}, FilterTypeEnum.contains, "filter4"))));
+                new N2oObjectFilter("list", new String[]{"1", "2", "#{three}"}, FilterTypeEnum.CONTAINS, "filter4"))));
         securityFilters.setUserFilters(Collections.singletonMap("username1", Collections.singletonList(
-                new N2oObjectFilter("name", "#{username}", FilterTypeEnum.eq, "filter5"))));
+                new N2oObjectFilter("name", "#{username}", FilterTypeEnum.EQ, "filter5"))));
 
         //аутентифицирован
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -743,18 +743,18 @@ class SecurityProviderTest {
         SecurityFilters securityFilters = new SecurityFilters();
 
         securityFilters.setAuthenticatedFilters(Arrays.asList(
-                new N2oObjectFilter("foo", "1", FilterTypeEnum.eq, "foo.val"),
-                new N2oObjectFilter("name", FilterTypeEnum.isNotNull, "name"),
-                new N2oObjectFilter("surname", "1", FilterTypeEnum.eqOrIsNull, "surname")));
+                new N2oObjectFilter("foo", "1", FilterTypeEnum.EQ, "foo.val"),
+                new N2oObjectFilter("name", FilterTypeEnum.IS_NOT_NULL, "name"),
+                new N2oObjectFilter("surname", "1", FilterTypeEnum.EQ_OR_IS_NULL, "surname")));
         securityFilters.setAnonymousFilters(Arrays.asList(
-                new N2oObjectFilter("age", FilterTypeEnum.isNull, "age"),
-                new N2oObjectFilter("foo", "1", FilterTypeEnum.notEq, "foo.val")));
+                new N2oObjectFilter("age", FilterTypeEnum.IS_NULL, "age"),
+                new N2oObjectFilter("foo", "1", FilterTypeEnum.NOT_EQ, "foo.val")));
         securityFilters.setRoleFilters(Collections.singletonMap("role1", Collections.singletonList(
-                new N2oObjectFilter("bar", new String[]{"1", "2", "3"}, FilterTypeEnum.in, "bar"))));
+                new N2oObjectFilter("bar", new String[]{"1", "2", "3"}, FilterTypeEnum.IN, "bar"))));
         securityFilters.setPermissionFilters(Collections.singletonMap("permission1", Collections.singletonList(
-                new N2oObjectFilter("list", new String[]{"1", "2", "#{three}"}, FilterTypeEnum.contains, "list"))));
+                new N2oObjectFilter("list", new String[]{"1", "2", "#{three}"}, FilterTypeEnum.CONTAINS, "list"))));
         securityFilters.setUserFilters(Collections.singletonMap("username1", Collections.singletonList(
-                new N2oObjectFilter("name", "#{username}", FilterTypeEnum.eq, "name"))));
+                new N2oObjectFilter("name", "#{username}", FilterTypeEnum.EQ, "name"))));
 
         //аутентифицирован
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);

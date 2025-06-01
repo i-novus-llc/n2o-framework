@@ -39,7 +39,7 @@ class CardsCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testCardsCompile"));
         Cards cards = (Cards) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(cards.getSrc(), is("CardsTest"));
-        assertThat(cards.getVerticalAlign(), is(Cards.PositionEnum.center));
+        assertThat(cards.getVerticalAlign(), is(Cards.PositionEnum.CENTER));
         assertThat(cards.getHeight(), is("400px"));
         assertThat(cards.getContent().size(), is(2));
 
@@ -78,7 +78,7 @@ class CardsCompileTest extends SourceCompileTestBase {
         //второй виджет карточек
         cards = (Cards) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(cards.getSrc(), is("CardsWidget"));
-        assertThat(cards.getVerticalAlign(), is(Cards.PositionEnum.top));
+        assertThat(cards.getVerticalAlign(), is(Cards.PositionEnum.TOP));
         assertThat(cards.getHeight(), is("300px"));
         assertThat(cards.getContent().size(), is(1));
 

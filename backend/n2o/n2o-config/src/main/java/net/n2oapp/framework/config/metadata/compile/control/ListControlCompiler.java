@@ -103,7 +103,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     }
 
     protected StandardField<T> compileFetchDependencies(StandardField<T> field, S source, CompileProcessor p) {
-        if (source.getPreFilters() != null && field.getDependencies().stream().noneMatch(d -> d.getType() == ValidationTypeEnum.fetch)) {
+        if (source.getPreFilters() != null && field.getDependencies().stream().noneMatch(d -> d.getType() == ValidationTypeEnum.FETCH)) {
             Set<String> setOn = new HashSet<>();
             for (N2oPreFilter filter : source.getPreFilters()) {
                 if (StringUtils.hasLink(filter.getValue())) {
@@ -114,7 +114,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             }
             if (!setOn.isEmpty()) {
                 ControlDependency fetchCD = new ControlDependency();
-                fetchCD.setType(ValidationTypeEnum.fetch);
+                fetchCD.setType(ValidationTypeEnum.FETCH);
                 fetchCD.setOn(new ArrayList<>(setOn));
                 field.addDependency(fetchCD);
             }

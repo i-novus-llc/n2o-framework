@@ -1,9 +1,12 @@
 package net.n2oapp.framework.config.io;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.n2oapp.engine.factory.EngineNotFoundException;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.*;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
@@ -50,9 +53,13 @@ class IOProcessorTest {
 
     }
 
+    @RequiredArgsConstructor
+    @Getter
+    public enum MyEnum implements N2oEnum {
+        EN_1("en1"),
+        EN_2("en2");
 
-    enum MyEnum {
-        en1, en2
+        private final String id;
     }
 
     public static class BaseEntity {
@@ -480,7 +487,7 @@ class IOProcessorTest {
     @Test
     void testChildrenToMap() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
-        IOProcessor pR = new IOProcessorImpl(readerFactory,null);
+        IOProcessor pR = new IOProcessorImpl(readerFactory, null);
         readerFactory.register(new BodyNamespaceEntityIO());
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor7.xml");
         MapNamespaceEntity map = new MapNamespaceEntity();
@@ -498,7 +505,7 @@ class IOProcessorTest {
     @Test
     void testChildrenAttributesToMap() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
-        IOProcessor pR = new IOProcessorImpl(readerFactory,null);
+        IOProcessor pR = new IOProcessorImpl(readerFactory, null);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor24.xml");
         MapNamespaceEntity map = new MapNamespaceEntity();
         pR.childrenAttributesToMap(in, "children", "el", map::getEntityMap, map::setEntityMap);
@@ -516,7 +523,7 @@ class IOProcessorTest {
     @Test
     void testChildrenToMapString() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
-        IOProcessor p = new IOProcessorImpl(readerFactory,null);
+        IOProcessor p = new IOProcessorImpl(readerFactory, null);
         readerFactory.register(new BodyNamespaceEntityIO());
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor7.xml");
         MapStringNamespaceEntity map = new MapStringNamespaceEntity();
@@ -563,7 +570,6 @@ class IOProcessorTest {
         assertThat(out.getAttributeValue("att1"), equalTo("1,2,3"));
     }
 
-
     @Test
     void testChildrenByEnum() throws Exception {
         IOProcessor p = new IOProcessorImpl(true);
@@ -572,9 +578,9 @@ class IOProcessorTest {
         p.childrenByEnum(in, null, listEnumEntity::getEntityList, listEnumEntity::setEntityList, EnumEntity::getEn,
                 EnumEntity::setEn, EnumEntity::new, MyEnum.class, this::ioBaseEntity);
         assertThat(listEnumEntity.getEntityList().length, equalTo(2));
-        assertThat(listEnumEntity.getEntityList()[0].getEn(), equalTo(MyEnum.en1));
+        assertThat(listEnumEntity.getEntityList()[0].getEn(), equalTo(MyEnum.EN_1));
         assertThat(listEnumEntity.getEntityList()[0].getAttr(), equalTo("test"));
-        assertThat(listEnumEntity.getEntityList()[1].getEn(), equalTo(MyEnum.en2));
+        assertThat(listEnumEntity.getEntityList()[1].getEn(), equalTo(MyEnum.EN_2));
         assertThat(listEnumEntity.getEntityList()[1].getAttr(), equalTo("test"));
 
         p = new IOProcessorImpl(false);
@@ -587,7 +593,7 @@ class IOProcessorTest {
     @Test
     void testChildrenText() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
-        IOProcessor p = new IOProcessorImpl(readerFactory,null);
+        IOProcessor p = new IOProcessorImpl(readerFactory, null);
         readerFactory.register(new BodyNamespaceEntityIO());
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor10.xml");
         ChildEntity childrenEntity = new ChildEntity();
@@ -606,7 +612,7 @@ class IOProcessorTest {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new EnumNamespaceEntityIO());
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessor p = new IOProcessorImpl(readerFactory,null);
+        IOProcessor p = new IOProcessorImpl(readerFactory, null);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor11.xml");
         ChildEntity childrenEntity = new ChildEntity();
         p.childAttribute(in, "el1", "attr", childrenEntity::getAtt, childrenEntity::setAtt);
@@ -616,7 +622,7 @@ class IOProcessorTest {
         assertThat(childrenEntity.getAtt(), equalTo("test"));
         assertThat(childrenEntity.getBool(), equalTo(true));
         assertThat(childrenEntity.getInt(), equalTo(5));
-        assertThat(childrenEntity.getEn(), equalTo(MyEnum.en1));
+        assertThat(childrenEntity.getEn(), equalTo(MyEnum.EN_1));
         PersisterFactoryByMap persisterFactory = new PersisterFactoryByMap();
         persisterFactory.register(new EnumNamespaceEntityIO());
         persisterFactory.register(new BodyNamespaceEntityIO());
@@ -633,7 +639,7 @@ class IOProcessorTest {
     void testElement() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessor p = new IOProcessorImpl(readerFactory,null);
+        IOProcessor p = new IOProcessorImpl(readerFactory, null);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor17.xml");
         BaseEntity baseEntity = new BaseEntity();
         p.element(in, "attr", baseEntity::getAttr, baseEntity::setAttr);
@@ -651,7 +657,7 @@ class IOProcessorTest {
         //test properties
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessorImpl p = new IOProcessorImpl(readerFactory,null);
+        IOProcessorImpl p = new IOProcessorImpl(readerFactory, null);
         Properties properties = new Properties();
         properties.setProperty("testProp1", "testProp1");
         PropertyResolver systemProperties = new SimplePropertyResolver(properties);
@@ -661,7 +667,7 @@ class IOProcessorTest {
         //test params
         HashMap<String, String[]> params = new HashMap<>();
         params.put("testProp1", new String[]{"testProp2"});
-        p = new IOProcessorImpl(readerFactory,null);
+        p = new IOProcessorImpl(readerFactory, null);
         try {
             MetadataParamHolder.setParams(params);
             testElementWithProperty(p, "testProp2");
@@ -670,7 +676,7 @@ class IOProcessorTest {
         }
 
         //test messages
-        p = new IOProcessorImpl(readerFactory,null);
+        p = new IOProcessorImpl(readerFactory, null);
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasenames("test_messages");
         messageSource.setDefaultEncoding("UTF-8");
@@ -678,7 +684,7 @@ class IOProcessorTest {
         testElementWithProperty(p, "testProp3");
 
         //test override
-        p = new IOProcessorImpl(readerFactory,null);
+        p = new IOProcessorImpl(readerFactory, null);
         p.setSystemProperties(systemProperties);
         p.setMessageSourceAccessor(new MessageSourceAccessor(messageSource));
         try {
@@ -689,7 +695,7 @@ class IOProcessorTest {
         }
 
         //test fail fast
-        p = new IOProcessorImpl(readerFactory,null);
+        p = new IOProcessorImpl(readerFactory, null);
         p.setFailFast(true);
         //p.setSystemProperties(systemProperties); not set to fail
         try {
@@ -699,7 +705,7 @@ class IOProcessorTest {
         }
 
         //test fail tolerance
-        p = new IOProcessorImpl(readerFactory,null);
+        p = new IOProcessorImpl(readerFactory, null);
         p.setFailFast(false);
         //p.setSystemProperties(systemProperties); not set to fail
         try {
@@ -723,7 +729,7 @@ class IOProcessorTest {
     void testChildren() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessor p = new IOProcessorImpl(readerFactory ,null);
+        IOProcessor p = new IOProcessorImpl(readerFactory, null);
         Element in1 = dom("net/n2oapp/framework/config/io/ioprocessor12.xml");
         Element in2 = dom("net/n2oapp/framework/config/io/ioprocessor15.xml");
         ChildrenEntityList childrenEntityList1 = new ChildrenEntityList();
@@ -753,7 +759,7 @@ class IOProcessorTest {
     void testChild() throws Exception {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessor p = new IOProcessorImpl(readerFactory,null);
+        IOProcessor p = new IOProcessorImpl(readerFactory, null);
         Element in1 = dom("net/n2oapp/framework/config/io/ioprocessor13.xml");
         Element in2 = dom("net/n2oapp/framework/config/io/ioprocessor14.xml");
         ChildEntity childrenEntity1 = new ChildEntity();
@@ -809,7 +815,7 @@ class IOProcessorTest {
         assertThat(listBaseEntity.entityList[1].getClass(), equalTo(BodyEntity.class));
         assertThat(listBaseEntity.entityList[0].getAttr(), equalTo("1"));
         assertThat(listBaseEntity.entityList[1].getAttr(), equalTo("2"));
-        assertThat(((EnumEntity) listBaseEntity.entityList[0]).getEn(), equalTo(MyEnum.en1));
+        assertThat(((EnumEntity) listBaseEntity.entityList[0]).getEn(), equalTo(MyEnum.EN_1));
         assertThat(((BodyEntity) listBaseEntity.entityList[1]).getBody(), equalTo("test"));
         p = new IOProcessorImpl(false);
         Element out = new Element("test");
@@ -974,7 +980,7 @@ class IOProcessorTest {
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(null);
         readerFactory.register(new EnumNamespaceEntityIO());
         readerFactory.register(new BodyNamespaceEntityIO());
-        IOProcessor p = new IOProcessorImpl(readerFactory,null);
+        IOProcessor p = new IOProcessorImpl(readerFactory, null);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor5.xml");
         ListNamespaceEntity listNamespaceEntity = new ListNamespaceEntity();
         p.anyChildren(in, "children", listNamespaceEntity::getEntityList, listNamespaceEntity::setEntityList,
@@ -984,7 +990,7 @@ class IOProcessorTest {
         assertThat(listNamespaceEntity.entityList[1].getClass(), equalTo(BodyNamespaceEntity.class));
         assertThat(listNamespaceEntity.entityList[0].getAttr(), equalTo("1"));
         assertThat(listNamespaceEntity.entityList[1].getAttr(), equalTo("2"));
-        assertThat(((EnumNamespaceEntity) listNamespaceEntity.entityList[0]).getEn(), equalTo(MyEnum.en1));
+        assertThat(((EnumNamespaceEntity) listNamespaceEntity.entityList[0]).getEn(), equalTo(MyEnum.EN_1));
         assertThat(((BodyNamespaceEntity) listNamespaceEntity.entityList[1]).getBody(), equalTo("test"));
 
         PersisterFactoryByMap persisterFactory = new PersisterFactoryByMap();

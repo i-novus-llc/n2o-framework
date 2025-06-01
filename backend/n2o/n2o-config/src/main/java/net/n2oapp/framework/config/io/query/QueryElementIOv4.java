@@ -27,11 +27,11 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
         p.children(e, null, "list", t::getLists, t::setLists,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.list), this::selection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.LIST), this::selection);
         p.children(e, null, "count", t::getCounts, t::setCounts,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.count), this::selection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.COUNT), this::selection);
         p.children(e, null, "unique", t::getUniques, t::setUniques,
-                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.unique), this::selection);
+                () -> new N2oQuery.Selection(N2oQuery.Selection.TypeEnum.UNIQUE), this::selection);
         p.anyChildren(e, "fields", t::getFields, t::setFields, p.oneOf(AbstractField.class)
                 .add("field", QuerySimpleField.class, this::field));
         t.adapterV4();

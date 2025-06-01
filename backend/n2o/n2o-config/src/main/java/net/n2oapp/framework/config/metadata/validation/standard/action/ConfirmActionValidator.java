@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static net.n2oapp.framework.config.util.StylesResolver.camelToSnake;
+
 @Component
 public class ConfirmActionValidator implements SourceValidator<N2oConfirmAction>, SourceClassAware {
 
@@ -52,7 +54,7 @@ public class ConfirmActionValidator implements SourceValidator<N2oConfirmAction>
     private static void checkColor(String color) {
         if (color != null && !Objects.equals(color, "link")
                 && !color.startsWith("outline")
-                && !EnumUtils.isValidEnum(ColorEnum.class, color)) {
+                && !EnumUtils.isValidEnum(ColorEnum.class, camelToSnake(color))) {
             throw new N2oMetadataValidationException(
                     String.format("Одна из кнопок действия <confirm> использует недопустимое значение атрибута color=%s",
                             ValidationUtils.getIdOrEmptyString(color))

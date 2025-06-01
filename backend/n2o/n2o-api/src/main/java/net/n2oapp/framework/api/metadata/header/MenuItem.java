@@ -2,10 +2,12 @@ package net.n2oapp.framework.api.metadata.header;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
@@ -54,7 +56,12 @@ public class MenuItem extends Component implements Compiled, PropertiesAware, Id
     @JsonProperty
     private Action action;
 
-    public enum LinkTypeEnum {
-        inner, outer
+    @RequiredArgsConstructor
+    @Getter
+    public enum LinkTypeEnum implements N2oEnum {
+        INNER("inner"),
+        OUTER("outer");
+
+        private final String id;
     }
 }

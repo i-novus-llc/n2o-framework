@@ -40,7 +40,7 @@ class BarChartCompileTest extends SourceCompileTestBase {
         Chart chart = (Chart) page.getWidget();
         BarChart barChart = (BarChart) chart.getComponent();
         assertThat(barChart.getSrc(), is("BarChart"));
-        assertThat(barChart.getType(), is(ChartTypeEnum.bar));
+        assertThat(barChart.getType(), is(ChartTypeEnum.BAR));
 
         List<BarChartItem> items = barChart.getItems();
         assertThat(items.size(), is(2));

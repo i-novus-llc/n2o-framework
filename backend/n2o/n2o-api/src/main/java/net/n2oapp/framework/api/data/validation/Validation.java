@@ -28,7 +28,7 @@ public abstract class Validation implements Compiled {
     private String jsonMessage;
     private Set<String> fields;
     @JsonProperty
-    private SeverityTypeEnum severity = SeverityTypeEnum.danger;
+    private SeverityTypeEnum severity = SeverityTypeEnum.DANGER;
     private N2oValidation.ServerMomentEnum moment;
     private String side;
 

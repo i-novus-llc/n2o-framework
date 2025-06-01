@@ -50,7 +50,7 @@ class ChangeDataEventAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/action/change_data_event/simple/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldNotExists(Duration.ofSeconds(1));
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists(Duration.ofSeconds(1));
 
         RadioGroup radioGroup1 = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
                 .fields().field("При изменении состояния поля будет показано success сообщение").control(RadioGroup.class);
@@ -64,15 +64,15 @@ class ChangeDataEventAT extends AutoTestBase {
 
         text.click();
         text.setValue("test");
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldNotExists(Duration.ZERO);
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists(Duration.ZERO);
 
         radioGroup1.check("two");
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveColor(ColorsEnum.SUCCESS);
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Событие при изменение ds1");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveColor(ColorsEnum.SUCCESS);
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Событие при изменение ds1");
 
         radioGroup2.check("two");
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveColor(ColorsEnum.INFO);
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("Событие при изменение ds2");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveColor(ColorsEnum.INFO);
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Событие при изменение ds2");
         text.shouldHaveValue("5");
     }
 
@@ -95,7 +95,7 @@ class ChangeDataEventAT extends AutoTestBase {
         test.click();
         test.setValue("3");
         test.shouldHaveValue("3");
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldExists();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
     }
 
     @Test
@@ -109,15 +109,15 @@ class ChangeDataEventAT extends AutoTestBase {
                 .fields().field("target field").control(RadioGroup.class);
 
         radioGroup.check("check 2");
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldExists();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("2");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("2");
 
         radioGroup.check("check 3");
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldExists();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("3");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("3");
 
         radioGroup.check("check 1");
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldExists();
-        page.alerts(Alert.PlacementEnum.top).alert(0).shouldHaveText("1");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("1");
     }
 }
