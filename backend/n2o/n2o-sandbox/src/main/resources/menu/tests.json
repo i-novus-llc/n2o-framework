@@ -948,6 +948,10 @@
           "name": "InputSelectAT. testSearchFilterIdWithScrollDown"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/datasource_scroll",
+          "name": "InputSelectAT. testInputSelectWithDatasourceAndScrollDown"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/control/input_text/simple",
           "name": "InputTextAT"
         },
