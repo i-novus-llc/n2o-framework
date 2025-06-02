@@ -1,3 +1,7 @@
+global:
+  spring:
+    useDefaultConsul: false
+
 springServices:
   n2o-sandbox:
     ingress:
