@@ -18,6 +18,7 @@ build release stand:
     - release version
   variables:
     K8S_NAMESPACE: "n2o-release-$FORMATTED_VERSION"
+    K8S_INGRESS_HOST: "n2o-framework-$FORMATTED_VERSION-dev.i-novus.ru"
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
