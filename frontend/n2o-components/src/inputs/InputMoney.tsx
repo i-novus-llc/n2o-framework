@@ -150,15 +150,10 @@ export class InputMoney extends React.Component<InputMoneyProps, State> {
             convertedValue = convertedValue.substring(0, convertedValue.length - 3)
         }
 
-        if (
-            includes(convertedValue, '.') &&
-            last(split(convertedValue, '.'))?.length === 1
-        ) {
-            convertedValue += '0'
-        }
-
         return convertedValue
     }
+
+    trimNonNumericEnd = (value: string) => (value && /[,.]$/.test(value) ? value.slice(0, -1) : value)
 
     onChange(valueProps: string) {
         const { onChange, allowNegative } = this.props
@@ -166,7 +161,7 @@ export class InputMoney extends React.Component<InputMoneyProps, State> {
 
         const convertedValue = (allowNegative && value === '-') || isNil(value)
             ? value
-            : parseFloat(this.convertToFloat(value))
+            : this.trimNonNumericEnd(this.convertToFloat(value))
 
         onChange?.(isNaN(convertedValue) ? null : String(convertedValue))
         this.setState({ value: isNaN(convertedValue) ? '' : String(convertedValue) })
