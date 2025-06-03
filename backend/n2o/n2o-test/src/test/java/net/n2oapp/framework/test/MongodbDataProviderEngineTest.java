@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.boot.mongodb.MongoDbDataProviderEngine;
 import org.bson.Document;
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -59,7 +58,7 @@ class MongodbDataProviderEngineTest {
     private String id;
 
 
-    @BeforeAll
+//    @BeforeAll
     public void init() {
         engine.setMapper(dataObjectMapper());
 
