@@ -31,9 +31,3 @@ supportingServices:
     replicaCount: 1
     ingress:
       path: /
-
-mongodb:
-  networkPolicy:
-    enabled: false
-  pdb:
-    create: false

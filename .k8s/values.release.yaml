@@ -2,9 +2,6 @@ springServices:
   n2o-sandbox:
     ingress:
       path: /sandbox
-    env:
-      MONGO_HOST: 'sandbox-mongodb'
-      MONGO_PASSWORD: "passwd"
   n2o-test:
     imageName: n2o/n2o-sandbox
     resources:
@@ -20,13 +17,3 @@ springServices:
     contextPath: tests
     ingress:
       path: /tests
-
-mongodb:
-  persistence:
-    storageClass: nfs-retain
-    enabled: true
-    size: '1Gi'
-  auth:
-    rootPassword: "passwd"
-  service:
-    nameOverride: 'sandbox-mongodb'

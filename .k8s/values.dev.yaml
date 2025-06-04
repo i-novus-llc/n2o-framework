@@ -30,13 +30,3 @@ springServices:
     contextPath: tests
     ingress:
       path: /tests
-
-mongodb:
-  persistence:
-    storageClass: nfs-retain
-    enabled: true
-    size: '2Gi'
-  auth:
-    rootPassword: "passwd"
-  service:
-    nameOverride: 'sandbox-mongodb'

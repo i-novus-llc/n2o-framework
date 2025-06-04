@@ -16,12 +16,3 @@ springServices:
   n2o-sandbox:
     ingress:
       path: /sandbox
-
-mongodb:
-  persistence:
-    enabled: true
-    size: '1Gi'
-  auth:
-    rootPassword: "passwd"
-  service:
-    nameOverride: 'sandbox-mongodb'
