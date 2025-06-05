@@ -43,12 +43,13 @@ public class WidgetScope {
         this.clientDatasourceId = DatasourceUtil.getClientDatasourceId(datasourceId, p);
     }
 
-    public WidgetScope(String widgetId, N2oStandardDatasource inLineDatasource, ReduxModelEnum model, CompileProcessor p) {
+    public WidgetScope(String widgetId, N2oStandardDatasource inLineDatasource, ReduxModelEnum model, CompileProcessor p, MetaActions actions) {
         this.widgetId = widgetId;
         this.inLineDatasource = inLineDatasource;
         this.model = model;
         PageScope pageScope = p.getScope(PageScope.class);
         this.clientWidgetId = pageScope != null ? DatasourceUtil.getClientWidgetId(widgetId, pageScope.getPageId()) : widgetId;
         this.clientDatasourceId = DatasourceUtil.getClientDatasourceId(datasourceId, p);
+        this.actions = actions;
     }
 }
