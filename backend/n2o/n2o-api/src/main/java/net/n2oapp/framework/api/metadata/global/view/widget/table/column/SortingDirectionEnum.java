@@ -1,29 +1,17 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table.column;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import net.n2oapp.framework.api.metadata.aware.IdAware;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 
 /**
  * Направление сортировки по умолчанию
  */
-public enum SortingDirectionEnum implements IdAware {
+@RequiredArgsConstructor
+@Getter
+public enum SortingDirectionEnum implements N2oEnum {
     ASC("asc"),
     DESC("desc");
 
-    private final String value;
-
-    SortingDirectionEnum(String value) {
-        this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String getId() {
-        return this.value;
-    }
-
-    @Override
-    public void setId(String id) {
-        throw new UnsupportedOperationException();
-    }
+    private final String id;
 }

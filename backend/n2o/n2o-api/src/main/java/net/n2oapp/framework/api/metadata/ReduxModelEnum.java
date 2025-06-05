@@ -1,12 +1,15 @@
 package net.n2oapp.framework.api.metadata;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import net.n2oapp.framework.api.metadata.aware.IdAware;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 
 /**
  * Модель на клиенте
  */
-public enum ReduxModelEnum implements IdAware {
+@RequiredArgsConstructor
+@Getter
+public enum ReduxModelEnum implements N2oEnum {
     RESOLVE("resolve"),
     FILTER("filter"),
     SELECTED("selected"),
@@ -15,19 +18,4 @@ public enum ReduxModelEnum implements IdAware {
     DATASOURCE("datasource");
 
     private final String id;
-
-    ReduxModelEnum(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public void setId(String id) {
-        // no implementation
-    }
-
-    @Override
-    @JsonValue
-    public String getId() {
-        return id;
-    }
 }
