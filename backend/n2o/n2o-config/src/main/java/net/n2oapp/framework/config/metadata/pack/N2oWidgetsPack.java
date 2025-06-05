@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.table.MultiColumnComp
 import net.n2oapp.framework.config.metadata.compile.widget.table.SimpleColumnCompiler;
 import net.n2oapp.framework.config.metadata.merge.widget.N2oFormMerger;
 import net.n2oapp.framework.config.metadata.merge.widget.N2oTableMerger;
+import net.n2oapp.framework.config.metadata.merge.widget.N2oTilesMerger;
 import net.n2oapp.framework.config.metadata.merge.widget.N2oWidgetMerger;
 
 public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
@@ -38,7 +39,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new CalendarCompiler(),
                 new TilesCompiler(),
                 new CardsCompiler());
-        b.mergers(new N2oWidgetMerger(), new N2oFormMerger(), new N2oTableMerger());
+        b.mergers(new N2oWidgetMerger(), new N2oFormMerger(), new N2oTableMerger(), new N2oTilesMerger());
 
         CrudGenerator crudGenerator = new CrudGenerator();
         N2oButtonGeneratorFactory buttonGeneratorFactory = new N2oButtonGeneratorFactory();

@@ -1,0 +1,15 @@
+<tiles xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+       cols-sm="1"
+       cols-md="3"
+       cols-lg="6"
+       height="101"
+       width="101">
+    <content>
+        <block id="childBlock">
+            <icon text="childIcon"/>
+        </block>
+    </content>
+    <pagination class="childPagination">
+
+    </pagination>
+</tiles>
