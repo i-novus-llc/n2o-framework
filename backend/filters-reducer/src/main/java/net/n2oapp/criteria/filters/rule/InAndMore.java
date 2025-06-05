@@ -22,7 +22,9 @@ public class InAndMore extends InListRule {
         else if (left.getType().equals(FilterTypeEnum.IN) && right.getType().equals(FilterTypeEnum.MORE)) {
             return super.simplify(left, right);
         }
-        throw new RuntimeException("Incorrect restriction's type");
+        throw new IllegalArgumentException(
+                String.format("Некорректные типы фильтров: `%s` и `%s`",
+                        left.getType().getId(), right.getType().getId()));
     }
 
     @Override

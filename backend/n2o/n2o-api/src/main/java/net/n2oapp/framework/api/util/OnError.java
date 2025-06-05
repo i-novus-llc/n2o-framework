@@ -20,7 +20,7 @@ public interface OnError {
         if (e instanceof RuntimeException runtimeException) {
             throw runtimeException;
         }
-        throw new RuntimeException(e);
+        throw new IllegalStateException(e);
     };
 
 }

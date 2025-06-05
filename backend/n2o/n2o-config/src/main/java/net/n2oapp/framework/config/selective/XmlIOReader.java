@@ -51,7 +51,7 @@ public class XmlIOReader extends SelectiveMetadataLoader implements XmlIOBuilder
                 logger.debug(diff.toString());
             return similar;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     };
 

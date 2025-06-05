@@ -69,7 +69,7 @@ public class XmlInfo extends FileInfo {
         try {
             return Class.forName(cacheKey.split("\\$")[0]);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 

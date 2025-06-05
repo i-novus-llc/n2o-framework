@@ -32,18 +32,18 @@ public class SelectiveUtil {
             Element root = doc.getRootElement();
             return (N) readerFactory.produce(root).read(root);
         } catch (JDOMException | IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public static <N > N read(String source, ElementReaderFactory readerFactory) {
+    public static <N> N read(String source, ElementReaderFactory readerFactory) {
         try (Reader stringReader = new StringReader(source)) {
             Document doc = getSAXBuilder().build(stringReader);
             Element root = doc.getRootElement();
             return (N) readerFactory.produce(root).read(root);
         } catch (JDOMException | IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 

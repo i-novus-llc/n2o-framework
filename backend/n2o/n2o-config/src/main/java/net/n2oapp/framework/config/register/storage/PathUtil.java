@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.register.storage;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.n2oapp.framework.api.exception.N2oException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -98,7 +99,7 @@ public class PathUtil {
                 if (resources.length != 0 && resources[0].exists())
                     resource = resources[0];
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new IllegalStateException(e);
             }
         } else {
             resource = resourcePatternResolver.getResource(path);

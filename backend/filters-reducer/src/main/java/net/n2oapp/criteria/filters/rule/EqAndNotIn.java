@@ -23,7 +23,9 @@ public class EqAndNotIn implements Rule {
                 return null;
             } else return left;
         }
-        throw new RuntimeException("Incorrect restriction's type");
+        throw new IllegalArgumentException(
+                String.format("Некорректные типы фильтров: `%s` и `%s`",
+                        left.getType().getId(), right.getType().getId()));
     }
 
 
