@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.api.SortingDirectionEnum;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;

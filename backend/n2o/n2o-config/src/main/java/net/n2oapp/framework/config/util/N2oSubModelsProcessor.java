@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.util;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;

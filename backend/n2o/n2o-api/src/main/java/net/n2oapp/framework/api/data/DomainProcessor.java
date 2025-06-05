@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.IdAware;

@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.local;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;

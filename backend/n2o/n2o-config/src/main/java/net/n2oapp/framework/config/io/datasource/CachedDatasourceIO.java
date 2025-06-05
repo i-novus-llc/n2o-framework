@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.datasource;
 
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.datasource.BrowserStorageTypeEnum;

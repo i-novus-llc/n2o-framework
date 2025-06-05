@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.dao;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;

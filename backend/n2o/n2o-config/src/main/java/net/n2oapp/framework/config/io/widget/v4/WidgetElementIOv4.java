@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.widget.v4;
 
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;

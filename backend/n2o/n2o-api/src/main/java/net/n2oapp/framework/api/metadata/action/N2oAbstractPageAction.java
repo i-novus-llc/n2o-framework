@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.action;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.access.metadata;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.access.data.SecurityProvider;
 import net.n2oapp.framework.access.exception.AccessDeniedException;
 import net.n2oapp.framework.access.exception.UnauthorizedException;

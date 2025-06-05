@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.ModalSizeEnum;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
