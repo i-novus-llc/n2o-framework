@@ -25,7 +25,6 @@ build release stand:
 
 deploy release stand:
   extends: .deploy
-  environment: "n2o-release-7-28"
   needs:
     - release version
     - build release stand
