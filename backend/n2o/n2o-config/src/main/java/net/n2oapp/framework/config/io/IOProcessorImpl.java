@@ -2,13 +2,11 @@ package net.n2oapp.framework.config.io;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.aware.RefIdAware;
@@ -660,9 +658,7 @@ public class IOProcessorImpl implements IOProcessor {
                     childE = persist(new NamedElementIO<T>() {
                         @Override
                         public String getElementName() {
-                            if (en instanceof FilterTypeEnum filterTypeEnum)
-                                return filterTypeEnum.getId();
-                            else if (en instanceof N2oEnum n2oEnum)
+                            if (en instanceof N2oEnum n2oEnum)
                                 return n2oEnum.getId();
                             else
                                 return en.name();
@@ -849,9 +845,7 @@ public class IOProcessorImpl implements IOProcessor {
                 element.addContent(childElement);
             }
 
-            if (IdAware.class.isAssignableFrom(enumClass))
-                childElement.setAttribute(new Attribute(name, ((IdAware) getter.get()).getId()));
-            else if (N2oEnum.class.isAssignableFrom(enumClass))
+            if (N2oEnum.class.isAssignableFrom(enumClass))
                 childElement.setAttribute(new Attribute(name, ((N2oEnum) getter.get()).getId()));
             else
                 childElement.setAttribute(new Attribute(name, getter.get().name()));
@@ -989,9 +983,7 @@ public class IOProcessorImpl implements IOProcessor {
             }
         } else {
             if (getter.get() == null) return;
-            if (IdAware.class.isAssignableFrom(enumClass)) {
-                element.setAttribute(new Attribute(name, ((IdAware) getter.get()).getId()));
-            } else if (N2oEnum.class.isAssignableFrom(enumClass)) {
+            if (N2oEnum.class.isAssignableFrom(enumClass)) {
                 element.setAttribute(new Attribute(name, ((N2oEnum) getter.get()).getId()));
             } else {
                 element.setAttribute(new Attribute(name, getter.get().name()));
@@ -1125,24 +1117,9 @@ public class IOProcessorImpl implements IOProcessor {
     private static <T extends Enum<T>> T stringToEnum(String value, Class<T> enumClass) {
         if (value == null) return null;
         T res = null;
-        boolean idAware = IdAware.class.isAssignableFrom(enumClass);
-        if (idAware) {
-            for (Enum enumValue : enumClass.getEnumConstants()) {
-                IdAware idEnum = (IdAware) enumValue;
-                if (idEnum.getId().equalsIgnoreCase(value)) {
-                    res = (T) enumValue;
-                }
-            }
-        } else if (N2oEnum.class.isAssignableFrom(enumClass)) {
+        if (N2oEnum.class.isAssignableFrom(enumClass)) {
             for (Enum enumValue : enumClass.getEnumConstants()) {
                 N2oEnum idEnum = (N2oEnum) enumValue;
-                if (idEnum.getId().equalsIgnoreCase(value)) {
-                    res = (T) enumValue;
-                }
-            }
-        } else if (FilterTypeEnum.class.isAssignableFrom(enumClass)) {
-            for (Enum enumValue : enumClass.getEnumConstants()) {
-                FilterTypeEnum idEnum = (FilterTypeEnum) enumValue;
                 if (idEnum.getId().equalsIgnoreCase(value)) {
                     res = (T) enumValue;
                 }

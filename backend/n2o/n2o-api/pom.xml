@@ -48,11 +48,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.n2oapp.filters</groupId>
-            <artifactId>filters-reducer</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>net.n2oapp.criteria</groupId>
             <artifactId>criteria-dataset</artifactId>
         </dependency>
@@ -114,6 +109,16 @@
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
 

@@ -1,8 +1,8 @@
 package net.n2oapp.framework.api.criteria;
 
 import lombok.Getter;
-import net.n2oapp.criteria.filters.Filter;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.Filter;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 
 import java.util.Objects;
 

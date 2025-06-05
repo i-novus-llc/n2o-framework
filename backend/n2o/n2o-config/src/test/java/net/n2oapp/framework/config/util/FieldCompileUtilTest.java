@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.util;
 
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import org.junit.jupiter.api.Test;

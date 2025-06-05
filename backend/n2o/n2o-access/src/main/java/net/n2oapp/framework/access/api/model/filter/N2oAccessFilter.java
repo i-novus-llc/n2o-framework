@@ -2,7 +2,7 @@ package net.n2oapp.framework.access.api.model.filter;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 
 import java.util.List;
 import java.util.Objects;

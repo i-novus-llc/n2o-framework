@@ -37,11 +37,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.n2oapp.filters</groupId>
-            <artifactId>filters-reducer</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>net.n2oapp.criteria</groupId>
             <artifactId>criteria-api</artifactId>
         </dependency>

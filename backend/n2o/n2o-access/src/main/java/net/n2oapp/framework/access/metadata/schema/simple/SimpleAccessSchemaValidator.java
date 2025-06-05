@@ -1,6 +1,6 @@
 package net.n2oapp.framework.access.metadata.schema.simple;
 
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.access.functions.StreamUtil;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectAccessPoint;

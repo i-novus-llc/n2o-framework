@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.datasource;
 
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.meta.CopyDependency;

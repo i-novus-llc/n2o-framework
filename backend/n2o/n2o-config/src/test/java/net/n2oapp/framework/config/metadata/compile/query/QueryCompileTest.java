@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
-import net.n2oapp.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
