@@ -28,7 +28,7 @@ import static org.springframework.web.context.request.RequestContextHolder.getRe
 public abstract class QueryUtil {
     private static final String AMP_ESCAPE = "&amp;";
 
-    private static Logger logger = LoggerFactory.getLogger(QueryUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(QueryUtil.class);
 
     public static String normalizeQueryParams(String query) {
         String q = query;

@@ -25,7 +25,7 @@ import java.io.InputStream;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PropertiesReader {
 
-    private static Logger log = LoggerFactory.getLogger(PropertiesReader.class);
+    private static final Logger log = LoggerFactory.getLogger(PropertiesReader.class);
 
     public static OverrideProperties getPropertiesFromClasspath(String name) {
         return getPropertiesFromURI("classpath*:" + name);

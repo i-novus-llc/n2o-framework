@@ -27,7 +27,7 @@ import org.jdom2.Namespace;
  */
 public abstract class StandardFieldIOv3<T extends N2oStandardField> extends FieldIOv3<T> {
 
-    private static Namespace dataProviderNamespace = DataProviderIOv1.NAMESPACE;
+    private static final Namespace dataProviderNamespace = DataProviderIOv1.NAMESPACE;
 
     @Override
     public void io(Element e, T m, IOProcessor p) {

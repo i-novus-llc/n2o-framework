@@ -17,7 +17,7 @@ import org.springframework.core.env.Environment;
  * Прогрев сборки приложения и регистрация маршрутов
  */
 public class HeaderWarmUpper implements EnvironmentAware {
-    private static Logger log = LoggerFactory.getLogger(HeaderWarmUpper.class);
+    private static final Logger log = LoggerFactory.getLogger(HeaderWarmUpper.class);
 
     private Environment environment;
     private N2oApplicationBuilder applicationBuilder;

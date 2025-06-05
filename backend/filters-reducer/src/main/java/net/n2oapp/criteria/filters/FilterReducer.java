@@ -20,8 +20,8 @@ import static java.lang.String.format;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FilterReducer {
 
-    private static Map<Pair, Rule> rulesMap;
-    private static List<? extends Rule> ruleList = Arrays.asList(
+    private static final Map<Pair, Rule> rulesMap;
+    private static final List<? extends Rule> ruleList = Arrays.asList(
             new EqAndEq(), new EqAndIn(), new EqAndLess(), new EqAndMore(), new EqAndNotEq(), new EqAndIsNull(), new EqAndIsNotNull(), new EqAndNotIn(),
             new NotEqAndNotEq(), new NotEqAndNotIn(),
             new InAndIn(), new InAndLess(), new InAndMore(), new InAndIsNull(), new InAndIsNotNull(), new InAndNotEq(), new InAndNotIn(),
