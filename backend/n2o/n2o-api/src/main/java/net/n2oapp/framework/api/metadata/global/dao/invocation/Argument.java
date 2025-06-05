@@ -1,10 +1,10 @@
 package net.n2oapp.framework.api.metadata.global.dao.invocation;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 
 /**
  * Аргумент метода
@@ -20,27 +20,14 @@ public class Argument implements Source {
     /**
      * Contains information about type of argument
      */
-    public enum TypeEnum implements IdAware {
+    @RequiredArgsConstructor
+    @Getter
+    public enum TypeEnum implements N2oEnum {
         PRIMITIVE("primitive"),
         CLASS("class"),
         ENTITY("entity"),
         CRITERIA("criteria");
 
-        private String xmlName;
-
-        TypeEnum(String xmlName) {
-            this.xmlName = xmlName;
-        }
-
-        @Override
-        @JsonValue
-        public String getId() {
-            return this.xmlName;
-        }
-
-        @Override
-        public void setId(String id) {
-            throw new UnsupportedOperationException();
-        }
+        private final String id;
     }
 }

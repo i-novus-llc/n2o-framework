@@ -1,22 +1,14 @@
 package net.n2oapp.framework.api.metadata.control;
 
-import net.n2oapp.framework.api.metadata.aware.IdAware;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 
-public enum PageRefEnum implements IdAware {
-    THIS {
-        @Override
-        public String getId() {
-            return "this";
-        }
-    }, PARENT() {
-        @Override
-        public String getId() {
-            return "parent";
-        }
-    };
+@RequiredArgsConstructor
+@Getter
+public enum PageRefEnum implements N2oEnum {
+    THIS("this"),
+    PARENT("parent");
 
-    @Override
-    public void setId(String id) {
-        // no implementation
-    }
+    private final String id;
 }

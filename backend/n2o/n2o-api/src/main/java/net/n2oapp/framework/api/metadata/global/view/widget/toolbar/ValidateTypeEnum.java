@@ -1,22 +1,18 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
-import net.n2oapp.framework.api.metadata.aware.IdAware;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 
 /**
  * Тип валидации виджетов страницы
  */
-public enum ValidateTypeEnum implements IdAware {
-    PAGE,
-    WIDGET,
-    NONE;
+@RequiredArgsConstructor
+@Getter
+public enum ValidateTypeEnum implements N2oEnum {
+    PAGE("page"),
+    WIDGET("widget"),
+    NONE("none");
 
-    @Override
-    public String getId() {
-        return this.name().toLowerCase();
-    }
-
-    @Override
-    public void setId(String id) {
-        // no implementation
-    }
+    private final String id;
 }

@@ -1,34 +1,21 @@
 package net.n2oapp.framework.api.exception;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import net.n2oapp.framework.api.metadata.aware.IdAware;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 
 /**
  * User: operhod
  * Date: 18.11.13
  * Time: 14:49
  */
-public enum SeverityTypeEnum implements IdAware {
+@RequiredArgsConstructor
+@Getter
+public enum SeverityTypeEnum implements N2oEnum {
     DANGER("danger"),
     WARNING("warning"),
     INFO("info"),
     SUCCESS("success");
 
-    private String name;
-
-    SeverityTypeEnum(String name) {
-        this.name = name;
-    }
-
-
-    @Override
-    @JsonValue
-    public String getId() {
-        return name;
-    }
-
-    @Override
-    public void setId(String id) {
-        throw new UnsupportedOperationException();
-    }
+    private final String id;
 }

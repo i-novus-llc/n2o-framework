@@ -2,10 +2,12 @@ package net.n2oapp.framework.api.metadata.global.dao.validation;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.exception.SeverityTypeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 
 /**
@@ -34,7 +36,9 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
         return "";
     }
 
-    public enum ServerMomentEnum implements IdAware {
+    @RequiredArgsConstructor
+    @Getter
+    public enum ServerMomentEnum implements N2oEnum {
         BEFORE_OPERATION("before-operation"),
         BEFORE_QUERY("before-query"),
         AFTER_SUCCESS_QUERY("after-success-query"),
@@ -42,21 +46,6 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
         AFTER_FAIL_OPERATION("after-fail-operation"),
         AFTER_SUCCESS_OPERATION("after-success-operation");
 
-        private String id;
-
-        ServerMomentEnum(String id) {
-            this.id = id;
-        }
-
-        @Override
-        @JsonValue
-        public String getId() {
-            return id;
-        }
-
-        @Override
-        public void setId(String id) {
-            this.id = id;
-        }
+        private final String id;
     }
 }

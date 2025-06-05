@@ -1,12 +1,15 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import net.n2oapp.framework.api.metadata.aware.IdAware;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 
 /**
  * Представление компонента
  */
-public enum LayoutEnum implements IdAware {
+@RequiredArgsConstructor
+@Getter
+public enum LayoutEnum implements N2oEnum {
     BORDERED("bordered"),
     FLAT("flat"),
     SEPARATED("separated"),
@@ -14,20 +17,5 @@ public enum LayoutEnum implements IdAware {
     FLAT_ROUNDED("flat-rounded"),
     SEPARATED_ROUNDED("separated-rounded");
 
-    private final String value;
-
-    LayoutEnum(String value) {
-        this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String getId() {
-        return this.value;
-    }
-
-    @Override
-    public void setId(String id) {
-        throw new UnsupportedOperationException();
-    }
+    private final String id;
 }

@@ -1,30 +1,18 @@
 package net.n2oapp.framework.api.metadata.control.list;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import net.n2oapp.framework.api.metadata.aware.IdAware;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 
 /**
  * Тип выбора в выпадающем списке
  */
-public enum ListTypeEnum implements IdAware {
+@RequiredArgsConstructor
+@Getter
+public enum ListTypeEnum implements N2oEnum {
     SINGLE("single"),
     MULTI("multi"),
     CHECKBOXES("checkboxes");
 
-    private final String value;
-
-    ListTypeEnum(String value) {
-        this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String getId() {
-        return this.value;
-    }
-
-    @Override
-    public void setId(String id) {
-        throw new UnsupportedOperationException();
-    }
+    private final String id;
 }
