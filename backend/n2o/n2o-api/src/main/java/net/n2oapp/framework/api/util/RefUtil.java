@@ -15,7 +15,7 @@ import java.util.Set;
 @Deprecated
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RefUtil {
-    private static PlaceHoldersResolver referencePlaceHoldersResolver = new PlaceHoldersResolver("{", "}");
+    private static final PlaceHoldersResolver referencePlaceHoldersResolver = new PlaceHoldersResolver("{", "}");
 
     /**
      * Проверка, что текст содержит ссылку на модель (например, "table_{name}")

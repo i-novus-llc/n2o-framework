@@ -20,7 +20,7 @@ import static com.codeborne.selenide.Selenide.$$;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class N2oSelenide {
-    private static ComponentFactory factory = new ComponentFactory().addLibrary(new N2oComponentLibrary());
+    private static final ComponentFactory factory = new ComponentFactory().addLibrary(new N2oComponentLibrary());
 
     public static <T extends Page> T open(String relativeOrAbsoluteUrl, Class<T> pageClass) {
         Selenide.open(relativeOrAbsoluteUrl);
@@ -51,10 +51,6 @@ public class N2oSelenide {
         return factory.produce(elements, collectionClass);
     }
 
-    public static void setFactory(ComponentFactory newFactory) {
-        factory = newFactory;
-    }
-
     public static Modal modal() {
         return modal(Modal.class);
     }
@@ -66,5 +62,4 @@ public class N2oSelenide {
     public static Drawer drawer() {
         return drawer(Drawer.class);
     }
-
 }

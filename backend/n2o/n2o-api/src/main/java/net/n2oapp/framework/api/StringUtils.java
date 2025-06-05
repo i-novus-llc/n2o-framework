@@ -23,11 +23,11 @@ import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class StringUtils {
-    private static PlaceHoldersResolver propertyPlaceHoldersResolver = new PlaceHoldersResolver("${", "}");
-    private static PlaceHoldersResolver contextPlaceHoldersResolver = new PlaceHoldersResolver("#{", "}");
-    private static PlaceHoldersResolver jsPlaceHoldersResolver = new PlaceHoldersResolver("`", "`");
-    private static PlaceHoldersResolver linkPlaceHoldersResolver = new PlaceHoldersResolver("{", "}");
-    private static PlaceHoldersResolver jsonPlaceHoldersResolver = new PlaceHoldersResolver("{{", "}}");
+    private static final PlaceHoldersResolver propertyPlaceHoldersResolver = new PlaceHoldersResolver("${", "}");
+    private static final PlaceHoldersResolver contextPlaceHoldersResolver = new PlaceHoldersResolver("#{", "}");
+    private static final PlaceHoldersResolver jsPlaceHoldersResolver = new PlaceHoldersResolver("`", "`");
+    private static final PlaceHoldersResolver linkPlaceHoldersResolver = new PlaceHoldersResolver("{", "}");
+    private static final PlaceHoldersResolver jsonPlaceHoldersResolver = new PlaceHoldersResolver("{{", "}}");
     private static final String PATTERN = "^([a-zA-Z$_][a-zA-Z0-9$_]*\\(\\))$";
 
     /**
