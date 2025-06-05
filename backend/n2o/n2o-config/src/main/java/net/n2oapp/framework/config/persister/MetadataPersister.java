@@ -92,7 +92,7 @@ public class MetadataPersister {
         try {
             xmlOutput.output(doc, outputStream);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
         InfoConstructor info = findOrCreateXmlInfo(n2o, directory);
         String path = PathUtil.convertUrlToAbsolutePath(info.getXmlURI());

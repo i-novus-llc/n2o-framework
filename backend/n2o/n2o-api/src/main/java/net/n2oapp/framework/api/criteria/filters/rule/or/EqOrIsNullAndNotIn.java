@@ -23,7 +23,9 @@ public class EqOrIsNullAndNotIn implements Rule {
                 return new Filter(FilterTypeEnum.IS_NULL);
             } else return left;
         }
-        throw new RuntimeException("Incorrect restriction's type");
+        throw new IllegalArgumentException(
+                String.format("Некорректные типы фильтров: `%s` и `%s`",
+                        left.getType().getId(), right.getType().getId()));
     }
 
 

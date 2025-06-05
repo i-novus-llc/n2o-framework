@@ -21,7 +21,9 @@ public class EqAndIn implements Rule {
             if (((List) right.getValue()).contains(left.getValue())) return left;
             else return null;
         }
-        throw new RuntimeException("Incorrect restriction's type");
+        throw new IllegalArgumentException(
+                String.format("Некорректные типы фильтров: `%s` и `%s`",
+                        left.getType().getId(), right.getType().getId()));
     }
 
 

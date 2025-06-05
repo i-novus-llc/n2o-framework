@@ -23,7 +23,9 @@ public class EqOrIsNullAndContains implements Rule {
                 return null;
             return new Filter(left.getValue());
         }
-        throw new RuntimeException("Incorrect restriction's type");
+        throw new IllegalArgumentException(
+                String.format("Некорректные типы фильтров: `%s` и `%s`",
+                        left.getType().getId(), right.getType().getId()));
     }
 
     @Override

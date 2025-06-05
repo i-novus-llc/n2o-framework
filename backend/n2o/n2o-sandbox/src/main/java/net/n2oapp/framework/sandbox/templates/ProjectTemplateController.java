@@ -4,6 +4,8 @@ import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
@@ -38,9 +40,7 @@ public class ProjectTemplateController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/project/search")
-    public List<SearchProjectModel> searchProjectMatches(@RequestParam(name = "q") String text) throws Exception {
+    public List<SearchProjectModel> searchProjectMatches(@RequestParam(name = "q") String text) throws URISyntaxException, IOException {
         return projectSearcher.search(text);
     }
-
-
 }

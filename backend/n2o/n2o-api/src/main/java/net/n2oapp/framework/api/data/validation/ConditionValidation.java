@@ -65,7 +65,7 @@ public class ConditionValidation extends Validation {
             if (!(boolean) ScriptProcessor.eval(getExpression(), copiedDataSet))
                 callback.onFail(StringUtils.resolveLinks(getMessage(), copiedDataSet));
         } catch (ScriptException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 

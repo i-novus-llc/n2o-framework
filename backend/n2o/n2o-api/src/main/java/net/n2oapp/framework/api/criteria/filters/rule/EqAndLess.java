@@ -22,7 +22,9 @@ public class EqAndLess implements Rule {
             if (value.compareTo(top) < 0) return left;
             return null;
         }
-        throw new RuntimeException("Incorrect restriction's type");
+        throw new IllegalArgumentException(
+                String.format("Некорректные типы фильтров: `%s` и `%s`",
+                        left.getType().getId(), right.getType().getId()));
     }
 
 

@@ -41,9 +41,9 @@ public abstract class DynamicUtil {
         if (ids != null)
             ids.forEach(id -> {
                 if (!isDynamic(id))
-                    throw new RuntimeException(String.format("dynamic-metadata-provider [%s] provides not dynamic id [%s]", code, id));
+                    throw new IllegalArgumentException (String.format("Провайдер динамических метаданных dynamic-metadata-provider [%s] использует нединамический идентификатор [%s]", code, id));
                 else if (!id.startsWith(code))
-                    throw new RuntimeException(String.format("dynamic-metadata-provider [%s]  provides wrong id [%s]", code, id));
+                    throw new IllegalArgumentException (String.format("Провайдер динамических метаданных dynamic-metadata-provider [%s] использует идентификатор [%s] с некорректным префиксом", code, id));
             });
     }
 
@@ -55,7 +55,7 @@ public abstract class DynamicUtil {
             int i = 0;
             for (String ref : refs) {
                 if (i >= tokens.length)
-                    throw new IllegalStateException("References more than tokens: metadataId = [" + metadataId + "], tokens = " + Arrays.asList(tokens));
+                    throw new IllegalStateException("Число ссылок в metadataId больше числа предоставленных токенов: metadataId = [" + metadataId + "], tokens = " + Arrays.asList(tokens));
                 placeholders.put(ref, tokens[i]);
                 i++;
             }
