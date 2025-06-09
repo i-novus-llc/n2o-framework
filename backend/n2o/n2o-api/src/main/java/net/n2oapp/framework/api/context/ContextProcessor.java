@@ -50,6 +50,21 @@ public class ContextProcessor {
     }
 
     /**
+     * Получить текст с разрешенными контекстами, обернутый в кавычки
+     *
+     * @param text текст, содержащий контекст
+     * @return значение контекста
+     * @throws NotFoundContextPlaceholderException значение отсутствует, но обязательно
+     */
+    public String resolveTextWithQuotes(String text) {
+        try {
+            return contextResolver.resolve(text, replaceNullByEmptyWithQuotes(replaceOptional(context::get)));
+        } catch (NotFoundPlaceholderException e) {
+            throw new NotFoundContextPlaceholderException(e.getPlaceholder());
+        }
+    }
+
+    /**
      * Получить json-валидный текст с разрешенными контекстами
      *
      * @param json текст, содержащий контекст
