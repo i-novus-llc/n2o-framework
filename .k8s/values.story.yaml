@@ -1,10 +1,11 @@
+global:
+  spring:
+    useDefaultConsul: false
+
 springServices:
   n2o-sandbox:
     ingress:
       path: /sandbox
-    env:
-      MONGO_HOST: 'sandbox-mongodb'
-      MONGO_PASSWORD: "passwd"
 
 supportingServices:
   docusaurus:
@@ -18,12 +19,3 @@ supportingServices:
     replicaCount: 1
     ingress:
       path: /
-
-mongodb:
-  persistence:
-    enabled: true
-    size: '1Gi'
-  auth:
-    rootPassword: "passwd"
-  service:
-    nameOverride: 'sandbox-mongodb'

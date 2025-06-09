@@ -1,15 +1,19 @@
 global:
   imageTag: "${docker.image.tag}"
+  spring:
+    env:
+      SPRING_CLOUD_CONSUL_CONFIG_PREFIX: n2o-framework
 
 springServices:
   n2o-sandbox:
     imageName: n2o/n2o-sandbox
     resources:
       limits:
-        memory: 1Gi
+        memory: 512Mi
         cpu: 500m
     env:
       N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
+      SPRING_CONFIG_IMPORT: "consul:"
     replicaCount: 1
     contextPath: sandbox
     ingress:
@@ -27,9 +31,3 @@ supportingServices:
     replicaCount: 1
     ingress:
       path: /
-
-mongodb:
-  networkPolicy:
-    enabled: false
-  pdb:
-    create: false
