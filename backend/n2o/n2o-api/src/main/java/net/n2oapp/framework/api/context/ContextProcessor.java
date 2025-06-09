@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceNullByEmpty;
-import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
+import static net.n2oapp.framework.api.PlaceHoldersResolver.*;
 
 /**
  * Процессор пользовательского контекста
@@ -44,6 +43,21 @@ public class ContextProcessor {
     public String resolveText(String text) {
         try {
             return contextResolver.resolve(text, replaceNullByEmpty(replaceOptional(context::get)));
+        } catch (NotFoundPlaceholderException e) {
+            throw new NotFoundContextPlaceholderException(e.getPlaceholder());
+        }
+    }
+
+    /**
+     * Получить текст с разрешенными контекстами, обернутый в кавычки
+     *
+     * @param text текст, содержащий контекст
+     * @return значение контекста
+     * @throws NotFoundContextPlaceholderException значение отсутствует, но обязательно
+     */
+    public String resolveTextWithQuotes(String text) {
+        try {
+            return contextResolver.resolve(text, replaceNullByEmptyWithQuotes(replaceOptional(context::get)));
         } catch (NotFoundPlaceholderException e) {
             throw new NotFoundContextPlaceholderException(e.getPlaceholder());
         }
