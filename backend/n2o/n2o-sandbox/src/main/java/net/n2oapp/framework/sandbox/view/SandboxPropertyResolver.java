@@ -153,7 +153,7 @@ public class SandboxPropertyResolver implements PropertyResolver {
                 } else if (Long.class.equals(targetType)) {
                     return (T) Long.valueOf(value);
                 } else if (targetType.isEnum()) {
-                    return (T) Enum.valueOf((Class) targetType, value);
+                    return (T) Enum.valueOf((Class) targetType, value.toUpperCase());
                 } else
                     throw new UnsupportedOperationException("targetType " + targetType + " is not supported");
             } else
