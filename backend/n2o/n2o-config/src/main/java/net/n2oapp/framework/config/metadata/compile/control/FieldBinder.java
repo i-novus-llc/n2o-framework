@@ -23,6 +23,7 @@ public class FieldBinder implements BaseMetadataBinder<Field> {
         if (field.getDependencies() != null) {
             field.getDependencies().stream().filter(FetchValueDependency.class::isInstance)
                     .forEach(f -> BindUtil.bindDataProvider(((FetchValueDependency) f).getDataProvider(), p));
+            field.getDependencies().forEach(d -> d.setExpression(p.resolveTextWithQuotes(d.getExpression())));
         }
         return field;
     }

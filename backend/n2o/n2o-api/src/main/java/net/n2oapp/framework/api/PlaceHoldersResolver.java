@@ -337,6 +337,13 @@ public class PlaceHoldersResolver {
         };
     }
 
+    public static Function<String, Object> replaceNullByEmptyWithQuotes(Function<String, Object> callback) {
+        return key -> {
+            Object result = callback.apply(key);
+            return result != null ? "'" + result + "'" : "";
+        };
+    }
+
     public static Function<String, Object> replaceNullByEmpty(Object data) {
         return replaceNullByEmpty(function(data));
     }

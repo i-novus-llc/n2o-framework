@@ -517,6 +517,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
+    public String resolveTextWithQuotes(String text) {
+        return env.getContextProcessor().resolveTextWithQuotes(text);
+    }
+
+    @Override
     public String resolveTextByParams(String text) {
         if (LINK_RESOLVER.hasPlaceHolders(text)) {
             return LINK_RESOLVER.resolve(text, ps -> params.get(ps));
