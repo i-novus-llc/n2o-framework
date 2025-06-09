@@ -13,7 +13,7 @@ springServices:
     resources:
       limits:
         memory: 512Mi
-        cpu: 300m
+        cpu: 500m
     env:
       N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
       SPRING_PROFILES_ACTIVE: test
@@ -22,13 +22,3 @@ springServices:
     contextPath: tests
     ingress:
       path: /tests
-
-mongodb:
-  persistence:
-    storageClass: nfs-retain
-    enabled: true
-    size: '1Gi'
-  auth:
-    rootPassword: "passwd"
-  service:
-    nameOverride: 'sandbox-mongodb'

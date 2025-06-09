@@ -19,12 +19,3 @@ supportingServices:
     replicaCount: 1
     ingress:
       path: /
-
-mongodb:
-  persistence:
-    enabled: true
-    size: '1Gi'
-  auth:
-    rootPassword: "passwd"
-  service:
-    nameOverride: 'sandbox-mongodb'

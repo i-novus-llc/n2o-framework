@@ -9,7 +9,7 @@ springServices:
     imageName: n2o/n2o-sandbox
     resources:
       limits:
-        memory: 1Gi
+        memory: 512Mi
         cpu: 500m
     env:
       N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
@@ -31,9 +31,3 @@ supportingServices:
     replicaCount: 1
     ingress:
       path: /
-
-mongodb:
-  networkPolicy:
-    enabled: false
-  pdb:
-    create: false
