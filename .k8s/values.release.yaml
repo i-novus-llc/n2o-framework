@@ -1,7 +1,13 @@
+global:
+  spring:
+    useDefaultConsul: false
+
 springServices:
   n2o-sandbox:
     ingress:
       path: /sandbox
+    env:
+      SPRING_CONFIG_IMPORT: "consul:"
   n2o-test:
     imageName: n2o/n2o-sandbox
     resources:
@@ -11,8 +17,7 @@ springServices:
     env:
       N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
       SPRING_PROFILES_ACTIVE: test
-      MONGO_HOST: 'sandbox-mongodb'
-      MONGO_PASSWORD: "passwd"
+      SPRING_CONFIG_IMPORT: "consul:"
     replicaCount: 1
     contextPath: tests
     ingress:
