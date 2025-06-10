@@ -28,7 +28,6 @@
         <module>crud-sql</module>
         <module>crud-rest</module>
         <module>file-upload</module>
-        <module>customization</module>
         <module>greeting</module>
         <module>bpm</module>
     </modules>
