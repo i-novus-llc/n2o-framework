@@ -4,8 +4,8 @@
     <form>
         <fields>
             <file-upload id="file" label="Файлы:"
-                         upload-url="${n2o.sandbox.url}/files"
-                         delete-url="${n2o.sandbox.url}/files"/>
+                         upload-url="${server.servlet.context-path}/files"
+                         delete-url="${server.servlet.context-path}/files"/>
         </fields>
     </form>
 </simple-page>

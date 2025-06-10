@@ -8,9 +8,9 @@ import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.boot.*;
-import net.n2oapp.framework.sandbox.client.SandboxRestClient;
-import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
+import net.n2oapp.framework.sandbox.file_storage.FileStorage;
+import net.n2oapp.framework.sandbox.file_storage.MinioFileStorage;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
@@ -19,6 +19,7 @@ import net.n2oapp.framework.ui.controller.action.SetController;
 import net.n2oapp.framework.ui.controller.query.GetController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.annotation.EnableCaching;
@@ -49,6 +50,15 @@ import java.util.Map;
 @EnableCaching
 @ComponentScan(basePackages = {"net.n2oapp.framework.sandbox", "net.n2oapp.framework.autotest.cases"})
 public class N2oSandboxConfiguration {
+
+    @Value("${minio.url}")
+    private String minioUrl;
+    @Value("${minio.access-key}")
+    private String accessKey;
+    @Value("${minio.secret-key}")
+    private String secretKey;
+    @Value("${minio.bucket-name}")
+    private String bucketName;
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -115,8 +125,8 @@ public class N2oSandboxConfiguration {
     }
 
     @Bean
-    public SandboxRestClient restClient() {
-        return new SandboxRestClientImpl();
+    public FileStorage fileStorage() {
+        return new MinioFileStorage(minioUrl, accessKey, secretKey, bucketName);
     }
 
     @Bean

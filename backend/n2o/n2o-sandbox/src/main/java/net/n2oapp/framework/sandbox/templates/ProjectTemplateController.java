@@ -1,6 +1,6 @@
 package net.n2oapp.framework.sandbox.templates;
 
-import net.n2oapp.framework.sandbox.client.model.ProjectModel;
+import net.n2oapp.framework.sandbox.file_storage.model.ProjectModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

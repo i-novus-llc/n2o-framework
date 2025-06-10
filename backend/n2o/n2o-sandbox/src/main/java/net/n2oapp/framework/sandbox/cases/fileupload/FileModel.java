@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,4 +22,6 @@ public class FileModel implements Serializable {
     private String url;
     @JsonProperty
     private long size;
+    @JsonProperty
+    private LocalDateTime date;
 }

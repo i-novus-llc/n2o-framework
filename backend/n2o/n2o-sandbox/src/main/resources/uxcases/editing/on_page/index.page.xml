@@ -74,7 +74,7 @@
                     <col size="2">
                             <file-upload id="file" label="Загрузить фотографию" label-field-id="fileName"
                                          value-field-id="id" visible="{flag == 1}"
-                                         upload-url="${n2o.sandbox.url}/files" delete-url="${n2o.sandbox.url}/files" accept=".jpg,.png"/>
+                                         upload-url="${server.servlet.context-path}/files" delete-url="${server.servlet.context-path}/files" accept=".jpg,.png"/>
 
                             <image id="image" data="{file.url}" visible="{flag == 0}"/>
                     </col>
