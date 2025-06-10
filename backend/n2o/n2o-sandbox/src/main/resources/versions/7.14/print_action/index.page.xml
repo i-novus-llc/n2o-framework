@@ -8,7 +8,7 @@
             <column text-field-id="print">
                 <toolbar>
                     <button icon="fa fa-print">
-                        <print url="${n2o.sandbox.url}/static/:name">
+                        <print url="${server.servlet.context-path}/static/:name">
                             <path-param name="name" value="{name}"/>
                         </print>
                     </button>

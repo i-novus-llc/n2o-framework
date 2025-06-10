@@ -1,6 +1,6 @@
 package net.n2oapp.framework.sandbox.view;
 
-import net.n2oapp.framework.sandbox.client.SandboxRestClient;
+import net.n2oapp.framework.sandbox.file_storage.FileStorage;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import org.apache.commons.io.IOUtils;
@@ -30,7 +30,7 @@ public class IndexPageHandler {
 
     @Value("${server.servlet.context-path:/}")
     private String servletContext;
-    private final SandboxRestClient restClient;
+    private final FileStorage fileStorage;
     private final ProjectTemplateHolder templatesHolder;
 
     private static final String RELATIVE_PATH = "./";
@@ -38,8 +38,8 @@ public class IndexPageHandler {
     private static final String SRC_PATTERN = "src=\"";
     private static final String VIEW_INDEX_HTML = "META-INF/resources/index.html";
 
-    public IndexPageHandler(SandboxRestClient restClient, ProjectTemplateHolder templatesHolder) {
-        this.restClient = restClient;
+    public IndexPageHandler(FileStorage fileStorage, ProjectTemplateHolder templatesHolder) {
+        this.fileStorage = fileStorage;
         this.templatesHolder = templatesHolder;
     }
 
@@ -47,7 +47,7 @@ public class IndexPageHandler {
     @GetMapping({"/view/{projectId}/", "/view/{projectId}"})
     public ResponseEntity<Resource> getIndex(@PathVariable(value = "projectId") String projectId) {
         TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
-        if (templateModel == null && !restClient.isProjectExists(projectId))
+        if (templateModel == null && !fileStorage.isProjectExists(projectId))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project " + projectId + " not found");
 
         return ResponseEntity.ok()

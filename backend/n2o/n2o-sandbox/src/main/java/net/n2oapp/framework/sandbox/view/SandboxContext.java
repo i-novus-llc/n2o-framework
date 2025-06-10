@@ -3,9 +3,9 @@ package net.n2oapp.framework.sandbox.view;
 import jakarta.servlet.http.HttpSession;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.sandbox.client.SandboxRestClient;
-import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
+import net.n2oapp.framework.sandbox.file_storage.FileStorage;
+import net.n2oapp.framework.sandbox.file_storage.model.FileModel;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import net.n2oapp.framework.sandbox.utils.FileUtil;
@@ -35,7 +35,7 @@ public class SandboxContext implements ContextEngine {
     private final Map<String, Properties> properties = new ConcurrentHashMap<>();
 
     @Autowired
-    private SandboxRestClient restClient;
+    private FileStorage fileStorage;
     @Autowired
     private HttpSession session;
     @Autowired
@@ -100,7 +100,7 @@ public class SandboxContext implements ContextEngine {
             if (property.isPresent())
                 userProperties = property.get().getSource();
         } else {
-            userProperties = restClient.getFile(projectId, "/" + USER_PROPERTIES);
+            userProperties = fileStorage.getFileContent(projectId, USER_PROPERTIES);
         }
         if (userProperties != null) {
             try (InputStream inputStream = new ByteArrayInputStream(userProperties.getBytes());
