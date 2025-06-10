@@ -5,6 +5,7 @@ include:
       - dev-stand.gitlab-ci.yml
       - story.gitlab-ci.yml
       - merge-request.gitlab-ci.yml
+      - stable-stand.gitlab-ci.yml
   - local: 'release-stand.gitlab-ci.yaml'
 
 build:
@@ -46,5 +47,11 @@ deploy story stand:
 
 deploy dev stand:
   variables:
-    K8S_NAMESPACE: 'n2o-framework'
+    K8S_NAMESPACE: '$CI_PROJECT_NAME'
     K8S_INGRESS_HOST: 'next-n2o.i-novus.ru'
+
+deploy stable stand:
+  variables:
+    K8S_NAMESPACE: "$CI_PROJECT_NAME-7-29"
+    K8S_INGRESS_HOST: "n2o.i-novus.ru"
+    HELM_RELEASE: "$CI_PROJECT_NAME-7-29"
