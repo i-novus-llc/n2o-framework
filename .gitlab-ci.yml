@@ -5,6 +5,7 @@ include:
       - dev-stand.gitlab-ci.yml
       - story.gitlab-ci.yml
       - merge-request.gitlab-ci.yml
+      - stable-stand.gitlab-ci.yml
   - local: 'release-stand.gitlab-ci.yaml'
 
 build:
@@ -43,3 +44,9 @@ cleanup:
 deploy story stand:
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^story\/.+/ && $CI_PIPELINE_SOURCE == 'web'
+
+deploy stable stand:
+  variables:
+    K8S_NAMESPACE: "$CI_PROJECT_NAME-7-28"
+    K8S_INGRESS_HOST: "n2o.i-novus.ru"
+    HELM_RELEASE: "$CI_PROJECT_NAME-7-28"
