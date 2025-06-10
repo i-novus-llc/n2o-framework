@@ -3,6 +3,7 @@ global:
   spring:
     env:
       SPRING_CLOUD_CONSUL_CONFIG_PREFIX: n2o-framework
+      SPRING_CLOUD_CONSUL_CONFIG_FORMAT: yaml
 
 springServices:
   n2o-sandbox:
