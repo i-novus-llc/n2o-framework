@@ -38,10 +38,9 @@ import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
-import net.n2oapp.framework.sandbox.client.SandboxRestClient;
-import net.n2oapp.framework.sandbox.client.model.FileModel;
-import net.n2oapp.framework.sandbox.client.model.ProjectModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
+import net.n2oapp.framework.sandbox.file_storage.FileStorage;
+import net.n2oapp.framework.sandbox.file_storage.model.FileModel;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.scanner.ProjectFileScanner;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
@@ -99,7 +98,7 @@ public class ViewController {
     private final RouteRegister projectRouteRegister;
     private final ContextEngine sandboxContext;
     private final SandboxPropertyResolver propertyResolver;
-    private final SandboxRestClient restClient;
+    private final FileStorage fileStorage;
     private final XsdSchemaParser schemaParser;
     private final ProjectTemplateHolder templatesHolder;
     private final ExternalFilesLoader externalFilesLoader;
@@ -120,7 +119,7 @@ public class ViewController {
                           RouteRegister projectRouteRegister,
                           ContextEngine sandboxContext,
                           SandboxPropertyResolver propertyResolver,
-                          SandboxRestClient restClient,
+                          FileStorage fileStorage,
                           XsdSchemaParser schemaParser,
                           ProjectTemplateHolder templatesHolder,
                           ExternalFilesLoader externalFilesLoader,
@@ -138,7 +137,7 @@ public class ViewController {
         this.projectRouteRegister = projectRouteRegister;
         this.sandboxContext = sandboxContext;
         this.propertyResolver = propertyResolver;
-        this.restClient = restClient;
+        this.fileStorage = fileStorage;
         this.schemaParser = schemaParser;
         this.templatesHolder = templatesHolder;
         this.externalFilesLoader = externalFilesLoader;
@@ -185,7 +184,7 @@ public class ViewController {
             builder = getBuilder(projectId);
             addedValues.put("menu", getMenu(builder));
 
-            AppConfigJsonWriter appConfigJsonWriter = new SandboxAppConfigJsonWriter(projectId, restClient);
+            AppConfigJsonWriter appConfigJsonWriter = new SandboxAppConfigJsonWriter(projectId, fileStorage);
             appConfigJsonWriter.setPropertyResolver(builder.getEnvironment().getSystemProperties());
             appConfigJsonWriter.setContextProcessor(builder.getEnvironment().getContextProcessor());
             appConfigJsonWriter.build();
@@ -417,7 +416,7 @@ public class ViewController {
         N2oEnvironment env = createEnvironment(projectId);
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
         applicationBuilderConfigurers.forEach(configurer -> configurer.configure(builder));
-        builder.scanners(new ProjectFileScanner(projectId, builder.getEnvironment().getSourceTypeRegister(), restClient, templatesHolder));
+        builder.scanners(new ProjectFileScanner(projectId, builder.getEnvironment().getSourceTypeRegister(), fileStorage, templatesHolder));
         return builder.scan();
     }
 
@@ -442,9 +441,9 @@ public class ViewController {
     private String getAccessFilename(String projectId, TemplateModel templateModel) {
         String format = ".access.xml";
         if (templateModel == null) {
-            ProjectModel project = restClient.getProject(projectId);
-            if (project != null && project.getFiles() != null) {
-                return getFirstFilenameByFormat(format, project.getFiles());
+            List<FileModel> projectFiles = fileStorage.getProjectFiles(projectId);
+            if (projectFiles != null) {
+                return getFirstFilenameByFormat(format, projectFiles);
             }
         } else {
             List<FileModel> files = findResources(templateModel.getTemplateId());
@@ -468,7 +467,7 @@ public class ViewController {
     private String getApplicationProperties(String projectId, TemplateModel templateModel) {
         String filename = "application.properties";
         if (templateModel == null) {
-            return restClient.getFile(projectId, filename);
+            return fileStorage.getFileContent(projectId, filename);
         } else {
             List<FileModel> files = findResources(templateModel.getTemplateId());
             Optional<FileModel> first = files.stream().filter(f -> f.getFile().equals(filename)).findFirst();

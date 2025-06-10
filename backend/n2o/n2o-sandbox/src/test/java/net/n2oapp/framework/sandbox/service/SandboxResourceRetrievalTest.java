@@ -1,7 +1,7 @@
 package net.n2oapp.framework.sandbox.service;
 
 import lombok.SneakyThrows;
-import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
+import net.n2oapp.framework.sandbox.file_storage.FileStorage;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -26,7 +27,7 @@ import static org.hamcrest.Matchers.is;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class, XsdSchemaParser.class,
-                SandboxRestClientImpl.class, ProjectTemplateHolder.class})
+                ProjectTemplateHolder.class})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 class SandboxResourceRetrievalTest {
@@ -35,6 +36,8 @@ class SandboxResourceRetrievalTest {
     private ViewController viewController;
     @Autowired
     private XsdSchemaParser schemaParser;
+    @MockBean
+    private FileStorage fileStorage;
 
     @SneakyThrows
     @Test

@@ -2,9 +2,9 @@ package net.n2oapp.framework.sandbox.loader;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.util.ExternalFilesLoader;
-import net.n2oapp.framework.sandbox.client.SandboxRestClient;
-import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
+import net.n2oapp.framework.sandbox.file_storage.FileStorage;
+import net.n2oapp.framework.sandbox.file_storage.model.FileModel;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import org.apache.commons.io.IOUtils;
@@ -24,12 +24,11 @@ import static net.n2oapp.framework.sandbox.utils.FileUtil.isTemplate;
 public class SandboxExternalFilesLoader implements ExternalFilesLoader {
 
     private ProjectTemplateHolder templatesHolder;
+    private FileStorage fileStorage;
 
-    private SandboxRestClient restClient;
-
-    public SandboxExternalFilesLoader(ProjectTemplateHolder templatesHolder, SandboxRestClient restClient) {
+    public SandboxExternalFilesLoader(ProjectTemplateHolder templatesHolder, FileStorage fileStorage) {
         this.templatesHolder = templatesHolder;
-        this.restClient = restClient;
+        this.fileStorage = fileStorage;
     }
 
     @Override
@@ -44,7 +43,7 @@ public class SandboxExternalFilesLoader implements ExternalFilesLoader {
                     return first.get().getSource();
                 throw new N2oException(String.format("File %s not found", uri));
             } else {
-                String response = restClient.getFile(projectId, uri);
+                String response = fileStorage.getFileContent(projectId, uri.substring(uri.lastIndexOf("/") + 1));
                 if (response != null)
                     return response;
             }
