@@ -5,9 +5,9 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
-import net.n2oapp.framework.sandbox.client.SandboxRestClient;
-import net.n2oapp.framework.sandbox.client.model.FileModel;
 import net.n2oapp.framework.sandbox.engine.thread_local.ThreadLocalProjectId;
+import net.n2oapp.framework.sandbox.file_storage.FileStorage;
+import net.n2oapp.framework.sandbox.file_storage.model.FileModel;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.templates.TemplateModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +35,7 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
     @Autowired
     private ProjectTemplateHolder templatesHolder;
     @Autowired
-    private SandboxRestClient restClient;
+    private FileStorage fileStorage;
 
     @Override
     protected synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
@@ -55,10 +54,7 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
         String projectId = ThreadLocalProjectId.getProjectId();
         try {
             String mapAsJson = super.getObjectMapper().writeValueAsString(getRepositoryData(filename));
-            FileModel fileModel = new FileModel();
-            fileModel.setFile(filename);
-            fileModel.setSource(mapAsJson);
-            restClient.putFiles(projectId, Collections.singletonList(fileModel));
+            fileStorage.saveFile(projectId, filename, mapAsJson);
         } catch (JsonProcessingException e) {
             throw new N2oException(e);
         }
@@ -76,7 +72,7 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
                     return new ByteArrayInputStream(first.get().getSource().getBytes());
                 throw new FileNotFoundException(invocation.getFile());
             } else {
-                String response = restClient.getFile(projectId, invocation.getFile());
+                String response = fileStorage.getFileContent(projectId, invocation.getFile());
                 if (response != null)
                     return new ByteArrayInputStream(response.getBytes());
                 throw new FileNotFoundException(invocation.getFile());

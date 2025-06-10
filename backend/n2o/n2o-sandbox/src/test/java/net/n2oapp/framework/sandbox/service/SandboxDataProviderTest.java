@@ -1,22 +1,18 @@
 package net.n2oapp.framework.sandbox.service;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.migrate.XmlIOVersionMigrator;
-import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
+import net.n2oapp.framework.sandbox.file_storage.FileStorage;
+import net.n2oapp.framework.sandbox.file_storage.model.FileModel;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.apache.catalina.util.ParameterMap;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,19 +20,18 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.util.StreamUtils;
 
-import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 /**
@@ -44,16 +39,13 @@ import static org.mockito.Mockito.when;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class,
-                SandboxRestClientImpl.class, ProjectTemplateHolder.class,
-                SandboxTestDataProviderEngine.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class},
-        properties = {"n2o.access.deny_objects=false", "n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
+                ProjectTemplateHolder.class, SandboxTestDataProviderEngine.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class},
+        properties = {"n2o.access.deny_objects=false"})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 class SandboxDataProviderTest {
 
     private static final MockHttpServletRequest request = new MockHttpServletRequest();
-    private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
-            .enableBrowserProxying(true));
 
     @Value("${n2o.sandbox.api.host}")
     private String host;
@@ -67,46 +59,15 @@ class SandboxDataProviderTest {
     @Autowired
     private ViewController viewController;
 
-
-    @BeforeAll
-    static void setUp() {
-        wireMockServer.start();
-        JvmProxyConfigurer.configureFor(wireMockServer);
-    }
-
-    @AfterAll
-    static void tearDown() {
-        wireMockServer.stop();
-        JvmProxyConfigurer.restorePrevious();
-    }
+    @MockBean
+    private FileStorage fileStorage;
 
     @SneakyThrows
     @Test
     void testGetData() {
         request.setRequestURI("/sandbox/view/myProjectId/n2o/data/_w1");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
-        wireMockServer.stubFor(get(urlMatching("/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
-                StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
-        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("[\n" +
-                "  {\n" +
-                "    \"id\": 1,\n" +
-                "    \"name\": \"test1\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 2,\n" +
-                "    \"name\": \"test2\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 3,\n" +
-                "    \"name\": \"test3\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 4,\n" +
-                "    \"name\": \"test4\"\n" +
-                "  }\n" +
-                "]")));
+        mockFileStorage();
 
         ResponseEntity<GetDataResponse> response = viewController.getData("myProjectId", request);
         assertThat(response.getStatusCode().value(), is(200));
@@ -122,34 +83,41 @@ class SandboxDataProviderTest {
 
     }
 
+    private void mockFileStorage() {
+        List<FileModel> fileModels = new ArrayList<>();
+        FileModel fileModel = new FileModel();
+        fileModel.setFile("index.page.xml");
+        fileModel.setSource("<?xml version='1.0' encoding='UTF-8'?>\r\n<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\"\r\n             name=\"CRUD Операции\">\r\n    <table query-id=\"test\" auto-focus=\"true\">\r\n        <columns>\r\n            <column text-field-id=\"id\"/>\r\n            <column text-field-id=\"name\"/>\r\n        </columns>\r\n        <toolbar generate=\"crud\"/>\r\n    </table>\r\n</simple-page>\r\n");
+        fileModels.add(fileModel);
+        FileModel testJson = new FileModel();
+        testJson.setFile("test.json");
+        testJson.setSource("[\r\n  {\r\n    \"id\": 1,\r\n    \"name\": \"test1\"\r\n  },\r\n  {\r\n    \"id\": 2,\r\n    \"name\": \"test2\"\r\n  },\r\n  {\r\n    \"id\": 3,\r\n    \"name\": \"test3\"\r\n  },\r\n  {\r\n    \"id\": 4,\r\n    \"name\": \"test4\"\r\n  }\r\n]\r\n");
+        fileModels.add(testJson);
+        FileModel testObject = new FileModel();
+        testObject.setFile("test.object.xml");
+        testObject.setSource("<?xml version='1.0' encoding='UTF-8'?>\r\n<object xmlns=\"http://n2oapp.net/framework/config/schema/object-4.0\">\r\n    <operations>\r\n        <operation id=\"create\">\r\n            <invocation>\r\n                <test file=\"test.json\" operation=\"create\"/>\r\n            </invocation>\r\n            <in>\r\n                <field id=\"name\"/>\r\n            </in>\r\n            <out>\r\n                <field id=\"id\"/>\r\n            </out>\r\n        </operation>\r\n\r\n        <operation id=\"update\">\r\n            <invocation>\r\n                <test file=\"test.json\" operation=\"update\"/>\r\n            </invocation>\r\n            <in>\r\n                <field id=\"id\"/>\r\n                <field id=\"name\"/>\r\n            </in>\r\n        </operation>\r\n\r\n        <operation id=\"delete\">\r\n            <invocation>\r\n                <test file=\"test.json\" operation=\"delete\"/>\r\n            </invocation>\r\n            <in>\r\n                <field id=\"id\"/>\r\n            </in>\r\n        </operation>\r\n    </operations>\r\n</object>\r\n");
+        fileModels.add(testObject);
+        FileModel testPage = new FileModel();
+        testPage.setFile("test.page.xml");
+        testPage.setSource("<?xml version='1.0' encoding='UTF-8'?>\r\n<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\">\r\n    <form query-id=\"test\">\r\n        <fields>\r\n            <input-text id=\"name\"/>\r\n        </fields>\r\n    </form>\r\n</simple-page>\r\n");
+        fileModels.add(testPage);
+        FileModel testQuery = new FileModel();
+        testQuery.setFile("test.query.xml");
+        testQuery.setSource("<?xml version='1.0' encoding='UTF-8'?>\r\n<query xmlns=\"http://n2oapp.net/framework/config/schema/query-4.0\"\r\n       object-id=\"test\">\r\n    <list>\r\n        <test file=\"test.json\" operation=\"findAll\"/>\r\n    </list>\r\n\r\n    <fields>\r\n        <field id=\"id\" domain=\"integer\">\r\n            <select/>\r\n            <filters>\r\n                <eq filter-id=\"id\"/>\r\n            </filters>\r\n        </field>\r\n        <field id=\"name\">\r\n            <select/>\r\n        </field>\r\n    </fields>\r\n</query>\r\n");
+        fileModels.add(testQuery);
+        String myProjectId = "myProjectId";
+        doReturn(fileModels).when(fileStorage).getProjectFiles(myProjectId);
+        doReturn("").when(fileStorage).getFileContent(myProjectId, "application.properties");
+        doReturn("").when(fileStorage).getFileContent(myProjectId, "user.properties");
+        doReturn("[\r\n  {\r\n    \"id\": 1,\r\n    \"name\": \"test1\"\r\n  },\r\n  {\r\n    \"id\": 2,\r\n    \"name\": \"test2\"\r\n  },\r\n  {\r\n    \"id\": 3,\r\n    \"name\": \"test3\"\r\n  },\r\n  {\r\n    \"id\": 4,\r\n    \"name\": \"test4\"\r\n  }\r\n]\r\n").when(fileStorage).getFileContent(myProjectId, "test.json");
+    }
+
     @SneakyThrows
     @Test
     void testSetData() {
         request.setRequestURI("/sandbox/view/myProjectId/n2o/data/w1/3/update/multi1");
         request.setParameters(new ParameterMap<>(Map.of("page", new String[]{"1"}, "size", new String[]{"10"})));
-        wireMockServer.stubFor(get("/project/myProjectId").willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
-                StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
-        wireMockServer.stubFor(put("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withStatus(200)));
-        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/project/myProjectId/test.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("[\n" +
-                "  {\n" +
-                "    \"id\": 1,\n" +
-                "    \"name\": \"test1\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 2,\n" +
-                "    \"name\": \"test2\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 3,\n" +
-                "    \"name\": \"test3\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 4,\n" +
-                "    \"name\": \"test4\"\n" +
-                "  }\n" +
-                "]")));
+        mockFileStorage();
 
         ResponseEntity<SetDataResponse> response = viewController.setData("myProjectId",
                 new LinkedHashMap<>(Map.of("name", "name3", "id", 3)), request);
