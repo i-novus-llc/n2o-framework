@@ -47,6 +47,6 @@ deploy story stand:
 
 deploy stable stand:
   variables:
-    K8S_NAMESPACE: "$CI_PROJECT_NAME-7-28"
-    K8S_INGRESS_HOST: "n2o.i-novus.ru"
-    HELM_RELEASE: "$CI_PROJECT_NAME-7-28"
+    K8S_NAMESPACE: "$CI_PROJECT_NAME-7-27"
+    K8S_INGRESS_HOST: "7-27-n2o.i-novus.ru"
+    HELM_RELEASE: "$CI_PROJECT_NAME-7-27"
