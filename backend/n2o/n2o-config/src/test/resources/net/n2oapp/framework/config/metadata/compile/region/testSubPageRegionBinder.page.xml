@@ -8,5 +8,10 @@
         <sub-page>
             <page page-id="page1" route="/route1"/>
         </sub-page>
+        <region>
+            <sub-page>
+                <page page-id="page1" route="/route1"/>
+            </sub-page>
+        </region>
     </regions>
 </page>
