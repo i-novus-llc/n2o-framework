@@ -18,6 +18,11 @@ public class N2oRegionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new CustomRegionCompiler(),
                 new ScrollspyRegionCompiler(),
                 new SubPageRegionCompiler());
-        b.binders(new SubPageRegionBinder());
+        b.binders(new CustomRegionBinder(),
+                new LineRegionBinder(),
+                new PanelRegionBinder(),
+                new ScrollspyRegionBinder(),
+                new TabsRegionBinder(),
+                new SubPageRegionBinder());
     }
 }
