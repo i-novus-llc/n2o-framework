@@ -12,6 +12,7 @@
     <artifactId>demo</artifactId>
     <packaging>pom</packaging>
     <version>7.28.12-SNAPSHOT</version>
+    <name>demo</name>
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>

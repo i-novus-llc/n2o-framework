@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>frontend</artifactId>
+    <name>frontend</name>
     <packaging>jar</packaging>
 
     <properties>

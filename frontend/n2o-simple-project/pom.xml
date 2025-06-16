@@ -6,6 +6,7 @@
     <artifactId>n2o-web</artifactId>
     <version>7.28.12-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <name>n2o-web</name>
 
     <parent>
         <groupId>net.n2oapp.framework</groupId>
