@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>sandbox</artifactId>
+    <name>sandbox</name>
     <packaging>pom</packaging>
     <version>7.27.34-SNAPSHOT</version>
 

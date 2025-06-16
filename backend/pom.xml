@@ -9,6 +9,7 @@
     </parent>
 
     <artifactId>backend</artifactId>
+    <name>backend</name>
     <packaging>pom</packaging>
 
     <dependencyManagement>

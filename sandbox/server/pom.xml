@@ -5,6 +5,7 @@
     <artifactId>sandbox-server</artifactId>
     <version>7.27.34-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <name>sandbox-server</name>
 
     <parent>
         <groupId>net.n2oapp.framework</groupId>
