@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.register.storage;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import net.n2oapp.framework.api.exception.N2oException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
