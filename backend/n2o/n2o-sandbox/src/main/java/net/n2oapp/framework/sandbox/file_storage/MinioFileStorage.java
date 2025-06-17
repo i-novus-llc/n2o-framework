@@ -1,7 +1,8 @@
 package net.n2oapp.framework.sandbox.file_storage;
 
 import io.minio.*;
-import io.minio.errors.*;
+import io.minio.errors.ErrorResponseException;
+import io.minio.errors.MinioException;
 import io.minio.messages.Item;
 import net.n2oapp.framework.sandbox.file_storage.model.FileModel;
 import org.apache.commons.io.IOUtils;
@@ -17,9 +18,8 @@ import java.util.List;
 
 public class MinioFileStorage implements FileStorage {
 
-    private String bucketName;
-
-    private MinioClient minioClient;
+    private final String bucketName;
+    private final MinioClient minioClient;
 
     public MinioFileStorage(String minioUrl, String accessKey, String secretKey, String bucketName) {
         this.bucketName = bucketName;
@@ -33,7 +33,7 @@ public class MinioFileStorage implements FileStorage {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             }
         } catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -49,7 +49,7 @@ public class MinioFileStorage implements FileStorage {
                             .build()
             );
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -66,7 +66,7 @@ public class MinioFileStorage implements FileStorage {
                 return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
             }
         } catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -87,7 +87,7 @@ public class MinioFileStorage implements FileStorage {
                 files.add(fileModel);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
         return files;
     }
@@ -107,7 +107,7 @@ public class MinioFileStorage implements FileStorage {
         } catch (ErrorResponseException e) {
             return false;
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new IllegalStateException(e.getMessage());
         }
     }
 }

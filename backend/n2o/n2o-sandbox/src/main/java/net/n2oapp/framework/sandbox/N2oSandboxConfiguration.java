@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.boot.*;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.file_storage.FileStorage;
+import net.n2oapp.framework.sandbox.file_storage.FileStorageOnDisk;
 import net.n2oapp.framework.sandbox.file_storage.MinioFileStorage;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -51,13 +53,13 @@ import java.util.Map;
 @ComponentScan(basePackages = {"net.n2oapp.framework.sandbox", "net.n2oapp.framework.autotest.cases"})
 public class N2oSandboxConfiguration {
 
-    @Value("${minio.url}")
+    @Value("${minio.url:#{null}}")
     private String minioUrl;
-    @Value("${minio.access-key}")
+    @Value("${minio.access-key:#{null}}")
     private String accessKey;
-    @Value("${minio.secret-key}")
+    @Value("${minio.secret-key:#{null}}")
     private String secretKey;
-    @Value("${minio.bucket-name}")
+    @Value("${minio.bucket-name:#{null}}")
     private String bucketName;
 
     @Bean
@@ -125,8 +127,15 @@ public class N2oSandboxConfiguration {
     }
 
     @Bean
+    @ConditionalOnProperty(name = "minio.url")
     public FileStorage fileStorage() {
         return new MinioFileStorage(minioUrl, accessKey, secretKey, bucketName);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public FileStorage fileStorageOnDisk() {
+        return new FileStorageOnDisk();
     }
 
     @Bean
