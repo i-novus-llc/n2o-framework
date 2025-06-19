@@ -1,6 +1,6 @@
 import { Action } from 'redux'
 import { take, race, delay, put } from 'redux-saga/effects'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
 import {
     failOperation,

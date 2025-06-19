@@ -1,4 +1,5 @@
-import { intersection, isEmpty } from 'lodash'
+import intersection from 'lodash/intersection'
+import isEmpty from 'lodash/isEmpty'
 
 import { SecurityConfig, UserConfig } from './types'
 

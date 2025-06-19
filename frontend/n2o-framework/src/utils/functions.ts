@@ -1,4 +1,5 @@
 import moment from 'moment/moment'
+// eslint-disable-next-line no-restricted-imports
 import _ from 'lodash'
 import numeral from 'numeral'
 

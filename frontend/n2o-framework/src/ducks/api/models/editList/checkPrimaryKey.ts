@@ -1,4 +1,4 @@
-import { isNil } from 'lodash'
+import isNil from 'lodash/isNil'
 
 import { HAVE_NOT_PRIMARY_KEY } from '../const'
 

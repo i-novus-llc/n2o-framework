@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { isEmpty, omit } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import omit from 'lodash/omit'
 import merge from 'deepmerge'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'

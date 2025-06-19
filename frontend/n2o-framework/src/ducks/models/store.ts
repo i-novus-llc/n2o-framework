@@ -1,10 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {
-    merge,
-    omit,
-    set,
-    get,
-} from 'lodash'
+import merge from 'lodash/merge'
+import omit from 'lodash/omit'
+import set from 'lodash/set'
+import get from 'lodash/get'
 
 import { ModelPrefix } from '../../core/datasource/const'
 import { id } from '../../utils/id'

@@ -19,7 +19,18 @@
         "react/default-props-match-prop-types": "off",
         "class-methods-use-this": "off",
         "react/no-unused-class-component-methods": "off",
-        "sonarjs/no-nested-template-literals": "off"
+        "sonarjs/no-nested-template-literals": "off",
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "lodash",
+                "message": "Use individual imports like 'lodash/get' instead"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

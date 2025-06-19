@@ -1,5 +1,7 @@
 import { put, select } from 'redux-saga/effects'
-import { get, cloneDeep, set } from 'lodash'
+import get from 'lodash/get'
+import cloneDeep from 'lodash/cloneDeep'
+import set from 'lodash/set'
 
 import { dataSourceByIdSelector } from '../selectors'
 import type { QueryOptions, InheritedProvider, InheritedSubmit } from '../Provider'

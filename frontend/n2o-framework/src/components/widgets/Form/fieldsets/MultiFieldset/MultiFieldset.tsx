@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { Button } from 'reactstrap'
-import { isEmpty, isNil } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import isNil from 'lodash/isNil'
 import { HelpPopover } from '@i-novus/n2o-components/lib/display/HelpPopover'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 

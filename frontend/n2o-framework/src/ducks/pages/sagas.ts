@@ -13,7 +13,8 @@ import {
 import isEmpty from 'lodash/isEmpty'
 import { getLocation } from 'connected-react-router'
 import queryString from 'query-string'
-import { get, isEqual } from 'lodash'
+import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 
 import { destroyOverlay } from '../overlays/store'
 import { FETCH_PAGE_METADATA } from '../../core/api'

@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
 import propsResolver from '../../utils/propsResolver'
 import { libAsterisk } from '../Menu/helpers'

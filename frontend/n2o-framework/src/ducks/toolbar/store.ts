@@ -1,6 +1,6 @@
 import React from 'react'
 import { createAction, createSlice } from '@reduxjs/toolkit'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
 import { RESET_STATE } from '../widgets/constants'
 

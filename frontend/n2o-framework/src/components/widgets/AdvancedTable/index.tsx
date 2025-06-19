@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { defaultTo } from 'lodash'
+import defaultTo from 'lodash/defaultTo'
 import { useSelector } from 'react-redux'
 import { createContext, useContext as useContextSelector } from 'use-context-selector'
 import isEmpty from 'lodash/isEmpty'

@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
-import { get, isEmpty } from 'lodash'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import { select } from 'redux-saga/effects'
 
 import { Action, ErrorAction, Meta } from '../../Action'
