@@ -3,8 +3,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { config as dotenv } from 'dotenv'
 import viteSvgr from 'vite-plugin-svgr'
+import path from 'path'
+
 
 import { proxy } from './setupProxy'
+import { CHUNK_PREFIX, VENDORS, getPackageName } from "./vendors";
 
 export default defineConfig(({ mode }) => {
     const { parsed = {} } = dotenv();
@@ -14,6 +17,8 @@ export default defineConfig(({ mode }) => {
         base: process.env.PUBLIC_URL,
         publicDir: './public',
         build: {
+            cssCodeSplit: true,
+            chunkSizeWarningLimit: 1000,
             sourcemap: true,
             outDir: 'build',
             emptyOutDir: true,
@@ -24,10 +29,30 @@ export default defineConfig(({ mode }) => {
                 },
                 output: {
                     dir: 'build',
-                    entryFileNames: isProduction ? 'index-[hash].js' : 'index.js'
-                    // disable chunk splitting
-                    // manualChunks: () => 'index.tsx',
-                },
+                    entryFileNames: isProduction ? 'index-[hash].js' : 'index.js',
+                    chunkFileNames: 'assets/[name]-[hash].js',
+                    assetFileNames: 'assets/[name]-[hash][extname]',
+                    manualChunks: (id, meta) => {
+                        if (id.includes('node_modules')) {
+                            const packageName = getPackageName(id);
+
+                            // Поиск пакета в группах
+                            for (const [vendorName, packages] of Object.entries(VENDORS)) {
+                                if (packages.includes(packageName)) return `${CHUNK_PREFIX}${vendorName}`;
+                            }
+
+                            // Специальные случаи (объединения пакетов)
+                            if (packageName.includes('sockjs')) return `${CHUNK_PREFIX}sockjs`;
+                            if (packageName.includes('babel')) return `${CHUNK_PREFIX}babel`;
+                            if (packageName.includes('d3')) return `${CHUNK_PREFIX}d3`;
+
+                            // Все остальное
+                            return 'vendor-misc';
+                        }
+
+                        if (id.includes('n2o-framework/lib/')) return `${CHUNK_PREFIX}n2o-framework`;
+                        if (id.includes('n2o-components/lib/')) return `${CHUNK_PREFIX}n2o-components`;
+                    }},
             },
             // transpile all dependencies to es modules as vite can't handle commonjs module types
             commonjsOptions: {
@@ -60,9 +85,35 @@ export default defineConfig(({ mode }) => {
         ],
         resolve: {
             // resolve tilde syntax import from node_modules
-            alias: [{ find: /^~(.*)$/, replacement: '$1' }],
+            alias: [
+                { find: /^~(.*)$/, replacement: '$1' },
+                // Фикс для stompjs
+                {
+                    find: 'stompjs',
+                    replacement: 'stompjs/lib/stomp.js',
+                },
+            ],
         },
         optimizeDeps: {
+            include: [
+                'moment/locale/ru',
+                'moment/min/moment.min.js',
+                'lodash-es/debounce',
+                'lodash-es/isEqual',
+                'lodash-es/isEmpty',
+                'lodash-es/get',
+                'lodash-es/set',
+                'lodash-es/map',
+                'lodash-es/reduce',
+                'lodash-es/isNil',
+                'lodash-es/merge'
+            ],
+            exclude: [
+                'moment-timzone',
+                'enzyme',
+                'jest',
+                '@testing-library'
+            ],
             esbuildOptions: {
                 // some libraries are not browser friendly and require node.js workspace
                 define: {
@@ -108,7 +159,6 @@ function htmlPlugin(env: Record<string, string>) {
 /* Фикс бага импорта в react-virtualized на котором падает vite */
 import type { Plugin } from "vite";
 import fs from "fs";
-import path from "path";
 
 const WRONG_CODE = `import { bpfrpt_proptype_WindowScroller } from "../WindowScroller.js";`;
 export function reactVirtualized(): Plugin {

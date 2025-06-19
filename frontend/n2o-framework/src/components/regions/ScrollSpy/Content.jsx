@@ -1,5 +1,5 @@
 import React, { useRef, useImperativeHandle, forwardRef, useCallback, useEffect } from 'react'
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 
 import { usePrevious } from '../../../utils/usePrevious'
 

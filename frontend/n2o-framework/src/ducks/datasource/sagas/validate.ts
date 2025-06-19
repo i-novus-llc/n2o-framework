@@ -1,5 +1,7 @@
 import { delay, fork, put, select } from 'redux-saga/effects'
-import { isEmpty, isEqual, pick } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import pick from 'lodash/pick'
 import { Task } from 'redux-saga'
 
 import {

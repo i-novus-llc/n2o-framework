@@ -1,5 +1,5 @@
 import { debounce, put, select, takeEvery } from 'redux-saga/effects'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
 import {
     AppendFieldToArrayAction,

@@ -1,5 +1,5 @@
 import { select, put } from 'redux-saga/effects'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
 import { dataSourceByIdSelector } from '../selectors'
 import type { SubmitProvider } from '../Provider'

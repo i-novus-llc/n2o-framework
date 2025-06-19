@@ -1,5 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
-import { cloneDeep, get, set } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
+import get from 'lodash/get'
+import set from 'lodash/set'
 import { put, select } from 'redux-saga/effects'
 
 import { getModelByPrefixAndNameSelector } from '../../models/selectors'

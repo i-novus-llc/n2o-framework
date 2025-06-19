@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 
 import { FOUND_MANY_MESSAGE, NOT_FOUND_MESSAGE } from '../const'
 
