@@ -51,13 +51,14 @@ export function MarkdownField({
     if (!visible || typeof resolvedMarkdown !== 'string') { return null }
 
     return (
-        <ReactMarkdown
-            components={components}
-            rehypePlugins={[rehypeRaw]}
-            remarkPlugins={[remarkGfm]}
-            className={classNames('n2o-markdown-field n2o-snippet', className)}
-        >
-            {resolvedMarkdown}
-        </ReactMarkdown>
+        <section className={classNames('n2o-markdown-field n2o-snippet', className)}>
+            <ReactMarkdown
+                components={components}
+                rehypePlugins={[rehypeRaw]}
+                remarkPlugins={[remarkGfm]}
+            >
+                {resolvedMarkdown}
+            </ReactMarkdown>
+        </section>
     )
 }
