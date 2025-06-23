@@ -30,7 +30,7 @@ public class ProjectSearcher {
     private static final int PROJECT_LIMIT = 30;
     private static final int PROJECT_MATCHES_LIMIT = 10;
 
-    @Value("${n2o.sandbox.projectSearchFolders:/examples,/data,/access,/routing,/cases,/uxcomponents,/uxcases}")
+    @Value("${n2o.sandbox.project-search-folders:/examples,/data,/access,/routing,/cases,/uxcomponents,/uxcases}")
     private List<String> projectFolders;
 
     @Autowired
