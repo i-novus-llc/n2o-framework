@@ -45,11 +45,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)?$/,
-                include: [sourceDir],
-                use: ['babel-loader'],
-            },
-            {
                 test: /\.scss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
