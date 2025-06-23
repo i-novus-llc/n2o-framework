@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.is;
 
 @SpringBootTest(
         classes = {ProjectSearcher.class},
-        properties = {"n2o.sandbox.projectSearchFolders:/test_examples"})
+        properties = {"n2o.sandbox.project-search-folders:/test_examples"})
 class ProjectSearcherTest {
 
     @Autowired
