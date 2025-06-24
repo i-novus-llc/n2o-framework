@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class ProjectTemplateHolder {
 
-    @Value("${n2o.sandbox.templateCategories:/menu/examples.json,/menu/uxcomponents.json,/menu/interactions.json,/menu/uxcases.json,/menu/versions.json,/menu/applications.json}")
+    @Value("${n2o.sandbox.template-categories:/menu/examples.json,/menu/uxcomponents.json,/menu/interactions.json,/menu/uxcases.json,/menu/versions.json,/menu/applications.json}")
     private List<String> templateCategories;
 
     private List<CategoryModel> categoryModels = null;
