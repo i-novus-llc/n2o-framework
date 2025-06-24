@@ -16,8 +16,9 @@ springServices:
         cpu: 500m
     env:
       N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
-      SPRING_PROFILES_ACTIVE: test
       SPRING_CONFIG_IMPORT: "consul:"
+      N2O_SANDBOX_TEMPLATE_CATEGORIES: "/menu/tests.json"
+      N2O_SANDBOX_PROJECT_SEARCH_FOLDERS: "/autotest"
     replicaCount: 1
     contextPath: tests
     ingress:
