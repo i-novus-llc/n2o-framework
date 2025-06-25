@@ -65,7 +65,13 @@ public class ConditionValidation extends Validation {
             if (!(boolean) ScriptProcessor.eval(getExpression(), copiedDataSet))
                 callback.onFail(StringUtils.resolveLinks(getMessage(), copiedDataSet));
         } catch (ScriptException e) {
-            throw new IllegalStateException(e);
+            if (e.getLocalizedMessage().contains("ReferenceError:") && e.getLocalizedMessage().contains("is not defined in <eval>")) {
+                String message = e.getLocalizedMessage().split("\"")[1];
+                throw new RuntimeException(String.format(
+                        "Ошибка серверной валидации. Поле \"%s\"  используется в выражении, но при этом отсутствует в атрибуте 'on' \"<condition>\" валидации.",
+                        message));
+            } else
+                throw new IllegalStateException(e);
         }
     }
 
