@@ -10,5 +10,5 @@ dependencies:
     alias: springServices
   - name: generic-app-template
     version: 1.2.2
-    repository: oci://images.digitalms.ru/inovus/base/egisz-helm/helm/n2o
+    repository: oci://harbor.i-novus.ru/library/helm/n2o
     alias: supportingServices
