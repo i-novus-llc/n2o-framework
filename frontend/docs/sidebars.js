@@ -50,6 +50,7 @@ module.exports = {
                 'guides/xml/accesspoint',
                 'guides/xml/processing',
                 'guides/xml/base',
+                'guides/xml/index',
             ],
         },
         {
