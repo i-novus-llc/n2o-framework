@@ -14,7 +14,20 @@ export interface ItemContent extends Item {
     isMiniView: boolean
 }
 
-export function LinkBody({ icon, title, src, sidebarOpen, imageSrc, imageShape, badge, isStaticView, showContent, isMiniView }: ItemContent) {
+export function LinkBody({
+    icon,
+    title,
+    src,
+    sidebarOpen,
+    imageSrc,
+    imageShape,
+    badge,
+    isStaticView,
+    showContent,
+    isMiniView,
+    className,
+    style,
+}: ItemContent) {
     const currentTitle = getCurrentTitle(isMiniView, icon, title, imageSrc)
 
     return (
@@ -24,9 +37,12 @@ export function LinkBody({ icon, title, src, sidebarOpen, imageSrc, imageShape, 
             <Badge {...badge}>
                 {needRender(currentTitle) && (
                     <span
-                        className={
-                            classNames('n2o-sidebar__item-title', { visible: isStaticView ? true : showContent })
-                        }
+                        style={style}
+                        className={classNames(
+                            'n2o-sidebar__item-title',
+                            className,
+                            { visible: isStaticView ? true : showContent },
+                        )}
                     >
                         <Text>{currentTitle}</Text>
                     </span>

@@ -37,7 +37,7 @@ export function NavItemContainer({
     level = 1,
 }: SidebarItemContainer) {
     const item = getFromSource(itemProps, datasources, models, datasource)
-    const { src } = item
+    const { src, className: itemClassName, style } = item
 
     const { getComponent } = useContext(FactoryContext)
     const FactoryComponent: FactoryComponent = getComponent(src, FactoryLevels.SIDEBAR_ITEM)
@@ -61,7 +61,8 @@ export function NavItemContainer({
             <FactoryComponent
                 from="SIDEBAR"
                 item={item}
-                className="n2o-sidebar__item"
+                className={classNames('n2o-sidebar__item', itemClassName)}
+                style={style}
                 activeId={activeId}
                 sidebarOpen={sidebarOpen}
                 showContent={showContent}
