@@ -14,15 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Класс хранения файлов в Yandex S3 хранилище
+ * Класс хранения файлов в S3 хранилище
  */
-public class S3YandexFileStorage implements FileStorage {
+public class S3FileStorage implements FileStorage {
     private final String bucketName;
     private final S3Client s3Client;
 
-    public S3YandexFileStorage(S3Client s3yandexClient, String bucketName) {
+    public S3FileStorage(S3Client s3Client, String bucketName) {
         this.bucketName = bucketName;
-        this.s3Client = s3yandexClient;
+        this.s3Client = s3Client;
         createBucketIfNotExists();
     }
 

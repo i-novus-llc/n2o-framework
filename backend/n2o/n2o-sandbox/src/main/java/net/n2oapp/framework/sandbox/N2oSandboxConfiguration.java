@@ -11,7 +11,7 @@ import net.n2oapp.framework.boot.*;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.file_storage.FileStorage;
 import net.n2oapp.framework.sandbox.file_storage.FileStorageOnDisk;
-import net.n2oapp.framework.sandbox.file_storage.S3YandexFileStorage;
+import net.n2oapp.framework.sandbox.file_storage.S3FileStorage;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
@@ -58,13 +58,13 @@ import java.util.Map;
 @ComponentScan(basePackages = {"net.n2oapp.framework.sandbox", "net.n2oapp.framework.autotest.cases"})
 public class N2oSandboxConfiguration {
 
-    @Value("${yandex.s3.access-key:#{null}}")
+    @Value("${s3.access-key:#{null}}")
     private String accessKey;
-    @Value("${yandex.s3.secret-key:#{null}}")
+    @Value("${s3.secret-key:#{null}}")
     private String secretKey;
-    @Value("${yandex.s3.url:#{null}}")
+    @Value("${s3.url:#{null}}")
     private String endpoint;
-    @Value("${yandex.s3.bucket:#{null}}")
+    @Value("${s3.bucket:#{null}}")
     private String bucket;
 
     @Bean
@@ -132,14 +132,14 @@ public class N2oSandboxConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "yandex.s3.url")
-    public FileStorage s3YandexFileStorage(S3Client s3YandexClient) {
-        return new S3YandexFileStorage(s3YandexClient, bucket);
+    @ConditionalOnProperty(name = "s3.url")
+    public FileStorage s3FileStorage(S3Client s3Client) {
+        return new S3FileStorage(s3Client, bucket);
     }
 
     @Bean
-    @ConditionalOnProperty(name = "yandex.s3.url")
-    public S3Client s3YandexClient() {
+    @ConditionalOnProperty(name = "s3.url")
+    public S3Client s3Client() {
         return S3Client.builder()
                 .endpointOverride(URI.create(endpoint))
                 .region(Region.of("Stub"))
