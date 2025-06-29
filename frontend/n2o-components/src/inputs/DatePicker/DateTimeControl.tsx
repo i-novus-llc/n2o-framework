@@ -423,7 +423,8 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                                 <DateInputGroup
                                     setControlRef={this.setControlRef}
                                     ref={this.setInputRef(ref as RefHandler)}
-                                    dateFormat={this.format}
+                                    dateFormat={this.props.dateFormat}
+                                    timeFormat={this.props.timeFormat}
                                     disabled={disabled}
                                     placeholder={placeholder}
                                     value={inputs}

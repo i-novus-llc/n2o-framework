@@ -57,11 +57,11 @@ class MaskedInputAT extends AutoTestBase {
         MaskedInput maskedInputWithoutClear = getFields().field("MaskedInputWithoutClear").control(MaskedInput.class);
         maskedInputWithoutClear.shouldBeEnabled();
         maskedInput.setValue("123");
-        maskedInputWithoutClear.setValue("783");
+        maskedInputWithoutClear.setValue("983");
         maskedInput.shouldHaveValue("");
         //вводим значение в первое поле, чтобы покинуть второе
         maskedInput.setValue("123");
-        maskedInputWithoutClear.shouldHaveValue("+7 (783)");
+        maskedInputWithoutClear.shouldHaveValue("+7 (983");
     }
 
     private Fields getFields() {

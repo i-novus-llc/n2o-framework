@@ -4,30 +4,29 @@ import isNull from 'lodash/isNull'
 
 import { InputNumber } from '../InputNumber'
 import { TBaseInputProps, TBaseProps } from '../../types'
-import { InputMode, TInputNumberValue } from '../InputNumber/types'
-import { NOOP_FUNCTION } from '../../utils/emptyTypes'
+import { EMPTY_OBJECT, NOOP_FUNCTION } from '../../utils/emptyTypes'
 
 import { NumberPickerButton } from './NumberPickerButton'
-import { parseValue } from './utils'
+import { parseValue, type Value } from './utils'
 
 import '../../styles/controls/NumberPicker.scss'
 
-type NumberPickerProps = TBaseProps & TBaseInputProps<TInputNumberValue> & {
+type NumberPickerProps = TBaseProps & TBaseInputProps<Value> & {
     max?: number
     min?: number
     onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void,
     step?: number,
-    value: TInputNumberValue
+    value: Value
 }
 
 export const NumberPicker = ({
+    className,
+    style = EMPTY_OBJECT,
     visible = true,
     value = null,
     max = 100,
     min = 0,
     step = 1,
-    className,
-    style,
     disabled = false,
     onChange = NOOP_FUNCTION,
     onKeyDown = NOOP_FUNCTION,
@@ -79,11 +78,10 @@ export const NumberPicker = ({
                     step={step}
                     onChange={onChange}
                     onKeyDown={onKeyDown}
-                    showButtons={false}
+                    controlButtons={false}
                     disabled={disabled}
                     onBlur={onBlur}
                     onFocus={() => setFocus(true)}
-                    mode={InputMode.PICKER}
                 />
                 <NumberPickerButton
                     disabled={isIncreaseBtnDisabled}

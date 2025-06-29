@@ -119,13 +119,13 @@ class DateIntervalAT extends AutoTestBase {
         dateInterval.shouldBeOpened();
         // проверка, что значения, выходящие за границы min/max, не вводятся
         dateInterval.setValueInBegin("09.02.2020");
-        dateInterval.beginShouldBeEmpty();
+        dateInterval.beginShouldHaveValue("10.02.2020");
         dateInterval.setValueInBegin("21.02.2020");
-        dateInterval.beginShouldBeEmpty();
+        dateInterval.beginShouldHaveValue("20.02.2020");
         dateInterval.setValueInEnd("09.02.2020");
-        dateInterval.endShouldBeEmpty();
+        dateInterval.endShouldHaveValue("10.02.2020");
         dateInterval.setValueInEnd("21.02.2020");
-        dateInterval.endShouldBeEmpty();
+        dateInterval.endShouldHaveValue("20.02.2020");
         dateInterval.setValueInBegin("10.02.2020");
         dateInterval.beginShouldHaveValue("10.02.2020");
         dateInterval.setValueInEnd("20.02.2020");
