@@ -82,11 +82,11 @@ class InputTextAT extends AutoTestBase {
         input.click();
         input.setValue("99");
         input.clickPlusStepButton();
-        input.shouldHaveValue("99");
+        input.shouldHaveValue("100");
         input.click();
         input.setValue("-99");
         input.clickMinusStepButton();
-        input.shouldHaveValue("-99");
+        input.shouldHaveValue("-100");
         // проверка меры измерения
         input.shouldHaveMeasure();
         input.shouldHaveMeasureText("cm");
@@ -115,11 +115,11 @@ class InputTextAT extends AutoTestBase {
         input.click();
         input.setValue("9.9");
         input.clickPlusStepButton();
-        input.shouldHaveValue("9.9");
+        input.shouldHaveValue("10");
         input.click();
         input.setValue("-9.9");
         input.clickMinusStepButton();
-        input.shouldHaveValue("-9.9");
+        input.shouldHaveValue("-10");
     }
 
     @Test

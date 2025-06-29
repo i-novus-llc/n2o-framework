@@ -78,9 +78,9 @@ class DatePickerAT extends AutoTestBase {
         date.shouldHaveCurrentMonth("Январь");
         // проверка, что значения, выходящие за границы min/max, не вводятся
         date.setValue("05.02.2021");
-        date.shouldHaveValue("12.02.2020");
+        date.shouldHaveValue("20.02.2020");
         date.setValue("25.02.2020");
-        date.shouldHaveValue("12.02.2020");
+        date.shouldHaveValue("20.02.2020");
     }
 
     @Test

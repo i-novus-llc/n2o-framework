@@ -2,26 +2,27 @@ import React, { forwardRef } from 'react'
 
 import { NOOP_FUNCTION } from '../../utils/emptyTypes'
 
-import { DateInput } from './DateInput'
+import { DateMask } from './DateMask/DateMask'
 import { type DateInputGroupProps } from './types'
 
 export const DateInputGroup = forwardRef<HTMLDivElement, DateInputGroupProps>(({
     dateFormat,
+    timeFormat,
     disabled,
     placeholder,
     value,
     inputClassName,
     onInputChange,
     setVisibility,
+    setControlRef,
+    outputFormat,
+    max,
+    min,
     onFocus = NOOP_FUNCTION,
     onBlur = NOOP_FUNCTION,
     onKeyDown = NOOP_FUNCTION,
     autoFocus = false,
     openOnFocus = false,
-    setControlRef,
-    outputFormat,
-    max,
-    min,
 }, ref) => {
     const componentStyle = { display: 'flex', flexGrow: 1 }
     const wrapperStyle = {
@@ -34,10 +35,11 @@ export const DateInputGroup = forwardRef<HTMLDivElement, DateInputGroupProps>(({
         <div ref={ref} style={wrapperStyle}>
             <div style={componentStyle}>
                 {Object.keys(value).map((input, i) => (
-                    <DateInput
+                    <DateMask
                         /* eslint-disable-next-line react/no-array-index-key */
                         key={i}
                         dateFormat={dateFormat}
+                        timeFormat={timeFormat}
                         placeholder={placeholder}
                         name={input}
                         disabled={disabled}

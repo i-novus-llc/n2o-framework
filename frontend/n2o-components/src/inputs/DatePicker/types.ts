@@ -1,11 +1,8 @@
 import { FocusEventHandler, KeyboardEvent, MouseEventHandler, Component, ReactNode } from 'react'
 import { Dayjs } from 'dayjs'
 import { PopperProps } from 'react-popper'
-import { MaskedInputProps } from 'react-text-mask'
 
 import { TBaseInputProps, TBaseProps } from '../../types'
-
-type MaskedInput = Component<MaskedInputProps>
 
 export enum CalendarType {
     BY_DAYS = 'by_days',
@@ -101,19 +98,6 @@ export type DateIntervalProps = BaseDateProps & TBaseInputProps<IntervalValue> &
     locale?: Locale
     onBlur?(value: IntervalValue): void
     onChange?(value: IntervalValue): void
-}
-
-export type DateInputProps = BaseDateProps & Omit<TBaseInputProps<Dayjs | null>, 'onFocus' | 'onBlur'> & {
-    inputClassName?: string
-    inputOnClick?(): void
-    name: string
-    onBlur?(value: Dayjs | null, name: string): void
-    onClick?: MouseEventHandler<HTMLInputElement>
-    onFocus?: FocusEventHandler<HTMLInputElement>
-    onInputChange?: OnInputChangeHandler
-    onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void
-    setControlRef(el: MaskedInput): void
-    setVisibility(value: boolean): void
 }
 
 type Value = Record<string, Dayjs | null>

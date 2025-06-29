@@ -1,8 +1,8 @@
 import isNil from 'lodash/isNil'
 
-import { TInputNumberValue } from '../InputNumber/types'
+export type Value = number | string | null
 
-export const parseValue = (value: TInputNumberValue, min: number, max: number) => {
+export const parseValue = (value: Value, min: number, max: number) => {
     if (value === '-' || value === '' || isNil(value)) {
         return min || 0
     }
