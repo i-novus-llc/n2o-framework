@@ -11,7 +11,7 @@ import net.n2oapp.framework.boot.*;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.sandbox.file_storage.FileStorage;
 import net.n2oapp.framework.sandbox.file_storage.FileStorageOnDisk;
-import net.n2oapp.framework.sandbox.file_storage.MinioFileStorage;
+import net.n2oapp.framework.sandbox.file_storage.S3FileStorage;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
@@ -34,7 +34,12 @@ import org.springframework.core.env.PropertyResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,14 +58,14 @@ import java.util.Map;
 @ComponentScan(basePackages = {"net.n2oapp.framework.sandbox", "net.n2oapp.framework.autotest.cases"})
 public class N2oSandboxConfiguration {
 
-    @Value("${minio.url:#{null}}")
-    private String minioUrl;
-    @Value("${minio.access-key:#{null}}")
+    @Value("${s3.access-key:#{null}}")
     private String accessKey;
-    @Value("${minio.secret-key:#{null}}")
+    @Value("${s3.secret-key:#{null}}")
     private String secretKey;
-    @Value("${minio.bucket-name:#{null}}")
-    private String bucketName;
+    @Value("${s3.url:#{null}}")
+    private String endpoint;
+    @Value("${s3.bucket:#{null}}")
+    private String bucket;
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -127,9 +132,20 @@ public class N2oSandboxConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "minio.url")
-    public FileStorage fileStorage() {
-        return new MinioFileStorage(minioUrl, accessKey, secretKey, bucketName);
+    @ConditionalOnProperty(name = "s3.url")
+    public FileStorage s3FileStorage(S3Client s3Client) {
+        return new S3FileStorage(s3Client, bucket);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "s3.url")
+    public S3Client s3Client() {
+        return S3Client.builder()
+                .endpointOverride(URI.create(endpoint))
+                .region(Region.of("Stub"))
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(accessKey, secretKey)))
+                .build();
     }
 
     @Bean
