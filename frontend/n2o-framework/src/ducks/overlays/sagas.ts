@@ -1,4 +1,4 @@
-import { takeEvery, select, put, call, fork } from 'redux-saga/effects'
+import { takeEvery, select, put, call, fork, cancel } from 'redux-saga/effects'
 import get from 'lodash/get'
 import { LOCATION_CHANGE } from 'connected-react-router'
 
@@ -12,7 +12,10 @@ import { State as WidgetsState } from '../widgets/Widgets'
 import { Form } from '../form/types'
 import { EffectWrapper } from '../api/utils/effectWrapper'
 import { stopTheSequence } from '../api/utils/stopTheSequence'
+import { resetPage } from '../pages/store'
+import { type Reset } from '../pages/Actions'
 
+import { State as OverlaysState } from './Overlays'
 import { CLOSE } from './constants'
 import {
     showPrompt,
@@ -21,6 +24,7 @@ import {
     insertDrawer,
     remove,
 } from './store'
+import { overlaysSelector } from './selectors'
 
 interface Refresh {
     datasources: string[]
@@ -124,6 +128,20 @@ export function* resetQuerySaga(pageId: string) {
     }
 }
 
+export function* closePageOverlays({ payload: pageId }: Reset) {
+    const overlays: OverlaysState = yield select(overlaysSelector)
+
+    if (!overlays.length) {
+        yield cancel()
+    }
+
+    for (const { parentPage, id } of overlays) {
+        if (parentPage === pageId) {
+            yield put(remove(id))
+        }
+    }
+}
+
 export const overlaysSagas = [
     // @ts-ignore проблемы с типизацией saga
     takeEvery(CLOSE, checkPrompt),
@@ -142,5 +160,6 @@ export const overlaysSagas = [
         ),
         closeOverlays,
     ),
+    takeEvery(resetPage, closePageOverlays),
     fork(onCloseEffects),
 ]

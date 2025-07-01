@@ -21,6 +21,7 @@ export interface Overlay {
     props?: Record<string, unknown>
     showPrompt?: boolean
     id?: string
+    parentPage?: string
 }
 
 export type State = Overlay[]

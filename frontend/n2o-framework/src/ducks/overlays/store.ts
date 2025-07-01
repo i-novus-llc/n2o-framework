@@ -3,7 +3,7 @@ import { createSlice, createAction } from '@reduxjs/toolkit'
 import OverlayResolver from './OverlayResolver'
 import { CLOSE } from './constants'
 import { State } from './Overlays'
-import { InsertOverlay, Insert } from './Actions'
+import type { InsertOverlay, Insert, Remove } from './Actions'
 
 export const initialState: State = []
 
@@ -24,8 +24,9 @@ export const overlaysSlice = createSlice({
                 })
             },
 
-            reducer(state, { payload }: InsertOverlay) {
+            reducer(state, { payload, meta }: InsertOverlay) {
                 const { name, visible } = payload
+                const { pageId } = meta || {}
 
                 state.push({
                     name,
@@ -34,6 +35,7 @@ export const overlaysSlice = createSlice({
                     type: 'page',
                     /* TODO OverlaysRefactoring перевести на id */
                     id: name,
+                    parentPage: pageId,
                     props: { ...payload },
                 })
             },
@@ -99,11 +101,19 @@ export const overlaysSlice = createSlice({
         },
 
         remove: {
-            prepare() {
-                return ({ payload: {} })
+            prepare(id?: string) {
+                return ({ payload: { id } })
             },
 
-            reducer(state) {
+            reducer(state, { payload }: Remove) {
+                const { id: overlayId } = payload
+
+                if (overlayId) {
+                    state = state.filter(({ id }) => id !== overlayId)
+
+                    return state
+                }
+
                 state.splice(state.length - 1, 1)
 
                 return state
