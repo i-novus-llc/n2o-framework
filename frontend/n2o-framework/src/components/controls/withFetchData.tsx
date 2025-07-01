@@ -25,6 +25,7 @@ import { GLOBAL_KEY } from '../../ducks/alerts/constants'
 export interface Props {
     data: unknown[]
     dataProvider: { quickSearchParam: string }
+    quickSearchParam?: string
     datasource: string
     datasourceModel: []
     caching: boolean
@@ -93,7 +94,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
     class WithFetchData extends Component<Props, State> {
         constructor(props: Props) {
             super(props)
-            const { dataProvider, size = 10 } = this.props
+            const { dataProvider, quickSearchParam = 'search', size = 10 } = this.props
 
             this.state = {
                 data: [],
@@ -102,7 +103,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 size,
                 page: 1,
                 searchMinLengthHint: false,
-                quickSearchParam: dataProvider?.quickSearchParam || 'search',
+                quickSearchParam: dataProvider?.quickSearchParam || quickSearchParam,
                 merge: false,
             }
 

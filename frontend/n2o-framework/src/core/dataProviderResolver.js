@@ -53,7 +53,6 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     const queryParams = getParams(queryMapping, state, evalContext)
     const headersParams = getParams(headersMapping, state, evalContext)
     const formParams = getParams(formMapping, state, evalContext)
-
     const baseQuery = {
         ...query,
         ...options,
@@ -127,7 +126,7 @@ export function getParams(mapping, state, evalContext = {}) {
         const value = linkResolver(state, options, evalContext)
         const { required } = options
 
-        params[key] = !isNil(value) ? value : undefined
+        if (!isNil(value)) { params[key] = value }
 
         if (required && isNil(value)) {
             throw new Error(`DataProvider error: "${key}" is required`)

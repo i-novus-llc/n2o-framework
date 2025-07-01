@@ -80,6 +80,7 @@ class SelectCompileTest extends SourceCompileTestBase {
         select = (Select) ((StandardField) field).getControl();
         assertThat(select.getType(), is(ListTypeEnum.SINGLE));
         assertThat(select.getDatasource(), is("testSelect_test"));
+        assertThat(select.getQuickSearchParam(), is("test_name"));
         assertThat(select.getData(), nullValue());
 
         QueryContext queryCtx = ((QueryContext)route("/test", CompiledQuery.class));

@@ -47,4 +47,6 @@ public abstract class ListControl extends Control {
     private String statusFieldId;
     @JsonProperty
     private String datasource;
+    @JsonProperty
+    private String quickSearchParam;
 }
