@@ -57,8 +57,10 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     protected void compileData(S source, T listControl, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getQueryId() != null)
             initDataProvider(listControl, source, context, p);
-        else if (source.getDatasourceId() != null)
+        else if (source.getDatasourceId() != null) {
             listControl.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
+            listControl.setQuickSearchParam(source.getDatasourceId() + "_" + castDefault(source.getSearchFilterId(), listControl.getLabelFieldId()));
+        }
         else if (source.getOptions() != null) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (Map<String, String> option : source.getOptions()) {
