@@ -28,6 +28,8 @@ autotesting mr stand:
   variables:
     AUTOTEST_PARAMS: '-Pautotests -o'
     AUTOTEST_MODULE_DIR: './backend/n2o/n2o-autotest'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   dependencies:
     - build and verify
     - deploy mr stand
