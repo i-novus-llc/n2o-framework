@@ -4,6 +4,9 @@ import get from 'lodash/get'
 
 import { removeFieldFromArray, updateModel } from '../models/store'
 import { RemoveFieldFromArrayAction } from '../models/Actions'
+import { submitSuccess } from '../datasource/store'
+import { ModelPrefix } from '../../core/datasource/const'
+import { successInvoke } from '../../actions/actionImpl'
 
 import { getDefaultField, getDefaultState } from './FormPlugin'
 import { Form, FormsState } from './types'
@@ -36,6 +39,19 @@ const warnNonExistent = (field: string, property: string) => console.warn(`Attem
  */
 
 const createFieldPath = (formName: string, fieldName: string) => ([formName, 'fields', fieldName])
+
+const updateDirty = (
+    id: string,
+    prefix: ModelPrefix,
+    dirty: boolean,
+    state: FormsState,
+) => {
+    Object.values(state).forEach((form) => {
+        if (form.datasource === id && form.modelPrefix === prefix) {
+            form.dirty = dirty
+        }
+    })
+}
 
 export const initialState: FormsState = {}
 
@@ -355,14 +371,21 @@ export const formSlice = createSlice({
     },
 
     extraReducers: {
+        [submitSuccess.type](state, action) {
+            const { id, provider } = action.payload
+            const { model } = provider
+
+            updateDirty(id, model, false, state)
+        },
+        [successInvoke.type](state, action) {
+            const { datasource, model } = action.payload
+
+            updateDirty(datasource, model, false, state)
+        },
         [updateModel.type](state, action) {
             const { key, prefix } = action.payload
 
-            Object.values(state).forEach((form) => {
-                if (form.datasource === key && form.modelPrefix === prefix) {
-                    form.dirty = true
-                }
-            })
+            updateDirty(key, prefix, true, state)
         },
         [removeFieldFromArray.type](state, action: RemoveFieldFromArrayAction) {
             const { field, start, end, key: datasource, prefix } = action.payload

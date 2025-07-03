@@ -7,7 +7,7 @@ import { get, isEqual } from 'lodash'
 
 import { DataSourceDependency, DependencyTypes } from '../../../core/datasource/const'
 import { dataRequest, startValidate, submit as submitAction } from '../store'
-import { dataSourcesSelector } from '../selectors'
+import { dataSourcesSelector, dataSourceByIdSelector } from '../selectors'
 import { updateModel, setModel } from '../../models/store'
 import { State as DatasourceState } from '../DataSource'
 import { State as GlobalState } from '../../State'
@@ -35,7 +35,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
             break
         }
         case DependencyTypes.copy: {
-            const { model: targetPrefix, field: targetField, submit } = dependency
+            const { model: targetPrefix, field: targetField, submit: submitAfterCopy } = dependency
 
             if (targetField) {
                 yield put(updateModel(targetPrefix, id, targetField, model))
@@ -43,8 +43,11 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
                 yield put(setModel(targetPrefix, id, model as Record<string, unknown>))
             }
 
-            if (submit) {
-                yield put(submitAction(id))
+            if (submitAfterCopy) {
+                const { submit: submitProvider } = yield dataSourceByIdSelector(id)
+
+                // @ts-ignore кривой тип экшн-креатора, исправлено в 7.29
+                if (submitProvider) { yield put(submitAction(id, submitProvider)) }
             }
 
             break
