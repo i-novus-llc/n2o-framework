@@ -382,7 +382,7 @@ export const datasource = createSlice({
         },
 
         submit: {
-            prepare(id: string, provider?: SubmitProvider, meta = {}) {
+            prepare(id: string, provider: SubmitProvider, meta = {}) {
                 return ({
                     payload: { id, provider },
                     meta,
@@ -394,9 +394,9 @@ export const datasource = createSlice({
         },
 
         submitSuccess: {
-            prepare(meta?: Meta) {
+            prepare(id: string, provider: SubmitProvider, meta?: Meta) {
                 return ({
-                    payload: {},
+                    payload: { id, provider },
                     meta,
                 })
             },

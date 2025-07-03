@@ -50,7 +50,8 @@ export function* submitSaga(apiProvider: unknown, { meta, payload }: SubmitActio
         const submitMethod = getSubmit(submitProvider.type)
 
         yield submitMethod(id, submitProvider, apiProvider)
-        yield put(submitSuccess(meta?.success))
+        // @ts-ignore кривой тип экшн-креатора, исправлено в 7.29
+        yield put(submitSuccess(id, submitProvider, meta?.success))
     } catch (error) {
         // @ts-ignore поправить типы
         yield put(submitFail(error, meta?.fail))
