@@ -1,3 +1,6 @@
+import { createAction } from '@reduxjs/toolkit'
+
+import { ModelPrefix } from '../core/datasource/const'
 import {
     START_INVOKE,
     SUCCESS_INVOKE,
@@ -37,9 +40,12 @@ export function startInvoke(
  * @param datasource
  * @param meta
  */
-export function successInvoke(datasource: string, meta: Record<string, unknown>) {
-    return createActionHelper(SUCCESS_INVOKE)({ datasource }, meta)
-}
+export const successInvoke = createAction(SUCCESS_INVOKE, (datasource: string, model: ModelPrefix, meta: Record<string, unknown>) => {
+    return {
+        payload: { datasource, model },
+        meta,
+    }
+})
 
 /**
  * Экшен неудачного завершения инвока
