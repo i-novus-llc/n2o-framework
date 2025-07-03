@@ -311,7 +311,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
     @Override
     public boolean canResolveParam(String param) {
-        return params != null && params.containsKey(param);
+        return params != null && !params.isEmpty() && params.containsKey(param);
     }
 
     @Override
