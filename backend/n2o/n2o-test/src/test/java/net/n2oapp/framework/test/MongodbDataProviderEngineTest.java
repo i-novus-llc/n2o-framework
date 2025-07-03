@@ -1,9 +1,7 @@
 package net.n2oapp.framework.test;
 
-import de.flapdoodle.embed.mongo.config.Net;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -11,15 +9,20 @@ import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.boot.mongodb.MongoDbDataProviderEngine;
 import org.bson.Document;
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.web.client.RestTemplate;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.*;
 
@@ -31,31 +34,36 @@ import static org.hamcrest.Matchers.notNullValue;
 /**
  * Тестирование сервиса для выполнения запросов к MongoDb
  */
-//@SpringBootTest(
-//        classes = TestMongoConfiguration.class,
-//        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-//        properties = {"spring.data.mongodb.database=dbName"})
-//@DirtiesContext
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class MongodbDataProviderEngineTest {
-    @Autowired
-    private MongoDbDataProviderEngine engine;
-    private N2oMongoDbDataProvider provider;
 
+@Testcontainers
+@SpringBootTest(
+        classes = TestMongoConfiguration.class,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        properties = {"spring.data.mongodb.database=dbName"})
+@DirtiesContext
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class MongodbDataProviderEngineTest {
+    @Container
+    static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:8.0.10");
     @Autowired
     MongoTemplate mongoTemplate;
-
     @Autowired
-    Net mongoNet;
+    private MongoDbDataProviderEngine engine;
 
+    private N2oMongoDbDataProvider provider;
     @LocalServerPort
     private int appPort;
-
     private String id;
 
+    @DynamicPropertySource
+    static void containersProperties(DynamicPropertyRegistry registry) {
+        mongoDBContainer.start();
+        registry.add("spring.data.mongodb.host", mongoDBContainer::getHost);
+        registry.add("spring.data.mongodb.port", mongoDBContainer::getFirstMappedPort);
+    }
 
-    //    @BeforeAll
+    @BeforeAll
     void init() {
         engine.setMapper(dataObjectMapper());
 
@@ -64,7 +72,7 @@ class MongodbDataProviderEngineTest {
         String collectionName = "user";
         provider.setCollectionName(collectionName);
         provider.setDatabaseName("dbName");
-        provider.setConnectionUrl("mongodb://localhost:" + mongoNet.getPort());
+        provider.setConnectionUrl("mongodb://" + mongoDBContainer.getHost() + ":" + mongoDBContainer.getFirstMappedPort());
 
         mongoTemplate.dropCollection(collectionName);
         mongoTemplate.createCollection(collectionName);
@@ -72,7 +80,6 @@ class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Disabled
     void testSelect() {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/mongodb";
@@ -93,7 +100,6 @@ class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Disabled
     void testSortingLimitOffset() {
         //one field sort
         RestTemplate restTemplate = new RestTemplate();
@@ -120,7 +126,6 @@ class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Disabled
     void testFilters() {
         String queryPath = "/n2o/data/test/mongodb";
         //eq generate all
@@ -218,7 +223,6 @@ class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Disabled
     @Order(1)
     void insertOneOperationTest() {
         RestTemplate restTemplate = new RestTemplate();
@@ -245,7 +249,6 @@ class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Disabled
     @Order(2)
     void updateOneOperationTest() {
         RestTemplate restTemplate = new RestTemplate();
@@ -269,7 +272,6 @@ class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Disabled
     @Order(3)
     void deleteOneOperationTest() {
         RestTemplate restTemplate = new RestTemplate();
@@ -289,7 +291,6 @@ class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Disabled
     @Order(4)
     void deleteManyOperationTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.insertOne);
@@ -325,7 +326,6 @@ class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Disabled
     void isNullFilterTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         HashMap<Object, Object> inParams = new HashMap<>();
@@ -338,7 +338,6 @@ class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Disabled
     void isNotNullFilterTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         HashMap<Object, Object> inParams = new HashMap<>();
@@ -381,13 +380,5 @@ class MongodbDataProviderEngineTest {
             this.id = id;
             this.name = name;
         }
-    }
-
-    // normalize method for testFilters() method
-    public static String mapIdIn(DataList ids) {
-        StringJoiner res = new StringJoiner(",", "[", "]");
-        for (Object o : ids)
-            res.add("new ObjectId('" + o + "')");
-        return res.toString();
     }
 }
