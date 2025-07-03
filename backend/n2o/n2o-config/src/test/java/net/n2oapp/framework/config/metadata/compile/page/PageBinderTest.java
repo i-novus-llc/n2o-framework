@@ -263,7 +263,7 @@ class PageBinderTest extends SourceCompileTestBase {
         name = page.getModels().get("filter['table_w1'].name");
         assertThat(name.getValue(), is("test2"));
 
-       /* todo NNO-7523
+
         doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet("name", "test1")), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
         page = bind("net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.query.xml",
@@ -271,8 +271,8 @@ class PageBinderTest extends SourceCompileTestBase {
                 .get(context, new DataSet("name", "test3"), subModelsProcessor);
 
         //Разрешится значение из запроса, т.к. оно самое приоритетное
-        name = page.getModels().get("filter['table_main'].name");
-        assertThat(name.getValue(), is("test3"));*/
+        name = page.getModels().get("filter['table_w1'].name");
+        assertThat(name.getValue(), is("test3"));
     }
 
     /**
