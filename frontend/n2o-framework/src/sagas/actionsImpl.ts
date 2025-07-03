@@ -35,8 +35,8 @@ import { State } from '../ducks/State'
 import { State as WidgetsState } from '../ducks/widgets/Widgets'
 import { ButtonContainer } from '../ducks/toolbar/Toolbar'
 import { metaPropsType } from '../plugins/utils'
-import { setDirty } from '../ducks/form/store'
-import { isDirtyForm } from '../ducks/form/selectors'
+import { DataSourceState } from '../ducks/datasource/DataSource'
+import { dataSourceByIdSelector } from '../ducks/datasource/selectors'
 
 import fetchSaga from './fetch'
 
@@ -200,7 +200,6 @@ export function* handleInvoke(
         model: modelPrefix,
         dataProvider,
         pageId,
-        widgetId,
     } = action.payload
 
     const state: State = yield select()
@@ -231,15 +230,6 @@ export function* handleInvoke(
             }
         }
 
-        // Доп проверка на то, что сохранение было произведено в форме и если это так, то мы сбрасываем флаг dirty
-        if (widgetId) {
-            const currentDirtyState = isDirtyForm(widgetId)(state)
-
-            if (currentDirtyState) {
-                yield put(setDirty(widgetId, false))
-            }
-        }
-
         const response: { meta: metaPropsType, data: { $list: metaPropsType } } = optimistic
             ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
             : yield call(fetchInvoke, dataProvider, model, apiProvider)
@@ -257,7 +247,7 @@ export function* handleInvoke(
                 )
             }
         }
-        yield put(successInvoke(datasource, meta))
+        yield put(successInvoke(datasource, modelPrefix, meta))
         yield enable(pageId, widgets, buttons, buttonIds)
     } catch (err) {
         // eslint-disable-next-line no-console
@@ -294,8 +284,9 @@ export default (apiProvider: unknown) => [
     // @ts-ignore проблема с типизацией saga
     takeEvery(SUBMIT, function* submitSaga({ meta = {}, payload = {} }) {
         const { datasource } = payload
+        const { submit: submitProvider }: DataSourceState = yield select(dataSourceByIdSelector(datasource))
 
         // @ts-ignore проблема с типизацией saga
-        yield put(submit(datasource, null, meta))
+        yield put(submit(datasource, submitProvider, meta))
     }),
 ]
