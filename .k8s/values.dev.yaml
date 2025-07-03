@@ -23,7 +23,7 @@ springServices:
         memory: 512Mi
         cpu: 500m
     env:
-      N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
+      N2O_SANDBOX_URL: https://sandbox.i-novus.ru/
       SPRING_CONFIG_IMPORT: "consul:"
       N2O_SANDBOX_TEMPLATE_CATEGORIES: "/menu/tests.json"
       N2O_SANDBOX_PROJECT_SEARCH_FOLDERS: "/autotest"
