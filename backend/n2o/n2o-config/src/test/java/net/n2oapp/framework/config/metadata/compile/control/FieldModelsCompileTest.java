@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasProperty;
 
 /**
  * Тестирование компиляции modelLink страницы
@@ -89,7 +91,9 @@ class FieldModelsCompileTest extends SourceCompileTestBase {
 
         link = models.get("resolve['modalPage_info'].id");
         assertThat(link.getLink(), is("models.resolve['modalPage_info']"));
-        assertThat(link.getValue(), is("`$.uuid()`"));
-        assertThat(link.isObserve(), is(false));
+        assertThat(link, allOf(
+                hasProperty("value", is("`$.uuid()`")),
+                hasProperty("observe", is(false))
+        ));
     }
 }

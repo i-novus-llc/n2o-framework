@@ -106,6 +106,14 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(buttons.get(1).getId(), is("close"));
         assertThat(buttons.get(1).getAction(), notNullValue());
 
+        ActionContext submitContext = (ActionContext) route("/p/create/multi1", CompiledObject.class);
+        assertThat(submitContext.getSourceId(null), is("testShowModal"));
+        assertThat(submitContext.getOperationId(), is("create"));
+
+        testMultiAction(drawerPage);
+    }
+
+    private static void testMultiAction(SimplePage drawerPage) {
         MultiAction multiAction = (MultiAction) drawerPage.getToolbar().getButton("submit").getAction();
         InvokeAction submit = (InvokeAction) multiAction.getPayload().getActions().get(0);
         InvokeActionPayload submitPayload = submit.getPayload();
@@ -123,10 +131,6 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("p_second"));
         CloseAction close = (CloseAction) multiAction.getPayload().getActions().get(2);
         assertThat(((CloseActionPayload) close.getPayload()).getPageId(), is("p_create"));
-
-        ActionContext submitContext = (ActionContext) route("/p/create/multi1", CompiledObject.class);
-        assertThat(submitContext.getSourceId(null), is("testShowModal"));
-        assertThat(submitContext.getOperationId(), is("create"));
     }
 
     @Test
@@ -273,6 +277,10 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(((N2oStandardDatasource) drawerContext.getDatasources().get(1)).getDefaultValuesMode(),
                 is(DefaultValuesModeEnum.QUERY));
 
+        updateDrawerPage(drawerContext);
+    }
+
+    private void updateDrawerPage(PageContext drawerContext) {
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
         assertThat(drawerPage.getId(), is("p_updateWithPrefilters"));
         assertThat(drawerPage.getBreadcrumb(), nullValue());

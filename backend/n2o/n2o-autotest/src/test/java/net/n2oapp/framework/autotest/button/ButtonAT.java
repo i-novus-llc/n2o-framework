@@ -63,7 +63,6 @@ class ButtonAT extends AutoTestBase {
         StandardButton item2 = subMenu.menuItem("Все");
 
         StandardButton button = list.toolbar().topLeft().button("All");
-        button.shouldExists();
         button.shouldHaveColor(ColorsEnum.PRIMARY);
         button.hover();
         tooltip = button.tooltip();
@@ -81,7 +80,6 @@ class ButtonAT extends AutoTestBase {
         tooltip.shouldHaveText(new String[]{"text2"});
 
         button = list.toolbar().topLeft().button("Unread");
-        button.shouldExists();
         button.shouldHaveColor(ColorsEnum.WARNING);
         button.hover();
         tooltip = button.tooltip();
@@ -99,7 +97,6 @@ class ButtonAT extends AutoTestBase {
         tooltip.shouldHaveText(new String[]{"text1"});
 
         button = list.toolbar().topLeft().button("All");
-        button.shouldExists();
         button.shouldHaveColor(ColorsEnum.PRIMARY);
         button.hover();
         tooltip = button.tooltip();

@@ -40,6 +40,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 
 /**
@@ -178,11 +179,13 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidget();
 
         ActionContext context = (ActionContext) route("/testFormSubmit/a/b/c", CompiledObject.class);
-        assertThat(context, notNullValue());
-        assertThat(context.getOperationId(), is("test"));
-        assertThat(context.isMessageOnFail(), is(true));
-        assertThat(context.isMessageOnSuccess(), is(true));
-        assertThat(context.getMessagesForm(), is("form"));
+        assertThat(context, allOf(
+                notNullValue(),
+                hasProperty("operationId", is("test")),
+                hasProperty("messageOnFail", is(true)),
+                hasProperty("messageOnSuccess", is(true)),
+                hasProperty("messagesForm", is("form"))
+        ));
         assertThat(context.getRefresh().getDatasources(), hasItem("testFormSubmit_form"));
 
         ClientDataProvider dataProvider = ((StandardDatasource) page.getDatasources().get(form.getDatasource())).getSubmit();

@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.arrayWithSize;
+import static org.hamcrest.Matchers.hasProperty;
 
 /**
  * Тестирование компиляции компонента вывода изображения
@@ -36,22 +38,23 @@ class ImageFieldCompileTest extends SourceCompileTestBase {
         builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oActionsPack());
     }
 
-    @Test 
+    @Test
     void testImageField() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testImageFieldCompile.page.xml")
                 .get(new PageContext("testImageFieldCompile"));
         Form form = (Form) page.getWidget();
         ImageField field = (ImageField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
-        assertThat(field.getId(), is("testId"));
-        assertThat(field.getSrc(), is("testSrc"));
-        assertThat(field.getLabel(), is("testLabel"));
-        assertThat(field.getData(), is("`'data:image/jpeg;base64'+image`"));
-        assertThat(field.getTitle(), is("`title`"));
-        assertThat(field.getDescription(), is("`Description`"));
-        assertThat(field.getTextPosition(), is(TextPositionEnum.TOP));
-        assertThat(field.getShape(), is(ShapeTypeEnum.CIRCLE));
-        assertThat(field.getWidth(), is("500px"));
-        assertThat(field.getStatuses().length, is(2));
+        assertThat(field, allOf(
+                hasProperty("id", is("testId")),
+                hasProperty("src", is("testSrc")),
+                hasProperty("label", is("testLabel")),
+                hasProperty("data", is("`'data:image/jpeg;base64'+image`")),
+                hasProperty("title", is("`title`")),
+                hasProperty("description", is("`Description`")),
+                hasProperty("textPosition", is(TextPositionEnum.TOP)),
+                hasProperty("shape", is(ShapeTypeEnum.CIRCLE)),
+                hasProperty("width", is("500px")),
+                hasProperty("statuses", arrayWithSize(2))));
         assertThat(field.getStatuses()[0].getSrc(), Matchers.is("testSrc"));
         assertThat(field.getStatuses()[0].getFieldId(), Matchers.is("status1"));
         assertThat(field.getStatuses()[0].getIcon(), Matchers.is("`icon1`"));
@@ -60,7 +63,7 @@ class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getStatuses()[1].getFieldId(), Matchers.is("id"));
         assertThat(field.getStatuses()[1].getIcon(), Matchers.is(nullValue()));
         assertThat(field.getStatuses()[1].getPlace(), Matchers.is(ImageStatusElementPlaceEnum.TOP_LEFT));
-        assertThat(field.getAction(),  notNullValue());
+        assertThat(field.getAction(), notNullValue());
         assertThat(((LinkAction) field.getAction()).getUrl(), is("http://example.com"));
 
         ControlDependency dependency = field.getDependencies().get(0);

@@ -98,11 +98,10 @@ class TableAT extends AutoTestBase {
         table.filters().shouldBeHidden();
         table.toolbar().topRight().button(0, StandardButton.class).click();
 
-        table.columns().rows().row(0).shouldHaveColor(ColorsEnum.DANGER);
-        table.columns().rows().row(1).shouldHaveColor(ColorsEnum.INFO);
-        table.columns().rows().row(2).shouldHaveColor(ColorsEnum.SUCCESS);
+        ColorsEnum[] colors = new ColorsEnum[]{ColorsEnum.DANGER, ColorsEnum.INFO, ColorsEnum.SUCCESS};
 
         for (int i = 0; i < 3; i++) {
+            table.columns().rows().row(i).shouldHaveColor(colors[i]);
             table.columns().rows().row(i).cell(0).shouldBeVisible();
             table.columns().rows().row(i).cell(1).shouldBeVisible();
             table.columns().rows().row(i).cell(2).shouldBeVisible();

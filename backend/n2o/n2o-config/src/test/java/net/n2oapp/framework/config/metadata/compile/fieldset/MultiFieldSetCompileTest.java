@@ -18,8 +18,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование филдсета с динамическим числом полей
@@ -47,34 +46,38 @@ class MultiFieldSetCompileTest extends SourceCompileTestBase {
         List<FieldSet> fieldsets = form.getComponent().getFieldsets();
 
         MultiFieldSet multiFieldSet = (MultiFieldSet) fieldsets.get(0);
-        assertThat(multiFieldSet.getSrc(), is("MultiFieldset"));
-        assertThat(multiFieldSet.getLabel(), is("Заголовок"));
-        assertThat(multiFieldSet.getChildrenLabel(), is("`'Участник '+index`"));
-        assertThat(multiFieldSet.getFirstChildrenLabel(), is("Участник"));
-        assertThat(multiFieldSet.getName(), is("members"));
-        assertThat(multiFieldSet.getAddButtonLabel(), is("Добавить участника"));
-        assertThat(multiFieldSet.getRemoveAllButtonLabel(), is("Удалить всех участников"));
-        assertThat(multiFieldSet.getCanRemoveFirstItem(), is(true));
-        assertThat(multiFieldSet.getNeedAddButton(), is(false));
-        assertThat(multiFieldSet.getNeedRemoveButton(), is(false));
-        assertThat(multiFieldSet.getNeedRemoveAllButton(), is(true));
-        assertThat(multiFieldSet.getNeedCopyButton(), is(true));
-        assertThat(multiFieldSet.getDescription(), is("description"));
-        assertThat(multiFieldSet.getPrimaryKey(), is("pk"));
-        assertThat(multiFieldSet.getGeneratePrimaryKey(), is(true));
+        assertThat(multiFieldSet, allOf(
+                hasProperty("src", is("MultiFieldset")),
+                hasProperty("label", is("Заголовок")),
+                hasProperty("childrenLabel", is("`'Участник '+index`")),
+                hasProperty("firstChildrenLabel", is("Участник")),
+                hasProperty("name", is("members")),
+                hasProperty("addButtonLabel", is("Добавить участника")),
+                hasProperty("removeAllButtonLabel", is("Удалить всех участников")),
+                hasProperty("canRemoveFirstItem", is(true)),
+                hasProperty("needAddButton", is(false)),
+                hasProperty("needRemoveButton", is(false)),
+                hasProperty("needRemoveAllButton", is(true)),
+                hasProperty("needCopyButton", is(true)),
+                hasProperty("description", is("description")),
+                hasProperty("primaryKey", is("pk")),
+                hasProperty("generatePrimaryKey", is(true))
+        ));
 
         MultiFieldSet multiFieldSet2 = (MultiFieldSet) fieldsets.get(1);
-        assertThat(multiFieldSet2.getSrc(), is("test"));
-        assertThat(multiFieldSet2.getChildrenLabel(), is("`members[index].name`"));
-        assertThat(multiFieldSet2.getFirstChildrenLabel(), is(nullValue()));
-        assertThat(multiFieldSet2.getCanRemoveFirstItem(), is(false));
-        assertThat(multiFieldSet2.getNeedAddButton(), is(true));
-        assertThat(multiFieldSet2.getNeedRemoveButton(), is(true));
-        assertThat(multiFieldSet2.getNeedRemoveAllButton(), is(false));
-        assertThat(multiFieldSet2.getNeedCopyButton(), is(false));
-        assertThat(multiFieldSet2.getDescription(), nullValue());
-        assertThat(multiFieldSet2.getPrimaryKey(), is("id"));
-        assertThat(multiFieldSet2.getGeneratePrimaryKey(), is(false));
+        assertThat(multiFieldSet2, allOf(
+                hasProperty("src", is("test")),
+                hasProperty("childrenLabel", is("`members[index].name`")),
+                hasProperty("firstChildrenLabel", nullValue()),
+                hasProperty("canRemoveFirstItem", is(false)),
+                hasProperty("needAddButton", is(true)),
+                hasProperty("needRemoveButton", is(true)),
+                hasProperty("needRemoveAllButton", is(false)),
+                hasProperty("needCopyButton", is(false)),
+                hasProperty("description", nullValue()),
+                hasProperty("primaryKey", is("id")),
+                hasProperty("generatePrimaryKey", is(false))
+        ));
 
         List<Validation> validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("set1[index].input_2");
         assertThat(validations.size(), is(1));
@@ -86,28 +89,34 @@ class MultiFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(0).getMessage(), is("invalid"));
 
         multiFieldSet = (MultiFieldSet) fieldsets.get(3);
-        assertThat(multiFieldSet.getBadge().getText(), is("`test`"));
-        assertThat(multiFieldSet.getBadge().getPosition().getId(), is("right"));
-        assertThat(multiFieldSet.getBadge().getShape().getId(), is("square"));
-        assertThat(multiFieldSet.getBadge().getImagePosition().getId(), is("left"));
-        assertThat(multiFieldSet.getBadge().getImageShape().getId(), is("circle"));
-        assertThat(multiFieldSet.getChildrenLabel(), is("`label1`"));
-        assertThat(multiFieldSet.getFirstChildrenLabel(), is("`label2`"));
-        assertThat(multiFieldSet.getAddButtonLabel(), is("`label3`"));
-        assertThat(multiFieldSet.getRemoveAllButtonLabel(), is("`label4`"));
-        assertThat(multiFieldSet.getNeedAddButton(), is("`value == 1`"));
-        assertThat(multiFieldSet.getNeedCopyButton(), is("`value == 2`"));
-        assertThat(multiFieldSet.getNeedRemoveButton(), is("`value == 3`"));
-        assertThat(multiFieldSet.getNeedRemoveAllButton(), is("`value == 4`"));
-        assertThat(multiFieldSet.getCanRemoveFirstItem(), is("`value == 5`"));
+        assertThat(multiFieldSet.getBadge(), allOf(
+                hasProperty("text", is("`test`")),
+                hasProperty("position", hasProperty("id", is("right"))),
+                hasProperty("shape", hasProperty("id", is("square"))),
+                hasProperty("imagePosition", hasProperty("id", is("left"))),
+                hasProperty("imageShape", hasProperty("id", is("circle")))
+        ));
+        assertThat(multiFieldSet, allOf(
+                hasProperty("childrenLabel", is("`label1`")),
+                hasProperty("firstChildrenLabel", is("`label2`")),
+                hasProperty("addButtonLabel", is("`label3`")),
+                hasProperty("removeAllButtonLabel", is("`label4`")),
+                hasProperty("needAddButton", is("`value == 1`")),
+                hasProperty("needCopyButton", is("`value == 2`")),
+                hasProperty("needRemoveButton", is("`value == 3`")),
+                hasProperty("needRemoveAllButton", is("`value == 4`")),
+                hasProperty("canRemoveFirstItem", is("`value == 5`"))
+        ));
 
         multiFieldSet = (MultiFieldSet) fieldsets.get(4);
-        assertThat(multiFieldSet.getBadge().getText(), is("text"));
-        assertThat(multiFieldSet.getBadge().getPosition().getId(), is("left"));
-        assertThat(multiFieldSet.getBadge().getShape().getId(), is("circle"));
-        assertThat(multiFieldSet.getBadge().getImage(), is("test"));
-        assertThat(multiFieldSet.getBadge().getImagePosition().getId(), is("right"));
-        assertThat(multiFieldSet.getBadge().getImageShape().getId(), is("square"));
+        assertThat(multiFieldSet.getBadge(), allOf(
+                hasProperty("text", is("text")),
+                hasProperty("position", hasProperty("id", is("left"))),
+                hasProperty("shape", hasProperty("id", is("circle"))),
+                hasProperty("image", is("test")),
+                hasProperty("imagePosition", hasProperty("id", is("right"))),
+                hasProperty("imageShape", hasProperty("id", is("square")))
+        ));
     }
 
     @Test
@@ -116,14 +125,14 @@ class MultiFieldSetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testMultiSetDefaultValue"));
 
         assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].id").getValue(), is("`$.uuid()`"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].date").getValue()).getValues().get("begin"), is("2024.01.01"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].date").getValue()).getValues().get("end"), is("2024.01.31"));
+        assertThat(((DefaultValues) page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].date").getValue()).getValues().get("begin"), is("2024.01.01"));
+        assertThat(((DefaultValues) page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].date").getValue()).getValues().get("end"), is("2024.01.31"));
         assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].name").getValue(), is("test"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].type").getValue()).getValues().get("id"), is(1));
+        assertThat(((DefaultValues) page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].type").getValue()).getValues().get("id"), is(1));
         assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].id").getValue(), is("`$.uuid()`"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].date").getValue()).getValues().get("begin"), is("2024.01.01"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].date").getValue()).getValues().get("end"), is("2024.01.31"));
+        assertThat(((DefaultValues) page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].date").getValue()).getValues().get("begin"), is("2024.01.01"));
+        assertThat(((DefaultValues) page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].date").getValue()).getValues().get("end"), is("2024.01.31"));
         assertThat(page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].name").getValue(), is("test"));
-        assertThat(((DefaultValues)page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].type").getValue()).getValues().get("id"), is(1));
+        assertThat(((DefaultValues) page.getModels().get("resolve['testMultiSetDefaultValue_ds1'].groups[index].persons[$index_1].type").getValue()).getValues().get("id"), is(1));
     }
 }

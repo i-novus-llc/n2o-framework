@@ -26,6 +26,8 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 
 class InputSelectCompileTest extends SourceCompileTestBase {
     @Override
@@ -55,47 +57,53 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
 
         Models models = page.getModels();
-        assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("id"), is(1));
-        assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("name"), is("test"));
-        assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("isTest"), is(true));
+        Map<String, Object> values = ((DefaultValues) ((List<?>) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues();
+        assertThat(values.get("id"), is(1));
+        assertThat(values.get("name"), is("test"));
+        assertThat(values.get("isTest"), is(true));
 
-        StandardField field = ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+        StandardField<?> field = ((StandardField<?>) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0));
         assertThat(field.getDependencies().size(), is(1));
-        assertThat(field.getDependencies().get(0).getType(), is(ValidationTypeEnum.RESET));
-        assertThat(field.getDependencies().get(0).getOn().get(0), is("someField"));
-        assertThat(field.getDependencies().get(0).getExpression(), is("true"));
-        assertThat(field.getDependencies().get(0).getApplyOnInit(), is(false));
+        assertThat(field.getDependencies().get(0), allOf(
+                hasProperty("type", is(ValidationTypeEnum.RESET)),
+                hasProperty("on", contains("someField")),
+                hasProperty("expression", is("true")),
+                hasProperty("applyOnInit", is(false))));
 
         InputSelect inputSelect = (InputSelect) field.getControl();
-        assertThat(inputSelect.getSortFieldId(), is("sortName"));
-        assertThat(inputSelect.getClosePopupOnSelect(), is(false));
-        assertThat(inputSelect.getEnabledFieldId(), is("isEnabled"));
-        assertThat(inputSelect.getPlaceholder(), is("Введите"));
-        assertThat(inputSelect.getSize(), is(20));
-        assertThat(inputSelect.getSearchMinLength(), is(2));
-        assertThat(inputSelect.getThrottleDelay(), is(200));
-        assertThat(inputSelect.getResetOnBlur(), is(true));
+        assertThat(inputSelect, allOf(
+                hasProperty("sortFieldId", is("sortName")),
+                hasProperty("closePopupOnSelect", is(false)),
+                hasProperty("enabledFieldId", is("isEnabled")),
+                hasProperty("placeholder", is("Введите")),
+                hasProperty("size", is(20)),
+                hasProperty("searchMinLength", is(2)),
+                hasProperty("throttleDelay", is(200)),
+                hasProperty("resetOnBlur", is(true))
+        ));
         ClientDataProvider cdp = inputSelect.getDataProvider();
 
-        inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+        inputSelect = (InputSelect) ((StandardField<?>) form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0)).getControl();
-        assertThat(inputSelect.getDataProvider().getQuickSearchParam(), is("name"));
-        assertThat(inputSelect.getStatusFieldId(), nullValue());
-        assertThat(inputSelect.getMaxTagCount(), is(10));
-        assertThat(inputSelect.getMaxTagTextLength(), is(5));
-        assertThat(inputSelect.getSearchMinLength(), is(0));
-        assertThat(inputSelect.getThrottleDelay(), is(300));
+        assertThat(inputSelect, allOf(
+                hasProperty("dataProvider", hasProperty("quickSearchParam", is("name"))),
+                hasProperty("statusFieldId", nullValue()),
+                hasProperty("maxTagCount", is(10)),
+                hasProperty("maxTagTextLength", is(5)),
+                hasProperty("searchMinLength", is(0)),
+                hasProperty("throttleDelay", is(300))));
 
-        assertThat(cdp.getUrl(), is("n2o/data/test"));
-        assertThat(cdp.getQuickSearchParam(), is("search"));
+        assertThat(cdp, allOf(
+                hasProperty("url", is("n2o/data/test")),
+                hasProperty("quickSearchParam", is("search"))));
         assertThat(cdp.getQueryMapping().get("noRef").getValue(), is(1));
         assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
 
-        field = ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+        field = ((StandardField<?>) form.getComponent().getFieldsets().get(0).getRows()
                 .get(2).getCols().get(0).getFields().get(0));
         assertThat(field.getDependencies().get(0), instanceOf(FetchValueDependency.class));
-        assertThat(field.getDependencies().get(0).getOn(), is(Arrays.asList("testId2")));
+        assertThat(field.getDependencies().get(0).getOn(), is(List.of("testId2")));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getUrl(), is("n2o/data/selectFetch"));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getLink(), is("models.resolve['testInputSelect_main']"));
         assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getValue(), is("`testId2`"));
@@ -107,8 +115,8 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         CompiledQuery compiledQuery = routeAndGet("/selectFetch", CompiledQuery.class);
         assertThat(compiledQuery.getId(), is("testSelectFetch"));
 
-        Table table = (Table) page.getRegions().get("single").get(1).getContent().get(0);
-        cdp = ((InputSelect) ((StandardField) table.getFilter().getFilterFieldsets().get(0).getRows()
+        Table<?> table = (Table<?>) page.getRegions().get("single").get(1).getContent().get(0);
+        cdp = ((InputSelect) ((StandardField<?>) table.getFilter().getFilterFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
         assertThat(cdp.getUrl(), is("n2o/data/test"));
         assertThat(cdp.getQuickSearchParam(), is("search"));

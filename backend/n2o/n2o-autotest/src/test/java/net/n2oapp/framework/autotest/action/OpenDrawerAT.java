@@ -74,6 +74,14 @@ class OpenDrawerAT extends AutoTestBase {
         drawerPage.close();
         drawerPage.shouldNotExists();
 
+        checkRow2(page, rows, drawerPage, pg, fields);
+
+        checkRow3(page, rows, drawerPage, pg, fields);
+
+        checkRow0(page, rows, drawerPage, pg, fields);
+    }
+
+    private static void checkRow2(SimplePage page, TableWidget.Rows rows, Drawer drawerPage, SimplePage pg, Fields fields) {
         rows.row(2).cell(0, TextCell.class).element().click();
         rows.shouldBeSelected(2);
         page.widget(TableWidget.class).toolbar().topLeft().button("openTop").click();
@@ -88,7 +96,9 @@ class OpenDrawerAT extends AutoTestBase {
         fields.field("name").control(InputText.class).shouldHaveValue("test300");
         drawerPage.closeByEsc();
         drawerPage.shouldNotExists();
+    }
 
+    private static void checkRow3(SimplePage page, TableWidget.Rows rows, Drawer drawerPage, SimplePage pg, Fields fields) {
         rows.row(3).cell(0, TextCell.class).element().click();
         rows.shouldBeSelected(3);
         page.widget(TableWidget.class).toolbar().topLeft().button("openRight").click();
@@ -101,7 +111,9 @@ class OpenDrawerAT extends AutoTestBase {
         drawerPage.shouldExists();
         drawerPage.close();
         drawerPage.shouldNotExists();
+    }
 
+    private static void checkRow0(SimplePage page, TableWidget.Rows rows, Drawer drawerPage, SimplePage pg, Fields fields) {
         rows.row(0).cell(0, TextCell.class).element().click();
         rows.shouldBeSelected(0);
         page.widget(TableWidget.class).toolbar().topLeft().button("openBottom").click();

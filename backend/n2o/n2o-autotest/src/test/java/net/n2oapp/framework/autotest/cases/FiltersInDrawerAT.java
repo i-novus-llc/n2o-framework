@@ -113,16 +113,28 @@ class FiltersInDrawerAT extends AutoTestBase {
         page.shouldExists();
 
         //проверка передачи данных в фильтры на главной странице и автообновление таблицы
-        filterFields.field("Интервал подачи заявки").control(DateInterval.class).beginShouldHaveValue("28.02.2021");
-        filterFields.field("Интервал подачи заявки").control(DateInterval.class).endShouldHaveValue("07.03.2021");
-        filterFields.field("Регион").control(Select.class).shouldSelected("Республика Татарстан");
-        filterFields.field("Отделение").control(Select.class).shouldSelected("МФЦ Авиастроительный отдел");
-        filterFields.field("Статус").control(Select.class).shouldSelected("Новая");
-
-        tableRows.shouldHaveSize(1);
-        tableRows.row(0).cell(0).shouldHaveText("1");
+        checkDataTransfer(tableRows, filterFields);
 
         //проверка сохранения параметров фильтрации в drawer
+        checkParamSave(table, drawer, dateField, fioField, regionField, departmentField, statusField, snilsField);
+
+        //проверка сброса фильтра
+        checkFilterReset(table, tableRows, filterFields);
+    }
+
+    private static void checkFilterReset(TableWidget table, TableWidget.Rows tableRows, Fields filterFields) {
+        table.filters().toolbar().button("Сбросить").shouldExists();
+        table.filters().toolbar().button("Сбросить").click();
+        filterFields.field("Интервал подачи заявки").control(DateInterval.class).beginShouldBeEmpty();
+        filterFields.field("Интервал подачи заявки").control(DateInterval.class).endShouldBeEmpty();
+        filterFields.field("Регион").control(Select.class).shouldBeEmpty();
+        filterFields.field("Отделение").control(Select.class).shouldBeEmpty();
+        filterFields.field("Статус").control(Select.class).shouldBeEmpty();
+        tableRows.shouldHaveSize(5);
+    }
+
+    private static void checkParamSave(TableWidget table, Drawer drawer, DateInterval dateField, InputText fioField, Select regionField,
+                                       Select departmentField, Select statusField, MaskedInput snilsField) {
         table.filters().toolbar().button("Все фильтры").click();
         dateField.beginShouldHaveValue("28.02.2021");
         dateField.endShouldHaveValue("07.03.2021");
@@ -132,16 +144,17 @@ class FiltersInDrawerAT extends AutoTestBase {
         fioField.shouldHaveValue("Вас");
         snilsField.shouldHaveValue("132-451-114 12");
         drawer.toolbar().bottomRight().button("Применить").click();
+    }
 
-        //проверка сброса фильтра
-        table.filters().toolbar().button("Сбросить").shouldExists();
-        table.filters().toolbar().button("Сбросить").click();
-        filterFields.field("Интервал подачи заявки").control(DateInterval.class).beginShouldBeEmpty();
-        filterFields.field("Интервал подачи заявки").control(DateInterval.class).endShouldBeEmpty();
-        filterFields.field("Регион").control(Select.class).shouldBeEmpty();
-        filterFields.field("Отделение").control(Select.class).shouldBeEmpty();
-        filterFields.field("Статус").control(Select.class).shouldBeEmpty();
-        tableRows.shouldHaveSize(5);
+    private static void checkDataTransfer(TableWidget.Rows tableRows, Fields filterFields) {
+        filterFields.field("Интервал подачи заявки").control(DateInterval.class).beginShouldHaveValue("28.02.2021");
+        filterFields.field("Интервал подачи заявки").control(DateInterval.class).endShouldHaveValue("07.03.2021");
+        filterFields.field("Регион").control(Select.class).shouldSelected("Республика Татарстан");
+        filterFields.field("Отделение").control(Select.class).shouldSelected("МФЦ Авиастроительный отдел");
+        filterFields.field("Статус").control(Select.class).shouldSelected("Новая");
+
+        tableRows.shouldHaveSize(1);
+        tableRows.row(0).cell(0).shouldHaveText("1");
     }
 }
 

@@ -4,12 +4,15 @@ import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.Sidebar;
 import net.n2oapp.framework.api.metadata.application.SidebarSideEnum;
 import net.n2oapp.framework.api.metadata.application.SidebarStateEnum;
+import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -108,37 +111,27 @@ class SidebarCompileTest extends SourceCompileTestBase {
         Sidebar sidebar = application.getSidebars().get(0);
         //nav
         assertThat(sidebar.getDatasource(), is("test"));
-        assertThat(sidebar.getMenu().getItems().size(), is(4));
-        assertThat(sidebar.getMenu().getItems().get(0).getDatasource(), is("ds"));
-        assertThat(sidebar.getMenu().getItems().get(0).getTitle(), is("`name`"));
-        assertThat(sidebar.getMenu().getItems().get(1).getDatasource(), is("test"));
-
-        assertThat(sidebar.getMenu().getItems().get(2).getDatasource(), is("ds"));
-        assertThat(sidebar.getMenu().getItems().get(2).getSubItems().size(), is(2));
-        assertThat(sidebar.getMenu().getItems().get(2).getSubItems().get(0).getDatasource(), is("test"));
-        assertThat(sidebar.getMenu().getItems().get(2).getSubItems().get(0).getTitle(), is("`name2`"));
-        assertThat(sidebar.getMenu().getItems().get(2).getSubItems().get(1).getDatasource(), is("ds"));
-
-        assertThat(sidebar.getMenu().getItems().get(3).getDatasource(), is("test"));
-        assertThat(sidebar.getMenu().getItems().get(3).getSubItems().size(), is(2));
-        assertThat(sidebar.getMenu().getItems().get(3).getSubItems().get(0).getDatasource(), is("ds"));
-        assertThat(sidebar.getMenu().getItems().get(3).getSubItems().get(1).getDatasource(), is("test"));
+        checkItems(sidebar.getMenu().getItems());
 
         //extra-menu
-        assertThat(sidebar.getExtraMenu().getItems().size(), is(4));
-        assertThat(sidebar.getExtraMenu().getItems().get(0).getDatasource(), is("ds"));
-        assertThat(sidebar.getExtraMenu().getItems().get(0).getTitle(), is("`name`"));
-        assertThat(sidebar.getExtraMenu().getItems().get(1).getDatasource(), is("test"));
+        checkItems(sidebar.getExtraMenu().getItems());
+    }
 
-        assertThat(sidebar.getExtraMenu().getItems().get(2).getDatasource(), is("ds"));
-        assertThat(sidebar.getExtraMenu().getItems().get(2).getSubItems().size(), is(2));
-        assertThat(sidebar.getExtraMenu().getItems().get(2).getSubItems().get(0).getDatasource(), is("test"));
-        assertThat(sidebar.getExtraMenu().getItems().get(2).getSubItems().get(0).getTitle(), is("`name2`"));
-        assertThat(sidebar.getExtraMenu().getItems().get(2).getSubItems().get(1).getDatasource(), is("ds"));
+    private void checkItems(List<MenuItem> items) {
+        assertThat(items.size(), is(4));
+        assertThat(items.get(0).getDatasource(), is("ds"));
+        assertThat(items.get(0).getTitle(), is("`name`"));
+        assertThat(items.get(1).getDatasource(), is("test"));
 
-        assertThat(sidebar.getExtraMenu().getItems().get(3).getDatasource(), is("test"));
-        assertThat(sidebar.getExtraMenu().getItems().get(3).getSubItems().size(), is(2));
-        assertThat(sidebar.getExtraMenu().getItems().get(3).getSubItems().get(0).getDatasource(), is("ds"));
-        assertThat(sidebar.getExtraMenu().getItems().get(3).getSubItems().get(1).getDatasource(), is("test"));
+        assertThat(items.get(2).getDatasource(), is("ds"));
+        assertThat(items.get(2).getSubItems().size(), is(2));
+        assertThat(items.get(2).getSubItems().get(0).getDatasource(), is("test"));
+        assertThat(items.get(2).getSubItems().get(0).getTitle(), is("`name2`"));
+        assertThat(items.get(2).getSubItems().get(1).getDatasource(), is("ds"));
+
+        assertThat(items.get(3).getDatasource(), is("test"));
+        assertThat(items.get(3).getSubItems().size(), is(2));
+        assertThat(items.get(3).getSubItems().get(0).getDatasource(), is("ds"));
+        assertThat(items.get(3).getSubItems().get(1).getDatasource(), is("test"));
     }
 }

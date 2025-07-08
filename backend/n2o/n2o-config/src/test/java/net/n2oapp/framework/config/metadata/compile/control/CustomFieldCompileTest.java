@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
 
 /**
  * Тестирование компиляции кастомного контрола
@@ -37,10 +38,11 @@ class CustomFieldCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testCustomFieldCompile"));
         Form form = (Form) page.getWidget();
         CustomField field = (CustomField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
-        assertThat(field.getId(), is("testId"));
-        assertThat(field.getSrc(), is("testSrc"));
-        assertThat(field.getLabel(), is("testLabel"));
-        assertThat(field.getDescription(), is("testDescription"));
+        assertThat(field, allOf(
+                hasProperty("id", is("testId")),
+                hasProperty("src", is("testSrc")),
+                hasProperty("label", is("testLabel")),
+                hasProperty("description", is("testDescription"))));
 
         ControlDependency dependency = field.getDependencies().get(0);
         assertThat(dependency.getType(), is(ValidationTypeEnum.RE_RENDER));

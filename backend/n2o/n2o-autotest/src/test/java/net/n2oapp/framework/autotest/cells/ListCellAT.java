@@ -86,24 +86,25 @@ class ListCellAT extends AutoTestBase {
         rows = simplePage.widget(TableWidget.class).columns().rows();
         rows.shouldHaveSize(1);
 
-        ListCell cell = rows.row(0).cell(0, ListCell.class);
+        checkCell0(rows.row(0).cell(0, ListCell.class));
+
+        checkCell1(rows.row(0).cell(1, ListCell.class));
+
+        checkCell2(rows.row(0).cell(2, ListCell.class));
+
+        checkCell3(rows.row(0).cell(3, ListCell.class));
+    }
+
+    private static void checkCell3(ListCell cell) {
         cell.shouldExists();
-        cell.shouldHaveInnerText(0, "text1");
-        cell.shouldHaveInnerText(1, "text2");
-        cell.shouldHaveInnerText(2, "text3");
         cell.shouldNotBeInline();
         cell.shouldNotBeExpandable();
+        cell.shouldHaveInnerBadgesSize(2);
+        cell.shouldHaveInnerBadge(0, "badge1");
+        cell.shouldHaveInnerBadge(1, "badge2");
+    }
 
-        cell = rows.row(0).cell(1, ListCell.class);
-        cell.shouldExists();
-        cell.shouldHaveInnerText(0, "text-1");
-        cell.shouldHaveInnerText(1, "text-2");
-        cell.shouldHaveInnerText(2, "text-3");
-        cell.shouldBeInline();
-        cell.shouldHaveSeparator(", ");
-        cell.shouldNotBeExpandable();
-
-        cell = rows.row(0).cell(2, ListCell.class);
+    private static void checkCell2(ListCell cell) {
         cell.shouldExists();
         cell.shouldNotBeInline();
         cell.shouldHaveInnerLink(0, "link1");
@@ -117,14 +118,24 @@ class ListCellAT extends AutoTestBase {
         cell.shouldHaveInnerLink(4, "link5");
         cell.shouldHaveHref(0, "https://example.com/");
         cell.shouldHaveHref(4, "https://mail.ru/");
+    }
 
-
-        cell = rows.row(0).cell(3, ListCell.class);
+    private static void checkCell1(ListCell cell) {
         cell.shouldExists();
+        cell.shouldHaveInnerText(0, "text-1");
+        cell.shouldHaveInnerText(1, "text-2");
+        cell.shouldHaveInnerText(2, "text-3");
+        cell.shouldBeInline();
+        cell.shouldHaveSeparator(", ");
+        cell.shouldNotBeExpandable();
+    }
+
+    private static void checkCell0(ListCell cell) {
+        cell.shouldExists();
+        cell.shouldHaveInnerText(0, "text1");
+        cell.shouldHaveInnerText(1, "text2");
+        cell.shouldHaveInnerText(2, "text3");
         cell.shouldNotBeInline();
         cell.shouldNotBeExpandable();
-        cell.shouldHaveInnerBadgesSize(2);
-        cell.shouldHaveInnerBadge(0, "badge1");
-        cell.shouldHaveInnerBadge(1, "badge2");
     }
 }

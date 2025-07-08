@@ -13,8 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции базового филдсета
@@ -53,17 +52,17 @@ class BaseFieldSetCompileTest extends SourceCompileTestBase {
 
         fieldSet = ((Form) page.getWidget()).getComponent().getFieldsets().get(1);
 
-
-        assertThat(fieldSet.getLabel(), nullValue());
-        assertThat(fieldSet.getHelp(), nullValue());
-        assertThat(fieldSet.getDescription(), nullValue());
-        assertThat(fieldSet.getLabelPosition(), nullValue());
-        assertThat(fieldSet.getLabelAlignment(), nullValue());
-        assertThat(fieldSet.getLabelWidth(), nullValue());
-        assertThat(fieldSet.getVisible(), nullValue());
-        assertThat(fieldSet.getEnabled(), nullValue());
-        assertThat(fieldSet.getLabelWidth(), nullValue());
-        assertThat(fieldSet.getJsonProperties(), nullValue()) ;
+        assertThat(fieldSet, allOf(
+                hasProperty("label", nullValue()),
+                hasProperty("help", nullValue()),
+                hasProperty("description", nullValue()),
+                hasProperty("labelPosition", nullValue()),
+                hasProperty("labelAlignment", nullValue()),
+                hasProperty("labelWidth", nullValue()),
+                hasProperty("visible", nullValue()),
+                hasProperty("enabled", nullValue())
+        ));
+        assertThat(fieldSet.getJsonProperties(), nullValue());
 
         fieldSet = ((Form) page.getWidget()).getComponent().getFieldsets().get(2);
 

@@ -15,9 +15,8 @@ import java.util.List;
  */
 class FilterCheckerTest {
 
-
     @Test
-    void test() throws Exception {
+    void testSimpleFilters() throws Exception {
         //eq
         assert new Filter(1, FilterTypeEnum.EQ).check(1);
         assert new Filter("1", FilterTypeEnum.EQ).check("1");
@@ -34,6 +33,26 @@ class FilterCheckerTest {
         //notEq
         assert !new Filter(1, FilterTypeEnum.NOT_EQ).check(1);
         assert new Filter(1, FilterTypeEnum.NOT_EQ).check(2);
+
+        //more
+        assert new Filter(1, FilterTypeEnum.MORE).check(2);
+        assert !new Filter(2, FilterTypeEnum.MORE).check(1);
+
+        //less
+        assert !new Filter(1, FilterTypeEnum.LESS).check(2);
+        assert new Filter(2, FilterTypeEnum.LESS).check(1);
+
+        //isNull
+        assert !new Filter(FilterTypeEnum.IS_NULL).check(123);
+        assert new Filter(FilterTypeEnum.IS_NULL).check(null);
+
+        //isNotNull
+        assert new Filter(FilterTypeEnum.IS_NOT_NULL).check(123);
+        assert !new Filter(FilterTypeEnum.IS_NOT_NULL).check(null);
+    }
+
+    @Test
+    void testInFilters() throws Exception {
 
         //inOrIsNull
         assert new Filter(Arrays.asList(1, 2), FilterTypeEnum.IN_OR_IS_NULL).check(1);
@@ -52,22 +71,10 @@ class FilterCheckerTest {
         //notIn
         assert !new Filter(Arrays.asList(1, 2), FilterTypeEnum.NOT_IN).check(1);
         assert new Filter(Arrays.asList(1, 2), FilterTypeEnum.NOT_IN).check(3);
+    }
 
-        //more
-        assert new Filter(1, FilterTypeEnum.MORE).check(2);
-        assert !new Filter(2, FilterTypeEnum.MORE).check(1);
-
-        //less
-        assert !new Filter(1, FilterTypeEnum.LESS).check(2);
-        assert new Filter(2, FilterTypeEnum.LESS).check(1);
-
-        //isNull
-        assert !new Filter(FilterTypeEnum.IS_NULL).check(123);
-        assert new Filter(FilterTypeEnum.IS_NULL).check(null);
-
-        //isNotNull
-        assert new Filter(FilterTypeEnum.IS_NOT_NULL).check(123);
-        assert !new Filter(FilterTypeEnum.IS_NOT_NULL).check(null);
+    @Test
+    void testLikeContainsFilters() throws Exception {
 
         //like
         assert new Filter("test text", FilterTypeEnum.LIKE).check("test");

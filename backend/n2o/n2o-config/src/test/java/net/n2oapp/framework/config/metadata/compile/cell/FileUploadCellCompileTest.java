@@ -38,8 +38,15 @@ class FileUploadCellCompileTest extends SourceCompileTestBase {
     void testCompileFileUploadCell() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testFileUploadCell.page.xml")
                 .get(new PageContext("testFileUploadCell"));
-        Table table = (Table) page.getWidget();
+        Table<?> table = (Table<?>) page.getWidget();
         FileUploadCell cell = (FileUploadCell) table.getComponent().getBody().getCells().get(0);
+        checkCell0(cell);
+
+        cell = (FileUploadCell) table.getComponent().getBody().getCells().get(1);
+        checkCell1(cell);
+    }
+
+    private static void checkCell0(FileUploadCell cell) {
         assertThat(cell.getSrc(), is("FileUploadCell"));
         assertThat(cell.getElementAttributes().get("className"), nullValue());
         assertThat(cell.getVisible(), nullValue());
@@ -60,8 +67,9 @@ class FileUploadCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getDeleteIcon(), nullValue());
         assertThat(cell.getUploadIcon(), nullValue());
         assertThat(cell.getUploadIcon(), nullValue());
+    }
 
-        cell = (FileUploadCell) table.getComponent().getBody().getCells().get(1);
+    private static void checkCell1(FileUploadCell cell) {
         assertThat(cell.getSrc(), is("src"));
         assertThat(cell.getElementAttributes().get("className"), is("testClass"));
         assertThat(cell.getVisible(), is(true));

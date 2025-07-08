@@ -255,35 +255,13 @@ class NestedMultiFieldSetAT extends AutoTestBase {
         nestedFieldsetSecond.clickAddButton("Добавить участника");
 
         //Проверяем, что все чекбоксы не выбраны
-        parentMultiFieldset.item(0).fields().field("firstLevelCheck").control(Checkbox.class).shouldNotBeChecked();
-        nestedFieldsetFirst.item(0).fields().field("secondLevelCheck").control(Checkbox.class).shouldNotBeChecked();
-        nestedFieldsetFirst.item(1).fields().field("secondLevelCheck").control(Checkbox.class).shouldNotBeChecked();
-
-        parentMultiFieldset.item(3).fields().field("firstLevelCheck").control(Checkbox.class).shouldNotBeChecked();
-        nestedFieldsetSecond.item(0).fields().field("secondLevelCheck").control(Checkbox.class).shouldNotBeChecked();
-        nestedFieldsetSecond.item(1).fields().field("secondLevelCheck").control(Checkbox.class).shouldNotBeChecked();
+        checkboxesShouldNotBeChecked(parentMultiFieldset, nestedFieldsetFirst, nestedFieldsetSecond);
 
         //валидируем
         validate.click();
 
         //проверяем, что все поля не прошли валидацию
-        parentMultiFieldset.item(0).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        parentMultiFieldset.item(0).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetFirst.item(0).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetFirst.item(0).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetFirst.item(0).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetFirst.item(1).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetFirst.item(1).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetFirst.item(1).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-
-        parentMultiFieldset.item(3).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        parentMultiFieldset.item(3).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetSecond.item(0).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetSecond.item(0).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetSecond.item(0).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetSecond.item(1).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetSecond.item(1).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
-        nestedFieldsetSecond.item(1).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        checkAllFieldsShouldHaveValidationMessage(parentMultiFieldset, nestedFieldsetFirst, nestedFieldsetSecond);
 
         //выбираем внешний чекбокс и валидируем
         checkbox.setChecked(true);
@@ -326,6 +304,36 @@ class NestedMultiFieldSetAT extends AutoTestBase {
         nestedFieldsetFirst.item(0).fields().field("field3").shouldHaveValidationMessage(Condition.not(Condition.text("Заполните поле")));
         nestedFieldsetFirst.item(1).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
         nestedFieldsetSecond.item(0).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetSecond.item(1).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+    }
+
+    private static void checkboxesShouldNotBeChecked(MultiFieldSet parentMultiFieldset, MultiFieldSet nestedFieldsetFirst, MultiFieldSet nestedFieldsetSecond) {
+        parentMultiFieldset.item(0).fields().field("firstLevelCheck").control(Checkbox.class).shouldNotBeChecked();
+        nestedFieldsetFirst.item(0).fields().field("secondLevelCheck").control(Checkbox.class).shouldNotBeChecked();
+        nestedFieldsetFirst.item(1).fields().field("secondLevelCheck").control(Checkbox.class).shouldNotBeChecked();
+
+        parentMultiFieldset.item(3).fields().field("firstLevelCheck").control(Checkbox.class).shouldNotBeChecked();
+        nestedFieldsetSecond.item(0).fields().field("secondLevelCheck").control(Checkbox.class).shouldNotBeChecked();
+        nestedFieldsetSecond.item(1).fields().field("secondLevelCheck").control(Checkbox.class).shouldNotBeChecked();
+    }
+
+    private static void checkAllFieldsShouldHaveValidationMessage(MultiFieldSet parentMultiFieldset, MultiFieldSet nestedFieldsetFirst, MultiFieldSet nestedFieldsetSecond) {
+        parentMultiFieldset.item(0).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        parentMultiFieldset.item(0).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetFirst.item(0).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetFirst.item(0).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetFirst.item(0).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetFirst.item(1).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetFirst.item(1).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetFirst.item(1).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+
+        parentMultiFieldset.item(3).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        parentMultiFieldset.item(3).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetSecond.item(0).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetSecond.item(0).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetSecond.item(0).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetSecond.item(1).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+        nestedFieldsetSecond.item(1).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
         nestedFieldsetSecond.item(1).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
     }
 }

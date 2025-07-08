@@ -87,6 +87,13 @@ class DialogValidationAT extends AutoTestBase {
         tableRows.row(0).cell(2).shouldHaveText("20");
 
         // save without name (calling dialog 'nameCheck')
+        saveWithoutName(page, tableRows, create, modal, modalSaveBtn, age);
+
+        // save without age (calling dialog 'ageCheck')
+        saveWithoutAge(page, tableRows, create, modal, modalSaveBtn, name);
+    }
+
+    private static void saveWithoutName(SimplePage page, TableWidget.Rows tableRows, StandardButton create, Modal modal, StandardButton modalSaveBtn, InputText age) {
         create.click();
         modal.shouldExists();
 
@@ -113,8 +120,9 @@ class DialogValidationAT extends AutoTestBase {
         tableRows.row(0).cell(0).shouldHaveText("4");
         tableRows.row(0).cell(1).shouldHaveText("default");
         tableRows.row(0).cell(2).shouldHaveText("25");
+    }
 
-        // save without age (calling dialog 'ageCheck')
+    private static void saveWithoutAge(SimplePage page, TableWidget.Rows tableRows, StandardButton create, Modal modal, StandardButton modalSaveBtn, InputText name) {
         create.click();
         modal.shouldExists();
 
@@ -122,18 +130,18 @@ class DialogValidationAT extends AutoTestBase {
         name.setValue("Ann");
         modalSaveBtn.click();
 
-        dialog = page.dialog("Вы не заполнили возраст.");
+        Page.Dialog dialog = page.dialog("Вы не заполнили возраст.");
         dialog.shouldBeVisible();
         dialog.shouldHaveText("Заполнить его значением по умолчанию?");
 
-        closeBtn = dialog.button("Нет");
+        Button closeBtn = dialog.button("Нет");
         closeBtn.shouldExists();
         closeBtn.shouldBeEnabled();
         closeBtn.click();
 
         modalSaveBtn.click();
 
-        agreeBnt = dialog.button("Да");
+        Button agreeBnt = dialog.button("Да");
         agreeBnt.click();
 
         modal.shouldNotExists();

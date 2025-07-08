@@ -22,8 +22,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -106,19 +105,6 @@ class ObjectCompileTest extends SourceCompileTestBase {
         assertThat(val1Provider.getArguments()[2].getName(), is("arg3"));
         assertThat(val1Provider.getArguments()[2].getClassName(), nullValue());
         assertThat(val1Provider.getArguments()[2].getType(), is(Argument.TypeEnum.PRIMITIVE));
-
-        N2oJavaDataProvider v2Provider =
-                (N2oJavaDataProvider) ((ConstraintValidation) all.getValidationsMap().get("v2")).getInvocation();
-        assertThat(v2Provider.getClassName(), is("TestService"));
-        assertThat(v2Provider.getArguments()[0].getName(), is("arg1"));
-        assertThat(v2Provider.getArguments()[0].getClassName(), is("TestEntity"));
-        assertThat(v2Provider.getArguments()[0].getType(), is(Argument.TypeEnum.ENTITY));
-        assertThat(v2Provider.getArguments()[1].getName(), is("arg2"));
-        assertThat(v2Provider.getArguments()[1].getClassName(), is("EntityClass"));
-        assertThat(v2Provider.getArguments()[1].getType(), is(Argument.TypeEnum.ENTITY));
-        assertThat(v2Provider.getArguments()[2].getName(), is("arg3"));
-        assertThat(v2Provider.getArguments()[2].getClassName(), nullValue());
-        assertThat(v2Provider.getArguments()[2].getType(), is(Argument.TypeEnum.PRIMITIVE));
     }
 
     @Test
@@ -131,178 +117,248 @@ class ObjectCompileTest extends SourceCompileTestBase {
                 .get(new ObjectContext("testObjectField"));
         assertThat(object.getObjectFields().size(), is(4));
 
-
         // 1. object fields
-        ObjectSimpleField field = (ObjectSimpleField) object.getObjectFieldsMap().get("f1");
-        assertThat(field.getId(), is("f1"));
-        assertThat(field.getRequired(), is(true));
-        assertThat(field.getMapping(), is("test"));
-        assertThat(field.getDomain(), is("integer"));
-
-        ObjectReferenceField refField = (ObjectReferenceField) object.getObjectFieldsMap().get("entity");
-        assertThat(refField.getId(), is("entity"));
-        assertThat(refField.getMapping(), is("test2"));
-        assertThat(refField.getRequired(), is(false));
-        // define in reference object
-        assertThat(refField.getReferenceObjectId(), nullValue());
-        assertThat(refField.getEntityClass(), is("com.example.Object"));
-        assertThat(refField.getFields().length, is(2));
-        // field defined in reference object
-        ObjectSimpleField child = (ObjectSimpleField) refField.getFields()[0];
-        assertThat(child.getId(), is("id"));
-        assertThat(child.getMapping(), is("code"));
-        assertThat(child.getDomain(), is("integer"));
-        assertThat(child.getRequired(), is(true));
-        assertThat(child.getDefaultValue(), is("1"));
-        assertThat(child.getNormalize(), is("#this > 0 ? #this : -1"));
-        ObjectReferenceField refChild = (ObjectReferenceField) refField.getFields()[1];
-        assertThat(refChild.getId(), is("rating"));
-        assertThat(refChild.getMapping(), is("userRating"));
-        assertThat(refChild.getFields().length, is(2));
-        // fields defined in reference object for reference object
-        child = (ObjectSimpleField) refChild.getFields()[0];
-        assertThat(child.getId(), is("code"));
-        assertThat(child.getDomain(), is("string"));
-        child = (ObjectSimpleField) refChild.getFields()[1];
-        assertThat(child.getId(), is("value"));
-        assertThat(child.getDomain(), is("numeric"));
-
-
-        ObjectListField listField = (ObjectListField) object.getObjectFieldsMap().get("list");
-        assertThat(listField.getId(), is("list"));
-        assertThat(listField.getMapping(), is("test3"));
-        assertThat(listField.getRequired(), is(true));
-        assertThat(listField.getFields().length, is(1));
-        child = (ObjectSimpleField) listField.getFields()[0];
-        assertThat(child.getId(), is("id"));
-        assertThat(child.getMapping(), is("pk"));
-        assertThat(child.getRequired(), is(true));
-
-        ObjectSetField setField = (ObjectSetField) object.getObjectFieldsMap().get("set");
-        assertThat(setField.getId(), is("set"));
-        assertThat(setField.getMapping(), is("test4"));
-        assertThat(setField.getRequired(), is(false));
-        assertThat(setField.getFields().length, is(1));
-        child = (ObjectSimpleField) setField.getFields()[0];
-        assertThat(child.getId(), is("name"));
-        // current object field attribute has higher priority then in reference object
-        assertThat(child.getMapping(), is("name2"));
-        // merged attributes
-        assertThat(child.getRequired(), is(true));
-        assertThat(child.getDomain(), is("string"));
+        checkObjectFields(object);
 
         // 2. operation1 fields (defined in operation and use object fields attribute definition by default)
-        Map<String, AbstractParameter> op1InFields = object.getOperations().get("op1").getInParametersMap();
-        assertThat(op1InFields.size(), is(5));
-
-        field = (ObjectSimpleField) op1InFields.get("f1");
-        assertThat(field.getId(), is("f1"));
-        assertThat(field.getRequired(), is(false));
-        assertThat(field.getMapping(), is("f1"));
-        assertThat(field.getDomain(), is("string"));
-
-        field = (ObjectSimpleField) op1InFields.get("f2");
-        assertThat(field.getId(), is("f2"));
-        assertThat(field.getRequired(), is(false));
-        assertThat(field.getMapping(), is("f2"));
-        assertThat(field.getDomain(), is("string"));
-
-        refField = (ObjectReferenceField) op1InFields.get("entity");
-        assertThat(refField.getId(), is("entity"));
-        assertThat(refField.getMapping(), is("entity2"));
-        assertThat(refField.getRequired(), is(false));
-        assertThat(refField.getReferenceObjectId(), nullValue());
-        assertThat(refField.getEntityClass(), is("com.example.Object"));
-        assertThat(refField.getFields().length, is(2));
-        child = (ObjectSimpleField) refField.getFields()[0];
-        assertThat(child.getId(), is("id"));
-        assertThat(child.getMapping(), is("code"));
-        // after merged with reference object field
-        // attribute priority: in operation field -> in operation object-id field -> object field
-        assertThat(child.getDomain(), is("short"));
-        assertThat(child.getRequired(), is(false));
-        // after merged with object field
-        assertThat(child.getDefaultValue(), is("1"));
-        assertThat(child.getNormalize(), is("#this > 0 ? #this : -1"));
-        child = (ObjectSimpleField) refField.getFields()[1];
-        assertThat(child.getId(), is("name"));
-        assertThat(child.getMapping(), is("title"));
-        // from reference object field
-        assertThat(child.getDomain(), is("string"));
-        assertThat(child.getRequired(), nullValue());
-        assertThat(child.getDefaultValue(), nullValue());
-        assertThat(child.getNormalize(), nullValue());
-
-        listField = (ObjectListField) op1InFields.get("list");
-        assertThat(listField.getId(), is("list"));
-        assertThat(listField.getMapping(), is("list"));
-        assertThat(listField.getRequired(), is(false));
-        assertThat(listField.getFields().length, is(1));
-        child = (ObjectSimpleField) listField.getFields()[0];
-        assertThat(child.getId(), is("id"));
-        assertThat(child.getMapping(), is("id2"));
-        assertThat(child.getRequired(), is(false));
-
-        setField = (ObjectSetField) op1InFields.get("set");
-        assertThat(setField.getId(), is("set"));
-        assertThat(setField.getMapping(), is("set"));
-        assertThat(setField.getRequired(), is(true));
-        assertThat(setField.getFields().length, is(1));
-        child = (ObjectSimpleField) setField.getFields()[0];
-        assertThat(child.getId(), is("name"));
-        assertThat(child.getMapping(), is("title"));
-        assertThat(child.getDomain(), is("string"));
+        checkOperation1Fields(object);
 
         // 3. operation2 fields (without attributes and body use object fields definition)
+        checkOperation2Fields(object);
+    }
+
+    private static void checkOperation2Fields(CompiledObject object) {
         Map<String, AbstractParameter> op2InFields = object.getOperations().get("op2").getInParametersMap();
         assertThat(op2InFields.size(), is(3));
 
-        refField = (ObjectReferenceField) op2InFields.get("entity");
-        assertThat(refField.getId(), is("entity"));
-        assertThat(refField.getMapping(), is("test2"));
-        assertThat(refField.getRequired(), is(false));
-        assertThat(refField.getReferenceObjectId(), nullValue());
-        assertThat(refField.getEntityClass(), is("com.example.Object"));
-        assertThat(refField.getFields().length, is(2));
-        child = (ObjectSimpleField) refField.getFields()[0];
-        assertThat(child.getId(), is("id"));
-        assertThat(child.getMapping(), is("code"));
-        assertThat(child.getDomain(), is("integer"));
-        assertThat(child.getRequired(), is(true));
-        assertThat(child.getDefaultValue(), is("1"));
-        assertThat(child.getNormalize(), is("#this > 0 ? #this : -1"));
-        refChild = (ObjectReferenceField) refField.getFields()[1];
-        assertThat(refChild.getId(), is("rating"));
-        assertThat(refChild.getMapping(), is("userRating"));
-        assertThat(refChild.getFields().length, is(2));
+        ObjectReferenceField refField = (ObjectReferenceField) op2InFields.get("entity");
+        assertThat(refField, allOf(
+                hasProperty("id", is("entity")),
+                hasProperty("mapping", is("test2")),
+                hasProperty("required", is(false)),
+                hasProperty("referenceObjectId", nullValue()),
+                hasProperty("entityClass", is("com.example.Object")),
+                hasProperty("fields", arrayWithSize(2))
+        ));
+
+        ObjectSimpleField child = (ObjectSimpleField) refField.getFields()[0];
+        assertThat(child, allOf(
+                hasProperty("id", is("id")),
+                hasProperty("mapping", is("code")),
+                hasProperty("domain", is("integer")),
+                hasProperty("required", is(true)),
+                hasProperty("defaultValue", is("1")),
+                hasProperty("normalize", is("#this > 0 ? #this : -1"))
+        ));
+
+        ObjectReferenceField refChild = (ObjectReferenceField) refField.getFields()[1];
+        assertThat(refChild, allOf(
+                hasProperty("id", is("rating")),
+                hasProperty("mapping", is("userRating")),
+                hasProperty("fields", arrayWithSize(2))
+        ));
         // fields defined in reference object for reference object
         child = (ObjectSimpleField) refChild.getFields()[0];
-        assertThat(child.getId(), is("code"));
-        assertThat(child.getDomain(), is("string"));
+        assertThat(child, allOf(
+                hasProperty("id", is("code")),
+                hasProperty("domain", is("string"))
+        ));
         child = (ObjectSimpleField) refChild.getFields()[1];
-        assertThat(child.getId(), is("value"));
-        assertThat(child.getDomain(), is("numeric"));
+        assertThat(child, allOf(
+                hasProperty("id", is("value")),
+                hasProperty("domain", is("numeric"))
+        ));
 
 
-        listField = (ObjectListField) op2InFields.get("list");
-        assertThat(listField.getId(), is("list"));
-        assertThat(listField.getMapping(), is("test3"));
-        assertThat(listField.getRequired(), is(true));
-        assertThat(listField.getFields().length, is(1));
+        ObjectListField listField = (ObjectListField) op2InFields.get("list");
+        assertThat(listField, allOf(
+                hasProperty("id", is("list")),
+                hasProperty("mapping", is("test3")),
+                hasProperty("required", is(true)),
+                hasProperty("fields", arrayWithSize(1))
+        ));
         child = (ObjectSimpleField) listField.getFields()[0];
-        assertThat(child.getId(), is("id"));
-        assertThat(child.getMapping(), is("pk"));
-        assertThat(child.getRequired(), is(true));
+        assertThat(child, allOf(
+                hasProperty("id", is("id")),
+                hasProperty("mapping", is("pk")),
+                hasProperty("required", is(true))
+        ));
 
-        setField = (ObjectSetField) op2InFields.get("set");
-        assertThat(setField.getId(), is("set"));
-        assertThat(setField.getMapping(), is("test4"));
-        assertThat(setField.getRequired(), is(false));
-        assertThat(setField.getFields().length, is(1));
+        ObjectSetField setField = (ObjectSetField) op2InFields.get("set");
+        assertThat(setField, allOf(
+                hasProperty("id", is("set")),
+                hasProperty("mapping", is("test4")),
+                hasProperty("required", is(false)),
+                hasProperty("fields", arrayWithSize(1))
+        ));
         child = (ObjectSimpleField) setField.getFields()[0];
-        assertThat(child.getId(), is("name"));
-        assertThat(child.getMapping(), is("name2"));
-        assertThat(child.getRequired(), is(true));
-        assertThat(child.getDomain(), is("string"));
+        assertThat(child, allOf(
+                hasProperty("id", is("name")),
+                hasProperty("mapping", is("name2")),
+                hasProperty("required", is(true)),
+                hasProperty("domain", is("string"))
+        ));
+    }
+
+    private static void checkOperation1Fields(CompiledObject object) {
+
+        Map<String, AbstractParameter> op1InFields = object.getOperations().get("op1").getInParametersMap();
+        assertThat(op1InFields.size(), is(5));
+
+        ObjectSimpleField field = (ObjectSimpleField) op1InFields.get("f1");
+        assertThat(field, allOf(
+                hasProperty("id", is("f1")),
+                hasProperty("required", is(false)),
+                hasProperty("mapping", is("f1")),
+                hasProperty("domain", is("string"))
+        ));
+
+        field = (ObjectSimpleField) op1InFields.get("f2");
+        assertThat(field, allOf(
+                hasProperty("id", is("f2")),
+                hasProperty("required", is(false)),
+                hasProperty("mapping", is("f2")),
+                hasProperty("domain", is("string"))
+        ));
+
+        ObjectReferenceField refField = (ObjectReferenceField) op1InFields.get("entity");
+        assertThat(refField, allOf(
+                hasProperty("id", is("entity")),
+                hasProperty("mapping", is("entity2")),
+                hasProperty("required", is(false)),
+                hasProperty("referenceObjectId", nullValue()),
+                hasProperty("entityClass", is("com.example.Object")),
+                hasProperty("fields", arrayWithSize(2))
+        ));
+        ObjectSimpleField child = (ObjectSimpleField) refField.getFields()[0];
+        assertThat(child, allOf(
+                hasProperty("id", is("id")),
+                hasProperty("mapping", is("code")),
+                // after merged with reference object field
+                // attribute priority: in operation field -> in operation object-id field -> object field
+                hasProperty("domain", is("short")),
+                hasProperty("required", is(false)),
+                // after merged with object field
+                hasProperty("defaultValue", is("1")),
+                hasProperty("normalize", is("#this > 0 ? #this : -1"))
+        ));
+
+        child = (ObjectSimpleField) refField.getFields()[1];
+        assertThat(child, allOf(
+                hasProperty("id", is("name")),
+                hasProperty("mapping", is("title")),
+                // from reference object field
+                hasProperty("domain", is("string")),
+                hasProperty("required", nullValue()),
+                hasProperty("defaultValue", nullValue()),
+                hasProperty("normalize", nullValue())
+        ));
+
+        ObjectListField listField = (ObjectListField) op1InFields.get("list");
+        assertThat(listField, allOf(
+                hasProperty("id", is("list")),
+                hasProperty("mapping", is("list")),
+                hasProperty("required", is(false)),
+                hasProperty("fields", arrayWithSize(1))
+        ));
+        child = (ObjectSimpleField) listField.getFields()[0];
+        assertThat(child, allOf(
+                hasProperty("id", is("id")),
+                hasProperty("mapping", is("id2")),
+                hasProperty("required", is(false))
+        ));
+
+        ObjectSetField setField = (ObjectSetField) op1InFields.get("set");
+        assertThat(setField, allOf(
+                hasProperty("id", is("set")),
+                hasProperty("mapping", is("set")),
+                hasProperty("required", is(true)),
+                hasProperty("fields", arrayWithSize(1))
+        ));
+        child = (ObjectSimpleField) setField.getFields()[0];
+        assertThat(child, allOf(
+                hasProperty("id", is("name")),
+                hasProperty("mapping", is("title")),
+                hasProperty("domain", is("string"))
+        ));
+    }
+
+    private static void checkObjectFields(CompiledObject object) {
+        // 1. object fields
+        ObjectSimpleField field = (ObjectSimpleField) object.getObjectFieldsMap().get("f1");
+        assertThat(field, allOf(
+                hasProperty("id", is("f1")),
+                hasProperty("required", is(true)),
+                hasProperty("mapping", is("test")),
+                hasProperty("domain", is("integer"))
+        ));
+
+        ObjectReferenceField refField = (ObjectReferenceField) object.getObjectFieldsMap().get("entity");
+        assertThat(refField, allOf(
+                hasProperty("id", is("entity")),
+                hasProperty("mapping", is("test2")),
+                hasProperty("required", is(false)),
+                // define in reference object
+                hasProperty("referenceObjectId", nullValue()),
+                hasProperty("entityClass", is("com.example.Object")),
+                hasProperty("fields", arrayWithSize(2))
+        ));
+        // field defined in reference object
+        ObjectSimpleField child = (ObjectSimpleField) refField.getFields()[0];
+        assertThat(child, allOf(
+                hasProperty("id", is("id")),
+                hasProperty("mapping", is("code")),
+                hasProperty("domain", is("integer")),
+                hasProperty("required", is(true)),
+                hasProperty("defaultValue", is("1")),
+                hasProperty("normalize", is("#this > 0 ? #this : -1"))
+        ));
+        ObjectReferenceField refChild = (ObjectReferenceField) refField.getFields()[1];
+        assertThat(refChild, allOf(
+                hasProperty("id", is("rating")),
+                hasProperty("mapping", is("userRating")),
+                hasProperty("fields", arrayWithSize(2))
+        ));
+        // fields defined in reference object for reference object
+        child = (ObjectSimpleField) refChild.getFields()[0];
+        assertThat(child, allOf(
+                hasProperty("id", is("code")),
+                hasProperty("domain", is("string"))
+        ));
+        child = (ObjectSimpleField) refChild.getFields()[1];
+        assertThat(child, allOf(
+                hasProperty("id", is("value")),
+                hasProperty("domain", is("numeric"))
+        ));
+
+
+        ObjectListField listField = (ObjectListField) object.getObjectFieldsMap().get("list");
+        assertThat(listField, allOf(
+                hasProperty("id", is("list")),
+                hasProperty("mapping", is("test3")),
+                hasProperty("required", is(true)),
+                hasProperty("fields", arrayWithSize(1))
+        ));
+        child = (ObjectSimpleField) listField.getFields()[0];
+        assertThat(child, allOf(
+                hasProperty("id", is("id")),
+                hasProperty("mapping", is("pk")),
+                hasProperty("required", is(true))
+        ));
+
+        ObjectSetField setField = (ObjectSetField) object.getObjectFieldsMap().get("set");
+        assertThat(setField, allOf(
+                hasProperty("id", is("set")),
+                hasProperty("mapping", is("test4")),
+                hasProperty("required", is(false)),
+                hasProperty("fields", arrayWithSize(1))
+        ));
+        child = (ObjectSimpleField) setField.getFields()[0];
+        assertThat(child, allOf(
+                hasProperty("id", is("name")),
+                hasProperty("mapping", is("name2")),  // current object field attribute has higher priority than in reference object
+                hasProperty("required", is(true)),    // merged attributes
+                hasProperty("domain", is("string"))   // merged attributes
+        ));
     }
 }

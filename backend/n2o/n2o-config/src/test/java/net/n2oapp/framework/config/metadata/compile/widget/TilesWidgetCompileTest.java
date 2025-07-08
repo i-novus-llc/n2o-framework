@@ -12,10 +12,10 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
-
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.collection.IsMapContaining.hasEntry;
 
 /**
  * Тестирование компиляции виджета Плитки
@@ -42,20 +42,23 @@ class TilesWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testTilesCompile"));
         Tiles tiles = (Tiles) page.getRegions().get("single").get(0).getContent().get(0);
 
-        assertThat(tiles.getSrc(), is("TilesWidget"));
-        assertThat(tiles.getColsSm(), is(2));
-        assertThat(tiles.getColsMd(), is(3));
-        assertThat(tiles.getColsLg(), is(6));
-        assertThat(tiles.getHeight(), is("450px"));
-        assertThat(tiles.getWidth(), is("300px"));
+        assertThat(tiles, allOf(
+                hasProperty("src", is("TilesWidget")),
+                hasProperty("colsSm", is(2)),
+                hasProperty("colsMd", is(3)),
+                hasProperty("colsLg", is(6)),
+                hasProperty("height", is("450px")),
+                hasProperty("width", is("300px"))
+        ));
 
-        Tiles.Tile tile = tiles.getTile().get(0);
-        assertThat(tile.getId(), is("test1"));
-        assertThat(tile.getClassName(), is("test"));
-        assertThat(tile.getStyle(), is(Map.of("color", "red")));
-        assertThat(tile.getComponent().getSrc(), is("cell1"));
+        assertThat(tiles.getTile().get(0), allOf(
+                hasProperty("id", is("test1")),
+                hasProperty("className", is("test")),
+                hasProperty("style", hasEntry("color", "red")),
+                hasProperty("component", hasProperty("src", is("cell1")))
+        ));
 
-        tile = tiles.getTile().get(1);
+        Tiles.Tile tile = tiles.getTile().get(1);
         assertThat(tile.getId(), is("id2"));
         assertThat(tile.getComponent(), instanceOf(TextCell.class));
         assertThat(tile.getComponent().getSrc(), is("TextCell"));
@@ -68,25 +71,31 @@ class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tile.getComponent(), instanceOf(ImageCell.class));
         assertThat(((ImageCell) tile.getComponent()).getData(), is("/test"));
 
-        assertThat(tiles.getPaging().getNext(), is(true));
-        assertThat(tiles.getPaging().getPrev(), is(true));
-        assertThat(tiles.getPaging().getShowCount(), is(ShowCountTypeEnum.NEVER));
-        assertThat(tiles.getPaging().getShowLast(), is(true));
-        assertThat(tiles.getPaging().getSrc(), is("pagingSrc"));
+        assertThat(tiles.getPaging(), allOf(
+                hasProperty("next", is(true)),
+                hasProperty("prev", is(true)),
+                hasProperty("showCount", is(ShowCountTypeEnum.NEVER)),
+                hasProperty("showLast", is(true)),
+                hasProperty("src", is("pagingSrc"))
+        ));
 
         assertThat(page.getDatasources().get(tiles.getDatasource()).getPaging().getSize(), is(5));
 
         tiles = (Tiles) page.getRegions().get("single").get(0).getContent().get(1);
-        assertThat(tiles.getSrc(), is("TilesWidget"));
-        assertThat(tiles.getColsSm(), is(1));
-        assertThat(tiles.getColsMd(), is(2));
-        assertThat(tiles.getColsLg(), is(4));
-        assertThat(tiles.getHeight(), nullValue());
-        assertThat(tiles.getWidth(), nullValue());
+        assertThat(tiles, allOf(
+                hasProperty("src", is("TilesWidget")),
+                hasProperty("colsSm", is(1)),
+                hasProperty("colsMd", is(2)),
+                hasProperty("colsLg", is(4)),
+                hasProperty("height", nullValue()),
+                hasProperty("width", nullValue())
+        ));
 
-        assertThat(tiles.getPaging().getNext(), is(false));
-        assertThat(tiles.getPaging().getPrev(), is(false));
-        assertThat(tiles.getPaging().getShowCount(), is(ShowCountTypeEnum.ALWAYS));
-        assertThat(tiles.getPaging().getSize(), is(10));
+        assertThat(tiles.getPaging(), allOf(
+                hasProperty("next", is(false)),
+                hasProperty("prev", is(false)),
+                hasProperty("showCount", is(ShowCountTypeEnum.ALWAYS)),
+                hasProperty("size", is(10))
+        ));
     }
 }

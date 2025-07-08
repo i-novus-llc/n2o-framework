@@ -77,20 +77,27 @@ class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.size(), is(3));
 
         // LINE1
-        assertThat(regions.get(0), instanceOf(LineRegion.class));
-        assertThat(regions.get(0).getId(), is("line0"));
-        assertThat(((LineRegion) regions.get(0)).getLabel(), is("Line1"));
-        assertThat(((LineRegion) regions.get(0)).getCollapsible(), is(false));
+        assertThat(regions.get(0), allOf(
+                instanceOf(LineRegion.class),
+                hasProperty("id", is("line0"))
+        ));
+        assertThat(regions.get(0), allOf(
+                instanceOf(LineRegion.class),
+                hasProperty("label", is("Line1")),
+                hasProperty("collapsible", is(false))
+        ));
         List<CompiledRegionItem> content = regions.get(0).getContent();
         assertThat(content.size(), is(3));
         // line form1
         assertThat(content.get(0), instanceOf(Form.class));
         assertThat(((Form) content.get(0)).getId(), is("testLineRegionNesting_line1"));
         // line line
-        assertThat(content.get(1), instanceOf(LineRegion.class));
-        assertThat(((LineRegion) content.get(1)).getId(), is("line1"));
-        assertThat(((LineRegion) content.get(1)).getCollapsible(), is(true));
-        assertThat(((LineRegion) content.get(1)).getContent().size(), is(2));
+        assertThat(content.get(1), allOf(
+                instanceOf(LineRegion.class),
+                hasProperty("id", is("line1")),
+                hasProperty("collapsible", is(true)),
+                hasProperty("content", hasSize(2))
+        ));
         List<CompiledRegionItem> line1Content = ((LineRegion) content.get(1)).getContent();
         assertThat(line1Content.size(), is(2));
         // line line form2
@@ -109,20 +116,24 @@ class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) content.get(2)).getId(), is("testLineRegionNesting_line4"));
 
         // LINE2
-        assertThat(regions.get(1), instanceOf(LineRegion.class));
-        assertThat(regions.get(1).getId(), is("line3"));
+        assertThat(regions.get(1), allOf(
+                instanceOf(LineRegion.class),
+                hasProperty("id", is("line3"))
+        ));
         content = regions.get(1).getContent();
         assertThat(content.size(), is(2));
         // line table1
         assertThat(content.get(0), instanceOf(Table.class));
-        assertThat(((Table) content.get(0)).getId(), is("testLineRegionNesting_line5"));
+        assertThat(((Table<?>) content.get(0)).getId(), is("testLineRegionNesting_line5"));
         // line table2
         assertThat(content.get(1), instanceOf(Table.class));
-        assertThat(((Table) content.get(1)).getId(), is("testLineRegionNesting_line6"));
+        assertThat(((Table<?>) content.get(1)).getId(), is("testLineRegionNesting_line6"));
 
         // LINE 3
-        assertThat(regions.get(2), instanceOf(LineRegion.class));
-        assertThat(regions.get(2).getId(), is("line4"));
-        assertThat(regions.get(2).getContent(), nullValue());
+        assertThat(regions.get(2), allOf(
+                instanceOf(LineRegion.class),
+                hasProperty("id", is("line4")),
+                hasProperty("content", nullValue())
+        ));
     }
 }

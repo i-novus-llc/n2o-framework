@@ -17,8 +17,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции кастомного региона
@@ -52,9 +51,11 @@ class CustomRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.size(), is(3));
 
         // REGION1
-        assertThat(regions.get(0), instanceOf(CustomRegion.class));
-        assertThat(regions.get(0).getId(), is("region0"));
-        assertThat(regions.get(0).getSrc(), is("NoneRegion"));
+        assertThat(regions.get(0), allOf(
+                instanceOf(CustomRegion.class),
+                hasProperty("id", is("region0")),
+                hasProperty("src", is("NoneRegion"))
+        ));
         List<CompiledRegionItem> content = regions.get(0).getContent();
         assertThat(content.size(), is(2));
         // region form1
@@ -65,9 +66,11 @@ class CustomRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) content.get(1)).getId(), is("testCustomRegionNesting_w2"));
 
         // REGION2
-        assertThat(regions.get(1), instanceOf(CustomRegion.class));
-        assertThat(regions.get(1).getId(), is("region1"));
-        assertThat(regions.get(1).getSrc(), is("NoneRegion"));
+        assertThat(regions.get(1), allOf(
+                instanceOf(CustomRegion.class),
+                hasProperty("id", is("region1")),
+                hasProperty("src", is("NoneRegion"))
+        ));
         content = regions.get(1).getContent();
         assertThat(content.size(), is(3));
         // region form3
@@ -75,9 +78,11 @@ class CustomRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) content.get(0)).getId(), is("testCustomRegionNesting_w3"));
 
         //region region
-        assertThat(content.get(1), instanceOf(CustomRegion.class));
-        assertThat(((CustomRegion) content.get(1)).getId(), is("region2"));
-        assertThat(((CustomRegion) content.get(1)).getSrc(), is("NoneRegion"));
+        assertThat(content.get(1), allOf(
+                instanceOf(CustomRegion.class),
+                hasProperty("id", is("region2")),
+                hasProperty("src", is("NoneRegion"))
+        ));
         List<CompiledRegionItem> regionContent = ((CustomRegion) content.get(1)).getContent();
         assertThat(regionContent.size(), is(1));
         // region region form4
@@ -89,9 +94,11 @@ class CustomRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) content.get(2)).getId(), is("testCustomRegionNesting_w5"));
 
         // REGION3
-        assertThat(regions.get(2), instanceOf(CustomRegion.class));
-        assertThat(regions.get(2).getId(), is("region3"));
-        assertThat(regions.get(2).getSrc(), is("NoneRegion"));
+        assertThat(regions.get(2), allOf(
+                instanceOf(CustomRegion.class),
+                hasProperty("id", is("region3")),
+                hasProperty("src", is("NoneRegion"))
+        ));
         content = regions.get(2).getContent();
         assertThat(content.size(), is(2));
         // region form6

@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasProperty;
 
 /**
  * Тестирование компиляции компонента загрузки изображений
@@ -43,36 +45,38 @@ class ImageUploadCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testImageUpload"));
         Form form = (Form) page.getWidget();
 
-        ImageUpload imageUpload = (ImageUpload) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0)
+        ImageUpload imageUpload = (ImageUpload) ((StandardField<?>) form.getComponent().getFieldsets().get(0).getRows().get(0)
                 .getCols().get(0).getFields().get(0)).getControl();
-        assertThat(imageUpload.getSrc(), is("ImageUploader"));
-        assertThat(imageUpload.getListType(), is(ImageUpload.ListTypeEnum.CARD));
-        assertThat(imageUpload.getCanLightbox(), is(true));
-        assertThat(imageUpload.getCanDelete(), is(false));
-        assertThat(imageUpload.getWidth(), is("500px"));
-        assertThat(imageUpload.getHeight(), is("400px"));
-        assertThat(imageUpload.getIcon(), is("fa fa-plus"));
-        assertThat(imageUpload.getIconSize(), is("150px"));
-        assertThat(imageUpload.getShowTooltip(), is(false));
-        assertThat(imageUpload.getShape(), is(ShapeTypeEnum.CIRCLE));
-        assertThat(imageUpload.getAjax(), is(false));
-        assertThat(imageUpload.getMulti(), is(true));
-        assertThat(imageUpload.getShowSize(), is(false));
-        assertThat(imageUpload.getShowName(), is(true));
-        assertThat(imageUpload.getAccept(), is(".img,.png"));
-        assertThat(imageUpload.getUploadUrl(), is("/upload"));
-        assertThat(imageUpload.getDeleteUrl(), is("/delete"));
-        assertThat(imageUpload.getValueFieldId(), is("valueId"));
-        assertThat(imageUpload.getLabelFieldId(), is("labelId"));
-        assertThat(imageUpload.getUrlFieldId(), is("urlId"));
-        assertThat(imageUpload.getResponseFieldId(), is("messageId"));
-        assertThat(imageUpload.getRequestParam(), is("param"));
+        assertThat(imageUpload, allOf(
+                hasProperty("src", is("ImageUploader")),
+                hasProperty("listType", is(ImageUpload.ListTypeEnum.CARD)),
+                hasProperty("canLightbox", is(true)),
+                hasProperty("canDelete", is(false)),
+                hasProperty("width", is("500px")),
+                hasProperty("height", is("400px")),
+                hasProperty("icon", is("fa fa-plus")),
+                hasProperty("iconSize", is("150px")),
+                hasProperty("showTooltip", is(false)),
+                hasProperty("shape", is(ShapeTypeEnum.CIRCLE)),
+                hasProperty("ajax", is(false)),
+                hasProperty("multi", is(true)),
+                hasProperty("showSize", is(false)),
+                hasProperty("showName", is(true)),
+                hasProperty("accept", is(".img,.png")),
+                hasProperty("uploadUrl", is("/upload")),
+                hasProperty("deleteUrl", is("/delete")),
+                hasProperty("valueFieldId", is("valueId")),
+                hasProperty("labelFieldId", is("labelId")),
+                hasProperty("urlFieldId", is("urlId")),
+                hasProperty("responseFieldId", is("messageId")),
+                hasProperty("requestParam", is("param"))
+        ));
         DefaultValues values = (DefaultValues) page.getModels().get("resolve['testImageUpload_w1'].imageUpload").getValue();
         assertThat(values.getValues().get("id"), is("value1"));
         assertThat(values.getValues().get("filename"), is("file"));
         assertThat(values.getValues().get("url"), is("/test"));
 
-        ImageUpload imageUpload2 = (ImageUpload) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(1)
+        ImageUpload imageUpload2 = (ImageUpload) ((StandardField<?>) form.getComponent().getFieldsets().get(0).getRows().get(1)
                 .getCols().get(0).getFields().get(0)).getControl();
         assertThat(imageUpload2.getListType(), is(ImageUpload.ListTypeEnum.IMAGE));
         assertThat(imageUpload2.getCanLightbox(), is(false));

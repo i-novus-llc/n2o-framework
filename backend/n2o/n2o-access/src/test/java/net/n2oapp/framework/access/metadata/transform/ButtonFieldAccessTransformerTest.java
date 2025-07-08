@@ -57,42 +57,29 @@ class ButtonFieldAccessTransformerTest extends SourceCompileTestBase {
         Field field = fields.get(0);
         assertThat(field.getId(), is("btn01"));
         SecurityObject secObj = getSecurityObject(field, "object");
-
-        assertThat(secObj.getDenied(), nullValue());
-        assertThat(secObj.getPermitAll(), nullValue());
-        assertThat(secObj.getAnonymous(), nullValue());
-        assertThat(secObj.getAuthenticated(), nullValue());
-        assertThat(secObj.getRoles().size(), is(1));
-        assertThat(secObj.getRoles().iterator().next(), is("role"));
-        assertThat(secObj.getPermissions().size(), is(1));
-        assertThat(secObj.getPermissions().iterator().next(), is("permission"));
-        assertThat(secObj.getUsernames().size(), is(1));
-        assertThat(secObj.getUsernames().iterator().next(), is("user"));
+        assertSecurityObject(secObj,
+                null, null, null, null,
+                1, "role",
+                1, "permission",
+                1, "user");
 
         field = fields.get(1);
         assertThat(field.getId(), is("btn02"));
         secObj = getSecurityObject(field, "custom");
-
-        assertThat(secObj.getDenied(), nullValue());
-        assertThat(secObj.getPermitAll(), nullValue());
-        assertThat(secObj.getAnonymous(), nullValue());
-        assertThat(secObj.getAuthenticated(), nullValue());
-        assertThat(secObj.getPermissions(), nullValue());
-        assertThat(secObj.getUsernames(), nullValue());
-        assertThat(secObj.getRoles().size(), is(1));
-        assertThat(secObj.getRoles().iterator().next(), is("role1"));
+        assertSecurityObject(secObj,
+                null, null, null, null,
+                1, "role1",
+                0, null,
+                0, null);
 
         field = fields.get(2);
         assertThat(field.getId(), is("btn10"));
         secObj = getSecurityObject(field, "custom");
-
-        assertThat(secObj.getDenied(), nullValue());
-        assertThat(secObj.getPermitAll(), nullValue());
-        assertThat(secObj.getAnonymous(), nullValue());
-        assertThat(secObj.getPermissions(), nullValue());
-        assertThat(secObj.getUsernames(), nullValue());
-        assertThat(secObj.getRoles(), nullValue());
-        assertThat(secObj.getAuthenticated(), is(true));
+        assertSecurityObject(secObj,
+                null, null, null, true,
+                0, null,
+                0, null,
+                0, null);
 
         field = fields.get(3);
         assertThat(field.getId(), is("btn11"));
@@ -101,17 +88,32 @@ class ButtonFieldAccessTransformerTest extends SourceCompileTestBase {
         field = fields.get(4);
         assertThat(field.getId(), is("btn12"));
         secObj = getSecurityObject(field, "object");
+        assertSecurityObject(secObj,
+                null, null, null, null,
+                1, "role",
+                1, "permission",
+                1, "user");
+    }
 
-        assertThat(secObj.getDenied(), nullValue());
-        assertThat(secObj.getPermitAll(), nullValue());
-        assertThat(secObj.getAnonymous(), nullValue());
-        assertThat(secObj.getAuthenticated(), nullValue());
-        assertThat(secObj.getRoles().size(), is(1));
-        assertThat(secObj.getRoles().iterator().next(), is("role"));
-        assertThat(secObj.getPermissions().size(), is(1));
-        assertThat(secObj.getPermissions().iterator().next(), is("permission"));
-        assertThat(secObj.getUsernames().size(), is(1));
-        assertThat(secObj.getUsernames().iterator().next(), is("user"));
+    private void assertSecurityObject(SecurityObject secObj, Boolean denied, Boolean permitAll, Boolean anonymous, Boolean authenticated,
+                                      int roleSize, String role, int permissionsSize, String permissions, int usernamesSize, String usernames) {
+        assertThat(secObj.getDenied(), denied != null ? is(denied) : nullValue());
+        assertThat(secObj.getPermitAll(), permitAll != null ? is(permitAll) : nullValue());
+        assertThat(secObj.getAnonymous(), anonymous != null ? is(anonymous) : nullValue());
+        assertThat(secObj.getAuthenticated(), authenticated != null ? is(authenticated) : nullValue());
+
+        if (role != null) {
+            assertThat(secObj.getRoles().iterator().next(), is(role));
+            assertThat(secObj.getRoles().size(), is(roleSize));
+        }
+        if (permissions != null) {
+            assertThat(secObj.getPermissions().iterator().next(), is(permissions));
+            assertThat(secObj.getPermissions().size(), is(permissionsSize));
+        }
+        if (usernames != null) {
+            assertThat(secObj.getUsernames().iterator().next(), is(usernames));
+            assertThat(secObj.getUsernames().size(), is(usernamesSize));
+        }
     }
 
     private SecurityObject getSecurityObject(Field field, String key) {

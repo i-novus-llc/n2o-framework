@@ -79,6 +79,59 @@ class FieldEnabledAT extends AutoTestBase {
         page.shouldExists();
 
         //проверка через модальное окно
+        checkShowModal(page);
+        //проверка через open-page
+        checkOpenPage(page);
+    }
+
+    private static void checkOpenPage(StandardPage page) {
+        StandardButton openPageBtn = page.toolbar().topLeft().button("Добавить через page");
+        openPageBtn.shouldBeEnabled();
+
+        openPageBtn.click();
+
+        StandardPage subPage = N2oSelenide.page(StandardPage.class);
+        subPage.shouldExists();
+
+        subPage = N2oSelenide.page(StandardPage.class);
+        subPage.shouldExists();
+
+        FormWidget mainForm = subPage.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+        FormWidget subForm = subPage.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class);
+        subForm.shouldExists();
+        mainForm.shouldExists();
+
+        MaskedInput maskedInput = mainForm.fields().field("СНИЛС").control(MaskedInput.class);
+        ButtonField buttonField = mainForm.fields().field("Поиск по СНИЛС", ButtonField.class);
+        StandardField inputField = subForm.fields().field("Фамилия");
+        InputText inputText = inputField.control(InputText.class);
+
+        buttonField.shouldBeDisabled();
+        inputText.shouldBeEnabled();
+        inputField.shouldBeRequired();
+
+        maskedInput.setValue("111-111-111 11");
+        buttonField.shouldBeEnabled();
+        buttonField.click();
+        inputText.shouldBeEnabled();
+        inputField.shouldBeRequired();
+
+        maskedInput.setValue("555-750-462 12");
+        buttonField.click();
+        inputText.shouldBeDisabled();
+        inputField.shouldNotBeRequired();
+
+        subPage.breadcrumb().crumb(0).click();
+        openPageBtn.click();
+
+        subPage.shouldExists();
+
+        buttonField.shouldBeDisabled();
+        inputText.shouldBeEnabled();
+        inputField.shouldBeRequired();
+    }
+
+    private static void checkShowModal(StandardPage page) {
         StandardButton openModalBtn = page.toolbar().topLeft().button("Добавить через modal");
         openModalBtn.shouldBeEnabled();
 
@@ -124,51 +177,5 @@ class FieldEnabledAT extends AutoTestBase {
 
         N2oSelenide.modal().close();
         modal.shouldNotExists();
-
-        //проверка через open-page
-        StandardButton openPageBtn = page.toolbar().topLeft().button("Добавить через page");
-        openPageBtn.shouldBeEnabled();
-
-        openPageBtn.click();
-
-        StandardPage subPage = N2oSelenide.page(StandardPage.class);
-        subPage.shouldExists();
-
-        subPage = N2oSelenide.page(StandardPage.class);
-        subPage.shouldExists();
-
-        mainForm = subPage.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
-        subForm = subPage.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class);
-        subForm.shouldExists();
-        mainForm.shouldExists();
-
-        maskedInput = mainForm.fields().field("СНИЛС").control(MaskedInput.class);
-        buttonField = mainForm.fields().field("Поиск по СНИЛС", ButtonField.class);
-        inputField = subForm.fields().field("Фамилия");
-        inputText = inputField.control(InputText.class);
-
-        buttonField.shouldBeDisabled();
-        inputText.shouldBeEnabled();
-        inputField.shouldBeRequired();
-
-        maskedInput.setValue("111-111-111 11");
-        buttonField.shouldBeEnabled();
-        buttonField.click();
-        inputText.shouldBeEnabled();
-        inputField.shouldBeRequired();
-
-        maskedInput.setValue("555-750-462 12");
-        buttonField.click();
-        inputText.shouldBeDisabled();
-        inputField.shouldNotBeRequired();
-
-        subPage.breadcrumb().crumb(0).click();
-        openPageBtn.click();
-
-        subPage.shouldExists();
-
-        buttonField.shouldBeDisabled();
-        inputText.shouldBeEnabled();
-        inputField.shouldBeRequired();
     }
 }

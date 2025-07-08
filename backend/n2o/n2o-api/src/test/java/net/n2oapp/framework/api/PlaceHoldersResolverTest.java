@@ -220,30 +220,16 @@ class PlaceHoldersResolverTest {
         String result = resolver.resolveJson(input, replaceOptional(context::get), mapper);
         JsonNode root = mapper.readTree(result);
 
-        assertThat(root.get("test").size(), is(9));
-        assertThat(root.get("test").get("int").isInt(), is(true));
-        assertThat(root.get("test").get("int").numberValue(), is(1));
-        assertThat(root.get("test").get("double").isDouble(), is(true));
-        assertThat(root.get("test").get("double").numberValue(), is(1.0));
-        assertThat(root.get("test").get("bool").isBoolean(), is(true));
-        assertThat(root.get("test").get("bool").booleanValue(), is(false));
-        assertThat(root.get("test").get("text").isTextual(), is(true));
-        assertThat(root.get("test").get("text").textValue(), is("text"));
+        checkRootTest(root);
 
-        assertThat(root.get("test").get("strings").isArray(), is(true));
-        assertThat(root.get("test").get("strings").size(), is(2));
-        assertThat(root.get("test").get("strings").get(0).isTextual(), is(true));
-        assertThat(root.get("test").get("strings").get(0).textValue(), is("user"));
-        assertThat(root.get("test").get("strings").get(1).isTextual(), is(true));
-        assertThat(root.get("test").get("strings").get(1).textValue(), is("looser"));
+        checkStrings(root);
 
-        assertThat(root.get("test").get("ints").isArray(), is(true));
-        assertThat(root.get("test").get("ints").size(), is(2));
-        assertThat(root.get("test").get("ints").get(0).isNumber(), is(true));
-        assertThat(root.get("test").get("ints").get(0).numberValue(), is(1));
-        assertThat(root.get("test").get("ints").get(1).isNumber(), is(true));
-        assertThat(root.get("test").get("ints").get(1).numberValue(), is(2));
+        checkInts(root);
 
+        checkOthers(root);
+    }
+
+    private static void checkOthers(JsonNode root) {
         assertThat(root.get("test").get("combined").isTextual(), is(true));
         assertThat(root.get("test").get("combined").textValue(), is("testValue"));
 
@@ -257,6 +243,36 @@ class PlaceHoldersResolverTest {
         assertThat(root.get("test").get("pojo").get("gender").isBoolean(), is(true));
         assertThat(root.get("test").get("pojo").get("gender").booleanValue(), is(true));
         assertThat(root.get("test").get("pojo").get("nullable").isNull(), is(true));
+    }
+
+    private static void checkInts(JsonNode root) {
+        assertThat(root.get("test").get("ints").isArray(), is(true));
+        assertThat(root.get("test").get("ints").size(), is(2));
+        assertThat(root.get("test").get("ints").get(0).isNumber(), is(true));
+        assertThat(root.get("test").get("ints").get(0).numberValue(), is(1));
+        assertThat(root.get("test").get("ints").get(1).isNumber(), is(true));
+        assertThat(root.get("test").get("ints").get(1).numberValue(), is(2));
+    }
+
+    private static void checkStrings(JsonNode root) {
+        assertThat(root.get("test").get("strings").isArray(), is(true));
+        assertThat(root.get("test").get("strings").size(), is(2));
+        assertThat(root.get("test").get("strings").get(0).isTextual(), is(true));
+        assertThat(root.get("test").get("strings").get(0).textValue(), is("user"));
+        assertThat(root.get("test").get("strings").get(1).isTextual(), is(true));
+        assertThat(root.get("test").get("strings").get(1).textValue(), is("looser"));
+    }
+
+    private static void checkRootTest(JsonNode root) {
+        assertThat(root.get("test").size(), is(9));
+        assertThat(root.get("test").get("int").isInt(), is(true));
+        assertThat(root.get("test").get("int").numberValue(), is(1));
+        assertThat(root.get("test").get("double").isDouble(), is(true));
+        assertThat(root.get("test").get("double").numberValue(), is(1.0));
+        assertThat(root.get("test").get("bool").isBoolean(), is(true));
+        assertThat(root.get("test").get("bool").booleanValue(), is(false));
+        assertThat(root.get("test").get("text").isTextual(), is(true));
+        assertThat(root.get("test").get("text").textValue(), is("text"));
     }
 
 

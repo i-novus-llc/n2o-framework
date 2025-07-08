@@ -48,88 +48,73 @@ class AllFieldsCleanableAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-
         Fields fields = page.widget(FormWidget.class).fields();
-        Checkbox checkbox = fields.field("checkbox").control(Checkbox.class);
-        DateInput dateTime = fields.field("dateTime").control(DateInput.class);
-        InputMoneyControl inputMoney = fields.field("inputMoney").control(InputMoneyControl.class);
-        InputText inputText = fields.field("inputText").control(InputText.class);
-        MaskedInput maskedInput = fields.field("maskedInput").control(MaskedInput.class);
-        NumberPicker numberPicker = fields.field("numberPicker").control(NumberPicker.class);
-        DateInterval dateInterval = fields.field("dateInterval").control(DateInterval.class);
-        IntervalField interval = fields.field("range", IntervalField.class);
-        CheckboxGroup checkboxGroup = fields.field("checkboxGroup").control(CheckboxGroup.class);
-        InputSelect inputSelect = fields.field("inputSelect").control(InputSelect.class);
-        Select select = fields.field("s1").control(Select.class);
-        InputSelectTree inputSelectTree = fields.field("inputSelectTree").control(InputSelectTree.class);
-        RadioGroup radioGroup = fields.field("radioGroup").control(RadioGroup.class);
-        CodeEditor codeEditor = fields.field("codeEditor").control(CodeEditor.class);
-        PasswordControl password = fields.field("password").control(PasswordControl.class);
-        Slider slider = fields.field("slider").control(Slider.class);
-        TextArea textarea = fields.field("textarea").control(TextArea.class);
-        TextEditor textEditor = fields.field("textEditor").control(TextEditor.class);
-        TimePicker timePicker = fields.field("timePicker").control(TimePicker.class);
-        AutoComplete autoComplete = fields.field("autoComplete").control(AutoComplete.class);
-        OutputList outputList = fields.field("outputList").control(OutputList.class);
-        OutputText outputText = fields.field("outputText").control(OutputText.class);
 
-        checkbox.shouldBeChecked();
-        dateTime.shouldHaveValue("12.01.2024");
-        inputMoney.shouldHaveValue("333");
-        inputText.shouldHaveValue("value");
-        maskedInput.shouldHaveValue("+7 (999) 999-99-99");
-        numberPicker.shouldHaveValue("5");
-        dateInterval.beginShouldHaveValue("10.01.2010");
-        dateInterval.endShouldHaveValue("12.01.2024");
-        interval.shouldExists();
-        interval.begin(InputText.class).shouldHaveValue("3");
-        interval.end(InputText.class).shouldHaveValue("5");
-        checkboxGroup.check("test");
-        checkboxGroup.shouldBeChecked("test");
-        inputSelect.shouldHaveValue("1");
-        select.shouldSelected("1");
-        inputSelectTree.shouldHaveValue("1");
-        radioGroup.check("test");
-        radioGroup.shouldBeChecked("test");
-        codeEditor.shouldHaveValue("value", 0);
-        password.clickEyeButton();
-        password.shouldHaveValue("value");
-        slider.setValue("30");
-        slider.shouldHaveValue("30");
-        textarea.shouldHaveValue("value");
-        textEditor.shouldHaveValue("value");
-        timePicker.shouldHaveValue("02 ч 03 мин 05 сек");
-        autoComplete.setValue("value");
-        autoComplete.shouldHaveValue("value");
-        outputList.shouldHaveValues(" ", new String[]{"outputList", "outputList", "outputList", "outputList", "outputList"});
-        outputText.shouldHaveValue("value");
+        checkFields(fields);
 
         page.widget(FormWidget.class).toolbar().topLeft().button("Clear").click();
 
-        checkbox.shouldNotBeChecked();
-        dateTime.shouldBeEmpty();
-        inputMoney.shouldBeEmpty();
-        inputText.shouldBeEmpty();
-        maskedInput.shouldBeEmpty();
-        numberPicker.shouldHaveValue("0");
-        dateInterval.beginShouldBeEmpty();
-        dateInterval.endShouldBeEmpty();
-        interval.begin(InputText.class).shouldBeEmpty();
-        interval.end(InputText.class).shouldBeEmpty();
-        checkboxGroup.shouldBeUnchecked("test");
-        inputSelect.shouldBeEmpty();
-        select.shouldBeEmpty();
-        inputSelectTree.shouldBeEmpty();
-        radioGroup.shouldBeUnchecked("test");
-        codeEditor.shouldBeEmpty();
-        password.shouldBeEmpty();
-        slider.shouldHaveValue("0");
-        textarea.shouldBeEmpty();
-        textEditor.shouldBeEmpty();
-        timePicker.shouldBeEmpty();
-        autoComplete.shouldBeEmpty();
-        outputList.shouldBeEmpty();
-        outputText.shouldBeEmpty();
+        checkFieldsAfterClear(fields);
+    }
+
+    private static void checkFields(Fields fields) {
+        fields.field("checkbox").control(Checkbox.class).shouldBeChecked();
+        fields.field("dateTime").control(DateInput.class).shouldHaveValue("12.01.2024");
+        fields.field("inputMoney").control(InputMoneyControl.class).shouldHaveValue("333");
+        fields.field("inputText").control(InputText.class).shouldHaveValue("value");
+        fields.field("maskedInput").control(MaskedInput.class).shouldHaveValue("+7 (999) 999-99-99");
+        fields.field("numberPicker").control(NumberPicker.class).shouldHaveValue("5");
+        fields.field("dateInterval").control(DateInterval.class).beginShouldHaveValue("10.01.2010");
+        fields.field("dateInterval").control(DateInterval.class).endShouldHaveValue("12.01.2024");
+        fields.field("range", IntervalField.class).shouldExists();
+        fields.field("range", IntervalField.class).begin(InputText.class).shouldHaveValue("3");
+        fields.field("range", IntervalField.class).end(InputText.class).shouldHaveValue("5");
+        fields.field("checkboxGroup").control(CheckboxGroup.class).check("test");
+        fields.field("checkboxGroup").control(CheckboxGroup.class).shouldBeChecked("test");
+        fields.field("inputSelect").control(InputSelect.class).shouldHaveValue("1");
+        fields.field("s1").control(Select.class).shouldSelected("1");
+        fields.field("inputSelectTree").control(InputSelectTree.class).shouldHaveValue("1");
+        fields.field("radioGroup").control(RadioGroup.class).check("test");
+        fields.field("radioGroup").control(RadioGroup.class).shouldBeChecked("test");
+        fields.field("codeEditor").control(CodeEditor.class).shouldHaveValue("value", 0);
+        fields.field("password").control(PasswordControl.class).clickEyeButton();
+        fields.field("password").control(PasswordControl.class).shouldHaveValue("value");
+        fields.field("slider").control(Slider.class).setValue("30");
+        fields.field("slider").control(Slider.class).shouldHaveValue("30");
+        fields.field("textarea").control(TextArea.class).shouldHaveValue("value");
+        fields.field("textEditor").control(TextEditor.class).shouldHaveValue("value");
+        fields.field("timePicker").control(TimePicker.class).shouldHaveValue("02 ч 03 мин 05 сек");
+        fields.field("autoComplete").control(AutoComplete.class).setValue("value");
+        fields.field("autoComplete").control(AutoComplete.class).shouldHaveValue("value");
+        fields.field("outputList").control(OutputList.class).shouldHaveValues(" ", new String[]{"outputList", "outputList", "outputList", "outputList", "outputList"});
+        fields.field("outputText").control(OutputText.class).shouldHaveValue("value");
+    }
+
+    private static void checkFieldsAfterClear(Fields fields) {
+        fields.field("checkbox").control(Checkbox.class).shouldNotBeChecked();
+        fields.field("dateTime").control(DateInput.class).shouldBeEmpty();
+        fields.field("inputMoney").control(InputMoneyControl.class).shouldBeEmpty();
+        fields.field("inputText").control(InputText.class).shouldBeEmpty();
+        fields.field("maskedInput").control(MaskedInput.class).shouldBeEmpty();
+        fields.field("numberPicker").control(NumberPicker.class).shouldHaveValue("0");
+        fields.field("dateInterval").control(DateInterval.class).beginShouldBeEmpty();
+        fields.field("dateInterval").control(DateInterval.class).endShouldBeEmpty();
+        fields.field("range", IntervalField.class).begin(InputText.class).shouldBeEmpty();
+        fields.field("range", IntervalField.class).end(InputText.class).shouldBeEmpty();
+        fields.field("checkboxGroup").control(CheckboxGroup.class).shouldBeUnchecked("test");
+        fields.field("inputSelect").control(InputSelect.class).shouldBeEmpty();
+        fields.field("s1").control(Select.class).shouldBeEmpty();
+        fields.field("inputSelectTree").control(InputSelectTree.class).shouldBeEmpty();
+        fields.field("radioGroup").control(RadioGroup.class).shouldBeUnchecked("test");
+        fields.field("codeEditor").control(CodeEditor.class).shouldBeEmpty();
+        fields.field("password").control(PasswordControl.class).shouldBeEmpty();
+        fields.field("slider").control(Slider.class).shouldHaveValue("0");
+        fields.field("textarea").control(TextArea.class).shouldBeEmpty();
+        fields.field("textEditor").control(TextEditor.class).shouldBeEmpty();
+        fields.field("timePicker").control(TimePicker.class).shouldBeEmpty();
+        fields.field("autoComplete").control(AutoComplete.class).shouldBeEmpty();
+        fields.field("outputList").control(OutputList.class).shouldBeEmpty();
+        fields.field("outputText").control(OutputText.class).shouldBeEmpty();
     }
 }
 

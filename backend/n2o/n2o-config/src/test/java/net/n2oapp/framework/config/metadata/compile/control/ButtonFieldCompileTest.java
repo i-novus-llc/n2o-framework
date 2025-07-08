@@ -19,10 +19,11 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
+import static org.hamcrest.core.AllOf.allOf;
 
 /**
  * Тестирование компиляции ButtonField компонента
@@ -47,15 +48,18 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testButtonFieldCompile"));
         Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
         ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
-        assertThat(field.getId(), is("btn1"));
-        assertThat(field.getAction(), instanceOf(LinkAction.class));
-        assertThat(field.getSrc(), is("ButtonField"));
-        assertThat(field.getLabel(), is("delete"));
-        assertThat(field.getIcon(), nullValue());
-        assertThat(field.getRounded(), is(false));
-        assertThat(field.getColor(), is("`name`"));
-        assertThat(field.getValidate().get(0), is("testButtonFieldCompile_ds"));
-        assertThat(field.getDatasource(), is("testButtonFieldCompile_ds"));
+
+        assertThat(field, allOf(
+                hasProperty("id", is("btn1")),
+                hasProperty("action", instanceOf(LinkAction.class)),
+                hasProperty("src", is("ButtonField")),
+                hasProperty("label", is("delete")),
+                hasProperty("icon", nullValue()),
+                hasProperty("rounded", is(false)),
+                hasProperty("color", is("`name`")),
+                hasProperty("validate", contains("testButtonFieldCompile_ds")),
+                hasProperty("datasource", is("testButtonFieldCompile_ds"))
+        ));
         assertThat(field.getDependencies().get(0).getExpression(), is("test == null"));
         assertThat(field.getDependencies().get(0).getOn().get(0), is("url"));
         assertThat(field.getDependencies().get(0).getType(), is(ValidationTypeEnum.ENABLED));
@@ -72,49 +76,75 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(((LinkAction) field.getAction()).getQueryMapping().get("param3").getValue(), is("`field3`"));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
-        assertThat(field.getId(), is("btn2"));
-        assertThat(field.getAction(), instanceOf(LinkAction.class));
-        assertThat(((LinkAction) field.getAction()).getUrl(), is("http://ya.ru"));
-        assertThat(field.getSrc(), is("ButtonField"));
-        assertThat(field.getLabel(), nullValue());
-        assertThat(field.getIcon(), is("fa fa-pencil"));
-        assertThat(field.getRounded(), is(true));
+        assertThat(field, allOf(
+                hasProperty("id", is("btn2")),
+                hasProperty("action", allOf(
+                        instanceOf(LinkAction.class),
+                        hasProperty("url", is("http://ya.ru"))
+                )),
+                hasProperty("src", is("ButtonField")),
+                hasProperty("label", nullValue()),
+                hasProperty("icon", is("fa fa-pencil")),
+                hasProperty("rounded", is(true))
+        ));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
-        assertThat(field.getId(), is("btn3"));
-        assertThat(field.getSrc(), is("ButtonField"));
-        assertThat(field.getLabel(), is("load"));
-        assertThat(field.getIcon(), is("fa fa-download"));
+        assertThat(field, allOf(
+                hasProperty("id", is("btn3")),
+                hasProperty("src", is("ButtonField")),
+                hasProperty("label", is("load")),
+                hasProperty("icon", is("fa fa-download"))
+        ));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(5).getCols().get(0).getFields().get(0);
-        assertThat(field.getId(), is("btn5"));
-        assertThat(field.getSrc(), is("ButtonField"));
+        assertThat(field, allOf(
+                hasProperty("id", is("btn5")),
+                hasProperty("src", is("ButtonField"))
+        ));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(6).getCols().get(0).getFields().get(0);
-        assertThat(field.getDescription(), is("`description`"));
-        assertThat(field.getHint(), is("`description`"));
+        assertThat(field, allOf(
+                hasProperty("description", is("`description`")),
+                hasProperty("hint", is("`description`"))
+        ));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(7).getCols().get(0).getFields().get(0);
-        assertThat(field.getAction().getClass(), is(MultiAction.class));
-        assertThat(((MultiAction) field.getAction()).getPayload().getActions().get(0).getClass(), is(ConfirmAction.class));
-        assertThat(((MultiAction) field.getAction()).getPayload().getActions().get(1).getClass(), is(LinkActionImpl.class));
+        assertThat(field.getAction(), allOf(
+                instanceOf(MultiAction.class),
+                hasProperty("payload", hasProperty("actions", contains(
+                                instanceOf(ConfirmAction.class),
+                                instanceOf(LinkActionImpl.class)
+                        ))
+                )));
+
         ConfirmAction confirm = (ConfirmAction) ((MultiAction) field.getAction()).getPayload().getActions().get(0);
-        assertThat(confirm.getPayload().getMode(), is(ConfirmTypeEnum.MODAL));
-        assertThat(confirm.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));
-        assertThat(confirm.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
-        assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.PRIMARY.getId()));
-        assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.SECONDARY.getId()));
+        assertThat(confirm.getPayload(), allOf(
+                hasProperty("mode", is(ConfirmTypeEnum.MODAL)),
+                hasProperty("title", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title"))),
+                hasProperty("text", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text"))),
+                hasProperty("ok", allOf(
+                        hasProperty("label", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label"))),
+                        hasProperty("color", is(ColorEnum.PRIMARY.getId()))
+                )),
+                hasProperty("cancel", allOf(
+                        hasProperty("label", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label"))),
+                        hasProperty("color", is(ColorEnum.SECONDARY.getId()))
+                ))
+        ));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(8).getCols().get(0).getFields().get(0);
-        confirm = (ConfirmAction)  field.getAction();
-
-        assertThat(confirm.getPayload().getTitle(), is("Предупреждение"));
-        assertThat(confirm.getPayload().getText(), is("Подтвердите действие"));
-        assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.DANGER.getId()));
-        assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.PRIMARY.getId()));
+        confirm = (ConfirmAction) field.getAction();
+        assertThat(confirm.getPayload(), allOf(
+                hasProperty("title", is("Предупреждение")),
+                hasProperty("text", is("Подтвердите действие")),
+                hasProperty("ok", allOf(
+                        hasProperty("label", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label"))),
+                        hasProperty("color", is(ColorEnum.DANGER.getId()))
+                )),
+                hasProperty("cancel", allOf(
+                        hasProperty("label", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label"))),
+                        hasProperty("color", is(ColorEnum.PRIMARY.getId()))
+                ))
+        ));
     }
 }
