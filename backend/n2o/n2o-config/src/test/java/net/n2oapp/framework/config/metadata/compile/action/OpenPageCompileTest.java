@@ -143,6 +143,10 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(context.getParentModelLinks().get(0).getDatasource(), is("page_test"));
         assertThat(context.getParentModelLinks().get(0).getSubModelQuery(), nullValue());
 
+        resolveModelOpenPage(context);
+    }
+
+    private void resolveModelOpenPage(PageContext context) {
         SimplePage openPage = (SimplePage) read().compile().get(context);
         assertThat(openPage.getId(), is("page_action2"));
         assertThat(openPage.getBreadcrumb().size(), is(2));
@@ -183,37 +187,16 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getSet().contains("/page/:parent_id/view"), is(true));
 
         Page createPage = routeAndGet("/page/123/view/action1", Page.class);
-        assertThat(createPage.getRoutes().getSet().contains("/page/:parent_id/view/action1"), is(true));
-        assertThat(createPage.getBreadcrumb().size(), is(3));
-        assertThat(createPage.getBreadcrumb().get(0).getLabel(), is("parent"));
-        assertThat(createPage.getBreadcrumb().get(0).getPath(), is("/page/123"));
-        assertThat(createPage.getBreadcrumb().get(1).getLabel(), is("first"));
-        assertThat(createPage.getBreadcrumb().get(1).getPath(), is("/page/123/view"));
-        assertThat(createPage.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(createPage.getBreadcrumb().get(2).getPath(), nullValue());
+        checkPage(createPage, "/page/:parent_id/view/action1", "/page/123/view");
 
         Page updatePage = routeAndGet("/page/123/view/456/action2", Page.class);
-        assertThat(updatePage.getRoutes().getSet().contains("/page/:parent_id/view/:page_test_id/action2"), is(true));
-        assertThat(updatePage.getBreadcrumb().size(), is(3));
-        assertThat(updatePage.getBreadcrumb().get(0).getLabel(), is("parent"));
-        assertThat(updatePage.getBreadcrumb().get(0).getPath(), is("/page/123"));
-        assertThat(updatePage.getBreadcrumb().get(1).getLabel(), is("first"));
-        assertThat(updatePage.getBreadcrumb().get(1).getPath(), is("/page/123/view"));
-        assertThat(updatePage.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(updatePage.getBreadcrumb().get(2).getPath(), nullValue());
+        checkPage(updatePage, "/page/:parent_id/view/:page_test_id/action2", "/page/123/view");
 
         HashMap<String, String[]> params = new HashMap<>();
         data.put("name", "ivan");
         data.put("secondName", "ivanov");
         Page masterDetailPage = routeAndGet("/page/123/view/456/masterDetail", Page.class, params);
-        assertThat(masterDetailPage.getRoutes().getSet().contains("/page/:parent_id/view/:page_test_id/masterDetail"), is(true));
-        assertThat(masterDetailPage.getBreadcrumb().size(), is(3));
-        assertThat(masterDetailPage.getBreadcrumb().get(0).getLabel(), is("parent"));
-        assertThat(masterDetailPage.getBreadcrumb().get(0).getPath(), is("/page/123"));
-        assertThat(masterDetailPage.getBreadcrumb().get(1).getLabel(), is("first"));
-        assertThat(masterDetailPage.getBreadcrumb().get(1).getPath(), is("/page/123/view"));
-        assertThat(masterDetailPage.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(masterDetailPage.getBreadcrumb().get(2).getPath(), nullValue());
+        checkPage(masterDetailPage, "/page/:parent_id/view/:page_test_id/masterDetail", "/page/123/view");
 
         Page level3Page = routeAndGet("/page/123/view/456/masterDetail/level3", Page.class, params);
         assertThat(level3Page.getBreadcrumb().size(), is(4));
@@ -232,15 +215,18 @@ class OpenPageCompileTest extends SourceCompileTestBase {
                 .bind().get(context, data);
         assertThat(page2.getRoutes().getSet().contains("/page/:parent_id/view2"), is(true));
         updatePage = routeAndGet("/page/123/view2/456/action2", Page.class);
-        assertThat(updatePage.getRoutes().getSet().contains("/page/:parent_id/view2/:page_test_id/action2"), is(true));
-        assertThat(updatePage.getBreadcrumb().size(), is(3));
-        assertThat(updatePage.getBreadcrumb().get(0).getLabel(), is("parent"));
-        assertThat(updatePage.getBreadcrumb().get(0).getPath(), is("/page/123"));
-        assertThat(updatePage.getBreadcrumb().get(1).getLabel(), is("first"));
-        // не содержит :page_test_id
-        assertThat(updatePage.getBreadcrumb().get(1).getPath(), is("/page/123/view2"));
-        assertThat(updatePage.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(updatePage.getBreadcrumb().get(2).getPath(), nullValue());
+        checkPage(updatePage, "/page/:parent_id/view2/:page_test_id/action2", "/page/123/view2");
+    }
+
+    private static void checkPage(Page masterDetailPage, String o, String path) {
+        assertThat(masterDetailPage.getRoutes().getSet().contains(o), is(true));
+        assertThat(masterDetailPage.getBreadcrumb().size(), is(3));
+        assertThat(masterDetailPage.getBreadcrumb().get(0).getLabel(), is("parent"));
+        assertThat(masterDetailPage.getBreadcrumb().get(0).getPath(), is("/page/123"));
+        assertThat(masterDetailPage.getBreadcrumb().get(1).getLabel(), is("first"));
+        assertThat(masterDetailPage.getBreadcrumb().get(1).getPath(), is(path));
+        assertThat(masterDetailPage.getBreadcrumb().get(2).getLabel(), is("second"));
+        assertThat(masterDetailPage.getBreadcrumb().get(2).getPath(), nullValue());
     }
 
     @Test
@@ -254,37 +240,16 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getSet().contains("/page/:parent_id/view"), is(true));
 
         Page createPage = routeAndGet("/page/123/view/action1", Page.class);
-        assertThat(createPage.getRoutes().getSet().contains("/page/:parent_id/view/action1"), is(true));
-        assertThat(createPage.getBreadcrumb().size(), is(3));
-        assertThat(createPage.getBreadcrumb().get(0).getLabel(), is("parent"));
-        assertThat(createPage.getBreadcrumb().get(0).getPath(), is("/page/123"));
-        assertThat(createPage.getBreadcrumb().get(1).getLabel(), is("first"));
-        assertThat(createPage.getBreadcrumb().get(1).getPath(), is("/page/123/view"));
-        assertThat(createPage.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(createPage.getBreadcrumb().get(2).getPath(), nullValue());
+        checkPage(createPage, "/page/:parent_id/view/action1", "/page/123/view");
 
         Page updatePage = routeAndGet("/page/123/view/456/action2", Page.class);
-        assertThat(updatePage.getRoutes().getSet().contains("/page/:parent_id/view/:page_test_id/action2"), is(true));
-        assertThat(updatePage.getBreadcrumb().size(), is(3));
-        assertThat(updatePage.getBreadcrumb().get(0).getLabel(), is("parent"));
-        assertThat(updatePage.getBreadcrumb().get(0).getPath(), is("/page/123"));
-        assertThat(updatePage.getBreadcrumb().get(1).getLabel(), is("first"));
-        assertThat(updatePage.getBreadcrumb().get(1).getPath(), is("/page/123/view"));
-        assertThat(updatePage.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(updatePage.getBreadcrumb().get(2).getPath(), nullValue());
+        checkPage(updatePage, "/page/:parent_id/view/:page_test_id/action2", "/page/123/view");
 
         HashMap<String, String[]> params = new HashMap<>();
         data.put("name", "ivan");
         data.put("secondName", "ivanov");
         Page masterDetailPage = routeAndGet("/page/123/view/456/masterDetail", Page.class, params);
-        assertThat(masterDetailPage.getRoutes().getSet().contains("/page/:parent_id/view/:page_test_id/masterDetail"), is(true));
-        assertThat(masterDetailPage.getBreadcrumb().size(), is(3));
-        assertThat(masterDetailPage.getBreadcrumb().get(0).getLabel(), is("parent"));
-        assertThat(masterDetailPage.getBreadcrumb().get(0).getPath(), is("/page/123"));
-        assertThat(masterDetailPage.getBreadcrumb().get(1).getLabel(), is("first"));
-        assertThat(masterDetailPage.getBreadcrumb().get(1).getPath(), is("/page/123/view"));
-        assertThat(masterDetailPage.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(masterDetailPage.getBreadcrumb().get(2).getPath(), nullValue());
+        checkPage(masterDetailPage, "/page/:parent_id/view/:page_test_id/masterDetail", "/page/123/view");
 
         Page level3Page = routeAndGet("/page/123/view/456/masterDetail/level3", Page.class, params);
         assertThat(level3Page.getBreadcrumb().size(), is(4));
@@ -305,15 +270,7 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(page2.getRoutes().getSet().contains("/page/:parent_id/view2"), is(true));
 
         updatePage = routeAndGet("/page/123/view2/456/action2", Page.class);
-        assertThat(updatePage.getRoutes().getSet().contains("/page/:parent_id/view2/:page_test_id/action2"), is(true));
-        assertThat(updatePage.getBreadcrumb().size(), is(3));
-        assertThat(updatePage.getBreadcrumb().get(0).getLabel(), is("parent"));
-        assertThat(updatePage.getBreadcrumb().get(0).getPath(), is("/page/123"));
-        assertThat(updatePage.getBreadcrumb().get(1).getLabel(), is("first"));
-        // не содержит :page_test_id
-        assertThat(updatePage.getBreadcrumb().get(1).getPath(), is("/page/123/view2"));
-        assertThat(updatePage.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(updatePage.getBreadcrumb().get(2).getPath(), nullValue());
+        checkPage(updatePage, "/page/:parent_id/view2/:page_test_id/action2", "/page/123/view2");
     }
 
     @Test
@@ -351,6 +308,10 @@ class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(ds.getProvider().getQueryMapping().get("secondName").getLink(), nullValue());
         assertThat(ds.getProvider().getPathMapping().get("page_test_id").normalizeLink(), is("models.resolve['page_test'].masterId"));
 
+        checkDetailContext(context);
+    }
+
+    private void checkDetailContext(PageContext context) {
         PageContext detailContext = (PageContext) route("/page/gender/masterDetail", Page.class);
         assertThat(detailContext.getQueryRouteMapping().size(), is(3));
         DataSet data = new DataSet();

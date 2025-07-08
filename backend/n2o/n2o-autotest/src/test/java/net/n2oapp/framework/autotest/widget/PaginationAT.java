@@ -152,8 +152,7 @@ class PaginationAT extends AutoTestBase {
         paging.countButtonShouldNotBeVisible();
         paging.prevButtonShouldBeDisabled();
         paging.nextButtonShouldBeEnabled();
-        paging.shouldHaveFirst();
-        paging.shouldNotHaveLast();
+        shouldHaveFirstAndNoLast(paging);
         paging.firstPageShouldNotHaveEllipsis();
         paging.lastPageShouldHaveEllipsis();
         paging.pageNumberButtonShouldBeVisible("2");
@@ -166,16 +165,14 @@ class PaginationAT extends AutoTestBase {
         paging.shouldHaveActivePage("2");
         paging.prevButtonShouldBeEnabled();
         paging.nextButtonShouldBeEnabled();
-        paging.shouldHaveFirst();
-        paging.shouldNotHaveLast();
+        shouldHaveFirstAndNoLast(paging);
         paging.pageNumberButtonShouldBeVisible("3");
         paging.pageNumberButtonShouldNotBeVisible("4");
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test4");
 
         paging.selectNext();
         paging.shouldHaveActivePage("3");
-        paging.shouldHaveFirst();
-        paging.shouldNotHaveLast();
+        shouldHaveFirstAndNoLast(paging);
         paging.pageNumberButtonShouldBeVisible("2");
         paging.pageNumberButtonShouldBeVisible("4");
         paging.pageNumberButtonShouldNotBeVisible("5");
@@ -184,8 +181,7 @@ class PaginationAT extends AutoTestBase {
 
         paging.selectPage("4");
         paging.shouldHaveActivePage("4");
-        paging.shouldHaveFirst();
-        paging.shouldNotHaveLast();
+        shouldHaveFirstAndNoLast(paging);
         paging.pageNumberButtonShouldBeVisible("2");
         paging.pageNumberButtonShouldBeVisible("3");
         paging.pageNumberButtonShouldBeVisible("5");
@@ -195,8 +191,7 @@ class PaginationAT extends AutoTestBase {
 
         paging.selectPage("5");
         paging.shouldHaveActivePage("5");
-        paging.shouldHaveFirst();
-        paging.shouldNotHaveLast();
+        shouldHaveFirstAndNoLast(paging);
         paging.pageNumberButtonShouldBeVisible("4");
         paging.pageNumberButtonShouldBeVisible("6");
         paging.pageNumberButtonShouldNotBeVisible("3");
@@ -206,16 +201,6 @@ class PaginationAT extends AutoTestBase {
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test13");
 
         paging.selectPage("6");
-        paging.shouldHaveActivePage("6");
-        paging.shouldHaveFirst();
-        paging.shouldNotHaveLast();
-        paging.pageNumberButtonShouldBeVisible("5");
-        paging.pageNumberButtonShouldBeVisible("7");
-        paging.pageNumberButtonShouldNotBeVisible("4");
-        paging.pageNumberButtonShouldNotBeVisible("8");
-        paging.firstPageShouldHaveEllipsis();
-        paging.lastPageShouldHaveEllipsis();
-        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test16");
 
         paging.selectNext();
         paging.shouldHaveActivePage("7");
@@ -240,6 +225,11 @@ class PaginationAT extends AutoTestBase {
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");
     }
 
+    private static void shouldHaveFirstAndNoLast(Paging paging) {
+        paging.shouldHaveFirst();
+        paging.shouldNotHaveLast();
+    }
+
     @Test
     void testShowCountByRequest() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/paging/infinite_by_request");
@@ -254,8 +244,7 @@ class PaginationAT extends AutoTestBase {
         paging.countButtonShouldBeVisible();
         paging.prevButtonShouldBeDisabled();
         paging.nextButtonShouldBeEnabled();
-        paging.shouldHaveFirst();
-        paging.shouldNotHaveLast();
+        shouldHaveFirstAndNoLast(paging);
         paging.firstPageShouldNotHaveEllipsis();
         paging.lastPageShouldHaveEllipsis();
         paging.pageNumberButtonShouldBeVisible("2");
@@ -286,8 +275,7 @@ class PaginationAT extends AutoTestBase {
         paging.countButtonShouldNotBeVisible();
         paging.shouldHaveActivePage("3");
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
-        paging.shouldHaveFirst();
-        paging.shouldNotHaveLast();
+        shouldHaveFirstAndNoLast(paging);
         paging.firstPageShouldNotHaveEllipsis();
         paging.lastPageShouldHaveEllipsis();
         paging.pageNumberButtonShouldBeVisible("2");

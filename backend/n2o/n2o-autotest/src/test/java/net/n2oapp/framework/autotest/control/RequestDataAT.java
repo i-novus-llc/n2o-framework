@@ -66,6 +66,58 @@ class RequestDataAT extends AutoTestBase {
                 .control(AutoComplete.class);
         StandardButton save = page.widget(FormWidget.class).toolbar().topLeft().button("Сохранить");
 
+        checkFields(select, inputSelect, autoComplete, inputSelectMulti, autoCompleteMulti);
+
+        save.click();
+        Selenide.refresh();
+        page.shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста проверяющего отправку запроса данных на сохранение");
+        checkFieldsAfterRefresh(select, inputSelect, autoComplete, inputSelectMulti, autoCompleteMulti);
+
+        save.click();
+        Selenide.refresh();
+        page.shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста проверяющего отправку запроса данных на сохранение");
+
+        select.shouldBeEmpty();
+        inputSelect.shouldBeEmpty();
+        autoComplete.shouldBeEmpty();
+        inputSelectMulti.shouldBeEmpty();
+        autoCompleteMulti.shouldBeEmpty();
+    }
+
+    private static void checkFieldsAfterRefresh(Select select, InputSelect inputSelect, AutoComplete autoComplete, InputSelect inputSelectMulti, AutoComplete autoCompleteMulti) {
+        select.shouldSelected("test5");
+        inputSelect.shouldHaveValue("test6");
+        autoComplete.shouldHaveValue("test5");
+        inputSelectMulti.shouldSelectedMulti(new String[]{"test3", "test5"});
+        autoCompleteMulti.shouldHaveTags(new String[]{"test1", "test6"});
+
+        select.openPopup();
+        select.clear();
+        select.closePopup();
+        select.shouldBeEmpty();
+
+        inputSelect.click();
+        inputSelect.shouldBeOpened();
+        inputSelect.clearUsingIcon();
+        inputSelect.shouldBeEmpty();
+
+        autoComplete.click();
+        autoComplete.clear();
+        autoComplete.shouldBeEmpty();
+
+        select.click();
+
+        inputSelectMulti.clearItems("test3", "test5");
+        inputSelectMulti.shouldBeEmpty();
+
+        autoCompleteMulti.removeTag("test1");
+        autoCompleteMulti.removeTag("test6");
+        autoCompleteMulti.shouldBeEmpty();
+    }
+
+    private static void checkFields(Select select, InputSelect inputSelect, AutoComplete autoComplete, InputSelect inputSelectMulti, AutoComplete autoCompleteMulti) {
         select.shouldSelected("test4");
         inputSelect.shouldHaveValue("test4");
         autoComplete.shouldBeEmpty();
@@ -105,52 +157,5 @@ class RequestDataAT extends AutoTestBase {
         autoCompleteMulti.enter();
 
         autoCompleteMulti.shouldHaveTags(new String[]{"test1", "test6"});
-
-        save.click();
-        Selenide.refresh();
-
-        page.shouldExists();
-        page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста проверяющего отправку запроса данных на сохранение");
-
-        select.shouldSelected("test5");
-        inputSelect.shouldHaveValue("test6");
-        autoComplete.shouldHaveValue("test5");
-        inputSelectMulti.shouldSelectedMulti(new String[]{"test3", "test5"});
-        autoCompleteMulti.shouldHaveTags(new String[]{"test1", "test6"});
-
-        select.openPopup();
-        select.clear();
-        select.closePopup();
-        select.shouldBeEmpty();
-
-        inputSelect.click();
-        inputSelect.shouldBeOpened();
-        inputSelect.clearUsingIcon();
-        inputSelect.shouldBeEmpty();
-
-        autoComplete.click();
-        autoComplete.clear();
-        autoComplete.shouldBeEmpty();
-
-        select.click();
-
-        inputSelectMulti.clearItems("test3", "test5");
-        inputSelectMulti.shouldBeEmpty();
-
-        autoCompleteMulti.removeTag("test1");
-        autoCompleteMulti.removeTag("test6");
-        autoCompleteMulti.shouldBeEmpty();
-
-        save.click();
-        Selenide.refresh();
-
-        page.shouldExists();
-        page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста проверяющего отправку запроса данных на сохранение");
-
-        select.shouldBeEmpty();
-        inputSelect.shouldBeEmpty();
-        autoComplete.shouldBeEmpty();
-        inputSelectMulti.shouldBeEmpty();
-        autoCompleteMulti.shouldBeEmpty();
     }
 }

@@ -174,58 +174,14 @@ class InputTextAT extends AutoTestBase {
         InputText noLimits = page.widget(FormWidget.class).fields().field("10. нет ограничений")
                 .control(InputText.class);
 
-        input1.clickPlusStepButton();
-        input1.shouldHaveValue("-2");
-        input1.clickPlusStepButton();
-        input1.shouldHaveValue("-2");
-
-        input2.clickPlusStepButton();
-        input2.shouldHaveValue("2");
-        input2.clickPlusStepButton();
-        input2.shouldHaveValue("3");
-
-        input3.clickPlusStepButton();
-        input3.shouldHaveValue("0.01");
-        input3.clickPlusStepButton();
-        input3.shouldHaveValue("0.02");
-
-        input4.clickPlusStepButton();
-        input4.shouldHaveValue("1");
-        input4.clickPlusStepButton();
-        input4.shouldHaveValue("2");
-
-        input5.clickPlusStepButton();
-        input5.shouldHaveValue("-5");
-        input5.clickPlusStepButton();
-        input5.shouldHaveValue("-5");
-
-        input6.clickPlusStepButton();
-        input6.shouldHaveValue("5");
-        input6.clickPlusStepButton();
-        input6.shouldHaveValue("6");
-
-        input7.clickPlusStepButton();
-        input7.shouldHaveValue("1");
-        input7.clickPlusStepButton();
-        input7.shouldHaveValue("2");
-
-        max0.clickPlusStepButton();
-        max0.shouldHaveValue("0");
-        max0.clickPlusStepButton();
-        max0.shouldHaveValue("0");
-
-        min0.clickPlusStepButton();
-        min0.shouldHaveValue("1");
-        min0.clickPlusStepButton();
-        min0.shouldHaveValue("2");
-
-        noLimits.clickPlusStepButton();
-        noLimits.shouldHaveValue("1");
-        noLimits.clickPlusStepButton();
-        noLimits.shouldHaveValue("2");
+        checkInputs(input1, input2, input3, input4, input5, input6, input7, max0, min0, noLimits);
 
         Selenide.refresh();
 
+        checkInputsAfterRefresh(input1, input2, input3, input4, input5, input6, input7, max0, min0, noLimits);
+    }
+
+    private static void checkInputsAfterRefresh(InputText input1, InputText input2, InputText input3, InputText input4, InputText input5, InputText input6, InputText input7, InputText max0, InputText min0, InputText noLimits) {
         input1.clickMinusStepButton();
         input1.shouldHaveValue("-2");
         input1.clickMinusStepButton();
@@ -275,6 +231,58 @@ class InputTextAT extends AutoTestBase {
         noLimits.shouldHaveValue("-1");
         noLimits.clickMinusStepButton();
         noLimits.shouldHaveValue("-2");
+    }
+
+    private static void checkInputs(InputText input1, InputText input2, InputText input3, InputText input4, InputText input5, InputText input6, InputText input7, InputText max0, InputText min0, InputText noLimits) {
+        input1.clickPlusStepButton();
+        input1.shouldHaveValue("-2");
+        input1.clickPlusStepButton();
+        input1.shouldHaveValue("-2");
+
+        input2.clickPlusStepButton();
+        input2.shouldHaveValue("2");
+        input2.clickPlusStepButton();
+        input2.shouldHaveValue("3");
+
+        input3.clickPlusStepButton();
+        input3.shouldHaveValue("0.01");
+        input3.clickPlusStepButton();
+        input3.shouldHaveValue("0.02");
+
+        input4.clickPlusStepButton();
+        input4.shouldHaveValue("1");
+        input4.clickPlusStepButton();
+        input4.shouldHaveValue("2");
+
+        input5.clickPlusStepButton();
+        input5.shouldHaveValue("-5");
+        input5.clickPlusStepButton();
+        input5.shouldHaveValue("-5");
+
+        input6.clickPlusStepButton();
+        input6.shouldHaveValue("5");
+        input6.clickPlusStepButton();
+        input6.shouldHaveValue("6");
+
+        input7.clickPlusStepButton();
+        input7.shouldHaveValue("1");
+        input7.clickPlusStepButton();
+        input7.shouldHaveValue("2");
+
+        max0.clickPlusStepButton();
+        max0.shouldHaveValue("0");
+        max0.clickPlusStepButton();
+        max0.shouldHaveValue("0");
+
+        min0.clickPlusStepButton();
+        min0.shouldHaveValue("1");
+        min0.clickPlusStepButton();
+        min0.shouldHaveValue("2");
+
+        noLimits.clickPlusStepButton();
+        noLimits.shouldHaveValue("1");
+        noLimits.clickPlusStepButton();
+        noLimits.shouldHaveValue("2");
     }
 
     @Test

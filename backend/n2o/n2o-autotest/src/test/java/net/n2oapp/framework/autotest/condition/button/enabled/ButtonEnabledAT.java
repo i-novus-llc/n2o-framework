@@ -47,12 +47,19 @@ class ButtonEnabledAT extends AutoTestBase {
         page.shouldExists();
 
         FormWidget form = page.widget(FormWidget.class);
-        RadioGroup type = form.fields().field("type").control(RadioGroup.class);
         Toolbar toolbar = form.toolbar().bottomLeft();
+
+        checkRadio(form, toolbar);
+
+        checkBtnWithDependency(form, toolbar);
+    }
+
+    private static void checkRadio(FormWidget form, Toolbar toolbar) {
         StandardButton button = toolbar.button("Button");
         DropdownButton subMenu = toolbar.dropdown();
         StandardButton item1 = subMenu.menuItem("item1");
         StandardButton item2 = subMenu.menuItem("item2");
+        RadioGroup type = form.fields().field("type").control(RadioGroup.class);
 
         type.shouldBeEmpty();
         button.shouldBeDisabled();
@@ -87,7 +94,9 @@ class ButtonEnabledAT extends AutoTestBase {
         subMenu.click();
         item1.shouldBeDisabled();
         item2.shouldBeDisabled();
+    }
 
+    private static void checkBtnWithDependency(FormWidget form, Toolbar toolbar) {
         StandardButton btnWithDependency = toolbar.button("btnWithDependency");
         btnWithDependency.shouldExists();
         btnWithDependency.shouldBeDisabled();

@@ -77,6 +77,13 @@ class PrintActionCompileTest extends SourceCompileTestBase {
         assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
 
         //Modal page
+        checkModalPage();
+    }
+
+    private void checkModalPage() {
+        PrintAction print3;
+        PrintAction print2;
+        PrintAction print;
         PageContext modalContext = (PageContext) route("/page/id4", Page.class);
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         print = (PrintAction) modalPage.getWidget().getToolbar().getButton("id1").getAction();

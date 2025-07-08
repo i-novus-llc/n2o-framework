@@ -59,37 +59,17 @@ class ButtonsAccessAT extends AutoTestBase {
 
         Toolbar topLeft = form.toolbar().topLeft();
         topLeft.shouldHaveSize(3);
+        checkButton(topLeft.button(0, StandardButton.class), page, form, "Доступно всем");
+        checkButton(topLeft.button(1, StandardButton.class), page, form, "Только с ролью admin");
+        checkButton(topLeft.button(2, StandardButton.class), page, form, "Только с правом edit");
+    }
 
-        StandardButton button = topLeft.button(0, StandardButton.class);
+    private static void checkButton(StandardButton button, SimplePage page, FormWidget form, String label) {
         button.shouldExists();
-        button.shouldHaveLabel("Доступно всем");
+        button.shouldHaveLabel(label);
         button.click();
         page.shouldExists();
-        page.breadcrumb().crumb(1).shouldHaveLabel("Доступно всем");
-        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
-        page.breadcrumb().crumb(0).click();
-        form.shouldExists();
-        page.breadcrumb().shouldHaveSize(1);
-        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
-
-        button = topLeft.button(1, StandardButton.class);
-        button.shouldExists();
-        button.shouldHaveLabel("Только с ролью admin");
-        button.click();
-        page.shouldExists();
-        page.breadcrumb().crumb(1).shouldHaveLabel("Только с ролью admin");
-        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
-        page.breadcrumb().crumb(0).click();
-        form.shouldExists();
-        page.breadcrumb().shouldHaveSize(1);
-        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
-
-        button = topLeft.button(2, StandardButton.class);
-        button.shouldExists();
-        button.shouldHaveLabel("Только с правом edit");
-        button.click();
-        page.shouldExists();
-        page.breadcrumb().crumb(1).shouldHaveLabel("Только с правом edit");
+        page.breadcrumb().crumb(1).shouldHaveLabel(label);
         page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам по access схеме");
         page.breadcrumb().crumb(0).click();
         form.shouldExists();

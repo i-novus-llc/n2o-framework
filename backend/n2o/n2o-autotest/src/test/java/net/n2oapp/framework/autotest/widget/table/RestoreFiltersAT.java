@@ -70,7 +70,6 @@ class RestoreFiltersAT extends AutoTestBase {
         Button openDrawer = table.toolbar().topLeft().button("open-drawer");
         Button close = secPage.toolbar().bottomRight().button("Закрыть");
 
-        table.shouldExists();
         table.columns().rows().shouldHaveSize(9);
         filter.setValue("test2");
         search.click();
@@ -84,7 +83,6 @@ class RestoreFiltersAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(1);
 
         openPage.click();
-        secPage.shouldExists();
         secPage.breadcrumb().crumb("Восстановление фильтров после закрытия страницы").click();
         page.shouldExists();
         filter.shouldHaveValue("test2");
@@ -99,7 +97,6 @@ class RestoreFiltersAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(1);
 
         openDrawer.click();
-        drawer.shouldExists();
         drawer.toolbar().bottomRight().button("Закрыть").click();
         drawer.shouldNotExists();
         page.shouldExists();
@@ -112,7 +109,6 @@ class RestoreFiltersAT extends AutoTestBase {
         Selenide.forward();
         page.shouldExists();
         table.shouldExists();
-        filter.shouldExists();
         filter.shouldHaveValue("test2");
         table.columns().rows().shouldHaveSize(1);
     }

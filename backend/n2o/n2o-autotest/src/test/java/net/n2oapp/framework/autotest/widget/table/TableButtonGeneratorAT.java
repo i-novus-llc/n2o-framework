@@ -128,51 +128,29 @@ class TableButtonGeneratorAT extends AutoTestBase {
     void testColumns() {
         openPage();
 
-        table.columns().headers().shouldHaveSize(3);
-        table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
-        table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
-        table.columns().headers().header(2).shouldHaveTitle("Регион");
-        table.paging().shouldExists();
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Регион"});
 
         N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
         button.shouldBeCollapsed();
         button.shouldHaveIcon("fa fa-table");
         button.click();
-        button.shouldBeExpanded();
-        button.shouldHaveItems(4);
-        shouldBeChecked(button.menuItem("Идентификатор"));
-        shouldBeChecked(button.menuItem("Идентификатор ИПС"));
-        shouldNotBeChecked(button.menuItem("Наименование"));
-        shouldBeChecked(button.menuItem("Регион"));
+        checkInitials(button);
 
         button.menuItem("Наименование").shouldNotHaveIcon();
         button.menuItem("Наименование").click();
-        table.columns().headers().shouldHaveSize(4);
-        table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
-        table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
-        table.columns().headers().header(2).shouldHaveTitle("Наименование");
-        table.columns().headers().header(3).shouldHaveTitle("Регион");
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Наименование", "Регион"});
         button.menuItem("Наименование").shouldHaveIcon("fa fa-check");
         button.menuItem("Наименование").click();
 
         button.click();
         button.shouldBeCollapsed();
-        table.columns().headers().shouldHaveSize(3);
-        table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
-        table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
-        table.columns().headers().header(2).shouldHaveTitle("Регион");
-        table.paging().shouldExists();
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Регион"});
 
         button.click();
-        button.shouldBeExpanded();
-        table.columns().headers().shouldHaveSize(3);
-        shouldBeChecked(button.menuItem("Идентификатор"));
-        shouldBeChecked(button.menuItem("Идентификатор ИПС"));
-        shouldNotBeChecked(button.menuItem("Наименование"));
-        shouldBeChecked(button.menuItem("Регион"));
+        checkInitials(button);
         button.menuItem("Идентификатор").shouldBeDisabled();
         button.menuItem("Идентификатор").shouldHaveIcon("fa fa-check");
-        table.paging().shouldExists();
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Регион"});
 
         button.menuItem("Идентификатор ИПС").click();
         button.menuItem("Регион").click();
@@ -180,8 +158,7 @@ class TableButtonGeneratorAT extends AutoTestBase {
         shouldNotBeChecked(button.menuItem("Идентификатор ИПС"));
         shouldNotBeChecked(button.menuItem("Наименование"));
         shouldNotBeChecked(button.menuItem("Регион"));
-        table.columns().headers().shouldHaveSize(1);
-        table.paging().shouldExists();
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор"});
 
         button.menuItem("Наименование").click();
         shouldBeChecked(button.menuItem("Наименование"));
@@ -189,18 +166,28 @@ class TableButtonGeneratorAT extends AutoTestBase {
 
         button.menuItem("Идентификатор ИПС").click();
         shouldBeChecked(button.menuItem("Идентификатор ИПС"));
-        table.columns().headers().shouldHaveSize(3);
-        table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
-        table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
-        table.columns().headers().header(2).shouldHaveTitle("Наименование");
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Наименование"});
 
         button.menuItem("Регион").click();
         shouldBeChecked(button.menuItem("Регион"));
-        table.columns().headers().shouldHaveSize(4);
-        table.columns().headers().header(0).shouldHaveTitle("Идентификатор");
-        table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
-        table.columns().headers().header(2).shouldHaveTitle("Наименование");
-        table.columns().headers().header(3).shouldHaveTitle("Регион");
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Наименование", "Регион"});
+    }
+
+    private void checkInitials(N2oDropdownButton button) {
+        button.shouldBeExpanded();
+        button.shouldHaveItems(4);
+        shouldBeChecked(button.menuItem("Идентификатор"));
+        shouldBeChecked(button.menuItem("Идентификатор ИПС"));
+        shouldNotBeChecked(button.menuItem("Наименование"));
+        shouldBeChecked(button.menuItem("Регион"));
+    }
+
+    private void checkTableHeadersShouldHaveTitles(String[] titles) {
+        table.columns().headers().shouldHaveSize(titles.length);
+        for (int i = 0; i < titles.length; i++) {
+            table.columns().headers().header(i).shouldHaveTitle(titles[i]);
+        }
+        table.paging().shouldExists();
     }
 
     /**
@@ -258,13 +245,7 @@ class TableButtonGeneratorAT extends AutoTestBase {
         InputText inpFolderType = table.filters().fields().field("folderType").control(InputText.class);
         DropdownButton button = toolbar.button(0, N2oDropdownButton.class);
 
-        table.columns().headers().shouldHaveSize(1);
-        table.columns().headers().header(0).shouldHaveTitle("ID");
-        button.shouldBeCollapsed();
-        button.click();
-        button.shouldBeExpanded();
-        button.shouldHaveItems(1);
-        button.menuItem("ID").shouldExists();
+        checkInitialState(button);
 
         inpFolderType.setValue("1");
         inpFolderType.shouldHaveValue("1");
@@ -288,8 +269,13 @@ class TableButtonGeneratorAT extends AutoTestBase {
         table.columns().headers().header(1).shouldHaveTitle("Тип");
 
         inpFolderType.clear();
+        checkInitialState(button);
+    }
+
+    private void checkInitialState(DropdownButton button) {
         table.columns().headers().shouldHaveSize(1);
         table.columns().headers().header(0).shouldHaveTitle("ID");
+        button.shouldBeCollapsed();
         button.click();
         button.shouldBeExpanded();
         button.shouldHaveItems(1);
@@ -531,6 +517,13 @@ class TableButtonGeneratorAT extends AutoTestBase {
         resizeButton.menuItem("5").shouldHaveIcon("fa fa-check");
         resizeButton.menuItem("10").shouldNotHaveIcon();
 
+        checkSecondTab(columnsButton, wordWrapButton, resizeButton);
+        checkFirstTab(columnsButton, resizeButton);
+
+        Selenide.clearBrowserLocalStorage();
+    }
+
+    private void checkSecondTab(N2oDropdownButton columnsButton, N2oStandardButton wordWrapButton, N2oDropdownButton resizeButton) {
         // Перейти на дубль-вкладку браузера
         Selenide.switchTo().newWindow(WindowType.TAB);
         Selenide.open(getBaseUrl());
@@ -557,7 +550,9 @@ class TableButtonGeneratorAT extends AutoTestBase {
         resizeButton.menuItem("10").click();
         resizeButton.menuItem("5").shouldNotHaveIcon();
         resizeButton.menuItem("10").shouldHaveIcon("fa fa-check");
+    }
 
+    private void checkFirstTab(N2oDropdownButton columnsButton, N2oDropdownButton resizeButton) {
         // Закрыть дубль-вкладку и перейти на первую вкладку браузера
         Selenide.closeWindow();
         Selenide.switchTo().window(0);
@@ -573,8 +568,6 @@ class TableButtonGeneratorAT extends AutoTestBase {
         resizeButton.click();
         resizeButton.menuItem("5").shouldNotHaveIcon();
         resizeButton.menuItem("10").shouldHaveIcon("fa fa-check");
-
-        Selenide.clearBrowserLocalStorage();
     }
 
     @Test

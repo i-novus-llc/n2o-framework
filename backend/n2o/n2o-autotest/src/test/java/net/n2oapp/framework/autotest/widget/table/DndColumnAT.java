@@ -60,26 +60,13 @@ class DndColumnAT extends AutoTestBase {
 
         // Проверка dnd-колонок в таблице
         TableHeaders headers = table.columns().headers();
+        String[] labels = new String[]{"id", "firstName", "lastName", "phone", "birthday"};
         headers.shouldHaveSize(5);
-        headers.header(0).shouldHaveTitle("id");
-        headers.header(0).shouldNotHaveDndIcon();
-        headers.header(0).shouldNotBeDraggable();
-
-        headers.header(1).shouldHaveTitle("firstName");
-        headers.header(1).shouldNotHaveDndIcon();
-        headers.header(1).shouldNotBeDraggable();
-
-        headers.header(2).shouldHaveTitle("lastName");
-        headers.header(2).shouldNotHaveDndIcon();
-        headers.header(2).shouldNotBeDraggable();
-
-        headers.header(3).shouldHaveTitle("phone");
-        headers.header(3).shouldNotHaveDndIcon();
-        headers.header(3).shouldNotBeDraggable();
-
-        headers.header(4).shouldHaveTitle("birthday");
-        headers.header(4).shouldNotHaveDndIcon();
-        headers.header(4).shouldNotBeDraggable();
+        for (int i = 0; i < 5; i++) {
+            headers.header(i).shouldHaveTitle(labels[i]);
+            headers.header(i).shouldNotHaveDndIcon();
+            headers.header(i).shouldNotBeDraggable();
+        }
 
         // Проверка dnd-колонок в настройках
         Toolbar toolbar = table.toolbar().topLeft();
@@ -89,39 +76,22 @@ class DndColumnAT extends AutoTestBase {
         button.menuItem(0).shouldHaveLabel("id");
         button.menuItem(0).shouldNotBeDraggable();
         button.menuItem(0).shouldNotHaveDndIcon();
-
-        button.menuItem(1).shouldHaveLabel("firstName");
-        button.menuItem(1).shouldBeDraggable();
-        button.menuItem(1).shouldHaveDndIcon();
-
-        button.menuItem(2).shouldHaveLabel("lastName");
-        button.menuItem(2).shouldBeDraggable();
-        button.menuItem(2).shouldHaveDndIcon();
-
-        button.menuItem(3).shouldHaveLabel("phone");
-        button.menuItem(3).shouldBeDraggable();
-        button.menuItem(3).shouldHaveDndIcon();
-
-        button.menuItem(4).shouldHaveLabel("birthday");
-        button.menuItem(4).shouldBeDraggable();
-        button.menuItem(4).shouldHaveDndIcon();
+        for (int i = 1; i < 5; i++) {
+            button.menuItem(i).shouldHaveLabel(labels[i]);
+            button.menuItem(i).shouldBeDraggable();
+            button.menuItem(i).shouldHaveDndIcon();
+        }
 
         // Драг-н-дроп в настройках: переносим столбец "lastName" после "birthday"
         button.menuItem(2).dragAndDropTo(button.menuItem(4));
 
-        // Проверка dnd-колонок в настройках
-        button.menuItem(0).shouldHaveLabel("id");
-        button.menuItem(1).shouldHaveLabel("firstName");
-        button.menuItem(2).shouldHaveLabel("phone");
-        button.menuItem(3).shouldHaveLabel("birthday");
-        button.menuItem(4).shouldHaveLabel("lastName");
-
-        // Проверка dnd-колонок в таблице
-        headers.header(0).shouldHaveTitle("id");
-        headers.header(1).shouldHaveTitle("firstName");
-        headers.header(2).shouldHaveTitle("phone");
-        headers.header(3).shouldHaveTitle("birthday");
-        headers.header(4).shouldHaveTitle("lastName");
+        labels = new String[]{"id", "firstName", "phone", "birthday", "lastName"};
+        for (int i = 0; i < 5; i++) {
+            // Проверка dnd-колонок в настройках
+            button.menuItem(i).shouldHaveLabel(labels[i]);
+            // Проверка dnd-колонок в таблице
+            headers.header(i).shouldHaveTitle(labels[i]);
+        }
 
         Selenide.clearBrowserLocalStorage();
     }
@@ -141,69 +111,38 @@ class DndColumnAT extends AutoTestBase {
         // Проверка dnd-колонок в таблице
         TableHeaders headers = table.columns().headers();
         headers.shouldHaveSize(5);
+        String[] labels = new String[]{"id", "firstName", "lastName", "phone", "birthday"};
         headers.header(0).shouldHaveTitle("id");
         headers.header(0).shouldNotHaveDndIcon();
         headers.header(0).shouldNotBeDraggable();
-
-        headers.header(1).shouldHaveTitle("firstName");
-        headers.header(1).shouldHaveDndIcon();
-        headers.header(1).shouldBeDraggable();
-
-        headers.header(2).shouldHaveTitle("lastName");
-        headers.header(2).shouldHaveDndIcon();
-        headers.header(2).shouldBeDraggable();
-
-        headers.header(3).shouldHaveTitle("phone");
-        headers.header(3).shouldHaveDndIcon();
-        headers.header(3).shouldBeDraggable();
-
-        headers.header(4).shouldHaveTitle("birthday");
-        headers.header(4).shouldHaveDndIcon();
-        headers.header(4).shouldBeDraggable();
+        for (int i = 1; i < 5; i++) {
+            headers.header(i).shouldHaveTitle(labels[i]);
+            headers.header(i).shouldHaveDndIcon();
+            headers.header(i).shouldBeDraggable();
+        }
 
         // Проверка dnd-колонок в настройках
         Toolbar toolbar = table.toolbar().topLeft();
         N2oDropdownButton button = toolbar.button(0, N2oDropdownButton.class);
         button.click();
         button.shouldHaveItems(5);
-        button.menuItem(0).shouldHaveLabel("id");
-        button.menuItem(0).shouldNotBeDraggable();
-        button.menuItem(0).shouldNotHaveDndIcon();
-
-        button.menuItem(1).shouldHaveLabel("firstName");
-        button.menuItem(1).shouldNotBeDraggable();
-        button.menuItem(1).shouldNotHaveDndIcon();
-
-        button.menuItem(2).shouldHaveLabel("lastName");
-        button.menuItem(2).shouldNotBeDraggable();
-        button.menuItem(2).shouldNotHaveDndIcon();
-
-        button.menuItem(3).shouldHaveLabel("phone");
-        button.menuItem(3).shouldNotBeDraggable();
-        button.menuItem(3).shouldNotHaveDndIcon();
-
-        button.menuItem(4).shouldHaveLabel("birthday");
-        button.menuItem(4).shouldNotBeDraggable();
-        button.menuItem(4).shouldNotHaveDndIcon();
+        for (int i = 0; i < 5; i++) {
+            button.menuItem(i).shouldHaveLabel(labels[i]);
+            button.menuItem(i).shouldNotBeDraggable();
+            button.menuItem(i).shouldNotHaveDndIcon();
+        }
         button.click();
 
         // Драг-н-дроп в таблице: переносим столбец "firstName" после "phone"
         headers.header(1).dragAndDropTo(headers.header(3));
-
-        // Проверка dnd-колонок в таблице
-        headers.header(0).shouldHaveTitle("id");
-        headers.header(1).shouldHaveTitle("lastName");
-        headers.header(2).shouldHaveTitle("phone");
-        headers.header(3).shouldHaveTitle("firstName");
-        headers.header(4).shouldHaveTitle("birthday");
-
-        // Проверка dnd-колонок в настройках
         button.click();
-        button.menuItem(0).shouldHaveLabel("id");
-        button.menuItem(1).shouldHaveLabel("lastName");
-        button.menuItem(2).shouldHaveLabel("phone");
-        button.menuItem(3).shouldHaveLabel("firstName");
-        button.menuItem(4).shouldHaveLabel("birthday");
+        labels = new String[]{"id", "lastName", "phone", "firstName", "birthday"};
+        for (int i = 0; i < 5; i++) {
+            // Проверка dnd-колонок в таблице
+            headers.header(i).shouldHaveTitle(labels[i]);
+            // Проверка dnd-колонок в настройках
+            button.menuItem(i).shouldHaveLabel(labels[i]);
+        }
 
         Selenide.clearBrowserLocalStorage();
     }

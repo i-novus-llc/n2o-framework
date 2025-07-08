@@ -136,7 +136,7 @@ class MultiFieldSetAT extends AutoTestBase {
         item1.shouldNotHaveRemoveButton();
         item2.shouldHaveRemoveButton();
         item3.shouldHaveRemoveButton();
-        // задаем значения чтобы различать элементы
+        // задаем значения, чтобы различать элементы
         name1.click();
         name1.setValue("AAA");
         name2.click();
@@ -203,7 +203,6 @@ class MultiFieldSetAT extends AutoTestBase {
         item1.shouldHaveCopyButton();
         item2.shouldHaveCopyButton();
         // копируем второй элемент
-        InputText name1 = item1.fields().field("name").control(InputText.class);
         InputText name2 = item2.fields().field("name").control(InputText.class);
         name2.click();
         name2.setValue("AAA");
@@ -353,7 +352,7 @@ class MultiFieldSetAT extends AutoTestBase {
     @Test
     void testVisible() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/visible/index.page.xml"));
-        SimplePage page = open(SimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
         FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
         fieldsets.shouldHaveSize(3);
@@ -376,7 +375,7 @@ class MultiFieldSetAT extends AutoTestBase {
     @Test
     void testEnabled() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/enabled/index.page.xml"));
-        SimplePage page = open(SimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
         FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
         fieldsets.shouldHaveSize(3);
@@ -400,10 +399,10 @@ class MultiFieldSetAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/modal_to_modal/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/modal_to_modal/update.page.xml"));
 
-        StandardPage page = open(StandardPage.class);
-        page.shouldExists();
+        StandardPage standardPage = open(StandardPage.class);
+        standardPage.shouldExists();
 
-        FormWidget formWidget = page.regions().region(0, N2oSimpleRegion.class).content().widget(FormWidget.class);
+        FormWidget formWidget = standardPage.regions().region(0, N2oSimpleRegion.class).content().widget(FormWidget.class);
         formWidget.shouldExists();
 
         MultiFieldSet fieldset = formWidget.fieldsets().fieldset(MultiFieldSet.class);
@@ -464,7 +463,7 @@ class MultiFieldSetAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/filtering/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/filtering/test.query.xml"));
 
-        SimplePage page = open(SimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
 
         FormWidget formWidget = page.widget(FormWidget.class);
@@ -499,7 +498,7 @@ class MultiFieldSetAT extends AutoTestBase {
     void testValidation() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validation/index.page.xml"));
 
-        SimplePage page = open(SimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
 
         FormWidget formWidget = page.widget(FormWidget.class);
@@ -552,7 +551,7 @@ class MultiFieldSetAT extends AutoTestBase {
     @Test
     void testValidationOnClear() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validation_when_clean/index.page.xml"));
-        SimplePage page = open(SimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
 
         FormWidget formWidget = page.widget(FormWidget.class);
@@ -588,6 +587,10 @@ class MultiFieldSetAT extends AutoTestBase {
         fieldset.item(3).fields().field("surname").shouldHaveValidationMessage(Condition.exist);
         fieldset.item(3).fields().field("age").shouldHaveValidationMessage(Condition.exist);
 
+        checkRemove(test, test2, fieldset);
+    }
+
+    private static void checkRemove(StandardField test, StandardField test2, MultiFieldSet fieldset) {
         fieldset.item(1).clickRemoveButton();
         test.shouldHaveValidationMessage(Condition.exist);
         test2.shouldHaveValidationMessage(Condition.exist);
@@ -620,7 +623,7 @@ class MultiFieldSetAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/add.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/create_many/test.query.xml"));
 
-        SimplePage page = open(SimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
 
         StandardButton addBtn = page.toolbar().bottomRight().button("Добавить");
@@ -650,7 +653,7 @@ class MultiFieldSetAT extends AutoTestBase {
     void testLabelResolve() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/label_resolve/index.page.xml"));
 
-        SimplePage page = open(SimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
 
         MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
@@ -759,7 +762,7 @@ class MultiFieldSetAT extends AutoTestBase {
     void checkUpdateParentIndex() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/update_parent_index/index.page.xml"));
 
-        SimplePage page = open(SimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
 
         MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(0, MultiFieldSet.class);
@@ -795,9 +798,9 @@ class MultiFieldSetAT extends AutoTestBase {
     void testResolveAttributes() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/resolve_attributes/index.page.xml"));
 
-        StandardPage page = open(StandardPage.class);
-        page.shouldExists();
-        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
+        StandardPage standardPage = open(StandardPage.class);
+        standardPage.shouldExists();
+        FormWidget form = standardPage.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
 
         Fields fields = form.fieldsets().fieldset(0, SimpleFieldSet.class).fields();
         Checkbox canAdd = fields.field("canAdd").control(Checkbox.class);

@@ -127,7 +127,7 @@ class CalendarAT extends AutoTestBase {
         toolbar.monthViewButton().click();
         toolbar.todayButton().click();
         int today = LocalDate.now().getDayOfMonth();
-        monthView.shouldBeToday(today > 9 ? "" + today : "0" + today);
+        monthView.shouldBeToday(today > 9 ? String.valueOf(today) : "0" + today);
     }
 
     @Test
@@ -195,21 +195,7 @@ class CalendarAT extends AutoTestBase {
         modal.close();
 
         // проверка наличия события на весь день
-        CalendarEvent allDayEvent = header1.allDayEvent("All day event");
-        allDayEvent.shouldExists();
-        // клик по ячейке с событием
-        // проверка, что открывается форма на просмотр события на весь день
-        allDayEvent.click();
-        modal = N2oSelenide.modal();
-        modal.shouldHaveTitle("Просмотр события");
-        fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
-        fields.field("Название события").control(InputText.class).shouldHaveValue("All day event");
-        date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeClosed();
-        date.beginShouldHaveValue("07.07.2020 00:00:00");
-        date.endShouldHaveValue("08.07.2020 00:00:00");
-        fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Конференц зал");
-        modal.close();
+        checkAllDayEvent(header1);
 
         // проверка, что клик по ячейке открывает форму создания события с заполненным временем и ресурсом
         dayView.clickCell(1, "4:30");
@@ -223,6 +209,10 @@ class CalendarAT extends AutoTestBase {
         date.endShouldHaveValue("07.07.2020 05:00:00");
         fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Переговорка");
 
+        checkCreateAndDeleteEvent(dayView, modal, fields);
+    }
+
+    private static void checkCreateAndDeleteEvent(CalendarDayView dayView, Modal modal, Fields fields) {
         // СОЗДАНИЕ события
         fields.field("Название события").control(InputText.class).click();
         fields.field("Название события").control(InputText.class).setValue("Новое событие");
@@ -238,6 +228,24 @@ class CalendarAT extends AutoTestBase {
                 .topRight().button("Удалить").click();
         modal.shouldNotExists();
         event3.shouldNotExists();
+    }
+
+    private static void checkAllDayEvent(CalendarTimeViewHeader header1) {
+        CalendarEvent allDayEvent = header1.allDayEvent("All day event");
+        allDayEvent.shouldExists();
+        // клик по ячейке с событием
+        // проверка, что открывается форма на просмотр события на весь день
+        allDayEvent.click();
+        Modal modal = N2oSelenide.modal();
+        modal.shouldHaveTitle("Просмотр события");
+        Fields fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
+        fields.field("Название события").control(InputText.class).shouldHaveValue("All day event");
+        DateInterval date = fields.field("Дата").control(DateInterval.class);
+        date.shouldBeClosed();
+        date.beginShouldHaveValue("07.07.2020 00:00:00");
+        date.endShouldHaveValue("08.07.2020 00:00:00");
+        fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Конференц зал");
+        modal.close();
     }
 
     @Test
@@ -316,7 +324,6 @@ class CalendarAT extends AutoTestBase {
 
         // наличие событий
         CalendarEvent event1 = weekView.event("Событие1");
-        event1.shouldExists();
         event1.shouldHaveTooltipTitle("Тултип для События1");
         // клик по событию
         // проверка, что не открывается форма на просмотр события из-за disabled=true
@@ -342,21 +349,7 @@ class CalendarAT extends AutoTestBase {
         modal.close();
 
         // проверка наличия события на весь день
-        CalendarEvent allDayEvent = header1.allDayEvent("All day event");
-        allDayEvent.shouldExists();
-        // клик по ячейке с событием
-        // проверка, что открывается форма на просмотр события на весь день
-        allDayEvent.click();
-        modal = N2oSelenide.modal();
-        modal.shouldHaveTitle("Просмотр события");
-        fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
-        fields.field("Название события").control(InputText.class).shouldHaveValue("All day event");
-        date = fields.field("Дата").control(DateInterval.class);
-        date.shouldBeClosed();
-        date.beginShouldHaveValue("07.07.2020 00:00:00");
-        date.endShouldHaveValue("08.07.2020 00:00:00");
-        fields.field("Ресурс").control(RadioGroup.class).shouldBeChecked("Конференц зал");
-        modal.close();
+        checkAllDayEvent(header1);
 
         // клик по числу в хэдере должен открывать выбранный день
         header1.clickDayCell("09");

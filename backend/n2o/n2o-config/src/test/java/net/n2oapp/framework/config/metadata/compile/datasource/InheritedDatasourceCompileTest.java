@@ -20,6 +20,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции источника данных, получающего данные из другого источника данных
@@ -45,69 +46,88 @@ class InheritedDatasourceCompileTest extends SourceCompileTestBase {
                         .get(new PageContext("testInheritedDatasource"));
         InheritedDatasource inh1 = (InheritedDatasource) page.getDatasources().get("testInheritedDatasource_inh1");
         assertThat(inh1.getId(), is("testInheritedDatasource_inh1"));
-        assertThat(inh1.getProvider().getSourceDs(), is("testInheritedDatasource_ds1"));
-        assertThat(inh1.getProvider().getSourceField(), is("name"));
-        assertThat(inh1.getProvider().getType(), is("inherited"));
-        assertThat(inh1.getProvider().getSourceModel(), is(ReduxModelEnum.SELECTED));
+        assertThat(inh1.getProvider(), allOf(
+                hasProperty("sourceDs", is("testInheritedDatasource_ds1")),
+                hasProperty("sourceField", is("name")),
+                hasProperty("type", is("inherited")),
+                hasProperty("sourceModel", is(ReduxModelEnum.SELECTED))
+        ));
 
         InheritedDatasource inh2 = (InheritedDatasource) page.getDatasources().get("testInheritedDatasource_inh2");
         assertThat(inh2.getId(), is("testInheritedDatasource_inh2"));
-        assertThat(inh2.getProvider().getType(), is("inherited"));
-        assertThat(inh2.getProvider().getSourceDs(), is("testInheritedDatasource_ds2"));
-        assertThat(inh2.getProvider().getSourceModel(), is(ReduxModelEnum.DATASOURCE));
-        assertThat(inh2.getProvider().getSourceField(), is("name"));
-        assertThat(inh2.getSubmit().getType(), is("inherited"));
-        assertThat(inh2.getSubmit().getAuto(), is(false));
-        assertThat(inh2.getSubmit().getModel(), is(ReduxModelEnum.RESOLVE));
-        assertThat(inh2.getSubmit().getTargetDs(), is("testInheritedDatasource_ds2"));
-        assertThat(inh2.getSubmit().getTargetModel(), is(ReduxModelEnum.DATASOURCE));
-        assertThat(inh2.getSubmit().getTargetField(), is("name"));
+        assertThat(inh2.getProvider(), allOf(
+                hasProperty("type", is("inherited")),
+                hasProperty("sourceDs", is("testInheritedDatasource_ds2")),
+                hasProperty("sourceModel", is(ReduxModelEnum.DATASOURCE)),
+                hasProperty("sourceField", is("name"))
+        ));
+        assertThat(inh2.getSubmit(), allOf(
+                hasProperty("type", is("inherited")),
+                hasProperty("auto", is(false)),
+                hasProperty("model", is(ReduxModelEnum.RESOLVE)),
+                hasProperty("targetDs", is("testInheritedDatasource_ds2")),
+                hasProperty("targetModel", is(ReduxModelEnum.DATASOURCE)),
+                hasProperty("targetField", is("name"))
+        ));
 
         InheritedDatasource inh3 = (InheritedDatasource) page.getDatasources().get("testInheritedDatasource_inh3");
         assertThat(inh3.getId(), is("testInheritedDatasource_inh3"));
         assertThat(inh3.getPaging().getSize(), is(13));
-        assertThat(inh3.getProvider().getType(), is("inherited"));
-        assertThat(inh3.getProvider().getSourceDs(), is("testInheritedDatasource_ds2"));
-        assertThat(inh3.getProvider().getSourceModel(), is(ReduxModelEnum.DATASOURCE));
-        assertThat(inh3.getProvider().getSourceField(), is("name"));
-        assertThat(inh3.getProvider().getFetchValueExpression(), is("(function(){var result = source\nreturn result}).call(this)"));
-        assertThat(inh3.getSubmit().getType(), is("inherited"));
-        assertThat(inh3.getSubmit().getAuto(), is(true));
-        assertThat(inh3.getSubmit().getModel(), is(ReduxModelEnum.FILTER));
-        assertThat(inh3.getSubmit().getTargetDs(), is("testInheritedDatasource_ds1"));
-        assertThat(inh3.getSubmit().getTargetModel(), is(ReduxModelEnum.FILTER));
-        assertThat(inh3.getSubmit().getTargetField(), is("name2"));
-        assertThat(inh3.getSubmit().getSubmitValueExpression(), is("(function(){var result = target\nreturn result}).call(this)"));
+        assertThat(inh3.getProvider(), allOf(
+                hasProperty("type", is("inherited")),
+                hasProperty("sourceDs", is("testInheritedDatasource_ds2")),
+                hasProperty("sourceModel", is(ReduxModelEnum.DATASOURCE)),
+                hasProperty("sourceField", is("name")),
+                hasProperty("fetchValueExpression", is("(function(){var result = source\nreturn result}).call(this)"))
+        ));
+        assertThat(inh3.getSubmit(), allOf(
+                hasProperty("type", is("inherited")),
+                hasProperty("auto", is(true)),
+                hasProperty("model", is(ReduxModelEnum.FILTER)),
+                hasProperty("targetDs", is("testInheritedDatasource_ds1")),
+                hasProperty("targetModel", is(ReduxModelEnum.FILTER)),
+                hasProperty("targetField", is("name2")),
+                hasProperty("submitValueExpression", is("(function(){var result = target\nreturn result}).call(this)"))
+        ));
         assertThat(inh3.getDependencies().size(), is(2));
         Dependency dependency = inh3.getDependencies().get(0);
         assertThat(dependency.getOn(), is("models.resolve['testInheritedDatasource_ds']"));
         assertThat(dependency.getType(), is(DependencyTypeEnum.FETCH));
         dependency = inh3.getDependencies().get(1);
-        assertThat(dependency.getType(), is(DependencyTypeEnum.COPY));
-        assertThat(dependency.getOn(), is("models.filter['testInheritedDatasource_ds'].source"));
-        assertThat(((CopyDependency) dependency).getModel(), is(ReduxModelEnum.FILTER));
-        assertThat(((CopyDependency) dependency).getSubmit(), is(true));
-        assertThat(((CopyDependency) dependency).getApplyOnInit(), is(true));
+        assertThat(dependency, allOf(
+                instanceOf(CopyDependency.class),
+                hasProperty("type", is(DependencyTypeEnum.COPY)),
+                hasProperty("on", is("models.filter['testInheritedDatasource_ds'].source")),
+                hasProperty("model", is(ReduxModelEnum.FILTER)),
+                hasProperty("submit", is(true)),
+                hasProperty("applyOnInit", is(true))
+        ));
 
         assertThat(inh3.getProvider().getFilters().size(), is(2));
         List<InheritedDatasource.Filter> filters = inh3.getProvider().getFilters();
-        assertThat(filters.get(0).getType(), is(FilterTypeEnum.EQ));
-        assertThat(filters.get(0).getFieldId(), is("id"));
-        assertThat(filters.get(0).getModelLink().getParam(), is("id"));
-        assertThat(filters.get(0).getRequired(), is(false));
-        assertThat(filters.get(1).getType(), is(FilterTypeEnum.EQ));
-        assertThat(filters.get(1).getFieldId(), is("name"));
-        assertThat(filters.get(1).getLink(), is("models.filter['testInheritedDatasource_inh1']"));
-        assertThat(filters.get(1).getValue(), is("`name`"));
-        assertThat(filters.get(1).getRequired(), is(true));
+        assertThat(filters.get(0), allOf(
+                hasProperty("type", is(FilterTypeEnum.EQ)),
+                hasProperty("fieldId", is("id")),
+                hasProperty("modelLink", hasProperty("param", is("id"))),
+                hasProperty("required", is(false))
+        ));
+        assertThat(filters.get(1), allOf(
+                hasProperty("type", is(FilterTypeEnum.EQ)),
+                hasProperty("fieldId", is("name")),
+                hasProperty("link", is("models.filter['testInheritedDatasource_inh1']")),
+                hasProperty("value", is("`name`")),
+                hasProperty("required", is(true))
+        ));
 
         InheritedDatasource inh4 = (InheritedDatasource) page.getDatasources().get("testInheritedDatasource_inh4");
-        assertThat(inh4.getSubmit().getType(), is("inherited"));
-        assertThat(inh4.getSubmit().getAuto(), is(true));
-        assertThat(inh4.getSubmit().getModel(), is(ReduxModelEnum.RESOLVE));
-        assertThat(inh4.getSubmit().getTargetDs(), is("testInheritedDatasource_ds1"));
-        assertThat(inh4.getSubmit().getTargetModel(), is(ReduxModelEnum.DATASOURCE));
-        assertThat(inh4.getSubmit().getTargetField(), nullValue());
-        assertThat(inh4.getSubmit().getSubmitValueExpression(), is("(function(){var result = target\nreturn result}).call(this)"));
+        assertThat(inh4.getSubmit(), allOf(
+                hasProperty("type", is("inherited")),
+                hasProperty("auto", is(true)),
+                hasProperty("model", is(ReduxModelEnum.RESOLVE)),
+                hasProperty("targetDs", is("testInheritedDatasource_ds1")),
+                hasProperty("targetModel", is(ReduxModelEnum.DATASOURCE)),
+                hasProperty("targetField", nullValue()),
+                hasProperty("submitValueExpression", is("(function(){var result = target\nreturn result}).call(this)"))
+        ));
     }
 }

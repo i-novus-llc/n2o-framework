@@ -77,7 +77,6 @@ class TabsActiveAT extends AutoTestBase {
         StandardButton pageButton = page.toolbar().bottomRight().button("Кнока на странице для второй вкладки");
         pageButton.shouldNotExists();
         FormWidget tabsDsForm = page.regions().region(2, SimpleRegion.class).content().widget(FormWidget.class);
-        tabsDsForm.shouldExists();
         InputText nameControl = tabsDsForm.fields().field("name").control(InputText.class);
         nameControl.shouldHaveValue("Ivan");
         InputText activeTabControl = tabsDsForm.fields().field("activeTab").control(InputText.class);

@@ -119,11 +119,7 @@ class CardsAT extends AutoTestBase {
         Card card = cardsWidget.card(0);
         card.shouldExists();
 
-        card.columns().shouldHaveSize(2);
-        card.columns().column(0).shouldHaveWidth(3);
-        card.columns().column(0).blocks().shouldHaveSize(2);
-        card.columns().column(1).shouldHaveWidth(2);
-        card.columns().column(1).blocks().shouldHaveSize(5);
+        checkCardSize(card);
 
         TextCell textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
         textCell.shouldHaveText("Hamburg");
@@ -150,11 +146,7 @@ class CardsAT extends AutoTestBase {
         card = cardsWidget.card(1);
         card.shouldExists();
 
-        card.columns().shouldHaveSize(2);
-        card.columns().column(0).shouldHaveWidth(3);
-        card.columns().column(0).blocks().shouldHaveSize(2);
-        card.columns().column(1).shouldHaveWidth(2);
-        card.columns().column(1).blocks().shouldHaveSize(5);
+        checkCardSize(card);
 
         textCell = card.columns().column(0).blocks().block(0).cell(TextCell.class);
         textCell.shouldHaveText("Paris");
@@ -177,5 +169,13 @@ class CardsAT extends AutoTestBase {
 
         checkboxCell = card.columns().column(1).blocks().block(4).cell(CheckboxCell.class);
         checkboxCell.shouldBeUnchecked();
+    }
+
+    private static void checkCardSize(Card card) {
+        card.columns().shouldHaveSize(2);
+        card.columns().column(0).shouldHaveWidth(3);
+        card.columns().column(0).blocks().shouldHaveSize(2);
+        card.columns().column(1).shouldHaveWidth(2);
+        card.columns().column(1).blocks().shouldHaveSize(5);
     }
 }

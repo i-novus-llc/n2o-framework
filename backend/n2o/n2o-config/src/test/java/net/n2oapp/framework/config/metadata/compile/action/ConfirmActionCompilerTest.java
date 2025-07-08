@@ -58,11 +58,21 @@ class ConfirmActionCompilerTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getCancel().getStyle().get("pageBreakBefore"), CoreMatchers.is("avoid"));
         assertThat(testAction.getPayload().getCancel().getStyle().get("paddingTop"), CoreMatchers.is("0"));
 
+        testAction2(page);
+
+        testAction3(page);
+    }
+
+    private void testAction2(StandardPage page) {
+        ConfirmAction testAction;
         testAction = (ConfirmAction) page.getToolbar().getButton("b2").getAction();
         assertThat(testAction.getPayload().getCloseButton(), is(true));
         assertThat(testAction.getPayload().getMode(), is(ConfirmTypeEnum.POPOVER));
         assertThat(testAction.getPayload().getReverseButtons(), is(true));
+    }
 
+    private void testAction3(StandardPage page) {
+        ConfirmAction testAction;
         testAction = (ConfirmAction) page.getToolbar().getButton("b3").getAction();
         assertThat(testAction.getType(), is("n2o/api/action/confirm"));
         assertThat(testAction.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));

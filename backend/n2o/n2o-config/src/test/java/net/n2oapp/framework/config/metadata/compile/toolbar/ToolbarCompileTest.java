@@ -25,7 +25,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 class ToolbarCompileTest extends SourceCompileTestBase {
 
@@ -83,18 +83,22 @@ class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(f.getToolbar().getGroup(0).getStyle().get("color"), is("red"));
 
         AbstractButton b1 = f.getToolbar().get("topLeft").get(0).getButtons().get(0);
-        assertThat(b1.getId(), is("testId1"));
-        assertThat(b1.getRounded(), is(true));
-        assertThat(b1.getAction(), notNullValue());
+        assertThat(b1, allOf(
+                hasProperty("id", is("testId1")),
+                hasProperty("rounded", is(true)),
+                hasProperty("action", notNullValue())
+        ));
         assertThat(b1.getConditions().get(ValidationTypeEnum.ENABLED).size(), is(1));
         assertThat(b1.getConditions().get(ValidationTypeEnum.ENABLED).get(0).getExpression(), is("!$.isEmptyModel(this)"));
         assertThat(b1.getConditions().get(ValidationTypeEnum.ENABLED).get(0).getModelLink(), is("models.resolve['testToolbar_w1']"));
 
         AbstractButton b2 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(0);
-        assertThat(b2.getId(), is("testId2"));
-        assertThat(b2.getRounded(), is(false));
-        assertThat(b2.getAction(), notNullValue());
-        assertThat(b2.getLabel(), is("Label1"));
+        assertThat(b2, allOf(
+                hasProperty("id", is("testId2")),
+                hasProperty("rounded", is(false)),
+                hasProperty("action", notNullValue()),
+                hasProperty("label", is("Label1"))
+        ));
         assertThat(b2.getConditions().get(ValidationTypeEnum.ENABLED), nullValue());
 
         AbstractButton b3 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(1);

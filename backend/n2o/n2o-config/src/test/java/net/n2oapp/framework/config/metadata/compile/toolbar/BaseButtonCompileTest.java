@@ -24,8 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции базовой кнопки
@@ -49,30 +48,41 @@ class BaseButtonCompileTest extends SourceCompileTestBase {
     void testButton() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButton.page.xml")
                 .get(new PageContext("testButton"));
-        Table t = (Table) page.getRegions().get("single").get(0).getContent().get(0);
+        Table<?> t = (Table<?>) page.getRegions().get("single").get(0).getContent().get(0);
 
         AbstractButton btn = page.getToolbar().getButton("btn1");
-        assertThat(btn.getLabel(), is("delete"));
-        assertThat(btn.getIcon(), is(nullValue()));
-        assertThat(btn.getColor(), is("`name`"));
-        assertThat(btn.getHintPosition(), is("right"));
-        assertThat(btn.getClassName(), is("Button"));
-        assertThat(btn.getStyle().size(), is(1));
-        assertThat(btn.getStyle().get("color"), is("red"));
-        assertThat(btn.getHint(), is("hint"));
-        assertThat(btn.getDatasource(), is("testButton_table"));
-        assertThat(((InvokeAction) btn.getAction()).getPayload().getDatasource(), is("testButton_table"));
+        assertThat(btn, allOf(
+                hasProperty("label", is("delete")),
+                hasProperty("icon", nullValue()),
+                hasProperty("color", is("`name`")),
+                hasProperty("hintPosition", is("right")),
+                hasProperty("className", is("Button")),
+                hasProperty("style", allOf(
+                        aMapWithSize(1),
+                        hasEntry("color", "red")
+                )),
+                hasProperty("hint", is("hint")),
+                hasProperty("datasource", is("testButton_table")),
+                hasProperty("action", allOf(
+                        instanceOf(InvokeAction.class),
+                        hasProperty("payload", hasProperty("datasource", is("testButton_table")))
+                ))
+        ));
 
         btn = page.getToolbar().getButton("btn2");
-        assertThat(btn.getLabel(), is(nullValue()));
-        assertThat(btn.getDatasource(), is(nullValue()));
-        assertThat(btn.getIcon(), is("fa fa-pencil"));
-        assertThat(btn.getIconPosition(), is(PositionEnum.RIGHT));
+        assertThat(btn, allOf(
+                hasProperty("label", nullValue()),
+                hasProperty("datasource", nullValue()),
+                hasProperty("icon", is("fa fa-pencil")),
+                hasProperty("iconPosition", is(PositionEnum.RIGHT))
+        ));
 
         btn = page.getToolbar().getButton("btn3");
-        assertThat(btn.getLabel(), is("load"));
-        assertThat(btn.getIcon(), is("fa fa-download"));
-        assertThat(btn.getIconPosition(), is(PositionEnum.LEFT));
+        assertThat(btn, allOf(
+                hasProperty("label", is("load")),
+                hasProperty("icon", is("fa fa-download")),
+                hasProperty("iconPosition", is(PositionEnum.LEFT))
+        ));
 
         btn = page.getToolbar().getButton("btn4");
         assertThat(btn.getHint(), is("`description`"));
@@ -84,44 +94,68 @@ class BaseButtonCompileTest extends SourceCompileTestBase {
         assertThat(btn.getModel(), is(ReduxModelEnum.DATASOURCE));
 
         btn = page.getToolbar().getButton("btn7");
-        assertThat(btn.getAction().getClass(), is(MultiAction.class));
-        assertThat(((MultiAction) btn.getAction()).getPayload().getActions().get(0).getClass(), is(ConfirmAction.class));
-        assertThat(((MultiAction) btn.getAction()).getPayload().getActions().get(1).getClass(), is(InvokeAction.class));
+        assertThat(btn.getAction(), allOf(
+                instanceOf(MultiAction.class),
+                hasProperty("payload", hasProperty("actions", contains(
+                                instanceOf(ConfirmAction.class),
+                                instanceOf(InvokeAction.class)
+                        ))
+                )));
         ConfirmAction confirm = (ConfirmAction) ((MultiAction) btn.getAction()).getPayload().getActions().get(0);
-        assertThat(confirm.getPayload().getMode(), is(ConfirmTypeEnum.MODAL));
-        assertThat(confirm.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));
-        assertThat(confirm.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
-        assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.PRIMARY.getId()));
-        assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.SECONDARY.getId()));
+        assertThat(confirm.getPayload(), allOf(
+                hasProperty("mode", is(ConfirmTypeEnum.MODAL)),
+                hasProperty("title", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title"))),
+                hasProperty("text", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")))
+        ));
+        assertThat(confirm.getPayload().getOk(), allOf(
+                hasProperty("label", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label"))),
+                hasProperty("color", is(ColorEnum.PRIMARY.getId()))
+        ));
+        assertThat(confirm.getPayload().getCancel(), allOf(
+                hasProperty("label", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label"))),
+                hasProperty("color", is(ColorEnum.SECONDARY.getId()))
+        ));
 
         btn = page.getToolbar().getButton("btn8");
         confirm = (ConfirmAction) btn.getAction();
 
-        assertThat(confirm.getPayload().getTitle(), is("Предупреждение"));
-        assertThat(confirm.getPayload().getText(), is("Подтвердите действие"));
-        assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.DANGER.getId()));
-        assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.PRIMARY.getId()));
+        assertThat(confirm.getPayload(), allOf(
+                hasProperty("title", is("Предупреждение")),
+                hasProperty("text", is("Подтвердите действие"))
+        ));
+        assertThat(confirm.getPayload().getOk(), allOf(
+                hasProperty("label", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label"))),
+                hasProperty("color", is(ColorEnum.DANGER.getId()))
+        ));
+        assertThat(confirm.getPayload().getCancel(), allOf(
+                hasProperty("label", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label"))),
+                hasProperty("color", is(ColorEnum.PRIMARY.getId()))
+        ));
 
         btn = page.getToolbar().getButton("btn9");
         assertThat(btn.getAction().getClass(), is(ConditionAction.class));
         ConditionAction conditionAction = (ConditionAction) btn.getAction();
-        assertThat(conditionAction.getPayload().getCondition(), is("test"));
-        assertThat(conditionAction.getPayload().getDatasource(), is("testButton_test"));
+        assertThat(conditionAction.getPayload(), allOf(
+                hasProperty("condition", is("test")),
+                hasProperty("datasource", is("testButton_test")),
+                hasProperty("fail", nullValue())
+        ));
         assertThat(conditionAction.getPayload().getSuccess().getClass(), is(ConfirmAction.class));
-        assertThat(conditionAction.getPayload().getFail(), is(nullValue()));
 
         confirm = (ConfirmAction) conditionAction.getPayload().getSuccess();
-        assertThat(confirm.getPayload().getMode(), is(ConfirmTypeEnum.MODAL));
-        assertThat(confirm.getPayload().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title")));
-        assertThat(confirm.getPayload().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")));
-        assertThat(confirm.getPayload().getOk().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label")));
-        assertThat(confirm.getPayload().getOk().getColor(), is(ColorEnum.PRIMARY.getId()));
-        assertThat(confirm.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
-        assertThat(confirm.getPayload().getCancel().getColor(), is(ColorEnum.SECONDARY.getId()));
+        assertThat(confirm.getPayload(), allOf(
+                hasProperty("mode", is(ConfirmTypeEnum.MODAL)),
+                hasProperty("title", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title"))),
+                hasProperty("text", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.text")))
+        ));
+        assertThat(confirm.getPayload().getOk(), allOf(
+                hasProperty("label", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.ok_label"))),
+                hasProperty("color", is(ColorEnum.PRIMARY.getId()))
+        ));
+        assertThat(confirm.getPayload().getCancel(), allOf(
+                hasProperty("label", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label"))),
+                hasProperty("color", is(ColorEnum.SECONDARY.getId()))
+        ));
     }
 
     @Test

@@ -74,47 +74,27 @@ class TabsLazyInitAT extends AutoTestBase {
         widget.fields().field("8").control(OutputText.class).shouldHaveValue("eight");
 
         Regions regions = page.regions();
-        page.regions().shouldHaveSize(5);
-        TabsRegion tabs = page.regions().region(1, TabsRegion.class);
-        tabs.shouldHaveSize(2);
-        tabs.tab(0).shouldHaveName("tab1");
-        StandardField field = tabs.tab(0).content().widget(FormWidget.class).fields().field("always-refresh=\"true\", lazy=\"true\"");
-        field.control(InputText.class).shouldHaveValue("one");
-        tabs.tab(1).shouldHaveName("tab2");
-        tabs.tab(1).click();
-        field = tabs.tab(1).content().widget(FormWidget.class).fields().field("always-refresh=\"true\", lazy=\"true\"");
-        field.control(InputText.class).shouldHaveValue("two");
+        regions.shouldHaveSize(5);
 
-        tabs = page.regions().region(2, TabsRegion.class);
-        tabs.shouldHaveSize(2);
-        tabs.tab(0).shouldHaveName("tab3");
-        field = tabs.tab(0).content().widget(FormWidget.class).fields().field("always-refresh=\"true\", lazy=\"false\"");
-        field.control(InputText.class).shouldHaveValue("three");
-        tabs.tab(1).shouldHaveName("tab4");
-        tabs.tab(1).click();
-        field = tabs.tab(1).content().widget(FormWidget.class).fields().field("always-refresh=\"true\", lazy=\"false\"");
-        field.control(InputText.class).shouldHaveValue("four");
-
-        tabs = page.regions().region(3, TabsRegion.class);
-        tabs.shouldHaveSize(2);
-        tabs.tab(0).shouldHaveName("tab5");
-        field = tabs.tab(0).content().widget(FormWidget.class).fields().field("always-refresh=\"false\", lazy=\"true\"");
-        field.control(InputText.class).shouldHaveValue("five");
-        tabs.tab(1).shouldHaveName("tab6");
-        tabs.tab(1).click();
-        field = tabs.tab(1).content().widget(FormWidget.class).fields().field("always-refresh=\"false\", lazy=\"true\"");
-        field.control(InputText.class).shouldHaveValue("six");
-
-        tabs = page.regions().region(4, TabsRegion.class);
-        tabs.shouldHaveSize(2);
-        tabs.tab(0).shouldHaveName("tab7");
-        field = tabs.tab(0).content().widget(FormWidget.class).fields().field("always-refresh=\"false\", lazy=\"false\"");
-        field.control(InputText.class).shouldHaveValue("seven");
-        tabs.tab(1).shouldHaveName("tab8");
-        tabs.tab(1).click();
-        field = tabs.tab(1).content().widget(FormWidget.class).fields().field("always-refresh=\"false\", lazy=\"false\"");
-        field.control(InputText.class).shouldHaveValue("eight");
+        checkTabRegion(regions.region(1, TabsRegion.class), "tab1", "one", "tab2", "two", "always-refresh=\"true\", lazy=\"true\"");
+        checkTabRegion(regions.region(2, TabsRegion.class), "tab3", "three", "tab4", "four", "always-refresh=\"true\", lazy=\"false\"");
+        checkTabRegion(regions.region(3, TabsRegion.class), "tab5", "five", "tab6", "six", "always-refresh=\"false\", lazy=\"true\"");
+        checkTabRegion(regions.region(4, TabsRegion.class), "tab7", "seven", "tab8", "eight", "always-refresh=\"false\", lazy=\"false\"");
     }
+
+    private void checkTabRegion(TabsRegion tab, String tab1Name, String tab1Value,
+                                String tab2Name, String tab2Value,
+                                String fieldLabel) {
+        tab.shouldHaveSize(2);
+        tab.tab(0).shouldHaveName(tab1Name);
+        StandardField field = tab.tab(0).content().widget(FormWidget.class).fields().field(fieldLabel);
+        field.control(InputText.class).shouldHaveValue(tab1Value);
+        tab.tab(1).shouldHaveName(tab2Name);
+        tab.tab(1).click();
+        field = tab.tab(1).content().widget(FormWidget.class).fields().field(fieldLabel);
+        field.control(InputText.class).shouldHaveValue(tab2Value);
+    }
+
 
     @Test
     void testLazyInitWithDependencies() {

@@ -86,14 +86,16 @@ class ScrollspyRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.size(), is(1));
 
         ScrollspyRegion region = ((ScrollspyRegion) regions.get(0));
-        assertThat(region.getId(), is("scrollspy0"));
-        assertThat(region.getTitle(), nullValue());
-        assertThat(region.getSrc(), is("ScrollSpyRegion"));
-        assertThat(region.getClassName(), nullValue());
-        assertThat(region.getStyle(), nullValue());
-        assertThat(region.getActive(), nullValue());
-        assertThat(region.getPlacement(), is("left"));
-        assertThat(region.getHeadlines(), is(false));
+        assertThat(region, allOf(
+                hasProperty("id", is("scrollspy0")),
+                hasProperty("title", nullValue()),
+                hasProperty("src", is("ScrollSpyRegion")),
+                hasProperty("className", nullValue()),
+                hasProperty("style", nullValue()),
+                hasProperty("active", nullValue()),
+                hasProperty("placement", is("left")),
+                hasProperty("headlines", is(false))
+        ));
 
         //single element with tabs
         ScrollspyElement element = region.getMenu().get(0);
@@ -111,10 +113,15 @@ class ScrollspyRegionCompileTest extends SourceCompileTestBase {
         assertThat(element.getId(), is("element_scrollspy5"));
         assertThat(element.getTitle(), is("Second item title in the list"));
         assertThat(((SingleScrollspyElement) element).getContent().size(), is(2));
-        assertThat(((Table) ((SingleScrollspyElement) element).getContent().get(0)).getId(), is("testScrollspyRegionElements_table1"));
+        assertThat(((Table<?>) ((SingleScrollspyElement) element).getContent().get(0)).getId(), is("testScrollspyRegionElements_table1"));
         assertThat(((Form) ((SingleScrollspyElement) element).getContent().get(1)).getId(), is("testScrollspyRegionElements_form2"));
 
         //group element
+        checkGroupElement(region);
+    }
+
+    private static void checkGroupElement(ScrollspyRegion region) {
+        ScrollspyElement element;
         element = region.getMenu().get(2);
         assertThat(element.getId(), is("element_scrollspy6"));
         assertThat(element.getTitle(), is("Third item title in the list"));
@@ -124,7 +131,7 @@ class ScrollspyRegionCompileTest extends SourceCompileTestBase {
         assertThat((((MenuScrollspyElement) element).getMenu().get(0)).getId(), is("mi2"));
         assertThat((((MenuScrollspyElement) element).getMenu().get(0)).getTitle(), is("Title1"));
         assertThat(((SingleScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(0)).getContent().size(), is(2));
-        assertThat(((Table) ((SingleScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(0)).getContent().get(0)).getId(), is("testScrollspyRegionElements_table2"));
+        assertThat(((Table<?>) ((SingleScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(0)).getContent().get(0)).getId(), is("testScrollspyRegionElements_table2"));
         assertThat(((Form) ((SingleScrollspyElement) ((MenuScrollspyElement) element).getMenu().get(0)).getContent().get(1)).getId(), is("testScrollspyRegionElements_form3"));
 
         //single element in group
@@ -149,7 +156,7 @@ class ScrollspyRegionCompileTest extends SourceCompileTestBase {
         assertThat(((GroupScrollspyElement) element).getHeadline(), is(true));
         assertThat(((GroupScrollspyElement) element).getGroup().get(0).getId(), is("GroupItem"));
         assertThat(((GroupScrollspyElement) element).getGroup().get(0).getTitle(), is("Item in group"));
-        assertThat(((Table) ((SingleScrollspyElement) ((GroupScrollspyElement) element).getGroup().get(0)).getContent().get(0)).getId(), is("testScrollspyRegionElements_table3"));
+        assertThat(((Table<?>) ((SingleScrollspyElement) ((GroupScrollspyElement) element).getGroup().get(0)).getContent().get(0)).getId(), is("testScrollspyRegionElements_table3"));
         assertThat(((GroupScrollspyElement) element).getGroup().get(1).getTitle(), is("Sub-menu in group"));
         assertThat((((MenuScrollspyElement) ((GroupScrollspyElement) element).getGroup().get(1)).getMenu().get(0)).getId(), is("mi4"));
         assertThat((((MenuScrollspyElement) ((GroupScrollspyElement) element).getGroup().get(1)).getMenu().get(0)).getTitle(), is("Title5"));

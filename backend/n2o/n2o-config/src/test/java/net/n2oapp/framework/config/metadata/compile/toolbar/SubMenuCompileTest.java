@@ -20,11 +20,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции кнопки с выпадающим меню
@@ -48,47 +48,39 @@ class SubMenuCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testSubMenu.page.xml")
                 .get(new PageContext("testSubMenu"));
 
-        Toolbar toolbar = ((Table) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
+        Toolbar toolbar = ((Table<?>) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
         Submenu subMenu = (Submenu) toolbar.getButton("testSubMenu_mi0");
-        assertThat(subMenu.getSrc(), is("DropdownButton"));
-        assertThat(subMenu.getShowToggleIcon(), is(false));
-        assertThat(subMenu.getVisible(), is(false));
-        assertThat(subMenu.getEnabled(), is(false));
+        assertThat(subMenu, allOf(
+                hasProperty("src", is("DropdownButton")),
+                hasProperty("showToggleIcon", is(false)),
+                hasProperty("visible", is(false)),
+                hasProperty("enabled", is(false))
+        ));
 
         List<PerformButton> items = subMenu.getContent();
         assertThat(items.size(), is(2));
         PerformButton createBtn = items.get(0);
-        assertThat(createBtn.getId(), is("create"));
-        assertThat(createBtn.getLabel(), is("Создать"));
-        assertThat(createBtn.getAction(), instanceOf(ShowModal.class));
-        PerformButton updateBtn = items.get(1);
-        assertThat(updateBtn.getId(), is("update"));
-        assertThat(updateBtn.getLabel(), is("Изменить"));
-        assertThat(updateBtn.getAction(), instanceOf(ShowModal.class));
-        assertThat(updateBtn.getConditions().get(ValidationTypeEnum.ENABLED).size(), is(1));
+        assertThat(createBtn, allOf(
+                hasProperty("id", is("create")),
+                hasProperty("label", is("Создать")),
+                hasProperty("action", instanceOf(ShowModal.class))
+        ));
 
+        PerformButton updateBtn = items.get(1);
+        assertThat(updateBtn, allOf(
+                hasProperty("id", is("update")),
+                hasProperty("label", is("Изменить")),
+                hasProperty("action", instanceOf(ShowModal.class))
+        ));
+        assertThat(updateBtn.getConditions().get(ValidationTypeEnum.ENABLED).size(), is(1));
 
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi3");
         assertThat(subMenu.getShowToggleIcon(), is(true));
         assertThat(subMenu.getContent(), nullValue());
-        assertThat(subMenu.getConditions().get(ValidationTypeEnum.ENABLED).size(), is(1));
-        assertThat(subMenu.getConditions().get(ValidationTypeEnum.VISIBLE).size(), is(1));
-        Condition condition = subMenu.getConditions().get(ValidationTypeEnum.ENABLED).get(0);
-        assertThat(condition.getExpression(), is("name != null"));
-        assertThat(condition.getModelLink(), is("models.filter['testSubMenu_form']"));
-        condition = subMenu.getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
-        assertThat(condition.getExpression(), is("name != null"));
-        assertThat(condition.getModelLink(), is("models.filter['testSubMenu_form']"));
+        checkCondition(subMenu.getConditions(), "name != null", "models.filter['testSubMenu_form']");
 
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi4");
-        assertThat(subMenu.getConditions().get(ValidationTypeEnum.ENABLED).size(), is(1));
-        assertThat(subMenu.getConditions().get(ValidationTypeEnum.VISIBLE).size(), is(1));
-        condition = subMenu.getConditions().get(ValidationTypeEnum.ENABLED).get(0);
-        assertThat(condition.getExpression(), is("name != null"));
-        assertThat(condition.getModelLink(), is("models.resolve['testSubMenu_table']"));
-        condition = subMenu.getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
-        assertThat(condition.getExpression(), is("name != null"));
-        assertThat(condition.getModelLink(), is("models.resolve['testSubMenu_table']"));
+        checkCondition(subMenu.getConditions(), "name != null", "models.resolve['testSubMenu_table']");
 
         subMenu = (Submenu) toolbar.getButton("testSubMenu_mi5");
         assertThat(subMenu.getIcon(), is("fa fa-plus"));
@@ -101,8 +93,21 @@ class SubMenuCompileTest extends SourceCompileTestBase {
         assertThat(subMenu.getContent().get(1).getDatasource(), is("testSubMenu_ds"));
 
         assertThat(subMenu.getContent().size(), is(3));
-        assertThat(subMenu.getContent().get(2).getId(), is("close"));
-        assertThat(subMenu.getContent().get(2).getLabel(), is("Закрыть"));
-        assertThat(subMenu.getContent().get(2).getAction(), instanceOf(LinkAction.class));
+        assertThat(subMenu.getContent().get(2), allOf(
+                hasProperty("id", is("close")),
+                hasProperty("label", is("Закрыть")),
+                hasProperty("action", instanceOf(LinkAction.class))
+        ));
+    }
+
+    private static void checkCondition(Map<ValidationTypeEnum, List<Condition>> conditions, String expression, String modelLink) {
+        assertThat(conditions.get(ValidationTypeEnum.ENABLED).size(), is(1));
+        assertThat(conditions.get(ValidationTypeEnum.VISIBLE).size(), is(1));
+        Condition condition = conditions.get(ValidationTypeEnum.ENABLED).get(0);
+        assertThat(condition.getExpression(), is(expression));
+        assertThat(condition.getModelLink(), is(modelLink));
+        condition = conditions.get(ValidationTypeEnum.VISIBLE).get(0);
+        assertThat(condition.getExpression(), is(expression));
+        assertThat(condition.getModelLink(), is(modelLink));
     }
 }

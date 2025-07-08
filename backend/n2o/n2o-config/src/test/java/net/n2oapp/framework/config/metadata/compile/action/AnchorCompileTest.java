@@ -46,7 +46,7 @@ class AnchorCompileTest extends SourceCompileTestBase {
         //Root page
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction.page.xml")
                 .get(new PageContext("testAnchorAction"));
-        Toolbar toolbar = ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
+        Toolbar toolbar = ((Widget<?>) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
         LinkAction link1 = (LinkAction) toolbar.getButton("id1").getAction();
         assertThat(link1.getUrl(), is("/test"));
         assertThat(link1.getTarget(), is(TargetEnum.APPLICATION));
@@ -70,7 +70,7 @@ class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(link3.getUrl(), is("http://google.com"));
         assertThat(link3.getTarget(), is(TargetEnum.SELF));
 
-        LinkActionImpl linkSecond = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
+        LinkActionImpl linkSecond = (LinkActionImpl) ((Widget<?>) page.getRegions().get("single").get(1).getContent().get(0))
                 .getToolbar().getButton("secWgt").getAction();
 
         assertThat(linkSecond.getUrl(), is("/test/:minPrice"));
@@ -79,12 +79,19 @@ class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(linkSecond.getPathMapping().get("minPrice").getLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
 
-        LinkActionImpl linkWithParam = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(1).getContent().get(0))
+        LinkActionImpl linkWithParam = (LinkActionImpl) ((Widget<?>) page.getRegions().get("single").get(1).getContent().get(0))
                 .getToolbar().getButton("withParam").getAction();
 
         assertThat(linkWithParam.getUrl(), is("`url`"));
 
         //Modal page
+        checkModalPage();
+    }
+
+    private void checkModalPage() {
+        LinkActionImpl link2;
+        LinkActionImpl link3;
+        LinkAction link1;
         PageContext modalContext = (PageContext) route("/page/id4", Page.class);
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         link1 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id1").getAction();

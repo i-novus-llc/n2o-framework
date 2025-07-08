@@ -88,17 +88,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
 
         Table table = (Table) rootPage.getRegions().get("single").get(0).getContent().get(0);
         ShowModalPayload payload = ((ShowModal) table.getToolbar().getButton("create").getAction()).getPayload();
-        //create
-        assertThat(payload.getPageUrl(), is("/p/create"));
-        assertThat(payload.getSize(), is(ModalSizeEnum.SM));
-        assertThat(payload.getScrollable(), is(true));
-        assertThat(payload.getPageId(), is("p_create"));
-        assertThat(payload.getPrompt(), is(false));
-
-        assertThat(payload.getHasHeader(), is(false));
-        assertThat(payload.getBackdrop(), is(true));
-        assertThat(payload.getClassName(), is("n2o-custom-modal-dialog"));
-        assertThat(payload.getStyle().get("background"), is("red"));
+        checkModalPayload(payload);
 
         PageContext modalContext = (PageContext) route("/p/create", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
@@ -140,6 +130,20 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         ActionContext submitContext = (ActionContext) route("/p/create/multi1", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
         assertThat(submitContext.getOperationId(), is("create"));
+    }
+
+    private void checkModalPayload(ShowModalPayload payload) {
+        //create
+        assertThat(payload.getPageUrl(), is("/p/create"));
+        assertThat(payload.getSize(), is(ModalSizeEnum.SM));
+        assertThat(payload.getScrollable(), is(true));
+        assertThat(payload.getPageId(), is("p_create"));
+        assertThat(payload.getPrompt(), is(false));
+
+        assertThat(payload.getHasHeader(), is(false));
+        assertThat(payload.getBackdrop(), is(true));
+        assertThat(payload.getClassName(), is("n2o-custom-modal-dialog"));
+        assertThat(payload.getStyle().get("background"), is("red"));
     }
 
     @Test
@@ -286,20 +290,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
 
         PageContext modalContext = (PageContext) route("/p/123/updateWithPrefilters", Page.class);
-        assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
-        assertThat(modalContext.getDatasources().size(), is(2));
-        assertThat(modalContext.getDatasources().get(0).getId(),
-                is("parent_main"));
-        assertThat(((N2oStandardDatasource) modalContext.getDatasources().get(1)).getDefaultValuesMode(),
-                is(DefaultValuesModeEnum.QUERY));
-        N2oPreFilter[] filters = ((N2oStandardDatasource) modalContext.getDatasources().get(1)).getFilters();
-        assertThat(filters.length, is(1));
-        assertThat(filters[0].getDatasourceId(), is("main"));
-        assertThat(filters[0].getRefPageId(), is("p"));
-        assertThat(filters[0].getFieldId(), is(QuerySimpleField.PK));
-        assertThat(filters[0].getType(), is(FilterTypeEnum.EQ));
-        assertThat(filters[0].getModel(), is(ReduxModelEnum.RESOLVE));
-        assertThat(filters[0].getValue(), is("{id}"));
+        checkModalContextAndFilters(modalContext);
 
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_updateWithPrefilters"));
@@ -335,6 +326,23 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(((StandardDatasource) modalPage.getDatasources().get(modalPage.getWidget().getDatasource())).getProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/modal"));
         submit = (InvokeAction) ((MultiAction) modalPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
         assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("p_main_id")));
+    }
+
+    private void checkModalContextAndFilters(PageContext modalContext) {
+        assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
+        assertThat(modalContext.getDatasources().size(), is(2));
+        assertThat(modalContext.getDatasources().get(0).getId(), is("parent_main"));
+
+        N2oStandardDatasource datasource = (N2oStandardDatasource) modalContext.getDatasources().get(1);
+        assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.QUERY));
+        assertThat(datasource.getFilters().length, is(1));
+        N2oPreFilter filter = datasource.getFilters()[0];
+        assertThat(filter.getDatasourceId(), is("main"));
+        assertThat(filter.getRefPageId(), is("p"));
+        assertThat(filter.getFieldId(), is(QuerySimpleField.PK));
+        assertThat(filter.getType(), is(FilterTypeEnum.EQ));
+        assertThat(filter.getModel(), is(ReduxModelEnum.RESOLVE));
+        assertThat(filter.getValue(), is("{id}"));
     }
 
     @Test

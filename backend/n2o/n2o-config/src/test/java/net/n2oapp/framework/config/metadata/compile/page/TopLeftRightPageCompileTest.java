@@ -40,15 +40,23 @@ class TopLeftRightPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testTopLeftRightPage"));
 
         assertThat(page.getNeedScrollButton(), is(true));
-        assertThat(page.getPlaces().getTop().getWidth(), is("100%"));
-        assertThat(page.getPlaces().getTop().getFixed(), is(true));
-        assertThat(page.getPlaces().getTop().getOffset(), is(100));
-        assertThat(page.getPlaces().getLeft().getWidth(), is("70%"));
-        assertThat(page.getPlaces().getLeft().getFixed(), is(false));
-        assertThat(page.getPlaces().getLeft().getOffset(), nullValue());
-        assertThat(page.getPlaces().getRight().getWidth(), is("30%"));
-        assertThat(page.getPlaces().getRight().getFixed(), is(true));
-        assertThat(page.getPlaces().getRight().getOffset(), is(50));
+        assertThat(page.getPlaces(), allOf(
+                hasProperty("top", allOf(
+                        hasProperty("width", is("100%")),
+                        hasProperty("fixed", is(true)),
+                        hasProperty("offset", is(100))
+                )),
+                hasProperty("left", allOf(
+                        hasProperty("width", is("70%")),
+                        hasProperty("fixed", is(false)),
+                        hasProperty("offset", nullValue())
+                )),
+                hasProperty("right", allOf(
+                        hasProperty("width", is("30%")),
+                        hasProperty("fixed", is(true)),
+                        hasProperty("offset", is(50))
+                ))
+        ));
 
         assertThat(page.getRegions().size(), is(3));
         List<Region> top = page.getRegions().get("top");

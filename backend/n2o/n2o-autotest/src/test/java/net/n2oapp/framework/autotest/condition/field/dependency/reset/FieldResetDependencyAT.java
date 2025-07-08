@@ -76,23 +76,11 @@ class FieldResetDependencyAT extends AutoTestBase {
         checkboxGroup.check("test1");
         checkboxGroup.check("test3");
 
-        inputText.shouldHaveValue("test reset");
-        datePicker.shouldHaveValue("02.02.2023");
-        select.shouldSelected("2");
-        inputSelect.shouldSelectedMulti(new String[]{"2", "3"});
-        checkbox.shouldBeChecked();
-        checkboxGroup.shouldBeChecked("test1");
-        checkboxGroup.shouldBeChecked("test3");
+        checkInputText(inputText, datePicker, select, inputSelect, checkbox, checkboxGroup);
 
         reset.click();
         reset.setValue("2");
-        inputText.shouldHaveValue("test reset");
-        datePicker.shouldHaveValue("02.02.2023");
-        select.shouldSelected("2");
-        inputSelect.shouldSelectedMulti(new String[]{"2", "3"});
-        checkbox.shouldBeChecked();
-        checkboxGroup.shouldBeChecked("test1");
-        checkboxGroup.shouldBeChecked("test3");
+        checkInputText(inputText, datePicker, select, inputSelect, checkbox, checkboxGroup);
 
         reset.click();
         reset.setValue("1");
@@ -102,6 +90,16 @@ class FieldResetDependencyAT extends AutoTestBase {
         inputSelect.shouldBeEmpty();
         checkbox.shouldBeEmpty();
         checkboxGroup.shouldBeEmpty();
+    }
+
+    private static void checkInputText(InputText inputText, DateInput datePicker, Select select, InputSelect inputSelect, Checkbox checkbox, CheckboxGroup checkboxGroup) {
+        inputText.shouldHaveValue("test reset");
+        datePicker.shouldHaveValue("02.02.2023");
+        select.shouldSelected("2");
+        inputSelect.shouldSelectedMulti(new String[]{"2", "3"});
+        checkbox.shouldBeChecked();
+        checkboxGroup.shouldBeChecked("test1");
+        checkboxGroup.shouldBeChecked("test3");
     }
 
     @Test

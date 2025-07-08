@@ -38,7 +38,7 @@ class ListCellCompileTest extends SourceCompileTestBase {
     void testListCell() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cell/testListCell.page.xml")
                 .get(new PageContext("testListCell"));
-        Table table = (Table) page.getWidget();
+        Table<?> table = (Table<?>) page.getWidget();
 
         // Простой list
         ListCell listCell = (ListCell) table.getComponent().getBody().getCells().get(0);
@@ -51,24 +51,12 @@ class ListCellCompileTest extends SourceCompileTestBase {
 
         // list с text
         listCell = (ListCell) table.getComponent().getBody().getCells().get(1);
-        assertThat(listCell.getSrc(), is("CollapsedCell"));
-        assertThat(listCell.getSize(), is(3));
-        assertThat(listCell.getInline(), is(true));
-        assertThat(listCell.getSeparator(), is(", "));
-        assertThat(listCell.getContent().getSrc(), is("TextCell"));
-        TextCell textCell = (TextCell) listCell.getContent();
-        assertThat(textCell.getFormat(), is("password"));
-        assertThat(textCell.getFieldKey(), is("textField"));
+        checkTextCell(listCell, ", ", "password");
 
         // list со скрытым text
         listCell = (ListCell) table.getComponent().getBody().getCells().get(2);
-        assertThat(listCell.getSrc(), is("CollapsedCell"));
-        assertThat(listCell.getSize(), is(3));
-        assertThat(listCell.getInline(), is(true));
-        assertThat(listCell.getSeparator(), is(". "));
-        assertThat(listCell.getContent().getSrc(), is("TextCell"));
-        textCell = (TextCell) listCell.getContent();
-        assertThat(textCell.getFieldKey(), is("textField"));
+        checkTextCell(listCell, ". ", null);
+
 
         // list с link
         listCell = (ListCell) table.getComponent().getBody().getCells().get(3);
@@ -94,5 +82,16 @@ class ListCellCompileTest extends SourceCompileTestBase {
         assertThat(listCell.getContent().getSrc(), is("testCell"));
         AbstractCell customCell = (AbstractCell) listCell.getContent();
         assertThat(customCell.getFieldKey(), is("customField"));
+    }
+
+    private static void checkTextCell(ListCell listCell, String separator, String format) {
+        assertThat(listCell.getSrc(), is("CollapsedCell"));
+        assertThat(listCell.getSize(), is(3));
+        assertThat(listCell.getInline(), is(true));
+        assertThat(listCell.getContent().getSrc(), is("TextCell"));
+        TextCell textCell = (TextCell) listCell.getContent();
+        assertThat(textCell.getFieldKey(), is("textField"));
+        assertThat(listCell.getSeparator(), is(separator));
+        if (format != null) assertThat(textCell.getFormat(), is(format));
     }
 }

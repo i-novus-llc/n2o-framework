@@ -48,8 +48,13 @@ class AllFieldsDisabledAT extends AutoTestBase {
     void test() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-
         Fields fields = page.widget(FormWidget.class).fields();
+        checkCol0(fields);
+        checkCol1(fields);
+        checkCol2(fields);
+    }
+
+    private static void checkCol0(Fields fields) {
         fields.field("button", ButtonField.class).shouldBeDisabled();
         fields.field("checkbox").control(Checkbox.class).shouldBeDisabled();
         fields.field("dateTime").control(DateInput.class).shouldBeDisabled();
@@ -59,7 +64,9 @@ class AllFieldsDisabledAT extends AutoTestBase {
         fields.field("inputText").control(InputText.class).shouldBeDisabled();
         fields.field("maskedInput").control(MaskedInput.class).shouldBeDisabled();
         fields.field("numberPicker").control(NumberPicker.class).shouldBeDisabled();
+    }
 
+    private static void checkCol1(Fields fields) {
         fields.field("dateInterval").control(DateInterval.class).shouldBeDisabled();
         fields.field("intervalField", IntervalField.class).begin(InputText.class).shouldBeDisabled();
         fields.field("intervalField", IntervalField.class).end(InputText.class).shouldBeDisabled();
@@ -69,7 +76,9 @@ class AllFieldsDisabledAT extends AutoTestBase {
         fields.field("inputSelectTree").control(InputSelectTree.class).shouldBeDisabled();
         fields.field("radioGroup").control(RadioGroup.class).shouldBeDisabled();
         fields.field("codeEditor").control(CodeEditor.class).shouldBeDisabled();
+    }
 
+    private static void checkCol2(Fields fields) {
         fields.field("password").control(PasswordControl.class).shouldBeDisabled();
         fields.field("rating").control(Rating.class).shouldBeDisabled();
         fields.field("slider").control(Slider.class).shouldBeDisabled();

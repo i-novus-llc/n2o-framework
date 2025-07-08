@@ -602,7 +602,18 @@ class SecurityProviderTest {
         securityFilters.setUserFilters(Collections.singletonMap("username1", Collections.singletonList(
                 new N2oObjectFilter("name", "#{username}", FilterTypeEnum.EQ, "filter5"))));
 
-        //аутентифицирован
+        testAuthenticatedAccess(securityProvider, notStrictSecurityProvider, securityFilters, userContext, filtersMap);
+        testAnonymousAccess(securityProvider, securityFilters, userContext, filtersMap);
+        testRoleBasedAccess(securityProvider, securityFilters, userContext, filtersMap);
+        testPermissionBasedAccess(securityProvider, securityFilters, userContext, filtersMap);
+        testUserBasedAccess(securityProvider, securityFilters, userContext, filtersMap);
+    }
+
+    private void testAuthenticatedAccess(SecurityProvider securityProvider,
+                                         SecurityProvider notStrictSecurityProvider,
+                                         SecurityFilters securityFilters,
+                                         UserContext userContext,
+                                         Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> filtersMap) {
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         //foo == 1 and name != null and surname == null
         securityProvider.checkQueryRestrictions(new DataSet().add("foo.val", 1).add("name", "Ivan"),
@@ -627,7 +638,12 @@ class SecurityProviderTest {
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("foo"));
         }
+    }
 
+    private void testAnonymousAccess(SecurityProvider securityProvider,
+                                     SecurityFilters securityFilters,
+                                     UserContext userContext,
+                                     Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> filtersMap) {
         //анонимный доступ
         when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
         //foo != 1
@@ -649,8 +665,12 @@ class SecurityProviderTest {
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("age"));
         }
+    }
 
-        //доступ аутентифицированным и по ролям
+    private void testRoleBasedAccess(SecurityProvider securityProvider,
+                                     SecurityFilters securityFilters,
+                                     UserContext userContext,
+                                     Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> filtersMap) {
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
         //bar in (1, 2, 3)
@@ -674,8 +694,12 @@ class SecurityProviderTest {
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("bar"));
         }
+    }
 
-        //доступ аутентифицированным, по ролям и по полномочиям
+    private void testPermissionBasedAccess(SecurityProvider securityProvider,
+                                           SecurityFilters securityFilters,
+                                           UserContext userContext,
+                                           Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> filtersMap) {
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
         when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
@@ -704,8 +728,12 @@ class SecurityProviderTest {
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("list"));
         }
+    }
 
-        //доступ аутентифицированным, по ролям, по полномочиям, по имени пользователя
+    private void testUserBasedAccess(SecurityProvider securityProvider,
+                                     SecurityFilters securityFilters,
+                                     UserContext userContext,
+                                     Map<String, Map<FilterTypeEnum, N2oQuery.Filter>> filtersMap) {
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
         when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
@@ -740,6 +768,25 @@ class SecurityProviderTest {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         SecurityProvider notStrictSecurityProvider = new SecurityProvider(permissionApi, false);
         UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = createSecurityFilters();
+
+        // Test authenticated access
+        testAuthenticatedAccess(securityProvider, notStrictSecurityProvider, securityFilters, userContext);
+
+        // Test anonymous access
+        testAnonymousAccess(securityProvider, securityFilters, userContext);
+
+        // Test role-based access
+        testRoleBasedAccess(securityProvider, securityFilters, userContext);
+
+        // Test permission-based access
+        testPermissionBasedAccess(securityProvider, securityFilters, userContext);
+
+        // Test user-based access
+        testUserBasedAccess(securityProvider, securityFilters, userContext);
+    }
+
+    private SecurityFilters createSecurityFilters() {
         SecurityFilters securityFilters = new SecurityFilters();
 
         securityFilters.setAuthenticatedFilters(Arrays.asList(
@@ -755,137 +802,96 @@ class SecurityProviderTest {
                 new N2oObjectFilter("list", new String[]{"1", "2", "#{three}"}, FilterTypeEnum.CONTAINS, "list"))));
         securityFilters.setUserFilters(Collections.singletonMap("username1", Collections.singletonList(
                 new N2oObjectFilter("name", "#{username}", FilterTypeEnum.EQ, "name"))));
+        return securityFilters;
+    }
 
-        //аутентифицирован
-        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        //foo == 1 and name != null and surname == null
-        securityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 1).add("name", "Ivan"),
-                securityFilters, userContext);
-        //foo != 1
-        notStrictSecurityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 1).add("name", "Ivan"),
-                securityFilters, userContext);
-        try {
-            securityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 2).add("name", "Ivan"),
-                    securityFilters, userContext);
-            fail();
-        } catch (AccessDeniedException e) {
-            assertThat(e.getMessage(), endsWith("foo"));
-        }
-        //foo == null
-        notStrictSecurityProvider.checkObjectRestrictions(new DataSet(),
-                securityFilters, userContext);
-        try {
-            securityProvider.checkObjectRestrictions(new DataSet().add("name", "Ivan"),
-                    securityFilters, userContext);
-            fail();
-        } catch (AccessDeniedException e) {
-            assertThat(e.getMessage(), endsWith("foo"));
-        }
+    private void testAuthenticatedAccess(SecurityProvider strict, SecurityProvider notStrict,
+                                         SecurityFilters filters, UserContext context) {
+        when(permissionApi.hasAuthentication(context)).thenReturn(true);
 
-        //анонимный доступ
-        when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
-        //foo != 1
-        securityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 2),
-                securityFilters, userContext);
-        //foo == 1
-        try {
-            securityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 1),
-                    securityFilters, userContext);
-            fail();
-        } catch (AccessDeniedException e) {
-            assertThat(e.getMessage(), endsWith("foo"));
-        }
-        //age != null
-        try {
-            securityProvider.checkObjectRestrictions(new DataSet().add("foo.val", 3).add("age", 10),
-                    securityFilters, userContext);
-            fail();
-        } catch (AccessDeniedException e) {
-            assertThat(e.getMessage(), endsWith("age"));
-        }
+        // Positive cases
+        strict.checkObjectRestrictions(new DataSet().add("foo.val", 1).add("name", "Ivan"), filters, context);
+        notStrict.checkObjectRestrictions(new DataSet().add("foo.val", 1).add("name", "Ivan"), filters, context);
+        notStrict.checkObjectRestrictions(new DataSet(), filters, context);
 
-        //доступ аутентифицированным и по ролям
-        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
-        //bar in (1, 2, 3)
-        try {
-            securityProvider.checkObjectRestrictions(new DataSet()
-                            .add("foo.val", 1)
-                            .add("bar", 2)
-                            .add("name", "Ivan"),
-                    securityFilters, userContext);
-        } catch (AccessDeniedException e) {
-            fail();
-        }
-        //bar not in (1, 2, 3)
-        try {
-            securityProvider.checkObjectRestrictions(new DataSet()
-                            .add("foo.val", 1)
-                            .add("bar", 4)
-                            .add("name", "Ivan"),
-                    securityFilters, userContext);
-            fail();
-        } catch (AccessDeniedException e) {
-            assertThat(e.getMessage(), endsWith("bar"));
-        }
+        // Negative cases
+        assertAccessDenied(strict, new DataSet().add("foo.val", 2).add("name", "Ivan"), filters, context, "foo");
+        assertAccessDenied(strict, new DataSet().add("name", "Ivan"), filters, context, "foo");
+    }
 
-        //доступ аутентифицированным, по ролям и по полномочиям
-        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
-        when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
-        userContext.set("three", 3);
-        //list contains (1, 2, 3)
-        try {
-            securityProvider.checkObjectRestrictions(new DataSet()
-                            .add("foo.val", 1)
-                            .add("bar", 2)
-                            .add("name", "Ivan")
-                            .add("list", Arrays.asList(3, 2, 1, 4)),
-                    securityFilters, userContext);
-        } catch (AccessDeniedException e) {
-            fail();
-        }
+    private void testAnonymousAccess(SecurityProvider provider, SecurityFilters filters, UserContext context) {
+        when(permissionApi.hasAuthentication(context)).thenReturn(false);
 
-        //list not contains (1, 2, 3)
-        try {
-            securityProvider.checkObjectRestrictions(new DataSet()
-                            .add("foo.val", 1)
-                            .add("bar", 2)
-                            .add("name", "Ivan")
-                            .add("list", Arrays.asList(1, 2)),
-                    securityFilters, userContext);
-            fail();
-        } catch (AccessDeniedException e) {
-            assertThat(e.getMessage(), endsWith("list"));
-        }
+        // Positive case
+        provider.checkObjectRestrictions(new DataSet().add("foo.val", 2), filters, context);
 
-        //доступ аутентифицированным, по ролям, по полномочиям, по имени пользователя
-        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
-        when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
-        when(permissionApi.hasUsername(userContext, "username1")).thenReturn(true);
-        userContext.set("username", "Joe");
-        //name == #{username}
+        // Negative cases
+        assertAccessDenied(provider, new DataSet().add("foo.val", 1), filters, context, "foo");
+        assertAccessDenied(provider, new DataSet().add("foo.val", 3).add("age", 10), filters, context, "age");
+    }
+
+    private void testRoleBasedAccess(SecurityProvider provider, SecurityFilters filters, UserContext context) {
+        when(permissionApi.hasAuthentication(context)).thenReturn(true);
+        when(permissionApi.hasRole(context, "role1")).thenReturn(true);
+
+        // Positive case
+        provider.checkObjectRestrictions(new DataSet().add("foo.val", 1).add("bar", 2).add("name", "Ivan"), filters, context);
+
+        // Negative case
+        assertAccessDenied(provider, new DataSet().add("foo.val", 1).add("bar", 4).add("name", "Ivan"), filters, context, "bar");
+    }
+
+    private void testPermissionBasedAccess(SecurityProvider provider, SecurityFilters filters, UserContext context) {
+        when(permissionApi.hasAuthentication(context)).thenReturn(true);
+        when(permissionApi.hasRole(context, "role1")).thenReturn(true);
+        when(permissionApi.hasPermission(context, "permission1")).thenReturn(true);
+        context.set("three", 3);
+
+        // Positive case
+        provider.checkObjectRestrictions(new DataSet()
+                .add("foo.val", 1)
+                .add("bar", 2)
+                .add("name", "Ivan")
+                .add("list", Arrays.asList(3, 2, 1, 4)), filters, context);
+
+        // Negative case
+        assertAccessDenied(provider, new DataSet()
+                .add("foo.val", 1)
+                .add("bar", 2)
+                .add("name", "Ivan")
+                .add("list", Arrays.asList(1, 2)), filters, context, "list");
+    }
+
+    private void testUserBasedAccess(SecurityProvider provider, SecurityFilters filters, UserContext context) {
+        when(permissionApi.hasAuthentication(context)).thenReturn(true);
+        when(permissionApi.hasRole(context, "role1")).thenReturn(true);
+        when(permissionApi.hasPermission(context, "permission1")).thenReturn(true);
+        when(permissionApi.hasUsername(context, "username1")).thenReturn(true);
+        context.set("username", "Joe");
+
+        // Positive case
+        provider.checkObjectRestrictions(new DataSet()
+                .add("foo.val", 1)
+                .add("bar", 2)
+                .add("list", Arrays.asList(3, 2, 1, 4))
+                .add("name", "Joe"), filters, context);
+
+        // Negative case
+        assertAccessDenied(provider, new DataSet()
+                .add("foo.val", 1)
+                .add("bar", 2)
+                .add("list", Arrays.asList(3, 2, 1, 4))
+                .add("name", "Doe"), filters, context, "name");
+    }
+
+    private void assertAccessDenied(SecurityProvider provider, DataSet dataSet,
+                                    SecurityFilters filters, UserContext context,
+                                    String expectedField) {
         try {
-            securityProvider.checkObjectRestrictions(new DataSet()
-                            .add("foo.val", 1)
-                            .add("bar", 2)
-                            .add("list", Arrays.asList(3, 2, 1, 4))
-                            .add("name", "Joe"),
-                    securityFilters, userContext);
-        } catch (AccessDeniedException e) {
+            provider.checkObjectRestrictions(dataSet, filters, context);
             fail();
-        }
-        //name != #{username}
-        try {
-            securityProvider.checkObjectRestrictions(new DataSet()
-                            .add("foo.val", 1)
-                            .add("bar", 2)
-                            .add("list", Arrays.asList(3, 2, 1, 4))
-                            .add("name", "Doe"),
-                    securityFilters, userContext);
         } catch (AccessDeniedException e) {
-            assertThat(e.getMessage(), endsWith("name"));
+            assertThat(e.getMessage(), endsWith(expectedField));
         }
     }
 }

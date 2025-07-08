@@ -67,9 +67,12 @@ class FilterReducerWithOrTest {
         assertEquals(Result.TypeEnum.SUCCESS, result.getType());
         assertEquals(FilterTypeEnum.EQ_OR_IS_NULL, result.getResultFilter().getType());
         assertEquals(2, result.getResultFilter().getValue());
+    }
 
+    @Test
+    void testMoreLessNull() {
         //more
-        result = reduce(
+        Result result = reduce(
                 new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL),
                 new Filter(1, FilterTypeEnum.MORE));
         assertEquals(Result.TypeEnum.SUCCESS, result.getType());
@@ -129,9 +132,12 @@ class FilterReducerWithOrTest {
         assertEquals(Result.TypeEnum.SUCCESS, result.getType());
         assertEquals(FilterTypeEnum.EQ, result.getResultFilter().getType());
         assertEquals(4, result.getResultFilter().getValue());
+    }
 
+    @Test
+    void testIn() {
         //in
-        result = reduce(
+        Result result = reduce(
                 new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL),
                 new Filter(asList(4, 5, 6), FilterTypeEnum.IN));
         assertEquals(Result.TypeEnum.SUCCESS, result.getType());
@@ -166,9 +172,12 @@ class FilterReducerWithOrTest {
                 new Filter(4, FilterTypeEnum.EQ_OR_IS_NULL));
         assertEquals(Result.TypeEnum.SUCCESS, result.getType());
         assertEquals(FilterTypeEnum.IS_NULL, result.getResultFilter().getType());
+    }
 
+    @Test
+    void testLikeContains() {
         //like
-        result = reduce(
+        Result result = reduce(
                 new Filter("es", FilterTypeEnum.LIKE),
                 new Filter("test", FilterTypeEnum.EQ_OR_IS_NULL));
         assertEquals(Result.TypeEnum.SUCCESS, result.getType());

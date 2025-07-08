@@ -101,8 +101,12 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
         assertThat(fail.getPayload().getFail(), instanceOf(AlertAction.class));
 
 
+        checkOtherConditions(page);
+    }
+
+    private void checkOtherConditions(StandardPage page) {
         //Следующий if в кнопке b1
-        condition = (ConditionAction) ((MultiAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
+        ConditionAction condition = (ConditionAction) ((MultiAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getToolbar().getButton("b1").getAction()).getPayload().getActions().get(1);
         assertThat(condition.getType(), is("n2o/api/action/condition"));
         assertThat(condition.getPayload().getDatasource(), is("testConditionAction_ds1"));

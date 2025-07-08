@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasProperty;
 
 class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
 
@@ -44,15 +46,19 @@ class BrowserStorageDatasourceCompileTest extends SourceCompileTestBase {
         assertThat(datasource.getPaging().getSize(), is(13));
         assertThat(datasource.getFetchOnInit(), is(false));
 
-        assertThat(datasource.getSubmit().getStorage(), is(BrowserStorageTypeEnum.LOCAL_STORAGE));
-        assertThat(datasource.getSubmit().getType(), is("browser"));
-        assertThat(datasource.getSubmit().getAuto(), is(false));
-        assertThat(datasource.getSubmit().getModel(), is(ReduxModelEnum.FILTER));
-        assertThat(datasource.getSubmit().getKey(), is("submit_test_key"));
+        assertThat(datasource.getSubmit(), allOf(
+                hasProperty("storage", is(BrowserStorageTypeEnum.LOCAL_STORAGE)),
+                hasProperty("type", is("browser")),
+                hasProperty("auto", is(false)),
+                hasProperty("model", is(ReduxModelEnum.FILTER)),
+                hasProperty("key", is("submit_test_key"))
+        ));
 
-        assertThat(datasource.getProvider().getStorage(), is(BrowserStorageTypeEnum.LOCAL_STORAGE));
-        assertThat(datasource.getProvider().getType(), is("browser"));
-        assertThat(datasource.getProvider().getKey(), is("test_key"));
+        assertThat(datasource.getProvider(), allOf(
+                hasProperty("storage", is(BrowserStorageTypeEnum.LOCAL_STORAGE)),
+                hasProperty("type", is("browser")),
+                hasProperty("key", is("test_key"))
+        ));
 
         assertThat(datasource.getDependencies().size(), is(2));
         Dependency dependency = datasource.getDependencies().get(0);

@@ -72,6 +72,11 @@ class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(menuItems.get(3).getTitle(), is("`test`"));
         assertThat(menuItems.get(3).getDatasource(), is("ds2"));
         assertThat(menuItems.get(3).getSubItems().size(), is(2));
+
+        checkSubItems(header, menuItems);
+    }
+
+    private void checkSubItems(Header header, List<MenuItem> menuItems) {
         ArrayList<MenuItem> subItems = menuItems.get(3).getSubItems();
         assertThat(subItems.get(0).getTitle(), is("test"));
         assertThat(subItems.get(0).getDatasource(), is("ds1"));

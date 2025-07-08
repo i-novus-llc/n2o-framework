@@ -89,11 +89,17 @@ class DisableValidationAT extends AutoTestBase {
         field1.shouldHaveValidationMessage(Condition.empty);
         field2.shouldHaveValidationMessage(Condition.empty);
 
+        checkReset(fields);
+
+        checkTargetField(toolbar, validateBtn, fields.field("target"));
+    }
+
+    private static void checkReset(Fields fields) {
         /// reset
         Checkbox checkbox = fields.field("checkbox").control(Checkbox.class);
         checkbox.shouldNotBeChecked();
-        field1 = fields.field("reset");
-        field2 = fields.field("resetValidate");
+        StandardField field1 = fields.field("reset");
+        StandardField field2 = fields.field("resetValidate");
         field1.shouldHaveValidationMessage(Condition.empty);
         field2.shouldHaveValidationMessage(Condition.empty);
         checkbox.setChecked(true);
@@ -103,37 +109,38 @@ class DisableValidationAT extends AutoTestBase {
         field2.control(InputText.class).setValue("текст");
         field1.shouldHaveValidationMessage(Condition.empty);
         field2.shouldHaveValidationMessage(Condition.empty);
+    }
 
+    private static void checkTargetField(Toolbar toolbar, StandardButton validateBtn, StandardField targetField) {
         // set-value action
-        field1 = fields.field("target");
-        field1.control(InputText.class).shouldBeEmpty();
+        targetField.control(InputText.class).shouldBeEmpty();
         toolbar.button("set target = 2").click();
-        field1.control(InputText.class).shouldHaveValue("2");
-        field1.shouldHaveValidationMessage(Condition.empty);
+        targetField.control(InputText.class).shouldHaveValue("2");
+        targetField.shouldHaveValidationMessage(Condition.empty);
         validateBtn.click();
-        field1.shouldHaveValidationMessage(Condition.text("Значение должно быть пустым"));
-        field1.control(InputText.class).clear();
+        targetField.shouldHaveValidationMessage(Condition.text("Значение должно быть пустым"));
+        targetField.control(InputText.class).clear();
         validateBtn.click();
         toolbar.button("set target = 2 and validate").click();
-        field1.control(InputText.class).shouldHaveValue("2");
-        field1.shouldHaveValidationMessage(Condition.text("Значение должно быть пустым"));
-        field1.control(InputText.class).clear();
+        targetField.control(InputText.class).shouldHaveValue("2");
+        targetField.shouldHaveValidationMessage(Condition.text("Значение должно быть пустым"));
+        targetField.control(InputText.class).clear();
         validateBtn.click();
-        field1.shouldHaveValidationMessage(Condition.empty);
+        targetField.shouldHaveValidationMessage(Condition.empty);
 
         // copy action
         toolbar.button("copy source to target").click();
-        field1.control(InputText.class).shouldHaveValue("1");
-        field1.shouldHaveValidationMessage(Condition.empty);
+        targetField.control(InputText.class).shouldHaveValue("1");
+        targetField.shouldHaveValidationMessage(Condition.empty);
         validateBtn.click();
-        field1.shouldHaveValidationMessage(Condition.text("Значение должно быть пустым"));
-        field1.control(InputText.class).clear();
+        targetField.shouldHaveValidationMessage(Condition.text("Значение должно быть пустым"));
+        targetField.control(InputText.class).clear();
         validateBtn.click();
         toolbar.button("copy source to target and validate").click();
-        field1.control(InputText.class).shouldHaveValue("1");
-        field1.shouldHaveValidationMessage(Condition.text("Значение должно быть пустым"));
-        field1.control(InputText.class).clear();
+        targetField.control(InputText.class).shouldHaveValue("1");
+        targetField.shouldHaveValidationMessage(Condition.text("Значение должно быть пустым"));
+        targetField.control(InputText.class).clear();
         validateBtn.click();
-        field1.shouldHaveValidationMessage(Condition.empty);
+        targetField.shouldHaveValidationMessage(Condition.empty);
     }
 }

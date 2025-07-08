@@ -161,7 +161,6 @@ class CalendarWithoutResourcesAT extends AutoTestBase {
 
         // наличие событий
         CalendarEvent event1 = dayView.event("Событие1");
-        event1.shouldExists();
         event1.shouldHaveTooltipTitle("Тултип для События1");
         // клик по событию
         // проверка, что не открывается форма на просмотр события из-за disabled=true

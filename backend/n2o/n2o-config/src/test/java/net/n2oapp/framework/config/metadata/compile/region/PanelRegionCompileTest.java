@@ -74,21 +74,28 @@ class PanelRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.size(), is(3));
 
         // PANEL1
-        assertThat(regions.get(0), instanceOf(PanelRegion.class));
-        assertThat(regions.get(0).getId(), is("panel0"));
-        assertThat(regions.get(0).getSrc(), is("PanelRegion"));
-        assertThat(((PanelRegion) regions.get(0)).getHeaderTitle(), is("Panel1"));
-        assertThat(((PanelRegion) regions.get(0)).getCollapsible(), is(false));
+        assertThat(regions.get(0), allOf(
+                instanceOf(PanelRegion.class),
+                hasProperty("id", is("panel0")),
+                hasProperty("src", is("PanelRegion"))
+        ));
+        assertThat(regions.get(0), allOf(
+                instanceOf(PanelRegion.class),
+                hasProperty("headerTitle", is("Panel1")),
+                hasProperty("collapsible", is(false))
+        ));
         List<CompiledRegionItem> content = regions.get(0).getContent();
         assertThat(content.size(), is(3));
         // panel form1
         assertThat(content.get(0), instanceOf(Form.class));
         assertThat(((Form) content.get(0)).getId(), is("testPanelRegionNesting_panel1"));
         // panel panel
-        assertThat(content.get(1), instanceOf(PanelRegion.class));
-        assertThat(((PanelRegion) content.get(1)).getId(), is("panel1"));
-        assertThat(((PanelRegion) content.get(1)).getCollapsible(), is(true));
-        assertThat(((PanelRegion) content.get(1)).getContent().size(), is(2));
+        assertThat(content.get(1), allOf(
+                instanceOf(PanelRegion.class),
+                hasProperty("id", is("panel1")),
+                hasProperty("collapsible", is(true)),
+                hasProperty("content", hasSize(2))
+        ));
         List<CompiledRegionItem> panel1Content = ((PanelRegion) content.get(1)).getContent();
         assertThat(panel1Content.size(), is(2));
         // panel panel form2
@@ -107,21 +114,25 @@ class PanelRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) content.get(2)).getId(), is("testPanelRegionNesting_panel4"));
 
         // PANEL2
-        assertThat(regions.get(1), instanceOf(PanelRegion.class));
-        assertThat(regions.get(1).getId(), is("panel3"));
-        assertThat(regions.get(1).getSrc(), is("PanelRegion"));
+        assertThat(regions.get(1), allOf(
+                instanceOf(PanelRegion.class),
+                hasProperty("id", is("panel3")),
+                hasProperty("src", is("PanelRegion"))
+        ));
         content = regions.get(1).getContent();
         assertThat(content.size(), is(2));
         // panel table1
         assertThat(content.get(0), instanceOf(Table.class));
-        assertThat(((Table) content.get(0)).getId(), is("testPanelRegionNesting_panel5"));
+        assertThat(((Table<?>) content.get(0)).getId(), is("testPanelRegionNesting_panel5"));
         // panel table2
         assertThat(content.get(1), instanceOf(Table.class));
-        assertThat(((Table) content.get(1)).getId(), is("testPanelRegionNesting_panel6"));
+        assertThat(((Table<?>) content.get(1)).getId(), is("testPanelRegionNesting_panel6"));
 
         // PANEL3
-        assertThat(regions.get(2), instanceOf(PanelRegion.class));
-        assertThat(regions.get(2).getId(), is("panel4"));
-        assertThat(regions.get(2).getContent(), nullValue());
+        assertThat(regions.get(2), allOf(
+                instanceOf(PanelRegion.class),
+                hasProperty("id", is("panel4")),
+                hasProperty("content", nullValue())
+        ));
     }
 }

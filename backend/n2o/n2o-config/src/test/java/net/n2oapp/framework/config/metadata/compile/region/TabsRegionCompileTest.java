@@ -58,16 +58,36 @@ class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.size(), is(4));
 
         // TABS1
-        TabsRegion tabsRegion = (TabsRegion) regions.get(0);
-        assertThat(tabsRegion, instanceOf(TabsRegion.class));
-        assertThat(tabsRegion.getId(), is("testTabsRegion_tabs0"));
-        assertThat(tabsRegion.getSrc(), is("TabsRegion"));
-        assertThat(tabsRegion.getAlwaysRefresh(), is(false));
-        assertThat(tabsRegion.getLazy(), is(true));
-        assertThat(tabsRegion.getHideSingleTab(), is(false));
-        assertThat(tabsRegion.getMaxHeight(), is(nullValue()));
-        assertThat(tabsRegion.getScrollbar(), is(false));
-        List<TabsRegion.Tab> items = ((TabsRegion) tabsRegion).getItems();
+        checkTabs1(regions.get(0));
+
+        // TABS2
+        checkTabs2(regions.get(1));
+
+        // TABS3
+        TabsRegion region = (TabsRegion) regions.get(2);
+        assertThat(region.getId(), is("testTabsRegion_tabs6"));
+        assertThat(region.getItems().size(), is(1));
+        assertThat(region.getItems().get(0).getId(), is("testTabsRegion_tab7"));
+        assertThat(region.getItems().get(0).getContent(), nullValue());
+
+        // TABS4
+        region = (TabsRegion) regions.get(3);
+        assertThat(region.getRoutable(), is(false));
+    }
+
+
+    private static void checkTabs1(Region region) {
+        assertThat(region, allOf(
+                instanceOf(TabsRegion.class),
+                hasProperty("id", is("testTabsRegion_tabs0")),
+                hasProperty("src", is("TabsRegion")),
+                hasProperty("alwaysRefresh", is(false)),
+                hasProperty("lazy", is(true)),
+                hasProperty("hideSingleTab", is(false)),
+                hasProperty("maxHeight", nullValue()),
+                hasProperty("scrollbar", is(false))
+        ));
+        List<TabsRegion.Tab> items = ((TabsRegion) region).getItems();
         assertThat(items.size(), is(1));
         // tab1
         assertThat(items.get(0), instanceOf(TabsRegion.Tab.class));
@@ -94,37 +114,30 @@ class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(tabsItems.get(0).getContent().size(), is(1));
         assertThat(tabsItems.get(0).getContent().get(0), instanceOf(Form.class));
         assertThat(((Form) tabsItems.get(0).getContent().get(0)).getId(), is("testTabsRegion_tab2"));
+    }
 
-        // TABS2
-        TabsRegion region = (TabsRegion) regions.get(1);
-        assertThat(region.getId(), is("testTabsRegion_tabs4"));
-        assertThat(region.getAlwaysRefresh(), is(true));
-        assertThat(region.getLazy(), is(false));
-        assertThat(region.getHideSingleTab(), is(true));
-        assertThat(region.getScrollbar(), is(true));
-        assertThat(region.getMaxHeight(), is("300px"));
-        assertThat(region.getDatasource(), is("testTabsRegion_ds"));
-        assertThat(region.getActiveTabFieldId(), is("activeTab"));
-        assertThat(region.getActiveParam(), is("param1"));
-        assertThat(region.getItems().size(), is(1));
-        assertThat(region.getItems().get(0).getId(), is("testTabsRegion_tab5"));
-        content = region.getItems().get(0).getContent();
+    private static void checkTabs2(Region region) {
+        assertThat(region, allOf(
+                instanceOf(TabsRegion.class),
+                hasProperty("id", is("testTabsRegion_tabs4")),
+                hasProperty("alwaysRefresh", is(true)),
+                hasProperty("lazy", is(false)),
+                hasProperty("hideSingleTab", is(true)),
+                hasProperty("scrollbar", is(true)),
+                hasProperty("maxHeight", is("300px")),
+                hasProperty("datasource", is("testTabsRegion_ds")),
+                hasProperty("activeTabFieldId", is("activeTab")),
+                hasProperty("activeParam", is("param1"))
+        ));
+        TabsRegion tabsRegion = (TabsRegion) region;
+        assertThat(tabsRegion.getItems().size(), is(1));
+        assertThat(tabsRegion.getItems().get(0).getId(), is("testTabsRegion_tab5"));
+        List<CompiledRegionItem> content = tabsRegion.getItems().get(0).getContent();
         assertThat(content.size(), is(2));
         assertThat(content.get(0), instanceOf(Table.class));
-        assertThat(((Table) content.get(0)).getId(), is("testTabsRegion_tab4"));
+        assertThat(((Table<?>) content.get(0)).getId(), is("testTabsRegion_tab4"));
         assertThat(content.get(1), instanceOf(Table.class));
-        assertThat(((Table) content.get(1)).getId(), is("testTabsRegion_tab5"));
-
-        // TABS3
-        region = (TabsRegion) regions.get(2);
-        assertThat(region.getId(), is("testTabsRegion_tabs6"));
-        assertThat(region.getItems().size(), is(1));
-        assertThat(region.getItems().get(0).getId(), is("testTabsRegion_tab7"));
-        assertThat(region.getItems().get(0).getContent(), nullValue());
-
-        // TABS4
-        region = (TabsRegion) regions.get(3);
-        assertThat(region.getRoutable(), is(false));
+        assertThat(((Table<?>) content.get(1)).getId(), is("testTabsRegion_tab5"));
     }
 
     @Test

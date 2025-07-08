@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountTypeEnum;
-import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageCell;
 import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -15,6 +14,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.collection.IsMapContaining.hasEntry;
 
 /**
  * Тестирование компиляции виджета Карточки
@@ -38,62 +40,81 @@ class CardsCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testCardsCompile.page.xml")
                 .get(new PageContext("testCardsCompile"));
         Cards cards = (Cards) page.getRegions().get("single").get(0).getContent().get(0);
-        assertThat(cards.getSrc(), is("CardsTest"));
-        assertThat(cards.getVerticalAlign(), is(Cards.PositionEnum.CENTER));
-        assertThat(cards.getHeight(), is("400px"));
-        assertThat(cards.getContent().size(), is(2));
+        assertThat(cards, allOf(
+                hasProperty("src", is("CardsTest")),
+                hasProperty("verticalAlign", is(Cards.PositionEnum.CENTER)),
+                hasProperty("height", is("400px")),
+                hasProperty("content", hasSize(2))
+        ));
 
         Cards.Card card = cards.getContent().get(0);
-        assertThat(card.getSize(), is(6));
-        assertThat(card.getContent().size(), is(2));
-        assertThat(card.getContent().get(0).getClassName(), is("font-weight-bold"));
-        assertThat(card.getContent().get(0).getStyle().get("color"), is("red"));
+        assertThat(card, allOf(
+                hasProperty("size", is(6)),
+                hasProperty("content", hasSize(2))
+        ));
+        assertThat(card.getContent().get(0), allOf(
+                hasProperty("className", is("font-weight-bold")),
+                hasProperty("style", hasEntry("color", "red"))
+        ));
+        assertThat(card.getContent().get(0).getComponent(), allOf(
+                instanceOf(TextCell.class),
+                hasProperty("src", is("TextCell")),
+                hasProperty("id", is("11")),
+                hasProperty("fieldKey", is("test1")),
+                hasProperty("tooltipFieldId", is("tooltip"))
+        ));
 
-        Cell cell = card.getContent().get(0).getComponent();
-        assertThat(cell, instanceOf(TextCell.class));
-        assertThat(cell.getSrc(), is("TextCell"));
-        assertThat(cell.getId(), is("11"));
-        assertThat(((TextCell) cell).getFieldKey(), is("test1"));
-        assertThat(((TextCell) cell).getTooltipFieldId(), is("tooltip"));
-
-        cell = card.getContent().get(1).getComponent();
-        assertThat(cell, instanceOf(ImageCell.class));
-        assertThat(cell.getSrc(), is("cell12"));
-        assertThat(cell.getId(), is("12"));
+        assertThat(card.getContent().get(1).getComponent(), allOf(
+                instanceOf(ImageCell.class),
+                hasProperty("src", is("cell12")),
+                hasProperty("id", is("12"))
+        ));
 
         card = cards.getContent().get(1);
-        assertThat(card.getSize(), is(nullValue()));
-        assertThat(card.getContent().size(), is(1));
+        assertThat(card, allOf(
+                hasProperty("size", nullValue()),
+                hasProperty("content", hasSize(1))
+        ));
 
-        cell = card.getContent().get(0).getComponent();
-        assertThat(cell, instanceOf(TextCell.class));
-        assertThat(cell.getSrc(), is("TextCell"));
+        assertThat(card.getContent().get(0).getComponent(), allOf(
+                instanceOf(TextCell.class),
+                hasProperty("src", is("TextCell"))
+        ));
 
-        assertThat(cards.getPaging().getNext(), is(true));
-        assertThat(cards.getPaging().getPrev(), is(true));
-        assertThat(cards.getPaging().getShowCount(), is(ShowCountTypeEnum.NEVER));
-        assertThat(cards.getPaging().getSize(), is(5));
-        assertThat(cards.getPaging().getSrc(), is("pagingSrc"));
+        assertThat(cards.getPaging(), allOf(
+                hasProperty("next", is(true)),
+                hasProperty("prev", is(true)),
+                hasProperty("showCount", is(ShowCountTypeEnum.NEVER)),
+                hasProperty("size", is(5)),
+                hasProperty("src", is("pagingSrc"))
+        ));
 
         //второй виджет карточек
         cards = (Cards) page.getRegions().get("single").get(0).getContent().get(1);
-        assertThat(cards.getSrc(), is("CardsWidget"));
-        assertThat(cards.getVerticalAlign(), is(Cards.PositionEnum.TOP));
-        assertThat(cards.getHeight(), is("300px"));
-        assertThat(cards.getContent().size(), is(1));
+        assertThat(cards, allOf(
+                hasProperty("src", is("CardsWidget")),
+                hasProperty("verticalAlign", is(Cards.PositionEnum.TOP)),
+                hasProperty("height", is("300px")),
+                hasProperty("content", hasSize(1))
+        ));
 
         card = cards.getContent().get(0);
-        assertThat(card.getSize(), is(nullValue()));
-        assertThat(card.getContent().size(), is(1));
+        assertThat(card, allOf(
+                hasProperty("size", nullValue()),
+                hasProperty("content", hasSize(1))
+        ));
 
-        cell = card.getContent().get(0).getComponent();
-        assertThat(cell, instanceOf(ImageCell.class));
-        assertThat(cell.getSrc(), is("ImageCell"));
-        assertThat(cell.getId(), is("31"));
+        assertThat(card.getContent().get(0).getComponent(), allOf(
+                instanceOf(ImageCell.class),
+                hasProperty("src", is("ImageCell")),
+                hasProperty("id", is("31"))
+        ));
 
-        assertThat(cards.getPaging().getNext(), is(false));
-        assertThat(cards.getPaging().getPrev(), is(false));
-        assertThat(cards.getPaging().getShowCount(), is(ShowCountTypeEnum.ALWAYS));
-        assertThat(cards.getPaging().getSize(), is(10));
+        assertThat(cards.getPaging(), allOf(
+                hasProperty("next", is(false)),
+                hasProperty("prev", is(false)),
+                hasProperty("showCount", is(ShowCountTypeEnum.ALWAYS)),
+                hasProperty("size", is(10))
+        ));
     }
 }

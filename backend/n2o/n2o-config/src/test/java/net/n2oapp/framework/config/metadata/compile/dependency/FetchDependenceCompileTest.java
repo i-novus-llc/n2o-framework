@@ -42,18 +42,10 @@ class FetchDependenceCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testFetchDependency"));
         Form form = (Form) page.getWidget();
         Field checkboxGrp1 = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
-        assertThat(checkboxGrp1.getId(), is("chb1"));
-        assertThat(checkboxGrp1.getDependencies().size(), is(1));
-        assertThat(checkboxGrp1.getDependencies().get(0).getType(), is(ValidationTypeEnum.FETCH));
-        assertThat(checkboxGrp1.getDependencies().get(0).getOn().size(), is(1));
-        assertThat(checkboxGrp1.getDependencies().get(0).getOn().get(0), is("type"));
+        checkField(checkboxGrp1, "chb1", "type");
 
         Field checkboxGrp2 = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
-        assertThat(checkboxGrp2.getId(), is("chb2"));
-        assertThat(checkboxGrp2.getDependencies().size(), is(1));
-        assertThat(checkboxGrp2.getDependencies().get(0).getType(), is(ValidationTypeEnum.FETCH));
-        assertThat(checkboxGrp2.getDependencies().get(0).getOn().size(), is(1));
-        assertThat(checkboxGrp2.getDependencies().get(0).getOn().get(0), is("type"));
+        checkField(checkboxGrp2, "chb2", "type");
 
         Field checkboxGrp3 = form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
         assertThat(checkboxGrp3.getId(), is("chb3"));
@@ -68,11 +60,7 @@ class FetchDependenceCompileTest extends SourceCompileTestBase {
         assertThat(radioGrp1.getDependencies().get(0).getOn(), hasItems("type","type2"));
 
         Field radioGrp2 = form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
-        assertThat(radioGrp2.getId(), is("rg2"));
-        assertThat(radioGrp2.getDependencies().size(), is(1));
-        assertThat(radioGrp2.getDependencies().get(0).getType(), is(ValidationTypeEnum.FETCH));
-        assertThat(radioGrp2.getDependencies().get(0).getOn().size(), is(1));
-        assertThat(radioGrp2.getDependencies().get(0).getOn().get(0), is("testFieldId4"));
+        checkField(radioGrp2, "rg2", "testFieldId4");
 
         Field radioGrp3 = form.getComponent().getFieldsets().get(0).getRows().get(5).getCols().get(0).getFields().get(0);
         assertThat(radioGrp3.getId(), is("rg3"));
@@ -83,11 +71,15 @@ class FetchDependenceCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect1.getDependencies().size(), is(0));
 
         Field inputSelect2 = form.getComponent().getFieldsets().get(0).getRows().get(7).getCols().get(0).getFields().get(0);
-        assertThat(inputSelect2.getId(), is("is2"));
-        assertThat(inputSelect2.getDependencies().size(), is(1));
-        assertThat(inputSelect2.getDependencies().get(0).getType(), is(ValidationTypeEnum.FETCH));
-        assertThat(inputSelect2.getDependencies().get(0).getOn().size(), is(1));
-        assertThat(inputSelect2.getDependencies().get(0).getOn().get(0), is("testFetchOn"));
+        checkField(inputSelect2, "is2", "testFetchOn");
+    }
+
+    private static void checkField(Field field, String id, String onType) {
+        assertThat(field.getId(), is(id));
+        assertThat(field.getDependencies().size(), is(1));
+        assertThat(field.getDependencies().get(0).getType(), is(ValidationTypeEnum.FETCH));
+        assertThat(field.getDependencies().get(0).getOn().size(), is(1));
+        assertThat(field.getDependencies().get(0).getOn().get(0), is(onType));
     }
 
 }
