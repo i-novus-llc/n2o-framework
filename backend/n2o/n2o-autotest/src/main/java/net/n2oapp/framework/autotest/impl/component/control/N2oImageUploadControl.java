@@ -33,12 +33,12 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public File uploadImage(File... image) {
-        return element().$(INPUT).uploadFile(image);
+        return element().parent().$("input[type='file']").uploadFile(image);
     }
 
     @Override
     public File uploadFromClasspath(String... imageName) {
-        return element().$(INPUT).uploadFromClasspath(imageName);
+        return element().parent().$("input[type='file']").uploadFromClasspath(imageName);
     }
 
     @Override
@@ -137,11 +137,11 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public void shouldBeDisabled() {
-        element().$(INPUT).shouldBe(Condition.disabled);
+        element().shouldHave(Condition.cssClass("disabled"));
     }
 
     protected ElementsCollection getFilesItems() {
-        return element().parent().$$(".n2o-file-uploader-files-item-info");
+        return element().parent().$$(".n2o-image-uploader-files-item");
     }
 
     protected SelenideElement getPreviewElement(int index) {
@@ -165,7 +165,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     protected SelenideElement getTrashElement(int index) {
         return getFilesItems().get(index)
-                .$(".n2o-image-uploader__watch .n2o-image-uploader__watch--trash");
+                .$(".n2o-image-uploader__watch--trash");
     }
 
     public static class PreviewDialogImpl implements PreviewDialog {

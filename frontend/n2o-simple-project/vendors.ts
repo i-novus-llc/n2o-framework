@@ -45,7 +45,6 @@ export const VENDORS = {
     'lodash': ['lodash', 'lodash-es', 'lodash.isequal', 'lodash.get', 'lodash.isobject', 'lodash.isboolean', 'lodash.isequalwith'],
     'axios': ['axios'],
     'syntax': ['react-syntax-highlighter'],
-    'dropzone': ['react-dropzone'],
     'font-awesome': [
         'font-awesome',
         '@fortawesome/fontawesome-svg-core',
