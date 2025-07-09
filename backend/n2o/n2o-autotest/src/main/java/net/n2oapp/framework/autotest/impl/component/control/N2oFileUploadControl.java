@@ -27,12 +27,12 @@ public class N2oFileUploadControl extends N2oControl implements FileUploadContro
 
     @Override
     public File uploadFile(File... file) {
-        return element().$("input").uploadFile(file);
+        return element().parent().$("input[type='file']").uploadFile(file);
     }
 
     @Override
     public File uploadFromClasspath(String... fileName) {
-        return element().$("input").uploadFromClasspath(fileName);
+        return element().parent().$("input[type='file']").uploadFromClasspath(fileName);
     }
 
     @Override

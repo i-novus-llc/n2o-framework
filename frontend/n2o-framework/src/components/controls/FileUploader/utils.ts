@@ -105,3 +105,24 @@ function beforeUpload(file: FileItem): boolean {
 }
 
 export const everyIsValid = (files: Files): boolean => every(files, file => beforeUpload(file))
+
+export function fileAccepted(file: File, accept?: string) {
+    if (!accept) { return true }
+
+    const formats = accept.split(',').map(f => f.trim())
+    const extension = file.name.split('.').pop()?.toLowerCase() || ''
+    const type = file.type.toLowerCase()
+
+    return formats.some((format) => {
+        if (format.startsWith('.')) {
+            return `.${extension}` === format.toLowerCase()
+        }
+        if (format.includes('/*')) {
+            const [mainType] = format.split('/*')
+
+            return type.split('/')[0] === mainType.toLowerCase()
+        }
+
+        return type === format.toLowerCase()
+    })
+}

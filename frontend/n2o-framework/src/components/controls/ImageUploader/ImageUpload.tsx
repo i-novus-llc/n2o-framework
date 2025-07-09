@@ -1,11 +1,12 @@
-import React, { ReactNode, FC, CSSProperties } from 'react'
-import Dropzone, { DropFilesEventHandler } from 'react-dropzone'
+import React, { ReactNode, FC, CSSProperties, useState, useCallback, useRef } from 'react'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
 
+import { fileAccepted } from '../FileUploader/utils'
+
 import { ImageUploaderList } from './ImageUploaderList'
-import { type File } from './ImageUploaderItem'
+import { type File as CustomFile } from './ImageUploaderItem'
 import { type ImgError } from './utils'
 
 export interface Props {
@@ -17,13 +18,16 @@ export interface Props {
     showName?: boolean
     disabled?: boolean
     children?: ReactNode | FC
-    onImagesDrop: DropFilesEventHandler
+    onImagesDrop(
+        acceptedFiles: File[],
+        rejectedFiles: File[],
+        event?: React.DragEvent<HTMLDivElement>): void
     onDragEnter?(): void
     onDragLeave?(): void
     multiple?: boolean
     visible?: boolean
     className?: string
-    files: File[]
+    files: CustomFile[]
     componentClass?: string
     onStartUpload?(): void
     uploaderClass?: string
@@ -38,6 +42,7 @@ export interface Props {
     accept?: string
 }
 
+// TODO объеденить с FileUpload
 export const ImageUpload = ({
     uploading,
     statusBarColor,
@@ -67,37 +72,131 @@ export const ImageUpload = ({
     shape,
     accept,
 }: Props) => {
-    const showControl = multiple || (!multiple && isEmpty(files))
-    const componentClassContainer = `${componentClass}-container`
+    const [dragActive, setDragActive] = useState(false)
+    const fileInputRef = useRef<HTMLInputElement>(null)
+    const dragCounter = useRef(0)
+
+    const handleClick = useCallback(() => {
+        if (disabled) { return }
+        fileInputRef.current?.click()
+    }, [disabled])
+
+    const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (disabled) { return }
+
+        dragCounter.current += 1
+        setDragActive(true)
+        if (onDragEnter) { onDragEnter() }
+    }, [disabled, onDragEnter])
+
+    const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        e.stopPropagation()
+
+        dragCounter.current -= 1
+        if (dragCounter.current === 0) {
+            setDragActive(false)
+            if (onDragLeave) { onDragLeave() }
+        }
+    }, [onDragLeave])
+
+    const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (disabled) { return }
+        e.dataTransfer.dropEffect = 'copy'
+    }, [disabled])
+
+    const processFiles = useCallback((
+        files: File[],
+        event?: React.DragEvent<HTMLDivElement>,
+    ) => {
+        const acceptedFiles: File[] = []
+        const rejectedFiles: File[] = []
+
+        files.forEach((file) => {
+            if (fileAccepted(file, accept)) {
+                acceptedFiles.push(file)
+            } else {
+                rejectedFiles.push(file)
+            }
+        })
+
+        if (!multiple && acceptedFiles.length > 0) {
+            rejectedFiles.unshift(...acceptedFiles.slice(1))
+            acceptedFiles.splice(1)
+        }
+
+        if (onImagesDrop) {
+            onImagesDrop(acceptedFiles, rejectedFiles, event)
+        }
+    }, [accept, multiple, onImagesDrop])
+
+    const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        e.stopPropagation()
+        dragCounter.current = 0
+        setDragActive(false)
+        if (disabled) { return }
+
+        const droppedFiles = Array.from(e.dataTransfer.files) as File[]
+
+        processFiles(droppedFiles, e)
+    }, [disabled, processFiles])
+
+    const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        if (disabled) { return }
+        const selectedFiles = e.target.files ? Array.from(e.target.files) as File[] : []
+
+        processFiles(selectedFiles)
+        e.target.value = ''
+    }, [disabled, processFiles])
 
     if (!visible) { return null }
 
+    const showControl = multiple || (!multiple && isEmpty(files))
     const defaultClassName = 'n2o-image-uploader-control'
     const compiledClassName = shape ? `${defaultClassName}--shape-${shape}` : defaultClassName
 
+    const dropzoneClasses = classNames(
+        'n2o-image-uploader-control',
+        componentClass,
+        compiledClassName,
+        {
+            'd-none': !showControl,
+            [className || '']: className,
+            [uploaderClass || '']: uploaderClass,
+            'img-error': !isEmpty(imgError),
+            'drag-active': dragActive,
+            disabled,
+        },
+    )
+
     return (
         <div>
-            <div className={classNames('n2o-image-uploader-container', { [componentClassContainer]: componentClass })}>
-                {visible && (
-                    <Dropzone
-                        className={classNames('n2o-image-uploader-control', componentClass, compiledClassName, {
-                            'd-none': !showControl,
-                            className,
-                            uploaderClass,
-                            'img-error': !isEmpty(imgError),
-                        })}
-                        style={customUploaderSize}
-                        accept={accept}
-                        multiple={multiple}
-                        disabled={disabled}
-                        disabledClassName="disabled"
-                        onDrop={onImagesDrop}
-                        onDragEnter={onDragEnter}
-                        onDragLeave={onDragLeave}
-                    >
-                        {children}
-                    </Dropzone>
-                )}
+            <div className={classNames('n2o-image-uploader-container', { [`${componentClass}-container`]: componentClass })}>
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept={accept}
+                    multiple={multiple}
+                    disabled={disabled}
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+                />
+                <div
+                    className={dropzoneClasses}
+                    style={customUploaderSize}
+                    onClick={handleClick}
+                    onDragEnter={handleDragEnter}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                >
+                    {children}
+                </div>
                 {!isEmpty(files) && (
                     <ImageUploaderList
                         files={files}
