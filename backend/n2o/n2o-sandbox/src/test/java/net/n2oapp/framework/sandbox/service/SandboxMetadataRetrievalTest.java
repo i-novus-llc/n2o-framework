@@ -1,82 +1,56 @@
 package net.n2oapp.framework.sandbox.service;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
 import net.n2oapp.framework.api.metadata.meta.control.Text;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
-import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
+import net.n2oapp.framework.sandbox.file_storage.FileStorage;
+import net.n2oapp.framework.sandbox.file_storage.model.FileModel;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.util.StreamUtils;
 
-import java.nio.charset.Charset;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.doReturn;
 
 /**
  * Тест на проверку обработки запросов на получение конфигурации и страницы примера
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
-                XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class, ProjectTemplateHolder.class},
-        properties = {"n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
+        classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class,
+                XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class, ProjectTemplateHolder.class})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 class SandboxMetadataRetrievalTest {
 
-    private static final MockHttpServletRequest request = new MockHttpServletRequest();
-    private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
-            .enableBrowserProxying(true));
-
-    @Value("${n2o.sandbox.api.host}")
-    private String host;
-
-    @Value("${n2o.sandbox.api.port}")
-    private Integer port;
+    @MockBean
+    private HttpServletRequest request;
 
     @Autowired
     private ViewController viewController;
 
-    @BeforeAll
-    static void setUp() {
-        request.setRequestURI("/sandbox/view/myProjectId/n2o/page/");
-        wireMockServer.start();
-        JvmProxyConfigurer.configureFor(wireMockServer);
-    }
-
-    @AfterAll
-    static void tearDown() {
-        wireMockServer.stop();
-        JvmProxyConfigurer.restorePrevious();
-    }
+    @MockBean
+    private FileStorage fileStorage;
 
     @SneakyThrows
     @Test
     void testGetConfig(){
-        wireMockServer.stubFor(get("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")));
-        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/project/myProjectId/config.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        mockGetProjectFiles();
         JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
 
         assertThat(config.getString("project"), is("myProjectId"));
@@ -96,12 +70,28 @@ class SandboxMetadataRetrievalTest {
         assertThat(config.getJSONObject("user").getString("roles"), is("null"));
     }
 
+    private void mockGetProjectFiles() {
+        List<FileModel> fileModels = new ArrayList<>();
+        FileModel fileModel = new FileModel();
+        fileModel.setFile("index.page.xml");
+        fileModel.setSource("<?xml version='1.0' encoding='UTF-8'?>\n" +
+                "<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\"\n" +
+                "             name=\"Моя первая страница\">\n" +
+                "    <form>\n" +
+                "        <fields>\n" +
+                "            <text id=\"hello\">Привет Мир!</text>\n" +
+                "        </fields>\n" +
+                "    </form>\n" +
+                "</simple-page>");
+        fileModels.add(fileModel);
+        doReturn(fileModels).when(fileStorage).getProjectFiles("myProjectId");
+    }
+
     @SneakyThrows
     @Test
     void testGetPage() {
-        wireMockServer.stubFor(get("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json")
-                .withBody(StreamUtils.copyToString(new ClassPathResource("data/testMetadataRetrieval.json").getInputStream(), Charset.defaultCharset()))));
-        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        mockGetProjectFiles();
+        doReturn("/n2o/page/").when(request).getRequestURI();
         Page page = viewController.getPage("myProjectId", request);
 
         assertThat(page.getId(), is("_"));

@@ -12,7 +12,7 @@
             <select mapping="['_id'].toString()">_id</select>
             <filters>
                 <eq filter-id="id">{ _id: new ObjectId('#id') }</eq>
-                <in filter-id="idIn" normalize="T(net.n2oapp.framework.test.MongodbDataProviderEngineTest).mapIdIn(#this)" domain="string">{ _id: {$in: #idIn }}</in>
+                <in filter-id="idIn" normalize="T(net.n2oapp.framework.test.TestMongoConfiguration).mapIdIn(#this)" domain="string">{ _id: {$in: #idIn }}</in>
             </filters>
             <sorting/>
         </field>

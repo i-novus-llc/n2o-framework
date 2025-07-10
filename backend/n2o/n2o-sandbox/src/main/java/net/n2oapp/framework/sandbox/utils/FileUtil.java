@@ -3,7 +3,7 @@ package net.n2oapp.framework.sandbox.utils;
 import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.framework.config.util.FileSystemUtil;
-import net.n2oapp.framework.sandbox.client.model.FileModel;
+import net.n2oapp.framework.sandbox.file_storage.model.FileModel;
 
 import java.util.ArrayList;
 import java.util.List;
