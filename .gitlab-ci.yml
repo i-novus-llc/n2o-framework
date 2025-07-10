@@ -36,14 +36,14 @@ build story:
   variables:
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'web'
+    - if: $CI_COMMIT_REF_NAME =~ /^story\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
 cleanup:
   dependencies: []
 
 deploy story stand:
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'web'
+    - if: $CI_COMMIT_REF_NAME =~ /^story\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
 deploy stable stand:
   variables:
