@@ -5,9 +5,10 @@ import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.boot.*;
-import net.n2oapp.framework.sandbox.client.SandboxRestClient;
-import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
+import net.n2oapp.framework.sandbox.file_storage.FileStorage;
+import net.n2oapp.framework.sandbox.file_storage.FileStorageOnDisk;
+import net.n2oapp.framework.sandbox.file_storage.S3FileStorage;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
@@ -16,8 +17,10 @@ import net.n2oapp.framework.ui.controller.action.SetController;
 import net.n2oapp.framework.ui.controller.query.GetController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,10 +31,15 @@ import org.springframework.core.env.PropertyResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +57,15 @@ import java.util.Map;
 @EnableCaching
 @ComponentScan(basePackages = {"net.n2oapp.framework.sandbox", "net.n2oapp.framework.autotest.cases"})
 public class N2oSandboxConfiguration {
+
+    @Value("${s3.access-key:#{null}}")
+    private String accessKey;
+    @Value("${s3.secret-key:#{null}}")
+    private String secretKey;
+    @Value("${s3.url:#{null}}")
+    private String endpoint;
+    @Value("${s3.bucket:#{null}}")
+    private String bucket;
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -115,8 +132,26 @@ public class N2oSandboxConfiguration {
     }
 
     @Bean
-    public SandboxRestClient restClient() {
-        return new SandboxRestClientImpl();
+    @ConditionalOnProperty(name = "s3.url")
+    public FileStorage s3FileStorage(S3Client s3Client) {
+        return new S3FileStorage(s3Client, bucket);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "s3.url")
+    public S3Client s3Client() {
+        return S3Client.builder()
+                .endpointOverride(URI.create(endpoint))
+                .region(Region.of("Stub"))
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(accessKey, secretKey)))
+                .build();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public FileStorage fileStorageOnDisk() {
+        return new FileStorageOnDisk();
     }
 
     @Bean

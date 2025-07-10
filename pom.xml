@@ -28,9 +28,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:https://git.i-novus.ru/open/n2o-framework.git</connection>
-        <url>https://git.i-novus.ru/open/n2o-framework</url>
-        <developerConnection>scm:git:https://git.i-novus.ru/open/n2o-framework.git</developerConnection>
+        <connection>scm:git:https://git.i-novus.ru/framework/n2o-framework.git</connection>
+        <url>https://git.i-novus.ru/framework/n2o-framework</url>
+        <developerConnection>scm:git:https://git.i-novus.ru/framework/n2o-framework.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 

@@ -7,8 +7,8 @@
                 <file-upload id="docs"
                              url-field-id="url"
                              label-field-id="fileName"
-                             upload-url="${n2o.sandbox.url}/persons/{id}/files"
-                             delete-url="${n2o.sandbox.url}/persons/{id}/files"
+                             upload-url="${server.servlet.context-path}/persons/{id}/files"
+                             delete-url="${server.servlet.context-path}/persons/{id}/files"
                              accept=".img,.png,.xml"
                              request-param="file"
                 >
