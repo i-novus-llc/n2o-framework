@@ -109,7 +109,7 @@
                                 <col size="3">
                                     <file-upload id="file" label-field-id="fileName"
                                                  value-field-id="id"
-                                                 upload-url="${n2o.sandbox.url}/files" delete-url="${n2o.sandbox.url}/files"
+                                                 upload-url="${server.servlet.context-path}/files" delete-url="${server.servlet.context-path}/files"
                                                  accept=".jpg,.png" show-size="false" no-label-block="true">
                                     </file-upload>
                                 </col>

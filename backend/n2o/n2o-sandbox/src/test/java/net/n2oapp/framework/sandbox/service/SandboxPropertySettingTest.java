@@ -1,12 +1,10 @@
 package net.n2oapp.framework.sandbox.service;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.github.tomakehurst.wiremock.http.JvmProxyConfigurer;
 import lombok.SneakyThrows;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
-import net.n2oapp.framework.sandbox.client.SandboxRestClientImpl;
+import net.n2oapp.framework.sandbox.file_storage.FileStorage;
+import net.n2oapp.framework.sandbox.file_storage.model.FileModel;
 import net.n2oapp.framework.sandbox.resource.XsdSchemaParser;
 import net.n2oapp.framework.sandbox.templates.ProjectTemplateHolder;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
@@ -14,73 +12,71 @@ import net.n2oapp.framework.sandbox.view.SandboxContext;
 import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.sandbox.view.ViewController;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.util.StreamUtils;
 
-import java.nio.charset.Charset;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static net.n2oapp.framework.sandbox.view.SandboxContext.USER_PROPERTIES;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.doReturn;
 
 /**
  * Тест на проверку установки свойств
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class, SandboxRestClientImpl.class,
-                SandboxContext.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class, ProjectTemplateHolder.class},
-        properties = {"n2o.sandbox.url=http://${n2o.sandbox.api.host}:${n2o.sandbox.api.port}"})
+        classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class,
+                SandboxContext.class, XsdSchemaParser.class, SandboxApplicationBuilderConfigurer.class, ProjectTemplateHolder.class})
 @PropertySource("classpath:sandbox.properties")
 @EnableAutoConfiguration
 class SandboxPropertySettingTest {
 
-    private static final MockHttpServletRequest request = new MockHttpServletRequest();
-    private static final WireMockServer wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort()
-            .enableBrowserProxying(true));
-
-    @Value("${n2o.sandbox.api.host}")
-    private String host;
-
-    @Value("${n2o.sandbox.api.port}")
-    private Integer port;
+    @MockBean
+    private HttpServletRequest request;
 
     @Autowired
     private ViewController viewController;
 
-    @BeforeAll
-    static void setUp() {
-        request.setRequestURI("/sandbox/view/myProjectId/n2o/page/");
-        wireMockServer.start();
-        JvmProxyConfigurer.configureFor(wireMockServer);
-    }
-
-    @AfterAll
-    static void tearDown() {
-        wireMockServer.stop();
-        JvmProxyConfigurer.restorePrevious();
-    }
+    @MockBean
+    private FileStorage fileStorage;
 
     @SneakyThrows
     @Test
     void testApplicationProperties() {
-        wireMockServer.stubFor(get(urlMatching("/project/myProjectId")).withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
-                StreamUtils.copyToString(new ClassPathResource("data/testDataProvider.json").getInputStream(), Charset.defaultCharset()))));
-        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody("n2o.api.header.src=CustomHeader\n" +
+        List<FileModel> fileModels = new ArrayList<>();
+        FileModel fileModel1 = new FileModel();
+        fileModel1.setFile("index.page.xml");
+        fileModel1.setSource("<?xml version='1.0' encoding='UTF-8'?>\n" +
+                "<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\"\n" +
+                "             name=\"Placeholder context\">\n" +
+                "    <form>\n" +
+                "        <fields>\n" +
+                "            <output-text id=\"email\" default-value=\"#{email}\"/>\n" +
+                "            <output-text id=\"roles\" default-value=\"#{roles}\"/>\n" +
+                "        </fields>\n" +
+                "    </form>\n" +
+                "</simple-page>");
+        fileModels.add(fileModel1);
+        FileModel fileModel2 = new FileModel();
+        fileModel2.setFile("user.properties");
+        fileModel2.setSource("email=test@example.com\nusername=Joe\nroles=[USER,ADMIN]");
+        fileModels.add(fileModel2);
+        doReturn(fileModels).when(fileStorage).getProjectFiles("myProjectId");
+        doReturn("").when(fileStorage).getFileContent("myProjectId", USER_PROPERTIES);
+        doReturn("n2o.api.header.src=CustomHeader\n" +
                 "n2o.api.footer.src=CustomFooter\n" +
                 "n2o.api.page.simple.src=CustomPage\n" +
                 "n2o.api.widget.table.src=CustomTable\n" +
-                "n2o.api.widget.form.src=CustomForm")));
-        wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/project/myProjectId/config.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+                "n2o.api.widget.form.src=CustomForm").when(fileStorage).getFileContent("myProjectId", "application.properties");
+        doReturn("").when(fileStorage).getFileContent("myProjectId", "config.json");
+        doReturn("/n2o/page/").when(request).getRequestURI();
 
         JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
         assertThat(config.getJSONObject("menu").getJSONObject("header").getString("src"), is("CustomHeader"));
@@ -88,20 +84,35 @@ class SandboxPropertySettingTest {
 
         Page page = viewController.getPage("myProjectId", request);
         assertThat(page.getSrc(), is("CustomPage"));
-        assertThat(((SimplePage) page).getWidget().getSrc(), is("CustomTable"));
+        assertThat(((SimplePage) page).getWidget().getSrc(), is("CustomForm"));
     }
 
     @SneakyThrows
     @Test
     void testUserProperties() {
-        wireMockServer.stubFor(get("/project/myProjectId").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withHeader("Content-Type", "application/json").withBody(
-                StreamUtils.copyToString(new ClassPathResource("data/testPropertySetting.json").getInputStream(), Charset.defaultCharset()))));
-        wireMockServer.stubFor(get("/project/myProjectId/application.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
-        wireMockServer.stubFor(get("/project/myProjectId/user.properties").withHost(equalTo(host)).withPort(port).willReturn(aResponse().withBody(
-                "email=test@example.com\n" +
-                "username=Joe\n" +
-                "roles=[USER,ADMIN]")));
-        wireMockServer.stubFor(get("/project/myProjectId/config.json").withHost(equalTo(host)).withPort(port).willReturn(aResponse()));
+        List<FileModel> fileModels = new ArrayList<>();
+        FileModel fileModel1 = new FileModel();
+        fileModel1.setFile("index.page.xml");
+        fileModel1.setSource("<?xml version='1.0' encoding='UTF-8'?>\n" +
+                "<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\"\n" +
+                "             name=\"Placeholder context\">\n" +
+                "    <form>\n" +
+                "        <fields>\n" +
+                "            <output-text id=\"email\" default-value=\"#{email}\"/>\n" +
+                "            <output-text id=\"roles\" default-value=\"#{roles}\"/>\n" +
+                "        </fields>\n" +
+                "    </form>\n" +
+                "</simple-page>");
+        fileModels.add(fileModel1);
+        FileModel fileModel2 = new FileModel();
+        fileModel2.setFile("user.properties");
+        fileModel2.setSource("email=test@example.com\nusername=Joe\nroles=[USER,ADMIN]");
+        fileModels.add(fileModel2);
+        doReturn(fileModels).when(fileStorage).getProjectFiles("myProjectId");
+        doReturn("email=test@example.com\nusername=Joe\nroles=[USER,ADMIN]").when(fileStorage).getFileContent("myProjectId", USER_PROPERTIES);
+        doReturn("").when(fileStorage).getFileContent("myProjectId", "application.properties");
+        doReturn("").when(fileStorage).getFileContent("myProjectId", "config.json");
+        doReturn("/n2o/page/").when(request).getRequestURI();
 
         JSONObject config = new JSONObject(viewController.getConfig("myProjectId"));
         assertThat(config.getJSONObject("user").getString("email"), is("test@example.com"));

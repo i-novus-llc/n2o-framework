@@ -11,8 +11,8 @@
                     <file-upload id="fileUpload" enabled="false"/>
                     <image-upload label="imageUpload" id="files" multi="true"
                                   label-field-id="fileName" value-field-id="id" url-field-id="url"
-                                  upload-url="${n2o.sandbox.url}/files"
-                                  delete-url="${n2o.sandbox.url}/files"
+                                  upload-url="${server.servlet.context-path}/files"
+                                  delete-url="${server.servlet.context-path}/files"
                                   accept=".jpg,.png"
                                   list-type="card"
                                   show-name="true" enabled="false"/>

@@ -62,7 +62,7 @@
                              message-field-id="message"
                              value-field-id="id"
                              request-param="file"
-                             url-field-id="url" upload-url="${n2o.sandbox.url}/upload"
+                             url-field-id="url" upload-url="${server.servlet.context-path}/upload"
                              description="Должен быть test.txt">
                     <default-value id="1" filename="test.txt" url="/download/1" message="Файл загружен"/>
                 </file-upload>
