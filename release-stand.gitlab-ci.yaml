@@ -1,16 +1,37 @@
+release version:
+  stage: .pre
+  script:
+    - |
+      RELEASE_VERSION=$(echo "$CI_COMMIT_REF_NAME" | sed 's|^release/||')
+      FORMATTED_VERSION=$(echo "$RELEASE_VERSION" | tr '.' '-')
+      echo "Formatted version: $FORMATTED_VERSION"
+      echo "FORMATTED_VERSION=$FORMATTED_VERSION" >> release.env
+  artifacts:
+    reports:
+      dotenv: release.env
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
+
 build release stand:
   extends: .build maven
+  needs:
+    - release version
   variables:
+    K8S_NAMESPACE: "n2o-release-$FORMATTED_VERSION"
+    K8S_INGRESS_HOST: "n2o-framework-$FORMATTED_VERSION-dev.i-novus.ru"
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
 deploy release stand:
   extends: .deploy
-  environment: "n2o-release-7-27"
+  needs:
+    - release version
+    - build release stand
   variables:
-    K8S_INGRESS_HOST: "n2o-framework-7-27-dev.i-novus.ru"
-    K8S_NAMESPACE: "n2o-release-7-27"
+    K8S_INGRESS_HOST: "n2o-framework-$FORMATTED_VERSION-dev.i-novus.ru"
+    K8S_NAMESPACE: "n2o-release-$FORMATTED_VERSION"
+    HELM_RELEASE: "n2o-framework-$FORMATTED_VERSION"
     HELM_OPTIONAL_VALUES: "-f $HELM_CHART_PATH/values.release.yaml --take-ownership"
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
