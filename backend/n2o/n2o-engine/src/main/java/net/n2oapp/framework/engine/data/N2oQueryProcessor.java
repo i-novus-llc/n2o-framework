@@ -345,8 +345,9 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         } catch (N2oException e) {
             throw new N2oRecordNotFoundException(e);
         }
-
         result = normalizeValue(result, selection.getResultNormalize(), null, parser, applicationContext);
+        if (result instanceof Iterable)
+            throw new N2oException(String.format("Результатом <unique> запроса в \"%s.query.xml\" является список элементов, а не один", query.getId()));
         return mapFields(result, query.getDisplayFields(), null);
     }
 
