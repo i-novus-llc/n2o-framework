@@ -8,6 +8,9 @@ include:
       - stable-stand.gitlab-ci.yml
   - local: 'release-stand.gitlab-ci.yaml'
 
+variables:
+  HELM_CHART_PATH: './.k8s/target'
+
 build:
   variables:
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
@@ -20,6 +23,7 @@ build and verify:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/.m2/repository/
+      - $CI_PROJECT_DIR/.k8s/target
     expire_in: 1 day
   cache: []
 

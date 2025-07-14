@@ -3,7 +3,7 @@ global:
     useDefaultConsul: false
 
 springServices:
-  demo:
+  demo-${FORMATTED_VERSION}:
     imageName: n2o/demo
     resources:
       limits:
@@ -13,6 +13,6 @@ springServices:
     contextPath: demo
     ingress:
       path: /demo
-  n2o-sandbox:
+  n2o-sandbox-${FORMATTED_VERSION}:
     ingress:
       path: /sandbox
