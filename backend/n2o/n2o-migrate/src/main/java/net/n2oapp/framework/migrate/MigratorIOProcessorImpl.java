@@ -18,6 +18,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static net.n2oapp.framework.api.StringUtils.removeSpaces;
+
 /**
  * Реализация процессора считывания и записи DOM элементов для механизма миграции
  */
@@ -66,6 +68,11 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
                 element.setText(MigratorInfoHolder.getProperty(BODY_KEY));
             }
         }
+    }
+
+    @Override
+    public void childrenText(Element element, String childName, Supplier<String> getter, Consumer<String> setter) {
+        childrenOriginalText(element, childName, getter, setter);
     }
 
     @Override

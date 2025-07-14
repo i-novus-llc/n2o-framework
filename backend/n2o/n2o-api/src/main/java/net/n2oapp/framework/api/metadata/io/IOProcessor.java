@@ -305,7 +305,7 @@ public interface IOProcessor {
     void attribute(Element element, String name, Supplier<String> getter, Consumer<String> setter);
 
     /**
-     * Считывание\запись внутреннего текста
+     * Считывание\запись внутреннего текста с форматированием
      *
      * @param element элемент
      * @param getter  получение текста
@@ -314,13 +314,31 @@ public interface IOProcessor {
     void text(Element element, Supplier<String> getter, Consumer<String> setter);
 
     /**
-     * Считывание\запись внутреннего текста
+     * Считывание\запись внутреннего текста с форматированием
      *
      * @param element элемент
      * @param getter  получение текста
      * @param setter  запись текста
      */
     void childrenText(Element element, String childrenName, Supplier<String> getter, Consumer<String> setter);
+
+    /**
+     * Считывание\запись внутреннего текста без форматирования
+     *
+     * @param element элемент
+     * @param getter  получение текста
+     * @param setter  запись текста
+     */
+    void originalText(Element element, Supplier<String> getter, Consumer<String> setter);
+
+    /**
+     * Считывание\запись внутреннего текста без форматирования
+     *
+     * @param element элемент
+     * @param getter  получение текста
+     * @param setter  запись текста
+     */
+    void childrenOriginalText(Element element, String childName, Supplier<String> getter, Consumer<String> setter);
 
     /**
      * Считывание\запись атрибута у дочернего элемента

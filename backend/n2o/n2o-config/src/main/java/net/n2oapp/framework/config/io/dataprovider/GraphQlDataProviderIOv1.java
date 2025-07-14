@@ -37,6 +37,6 @@ public class GraphQlDataProviderIOv1 implements NamespaceIO<N2oGraphQlDataProvid
         p.attribute(e, "forwarded-headers", m::getForwardedHeaders, m::setForwardedHeaders);
         p.attribute(e, "forwarded-cookies", m::getForwardedCookies, m::setForwardedCookies);
         p.attributeArray(e, "enums", ",", m::getEnums, m::setEnums);
-        p.text(e, m::getQuery, m::setQuery);
+        p.originalText(e, m::getQuery, m::setQuery);
     }
 }

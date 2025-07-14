@@ -13,14 +13,14 @@
          forwarded-cookies="testCookie"
          enums="direction,type">
     query getAllPeople($first: Int, $last: Int) {
-    allPeople(first: $first, last: $last) {
-    people {
-    id
-    name
-    gender
-    eyeColor
+        allPeople(first: $first, last: $last) {
+            people {
+                id
+                name
+                gender
+                eyeColor
+            }
+        totalCount
     }
-    totalCount
-    }
-    }
+}
 </graphql>
