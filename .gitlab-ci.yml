@@ -61,3 +61,9 @@ deploy stable stand:
     HELM_RELEASE: "n2o-framework-7-27"
   before_script:
     - mvn initialize
+    - '[ -n "$EXT_HELM_CFG_GIT_REPO_URL" ] && git clone $EXT_HELM_CFG_GIT_REPO_URL .extconfig
+     && cp -r .extconfig/$EXT_HELM_CHART_PATH* $HELM_CHART_PATH'
+    - '[ -n "$DOCKER_AUTH_CONFIG" ] && mkdir -p ~/.docker; echo $DOCKER_AUTH_CONFIG
+     > ~/.docker/config.json'
+    - export HELM_CHART_NAME=$(grep '^name:' $HELM_CHART_PATH/Chart.yaml | awk '{print
+      $2}')
