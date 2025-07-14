@@ -15,7 +15,7 @@ public class HtmlWidgetElementIOv4 extends WidgetElementIOv4<N2oHtmlWidget> {
     public void io(Element e, N2oHtmlWidget m, IOProcessor p) {
         super.io(e, m, p);
         p.childAttribute(e, "content", "url", m::getUrl, m::setUrl);
-        p.childrenText(e, "content", m::getHtml, m::setHtml);
+        p.childrenOriginalText(e, "content", m::getHtml, m::setHtml);
         p.merge(m, getElementName());
     }
 

@@ -16,7 +16,7 @@ public class MarkdownFieldIOv3 extends FieldIOv3<N2oMarkdown> implements Control
     public void io(Element e, N2oMarkdown m, IOProcessor p) {
         super.io(e, m, p);
         p.attributeArray(e, "actions", ",",  m::getActionIds, m::setActionIds);
-        p.text(e, m::getContent, m::setContent);
+        p.originalText(e, m::getContent, m::setContent);
     }
 
     @Override

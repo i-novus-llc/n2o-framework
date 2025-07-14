@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static net.n2oapp.framework.api.StringUtils.removeSpaces;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -725,39 +726,22 @@ public class IOProcessorImpl implements IOProcessor {
 
     @Override
     public void text(Element element, Supplier<String> getter, Consumer<String> setter) {
-        if (r) {
-            checkCDataContent(element);
-            String text = element.getText();
-            if (text != null && !text.isEmpty()) {
-                setter.accept(process(text));
-            }
-        } else {
-            if (getter.get() == null) return;
-            element.setText(getter.get());
-        }
+        text(element, getter, setter, s -> removeSpaces(process(s)));
     }
 
     @Override
     public void childrenText(Element element, String childName, Supplier<String> getter, Consumer<String> setter) {
-        if (r) {
-            Element child = element.getChild(childName, element.getNamespace());
-            if (child == null) return;
-            checkCDataContent(child);
-            String text = child.getText();
-            if (text != null && !text.isEmpty()) {
-                setter.accept(process(text));
-            }
-        } else {
-            if (getter.get() == null) return;
-            Element childElement = element.getChild(childName, element.getNamespace());
-            if (childElement == null) {
-                childElement = new Element(childName, element.getNamespace());
-                childElement.setText(getter.get());
-                element.addContent(childElement);
-            } else {
-                childElement.setText(getter.get());
-            }
-        }
+        childrenText(element, childName, getter, setter, s -> removeSpaces(process(s)));
+    }
+
+    @Override
+    public void originalText(Element element, Supplier<String> getter, Consumer<String> setter) {
+        text(element, getter, setter, this::process);
+    }
+
+    @Override
+    public void childrenOriginalText(Element element, String childName, Supplier<String> getter, Consumer<String> setter) {
+        childrenText(element, childName, getter, setter, this::process);
     }
 
     @Override
@@ -1094,7 +1078,7 @@ public class IOProcessorImpl implements IOProcessor {
      * @param text текст с плейсхолдерами ${prop}
      * @return текст без плейсхолдеров, если они разрешились
      */
-    private String process(String text) {
+    protected String process(String text) {
         if (text == null) {
             return null;
         }
@@ -1226,6 +1210,52 @@ public class IOProcessorImpl implements IOProcessor {
             parent.addContent(seqE);
         }
         return seqE;
+    }
+
+    private void text(Element element, Supplier<String> getter, Consumer<String> setter, Function<String, String> function) {
+        if (r) {
+            checkCDataContent(element);
+            String text = element.getText();
+            if (text != null && !text.isEmpty()) {
+                setter.accept(function.apply(text));
+            }
+        } else {
+            setterText(element, getter);
+        }
+    }
+
+    private void childrenText(Element element, String childName, Supplier<String> getter, Consumer<String> setter, Function<String, String> function) {
+        if (r) {
+            Element child = element.getChild(childName, element.getNamespace());
+            if (child == null) return;
+            checkCDataContent(child);
+            String text = child.getText();
+            if (text != null && !text.isEmpty()) {
+                setter.accept(function.apply(text));
+            }
+        } else {
+            setterChildText(element, childName, getter);
+        }
+    }
+
+
+    private void setterText(Element element, Supplier<String> getter) {
+        if (getter.get() == null) return;
+        element.setText(getter.get());
+    }
+
+
+    private void setterChildText(Element element, String childName, Supplier<String> getter) {
+        if (getter.get() == null) return;
+        Element childElement = element.getChild(childName, element.getNamespace());
+        if (childElement == null) {
+            childElement = new Element(childName, element.getNamespace());
+            childElement.setText(getter.get());
+            element.addContent(childElement);
+        } else {
+            childElement.setText(getter.get());
+        }
+
     }
 
     private void checkCDataContent(Element element) {

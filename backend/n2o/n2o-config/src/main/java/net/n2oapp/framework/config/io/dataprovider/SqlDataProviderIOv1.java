@@ -26,6 +26,6 @@ public class SqlDataProviderIOv1 implements NamespaceIO<N2oSqlDataProvider>, Dat
         p.attribute(e, "username", m::getUsername, m::setUsername);
         p.attribute(e, "password", m::getPassword, m::setPassword);
         p.attribute(e, "driver-class-name", m::getJdbcDriver, m::setJdbcDriver);
-        p.text(e, m::getQuery, m::setQuery);
+        p.originalText(e, m::getQuery, m::setQuery);
     }
 }
