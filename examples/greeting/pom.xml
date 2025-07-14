@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <n2o.version>7.28.1</n2o.version>
+        <n2o.version>7.28.3</n2o.version>
     </properties>
 
     <dependencies>
