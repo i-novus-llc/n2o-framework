@@ -52,6 +52,9 @@ deploy story stand:
     - if: $CI_COMMIT_REF_NAME =~ /^story\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
 deploy stable stand:
+  image:
+    name: harbor.i-novus.ru/pipeline/maven-build:jdk17-node18-v5
+    pull_policy: if-not-present
   variables:
     K8S_NAMESPACE: "n2o-framework"
     K8S_INGRESS_HOST: "7-27-n2o.i-novus.ru"
