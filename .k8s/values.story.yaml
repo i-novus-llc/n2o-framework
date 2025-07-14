@@ -3,12 +3,12 @@ global:
     useDefaultConsul: false
 
 springServices:
-  n2o-sandbox:
+  n2o-sandbox-${FORMATTED_VERSION}:
     ingress:
       path: /sandbox
 
 supportingServices:
-  docusaurus:
+  docusaurus-${FORMATTED_VERSION}:
     useGlobalRegistry: true
     imageName: n2o/docusaurus
     port: 80

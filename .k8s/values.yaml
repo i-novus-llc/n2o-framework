@@ -6,7 +6,7 @@ global:
       SPRING_CLOUD_CONSUL_CONFIG_FORMAT: yaml
 
 springServices:
-  n2o-sandbox:
+  n2o-sandbox-${FORMATTED_VERSION}:
     imageName: n2o/n2o-sandbox
     resources:
       limits:
@@ -21,7 +21,7 @@ springServices:
       path: /sandbox
 
 supportingServices:
-  docusaurus:
+  docusaurus-${FORMATTED_VERSION}:
     useGlobalRegistry: true
     imageName: n2o/docusaurus
     port: 80
