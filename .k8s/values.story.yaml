@@ -4,18 +4,12 @@ global:
 
 springServices:
   n2o-sandbox:
-    ingress:
-      path: /sandbox
-
-supportingServices:
-  docusaurus:
-    useGlobalRegistry: true
-    imageName: n2o/docusaurus
-    port: 80
     resources:
       limits:
-        memory: 256Mi
-        cpu: 150m
-    replicaCount: 1
+        memory: 400M
+        cpu: 300m
+      requests:
+        memory: 100M
+        cpu: 10m
     ingress:
-      path: /
+      path: /sandbox

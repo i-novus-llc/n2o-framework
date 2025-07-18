@@ -9,6 +9,9 @@ springServices:
       limits:
         memory: 1000Mi
         cpu: 300m
+      requests:
+        memory: 300M
+        cpu: 10m
     replicaCount: 1
     contextPath: demo
     ingress:
@@ -22,6 +25,9 @@ springServices:
       limits:
         memory: 512Mi
         cpu: 500m
+      requests:
+        memory: 300M
+        cpu: 10m
     env:
       N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
       SPRING_CONFIG_IMPORT: "consul:"
