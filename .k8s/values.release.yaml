@@ -14,6 +14,9 @@ springServices:
       limits:
         memory: 512Mi
         cpu: 500m
+      requests:
+        memory: 256Mi
+        cpu: 10m
     env:
       N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
       SPRING_CONFIG_IMPORT: "consul:"
