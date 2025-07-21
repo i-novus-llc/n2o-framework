@@ -95,9 +95,22 @@ export class InputSelect extends React.Component<Props, State> {
         if (!isEqual(nextProps.options, stateOptions)) {
             state.options = options
         }
+
         if (!isEqual(nextProps.value, propsValue)) {
+            const { input: stateInput } = this.state
             const valueArray = getValueArray(value)
-            const input = value && !multiSelect ? value[labelFieldId] : ''
+
+            let input = ''
+
+            if (value) {
+                if (!multiSelect) {
+                    input = value[labelFieldId]
+                } else {
+                    input = stateInput || ''
+                }
+            } else if (multiSelect) {
+                input = stateInput || ''
+            }
 
             state.value = valueArray
             state.input = input
@@ -168,26 +181,6 @@ export class InputSelect extends React.Component<Props, State> {
         this.setState({
             inputFocus: true,
         })
-    }
-
-    /**
-     * Обработка изменения значения при выборе из дропдауна
-     * @param item
-     * @private
-     */
-    handleValueChangeOnSelect = (item: TOption) => {
-        const { value } = this.state
-        const { onChange, multiSelect, labelFieldId } = this.props
-
-        this.setState(
-            {
-                input: multiSelect ? item[labelFieldId as keyof TOption] : '',
-                value: multiSelect ? [...(value || []), item] : [item],
-            },
-            () => {
-                onChange(this.getValue())
-            },
-        )
     }
 
     /**
@@ -268,7 +261,7 @@ export class InputSelect extends React.Component<Props, State> {
         }
 
         this.setState({ isExpanded, inputFocus: isExpanded }, () => {
-            const { page, fetchData, searchMinLength, value = [], model = {} } = this.props
+            const { page, fetchData, searchMinLength, resetOnBlur, value = [], model = {} } = this.props
 
             if (isEmpty(value) || page === 1 || !caching) {
                 const updatedModel = !isEqual(model, prevModel)
@@ -301,7 +294,7 @@ export class InputSelect extends React.Component<Props, State> {
 
                 const extraParams: Record<string, unknown> = { page: currentPage }
 
-                if (searchMinLength) { extraParams[quickSearchParam] = input }
+                if (searchMinLength || (input && !resetOnBlur)) { extraParams[quickSearchParam] = input }
 
                 fetchData(extraParams, merge, cacheReset)
             }
@@ -367,11 +360,12 @@ export class InputSelect extends React.Component<Props, State> {
             onSelect,
             onChange,
         } = this.props
+        const { input: stateInput } = this.state
 
         this.setState(
             prevState => ({
                 value: multiSelect ? [...(prevState.value || []), item] : [item],
-                input: multiSelect ? '' : item[labelFieldId as keyof TOption],
+                input: multiSelect ? stateInput : item[labelFieldId as keyof TOption],
                 options,
             }),
             () => {
@@ -391,10 +385,6 @@ export class InputSelect extends React.Component<Props, State> {
                 onChange(this.getValue())
             },
         )
-
-        const { input } = this.state
-
-        if (input && multiSelect) { this.handleDataSearch('') }
     }
 
     /**
@@ -470,7 +460,7 @@ export class InputSelect extends React.Component<Props, State> {
     }
 
     onInputBlur = () => {
-        const { onBlur, datasource, setFilter, sortFieldId, models = {} } = this.props
+        const { onBlur, datasource, setFilter, sortFieldId, resetOnBlur, models = {} } = this.props
         const { isExpanded, value } = this.state
 
         if (datasource && sortFieldId) {
@@ -490,7 +480,7 @@ export class InputSelect extends React.Component<Props, State> {
         this.handleValueChangeOnBlur()
         this.setInputFocus(false)
 
-        if (isEmpty(value) && !isExpanded) {
+        if (isEmpty(value) && !isExpanded && resetOnBlur) {
             this.setNewInputValue('')
         }
     }
