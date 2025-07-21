@@ -7,12 +7,22 @@ springServices:
     imageName: n2o/demo
     resources:
       limits:
-        memory: 1000Mi
+        memory: 600M
         cpu: 300m
+      requests:
+        memory: 400M
+        cpu: 10m
     replicaCount: 1
     contextPath: demo
     ingress:
       path: /demo
   n2o-sandbox-${FORMATTED_VERSION}:
+    resources:
+      limits:
+        memory: 1300M
+        cpu: 300m
+      requests:
+        memory: 400M
+        cpu: 10m
     ingress:
       path: /sandbox
