@@ -17,7 +17,7 @@ module.exports = {
     title: CONFIG.title || 'N2O Framework',
     // Хост вашего сайта без пути и слеша в конце. Ваще ХЗ на кой оно нужно и на что влияет. Скорее что-то для SEO.
     tagline: CONFIG.title || 'Java и ReactJS библиотека, позволяющая создавать web приложения со сложными пользовательскими интерфейсами без глубоких знаний web технологий и frontend фреймворков',
-    url: CONFIG.url || 'https://n2oapp.net',
+    url: CONFIG.url || 'https://n2o.i-novus.ru',
     // Путь, по которому нужно открывать документацию (аналог contextPath), н.р. /docusaurus/
     // Требуется для корректных ссылок на статику
     baseUrl: contextPath,
