@@ -4,7 +4,7 @@
   "description": "UI components for N2O framework",
   "author": "I-Novus LLC<n2o@i-novus.ru>",
   "license": "Apache-2.0",
-  "homepage": "https://n2oapp.net/",
+  "homepage": "https://n2o.i-novus.ru/",
   "repository": {
     "type": "git",
     "url": "git@github.com:i-novus-llc/n2o-framework.git",

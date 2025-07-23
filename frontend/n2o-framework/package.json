@@ -2,7 +2,7 @@
   "name": "n2o-framework",
   "version": "7.28.3",
   "description": "N2O React",
-  "homepage": "https://n2oapp.net/",
+  "homepage": "https://n2o.i-novus.ru/",
   "engines": {
     "node": "20.x || 22.x"
   },

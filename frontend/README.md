@@ -18,7 +18,7 @@
 ## Запуск frontend N2O-demo
 
 Чтобы запустить frontend N2O-demo, выполните шаги из [Запуск frontend N2O-стенда](#randomstand), используя URL на стенд которого нужно проксироваться, например:
->  https://n2oapp.net/demo/
+>  https://next-n2o.i-novus.ru/demo/
 
 ## Запуск frontend N2O-sandbox
 
