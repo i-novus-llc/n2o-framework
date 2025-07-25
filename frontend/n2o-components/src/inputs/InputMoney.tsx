@@ -4,6 +4,8 @@ import { useMaskito } from '@maskito/react'
 import { maskitoNumberOptionsGenerator } from '@maskito/kit'
 import { maskitoTransform } from '@maskito/core'
 
+import { removeTrailingExclusions } from './utils'
+
 export interface InputMoneyProps {
     allowDecimal?: boolean
     allowNegative?: boolean
@@ -21,12 +23,6 @@ export interface InputMoneyProps {
     onBlur?(value: string | null): void
 }
 
-const cleanValueFromSuffix = (value: string, suffix?: string): string => {
-    if (!value) { return value }
-
-    return value.replace(new RegExp(`${suffix}$`), '').trim()
-}
-
 export function InputMoney({
     className,
     value: defaultValue,
@@ -38,7 +34,7 @@ export function InputMoney({
     decimalLimit = 2,
     integerLimit = 15,
     decimalSymbol = ',',
-    thousandsSeparatorSymbol = '.',
+    thousandsSeparatorSymbol,
     prefix = '',
     suffix = ' руб.',
     allowDecimal = true,
@@ -68,13 +64,25 @@ export function InputMoney({
             return
         }
 
-        onChange?.(cleanValueFromSuffix(maskedValue, suffix) || null)
+        onChange?.(removeTrailingExclusions(maskedValue, [suffix]) || null)
     }
 
     const handleBlur = (e: FocusEvent<HTMLInputElement>): void => {
         const { value: targetValue } = e.target
 
-        onBlur?.(cleanValueFromSuffix(targetValue, suffix) || null)
+        const input = removeTrailingExclusions(targetValue, [suffix])
+
+        // @INFO maskito не удаляет decimalSymbol в конце value
+        if (input.endsWith(decimalSymbol)) {
+            const cleanedInput = removeTrailingExclusions(input, [decimalSymbol])
+
+            onChange?.(cleanedInput || null)
+            onBlur?.(cleanedInput || null)
+
+            return
+        }
+
+        onBlur?.(input || null)
     }
 
     return (
