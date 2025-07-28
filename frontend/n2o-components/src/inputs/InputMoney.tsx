@@ -2,9 +2,9 @@ import React, { ChangeEvent, FocusEvent } from 'react'
 import classNames from 'classnames'
 import { useMaskito } from '@maskito/react'
 import { maskitoNumberOptionsGenerator } from '@maskito/kit'
-import { maskitoTransform } from '@maskito/core'
+import { type MaskitoOptions, maskitoTransform } from '@maskito/core'
 
-import { removeTrailingExclusions } from './utils'
+import { removeTrailingExclusions, formatNumber } from './utils'
 
 export interface InputMoneyProps {
     allowDecimal?: boolean
@@ -18,9 +18,27 @@ export interface InputMoneyProps {
     requireDecimal?: boolean
     suffix?: string
     thousandsSeparatorSymbol?: string
-    value?: string
+    value?: string | number | null | undefined
     onChange?(value: string | null): void
     onBlur?(value: string | null): void
+}
+
+/**
+ * Преобразует значение по умолчанию для денежного поля ввода:
+ * - Пустое значение → пустая строка
+ * - Строка → применяет форматирование maskitoTransform
+ * - Число → форматирует через formatNumber + maskitoTransform
+ */
+function getDefaultValue(
+    defaultValue: InputMoneyProps['value'],
+    decimalLimit: InputMoneyProps['decimalLimit'],
+    options: MaskitoOptions,
+) {
+    if (!defaultValue) { return '' }
+
+    if (typeof defaultValue === 'string') { return maskitoTransform(defaultValue, options) }
+
+    return maskitoTransform(formatNumber(defaultValue, decimalLimit), options)
 }
 
 export function InputMoney({
@@ -50,7 +68,8 @@ export function InputMoney({
     })
 
     const maskRef = useMaskito({ options })
-    const value = defaultValue ? maskitoTransform(String(defaultValue), options) : ''
+
+    const value = getDefaultValue(defaultValue, decimalLimit, options)
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { value: maskedValue } = e.target
