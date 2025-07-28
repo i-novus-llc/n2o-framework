@@ -3410,6 +3410,9 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^6.4.2
     "@fortawesome/react-fontawesome": ^0.2.0
     "@i-novus/eslint-config": ^1.0.19
+    "@maskito/core": 3.8.0
+    "@maskito/kit": 3.8.0
+    "@maskito/react": 3.8.0
     "@types/classnames": ^2.3.1
     "@types/dompurify": 3.0.2
     "@types/draftjs-to-html": 0.8.1
@@ -3868,6 +3871,33 @@ __metadata:
   bin:
     npm-publish: bin/npm-publish.js
   checksum: dbd35cbfef34ed6c96d715509ad7883eb4b71b5781c1c3442e01b7a7f8971bb4cc276a3a66de8e75513ed8225f6522da59e755d9f1ee2db081bae239153081c0
+  languageName: node
+  linkType: hard
+
+"@maskito/core@npm:3.8.0":
+  version: 3.8.0
+  resolution: "@maskito/core@npm:3.8.0"
+  checksum: 236e8a25a12913ccc1cf73e0ed2c3dbda6827f1339e53a9660070754b146db874eb91b003b27a0221086b9465265a886418a44eeda3ace320f4dbd9e502c6252
+  languageName: node
+  linkType: hard
+
+"@maskito/kit@npm:3.8.0":
+  version: 3.8.0
+  resolution: "@maskito/kit@npm:3.8.0"
+  peerDependencies:
+    "@maskito/core": ^3.8.0
+  checksum: a5ba4bb0fb86c6eb92718a6f1f2c936238b2f18dd20b82087c4724b095eb046687dd18e97ef7d7bd13191cced7fb29d8f752ba2a3ef7183c90fe301c765ccc60
+  languageName: node
+  linkType: hard
+
+"@maskito/react@npm:3.8.0":
+  version: 3.8.0
+  resolution: "@maskito/react@npm:3.8.0"
+  peerDependencies:
+    "@maskito/core": ^3.8.0
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: ec3c000e62cfcda6637b4e855ef3bcd662daa52a8299726788c2f70add68807703070ee73cf0c77cf1d778c2fa8f92e362d855d5a9638bf114b4bf52bfea3705
   languageName: node
   linkType: hard
 
