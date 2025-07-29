@@ -1,8 +1,8 @@
 package net.n2oapp.framework.autotest.action;
 
-import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -72,6 +72,7 @@ class AnchorActionAT extends AutoTestBase {
         setResourcePath("net/n2oapp/framework/autotest/action/anchor_check_href");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/anchor_check_href/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/anchor_check_href/page.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/anchor_check_href/test.query.xml"));
 
         StandardPage page = open(StandardPage.class);
@@ -89,15 +90,20 @@ class AnchorActionAT extends AutoTestBase {
         formBtn.shouldBeEnabled();
         formBtn.click();
 
-        page.shouldHaveUrlMatches("https://example.com/");
-
-        Selenide.back();
+        StandardPage openPage = N2oSelenide.page(StandardPage.class);
+        openPage.breadcrumb().crumb(1).shouldHaveLabel("Страница, открытая по ссылке");
+        FormWidget openPageForm = openPage.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
+        openPageForm.fields().field("type").control(InputText.class).shouldHaveValue("1");
+        openPage.breadcrumb().crumb(0).click();
 
         StandardButton pageBtn = page.toolbar().topLeft().button("Кнопка тулбара страницы");
         pageBtn.shouldExists();
         pageBtn.shouldBeEnabled();
         pageBtn.click();
 
-        page.shouldHaveUrlMatches("https://example.com/");
+        openPage = N2oSelenide.page(StandardPage.class);
+        openPage.breadcrumb().crumb(1).shouldHaveLabel("Страница, открытая по ссылке");
+        openPageForm = openPage.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
+        openPageForm.fields().field("type").control(InputText.class).shouldHaveValue("1");
     }
 }
