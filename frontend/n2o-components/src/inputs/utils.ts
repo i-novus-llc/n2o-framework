@@ -54,3 +54,34 @@ export const removeTrailingExclusions = (input: string, exclusions: string[] = [
 
     return input.replace(regex, '').trim()
 }
+
+/**
+ * Форматирует число, добавляя нули в дробную часть при необходимости.
+ * Бэк н2о работает со string || number, из за чего могут отсекаться нули
+ * - Для целых чисел возвращает строку без изменений
+ * - Если decimalLimit не указан, возвращает исходное строковое представление
+ * - Если дробная часть короче decimalLimit, дополняет нулями
+ * - При decimalLimit=0 возвращает целую часть
+ */
+export function formatNumber(num: number, decimalLimit?: number): string {
+    const numStr = num.toString()
+
+    if (!numStr.includes('.') || !decimalLimit) {
+        return numStr
+    }
+
+    const [integerPart, decimalPart = ''] = numStr.split('.')
+
+    if (decimalLimit === 0) {
+        return integerPart
+    }
+
+    if (decimalPart.length >= decimalLimit) {
+        return numStr
+    }
+
+    // Дополняем нулями при необходимости
+    const zerosToAdd = '0'.repeat(decimalLimit - decimalPart.length)
+
+    return `${integerPart}.${decimalPart}${zerosToAdd}`
+}
