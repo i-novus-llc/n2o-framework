@@ -6,6 +6,7 @@ include:
       - story.gitlab-ci.yml
       - merge-request.gitlab-ci.yml
       - stable-stand.gitlab-ci.yml
+      - scheduled-checks.gitlab-ci.yml
   - local: 'release-stand.gitlab-ci.yaml'
 
 build:
@@ -57,3 +58,15 @@ deploy stable stand:
     K8S_NAMESPACE: "n2o-framework"
     K8S_INGRESS_HOST: "n2o.i-novus.ru"
     HELM_RELEASE: "n2o-framework-7-29"
+
+scheduled build:
+  variables:
+    MAVEN_EXTRA_BUILD_OPTIONS: '-Pdemo,sandbox'
+
+defectdojo:
+  variables:
+    DEFECTDOJO_SONARQUBE_PROJECT_KEY: 'net.n2oapp.framework:framework'
+
+zap dast:
+  variables:
+    DAST_URI: "https://sandbox-dev.i-novus.ru/"
