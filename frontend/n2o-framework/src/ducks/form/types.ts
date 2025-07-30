@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { ValidationsKey } from '../../core/validation/types'
+import { ValidationResult, ValidationsKey } from '../../core/validation/types'
 import { ModelPrefix } from '../../core/datasource/const'
 
 export enum FieldDependencyTypes {
@@ -33,7 +33,7 @@ export type Field = {
     disabled: boolean
     disabled_field: boolean
     disabled_set: boolean
-    message: string | null
+    message: ValidationResult | null
     filter: unknown // TODO: добавить тип
     dependency: FieldDependency[]
     required: boolean

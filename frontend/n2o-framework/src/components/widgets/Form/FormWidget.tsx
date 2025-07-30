@@ -14,7 +14,7 @@ import { State } from '../../../ducks/State'
 
 import { getFieldsKeys } from './utils'
 import Fieldsets from './fieldsets'
-import ReduxForm from './ReduxForm'
+import { ReduxForm } from './ReduxForm'
 import { type FormWidgetProps } from './types'
 
 const Widget = ({

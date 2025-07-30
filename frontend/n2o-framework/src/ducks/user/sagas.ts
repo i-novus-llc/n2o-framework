@@ -1,8 +1,6 @@
 import { replace } from 'connected-react-router'
 import { call, put, takeEvery, select } from 'redux-saga/effects'
 
-import { FETCH_ERROR } from '../../constants/fetch'
-import { fetchErrorContinue } from '../../actions/fetch'
 import { getAuthUrl } from '../global/selectors'
 import { Action } from '../Action'
 import { AuthProvider } from '../../core/auth/Provider'
@@ -50,33 +48,12 @@ export function* resolveAuth({ provider, authUrl = DEFAULT_AUTH_URL }: Config, {
             yield call(redirectOnUnauthorized, configAuthUrl || authUrl)
 
             break
-        case FETCH_ERROR:
-            try {
-                // @ts-ignore проблема с типизацией saga
-                yield put(fetchErrorContinue())
-            } catch (e) {
-                // @ts-ignore проблема с типизацией saga
-                yield provider.logout()
-                // @ts-ignore проблема с типизацией saga
-                yield call(redirectOnUnauthorized, configAuthUrl || authUrl)
-            }
-
-            break
         default:
             break
     }
 }
 
-export function* callErrorContinue() {
-    yield put(fetchErrorContinue())
-}
-
-export default (config: Config) => {
-    if (!config.provider) { return [takeEvery(FETCH_ERROR, callErrorContinue)] }
-
-    return [
-        // @ts-ignore проблема с типизацией saga
-        takeEvery((action: { meta?: { auth: Config } }) => action?.meta && action.meta.auth, resolveAuth, config),
-        takeEvery(FETCH_ERROR, resolveAuth, config),
-    ]
-}
+export default (config: Config) => ([
+    // @ts-ignore проблема с типизацией saga
+    takeEvery((action: { meta?: { auth: Config } }) => action?.meta && action.meta.auth, resolveAuth, config),
+])

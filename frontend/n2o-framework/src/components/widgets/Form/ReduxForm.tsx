@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux'
 import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
 import { FormProvider } from '../../core/FormProvider'
 
-import ReduxField from './ReduxField'
 import { flatFields, getAutoFocusId } from './utils'
 import { FieldsetContainer as Fieldset } from './Fieldset'
 import { type ReduxFormProps } from './types'
@@ -18,7 +17,7 @@ import { type ReduxFormProps } from './types'
  * @constructor
  */
 
-const ReduxForm: FC<ReduxFormProps> & { Field: JSX.Element } = ({
+export const ReduxForm: FC<ReduxFormProps> = ({
     name: formName,
     datasource,
     fieldsets,
@@ -69,7 +68,3 @@ const ReduxForm: FC<ReduxFormProps> & { Field: JSX.Element } = ({
         </FormProvider>
     )
 }
-
-ReduxForm.Field = ReduxField
-
-export default ReduxForm

@@ -7,6 +7,7 @@ import { RemoveFieldFromArrayAction } from '../models/Actions'
 import { submitSuccess } from '../datasource/store'
 import { ModelPrefix } from '../../core/datasource/const'
 import { successInvoke } from '../../actions/actionImpl'
+import { ValidationResult } from '../../core/validation/types'
 
 import { getDefaultField, getDefaultState } from './FormPlugin'
 import { Form, FormsState } from './types'
@@ -23,6 +24,7 @@ import {
     SetFieldRequiredAction,
     SetFieldTooltipAction,
     SetFieldVisibleAction,
+    SetMessagePayload,
     SetMultiFieldDisabledAction,
     SetMultiFieldVisibleAction,
     TouchFieldsAction,
@@ -362,6 +364,21 @@ export const formSlice = createSlice({
                 state[formName].dirty = data
             },
         },
+
+        setMessage: {
+            prepare(formName: string, fieldName: string, message: ValidationResult | null) {
+                return ({
+                    payload: { formName, fieldName, message },
+                })
+            },
+
+            reducer(state, action: SetMessagePayload) {
+                const { formName, fieldName, message } = action.payload
+                const field = state[formName]?.fields[fieldName]
+
+                if (field) { field.message = message }
+            },
+        },
     },
 
     extraReducers: {
@@ -377,9 +394,13 @@ export const formSlice = createSlice({
             updateDirty(datasource, model, false, state)
         },
         [updateModel.type](state, action) {
-            const { key, prefix } = action.payload
+            const { key: id, prefix, field: fieldName } = action.payload
 
-            updateDirty(key, prefix, true, state)
+            updateDirty(id, prefix, true, state)
+
+            const field = state[id]?.fields[fieldName]
+
+            if (field) { field.message = null }
         },
         [removeFieldFromArray.type](state, action: RemoveFieldFromArrayAction) {
             const { field, start, end, key: datasource, prefix } = action.payload
@@ -456,6 +477,7 @@ export const {
     setFieldRequired,
     setFieldLoading,
     setFieldTooltip,
+    setMessage,
     setMultiFieldVisible,
     setMultiFieldDisabled,
     dangerouslySetFieldValue,

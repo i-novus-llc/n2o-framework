@@ -2,10 +2,6 @@ import { runSaga } from 'redux-saga'
 import fetchMock from 'fetch-mock'
 
 import {
-    FETCH_START,
-    FETCH_END,
-} from '../constants/fetch'
-import {
     START_INVOKE,
     SUCCESS_INVOKE,
 } from '../constants/actionImpls'
@@ -101,9 +97,7 @@ describe('Проверка саги actionsImpl', () => {
         })
 
         await runSaga(fakeStore, handleInvoke, apiProvider, action)
-        expect(dispatched[0].type).toBe(FETCH_START)
-        expect(dispatched[1].type).toBe(SUCCESS_INVOKE)
-        expect(dispatched[2].type).toBe(FETCH_END)
+        expect(dispatched[0].type).toBe(SUCCESS_INVOKE)
     })
 
     it('Проверка генератора validate', async () => {

@@ -72,7 +72,6 @@ export type FieldSetsProps = FieldsetProps[]
 export interface FieldSetColComponentProps {
     col: ColProps
     activeModel: ActiveModel
-    defaultCol: ColumnProps
     colId: string
     autoFocusId?: string
     labelPosition: string
@@ -95,7 +94,6 @@ interface CommonRowProps {
     labelPosition?: string
     labelWidth?: string
     labelAlignment?: string
-    defaultCol?: ColumnProps
     autoFocusId?: string
     modelPrefix: ModelPrefix
     disabled?: boolean

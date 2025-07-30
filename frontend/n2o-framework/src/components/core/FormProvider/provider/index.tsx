@@ -4,8 +4,8 @@ import { useDispatch, useSelector, useStore } from 'react-redux'
 
 import { ModelPrefix } from '../../../../core/datasource/const'
 import { updateModel } from '../../../../ducks/models/store'
-import { handleBlur, handleFocus, register, remove } from '../../../../ducks/form/store'
-import { GetValues, SetBlur, SetFocus, SetValue } from '../types'
+import { handleBlur, handleFocus, register, remove, setMessage } from '../../../../ducks/form/store'
+import { GetValues, SetBlur, SetFocus, SetValue, SetMessage } from '../types'
 import { getModelFieldByPath } from '../../../../ducks/models/selectors'
 import { ValidationsKey } from '../../../../core/validation/types'
 import { makeFormByName } from '../../../../ducks/form/selectors'
@@ -15,6 +15,7 @@ type Methods = {
     setValue: SetValue
     setFocus: SetFocus
     setBlur: SetBlur
+    setMessage: SetMessage
 }
 
 type FormContextType = {
@@ -58,6 +59,9 @@ const FormProvider: FC<FormProviderType> = ({ children, formName, datasource, pr
         },
         setBlur: (fieldName) => {
             dispatch(handleBlur(formName, fieldName))
+        },
+        setMessage: (fieldName, message) => {
+            dispatch(setMessage(formName, fieldName, message))
         },
     }), [dispatch, prefix, formName, datasource])
 
