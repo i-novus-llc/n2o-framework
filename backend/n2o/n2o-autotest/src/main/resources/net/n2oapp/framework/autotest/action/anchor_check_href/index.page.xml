@@ -9,14 +9,19 @@
         <form datasource="ds1">
             <fields>
                 <button label="Кнопка тулбара формы" datasource="ds1" disable-on-empty-model="false">
-                    <a href="{url}"/>
+                    <a href="{url}" target="application"/>
                 </button>
             </fields>
         </form>
     </regions>
     <toolbar place="topLeft">
         <button label="Кнопка тулбара страницы" datasource="ds1" disable-on-empty-model="false">
-            <a href="{url}"/>
+            <a href="{url}" target="application"/>
         </button>
     </toolbar>
+    <actions>
+        <action id="pageLoad">
+            <open-page page-id="page" route="/page"/>
+        </action>
+    </actions>
 </page>
