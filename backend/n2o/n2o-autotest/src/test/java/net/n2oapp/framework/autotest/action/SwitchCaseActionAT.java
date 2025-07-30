@@ -73,7 +73,7 @@ public class SwitchCaseActionAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(2).click();
         button.click();
-        page.shouldHaveUrlMatches("https://example.com/");
+        page.alerts(Alert.Placement.top).alert(0).shouldHaveTitle("Сообщение");
     }
 
     @Test

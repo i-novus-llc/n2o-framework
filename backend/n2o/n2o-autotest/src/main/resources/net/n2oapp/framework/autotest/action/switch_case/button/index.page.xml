@@ -17,7 +17,7 @@
                         <open-page page-id="page2" route="/type2"/>
                     </case>
                     <case value="3">
-                        <a href="https://example.com"/>
+                        <alert title="Сообщение"/>
                     </case>
                 </switch>
             </button>
