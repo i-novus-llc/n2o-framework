@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "url": "https://example.com",
+    "url": "/page?type=1",
     "type": "1"
   }
 ]
