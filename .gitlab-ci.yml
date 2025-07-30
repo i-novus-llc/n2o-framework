@@ -61,7 +61,7 @@ deploy stable stand:
 
 scheduled build:
   variables:
-    MAVEN_EXTRA_BUILD_OPTIONS: '-Pdemo,sandbox'
+    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,demo,sandbox'
 
 defectdojo:
   variables:
