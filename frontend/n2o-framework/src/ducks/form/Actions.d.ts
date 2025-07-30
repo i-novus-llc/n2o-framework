@@ -1,3 +1,4 @@
+import { ValidationResult } from '../../core/validation/types'
 import { Action, Meta } from '../Action'
 
 import { Field, Form } from './types'
@@ -82,4 +83,8 @@ export type SetMultiFieldVisibleAction = FieldsAction<{
 export type SetDirtyPayload = FormAction<{
     formName: string
     data: boolean
+}>
+
+export type SetMessagePayload = FieldAction<{
+    message: ValidationResult | null
 }>

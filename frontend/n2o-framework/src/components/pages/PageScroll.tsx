@@ -114,7 +114,7 @@ export function PageScrollHOC<Props>(Component: ComponentType<Props>) {
 export function useScrollToFirstInvalid(
     scrollRef: Ref,
     id: string,
-    message?: { message?: ValidationResult, validationClass?: string | false },
+    message?: { message?: ValidationResult },
 ) {
     const scrollContext = useContext(PageScrollContext)
     const { collect, remove } = scrollContext

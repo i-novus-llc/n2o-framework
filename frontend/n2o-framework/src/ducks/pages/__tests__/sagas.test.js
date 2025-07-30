@@ -22,7 +22,6 @@ import {
     updateModel,
 } from '../../models/store'
 import { FETCH_PAGE_METADATA } from '../../../core/api'
-import { FETCH_END, FETCH_START } from '../../../constants/fetch'
 import { changeRootPage } from '../../global/store'
 import { destroyOverlay } from '../../overlays/store'
 import {
@@ -300,31 +299,16 @@ describe.skip('Сага для для наблюдения за изменени
 
             await runSaga(fakeStore, getMetadata, undefined, action)
             await delay(200)
-            expect(dispatched[1].type).toBe(FETCH_START)
-            expect(dispatched[1].payload.options.pageUrl).toBe(
-                '/testPage?name=Sergey',
-            )
-            expect(dispatched[2].type).toBe(FETCH_END)
-            expect(dispatched[2].payload).toEqual({
-                fetchType: FETCH_PAGE_METADATA,
-                options: {
-                    pageUrl: '/testPage?name=Sergey',
-                },
-                response: {
-                    id: 'testPage',
-                    widgets: {},
-                },
-            })
-            expect(dispatched[3].type).toBe(changeRootPage.type)
-            expect(dispatched[3].payload).toEqual('testPage')
-            expect(dispatched[4].type).toBe(destroyOverlay.type)
-            expect(dispatched[5].type).toBe(setStatus.type)
-            expect(dispatched[5].payload).toEqual({
+            expect(dispatched[1].type).toBe(changeRootPage.type)
+            expect(dispatched[1].payload).toEqual('testPage')
+            expect(dispatched[2].type).toBe(destroyOverlay.type)
+            expect(dispatched[3].type).toBe(setStatus.type)
+            expect(dispatched[4].payload).toEqual({
                 pageId: 'testPage',
                 status: 200,
             })
-            expect(dispatched[6].type).toBe(metadataSuccess.type)
-            expect(dispatched[6].payload).toEqual({
+            expect(dispatched[4].type).toBe(metadataSuccess.type)
+            expect(dispatched[4].payload).toEqual({
                 pageId: 'testPage',
                 json: {
                     id: 'testPage',

@@ -2,6 +2,7 @@ import { ChangeEvent, useCallback, VFC } from 'react'
 
 import { useFormContext } from '../hooks/useFormContext'
 import { useWatch } from '../hooks/useWatch'
+import { Severity, ValidationResult } from '../../../../core/validation/types'
 
 type HTMLOnEvent = (event: ChangeEvent<HTMLFormElement>) => void
 
@@ -9,16 +10,17 @@ type ControllerType = {
     name: string,
     render(args: {
         field: {
-            onChange: HTMLOnEvent,
-            onBlur: HTMLOnEvent,
-            onFocus: HTMLOnEvent,
+            onChange: HTMLOnEvent
+            onBlur: HTMLOnEvent
+            onFocus: HTMLOnEvent
+            onMessage(reason: Error | ValidationResult | null): void
             value: unknown
         }
     }): JSX.Element
 }
 
 export const Controller: VFC<ControllerType> = ({ render, name }) => {
-    const { setValue, setFocus, setBlur } = useFormContext()
+    const { setValue, setFocus, setBlur, setMessage } = useFormContext()
     const fieldValue = useWatch({ name })
 
     const onChange = useCallback<HTMLOnEvent>((event: ChangeEvent<HTMLFormElement>) => {
@@ -41,8 +43,20 @@ export const Controller: VFC<ControllerType> = ({ render, name }) => {
         setFocus(name)
     }, [name, setFocus])
 
+    const onMessage = useCallback((reason) => {
+        if (!reason) {
+            setMessage(name, null)
+        }
+
+        const message = reason instanceof Error
+            ? { text: reason.message, severity: Severity.danger }
+            : reason
+
+        setMessage(name, message)
+    }, [name, setMessage])
+
     return render({
-        field: { onChange, onBlur, onFocus, value: fieldValue },
+        field: { onChange, onBlur, onFocus, value: fieldValue, onMessage },
     })
 }
 

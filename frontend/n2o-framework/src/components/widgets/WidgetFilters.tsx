@@ -18,7 +18,7 @@ import { dataSourceErrors } from '../../ducks/datasource/selectors'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { flatFields, getFieldsKeys } from './Form/utils'
-import ReduxForm from './Form/ReduxForm'
+import { ReduxForm } from './Form/ReduxForm'
 import { modelLinkMapper } from './helpers'
 import { type FieldSetsProps } from './Form/types'
 

@@ -25,60 +25,23 @@ import { type FieldsetComponentProps, RowProps } from './types'
  * @reactProps {string} childrenLabel - заголовоки дочерних элементов  филдсета
  * @reactProps {array} labelWidth - ширина лейбела - Либо число, либо 'min' - займет минимальное возможное пространство, либо default - 100px
  * @reactProps {array} labelAlignment - выравнивание текста внутри лейбла
- * @reactProps {number} defaultCol
  * @reactProps {number|string} autoFocusId
  * @reactProps {node} component
- * @reactProps {node} children
  * @example
  *
  * //пример структуры rows
  * const rows = [
  *    {
  *      "cols": [
- *        {
- *          "fields": [
- *            {
- *            //...
- *            }
- *          ]
- *        },
- *        {
- *          "fields": [
- *            {
- *            //...
- *            }
- *          ]
- *        },
- *        {
- *          "fields": [
- *            {
- *            //...
- *            }
- *          ]
- *        },
+ *        { "fields": [ { ... } ] },
+ *        { "fields": [ { ... } ] },
+ *        { "fields": [ { ... } ] },
  *      ]
  *    },
  *    {
  *      "cols": [
- *        {
- *          "fieldsets": [
- *            {
- *            "rows": [
- *            //...
- *            ]
- *            }
- *          ]
- *        },
- *        {
- *          "fields": [
- *            {
- *            //...
- *            },
- *            {
- *            //...
- *            }
- *          ]
- *        },
+ *        { "fieldsets": [ { "rows": [ ... ] } ] },
+ *        { "fields": [ { ... }, { ... } ] },
  *      ]
  *    }
  *  ]
@@ -152,7 +115,6 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
     }
 
     calculateAllFields(rows: RowProps[]) {
-        /** @type {{fieldsVisibility: *[], fields: *[]}} */
         const info = { fields: [], fieldsVisibility: [] } as { fields: string[], fieldsVisibility: boolean[] }
 
         each(rows, (row) => {
@@ -183,7 +145,6 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
             labelPosition = 'top-left',
             labelWidth,
             labelAlignment,
-            defaultCol,
             autoFocusId,
             modelPrefix,
             autoSubmit,
@@ -203,7 +164,6 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
                 labelPosition={labelPosition}
                 labelWidth={labelWidth}
                 labelAlignment={labelAlignment}
-                defaultCol={defaultCol}
                 autoFocusId={autoFocusId}
                 form={formName}
                 modelPrefix={modelPrefix}
@@ -221,7 +181,6 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
             className,
             style,
             component: ElementType = 'div',
-            children,
             parentName,
             label,
             description,
@@ -239,10 +198,6 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
 
         const needLabel = !!label && type !== 'line'
         const needDescription = !!description && type !== 'line'
-
-        if (React.Children.count(children)) {
-            return <ElementType>{children}</ElementType>
-        }
 
         const classes = classNames('n2o-fieldset', className, {
             'd-none': !visible,

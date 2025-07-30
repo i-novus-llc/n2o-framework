@@ -14,7 +14,6 @@ import { type FieldSetColComponentProps } from './types'
 function FieldsetColComponent({
     col,
     activeModel,
-    defaultCol,
     colId,
     autoFocusId,
     labelPosition,
@@ -48,7 +47,7 @@ function FieldsetColComponent({
     const { size, className, style, fields, fieldsets } = col
 
     return (
-        <Col xs={size || defaultCol} key={colId} className={className} style={style}>
+        <Col xs={size} key={colId} className={className} style={style}>
             {
                 fields?.map((field, i) => {
                     const autoFocus = field.id && autoFocusId && field.id === autoFocusId

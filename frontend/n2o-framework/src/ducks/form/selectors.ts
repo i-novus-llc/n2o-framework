@@ -1,6 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
 
 import { State } from '../State'
 import { dataSourceFieldError } from '../datasource/selectors'
@@ -48,22 +47,8 @@ export const makeFieldByName = (formName: string, fieldName: string) => createSe
 )
 
 export const makeFieldParam = (formName: string, fieldName: string, key: keyof Field) => createSelector(
-    makeFormByName(formName),
-    (form) => {
-        const { fields } = form
-
-        if (isEmpty(fields)) {
-            return null
-        }
-
-        const field = fields[fieldName]
-
-        if (isEmpty(field)) {
-            return null
-        }
-
-        return field[key]
-    },
+    makeFieldByName(formName, fieldName),
+    field => (field[key]),
 )
 
 /**
@@ -99,8 +84,9 @@ export const isDirtyForm = (formName: string) => createSelector(
 )
 
 export const messageSelector = (datasourceId: string, fieldName: string, modelPrefix: ModelPrefix) => createSelector(
+    makeFieldByName(datasourceId, fieldName),
     dataSourceFieldError(datasourceId, modelPrefix, fieldName),
-    (errors: ValidationResult[] | undefined) => (errors?.[0]),
+    (field: Field, errors: ValidationResult[] | undefined) => (field.message || errors?.[0]),
 )
 
 export const dependencySelector = (formName: string, fieldName: string) => createSelector(

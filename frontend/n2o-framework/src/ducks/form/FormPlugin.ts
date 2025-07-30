@@ -1,6 +1,8 @@
 import { ModelPrefix } from '../../core/datasource/const'
 import { ValidationsKey } from '../../core/validation/types'
 
+import { Field } from './types'
+
 export const getDefaultState = () => ({
     datasource: null,
     dirty: false,
@@ -11,7 +13,7 @@ export const getDefaultState = () => ({
     validationKey: ValidationsKey.Validations,
 })
 
-export const getDefaultField = () => ({
+export const getDefaultField = (): Field => ({
     isInit: false,
     visible: true,
     visible_field: true,
@@ -20,9 +22,10 @@ export const getDefaultField = () => ({
     disabled_field: false,
     disabled_set: false,
     filter: [],
-    dependency: null,
+    dependency: [],
     required: false,
     loading: false,
+    message: null,
     touched: false,
     isActive: false,
 })

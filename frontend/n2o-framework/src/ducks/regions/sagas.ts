@@ -209,8 +209,7 @@ function* validateTabs() {
                     const { resolve, edit } = errors
                     const fieldKeys = Object.keys(fields)
                     const availableFields = fieldKeys.filter(key => fields[key].visible &&
-                        !fields[key].disabled_field &&
-                        !fields[key].disabled_set)
+                        !fields[key].disabled)
 
                     return availableFields.some(key => resolve[key] || edit[key])
                 })

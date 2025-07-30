@@ -3,9 +3,7 @@ import { call } from 'redux-saga/effects'
 import { replace } from 'connected-react-router'
 
 import { USER_LOGIN, USER_LOGOUT } from '../constants'
-import { FETCH_ERROR } from '../../../constants/fetch'
 import { userLoginSuccess, userLogoutSuccess } from '../store'
-import { SECURITY_ERROR } from '../../../core/auth/authTypes'
 import { resolveAuth } from '../sagas'
 
 describe('Проверка саги auth', () => {
@@ -49,35 +47,5 @@ describe('Проверка саги auth', () => {
         )
         expect(dispatched[0]).toEqual(userLogoutSuccess())
         expect(dispatched[1]).toEqual(replace('/n2o/saga/test'))
-    })
-
-    it('resolveAuth должен поймать ошибку запроса', async () => {
-        const authProvider = () => ({ error: true })
-        const gen = resolveAuth(
-            {
-                authProvider,
-            },
-            { type: FETCH_ERROR, payload: { error: 'request error' } },
-        )
-
-        expect(gen.next().value.CALL).toEqual(
-            call(authProvider, SECURITY_ERROR, 'request error').CALL,
-        )
-    })
-
-    it('resolveAuth должен выпасть в исключение', () => {
-        const authProvider = () => {
-            throw new Error()
-        }
-        const gen = resolveAuth(
-            {
-                authProvider,
-            },
-            { type: FETCH_ERROR },
-        )
-
-        gen.next()
-        gen.next()
-        expect(gen.next().value.type).toEqual('CALL')
     })
 })

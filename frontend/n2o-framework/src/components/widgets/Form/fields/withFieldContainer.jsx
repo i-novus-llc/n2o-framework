@@ -20,9 +20,7 @@ import { useScrollToFirstInvalid } from '../../../pages/PageScroll'
 
 import { modifyDependencies, replaceIndex, resolveControlIndexes } from './utils'
 
-const useReduxField = ({ name: fieldName, ...fieldProps }) => {
-    const dispatch = useDispatch()
-    const { formName } = useFormContext()
+const useReduxField = ({ name: fieldName, ...fieldProps }, formName, dispatch) => {
     const field = useSelector(makeFieldByName(formName, fieldName))
 
     useEffect(() => {
@@ -47,14 +45,7 @@ const useReduxField = ({ name: fieldName, ...fieldProps }) => {
     }
 }
 
-const useModel = () => {
-    const { datasource, prefix } = useFormContext()
-
-    return useSelector(getModelByPrefixAndNameSelector(prefix, datasource)) || {}
-}
-const useValidation = (fieldName) => {
-    const { datasource, prefix } = useFormContext()
-
+const useValidation = (datasource, prefix, fieldName) => {
     const message = useSelector(messageSelector(datasource, fieldName, prefix))
 
     return {
@@ -117,15 +108,12 @@ const useResolvedProps = ({ input, meta, model, ...rest }) => {
     }
 }
 
-const useAutosave = (id, dataProvider) => {
-    const { datasource } = useFormContext()
-    const dispatch = useDispatch()
-
+const useAutosave = (datasource, fieldName, dataProvider, dispatch) => {
     useEffect(() => {
         if (datasource && !isEmpty(dataProvider)) {
-            dispatch(setFieldSubmit(datasource, id, dataProvider))
+            dispatch(setFieldSubmit(datasource, fieldName, dataProvider))
         }
-    }, [dispatch, dataProvider, id, datasource])
+    }, [dispatch, dataProvider, fieldName, datasource])
 }
 
 /**
@@ -135,7 +123,9 @@ const useAutosave = (id, dataProvider) => {
  */
 export default (Field) => {
     const FieldContainer = (props) => {
-        const model = useModel()
+        const dispatch = useDispatch()
+        const { datasource, prefix, formName } = useFormContext()
+        const model = useSelector(getModelByPrefixAndNameSelector(prefix, datasource)) || {}
         const withIndex = useParentIndex({
             ...props,
             model,
@@ -158,9 +148,8 @@ export default (Field) => {
             dependency,
             required,
             validation,
-
-        })
-        const message = useValidation(name)
+        }, formName, dispatch)
+        const message = useValidation(datasource, prefix, name)
         const scrollRef = useRef(null)
         const resolved = useResolvedProps({
             ...withIndex,
@@ -169,7 +158,7 @@ export default (Field) => {
         })
 
         useScrollToFirstInvalid(scrollRef, resolved.id, message)
-        useAutosave(resolved.id, resolved.dataProvider)
+        useAutosave(datasource, resolved.id, resolved.dataProvider, dispatch)
 
         return <Field {...resolved} {...message} scrollRef={scrollRef} />
     }

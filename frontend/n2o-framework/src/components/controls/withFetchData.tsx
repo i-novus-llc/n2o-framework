@@ -14,7 +14,6 @@ import cachingStore from '../../utils/cacher'
 import { fetchInputSelectData, FETCH_CONTROL_VALUE } from '../../core/api'
 import { addAlert } from '../../ducks/alerts/store'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
-import { fetchError } from '../../actions/fetch'
 import { WithDataSource } from '../../core/widget/WithDataSource'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
@@ -39,7 +38,6 @@ export interface Props {
     page: number
     count: number
     addAlert(obj: object): void
-    fetchError(obj: Error): void
     fetchData(obj: object): void
     setFilter(obj: object): void
     setRef(): void
@@ -313,7 +311,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
          * @private
          */
         async fetchData(extraParams: Record<string, string> = {}, merge = false, cacheReset = false): Promise<void> {
-            const { dataProvider, fetchError, datasource, searchMinLength } = this.props
+            const { dataProvider, datasource, searchMinLength } = this.props
             const { data, quickSearchParam } = this.state
 
             if (searchMinLength) {
@@ -358,7 +356,6 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 this.setResponseToData(response, merge)
             } catch (err) {
                 await this.setErrorMessage(err as Error)
-                fetchError(err as Error)
             } finally {
                 this.setState({ loading: false })
             }
@@ -404,7 +401,6 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
 
     const mapDispatchToProps = (dispatch: Dispatch) => ({
         addAlert: (message: Alert) => dispatch(addAlert(message.placement || GLOBAL_KEY, message)),
-        fetchError: (error: Error) => dispatch(fetchError(FETCH_CONTROL_VALUE, {}, error)),
     })
 
     // FIXME
