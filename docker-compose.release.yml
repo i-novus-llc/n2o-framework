@@ -4,7 +4,7 @@ services:
   n2o-sandbox:
     image: "${DOCKER_REGISTRY}/n2o/n2o-sandbox:${TAG}"
     environment:
-      - N2O_SANDBOX_URL=https://sandbox.n2oapp.net
+      - N2O_SANDBOX_URL=https://sandbox.i-novus.ru
       - N2O_ENGINE_MONGODB_CONNECTION_URL=${MONGODB_CONNECTION_URL}
       - SPRING_PROFILES_ACTIVE=test
     ports:

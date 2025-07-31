@@ -23,7 +23,7 @@
 ## Запуск frontend N2O-sandbox
 
 Чтобы запустить frontend N2O-sandbox, выполните шаги из [Запуск frontend N2O-стенда](#randomstand), используя URL на стенд которого нужно проксироваться, например:
-> https://sandbox.n2oapp.net/view/PtQCs/
+> https://sandbox.i-novus.ru/view/PtQCs/
 
 >![n2o-sandbox](readme/n2o-sandbox-proxy.png "Настройка setupProxy")
 
