@@ -72,7 +72,10 @@ deploy stable stand:
 
 scheduled build:
   variables:
-    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,demo,sandbox'
+    JDK_VERSION: 'jdk21'
+    NODE_VERSION: 'node22'
+    MAVEN_IMAGE_VERSION: 'v6'
+    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend-build,docs-build,ci-build'
 
 defectdojo:
   variables:
