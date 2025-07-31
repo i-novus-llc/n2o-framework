@@ -75,7 +75,6 @@ scheduled build:
     JDK_VERSION: 'jdk21'
     NODE_VERSION: 'node22'
     MAVEN_IMAGE_VERSION: 'v6'
-    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend-build'
 
 defectdojo:
   variables:
