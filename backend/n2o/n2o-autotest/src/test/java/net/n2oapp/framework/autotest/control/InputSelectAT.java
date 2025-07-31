@@ -536,4 +536,31 @@ class InputSelectAT extends AutoTestBase {
                 "Восьмой", "Девятый", "Десятый", "Одиннадцатый", "Двенадцатый", "Тринадцатый", "Четырнадцатый"
         });
     }
+
+    @Test
+    void testDatasourceListFiltering() {
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/datasource_list_filtering");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/datasource_list_filtering/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/datasource_list_filtering/test.query.xml")
+        );
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        InputSelect inputSelect = simplePage.widget(FormWidget.class).fields().field("items").control(InputSelect.class);
+        inputSelect.openPopup();
+        DropDown dropdown = inputSelect.dropdown();
+
+        dropdown.shouldHaveOptions(4);
+        dropdown.shouldHaveOptions(new String[]{"test1", "test2", "test3", "test4"});
+
+        inputSelect.setValue("2");
+        dropdown.shouldHaveOptions(1);
+        dropdown.shouldHaveOptions(new String[]{"test2"});
+        inputSelect.clear();
+
+        dropdown.shouldHaveOptions(4);
+        dropdown.shouldHaveOptions(new String[]{"test1", "test2", "test3", "test4"});
+    }
 }
