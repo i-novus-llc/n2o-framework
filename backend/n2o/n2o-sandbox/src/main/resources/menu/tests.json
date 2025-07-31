@@ -952,6 +952,10 @@
           "name": "InputSelectAT. testInputSelectWithDatasourceAndScrollDown"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/datasource_list_filtering",
+          "name": "InputSelectAT. testDatasourceListFiltering"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/control/input_text/simple",
           "name": "InputTextAT"
         },

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница для автотеста, проверяющего использование datasource как источника данных для списочных полей">
+    <datasources>
+        <datasource id="itemsDs" query-id="test">
+            <filters>
+                <like datasource="ds" field-id="name" value="{items.name}"/>
+            </filters>
+        </datasource>
+    </datasources>
+
+    <regions>
+        <form>
+            <datasource id="ds"/>
+            <fields>
+                <!-- через datasource -->
+                <input-select datasource="itemsDs" id="items"/>
+            </fields>
+        </form>
+    </regions>
+</page>
