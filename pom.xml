@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>3.2.2</version>
+        <version>3.5.3</version>
     </parent>
 
     <groupId>net.n2oapp.framework</groupId>
@@ -36,7 +36,7 @@
     </scm>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -55,11 +55,9 @@
         <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
         <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
 
-        <lombok.version>1.18.22</lombok.version>
         <allure-junit5.version>2.27.0</allure-junit5.version>
         <selenium.version>4.21.0</selenium.version>
         <h2.version>1.4.200</h2.version>
-        <httpclient5.version>5.3.1</httpclient5.version>
         <webdrivermanager.version>5.8.0</webdrivermanager.version>
 
         <docker.image.tag>${project.version}-${maven.build.timestamp}</docker.image.tag>

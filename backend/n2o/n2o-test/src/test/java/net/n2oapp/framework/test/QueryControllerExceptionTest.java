@@ -114,7 +114,7 @@ class QueryControllerExceptionTest {
         GetDataResponse response = queryController.execute(requestInfo, null);
 
         assertThat(response.getMeta().getAlert().getMessages().size(), is(1));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getText(), is("404 Not Found: [no body]"));
+        assertThat(response.getMeta().getAlert().getMessages().get(0).getText(), is("404 Not Found on GET request for \"http://localhost:8080/data/car/search/findAll\": [no body]"));
         assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().size(), is(1));
         assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0),
                 is("Executed query: http://localhost:8080/data/car/search/findAll"));
