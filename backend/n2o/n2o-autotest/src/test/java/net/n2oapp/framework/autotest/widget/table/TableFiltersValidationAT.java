@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.exceptions.verification.NeverWantedButInvoked;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.verify;
 
 class TableFiltersValidationAT extends AutoTestBase {
 
-    @SpyBean
+    @MockitoSpyBean
     private N2oController controller;
 
     @BeforeAll

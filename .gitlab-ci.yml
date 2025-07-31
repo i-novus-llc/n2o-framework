@@ -11,12 +11,19 @@ include:
 build:
   variables:
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+    JDK_VERSION: 'jdk21'
+    NODE_VERSION: 'node22'
+    MAVEN_IMAGE_VERSION: 'v6'
+
 
 build and verify:
   variables:
     MAVEN_GOAL: 'verify'
     MAVEN_EXTRA_GOAL: 'install:install'
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+    JDK_VERSION: 'jdk21'
+    NODE_VERSION: 'node22'
+    MAVEN_IMAGE_VERSION: 'v6'
   artifacts:
     paths:
       - $CI_PROJECT_DIR/.m2/repository/
@@ -28,6 +35,7 @@ autotesting mr stand:
   variables:
     AUTOTEST_PARAMS: '-Pautotests -o'
     AUTOTEST_MODULE_DIR: './backend/n2o/n2o-autotest'
+    AUTOTEST_IMAGE: 'harbor.i-novus.ru/pipeline/maven-build:jdk21-node22-v6'
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   dependencies:
@@ -37,6 +45,9 @@ autotesting mr stand:
 build story:
   variables:
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+    JDK_VERSION: 'jdk21'
+    NODE_VERSION: 'node22'
+    MAVEN_IMAGE_VERSION: 'v6'
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^story\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
