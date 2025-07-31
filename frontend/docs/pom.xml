@@ -15,7 +15,7 @@
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <sandboxUrl>https://sandbox.n2oapp.net</sandboxUrl>
+        <sandboxUrl>https://sandbox.i-novus.ru</sandboxUrl>
         <n2oSandboxUrl>https://next.n2oapp.net/sandbox</n2oSandboxUrl>
         <n2oVersionUrl>https://next.n2oapp.net/sandbox/n2o/version</n2oVersionUrl>
         <next>https://n2o.i-novus.ru</next>

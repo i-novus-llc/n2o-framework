@@ -16,7 +16,7 @@ springServices:
         memory: 256Mi
         cpu: 10m
     env:
-      N2O_SANDBOX_URL: https://sandbox.n2oapp.net/
+      N2O_SANDBOX_URL: https://sandbox.i-novus.ru/
       SPRING_CONFIG_IMPORT: "consul:"
     replicaCount: 1
     contextPath: sandbox
