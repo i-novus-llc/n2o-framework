@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.control.InputMoneyControl;
+import org.openqa.selenium.Keys;
 
 import java.time.Duration;
 
@@ -43,9 +44,9 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
         SelenideElement input = inputElement();
 
         if (input.exists())
-            should(b ? Condition.empty : Condition.value(value), input, duration);
+            should(b ? Condition.empty : Condition.exactValue(value), input, duration);
         else
-            should(b ? Condition.empty : Condition.text(value), cellInputElement(), duration);
+            should(b ? Condition.empty : Condition.exactText(value), cellInputElement(), duration);
     }
 
     @Override
@@ -57,6 +58,16 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
             input.shouldHave(condition);
         else
             cellInputElement().shouldHave(condition);
+    }
+
+    @Override
+    public void click() {
+        inputElement().click();
+    }
+
+    @Override
+    public void backspace() {
+        inputElement().sendKeys(Keys.BACK_SPACE);
     }
 
     protected SelenideElement cellInputElement() {

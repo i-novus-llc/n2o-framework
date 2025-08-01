@@ -21,4 +21,15 @@ public interface InputMoneyControl extends Control {
      * @param value ожидаемый текст
      */
     void shouldHavePlaceholder(String value);
+
+    /**
+     * Клик по полю
+     */
+    void click();
+
+    /**
+     * Ручная очистка поля ввода
+     * через клавишу backspace
+     */
+    void backspace();
 }
