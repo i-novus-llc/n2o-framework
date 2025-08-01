@@ -5,6 +5,8 @@
             <input-money label="InputMoney" id="money" class="n2o" suffix=" rub" prefix="" thousands-separator=" "
                          decimal-separator=","/>
             <button label="Кнопка" disable-on-empty-model="false"/>
+            <input-money id="money_s" default-value="1200400.00"/>
+            <input-money id="money_d" default-value="1200400.10"/>
         </fields>
     </form>
 </simple-page>
