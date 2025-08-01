@@ -126,7 +126,7 @@ public abstract class StringUtils {
      * @return true - окаймлена, false - не окаймлена
      */
     public static boolean isEscapedString(String text) {
-        return text.startsWith("'") && text.endsWith("'");
+        return text != null && text.length() >= 2 && text.startsWith("'") && text.endsWith("'");
     }
 
     /**
@@ -136,7 +136,9 @@ public abstract class StringUtils {
      * @return Текст без экранированных символов или исходный текст
      */
     public static String unwrapEscapedString(String text) {
-        return isEscapedString(text) ? text.substring(1, text.length() - 1) : text;
+        return isEscapedString(text) && text.length() > 2
+                ? text.substring(1, text.length() - 1)
+                : text;
     }
 
     /**
