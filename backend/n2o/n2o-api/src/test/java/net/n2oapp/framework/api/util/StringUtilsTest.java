@@ -84,6 +84,7 @@ class StringUtilsTest {
         assertThat(StringUtils.unwrapEscapedString("'''text'''"), is("''text''"));
         assertThat(StringUtils.unwrapEscapedString("'123'"), is("123"));
         assertThat(StringUtils.unwrapEscapedString("123"), is("123"));
+        assertThat(StringUtils.unwrapEscapedString("'"), is("'"));
     }
 
     @Test
