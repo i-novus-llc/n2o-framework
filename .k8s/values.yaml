@@ -10,10 +10,10 @@ springServices:
     imageName: n2o/n2o-sandbox
     resources:
       limits:
-        memory: 1Gi
+        memory: 800M
         cpu: 500m
       requests:
-        memory: 256Mi
+        memory: 400M
         cpu: 10m
     env:
       N2O_SANDBOX_URL: https://sandbox.i-novus.ru/
@@ -30,10 +30,10 @@ supportingServices:
     port: 80
     resources:
       limits:
-        memory: 200Mi
+        memory: 200M
         cpu: 200m
       requests:
-        memory: 100Mi
+        memory: 100M
         cpu: 10m
     replicaCount: 1
     ingress:

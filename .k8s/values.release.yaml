@@ -3,19 +3,14 @@ global:
     useDefaultConsul: false
 
 springServices:
-  n2o-sandbox-${FORMATTED_VERSION}:
-    ingress:
-      path: /sandbox
-    env:
-      SPRING_CONFIG_IMPORT: "consul:"
   n2o-test-${FORMATTED_VERSION}:
     imageName: n2o/n2o-sandbox
     resources:
       limits:
-        memory: 512Mi
+        memory: 700M
         cpu: 500m
       requests:
-        memory: 256Mi
+        memory: 350M
         cpu: 10m
     env:
       N2O_SANDBOX_URL: https://sandbox.i-novus.ru/
