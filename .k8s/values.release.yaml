@@ -3,11 +3,6 @@ global:
     useDefaultConsul: false
 
 springServices:
-  n2o-sandbox:
-    ingress:
-      path: /sandbox
-    env:
-      SPRING_CONFIG_IMPORT: "consul:"
   n2o-test:
     imageName: n2o/n2o-sandbox
     resources:

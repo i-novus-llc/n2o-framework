@@ -24,5 +24,3 @@ springServices:
       requests:
         memory: 200M
         cpu: 10m
-    ingress:
-      path: /sandbox

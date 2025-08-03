@@ -16,9 +16,6 @@ springServices:
     contextPath: demo
     ingress:
       path: /demo
-  n2o-sandbox:
-    ingress:
-      path: /sandbox
   n2o-test:
     imageName: n2o/n2o-sandbox
     resources:
