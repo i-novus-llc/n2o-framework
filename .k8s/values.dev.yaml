@@ -7,7 +7,7 @@ springServices:
     imageName: n2o/demo
     resources:
       limits:
-        memory: 1000Mi
+        memory: 1000M
         cpu: 300m
       requests:
         memory: 300M
@@ -16,17 +16,14 @@ springServices:
     contextPath: demo
     ingress:
       path: /demo
-  n2o-sandbox:
-    ingress:
-      path: /sandbox
   n2o-test:
     imageName: n2o/n2o-sandbox
     resources:
       limits:
-        memory: 512Mi
+        memory: 700M
         cpu: 500m
       requests:
-        memory: 300M
+        memory: 350M
         cpu: 10m
     env:
       N2O_SANDBOX_URL: https://sandbox.i-novus.ru/

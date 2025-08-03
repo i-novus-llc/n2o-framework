@@ -1,15 +1,3 @@
 global:
   spring:
     useDefaultConsul: false
-
-springServices:
-  n2o-sandbox:
-    resources:
-      limits:
-        memory: 400M
-        cpu: 300m
-      requests:
-        memory: 100M
-        cpu: 10m
-    ingress:
-      path: /sandbox
