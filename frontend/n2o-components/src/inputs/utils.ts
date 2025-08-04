@@ -81,3 +81,7 @@ export function formatNumber(num: number, decimalLimit?: number): string {
 
     return `${integerPart}.${decimalPart}${zerosToAdd}`
 }
+
+export function replaceChar(inputString: string, from: string, to: string): string {
+    return inputString.split(from).join(to)
+}
