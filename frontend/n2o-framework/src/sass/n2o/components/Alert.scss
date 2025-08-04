@@ -174,9 +174,16 @@
         .n2o-alert-segment__stacktrace-area.visible {
             max-height: 200px;
             opacity: 1;
-            transition: 0.2s;
+            transition: 0.1s;
 
             .n2o-alert-segment__copy-button {
+                width: 25px;
+                height: 25px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                font-weight: bold;
                 padding: 4px 5px;
                 border-radius: 50%;
                 position: fixed;
@@ -190,6 +197,35 @@
                 opacity: 1;
                 box-shadow: 0 26px 58px 0 rgba(0, 0, 0, 0.22), 0 5px 14px 0 rgba(0, 0, 0, 0.18);
                 transition: 0.3s ease;
+            }
+
+            .n2o-alert-segment__copy-button.success {
+                color: $success;
+            }
+
+            .n2o-alert-segment__copy-button.error {
+                color: $danger;
+            }
+
+            .n2o-alert-segment__copy-message {
+                position: fixed;
+                margin-bottom: 10px;
+                max-width: max-content;
+                right: 5%;
+                top: 25%;
+                padding: 1px 3px;
+                border-radius: 3px;
+                font-size: 12px;
+                opacity: 0.85;
+                background-color: #fff;
+            }
+
+            .n2o-alert-segment__copy-message.success {
+                color: $success;
+            }
+
+            .n2o-alert-segment__copy-message.error {
+                color: $danger;
             }
         }
 
