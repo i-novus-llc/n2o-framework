@@ -69,6 +69,5 @@ Widget.displayName = 'CardsWidgetComponent'
 export const CardsWidget = WidgetHOC<CardsWidgetProps>(
     WithActiveModel<CardsWidgetProps>(Widget),
 )
-export default CardsWidget
 
 CardsWidget.displayName = 'CardsWidget'

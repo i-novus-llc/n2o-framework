@@ -40,6 +40,5 @@ Widget.displayName = 'TreeWidgetComponent'
 export const TreeWidget = WidgetHOC<TreeWidgetProps>(
     WithActiveModel<TreeWidgetProps>(Widget),
 )
-export default TreeWidget
 
 TreeWidget.displayName = 'TreeWidget'

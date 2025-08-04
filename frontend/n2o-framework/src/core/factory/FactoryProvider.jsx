@@ -1,7 +1,5 @@
-import React, { Component } from 'react'
+import React, { useState, useMemo, useCallback, lazy, Suspense } from 'react'
 import PropTypes from 'prop-types'
-import first from 'lodash/first'
-import each from 'lodash/each'
 import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
 import isString from 'lodash/isString'
@@ -15,64 +13,61 @@ import { FactoryContext } from './context'
 
 const ignoreList = ['dataProvider', 'action', 'actions']
 
-export class FactoryProvider extends Component {
-    constructor(props) {
-        super(props)
-        this.factories = props.config
-        this.getComponent = this.getComponent.bind(this)
-        this.resolveProps = this.resolveProps.bind(this)
-        this.componentCache = new WeakMap()
-        this.state = {
-            contextMethods: {
-                factories: this.factories,
-                getComponent: this.getComponent,
-                resolveProps: this.resolveProps,
-            },
-        }
-    }
+export const FactoryProvider = ({ config, children }) => {
+    const [factories] = useState(config)
+    const componentCache = useMemo(() => new WeakMap(), [])
 
-    withBoundary = (component = null) => {
-        if (this.componentCache.has(component)) {
-            return this.componentCache.get(component)
+    const withBoundary = useCallback((Component = null) => {
+        if (!Component) { return null }
+
+        if (componentCache.has(Component)) {
+            return componentCache.get(Component)
         }
 
-        const WithErrorBoundary = withErrorBoundary(component)
+        const WithErrorBoundary = withErrorBoundary(Component)
 
-        this.componentCache.set(component, WithErrorBoundary)
+        componentCache.set(Component, WithErrorBoundary)
 
         return WithErrorBoundary
-    }
+    }, [componentCache])
 
-    getComponent(src, level) {
-        if (level && this.factories[level]?.[src]) {
-            return this.withBoundary(this.factories[level][src])
-        }
-        const factories = []
+    const getComponent = useCallback((src, level) => {
+        let module = null
 
-        each(this.factories, (group) => {
-            if (group?.[src]) {
-                const comp = this.withBoundary(group[src])
+        if (level && factories[level]?.[src]) {
+            module = factories[level][src]
+        } else {
+            const factoryGroups = Object.values(factories)
 
-                factories.push(comp)
+            for (let i = 0; i < factoryGroups.length; i += 1) {
+                const group = factoryGroups[i]
+
+                if (group?.[src]) {
+                    module = group[src]
+
+                    break
+                }
             }
-        })
+        }
 
-        return first(factories)
-    }
+        if (!module) { return null }
 
-    resolveProps(
+        return withBoundary(module)
+    }, [factories, withBoundary])
+
+    const resolveProps = useCallback((
         props,
         defaultComponent = NotFoundFactory,
         paramName = 'component',
-    ) {
+    ) => {
         const obj = {}
 
         if (isObject(props)) {
             Object.keys(props).forEach((key) => {
                 if (isObject(props[key]) && !ignoreList.includes(key)) {
-                    obj[key] = this.resolveProps(props[key], defaultComponent, paramName)
+                    obj[key] = resolveProps(props[key], defaultComponent, paramName)
                 } else if (key === 'src') {
-                    obj[paramName] = this.getComponent(props[key], null) || defaultComponent
+                    obj[paramName] = getComponent(props[key], null) || defaultComponent
                 } else {
                     obj[key] = props[key]
                 }
@@ -82,22 +77,23 @@ export class FactoryProvider extends Component {
         }
 
         if (isString(props)) {
-            return this.getComponent(props) || defaultComponent
+            return getComponent(props) || defaultComponent
         }
 
         return props
-    }
+    }, [getComponent])
 
-    render() {
-        const { children } = this.props
-        const { contextMethods } = this.state
+    const contextMethods = useMemo(() => ({
+        factories,
+        getComponent,
+        resolveProps,
+    }), [factories, getComponent, resolveProps])
 
-        return (
-            <FactoryContext.Provider value={contextMethods}>
-                {children}
-            </FactoryContext.Provider>
-        )
-    }
+    return (
+        <FactoryContext.Provider value={contextMethods}>
+            {children}
+        </FactoryContext.Provider>
+    )
 }
 
 FactoryProvider.propTypes = {

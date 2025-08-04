@@ -176,7 +176,7 @@ class N2oBody extends Component<N2OProps, N2OState> {
                 <div ref={forwardedRef}>
                     <ExpressionContext.Provider value={context}>
                         <ErrorHandlersProvider value={handlers} isOnline={isOnline}>
-                            <FactoryProvider config={config} securityBlackList={['actions']}>
+                            <FactoryProvider config={config}>
                                 <Application
                                     i18n={i18n}
                                     localesPreset={defaultLocalesPreset}
