@@ -2,7 +2,7 @@
     "sandboxUrl": "https://sandbox.i-novus.ru",
     "n2oSandboxUrl": "https://next.n2oapp.net/sandbox",
     "n2oVersionUrl": "https://next.n2oapp.net/sandbox/n2o/version",
-    "n2oVersion": "7.27.36-SNAPSHOT",
+    "n2oVersion": "7.27.37-SNAPSHOT",
     "next": "https://n2o.i-novus.ru",
     "docusaurusUrl": "/"
 }

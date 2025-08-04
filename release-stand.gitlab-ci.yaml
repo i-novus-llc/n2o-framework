@@ -25,9 +25,6 @@ build release stand:
 
 deploy release stand:
   extends: .deploy
-  image:
-    name: harbor.i-novus.ru/pipeline/maven-build:jdk17-node18-v5
-    pull_policy: if-not-present
   needs:
     - release version
     - build release stand
@@ -36,8 +33,6 @@ deploy release stand:
     K8S_NAMESPACE: "n2o-release-$FORMATTED_VERSION"
     HELM_RELEASE: "n2o-framework-$FORMATTED_VERSION"
     HELM_OPTIONAL_VALUES: "-f $HELM_CHART_PATH/values.release.yaml --take-ownership"
-  before_script:
-    - mvn initialize
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
   tags: [dev]
