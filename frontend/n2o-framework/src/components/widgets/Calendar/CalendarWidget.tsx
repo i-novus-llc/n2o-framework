@@ -43,6 +43,4 @@ function Widget(props: CalendarWidgetProps) {
 Widget.displayName = 'CalendarWidgetComponent'
 
 export const CalendarWidget = WidgetHOC(WithActiveModel<CalendarWidgetProps>(Widget))
-export default CalendarWidget
-
 CalendarWidget.displayName = 'CalendarWidget'

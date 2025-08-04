@@ -3,48 +3,72 @@ export const CHUNK_PREFIX = 'vendor-'
 
 // Список групп пакетов для manualChunks
 export const VENDORS = {
-    // React и связанные библиотеки
-    'react': ['react-is'],
-    'react-router': ['react-router-dom'],
-    'react-i18n': ['i18next', 'react-i18next'],
-    'react-redux': ['@reduxjs/toolkit', 'redux-actions'],
-    'react-utils': [
+    'react': [
+        'react',
+        'react-dom',
+        'react-router-dom',
+        'history',
+        'react-helmet',
+        'i18next',
+        'react-i18next',
+        'prop-types',
+    ],
+    'redux': [
+        'redux',
+        'redux-thunk',
+        'redux-saga',
+        'connected-react-router',
+        'react-redux',
+        '@reduxjs/toolkit',
+        'redux-actions',
+    ],
+    'core-utils': [
+        'dayjs',
+        'classnames',
+        'numeral',
+        'tslib',
+        'url-parse',
+        'query-string',
+        'deepmerge',
+        'lodash',
+        /* 
+         * Костыли:
+         * Не прямая зависимость,но если не указать явно в отдельный модуль,
+         * то rollup подмешивает их в бандлы, которые мы хотим тянуть лениво, а получаем на старте приложения
+         */ 
+        'lodash.get',
+        'lodash.isequal',
+        '@babel/runtime',
+    ],
+
+    // Зависимости, от которых нужно со временем избавиться
+    'deprecated': [
+        'moment',
+        'axios',
+        'flat',
+    ],
+
+    // UI компоненты
+    'ui-libs': [
         'react-copy-to-clipboard',
         'react-textarea-autosize',
         'scroll-into-view-if-needed',
         'react-onclickoutside',
         'react-resize-detector',
-        'react-hotkeys'
-    ],
-
-    // UI компоненты
-    'reactstrap': ['reactstrap'],
-    'recharts': ['recharts'],
-    'rc-components': [
+        'react-hotkeys',
+        'react-popper',
         'rc-slider',
         'rc-tree-select',
         'rc-tree',
         'rc-collapse',
         'rc-drawer',
         'rc-switch',
+        'reactstrap',
+        'react-virtualized',
+        '@maskito/core',
+        '@maskito/kit',
+        '@maskito/react',
     ],
-    'react-big-calendar': ['react-big-calendar'],
-    'react-virtualized': ['react-virtualized'],
-
-    // Редакторы
-    'code-editor': ['react-ace', 'brace'],
-    'rich-text-editor': [
-        'react-draft-wysiwyg',
-        'draft-js',
-        'draftjs-to-html',
-        'html-to-draftjs'
-    ],
-
-    // Тяжелые утилиты, сборка отдельными chunks для уменьшения размера misc
-    'date': ['dayjs', 'moment'],
-    'lodash': ['lodash', 'lodash-es', 'lodash.isequal', 'lodash.get', 'lodash.isobject', 'lodash.isboolean', 'lodash.isequalwith'],
-    'axios': ['axios'],
-    'syntax': ['react-syntax-highlighter'],
     'font-awesome': [
         'font-awesome',
         '@fortawesome/fontawesome-svg-core',
@@ -52,16 +76,45 @@ export const VENDORS = {
         '@fortawesome/react-fontawesome',
         '@fortawesome/fontawesome-free'
     ],
-    'refractor': ['refractor'],
-    'ace-builds': ['ace-builds'],
-    'parse5': ['parse5'],
-    'stompjs': ['stompjs'],
-    'sockjs': ['sockjs'],
-    'babel': ['babel'],
-    'd3': ['d3'],
+
+    // lazy load
+    'code-editor': [
+        'react-ace',
+        'brace',
+    ],
+    'text-editor': [
+        'react-draft-wysiwyg',
+        'draft-js',
+        'draftjs-to-html',
+        'html-to-draftjs'
+    ],
+    'markdown': [
+        'remark-gfm',
+        'rehype-raw',
+        'react-markdown',
+    ],
+    'highlighter': [
+        'react-syntax-highlighter',
+        'refractor',
+    ],
+    'recharts': ['recharts'],
+    // 'calendar': ['react-big-calendar'],
+    'stompjs': [
+        'stompjs',
+        'sockjs-client',
+    ],
 };
 
-export function getPackageName(id: string) {
-    const match = id.match(/[\\/]node_modules[\\/](@[^\\/]+\/[^\\/]+|[^\\/]+)/)
-    return match ? match[1] : ''
+// List of modules that rollup sometimes bundles with manual chunks, causing those chunks to be eager-loaded
+export const ROLLUP_COMMON_MODULES = [
+    'vite/preload-helper',
+    'vite/modulepreload-polyfill',
+    'vite/dynamic-import-helper',
+    'commonjsHelpers',
+    'commonjs-dynamic-modules',
+    '__vite-browser-external'
+];
+
+export function getModuleName(id: string) {
+    return id.split('\/node_modules\/')[1] || ''
 }

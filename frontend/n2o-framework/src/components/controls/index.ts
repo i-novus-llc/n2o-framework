@@ -1,6 +1,4 @@
 import { CheckboxControl as Checkbox } from '@i-novus/n2o-components/lib/inputs/Checkbox/CheckboxControl'
-import { CodeEditor } from '@i-novus/n2o-components/lib/inputs/CodeEditor'
-import { CodeViewer } from '@i-novus/n2o-components/lib/display/CodeViewer'
 import { DateInterval } from '@i-novus/n2o-components/lib/inputs/DatePicker/DateInterval'
 import { DatePicker } from '@i-novus/n2o-components/lib/inputs/DatePicker/DatePicker'
 import { InputText } from '@i-novus/n2o-components/lib/inputs/InputText'
@@ -15,8 +13,9 @@ import { ProgressControl } from '@i-novus/n2o-components/lib/display/ProgressCon
 import { Slider } from '@i-novus/n2o-components/lib/display/Slider'
 import { Switch } from '@i-novus/n2o-components/lib/inputs/Switch'
 import { TextArea } from '@i-novus/n2o-components/lib/inputs/TextArea'
-import { TextEditor } from '@i-novus/n2o-components/lib/inputs/TextEditor'
 import { TimePicker } from '@i-novus/n2o-components/lib/inputs/TimePicker'
+
+import { defineAsync } from '../../core/factory/defineAsync'
 
 import { Html } from './Html/Html'
 import { InputHidden } from './InputHidden/InputHidden'
@@ -39,8 +38,10 @@ export default {
     DateInterval,
     PasswordInput,
     CheckboxGroup,
-    CodeEditor,
-    CodeViewer,
+    CodeEditor: defineAsync(() => import('@i-novus/n2o-components/lib/inputs/CodeEditor')
+        .then(({ CodeEditor }) => CodeEditor)),
+    CodeViewer: defineAsync(() => import('@i-novus/n2o-components/lib/display/CodeViewer')
+        .then(({ CodeViewer }) => CodeViewer)),
     Html,
     InputMask,
     InputNumber,
@@ -48,7 +49,8 @@ export default {
     InputSelectTree: InputSelectTreeContainer,
     N2OSelect: N2OSelectContainer,
     RadioGroup,
-    TextEditor,
+    TextEditor: defineAsync(() => import('@i-novus/n2o-components/lib/inputs/TextEditor')
+        .then(({ TextEditor }) => TextEditor)),
     TextArea,
     InputHidden,
     ButtonUploader,

@@ -249,7 +249,6 @@ Widget.displayName = 'AdvancedTableComponent'
 export const AdvancedTableWidget = WidgetHOC<AdvancedTableWidgetProps>(
     TableSettingsObserver(WithTableProps<AdvancedTableWidgetProps>(Widget)),
 )
-export default AdvancedTableWidget
 
 AdvancedTableWidget.displayName = 'AdvancedTableWidget'
 

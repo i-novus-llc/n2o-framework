@@ -5,9 +5,8 @@ import { config as dotenv } from 'dotenv'
 import viteSvgr from 'vite-plugin-svgr'
 import path from 'path'
 
-
 import { proxy } from './setupProxy'
-import { CHUNK_PREFIX, VENDORS, getPackageName } from "./vendors";
+import { CHUNK_PREFIX, ROLLUP_COMMON_MODULES, VENDORS, getModuleName } from "./vendors";
 
 export default defineConfig(({ mode }) => {
     const { parsed = {} } = dotenv();
@@ -32,27 +31,25 @@ export default defineConfig(({ mode }) => {
                     entryFileNames: isProduction ? 'index-[hash].js' : 'index.js',
                     chunkFileNames: 'assets/[name]-[hash].js',
                     assetFileNames: 'assets/[name]-[hash][extname]',
-                    manualChunks: (id, meta) => {
+                    manualChunks: (id) => {     
+                        if(ROLLUP_COMMON_MODULES.some((commonModule) => id.includes(commonModule))) {
+                            return 'rollup'
+                        }                   
                         if (id.includes('node_modules')) {
-                            const packageName = getPackageName(id);
+                            const moduleName = getModuleName(id)
 
-                            // Поиск пакета в группах
-                            for (const [vendorName, packages] of Object.entries(VENDORS)) {
-                                if (packages.includes(packageName)) return `${CHUNK_PREFIX}${vendorName}`;
+                            if (moduleName) {
+                                for (const [vendorName, packages] of Object.entries(VENDORS)) {
+                                    if (packages.some((packageName) => moduleName.startsWith(`${packageName}/`))) {
+                                        return `${CHUNK_PREFIX}${vendorName}`
+                                    }
+                                }
                             }
-
-                            // Специальные случаи (объединения пакетов)
-                            if (packageName.includes('sockjs')) return `${CHUNK_PREFIX}sockjs`;
-                            if (packageName.includes('babel')) return `${CHUNK_PREFIX}babel`;
-                            if (packageName.includes('d3')) return `${CHUNK_PREFIX}d3`;
-
-                            // Все остальное
-                            return 'vendor-misc';
                         }
 
-                        if (id.includes('n2o-framework/lib/')) return `${CHUNK_PREFIX}n2o-framework`;
-                        if (id.includes('n2o-components/lib/')) return `${CHUNK_PREFIX}n2o-components`;
-                    }},
+                        // TODO: Спаковать н2о в отдельный файл, не задев при этом динамически загружаемые модули. Актуально для прикладных тем
+                    }
+                },
             },
             // transpile all dependencies to es modules as vite can't handle commonjs module types
             commonjsOptions: {

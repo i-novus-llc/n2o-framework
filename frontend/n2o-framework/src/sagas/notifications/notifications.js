@@ -1,5 +1,3 @@
-import SockJS from 'sockjs-client'
-import Stomp from 'stompjs'
 import { eventChannel } from 'redux-saga'
 import { take, call, fork, select, put, takeEvery } from 'redux-saga/effects'
 import get from 'lodash/get'
@@ -96,7 +94,9 @@ function* connectionWS() {
     const { wsPrefix } = menu
 
     if (wsPrefix) {
+        const SockJS = yield import('sockjs-client')
         const socket = yield new SockJS(wsPrefix)
+        const Stomp = yield import('stompjs')
 
         return Stomp.over(socket)
     }

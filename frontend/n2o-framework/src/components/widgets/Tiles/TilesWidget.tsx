@@ -81,6 +81,5 @@ Widget.displayName = 'TilesWidgetComponent'
 export const TilesWidget = WidgetHOC<TilesWidgetProps>(
     WithActiveModel<TilesWidgetProps>(Widget),
 )
-export default TilesWidget
 
 TilesWidget.displayName = 'TilesWidget'

@@ -79,6 +79,5 @@ function Widget({
 Widget.displayName = 'ChartWidgetComponent'
 
 export const ChartWidget = WidgetHOC(Widget)
-export default ChartWidget
 
 ChartWidget.displayName = 'ChartWidget'

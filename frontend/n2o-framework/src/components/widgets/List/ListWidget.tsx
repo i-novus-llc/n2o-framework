@@ -103,6 +103,5 @@ Widget.displayName = 'ListWidgetComponent'
 export const ListWidget = WidgetHOC<ListWidgetProps>(
     WithActiveModel<ListWidgetProps>(Widget),
 )
-export default ListWidget
 
 ListWidget.displayName = 'ListWidget'

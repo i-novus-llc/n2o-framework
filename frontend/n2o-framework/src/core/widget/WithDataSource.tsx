@@ -60,8 +60,10 @@ export const WithDatasourceLifeCycle = <P extends object>(Component: ComponentTy
                 }
             } else if (visible !== prevVisible) {
                 this.switchRegistration(visible)
-
                 if (fetchOnVisibility) {
+                    // TableAT.fetchOnVisibilityTest
+                    // https://sandbox-dev.i-novus.ru/editor/3tghM/?stand=https://next-n2o.i-novus.ru/tests/
+                    // не выполняется fetch из за указанного fetchOnVisibility = false
                     this.fetchData()
                 }
             }
