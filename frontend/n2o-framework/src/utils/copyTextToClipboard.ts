@@ -1,11 +1,26 @@
-export async function copyTextToClipboard(text?: string | null) {
+import { logger } from '../core/utils/logger'
+
+export enum CopyMessage {
+    Empty = 'Текст для копирования отсутствует',
+    Success = 'Текст скопирован в буфер',
+    Error = 'Не удалось скопировать текст',
+}
+
+export async function copyTextToClipboard(text?: string | null): Promise<boolean> {
+    if (!text) {
+        logger.warn(CopyMessage.Empty)
+
+        return false
+    }
+
     try {
-        if (text) {
-            await navigator.clipboard.writeText(text)
-            // eslint-disable-next-line no-console
-            console.log('Текст успешно скопирован в буфер обмена.')
-        }
+        await navigator.clipboard.writeText(text)
+        logger.log(CopyMessage.Success)
+
+        return true
     } catch (error) {
-        console.error('Не удалось скопировать текст:', error)
+        logger.error(`${CopyMessage.Empty}: ${error}`)
+
+        return false
     }
 }
