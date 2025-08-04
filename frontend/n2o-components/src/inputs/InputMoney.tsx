@@ -4,7 +4,10 @@ import { useMaskito } from '@maskito/react'
 import { maskitoNumberOptionsGenerator } from '@maskito/kit'
 import { type MaskitoOptions, maskitoTransform } from '@maskito/core'
 
-import { removeTrailingExclusions, formatNumber } from './utils'
+import { removeTrailingExclusions, formatNumber, replaceChar } from './utils'
+
+/** символ с которым хранится float в хранилище после изменения */
+export const STORE_DECIMAL_SYMBOL = '.'
 
 export interface InputMoneyProps {
     allowDecimal?: boolean
@@ -83,7 +86,10 @@ export function InputMoney({
             return
         }
 
-        onChange?.(removeTrailingExclusions(maskedValue, [suffix]) || null)
+        const cleanedInput = removeTrailingExclusions(maskedValue, [suffix])
+        const value = replaceChar(cleanedInput, decimalSymbol, STORE_DECIMAL_SYMBOL)
+
+        onChange?.(value || null)
     }
 
     const handleBlur = (e: FocusEvent<HTMLInputElement>): void => {
@@ -101,7 +107,9 @@ export function InputMoney({
             return
         }
 
-        onBlur?.(input || null)
+        const value = replaceChar(input, decimalSymbol, STORE_DECIMAL_SYMBOL)
+
+        onBlur?.(value || null)
     }
 
     return (
