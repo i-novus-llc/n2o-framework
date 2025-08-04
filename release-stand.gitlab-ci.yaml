@@ -25,6 +25,9 @@ build release stand:
 
 deploy release stand:
   extends: .deploy
+  image:
+    name: harbor.i-novus.ru/pipeline/maven-build:jdk17-node18-v5
+    pull_policy: if-not-present
   needs:
     - release version
     - build release stand
@@ -33,6 +36,11 @@ deploy release stand:
     K8S_NAMESPACE: "n2o-release-$FORMATTED_VERSION"
     HELM_RELEASE: "n2o-framework-$FORMATTED_VERSION"
     HELM_OPTIONAL_VALUES: "-f $HELM_CHART_PATH/values.release.yaml --take-ownership"
+  before_script:
+    - mvn initialize
+    - kubectl create namespace $K8S_NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
+    - kubectl create secret generic common-image-pull-secret --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson --dry-run=client -o yaml -n $K8S_NAMESPACE | kubectl apply -n $K8S_NAMESPACE -f -
+    - 'kubectl patch serviceaccount default -p "{\"imagePullSecrets\": [{\"name\": \"common-image-pull-secret\"}]}" -n $K8S_NAMESPACE'
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^release\/.+/ && $CI_PIPELINE_SOURCE == 'web'
   tags: [dev]
