@@ -8,9 +8,6 @@ include:
       - stable-stand.gitlab-ci.yml
   - local: 'release-stand.gitlab-ci.yaml'
 
-variables:
-  HELM_CHART_PATH: './.k8s'
-
 build:
   variables:
     MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
@@ -23,7 +20,6 @@ build and verify:
   artifacts:
     paths:
       - $CI_PROJECT_DIR/.m2/repository/
-      - $CI_PROJECT_DIR/.k8s/target
     expire_in: 1 day
   cache: []
 
@@ -52,18 +48,7 @@ deploy story stand:
     - if: $CI_COMMIT_REF_NAME =~ /^story\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
 deploy stable stand:
-  image:
-    name: harbor.i-novus.ru/pipeline/maven-build:jdk17-node18-v5
-    pull_policy: if-not-present
   variables:
     K8S_NAMESPACE: "n2o-framework"
     K8S_INGRESS_HOST: "7-27-n2o.i-novus.ru"
     HELM_RELEASE: "n2o-framework-7-27"
-  before_script:
-    - mvn initialize
-    - '[ -n "$EXT_HELM_CFG_GIT_REPO_URL" ] && git clone $EXT_HELM_CFG_GIT_REPO_URL .extconfig
-     && cp -r .extconfig/$EXT_HELM_CHART_PATH* $HELM_CHART_PATH'
-    - '[ -n "$DOCKER_AUTH_CONFIG" ] && mkdir -p ~/.docker; echo $DOCKER_AUTH_CONFIG
-     > ~/.docker/config.json'
-    - export HELM_CHART_NAME=$(grep '^name:' $HELM_CHART_PATH/Chart.yaml | awk '{print
-      $2}')

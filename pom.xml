@@ -188,28 +188,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.5.0</version>
-                <executions>
-                    <execution>
-                        <inherited>false</inherited>
-                        <id>kube-release</id>
-                        <goals>
-                            <goal>regex-property</goal>
-                        </goals>
-                        <phase>validate</phase>
-                        <configuration>
-                            <name>FORMATTED_VERSION</name>
-                            <value>${project.version}</value>
-                            <regex>^(\d+)\.(\d+).*</regex>
-                            <replacement>$1-$2</replacement>
-                            <failIfNoMatch>true</failIfNoMatch>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.3.1</version>
                 <inherited>false</inherited>
