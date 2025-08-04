@@ -9,7 +9,7 @@ include:
   - local: 'release-stand.gitlab-ci.yaml'
 
 variables:
-  HELM_CHART_PATH: './.k8s/target'
+  HELM_CHART_PATH: './.k8s'
 
 build:
   variables:
