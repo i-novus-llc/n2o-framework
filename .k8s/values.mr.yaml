@@ -3,7 +3,7 @@ global:
     useDefaultConsul: false
 
 springServices:
-  demo:
+  demo-7-28:
     imageName: n2o/demo
     resources:
       limits:
@@ -16,7 +16,7 @@ springServices:
     contextPath: demo
     ingress:
       path: /demo
-  n2o-sandbox:
+  n2o-sandbox-7-28:
     resources:
       limits:
         memory: 400M

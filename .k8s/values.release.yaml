@@ -3,7 +3,7 @@ global:
     useDefaultConsul: false
 
 springServices:
-  n2o-test:
+  n2o-test-7-28:
     imageName: n2o/n2o-sandbox
     resources:
       limits:
