@@ -50,14 +50,14 @@ build story:
     NODE_VERSION: 'node22'
     MAVEN_IMAGE_VERSION: 'v6'
   rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^story\/.+/ && $CI_PIPELINE_SOURCE == 'web'
+    - if: $CI_COMMIT_REF_NAME =~ /^(fix|sub|story)\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
 cleanup:
   dependencies: []
 
 deploy story stand:
   rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^story\/.+/ && $CI_PIPELINE_SOURCE == 'web'
+    - if: $CI_COMMIT_REF_NAME =~ /^(fix|sub|story)\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
 deploy dev stand:
   variables:
