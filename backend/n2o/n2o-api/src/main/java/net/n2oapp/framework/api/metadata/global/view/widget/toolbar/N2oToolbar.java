@@ -25,11 +25,6 @@ public class N2oToolbar implements Source, GroupItems<ToolbarItem>, DatasourceId
     private String targetWidgetId;
     private String datasourceId;
 
-    /**
-     * Признак того, что тулбар сгенерирован для выпадающего меню
-     */
-    private boolean isGeneratedForSubMenu;
-
     public N2oToolbar(String[] generate, ToolbarItem[] items) {
         this.generate = generate;
         this.items = items;

@@ -31,6 +31,10 @@ public abstract class BaseColumn extends AbstractColumn implements JsonPropertie
     @JsonProperty
     private Object visible;
     @JsonProperty
+    private Boolean enabled;
+    @JsonProperty
+    private Boolean visibleState;
+    @JsonProperty
     private ColumnFixedPositionEnum fixed;
     @JsonProperty
     private Map<ValidationTypeEnum, List<Condition>> conditions = new EnumMap<>(ValidationTypeEnum.class);

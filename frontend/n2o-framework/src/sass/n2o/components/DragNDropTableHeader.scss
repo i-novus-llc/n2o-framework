@@ -10,7 +10,7 @@
 }
 
 .drag-handle {
-    min-width: 25px;
+    min-width: $stub-width;
     text-align: center;
     padding: 5px 10px;
     touch-action: none;
@@ -27,7 +27,7 @@
         display: flex;
 
         .dropdown-item {
-            padding-left: 5px;
+            padding-left: $dropdown-item-with-drag-n-drop-padding-x;
         }
 
         .dropdown-item:focus {
@@ -43,6 +43,10 @@
     .n2o-draggable-header-ghost {
         width: 100% !important;
     }
+}
+
+.menu-drag-wrapper:has(.disabled):hover {
+    background-color: transparent;
 }
 
 .drag-header {

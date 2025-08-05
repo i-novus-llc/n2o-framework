@@ -23,6 +23,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oWordWrapTableSetting;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oGroup;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -40,6 +41,7 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -159,16 +161,17 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         for (N2oAbstractColumn column : source.getColumns()) {
             columns.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes));
             if (column instanceof N2oBaseColumn baseColumn && baseColumn.getSortingDirection() != null) {
-                    String fieldId = castDefault(baseColumn.getSortingFieldId(), baseColumn.getTextFieldId());
-                    if (fieldId == null)
-                        throw new N2oException(String.format("В колонке \"<column>\" c 'id=%s' задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'",
-                                baseColumn.getId()));
-                    sortings.put(RouteUtil.normalizeParam(fieldId),
-                            baseColumn.getSortingDirection().toString().toUpperCase()
-                    );
-                }
+                String fieldId = castDefault(baseColumn.getSortingFieldId(), baseColumn.getTextFieldId());
+                if (fieldId == null)
+                    throw new N2oException(String.format("В колонке \"<column>\" c 'id=%s' задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'",
+                            baseColumn.getId()));
+                sortings.put(RouteUtil.normalizeParam(fieldId),
+                        baseColumn.getSortingDirection().toString().toUpperCase()
+                );
+            }
         }
         component.getHeader().setCells(columns);
+        compileColumnsTableSetting(source.getToolbars(), component.getHeader());
         component.getBody().setCells(cellsScope.getCells());
         if (isNotEmpty(sortings)) {
             passSortingToDatasource(sortings, source, p);
@@ -184,7 +187,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         getDataSourcesScope(p).ifPresent(sc -> sc.get(sourceDatasourceId).setSorting(sortings));
     }
 
-    private AbstractTable.Filter initFilter(Table compiled, N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
+    private AbstractTable.Filter initFilter(Table<?> compiled, N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                             WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
                                             Object... scopes) {
         List<N2oField> searchButtons = new ArrayList<>();
@@ -254,7 +257,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     /**
      * Инициализация встроенного источника данных
      */
-    protected void initInlineFiltersDatasource(Table compiled, N2oTable source, CompileProcessor p) {
+    protected void initInlineFiltersDatasource(Table<?> compiled, N2oTable source, CompileProcessor p) {
         if (source.getFilters() == null || source.getFilters().getDatasourceId() == null && source.getFilters().getDatasource() == null)
             return;
         String datasourceId = source.getFilters().getDatasourceId();
@@ -297,7 +300,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     }
 
     private boolean shouldSaveSettings(S source, CompileProcessor p) {
-        if (!p.resolve(property("n2o.api.widget.table.save_settings"), Boolean.class)) {
+        if (Boolean.FALSE.equals(p.resolve(property("n2o.api.widget.table.save_settings"), Boolean.class))) {
             return false;
         }
         return Arrays.stream(source.getToolbars())
@@ -319,5 +322,87 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         return item instanceof N2oColumnsTableSetting ||
                 item instanceof N2oResizeTableSetting ||
                 item instanceof N2oWordWrapTableSetting;
+    }
+
+    /**
+     * Компилирует настройки колонок таблицы из тулбаров и применяет их к заголовку таблицы.
+     *
+     * @param toolbars Массив тулбаров, содержащих настройки таблицы
+     * @param header   Заголовок таблицы, к которому применяются настройки
+     */
+    private void compileColumnsTableSetting(N2oToolbar[] toolbars, TableWidgetComponent.TableHeader header) {
+        if (toolbars == null) return;
+        Arrays.stream(toolbars)
+                .filter(toolbar -> toolbar.getItems() != null)
+                .flatMap(toolbar -> Arrays.stream(toolbar.getItems()))
+                .map(this::getColumnsTableSetting)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .ifPresent(setting -> applyColumnsTableSettings(header, setting));
+    }
+
+    public N2oColumnsTableSetting getColumnsTableSetting(ToolbarItem toolbarItem) {
+        if (toolbarItem instanceof N2oColumnsTableSetting setting)
+            return setting;
+        if (toolbarItem instanceof N2oGroup group && group.getItems() != null)
+            return Arrays.stream(group.getItems())
+                    .map(this::getColumnsTableSetting).filter(Objects::nonNull).findFirst().orElse(null);
+        if (toolbarItem instanceof N2oSubmenu i && i.getMenuItems() != null)
+            return Arrays.stream(i.getMenuItems())
+                    .map(this::getColumnsTableSetting).filter(Objects::nonNull).findFirst().orElse(null);
+        return null;
+    }
+
+    /**
+     * Применяет настройки видимости и блокировки колонок к заголовку таблицы.
+     *
+     * @param header  Заголовок таблицы для настройки
+     * @param setting Исходная модель с настройками колонок
+     */
+    private static void applyColumnsTableSettings(TableWidgetComponent.TableHeader header, N2oColumnsTableSetting setting) {
+        Set<String> locked = setting.getLocked() != null
+                ? new HashSet<>(Arrays.asList(setting.getLocked()))
+                : new HashSet<>();
+        Set<String> defaultVisible = setting.getDefaultValue() != null
+                ? new HashSet<>(Arrays.asList(setting.getDefaultValue()))
+                : new HashSet<>();
+
+        if (!CollectionUtils.isEmpty(locked) && !CollectionUtils.isEmpty(defaultVisible))
+            defaultVisible.addAll(locked);
+
+        processColumnHierarchy(header.getCells(), locked, defaultVisible);
+    }
+
+    /**
+     * Рекурсивно обрабатывает иерархию колонок, применяя настройки видимости и блокировки.
+     *
+     * @param columns        Список колонок
+     * @param locked         Множество ID заблокированных колонок
+     * @param defaultVisible Множество ID видимых по умолчанию колонок
+     */
+    private static void processColumnHierarchy(List<? extends AbstractColumn> columns, Set<String> locked, Set<String> defaultVisible) {
+        if (columns == null) return;
+        for (AbstractColumn column : columns) {
+            if (column instanceof DndColumn dndColumn)
+                processColumnHierarchy(dndColumn.getChildren(), locked, defaultVisible);
+            else if (column instanceof BaseColumn baseColumn) {
+                boolean enabled = CollectionUtils.isEmpty(locked) || !locked.contains(baseColumn.getId());
+                boolean visibleState = CollectionUtils.isEmpty(defaultVisible) || defaultVisible.contains(baseColumn.getId());
+                applyStatusToHierarchy(baseColumn, enabled, visibleState);
+            }
+        }
+    }
+
+    /**
+     * Применяет статусы блокировки и видимости ко всей иерархии колонок
+     */
+    private static void applyStatusToHierarchy(BaseColumn column, boolean enabled, boolean visibleState) {
+        column.setEnabled(enabled);
+        column.setVisibleState(visibleState);
+        if (column instanceof MultiColumn multiColumn && multiColumn.getChildren() != null) {
+            for (BaseColumn child : multiColumn.getChildren()) {
+                applyStatusToHierarchy(child, enabled, visibleState);
+            }
+        }
     }
 }

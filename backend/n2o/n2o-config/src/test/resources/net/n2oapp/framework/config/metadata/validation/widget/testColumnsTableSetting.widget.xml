@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+       xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0">
+    <columns>
+        <column id="id1"/>
+        <column id="id2"/>
+        <column id="id3"/>
+    </columns>
+    <toolbar>
+        <group>
+            <sub-menu>
+                <ts:columns default-value="id1"/>
+            </sub-menu>
+        </group>
+    </toolbar>
+    <toolbar>
+        <sub-menu>
+            <ts:columns default-value="id2"/>
+        </sub-menu>
+    </toolbar>
+</table>

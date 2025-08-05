@@ -2,25 +2,17 @@ import React from 'react'
 import omit from 'lodash/omit'
 import classNames from 'classnames'
 
-import { type HeaderCell, MOVE_MODE } from '../../../ducks/table/Table'
-import { useTableActions } from '../../Table'
-import { DIRECTION, useDragAndDrop } from '../../widgets/Table/useDragAndDrop'
+import { type HeaderCell, MOVE_MODE } from '../../../../ducks/table/Table'
+import { useTableActions } from '../../../Table'
+import { DIRECTION, useDragAndDrop } from '../../../widgets/Table/useDragAndDrop'
+import { Column } from '../Column'
+import { type DragAndDropMenuProps } from '../types'
 
-import { DropdownItem } from './DropdownItem'
 import { DragHandle } from './DragHandle'
 
 export const DRAG_WRAPPER_CLASS = 'menu-drag-wrapper'
 
-export interface DragAndDropMenuProps {
-    items: HeaderCell[]
-    onClick(columnId: HeaderCell['columnId'], visibleState: HeaderCell['visibleState'], parentId: HeaderCell['parentId']): void
-    lockedColumns: string[]
-    id: string
-    moveMode?: MOVE_MODE
-    ghostContainerId: string
-}
-
-export function DragAndDropMenu({ items, id, onClick, lockedColumns, moveMode, ghostContainerId }: DragAndDropMenuProps) {
+export function DragAndDropColumn({ items, id, onClick, moveMode, ghostContainerId }: DragAndDropMenuProps) {
     const { onHeaderDrop } = useTableActions()
 
     const { onMouseDown, draggingId, draggableAttributes } = useDragAndDrop({
@@ -52,10 +44,9 @@ export function DragAndDropMenu({ items, id, onClick, lockedColumns, moveMode, g
         return (
             <section className={classNames(DRAG_WRAPPER_CLASS)} key={item.id}>
                 <DragHandle label={item.label} {...elementAttributes} empty={!draggable} />
-                <DropdownItem
+                <Column
                     item={item}
                     onClick={onClick}
-                    lockedColumns={lockedColumns}
                     elementAttributes={{ id: item.id, ...omit(draggableAttributes, 'style') }}
                 />
             </section>

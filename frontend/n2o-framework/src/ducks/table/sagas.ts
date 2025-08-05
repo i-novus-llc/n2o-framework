@@ -3,7 +3,7 @@ import omit from 'lodash/omit'
 import isEmpty from 'lodash/isEmpty'
 
 import { registerWidget } from '../widgets/store'
-import { Register } from '../widgets/Actions'
+import { type Register } from '../widgets/Actions'
 import { State } from '../State'
 import { resolveConditions } from '../../sagas/conditions'
 import { getData } from '../../core/widget/useData'
@@ -16,56 +16,51 @@ import { createColumns } from '../../components/widgets/AdvancedTable/helpers'
 import { updatePaging } from '../datasource/store'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 
-import { BodyCell, HeaderCell } from './Table'
+import { type BodyCell, type HeaderCell } from './Table'
 import { registerTable } from './store'
 import { getDefaultColumnState } from './constants'
 
-function computeHeaderCell(widgetId: string, headerCell: HeaderCell, state: State) {
-    const { children, id, disabled, visible } = headerCell
+function computeHeaderCell(
+    widgetId: string,
+    headerCell: HeaderCell,
+    state: State,
+) {
+    const computeVisibility = (cell: HeaderCell): boolean => {
+        if (cell?.conditions?.visible) {
+            return resolveConditions(state, cell.conditions.visible).resolve
+        }
 
-    let computedVisible = visible === undefined ? true : visible
-
-    if (headerCell?.conditions?.visible) {
-        computedVisible = resolveConditions(state, headerCell.conditions.visible).resolve
+        return cell.visible ?? true
     }
 
     const processChildren = (children: HeaderCell[], parentId: string): HeaderCell[] => {
-        return children.map((child) => {
-            const { children: childChildren, id: childId, disabled: childDisabled, visible: childVisible } = child
-
-            let childComputedVisible = childVisible === undefined ? true : childVisible
-
-            if (child?.conditions?.visible) {
-                childComputedVisible = resolveConditions(state, child.conditions.visible).resolve
-            }
-
-            const processedChildren = childChildren ? processChildren(childChildren, childId) : undefined
-
-            return {
-                ...getDefaultColumnState(),
-                ...child,
-                id: childId,
-                columnId: childId,
-                widgetId,
-                parentId,
-                visible: childComputedVisible,
-                disabled: Boolean(childDisabled),
-                children: processedChildren,
-            }
-        })
+        return children.map(child => ({
+            ...getDefaultColumnState(),
+            ...child,
+            id: child.id,
+            columnId: child.id,
+            widgetId,
+            parentId,
+            enabled: child.enabled,
+            children: child.children ? processChildren(child.children, child.id) : undefined,
+            visible: computeVisibility(child),
+            visibleState: child.children ? true : child.visibleState,
+        }))
     }
 
-    const resolvedChildren = children ? processChildren(children, id) : undefined
+    const computedVisible = computeVisibility(headerCell)
+    const resolvedChildren = headerCell.children ? processChildren(headerCell.children, headerCell.id) : undefined
 
     return {
         ...getDefaultColumnState(),
         ...headerCell,
-        id,
-        columnId: id,
+        id: headerCell.id,
+        columnId: headerCell.id,
         widgetId,
-        visible: computedVisible,
-        disabled: Boolean(disabled),
+        enabled: headerCell.enabled,
         children: resolvedChildren,
+        visible: computedVisible,
+        visibleState: headerCell.children ? true : headerCell.visibleState,
     }
 }
 
@@ -82,10 +77,11 @@ function* registerTableEffect(action: Register) {
 
     const { header, body } = tableInitProps
     const { cells } = header || {}
+    const { cells: bodyCells } = body || {}
 
     const computedHeaderCells = cells?.map((cell, index) => {
-        // TODO временно
         // INFO backend не присылает id для мультиколонки
+
         if (!cell.id) {
             return computeHeaderCell(widgetId, { ...cell, id: `${widgetId}_${index}` }, state)
         }
@@ -93,9 +89,6 @@ function* registerTableEffect(action: Register) {
         return computeHeaderCell(widgetId, cell, state)
     }) as HeaderCell[]
 
-    const { cells: bodyCells } = body || {}
-
-    // TODO временно
     const computedBodyCells = bodyCells?.map((cell, index) => {
         // INFO backend не присылает id для колонок с тулбаром
         if (!cell.id) {
@@ -115,7 +108,7 @@ function* registerTableEffect(action: Register) {
 
     const savedSettings = getData(widgetId)
 
-    // TODO временно, проблема в том что тут  еще нет datasource
+    // TODO временно, проблема в том что тут еще нет datasource
     const { paging = { page: 1, size: 5 }, sorting } = yield select(dataSourceByIdSelector(datasource))
 
     if (saveSettings &&
@@ -153,6 +146,4 @@ function* registerTableEffect(action: Register) {
     ))
 }
 
-export const sagas = [
-    takeEvery(registerWidget, registerTableEffect),
-]
+export const sagas = [takeEvery(registerWidget, registerTableEffect)]

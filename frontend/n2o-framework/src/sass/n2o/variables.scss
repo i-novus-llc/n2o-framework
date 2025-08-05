@@ -334,4 +334,11 @@ $n2o-ui-primary-hover: #334087;
 $menu-item-color: #707070;
 
 //Dropdown
-$dropdown-item-padding: 0.25rem 1.5rem;
+$dropdown-item-with-drag-n-drop-padding-x: 5px;
+$dropdown-item-padding-x: 1.5rem;
+$dropdown-item-padding-y: 0.25rem;
+$dropdown-multi-item-padding-x: $dropdown-item-padding-x * 2;
+$dropdown-item-padding: $dropdown-item-padding-y $dropdown-item-padding-x;
+
+//Stub
+$stub-width: 25px;

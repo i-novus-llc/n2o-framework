@@ -1,11 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-export interface DragHandleProps {
-    label?: string
-    className?: string
-    empty?: boolean
-}
+import { type DragHandleProps } from '../types'
 
 export function DragHandle({ label, className, empty = false, ...rest }: DragHandleProps) {
     return (

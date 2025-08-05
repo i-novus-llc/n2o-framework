@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+                 xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
                  name="${contact.list}" route="/">
     <datasources>
         <datasource id="clientsDs" query-id="ProtoClient" object-id="ProtoClient" size="10"/>
@@ -240,7 +241,14 @@
                         </show-modal>
                     </button>
                 </toolbar>
-                <toolbar place="bottomRight" generate="tableSettings"/>
+                <toolbar place="bottomRight">
+                    <ts:filters/>
+                    <ts:columns locked="id"/>
+                    <ts:refresh/>
+                    <ts:resize/>
+                    <ts:word-wrap/>
+                    <ts:export/>
+                </toolbar>
             </table>
         </panel>
     </left>

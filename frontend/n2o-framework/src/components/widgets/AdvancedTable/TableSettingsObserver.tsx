@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react'
-import { useDispatch, useSelector, useStore } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
 import isEqual from 'lodash/isEqual'
@@ -47,7 +47,8 @@ export function TableSettingsObserver<P extends WithTableType>(Component: React.
                 const { defaultProps, defaultDatasourceProps } = table || {}
 
                 if (defaultProps) {
-                    dispatch(registerTable(id, defaultProps))
+                    // overwrite true иначе редюсер смержит параметры в header/body.cells
+                    dispatch(registerTable(id, defaultProps, true))
                 }
 
                 if (defaultDatasourceProps) {

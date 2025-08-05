@@ -5,7 +5,7 @@ import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 import Table from '../basic'
 import { TableHeaderCellProps } from '../../types/props'
 import { useMouseDownResize } from '../../hooks/useMouseDownResize'
-import { DragHandle } from '../../../buttons/ToggleColumn/DragHandle'
+import { DragHandle } from '../../../buttons/ToggleColumn/DragAndDropColumn/DragHandle'
 
 import { HeaderFilter } from './header-filter'
 

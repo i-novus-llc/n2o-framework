@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
       name="Список контактов" show-title="true">
     <datasources>
         <datasource id="ds1" query-id="data" size="5"/>
@@ -88,10 +89,18 @@
                 </button>
             </toolbar>
             <toolbar place="topRight">
-                <group generate="filters"/>
-                <group generate="columns"/>
-                <group generate="refresh"/>
-                <group generate="resize"/>
+                <group>
+                    <ts:filters/>
+                </group>
+                <group>
+                    <ts:columns/>
+                </group>
+                <group>
+                    <ts:refresh/>
+                </group>
+                <group>
+                    <ts:resize/>
+                </group>
             </toolbar>
         </table>
     </regions>

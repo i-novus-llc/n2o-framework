@@ -5,7 +5,7 @@ import { Selection, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
 import { Severity } from '../../../core/validation/types'
 import { type BodyCell, type HeaderCell, MOVE_MODE } from '../../../ducks/table/Table'
-import { DragHandleProps } from '../../buttons/ToggleColumn/DragHandle'
+import { DragHandleProps } from '../../buttons/ToggleColumn/types'
 
 import { Data, DataItem, ExpandedRows, SelectedRows } from './general'
 import { Row } from './row'

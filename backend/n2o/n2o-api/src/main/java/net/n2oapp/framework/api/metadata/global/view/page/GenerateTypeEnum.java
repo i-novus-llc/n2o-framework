@@ -13,13 +13,7 @@ public enum GenerateTypeEnum implements N2oEnum {
     CRUD("crud"),
     SAVE_AND_CLOSE("saveAndClose"),
     CLOSE("close"),
-    SUBMIT("submit"),
-    TABLE_SETTINGS("tableSettings"),
-    REFRESH("refresh"),
-    RESIZE("resize"),
-    EXPORT("export"),
-    COLUMNS("columns"),
-    FILTERS("filters");
+    SUBMIT("submit");
 
     private final String id;
 }

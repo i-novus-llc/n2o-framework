@@ -16,8 +16,8 @@ public class ColumnsTableSettingIOv1 extends AbstractTableSettingsIOv1<N2oColumn
     @Override
     public void io(Element e, N2oColumnsTableSetting m, IOProcessor p) {
         super.io(e, m, p);
-        p.attribute(e, "default-value", m::getDefaultValue, m::setDefaultValue);
-        p.attribute(e, "locked", m::getLocked, m::setLocked);
+        p.attributeArray(e, "default-value", ",", m::getDefaultValue, m::setDefaultValue);
+        p.attributeArray(e, "locked", ",", m::getLocked, m::setLocked);
     }
 
     @Override

@@ -1,8 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-export const createParameterSelector =
-    <T extends (arg: any) => any>
-    (selector: T) => (_: unknown, params: Parameters<T>[0]): ReturnType<T> => selector(params)
+import { type HeaderCell } from '../table/Table'
 
 export function reorderElement<T extends { id: string }>(arr: T[], reorderId: string, targetId: string) {
     const reorderIndex = arr.findIndex(item => item.id === reorderId)
@@ -16,4 +12,18 @@ export function reorderElement<T extends { id: string }>(arr: T[], reorderId: st
     newArr.splice(targetIndex, 0, movedElement)
 
     return newArr
+}
+
+export const findItemRecursive = (items: HeaderCell[], targetId: string): HeaderCell | null => {
+    for (const item of items) {
+        if (item.id === targetId) { return item }
+
+        if (item.children) {
+            const found = findItemRecursive(item.children, targetId)
+
+            if (found) { return found }
+        }
+    }
+
+    return null
 }

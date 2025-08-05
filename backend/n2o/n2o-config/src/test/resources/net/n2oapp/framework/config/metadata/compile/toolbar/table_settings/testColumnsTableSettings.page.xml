@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0">
+    <table>
+        <datasource query-id="utBlank2"/>
+        <columns>
+            <column text-field-id="id"/>
+            <multi-column id="id_multi1">
+                <column text-field-id="name"/>
+                <column text-field-id="type"/>
+            </multi-column>
+            <multi-column id="id_multi2">
+                <column text-field-id="status"/>
+                <column text-field-id="region"/>
+                <multi-column>
+                    <column text-field-id="city"/>
+                    <column text-field-id="country"/>
+                </multi-column>
+            </multi-column>
+            <multi-column id="id_multi3">
+                <column text-field-id="address"/>
+            </multi-column>
+            <multi-column>
+                <column text-field-id="gender"/>
+            </multi-column>
+        </columns>
+        <toolbar>
+            <ts:columns locked="id, id_multi1, id_multi2" default-value="id_multi3"/>
+        </toolbar>
+    </table>
+</simple-page>
