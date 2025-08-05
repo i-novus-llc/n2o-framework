@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 
 export const CONFIG = require('../../ci-config.json')
 
-const SANDBOX_PATH = '/sandbox'
-const FULL_VERSION_PATH = `/${SANDBOX_PATH}/n2o/version`
+const FULL_VERSION_PATH = `/sandbox/n2o/version`
 const TARGET = '_self'
 
 export function useVersions() {

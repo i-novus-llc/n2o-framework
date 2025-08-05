@@ -6,6 +6,7 @@ import CONFIG from '../../ci-config.json'
 import style from './sandbox.module.scss'
 
 function HeaderBody({ projectId: templateId, activeFileName, setActiveFileName, filesMap }) {
+    const { origin } = window?.location
     const fileNames = Object.keys(filesMap)
 
     let indexFileName = ''
@@ -23,7 +24,7 @@ function HeaderBody({ projectId: templateId, activeFileName, setActiveFileName, 
     return (
         <ul className={classnames('tabs', style.headerList)}>
             <a
-                href={`${CONFIG.sandboxUrl}/new/${templateId}?stand=${CONFIG.sandboxUrl}/`}
+                href={`${CONFIG.sandboxUrl}/new/${templateId}?stand=${origin}/sandbox/`}
                 target="_blank"
                 className={classnames('tabs__item', style.headerListItem)}
                 role="button"
