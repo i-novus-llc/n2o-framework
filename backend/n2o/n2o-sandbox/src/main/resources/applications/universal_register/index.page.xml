@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-      name="Федеральный регистр пациентов" 
-      title="Федеральный регистр пациентов" 
+      xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
+      name="Федеральный регистр пациентов"
+      title="Федеральный регистр пациентов"
       show-title="true">
     <datasources>
         <datasource id="drawer"/>
@@ -30,12 +31,12 @@
         <on-change datasource="filtersDs" model="edit" field-id="fil">
             <set-value to="lineFiltersCount" target-datasource="filtersDs" target-model="edit"
                        source-datasource="filtersDs" source-model="edit">
-                Object.keys(this.fil).filter(key => this.fil[key] &amp;&amp; 
-                                            key !== 'fio' &amp;&amp; 
-                                            key !== 'birthday' &amp;&amp; 
-                                            key !== 'snils' &amp;&amp; 
-                                            (key !== 'gender' || this.fil['gender'].id !== 0))
-                                    .length || null
+                Object.keys(this.fil).filter(key => this.fil[key] &amp;&amp;
+                key !== 'fio' &amp;&amp;
+                key !== 'birthday' &amp;&amp;
+                key !== 'snils' &amp;&amp;
+                (key !== 'gender' || this.fil['gender'].id !== 0))
+                .length || null
             </set-value>
         </on-change>
     </events>
@@ -50,42 +51,44 @@
                     <col size="3">
                         <row>
                             <date-time id="fil.birthday" label="Дата рождения"/>
-                            <masked-input id="fil.snils" mask="999-999-999 99" 
+                            <masked-input id="fil.snils" mask="999-999-999 99"
                                           placeholder="___-___-___ __" label="СНИЛС"/>
                         </row>
                     </col>
                     <col size="4">
                         <row>
                             <col style="maxWidth: min-content">
-                                <button id="search"  label="Найти" icon="fa fa-search" color="primary" no-label-block="false">
+                                <button id="search" label="Найти" icon="fa fa-search" color="primary"
+                                        no-label-block="false">
                                     <copy source-model="edit" target-model="resolve" source-field-id="fil"/>
-                                    <set-value source-model="resolve" source-field-id="gender" 
+                                    <set-value source-model="resolve" source-field-id="gender"
                                                target-model="resolve" to="gender">
                                         return (gender.id === 0) ? null : gender
                                     </set-value>
                                 </button>
-                          </col>
+                            </col>
                             <!-- <col size="2">  -->
-                                <button id="clear" label="Сбросить фильтры"
-                                        no-label-block="false">                                   
-                                    <set-value to="fil" target-model="edit">
-                                        return null  
-                                    </set-value>
-                                    <set-value to="fil.gender" target-model="edit">
-                                        {
-                                            'id' : 0,
-                                            'name' : 'Любой'
-                                        }
-                                    </set-value>
-                                    <clear model="resolve"/>
-                                    <dependencies>
-                                        <visibility on="fil">
-                                            if (Object.keys(this.fil).filter(key => this.fil[key] &amp;&amp; (key !== 'gender' || this.fil['gender'].id !== 0))
-                                            .length > 0)
-                                            return true
-                                        </visibility>
-                                    </dependencies>
-                                </button>
+                            <button id="clear" label="Сбросить фильтры"
+                                    no-label-block="false">
+                                <set-value to="fil" target-model="edit">
+                                    return null
+                                </set-value>
+                                <set-value to="fil.gender" target-model="edit">
+                                    {
+                                    'id' : 0,
+                                    'name' : 'Любой'
+                                    }
+                                </set-value>
+                                <clear model="resolve"/>
+                                <dependencies>
+                                    <visibility on="fil">
+                                        if (Object.keys(this.fil).filter(key => this.fil[key] &amp;&amp; (key !==
+                                        'gender' || this.fil['gender'].id !== 0))
+                                        .length > 0)
+                                        return true
+                                    </visibility>
+                                </dependencies>
+                            </button>
                             <!-- </col> -->
                         </row>
                     </col>
@@ -93,9 +96,10 @@
 
                 <line label="Расширенные фильтры" collapsible="true" has-separator="false"
                       badge="{lineFiltersCount}" badge-color="secondary" badge-shape="rounded">
-                     <row>
+                    <row>
                         <col size="3">
-                            <input-select id="fil.diagnosis" label="Диагноз" query-id="diagnosis" label-field-id="name"/>
+                            <input-select id="fil.diagnosis" label="Диагноз" query-id="diagnosis"
+                                          label-field-id="name"/>
                         </col>
                         <col size="3">
                             <row>
@@ -107,18 +111,18 @@
                             <input-select id="fil.organization" label="МО Прикрепления" query-id="medOrg"/>
                         </col>
                         <col size="4">
-                            <row>                           
+                            <row>
                                 <col size="2">
                                     <radio-group id="fil.gender" no-label="true" inline="true" style="padding-top:7px">
                                         <options>
                                             <option id="0" name="Любой"/>
                                             <option id="1" name="Мужской"/>
-                                            <option id="2" name="Женский"/>   
+                                            <option id="2" name="Женский"/>
                                         </options>
                                         <default-value id="0" name="Любой"/>
                                     </radio-group>
-                                </col>                
-                             </row>
+                                </col>
+                            </row>
                         </col>
                     </row>
                     <row>
@@ -127,8 +131,8 @@
                                 <options>
                                     <option id="1" name="Сформировано"/>
                                     <option id="2" name="На рассмотрении"/>
-                                    <option id="3" name="Одобрено"/>   
-                                    <option id="4" name="Отказано"/>   
+                                    <option id="3" name="Одобрено"/>
+                                    <option id="4" name="Отказано"/>
                                 </options>
                             </input-select>
                         </col>
@@ -144,7 +148,7 @@
                         </col>
                     </row>
                 </line>
-           </fields>
+            </fields>
         </form>
 
         <table datasource="ds" selection="checkbox">
@@ -153,13 +157,17 @@
                     <show-modal page-id="addPatient" route="/patient"/>
                 </button>
                 <button label="Удалить" icon="fa fa-close">
-                    
+
                 </button>
             </toolbar>
 
-             <toolbar place="topRight">
-                <group generate="resize"/>
-                <group generate="columns"/>
+            <toolbar place="topRight">
+                <group>
+                    <ts:resize/>
+                </group>
+                <group>
+                    <ts:columns/>
+                </group>
             </toolbar>
 
             <columns>
@@ -178,14 +186,14 @@
                 </column>
                 <column text-field-id="address.residential.city" label="Субъект РФ"/>
                 <column text-field-id="organization.name" label="Медицинская организация"/>
-                <column text-field-id="status" label="Статус заявления"> 
+                <column text-field-id="status" label="Статус заявления">
                     <badge src="StatusCell">
                         <switch value-field-id="status">
                             <case value="Одобрено">success</case>
                             <case value="Отказано">danger</case>
                         </switch>
                     </badge>
-                </column> 
+                </column>
                 <!-- <column label="Статус заявления" text-field-id="status"> 
                     <badge>
                             <switch value-field-id="status">
@@ -210,7 +218,7 @@
                 </column>
             </columns>
             <pagination show-last="false" show-count="never">
-                
+
             </pagination>
         </table>
     </regions>

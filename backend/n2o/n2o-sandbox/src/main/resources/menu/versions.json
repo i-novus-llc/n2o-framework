@@ -162,14 +162,6 @@
           "name": "Бесконечная пагинация"
         },
         {
-          "templateId": "versions/7.24/table_export_button",
-          "name": "Кнопка экспорта таблицы"
-        },
-        {
-          "templateId": "versions/7.24/table_wordwrap_button",
-          "name": "Кнопка переноса слов в таблице"
-        },
-        {
           "templateId": "versions/7.24/scrollspy",
           "name": "Scrollspy. Группировка элементов"
         },

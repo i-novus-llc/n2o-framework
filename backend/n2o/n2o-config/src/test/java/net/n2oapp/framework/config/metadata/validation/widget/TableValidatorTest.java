@@ -39,6 +39,15 @@ class TableValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
+    void testColumnsTableSetting() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testColumnsTableSetting.widget.xml")
+        );
+        assertEquals("В таблице 'testColumnsTableSetting' найдено несколько элементов <ts:columns/>. Допускается только один элемент.", exception.getMessage());
+    }
+
+    @Test
     void testDuplicateColumnIds() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,

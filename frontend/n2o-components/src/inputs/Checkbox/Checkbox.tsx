@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MouseEvent, RefObject, LegacyRef, Component } from 'react'
 import isNil from 'lodash/isNil'
 import uniqueId from 'lodash/uniqueId'
 import classNames from 'classnames'
@@ -27,13 +27,14 @@ export type Props = TBaseProps & TBaseInputProps<any> & {
     help?: string, // Подсказка в popover
     inline?: boolean, // Флаг рендера label в одну строку с контролом
     label?: string,
-    onClick?(event: React.MouseEvent<HTMLDivElement>): void,
+    onClick?(event: MouseEvent<HTMLDivElement>): void,
     tabIndex?: number,
-    forwardedRef?: React.RefObject<HTMLDivElement>,
+    forwardedRef?: RefObject<HTMLDivElement>,
+    inputRef?: LegacyRef<HTMLInputElement>,
     preventDefault?: boolean
 }
 
-export class Checkbox extends React.Component<Props> {
+export class Checkbox extends Component<Props> {
     state = { id: '' }
 
     componentDidMount(): void {
@@ -44,11 +45,11 @@ export class Checkbox extends React.Component<Props> {
         const { className, label, disabled, value,
             inline, checked, help, tabIndex,
             style, onClick, onFocus, onChange,
-            onBlur, forwardedRef, preventDefault = false } = this.props
+            onBlur, forwardedRef, inputRef, preventDefault = false } = this.props
 
         const { id } = this.state
 
-        const onClickEnhancer = (event: React.MouseEvent<HTMLDivElement>): void => {
+        const onClickEnhancer = (event: MouseEvent<HTMLDivElement>): void => {
             if (preventDefault) {
                 event.preventDefault()
             }
@@ -71,6 +72,7 @@ export class Checkbox extends React.Component<Props> {
                 onClick={onClickEnhancer}
             >
                 <Input
+                    inputRef={inputRef}
                     id={id}
                     className="custom-control-input"
                     disabled={disabled}

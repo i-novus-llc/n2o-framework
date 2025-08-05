@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oColumnsTableSetting extends N2oAbstractTableSetting {
-    private String defaultValue;
-    private String locked;
+    private String[] defaultValue;
+    private String[] locked;
 }

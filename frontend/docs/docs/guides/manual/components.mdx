@@ -634,7 +634,7 @@ id можно сгенерировать, используя `<field id="id" sel
         <toolbar place="topRight">
             <sub-menu icon="fa fa-gear">
                 <ts:filters/>
-                <ts:columns default-value="id, name, region" locked="id"/>
+                <ts:columns default-value="name, region" locked="id"/>
                 <ts:refresh/>
                 <ts:resize/>
                 <ts:word-wrap/>
@@ -645,6 +645,17 @@ id можно сгенерировать, используя `<field id="id" sel
     </table>
 </simple-page>
 ```
+
+**Атрибуты настройки `<columns>`**
+
+`locked` - Список идентификаторов колонок (через запятую), которые отображаются по умолчанию и их нельзя скрыть и передвинуть.<br/>
+`default-value` - Список идентификаторов колонок (через запятую), которые отображаются по умолчанию.<br/>
+
+:::note
+1. Колонки, указанные в `locked`, не нужно дублировать в `default-value`.
+2. Порядок колонок в атрибутах не влияет на их фактическое расположение в таблице.
+3. Чтобы в атрибутах `locked` или `default-value` сослаться на мультиколонку, ей необходимо явно задавать `id` в тэге `<multi-column>`.
+:::
 
 ##### Сохранение настроек в локальное хранилище браузера
 

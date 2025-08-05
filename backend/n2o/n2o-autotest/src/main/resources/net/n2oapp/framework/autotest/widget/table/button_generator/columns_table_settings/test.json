@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "name": "test1",
+    "type": "1",
+    "status": "active",
+    "region": "europe",
+    "city": "berlin",
+    "country": "germany",
+    "address": "str. 1",
+    "gender": "male"
+  },
+  {
+    "id": 2,
+    "name": "test2",
+    "type": "1",
+    "status": "inactive",
+    "region": "asia",
+    "city": "tokyo",
+    "country": "japan",
+    "address": "str. 2",
+    "gender": "female"
+  },
+  {
+    "id": 3,
+    "name": "test3",
+    "type": "2",
+    "status": "pending",
+    "region": "america",
+    "city": "new york",
+    "country": "usa",
+    "address": "str. 3",
+    "gender": "male"
+  },
+  {
+    "id": 4,
+    "name": "test4",
+    "type": "2",
+    "status": "active",
+    "region": "africa",
+    "city": "cairo",
+    "country": "egypt",
+    "address": "str. 4",
+    "gender": "female"
+  }
+]

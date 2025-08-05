@@ -1,4 +1,4 @@
-import { BodyCell, HeaderCell } from '../../../ducks/table/Table'
+import { type BodyCell, type HeaderCell } from '../../../ducks/table/Table'
 
 import { type SavedColumn } from './types'
 

@@ -159,7 +159,6 @@ class TableGeneratorsTest extends SourceCompileTestBase {
         List<AbstractButton> buttons = t.getToolbar().get("topRight").get(0).getButtons();
         assertThat(buttons.size(), is(1));
         assertThat(buttons.get(0), instanceOf(Submenu.class));
-        assertThat(buttons.get(0).getIcon(), is("fa fa-gear"));
 
         List<PerformButton> subMenuButtons = ((Submenu) buttons.get(0)).getContent();
         assertThat(subMenuButtons.get(0).getLabel(), is("Фильтры"));

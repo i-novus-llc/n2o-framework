@@ -128,7 +128,7 @@ class TableButtonGeneratorAT extends AutoTestBase {
     void testColumns() {
         openPage();
 
-        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Регион"});
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Регион"}, 3);
 
         N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
         button.shouldBeCollapsed();
@@ -138,19 +138,19 @@ class TableButtonGeneratorAT extends AutoTestBase {
 
         button.menuItem("Наименование").shouldNotHaveIcon();
         button.menuItem("Наименование").click();
-        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Наименование", "Регион"});
-        button.menuItem("Наименование").shouldHaveIcon("fa fa-check");
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Наименование", "Регион"}, 4);
+        shouldBeChecked(button.menuItem("Наименование"));
         button.menuItem("Наименование").click();
 
         button.click();
         button.shouldBeCollapsed();
-        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Регион"});
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Регион"}, 3);
 
         button.click();
         checkInitials(button);
         button.menuItem("Идентификатор").shouldBeDisabled();
-        button.menuItem("Идентификатор").shouldHaveIcon("fa fa-check");
-        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Регион"});
+        shouldBeChecked(button.menuItem("Идентификатор"));
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Регион"}, 3);
 
         button.menuItem("Идентификатор ИПС").click();
         button.menuItem("Регион").click();
@@ -158,7 +158,7 @@ class TableButtonGeneratorAT extends AutoTestBase {
         shouldNotBeChecked(button.menuItem("Идентификатор ИПС"));
         shouldNotBeChecked(button.menuItem("Наименование"));
         shouldNotBeChecked(button.menuItem("Регион"));
-        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор"});
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор"}, 1);
 
         button.menuItem("Наименование").click();
         shouldBeChecked(button.menuItem("Наименование"));
@@ -166,11 +166,11 @@ class TableButtonGeneratorAT extends AutoTestBase {
 
         button.menuItem("Идентификатор ИПС").click();
         shouldBeChecked(button.menuItem("Идентификатор ИПС"));
-        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Наименование"});
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Наименование"}, 3);
 
         button.menuItem("Регион").click();
         shouldBeChecked(button.menuItem("Регион"));
-        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Наименование", "Регион"});
+        checkTableHeadersShouldHaveTitles(new String[]{"Идентификатор", "Идентификатор ИПС", "Наименование", "Регион"}, 4);
     }
 
     private void checkInitials(N2oDropdownButton button) {
@@ -182,8 +182,8 @@ class TableButtonGeneratorAT extends AutoTestBase {
         shouldBeChecked(button.menuItem("Регион"));
     }
 
-    private void checkTableHeadersShouldHaveTitles(String[] titles) {
-        table.columns().headers().shouldHaveSize(titles.length);
+    private void checkTableHeadersShouldHaveTitles(String[] titles, int size) {
+        table.columns().headers().shouldHaveSize(size);
         for (int i = 0; i < titles.length; i++) {
             table.columns().headers().header(i).shouldHaveTitle(titles[i]);
         }
@@ -365,7 +365,7 @@ class TableButtonGeneratorAT extends AutoTestBase {
     }
 
     @Test
-    void exportCurrentPageTest() throws IOException {
+    void exportCurrentPageTest() {
         openPage();
         N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
         button.click();
@@ -412,12 +412,14 @@ class TableButtonGeneratorAT extends AutoTestBase {
             fileReader.read(chars);
 
             String actual = new String(chars);
-            String expected = "\"Идентификатор\";\"Идентификатор ИПС\";\"Наименование\";\"Регион\"\n" +
-                    "6;\"ey88ee-asd52a-89trd\";\"РМИС ХМАО-ЮГРЫ\";\"Ханты-Мансийский автономный округ - Югра\"\n" +
-                    "7;\"oi44ew-asd52a-54eqw\";\"РС ЕГИСЗ Тюменской области\";\"Тюменская область\"\n" +
-                    "8;\"ey88ee-mu67da-54eqw\";\"РМИАС Республика Башкортостан\";\"Республика Башкортостан\"\n" +
-                    "9;\"ey88ee-56fhha-8hhjaf\";\"Промед Республики Хокасия\";\"Республика Хокасия\"\n" +
-                    "10;\"asfa43-asd52a-asd4qd\";\"РИСЗ Республика Корелия\";\"Республика Корелия\"";
+            String expected = """
+                    "Идентификатор";"Идентификатор ИПС";"Наименование";"Регион"
+                    6;"ey88ee-asd52a-89trd";"РМИС ХМАО-ЮГРЫ";"Ханты-Мансийский автономный округ - Югра"
+                    7;"oi44ew-asd52a-54eqw";"РС ЕГИСЗ Тюменской области";"Тюменская область"
+                    8;"ey88ee-mu67da-54eqw";"РМИАС Республика Башкортостан";"Республика Башкортостан"
+                    9;"ey88ee-56fhha-8hhjaf";"Промед Республики Хокасия";"Республика Хокасия"
+                    10;"asfa43-asd52a-asd4qd";"РИСЗ Республика Корелия";"Республика Корелия"
+                    """;
             assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
         } catch (IOException e) {
             fail();
@@ -425,7 +427,7 @@ class TableButtonGeneratorAT extends AutoTestBase {
     }
 
     @Test
-    void exportAllTableTest() throws IOException {
+    void exportAllTableTest() {
         openPage();
         N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
         button.click();
@@ -469,17 +471,19 @@ class TableButtonGeneratorAT extends AutoTestBase {
             fileReader.read(chars);
 
             String actual = new String(chars);
-            String expected = "\"Идентификатор\";\"Идентификатор ИПС\";\"Наименование\";\"Регион\"\n" +
-                    "1;\"ey88ee-rugh34-asd4\";\"РМИС Республика Адыгея(СТП)\";\"Республика Адыгея\"\n" +
-                    "2;\"ey88ee-ruqah34-54eqw\";\"РМИС Республика Татарстан(тестовая для ПСИ)\";\"Республика Татарстан\"\n" +
-                    "3;\"ey88ea-ruaah34-54eqw\";\"ТМК\";\"\"\n" +
-                    "4;\"ey88ee-asd52a-54eqw\";\"МИС +МЕД\";\"Республика Адыгея\"\n" +
-                    "5;\"ey88fe-asd52a-54eqb\";\"РМИС Комстромской области\";\"Комстромская область\"\n" +
-                    "6;\"ey88ee-asd52a-89trd\";\"РМИС ХМАО-ЮГРЫ\";\"Ханты-Мансийский автономный округ - Югра\"\n" +
-                    "7;\"oi44ew-asd52a-54eqw\";\"РС ЕГИСЗ Тюменской области\";\"Тюменская область\"\n" +
-                    "8;\"ey88ee-mu67da-54eqw\";\"РМИАС Республика Башкортостан\";\"Республика Башкортостан\"\n" +
-                    "9;\"ey88ee-56fhha-8hhjaf\";\"Промед Республики Хокасия\";\"Республика Хокасия\"\n" +
-                    "10;\"asfa43-asd52a-asd4qd\";\"РИСЗ Республика Корелия\";\"Республика Корелия\"";
+            String expected = """
+                    "Идентификатор";"Идентификатор ИПС";"Наименование";"Регион"
+                    1;"ey88ee-rugh34-asd4";"РМИС Республика Адыгея(СТП)";"Республика Адыгея"
+                    2;"ey88ee-ruqah34-54eqw";"РМИС Республика Татарстан(тестовая для ПСИ)";"Республика Татарстан"
+                    3;"ey88ea-ruaah34-54eqw";"ТМК";""
+                    4;"ey88ee-asd52a-54eqw";"МИС +МЕД";"Республика Адыгея"
+                    5;"ey88fe-asd52a-54eqb";"РМИС Комстромской области";"Комстромская область"
+                    6;"ey88ee-asd52a-89trd";"РМИС ХМАО-ЮГРЫ";"Ханты-Мансийский автономный округ - Югра"
+                    7;"oi44ew-asd52a-54eqw";"РС ЕГИСЗ Тюменской области";"Тюменская область"
+                    8;"ey88ee-mu67da-54eqw";"РМИАС Республика Башкортостан";"Республика Башкортостан"
+                    9;"ey88ee-56fhha-8hhjaf";"Промед Республики Хокасия";"Республика Хокасия"
+                    10;"asfa43-asd52a-asd4qd";"РИСЗ Республика Корелия";"Республика Корелия"
+                    """;
             assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
         } catch (IOException e) {
             fail();
@@ -580,14 +584,14 @@ class TableButtonGeneratorAT extends AutoTestBase {
         openPage();
 
         //проверить нач. значения для columns, resize, word-wrap
-        /*
+
         N2oDropdownButton columnsButton = toolbar.button(1, N2oDropdownButton.class);
         columnsButton.click();
         shouldBeChecked(columnsButton.menuItem("Идентификатор ИПС"));
         shouldNotBeChecked(columnsButton.menuItem("Наименование"));
         shouldBeChecked(columnsButton.menuItem("Регион"));
         table.columns().headers().shouldHaveSize(3);
-         */
+
         N2oDropdownButton resizeButton = toolbar.button(3, N2oDropdownButton.class);
         resizeButton.click();
         resizeButton.menuItem("5").shouldHaveIcon("fa fa-check");
@@ -599,10 +603,10 @@ class TableButtonGeneratorAT extends AutoTestBase {
         table.shouldBeWordWrapped();
 
         //задать новые значения
-        /*
+
         columnsButton.click();
         columnsButton.menuItem("Наименование").click();
-        */
+
         resizeButton.click();
         resizeButton.menuItem("10").click();
 
@@ -614,13 +618,13 @@ class TableButtonGeneratorAT extends AutoTestBase {
         Selenide.refresh();
 
         //проверить значения
-        /*
+
         columnsButton.click();
         shouldBeChecked(columnsButton.menuItem("Идентификатор ИПС"));
         shouldBeChecked(columnsButton.menuItem("Наименование"));
         shouldBeChecked(columnsButton.menuItem("Регион"));
         table.columns().headers().shouldHaveSize(4);
-        */
+
         resizeButton.click();
         resizeButton.menuItem("10").shouldHaveIcon("fa fa-check");
         resizeButton.menuItem("5").shouldNotHaveIcon();
@@ -633,24 +637,173 @@ class TableButtonGeneratorAT extends AutoTestBase {
         resetSettingsButton.click();
 
         //проверить значения
-        checkValues(resizeButton);
+        checkValues(resizeButton, columnsButton);
 
         //обновить страницу
         Selenide.refresh();
 
         //проверить значения
-        checkValues(resizeButton);
+        checkValues(resizeButton, columnsButton);
         Selenide.clearBrowserLocalStorage();
     }
 
-    private void checkValues(N2oDropdownButton resizeButton) {
-        /*
+    @Test
+    void testColumnsTableSettings() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/columns_table_settings");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/columns_table_settings/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/columns_table_settings/data.query.xml")
+        );
+        openPage();
+
+        // Проверка начального состояния колонок
+        checkTableHeadersShouldHaveTitles(new String[]{"id", "multi1", "multi2", "multi3", "dnd0", "dnd1"}, 16);
+
+        // Открываем настройки колонок
+        N2oDropdownButton columnsButton = table.toolbar().bottomLeft().button(0, N2oDropdownButton.class);
+        columnsButton.shouldBeCollapsed();
+        columnsButton.click();
+        columnsButton.shouldBeExpanded();
+
+        checkItemsInitialState(columnsButton);
+
+        // Выключаем multi3
+        table.columns().headers().header(3).shouldHaveTitle("multi3");
+        columnsButton.menuItem("multi3").click();
+        shouldNotBeChecked(columnsButton.menuItem("multi3"));
+        shouldNotBeChecked(columnsButton.menuItem("Адрес"));
+        shouldNotBeChecked(columnsButton.menuItem("Телефон"));
+        shouldNotBeChecked(columnsButton.menuItem("Email"));
+        checkTableHeadersShouldHaveTitles(new String[]{"id", "multi1", "multi2", "dnd0", "dnd1"}, 12);
+
+        // Включаем дочернюю колонку
+        columnsButton.menuItem("Адрес").click();
+        shouldNotBeChecked(columnsButton.menuItem("multi3"));
+        shouldBeChecked(columnsButton.menuItem("Адрес"));
+        shouldNotBeChecked(columnsButton.menuItem("Телефон"));
+        shouldNotBeChecked(columnsButton.menuItem("Email"));
+        checkTableHeadersShouldHaveTitles(new String[]{"id", "multi1", "multi2", "multi3", "dnd0", "dnd1"}, 14);
+
+        // Включаем multi4
+        columnsButton.menuItem("multi4").click();
+        shouldBeChecked(columnsButton.menuItem("multi4"));
+        shouldBeChecked(columnsButton.menuItem("Пол"));
+        shouldBeChecked(columnsButton.menuItem("Дата"));
+        checkTableHeadersShouldHaveTitles(new String[]{"id", "multi1", "multi2", "multi3", "multi4", "dnd0", "dnd1"}, 17);
+
+        // Выключаем дочернюю колонку
+        columnsButton.menuItem("Пол").click();
+        shouldNotBeChecked(columnsButton.menuItem("multi4"));
+        shouldNotBeChecked(columnsButton.menuItem("Пол"));
+        shouldBeChecked(columnsButton.menuItem("Дата"));
+        checkTableHeadersShouldHaveTitles(new String[]{"id", "multi1", "multi2", "multi3", "multi4", "dnd0", "dnd1"}, 16);
+
+        // Выключаем dnd1
+        columnsButton.menuItem("dnd1").click();
+        shouldNotBeChecked(columnsButton.menuItem("dnd1"));
+        checkTableHeadersShouldHaveTitles(new String[]{"id", "multi1", "multi2", "multi3", "multi4", "dnd0"}, 15);
+
+        // Включаем dnd2
+        columnsButton.menuItem("dnd2").click();
+        shouldBeChecked(columnsButton.menuItem("dnd2"));
+        checkTableHeadersShouldHaveTitles(new String[]{"id", "multi1", "multi2", "multi3", "multi4", "dnd0", "dnd2"}, 16);
+    }
+
+    private void checkItemsInitialState(N2oDropdownButton columnsButton) {
+        // Существующие элементы
+        columnsButton.shouldHaveItems(20);
+        columnsButton.menuItem("ID").shouldExists();
+
+        columnsButton.menuItem("multi1").shouldExists();
+        columnsButton.menuItem("Наименование").shouldExists();
+        columnsButton.menuItem("Тип").shouldExists();
+
+        columnsButton.menuItem("multi2").shouldExists();
+        columnsButton.menuItem("Статус").shouldExists();
+        columnsButton.menuItem("Регион").shouldExists();
+
+        columnsButton.menuItem("nestedmulti").shouldExists();
+        columnsButton.menuItem("Город").shouldExists();
+        columnsButton.menuItem("Страна").shouldExists();
+
+        columnsButton.menuItem("multi3").shouldExists();
+        columnsButton.menuItem("Адрес").shouldExists();
+        columnsButton.menuItem("Телефон").shouldExists();
+        columnsButton.menuItem("Email").shouldExists();
+
+        columnsButton.menuItem("multi4").shouldExists();
+        columnsButton.menuItem("Пол").shouldExists();
+        columnsButton.menuItem("Дата").shouldExists();
+
+        columnsButton.menuItem("dnd0").shouldExists();
+        columnsButton.menuItem("dnd1").shouldExists();
+        columnsButton.menuItem("dnd2").shouldExists();
+
+        // Видимые по умолчанию
+        shouldBeChecked(columnsButton.menuItem("ID"));
+
+        shouldBeChecked(columnsButton.menuItem("multi1"));
+        shouldBeChecked(columnsButton.menuItem("Наименование"));
+        shouldBeChecked(columnsButton.menuItem("Тип"));
+
+        shouldBeChecked(columnsButton.menuItem("multi2"));
+        shouldBeChecked(columnsButton.menuItem("Статус"));
+        shouldBeChecked(columnsButton.menuItem("Регион"));
+
+        shouldBeChecked(columnsButton.menuItem("nestedmulti"));
+        shouldBeChecked(columnsButton.menuItem("Город"));
+        shouldBeChecked(columnsButton.menuItem("Страна"));
+
+        shouldBeChecked(columnsButton.menuItem("multi3"));
+        shouldBeChecked(columnsButton.menuItem("Адрес"));
+        shouldBeChecked(columnsButton.menuItem("Телефон"));
+        shouldBeChecked(columnsButton.menuItem("Email"));
+
+        shouldNotBeChecked(columnsButton.menuItem("multi4"));
+        shouldNotBeChecked(columnsButton.menuItem("Пол"));
+        shouldNotBeChecked(columnsButton.menuItem("Дата"));
+
+        shouldBeChecked(columnsButton.menuItem("dnd0"));
+        shouldBeChecked(columnsButton.menuItem("dnd1"));
+        shouldNotBeChecked(columnsButton.menuItem("dnd2"));
+
+        // Заблокированные
+        columnsButton.menuItem("ID").shouldBeDisabled();
+
+        columnsButton.menuItem("multi1").shouldBeDisabled();
+        columnsButton.menuItem("Наименование").shouldBeDisabled();
+        columnsButton.menuItem("Тип").shouldBeDisabled();
+
+        columnsButton.menuItem("multi2").shouldBeDisabled();
+        columnsButton.menuItem("Статус").shouldBeDisabled();
+        columnsButton.menuItem("Регион").shouldBeDisabled();
+        columnsButton.menuItem("nestedmulti").shouldBeDisabled();
+        columnsButton.menuItem("Город").shouldBeDisabled();
+        columnsButton.menuItem("Страна").shouldBeDisabled();
+
+        columnsButton.menuItem("multi3").shouldBeEnabled();
+        columnsButton.menuItem("Адрес").shouldBeEnabled();
+        columnsButton.menuItem("Телефон").shouldBeEnabled();
+        columnsButton.menuItem("Email").shouldBeEnabled();
+
+        columnsButton.menuItem("multi4").shouldBeEnabled();
+        columnsButton.menuItem("Пол").shouldBeEnabled();
+        columnsButton.menuItem("Дата").shouldBeEnabled();
+
+        columnsButton.menuItem("dnd0").shouldBeDisabled();
+        columnsButton.menuItem("dnd1").shouldBeEnabled();
+        columnsButton.menuItem("dnd2").shouldBeEnabled();
+
+    }
+
+    private void checkValues(N2oDropdownButton resizeButton, N2oDropdownButton columnsButton) {
+
         columnsButton.click();
         shouldBeChecked(columnsButton.menuItem("Идентификатор ИПС"));
         shouldNotBeChecked(columnsButton.menuItem("Наименование"));
         shouldBeChecked(columnsButton.menuItem("Регион"));
         table.columns().headers().shouldHaveSize(3);
-        */
+
         resizeButton.click();
         resizeButton.menuItem("5").shouldHaveIcon("fa fa-check");
         resizeButton.menuItem("10").shouldNotHaveIcon();
@@ -671,13 +824,13 @@ class TableButtonGeneratorAT extends AutoTestBase {
      * Проверка того, что колонка выбрана в настройках таблицы
      */
     private void shouldBeChecked(StandardButton button) {
-        button.element().$(".n2o-dropdown-check-container .fa-check").should(Condition.exist);
+        button.element().$(".custom-control-input.n2o-input[type='checkbox']").shouldBe(Condition.checked);
     }
 
     /**
      * Проверка того, что колонка не выбрана в настройках таблицы
      */
     private void shouldNotBeChecked(StandardButton button) {
-        button.element().$(".n2o-dropdown-check-container .fa-check").shouldNot(Condition.exist);
+        button.element().$(".custom-control-input.n2o-input[type='checkbox']").shouldNot(Condition.checked);
     }
 }

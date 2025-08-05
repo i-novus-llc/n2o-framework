@@ -5,7 +5,6 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.N2oButtonGeneratorFactory;
 import net.n2oapp.framework.config.metadata.compile.tablesettings.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.*;
-import net.n2oapp.framework.config.metadata.compile.toolbar.table.*;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.metadata.compile.widget.table.DndColumnCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.table.FilterColumnCompiler;
@@ -52,14 +51,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new UpdateGenerator(),
                 new DeleteGenerator(),
                 new SubmitGenerator(),
-                new CloseGenerator(),
-                new TableColumnsGenerator(),
-                new TableFiltersGenerator(),
-                new TableRefreshGenerator(),
-                new TableResizeGenerator(),
-                new TableWordWrapGenerator(),
-                new TableExportGenerator(),
-                new TableSettingsGenerator());
+                new CloseGenerator());
         b.binders(new WidgetBinder(),
                 new TableBinder(),
                 new ListWidgetBinder(),

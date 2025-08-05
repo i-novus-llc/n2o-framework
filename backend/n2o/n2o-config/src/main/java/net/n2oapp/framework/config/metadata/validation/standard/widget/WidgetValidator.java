@@ -4,10 +4,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -54,17 +51,10 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
 
         if (source.getToolbars() != null) {
             List<N2oButton> menuItems = new ArrayList<>();
-            for (N2oToolbar toolbar : source.getToolbars()) {
-                if (toolbar.getItems() != null) {
-                    for (ToolbarItem item : toolbar.getItems()) {
-                        if (item instanceof N2oButton n2oButton) {
-                            menuItems.add(n2oButton);
-                        } else if (item instanceof N2oSubmenu submenu && submenu.getMenuItems() != null) {
-                            menuItems.addAll(Arrays.asList(submenu.getMenuItems()));
-                        }
-                    }
-                }
-            }
+            Arrays.stream(source.getToolbars())
+                    .filter(toolbar -> toolbar.getItems() != null)
+                    .flatMap(toolbar -> Arrays.stream(toolbar.getItems()))
+                    .forEach(toolbarItem -> addMenuItems(menuItems, toolbarItem));
             p.safeStreamOf(menuItems).forEach(menuItem ->
                     p.validate(menuItem, componentScope, allMetaActions));
             p.checkIdsUnique(menuItems,
@@ -80,6 +70,15 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
                 .forEach(action -> p.validate(action, componentScope));
 
         checkEmptyToolbar(source);
+    }
+
+    private void addMenuItems(List<N2oButton> menuItems, ToolbarItem toolbarItem) {
+        if (toolbarItem instanceof N2oButton n2oButton) {
+            menuItems.add(n2oButton);
+        } else if (toolbarItem instanceof N2oSubmenu submenu && submenu.getMenuItems() != null) {
+            menuItems.addAll(Arrays.asList(submenu.getMenuItems()));
+        } else if (toolbarItem instanceof N2oGroup group && group.getItems() != null)
+            Arrays.stream(group.getItems()).forEach(groupItem -> addMenuItems(menuItems, groupItem));
     }
 
     private void checkEmptyToolbar(T source) {
@@ -148,7 +147,7 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
     private void checkDatasource(T widget, SourceProcessor p) {
         if (widget.getDatasourceId() != null)
             ValidationUtils.checkDatasourceExistence(widget.getDatasourceId(), p,
-                    String.format("Виджет %s cсылается на несуществующий источник данных '%s'",
+                    String.format("Виджет %s ссылается на несуществующий источник данных '%s'",
                             ValidationUtils.getIdOrEmptyString(widget.getId()), widget.getDatasourceId()));
         if (widget.getDatasource() != null && widget.getDatasourceId() != null)
             throw new N2oMetadataValidationException(

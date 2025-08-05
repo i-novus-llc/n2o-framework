@@ -1,6 +1,6 @@
 import { ComponentType, CSSProperties, FC, MouseEvent, VFC } from 'react'
 
-import { Condition } from '../toolbar/Toolbar'
+import { type Condition } from '../toolbar/Toolbar'
 import { Selection } from '../../components/Table'
 
 export enum MOVE_MODE {
@@ -38,7 +38,7 @@ export interface BodyCell {
 export type HeaderCell = {
     parentId?: string
     moveMode?: MOVE_MODE
-    disabled: boolean
+    enabled: boolean
     visible: boolean
     columnId: string
     visibleState: boolean
@@ -69,19 +69,14 @@ export type HeaderCell = {
     format?: string
 }
 
-interface Header {
-    cells: HeaderCell[]
-}
-
-interface Body {
-    cells: BodyCell[]
-}
-
 export interface Table {
     textWrap?: boolean
-    isDefaultColumns: boolean
-    header?: Header
-    body?: Body
+    header?: {
+        cells: HeaderCell[]
+    }
+    body?: {
+        cells: BodyCell[]
+    }
     saveSettings?: boolean
     defaultProps?: Table
     datasource?: string

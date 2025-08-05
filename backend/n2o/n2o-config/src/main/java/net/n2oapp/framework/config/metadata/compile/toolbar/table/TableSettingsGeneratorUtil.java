@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.*;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
@@ -25,11 +26,12 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public class TableSettingsGeneratorUtil {
 
     private static final String WIDGET_ID = "widgetId";
+
     public static N2oButton generateColumns(boolean isForSubMenu, CompileProcessor p) {
         N2oButton columnsButton = new N2oButton();
         fillButton(columnsButton, isForSubMenu, "columns", p);
         columnsButton.setSrc(p.resolve(property("n2o.api.generate.button.columns.action.src"), String.class));
-        columnsButton.setModel(ReduxModelEnum.FILTER);
+        columnsButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
         return columnsButton;
     }
 
@@ -43,7 +45,7 @@ public class TableSettingsGeneratorUtil {
         Map<String, String> payload = Collections.singletonMap(WIDGET_ID, widgetId);
         filterAction.setPayload(payload);
         filterButton.setActions(new N2oCustomAction[]{filterAction});
-        filterButton.setModel(ReduxModelEnum.FILTER);
+        filterButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
         return filterButton;
     }
 
@@ -52,7 +54,7 @@ public class TableSettingsGeneratorUtil {
         fillButton(refreshButton, isForSubMenu, "refresh", p);
         N2oRefreshAction refreshAction = new N2oRefreshAction();
         refreshButton.setActions(new N2oRefreshAction[]{refreshAction});
-        refreshButton.setModel(ReduxModelEnum.FILTER);
+        refreshButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
         return refreshButton;
     }
 
@@ -60,7 +62,7 @@ public class TableSettingsGeneratorUtil {
         N2oButton resizeButton = new N2oButton();
         fillButton(resizeButton, isForSubMenu, "resize", p);
         resizeButton.setSrc(p.resolve(property("n2o.api.generate.button.resize.action.src"), String.class));
-        resizeButton.setModel(ReduxModelEnum.FILTER);
+        resizeButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
         return resizeButton;
     }
 
@@ -78,7 +80,7 @@ public class TableSettingsGeneratorUtil {
         wordWrapAction.setType(p.resolve(property("n2o.api.generate.button.wordwrap.action.type"), String.class));
         wordWrapAction.setPayload(payload);
         wordWrapButton.setActions(new N2oCustomAction[]{wordWrapAction});
-        wordWrapButton.setModel(ReduxModelEnum.FILTER);
+        wordWrapButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
 
         return wordWrapButton;
     }
@@ -133,7 +135,7 @@ public class TableSettingsGeneratorUtil {
         N2oButton exportButton = new N2oButton();
         fillButton(exportButton, isForSubMenu, "export", p);
         exportButton.setActions(new N2oShowModal[]{showModalAction});
-        exportButton.setModel(ReduxModelEnum.FILTER);
+        exportButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
         N2oButton.EnablingDependency dependency = new N2oButton.EnablingDependency();
         dependency.setMessage("Недоступно при пустых данных");
         dependency.setValue("this.length > 0");
@@ -148,7 +150,7 @@ public class TableSettingsGeneratorUtil {
         N2oButton resetButton = new N2oButton();
         fillButton(resetButton, isForSubMenu, "reset", p);
         resetButton.setSrc(p.resolve(property("n2o.api.generate.button.reset.action.src"), String.class));
-        resetButton.setModel(ReduxModelEnum.FILTER);
+        resetButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
         return resetButton;
     }
 

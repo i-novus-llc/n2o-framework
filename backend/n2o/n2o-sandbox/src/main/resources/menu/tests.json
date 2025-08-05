@@ -421,6 +421,10 @@
           "name": "TableButtonGeneratorAT. testResetSettings"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/button_generator/columns_table_settings",
+          "name": "TableButtonGeneratorAT. testColumnsTableSettings"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/button_generator/tab_sync",
           "name": "TableButtonGeneratorAT. testTabSync"
         },

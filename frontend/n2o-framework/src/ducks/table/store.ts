@@ -1,16 +1,18 @@
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import set from 'lodash/set'
 import get from 'lodash/get'
 import merge from 'lodash/merge'
 
-import { reorderElement } from '../utils'
+import { reorderElement, findItemRecursive } from '../utils'
+import { logger } from '../../core/utils/logger'
 
 import {
     ChangeTableColumnParam,
     ChangeTableParam,
     RegisterTable,
     ReorderTableColumn,
-    SwitchTableColumnParam, UpdateTableParams,
+    SwitchTableColumnParam,
+    UpdateTableParams,
 } from './Actions'
 import { getDefaultTableState } from './constants'
 import { type State } from './Table'
@@ -22,15 +24,19 @@ export const tableSlice = createSlice({
     initialState,
     reducers: {
         registerTable: {
-            prepare(widgetId, initProps) {
-                return ({
-                    payload: { widgetId, initProps },
-                })
+            prepare(widgetId, initProps, overwrite?: boolean) {
+                return ({ payload: { widgetId, initProps, overwrite } })
             },
 
             reducer(state, action: RegisterTable) {
-                const { widgetId, initProps } = action.payload
+                const { widgetId, initProps, overwrite } = action.payload
                 const currentState = state[widgetId] || {}
+
+                if (overwrite) {
+                    state[widgetId] = { ...getDefaultTableState(), ...currentState, ...initProps }
+
+                    return
+                }
 
                 state[widgetId] = { ...getDefaultTableState(), ...merge(currentState, initProps) }
             },
@@ -77,8 +83,7 @@ export const tableSlice = createSlice({
                 const { widgetId, id, paramKey, value, parentId } = action.payload
 
                 if (!state[widgetId]) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`Виджет ${widgetId} не существует`)
+                    logger.warn(`Виджет ${widgetId} не существует`)
 
                     return
                 }
@@ -87,21 +92,17 @@ export const tableSlice = createSlice({
                 const { cells } = header || {}
 
                 if (!cells) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`Виджет ${widgetId} не существует`)
+                    logger.warn(`Виджет ${widgetId} не существует`)
 
                     return
                 }
 
                 if (parentId) {
-                    const parentIndex = cells.findIndex(({ id }) => id === parentId)
-                    const parentHeader = cells[parentIndex]
-                    const { children = [] } = parentHeader || {}
+                    const parentItem = findItemRecursive(cells, parentId)
+                    const targetChild = parentItem?.children?.find(child => child.id === id)
 
-                    const targetChildren = children.find(({ id: childrenId }) => childrenId === id)
-
-                    if (targetChildren) {
-                        set(targetChildren, paramKey, value)
+                    if (targetChild) {
+                        set(targetChild, paramKey, value)
                     }
 
                     return
@@ -110,7 +111,9 @@ export const tableSlice = createSlice({
                 const targetIndex = cells.findIndex(({ id: currentId }) => currentId === id)
                 const targetHeader = cells[targetIndex]
 
-                set(targetHeader, paramKey, value)
+                if (targetHeader) {
+                    set(targetHeader, paramKey, value)
+                }
             },
         },
 

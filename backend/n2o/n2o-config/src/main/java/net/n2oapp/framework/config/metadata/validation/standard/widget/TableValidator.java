@@ -4,6 +4,10 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oColumnsTableSetting;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oGroup;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -48,6 +52,7 @@ public class TableValidator extends ListWidgetValidator<N2oTable> {
             p.safeStreamOf(source.getFilters().getItems()).forEach(item -> p.validate(item, widgetScope));
 
         checkEmptyToolbar(source);
+        checkUniqueColumnsTableSetting(source);
     }
 
     private static void checkEmptyToolbar(N2oTable source) {
@@ -58,6 +63,49 @@ public class TableValidator extends ListWidgetValidator<N2oTable> {
             throw new N2oMetadataValidationException(
                     String.format("Не заданы элементы или атрибут 'generate' в тулбаре в <overlay> таблицы %s",
                             ValidationUtils.getIdOrEmptyString(source.getId())));
+    }
+
+    /**
+     * Проверяет, что настройки колонок таблицы (<ts:columns/>) встречаются только один раз во всех тулбарах
+     * на любом уровне вложенности (включая группы и подменю)
+     *
+     * @param source таблица для проверки
+     * @throws N2oMetadataValidationException если найдено более одного элемента <ts:columns/>
+     */
+    private void checkUniqueColumnsTableSetting(N2oTable source) {
+        if (source.getToolbars() == null) return;
+
+        int[] counter = new int[1];
+
+        Arrays.stream(source.getToolbars())
+                .filter(toolbar -> toolbar.getItems() != null)
+                .forEach(toolbar -> countColumnsSettings(toolbar.getItems(), counter));
+
+        if (counter[0] > 1) {
+            throw new N2oMetadataValidationException(
+                    String.format("В таблице %s найдено несколько элементов <ts:columns/>. Допускается только один элемент.",
+                            ValidationUtils.getIdOrEmptyString(source.getId())));
+        }
+    }
+
+    /**
+     * Рекурсивно подсчитывает элементы <ts:columns/>
+     */
+    private void countColumnsSettings(ToolbarItem[] toolbarItems, int[] counter) {
+        if (toolbarItems == null) return;
+
+        for (ToolbarItem toolbarItem : toolbarItems) {
+            if (toolbarItem instanceof N2oColumnsTableSetting) {
+                counter[0]++;
+                if (counter[0] > 1) return;
+            } else if (toolbarItem instanceof N2oSubmenu submenu) {
+                countColumnsSettings(submenu.getMenuItems(), counter);
+                if (counter[0] > 1) return;
+            } else if (toolbarItem instanceof N2oGroup group) {
+                countColumnsSettings(group.getItems(), counter);
+                if (counter[0] > 1) return;
+            }
+        }
     }
 
     /**

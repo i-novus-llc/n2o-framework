@@ -17,7 +17,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -85,13 +84,10 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
 
     private void initGenerate(N2oSubmenu sub, Submenu button,
                               CompileContext<?, ?> context, CompileProcessor p) {
+        N2oToolbar toolbar = p.getScope(N2oToolbar.class);
         if (!ArrayUtils.isEmpty(sub.getGenerate())) {
             if (button.getContent() == null)
                 button.setContent(new ArrayList<>());
-
-            N2oToolbar toolbar = p.getScope(N2oToolbar.class);
-            toolbar.setGeneratedForSubMenu(true);
-
             List<AbstractButton> generatedButtons = generateButtons(sub, toolbar, buttonGeneratorFactory, context, p);
             button.getContent().addAll(
                     generatedButtons.stream()
@@ -99,9 +95,8 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
                             .peek(b -> b.setColor(null))
                             .toList()
             );
-            if (Arrays.asList(sub.getGenerate()).contains("tableSettings")) {
-                button.setIcon(p.resolve(property("n2o.api.generate.button.tableSettings.icon"), String.class));
-            }
+
         }
     }
+
 }

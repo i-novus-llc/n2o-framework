@@ -27,6 +27,7 @@ public class MultiColumnCompiler extends BaseColumnCompiler<N2oMultiColumn> {
     @Override
     public MultiColumn compile(N2oMultiColumn source, CompileContext<?, ?> context, CompileProcessor p) {
         MultiColumn compiled = new MultiColumn();
+        compiled.setId(source.getId());
         compileBaseProperties(source, compiled, p);
         compiled.setLabel(source.getLabel());
         compiled.setMultiHeader(true);

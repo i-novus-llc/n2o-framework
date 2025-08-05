@@ -5,6 +5,7 @@ import { Table } from './Table'
 export type RegisterTablePayload = {
     widgetId: string
     initProps: Table
+    overwrite?: boolean
 }
 
 export type ChangeTableColumnParamPayload = {

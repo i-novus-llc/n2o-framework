@@ -1,7 +1,6 @@
 import { Table } from './Table'
 
 export const VISIBLE_STATE = 'visibleState'
-export const IS_DEFAULT_COLUMNS = 'isDefaultColumns'
 
 export const getDefaultColumnState = () => ({
     isInit: true,
@@ -15,5 +14,4 @@ export const getDefaultColumnState = () => ({
 
 export const getDefaultTableState = (): Table => ({
     header: { cells: [] },
-    [IS_DEFAULT_COLUMNS]: false,
 })

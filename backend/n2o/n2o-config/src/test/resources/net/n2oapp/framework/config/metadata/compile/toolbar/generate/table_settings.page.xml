@@ -1,13 +1,28 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0">
     <datasources>
         <datasource id="ds1"/>
     </datasources>
     <regions>
         <table id="tb1" object-id="utBlank" datasource="ds1">
-            <toolbar place="topLeft" generate="tableSettings"/>
+            <toolbar place="topLeft">
+                <ts:filters/>
+                <ts:columns/>
+                <ts:refresh/>
+                <ts:resize/>
+                <ts:word-wrap/>
+                <ts:export/>
+            </toolbar>
 
             <toolbar place="topRight">
-                <sub-menu generate="tableSettings"/>
+                <sub-menu>
+                    <ts:filters/>
+                    <ts:columns/>
+                    <ts:refresh/>
+                    <ts:resize/>
+                    <ts:word-wrap/>
+                    <ts:export/>
+                </sub-menu>
             </toolbar>
         </table>
     </regions>

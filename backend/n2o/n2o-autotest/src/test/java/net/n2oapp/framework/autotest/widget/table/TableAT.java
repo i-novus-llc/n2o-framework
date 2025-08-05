@@ -414,6 +414,7 @@ class TableAT extends AutoTestBase {
         StandardButton button = table.filters().toolbar().button("Сбросить");
         InputText input = table.filters().fields().field("name").control(InputText.class);
 
+        button.shouldExists();
         button.shouldBeDisabled();
         input.setValue("test");
         button.shouldBeEnabled();

@@ -134,7 +134,7 @@ class WidgetValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/widgetHasNotExistingDatasource.page.xml")
         );
-        assertEquals("Виджет 'w1' cсылается на несуществующий источник данных 'ds2'", exception.getMessage());
+        assertEquals("Виджет 'w1' ссылается на несуществующий источник данных 'ds2'", exception.getMessage());
     }
 
     @Test
