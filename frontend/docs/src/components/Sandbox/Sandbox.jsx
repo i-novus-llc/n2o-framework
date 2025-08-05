@@ -19,9 +19,10 @@ function SandboxBody({
     showFooter,
     className,
     isLightEditor = false,
-                     }) {
+  }) {
     const [loadError, setLoadError] = useState(null)
     const [projectData, setProjectData] = useState(null)
+    const { origin } = window?.location
 
     const filesMap = useMemo(() => {
         const filesMap = {}
@@ -36,7 +37,9 @@ function SandboxBody({
     }, [projectData])
 
     useEffect(() => {
-        fetch(`${CONFIG.sandboxUrl}/project/${projectId}?stand=${CONFIG.n2oSandboxUrl}`)
+        const { location } = window
+
+        fetch(`${CONFIG.sandboxUrl}/project/${projectId}?stand=${origin}/sandbox/`)
                 .then((response) => {
                     if (response.ok) {
                         return response.json()
@@ -77,7 +80,7 @@ function SandboxBody({
     }
     const src = isLightEditor ?
             `${CONFIG.sandboxUrl}/editor/${projectData.id}/?light` :
-            `${CONFIG.n2oSandboxUrl}/view/${projectData.id}/`
+            `${origin}/sandbox/view/${projectData.id}/`
 
     return (
             <>
