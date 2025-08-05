@@ -1,8 +1,6 @@
 {
     "sandboxUrl": "https://sandbox.i-novus.ru",
-    "n2oSandboxUrl": "https://next.n2oapp.net/sandbox",
-    "n2oVersionUrl": "https://next.n2oapp.net/sandbox/n2o/version",
     "n2oVersion": "7.28.10-SNAPSHOT",
-    "next": "https://n2o.i-novus.ru",
-    "docusaurusUrl": "/"
+    "docusaurusUrl": "/",
+    "sandboxStandsUrl": "https://next-n2o.i-novus.ru/sandbox/stands"
 }
