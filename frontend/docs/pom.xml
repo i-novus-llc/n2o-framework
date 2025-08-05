@@ -16,9 +16,7 @@
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
         <sandboxUrl>https://sandbox.i-novus.ru</sandboxUrl>
-        <n2oSandboxUrl>https://next.n2oapp.net/sandbox</n2oSandboxUrl>
-        <n2oVersionUrl>https://next.n2oapp.net/sandbox/n2o/version</n2oVersionUrl>
-        <next>https://n2o.i-novus.ru</next>
+        <sandboxStandsUrl>https://next-n2o.i-novus.ru/sandbox/stands</sandboxStandsUrl>
         <docusaurusUrl>/</docusaurusUrl>
     </properties>
 
@@ -39,11 +37,9 @@
                             <target>
                                 <echo file="${basedir}/src/ci-config.json">{
     "sandboxUrl": "${sandboxUrl}",
-    "n2oSandboxUrl": "${n2oSandboxUrl}",
-    "n2oVersionUrl": "${n2oVersionUrl}",
     "n2oVersion": "${project.version}",
-    "next": "${next}",
-    "docusaurusUrl": "${docusaurusUrl}"
+    "docusaurusUrl": "${docusaurusUrl}",
+    "sandboxStandsUrl": "${sandboxStandsUrl}"
 }
                                 </echo>
                             </target>
