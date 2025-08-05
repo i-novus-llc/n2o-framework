@@ -10,7 +10,7 @@ springServices:
     imageName: n2o/n2o-sandbox
     resources:
       limits:
-        memory: 800M
+        memory: 1000M
         cpu: 500m
       requests:
         memory: 400M
