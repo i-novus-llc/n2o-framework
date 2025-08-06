@@ -58,16 +58,16 @@ class InputMoneyAT extends AutoTestBase {
 
         inputMoney = getFields().field("money_s").control(InputMoneyControl.class);
         inputMoney.shouldBeEnabled();
-        inputMoney.shouldHaveValue("1 200 400,00");
+        inputMoney.shouldHaveValue("1 200 400,00");
         inputMoney.click();
         inputMoney.backspace();
-        inputMoney.shouldHaveValue("1 200 400,0");
+        inputMoney.shouldHaveValue("1 200 400,0");
         inputMoney.backspace();
-        inputMoney.shouldHaveValue("1 200 400,");
+        inputMoney.shouldHaveValue("1 200 400,");
 
         inputMoney = getFields().field("money_d").control(InputMoneyControl.class);
         inputMoney.shouldBeEnabled();
-        inputMoney.shouldHaveValue("1 200 400,10");
+        inputMoney.shouldHaveValue("1 200 400,10");
     }
 
 
