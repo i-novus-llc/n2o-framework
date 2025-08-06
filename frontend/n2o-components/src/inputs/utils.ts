@@ -51,7 +51,7 @@ const escapeForRegExp = (string: string): string => {
  * removeTrailingExclusions("hello!!", ["!", "!!"]); // "hello"
  * removeTrailingExclusions("file.tar.gz", [".gz", ".tar"]); // "file"
  */
-export const removeTrailingExclusions = (input: string, exclusions: string[] = []): string => {
+export const removeTrailingExclusions = (input: string | null, exclusions: string[] = []) => {
     if (!input) { return input }
 
     const nonEmptyExclusions = exclusions.filter(exclusion => exclusion !== '')
@@ -99,6 +99,17 @@ export function formatNumber(num: number, decimalLimit?: number): string {
     return `${integerPart}.${decimalPart}${zerosToAdd}`
 }
 
-export function replaceChar(inputString: string, from: string, to: string): string {
-    return inputString.split(from).join(to)
+export function replaceChar(value: string | null, from: string, to: string) {
+    if (!value) { return value }
+
+    const escapedFrom = from.replace(/[$()*+.?[\\\]^{|}]/g, '\\$&')
+    const regex = new RegExp(escapedFrom, 'g')
+
+    return value.replace(regex, to)
+}
+
+export function removeAllSpaces(value: string | null) {
+    if (!value) { return value }
+
+    return value.replace(/\s/g, '')
 }
