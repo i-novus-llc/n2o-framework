@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Build Frontend
         run: |
@@ -27,13 +27,13 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: 17
+          java-version: 21
           distribution: 'temurin'
 
       - name: Set up Apache Maven Central
         uses: actions/setup-java@v3  # running setup-java again overwrites the settings.xml
         with:
-          java-version: 17
+          java-version: 21
           distribution: 'temurin'
           server-id: central # Value of the distributionManagement/repository/id field of the pom.xml
           server-username: SONATYPE_USER # env variable for username in deploy
