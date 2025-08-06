@@ -1,10 +1,10 @@
-import React, { ChangeEvent, FocusEvent } from 'react'
+import React, { ChangeEvent, FocusEvent, ComponentType } from 'react'
 import classNames from 'classnames'
 import { useMaskito } from '@maskito/react'
 import { maskitoNumberOptionsGenerator } from '@maskito/kit'
 import { type MaskitoOptions, maskitoTransform } from '@maskito/core'
 
-import { removeTrailingExclusions, formatNumber, replaceChar } from './utils'
+import { removeTrailingExclusions, formatNumber, replaceChar, removeAllSpaces } from './utils'
 
 /** символ с которым хранится float в хранилище после изменения */
 export const STORE_DECIMAL_SYMBOL = '.'
@@ -44,7 +44,7 @@ function getDefaultValue(
     return maskitoTransform(formatNumber(defaultValue, decimalLimit), options)
 }
 
-export function InputMoney({
+function Component({
     className,
     value: defaultValue,
     onChange,
@@ -86,30 +86,13 @@ export function InputMoney({
             return
         }
 
-        const cleanedInput = removeTrailingExclusions(maskedValue, [suffix])
-        const value = replaceChar(cleanedInput, decimalSymbol, STORE_DECIMAL_SYMBOL)
-
-        onChange?.(value || null)
+        onChange?.(maskedValue || null)
     }
 
     const handleBlur = (e: FocusEvent<HTMLInputElement>): void => {
-        const { value: targetValue } = e.target
+        const { value: maskedValue } = e.target
 
-        const input = removeTrailingExclusions(targetValue, [suffix])
-
-        // @INFO maskito не удаляет decimalSymbol в конце value
-        if (input.endsWith(decimalSymbol)) {
-            const cleanedInput = removeTrailingExclusions(input, [decimalSymbol])
-
-            onChange?.(cleanedInput || null)
-            onBlur?.(cleanedInput || null)
-
-            return
-        }
-
-        const value = replaceChar(input, decimalSymbol, STORE_DECIMAL_SYMBOL)
-
-        onBlur?.(value || null)
+        onBlur?.(maskedValue || null)
     }
 
     return (
@@ -127,3 +110,51 @@ export function InputMoney({
         </div>
     )
 }
+
+/** Очистка значения от приставок */
+export function withStoreEvent(
+    WrappedComponent: ComponentType<InputMoneyProps>,
+) {
+    return function WithInterceptors(props: InputMoneyProps) {
+        const { onChange, onBlur, suffix, decimalSymbol = ',' } = props
+
+        const cleanValue = (value: string | null): string | null => {
+            /** очистка от suffix */
+            let result = suffix ? removeTrailingExclusions(value, [suffix]) : value
+
+            /** очистка от пробелов */
+            result = removeAllSpaces(result)
+
+            /** замена decimalSymbol на STORE_DECIMAL_SYMBOL  */
+            return replaceChar(result, decimalSymbol, STORE_DECIMAL_SYMBOL)
+        }
+
+        const handleChange = (value: string | null) => {
+            onChange?.(cleanValue(value))
+        }
+
+        const handleBlur = (value: string | null) => {
+            let result = cleanValue(value)
+
+            if (result?.endsWith(STORE_DECIMAL_SYMBOL)) {
+                result = removeTrailingExclusions(result, [STORE_DECIMAL_SYMBOL])
+                onChange?.(result || null)
+                onBlur?.(result || null)
+
+                return
+            }
+
+            onBlur?.(result)
+        }
+
+        return (
+            <WrappedComponent
+                {...props}
+                onChange={handleChange}
+                onBlur={handleBlur}
+            />
+        )
+    }
+}
+
+export const InputMoney = withStoreEvent(Component)
