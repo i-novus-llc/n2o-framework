@@ -1,4 +1,4 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <input-select id="select" label="InputSelect" type="multi">
@@ -8,6 +8,7 @@
                     <option id="three" name="Three"/>
                 </options>
             </input-select>
+            <input-select id="select1" label="InputSelect1" type="multi" query-id="test"/>
         </fields>
     </form>
 </simple-page>

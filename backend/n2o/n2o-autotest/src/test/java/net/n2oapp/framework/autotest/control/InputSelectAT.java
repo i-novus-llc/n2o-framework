@@ -139,8 +139,10 @@ class InputSelectAT extends AutoTestBase {
 
     @Test
     void testMulti() {
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/multi");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/multi/index.page.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/multi/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/multi/test.query.xml")
         );
 
         SimplePage page = open(SimplePage.class);
@@ -179,6 +181,22 @@ class InputSelectAT extends AutoTestBase {
         input.shouldSelectedMulti(new String[]{"Three"});
         input.backspace();
         input.shouldBeEmpty();
+
+        // Проверка сохранения фильтра при выборе нескольких значений
+        input = page.widget(FormWidget.class).fields().field("InputSelect1").control(InputSelect.class);
+        input.openPopup();
+        input.dropdown().shouldHaveOptions(new String[]{"1","2","11","100","101"});
+
+        input.setValue("1");
+        input.dropdown().shouldHaveOptions(new String[]{"1","11","100","101"});
+
+        input.dropdown().selectMulti(0);
+        input.dropdown().shouldHaveOptions(new String[]{"1","11","100","101"});
+        input.shouldSelectedMulti(new String[]{"1"});
+
+        input.dropdown().selectMulti(2);
+        input.dropdown().shouldHaveOptions(new String[]{"1","11","100","101"});
+        input.shouldSelectedMulti(new String[]{"1","100"});
     }
 
     @Test
