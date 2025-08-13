@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create" name="Добавить" success-text="Товар добавлен в базу">
+            <invocation>
+                <java class="net.n2oapp.framework.tutorial.crud_java.service.CarService"
+                      method="create">
+                    <arguments>
+                        <argument type="entity"
+                                  class="net.n2oapp.framework.tutorial.crud_java.model.Car"/>
+                    </arguments>
+                    <spring/>
+                </java>
+            </invocation>
+            <in>
+                <field id="name" mapping="[0].name"/>
+                <field id="price" mapping="[0].price"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+        </operation>
+
+        <operation id="update" name="Изменить" success-text="Данные о товаре изменены">
+            <invocation>
+                <java class="net.n2oapp.framework.tutorial.crud_java.service.CarService"
+                      method="update">
+                    <arguments>
+                        <argument type="entity"
+                                  class="net.n2oapp.framework.tutorial.crud_java.model.Car"/>
+                    </arguments>
+                    <spring/>
+                </java>
+            </invocation>
+            <in>
+                <field id="id" mapping="[0].id"/>
+                <field id="name" mapping="[0].name"/>
+                <field id="price" mapping="[0].price"/>
+            </in>
+        </operation>
+
+        <operation id="delete" name="Удалить" success-text="Данные о товаре удалены">
+            <invocation>
+                <java class="net.n2oapp.framework.tutorial.crud_java.service.CarService"
+                      method="delete">
+                    <arguments>
+                        <argument type="primitive" name="id"/>
+                    </arguments>
+                    <spring/>
+                </java>
+            </invocation>
+            <in>
+                <field id="id" domain="long"/>
+            </in>
+        </operation>
+    </operations>
+</object>

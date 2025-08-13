@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Магазин">
+    <table>
+        <datasource query-id="car"/>
+        <columns>
+            <column text-field-id="id" label="№"/>
+            <column text-field-id="name" label="Наименование"/>
+            <column text-field-id="price" label="Цена"/>
+        </columns>
+
+        <filters>
+            <row>
+                <input-text id="minPrice" label="Минимальная цена"/>
+                <input-text id="maxPrice" label="Максимальная цена"/>
+            </row>
+        </filters>
+
+        <toolbar generate="crud"/>
+    </table>
+</simple-page>
