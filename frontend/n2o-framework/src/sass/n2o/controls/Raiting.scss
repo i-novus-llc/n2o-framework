@@ -16,6 +16,7 @@
     }
 
     .rating__label {
+        min-width: 19px;
         cursor: pointer;
         padding: 0 0.1em;
         font-size: 1rem;
@@ -28,7 +29,7 @@
 
     .rating__label--half {
         padding-right: 0;
-        margin-right: -0.6em;
+        margin-right: -1.2em;
         z-index: 2;
     }
 
