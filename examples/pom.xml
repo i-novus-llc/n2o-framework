@@ -12,6 +12,7 @@
         <module>crud</module>
         <module>crud-sql</module>
         <module>crud-rest</module>
+        <module>crud-java</module>
         <module>bpm</module>
     </modules>
 </project>
