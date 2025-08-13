@@ -21,7 +21,7 @@ export function withTooltip<P extends Props>(Component: ComponentType<P>) {
         if (!hint) { return <Component {...props} /> }
 
         return (
-            <Tooltip hint={hint} placement={placement || 'bottom'}>
+            <Tooltip hint={hint} placement={placement || 'bottom'} className="n2o-cell-tooltip">
                 <Component {...props} />
             </Tooltip>
         )
