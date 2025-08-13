@@ -42,7 +42,7 @@ function ListTextCellBody({
             {list.length === 1
                 ? list[0]
                 : (
-                    <Tooltip hint={tooltipVisible ? hint : null} placement={placement} trigger={trigger}>
+                    <Tooltip hint={tooltipVisible ? hint : null} placement={placement} trigger={trigger} className="n2o-cell-tooltip">
                         <ListTextCellTrigger
                             label={replacePlaceholder(currentLabel, listLength)}
                             labelDashed={labelDashed}
