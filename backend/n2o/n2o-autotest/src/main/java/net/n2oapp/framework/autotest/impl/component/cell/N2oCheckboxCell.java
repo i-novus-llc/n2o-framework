@@ -50,7 +50,7 @@ public class N2oCheckboxCell extends N2oCell implements CheckboxCell {
 
     @Override
     public Tooltip tooltip() {
-        SelenideElement element = element().parent().$(".tooltip-inner");
+        SelenideElement element = element().parent().parent().$(".tooltip-container");
         return N2oSelenide.component(element, Tooltip.class);
     }
 }

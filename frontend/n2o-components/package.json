@@ -38,6 +38,7 @@
     "lint": "yarn eslint && yarn stylelint"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.27.13",
     "@fontsource/exo-2": "^4.3.0",
     "@fortawesome/fontawesome-free": "^6.4.2",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
