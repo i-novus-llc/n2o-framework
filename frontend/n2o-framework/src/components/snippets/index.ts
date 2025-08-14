@@ -7,7 +7,7 @@ import { Spinner } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 import { Status } from '@i-novus/n2o-components/lib/display/Status'
 import { StatusText } from '@i-novus/n2o-components/lib/display/StatusText/StatusText'
 import { Tabs } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
-import { Tooltip } from '@i-novus/n2o-components/lib/display/Tooltip'
+import { Tooltip } from '@i-novus/n2o-components/lib/display/Tooltip/Tooltip'
 
 import Alert from './Alerts/Alert'
 import { Collapse } from './Collapse/Collapse'
