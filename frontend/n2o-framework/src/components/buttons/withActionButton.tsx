@@ -134,7 +134,7 @@ export function withActionButton({ onClick = emptyHandler }: { onClick?: EventHa
                 ...reduxProps,
             }, onClick)
 
-            const { model: prefix, datasource } = props
+            const { model: prefix, datasource, icon } = props
             const model = useSelector(getModelByPrefixAndNameSelector(prefix, datasource))
             /* TODO брать label & hint для резолва из reduxProps
              * как костыль берём его из пропсов только потому что кнопки в форме уже зарезолвены на уровне филда,
@@ -163,6 +163,7 @@ export function withActionButton({ onClick = emptyHandler }: { onClick?: EventHa
                 label,
                 placement: withExtendedAction.hintPosition,
                 color,
+                icon: withExtendedAction.icon || icon,
                 // url,
             }
 
