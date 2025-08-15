@@ -21,7 +21,7 @@ public class StompEventCompiler extends BaseEventCompiler<N2oStompEvent, StompEv
     @Override
     public StompEvent compile(N2oStompEvent source, CompileContext<?, ?> context, CompileProcessor p) {
         StompEvent event = new StompEvent();
-        initEvents(event, source);
+        initEvents(event, source, p);
         event.setDestination(source.getDestination());
         return event;
     }

@@ -28,7 +28,7 @@ public class OnChangeEventCompiler extends BaseEventCompiler<N2oOnChangeEvent, O
     public OnChangeEvent compile(N2oOnChangeEvent source, CompileContext<?, ?> context, CompileProcessor p) {
         OnChangeEvent event = new OnChangeEvent();
         source.setActions(initActions(source, p));
-        super.initEvents(event, source);
+        super.initEvents(event, source, p);
 
         event.setType(p.resolve(property("n2o.api.page.event.on_change.type"), String.class));
         event.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
