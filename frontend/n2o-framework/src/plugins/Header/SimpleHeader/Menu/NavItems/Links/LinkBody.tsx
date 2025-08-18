@@ -14,13 +14,14 @@ interface LinkBodyProps {
     imageShape?: ImageShape
     badge?: BadgeProps
     iconPosition?: ICON_POSITIONS
+    className?: string
 }
 
-export function LinkBody({ imageSrc, icon, title, imageShape, badge, iconPosition = ICON_POSITIONS.LEFT }: LinkBodyProps) {
+export function LinkBody({ imageSrc, icon, title, imageShape, badge, className, iconPosition = ICON_POSITIONS.LEFT }: LinkBodyProps) {
     return (
         <>
             <NavItemImage imageSrc={imageSrc} title={title} imageShape={imageShape} />
-            <IconContainer className="n2o-link-icon-container" icon={icon} iconPosition={iconPosition}>
+            <IconContainer className={classNames('n2o-link-icon-container', className)} icon={icon} iconPosition={iconPosition}>
                 {!imageSrc && icon && <i className={classNames('mr-1', icon)} />}
                 <Badge {...badge}>{needRender(title) && title}</Badge>
             </IconContainer>
