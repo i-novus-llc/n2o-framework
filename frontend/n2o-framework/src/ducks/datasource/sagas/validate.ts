@@ -26,9 +26,7 @@ export function* validate({ payload, meta }: StartValidateAction) {
     const validation: ReturnType<ReturnType<typeof dataSourceValidationSelector>> =
         yield select(dataSourceValidationSelector(id, validationsKey))
 
-    if (!validation) {
-        return false
-    }
+    if (!validation) { return true }
 
     const prevProcess = asyncValidations[id]
     let fields2Validate = fields?.length ? fields : Object.keys(validation)
