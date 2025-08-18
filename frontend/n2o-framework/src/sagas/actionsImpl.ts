@@ -12,7 +12,6 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import every from 'lodash/every'
 import merge from 'deepmerge'
-import { Dispatch } from 'redux'
 
 import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
 import {
@@ -29,7 +28,7 @@ import { disableWidget, enableWidget } from '../ducks/widgets/store'
 import { resolveButton } from '../ducks/toolbar/sagas'
 import { changeButtonDisabled } from '../ducks/toolbar/store'
 import { ModelPrefix } from '../core/datasource/const'
-import { failValidate, submit } from '../ducks/datasource/store'
+import { failValidate, startValidate, submit } from '../ducks/datasource/store'
 import { EffectWrapper } from '../ducks/api/utils/effectWrapper'
 import { State } from '../ducks/State'
 import { State as WidgetsState } from '../ducks/widgets/Widgets'
@@ -37,35 +36,11 @@ import { ButtonContainer } from '../ducks/toolbar/Toolbar'
 import { metaPropsType } from '../plugins/utils'
 import { DataSourceState } from '../ducks/datasource/DataSource'
 import { dataSourceByIdSelector } from '../ducks/datasource/selectors'
+import { validate } from '../ducks/datasource/sagas/validate'
 
 import fetchSaga from './fetch'
 
 // TODO перенести инвок в datasource
-
-interface Validate {
-    dispatch: Dispatch
-    validate: string[]
-}
-
-export function* validate({ dispatch, validate }: Validate) {
-    if (!validate?.length) { return true }
-
-    const state: State = yield select()
-    let valid = true
-
-    for (const datasourceId of validate) {
-        valid = valid && (yield call(
-            validateDatasource,
-            state,
-            datasourceId,
-            ModelPrefix.active,
-            dispatch,
-            true,
-        ))
-    }
-
-    return valid
-}
 
 /**
  * Отправка запроса
@@ -217,6 +192,18 @@ export function* handleInvoke(
     try {
         if (!dataProvider) {
             throw new Error('dataProvider is undefined')
+        }
+        if (modelPrefix === ModelPrefix.active) {
+            const isValid: boolean = yield call(validate, startValidate(
+                datasource,
+                // @ts-ignore проблема с типизацией saga
+                undefined,
+                modelPrefix,
+                undefined,
+                { touched: true },
+            ))
+
+            if (!isValid) { return }
         }
         if (pageId && !optimistic) {
             yield put(disablePage(pageId))
