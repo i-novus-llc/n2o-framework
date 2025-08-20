@@ -6,7 +6,7 @@
                 <graphql endpoint="${graphql.endpoint}">
                     mutation MyMutation {
                         deleteCar(filter: {id: $$id}) {
-                            car {
+                            Car {
                                 id
                             }
                         }
