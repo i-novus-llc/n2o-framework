@@ -69,12 +69,16 @@ class RequestDataAT extends AutoTestBase {
         checkFields(select, inputSelect, autoComplete, inputSelectMulti, autoCompleteMulti);
 
         save.click();
+        // ожидание валидации и сохранения
+        Selenide.sleep(500);
         Selenide.refresh();
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста проверяющего отправку запроса данных на сохранение");
         checkFieldsAfterRefresh(select, inputSelect, autoComplete, inputSelectMulti, autoCompleteMulti);
 
         save.click();
+        // ожидание валидации и сохранения
+        Selenide.sleep(500);
         Selenide.refresh();
         page.shouldExists();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница для автотеста проверяющего отправку запроса данных на сохранение");
