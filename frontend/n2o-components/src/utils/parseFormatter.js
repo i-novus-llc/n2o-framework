@@ -51,7 +51,7 @@ function snils(value, formatString = '000-000-000 00') {
  * @param typeAndformat - строка с типом данных и форматом
  * @returns {*}
  */
-export function parseFormatter(data, typeAndformat = false) {
+export function parseFormatter(data, typeAndformat = '') {
     if (numeral.formats.phone === undefined) {
         numeral.register('format', 'phone', {
             regexps: {
