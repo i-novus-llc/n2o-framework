@@ -18,7 +18,6 @@ import {
     widgetsSelector,
 } from '../ducks/widgets/selectors'
 import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
-import { validate as validateDatasource } from '../core/validation/validate'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../ducks/models/store'
@@ -37,6 +36,7 @@ import { metaPropsType } from '../plugins/utils'
 import { DataSourceState } from '../ducks/datasource/DataSource'
 import { dataSourceByIdSelector } from '../ducks/datasource/selectors'
 import { validate } from '../ducks/datasource/sagas/validate'
+import { ValidationsKey } from '../core/validation/types'
 
 import fetchSaga from './fetch'
 
@@ -144,10 +144,6 @@ function* enable(pageId: string, widgets: string[], buttons: ButtonContainer, bu
     }
 }
 
-/**
- * вызов экшена
- */
-
 export interface HandleInvokePayload {
     datasource: string
     model: ModelPrefix
@@ -194,16 +190,16 @@ export function* handleInvoke(
             throw new Error('dataProvider is undefined')
         }
         if (modelPrefix === ModelPrefix.active) {
-            const isValid: boolean = yield call(validate, startValidate(
+            const isValid: boolean = yield validate(startValidate(
                 datasource,
                 // @ts-ignore проблема с типизацией saga
-                undefined,
+                ValidationsKey.Validations,
                 modelPrefix,
                 undefined,
                 { touched: true },
             ))
 
-            if (!isValid) { return }
+            if (!isValid) { throw new Error('invalid model') }
         }
         if (pageId && !optimistic) {
             yield put(disablePage(pageId))

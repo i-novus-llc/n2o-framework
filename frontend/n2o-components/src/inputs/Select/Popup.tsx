@@ -60,6 +60,10 @@ export class Popup extends React.Component<Props, State> {
         return null
     }
 
+    toggle = () => {
+        // Костыль-заглушка, иначе падает ошибка в reacstrap Uncaught TypeError: this.props.toggle is not a function
+    }
+
     render() {
         const { isExpanded, children, expandPopUp, inputSelect } = this.props
         const { direction } = this.state
@@ -70,7 +74,10 @@ export class Popup extends React.Component<Props, State> {
             : {}
 
         return (
-            <Dropdown isOpen={isExpanded} direction={direction}>
+            <Dropdown isOpen={isExpanded}
+                direction={direction}
+                toggle={this.toggle}
+            >
                 <DropdownMenu
                     className={classNames(
                         'dropdown-menu',
