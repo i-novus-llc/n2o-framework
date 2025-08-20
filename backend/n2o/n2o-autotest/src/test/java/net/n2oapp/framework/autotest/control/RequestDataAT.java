@@ -107,6 +107,8 @@ public class RequestDataAT extends AutoTestBase {
         autoCompleteMulti.shouldHaveTags(new String[]{"test1", "test6"});
 
         save.click();
+        // ожидание валидации и сохранения
+        Selenide.sleep(500);
         Selenide.refresh();
 
         page.shouldExists();
@@ -142,6 +144,8 @@ public class RequestDataAT extends AutoTestBase {
         autoCompleteMulti.shouldBeEmpty();
 
         save.click();
+        // ожидание валидации и сохранения
+        Selenide.sleep(500);
         Selenide.refresh();
 
         page.shouldExists();
