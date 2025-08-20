@@ -74,6 +74,7 @@ class InputMoneyAT extends AutoTestBase {
         getFields().field("Отправить", ButtonField.class).click();
         InputText text_money = getFields().field("text_money").control(InputText.class);
         text_money.shouldHaveValue("1200400.10");
+        inputMoney.shouldHaveValue("1 200 400,10".replace(" ", "\u00A0"));
     }
 
 
