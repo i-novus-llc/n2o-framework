@@ -1499,7 +1499,7 @@
         <xs:attribute name="route" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    URL запроса
+                    URL запроса. По умолчанию формируется из идентификатора источника данных текущего виджета и идентификатора поля ([ид_источника]_[ид_поля])
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
