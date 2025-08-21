@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <datasource query-id="test"/>
+    <columns>
+        <column text-field-id="id"/>
+        <column text-field-id="name"/>
+        <column text-field-id="price">
+            <text format="number 0,0"/>
+        </column>
+    </columns>
+
+    <filters fetch-on-enter="false">
+        <row>
+            <input-text id="minPrice" label="Минимальная цена" domain="integer"/>
+            <input-text id="maxPrice" label="Максимальная цена" domain="integer"/>
+        </row>
+    </filters>
+</table>

@@ -48,6 +48,10 @@
         {
           "templateId": "uxcomponents/regions/subpage",
           "name": "Регион, обновляемый при частичной перезагрузке"
+        },
+        {
+          "templateId": "versions/7.28/fetch_on_enter",
+          "name": "Управление фильтрацией при нажатии на Enter в фильтрах таблицы"
         }
       ]
     },
