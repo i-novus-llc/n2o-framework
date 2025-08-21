@@ -60,6 +60,18 @@
         <webdrivermanager.version>5.8.0</webdrivermanager.version>
 
         <docker.image.tag>${project.version}-${maven.build.timestamp}</docker.image.tag>
+
+        <sonar.sources>.</sonar.sources>
+        <sonar.inclusions>
+            src/main/resources/db/**,
+            src/main/resources/**/*.yml,
+            src/main/java/**
+        </sonar.inclusions>
+        <sonar.test.exclusions>src/test/**</sonar.test.exclusions>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <!-- Конфигурация TypeScript -->
+        <sonar.typescript.tsconfig.path>frontend/n2o-framework/tsconfig.json</sonar.typescript.tsconfig.path>
+        <sonar.typescript.lcov.reportPaths>frontend/n2o-framework/coverage/lcov.info</sonar.typescript.lcov.reportPaths>
     </properties>
 
     <build>
@@ -78,26 +90,6 @@
                     <configuration>
                         <executable>true</executable>
                     </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${jacoco-maven-plugin.version}</version>
-                    <configuration>
-                        <destFile>${project.build.directory}/jacoco.exec</destFile>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>jacoco-site</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>report-aggregate</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.basedir}/target/site/jacoco-aggregate</outputDirectory>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -331,9 +323,7 @@
                         <version>3.2.5</version>
                         <configuration>
                             <testFailureIgnore>false</testFailureIgnore>
-                            <argLine>
-                                -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                            </argLine>
+                            <argLine>-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"</argLine>
                             <includes>
                                 <include>**/*AT.java</include>
                             </includes>
