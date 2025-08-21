@@ -17,10 +17,12 @@ public class N2oStandardDatasourceMerger implements BaseSourceMerger<N2oStandard
 
     @Override
     public N2oStandardDatasource merge(N2oStandardDatasource ref, N2oStandardDatasource source) {
+        setIfNotNull(source::setId, source::getId, ref::getId);
         setIfNotNull(source::setSize, source::getSize, ref::getSize);
         setIfNotNull(source::setDefaultValuesMode, source::getDefaultValuesMode, ref::getDefaultValuesMode);
         setIfNotNull(source::setQueryId, source::getQueryId, ref::getQueryId);
         setIfNotNull(source::setObjectId, source::getObjectId, ref::getObjectId);
+        setIfNotNull(source::setFetchOnInit, source::getFetchOnInit, ref::getFetchOnInit);
         setIfNotNull(source::setSubmit, source::getSubmit, ref::getSubmit);
         addIfNotNull(ref, source, N2oStandardDatasource::setDependencies, N2oStandardDatasource::getDependencies);
         addIfNotNull(ref, source, N2oStandardDatasource::setFilters, N2oStandardDatasource::getFilters);
