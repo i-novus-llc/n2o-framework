@@ -201,7 +201,6 @@ public class DatasourceCompileStaticProcessor {
     }
 
 
-
     /**
      * Инициализация пути источника данных
      *
@@ -249,6 +248,7 @@ public class DatasourceCompileStaticProcessor {
                 getClientDatasourceId(datasourceId, p),
                 searchBarScope.getFilterId()
         );
+        modelLink.setQueryParam(searchBarScope.getFilterId());
         searchBarFilter.setLink(modelLink);
 
         filters.add(searchBarFilter);
@@ -369,13 +369,21 @@ public class DatasourceCompileStaticProcessor {
 
                 Filter filter = new Filter();
                 initMandatoryValidation(datasourceId, preFilter, queryFilter, context, p);
-                filter.setParam(castDefault(preFilter.getParam(), () -> datasourceId + "_" + queryFilter.getParam()));
+
+                String queryParam = queryFilter.getParam();
+                String param = castDefault(preFilter.getParam(), () -> datasourceId + "_" + queryParam);
+
+                filter.setParam(param);
                 filter.setRoutable(castDefault(preFilter.getRoutable(), false));
                 filter.setFilterId(queryFilter.getFilterId());
-                filter.setLink(getFilterModelLink(datasourceId, preFilter, filter.getParam(), p));
+
+                ModelLink link = getFilterModelLink(datasourceId, preFilter, param, p);
+                link.setQueryParam(queryParam);
                 if (preFilter.getRequired() != null) {
-                    filter.getLink().setRequired(preFilter.getRequired());
+                    link.setRequired(preFilter.getRequired());
                 }
+                filter.setLink(link);
+
                 filters.add(filter);
             }
         }

@@ -2,6 +2,8 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
+import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
@@ -112,22 +114,32 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
      * @param p       Процессор связывания
      */
     private void collectFiltersToModels(D page, List<Widget<?>> widgets, BindProcessor p) {
-        if (widgets != null)
-            for (Widget<?> w : widgets)
-                if (w.getFiltersDatasourceId() != null) {
-                    AbstractDatasource filterDatasource = page.getDatasources().get(w.getFiltersDatasourceId());
-                    if (!(filterDatasource instanceof StandardDatasource standardDatasource)) continue;
-                    DataSet data = p.executeQuery(standardDatasource.getQueryId());
-                    if (data != null) {
-                        data.forEach((k, v) -> {
-                            //todo NNO-7523   && !p.canResolveParam(f.getParam())
-                            ModelLink existParam = page.getModels().get(ReduxModelEnum.FILTER, w.getDatasource(), k);
-                            if (v != null && (existParam == null || !p.canResolveParam(existParam.getParam()))) {
-                                page.getModels().add(ReduxModelEnum.FILTER, w.getDatasource(), k, new ModelLink(v));
-                            }
-                        });
+        if (widgets == null) return;
+        widgets.stream().filter(w -> w.getFiltersDatasourceId() != null).forEach(w -> {
+            AbstractDatasource filterDatasource = page.getDatasources().get(w.getFiltersDatasourceId());
+            if (!(filterDatasource instanceof StandardDatasource datasource)) return;
+            DataSet data = p.executeQuery(datasource.getQueryId(), getFilterDefaultValueCriteria(datasource));
+            if (data != null) {
+                data.forEach((k, v) -> {
+                    ModelLink existParam = page.getModels().get(ReduxModelEnum.FILTER, w.getDatasource(), k);
+                    if (v != null && (existParam == null || !p.canResolveParam(existParam.getParam()))) {
+                        page.getModels().add(ReduxModelEnum.FILTER, w.getDatasource(), k, new ModelLink(v));
                     }
-                }
+                });
+            }
+        });
+    }
+
+    private static N2oPreparedCriteria getFilterDefaultValueCriteria(StandardDatasource datasource) {
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        if (datasource.getProvider() == null || datasource.getProvider().getQueryMapping() == null)
+            return criteria;
+
+        datasource.getProvider().getQueryMapping().forEach((param, modelLink) -> {
+            if (modelLink.getValue() != null && !StringUtils.isJs(modelLink.getValue()))
+                criteria.addRestriction(new Restriction(modelLink.getQueryParam(), modelLink.getValue()));
+        });
+        return criteria;
     }
 
     private String tryToResolve(String value, List<ModelLink> modelLinks, BindProcessor p) {

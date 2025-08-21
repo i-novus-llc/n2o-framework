@@ -52,7 +52,7 @@ class FieldToolbarAT extends AutoTestBase {
         Fields fields = page.widget(FormWidget.class).fields();
         Toolbar toolbar = fields.field("id").toolbar();
 
-        toolbar.button("Ссылка").shouldExists();
+        toolbar.shouldHaveSize(4);
         toolbar.button("Ссылка").shouldBeDisabled();
         toolbar.button("Показать текст").shouldBeDisabled();
         toolbar.button("Открыть модальное окно").shouldBeDisabled();
