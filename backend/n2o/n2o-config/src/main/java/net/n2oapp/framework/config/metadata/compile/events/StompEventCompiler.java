@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import org.springframework.stereotype.Component;
 
 /**
- * Компиляция  STOMP-события
+ * Компиляция STOMP-события
  */
 @Component
 public class StompEventCompiler extends BaseEventCompiler<N2oStompEvent, StompEvent> {
@@ -21,7 +21,7 @@ public class StompEventCompiler extends BaseEventCompiler<N2oStompEvent, StompEv
     @Override
     public StompEvent compile(N2oStompEvent source, CompileContext<?, ?> context, CompileProcessor p) {
         StompEvent event = new StompEvent();
-        initEvents(event, source, context, p);
+        initEvents(event, source, p);
         event.setDestination(source.getDestination());
         return event;
     }
