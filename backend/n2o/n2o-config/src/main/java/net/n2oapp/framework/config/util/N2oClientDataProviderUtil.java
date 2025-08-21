@@ -104,7 +104,7 @@ public class N2oClientDataProviderUtil {
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setMethod(RequestMethod.POST);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        dataProvider.setUrl(castDefault(submit.getRoute(), widgetScope.getDatasourceId()));
+        dataProvider.setUrl(castDefault(submit.getRoute(), ()-> widgetScope.getDatasourceId() + "_" + fieldId));
         dataProvider.setTargetModel(widgetScope.getModel());
         dataProvider.setClientDatasourceId(widgetScope.getClientDatasourceId());
         dataProvider.setPathParams(submit.getPathParams());

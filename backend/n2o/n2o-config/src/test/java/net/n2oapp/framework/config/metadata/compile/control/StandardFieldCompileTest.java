@@ -280,14 +280,14 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         StandardField field = (StandardField) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getDataProvider(), notNullValue());
-        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/form"));
+        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/form_availability"));
         assertThat(field.getDataProvider().getPathMapping().size(), is(0));
         assertThat(field.getDataProvider().getQueryMapping().size(), is(0));
         // поле из второй формы
         field = (StandardField) ((Form) page.getRegions().get("single").get(0).getContent().get(2))
                 .getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getDataProvider(), notNullValue());
-        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/w1"));
+        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/w1_availability"));
         assertThat(field.getDataProvider().getPathMapping().size(), is(0));
         assertThat(field.getDataProvider().getQueryMapping().size(), is(0));
     }
@@ -300,7 +300,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         Field field = ((Form) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getFieldsets()
                 .get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
-        ActionContext context = (ActionContext) route("/testStandardFieldSubmitWithoutRoute/form", CompiledObject.class);
+        ActionContext context = (ActionContext) route("/testStandardFieldSubmitWithoutRoute/form_test", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("update"));
         assertThat(context.isMessageOnFail(), is(true));
@@ -311,7 +311,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
         assertThat(dataProvider.getSubmitForm(), is(false));
-        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmitWithoutRoute/form"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmitWithoutRoute/form_test"));
 
         assertThat(dataProvider.getPathMapping().size(), is(2));
         ModelLink link = dataProvider.getPathMapping().get("name1");
