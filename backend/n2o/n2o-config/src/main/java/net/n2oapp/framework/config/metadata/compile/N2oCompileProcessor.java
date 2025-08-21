@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
@@ -493,10 +494,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
-    public DataSet executeQuery(String queryId) {
+    public DataSet executeQuery(String queryId, N2oPreparedCriteria criteria) {
         if (subModelsProcessor == null) return null;
 
-        return (subModelsProcessor.getQueryResult(queryId, params)
+        return (subModelsProcessor.getQueryResult(queryId, params, criteria)
                 .getCollection()).get(0);
     }
 

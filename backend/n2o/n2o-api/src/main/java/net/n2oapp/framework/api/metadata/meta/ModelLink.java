@@ -36,6 +36,11 @@ public class ModelLink extends BindLink {
     @Setter
     private String param;
     /**
+     * Исходное имя параметра запроса (без префикса datasource)
+     */
+    @Setter
+    private String queryParam;
+    /**
      * Может ли значение параметра (param) или ссылки (value) измениться на текущей странице?
      */
     @Setter

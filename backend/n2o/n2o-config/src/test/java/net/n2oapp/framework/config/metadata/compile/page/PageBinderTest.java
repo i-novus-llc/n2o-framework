@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.api.Criteria;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
@@ -75,7 +76,7 @@ class PageBinderTest extends SourceCompileTestBase {
         modelLink.setValue("`name`");
         context.setPathRouteMapping(Collections.singletonMap("name_param", modelLink));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
-                .get(context, new DataSet().add("name_param", "Joe").add("param_type","22"));
+                .get(context, new DataSet().add("name_param", "Joe").add("param_type", "22"));
         assertThat(page.getPageProperty().getTitle(), is("`'Hello, Joe '+code`"));
         assertThat(page.getModels().get("resolve['testPageBinders_main'].type") == null, is(true));
     }
@@ -244,7 +245,10 @@ class PageBinderTest extends SourceCompileTestBase {
     void defaultValuesQueryTest() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
         PageContext context = new PageContext("testDefValQuery", "table");
-        doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet("name", "test1")), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
+
+        when(subModelsProcessor.getQueryResult(anyString(), any(), any(N2oPreparedCriteria.class)))
+                .thenReturn(new CollectionPage<>(1, singletonList(new DataSet("name", "test1")), new Criteria()));
+
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/default.query.xml")
@@ -253,24 +257,26 @@ class PageBinderTest extends SourceCompileTestBase {
         ModelLink name = page.getModels().get("filter['table_w1'].name");
         assertThat(name.getValue(), is("test1"));
 
-        doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet()), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
+        when(subModelsProcessor.getQueryResult(anyString(), any(), any(N2oPreparedCriteria.class)))
+                .thenReturn(new CollectionPage<>(1, singletonList(new DataSet()), new Criteria()));
+
         page = bind("net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/default.query.xml")
                 .get(context, new DataSet(), subModelsProcessor);
 
-        //Разрешится значение по умолчанию на поле, т.к. в выборке не пришло значение
+        // Разрешится значение по умолчанию на поле, т.к. в выборке не пришло значение
         name = page.getModels().get("filter['table_w1'].name");
         assertThat(name.getValue(), is("test2"));
 
-
-        doAnswer(invocation -> new CollectionPage<>(1, singletonList(new DataSet("name", "test1")), new Criteria())).when(subModelsProcessor).getQueryResult(anyString(), any());
+        when(subModelsProcessor.getQueryResult(anyString(), any(), any(N2oPreparedCriteria.class)))
+                .thenReturn(new CollectionPage<>(1, singletonList(new DataSet("name", "test1")), new Criteria()));
         page = bind("net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/testDefValQuery.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/defaultValuesQuery/default.query.xml")
                 .get(context, new DataSet("name", "test3"), subModelsProcessor);
 
-        //Разрешится значение из запроса, т.к. оно самое приоритетное
+        // Разрешится значение из запроса, т.к. оно самое приоритетное
         name = page.getModels().get("filter['table_w1'].name");
         assertThat(name.getValue(), is("test3"));
     }
@@ -291,7 +297,7 @@ class PageBinderTest extends SourceCompileTestBase {
 
     @Test
     void eventsBinder() {
-        ReadCompileBindTerminalPipeline pipeline =bind("net/n2oapp/framework/config/metadata/compile/page/testEventActionBinder.page.xml",
+        ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/page/testEventActionBinder.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml");
         PageContext context = new PageContext("testEventActionBinder", "/p/w/:id/view");
         StandardPage page = (StandardPage) pipeline.get(context, new DataSet().add("id", "3"));
