@@ -203,10 +203,14 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         AbstractTable.Filter filter = new AbstractTable.Filter();
         filter.setFilterFieldsets(fieldSets);
         filter.setFilterButtonId("filter");
-        filter.setFetchOnClear(castDefault(source.getFilters().getFetchOnClear(), () -> p.resolve(property("n2o.api.widget.table.fetch_on_clear"), Boolean.class)));
+        filter.setFetchOnClear(castDefault(source.getFilters().getFetchOnClear(),
+                () -> p.resolve(property("n2o.api.widget.table.fetch_on_clear"), Boolean.class)));
         filter.setBlackResetList(initBlackResetList(searchButtons));
         filter.setFilterPlace(castDefault(source.getFilters().getPlace(), FilterPositionEnum.TOP));
-        filter.setFetchOnChange(castDefault(source.getFilters().getFetchOnChange(), () -> p.resolve(property("n2o.api.widget.table.fetch_on_change"), Boolean.class)));
+        filter.setFetchOnChange(castDefault(source.getFilters().getFetchOnChange(),
+                () -> p.resolve(property("n2o.api.widget.table.fetch_on_change"), Boolean.class)));
+        filter.setFetchOnEnter(castDefault(source.getFilters().getFetchOnEnter(),
+                () -> p.resolve(property("n2o.api.widget.table.fetch_on_enter"), Boolean.class)));
         initInlineFiltersDatasource(compiled, source, p);
 
         return filter;

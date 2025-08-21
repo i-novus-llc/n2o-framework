@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPositionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.PlaceEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountTypeEnum;
@@ -274,6 +275,20 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(gendersLink.getValue(), is("`genders.map(function(t){return t.id})`"));
         assertThat(page.getRoutes().getQueryMapping().get("main_genders_id").getOnSet(), is(gendersLink));
         assertThat(queryCtx.getFilters().stream().anyMatch(f -> f.getFilterId().equals("genders*.id")), is(true));
+    }
+
+    @Test
+    void testTable5FiltersCompile() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5FiltersCompile.page.xml")
+                .get(new PageContext("testTable5FiltersCompile"));
+        AbstractTable.Filter filter = ((Table<?>) page.getRegions().get("single").get(0).getContent().get(0)).getFilter();
+        assertThat(filter.getFilterPlace(), is(FilterPositionEnum.LEFT));
+        assertThat(filter.getFetchOnClear(), is(false));
+        assertThat(filter.getFetchOnChange(), is(true));
+        assertThat(filter.getFetchOnEnter(), is(false));
+        assertThat(filter.getFilterButtonId(), is("filter"));
+        assertThat(filter.getFilterFieldsets().size(), is(1));
+        assertThat(filter.getBlackResetList().size(), is(0));
     }
 
     @Test

@@ -38,6 +38,7 @@ export interface Props {
     datasource: string
     style?: CSSProperties
     fetchOnClear?: boolean
+    fetchOnEnter?: boolean
 }
 
 export const WidgetFilters = ({
@@ -49,6 +50,7 @@ export const WidgetFilters = ({
     filterFieldsets: propsFilterFieldsets,
     datasource,
     style,
+    fetchOnEnter = true,
     fetchOnClear = true,
 }: Props) => {
     const { getState } = useStore()
@@ -139,13 +141,17 @@ export const WidgetFilters = ({
     }, [datasource, dispatch, filterMessages, getState, modelPrefix])
 
     const onKeyDown = useCallback((e) => {
+        if (!fetchOnEnter) {
+            return
+        }
+
         if (e.key === 'Enter') {
             e.stopPropagation()
             e.preventDefault()
 
             search(e)
         }
-    }, [search])
+    }, [fetchOnEnter, search])
 
     return (
         <WidgetFilterContext.Provider value={{ search, reset, formName: widgetId }}>

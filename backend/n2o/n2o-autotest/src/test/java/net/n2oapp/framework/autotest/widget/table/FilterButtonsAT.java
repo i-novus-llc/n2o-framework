@@ -1,8 +1,12 @@
 package net.n2oapp.framework.autotest.widget.table;
 
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.autotest.run.N2oController;
@@ -169,6 +173,55 @@ class FilterButtonsAT extends AutoTestBase {
         verifyNeverGetDataInvocation(2, "Запрос за данными таблицы при fetch-on-clear=false");
         input.shouldBeEmpty();
         table.paging().shouldNotHaveTotalElements();
+    }
+
+    @Test
+    void testFetchOnEnter() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/buttons/fetch_on_enter");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/fetch_on_enter/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/fetch_on_enter/test.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        RegionItems content = page.regions().region(0, SimpleRegion.class).content();
+
+        // fetch-on-enter="false"
+        TableWidget table = content.widget(0, TableWidget.class);
+        TableWidget.Filters filters = table.filters();
+        StandardButton searchButton = filters.toolbar().button("Найти");
+        InputText minPriceInput = filters.fields().field("Минимальная цена").control(InputText.class);
+        InputText maxPriceInput = filters.fields().field("Максимальная цена").control(InputText.class);
+
+        table.columns().rows().shouldHaveSize(4);
+        minPriceInput.setValue("111");
+        minPriceInput.pressEnter();
+        maxPriceInput.setValue("131");
+        maxPriceInput.pressEnter();
+        verifyNeverGetDataInvocation(2, "Запрос за данными таблицы при fetch-on-enter=false");
+        table.columns().rows().shouldHaveSize(4);
+
+        searchButton.click();
+        table.columns().rows().shouldHaveSize(2);
+
+        // fetch-on-enter="true"
+        table = content.widget(1, TableWidget.class);
+        filters = table.filters();
+        searchButton = filters.toolbar().button("Найти");
+        minPriceInput = filters.fields().field("Минимальная цена").control(InputText.class);
+        maxPriceInput = filters.fields().field("Максимальная цена").control(InputText.class);
+
+        table.columns().rows().shouldHaveSize(4);
+        minPriceInput.setValue("111");
+        minPriceInput.pressEnter();
+        table.columns().rows().shouldHaveSize(3);
+        maxPriceInput.setValue("131");
+        maxPriceInput.pressEnter();
+        table.columns().rows().shouldHaveSize(2);
+
+        searchButton.click();
+        table.columns().rows().shouldHaveSize(2);
     }
 
     private void verifyNeverGetDataInvocation(int times, String errorMessage) {

@@ -1298,11 +1298,6 @@
                         <xs:documentation>Позиция фильтров.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="fetch-on-change" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Запускать фильтрацию по мере ввода.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -1310,9 +1305,25 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="fetch-on-change" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Запуск фильтрации при изменении полей фильтров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="fetch-on-clear" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Запуск обновления модели после сброса</xs:documentation>
+                        <xs:documentation>
+                            Запуск фильтрации при сбросе фильтров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fetch-on-enter" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Запуск фильтрации при нажатии на Enter
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
