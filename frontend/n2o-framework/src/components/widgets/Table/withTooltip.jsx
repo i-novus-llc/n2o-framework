@@ -8,10 +8,7 @@ export default function withTooltip(Component) {
     /**
      * HOC, оборачивает Cell добавляя Tooltip,
      * дает компоненту forwardedRef для установки tooltip trigger
-     * @param WrappedComponent оборачиваемый компонент
-     * @param model модель данных
-     * @param hint подсказка - тело тултипа
-     * @param tooltipFieldId ключ по которому резолвится Tooltip и берется hint
+     * @param props
      */
     function Wrapper(props) {
         const { model = {}, placement, tooltipFieldId } = props
@@ -22,7 +19,7 @@ export default function withTooltip(Component) {
         }
 
         return (
-            <Tooltip hint={hint} placement={placement || 'bottom'}>
+            <Tooltip hint={hint} placement={placement || 'bottom'} className="n2o-cell-tooltip">
                 <Component {...props} />
             </Tooltip>
         )

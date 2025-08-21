@@ -1,4 +1,5 @@
 import { Tabs } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
+import { Tooltip } from '@i-novus/n2o-components/lib/display/Tooltip/Tooltip'
 
 import Alert from './Alerts/Alert'
 import { Collapse } from './Collapse/Collapse'
@@ -15,7 +16,6 @@ import { Image } from './Image/Image'
 import { Status } from './Status/Status'
 import { Badge } from './Badge/Badge'
 import { Html } from './Html/Html'
-import { Tooltip } from './Tooltip/Tooltip'
 import { Pagination } from './Pagination/Pagination'
 
 export default {
