@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>net.n2oapp.framework</groupId>
+        <artifactId>backend</artifactId>
+        <version>7.29.1-SNAPSHOT</version>
+    </parent>
+    <packaging>pom</packaging>
+
+    <artifactId>coverage</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.n2oapp.cache</groupId>
+            <artifactId>cache-template</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.criteria</groupId>
+            <artifactId>criteria-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.criteria</groupId>
+            <artifactId>criteria-dataset</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.watchdir</groupId>
+            <artifactId>watchdir</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.routing</groupId>
+            <artifactId>routing-datasource</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.properties</groupId>
+            <artifactId>override-properties</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-access</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-autoconfigure</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-engine</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-migrate</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-sandbox</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-test</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>jacoco</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>jacoco-site</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>report-aggregate</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.basedir}/../../target/site/jacoco-aggregate</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <!-- This coverage module should never be deployed -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
