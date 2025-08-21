@@ -92,12 +92,11 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         FiltersScope filtersScope = new FiltersScope();
 
         //regions
-        IndexScope index = new IndexScope();
         PageIndexScope pageIndexScope = new PageIndexScope(page.getId());
         page.setRegions(initRegions(source, page, p, context, pageScope, pageRoutes, routeScope,
                 breadcrumb, validationScope, page.getModels(), pageRoutesScope, searchBarScope, subModelsScope,
                 copiedFieldScope, datasourcesScope, clientDatasourceIdsScope, metaActions,
-                filtersScope, index, pageIndexScope));
+                filtersScope, new IndexScope(), pageIndexScope));
 
         //datasources
         Map<String, AbstractDatasource> compiledDatasources = compileDatasources(context, p,
@@ -117,7 +116,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
         //events
         page.setEvents(initEvents(source, context, p, metaActions, pageScope, pageIndexScope,
-                datasourcesScope, clientDatasourceIdsScope));
+                datasourcesScope, clientDatasourceIdsScope, new IndexScope()));
 
         if (nonNull(source.getDatasourceId())) {
             page.getPageProperty().setDatasource(getClientDatasourceId(source.getDatasourceId(), page.getId(),

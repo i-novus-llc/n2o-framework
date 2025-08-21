@@ -16,8 +16,8 @@ public abstract class BaseEventCompiler<S extends N2oAbstractEvent, D extends Ev
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
     protected void initEvents(Event event, S source, CompileProcessor p) {
-        IndexScope indexScope = castDefault(p.getScope(IndexScope.class), IndexScope::new);
-        source.setId(castDefault(source.getId(), "ev" + indexScope.get()));
+        IndexScope idx = p.getScope(IndexScope.class);
+        source.setId(castDefault(source.getId(), () -> "ev" + idx.get()));
         event.setId(source.getId());
     }
 }
