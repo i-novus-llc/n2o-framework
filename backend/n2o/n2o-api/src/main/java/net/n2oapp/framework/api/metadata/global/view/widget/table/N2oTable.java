@@ -21,6 +21,7 @@ public class N2oTable extends N2oAbstractTable {
         private FilterPositionEnum place;
         private Boolean fetchOnChange;
         private Boolean fetchOnClear;
+        private Boolean fetchOnEnter;
         private SourceComponent[] items;
         private String datasourceId;
         @JsonIgnore
