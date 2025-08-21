@@ -190,10 +190,10 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
         if (context.getDatasources() != null) {
             for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
                 String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
+                ctxDs.setId(dsId);
                 if (dataSourcesScope.containsKey(dsId) && ctxDs instanceof N2oStandardDatasource)
-                    dataSourcesScope.put(dsId, p.merge(ctxDs, dataSourcesScope.get(dsId)));
+                    dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));
                 else {
-                    ctxDs.setId(dsId);
                     if (ctxDs instanceof N2oApplicationDatasource applicationDatasource) {
                         clientDatasourceIdsScope.put(ctxDs.getId(), castDefault(applicationDatasource.getSourceDatasource(), ctxDs.getId()));
                     } else if (ctxDs instanceof N2oParentDatasource parentDatasource) {
@@ -209,6 +209,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
 
     /**
      * Клонирование тулбара для проставления значений по умолчанию
+     *
      * @return
      */
     protected N2oToolbar cloneToolbar(N2oToolbar t, N2oWidget resultWidget, CompileProcessor p) {
