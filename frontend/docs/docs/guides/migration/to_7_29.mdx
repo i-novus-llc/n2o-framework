@@ -3,13 +3,13 @@ title: Миграция с 7.28 на 7.29
 description: ""
 ---
 
-### Изменения в сборке Frontend {#changes-frontend-build}
+### Изменения в сборке {#changes-build}
 
-- Версия NodeJS повышена до 20
+- Версия NodeJS повышена до 20 (с поддержкой 22)
 - Версия Java повышена с 17 на 21
 - Версия Spring Boot повышена с 3.2.2 на 3.5.3
 
-## Изменения в XML API {#changes-xml-api}
+### Изменения в XML API {#changes-xml-api}
 
 - Упразднены устаревшие схемы: `query-4.0`, `application-2.0`, `page-3.0`, `n2o-widget-4.0`, `region-2.0`,
 `fieldset-4.0`, `toolbar-base-1.0`, `button-1.0`, `action-1.0`, `control-2.0`, `n2o-cell-2.0`, `properties-base-1.0`
@@ -58,12 +58,12 @@ description: ""
 </simple-page>
 ```
 
-## Изменения в Java API {#changes-java-api}
+### Изменения в Java API {#changes-java-api}
 
 - Всем enum в названии был проставлен суффикс `Enum`.
 Так, например, `BadgePosition` был переименован в `BadgePositionEnum`.
 
-## Изменения в настройках {#changes-settings}
+### Изменения в настройках {#changes-settings}
 
 - Изменено значение по умолчанию для настройки `n2o.access.filtering_for_unique` на `true`.<br/>
 Это означает, что теперь по умолчанию во все запросы с size=1 будут добавлены фильтры `<object-filters>` из access схемы.
