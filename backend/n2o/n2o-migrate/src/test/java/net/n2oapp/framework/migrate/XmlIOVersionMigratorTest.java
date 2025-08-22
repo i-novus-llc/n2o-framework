@@ -23,6 +23,7 @@ class XmlIOVersionMigratorTest extends N2oTestBase {
     private static final Logger logger = LoggerFactory.getLogger(XmlIOVersionMigratorTest.class);
     private static final BiFunction<String, String, Boolean> CANONICAL_COMPARATOR = (String s1, String s2) -> {
         try {
+            XMLUnit.setIgnoreWhitespace(true);
             Diff diff = XMLUnit.compareXML(s1, s2);
             diff.overrideElementQualifier(new ElementNameQualifier());
             boolean similar = diff.similar();
@@ -54,6 +55,15 @@ class XmlIOVersionMigratorTest extends N2oTestBase {
         super.configure(builder);
         builder.packs(new N2oAllIOPack());
         migrator = new XmlIOVersionMigrator(builder);
+    }
+
+    /**
+     * Тест на миграцию page.xml c CDATA с версии 3.0 на 4.0
+     */
+    @Test
+    void testCDATAMigration() {
+        check("net/n2oapp/framework/migrate/cdata/testCDATAPageIOv3.page.xml",
+                "net/n2oapp/framework/migrate/cdata/testCDATAPageIOv4.page.xml");
     }
 
     /**

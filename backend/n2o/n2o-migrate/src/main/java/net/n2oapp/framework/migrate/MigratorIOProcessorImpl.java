@@ -10,9 +10,7 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
-import org.jdom2.Attribute;
-import org.jdom2.Element;
-import org.jdom2.Namespace;
+import org.jdom2.*;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -24,6 +22,7 @@ import java.util.function.Supplier;
 public class MigratorIOProcessorImpl extends IOProcessorImpl {
 
     private static final String BODY_KEY = "body";
+    private static final String CDATA_KEY = "cdata";
 
     public MigratorIOProcessorImpl(NamespaceReaderFactory readerFactory, MetadataEnvironment environment) {
         super(readerFactory, environment);
@@ -53,24 +52,22 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
 
     @Override
     public void text(Element element, Supplier<String> getter, Consumer<String> setter) {
-        if (isR()) {
-            String text = element.getText();
-            if (text != null && !text.isEmpty()) {
-                MigratorInfoHolder.addProperty(BODY_KEY, text);
-                setter.accept(null);
-            }
-        } else {
-            if (getter.get() != null) {
-                element.setText(getter.get());
-            } else if (MigratorInfoHolder.getProperty(BODY_KEY) != null) {
-                element.setText(MigratorInfoHolder.getProperty(BODY_KEY));
-            }
-        }
+        processText(element, null, getter, setter, false);
     }
 
     @Override
     public void childrenText(Element element, String childName, Supplier<String> getter, Consumer<String> setter) {
-        childrenOriginalText(element, childName, getter, setter);
+        processText(element, childName, getter, setter, false);
+    }
+
+    @Override
+    public void originalText(Element element, Supplier<String> getter, Consumer<String> setter) {
+        processText(element, null, getter, setter, true);
+    }
+
+    @Override
+    public void childrenOriginalText(Element element, String childName, Supplier<String> getter, Consumer<String> setter) {
+        processText(element, childName, getter, setter, true);
     }
 
     @Override
@@ -146,6 +143,107 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
         }
     }
 
+    /**
+     * Считывание\запись содержимого элемента или дочернего элемента с сохранением информации о формате
+     *
+     * @param element        элемент XML
+     * @param childName      имя дочернего элемента (null для обработки текста самого элемента)
+     * @param getter         геттер текстового значения
+     * @param setter         сеттер текстового значения
+     * @param isOriginalText флаг указывающий на обработку оригинального текста
+     */
+    private void processText(Element element, String childName, Supplier<String> getter, Consumer<String> setter, boolean isOriginalText) {
+        if (isR()) {
+            readText(element, childName, setter, isOriginalText);
+        } else {
+            writeText(element, childName, getter);
+        }
+    }
+
+    /**
+     * Считывание текстового содержимого элемента с сохранением информации о CDATA и оригинальном тексте
+     *
+     * @param element        элемент XML
+     * @param childName      имя дочернего элемента (null для обработки текста самого элемента)
+     * @param setter         сеттер текстового значения
+     * @param isOriginalText флаг указывающий на обработку оригинального текста
+     */
+    private void readText(Element element, String childName, Consumer<String> setter, boolean isOriginalText) {
+        Element targetElement = childName != null ? element.getChild(childName, element.getNamespace()) : element;
+
+        if (targetElement == null) return;
+
+        String text = targetElement.getText();
+        if (text != null && !text.isEmpty()) {
+
+            if (targetElement.getContent().stream().anyMatch(c -> Content.CType.CDATA.equals(c.getCType()))) {
+                MigratorInfoHolder.addProperty(CDATA_KEY + getKeySuffix(childName), text);
+                setter.accept(text);
+            } else {
+                MigratorInfoHolder.addProperty(BODY_KEY + getKeySuffix(childName), text);
+                setter.accept(isOriginalText ? text : null);
+            }
+        }
+    }
+
+    /**
+     * Запись текстового содержимое элемента с восстановлением оригинального формата (CDATA или обычный текст)
+     *
+     * @param element        элемент XML
+     * @param childName      имя дочернего элемента (null для записи текста в сам элемент)
+     * @param getter         геттер текстового значения
+     */
+    private void writeText(Element element, String childName, Supplier<String> getter) {
+        String value = getter.get();
+        String keySuffix = getKeySuffix(childName);
+
+        if (value != null) {
+            Element targetElement = getOrCreateTargetElement(element, childName);
+            if (MigratorInfoHolder.getProperty(CDATA_KEY + keySuffix) != null) {
+                targetElement.setContent(new CDATA(value));
+            } else {
+                targetElement.setText(value);
+            }
+        } else {
+            String propertyKey = BODY_KEY + keySuffix;
+            String storedValue = MigratorInfoHolder.getProperty(propertyKey);
+            if (storedValue != null) {
+                Element targetElement = getOrCreateTargetElement(element, childName);
+                targetElement.setText(storedValue);
+            }
+        }
+    }
+
+    /**
+     * Получение\создание целевого элемента для записи текстового содержимого
+     *
+     * @param parent    родительский элемент
+     * @param childName имя дочернего элемента (null для возврата родительского элемента)
+     * @return целевой элемент для записи текста
+     */
+    private Element getOrCreateTargetElement(Element parent, String childName) {
+        if (childName == null) {
+            return parent;
+        }
+
+        Element child = parent.getChild(childName, parent.getNamespace());
+        if (child == null) {
+            child = new Element(childName, parent.getNamespace());
+            parent.addContent(child);
+        }
+        return child;
+    }
+
+    /**
+     * Формирование суффикса ключа для хранения свойств текстового содержимого
+     *
+     * @param childName имя дочернего элемента
+     * @return суффикс ключа в формате ".childName" или пустая строка для основного элемента
+     */
+    private String getKeySuffix(String childName) {
+        return childName != null ? "." + childName : "";
+    }
+
     private static <T> void readAttribute(Element element, String name, Consumer<T> setter,
                                           Function<String, T> valueFunction) {
         Attribute attribute = element.getAttribute(name);
@@ -158,7 +256,6 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
                 setter.accept(valueFunction.apply(value));
             }
         }
-
     }
 
     private static <T> void writeAttribute(Element element, String name, Supplier<T> getter) {
