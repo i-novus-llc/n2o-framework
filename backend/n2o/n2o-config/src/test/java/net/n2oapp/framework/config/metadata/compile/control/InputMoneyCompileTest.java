@@ -48,6 +48,7 @@ class InputMoneyCompileTest extends SourceCompileTestBase {
         assertThat(inputMoney.getRequireDecimal(), is(false));
         assertThat(inputMoney.getAllowDecimal(), is(true));
         assertThat(inputMoney.getIntegerLimit(), is(100));
+        assertThat(inputMoney.getAutocomplete(), is("on"));
 
         inputMoney = (InputMoney) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0)).getControl();
@@ -56,6 +57,7 @@ class InputMoneyCompileTest extends SourceCompileTestBase {
         assertThat(inputMoney.getSuffix(), is(""));
         assertThat(inputMoney.getAllowDecimal(), nullValue());
         assertThat(inputMoney.getRequireDecimal(), nullValue());
+        assertThat(inputMoney.getAutocomplete(), is("off"));
     }
 }
 

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.control.v3.plain;
 
+
 import net.n2oapp.framework.api.metadata.control.plain.N2oPassword;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -16,6 +17,7 @@ public class PasswordIOv3 extends PlainFieldIOv3<N2oPassword> {
         super.io(e, m, p);
         p.attributeInteger(e, "length", m::getLength, m::setLength);
         p.attributeBoolean(e, "eye", m::getEye, m::setEye);
+        p.attribute(e, "autocomplete", m::getAutocomplete, m::setAutocomplete);
     }
 
     @Override

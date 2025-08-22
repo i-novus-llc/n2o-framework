@@ -47,7 +47,6 @@
     <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
     <xs:element name="radio-group" type="controlOptionsListInlineDefinitionRadioGroup"/>
     <xs:element name="checkbox-group" type="controlOptionsListInlineDefinitionCheckboxGroup"/>
-    <!--<xs:element name="select-tree" type="controlSelectTreeDefinition"/>-->
 
     <xs:element name="date-interval" type="controlDateIntervalDefinition"/>
     <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
@@ -733,6 +732,15 @@
                         <xs:documentation>Стирать ли значение при смене фокуса.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="autocomplete" type="xs:string" default="off">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Браузерное автозаполнение поля введенными ранее значениями.
+                            Списком строковых значений через запятую можно задать токены для конкретизации подсказок.
+                            (https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete#token_list_tokens)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1245,6 +1253,15 @@
                         <xs:documentation>Единица измерения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="autocomplete" type="xs:string" default="off">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Браузерное автозаполнение поля введенными ранее значениями.
+                            Списком строковых значений через запятую можно задать токены для конкретизации подсказок.
+                            (https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete#token_list_tokens)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1353,6 +1370,15 @@
                 <xs:attribute name="fraction-formatting" type="fractionFormattingType" default="off">
                     <xs:annotation>
                         <xs:documentation>Форматирование дробной части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="autocomplete" type="xs:string" default="off">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Браузерное автозаполнение поля введенными ранее значениями.
+                            Списком строковых значений через запятую можно задать токены для конкретизации подсказок.
+                            (https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete#token_list_tokens)
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1601,6 +1627,15 @@
                 <xs:attribute name="default-value" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Значение по умолчанию. Должно быть указано в формате ISO 8601(yyyy-MM-dd HH:mm:ss или yyyy-MM-dd).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="autocomplete" type="xs:string" default="off">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Браузерное автозаполнение поля введенными ранее значениями.
+                            Списком строковых значений через запятую можно задать токены для конкретизации подсказок.
+                            (https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete#token_list_tokens)
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1876,6 +1911,15 @@
                 <xs:attribute name="eye" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Отображать кнопку "Показать пароль" или нет</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="autocomplete" type="xs:string" default="off">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Браузерное автозаполнение поля введенными ранее значениями.
+                            Списком строковых значений через запятую можно задать токены для конкретизации подсказок.
+                            (https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete#token_list_tokens)
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

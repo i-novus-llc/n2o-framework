@@ -33,7 +33,7 @@ class MaskedInputCompileTest extends SourceCompileTestBase {
 
     @Test
     void testMaskedInput() {
-        SimplePage page =(SimplePage) compile("net/n2oapp/framework/config/mapping/testMaskedInput.page.xml")
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testMaskedInput.page.xml")
                 .get(new PageContext("testMaskedInput"));
         Form form = (Form) page.getWidget();
         StandardField field = (StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
@@ -45,10 +45,12 @@ class MaskedInputCompileTest extends SourceCompileTestBase {
         assertThat(input.getPlaceholder(), is("0"));
         assertThat(input.getMeasure(), is("cm"));
         assertThat(input.getClearOnBlur(), is(false));
+        assertThat(input.getAutocomplete(), is("on"));
 
         field = (StandardField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         input = (MaskedInput) field.getControl();
         assertThat(input.getId(), is("testDefault"));
         assertThat(input.getClearOnBlur(), is(true));
+        assertThat(input.getAutocomplete(), is("off"));
     }
 }

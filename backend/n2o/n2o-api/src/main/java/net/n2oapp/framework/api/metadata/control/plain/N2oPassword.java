@@ -11,4 +11,5 @@ import lombok.Setter;
 public class N2oPassword extends N2oPlainField {
     private Integer length;
     private Boolean eye;
+    private String autocomplete;
 }

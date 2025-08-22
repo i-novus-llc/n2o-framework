@@ -21,6 +21,7 @@ public class DatePickerIOv3 extends PlainFieldIOv3<N2oDatePicker> {
         p.attribute(e, "min", m::getMin, m::setMin);
         p.attribute(e, "max", m::getMax, m::setMax);
         p.attributeBoolean(e, "utc", m::getUtc, m::setUtc);
+        p.attribute(e, "autocomplete", m::getAutocomplete, m::setAutocomplete);
     }
 
     @Override

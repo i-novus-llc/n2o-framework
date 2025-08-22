@@ -6,20 +6,19 @@ import { maskitoTransform } from '@maskito/core'
 
 import { withRightPlaceholder } from '../helpers/withRightPlaceholder'
 
-export interface InputNumberProps {
-    className?: string
-    value?: string | null | number
+import { type CommonMaskedInputProps } from './types'
+
+export interface InputNumberProps extends Omit<CommonMaskedInputProps, 'onChange' | 'onBlur'> {
     min: number
     max: number
     precision?: number
     step: number
-    disabled?: boolean
     visible?: boolean
     controlButtons?: boolean
-    onChange?(value: number | null): void
-    onBlur?(value: number | null): void
     onKeyDown?(event: KeyboardEvent<HTMLInputElement>): void
     onFocus?(): void
+    onChange?(value: number | null): void
+    onBlur?(value: number | null): void
 }
 
 export enum DIRECTION_STEP {

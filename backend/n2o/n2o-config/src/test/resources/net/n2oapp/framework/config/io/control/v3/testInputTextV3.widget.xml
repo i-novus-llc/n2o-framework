@@ -5,6 +5,7 @@
                     ref-model="filter"
                     ref-page="parent"
                     ref-datasource="main" ref-field-id="field"
+                    autocomplete="on"
         >
             <dependencies>
                 <visibility>testId2 === true</visibility>

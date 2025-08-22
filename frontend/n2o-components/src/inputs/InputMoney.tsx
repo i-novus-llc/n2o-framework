@@ -5,25 +5,21 @@ import { maskitoNumberOptionsGenerator } from '@maskito/kit'
 import { type MaskitoOptions, maskitoTransform } from '@maskito/core'
 
 import { removeTrailingExclusions, formatNumber, replaceChar, removeAllSpaces } from './utils'
+import { type CommonMaskedInputProps } from './types'
 
 /** символ с которым хранится float в хранилище после изменения */
 export const STORE_DECIMAL_SYMBOL = '.'
 
-export interface InputMoneyProps {
+export interface InputMoneyProps extends CommonMaskedInputProps {
     allowDecimal?: boolean
     allowNegative?: boolean
-    className?: string
     decimalLimit?: number
     decimalSymbol?: string
-    disabled?: boolean
     integerLimit?: number
     prefix?: string
     requireDecimal?: boolean
     suffix?: string
     thousandsSeparatorSymbol?: string
-    value?: string | number | null | undefined
-    onChange?(value: string | null): void
-    onBlur?(value: string | null): void
 }
 
 /**
@@ -50,6 +46,7 @@ function Component({
     onChange,
     onBlur,
     disabled,
+    autocomplete,
     allowNegative = false,
     requireDecimal = false,
     decimalLimit = 2,
@@ -106,6 +103,7 @@ function Component({
                 onInput={handleChange}
                 onBlur={handleBlur}
                 disabled={disabled}
+                autoComplete={autocomplete}
             />
         </div>
     )

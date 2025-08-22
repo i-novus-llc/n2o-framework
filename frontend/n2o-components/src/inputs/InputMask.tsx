@@ -4,16 +4,12 @@ import classNames from 'classnames'
 import { withRightPlaceholder } from '../helpers/withRightPlaceholder'
 
 import { useMask } from './useMask'
+import { type CommonMaskedInputProps } from './types'
 
-export interface MaskProps {
+export interface MaskProps extends CommonMaskedInputProps {
     placeholder: string
-    disabled: boolean
     id: string
     clearOnBlur: boolean
-    className: string
-    onChange?(value: string | null): void
-    onBlur?(value: string | null): void
-    value: string | null
     mask: string
 }
 
@@ -25,6 +21,7 @@ function Component({
     className,
     onChange,
     onBlur,
+    autocomplete,
     value: propsValue,
     mask = '',
 }: MaskProps) {
@@ -33,9 +30,7 @@ function Component({
     const [value, setValue] = useState<string>(maskedValue)
 
     useEffect(() => {
-        if (maskedValue !== value) {
-            setValue(maskedValue)
-        }
+        if (maskedValue !== value) { setValue(maskedValue) }
     }, [maskedValue])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -73,8 +68,11 @@ function Component({
             placeholder={placeholder}
             onInput={handleChange}
             onBlur={handleBlur}
+            autoComplete={autocomplete}
         />
     )
 }
 
 export const InputMask = withRightPlaceholder(Component)
+
+Component.displayName = 'InputMask'

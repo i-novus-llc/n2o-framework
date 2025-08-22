@@ -2,7 +2,8 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-            <input-money id="money" default-value="default" suffix="{suffix}" prefix="*" thousands-separator=" " decimal-separator="," integer-limit="100" fraction-formatting="manual"/>
+            <input-money id="money" suffix="{suffix}" prefix="*" thousands-separator=" " decimal-separator=","
+                         integer-limit="100" fraction-formatting="manual" default-value="default" autocomplete="on"/>
             <input-money id="money2"/>
         </fields>
     </form>

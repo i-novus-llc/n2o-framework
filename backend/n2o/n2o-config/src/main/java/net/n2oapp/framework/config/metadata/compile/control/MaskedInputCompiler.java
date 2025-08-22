@@ -38,6 +38,8 @@ public class MaskedInputCompiler extends StandardFieldCompiler<MaskedInput, N2oM
         maskedInput.setClassName(source.getCssClass());
         maskedInput.setClearOnBlur(castDefault(source.getClearOnBlur(),
                 () -> p.resolve(property("n2o.api.control.masked_input.clear_on_blur"), Boolean.class)));
+        maskedInput.setAutocomplete(castDefault(source.getAutocomplete(),
+                () -> p.resolve(property("n2o.api.control.masked_input.autocomplete"), String.class)));
         return compileStandardField(maskedInput, source, context, p);
     }
 }

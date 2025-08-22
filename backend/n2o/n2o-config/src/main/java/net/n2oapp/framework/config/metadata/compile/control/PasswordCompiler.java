@@ -29,12 +29,15 @@ public class PasswordCompiler extends StandardFieldCompiler<Password, N2oPasswor
     }
 
     @Override
-    public StandardField<Password> compile(N2oPassword source, CompileContext<?,?> context, CompileProcessor p) {
+    public StandardField<Password> compile(N2oPassword source, CompileContext<?, ?> context, CompileProcessor p) {
         Password password = new Password();
         password.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         password.setLength(source.getLength());
         password.setEye(castDefault(source.getEye(),
                 () -> p.resolve(property("n2o.api.control.password.eye"), Boolean.class)));
+        password.setAutocomplete(castDefault(source.getAutocomplete(),
+                () -> p.resolve(property("n2o.api.control.password.autocomplete"), String.class)));
+
         return compileStandardField(password, source, context, p);
     }
 

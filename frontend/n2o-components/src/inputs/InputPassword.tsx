@@ -23,6 +23,7 @@ export const InputPassword = ({
     onBlur,
     onKeyDown,
     onChange,
+    autocomplete,
     value = '',
     className = '',
     showPasswordBtn = true,
@@ -46,6 +47,7 @@ export const InputPassword = ({
                 onBlur={onBlur}
                 onKeyDown={onKeyDown}
                 onChange={onChange}
+                autocomplete={autocomplete}
             />
             {showPasswordBtn && (
                 <Button

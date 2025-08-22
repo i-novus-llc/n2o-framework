@@ -29,6 +29,7 @@ function Component({
     min,
     max,
     placeholder,
+    autocomplete,
     prefixComponent = null,
     suffixComponent = null,
     style = EMPTY_OBJECT,
@@ -67,6 +68,7 @@ function Component({
                 onBlur={onBlur}
                 onKeyDown={onKeyDown}
                 onClick={onClick}
+                autoComplete={autocomplete}
             />
             {suffixComponent}
         </div>

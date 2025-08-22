@@ -54,12 +54,15 @@ class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(inputText.getSrc(), is("InputText"));
         assertThat(inputText.getMeasure(), is("cm"));
         assertThat(inputText.getPlaceholder(), is("Введите текст"));
+        assertThat(inputText.getAutocomplete(), is("on"));
+
         InputText inputText1 = (InputText) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(inputText1.getSrc(), is("InputNumber"));
         assertThat(inputText1.getMax(), is("99999999999999"));
         assertThat(inputText1.getMin(), is("-99999999999999"));
         assertThat(inputText1.getStep(), is("1"));
         assertThat(inputText1.getMeasure(), is("cm"));
+        assertThat(inputText1.getAutocomplete(), is("off"));
         assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
         assertThat(((InputText) ((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl()).getPrecision(), is(2));
         assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
