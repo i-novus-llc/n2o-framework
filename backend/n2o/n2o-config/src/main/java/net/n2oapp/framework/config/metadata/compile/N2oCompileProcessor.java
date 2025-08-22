@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
@@ -335,7 +336,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         if (queryMappings != null)
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(queryMappings, k));
         resultUrl = URL_RESOLVER.resolve(resultUrl, k -> ((pathMappings != null && pathMappings.containsKey(k))
-                || (queryMappings != null && queryMappings.containsKey(k)) || params == null) ?
+                                                          || (queryMappings != null && queryMappings.containsKey(k)) || params == null) ?
                 null : params.get(k));
         return resultUrl;
     }
@@ -395,7 +396,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
         if (res.isPresent()) {
             value = params.get(res.get());
         } else if (link instanceof ModelLink && ((ModelLink) link).getParam() != null &&
-                (observable || !((ModelLink) link).isObserve())) {
+                   (observable || !((ModelLink) link).isObserve())) {
             value = params.get(((ModelLink) link).getParam());
         }
         if (value == null)
@@ -491,10 +492,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     }
 
     @Override
-    public DataSet executeQuery(String queryId) {
+    public DataSet executeQuery(String queryId, N2oPreparedCriteria criteria) {
         if (subModelsProcessor == null) return null;
 
-        return ((List<DataSet>) subModelsProcessor.getQueryResult(queryId, params)
+        return ((List<DataSet>) subModelsProcessor.getQueryResult(queryId, params, criteria)
                 .getCollection()).get(0);
     }
 
@@ -525,7 +526,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
     @Override
     public String resolveTextByParams(String text) {
         if (LINK_RESOLVER.hasPlaceHolders(text)) {
-            return LINK_RESOLVER.resolve(text,  ps -> params.get(ps));
+            return LINK_RESOLVER.resolve(text, ps -> params.get(ps));
         }
         return text;
     }
