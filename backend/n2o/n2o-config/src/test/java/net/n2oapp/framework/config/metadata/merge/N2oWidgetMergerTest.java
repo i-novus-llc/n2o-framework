@@ -127,6 +127,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getTextWrap(), is(true));
         assertThat(table.getChildren(), is(ChildrenToggle.EXPAND));
         assertThat(table.getFilters().getFetchOnChange(), is(true));
+        assertThat(table.getFilters().getFetchOnEnter(), is(false));
         assertThat(table.getDatasourceId(), is("ds"));
         assertThat(table.getFilters().getDatasourceId(), is("ds_filter"));
         assertThat(table.getFilters().getPlace(), is(FilterPosition.LEFT));

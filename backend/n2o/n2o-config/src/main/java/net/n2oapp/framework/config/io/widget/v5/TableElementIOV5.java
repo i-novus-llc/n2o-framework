@@ -52,6 +52,7 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attributeEnum(e, "place", f::getPlace, f::setPlace, FilterPosition.class);
         p.attributeBoolean(e, "fetch-on-change", f::getFetchOnChange, f::setFetchOnChange);
         p.attributeBoolean(e, "fetch-on-clear", f::getFetchOnClear, f::setFetchOnClear);
+        p.attributeBoolean(e, "fetch-on-enter", f::getFetchOnEnter, f::setFetchOnEnter);
         p.attribute(e, "datasource", f::getDatasourceId, f::setDatasourceId);
         p.anyChildren(e,null, f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv5.NAMESPACE, ControlIOv3.NAMESPACE);
     }

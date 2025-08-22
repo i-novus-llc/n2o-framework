@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPosition;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
@@ -28,10 +29,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
-import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
+import net.n2oapp.framework.api.metadata.meta.widget.table.*;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -137,7 +135,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getToolbar().getButton("but"), notNullValue());
         assertThat(table.getComponent().getBody().getRow().getSrc(), is("TableRow"));
         assertThat(table.getComponent().getBody().getRow().getElementAttributes().get("className"), is("red"));
-        assertThat(((Map<String, String>)table.getComponent().getBody().getRow().getElementAttributes().get("style")).get("color"), is("blue"));
+        assertThat(((Map<String, String>) table.getComponent().getBody().getRow().getElementAttributes().get("style")).get("color"), is("blue"));
         QueryContext queryContext = (QueryContext) route("/testTable5Compile/w1", CompiledQuery.class);
 
         assertThat(queryContext.getValidations(), notNullValue());
@@ -266,6 +264,20 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
+    void testTable5FiltersCompile() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable5FiltersCompile.page.xml")
+                .get(new PageContext("testTable5FiltersCompile"));
+        AbstractTable.Filter filter = ((Table<?>) page.getRegions().get("single").get(0).getContent().get(0)).getFilter();
+        assertThat(filter.getFilterPlace(), is(FilterPosition.LEFT));
+        assertThat(filter.getFetchOnClear(), is(false));
+        assertThat(filter.getFetchOnChange(), is(true));
+        assertThat(filter.getFetchOnEnter(), is(false));
+        assertThat(filter.getFilterButtonId(), is("filter"));
+        assertThat(filter.getFilterFieldsets().size(), is(1));
+        assertThat(filter.getBlackResetList().size(), is(0));
+    }
+
+    @Test
     void testDefaultValues() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableCompileFilters.page.xml")
                 .get(new PageContext("testTableCompileFilters"));
@@ -327,7 +339,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFilterColumns.page.xml")
                 .get(new PageContext("testFilterColumns"));
 
-        StandardDatasource ds = (StandardDatasource)page.getDatasources().get("testFilterColumns_w1");
+        StandardDatasource ds = (StandardDatasource) page.getDatasources().get("testFilterColumns_w1");
         assertThat(ds.getFilterValidations().get("name").get(0).getEnablingConditions().get(0), is("name || name === 0"));
 
         List<ColumnHeader> columnHeaders = ((Table) page.getWidget()).getComponent().getHeader().getCells();
