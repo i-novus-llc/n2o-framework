@@ -122,6 +122,7 @@
     </build>
 
     <modules>
+        <module>coverage</module>
         <module>engine-factory</module>
         <module>routing-datasource</module>
         <module>cache-template</module>
