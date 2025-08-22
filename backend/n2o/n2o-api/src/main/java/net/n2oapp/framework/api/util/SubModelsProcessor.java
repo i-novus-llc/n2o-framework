@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.util;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public interface SubModelsProcessor {
      *
      * @param queryId Идентификатор выборки
      * @return Результат выборки
+     * @param criteria  ограничения(фильтры)
      */
-    CollectionPage<DataSet> getQueryResult(String queryId, DataSet params);
+    CollectionPage<DataSet> getQueryResult(String queryId, DataSet params, N2oPreparedCriteria criteria);
 }

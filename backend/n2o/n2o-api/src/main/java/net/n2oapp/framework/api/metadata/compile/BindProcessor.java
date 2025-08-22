@@ -1,6 +1,7 @@
 package net.n2oapp.framework.api.metadata.compile;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
@@ -106,7 +107,7 @@ public interface BindProcessor {
     /**
      * Заменить в тексте плейсхолдеры на значения, используя список моделей
      *
-     * @param text Текст с плейсхолдерами
+     * @param text  Текст с плейсхолдерами
      * @param links Список ссылок на модели
      * @return Текст со значениями вместо плейсхолдеров
      */
@@ -160,7 +161,7 @@ public interface BindProcessor {
     /**
      * Заменить в адресе параметры, которые ссылаются на переданный список моделей
      *
-     * @param url  Адрес
+     * @param url   Адрес
      * @param links Список ссылок на модели, по которым определяем какие параметры необходимо заменить
      * @return Измененный адрес
      */
@@ -186,8 +187,8 @@ public interface BindProcessor {
     /**
      * Пытается превратить ссылку в константное значение, если ссылка не меняется (observable=false)
      *
-     * @param observable Превращать ли ссылку в константу, если ссылка может измениться на текущей странице?
-     * @param link       Ссылка
+     * @param observable    Превращать ли ссылку в константу, если ссылка может измениться на текущей странице?
+     * @param link          Ссылка
      * @param strongCompare строгое сравнение ссылок
      */
     BindLink resolveLink(BindLink link, boolean observable, boolean strongCompare);
@@ -210,9 +211,10 @@ public interface BindProcessor {
     /**
      * Получить значение выборки с текущими параметрами запроса
      *
-     * @param queryId Идентификатор выборки
+     * @param queryId  Идентификатор выборки
+     * @param criteria ограничения(фильтры)
      */
-    DataSet executeQuery(String queryId);
+    DataSet executeQuery(String queryId, N2oPreparedCriteria criteria);
 
     /**
      * Получить локализованное сообщение по коду и аргументам
