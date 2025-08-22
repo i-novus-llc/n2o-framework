@@ -7,7 +7,8 @@ export type TBaseProps = {
 
 export type TBaseInputProps<TValue> = {
     autoFocus?: boolean,
-    autocomplete?: boolean,
+    /** HTML attribute: autocomplete */
+    autocomplete?: string,
     id?: string
     name?: string
     onBlur?(event: Event): void

@@ -15,4 +15,5 @@ public class N2oDatePicker extends N2oPlainField {
     private String max;
     private String min;
     private Boolean utc;
+    private String autocomplete;
 }

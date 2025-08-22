@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-
 /**
  * Клиентская модель поля для ввода текста
  */
@@ -17,4 +16,6 @@ public class Password extends Control {
     private String placeholder;
     @JsonProperty("showPasswordBtn")
     private Boolean eye;
+    @JsonProperty
+    private String autocomplete;
 }

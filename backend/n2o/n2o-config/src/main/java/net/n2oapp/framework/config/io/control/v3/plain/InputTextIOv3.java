@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.control.v3.plain;
 
+
 import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -20,6 +21,7 @@ public class InputTextIOv3 extends PlainFieldIOv3<N2oInputText> {
         p.attribute(e, "step", m::getStep, m::setStep);
         p.attribute(e, "measure", m::getMeasure, m::setMeasure);
         p.attributeInteger(e, "precision", m::getPrecision, m::setPrecision);
+        p.attribute(e, "autocomplete", m::getAutocomplete, m::setAutocomplete);
     }
 
     @Override

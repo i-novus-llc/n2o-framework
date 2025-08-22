@@ -18,6 +18,7 @@ export const DateInputGroup = forwardRef<HTMLDivElement, DateInputGroupProps>(({
     outputFormat,
     max,
     min,
+    autocomplete,
     onFocus = NOOP_FUNCTION,
     onBlur = NOOP_FUNCTION,
     onKeyDown = NOOP_FUNCTION,
@@ -56,6 +57,7 @@ export const DateInputGroup = forwardRef<HTMLDivElement, DateInputGroupProps>(({
                         outputFormat={outputFormat}
                         max={max}
                         min={min}
+                        autocomplete={autocomplete}
                     />
                 ))}
             </div>

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.control.v3.plain;
 
+
 import net.n2oapp.framework.api.metadata.control.plain.N2oMaskedInput;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -17,6 +18,7 @@ public class MaskedInputIOv3 extends PlainFieldIOv3<N2oMaskedInput> {
         p.attribute(e, "mask", m::getMask, m::setMask);
         p.attribute(e, "measure", m::getMeasure, m::setMeasure);
         p.attributeBoolean(e, "clear-on-blur", m::getClearOnBlur, m::setClearOnBlur);
+        p.attribute(e, "autocomplete", m::getAutocomplete, m::setAutocomplete);
     }
 
     @Override

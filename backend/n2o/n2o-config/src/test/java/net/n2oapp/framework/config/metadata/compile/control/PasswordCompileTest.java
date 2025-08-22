@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.Password;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -37,9 +38,11 @@ class PasswordCompileTest extends SourceCompileTestBase {
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         Password password = (Password) ((StandardField) field).getControl();
         assertThat(password.getEye(), is(Boolean.FALSE));
+        assertThat(password.getAutocomplete(), is("on"));
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         password = (Password) ((StandardField) field).getControl();
         assertThat(password.getEye(), is(true));
+        assertThat(password.getAutocomplete(), is("off"));
     }
 }

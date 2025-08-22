@@ -15,4 +15,5 @@ public class N2oInputText extends N2oPlainField {
     private String measure;
     private Integer length;
     private Integer precision;
+    private String autocomplete;
 }

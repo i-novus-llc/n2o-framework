@@ -35,7 +35,7 @@ class DatePickerCompileTest extends SourceCompileTestBase {
 
     @Test
     void testDatePicker() {
-        SimplePage page= (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testDatePicker.page.xml")
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testDatePicker.page.xml")
                 .get(new PageContext("testDatePicker"));
         Form form = (Form) page.getWidget();
         StandardField standardField = (StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
@@ -50,5 +50,6 @@ class DatePickerCompileTest extends SourceCompileTestBase {
         assertThat(field.getMin(), is("01.01.2000"));
         assertThat(field.getMax(), is("01.01.3000"));
         assertThat(field.getUtc(), is(true));
+        assertThat(field.getAutocomplete(), is("on"));
     }
 }

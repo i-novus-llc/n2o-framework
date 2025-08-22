@@ -27,6 +27,7 @@ export interface DateMaskProps {
     style?: CSSProperties
     // Восстанавливать установленное value после blur, при незаполненой маске
     restoreOnBlur?: boolean
+    autocomplete?: string
 }
 
 export interface WithFormatProps extends Limits {

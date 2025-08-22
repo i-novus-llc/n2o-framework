@@ -403,6 +403,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
             max,
             min,
             onKeyDown,
+            autocomplete,
         } = this.props
 
         const { inputs, isPopUpVisible } = this.state
@@ -439,6 +440,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                                     outputFormat={outputFormat}
                                     max={max}
                                     min={min}
+                                    autocomplete={autocomplete}
                                 />
                             )}
                         </Reference>

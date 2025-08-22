@@ -10,15 +10,19 @@ import 'brace/mode/xml'
 import 'brace/theme/tomorrow'
 import 'brace/ext/language_tools'
 
-import { TBaseInputProps, TBaseProps } from '../types'
+import { type TBaseProps } from '../types'
 import { NOOP_FUNCTION } from '../utils/emptyTypes'
 
 import '../styles/controls/CodeEditor.scss'
 
-type CodeEditorProps = TBaseProps & TBaseInputProps<string> & {
+type CodeEditorProps = TBaseProps & {
     lang?: 'javascript' | 'xml' | 'sql' | 'groovy' | 'java' | 'html',
     maxLines?: number,
     minLines?: number,
+    name?: string
+    value?: string
+    autocomplete?: boolean
+    onChange?(newValue: string, event?: Event): void
 }
 
 export const CodeEditor = ({

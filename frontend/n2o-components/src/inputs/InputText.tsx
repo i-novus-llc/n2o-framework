@@ -88,6 +88,7 @@ export class InputTextComponent extends Component<InputTextProps> {
             prefix,
             suffix,
             readOnly,
+            autocomplete,
         } = this.props
 
         const hasAffix = !!prefix || !!suffix
@@ -133,6 +134,7 @@ export class InputTextComponent extends Component<InputTextProps> {
                         className="n2o-input-text"
                         onFocus={this.onFocus}
                         onBlur={this.onBlur}
+                        autocomplete={autocomplete}
                     />
                     {suffix ? (
                         <span
@@ -154,6 +156,7 @@ export class InputTextComponent extends Component<InputTextProps> {
                 onFocus={onFocus}
                 onBlur={this.onBlur}
                 inputRef={this.baseInputRef}
+                autocomplete={autocomplete}
             />
         )
     }

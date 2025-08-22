@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-
 /**
  * Клиентская модель поля для ввода текста
  */
@@ -25,4 +24,6 @@ public class InputText extends Control {
     private Boolean showButtons;
     @JsonProperty
     private Integer precision;
+    @JsonProperty
+    private String autocomplete;
 }

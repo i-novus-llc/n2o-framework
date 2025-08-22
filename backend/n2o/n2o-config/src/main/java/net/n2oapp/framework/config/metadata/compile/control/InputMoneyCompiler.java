@@ -40,6 +40,7 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
         inputMoney.setDecimalSymbol(source.getDecimalSeparator());
         inputMoney.setIntegerLimit(source.getIntegerLimit());
         compileDecimalMode(inputMoney, source, p);
+        inputMoney.setAutocomplete(castDefault(source.getAutocomplete(), () -> p.resolve(property("n2o.api.control.input_money.autocomplete"), String.class)));
         return compileStandardField(inputMoney, source, context, p);
     }
 

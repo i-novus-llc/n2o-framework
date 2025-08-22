@@ -133,6 +133,7 @@ export class Input extends React.Component<Props> {
             style,
             type,
             value,
+            autocomplete,
             ...restProps
         } = this.props
 
@@ -159,6 +160,7 @@ export class Input extends React.Component<Props> {
                 {...omit(restProps, ['length', 'onChange', 'onKeyDown'])}
                 onChange={this.handleChange}
                 title={isString(value) ? value : label}
+                autoComplete={autocomplete}
             />
         )
     }
