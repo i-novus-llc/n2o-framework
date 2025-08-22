@@ -52,5 +52,7 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
         private Boolean fetchOnChange;
         @JsonProperty
         private Boolean fetchOnClear;
+        @JsonProperty
+        private Boolean fetchOnEnter;
     }
 }
