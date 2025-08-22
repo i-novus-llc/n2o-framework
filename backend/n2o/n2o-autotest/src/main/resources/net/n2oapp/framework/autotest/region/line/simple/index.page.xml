@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <line label="Line1" class="css-on-line" style="width:90%">
-            <form name="form1"/>
+        <line class="css-on-line" style="width:90%" label="Line1">
+            <form/>
         </line>
         <line label="Line2" expand="false">
-            <form name="form2"/>
+            <form/>
         </line>
         <line collapsible="false">
-            <form name="form3">
+            <form>
                 <fields>
                     <input-text id="field" label="field"/>
                 </fields>

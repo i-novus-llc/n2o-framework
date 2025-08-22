@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-            <input-select-tree id="tree" label="InputSelectTree" checkboxes="true" query-id="test"
-                               parent-field-id="parent" label-field-id="name" value-field-id="id"
-                               max-tag-text-length="15"/>
+            <input-select-tree id="tree" label="InputSelectTree" query-id="test" label-field-id="name" value-field-id="id" checkboxes="true" parent-field-id="parent" max-tag-text-length="15"/>
         </fields>
     </form>
 </simple-page>

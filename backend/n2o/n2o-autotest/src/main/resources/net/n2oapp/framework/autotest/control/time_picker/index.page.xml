@@ -1,12 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <time-picker id="time1" label="Time1" default-value="15:25:30"/>
-            <time-picker id="time2" label="Time2" prefix="From: " default-value="10:18"
-                         format="digit" time-format="hh:mm" mode="hour,minute"/>
+            <time-picker id="time2" label="Time2" default-value="10:18" prefix="From: " mode="hour,minute" time-format="hh:mm" format="digit"/>
             <time-picker id="time3" label="Time3" time-format="hh" format="digit"/>
-            <time-picker id="time4" label="Time4" time-format="mm" mode="minute"/>
+            <time-picker id="time4" label="Time4" mode="minute" time-format="mm"/>
         </fields>
     </form>
 </simple-page>

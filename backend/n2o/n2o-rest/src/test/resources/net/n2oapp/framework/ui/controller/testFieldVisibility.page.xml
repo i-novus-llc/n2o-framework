@@ -1,11 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/testFieldVisibility">
-    <form object-id="testObject" route="/widget">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             route="/testFieldVisibility">
+    <form>
+        <datasource object-id="testObject" route="/widget"/>
+        <toolbar>
+            <button id="create6">
+                <invoke operation-id="create6" route="/create6"/>
+            </button>
+        </toolbar>
         <fields>
             <input-text id="id1"/>
             <input-text id="id2" visible="false">
                 <validations>
-                    <mandatory id="id2" severity="danger" server-moment="before-operation" />
+                    <mandatory id="id2" field-id="id2" server-moment="before-operation"/>
                 </validations>
             </input-text>
             <input-text id="id3">
@@ -13,15 +20,15 @@
                     <visibility on="id1">id1 != null</visibility>
                 </dependencies>
                 <validations>
-                    <mandatory id="id3" severity="danger" server-moment="before-operation"/>
+                    <mandatory id="id3" field-id="id3" server-moment="before-operation"/>
                 </validations>
             </input-text>
             <input-text id="id4">
-                <dependencies >
+                <dependencies>
                     <visibility on="id1">id1 != null</visibility>
                 </dependencies>
                 <validations>
-                    <mandatory id="id4" severity="danger" server-moment="before-operation"/>
+                    <mandatory id="id4" field-id="id4" server-moment="before-operation"/>
                 </validations>
             </input-text>
             <input-text id="id5">
@@ -29,12 +36,6 @@
                     <visibility>id5</visibility>
                 </dependencies>
             </input-text>
-
         </fields>
-        <toolbar>
-            <button id="create6">
-                <invoke operation-id="create6" route="/create6"/>
-            </button>
-        </toolbar>
     </form>
 </simple-page>

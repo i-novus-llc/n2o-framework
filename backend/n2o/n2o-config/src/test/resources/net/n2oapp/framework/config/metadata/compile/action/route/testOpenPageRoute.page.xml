@@ -1,11 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form id="form">
-        <fields>
-            <input-text id="id"/>
-        </fields>
         <toolbar>
-            <!-- с route -->
             <button id="btn1">
                 <open-page page-id="testOpenPageRoutePage" route="/update"/>
             </button>
@@ -13,35 +9,73 @@
                 <open-page page-id="testOpenPageRoutePage" route="/update"/>
             </button>
             <button id="btn3">
-                <open-page page-id="testOpenPageRoutePage" route="/update" master-param="id"/>
+                <open-page page-id="testOpenPageRoutePage" route="/update"/>
             </button>
             <button id="btn4" model="filter">
                 <open-page page-id="testOpenPageRoutePage" route="/update"/>
             </button>
-
-            <!-- без route с master-param -->
             <button id="btn5">
-                <open-page page-id="testOpenPageRoutePage" master-param="master_id"/>
+                <open-page page-id="testOpenPageRoutePage"/>
             </button>
             <button id="btn6" model="filter">
-                <open-page page-id="testOpenPageRoutePage" master-param="master_id"/>
+                <open-page page-id="testOpenPageRoutePage"/>
             </button>
-            <!-- без route с detail-field-id -->
             <button id="btn7">
-                <open-page page-id="testOpenPageRoutePage" detail-field-id="id"/>
+                <open-page page-id="testOpenPageRoutePage">
+                    <datasources>
+                        <datasource>
+                            <filters>
+                                <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                            </filters>
+                        </datasource>
+                    </datasources>
+                    <params>
+                        <query-param name="$widgetId_id" value="{id}"/>
+                    </params>
+                </open-page>
             </button>
             <button id="btn8" model="filter">
-                <open-page page-id="testOpenPageRoutePage" detail-field-id="id"/>
+                <open-page page-id="testOpenPageRoutePage">
+                    <datasources>
+                        <datasource>
+                            <filters>
+                                <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                            </filters>
+                        </datasource>
+                    </datasources>
+                    <params>
+                        <query-param name="$widgetId_id" value="{id}"/>
+                    </params>
+                </open-page>
             </button>
-            <!-- без route с detail-field-id и master-param -->
             <button id="btn9">
-                <open-page page-id="testOpenPageRoutePage" detail-field-id="id" master-param="master_id"/>
+                <open-page page-id="testOpenPageRoutePage">
+                    <datasources>
+                        <datasource>
+                            <filters>
+                                <eq field-id="id" param="master_id" value="{id}"/>
+                            </filters>
+                        </datasource>
+                    </datasources>
+                    <params>
+                        <query-param name="master_id" value="{id}"/>
+                    </params>
+                </open-page>
             </button>
             <button id="btn10" model="filter">
-                <open-page page-id="testOpenPageRoutePage" detail-field-id="id" master-param="master_id"/>
+                <open-page page-id="testOpenPageRoutePage">
+                    <datasources>
+                        <datasource>
+                            <filters>
+                                <eq field-id="id" param="master_id" value="{id}"/>
+                            </filters>
+                        </datasource>
+                    </datasources>
+                    <params>
+                        <query-param name="master_id" value="{id}"/>
+                    </params>
+                </open-page>
             </button>
-
-            <!-- без route, detail-field-id, master-param -->
             <button id="btn11">
                 <open-page page-id="testOpenPageRoutePage"/>
             </button>
@@ -49,5 +83,8 @@
                 <open-page page-id="testOpenPageRoutePage"/>
             </button>
         </toolbar>
+        <fields>
+            <input-text id="id"/>
+        </fields>
     </form>
 </simple-page>

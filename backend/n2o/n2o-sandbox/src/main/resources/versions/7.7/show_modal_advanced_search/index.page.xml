@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Расширенный поиск через модальное окно">
     <form id="form">
         <fields>
@@ -7,7 +7,7 @@
                 <input-text id="name" label="Имя">
                     <toolbar>
                         <button label="Расширенный поиск" model="filter">
-                            <show-modal page-id="modal" submit-action-type="copy" submit-label="Выбрать"/>
+                            <show-modal page-id="modal" submit-label="Выбрать" submit-action-type="copy"/>
                         </button>
                     </toolbar>
                 </input-text>

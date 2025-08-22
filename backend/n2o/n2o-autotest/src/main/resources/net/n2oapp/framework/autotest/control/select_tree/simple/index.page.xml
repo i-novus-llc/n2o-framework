@@ -1,14 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Название страницы" route="/pageRoute">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Название страницы" route="/pageRoute">
     <form>
         <fields>
-            <input-select-tree label="InputSelectTree" id="inputSelectTree" checkboxes="true" placeholder="SelectOption"
-                               label-field-id="name" parent-field-id="parentCode" value-field-id="id">
+            <input-select-tree id="inputSelectTree" label="InputSelectTree" placeholder="SelectOption" label-field-id="name" value-field-id="id" checkboxes="true" parent-field-id="parentCode">
                 <options>
-                    <option id="id1" name="one"/>
-                    <option id="id2" name="two"/>
-                    <option id="id3" name="three"/>
-                    <option id="id4" name="long message"/>
+                    <option name="one" id="id1"/>
+                    <option name="two" id="id2"/>
+                    <option name="three" id="id3"/>
+                    <option name="long message" id="id4"/>
                 </options>
             </input-select-tree>
         </fields>

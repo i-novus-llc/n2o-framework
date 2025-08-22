@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="Иконки ячейки таблицы">
-    <table query-id="testTable">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Иконки ячейки таблицы">
+    <table>
+        <datasource query-id="testTable"/>
         <columns>
             <column text-field-id="icon">
                 <icon>
                     <switch value-field-id="icon">
-                        <case value="fa fa-phone">fa fa-phone</case>
                         <case value="fa fa-plus">fa fa-plus</case>
-                        <case value="fa fa-fax">fa fa-fax</case>
                         <case value="fa fa-minus">fa fa-minus</case>
+                        <case value="fa fa-fax">fa fa-fax</case>
+                        <case value="fa fa-phone">fa fa-phone</case>
                     </switch>
                 </icon>
             </column>

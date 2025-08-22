@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <form query-id="test">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <datasource size="1" query-id="test"/>
         <fields>
-            <multi-set id="members" can-remove-first="true"
-                       can-copy="true" can-add="false" children-label="Участник {(index + 1)}">
+            <multi-set id="members" children-label="Участник {(index + 1)}" can-add="false" can-remove-first="true" can-copy="true">
                 <row>
                     <input-text id="name" label="1.2.({(index + 1)}) name"/>
                     <input-text id="age" label="1.2.({(index + 1)}) age"/>

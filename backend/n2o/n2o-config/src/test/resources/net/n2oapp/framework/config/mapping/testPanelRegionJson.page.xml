@@ -1,9 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-  <regions>
-    <panel place="single" collapsible="true" class="test" header="true" title="Заголовок панели"
-           icon="fa fa-exclamation" color="secondary" footer-title="Подвал панели">
-       <html opened = "true" icon="fa fa-plus" name="Первый таб" id="Page.Html" />
-    </panel>
-  </regions>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <panel class="test" header="true" title="Заголовок панели" footer-title="Подвал панели" collapsible="true" icon="fa fa-exclamation" color="secondary">
+            <html id="Page.Html">
+                <content/>
+            </html>
+        </panel>
+    </regions>
 </page>

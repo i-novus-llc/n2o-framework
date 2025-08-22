@@ -1,28 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Управление параметрами фильтров.
              Выбрать фильтры и проверить какие параметры попали в URL">
-    <table id="main" query-id="test">
+    <table id="main">
+        <datasource query-id="test">
+            <filters>
+                <eq field-id="id" param="id" routable="true" value="{id}" datasource="main" model="filter"/>
+                <eq field-id="ref.id" param="refId" routable="true" value="{ref.id}" datasource="main" model="filter"/>
+                <eq field-id="name" param="name" routable="true" value="{name}" datasource="main" model="filter"/>
+            </filters>
+        </datasource>
+        <columns>
+            <column label="ID" text-field-id="id"/>
+            <column label="Ссылка" text-field-id="ref.name"/>
+            <column label="Имя" text-field-id="name"/>
+        </columns>
         <filters>
-            <input-text id="id" domain="integer" label="ID"/>
+            <input-text id="id" label="ID" domain="integer"/>
             <input-select id="ref" label="Ссылка">
                 <options>
-                    <option id="1" name="Один"/>
-                    <option id="2" name="Два"/>
+                    <option name="Один" id="1"/>
+                    <option name="Два" id="2"/>
                 </options>
             </input-select>
-            <input-text id="name" domain="string" label="Имя"/>
+            <input-text id="name" label="Имя" domain="string"/>
         </filters>
-        <columns>
-            <column text-field-id="id" label="ID"/>
-            <column text-field-id="ref.name" label="Ссылка"/>
-            <column text-field-id="name" label="Имя"/>
-        </columns>
-        <pre-filters>
-            <eq field-id="id" param="id" value="{id}" ref-widget-id="main" ref-model="filter" routable="true"/>
-            <eq field-id="ref.id" param="refId" value="{ref.id}" ref-widget-id="main" ref-model="filter"
-                routable="true"/>
-            <eq field-id="name" param="name" value="{name}" ref-widget-id="main" ref-model="filter" routable="true"/>
-        </pre-filters>
     </table>
 </simple-page>

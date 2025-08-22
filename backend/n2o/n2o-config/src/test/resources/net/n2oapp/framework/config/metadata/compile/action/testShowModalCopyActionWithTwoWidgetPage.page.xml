@@ -1,8 +1,19 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
-            <table id="master" query-id="testShowModal"/>
-            <table id="table2" query-id="testShowModal" depends-on="master" detail-field-id="id">
+            <table id="master">
+                <datasource query-id="testShowModal"/>
+            </table>
+            <table id="table2">
+                <datasource query-id="testShowModal">
+                    <dependencies>
+                        <fetch on="master" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="id" value="{id}" datasource="master" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
                 <columns>
                     <column text-field-id="id"/>
                 </columns>

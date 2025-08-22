@@ -1,17 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      name="Модальное окно" object-id="testShowModal">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Модальное окно" object-id="testShowModal">
     <regions>
-        <region place="left">
-            <form id="main" default-values-query-id="testShowModal">
-                <pre-filters>
-                    <eq field-id="id" param="id"/>
-                </pre-filters>
+        <region>
+            <form id="main">
+                <datasource>
+                    <filters>
+                        <eq field-id="id" param="id"/>
+                    </filters>
+                </datasource>
             </form>
         </region>
-        <region place="right">
-            <form id="second" query-id="testShowModal" depends-on="main">
-
+        <region>
+            <form id="second">
+                <datasource size="1" query-id="testShowModal">
+                    <dependencies>
+                        <fetch on="main" model="resolve"/>
+                    </dependencies>
+                </datasource>
             </form>
         </region>
     </regions>

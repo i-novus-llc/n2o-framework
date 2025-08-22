@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <form id="form" object-id="testCell">
+        <form id="form">
+            <datasource object-id="testCell"/>
             <fields>
                 <input-text id="id" default-value="3"/>
                 <checkbox id="availability">
@@ -9,17 +10,29 @@
                 </checkbox>
             </fields>
         </form>
-
-        <table id="table" route="/table"
-               depends-on="form" detail-field-id="id" master-field-id="id">
+        <table id="table">
+            <datasource route="/table">
+                <dependencies>
+                    <fetch on="form" model="resolve"/>
+                </dependencies>
+                <filters>
+                    <eq field-id="id" value="{id}" datasource="form" model="resolve" required="true"/>
+                </filters>
+            </datasource>
             <columns>
                 <column text-field-id="id"/>
                 <column text-field-id="name"/>
             </columns>
         </table>
-
-        <form depends-on="table" object-id="testCell"
-              detail-field-id="id" master-field-id="id">
+        <form>
+            <datasource object-id="testCell">
+                <dependencies>
+                    <fetch on="table" model="resolve"/>
+                </dependencies>
+                <filters>
+                    <eq field-id="id" value="{id}" datasource="table" model="resolve" required="true"/>
+                </filters>
+            </datasource>
             <fields>
                 <hidden id="id" label="Идентификатор"/>
                 <checkbox id="availability">

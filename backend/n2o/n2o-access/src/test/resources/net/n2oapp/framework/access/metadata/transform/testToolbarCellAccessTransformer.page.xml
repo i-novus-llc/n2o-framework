@@ -1,11 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <table object-id="testToolbarAccessTransformer">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <table>
+        <actions>
+            <action id="update">
+                <invoke operation-id="update"/>
+            </action>
+        </actions>
+        <datasource object-id="testToolbarAccessTransformer"/>
         <columns>
             <column text-field-id="toolbar">
                 <toolbar>
                     <button>
-                        <invoke operation-id="create" />
+                        <invoke operation-id="create"/>
                     </button>
                     <button action-id="update"/>
                     <button>
@@ -14,10 +20,5 @@
                 </toolbar>
             </column>
         </columns>
-        <actions>
-            <action id="update">
-                <invoke operation-id="update"/>
-            </action>
-        </actions>
     </table>
 </simple-page>

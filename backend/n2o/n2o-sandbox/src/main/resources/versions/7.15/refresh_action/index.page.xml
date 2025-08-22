@@ -1,8 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Действие обновления данных виджета">
     <regions>
-        <form object-id="test">
+        <form>
+            <toolbar place="bottomLeft">
+                <button label="Обновить таблицу" icon="fa fa-refresh" disable-on-empty-model="false">
+                    <refresh datasource="users"/>
+                </button>
+            </toolbar>
+            <datasource object-id="test"/>
             <fields>
                 <input-text id="name" label="Имя">
                     <toolbar>
@@ -12,22 +18,18 @@
                     </toolbar>
                 </input-text>
             </fields>
-            <toolbar place="bottomLeft">
-                <button label="Обновить таблицу" icon="fa fa-refresh" disable-on-empty-model="false">
-                    <refresh widget-id="users"/>
-                </button>
-            </toolbar>
         </form>
-        <table id="users" query-id="test" object-id="test">
-            <columns>
-                <column text-field-id="id" label="ID"/>
-                <column text-field-id="name" label="Имя"/>
-            </columns>
+        <table id="users">
             <toolbar place="topRight">
                 <button label="Обновить" icon="fa fa-refresh" disable-on-empty-model="false">
-                    <refresh widget-id="users"/>
+                    <refresh datasource="users"/>
                 </button>
             </toolbar>
+            <datasource query-id="test" object-id="test"/>
+            <columns>
+                <column label="ID" text-field-id="id"/>
+                <column label="Имя" text-field-id="name"/>
+            </columns>
         </table>
     </regions>
 </page>

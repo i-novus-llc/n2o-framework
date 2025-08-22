@@ -1,27 +1,27 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Функции значений по умолчанию">
     <form>
         <fields>
             <row>
-                <date-time id="now" label="Сейчас" time-format="HH:mm:ss" default-value="{$.now()}"/>
-                <date-time id="today" label="Сегодня" time-format="HH:mm:ss" default-value="{$.today()}"/>
+                <date-time id="now" label="Сейчас" default-value="{$.now()}" time-format="HH:mm:ss"/>
+                <date-time id="today" label="Сегодня" default-value="{$.today()}" time-format="HH:mm:ss"/>
             </row>
             <row>
-                <date-time id="yesterday" label="Вчера" time-format="HH:mm:ss" default-value="{$.yesterday()}"/>
-                <date-time id="tomorrow" label="Завтра" time-format="HH:mm:ss" default-value="{$.tomorrow()}"/>
+                <date-time id="yesterday" label="Вчера" default-value="{$.yesterday()}" time-format="HH:mm:ss"/>
+                <date-time id="tomorrow" label="Завтра" default-value="{$.tomorrow()}" time-format="HH:mm:ss"/>
             </row>
             <row>
-                <date-time id="beginWeek" label="Начало недели" time-format="HH:mm:ss" default-value="{$.beginWeek()}"/>
-                <date-time id="endWeek" label="Конец недели" time-format="HH:mm:ss" default-value="{$.endWeek()}"/>
+                <date-time id="beginWeek" label="Начало недели" default-value="{$.beginWeek()}" time-format="HH:mm:ss"/>
+                <date-time id="endWeek" label="Конец недели" default-value="{$.endWeek()}" time-format="HH:mm:ss"/>
             </row>
             <row>
-                <date-time id="beginMonth" label="Начало месяца" time-format="HH:mm:ss" default-value="{$.beginMonth()}"/>
-                <date-time id="endMonth" label="Конец месяца" time-format="HH:mm:ss" default-value="{$.endMonth()}"/>
+                <date-time id="beginMonth" label="Начало месяца" default-value="{$.beginMonth()}" time-format="HH:mm:ss"/>
+                <date-time id="endMonth" label="Конец месяца" default-value="{$.endMonth()}" time-format="HH:mm:ss"/>
             </row>
             <row>
-                <date-time id="beginYear" label="Начало года" time-format="HH:mm:ss" default-value="{$.beginYear()}"/>
-                <date-time id="endYear" label="Конец года" time-format="HH:mm:ss" default-value="{$.endYear()}"/>
+                <date-time id="beginYear" label="Начало года" default-value="{$.beginYear()}" time-format="HH:mm:ss"/>
+                <date-time id="endYear" label="Конец года" default-value="{$.endYear()}" time-format="HH:mm:ss"/>
             </row>
             <output-text id="moment" default-value="{moment('06.02.2019').format('DD.MM.YYYY')}"/>
             <output-text id="numeral" default-value="{numeral(1.5).format('0.00')}"/>

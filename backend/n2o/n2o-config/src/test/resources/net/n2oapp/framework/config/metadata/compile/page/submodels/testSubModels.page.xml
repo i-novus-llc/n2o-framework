@@ -1,9 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <region place="single">
-            <table query-id="testModel" id="w0">
-                <columns></columns>
+        <region>
+            <table id="w0">
+                <datasource query-id="testModel"/>
+                <columns/>
                 <filters>
                     <input-select id="testSingleDefault" query-id="testSubModel" label-field-id="name" type="single">
                         <default-value id="1"/>
@@ -14,23 +15,25 @@
                 </filters>
             </table>
         </region>
-        <region place="single">
-            <table query-id="testModel" id="w1">
-                <columns></columns>
+        <region>
+            <table id="w1">
+                <datasource query-id="testModel"/>
+                <columns/>
                 <filters>
-                    <input-select id="testSingleOptions" label-field-id="name" type="single" param="singleOptionParam">
+                    <input-select id="testSingleOptions" param="singleOptionParam" label-field-id="name" type="single">
                         <options>
-                            <option id="1" name="testOp1"/>
-                            <option id="2" name="testOp2"/>
+                            <option name="testOp1" id="1"/>
+                            <option name="testOp2" id="2"/>
                         </options>
                     </input-select>
-                    <input-select id="testSingleUrl" query-id="testSubModel" label-field-id="name" type="single" param="singleParam"/>
-                    <input-select id="testMultiUrl" query-id="testSubModel" label-field-id="name" type="multi" param="multiParam"/>
+                    <input-select id="testSingleUrl" param="singleParam" query-id="testSubModel" label-field-id="name" type="single"/>
+                    <input-select id="testMultiUrl" param="multiParam" query-id="testSubModel" label-field-id="name" type="multi"/>
                 </filters>
             </table>
         </region>
-        <region place="single">
-            <form query-id="testModel" upload="defaults" id="w2">
+        <region>
+            <form id="w2">
+                <datasource size="1" default-values-mode="defaults"/>
                 <fields>
                     <input-select id="testSingle" query-id="testSubModel" label-field-id="name" type="single">
                         <default-value id="1"/>
@@ -41,17 +44,18 @@
                 </fields>
             </form>
         </region>
-        <region place="single">
-            <form query-id="testModel" id="w3" upload="defaults">
+        <region>
+            <form id="w3">
+                <datasource size="1" default-values-mode="defaults"/>
                 <fields>
-                    <input-select id="testSingleOptionsForm" label-field-id="name" type="single" param="singleOptionFormParam">
+                    <input-select id="testSingleOptionsForm" param="singleOptionFormParam" label-field-id="name" type="single">
                         <options>
-                            <option id="1" name="testOp1"/>
-                            <option id="2" name="testOp2"/>
+                            <option name="testOp1" id="1"/>
+                            <option name="testOp2" id="2"/>
                         </options>
                     </input-select>
-                    <input-select id="testSingleUrlForm" query-id="testSubModel" label-field-id="name" type="single" param="singleFormParam"/>
-                    <input-select id="testMultiUrlForm" query-id="testSubModel" label-field-id="name" type="multi" param="multiFormParam"/>
+                    <input-select id="testSingleUrlForm" param="singleFormParam" query-id="testSubModel" label-field-id="name" type="single"/>
+                    <input-select id="testMultiUrlForm" param="multiFormParam" query-id="testSubModel" label-field-id="name" type="multi"/>
                 </fields>
             </form>
         </region>

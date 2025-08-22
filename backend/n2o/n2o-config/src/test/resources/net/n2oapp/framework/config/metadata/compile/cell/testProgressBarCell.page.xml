@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <table>
         <columns>
             <column text-field-id="text">
-                <progress color="info" size="large" striped="true" active="true"/>
+                <progress active="true" size="large" striped="true" color="info"/>
             </column>
             <column text-field-id="text2">
                 <progress/>

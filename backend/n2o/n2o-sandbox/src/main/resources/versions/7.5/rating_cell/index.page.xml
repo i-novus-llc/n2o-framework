@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Ячейка-рейтинг">
-    <table query-id="rating">
+    <table>
+        <datasource query-id="rating"/>
         <columns>
-            <column text-field-id="name" label="Имя"/>
-            <column text-field-id="rating" label="Оценка">
+            <column label="Имя" text-field-id="name"/>
+            <column label="Оценка" text-field-id="rating">
                 <rating show-tooltip="true" half="true" max="5"/>
             </column>
         </columns>

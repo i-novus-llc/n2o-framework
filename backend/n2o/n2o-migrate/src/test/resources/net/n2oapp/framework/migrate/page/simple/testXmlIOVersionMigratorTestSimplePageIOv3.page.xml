@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form query-id="test" object-id="test">
+        <fields>
+            <input-text id="name2"/>
+        </fields>
+        <actions>
+            <action id="update">
+                <invoke operation-id="update"/>
+            </action>
+        </actions>
+        <toolbar>
+            <button id="b1" label="test">
+                <open-page page-id="test">
+                    <path-param name="name" value="{i1}" ref-model="filter" ref-widget-id="master"/>
+                    <query-param name="name2" value="2" ref-model="resolve" ref-widget-id="master2"/>
+                </open-page>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

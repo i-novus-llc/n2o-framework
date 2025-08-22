@@ -1,17 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page  xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/page">
-    <table query-id="testBindOpenPage" id="w1">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" route="/page">
+    <table id="w1">
+        <datasource query-id="testBindOpenPage"/>
+        <toolbar>
+            <button id="open" label="Префильтрация данных на странице">
+                <open-page page-id="testBindOpenPageShow" route="/show">
+                    <datasources>
+                        <datasource default-values-mode="query"/>
+                    </datasources>
+                    <params>
+                        <query-param name="name" value="{name}"/>
+                    </params>
+                </open-page>
+            </button>
+        </toolbar>
         <columns>
             <column text-field-id="id"/>
             <column text-field-id="name"/>
         </columns>
-        <toolbar>
-            <button id="open" label="Префильтрация данных на странице">
-                <open-page page-id="testBindOpenPageShow" route="/show" upload="query">
-                    <query-param name="name" value="{name}" />
-                </open-page>
-            </button>
-        </toolbar>
     </table>
 </simple-page>
-

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cards xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+       src="CardsTest"
+       vertical-align="center"
+       height="400px"
+       size="5">
+    <content>
+        <col size="6">
+            <block text-field-id="test1" tooltip-field-id="tooltip" id="11" class="font-weight-bold"
+                   style="color: red"/>
+            <block id="12">
+                <image src="cell12"/>
+            </block>
+        </col>
+        <col>
+            <block>
+                <text/>
+            </block>
+        </col>
+    </content>
+    <pagination src="pagingSrc" show-count="false" prev="true" next="true"/>
+</cards>

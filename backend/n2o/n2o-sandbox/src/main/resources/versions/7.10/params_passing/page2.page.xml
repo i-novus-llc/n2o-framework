@@ -1,8 +1,9 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Версия:{version} №{number}">
     <form>
         <fields>
-            <input-text id="version" label="Версия" param="version" />
+            <input-text id="version" label="Версия" param="version"/>
             <input-text id="number" label="#" param="number"/>
         </fields>
     </form>

@@ -1,22 +1,26 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="Тест открытия модального окна с upload=defaults">
-    <table query-id="testShowModal">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Тест открытия модального окна с upload=defaults">
+    <table>
+        <datasource query-id="testShowModal"/>
+        <toolbar>
+            <button id="update" model="filter">
+                <show-modal page-id="testShowModalPage">
+                    <datasources>
+                        <datasource default-values-mode="defaults"/>
+                    </datasources>
+                </show-modal>
+            </button>
+            <button id="update2" model="filter">
+                <show-modal page-id="testShowModalPage2">
+                    <datasources>
+                        <datasource default-values-mode="defaults"/>
+                    </datasources>
+                </show-modal>
+            </button>
+        </toolbar>
         <columns>
             <column text-field-id="id"/>
             <column text-field-id="name"/>
         </columns>
-        <toolbar>
-            <button id="update" model="filter">
-                <!-- open simple page -->
-                <show-modal page-id="testShowModalPage" upload="defaults">
-                </show-modal>
-            </button>
-            <button id="update2" model="filter">
-                <!-- open standard page -->
-                <show-modal page-id="testShowModalPage2" upload="defaults">
-                </show-modal>
-            </button>
-        </toolbar>
     </table>
 </simple-page>

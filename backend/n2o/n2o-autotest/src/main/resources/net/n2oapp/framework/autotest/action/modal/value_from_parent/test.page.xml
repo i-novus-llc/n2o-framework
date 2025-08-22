@@ -1,20 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="Модальное окно">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Модальное окно">
     <form>
         <fields>
-            <input-text id="name" ref-page="parent" ref-field-id="name" label="Получение значения для простого поля по ссылке"/>
-            <input-text id="name2" ref-page="parent" default-value="{name}" label="Получение значения для простого поля по default-value"/>
-
-            <input-select id="address" ref-page="parent" query-id="test" label="Получение значения для спиского поля по default-value">
-                <default-value id="{address.id}" name="{address.name}"/>
+            <input-text id="name" label="Получение значения для простого поля по ссылке" ref-page="parent"
+                        ref-field-id="name"/>
+            <input-text id="name2" label="Получение значения для простого поля по default-value" ref-page="parent"
+                        default-value="{name}"/>
+            <input-select id="address" label="Получение значения для спиского поля по default-value" ref-page="parent"
+                          query-id="test">
+                <default-value name="{address.name}" id="{address.id}"/>
             </input-select>
-
-            <input-select type="multi" id="addresses" ref-page="parent" ref-field-id="addresses" query-id="test"
-                          label="Получение значения для спиского поля с множественным выбором"/>
-
-            <input-select id="addressByForm" ref-page="parent" ref-widget-id="second" query-id="test"
-                          label="Получение значения для спиского поля из модели всей формы"/>
+            <input-select id="addresses" label="Получение значения для спиского поля с множественным выбором"
+                          ref-page="parent" ref-field-id="addresses" query-id="test" type="multi"/>
+            <input-select id="addressByForm" label="Получение значения для спиского поля из модели всей формы"
+                          ref-page="parent" ref-datasource="second" query-id="test"/>
         </fields>
     </form>
 </simple-page>

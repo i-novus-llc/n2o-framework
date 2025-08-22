@@ -1,21 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Перевод статуса в Drawer странице">
-    <table query-id="test">
-        <columns>
-            <column text-field-id="id" label="ID"/>
-            <column text-field-id="name" label="Наименование"/>
-            <column text-field-id="inProgress" label="Взято в работу">
-                <checkbox/>
-            </column>
-        </columns>
+    <table>
+        <datasource query-id="test"/>
         <rows>
             <click>
-                <open-drawer page-id="drawer" route="/:id/actions"
-                             placement="right" backdrop-closable="false">
-                    <path-param name="id" value="{id}"/>
+                <open-drawer page-id="drawer" route="/:id/actions">
+                    <params>
+                        <path-param name="id" value="{id}"/>
+                    </params>
                 </open-drawer>
             </click>
         </rows>
+        <columns>
+            <column label="ID" text-field-id="id"/>
+            <column label="Наименование" text-field-id="name"/>
+            <column label="Взято в работу" text-field-id="inProgress">
+                <checkbox/>
+            </column>
+        </columns>
     </table>
 </simple-page>

@@ -1,11 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="Копирование значения поля">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Копирование значения поля">
     <form>
         <toolbar>
-            <button  label="Копировать" disable-on-empty-model="false">
-                <copy source-field-id="field1"
-                      target-field-id="field2" mode="replace"/>
+            <button label="Копировать" disable-on-empty-model="false">
+                <copy source-field-id="field1" target-field-id="field2" mode="replace"/>
             </button>
         </toolbar>
         <fields>

@@ -1,13 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Подсветка невалидных полей в неактивных вкладках">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Подсветка невалидных полей в неактивных вкладках">
     <regions>
-        <form object-id="test">
+        <form>
+            <datasource object-id="test"/>
             <toolbar place="bottomLeft">
                 <button id="modal" label="Модальное окно" disable-on-empty-model="false">
-                    <show-modal page-id="form" upload="defaults"/>
+                    <show-modal page-id="form">
+                        <datasources>
+                            <datasource default-values-mode="defaults"/>
+                        </datasources>
+                    </show-modal>
                 </button>
                 <button id="page" label="Новая страница" disable-on-empty-model="false">
-                    <open-page page-id="form" upload="defaults"/>
+                    <open-page page-id="form">
+                        <datasources>
+                            <datasource default-values-mode="defaults"/>
+                        </datasources>
+                    </open-page>
                 </button>
             </toolbar>
         </form>

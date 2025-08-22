@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+      xmlns:ext="http://example.com/n2o/ext-1.0"
+      xmlns:extChild="http://example.com/n2o/ext-child"
+      ref-id="childWidgetForm" visible="true" ext:extAttr1="child1" ext:extAttr2="child2" extChild:extAttr="child">
+    <datasource query-id="test" object-id="test">
+        <filters>
+            <eq field-id="name" value="1" datasource="child"/>
+        </filters>
+        <dependencies>
+            <fetch on="child" model="resolve"/>
+        </dependencies>
+    </datasource>
+    <actions>
+        <action id="create">
+            <invoke operation-id="create"/>
+        </action>
+        <action id="update">
+            <invoke operation-id="update"/>
+        </action>
+    </actions>
+    <toolbar>
+        <button action-id="create"/>
+    </toolbar>
+    <dependencies>
+        <visibility datasource="child" model="resolve"/>
+    </dependencies>
+    <fields>
+        <set>
+            <input-text id="name2"/>
+            <input-text id="name3" ref-model="edit" ref-datasource="testWidget"/>
+            <input-text src="test" class="test" style="test" id="name4" no-label-block="true" description="test" default-value="test"/>
+            <input-text id="name5" visible="true" enabled="false"/>
+            <input-text id="name6">
+                <dependencies>
+                    <set-value on="test">return 1;</set-value>
+                    <enabling on="test">if (test = 1)
+                        return true;</enabling>
+                    <visibility on="test">if (test = 1)
+                        return true;</visibility>
+                </dependencies>
+            </input-text>
+            <date-interval id="field3" ref-datasource="test" ref-field-id="test"/>
+        </set>
+    </fields>
+</form>

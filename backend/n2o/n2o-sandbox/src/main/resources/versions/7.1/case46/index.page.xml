@@ -1,21 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      name="Блокирование виджета/страницы при invoke" object-id="test">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Блокирование виджета/страницы при invoke">
+    <toolbar place="bottomLeft">
+        <button label="Выполнить на странице" datasource="main">
+            <invoke operation-id="sleep"/>
+        </button>
+    </toolbar>
     <regions>
-        <form object-id="test" id="main">
-            <fields>
-                <output-text id="id" default-value="0"/>
-            </fields>
+        <form id="main">
             <toolbar place="bottomLeft">
                 <button label="Выполнить в виджете">
                     <invoke operation-id="sleep"/>
                 </button>
             </toolbar>
+            <datasource object-id="test"/>
+            <fields>
+                <output-text id="id" default-value="0"/>
+            </fields>
         </form>
     </regions>
-    <toolbar place="bottomLeft">
-        <button label="Выполнить на странице" widget-id="main">
-            <invoke operation-id="sleep"/>
-        </button>
-    </toolbar>
 </page>

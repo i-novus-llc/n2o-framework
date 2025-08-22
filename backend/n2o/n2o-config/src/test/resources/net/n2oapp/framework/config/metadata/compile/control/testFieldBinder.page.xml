@@ -1,27 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-                <input-text id="test1" >
-                    <dependencies>
-                        <set-value on="testField">
-                            if (testField == 1)
-                                return #{test};
-                        </set-value>
-                        <visibility>
-                            if (testField == #{test})
-                                return true;
-                        </visibility>
-                        <enabling>
-                            if (testField == #{test})
-                            return true;
-                        </enabling>
-                        <requiring>
-                            if (testField == #{test})
-                            return true;
-                        </requiring>
-                    </dependencies>
-                </input-text>
+            <input-text id="test1">
+                <dependencies>
+                    <set-value on="testField">if (testField == 1)
+                                return #{test};</set-value>
+                    <visibility>if (testField == #{test})
+                                return true;</visibility>
+                    <enabling>if (testField == #{test})
+                            return true;</enabling>
+                    <requiring>if (testField == #{test})
+                            return true;</requiring>
+                </dependencies>
+            </input-text>
         </fields>
     </form>
 </simple-page>

@@ -1,25 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/"
-      name="Прокидывание модели на форму в модальное окно">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Прокидывание модели на форму в модальное окно" route="/">
     <regions>
         <line label="Передача параметров из формы">
             <form id="form">
                 <fields>
                     <input-text id="address" label="Адрес (собирается из того, что ввели в модальном окне)">
                         <toolbar>
-                            <button model="filter" label="Open" class="fa fa-plus">
-                                <show-modal page-id="modal"
-                                            submit-action-type="copy"
-                                            submit-label="Сохранить"
-                                            copy-mode="replace"
-                                            route="/modalPage"
-                                >
-                                </show-modal>
+                            <button class="fa fa-plus" label="Open" model="filter">
+                                <show-modal page-id="modal" submit-label="Сохранить" route="/modalPage" submit-action-type="copy" copy-mode="replace"/>
                             </button>
                         </toolbar>
                         <dependencies>
-                            <set-value on="city">
-                                var address = "";
+                            <set-value on="city">var address = "";
                                 if (typeof city != 'undefined')
                                 address += city;
                                 if (typeof street != 'undefined') {
@@ -32,18 +24,15 @@
                                 address += ", ";
                                 address += house;
                                 }
-                                return address;
-                            </set-value>
+                                return address;</set-value>
                         </dependencies>
                     </input-text>
-                    <input-text id="city" label="Город (значение должно копироваться в модальное окно и обратно)"
-                                default-value="Казань"/>
+                    <input-text id="city" label="Город (значение должно копироваться в модальное окно и обратно)" default-value="Казань"/>
                 </fields>
             </form>
-            <form id="form2" name="Вторая форма">
+            <form id="form2">
                 <fields>
-                    <input-text id="street" label="Улица (значение должно копироваться в модальное окно, но не обратно)"
-                                default-value="Качалова"/>
+                    <input-text id="street" label="Улица (значение должно копироваться в модальное окно, но не обратно)" default-value="Качалова"/>
                 </fields>
             </form>
         </line>

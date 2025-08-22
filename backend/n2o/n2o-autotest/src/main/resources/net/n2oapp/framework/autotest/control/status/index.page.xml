@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-            <status id="status1" text="Заявка принята" color="success"/>
-            <status id="status2" text="Заявка отклонена" color="danger" text-position="left"/>
+            <status id="status1" color="success" text="Заявка принята"/>
+            <status id="status2" color="danger" text="Заявка отклонена" text-position="left"/>
         </fields>
     </form>
 </simple-page>

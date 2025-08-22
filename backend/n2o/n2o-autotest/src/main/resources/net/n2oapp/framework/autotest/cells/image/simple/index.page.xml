@@ -1,9 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Название страницы" route="/pageRoute">
-    <table query-id="testTable">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Название страницы" route="/pageRoute">
+    <table>
+        <datasource query-id="testTable"/>
         <columns>
             <column text-field-id="image">
-                <image shape="circle" class="{genderId==1?'bg-danger':'bg-success'}" width="15px"/>
+                <image class="{genderId==1?'bg-danger':'bg-success'}" width="15px" shape="circle"/>
             </column>
         </columns>
     </table>

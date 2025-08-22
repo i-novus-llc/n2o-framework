@@ -31,11 +31,11 @@ class ProjectSearcherTest {
         List<SearchProjectModel.Item> items = result.get(0).getItems();
         assertThat(items.size(), is(2));
         assertThat(items.get(0).getFilename(), is("index.page.xml"));
-        assertThat(items.get(0).getLine(), is("<table query-id=\"test\">"));
+        assertThat(items.get(0).getLine(), is("<table>"));
         assertThat(items.get(0).getLineNumber(), is(4));
         assertThat(items.get(1).getFilename(), is("index.page.xml"));
         assertThat(items.get(1).getLine(), is("</table>"));
-        assertThat(items.get(1).getLineNumber(), is(9));
+        assertThat(items.get(1).getLineNumber(), is(10));
 
 
         // matches in several projects

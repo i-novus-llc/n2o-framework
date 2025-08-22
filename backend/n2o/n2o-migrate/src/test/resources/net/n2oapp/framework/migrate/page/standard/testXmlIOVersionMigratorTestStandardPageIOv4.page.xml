@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:ext="http://example.com/n2o/ext-2.0"
+      xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
+    <regions>
+        <form>
+            <fields>
+                <input-text ext:attr="extAttr" ext:attr2="extAttr2" sec:roles="admin" sec:anonymous="false" id="field1"/>
+                <input-text sec:roles="admin" id="field2"/>
+                <input-text ext:attr="extAttr" id="field3"/>
+                <field ext:attr="extAttr" sec:anonymous="false" id="field4">
+                    <controls>
+                        <input-text ext:attr2="extAttr2" sec:roles="admin" id="field1"/>
+                    </controls>
+                </field>
+            </fields>
+        </form>
+    </regions>
+</page>

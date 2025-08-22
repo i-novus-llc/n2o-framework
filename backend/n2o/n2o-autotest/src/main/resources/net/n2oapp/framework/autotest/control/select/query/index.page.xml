@@ -1,10 +1,9 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-            <select id="select1" label="Select1" query-id="test"
-                    label-field-id="name" description-field-id="desc"/>
-            <select id="select2" label="Select2" query-id="test" type="checkboxes"
-                    label-field-id="name" description-field-id="desc"/>
+            <select id="select1" label="Select1" query-id="test" label-field-id="name" description-field-id="desc"/>
+            <select id="select2" label="Select2" query-id="test" label-field-id="name" type="checkboxes" description-field-id="desc"/>
         </fields>
     </form>
 </simple-page>

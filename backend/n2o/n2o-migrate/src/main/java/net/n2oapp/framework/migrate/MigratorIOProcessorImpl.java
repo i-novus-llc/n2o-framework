@@ -18,8 +18,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static net.n2oapp.framework.api.StringUtils.removeSpaces;
-
 /**
  * Реализация процессора считывания и записи DOM элементов для механизма миграции
  */
@@ -122,8 +120,8 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
     }
 
     private <T> void attribute(Element element, String name,
-                           Supplier<T> getter, Consumer<T> setter,
-                           Function<String, T> valueFunction) {
+                               Supplier<T> getter, Consumer<T> setter,
+                               Function<String, T> valueFunction) {
         if (isR()) {
             readAttribute(element, name, setter, valueFunction);
         } else {
@@ -139,6 +137,7 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
             if (child == null) return;
             readAttribute(child, name, setter, valueFunction);
         } else {
+            if (getter.get() == null) return;
             if (child == null) {
                 child = new Element(childName, element.getNamespace());
                 element.addContent(child);
@@ -168,5 +167,10 @@ public class MigratorIOProcessorImpl extends IOProcessorImpl {
         } else if (MigratorInfoHolder.getProperty(name) != null) {
             element.setAttribute(new Attribute(name, MigratorInfoHolder.getProperty(name)));
         }
+    }
+
+    @Override
+    protected String process(String text) {
+        return text;
     }
 }

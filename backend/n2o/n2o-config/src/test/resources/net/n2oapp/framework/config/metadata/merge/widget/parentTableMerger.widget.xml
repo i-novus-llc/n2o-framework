@@ -1,10 +1,11 @@
-<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
        ref-id="childTableMerger" selection="checkbox" height="100px" width="200px" text-wrap="true"
-       children="expand">
-    <filters search-on-change="true" default-values-query-id="test" place="left">
+       children="expand" datasource="ds">
+    <filters fetch-on-change="true" fetch-on-enter="false"
+             datasource="ds_filter" place="left">
         <input-text id="test1"/>
     </filters>
-    <pagination next="true" prev="true" show-count="true" show-last="true"/>
+    <pagination next="true" prev="true" show-count="never" show-last="true"/>
     <rows>
         <click action-id="actionId"/>
     </rows>

@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <form object-id="test">
-        <fields>
-            <input-text id="name"/>
-        </fields>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <datasource object-id="test"/>
         <toolbar place="bottomLeft">
             <button label="Save">
                 <invoke operation-id="create"/>
@@ -12,5 +10,8 @@
                 <close refresh="true"/>
             </button>
         </toolbar>
+        <fields>
+            <input-text id="name"/>
+        </fields>
     </form>
 </simple-page>

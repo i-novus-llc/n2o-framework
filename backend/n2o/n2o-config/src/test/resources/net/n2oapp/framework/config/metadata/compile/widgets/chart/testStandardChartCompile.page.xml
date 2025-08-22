@@ -1,12 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
             <chart id="chart1">
-                <lines x-position="top" x-field-id="xField" x-has-label="true"
-                       y-position="right" y-field-id="yField" y-has-label="true" y-min="100" y-max="1000"
-                       grid-horizontal="false" grid-vertical="false" grid-stroke-dasharray="3 3"
-                       legend-icon-type="diamond" tooltip-separator=":">
+                <lines x-field-id="xField" x-position="top" x-has-label="true" y-field-id="yField" y-position="right" y-has-label="true" y-min="100" y-max="1000" grid-stroke-dasharray="3 3" grid-horizontal="false" grid-vertical="false" tooltip-separator=":" legend-icon-type="diamond">
                     <line field-id="test1"/>
                 </lines>
             </chart>

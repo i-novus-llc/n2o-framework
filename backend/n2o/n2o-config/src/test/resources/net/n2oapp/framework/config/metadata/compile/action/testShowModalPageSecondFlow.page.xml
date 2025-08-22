@@ -1,10 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      name="Модальное окно">
-    <form object-id="testShowModal" query-id="testShowModal">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Модальное окно">
+    <form>
+        <datasource size="1" query-id="testShowModal" object-id="testShowModal"/>
         <toolbar>
             <button label="show-modal">
-                <show-modal page-id="testShowModalPage" upload="query" detail-field-id="id"/>
+                <show-modal page-id="testShowModalPage">
+                    <datasources>
+                        <datasource default-values-mode="query">
+                            <filters>
+                                <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                            </filters>
+                        </datasource>
+                    </datasources>
+                    <params>
+                        <query-param name="$widgetId_id" value="{id}"/>
+                    </params>
+                </show-modal>
             </button>
         </toolbar>
     </form>

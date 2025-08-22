@@ -1,13 +1,14 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <form object-id="utBlank">
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <datasource object-id="utBlank"/>
         <fields>
             <interval-field id="range" required="true">
                 <begin>
-                    <input-text id="beginTest" domain="integer" min="0" default-value="5"/>
+                    <input-text id="beginTest" domain="integer" default-value="5" min="0"/>
                 </begin>
                 <end>
-                    <input-text id="endTest" domain="integer" max="10" default-value="7">
-                    </input-text>
+                    <input-text id="endTest" domain="integer" default-value="7" max="10"/>
                 </end>
             </interval-field>
         </fields>

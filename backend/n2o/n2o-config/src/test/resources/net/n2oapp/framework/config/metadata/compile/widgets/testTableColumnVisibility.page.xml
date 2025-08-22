@@ -1,22 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <panel place="top">
+        <panel>
             <table id="table">
                 <columns>
-                    <column visible="{abc == 1}" text-field-id=""></column>
-                    <column visible="true" text-field-id=""></column>
-                    <column text-field-id=""></column>
+                    <column visible="{abc == 1}" text-field-id=""/>
+                    <column visible="true" text-field-id=""/>
+                    <column text-field-id=""/>
                     <column text-field-id="visibilityTest">
                         <dependencies>
-                            <visibility ref-widget-id="form" ref-model="resolve">type == 1</visibility>
+                            <visibility datasource="form" model="resolve">type == 1</visibility>
                         </dependencies>
                         <badge/>
                     </column>
                 </columns>
             </table>
         </panel>
-        <panel place="bottom">
+        <panel>
             <form id="form">
                 <fields>
                     <input-text id="type"/>

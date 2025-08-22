@@ -1,68 +1,118 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
-            <table id="main" query-id="testShowModal" route="/">
+            <table id="main">
+                <datasource query-id="testShowModal" route="/"/>
                 <toolbar>
                     <button id="create" model="filter">
-                        <show-modal page-id="testShowModalPage" modal-size="sm"
-                                    scrollable="true"
-                                    upload="defaults" refresh-widget-id="second" type="drawer"
-                                    submit-operation-id="create" submit-model="edit" route="/create"
-                                    has-header="false" class="n2o-custom-modal-dialog" backdrop="true" style="background:red"/>
+                        <show-modal page-id="testShowModalPage" submit-operation-id="create" submit-model="edit" refresh-datasources="second" route="/create" modal-size="sm" backdrop="true" scrollable="true" has-header="false" class="n2o-custom-modal-dialog" style="background:red">
+                            <datasources>
+                                <datasource default-values-mode="defaults"/>
+                            </datasources>
+                        </show-modal>
                     </button>
                     <button id="update" model="resolve">
-                        <show-modal page-id="testShowModalPageSecondFlow" modal-size="lg"
-                                    upload="query" master-param="id"
-                                    detail-field-id="id" submit-operation-id="update" route="/:id/update">
-                            <path-param name="id" value="{id}"/>
+                        <show-modal page-id="testShowModalPageSecondFlow" submit-operation-id="update" route="/:id/update" modal-size="lg">
+                            <datasources>
+                                <datasource default-values-mode="query">
+                                    <filters>
+                                        <eq field-id="id" param="id" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <path-param name="id" value="{id}"/>
+                            </params>
                         </show-modal>
                     </button>
                     <button id="createFocus" model="filter">
-                        <show-modal page-id="testShowModalPage"
-                                    submit-operation-id="create" route="/createFocus"/>
+                        <show-modal page-id="testShowModalPage" submit-operation-id="create" route="/createFocus"/>
                     </button>
                     <button id="updateFocusOld" model="resolve">
-                        <show-modal page-id="testShowModalPage2" detail-field-id="secondId"
-                                    submit-operation-id="update" route="/:p_main_id/updateFocus">
-                            <path-param name="p_main_id" value="{id}"/>
+                        <show-modal page-id="testShowModalPage2" submit-operation-id="update" route="/:p_main_id/updateFocus">
+                            <datasources>
+                                <datasource>
+                                    <filters>
+                                        <eq field-id="secondId" param="p_main_id" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <path-param name="p_main_id" value="{id}"/>
+                            </params>
                         </show-modal>
                     </button>
                     <button id="updateByPathParams" model="resolve">
-                        <show-modal page-id="testShowModalPageByParams"
-                                    submit-operation-id="update" route="/:main_id/updateByPathParams">
-                            <path-param name="main_id" value="{id}"/>
+                        <show-modal page-id="testShowModalPageByParams" submit-operation-id="update" route="/:main_id/updateByPathParams">
+                            <params>
+                                <path-param name="main_id" value="{id}"/>
+                            </params>
                         </show-modal>
                     </button>
                     <button id="createUpdate" model="filter">
-                        <show-modal page-id="testShowModalPage"
-                                    submit-operation-id="create" redirect-url-after-submit="../:id/update"
-                                    close-after-submit="true" route="/createUpdate"/>
+                        <show-modal page-id="testShowModalPage" submit-operation-id="create" close-after-submit="true" redirect-url-after-submit="../:id/update" route="/createUpdate"/>
                     </button>
                     <button id="default">
-                        <show-modal page-id="testShowModalPage" detail-field-id="id"/>
+                        <show-modal page-id="testShowModalPage">
+                            <datasources>
+                                <datasource>
+                                    <filters>
+                                        <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <query-param name="$widgetId_id" value="{id}"/>
+                            </params>
+                        </show-modal>
                     </button>
                     <button id="defaultWithOperation">
-                        <show-modal page-id="testShowModalPage" submit-operation-id="update" detail-field-id="id"/>
+                        <show-modal page-id="testShowModalPage" submit-operation-id="update">
+                            <datasources>
+                                <datasource>
+                                    <filters>
+                                        <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <query-param name="$widgetId_id" value="{id}"/>
+                            </params>
+                        </show-modal>
                     </button>
                     <button id="updateWithPrefilters">
-                        <show-modal page-id="testShowModalPage" submit-operation-id="update" detail-field-id="id"
-                                    upload="query" route="/:id/updateWithPrefilters">
-                            <path-param name="id" value="{id}"/>
-                            <query-param name="name" value="{name}" ref-widget-id="second" ref-model="filter"/>
+                        <show-modal page-id="testShowModalPage" submit-operation-id="update" route="/:id/updateWithPrefilters">
+                            <datasources>
+                                <datasource default-values-mode="query">
+                                    <filters>
+                                        <eq field-id="id" param="id" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <query-param name="name" value="{name}" datasource="second" model="filter"/>
+                                <path-param name="id" value="{id}"/>
+                            </params>
                         </show-modal>
                     </button>
                     <button id="updateEditWithPrefilters" model="edit">
-                        <show-modal page-id="testShowModalPage3" upload="defaults"
-                                    submit-operation-id="update" route="/updateEditWithPrefilters">
-                            <query-param name="id" value="{id}"/>
+                        <show-modal page-id="testShowModalPage3" submit-operation-id="update" route="/updateEditWithPrefilters">
+                            <datasources>
+                                <datasource default-values-mode="defaults"/>
+                            </datasources>
+                            <params>
+                                <query-param name="id" value="{id}"/>
+                            </params>
                         </show-modal>
                     </button>
                 </toolbar>
             </table>
         </region>
         <region>
-            <table id="second" query-id="testShowModal"/>
+            <table id="second">
+                <datasource query-id="testShowModal"/>
+            </table>
         </region>
     </regions>
-
 </page>

@@ -1,23 +1,30 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="MongoDb один ко многим">
-    <table query-id="person">
-        <columns>
-            <column text-field-id="id" label="ID"/>
-            <column text-field-id="name" label="Имя"/>
-        </columns>
+    <table>
         <toolbar>
             <button id="create" label="Создать" model="filter">
-                <open-page page-id="person" upload="defaults"/>
+                <open-page page-id="person">
+                    <datasources>
+                        <datasource default-values-mode="defaults"/>
+                    </datasources>
+                </open-page>
             </button>
             <button id="update" label="Изменить">
                 <open-page page-id="person" submit-operation-id="update" route="/:person_id/update">
-                    <path-param name="person_id" value="{id}"/>
+                    <params>
+                        <path-param name="person_id" value="{id}"/>
+                    </params>
                 </open-page>
             </button>
             <button id="delete" label="Удалить">
                 <invoke operation-id="delete"/>
             </button>
         </toolbar>
+        <datasource query-id="person"/>
+        <columns>
+            <column label="ID" text-field-id="id"/>
+            <column label="Имя" text-field-id="name"/>
+        </columns>
     </table>
 </simple-page>

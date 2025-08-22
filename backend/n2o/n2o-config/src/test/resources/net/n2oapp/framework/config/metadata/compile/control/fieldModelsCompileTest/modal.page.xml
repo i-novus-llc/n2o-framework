@@ -1,60 +1,26 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <form id="info">
             <fields>
-                <input-text id="parentFull"
-                            ref-model="filter"
-                            default-value="{testValue}"
-                            ref-page="parent"
-                            ref-widget-id="testForm"/>
-
-                <input-text id="parentRefField"
-                            ref-model="filter"
-                            ref-page="parent"
-                            ref-widget-id="testForm"
-                            ref-field-id="field"/>
-
-                <input-text id="parentDefaults"
-                            default-value="{testValue}"
-                            ref-page="parent"/>
-
-                <input-text id="thisFull"
-                            default-value="{testValue}"
-                            ref-model="filter"
-                            ref-widget-id="testForm"/>
-
-                <input-text id="thisDefaults"
-                            default-value="{testValue}"/>
-
-                <input-select id="selectParentFull"
-                              ref-page="parent"
-                              ref-model="filter"
-                              ref-widget-id="testForm">
-                    <default-value id="{address.id}" name="{address.name}"/>
+                <input-text id="parentFull" ref-model="filter" ref-page="parent" ref-datasource="testForm" default-value="{testValue}"/>
+                <input-text id="parentRefField" ref-model="filter" ref-page="parent" ref-datasource="testForm" ref-field-id="field"/>
+                <input-text id="parentDefaults" ref-page="parent" default-value="{testValue}"/>
+                <input-text id="thisFull" ref-model="filter" ref-datasource="testForm" default-value="{testValue}"/>
+                <input-text id="thisDefaults" default-value="{testValue}"/>
+                <input-select id="selectParentFull" ref-model="filter" ref-page="parent" ref-datasource="testForm">
+                    <default-value name="{address.name}" id="{address.id}"/>
                 </input-select>
-
-                <input-select id="selectRefField"
-                              ref-page="parent"
-                              ref-model="filter"
-                              ref-widget-id="testForm"
-                              ref-field-id="address"/>
-
-                <input-select id="selectParentDefaults"
-                            ref-page="parent">
-                    <default-value id="{address.id}" name="{address.name}"/>
+                <input-select id="selectRefField" ref-model="filter" ref-page="parent" ref-datasource="testForm" ref-field-id="address"/>
+                <input-select id="selectParentDefaults" ref-page="parent">
+                    <default-value name="{address.name}" id="{address.id}"/>
                 </input-select>
-
-                <input-select id="selectThisFull"
-                            ref-model="filter"
-                            ref-widget-id="testForm">
-                    <default-value id="{address.id}" name="{address.name}"/>
+                <input-select id="selectThisFull" ref-model="filter" ref-datasource="testForm">
+                    <default-value name="{address.name}" id="{address.id}"/>
                 </input-select>
-
                 <input-select id="selectThisDefaults">
-                    <default-value id="{address.id}" name="{address.name}"/>
+                    <default-value name="{address.name}" id="{address.id}"/>
                 </input-select>
-
                 <hidden id="id" default-value="{$.uuid()}"/>
             </fields>
         </form>

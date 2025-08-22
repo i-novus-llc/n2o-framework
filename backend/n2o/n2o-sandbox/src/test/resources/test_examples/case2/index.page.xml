@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Поля">
     <regions>
         <form>
@@ -15,7 +15,7 @@
                         <date-time id="time" label="Дата и время" date-format="DD.MM.YYYY" time-format="HH:mm"/>
                     </row>
                     <row>
-                        <masked-input id="mask" label="Телефон" mask="+7 (999) 999-99-99" placeholder="+7"/>
+                        <masked-input id="mask" label="Телефон" placeholder="+7" mask="+7 (999) 999-99-99"/>
                         <input-money id="money" label="Ввод денег" suffix=" руб."/>
                     </row>
                 </set>
@@ -28,16 +28,16 @@
                     <row>
                         <radio-group id="radio" label="Радио кнопки">
                             <options>
-                                <option id="1" name="Один"/>
-                                <option id="2" name="Два"/>
-                                <option id="3" name="Три"/>
+                                <option name="Один" id="1"/>
+                                <option name="Два" id="2"/>
+                                <option name="Три" id="3"/>
                             </options>
                         </radio-group>
                         <checkbox-group id="checks" label="Группа чекбоксов">
                             <options>
-                                <option id="1" name="Один"/>
-                                <option id="2" name="Два"/>
-                                <option id="3" name="Три"/>
+                                <option name="Один" id="1"/>
+                                <option name="Два" id="2"/>
+                                <option name="Три" id="3"/>
                             </options>
                         </checkbox-group>
                     </row>

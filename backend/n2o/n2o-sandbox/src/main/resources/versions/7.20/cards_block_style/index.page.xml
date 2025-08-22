@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="Стили для блоков карточек">
-    <cards query-id="test" height="250px" vertical-align="center">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Стили для блоков карточек">
+    <cards vertical-align="center" height="250px">
+        <datasource query-id="test"/>
         <content>
             <col size="2">
                 <block text-field-id="image">
@@ -14,19 +14,17 @@
                     <rating half="true"/>
                 </block>
             </col>
-
             <col size="5">
                 <block text-field-id="text" class="align-self-center align-items-center" style="color: green">
                     <text/>
                 </block>
             </col>
-
             <col size="3">
                 <block text-field-id="icon" tooltip-field-id="icon" class="align-self-end">
-                    <icon type="iconAndText">
+                    <icon>
                         <switch value-field-id="icon">
-                            <case value="ship">fa fa-ship</case>
                             <case value="bicycle">fa fa-bicycle</case>
+                            <case value="ship">fa fa-ship</case>
                         </switch>
                     </icon>
                 </block>

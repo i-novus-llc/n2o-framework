@@ -1,23 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             xmlns:test="http://n2oapp.net/framework/config/schema/test">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" xmlns:test="http://n2oapp.net/framework/config/schema/test">
     <table>
         <columns>
             <column text-field-id="test">
-                <image width="20px" shape="rounded" test:width="30" title="{Title}" text-position="left"
-                       data="data:image/jpeg;base64{image}" description="{Description}">
-                    <statuses>
-                        <status
-                                src="testSrc"
-                                field-id="status1"
-                                icon="{icon1}"
-                                place="topRight"
-                        />
-                        <status field-id="id"/>
-                    </statuses>
+                <image test:width="30" width="20px" shape="rounded" title="{Title}" description="{Description}" data="data:image/jpeg;base64{image}" text-position="left">
                     <action>
                         <close/>
                     </action>
+                    <statuses>
+                        <status src="testSrc" field-id="status1" icon="{icon1}" place="topRight"/>
+                        <status field-id="id"/>
+                    </statuses>
                 </image>
             </column>
             <column text-field-id="test">

@@ -1,9 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Простая страница" route="/"
-             class="page_class" style="background:blue">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Простая страница" route="/" class="page_class" style="background:blue">
     <form>
         <toolbar place="topLeft">
-            <button id="redirect" action-id="redirect" label="Вперед"/>
+            <button id="redirect" label="Вперед" action-id="redirect"/>
             <button label="Кнопка с иконкой" icon="fa fa-plus"/>
             <button label="Опасная" color="danger"/>
         </toolbar>

@@ -1,36 +1,60 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      route="/page">
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" route="/page">
     <regions>
-        <region place="test">
+        <region>
             <table id="master">
                 <columns>
                     <column text-field-id="id"/>
                 </columns>
             </table>
-            <form id="detail" route="/:master_id/detail"
-                  query-id="testStandardPageDependency"
-                  depends-on="master" detail-field-id="parent.id" master-field-id="id">
+            <form id="detail">
+                <datasource size="1" query-id="testStandardPageDependency" route="/:master_id/detail">
+                    <dependencies>
+                        <fetch on="master" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="parent.id" param="master_id" value="{id}" datasource="master" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
                 <fields>
                     <input-text id="id"/>
                 </fields>
             </form>
-            <form id="detail2"
-                  query-id="testStandardPageDependency"
-                  depends-on="master" detail-field-id="parent.id" master-field-id="id">
+            <form id="detail2">
+                <datasource size="1" query-id="testStandardPageDependency">
+                    <dependencies>
+                        <fetch on="master" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="parent.id" value="{id}" datasource="master" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
                 <fields>
                     <input-text id="id"/>
                 </fields>
             </form>
-            <table id="detail4"
-                  query-id="testStandardPageDependency"
-                  depends-on="detail" detail-field-id="parent.id" master-field-id="id">
+            <table id="detail4">
+                <datasource query-id="testStandardPageDependency">
+                    <dependencies>
+                        <fetch on="detail" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="parent.id" value="{id}" datasource="detail" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
                 <columns>
                     <column text-field-id="id"/>
                 </columns>
             </table>
-            <form id="detail5" route="/form"
-                  query-id="testStandardPageDependency"
-                  depends-on="detail" detail-field-id="parent.id" master-field-id="id">
+            <form id="detail5">
+                <datasource size="1" query-id="testStandardPageDependency" route="/form">
+                    <dependencies>
+                        <fetch on="detail" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="parent.id" value="{id}" datasource="detail" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
                 <fields>
                     <input-text id="id"/>
                 </fields>

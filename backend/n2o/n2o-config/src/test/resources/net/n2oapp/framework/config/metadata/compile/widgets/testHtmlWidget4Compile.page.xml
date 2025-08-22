@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <actions>
-        <action id="testAction"></action>
-        <action id="testAction2"></action>
-        <action id="testAction3"></action>
+        <action id="testAction"/>
+        <action id="testAction2"/>
+        <action id="testAction3"/>
     </actions>
     <regions>
         <html>
             <toolbar place="topLeft">
-                <button icon="icon" label="label" action-id="testAction" class="className"/>
+                <button class="className" label="label" icon="icon" action-id="testAction"/>
                 <sub-menu>
                     <menu-item action-id="testAction2"/>
                 </sub-menu>
@@ -18,6 +18,7 @@
                     <button action-id="testAction3"/>
                 </group>
             </toolbar>
+            <content/>
         </html>
     </regions>
 </page>

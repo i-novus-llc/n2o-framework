@@ -562,10 +562,6 @@
           "name": "Префильтры в AutoComplete"
         },
         {
-          "templateId": "versions/7.16/table_filters_default_values",
-          "name": "Значения по умолчанию для фильтров таблицы"
-        },
-        {
           "templateId": "versions/7.16/invoke_object",
           "name": "Ссылка на объект в invoke"
         },

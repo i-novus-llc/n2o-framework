@@ -23,6 +23,7 @@ public abstract class BasePageElementIOv4<T extends N2oBasePage> extends Abstrac
     public void io(Element e, T m, IOProcessor p) {
         super.io(e, m, p);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
+        p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionBar::new, this::action);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIOv2());
         p.anyChildren(e, "datasources", m::getDatasources, m::setDatasources,

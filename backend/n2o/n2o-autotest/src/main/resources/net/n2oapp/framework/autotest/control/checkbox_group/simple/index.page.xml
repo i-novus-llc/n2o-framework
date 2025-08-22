@@ -1,11 +1,12 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <checkbox-group id="checkboxes1" label="Checkboxes1">
                 <options>
-                    <option id="one" name="One"/>
-                    <option id="two" name="Two"/>
-                    <option id="three" name="Three"/>
+                    <option name="One" id="one"/>
+                    <option name="Two" id="two"/>
+                    <option name="Three" id="three"/>
                 </options>
             </checkbox-group>
         </fields>

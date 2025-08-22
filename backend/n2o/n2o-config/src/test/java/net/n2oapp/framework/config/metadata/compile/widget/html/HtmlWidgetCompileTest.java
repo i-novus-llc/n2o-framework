@@ -3,13 +3,9 @@ package net.n2oapp.framework.config.metadata.compile.widget.html;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.v4.HtmlWidgetElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.toolbar.PerformButtonCompiler;
-import net.n2oapp.framework.config.metadata.compile.toolbar.SubmenuCompiler;
-import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.HtmlWidgetCompiler;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,9 +26,7 @@ class HtmlWidgetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack());
-        builder.ios(new HtmlWidgetElementIOv4())
-                .compilers(new HtmlWidgetCompiler(), new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler());
+        builder.packs(new N2oAllPagesPack(), new N2oAllDataPack());
     }
 
     @Test

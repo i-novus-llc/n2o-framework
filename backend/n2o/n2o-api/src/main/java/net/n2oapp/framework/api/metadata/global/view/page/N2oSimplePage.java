@@ -22,16 +22,4 @@ public class N2oSimplePage extends N2oPage {
                 Collections.emptyList() :
                 Collections.singletonList(widget);
     }
-
-    @Override
-    public String getObjectId() {
-        return (widget != null && widget.getDatasource() != null) ?
-                widget.getDatasource().getObjectId() :
-                null;
-    }
-
-    @Override
-    public void setObjectId(String objectId) {
-        throw new UnsupportedOperationException();
-    }
 }

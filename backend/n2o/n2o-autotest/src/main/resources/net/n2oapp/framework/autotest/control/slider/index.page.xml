@@ -1,9 +1,10 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-            <slider id="slider1" label="Slider1" min="-10" max="10" step="2" measure="%"/>
-            <slider id="slider2" label="Slider2" min="-10" max="10" vertical="true"/>
-            <slider id="slider3" label="Slider3" min="-10" max="10" mode="range"/>
+            <slider id="slider1" label="Slider1" measure="%" min="-10" max="10" step="2"/>
+            <slider id="slider2" label="Slider2" vertical="true" min="-10" max="10"/>
+            <slider id="slider3" label="Slider3" mode="range" min="-10" max="10"/>
         </fields>
     </form>
 </simple-page>

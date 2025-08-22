@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Название страницы" route="/pageRoute">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Название страницы" route="/pageRoute">
     <form>
         <fields>
-            <text-area label="TextArea" id="textArea" placeholder="test"/>
+            <text-area id="textArea" label="TextArea" placeholder="test"/>
         </fields>
     </form>
 </simple-page>

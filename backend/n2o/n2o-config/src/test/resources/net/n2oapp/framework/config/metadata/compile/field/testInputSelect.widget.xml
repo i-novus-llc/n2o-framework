@@ -1,19 +1,16 @@
-<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <fields>
-        <input-select id="testId" label=""
-                      type="checkboxes" placeholder="Введите"
-                      query-id="testSelect" label-field-id="name"
-                      search-filter-id="search" icon-field-id="icon"
-                      image-field-id="image" group-field-id="country" format="`id+' '+id`">
-            <pre-filters>
+        <input-select id="testId" label="" placeholder="Введите" query-id="testSelect" label-field-id="name" search-filter-id="search" group-field-id="country" image-field-id="image" icon-field-id="icon" format="`id+' '+id`" type="checkboxes">
+            <default-value isTest="true" name="test" id="1"/>
+            <filters>
                 <notEq field-id="ref" value="`someField`"/>
                 <contains field-id="country">
                     <value>1</value>
                     <value>2</value>
                     <value>3</value>
                 </contains>
-            </pre-filters>
-            <default-value id="1" name="test" isTest="true"/>
+            </filters>
         </input-select>
     </fields>
 </form>

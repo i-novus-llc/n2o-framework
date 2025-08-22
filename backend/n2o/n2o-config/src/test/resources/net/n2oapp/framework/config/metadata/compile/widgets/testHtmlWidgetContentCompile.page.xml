@@ -1,20 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <html>
-            <content>
-                <![CDATA[
-                    <div class='test'><p>{name}</p></div>
-                ]]>
-            </content>
+            <content>&lt;div class='test'&gt;&lt;p&gt;{name}&lt;/p&gt;&lt;/div&gt;</content>
         </html>
-
         <html>
-            <content>
-                <![CDATA[
-                    <div class='test'><p>Hello</p></div>
-                ]]>
-            </content>
+            <content>&lt;div class='test'&gt;&lt;p&gt;Hello&lt;/p&gt;&lt;/div&gt;</content>
         </html>
     </regions>
 </page>

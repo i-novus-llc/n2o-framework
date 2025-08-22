@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Скрытие филдсетов">
     <form>
         <fields>
             <radio-group id="type" label="Скрытие филдсета в зависимости от типа" inline="true">
                 <options>
-                    <option id="1" name="откроется 2 филдсета"/>
-                    <option id="2" name="откроется третий филдсет"/>
-                    <option id="3" name="никто не откроется"/>
+                    <option name="откроется 2 филдсета" id="1"/>
+                    <option name="откроется третий филдсет" id="2"/>
+                    <option name="никто не откроется" id="3"/>
                 </options>
             </radio-group>
             <set visible="{type.id==1}" depends-on="type.id">

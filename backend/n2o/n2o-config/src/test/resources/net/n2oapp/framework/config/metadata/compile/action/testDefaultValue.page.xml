@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <form query-id="testShowModal">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <datasource size="1" query-id="testShowModal"/>
         <fields>
             <input-text id="surname" param="name" default-value="Petr"/>
             <date-interval id="birthDate" begin-param="start" end-param="end">
                 <default-value begin="2019-02-16T00:00:00"/>
             </date-interval>
-            <input-select id="gender" query-id="testGender" param="gender_id"/>
+            <input-select id="gender" param="gender_id" query-id="testGender"/>
         </fields>
     </form>
 </simple-page>

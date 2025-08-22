@@ -1,14 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <form id="form">
             <toolbar>
                 <button id="modal">
                     <show-modal page-id="testShowModalPage" route="/create">
-                        <pre-filters>
-                            <eq field-id="id" value="{id}"/>
-                            <eq field-id="name" value="123"/>
-                        </pre-filters>
+                        <datasources>
+                            <datasource>
+                                <filters>
+                                    <eq field-id="id" value="{id}"/>
+                                    <eq field-id="name" value="123"/>
+                                </filters>
+                            </datasource>
+                        </datasources>
                     </show-modal>
                 </button>
             </toolbar>

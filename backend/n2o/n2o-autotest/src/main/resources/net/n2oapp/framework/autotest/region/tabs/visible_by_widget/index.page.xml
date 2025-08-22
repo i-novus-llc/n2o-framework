@@ -1,13 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      name="Проверка поведения вкладок при скрытии части из них">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Проверка поведения вкладок при скрытии части из них">
     <regions>
         <form id="form">
             <fields>
                 <radio-group id="radio">
                     <options>
-                        <option id="on" name="visible tab3"/>
-                        <option id="off" name="invisible tab3"/>
+                        <option name="visible tab3" id="on"/>
+                        <option name="invisible tab3" id="off"/>
                     </options>
                 </radio-group>
             </fields>
@@ -28,7 +27,15 @@
                 </form>
             </tab>
             <tab name="Three">
-                <form visible="{radio.id == 'on'}" depends-on="form">
+                <form visible="{radio.id == 'on'}">
+                    <datasource>
+                        <dependencies>
+                            <fetch on="form" model="resolve"/>
+                        </dependencies>
+                    </datasource>
+                    <dependencies>
+                        <visibility datasource="form" model="resolve">radio.id == 'on'</visibility>
+                    </dependencies>
                     <fields>
                         <input-text id="field3" default-value="test3"/>
                     </fields>

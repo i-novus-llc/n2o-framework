@@ -1,9 +1,26 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="${refbooks.list}" route="/refbooks">
     <regions>
-        <panel place="single" header="false" collapsible="false" title="${refbooks}">
-            <table id="main" query-id="refbooks">
+        <panel header="false" title="${refbooks}" collapsible="false">
+            <table id="main">
+                <toolbar>
+                    <button id="viewPage" label="${view.on.page}">
+                        <open-page page-id="{refbooks_main_id}" route="/:pageName/viewPage">
+                            <params>
+                                <path-param name="pageName" value="{pageName}"/>
+                            </params>
+                        </open-page>
+                    </button>
+                    <button id="viewModal" label="${view.on.modal}">
+                        <show-modal page-id="{refbooks_main_id}" route="/:pageName/viewModal">
+                            <params>
+                                <path-param name="pageName" value="{pageName}"/>
+                            </params>
+                        </show-modal>
+                    </button>
+                </toolbar>
+                <datasource query-id="refbooks"/>
                 <pagination/>
                 <columns>
                     <column text-field-id="name"/>
@@ -18,18 +35,6 @@
                         <input-text id="table_name"/>
                     </row>
                 </filters>
-                <toolbar>
-                    <button id="viewPage" label="${view.on.page}">
-                        <open-page page-id="{refbooks_main_id}" route="/:pageName/viewPage">
-                            <path-param name="pageName" value="{pageName}"/>
-                        </open-page>
-                    </button>
-                    <button id="viewModal" label="${view.on.modal}">
-                        <show-modal page-id="{refbooks_main_id}" route="/:pageName/viewModal">
-                            <path-param name="pageName" value="{pageName}"/>
-                        </show-modal>
-                    </button>
-                </toolbar>
             </table>
         </panel>
     </regions>

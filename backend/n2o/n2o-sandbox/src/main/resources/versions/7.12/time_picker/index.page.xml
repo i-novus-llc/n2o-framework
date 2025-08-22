@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Поле ввода времени">
     <form>
         <fields>
             <time-picker id="time1" label="Время" default-value="15:37:30"/>
-            <time-picker id="time2" label="Дата начала" prefix="От: " default-value="10:30"
-                         format="digit" time-format="HH:mm" mode="hour,minute"/>
+            <time-picker id="time2" label="Дата начала" default-value="10:30" prefix="От: "
+                         mode="hour,minute" time-format="HH:mm" format="digit"/>
         </fields>
     </form>
 </simple-page>

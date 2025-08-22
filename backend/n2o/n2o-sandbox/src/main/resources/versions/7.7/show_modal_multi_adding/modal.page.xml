@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Модальное окно">
-    <table id="table" query-id="test" selection="checkbox">
+    <table id="table" selection="checkbox">
+        <datasource query-id="test"/>
         <columns>
-            <column text-field-id="id" label="ID"/>
-            <column text-field-id="name" label="Имя"/>
+            <column label="ID" text-field-id="id"/>
+            <column label="Имя" text-field-id="name"/>
         </columns>
     </table>
 </simple-page>

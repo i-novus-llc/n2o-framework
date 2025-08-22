@@ -18,8 +18,7 @@ import org.jdom2.Namespace;
 /**
  * Чтение\запись виджета версии 5.0
  */
-public abstract class WidgetElementIOv5<T extends N2oWidget> implements NamespaceIO<T>,
-        WidgetIOv5 {
+public abstract class WidgetElementIOv5<T extends N2oWidget> implements NamespaceIO<T>, WidgetIOv5 {
 
     private Namespace actionDefaultNamespace = ActionIOv2.NAMESPACE;
     private static final String DATASOURCE = "datasource";
@@ -36,9 +35,9 @@ public abstract class WidgetElementIOv5<T extends N2oWidget> implements Namespac
         p.attributeBoolean(e, "fetch-on-init", m::getFetchOnInit, m::setFetchOnInit);
         p.attributeBoolean(e, "fetch-on-visibility", m::getFetchOnVisibility, m::setFetchOnVisibility);
         p.attributeBoolean(e, "auto-focus", m::getAutoFocus, m::setAutoFocus);
-        p.children(e, "actions", "action", m::getActions, m::setActions, ActionBar::new, this::action);
-        p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIOv2());
         p.child(e, null, DATASOURCE, m::getDatasource, m::setDatasource, new StandardDatasourceIO());
+        p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIOv2());
+        p.children(e, "actions", "action", m::getActions, m::setActions, ActionBar::new, this::action);
         p.anyChildren(e, "dependencies", m::getDependencies, m::setDependencies,
                 p.oneOf(N2oDependency.class)
                         .add("visibility", N2oVisibilityDependency.class, this::dependency)

@@ -1,8 +1,6 @@
-<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <fields>
-        <file-upload id="testId" label="Загрузчик файлов" class="custom-class" enabled="true" ajax="false"
-                     upload-url="/n2o/data" delete-url="/n2o/data/delete" show-size="true" label-field-id="customName"
-                     value-field-id="customId" message-field-id="customResponse" url-field-id="customLink" multi="false"
-                     request-param="avatar"/>
+        <file-upload class="custom-class" id="testId" enabled="true" label="Загрузчик файлов" multi="false" ajax="false" show-size="true" upload-url="/n2o/data" delete-url="/n2o/data/delete" value-field-id="customId" label-field-id="customName" message-field-id="customResponse" url-field-id="customLink" request-param="avatar"/>
     </fields>
 </form>

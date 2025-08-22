@@ -1,21 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <row>
                 <radio-group id="field_enabled">
+                    <default-value name="enabled" id="1"/>
                     <options>
-                        <option id="1" name="enabled"/>
-                        <option id="2" name="disabled"/>
+                        <option name="enabled" id="1"/>
+                        <option name="disabled" id="2"/>
                     </options>
-                    <default-value id="1" name="enabled"/>
                 </radio-group>
             </row>
-            
             <row>
-                <input-text id="fieldset_field_enable_0" label="InputText"
-                            default-value="Поле доступно, если выбрано 1"
-                            enabled="{field_enabled.id === 1}"/>
+                <input-text id="fieldset_field_enable_0" enabled="{field_enabled.id === 1}" label="InputText" default-value="Поле доступно, если выбрано 1"/>
             </row>
         </fields>
     </form>

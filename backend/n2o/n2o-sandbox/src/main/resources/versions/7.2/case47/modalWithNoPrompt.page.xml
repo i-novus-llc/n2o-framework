@@ -1,16 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      object-id="test"
-      name="Действие 'Закрыть' выполнится без предупреждения">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Действие 'Закрыть' выполнится без предупреждения" object-id="test">
     <regions>
-        <form id="form" query-id="test">
+        <form id="form">
+            <datasource query-id="test">
+                <filters>
+                    <eq field-id="id" param="id"/>
+                </filters>
+            </datasource>
             <fields>
                 <input-text id="name"/>
                 <checkbox id="type"/>
             </fields>
-            <pre-filters>
-                <eq field-id="id" param="id"/>
-            </pre-filters>
         </form>
     </regions>
 </page>

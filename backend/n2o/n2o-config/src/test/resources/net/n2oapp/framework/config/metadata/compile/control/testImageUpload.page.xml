@@ -1,18 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-            <image-upload id="imageUpload" list-type="card" can-lightbox="true"
-                          upload-url="/upload" delete-url="/delete"
-                          ajax="false" multi="true" accept=".img,.png"
-                          show-size="false" show-name="true" value-field-id="valueId"
-                          label-field-id="labelId" url-field-id="urlId"
-                          message-field-id="messageId" request-param="param"
-                          can-delete="false" icon="fa fa-plus" icon-size="150"
-                          width="500" height="400" show-tooltip="false" shape="circle">
-                <default-value id="value1" url="/test" filename="file"/>
+            <image-upload id="imageUpload" multi="true" ajax="false" show-size="false" upload-url="/upload" delete-url="/delete" value-field-id="valueId" label-field-id="labelId" message-field-id="messageId" url-field-id="urlId" request-param="param" accept=".img,.png" list-type="card" can-lightbox="true" can-delete="false" width="500" height="400" icon="fa fa-plus" icon-size="150" show-tooltip="false" shape="circle" show-name="true">
+                <default-value filename="file" id="value1" url="/test"/>
             </image-upload>
-
             <image-upload id="imageUpload2"/>
         </fields>
     </form>

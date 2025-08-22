@@ -1,29 +1,49 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      route="/">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" route="/">
     <regions>
-        <panel place="left">
-            <table id="table" query-id="testStandardPageDependency">
+        <panel>
+            <table id="table">
+                <datasource query-id="testStandardPageDependency"/>
                 <columns>
                     <column text-field-id="id"/>
                 </columns>
             </table>
         </panel>
-
-        <panel place="right">
-            <form id="form" route="/:param1/card" query-id="testStandardPageDependency"
-                  depends-on="table" master-field-id="id" detail-field-id="id"/>
+        <panel>
+            <form id="form">
+                <datasource size="1" query-id="testStandardPageDependency" route="/:param1/card">
+                    <dependencies>
+                        <fetch on="table" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="id" param="param1" value="{id}" datasource="table" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
+            </form>
         </panel>
-
-        <panel place="right">
-            <form id="form2" route="/:param2/card" query-id="testStandardPageDependency"
-                  depends-on="form" master-field-id="id" detail-field-id="id"/>
+        <panel>
+            <form id="form2">
+                <datasource size="1" query-id="testStandardPageDependency" route="/:param2/card">
+                    <dependencies>
+                        <fetch on="form" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="id" param="param2" value="{id}" datasource="form" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
+            </form>
         </panel>
-
-        <panel place="right">
-            <form id="form3" route="/:param3/card" query-id="testStandardPageDependency" depends-on="form2"
-                  master-field-id="id" detail-field-id="id"/>
+        <panel>
+            <form id="form3">
+                <datasource size="1" query-id="testStandardPageDependency" route="/:param3/card">
+                    <dependencies>
+                        <fetch on="form2" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="id" param="param3" value="{id}" datasource="form2" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
+            </form>
         </panel>
     </regions>
-
 </page>

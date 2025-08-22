@@ -1,15 +1,17 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <region place="right">
-            <form object-id="testActionContext" id="w2">
+        <region>
+            <form id="w2">
+                <datasource object-id="testActionContext"/>
                 <toolbar>
                     <button id="b1">
-                        <invoke operation-id="create" route="/:main_id" model="filter">
+                        <invoke operation-id="create" route="/:main_id">
                             <path-param name="main_id" value="{id}"/>
                         </invoke>
                     </button>
                     <button id="b2">
-                        <invoke operation-id="create" model="filter"/>
+                        <invoke operation-id="create"/>
                     </button>
                 </toolbar>
             </form>

@@ -42,22 +42,6 @@ class PageValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testObjectNotExistsOnSimplePage() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testObjectNotExistsOnSimplePage.page.xml"));
-        assertEquals("Страница 'testObjectNotExistsOnSimplePage' ссылается на несуществующий объект 'nonExistantObjectId'", exception.getMessage());
-    }
-
-    @Test
-    void testDependsWidgetFind() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/page/testDependsWidgetFind.page.xml"));
-        assertEquals("Атрибут depends-on ссылается на несуществующий виджет 'main'", exception.getMessage());
-    }
-
-    @Test
     void testDatasourcesIdUnique() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,

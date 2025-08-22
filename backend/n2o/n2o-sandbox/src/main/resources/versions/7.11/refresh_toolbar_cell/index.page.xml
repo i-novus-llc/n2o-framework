@@ -1,53 +1,53 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Динамическое обновление ячеек таблицы">
-    <table query-id="test">
+    <table>
+        <toolbar>
+            <button id="update" label="update">
+                <show-modal page-id="test" submit-operation-id="update" route="/:id/update">
+                    <params>
+                        <path-param name="id" value="{id}"/>
+                    </params>
+                </show-modal>
+            </button>
+        </toolbar>
+        <datasource query-id="test"/>
         <columns>
             <column id="name1" text-field-id="name1"/>
-
-            <column id="nameE1" text-field-id="name2" label="tbEnabled">
+            <column id="nameE1" label="tbEnabled" text-field-id="name2">
                 <toolbar>
                     <button label="enabled for 'test1'" enabled="{name1=='test1'}"/>
                 </toolbar>
             </column>
-            <column id="nameE2" text-field-id="name3" label="cbEnabled">
+            <column id="nameE2" label="cbEnabled" text-field-id="name3">
                 <checkbox enabled="{name1=='test1'}"/>
             </column>
-            <column id="nameE3" text-field-id="name4" label="sbmEnabled">
+            <column id="nameE3" label="sbmEnabled" text-field-id="name4">
                 <toolbar>
                     <sub-menu>
-                        <menu-item enabled="{name1=='test1'}" label="enabled for 'test1'"/>
-                        <menu-item enabled="{false}" label="always disabled"/>
+                        <menu-item label="enabled for 'test1'" enabled="{name1=='test1'}"/>
+                        <menu-item label="always disabled" enabled="{false}"/>
                         <menu-item label="always enabled"/>
                     </sub-menu>
                 </toolbar>
             </column>
-
-            <column id="nameV1" text-field-id="name5" label="tbVisible">
+            <column id="nameV1" label="tbVisible" text-field-id="name5">
                 <toolbar>
                     <button label="visible for 'test1'" visible="{name1=='test1'}"/>
                 </toolbar>
             </column>
-            <column id="nameV2" text-field-id="name6" label="cbVisible">
+            <column id="nameV2" label="cbVisible" text-field-id="name6">
                 <checkbox visible="{name1=='test1'}"/>
             </column>
-            <column id="nameV3" text-field-id="name7" label="sbmVisible">
+            <column id="nameV3" label="sbmVisible" text-field-id="name7">
                 <toolbar>
                     <sub-menu>
-                        <menu-item visible="{name1=='test1'}" label="visible for 'test1'"/>
-                        <menu-item visible="{false}" label="always invisible"/>
+                        <menu-item label="visible for 'test1'" visible="{name1=='test1'}"/>
+                        <menu-item label="always invisible" visible="{false}"/>
                         <menu-item label="always visible"/>
                     </sub-menu>
                 </toolbar>
             </column>
-
         </columns>
-        <toolbar>
-            <button id="update" label="update">
-                <show-modal page-id="test" submit-operation-id="update" route="/:id/update">
-                    <path-param name="id" value="{id}"/>
-                </show-modal>
-            </button>
-        </toolbar>
     </table>
 </simple-page>

@@ -1,29 +1,49 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
                  name="Скрытие виджета по условию">
     <left>
-        <panel title="Форма справа скроется, если выбрать запись с идентификатором 3 или 4"
-               collapsible="false">
-            <table id="table" query-id="ref" upload="query">
+        <panel title="Форма справа скроется, если выбрать запись с идентификатором 3 или 4" collapsible="false">
+            <table id="table">
+                <datasource query-id="ref" default-values-mode="query"/>
                 <columns>
-                    <column text-field-id="id" label="Идентификатор"/>
-                    <column text-field-id="name" label="Имя"/>
+                    <column label="Идентификатор" text-field-id="id"/>
+                    <column label="Имя" text-field-id="name"/>
                 </columns>
             </table>
         </panel>
     </left>
     <right>
-        <form master-field-id="id" detail-field-id="id" query-id="ref"
-              depends-on="table" visible="{id == 1 || id == 2}">
+        <form visible="{id == 1 || id == 2}">
+            <datasource query-id="ref">
+                <dependencies>
+                    <fetch on="table" model="resolve"/>
+                </dependencies>
+                <filters>
+                    <eq field-id="id" value="{id}" datasource="table" model="resolve" required="true"/>
+                </filters>
+            </datasource>
+            <dependencies>
+                <visibility datasource="table" model="resolve">id == 1 || id == 2</visibility>
+            </dependencies>
             <fields>
                 <row>
                     <input-text id="name" label="Имя"/>
                 </row>
             </fields>
         </form>
-        <panel place="right">
-            <form master-field-id="id" detail-field-id="id" query-id="ref"
-                  depends-on="table" visible="{id == 1 || id == 2}">
+        <panel>
+            <form visible="{id == 1 || id == 2}">
+                <datasource query-id="ref">
+                    <dependencies>
+                        <fetch on="table" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="id" value="{id}" datasource="table" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
+                <dependencies>
+                    <visibility datasource="table" model="resolve">id == 1 || id == 2</visibility>
+                </dependencies>
                 <fields>
                     <row>
                         <input-text id="name" label="Имя"/>
@@ -33,8 +53,18 @@
         </panel>
         <tabs>
             <tab name="Вкладка">
-                <form master-field-id="id" detail-field-id="id" query-id="ref"
-                      depends-on="table" visible="{id == 1 || id == 2}">
+                <form visible="{id == 1 || id == 2}">
+                    <datasource query-id="ref">
+                        <dependencies>
+                            <fetch on="table" model="resolve"/>
+                        </dependencies>
+                        <filters>
+                            <eq field-id="id" value="{id}" datasource="table" model="resolve" required="true"/>
+                        </filters>
+                    </datasource>
+                    <dependencies>
+                        <visibility datasource="table" model="resolve">id == 1 || id == 2</visibility>
+                    </dependencies>
                     <fields>
                         <row>
                             <input-text id="name" label="Имя"/>
@@ -44,8 +74,18 @@
             </tab>
         </tabs>
         <line>
-            <form master-field-id="id" detail-field-id="id" query-id="ref"
-                  depends-on="table" visible="{id == 1 || id == 2}">
+            <form visible="{id == 1 || id == 2}">
+                <datasource query-id="ref">
+                    <dependencies>
+                        <fetch on="table" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="id" value="{id}" datasource="table" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
+                <dependencies>
+                    <visibility datasource="table" model="resolve">id == 1 || id == 2</visibility>
+                </dependencies>
                 <fields>
                     <row>
                         <input-text id="name" label="Имя"/>

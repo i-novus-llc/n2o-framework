@@ -1,11 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <form id="form" object-id="testFormValidations">
-        <submit message-on-fail="true" operation-id="test" route="a/b/c" refresh-on-success="true">
-            <path-param name="name1" value="value1" ref-model="resolve" ref-widget-id="id1"/>
-            <path-param name="name2" ref-model="filter" ref-widget-id="id2"/>
-            <header-param name="name3" value="{a}" ref-widget-id="id3"/>
-            <form-param id="name4" value="{b}" ref-model="filter"/>
-        </submit>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form id="form">
+        <datasource object-id="testFormValidations">
+            <submit operation-id="test" message-on-fail="true" message-widget-id="form" refresh-on-success="true" refresh-datasources="form" route="a/b/c" auto-submit-on="change">
+                <path-param name="name1" value="value1" datasource="id1" model="resolve"/>
+                <path-param name="name2" datasource="id2" model="filter"/>
+                <header-param name="name3" value="{a}" datasource="id3"/>
+                <form-param id="name4" value="{b}" model="filter"/>
+            </submit>
+        </datasource>
     </form>
 </simple-page>

@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      object-id="testJsonForm">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" object-id="testJsonForm">
     <regions>
-        <tabs place="single">
+        <tabs>
             <tab>
-                <table id="table" src="test" object-id="testJsonForm">
+                <table id="table" src="test">
+                    <datasource object-id="testJsonForm"/>
                     <toolbar>
                         <button id="btn1" visible="false" enabled="false"/>
                         <button id="btn2" visible="{property1}" enabled="{property2}" disable-on-empty-model="false"/>
@@ -14,21 +14,21 @@
                         <button id="btn6">
                             <close/>
                             <dependencies>
-                                <visibility on="field1" ref-widget-id="test" ref-model="filter">a==b</visibility>
+                                <visibility datasource="test" model="filter">a==b</visibility>
                                 <enabling message="Не указана дата">c==d</enabling>
                             </dependencies>
                         </button>
-                            <sub-menu>
-                                <menu-item visible="false" enabled="false"/>
-                                <menu-item visible="{property1}" enabled="{property2}"/>
-                                <menu-item>
-                                    <close/>
-                                    <dependencies>
-                                        <visibility on="field1,field2" ref-widget-id="test" ref-model="filter">a==b</visibility>
-                                        <enabling message="Не указана дата">c==d</enabling>
-                                    </dependencies>
-                                </menu-item>
-                            </sub-menu>
+                        <sub-menu>
+                            <menu-item visible="false" enabled="false"/>
+                            <menu-item visible="{property1}" enabled="{property2}"/>
+                            <menu-item>
+                                <close/>
+                                <dependencies>
+                                    <visibility datasource="test" model="filter">a==b</visibility>
+                                    <enabling message="Не указана дата">c==d</enabling>
+                                </dependencies>
+                            </menu-item>
+                        </sub-menu>
                     </toolbar>
                 </table>
                 <table id="test"/>

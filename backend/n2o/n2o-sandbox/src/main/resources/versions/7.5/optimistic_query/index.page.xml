@@ -1,14 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Режим optimistic запросов на сервер">
-    <table query-id="test">
+    <table>
+        <datasource query-id="test"/>
         <columns>
-            <column text-field-id="check1" label="Без optimistic" id="c1">
+            <column id="c1" label="Без optimistic" text-field-id="check1">
                 <checkbox>
                     <invoke operation-id="update"/>
                 </checkbox>
             </column>
-            <column text-field-id="check2" label="C optimistic" id="c2">
+            <column id="c2" label="C optimistic" text-field-id="check2">
                 <checkbox>
                     <invoke operation-id="update" optimistic="true"/>
                 </checkbox>

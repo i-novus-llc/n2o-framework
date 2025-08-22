@@ -1,10 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Название страницы" route="/">
-    <list id="list" query-id="testList" size="10">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Название страницы" route="/">
+    <list id="list">
+        <datasource size="10" query-id="testList"/>
         <pagination prev="true" next="true"/>
+        <rows>
+            <click>
+                <open-page page-id="form" route="/:id/open">
+                    <params>
+                        <path-param name="id" value="{id}"/>
+                    </params>
+                </open-page>
+            </click>
+        </rows>
         <content>
             <left-top text-field-id="leftTop">
-                <image url="https://git.i-novus.ru/open/n2o-framework/avatar"/>
+                <image/>
             </left-top>
             <left-bottom text-field-id="leftBottom">
                 <text/>
@@ -26,19 +36,10 @@
             </right-bottom>
             <extra text-field-id="extra">
                 <toolbar>
-                    <button id="1" label="" icon="fa fa-plus" widget-id="list" description="Add"/>
-                    <button id="2" label="" icon="fa fa-trash" widget-id="list" description="Delete"/>
+                    <button id="1" label="" icon="fa fa-plus" description="Add" datasource="list"/>
+                    <button id="2" label="" icon="fa fa-trash" description="Delete" datasource="list"/>
                 </toolbar>
             </extra>
         </content>
-        <rows>
-            <click>
-                <open-page page-id="form" route="/:id/open">
-                    <path-param name="id" value="{id}"/>
-                </open-page>
-            </click>
-        </rows>
     </list>
 </simple-page>
-
-

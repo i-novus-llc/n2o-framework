@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Тестовая форма">
     <form id="form">
-        <fields>
-            <input-text id="value"/>
-        </fields>
         <toolbar place="bottomLeft">
-            <button widget-id="form" label="Очистить поле">
+            <button label="Очистить поле" datasource="form">
                 <clear/>
             </button>
-            <button widget-id="form" label="Очистить поле и закрыть форму">
+            <button label="Очистить поле и закрыть форму" datasource="form">
                 <clear close-on-success="true"/>
             </button>
         </toolbar>
+        <fields>
+            <input-text id="value"/>
+        </fields>
     </form>
 </simple-page>

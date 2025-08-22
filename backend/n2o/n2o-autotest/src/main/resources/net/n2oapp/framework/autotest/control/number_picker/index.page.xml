@@ -1,8 +1,8 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="Поле ввода числа из диапазона">
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Поле ввода числа из диапазона">
     <form>
         <fields>
-            <number-picker id="number1" label="limitedPicker" min="-3" max="3" step="2" default-value="2"/>
+            <number-picker id="number1" label="limitedPicker" default-value="2" min="-3" max="3" step="2"/>
         </fields>
     </form>
 </simple-page>

@@ -1,17 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Модальное окно с настраиваемыми фоном и хедером">
     <form>
-        <fields>
-            <hidden id="id" default-value="1"/>
-        </fields>
         <toolbar>
             <button label="Открыть с хедером">
                 <show-modal page-id="test" class="text-info"/>
             </button>
             <button label="Открыть без хедера">
-                <show-modal page-id="test" has-header="false"
-                            style="background: red"/>
+                <show-modal page-id="test" has-header="false" style="background: red"/>
             </button>
             <button label="Открыть без фона">
                 <show-modal page-id="test" backdrop="false"/>
@@ -20,5 +16,8 @@
                 <show-modal page-id="test" backdrop="true"/>
             </button>
         </toolbar>
+        <fields>
+            <hidden id="id" default-value="1"/>
+        </fields>
     </form>
 </simple-page>

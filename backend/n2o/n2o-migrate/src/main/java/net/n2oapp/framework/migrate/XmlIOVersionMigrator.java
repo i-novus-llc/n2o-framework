@@ -30,7 +30,10 @@ public class XmlIOVersionMigrator {
     private static final String XML_HEADER = "<?xml version='1.0' encoding='UTF-8'?>\r\n";
     private static final Map<String, String> namespaceUriMapping = Map.of(
             "http://n2oapp.net/framework/config/schema/query-4.0", "http://n2oapp.net/framework/config/schema/query-5.0",
-            "http://n2oapp.net/framework/config/schema/application-2.0", "http://n2oapp.net/framework/config/schema/application-3.0"
+            "http://n2oapp.net/framework/config/schema/application-2.0", "http://n2oapp.net/framework/config/schema/application-3.0",
+            "http://n2oapp.net/framework/config/schema/page-3.0", "http://n2oapp.net/framework/config/schema/page-4.0",
+            "http://n2oapp.net/framework/config/schema/n2o-widget-4.0", "http://n2oapp.net/framework/config/schema/widget-5.0",
+            "http://n2oapp.net/framework/config/schema/fieldset-4.0", "http://n2oapp.net/framework/config/schema/fieldset-5.0"
     );
 
     public XmlIOVersionMigrator(N2oApplicationBuilder builder) {
@@ -87,9 +90,13 @@ public class XmlIOVersionMigrator {
     public void migrateFile(String filePath, String directory) throws IOException {
         Path path = Paths.get(directory + filePath);
         String oldVersionXml = Files.readString(path);
-        String migratedXml = migrate(oldVersionXml);
-        if (migratedXml != null) {
-            Files.writeString(path, migratedXml);
+        try {
+            String migratedXml = migrate(oldVersionXml);
+            if (migratedXml != null) {
+                Files.writeString(path, migratedXml);
+            }
+        } catch (Exception e) {
+            System.err.println("Ошибка при миграции файла " + filePath + ": " + e.getMessage());
         }
     }
 

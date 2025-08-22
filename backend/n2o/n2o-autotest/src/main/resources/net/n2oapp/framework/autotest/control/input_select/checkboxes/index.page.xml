@@ -1,20 +1,20 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <input-select id="select" label="InputSelect" type="checkboxes">
                 <options>
-                    <option id="one" name="One"/>
-                    <option id="two" name="Two"/>
-                    <option id="three" name="Three"/>
+                    <option name="One" id="one"/>
+                    <option name="Two" id="two"/>
+                    <option name="Three" id="three"/>
                 </options>
             </input-select>
-
-            <input-select id="select3" label="InputSelect3" type="checkboxes" enabled-field-id="isDisabled">
+            <input-select id="select3" label="InputSelect3" enabled-field-id="isDisabled" type="checkboxes">
                 <options>
-                    <option id="one" name="One"/>
-                    <option id="two" name="Two"/>
-                    <option id="three" name="Three" isDisabled="false"/>
-                    <option id="four" name="Four" isDisabled="true"/>
+                    <option name="One" id="one"/>
+                    <option name="Two" id="two"/>
+                    <option name="Three" id="three" isDisabled="false"/>
+                    <option name="Four" id="four" isDisabled="true"/>
                 </options>
             </input-select>
         </fields>

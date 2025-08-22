@@ -1,19 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <regions>
-        <region>
-            <table id="ignore_table"/>
-            <table id="table1" query-id="testShowModal" route="/"/>
-        </region>
-    </regions>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <toolbar>
-        <button id="update" widget-id="table1">
-            <show-modal page-id="testShowModalCopyActionWithTwoWidgetPage"
-                        route="/:id/update" submit-action-type="copy" copy-mode="replace"
-                        target-model="edit" target-field-id="dictionary.id"
-                        target-widget-id="ignore_table" submit-label="Выбрать">
-                <path-param name="id" value="{id}"/>
+        <button id="update" datasource="table1">
+            <show-modal page-id="testShowModalCopyActionWithTwoWidgetPage" submit-label="Выбрать" route="/:id/update" submit-action-type="copy" target-model="edit" target-datasource="ignore_table" target-field-id="dictionary.id" copy-mode="replace">
+                <params>
+                    <path-param name="id" value="{id}"/>
+                </params>
             </show-modal>
         </button>
     </toolbar>
+    <regions>
+        <region>
+            <table id="ignore_table"/>
+            <table id="table1">
+                <datasource query-id="testShowModal" route="/"/>
+            </table>
+        </region>
+    </regions>
 </page>

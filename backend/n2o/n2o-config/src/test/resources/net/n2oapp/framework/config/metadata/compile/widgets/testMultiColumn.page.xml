@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <table id="table" query-id="testTable5Compile">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <table id="table">
+        <datasource query-id="testTable5Compile"/>
         <columns>
             <column text-field-id="test1"/>
             <multi-column label="label" width="300">
@@ -13,7 +14,6 @@
                     <filter>
                         <input-text id="name"/>
                     </filter>
-                    <cell/>
                 </filter-column>
             </multi-column>
         </columns>

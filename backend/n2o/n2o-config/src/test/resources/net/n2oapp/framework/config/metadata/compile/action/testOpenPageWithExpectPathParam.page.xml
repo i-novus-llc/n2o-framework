@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
             <form id="master">
-                <fields>
-                    <input-text id="accountId" default-value="111"/>
-                </fields>
                 <toolbar>
                     <button id="btn1">
                         <open-page page-id="testOpenPageSimplePageAction1" route="/clients/:client_id/"/>
                     </button>
                 </toolbar>
+                <fields>
+                    <input-text id="accountId" default-value="111"/>
+                </fields>
             </form>
         </region>
     </regions>

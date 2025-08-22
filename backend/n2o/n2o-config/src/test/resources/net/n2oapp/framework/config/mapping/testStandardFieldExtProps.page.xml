@@ -1,13 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
-             xmlns:ext="http://n2oapp.net/framework/config/schema/ext-2.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" xmlns:ext="http://n2oapp.net/framework/config/schema/ext-2.0" xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
     <form id="form">
         <fields>
-            <date-time id="dateTime" src="RoundedDatePickerControl" sec:roles="admin" ext:prefix="extPrefix"/>
-            <field id="customField" sec:anonymous="false" ext:attr="extAttr">
+            <date-time src="RoundedDatePickerControl" ext:prefix="extPrefix" sec:roles="admin" id="dateTime"/>
+            <field ext:attr="extAttr" sec:anonymous="false" id="customField">
                 <controls>
-                    <input-text id="inputText" sec:roles="admin" ext:attr2="extAttr2"/>
+                    <input-text ext:attr2="extAttr2" sec:roles="admin" id="inputText"/>
                 </controls>
             </field>
         </fields>
