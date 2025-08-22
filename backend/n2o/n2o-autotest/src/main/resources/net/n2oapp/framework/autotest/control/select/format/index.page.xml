@@ -1,25 +1,23 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-            <select id="select1" label="Select1" type="checkboxes"
-                    select-format-one="{size} объект" select-format-few="{size} объекта"
-                    select-format-many="{size} объектов">
+            <select id="select1" label="Select1" type="checkboxes" select-format-one="{size} объект" select-format-few="{size} объекта" select-format-many="{size} объектов">
                 <options>
-                    <option id="one" name="One"/>
-                    <option id="two" name="Two"/>
-                    <option id="three" name="Three"/>
-                    <option id="four" name="Four"/>
-                    <option id="five" name="Five"/>
+                    <option name="One" id="one"/>
+                    <option name="Two" id="two"/>
+                    <option name="Three" id="three"/>
+                    <option name="Four" id="four"/>
+                    <option name="Five" id="five"/>
                 </options>
             </select>
-            <select id="select2" label="Select2" type="checkboxes"
-                    select-format="Объектов {size} шт">
+            <select id="select2" label="Select2" type="checkboxes" select-format="Объектов {size} шт">
                 <options>
-                    <option id="one" name="One"/>
-                    <option id="two" name="Two"/>
-                    <option id="three" name="Three"/>
-                    <option id="four" name="Four"/>
-                    <option id="five" name="Five"/>
+                    <option name="One" id="one"/>
+                    <option name="Two" id="two"/>
+                    <option name="Three" id="three"/>
+                    <option name="Four" id="four"/>
+                    <option name="Five" id="five"/>
                 </options>
             </select>
         </fields>

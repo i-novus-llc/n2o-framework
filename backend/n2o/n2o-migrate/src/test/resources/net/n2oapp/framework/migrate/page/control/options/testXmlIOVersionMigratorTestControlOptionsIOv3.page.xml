@@ -1,0 +1,17 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <form>
+            <fields>
+                <row>
+                    <input-select id="type" label-field-id="name">
+                        <options>
+                            <option id="2" name="${full.phone}"/>
+                            <option id="4" name="${email}"/>
+                            <option id="7" name="${fax}"/>
+                        </options>
+                    </input-select>
+                </row>
+            </fields>
+        </form>
+    </regions>
+</page>

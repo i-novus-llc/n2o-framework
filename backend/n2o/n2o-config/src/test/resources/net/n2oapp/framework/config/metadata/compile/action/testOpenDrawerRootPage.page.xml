@@ -1,61 +1,104 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <region place="left">
-            <table id="main" query-id="testShowModal" route="/">
+        <region>
+            <table id="main">
+                <datasource query-id="testShowModal" route="/"/>
                 <toolbar>
                     <button id="create" model="filter">
-                        <open-drawer page-id="testShowModalPage" modal-size="sm" width="200" height="300"
-                                     upload="defaults" refresh-widget-id="second" type="drawer"
-                                     submit-operation-id="create" submit-model="edit" route="/create"/>
+                        <open-drawer page-id="testShowModalPage" submit-operation-id="create" submit-model="edit" refresh-datasources="second" route="/create" width="200" height="300">
+                            <datasources>
+                                <datasource default-values-mode="defaults"/>
+                            </datasources>
+                        </open-drawer>
                     </button>
                     <button id="update" model="resolve">
-                        <open-drawer page-id="testOpenDrawerPageSecondFlow" modal-size="lg"
-                                     upload="query" master-param="id"
-                                     detail-field-id="id" submit-operation-id="update" route="/:id/update"
-                                     fixed-footer="true">
-                            <path-param name="id" value="{id}"/>
+                        <open-drawer page-id="testOpenDrawerPageSecondFlow" submit-operation-id="update" route="/:id/update" fixed-footer="true">
+                            <datasources>
+                                <datasource default-values-mode="query">
+                                    <filters>
+                                        <eq field-id="id" param="id" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <path-param name="id" value="{id}"/>
+                            </params>
                         </open-drawer>
                     </button>
                     <button id="createFocus" model="filter">
-                        <open-drawer page-id="testShowModalPage"
-                                     submit-operation-id="create" route="/createFocus"/>
+                        <open-drawer page-id="testShowModalPage" submit-operation-id="create" route="/createFocus"/>
                     </button>
                     <button id="updateFocus" model="resolve">
-                        <open-drawer page-id="testShowModalPage2"
-                                     submit-operation-id="update" route="/:p_main_id/updateFocus">
-                            <path-param name="p_main_id" value="{id}"/>
+                        <open-drawer page-id="testShowModalPage2" submit-operation-id="update" route="/:p_main_id/updateFocus">
+                            <params>
+                                <path-param name="p_main_id" value="{id}"/>
+                            </params>
                         </open-drawer>
                     </button>
                     <button id="createUpdate" model="filter">
-                        <open-drawer page-id="testShowModalPage"
-                                     submit-operation-id="create" redirect-url-after-submit="../:id/update"
-                                     close-after-submit="true" route="/createUpdate"/>
+                        <open-drawer page-id="testShowModalPage" submit-operation-id="create" close-after-submit="true" redirect-url-after-submit="../:id/update" route="/createUpdate"/>
                     </button>
                     <button id="default">
-                        <open-drawer page-id="testShowModalPage" detail-field-id="id"/>
+                        <open-drawer page-id="testShowModalPage">
+                            <datasources>
+                                <datasource>
+                                    <filters>
+                                        <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <query-param name="$widgetId_id" value="{id}"/>
+                            </params>
+                        </open-drawer>
                     </button>
                     <button id="defaultWithOperation">
-                        <open-drawer page-id="testShowModalPage" submit-operation-id="update" detail-field-id="id"/>
+                        <open-drawer page-id="testShowModalPage" submit-operation-id="update">
+                            <datasources>
+                                <datasource>
+                                    <filters>
+                                        <eq field-id="id" param="$widgetId_id" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <query-param name="$widgetId_id" value="{id}"/>
+                            </params>
+                        </open-drawer>
                     </button>
                     <button id="updateWithPrefilters">
-                        <open-drawer page-id="testShowModalPage" submit-operation-id="update" detail-field-id="id"
-                                     upload="query" route="/:id/updateWithPrefilters">
-                            <path-param name="id" value="{id}"/>
-                            <query-param name="name" value="{name}" ref-widget-id="second" ref-model="filter"/>
+                        <open-drawer page-id="testShowModalPage" submit-operation-id="update" route="/:id/updateWithPrefilters">
+                            <datasources>
+                                <datasource default-values-mode="query">
+                                    <filters>
+                                        <eq field-id="id" param="id" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <query-param name="name" value="{name}" datasource="second" model="filter"/>
+                                <path-param name="id" value="{id}"/>
+                            </params>
                         </open-drawer>
                     </button>
                     <button id="updateEditWithPrefilters" model="edit">
-                        <open-drawer page-id="testShowModalPage3" upload="defaults"
-                                     submit-operation-id="update" route="/updateEditWithPrefilters">
-                            <query-param name="id" value="{id}"/>
+                        <open-drawer page-id="testShowModalPage3" submit-operation-id="update" route="/updateEditWithPrefilters">
+                            <datasources>
+                                <datasource default-values-mode="defaults"/>
+                            </datasources>
+                            <params>
+                                <query-param name="id" value="{id}"/>
+                            </params>
                         </open-drawer>
                     </button>
                 </toolbar>
             </table>
         </region>
         <region>
-            <table id="second" query-id="testShowModal"/>
+            <table id="second">
+                <datasource query-id="testShowModal"/>
+            </table>
         </region>
     </regions>
-
 </page>

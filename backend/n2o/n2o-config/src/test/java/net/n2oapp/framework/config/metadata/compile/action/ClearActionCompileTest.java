@@ -3,11 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.action.ClearActionElementIOV1;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
-import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
-import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
+import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,9 +23,8 @@ class ClearActionCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack());
-        builder.ios(new ClearActionElementIOV1());
-        builder.compilers(new ClearActionCompiler());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(),
+                new N2oFieldSetsPack(), new N2oAllDataPack(), new N2oControlsPack());
     }
 
     @Test

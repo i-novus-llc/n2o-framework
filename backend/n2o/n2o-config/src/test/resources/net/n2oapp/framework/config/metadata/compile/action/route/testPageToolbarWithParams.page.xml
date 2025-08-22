@@ -1,5 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <toolbar>
+        <button datasource="main">
+            <open-drawer page-id="openDrawerPage" route="/:version/btn2">
+                <params>
+                    <query-param name="number" value="{number}"/>
+                    <path-param name="version" value="{version}"/>
+                </params>
+            </open-drawer>
+        </button>
+    </toolbar>
     <regions>
         <region>
             <form id="main">
@@ -10,14 +20,4 @@
             </form>
         </region>
     </regions>
-    <toolbar>
-        <button widget-id="main">
-            <open-drawer
-                    page-id="openDrawerPage"
-                    route="/:version/btn2">
-                <path-param name="version" value="{version}"/>
-                <query-param name="number" value="{number}"/>
-            </open-drawer>
-        </button>
-    </toolbar>
 </page>

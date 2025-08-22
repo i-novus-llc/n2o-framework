@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Модальное окно">
-    <form object-id="test" upload="defaults">
+    <form>
+        <datasource object-id="test" default-values-mode="defaults"/>
         <fields>
-            <input-text id="name"
-                        label="Если ввести не test то сохранить не получится">
+            <input-text id="name" label="Если ввести не test то сохранить не получится">
                 <validations white-list="check"/>
             </input-text>
         </fields>

@@ -1,17 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="Название и описание у ячейки с картинкой">
-    <table query-id="test">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Название и описание у ячейки с картинкой">
+    <table>
+        <datasource query-id="test"/>
         <columns>
             <column text-field-id="url">
-                <image id="image1"
-                       url="{url}"
-                       data="{data}"
-                       title="{title}"
-                       description="{desc}"
-                       width="40px"
-                       text-position="left"
-                />
+                <image width="40px" title="{title}" description="{desc}" data="{data}" text-position="left"/>
             </column>
         </columns>
     </table>

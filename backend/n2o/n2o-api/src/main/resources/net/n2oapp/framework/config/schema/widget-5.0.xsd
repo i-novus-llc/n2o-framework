@@ -1017,6 +1017,16 @@
                         <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Класс компонента блока.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стиль компонента блока.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

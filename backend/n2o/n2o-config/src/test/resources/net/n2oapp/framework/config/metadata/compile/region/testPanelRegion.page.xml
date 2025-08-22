@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <panel footer-title="footer" collapsible="false" icon="fa fa-plus" routable="false"
-               active-param="param" open="false" header="false" color="danger"/>
+        <panel header="false" footer-title="footer" collapsible="false" open="false" icon="fa fa-plus" color="danger" routable="false" active-param="param"/>
         <panel/>
     </regions>
 </page>

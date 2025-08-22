@@ -1,21 +1,17 @@
-<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-      xmlns:ext="http://example.com/n2o/ext-1.0"
-      xmlns:extParent="http://example.com/n2o/ext-parent"
-      name="Parent"
-      query-id="parent"
-      object-id="parent"
-      ext:extAttr1="parent1"
-      ext:extAttr2="parent2"
-      extParent:extAttr="parent">
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0" xmlns:ext="http://example.com/n2o/ext-1.0"
+      xmlns:extParent="http://example.com/n2o/ext-parent" ext:extAttr1="parent1" ext:extAttr2="parent2" extParent:extAttr="parent">
+    <datasource query-id="parent" object-id="parent">
+        <filters>
+            <eq field-id="id" value="1"/>
+        </filters>
+    </datasource>
+    <toolbar>
+        <button action-id="update"/>
+    </toolbar>
     <fields>
         <set>
             <input-text id="name"/>
         </set>
     </fields>
-    <toolbar>
-        <button action-id="update"/>
-    </toolbar>
-    <pre-filters>
-        <eq field-id="id" value="1"/>
-    </pre-filters>
 </form>

@@ -1,19 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="testPage" route="/test/route">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="testPage" route="/test/route">
     <regions>
-        <region place="single">
+        <region>
             <table id="main" ref-id="testDynamic?Dummy"/>
-            <table id="second" query-id="testOpenPageDynamicPage" route="/second">
-                <columns>
-                    <column text-field-id="id"/>
-                </columns>
+            <table id="second">
+                <datasource query-id="testOpenPageDynamicPage" route="/second"/>
                 <toolbar>
                     <button id="update">
                         <open-page page-id="testDynamic?{id}" route="/second/:second_id/update">
-                            <path-param name="second_id" value="{id}"/>
+                            <params>
+                                <path-param name="second_id" value="{id}"/>
+                            </params>
                         </open-page>
                     </button>
                 </toolbar>
+                <columns>
+                    <column text-field-id="id"/>
+                </columns>
             </table>
         </region>
     </regions>

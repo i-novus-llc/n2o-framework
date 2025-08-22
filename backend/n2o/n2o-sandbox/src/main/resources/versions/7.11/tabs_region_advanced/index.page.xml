@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Регион в виде вкладок">
     <regions>
         <tabs>
             <tab name="C несколькими регионами">
                 <line label="Линия"/>
                 <panel title="Панель">
-                    <form name="panelForm"/>
+                    <form/>
                 </panel>
                 <tabs>
                     <tab name="Вкладка1">
@@ -17,7 +17,6 @@
                     </tab>
                 </tabs>
             </tab>
-
             <tab name="C несколькими виджетами">
                 <form>
                     <fields>

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Разный заголовок страницы и бредкрампа"
-      show-title="true" title="Заголовок страницы">
+      title="Заголовок страницы" show-title="true">
     <regions>
         <form>
             <toolbar>
@@ -18,4 +18,3 @@
         </form>
     </regions>
 </page>
-

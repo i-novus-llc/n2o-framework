@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <line label="Line1" collapsible="false" expand="false" has-separator="false"
-              class="testClass" style="margin-left:10px;width:300px"/>
+        <line class="testClass" style="margin-left:10px;width:300px" label="Line1" collapsible="false" has-separator="false" expand="false"/>
         <line/>
     </regions>
 </page>

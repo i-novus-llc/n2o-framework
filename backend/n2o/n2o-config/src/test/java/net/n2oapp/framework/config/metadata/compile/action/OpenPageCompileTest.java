@@ -37,12 +37,10 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.action.CloseActionElementIOV1;
-import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
-import net.n2oapp.framework.config.io.action.OpenPageElementIOV1;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,9 +68,7 @@ class OpenPageCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oActionsPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
-                new N2oControlsPack(), new N2oAllDataPack(), new N2oCellsPack(), new N2oFieldSetsPack());
-        builder.ios(new OpenPageElementIOV1(), new InvokeActionElementIOV1(), new CloseActionElementIOV1());
+        builder.packs(new N2oAllPagesPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testGender.query.xml"),

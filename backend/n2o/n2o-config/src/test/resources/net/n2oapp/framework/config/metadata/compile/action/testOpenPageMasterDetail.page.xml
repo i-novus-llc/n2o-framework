@@ -1,23 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="second">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="second">
     <regions>
-        <region place="single">
-            <form query-id="testRefbook" id="main" route="/">
-                <fields>
-                    <input-text id="name" param="name"/>
-                </fields>
+        <region>
+            <form id="main">
+                <datasource size="1" query-id="testRefbook" route="/">
+                    <filters>
+                        <eq field-id="name" param="name"/>
+                        <eq field-id="secondName" param="secondName"/>
+                        <eq field-id="surname" param="surname"/>
+                    </filters>
+                </datasource>
                 <toolbar>
                     <button id="newPage" model="filter">
                         <open-page page-id="testOpenPageSimplePageAction1" route="/level3"/>
                     </button>
                 </toolbar>
-                <pre-filters>
-                    <eq field-id="name" param="name"/>
-                    <eq field-id="secondName" param="secondName"/>
-                    <eq field-id="surname" param="surname"/>
-                </pre-filters>
+                <fields>
+                    <input-text id="name" param="name"/>
+                </fields>
             </form>
         </region>
     </regions>
 </page>
-

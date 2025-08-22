@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" name="Название страницы" route="/">
-    <form id="form" route="/form" query-id="testList">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Название страницы" route="/">
+    <form id="form">
+        <datasource size="1" query-id="testList" route="/form"/>
         <fields>
             <input-text id="body"/>
         </fields>

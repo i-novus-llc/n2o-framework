@@ -1,11 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <input-select id="select" label="InputSelect" type="multi">
                 <options>
-                    <option id="one" name="One"/>
-                    <option id="two" name="Two"/>
-                    <option id="three" name="Three"/>
+                    <option name="One" id="one"/>
+                    <option name="Two" id="two"/>
+                    <option name="Three" id="three"/>
                 </options>
             </input-select>
             <input-select id="select1" label="InputSelect1" type="multi" query-id="test"/>

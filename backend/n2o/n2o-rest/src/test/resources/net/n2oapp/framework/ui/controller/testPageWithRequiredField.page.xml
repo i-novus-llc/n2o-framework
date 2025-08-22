@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/pageWithRequiredField">
-    <form object-id="testObject" route="/widget">
-        <fields>
-            <input-text id="id1" required="true"/>
-        </fields>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" route="/pageWithRequiredField">
+    <form>
+        <datasource object-id="testObject" route="/widget"/>
         <toolbar>
             <button id="create">
                 <invoke operation-id="create" route="/create"/>
             </button>
         </toolbar>
+        <fields>
+            <input-text id="id1" required="true"/>
+        </fields>
     </form>
 </simple-page>

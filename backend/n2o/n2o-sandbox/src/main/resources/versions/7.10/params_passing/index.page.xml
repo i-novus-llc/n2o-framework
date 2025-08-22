@@ -1,64 +1,58 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Передача path-param и query-param между страницами">
+    <toolbar place="bottomLeft">
+        <button id="btn3" label="3. Кнопка в тулбаре страницы" color="success" datasource="main">
+            <open-drawer page-id="page2" route="/:version/btn3">
+                <params>
+                    <query-param name="number" value="{number}"/>
+                    <path-param name="version" value="{version}"/>
+                </params>
+            </open-drawer>
+        </button>
+    </toolbar>
     <regions>
-        <form id="main" query-id="test">
+        <form id="main">
+            <datasource query-id="test"/>
             <fields>
                 <button id="btn0" label="Кнопка главной формы" color="success">
-                    <open-drawer
-                            page-id="page2"
-                            route="/:version/btn0">
-                        <path-param name="version" value="{version}"/>
-                        <query-param name="number" value="{number}"/>
+                    <open-drawer page-id="page2" route="/:version/btn0">
+                        <params>
+                            <query-param name="number" value="{number}"/>
+                            <path-param name="version" value="{version}"/>
+                        </params>
                     </open-drawer>
                 </button>
                 <input-text id="version" label="Версия"/>
                 <input-text id="number" label="#"/>
             </fields>
         </form>
-
-        <form id="dependent" depends-on="main">
-            <fields>
-                <button id="btn1"
-                        widget-id="main"
-                        label="1. Кнопка в fields зависимой формы"
-                        color="success">
-                    <open-drawer
-                            page-id="page2"
-                            route="/:version/btn1">
-                        <path-param name="version" value="{version}"/>
-                        <query-param name="number" value="{number}"/>
-                    </open-drawer>
-                </button>
-            </fields>
-
+        <form id="dependent">
             <toolbar place="bottomLeft">
-                <button id="btn2"
-                        widget-id="main"
-                        label="2. Кнопка в тулбаре зависимой формы"
-                        color="success">
-                    <open-drawer
-                            page-id="page2"
-                            route="/:version/btn2">
-                        <path-param name="version" value="{version}"/>
-                        <query-param name="number" value="{number}"/>
+                <button id="btn2" label="2. Кнопка в тулбаре зависимой формы" color="success" datasource="main">
+                    <open-drawer page-id="page2" route="/:version/btn2">
+                        <params>
+                            <query-param name="number" value="{number}"/>
+                            <path-param name="version" value="{version}"/>
+                        </params>
                     </open-drawer>
                 </button>
             </toolbar>
+            <datasource>
+                <dependencies>
+                    <fetch on="main" model="resolve"/>
+                </dependencies>
+            </datasource>
+            <fields>
+                <button id="btn1" label="1. Кнопка в fields зависимой формы" datasource="main" color="success">
+                    <open-drawer page-id="page2" route="/:version/btn1">
+                        <params>
+                            <query-param name="number" value="{number}"/>
+                            <path-param name="version" value="{version}"/>
+                        </params>
+                    </open-drawer>
+                </button>
+            </fields>
         </form>
     </regions>
-
-    <toolbar place="bottomLeft">
-        <button id="btn3"
-                widget-id="main"
-                label="3. Кнопка в тулбаре страницы"
-                color="success">
-            <open-drawer
-                    page-id="page2"
-                    route="/:version/btn3">
-                <path-param name="version" value="{version}"/>
-                <query-param name="number" value="{number}"/>
-            </open-drawer>
-        </button>
-    </toolbar>
 </page>

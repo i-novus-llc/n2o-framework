@@ -1,11 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <form object-id="test">
-        <fields>
-            <alert id="message" color="info"
-                   text="Сохраните значение и закройте окно одним из способов (кнопкой close, ESC, крестиком или кликом по фону)"/>
-            <input-text id="name"/>
-        </fields>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
         <toolbar place="bottomLeft">
             <button label="Save">
                 <invoke operation-id="create"/>
@@ -14,5 +9,10 @@
                 <close refresh="true"/>
             </button>
         </toolbar>
+        <datasource object-id="test"/>
+        <fields>
+            <alert id="message" text="Сохраните значение и закройте окно одним из способов (кнопкой close, ESC, крестиком или кликом по фону)" color="info"/>
+            <input-text id="name"/>
+        </fields>
     </form>
 </simple-page>

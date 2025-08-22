@@ -1,53 +1,44 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="Фильтрация списковых полей">
-    <form query-id="test">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Фильтрация списковых полей">
+    <form>
+        <datasource size="1" query-id="test">
+            <filters>
+                <eq field-id="id" value="1"/>
+            </filters>
+        </datasource>
         <fields>
-            <input-text id="type" domain="integer" description="Должно стоять 1"/>
-            <input-select id="test1" label="Фильтр по type" query-id="test" cache="false"
-                          description="При type=1 должно быть 2 значения">
-                <pre-filters>
+            <input-text id="type" description="Должно стоять 1" domain="integer"/>
+            <input-select id="test1" label="Фильтр по type" description="При type=1 должно быть 2 значения" query-id="test" cache="false">
+                <filters>
                     <eq field-id="type" value="{type}"/>
-                </pre-filters>
+                </filters>
             </input-select>
-
-            <input-select id="test2" label="Фильтр по константе" query-id="test"
-                          description="Должно быть 2 значения">
-                <pre-filters>
+            <input-select id="test2" label="Фильтр по константе" description="Должно быть 2 значения" query-id="test">
+                <filters>
                     <eq field-id="type" value="1"/>
-                </pre-filters>
+                </filters>
             </input-select>
-
-            <input-select id="test3" label="Фильтр по ссылке с кэшированием" query-id="test" cache="true"
-                          description="При type=1 должно быть 2 значения">
-                <pre-filters>
+            <input-select id="test3" label="Фильтр по ссылке с кэшированием" description="При type=1 должно быть 2 значения" query-id="test" cache="true">
+                <filters>
                     <eq field-id="type" value="{type}"/>
-                </pre-filters>
+                </filters>
             </input-select>
-
-            <radio-group id="test4" label="Фильтр по радио кнопкам" cache="true" query-id="test"
-                         description="При type=1 должно быть 2 значения">
-                <pre-filters>
-                    <eq field-id="type" value="{type}"/>
-                </pre-filters>
+            <radio-group id="test4" label="Фильтр по радио кнопкам" description="При type=1 должно быть 2 значения" query-id="test" cache="true">
                 <dependencies>
                     <fetch on="type"/>
                 </dependencies>
+                <filters>
+                    <eq field-id="type" value="{type}"/>
+                </filters>
             </radio-group>
-
-            <checkbox-group id="test5" label="Фильтр по чекбоксам" cache="true" query-id="test"
-                            description="При type=1 должно быть 2 значения">
-                <pre-filters>
-                    <eq field-id="type" value="{type}"/>
-                </pre-filters>
+            <checkbox-group id="test5" label="Фильтр по чекбоксам" description="При type=1 должно быть 2 значения" query-id="test" cache="true">
                 <dependencies>
                     <fetch on="type"/>
                 </dependencies>
+                <filters>
+                    <eq field-id="type" value="{type}"/>
+                </filters>
             </checkbox-group>
         </fields>
-
-        <pre-filters>
-            <eq field-id="id" value="1"/>
-        </pre-filters>
     </form>
 </simple-page>

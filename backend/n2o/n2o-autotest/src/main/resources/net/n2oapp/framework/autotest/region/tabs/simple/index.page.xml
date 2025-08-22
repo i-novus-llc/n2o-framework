@@ -1,18 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <tabs class="css-on-tabs" style="width:90%">
             <tab name="Tab1">
-                <form name="form1"/>
+                <form/>
             </tab>
             <tab name="Tab2">
-                <form name="form2"/>
+                <form/>
             </tab>
             <tab>
-                <form name="form3"/>
+                <form/>
             </tab>
         </tabs>
-
         <tabs hide-single-tab="true">
             <tab name="SingleTab">
                 <form>
@@ -22,7 +21,6 @@
                 </form>
             </tab>
         </tabs>
-
         <tabs>
             <tab name="SingleTab">
                 <form>

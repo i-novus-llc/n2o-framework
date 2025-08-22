@@ -1,16 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
-            <cards
-                    src="CardsTest"
-                    vertical-align="center"
-                    height="400px"
-                    size="5">
+            <cards src="CardsTest" vertical-align="center" height="400px">
+                <pagination src="pagingSrc" prev="true" next="true" show-count="never"/>
                 <content>
                     <col size="6">
-                        <block text-field-id="test1" tooltip-field-id="tooltip" id="11" class="font-weight-bold"
-                               style="color: red"/>
+                        <block id="11" text-field-id="test1" tooltip-field-id="tooltip"/>
                         <block id="12">
                             <image src="cell12"/>
                         </block>
@@ -21,9 +17,9 @@
                         </block>
                     </col>
                 </content>
-                <pagination src="pagingSrc" show-count="false" prev="true" next="true"/>
             </cards>
             <cards height="300">
+                <pagination/>
                 <content>
                     <col>
                         <block id="31">
@@ -31,7 +27,6 @@
                         </block>
                     </col>
                 </content>
-                <pagination/>
             </cards>
         </region>
     </regions>

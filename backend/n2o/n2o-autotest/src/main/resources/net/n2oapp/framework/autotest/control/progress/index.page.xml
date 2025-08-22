@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <form query-id="test">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <datasource size="1" query-id="test"/>
         <fields>
-            <progress id="progress" label="Progress" max="25" bar-text="Text"
-                      animated="true" color="success"/>
+            <progress id="progress" label="Progress" max="25" bar-text="Text" animated="true" color="success"/>
         </fields>
     </form>
 </simple-page>

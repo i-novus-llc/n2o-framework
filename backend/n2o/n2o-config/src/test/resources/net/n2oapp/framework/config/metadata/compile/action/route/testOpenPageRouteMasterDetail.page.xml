@@ -1,39 +1,63 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <region place="single">
-            <table id="master" query-id="testOpenPageRoute">
+        <region>
+            <table id="master">
+                <datasource query-id="testOpenPageRoute"/>
                 <columns>
                     <column text-field-id="id"/>
                 </columns>
             </table>
-            <table id="detail" query-id="testOpenPageRoute"
-                   detail-field-id="detailId" depends-on="master">
-                <columns>
-                    <column text-field-id="id"/>
-                </columns>
+            <table id="detail">
+                <datasource query-id="testOpenPageRoute">
+                    <dependencies>
+                        <fetch on="master" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="detailId" value="{id}" datasource="master" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
                 <toolbar>
                     <button id="withParam" model="resolve">
-                        <!-- Есть параметр в пути -->
-                        <open-page page-id="testOpenPageRoutePage" detail-field-id="detailId"
-                                   master-param="detailId"
-                                   route="/:masterId/detail/:detailId/open1">
-                            <path-param name="masterId" value="{id}" ref-widget-id="master"/>
-                            <path-param name="detailId" value="{id}"/>
+                        <open-page page-id="testOpenPageRoutePage" route="/:masterId/detail/:detailId/open1">
+                            <datasources>
+                                <datasource>
+                                    <filters>
+                                        <eq field-id="detailId" param="detailId" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <path-param name="masterId" value="{id}" datasource="master"/>
+                                <path-param name="detailId" value="{id}"/>
+                            </params>
                         </open-page>
                     </button>
                     <button id="withoutParam" model="resolve">
-                        <open-page page-id="testOpenPageRoutePage" detail-field-id="detailId"
-                                   route="/open2"/><!-- Нет параметра в пути -->
+                        <open-page page-id="testOpenPageRoutePage" route="/open2">
+                            <datasources>
+                                <datasource>
+                                    <filters>
+                                        <eq field-id="detailId" param="$widgetId_detailId" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <query-param name="$widgetId_detailId" value="{id}"/>
+                            </params>
+                        </open-page>
                     </button>
                     <button id="withParamWithoutMasterDetail" model="resolve">
-                        <!-- Есть параметр в пути, но нет detail-field-id -->
-                        <open-page page-id="testOpenPageRoutePage"
-                                   route="/:detailId/open3">
-                            <path-param name="detailId" value="{id}"/>
+                        <open-page page-id="testOpenPageRoutePage" route="/:detailId/open3">
+                            <params>
+                                <path-param name="detailId" value="{id}"/>
+                            </params>
                         </open-page>
                     </button>
                 </toolbar>
+                <columns>
+                    <column text-field-id="id"/>
+                </columns>
             </table>
         </region>
     </regions>

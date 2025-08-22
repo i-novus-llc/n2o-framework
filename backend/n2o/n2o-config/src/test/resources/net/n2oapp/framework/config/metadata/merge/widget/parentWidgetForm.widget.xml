@@ -1,16 +1,9 @@
-<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
       xmlns:ext="http://example.com/n2o/ext-1.0"
       xmlns:extChild="http://example.com/n2o/ext-child"
-      ref-id="childWidgetForm" depends-on="child"
-      ext:extAttr1="child1"
-      ext:extAttr2="child2"
-      extChild:extAttr="child"
-      name="Child" visible="true">
-    <fields>
-        <set>
-            <input-text id="name2"/>
-        </set>
-    </fields>
+      ref-id="childWidgetForm" visible="true"
+      ext:extAttr1="child1" ext:extAttr2="child2" extChild:extAttr="child">
     <toolbar>
         <button action-id="create"/>
     </toolbar>
@@ -22,7 +15,12 @@
             <invoke operation-id="update"/>
         </action>
     </actions>
-    <pre-filters>
-        <eq field-id="name" value="1"/>
-    </pre-filters>
+    <dependencies>
+        <visibility datasource="child" model="resolve"/>
+    </dependencies>
+    <fields>
+        <set>
+            <input-text id="name2"/>
+        </set>
+    </fields>
 </form>

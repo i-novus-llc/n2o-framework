@@ -1,41 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      xmlns:test="http://n2oapp.net/framework/config/schema/test"
-      name="testPage"
-      route="/testRoute"
-      object-id="utBlank">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" xmlns:test="http://n2oapp.net/framework/config/schema/test" name="testPage" route="/testRoute" object-id="utBlank">
+    <actions>
+        <action id="test3">
+            <invoke operation-id="create"/>
+        </action>
+        <action id="test4">
+            <invoke operation-id="create"/>
+        </action>
+        <action id="test2">
+            <invoke operation-id="create"/>
+        </action>
+    </actions>
     <toolbar place="TopLeft">
-        <button id="close" model="filter" widget-id="test">
+        <button id="close" model="filter" datasource="test">
             <close/>
         </button>
         <sub-menu>
-            <menu-item action-id="test2" widget-id="test"/>
+            <menu-item datasource="test" action-id="test2"/>
         </sub-menu>
         <group>
-            <button action-id="test3" widget-id="test"/>
+            <button datasource="test" action-id="test3"/>
             <sub-menu>
-                <menu-item action-id="test4" widget-id="test"/>
+                <menu-item datasource="test" action-id="test4"/>
             </sub-menu>
         </group>
     </toolbar>
-    <actions>
-        <action id="test3" widget-id="test1">
-            <invoke operation-id="create"/>
-        </action>
-        <action id="test4" widget-id="test1">
-            <invoke operation-id="create"/>
-        </action>
-        <action id="test2" widget-id="test2">
-            <invoke operation-id="create" />
-        </action>
-    </actions>
     <regions>
-        <line place="single" test:attr1="testAttribute">
-            <html name="test1" test:attr1="htmlTestAttribute"/>
-            <html name="test2" />
+        <line test:attr1="testAttribute">
+            <html test:attr1="htmlTestAttribute">
+                <content/>
+            </html>
+            <html>
+                <content/>
+            </html>
         </line>
-        <panel place="single" style="margin-left:10px;width:300px"/>
-        <tabs place="left"/>
-        <region place="single"/>
+        <panel style="margin-left:10px;width:300px"/>
+        <tabs/>
+        <region/>
     </regions>
 </page>

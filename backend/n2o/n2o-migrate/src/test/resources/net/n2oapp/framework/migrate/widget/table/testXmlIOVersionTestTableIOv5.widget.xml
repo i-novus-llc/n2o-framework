@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+       visible="false">
+    <toolbar place="topLeft">
+        <button class="test" icon="test" visible="test" enabled="test" action-id="test1">
+            <close src="test"/>
+        </button>
+        <button class="test" icon="test" action-id="test2">
+            <close src="test"/>
+        </button>
+        <button class="test" icon="test" action-id="test3">
+            <close src="test"/>
+            <dependencies>
+                <enabling datasource="test" model="filter">condition1</enabling>
+                <visibility datasource="test" model="filter">condition2</visibility>
+            </dependencies>
+        </button>
+        <sub-menu>
+            <menu-item class="test" label="test" icon="test" visible="test" enabled="test" action-id="test1"/>
+            <menu-item class="test" label="test" icon="test" action-id="test2"/>
+            <menu-item class="test" label="test" icon="test" action-id="test3"/>
+        </sub-menu>
+        <group>
+            <button visible="false" enabled="false"/>
+            <sub-menu style="margin-left:10px;width:300px">
+                <menu-item class="test" style="margin-left:10px;width:300px" label="test" icon="test" action-id="test1">
+                    <close src="test"/>
+                    <dependencies>
+                        <enabling model="resolve">condition1</enabling>
+                        <visibility datasource="test">condition2</visibility>
+                    </dependencies>
+                </menu-item>
+                <menu-item class="test" label="test" icon="test" visible="false" enabled="false" action-id="test2"/>
+            </sub-menu>
+        </group>
+    </toolbar>
+    <datasource query-id="test" object-id="test" default-values-mode="query" route="/test" size="10">
+        <dependencies>
+            <fetch on="f1" model="resolve"/>
+        </dependencies>
+        <filters>
+            <eq field-id="id" datasource="f1"/>
+            <in field-id="gender.id" value="1" datasource="f1" model="filter" required="true" />
+            <eq field-id="id" value="{master}" datasource="f1" model="resolve" required="true"/>
+        </filters>
+    </datasource>
+    <filters fetch-on-change="true">
+        <input-select id="gender" query-id="utBlank"/>
+    </filters>
+    <columns>
+        <column text-field-id="testDependencies">
+            <dependencies>
+                <visibility datasource="master" model="resolve">type == 1</visibility>
+            </dependencies>
+            <text/>
+        </column>
+    </columns>
+    <dependencies>
+        <visibility datasource="f1" model="resolve"/>
+    </dependencies>
+</table>

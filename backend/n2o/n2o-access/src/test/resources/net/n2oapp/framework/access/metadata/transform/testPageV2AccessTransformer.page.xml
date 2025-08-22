@@ -1,9 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <panel id="regionId" place="single">
-            <table id="testTable" object-id="testObjectAccessTransformer"/>
-            <html query-id="testQuery"/>
+        <panel id="regionId">
+            <table id="testTable">
+                <datasource object-id="testObjectAccessTransformer"/>
+            </table>
+            <html>
+                <datasource query-id="testQuery"/>
+                <content/>
+            </html>
         </panel>
     </regions>
 </page>

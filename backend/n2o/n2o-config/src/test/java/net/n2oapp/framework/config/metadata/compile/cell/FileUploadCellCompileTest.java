@@ -4,9 +4,9 @@ import net.n2oapp.framework.api.metadata.meta.cell.FileUploadCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.cell.v2.FileUploadCellElementIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,10 +28,7 @@ class FileUploadCellCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack(),
-                new N2oControlsPack(), new N2oControlsV2IOPack());
-        builder.ios(new FileUploadCellElementIOv2());
-        builder.compilers(new FileUploadCellCompiler());
+        builder.packs(new N2oAllPagesPack(), new N2oAllDataPack());
     }
 
     @Test

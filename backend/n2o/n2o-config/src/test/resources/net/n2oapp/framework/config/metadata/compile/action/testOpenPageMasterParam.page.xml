@@ -1,28 +1,37 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" object-id="testShowModal" name="detail">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="detail" object-id="testShowModal">
     <regions>
-        <panel place="left">
-            <form object-id="testShowModal" query-id="testShowModal" id="form" route="/">
+        <panel>
+            <form id="form">
+                <datasource size="1" query-id="testShowModal" object-id="testShowModal" route="/"/>
                 <toolbar>
-                    <button label="Изменить" icon="fa fa-pencil" model="resolve" >
-                        <show-modal page-id="testOpenPageMasterParam"
-                                    object-id="testShowModal"
-                                    submit-operation-id="update" upload="query"
-                                    detail-field-id="id" master-field-id="id" master-param="sid"
-                                    route="/update2">
+                    <button label="Изменить" icon="fa fa-pencil" model="resolve">
+                        <show-modal page-id="testOpenPageMasterParam" submit-operation-id="update" object-id="testShowModal" route="/update2">
+                            <datasources>
+                                <datasource default-values-mode="query">
+                                    <filters>
+                                        <eq field-id="id" param="sid" value="{id}"/>
+                                    </filters>
+                                </datasource>
+                            </datasources>
+                            <params>
+                                <query-param name="sid" value="{id}"/>
+                            </params>
                         </show-modal>
                     </button>
                     <button id="byName">
-                        <show-modal page-id="testOpenPageMasterParam" master-param="sName"/>
+                        <show-modal page-id="testOpenPageMasterParam"/>
                     </button>
                 </toolbar>
             </form>
         </panel>
-        <panel place="right">
-            <form object-id="testShowModal" query-id="testShowModal" id="modalDetail" route="/detail2" master-param="sid">
-                <pre-filters>
-                    <eq field-id="id" value="{id}" ref-widget-id="form" param="sid"/>
-                </pre-filters>
+        <panel>
+            <form id="modalDetail">
+                <datasource size="1" query-id="testShowModal" object-id="testShowModal" route="/detail2">
+                    <filters>
+                        <eq field-id="id" param="sid" value="{id}" datasource="form"/>
+                    </filters>
+                </datasource>
             </form>
         </panel>
     </regions>

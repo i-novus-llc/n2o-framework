@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      name="Приветственное сообщение">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Приветственное сообщение">
     <regions>
         <region>
-            <form object-id="test">
+            <form>
+                <datasource object-id="test"/>
                 <fields>
                     <hidden id="id" default-value="1"/>
                     <field id="name" label="Кнопка в контроле">
@@ -25,7 +25,8 @@
                     </input-text>
                 </fields>
             </form>
-            <table query-id="test" object-id="test">
+            <table>
+                <datasource query-id="test" object-id="test"/>
                 <columns>
                     <column text-field-id="id">
                         <toolbar>
@@ -38,5 +39,4 @@
             </table>
         </region>
     </regions>
-
 </page>

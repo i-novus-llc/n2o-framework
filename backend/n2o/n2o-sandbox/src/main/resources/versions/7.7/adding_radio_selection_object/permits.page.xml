@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Выбрать разрешение на строительство">
-    <table query-id="permits" selection="radio">
+    <table selection="radio">
+        <datasource query-id="permits"/>
         <columns>
-            <column text-field-id="code" label="Номер разрешения"/>
-            <column text-field-id="startDate" label="Дата выдачи"/>
-            <column text-field-id="endDate" label="Дата окончания действия"/>
-            <column text-field-id="projectName" label="Наименование проекта строительства"/>
+            <column label="Номер разрешения" text-field-id="code"/>
+            <column label="Дата выдачи" text-field-id="startDate"/>
+            <column label="Дата окончания действия" text-field-id="endDate"/>
+            <column label="Наименование проекта строительства" text-field-id="projectName"/>
         </columns>
     </table>
 </simple-page>

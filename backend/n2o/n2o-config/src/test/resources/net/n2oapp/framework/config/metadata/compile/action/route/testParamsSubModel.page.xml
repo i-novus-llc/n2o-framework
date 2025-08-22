@@ -1,34 +1,42 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <form query-id="testOpenPageRoute"/>
-        <form id="form" query-id="testOpenPageRoute"/>
-        <form id="form2" query-id="testRefbook"/>
-
-        <form id="form3" query-id="utBlank2">
+        <form>
+            <datasource size="1" query-id="testOpenPageRoute"/>
+        </form>
+        <form id="form">
+            <datasource size="1" query-id="testOpenPageRoute"/>
+        </form>
+        <form id="form2">
+            <datasource size="1" query-id="testRefbook"/>
+        </form>
+        <form id="form3">
+            <datasource size="1" query-id="utBlank2"/>
             <toolbar>
-                <!-- widget-id задан в параметре -->
-                <button id="refWidgetId" widget-id="form2">
+                <button id="refWidgetId" datasource="form2">
                     <open-page page-id="testOpenPageRoutePage" route="/:param1/:param3/open">
-                        <path-param name="param1" value="{id}" ref-widget-id="form"/>
-                        <query-param name="param2" value="{id}" ref-widget-id="form"/>
-                        <!-- сабмодель не добавляется для параметров с не resolve моделью -->
-                        <path-param name="param3" value="{id}" ref-widget-id="form" ref-model="filter"/>
-                        <query-param name="param4" value="{id}" ref-widget-id="form" ref-model="filter"/>
+                        <params>
+                            <query-param name="param2" value="{id}" datasource="form"/>
+                            <query-param name="param4" value="{id}" datasource="form" model="filter"/>
+                            <path-param name="param1" value="{id}" datasource="form"/>
+                            <path-param name="param3" value="{id}" datasource="form" model="filter"/>
+                        </params>
                     </open-page>
                 </button>
-                <!-- widget-id задан в кнопке -->
-                <button id="buttonWidgetId" widget-id="form2">
+                <button id="buttonWidgetId" datasource="form2">
                     <open-page page-id="testOpenPageRoutePage" route="/:param5/open">
-                        <path-param name="param5" value="{id}"/>
-                        <query-param name="param6" value="{id}"/>
+                        <params>
+                            <query-param name="param6" value="{id}"/>
+                            <path-param name="param5" value="{id}"/>
+                        </params>
                     </open-page>
                 </button>
-                <!-- widget-id - текущий виджет -->
                 <button id="currentWidgetId">
                     <open-page page-id="testOpenPageRoutePage" route="/:param7/open">
-                        <path-param name="param7" value="{id}"/>
-                        <query-param name="param8" value="{id}"/>
+                        <params>
+                            <query-param name="param8" value="{id}"/>
+                            <path-param name="param7" value="{id}"/>
+                        </params>
                     </open-page>
                 </button>
             </toolbar>

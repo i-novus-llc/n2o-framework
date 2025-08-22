@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      name="Модальное окно">
-    <form id="modal" query-id="testShowModal">
-        <pre-filters>
-            <eq field-id="secondId" value="1"/>
-            <eq field-id="name" param="name"/>
-        </pre-filters>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Модальное окно">
+    <form id="modal">
+        <datasource size="1" query-id="testShowModal">
+            <filters>
+                <eq field-id="secondId" value="1"/>
+                <eq field-id="name" param="name"/>
+            </filters>
+        </datasource>
     </form>
 </simple-page>

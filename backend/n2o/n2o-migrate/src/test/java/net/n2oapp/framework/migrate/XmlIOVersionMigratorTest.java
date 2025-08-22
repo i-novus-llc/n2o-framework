@@ -74,6 +74,88 @@ class XmlIOVersionMigratorTest extends N2oTestBase {
                 "net/n2oapp/framework/migrate/application/testXmlIOVersionMigratorTestApplicationIOv3.application.xml");
     }
 
+    /**
+     * Тест на миграцию simple-page.xml с версии 3.0 на 4.0
+     */
+    @Test
+    void testSimplePageMigration() {
+        check("net/n2oapp/framework/migrate/page/simple/testXmlIOVersionMigratorTestSimplePageIOv3.page.xml",
+                "net/n2oapp/framework/migrate/page/simple/testXmlIOVersionMigratorTestSimplePageIOv4.page.xml");
+    }
+
+    /**
+     * Тест на миграцию page.xml с версии 3.0 на 4.0
+     */
+    @Test
+    void testStandardPageMigration() {
+        check("net/n2oapp/framework/migrate/page/standard/testXmlIOVersionMigratorTestStandardPageIOv3.page.xml",
+                "net/n2oapp/framework/migrate/page/standard/testXmlIOVersionMigratorTestStandardPageIOv4.page.xml");
+    }
+
+    /**
+     * Тест миграции опциональных атрибутов с версии page-3.0 нв page-4.0 (control-2.0 на control-3.0)
+     */
+    @Test
+    void testOtherAttributesMigration() {
+        check("net/n2oapp/framework/migrate/page/control/options/testXmlIOVersionMigratorTestControlOptionsIOv3.page.xml",
+                "net/n2oapp/framework/migrate/page/control/options/testXmlIOVersionMigratorTestControlOptionsIOv4.page.xml");
+    }
+
+    /**
+     * Тест на миграцию table.widget.xml с версии 4.0 на 5.0
+     */
+    @Test
+    void testTableWidgetMigration() {
+        check("net/n2oapp/framework/migrate/widget/table/testXmlIOVersionTestTableIOv4.widget.xml",
+                "net/n2oapp/framework/migrate/widget/table/testXmlIOVersionTestTableIOv5.widget.xml");
+    }
+
+    /**
+     * Тест на миграцию form.widget.xml с версии 4.0 на 5.0
+     */
+    @Test
+    void testFormWidgetMigration() {
+        check("net/n2oapp/framework/migrate/widget/form/testXmlIoVersionMigratorTestFormIOv4.widget.xml",
+                "net/n2oapp/framework/migrate/widget/form/testXmlIoVersionMigratorTestFormIOv5.widget.xml");
+    }
+
+    /**
+     * Тест на миграцию tree.widget.xml с версии 4.0 на 5.0
+     */
+    @Test
+    void testTreeWidgetMigration() {
+        check("net/n2oapp/framework/migrate/widget/tree/testXmlIOVersionTestTreeIOv4.widget.xml",
+                "net/n2oapp/framework/migrate/widget/tree/testXmlIOVersionTestTreeIOv5.widget.xml");
+    }
+
+    /**
+     * Тест на миграцию calendar.widget.xml с версии 4.0 на 5.0
+     */
+    @Test
+    void testCalendarWidgetMigration() {
+        check("net/n2oapp/framework/migrate/widget/calendar/testXmlIOVersionTestMigratorIOv4.widget.xml",
+                "net/n2oapp/framework/migrate/widget/calendar/testXmlIOVersionTestMigratorIOv5.widget.xml");
+    }
+
+    /**
+     * Тест на миграцию cards.widget.xml с версии 4.0 на 5.0
+     */
+    @Test
+    void testCardsWidgetMigration() {
+        check("net/n2oapp/framework/migrate/widget/cards/testXmlIOVersionTestMigratorIOv4.widget.xml",
+                "net/n2oapp/framework/migrate/widget/cards/testXmlIOVersionTestMigratorIOv5.widget.xml");
+    }
+
+    /**
+     * Тест на миграцию html.widget.xml с версии 4.0 на 5.0
+     */
+    @Test
+    void testHtmlWidgetMigration() {
+        check("net/n2oapp/framework/migrate/widget/html/testXmlIOVersionTestMigratorIOv4.widget.xml",
+                "net/n2oapp/framework/migrate/widget/html/testXmlIOVersionTestMigratorIOv5.widget.xml");
+    }
+
+
     private void check(String oldVersionXmlPath, String newVersionXmlPath) {
         String oldContent = FileSystemUtil.getContentFromResource(new ClassPathResource(oldVersionXmlPath));
         String newContent = FileSystemUtil.getContentFromResource(new ClassPathResource(newVersionXmlPath));

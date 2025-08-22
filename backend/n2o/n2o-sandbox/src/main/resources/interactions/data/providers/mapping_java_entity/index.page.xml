@@ -1,15 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Маппинг сущности в Java">
-    <table query-id="person">
+    <table>
+        <datasource query-id="person"/>
         <columns>
-            <column text-field-id="id" label="Идентификатор"/>
-            <column text-field-id="firstName" label="Имя"/>
-            <column text-field-id="lastName" label="Фамилия"/>
+            <column label="Идентификатор" text-field-id="id"/>
+            <column label="Имя" text-field-id="firstName"/>
+            <column label="Фамилия" text-field-id="lastName"/>
         </columns>
         <toolbar place="topLeft">
             <button id="create" label="Создать" icon="fa fa-plus" disable-on-empty-model="false">
-                <show-modal page-id="person" submit-operation-id="create" upload="defaults"/>
+                <show-modal page-id="person" submit-operation-id="create">
+                    <datasources>
+                        <datasource default-values-mode="defaults"/>
+                    </datasources>
+                </show-modal>
             </button>
         </toolbar>
     </table>

@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-                     name="Страница с формой статуса, трекером и 3х колоночной формой"
-                     scroll-top-button="true">
+<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+                     name="Страница с формой статуса, трекером и 3х колоночной формой" scroll-top-button="true">
     <top>
         <region>
             <form>
@@ -10,18 +9,18 @@
                         <col size="9">
                             <set>
                                 <row>
-                                    <output-text id="field1" default-value="123-456" label="Номер заявления"/>
-                                    <output-text id="field2" default-value="Черновик" label="Статус заявления"/>
-                                    <output-text id="field3" default-value="Иванов И.И." label="Автор"/>
+                                    <output-text id="field1" label="Номер заявления" default-value="123-456"/>
+                                    <output-text id="field2" label="Статус заявления" default-value="Черновик"/>
+                                    <output-text id="field3" label="Автор" default-value="Иванов И.И."/>
                                 </row>
                             </set>
                         </col>
                         <col>
                             <set>
                                 <row>
-                                    <button icon="fa fa-floppy-o" rounded="true"/>
-                                    <button icon="fa fa-print" rounded="true"/>
-                                    <button icon="fa fa-trash" rounded="true"/>
+                                    <button rounded="true" icon="fa fa-floppy-o"/>
+                                    <button rounded="true" icon="fa fa-print"/>
+                                    <button rounded="true" icon="fa fa-trash"/>
                                 </row>
                             </set>
                         </col>
@@ -32,7 +31,8 @@
     </top>
     <left width="35%">
         <region>
-            <list query-id="list">
+            <list>
+                <datasource query-id="list"/>
                 <content>
                     <left-top text-field-id="title">
                         <text style="color:#999"/>
@@ -40,9 +40,9 @@
                     <left-bottom text-field-id="stage">
                         <badge src="StatusCell">
                             <switch value-field-id="status">
-                                <case value="complete">success</case>
-                                <case value="in progress">info</case>
                                 <case value="not started">danger</case>
+                                <case value="in progress">info</case>
+                                <case value="complete">success</case>
                             </switch>
                         </badge>
                     </left-bottom>
@@ -55,16 +55,15 @@
             <form>
                 <fields>
                     <row>
-                        <text id="field4" style="font-weight:bold">Показатель</text>
-                        <text id="field5" style="font-weight:bold">По проекту</text>
-                        <text id="field6" style="font-weight:bold">Фактически</text>
+                        <text style="font-weight:bold" id="field4">Показатель</text>
+                        <text style="font-weight:bold" id="field5">По проекту</text>
+                        <text style="font-weight:bold" id="field6">Фактически</text>
                     </row>
                     <row>
                         <text id="field7">Показатель1</text>
                         <input-text id="field8" no-label="true"/>
                         <input-text id="field9" no-label="true"/>
                     </row>
-
                     <row>
                         <text id="field10">Показатель2</text>
                         <input-text id="field11" no-label="true"/>

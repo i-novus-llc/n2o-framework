@@ -1,15 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Ограничение оси Y графиков">
     <regions>
-        <chart width="730" height="250" query-id="chart">
-            <areas x-field-id="name" grid-stroke-dasharray="3 3" y-min="1000" y-max="10000">
-                <area field-id="uv" line-type="monotone" color="#8884d8" stroke-color="#8884d8"/>
-                <area field-id="pv" line-type="monotone" color="#82ca9d" stroke-color="#82ca9d"/>
+        <chart width="730" height="250">
+            <datasource query-id="chart"/>
+            <areas x-field-id="name" y-min="1000" y-max="10000" grid-stroke-dasharray="3 3">
+                <area field-id="uv" color="#8884d8" line-type="monotone" stroke-color="#8884d8"/>
+                <area field-id="pv" color="#82ca9d" line-type="monotone" stroke-color="#82ca9d"/>
             </areas>
         </chart>
-        <chart width="730" height="250" query-id="chart">
-            <bars x-field-id="name" grid-stroke-dasharray="3 3" y-min="1000" y-max="10000">
+        <chart width="730" height="250">
+            <datasource query-id="chart"/>
+            <bars x-field-id="name" y-min="1000" y-max="10000" grid-stroke-dasharray="3 3">
                 <bar field-id="uv" color="#8884d8"/>
                 <bar field-id="pv" color="#82ca9d"/>
             </bars>

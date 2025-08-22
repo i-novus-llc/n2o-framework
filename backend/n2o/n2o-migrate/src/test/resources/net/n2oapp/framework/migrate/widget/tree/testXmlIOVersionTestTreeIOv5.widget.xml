@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tree xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+      fetch-on-init="true"
+      checkboxes="false"
+      multi-select="false"
+      parent-field-id="parentId"
+      label-field-id="label"
+      has-children-field-id="children"
+      icon-field-id="icon"
+      image-field-id="image"
+      value-field-id="id"
+      badge-field-id="badge"
+      badge-color-field-id="color"/>

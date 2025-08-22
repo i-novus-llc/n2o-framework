@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <region place="single">
-            <table id="testTable" upload="defaults">
+        <region>
+            <table id="testTable">
+                <datasource default-values-mode="defaults"/>
                 <filters>
                     <input-text id="name" required="true" default-value="test"/>
                     <date-interval id="birthday">
                         <default-value begin="21.10.2018" end="22.11.2018"/>
                     </date-interval>
                     <input-select id="gender" query-id="testTable5Compile">
-                        <default-value id="1" name="test"/>
+                        <default-value name="test" id="1"/>
                     </input-select>
                     <input-text id="age" domain="integer" default-value="18"/>
-                    <input-text id="amount" domain="number" step="0.00" default-value="100.99"/>
+                    <input-text id="amount" domain="number" default-value="100.99" step="0.00"/>
                     <hidden id="hidden" default-value="test"/>
-
                     <input-text id="name2" default-value="{today()}"/>
                     <date-interval id="birthday2">
                         <default-value begin="{today()}" end="22.11.2018"/>
@@ -23,5 +23,4 @@
             </table>
         </region>
     </regions>
-
 </page>

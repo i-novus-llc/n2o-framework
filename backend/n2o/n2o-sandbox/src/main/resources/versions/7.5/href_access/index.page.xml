@@ -1,22 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Доступ к ссылкам по access схеме">
     <form>
-        <fields>
-            <hidden id="id" default-value="1"/>
-        </fields>
         <toolbar>
             <button id="btn1" label="Доступно всем">
-                <a href="/menu1" label="Доступно всем"/>
+                <a href="/menu1"/>
             </button>
             <button id="btn2" label="Только с ролью admin">
-                <a href="/menu2" label="Требуется роль admin"/>
+                <a href="/menu2"/>
             </button>
             <button id="btn3" label="Только с правом edit">
-                <a href="/menu3" label="Требуется право edit"/>
+                <a href="/menu3"/>
             </button>
             <button id="btn4" label="Только анонимам">
-                <a href="/menu4" label="Только анонимам"/>
+                <a href="/menu4"/>
             </button>
         </toolbar>
         <toolbar place="bottomLeft">
@@ -24,5 +21,8 @@
                 <open-page page-id="page1" route="/page1"/>
             </button>
         </toolbar>
+        <fields>
+            <hidden id="id" default-value="1"/>
+        </fields>
     </form>
 </simple-page>

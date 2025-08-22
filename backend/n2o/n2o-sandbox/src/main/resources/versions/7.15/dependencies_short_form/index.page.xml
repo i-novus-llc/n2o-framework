@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       name="Короткий способ задания зависимостей">
     <regions>
         <tabs>
@@ -10,8 +10,8 @@
                             <row>
                                 <radio-group id="type1">
                                     <options>
-                                        <option id="1" name="Доступно"/>
-                                        <option id="2" name="Недоступно"/>
+                                        <option name="Доступно" id="1"/>
+                                        <option name="Недоступно" id="2"/>
                                     </options>
                                 </radio-group>
                                 <input-text id="field1" enabled="{type1.id == 1}"/>
@@ -21,8 +21,8 @@
                             <row>
                                 <radio-group id="type2">
                                     <options>
-                                        <option id="1" name="Видимость"/>
-                                        <option id="2" name="Скрытие"/>
+                                        <option name="Видимость" id="1"/>
+                                        <option name="Скрытие" id="2"/>
                                     </options>
                                 </radio-group>
                                 <input-text id="field2" visible="{type2.id == 1}"/>
@@ -32,8 +32,8 @@
                             <row>
                                 <radio-group id="type3">
                                     <options>
-                                        <option id="1" name="Обязательность"/>
-                                        <option id="2" name="Не обязательность"/>
+                                        <option name="Обязательность" id="1"/>
+                                        <option name="Не обязательность" id="2"/>
                                     </options>
                                 </radio-group>
                                 <input-text id="field3" required="{type3.id == 1}"/>
@@ -49,8 +49,8 @@
                             <row>
                                 <radio-group id="type4">
                                     <options>
-                                        <option id="1" name="Доступно"/>
-                                        <option id="2" name="Недоступно"/>
+                                        <option name="Доступно" id="1"/>
+                                        <option name="Недоступно" id="2"/>
                                     </options>
                                 </radio-group>
                                 <set enabled="{type4.id == 1}">
@@ -63,8 +63,8 @@
                             <row>
                                 <radio-group id="type5">
                                     <options>
-                                        <option id="1" name="Видимость"/>
-                                        <option id="2" name="Скрытие"/>
+                                        <option name="Видимость" id="1"/>
+                                        <option name="Скрытие" id="2"/>
                                     </options>
                                 </radio-group>
                                 <set visible="{type5.id == 1}">
@@ -82,44 +82,40 @@
                         <line label="Enabled">
                             <row>
                                 <radio-group id="type6">
-                                    <options>
-                                        <option id="1" name="Доступно все"/>
-                                        <option id="2" name="Только кнопка"/>
-                                        <option id="3" name="Только первая кнопка сабменю"/>
-                                        <option id="4" name="Только вторая кнопка сабменю"/>
-                                        <option id="5" name="Недоступна ни одна кнопка"/>
-                                    </options>
                                     <toolbar>
                                         <button label="Кнопка1" enabled="{type6.id == 1 || type6.id == 2}"/>
                                         <sub-menu label="Сабменю">
-                                            <menu-item label="Кнопка1 сабменю"
-                                                       enabled="{type6.id == 1 || type6.id == 3}"/>
-                                            <menu-item label="Кнопка2 сабменю"
-                                                       enabled="{type6.id == 1 || type6.id == 4}"/>
+                                            <menu-item label="Кнопка1 сабменю" enabled="{type6.id == 1 || type6.id == 3}"/>
+                                            <menu-item label="Кнопка2 сабменю" enabled="{type6.id == 1 || type6.id == 4}"/>
                                         </sub-menu>
                                     </toolbar>
+                                    <options>
+                                        <option name="Доступно все" id="1"/>
+                                        <option name="Только кнопка" id="2"/>
+                                        <option name="Только первая кнопка сабменю" id="3"/>
+                                        <option name="Только вторая кнопка сабменю" id="4"/>
+                                        <option name="Недоступна ни одна кнопка" id="5"/>
+                                    </options>
                                 </radio-group>
                             </row>
                         </line>
                         <line label="Visible">
                             <row>
                                 <radio-group id="type7">
-                                    <options>
-                                        <option id="1" name="Видимо все"/>
-                                        <option id="2" name="Только кнопка"/>
-                                        <option id="3" name="Только первая кнопка сабменю"/>
-                                        <option id="4" name="Только вторая кнопка сабменю"/>
-                                        <option id="5" name="Скрыты все кнопки"/>
-                                    </options>
                                     <toolbar>
                                         <button label="Кнопка1" visible="{type7.id == 1 || type7.id == 2}"/>
                                         <sub-menu label="Сабменю">
-                                            <menu-item label="Кнопка1 сабменю"
-                                                       visible="{type7.id == 1 || type7.id == 3}"/>
-                                            <menu-item label="Кнопка2 сабменю"
-                                                       visible="{type7.id == 1 || type7.id == 4}"/>
+                                            <menu-item label="Кнопка1 сабменю" visible="{type7.id == 1 || type7.id == 3}"/>
+                                            <menu-item label="Кнопка2 сабменю" visible="{type7.id == 1 || type7.id == 4}"/>
                                         </sub-menu>
                                     </toolbar>
+                                    <options>
+                                        <option name="Видимо все" id="1"/>
+                                        <option name="Только кнопка" id="2"/>
+                                        <option name="Только первая кнопка сабменю" id="3"/>
+                                        <option name="Только вторая кнопка сабменю" id="4"/>
+                                        <option name="Скрыты все кнопки" id="5"/>
+                                    </options>
                                 </radio-group>
                             </row>
                         </line>

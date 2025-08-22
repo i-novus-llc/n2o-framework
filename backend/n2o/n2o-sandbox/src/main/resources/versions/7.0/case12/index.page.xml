@@ -1,50 +1,60 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
                  name="Форма как фильтры таблицы">
     <left>
-        <form id="filters" mode="one-model" name="Фильтры">
+        <form id="filters" mode="one-model">
             <fields>
                 <row>
                     <input-text id="search" description="Это фильтр по name"/>
                 </row>
             </fields>
         </form>
-        <table depends-on="filters" query-id="test" route="/w1" fetch-on-init="true">
+        <table fetch-on-init="true">
+            <datasource query-id="test" route="/w1">
+                <dependencies>
+                    <fetch on="filters" model="resolve"/>
+                </dependencies>
+                <filters>
+                    <like field-id="name" value="{search}" datasource="filters"/>
+                </filters>
+            </datasource>
             <columns>
                 <column text-field-id="name">
                     <text/>
                 </column>
             </columns>
-            <pre-filters>
-                <like field-id="name" value="{search}"/>
-            </pre-filters>
         </table>
     </left>
     <right>
-        <form id="filters2" mode="two-models" name="Фильтры">
-            <fields>
-                <row>
-                    <input-text id="search" description="Это фильтр по name"/>
-                </row>
-            </fields>
+        <form id="filters2" mode="two-models">
             <toolbar>
                 <button label="Найти" color="primary" model="edit">
                     <copy source-model="edit" target-model="resolve"/>
                 </button>
-                <button label="Очистить" id="clear" model="edit">
+                <button id="clear" label="Очистить" model="edit">
                     <clear model="edit,resolve"/>
                 </button>
             </toolbar>
+            <fields>
+                <row>
+                    <input-text id="search" description="Это фильтр по name"/>
+                </row>
+            </fields>
         </form>
-        <table depends-on="filters2" query-id="test" route="/w2" fetch-on-init="true">
+        <table fetch-on-init="true">
+            <datasource query-id="test" route="/w2">
+                <dependencies>
+                    <fetch on="filters2" model="resolve"/>
+                </dependencies>
+                <filters>
+                    <like field-id="name" value="{search}" datasource="filters2"/>
+                </filters>
+            </datasource>
             <columns>
                 <column text-field-id="name">
                     <text/>
                 </column>
             </columns>
-            <pre-filters>
-                <like field-id="name" value="{search}"/>
-            </pre-filters>
         </table>
     </right>
 </left-right-page>

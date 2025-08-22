@@ -1,21 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
     <regions>
-        <panel id="regionId" place="single">
+        <panel>
             <form>
-                <fields>
-                    <button id="btn01">
-                        <invoke operation-id="create" object-id="testObjectAccessTransformer"/>
-                    </button>
-                    <button id="btn02" sec:roles="role1">
-                        <invoke operation-id="create" object-id="testObjectAccessTransformer"/>
-                    </button>
-
-                    <button id="btn10" action-id="act1" sec:authenticated="true"/>
-                    <button id="btn11" action-id="act1"/>
-                    <button id="btn12" action-id="act2"/>
-                </fields>
                 <actions>
                     <action id="act1">
                         <clear/>
@@ -24,6 +12,17 @@
                         <invoke operation-id="create" object-id="testObjectAccessTransformer"/>
                     </action>
                 </actions>
+                <fields>
+                    <button id="btn01">
+                        <invoke operation-id="create" object-id="testObjectAccessTransformer"/>
+                    </button>
+                    <button sec:roles="role1" id="btn02">
+                        <invoke operation-id="create" object-id="testObjectAccessTransformer"/>
+                    </button>
+                    <button sec:authenticated="true" id="btn10" action-id="act1"/>
+                    <button id="btn11" action-id="act1"/>
+                    <button id="btn12" action-id="act2"/>
+                </fields>
             </form>
         </panel>
     </regions>

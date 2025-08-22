@@ -1,18 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Десериализация LocalDateTime">
-    <table query-id="test">
+    <table>
+        <datasource query-id="test"/>
         <columns>
-            <column text-field-id="date" label="Date">
+            <column label="Date" text-field-id="date">
                 <text format="date DD.MM.YYYY HH:mm"/>
             </column>
-            <column text-field-id="localDateTime" label="LocalDateTime">
+            <column label="LocalDateTime" text-field-id="localDateTime">
                 <text format="date DD.MM.YYYY HH:mm"/>
             </column>
-            <column text-field-id="localDate" label="LocalDate">
+            <column label="LocalDate" text-field-id="localDate">
                 <text format="date DD.MM.YYYY"/>
             </column>
-            <column text-field-id="localTime" label="LocalTime">
+            <column label="LocalTime" text-field-id="localTime">
                 <text format="time HH:mm"/>
             </column>
             <column text-field-id="num">

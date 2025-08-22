@@ -1,18 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/testListControl">
-    <form object-id="testObject" route="/widget">
-        <fields>
-            <input-select id="id1" required="true"/>
-            <input-select id="id2">
-                <validations>
-                    <mandatory id="id2Required" severity="danger" server-moment="before-operation" />
-                </validations>
-            </input-select>
-        </fields>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" route="/testListControl">
+    <form>
+        <datasource object-id="testObject" route="/widget"/>
         <toolbar>
             <button id="create7">
                 <invoke operation-id="create7" route="/create7"/>
             </button>
         </toolbar>
+        <fields>
+            <input-select id="id1" required="true"/>
+            <input-select id="id2">
+                <validations>
+                    <mandatory id="id2Required" field-id="id2" server-moment="before-operation"/>
+                </validations>
+            </input-select>
+        </fields>
     </form>
 </simple-page>

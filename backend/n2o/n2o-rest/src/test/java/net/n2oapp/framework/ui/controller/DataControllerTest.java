@@ -225,7 +225,7 @@ class DataControllerTest extends DataControllerTestBase {
     }
 
     /**
-     * Проверка Mandatory на списковых котролах.
+     * Проверка Mandatory на списковых контролах.
      * Валидация должна фейлиться на пустых списках и мапах.
      */
     @Test

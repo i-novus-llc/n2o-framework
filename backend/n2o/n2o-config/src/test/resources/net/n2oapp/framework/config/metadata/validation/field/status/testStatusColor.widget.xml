@@ -1,5 +1,6 @@
-<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <fields>
-        <status text="status" color="red"/>
+        <status color="red" text="status"/>
     </fields>
 </form>

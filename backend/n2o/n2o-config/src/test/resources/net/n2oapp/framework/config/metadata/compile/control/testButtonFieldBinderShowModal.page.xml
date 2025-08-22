@@ -1,8 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
-            <form object-id="testButtonFieldBinder">
+            <form>
+                <datasource object-id="testButtonFieldBinder"/>
                 <fields>
                     <hidden id="id" default-value="1"/>
                     <field id="name">
@@ -24,13 +25,13 @@
                     </input-text>
                 </fields>
             </form>
-            <table object-id="testButtonFieldBinder" >
+            <table>
+                <datasource object-id="testButtonFieldBinder"/>
                 <columns>
-                    <column text-field-id="name" >
+                    <column text-field-id="name">
                         <toolbar>
                             <button label="Кнопка в ячейке">
-                                <invoke operation-id="greeting" route="/greeting">
-                                </invoke>
+                                <invoke operation-id="greeting" route="/greeting"/>
                             </button>
                         </toolbar>
                     </column>
@@ -38,5 +39,4 @@
             </table>
         </region>
     </regions>
-
 </page>

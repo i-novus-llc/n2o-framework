@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Виджет Карточки">
-    <cards query-id="test" height="250px">
+    <cards height="250px">
+        <datasource query-id="test"/>
         <content>
             <col size="4">
                 <block text-field-id="image">
@@ -14,19 +15,17 @@
                     <rating half="true"/>
                 </block>
             </col>
-
             <col size="5">
                 <block text-field-id="text">
                     <text/>
                 </block>
             </col>
-
             <col size="3">
                 <block text-field-id="icon" tooltip-field-id="icon">
-                    <icon type="iconAndText">
+                    <icon>
                         <switch value-field-id="icon">
-                            <case value="ship">fa fa-ship</case>
                             <case value="bicycle">fa fa-bicycle</case>
+                            <case value="ship">fa fa-ship</case>
                         </switch>
                     </icon>
                 </block>
@@ -40,7 +39,9 @@
                     <toolbar>
                         <button label="Info" color="success">
                             <show-modal page-id="modal" route="/:id/info">
-                                <path-param name="id" value="{id}"/>
+                                <params>
+                                    <path-param name="id" value="{id}"/>
+                                </params>
                             </show-modal>
                         </button>
                     </toolbar>

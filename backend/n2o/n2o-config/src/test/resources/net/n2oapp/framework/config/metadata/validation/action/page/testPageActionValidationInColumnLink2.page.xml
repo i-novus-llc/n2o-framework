@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <table object-id="utBlank">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <table>
+        <datasource object-id="utBlank"/>
         <columns>
             <column text-field-id="utBlank">
                 <link>

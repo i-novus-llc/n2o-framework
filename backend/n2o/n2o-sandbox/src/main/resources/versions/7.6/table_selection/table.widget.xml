@@ -1,14 +1,17 @@
-<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-       query-id="test">
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <toolbar>
+        <button label="Открыть">
+            <show-modal page-id="modal" route="/:id/modal">
+                <params>
+                    <path-param name="id" value="{id}"/>
+                </params>
+            </show-modal>
+        </button>
+    </toolbar>
+    <datasource query-id="test"/>
     <columns>
         <column text-field-id="id"/>
         <column text-field-id="name"/>
     </columns>
-    <toolbar>
-        <button label="Открыть">
-            <show-modal page-id="modal" route="/:id/modal">
-                <path-param name="id" value="{id}"/>
-            </show-modal>
-        </button>
-    </toolbar>
 </table>

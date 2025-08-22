@@ -1,33 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
-            <calendar id="calendar1" views="month" size="20" height="300"
-                      title-field-id="title" tooltip-field-id="tooltip"
-                      start-field-id="start" end-field-id="end"
-                      cell-color-field-id="color" disabled-field-id="disabled"/>
-
-            <calendar id="calendar2" height="500px" default-date="2020-04-29T00:00:00"
-                      default-view="workWeek" views="month,day,agenda,workWeek" toolbar="false"
-                      min-time="08:00:00" max-time="20:00:00" mark-days-off="false"
-                      selectable="false" step="60" timeslot-count="1"  title-field-id="title"
-                      tooltip-field-id="tooltip" start-field-id="start"
-                      end-field-id="end" cell-color-field-id="color" disabled-field-id="disabled">
+            <calendar id="calendar1" height="300" views="month" title-field-id="title" tooltip-field-id="tooltip" start-field-id="start" end-field-id="end" cell-color-field-id="color" disabled-field-id="disabled">
+                <resources/>
+            </calendar>
+            <calendar id="calendar2" height="500px" default-date="2020-04-29T00:00:00" default-view="workWeek" views="month,day,agenda,workWeek" min-time="08:00:00" max-time="20:00:00" mark-days-off="false" selectable="false" step="60" timeslot-count="1" title-field-id="title" tooltip-field-id="tooltip" start-field-id="start" end-field-id="end" cell-color-field-id="color" disabled-field-id="disabled">
                 <resources value-field-id="resourceId">
                     <resource id="1" title="Training room"/>
                     <resource id="2" title="Meeting room"/>
                 </resources>
                 <action-on-select-slot>
-                    <open-page page-id="createEvent" submit-operation-id="create"
-                               object-id="testFormValidations" route="/create"/>
+                    <open-page page-id="createEvent" submit-operation-id="create" object-id="testFormValidations" route="/create"/>
                 </action-on-select-slot>
                 <action-on-select-event>
-                    <show-modal page-id="eventForm" submit-operation-id="update"
-                                object-id="testFormValidations" route="/update"/>
+                    <show-modal page-id="eventForm" submit-operation-id="update" object-id="testFormValidations" route="/update"/>
                 </action-on-select-event>
                 <formats>
-                    <format id="dayFormat" value="dd"/>
                     <format id="weekdayFormat" value="eee"/>
+                    <format id="dayFormat" value="dd"/>
                 </formats>
             </calendar>
         </region>

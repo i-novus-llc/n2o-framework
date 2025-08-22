@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page  xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/page2" name="first">
-    <table id="test"> <!-- route="/widget2" удалено -->
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="first" route="/page2">
+    <table id="test">
         <toolbar>
             <button id="id1">
                 <a href="/test" target="application"/>
@@ -15,8 +15,6 @@
             <button id="id3">
                 <a href="../../test3" target="application"/>
             </button>
-
         </toolbar>
     </table>
 </simple-page>
-

@@ -1,0 +1,47 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+      xmlns:ext="http://example.com/n2o/ext-1.0"
+      xmlns:extChild="http://example.com/n2o/ext-child"
+      ref-id="childWidgetForm" depends-on="child"
+      ext:extAttr1="child1"
+      ext:extAttr2="child2"
+      extChild:extAttr="child" object-id="test" query-id="test"
+      name="Child" visible="true">
+    <fields>
+        <set>
+            <input-text id="name2"/>
+            <input-text id="name3" ref-widget-id="testWidget" ref-model="edit"/>
+            <input-text id="name4" src="test" default-value="test" no-label-block="true" description="test" class="test" style="test"/>
+            <input-text id="name5" visible="true" enabled="false"/>
+            <input-text id="name6">
+                <dependencies>
+                    <set-value on="test">
+                        return 1;
+                    </set-value>
+                    <enabling on="test">
+                        if (test = 1)
+                        return true;
+                    </enabling>
+                    <visibility on="test">
+                        if (test = 1)
+                        return true;
+                    </visibility>
+                </dependencies>
+            </input-text>
+            <date-interval id="field3" ref-widget-id="test" ref-field-id="test"/>
+        </set>
+    </fields>
+    <toolbar>
+        <button action-id="create"/>
+    </toolbar>
+    <actions>
+        <action id="create">
+            <invoke operation-id="create"/>
+        </action>
+        <action id="update">
+            <invoke operation-id="update"/>
+        </action>
+    </actions>
+    <pre-filters>
+        <eq field-id="name" value="1"/>
+    </pre-filters>
+</form>

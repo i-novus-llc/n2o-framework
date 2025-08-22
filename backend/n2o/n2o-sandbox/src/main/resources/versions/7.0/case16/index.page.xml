@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Зависимости полей">
     <form>
         <fields>
             <line>
-                <radio-group id="type" label="Тип" inline="true" description="Нажмите 2, поле станет видимо">
+                <radio-group id="type" label="Тип" description="Нажмите 2, поле станет видимо" inline="true">
                     <options>
-                        <option id="1" name="1"/>
-                        <option id="2" name="2"/>
+                        <option name="1" id="1"/>
+                        <option name="2" id="2"/>
                     </options>
                 </radio-group>
                 <input-text id="amount" label="Видимость от типа 2" placeholder="После скрытия значение не сбросится">
@@ -24,24 +24,22 @@
                         </dependencies>
                     </output-text>
                 </set>
-                <input-text id="hiddenOnNull" default-value="test" label="Сотрите значение"/>
+                <input-text id="hiddenOnNull" label="Сотрите значение" default-value="test"/>
             </line>
             <line>
                 <input-text id="setGenderId" label="Установка значений"
-                            description="Если введете 1, то появится Мужской, если 2, то Женский, если 3, то сотрется значение, любое другое не изменит значения.">
-
-                </input-text>
+                            description="Если введете 1, то появится Мужской, если 2, то Женский, если 3, то сотрется значение, любое другое не изменит значения."/>
                 <output-text id="setValue" label="Результат:">
                     <dependencies>
                         <set-value on="setGenderId">
                             if (setGenderId == 1)
-                            return "Мужской";
+                                return "Мужской";
                             if (setGenderId == 2)
-                            return "Женский";
+                                return "Женский";
                             if (setGenderId == 3)
-                            return null;
+                                return null;
                             else
-                            return undefined;
+                                return undefined;
                         </set-value>
                     </dependencies>
                 </output-text>
@@ -61,10 +59,10 @@
             </line>
             <line label="Сумма чисел (зависимость setValue от двух полей)">
                 <row>
-                    <input-text domain="integer" id="f1" label="Введите число"/>
-                    <input-text domain="integer" id="f2" label="Введите число"/>
+                    <input-text id="f1" label="Введите число" domain="integer"/>
+                    <input-text id="f2" label="Введите число" domain="integer"/>
                 </row>
-                <input-text domain="integer" id="f3" label="Сумма чисел">
+                <input-text id="f3" label="Сумма чисел" domain="integer">
                     <dependencies>
                         <set-value on="f1,f2">(function(){return parseInt(f1) + parseInt(f2)})();</set-value>
                     </dependencies>
@@ -95,15 +93,14 @@
                         </options>
                     </radio-group>
                 </row>
-
                 <output-text id="oo1" label="Видимо, если A и X">
                     <dependencies>
-                        <visibility on="ff1, ff2">ff1.id=='A'&amp;&amp;ff2.id=='X'</visibility>
+                        <visibility on="ff1,ff2">ff1.id=='A'&amp;&amp;ff2.id=='X'</visibility>
                     </dependencies>
                 </output-text>
                 <input-text id="oo2" label="Доступно, если B и Y">
                     <dependencies>
-                        <enabling on="ff1, ff2">ff1.id=='B'&amp;&amp;ff2.id=='Y'</enabling>
+                        <enabling on="ff1,ff2">ff1.id=='B'&amp;&amp;ff2.id=='Y'</enabling>
                     </dependencies>
                 </input-text>
             </line>
@@ -123,10 +120,10 @@
                     </dependencies>
                 </input-text>
                 <input-select id="reset3" label="Выпадающий список с префильтрацией"
-                              query-id="test" placeholder="Значение сбросится при изменении во втором поле">
-                    <pre-filters>
+                              placeholder="Значение сбросится при изменении во втором поле" query-id="test">
+                    <filters>
                         <like field-id="name" value="{reset2}" reset-on-change="true"/>
-                    </pre-filters>
+                    </filters>
                 </input-select>
             </line>
         </fields>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <datasource query-id="test" object-id="test"/>
+        <toolbar>
+            <button id="b1" label="test">
+                <open-page page-id="test">
+                    <params>
+                        <query-param name="name2" value="2" datasource="master2" model="resolve"/>
+                        <path-param name="name" value="{i1}" datasource="master" model="filter"/>
+                    </params>
+                </open-page>
+            </button>
+        </toolbar>
+        <actions>
+            <action id="update">
+                <invoke operation-id="update"/>
+            </action>
+        </actions>
+        <fields>
+            <input-text id="name2"/>
+        </fields>
+    </form>
+</simple-page>

@@ -1,30 +1,49 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
-            <form id="master" query-id="test" mode="one-model">
+            <form id="master" mode="one-model">
+                <datasource size="1" query-id="test">
+                    <filters>
+                        <eq field-id="id" value="1"/>
+                    </filters>
+                </datasource>
                 <fields>
                     <input-text id="name" label="master-name"/>
                 </fields>
-                <pre-filters>
-                    <eq field-id="id" value="1"/>
-                </pre-filters>
             </form>
-            <form id="child" query-id="test" depends-on="master" detail-field-id="id">
+            <form id="child">
+                <datasource size="1" query-id="test">
+                    <dependencies>
+                        <fetch on="master" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="id" value="{id}" datasource="master" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
                 <fields>
                     <input-text id="name" label="child-name"/>
                 </fields>
             </form>
-
-            <form id="master2" query-id="test" mode="two-models">
+            <form id="master2" mode="two-models">
+                <datasource size="1" query-id="test">
+                    <filters>
+                        <eq field-id="id" value="1"/>
+                    </filters>
+                </datasource>
                 <fields>
                     <input-text id="name" label="master2-name"/>
                 </fields>
-                <pre-filters>
-                    <eq field-id="id" value="1"/>
-                </pre-filters>
             </form>
-            <form id="child2" query-id="test" depends-on="master2" detail-field-id="id">
+            <form id="child2">
+                <datasource size="1" query-id="test">
+                    <dependencies>
+                        <fetch on="master2" model="resolve"/>
+                    </dependencies>
+                    <filters>
+                        <eq field-id="id" value="{id}" datasource="master2" model="resolve" required="true"/>
+                    </filters>
+                </datasource>
                 <fields>
                     <input-text id="name" label="child2-name"/>
                 </fields>

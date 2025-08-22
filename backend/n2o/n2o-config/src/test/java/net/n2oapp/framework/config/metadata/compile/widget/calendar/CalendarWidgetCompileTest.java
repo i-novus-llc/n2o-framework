@@ -53,7 +53,6 @@ class CalendarWidgetCompileTest extends SourceCompileTestBase {
         Calendar calendar = (Calendar) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(calendar.getSrc(), is("CalendarWidget"));
         assertThat(calendar.getComponent(), allOf(
-                hasProperty("size", is(20)),
                 hasProperty("height", is("300px")),
                 hasProperty("defaultView", is("month")),
                 hasProperty("markDaysOff", is(true)),

@@ -1,20 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
       xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
-      sec:roles="admin" sec:authenticated="false" name="test2">
+      name="test2" sec:authenticated="false"
+      sec:roles="admin">
     <toolbar>
-        <button widget-id="testWidget" sec:roles="admin" sec:permissions="admin,user" sec:authenticated="false"
-                sec:usernames="user" sec:anonymous="false">
-
-        </button>
+        <button sec:authenticated="false" sec:permissions="admin,user" sec:roles="admin"
+                sec:anonymous="false" sec:usernames="user"
+                datasource="testWidget"/>
     </toolbar>
     <regions>
-        <panel place="single" sec:roles="admin" sec:permissions="admin,user" sec:authenticated="false"
-               sec:usernames="user" sec:anonymous="false">
-            <table id="testWidget" name="test" place="single" sec:roles="admin" sec:permissions="admin,user" sec:authenticated="false"
-                   sec:usernames="user" sec:anonymous="false">
-            </table>
+        <panel sec:authenticated="false" sec:permissions="admin,user" sec:roles="admin"
+               sec:anonymous="false" sec:usernames="user">
+            <table id="testWidget" sec:authenticated="false" sec:permissions="admin,user" sec:roles="admin"
+                   sec:anonymous="false" sec:usernames="user"/>
         </panel>
     </regions>
-
 </page>

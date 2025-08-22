@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/page" name="first">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="first" route="/page">
     <regions>
-        <line place="single">
-            <form id="test" > <!-- route="/widget" удалено -->
+        <line>
+            <form id="test">
                 <toolbar>
                     <button id="id1">
                         <a href="/test" target="application"/>
                     </button>
                     <button id="id2">
                         <a href="/test2/:param1/:param2?param3=:param3" target="application">
-                            <path-param name="param1" value="{field1}" ref-widget-id="secondWgt" ref-model="filter"/>
+                            <path-param name="param1" value="{field1}" datasource="secondWgt" model="filter"/>
                             <path-param name="param2" value="{field2}"/>
-                            <query-param name="param3" value="{field3}" ref-widget-id="secondWgt" ref-model="filter"/>
+                            <query-param name="param3" value="{field3}" datasource="secondWgt" model="filter"/>
                         </a>
                     </button>
                     <button id="id3">
@@ -23,15 +23,15 @@
                 </toolbar>
             </form>
         </line>
-        <line place="single">
-            <table id="secondWgt" route="/second">
+        <line>
+            <table id="secondWgt">
                 <toolbar>
-                    <button id="secWgt" model="filter" widget-id="test">
+                    <button id="secWgt" model="filter" datasource="test">
                         <a href="/test/:minPrice/" target="newWindow">
                             <path-param name="minPrice" value="{minPrice}"/>
                         </a>
                     </button>
-                    <button id="withParam" model="filter" widget-id="test">
+                    <button id="withParam" model="filter" datasource="test">
                         <a href="{url}" target="newWindow"/>
                     </button>
                 </toolbar>
@@ -39,4 +39,3 @@
         </line>
     </regions>
 </page>
-

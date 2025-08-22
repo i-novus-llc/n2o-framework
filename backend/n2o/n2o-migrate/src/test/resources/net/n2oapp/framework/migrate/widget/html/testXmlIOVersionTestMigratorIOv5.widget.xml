@@ -1,0 +1,3 @@
+<html xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <content>&lt;div class='test'&gt;&lt;p&gt;{name}&lt;/p&gt;&lt;/div&gt;</content>
+</html>

@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <toolbar>
+        <button>
+            <show-modal page-id="utBlank" refresh-datasources="mainy"/>
+        </button>
+    </toolbar>
     <regions>
         <region>
             <widget id="mainy"/>
         </region>
     </regions>
-    <toolbar>
-        <button>
-            <show-modal refresh-widget-id="mainy" page-id="utBlank"/>
-        </button>
-    </toolbar>
 </page>

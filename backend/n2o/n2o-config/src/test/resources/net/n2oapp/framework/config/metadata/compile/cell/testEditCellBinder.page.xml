@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <table object-id="test">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <table>
+        <datasource object-id="test"/>
         <actions>
             <action id="actionTest">
                 <invoke operation-id="test"/>
@@ -8,7 +9,7 @@
         </actions>
         <columns>
             <column text-field-id="test">
-                <edit format="formatTest" action-id="actionTest">
+                <edit action-id="actionTest" format="formatTest">
                     <input-text/>
                 </edit>
             </column>

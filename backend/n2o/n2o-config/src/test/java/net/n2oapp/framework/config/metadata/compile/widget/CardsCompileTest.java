@@ -16,7 +16,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.collection.IsMapContaining.hasEntry;
 
 /**
  * Тестирование компиляции виджета Карточки
@@ -52,10 +51,6 @@ class CardsCompileTest extends SourceCompileTestBase {
                 hasProperty("size", is(6)),
                 hasProperty("content", hasSize(2))
         ));
-        assertThat(card.getContent().get(0), allOf(
-                hasProperty("className", is("font-weight-bold")),
-                hasProperty("style", hasEntry("color", "red"))
-        ));
         assertThat(card.getContent().get(0).getComponent(), allOf(
                 instanceOf(TextCell.class),
                 hasProperty("src", is("TextCell")),
@@ -85,7 +80,7 @@ class CardsCompileTest extends SourceCompileTestBase {
                 hasProperty("next", is(true)),
                 hasProperty("prev", is(true)),
                 hasProperty("showCount", is(ShowCountTypeEnum.NEVER)),
-                hasProperty("size", is(5)),
+                hasProperty("size", is(10)),
                 hasProperty("src", is("pagingSrc"))
         ));
 

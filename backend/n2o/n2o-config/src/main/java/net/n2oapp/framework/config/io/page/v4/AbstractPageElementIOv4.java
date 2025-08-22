@@ -20,7 +20,6 @@ public abstract class AbstractPageElementIOv4<T extends N2oPage> implements Name
         p.attributeBoolean(e, "show-title", m::getShowTitle, m::setShowTitle);
         p.attribute(e, "html-title", m::getHtmlTitle, m::setHtmlTitle);
         p.attribute(e, "route", m::getRoute, m::setRoute);
-        p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
         p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModelEnum.class);
         p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);

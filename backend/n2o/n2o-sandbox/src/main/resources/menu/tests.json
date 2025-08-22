@@ -477,14 +477,6 @@
           "name": "TableFilterDefaultValueAT. testFormAsFilter"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/priority",
-          "name": "TableFilterDefaultValueAT. testPriority"
-        },
-        {
-          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/default_values_query_id",
-          "name": "TableFilterDefaultValueAT. testDefaultValuesQueryId"
-        },
-        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filters/default_value",
           "name": "TableFilterDefaultValueAT. testSimple"
         },

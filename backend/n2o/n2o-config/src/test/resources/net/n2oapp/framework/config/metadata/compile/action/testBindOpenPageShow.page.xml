@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page  xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/testBind">
-    <form query-id="testBindOpenPage">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" route="/testBind">
+    <form>
+        <datasource size="1" query-id="testBindOpenPage">
+            <filters>
+                <eq field-id="name" param="name"/>
+            </filters>
+        </datasource>
         <fields>
             <input-text id="id"/>
             <input-text id="name"/>
         </fields>
-        <pre-filters>
-            <eq field-id="name" param="name"/>
-        </pre-filters>
     </form>
 </simple-page>
-

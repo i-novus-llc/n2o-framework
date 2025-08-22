@@ -1,29 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <form name="form1">
+        <form>
             <fields>
                 <input-text id="field1"/>
             </fields>
         </form>
-        <form name="form2">
+        <form>
             <fields>
                 <input-text id="field2"/>
             </fields>
         </form>
-
         <region>
-            <form name="form3">
+            <form>
                 <fields>
                     <input-text id="field3"/>
                 </fields>
             </form>
             <panel title="Panel">
-                <form name="panelForm"/>
-                <form name="panelForm2"/>
+                <form/>
+                <form/>
             </panel>
             <line label="Line">
-                <form name="lineForm"/>
+                <form/>
             </line>
             <tabs>
                 <tab name="Tab1">
@@ -33,7 +32,7 @@
                     <form/>
                 </tab>
             </tabs>
-            <form name="form4">
+            <form>
                 <fields>
                     <input-text id="field4"/>
                 </fields>

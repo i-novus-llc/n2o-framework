@@ -1,58 +1,50 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <row>
                 <radio-group id="fieldset_visible">
+                    <default-value name="visible" id="1"/>
                     <options>
-                        <option id="1" name="visible"/>
-                        <option id="2" name="hidden"/>
+                        <option name="visible" id="1"/>
+                        <option name="hidden" id="2"/>
                     </options>
-                    <default-value id="1" name="visible"/>
                 </radio-group>
             </row>
-
             <hidden id="fieldset_hidden_visible" label="hidden_field" default-value="Ошибка, если поле видно"/>
-            <set visible="{fieldset_visible.id === 1}" label="fieldset">
+            <set label="fieldset" visible="{fieldset_visible.id === 1}">
                 <row>
-                    <input-text id="fieldset_field_visible_0" label="without visible"
-                                default-value="Поле видно, если видно fieldset"/>
+                    <input-text id="fieldset_field_visible_0" label="without visible" default-value="Поле видно, если видно fieldset"/>
                 </row>
                 <row>
-                    <input-text id="fieldset_field_visible_1" label="visible=true" visible="true"
-                                default-value="Поле видно, если видно fieldset"/>
+                    <input-text id="fieldset_field_visible_1" visible="true" label="visible=true" default-value="Поле видно, если видно fieldset"/>
                 </row>
                 <row>
-                    <input-text id="fieldset_field_visible_2" label="visible=false" visible="false"
-                                default-value="Ошибка, если поле видно" label-class="text-danger"/>
+                    <input-text id="fieldset_field_visible_2" visible="false" label="visible=false" label-class="text-danger" default-value="Ошибка, если поле видно"/>
                 </row>
                 <row>
-                    <input-text id="fieldset_field_visible_3" label="dependencies[apply-on-init].visibility=true"
-                                default-value="Поле видно, если видно fieldset">
+                    <input-text id="fieldset_field_visible_3" label="dependencies[apply-on-init].visibility=true" default-value="Поле видно, если видно fieldset">
                         <dependencies>
                             <visibility>true</visibility>
                         </dependencies>
                     </input-text>
                 </row>
                 <row>
-                    <input-text id="fieldset_field_visible_4" label="dependencies[apply-on-init].visibility=false"
-                                default-value="Ошибка, если поле видно" label-class="text-danger">
+                    <input-text id="fieldset_field_visible_4" label="dependencies[apply-on-init].visibility=false" label-class="text-danger" default-value="Ошибка, если поле видно">
                         <dependencies>
                             <visibility>false</visibility>
                         </dependencies>
                     </input-text>
                 </row>
                 <row>
-                    <input-text id="fieldset_field_visible_5" label="dependencies[apply-on-init].visibility=undefined"
-                                default-value="Ошибка, если поле видно" label-class="text-danger">
+                    <input-text id="fieldset_field_visible_5" label="dependencies[apply-on-init].visibility=undefined" label-class="text-danger" default-value="Ошибка, если поле видно">
                         <dependencies>
                             <visibility>return undefined</visibility>
                         </dependencies>
                     </input-text>
                 </row>
                 <row>
-                    <input-text id="fieldset_field_visible_6" label="dependencies[apply-on-init].visibility=null"
-                                default-value="Ошибка, если поле видно" label-class="text-danger">
+                    <input-text id="fieldset_field_visible_6" label="dependencies[apply-on-init].visibility=null" label-class="text-danger" default-value="Ошибка, если поле видно">
                         <dependencies>
                             <visibility>return null</visibility>
                         </dependencies>

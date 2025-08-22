@@ -1,30 +1,30 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="${client.view}">
-    <form query-id="ProtoClient">
+    <form>
+        <datasource size="1" query-id="ProtoClient">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
         <fields>
             <row>
-                <input-text label="${surname}" id="surname" required="true" placeholder="Введите значение"
-                            enabled="false"/>
-                <input-text label="${name}" id="name" required="true" enabled="false"/>
-                <input-text label="${patronymic}" id="patrName" default-value="Тест" enabled="false"/>
+                <input-text id="surname" required="true" enabled="false" label="${surname}" placeholder="Введите значение"/>
+                <input-text id="name" required="true" enabled="false" label="${name}"/>
+                <input-text id="patrName" enabled="false" label="${patronymic}" default-value="Тест"/>
             </row>
             <line>
                 <row>
                     <col size="5">
-                        <select id="gender" label="${gender}" required="true"
-                                query-id="ProtoGender" label-field-id="name" enabled="false"/>
+                        <select id="gender" required="true" enabled="false" label="${gender}" query-id="ProtoGender" label-field-id="name"/>
                     </col>
                     <col size="5">
-                        <date-time id="birthday" label="${bdate}" enabled="false"/>
+                        <date-time id="birthday" enabled="false" label="${bdate}"/>
                     </col>
-                    <checkbox id="vip" enabled="false">
-                    </checkbox>
+                    <checkbox id="vip" enabled="false"/>
                 </row>
             </line>
-            <text-area id="note" label="${note}" enabled="false"/>
+            <text-area id="note" enabled="false" label="${note}"/>
         </fields>
-        <pre-filters>
-            <eq field-id="id" param="id"/>
-        </pre-filters>
     </form>
 </simple-page>

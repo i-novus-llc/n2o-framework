@@ -1,18 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
-      xmlns:ext="http://example.com/n2o/ext-2.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:ext="http://example.com/n2o/ext-2.0"
+      xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
     <regions>
-        <panel id="regionId" place="single">
+        <panel id="regionId">
             <form>
                 <fields>
-                    <input-text id="field1" sec:roles="admin" sec:anonymous="false" ext:attr="extAttr"
-                                ext:attr2="extAttr2"/>
-                    <input-text id="field2" sec:roles="admin"/>
-                    <input-text id="field3" ext:attr="extAttr"/>
-                    <field id="field4" sec:anonymous="false" ext:attr="extAttr">
+                    <input-text ext:attr="extAttr" ext:attr2="extAttr2" sec:roles="admin" sec:anonymous="false" id="field1"/>
+                    <input-text sec:roles="admin" id="field2"/>
+                    <input-text ext:attr="extAttr" id="field3"/>
+                    <field ext:attr="extAttr" sec:anonymous="false" id="field4">
                         <controls>
-                            <input-text id="field1" sec:roles="admin" ext:attr2="extAttr2"/>
+                            <input-text ext:attr2="extAttr2" sec:roles="admin" id="field1"/>
                         </controls>
                     </field>
                 </fields>

@@ -1,24 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Добавление объекта с радиовыбором">
     <form>
+        <toolbar place="bottomCenter">
+            <button label="Выбрать РНС" model="filter">
+                <show-modal page-id="permits" submit-label="Выбрать разрешение" submit-action-type="copy" copy-model="multi" target-field-id="permits"/>
+            </button>
+        </toolbar>
         <fields>
             <multi-set id="permits" can-add="false" can-remove-first="true">
                 <row>
-                    <input-text id="code" label="Номер разрешения" enabled="false"/>
-                    <date-time id="startDate" label="Дата выдачи" enabled="false"/>
+                    <input-text id="code" enabled="false" label="Номер разрешения"/>
+                    <date-time id="startDate" enabled="false" label="Дата выдачи"/>
                 </row>
                 <row>
-                    <input-text id="projectName" label="Дата окончания действия" enabled="false"/>
-                    <date-time id="endDate" label="Наименование проекта строительства" enabled="false"/>
+                    <input-text id="projectName" enabled="false" label="Дата окончания действия"/>
+                    <date-time id="endDate" enabled="false" label="Наименование проекта строительства"/>
                 </row>
             </multi-set>
         </fields>
-        <toolbar place="bottomCenter">
-            <button label="Выбрать РНС" model="filter">
-                <show-modal page-id="permits" submit-action-type="copy" submit-label="Выбрать разрешение"
-                            copy-model="multi" target-field-id="permits"/>
-            </button>
-        </toolbar>
     </form>
 </simple-page>

@@ -1,12 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-    <form query-id="jobs">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <datasource query-id="jobs">
+            <filters>
+                <eq field-id="id" param="job_id"/>
+            </filters>
+        </datasource>
         <fields>
             <hidden id="person.id" param="person_id"/>
             <input-text id="name" label="Имя"/>
         </fields>
-        <pre-filters>
-            <eq field-id="id" param="job_id"/>
-        </pre-filters>
     </form>
 </simple-page>

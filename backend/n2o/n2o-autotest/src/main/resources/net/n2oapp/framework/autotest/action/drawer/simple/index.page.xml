@@ -1,32 +1,40 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-             name="drawer-tests">
-    <table query-id="test">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="drawer-tests">
+    <table>
+        <datasource query-id="test"/>
+        <toolbar>
+            <button label="openLeft">
+                <open-drawer page-id="drawer" route="/:id/drawer" width="250" height="250" placement="left">
+                    <params>
+                        <path-param name="id" value="{id}"/>
+                    </params>
+                </open-drawer>
+            </button>
+            <button label="openTop">
+                <open-drawer page-id="drawer" route="/:id/drawer" width="300" height="300" placement="top" fixed-footer="true">
+                    <params>
+                        <path-param name="id" value="{id}"/>
+                    </params>
+                </open-drawer>
+            </button>
+            <button label="openRight">
+                <open-drawer page-id="drawer" route="/:id/drawer" placement="right" backdrop="false" close-on-escape="false">
+                    <params>
+                        <path-param name="id" value="{id}"/>
+                    </params>
+                </open-drawer>
+            </button>
+            <button label="openBottom">
+                <open-drawer page-id="drawer" route="/:id/drawer" placement="bottom" closable="false">
+                    <params>
+                        <path-param name="id" value="{id}"/>
+                    </params>
+                </open-drawer>
+            </button>
+        </toolbar>
         <columns>
             <column text-field-id="id"/>
             <column text-field-id="name"/>
         </columns>
-        <toolbar>
-            <button label="openLeft">
-                <open-drawer page-id="drawer" placement="left" width="250" height="250" route="/:id/drawer">
-                    <path-param name="id" value="{id}"/>
-                </open-drawer>
-            </button>
-            <button label="openTop">
-                <open-drawer page-id="drawer" placement="top" width="300" height="300" fixed-footer="true" route="/:id/drawer">
-                    <path-param name="id" value="{id}"/>
-                </open-drawer>
-            </button>
-            <button label="openRight">
-                <open-drawer page-id="drawer" placement="right" backdrop="false" route="/:id/drawer" close-on-escape="false">
-                    <path-param name="id" value="{id}"/>
-                </open-drawer>
-            </button>
-            <button label="openBottom">
-                <open-drawer page-id="drawer" placement="bottom" closable="false" route="/:id/drawer">
-                    <path-param name="id" value="{id}"/>
-                </open-drawer>
-            </button>
-        </toolbar>
     </table>
 </simple-page>

@@ -1,19 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
-        <line collapsible="false" label="Line1">
-            <form name="form1"/>
+        <line label="Line1" collapsible="false">
+            <form/>
             <line>
-                <form name="form2" route="/form2"/>
+                <form/>
                 <line>
-                    <form name="form3"/>
+                    <form/>
                 </line>
             </line>
-            <form name="form4"/>
+            <form/>
         </line>
         <line>
-            <table name="table1"/>
-            <table name="table2"/>
+            <table/>
+            <table/>
         </line>
         <line/>
     </regions>

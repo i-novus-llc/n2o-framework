@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/page" name="second">
-    <form object-id="testShowModal" query-id="testShowModal"/>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="second" route="/page">
+    <form>
+        <datasource size="1" query-id="testShowModal" object-id="testShowModal"/>
+    </form>
 </simple-page>
-

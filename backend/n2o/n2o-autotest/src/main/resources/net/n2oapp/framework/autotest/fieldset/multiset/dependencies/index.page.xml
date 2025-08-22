@@ -1,13 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <multi-set id="members1">
                 <input-text id="name">
                     <dependencies>
-                        <enabling on="members1[index].age">
-                            members1[index].age >= 18
-                        </enabling>
+                        <enabling on="members1[index].age">members1[index].age &gt;= 18</enabling>
                     </dependencies>
                 </input-text>
                 <input-text id="age" domain="integer"/>

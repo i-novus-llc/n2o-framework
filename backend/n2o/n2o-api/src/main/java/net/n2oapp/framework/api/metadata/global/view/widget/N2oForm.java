@@ -23,9 +23,7 @@ public class N2oForm extends N2oWidget {
     @Deprecated
     public void adapterV4() {
         super.adapterV4();
-        if (getQueryId() != null) {
-            getDatasource().setSize(1);
-        }
+
         if (getSubmit() != null) {
             if (getDatasource() == null)
                 setDatasource(new N2oStandardDatasource());
@@ -33,9 +31,9 @@ public class N2oForm extends N2oWidget {
             if (getDatasource().getSubmit().getRefreshWidgetId() != null) {
                 getDatasource().getSubmit().setRefreshDatasourceIds(
                         new String[]{getDatasource().getSubmit().getRefreshWidgetId()});//не учитываются datasource у виджета в 7.19
-            } else {
+            } else if (getId() != null) {
                 getDatasource().getSubmit().setRefreshDatasourceIds(
-                        new String[]{getId()});//не учитываются datasource у виджета в 7.19
+                     new String[]{getId()});//не учитываются datasource у виджета в 7.19
             }
             getDatasource().getSubmit().setMessageWidgetId(getId());
             getDatasource().getSubmit().setSubmitOn(SubmitOnEnum.CHANGE);

@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Скрытие иконки раскрытия подменю">
-    <table query-id="test">
+    <table>
+        <datasource query-id="test"/>
         <columns>
             <column text-field-id="name"/>
-            <column text-field-id="type" label="без иконки">
+            <column label="без иконки" text-field-id="type">
                 <toolbar>
                     <sub-menu label="" icon="fa fa-print" description="Печать" show-toggle-icon="false">
                         <menu-item label="Документ"/>
@@ -12,7 +13,7 @@
                     </sub-menu>
                 </toolbar>
             </column>
-            <column text-field-id="status" label="с иконкой">
+            <column label="с иконкой" text-field-id="status">
                 <toolbar>
                     <sub-menu label="Меню">
                         <menu-item label="Пункт 1"/>

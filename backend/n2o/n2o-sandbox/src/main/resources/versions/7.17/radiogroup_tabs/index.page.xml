@@ -1,19 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Радиогруппа в виде табов">
     <form>
         <fields>
-            <radio-group
-                    id="inlineFalse"
-                    type="tabs"
-                    inline="true"
-                    no-label="true"
-            >
-                <default-value id="1" name="Пункт 1"/>
+            <radio-group id="inlineFalse" no-label="true" inline="true" type="tabs">
+                <default-value name="Пункт 1" id="1"/>
                 <options>
-                    <option id="1" name="Пункт 1"/>
-                    <option id="2" name="Пункт 2"/>
-                    <option id="3" name="Пункт 3"/>
+                    <option name="Пункт 1" id="1"/>
+                    <option name="Пункт 2" id="2"/>
+                    <option name="Пункт 3" id="3"/>
                 </options>
             </radio-group>
         </fields>

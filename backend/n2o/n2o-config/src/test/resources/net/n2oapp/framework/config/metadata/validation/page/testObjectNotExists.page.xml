@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-      object-id="nonExistantObjectId">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" object-id="nonExistantObjectId">
     <regions>
-        <region place="single">
+        <region>
             <form/>
         </region>
     </regions>

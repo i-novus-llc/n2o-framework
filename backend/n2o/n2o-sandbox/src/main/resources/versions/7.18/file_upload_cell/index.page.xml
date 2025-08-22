@@ -1,23 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Ячейка загрузки файлов">
-    <table query-id="test">
-        <columns>
-            <column text-field-id="docs" label="Документ">
-                <file-upload id="docs"
-                             url-field-id="url"
-                             label-field-id="fileName"
-                             upload-url="${server.servlet.context-path}/persons/{id}/files"
-                             delete-url="${server.servlet.context-path}/persons/{id}/files"
-                             accept=".img,.png,.xml"
-                             request-param="file"
-                >
-                </file-upload>
-            </column>
-            <column text-field-id="surname" label="Фамилия"/>
-            <column text-field-id="name" label="Имя"/>
-            <column text-field-id="patronymic" label="Отчество"/>
-        </columns>
+    <table>
         <toolbar generate="crud"/>
+        <datasource query-id="test"/>
+        <columns>
+            <column label="Документ" text-field-id="docs">
+                <file-upload upload-url="${server.servlet.context-path}/persons/{id}/files"
+                             delete-url="${server.servlet.context-path}/persons/{id}/files"
+                             label-field-id="fileName" url-field-id="url"
+                             request-param="file" accept=".img,.png,.xml"/>
+            </column>
+            <column label="Фамилия" text-field-id="surname"/>
+            <column label="Имя" text-field-id="name"/>
+            <column label="Отчество" text-field-id="patronymic"/>
+        </columns>
     </table>
 </simple-page>

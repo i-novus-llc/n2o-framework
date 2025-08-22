@@ -1,52 +1,71 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testShowModal" route="/"
-       name="first">
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <toolbar>
         <button id="id1" model="filter">
-            <open-page page-id="testOpenPageSimplePageAction1"
-                       route="/action1"
-                       page-name="second"
-                       submit-operation-id="create"/>
+            <open-page page-id="testOpenPageSimplePageAction1" page-name="second" submit-operation-id="create" route="/action1"/>
         </button>
         <button id="id2" model="resolve">
-            <open-page page-id="testOpenPageSimplePageAction2"
-                       route="/:page_test_id/action2"
-                       page-name="second"
-                       submit-operation-id="update" detail-field-id="id">
-                <path-param name="page_test_id" value="{id}"/>
+            <open-page page-id="testOpenPageSimplePageAction2" page-name="second" submit-operation-id="update" route="/:page_test_id/action2">
+                <datasources>
+                    <datasource>
+                        <filters>
+                            <eq field-id="id" param="page_test_id" value="{id}"/>
+                        </filters>
+                    </datasource>
+                </datasources>
+                <params>
+                    <path-param name="page_test_id" value="{id}"/>
+                </params>
             </open-page>
         </button>
         <button id="masterDetail" model="resolve">
-            <open-page page-id="testOpenPageMasterDetail"
-                       route="/:page_test_id/masterDetail"
-                       master-field-id="masterId"
-                       detail-field-id="detailId"
-                       master-param="page_test_id">
-                <path-param name="page_test_id" value="{id}"/>
-                <query-param name="name" value="{name}" ref-model="filter"/>
-                <query-param name="secondName" value="test"/>
-                <query-param name="surname" value="{surname}" ref-model="filter"/>
+            <open-page page-id="testOpenPageMasterDetail" route="/:page_test_id/masterDetail">
+                <datasources>
+                    <datasource>
+                        <filters>
+                            <eq field-id="detailId" param="page_test_id" value="{masterId}"/>
+                        </filters>
+                    </datasource>
+                </datasources>
+                <params>
+                    <query-param name="name" value="{name}" model="filter"/>
+                    <query-param name="secondName" value="test"/>
+                    <query-param name="surname" value="{surname}" model="filter"/>
+                    <path-param name="page_test_id" value="{id}"/>
+                </params>
             </open-page>
         </button>
         <button id="testDefaultValue">
-            <open-page page-id="testDefaultValue" route="/defaultValue" upload="defaults">
-                <query-param name="name" value="{name}"/>
-                <query-param name="start" value="2022-02-14T00:00:00"/>
-                <query-param name="end" value="2022-03-20T00:00:00"/>
-                <query-param name="gender_id" value="1"/>
+            <open-page page-id="testDefaultValue" route="/defaultValue">
+                <datasources>
+                    <datasource default-values-mode="defaults"/>
+                </datasources>
+                <params>
+                    <query-param name="name" value="{name}"/>
+                    <query-param name="start" value="2022-02-14T00:00:00"/>
+                    <query-param name="end" value="2022-03-20T00:00:00"/>
+                    <query-param name="gender_id" value="1"/>
+                </params>
             </open-page>
         </button>
         <button id="testDefaultValueQuery">
             <open-page page-id="testDefaultValue" route="/defaultValueQuery">
-                <query-param name="name" value="{name}"/>
-                <query-param name="gender_id" value="1"/>
+                <params>
+                    <query-param name="name" value="{name}"/>
+                    <query-param name="gender_id" value="1"/>
+                </params>
             </open-page>
         </button>
         <button id="testPreFilter">
-            <open-page page-id="testPreFilter" route="/testPreFilter" upload="defaults">
-                <query-param name="gender_id" value="1"/>
+            <open-page page-id="testPreFilter" route="/testPreFilter">
+                <datasources>
+                    <datasource default-values-mode="defaults"/>
+                </datasources>
+                <params>
+                    <query-param name="gender_id" value="1"/>
+                </params>
             </open-page>
         </button>
     </toolbar>
+    <datasource query-id="testShowModal" route="/"/>
 </table>
-

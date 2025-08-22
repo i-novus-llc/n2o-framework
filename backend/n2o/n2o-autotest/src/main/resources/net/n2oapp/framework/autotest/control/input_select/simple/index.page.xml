@@ -1,28 +1,27 @@
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
             <input-select id="select" label="InputSelect" reset-on-blur="false">
                 <options>
-                    <option id="one" name="One"/>
-                    <option id="two" name="Two"/>
-                    <option id="three" name="Three"/>
+                    <option name="One" id="one"/>
+                    <option name="Two" id="two"/>
+                    <option name="Three" id="three"/>
                 </options>
             </input-select>
-
             <input-select id="select1" label="InputSelect1" enabled-field-id="enabled">
                 <options>
-                    <option id="one" name="One"/>
-                    <option id="two" name="Two"/>
-                    <option id="three" name="Three" enabled="false"/>
-                    <option id="four" name="Four" enabled="true"/>
+                    <option name="One" id="one"/>
+                    <option name="Two" id="two"/>
+                    <option name="Three" id="three" enabled="false"/>
+                    <option name="Four" id="four" enabled="true"/>
                 </options>
             </input-select>
-
             <input-select id="select2" label="InputSelect2" status-field-id="status">
                 <options>
-                    <option id="one" name="One" status="success"/>
-                    <option id="two" name="Two" status="primary"/>
-                    <option id="three" name="Three" status="danger"/>
+                    <option name="One" id="one" status="success"/>
+                    <option name="Two" id="two" status="primary"/>
+                    <option name="Three" id="three" status="danger"/>
                 </options>
             </input-select>
         </fields>

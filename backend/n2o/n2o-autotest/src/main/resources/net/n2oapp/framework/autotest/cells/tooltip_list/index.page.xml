@@ -1,23 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <regions>
         <region>
-            <table id="table1" query-id="testTable">
+            <table id="table1">
+                <datasource query-id="testTable"/>
                 <columns>
                     <column text-field-id="list">
                         <tooltip-list label="Объектов {size} шт." dashed-label="false"/>
                     </column>
                 </columns>
             </table>
-            <table id="table2" query-id="testTable">
+            <table id="table2">
+                <datasource query-id="testTable"/>
                 <columns>
                     <column text-field-id="list">
-                        <tooltip-list trigger="click" label-one="{size} объект"
-                                      label-few="{size} объекта" label-many="{size} объектов"/>
+                        <tooltip-list label-few="{size} объекта" label-many="{size} объектов" trigger="click"/>
                     </column>
                 </columns>
             </table>
-            <table id="table3" query-id="testTable">
+            <table id="table3">
+                <datasource query-id="testTable"/>
                 <columns>
                     <column text-field-id="list">
                         <tooltip-list/>
