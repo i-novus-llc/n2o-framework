@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.api.Criteria;
-import net.n2oapp.criteria.api.SortingDirection;
+import net.n2oapp.criteria.api.SortingDirectionEnum;
 import org.springframework.data.domain.Sort;
 
 @Getter
@@ -18,7 +18,7 @@ public class CarCriteria extends Criteria {
         if (getSorting() == null)
             return Sort.by("id").ascending();
 
-        return (getSorting().getDirection() == SortingDirection.DESC) ?
+        return (getSorting().getDirection() == SortingDirectionEnum.DESC) ?
                 Sort.by(getSorting().getField()).descending() :
                 Sort.by(getSorting().getField()).ascending();
     }
