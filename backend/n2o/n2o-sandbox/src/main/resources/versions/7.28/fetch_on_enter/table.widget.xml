@@ -9,7 +9,7 @@
         </column>
     </columns>
 
-    <filters fetch-on-enter="false">
+    <filters>
         <row>
             <input-text id="minPrice" label="Минимальная цена" domain="integer"/>
             <input-text id="maxPrice" label="Максимальная цена" domain="integer"/>
