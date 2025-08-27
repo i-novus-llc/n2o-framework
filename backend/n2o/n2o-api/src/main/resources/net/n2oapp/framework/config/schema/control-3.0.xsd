@@ -567,9 +567,9 @@
                         <xs:documentation>Поле выборки, содержащее наименование файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="message-field-id" type="xs:string">
+                <xs:attribute name="message-field-id" type="xs:string" default="message">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, содержащее сообщение файла.</xs:documentation>
+                        <xs:documentation>Поле ответа, содержащее сообщение о статусе загрузки. Будет отображено в тултипе при наведении на файл</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="url-field-id" type="xs:string">
