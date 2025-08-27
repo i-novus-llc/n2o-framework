@@ -9,8 +9,6 @@ const Size: { [key: number]: string } = {
     2: 'MB',
 }
 
-const MESSAGE = 'Ошибка загрузки файла'
-
 export function post(
     url: string,
     file: FormData,
@@ -18,23 +16,33 @@ export function post(
     onUpload: (response: AxiosResponse) => void,
     onError: (error: Error) => void,
     cancelSource: { token: CancelToken },
+    responseFieldId: string,
 ): void {
     axios
-        .post(url, file, {
-            cancelToken: cancelSource.token,
-            headers: { 'Content-Type': 'multipart/form-data' },
-            onUploadProgress: onProgress,
-        })
+        .post(
+            url,
+            file,
+            {
+                cancelToken: cancelSource.token,
+                headers: { 'Content-Type': 'multipart/form-data' },
+                onUploadProgress: onProgress,
+            },
+        )
         .then((response) => { onUpload(response) })
-        .catch((error: AxiosError<{ statusText?: string, status?: string }>) => {
+        .catch((error: AxiosError<Record<string, string>>) => {
             if (error?.response) {
-                const { status } = error.response
+                const { data } = error.response
+                const errorMessage = data?.[responseFieldId]
 
-                const statusText = error.response.data?.statusText ||
-                    error.response.data?.status ||
-                    error.response.statusText
+                if (errorMessage) {
+                    onError(new Error(errorMessage))
 
-                onError(new Error(`${MESSAGE}: ${statusText || status}`))
+                    return
+                }
+
+                const { status, statusText } = error.response
+
+                onError(new Error(`Ошибка загрузки файла: ${statusText || status.toString()}`))
 
                 return
             }
