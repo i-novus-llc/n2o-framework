@@ -4,10 +4,14 @@
     <regions>
         <tabs>
             <tab name="fetch-on-enter='true'">
-                <table ref-id="table" fetch-on-enter="true"/>
+                <table ref-id="table">
+                    <filters fetch-on-enter="true"/>
+                </table>
             </tab>
             <tab name="fetch-on-enter='false'">
-                <table ref-id="table" fetch-on-enter="false"/>
+                <table ref-id="table">
+                    <filters fetch-on-enter="false"/>
+                </table>
             </tab>
         </tabs>
     </regions>
