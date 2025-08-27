@@ -193,10 +193,12 @@ class InputSelectAT extends AutoTestBase {
         input.dropdown().selectMulti(0);
         input.dropdown().shouldHaveOptions(new String[]{"1","11","100","101"});
         input.shouldSelectedMulti(new String[]{"1"});
+        input.shouldHaveValue("1");
 
         input.dropdown().selectMulti(2);
         input.dropdown().shouldHaveOptions(new String[]{"1","11","100","101"});
         input.shouldSelectedMulti(new String[]{"1","100"});
+        input.shouldHaveValue("1");
     }
 
     @Test

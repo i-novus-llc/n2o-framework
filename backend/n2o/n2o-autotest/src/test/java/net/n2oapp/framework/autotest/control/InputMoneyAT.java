@@ -15,6 +15,7 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 /**
  * Автотесты компонента ввода денежных единиц
  */
@@ -60,23 +61,26 @@ class InputMoneyAT extends AutoTestBase {
 
         inputMoney = getFields().field("money_s").control(InputMoneyControl.class);
         inputMoney.shouldBeEnabled();
-        inputMoney.shouldHaveValue("1 200 400,00".replace(" ", "\u00A0"));
+        inputMoney.shouldHaveValue(format("1 200 400,00"));
         inputMoney.click();
         inputMoney.backspace();
-        inputMoney.shouldHaveValue("1 200 400,0".replace(" ", "\u00A0"));
+        inputMoney.shouldHaveValue(format("1 200 400,0"));
         inputMoney.backspace();
-        inputMoney.shouldHaveValue("1 200 400,".replace(" ", "\u00A0"));
+        inputMoney.shouldHaveValue(format("1 200 400,"));
 
         inputMoney = getFields().field("money_d").control(InputMoneyControl.class);
         inputMoney.shouldBeEnabled();
-        inputMoney.shouldHaveValue("1 200 400,10".replace(" ", "\u00A0"));
+        inputMoney.shouldHaveValue(format("1 200 400,10"));
 
         getFields().field("Отправить", ButtonField.class).click();
         InputText text_money = getFields().field("text_money").control(InputText.class);
         text_money.shouldHaveValue("1200400.10");
-        inputMoney.shouldHaveValue("1 200 400,10".replace(" ", "\u00A0"));
+        inputMoney.shouldHaveValue(format("1 200 400,10"));
     }
 
+    private String format(String value) {
+        return value.replace(" ", "\u00A0");
+    }
 
     private Fields getFields() {
         return simplePage.widget(FormWidget.class).fields();
