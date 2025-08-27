@@ -180,7 +180,7 @@ n2o.api.cell.edit.enabled = true
 |delete-url      |Строка                                                            |URL удаления файла                                      |                     |
 |value-field-id  |Строка                                                            |Поле выборки, содержащее идентификатор файла            |id                   |
 |label-field-id  |Строка                                                            |Поле выборки, содержащее наименование файла             |name                 |
-|message-field-id|Строка                                                            |Поле выборки, содержащее сообщение файла                |message              |
+|message-field-id|Строка                                                            |Поле ответа, содержащее сообщение о статусе загрузки. Будет отображено в тултипе при наведении на файл |message              |
 |url-field-id    |Строка                                                            |Поле выборки, содержащее URL скачивания файла           |url                  |
 |request-param   |Строка                                                            |Наименование поля в запросе miltipart form data         |file                 |
 |show-size       |true false                                                        |Отображение размера файла                               |true                 |
@@ -200,7 +200,7 @@ n2o.api.cell.file_upload.value_field_id=id
 n2o.api.cell.file_upload.label_field_id=name
 #Поле выборки, содержащее URL скачивания файла по умолчанию для file-upload
 n2o.api.cell.file_upload.url_field_id=url
-#Поле выборки, содержащее сообщение файла по умолчанию для file-upload
+#Поле ответа, содержащее сообщение о статусе загрузки. Если успешно, то будет отображено в тултипе при наведении на файл, иначе - под файлом
 n2o.api.cell.file_upload.message_field_id=message
 #Наименование поля в запросе miltipart form data
 n2o.api.cell.file_upload.request_param=file
