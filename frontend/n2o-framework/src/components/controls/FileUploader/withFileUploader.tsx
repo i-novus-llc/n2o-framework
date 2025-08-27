@@ -297,6 +297,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
                 uploadUrl,
                 onStart,
                 uploadRequest,
+                responseFieldId,
             } = this.props
 
             const { files: preparedFilesFromState } = this.state
@@ -356,6 +357,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
                             onUpload,
                             onError,
                             file.cancelSource,
+                            responseFieldId,
                         )
                     }
                 }
@@ -391,34 +393,30 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
         }
 
         onUpload = (id: string, response: AxiosResponse) => {
-            const { onSuccess } = this.props
+            const { onSuccess, responseFieldId } = this.props
 
             if (response.status < 200 || response.status >= 300) {
                 this.onError(id, { message: response.statusText, status: response.status })
             } else {
                 const file = response.data
                 const { files, uploading } = this.state
+                const successMessage = file[responseFieldId]
 
                 this.setState({
                     files: [
                         ...files.map((item) => {
                             if (item.id === id) {
-                                return {
-                                    ...this.fileAdapter(file),
-                                    loading: false,
-                                }
+                                return { ...this.fileAdapter(file), loading: false }
                             }
 
                             return item
                         }),
                     ] as Files,
-                    uploading: {
-                        ...uploading,
-                        [id]: false,
-                    },
+                    uploading: { ...uploading, [id]: false },
                 })
+
                 this.requests[id] = undefined
-                onSuccess(response)
+                onSuccess(successMessage)
                 this.handleChange(file)
             }
         }

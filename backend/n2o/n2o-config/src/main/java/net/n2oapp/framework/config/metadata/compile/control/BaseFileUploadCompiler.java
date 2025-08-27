@@ -32,7 +32,7 @@ public abstract class BaseFileUploadCompiler<D extends FileUpload, S extends N2o
         control.setUrlFieldId(castDefault(source.getUrlFieldId(),
                 () -> p.resolve(property("n2o.api.control.file_upload.url_field_id"), String.class)));
         control.setResponseFieldId(castDefault(source.getMessageFieldId(),
-                () -> p.resolve(property("n2o.api.control.file_upload.response_field_id"), String.class)));
+                () -> p.resolve(property("n2o.api.control.file_upload.message_field_id"), String.class)));
         control.setRequestParam(castDefault(source.getRequestParam(), "file"));
         return compileStandardField(control, source, context, p);
     }
