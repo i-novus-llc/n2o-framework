@@ -24,6 +24,11 @@ type CalendarState = {
 const TIME_UNIT = 'n2o-calendar-time-unit'
 const MONTH_ITEM = 'month-item'
 
+enum TypeIndex {
+    begin = 0,
+    end = 1,
+}
+
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
     private hourRef: HTMLDivElement | null = null
 
@@ -222,20 +227,20 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
             if (hasMinOrMaxAndNullBegin) {
                 rangeMinMax(disabled)
             } else if (min && max) {
-                disabled = index === 0
+                disabled = index === TypeIndex.begin
                     ? disabledDaysBeyondTheScopeMinMax
                     : disabledDaysBeyondTheScopeBeginMax
             } else if (min) {
-                disabled = index === 0
+                disabled = index === TypeIndex.begin
                     ? disableDaysBefore(min)
-                    : index === 1 && disableDaysBefore(begin)
+                    : index === TypeIndex.end && disableDaysBefore(begin)
             } else if (max) {
-                disabled = index === 0
+                disabled = index === TypeIndex.begin
                     ? disableDaysAfter(max)
-                    : index === 1 && disableDaysAfter(begin)
+                    : index === TypeIndex.end && (disableDaysAfter(max) || disableDaysBefore(begin))
             } else {
                 // не указан range (min, max)
-                disabled = index === 1 && disableDaysBefore(begin)
+                disabled = index === TypeIndex.end && disableDaysBefore(begin)
             }
         }
 
