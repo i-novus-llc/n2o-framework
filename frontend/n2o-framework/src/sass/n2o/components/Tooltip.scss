@@ -1,5 +1,7 @@
 .tooltip-container {
     text-align: center;
+    text-wrap: balance;
+    max-width: 350px;
 }
 
 .tooltip-container.dark {
