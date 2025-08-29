@@ -176,4 +176,27 @@ class DateIntervalAT extends AutoTestBase {
         begin.shouldBeEmpty();
         end.shouldHaveValue("15.02.2020");
     }
+
+    @Test
+    void testDateIntervalDependentMax() {
+        Fields fields = page.widget(FormWidget.class).fields();
+        DateInput maxDate = fields.field("maxDate").control(DateInput.class);
+        maxDate.shouldBeVisible();
+        maxDate.shouldHaveValue("20.02.2025");
+        DateInterval dateInterval = fields.field("DateInterval4").control(DateInterval.class);
+        dateInterval.shouldBeEnabled();
+        dateInterval.openPopup();
+        dateInterval.shouldBeOpened();
+
+        dateInterval.setValueInBegin("10.02.2025");
+        dateInterval.beginShouldHaveValue("10.02.2025");
+        dateInterval.setValueInEnd("15.02.2025");
+        dateInterval.endShouldHaveValue("15.02.2025");
+
+        dateInterval.endDayShouldBeDisabled("9");
+        for (int day = 10; day <= 20; day++) {
+            dateInterval.endDayShouldBeEnabled(String.valueOf(day));
+        }
+        dateInterval.endDayShouldBeDisabled("21");
+    }
 }
