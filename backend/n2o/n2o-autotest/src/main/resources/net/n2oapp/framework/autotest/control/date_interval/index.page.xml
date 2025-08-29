@@ -6,6 +6,8 @@
             <date-interval id="date3" label="DateInterval3" date-format="DD.MM.YYYY" min="2020-02-10" max="2020-02-20"/>
             <date-time id="date1.begin" date-format="DD.MM.YYYY"/>
             <date-time id="date1.end" date-format="DD.MM.YYYY"/>
+            <date-time id="maxDate" date-format="DD.MM.YYYY" default-value="2025-02-20T00:00:00"/>
+            <date-interval id="DateInterval4" max="{maxDate}" date-format="DD.MM.YYYY"></date-interval>
         </fields>
     </form>
 </simple-page>
