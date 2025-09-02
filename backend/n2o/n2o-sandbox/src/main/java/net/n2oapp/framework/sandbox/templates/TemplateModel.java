@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Шаблон
+ * Шаблон проекта
  */
 @Getter
 @Setter
@@ -21,7 +21,7 @@ public class TemplateModel {
     @JsonProperty
     private String name;
 
-    @JsonGetter("projectId")//TODO убрать после слития https://jira.i-novus.ru/browse/NNO-6485
+    @JsonGetter("projectId")
     public String getProjectId() {
         return projectId != null ? projectId : templateId.replace('/', '_');
     }
