@@ -10,7 +10,7 @@
     <operations>
         <operation id="create" success-text="Автомобиль добавлен в базу">
             <invocation>
-                <graphql endpoint="${n2o.engine.graphql.endpoint}">
+                <graphql>
                     mutation MyMutation {
                         addCar(input: {name: $$name, price: $$price, showrooms: $$showrooms}) {
                             car {
@@ -32,7 +32,7 @@
 
         <operation id="update" success-text="Данные об автомобиле изменены">
             <invocation>
-                <graphql endpoint="${n2o.engine.graphql.endpoint}">
+                <graphql>
                     mutation MyMutation {
                         deleteShowrooms:updateCar(input: {filter: {id: $$id},
                             remove: {
@@ -73,7 +73,7 @@
 
         <operation id="delete" success-text="Данные об автомобиле удалены">
             <invocation>
-                <graphql endpoint="${n2o.engine.graphql.endpoint}">
+                <graphql>
                     mutation MyMutation {
                         deleteCar(filter: {id: $$id}) {
                             msg

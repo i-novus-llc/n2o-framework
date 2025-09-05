@@ -3,7 +3,7 @@
     <operations>
         <operation id="errorGraphQl">
             <invocation>
-                <graphql endpoint="${n2o.engine.graphql.endpoint}">
+                <graphql>
                     mutation MyMutation {
                         deleteCar(filter: {id: $$id}) {
                             Car {
