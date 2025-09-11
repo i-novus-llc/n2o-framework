@@ -22,7 +22,7 @@ public class GitLabDiffService {
     private final ObjectMapper mapper;
     private final HttpClient httpClient;
 
-    @Value("${project.id:framework%2Fn2o-framework}")
+    @Value("${gitlab.project.id:412}")
     private String projectId;
     @Value("${gitlab.api:https://git.i-novus.ru/api/v4}")
     private String gitlabApi;
