@@ -20,6 +20,7 @@ interface Props {
     regionId?: string
     parent?: string | null
     tabId?: string
+    alwaysRefresh?: boolean
 }
 
 export function RegionContent({
@@ -30,6 +31,7 @@ export function RegionContent({
     active,
     regionId,
     tabId,
+    alwaysRefresh,
     parent = null,
     lazy = false,
 }: Props) {
@@ -38,6 +40,16 @@ export function RegionContent({
     }
 
     if (isEmpty(content)) { return null }
+
+    const getContentVisibility = (meta: ContentMeta) => {
+        if (!lazy) { return true }
+
+        if (alwaysRefresh) {
+            return (active === undefined || active === tabId)
+        }
+
+        return meta?.visible
+    }
 
     return (
         <div className={className}>
@@ -67,6 +79,7 @@ export function RegionContent({
                         fetchOnInit={fetchOnInit}
                         fetch={fetch}
                         parent={parent || (tabId ? { regionId, tabId } : {})}
+                        visible={getContentVisibility(meta)}
                     />
                 )
             })}
