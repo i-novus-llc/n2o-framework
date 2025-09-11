@@ -2,23 +2,22 @@ package net.n2oapp.framework.sandbox.templates;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Component
 public class GitLabDiffService {
-    private static final Logger logger = LoggerFactory.getLogger(GitLabDiffService.class);
     private final ObjectMapper mapper;
     private final HttpClient httpClient;
 
@@ -76,19 +75,27 @@ public class GitLabDiffService {
     }
 
     public List<String> listFilesAtTag(String tag, String resourcesPath) throws IOException, InterruptedException {
-        List<String> files = new ArrayList<>();
-        String treeUrl = String.format("%s/projects/%s/repository/tree?ref=%s",
+        return listFilesRecursive(projectId, tag, resourcesPath);
+    }
+
+    private List<String> listFilesRecursive(String projectId, String tag, String path) throws IOException, InterruptedException {
+        String url = String.format("%s/projects/%s/repository/tree?ref=%s",
                 gitlabApi, projectId, tag);
 
-        JsonNode json = callApi(treeUrl);
+        if (path != null && !path.isBlank()) {
+            url += "&path=" + URLEncoder.encode(path, StandardCharsets.UTF_8);
+        }
+
+        JsonNode json = callApi(url);
+        List<String> files = new ArrayList<>();
         for (JsonNode fileNode : json) {
             if ("blob".equals(fileNode.get("type").asText())) {
-                String path = fileNode.get("path").asText();
-                if (path.startsWith(resourcesPath)) {
-                    files.add(path);
-                }
+                files.add(fileNode.get("path").asText());
+            } else if ("tree".equals(fileNode.get("type").asText())) {
+                files.addAll(listFilesRecursive(projectId, tag, fileNode.get("path").asText()));
             }
         }
+
         return files;
     }
 
@@ -110,7 +117,6 @@ public class GitLabDiffService {
     }
 
     private JsonNode callApi(String url) throws IOException, InterruptedException {
-        logger.info(String.format("url=%s, token=%s", url, token));
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("Authorization", "Bearer " + token)
