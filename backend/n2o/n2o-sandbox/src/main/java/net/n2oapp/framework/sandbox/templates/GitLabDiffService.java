@@ -2,8 +2,6 @@ package net.n2oapp.framework.sandbox.templates;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +16,6 @@ import java.util.Set;
 
 @Component
 public class GitLabDiffService {
-    private final Logger logger = LoggerFactory.getLogger(GitLabDiffService.class);
     private final ObjectMapper mapper;
     private final HttpClient httpClient;
 
@@ -26,15 +23,12 @@ public class GitLabDiffService {
     private String projectId;
     @Value("${gitlab.api:https://git.i-novus.ru/api/v4}")
     private String gitlabApi;
+    @Value("${gitlab.token}")
     private String token;
 
     public GitLabDiffService() {
         this.mapper = new ObjectMapper();
         this.httpClient = HttpClient.newHttpClient();
-        this.token = System.getenv("CI_JOB_TOKEN");
-        if (this.token == null || this.token.isBlank()) {
-            logger.error("CI_JOB_TOKEN not set in environment");
-        }
     }
 
     public void collectChangedPackages(String resourcesPath,
