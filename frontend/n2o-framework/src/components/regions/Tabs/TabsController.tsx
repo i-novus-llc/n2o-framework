@@ -43,6 +43,7 @@ interface Tabs extends Props {
     widgetsState: WidgetsState
     regionsState: RegionsState
     dispatch: Dispatch
+    alwaysRefresh?: boolean
 }
 
 export function TabsController<TProps extends Tabs>(Component: ComponentType<TProps>): ComponentType<TProps> {
@@ -53,7 +54,7 @@ export function TabsController<TProps extends Tabs>(Component: ComponentType<TPr
         const {
             tabs: tabsMeta, dispatch, id: regionId, pageId, activeEntity: active,
             lazy, serviceInfo, widgetsState, regionsState,
-            className, maxHeight, style = EMPTY_OBJECT, scrollbar = true,
+            className, maxHeight, alwaysRefresh, style = EMPTY_OBJECT, scrollbar = true,
         } = props
 
         const regionParams = {
@@ -64,6 +65,7 @@ export function TabsController<TProps extends Tabs>(Component: ComponentType<TPr
             serviceInfo,
             widgetsState,
             regionsState,
+            alwaysRefresh,
             tabSubContentClass: 'tab-sub-content',
         }
 
