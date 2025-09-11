@@ -77,7 +77,7 @@ public class GitLabDiffService {
 
     public List<String> listFilesAtTag(String tag, String resourcesPath) throws IOException, InterruptedException {
         List<String> files = new ArrayList<>();
-        String treeUrl = String.format("%s/projects/%s/repository/tree?ref=%s&recursive=true&per_page=100",
+        String treeUrl = String.format("%s/projects/%s/repository/tree?ref=%s",
                 gitlabApi, projectId, tag);
 
         JsonNode json = callApi(treeUrl);
