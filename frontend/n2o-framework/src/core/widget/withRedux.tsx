@@ -52,19 +52,28 @@ export const withRedux = (WidgetComponent: ComponentType<Widget & { onFocus(): v
     return connect(
         (state: State, props: Widget) => {
             const { parent, dependency, datasource } = props
-            // @ts-ignore FIXME makeWidgetByIdSelector type
-            const reduxProps = makeWidgetByIdSelector(props.id)(state)
+            const reduxProps = makeWidgetByIdSelector(props.id || '')(state)
             const model = getModelSelector(`models.${ModelPrefix.source}.${datasource}`)(state) || []
             const datasourceModelLength = model.length
 
-            /* FIXME костыль для табов, нужно пересмотреть */
+            /* FIXME условие костыль из за табов ниже, нужно пересмотреть */
             if (!parent || dependency) {
                 return { ...props, ...reduxProps, datasourceModelLength }
             }
 
-            const { fetch } = props
+            /* FIXME костыль fetch и visible табов */
+            const { fetch, visible } = props
+            const { visible: reduxVisible } = reduxProps
 
-            return { ...props, ...reduxProps, fetch }
+            const getVisibility = () => {
+                if (reduxVisible === false) { return reduxVisible }
+
+                if (typeof visible === 'boolean') { return visible }
+
+                return reduxVisible
+            }
+
+            return { ...props, ...reduxProps, fetch, visible: getVisibility() }
         },
         (dispatch: Dispatch, props: Widget) => ({
             dispatch,

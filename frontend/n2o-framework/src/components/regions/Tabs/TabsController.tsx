@@ -10,6 +10,7 @@ import { DataSourceModels } from '../../../core/datasource/const'
 import { ServiceInfo } from '../../../ducks/regions/Actions'
 import { State as WidgetsState } from '../../../ducks/widgets/Widgets'
 import { setRegionVisibility } from '../../../ducks/regions/store'
+import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
 import { create } from './helpers'
 
@@ -42,6 +43,7 @@ interface Tabs extends Props {
     widgetsState: WidgetsState
     regionsState: RegionsState
     dispatch: Dispatch
+    alwaysRefresh?: boolean
 }
 
 export function TabsController<TProps extends Tabs>(Component: ComponentType<TProps>): ComponentType<TProps> {
@@ -52,7 +54,7 @@ export function TabsController<TProps extends Tabs>(Component: ComponentType<TPr
         const {
             tabs: tabsMeta, dispatch, id: regionId, pageId, activeEntity: active,
             lazy, serviceInfo, widgetsState, regionsState,
-            className, maxHeight, style = {}, scrollbar = true,
+            className, maxHeight, alwaysRefresh, style = EMPTY_OBJECT, scrollbar = true,
         } = props
 
         const regionParams = {
@@ -63,6 +65,7 @@ export function TabsController<TProps extends Tabs>(Component: ComponentType<TPr
             serviceInfo,
             widgetsState,
             regionsState,
+            alwaysRefresh,
             tabSubContentClass: 'tab-sub-content',
         }
 
