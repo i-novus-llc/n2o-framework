@@ -2,6 +2,8 @@ package net.n2oapp.framework.sandbox.templates;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,7 @@ import java.util.Set;
 
 @Component
 public class GitLabDiffService {
+    private static final Logger logger = LoggerFactory.getLogger(GitLabDiffService.class);
     private final ObjectMapper mapper;
     private final HttpClient httpClient;
 
@@ -107,6 +110,7 @@ public class GitLabDiffService {
     }
 
     private JsonNode callApi(String url) throws IOException, InterruptedException {
+        logger.info(String.format("url=%s, token=%s", url, token));
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("Authorization", "Bearer " + token)
