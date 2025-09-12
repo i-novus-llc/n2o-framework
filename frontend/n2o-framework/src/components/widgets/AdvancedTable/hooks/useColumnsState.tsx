@@ -1,5 +1,6 @@
 import { useCallback, useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import set from 'lodash/set'
 
 import { HeaderCell } from '../../../Table/types/cell'
 import { getAllValuesByKey } from '../../../Table/utils'
@@ -33,6 +34,9 @@ export const useColumnsState = (columns: HeaderCell[], widgetId: string, state: 
         dispatch(switchTableParam(widgetId, paramKey))
     }, [])
 
+    const reduxColumns = useSelector(getTableColumns(widgetId))
+    const columnsState = Object.values(reduxColumns)
+
     useLayoutEffect(() => {
         const allHeaderCell = getAllValuesByKey(columns, { keyToIterate: 'children' })
 
@@ -47,24 +51,27 @@ export const useColumnsState = (columns: HeaderCell[], widgetId: string, state: 
                 }
 
                 const { disabled, icon, label = '', conditions = {} } = cellData
+                const visibleState = columnsState?.find(c => c.columnId === columnId)?.visibleState
 
-                dispatch(registerTableColumn(
-                    {
-                        widgetId,
-                        columnId,
-                        label,
-                        visible: resolvedVisibility,
-                        disabled: Boolean(disabled),
-                        conditions,
-                        icon,
-                    },
-                ))
+                const initProps = {
+                    widgetId,
+                    columnId,
+                    label,
+                    visible: resolvedVisibility,
+                    disabled: Boolean(disabled),
+                    conditions,
+                    icon,
+                }
+
+                /** Если visibleState был определен (прим. с предыдущей страницы) */
+                if (visibleState !== undefined) {
+                    set(initProps, 'visibleState', visibleState)
+                }
+
+                dispatch(registerTableColumn(initProps))
             }
         })
     }, [columns.length])
-
-    const reduxColumns = useSelector(getTableColumns(widgetId))
-    const columnsState = Object.values(reduxColumns)
 
     return [columnsState, changeColumnParam, switchTableParameter]
 }
