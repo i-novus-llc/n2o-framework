@@ -2,6 +2,8 @@ package net.n2oapp.framework.sandbox.templates;
 
 import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.framework.sandbox.file_storage.model.ProjectModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 @Slf4j
 @RestController
 public class ProjectTemplateController {
+    private Logger logger = LoggerFactory.getLogger(ProjectTemplateController.class);
     @Autowired
     private ProjectTemplateHolder templatesHolder;
     @Autowired
@@ -65,8 +68,11 @@ public class ProjectTemplateController {
             List<String> allOldFiles;
             List<String> allNewFiles;
             if (gitRoot == null) {
+                logger.info("Git root not found, using gitlab diff");
                 gitLabDiffService.collectChangedPackages(resourcesPath, oldTag, newTag, maybeDeletedPackages, changedPackages);
+                logger.info("Get all old files");
                 allOldFiles = gitLabDiffService.listFilesAtTag(oldTag, resourcesPath);
+                logger.info("Get all new files");
                 allNewFiles = gitLabDiffService.listFilesAtTag(newTag, resourcesPath);
             } else {
                 collectChangedPackagesFromPackage(gitRoot, resourcesPath, oldTag, newTag, maybeDeletedPackages, changedPackages);
@@ -90,6 +96,7 @@ public class ProjectTemplateController {
 
             ProjectsDiffResponse response = new ProjectsDiffResponse();
 
+            logger.info("Any Updated {} Any Deleted {}", anyUpdated, anyDeleted);
             if (anyUpdated || anyDeleted) {
                 // if some projects were updated, then return all projects for reload
                 response.setReload(true);
@@ -105,7 +112,7 @@ public class ProjectTemplateController {
                 }
                 response.setProjects(projects);
             }
-
+            logger.info("Send response with {} projects", response.getProjects().size());
             return response;
         } catch (Exception e) {
             throw new RuntimeException("Failed to compute changed packages between tags '" + oldTag + "' and '" + newTag + "'", e);
