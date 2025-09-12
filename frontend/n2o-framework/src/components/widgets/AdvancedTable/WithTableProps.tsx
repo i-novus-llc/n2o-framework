@@ -6,7 +6,6 @@ import { FactoryContext } from '../../../core/factory/context'
 import { StandardFieldset } from '../Form/fieldsets'
 import { dataSourceValidationSelector } from '../../../ducks/datasource/selectors'
 import { ValidationsKey } from '../../../core/validation/types'
-import { SwitchTableColumnParamPayload } from '../../../ducks/table/Actions'
 import { State } from '../../../ducks/State'
 
 import { ChangeColumnParam, ColumnState, useColumnsState } from './hooks/useColumnsState'

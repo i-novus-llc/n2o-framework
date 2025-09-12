@@ -12,6 +12,7 @@ export type RegisterTableColumnPayload = {
     columnId: string
     label: string
     visible: boolean
+    visibleState?: boolean
     disabled: boolean
     conditions: Record<string, unknown>
 }

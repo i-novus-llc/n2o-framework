@@ -1,6 +1,6 @@
 export interface Table {
     textWrap?: boolean
-    columns: Record<string, { visible: boolean }>
+    columns: Record<string, { visible: boolean, visibleState?: boolean, columnId?: string }>
     isDefaultColumns: boolean
 }
 
