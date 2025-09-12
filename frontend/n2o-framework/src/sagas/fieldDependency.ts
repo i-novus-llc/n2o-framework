@@ -402,6 +402,12 @@ function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
         return
     }
 
+    /*
+     * Костыль-задержка.
+     * При удалении строк мультисета через действия edit-list/set-value не успевают удалиться поля строки
+     */
+    yield delay(16)
+
     const { prevState } = meta
     // @ts-ignore FIXME: Поправить типы
     const prevModel = getModelByPrefixAndNameSelector(prefix, datasource)(prevState || {})
