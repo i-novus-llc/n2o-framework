@@ -25,6 +25,10 @@ const INHERITED_SOURCE_FIELD_ID = 'source_field_id'
 const PARENT_ROW_ID = 'parent_id'
 const SORTING = 'sorting'
 
+/** Колонки содержащие эти параметры не экспортируются
+ * TODO при увеличении массива сделать 1 общий параметр прим. noExport */
+const NON_EXPORTABLE_KEYS = ['moveMode']
+
 export type Payload = {
     exportDatasource: string
     configDatasource: string
@@ -162,7 +166,9 @@ export function* effect({ payload }: Action<string, Payload>) {
     )
 
     const headerCells: HeaderCell[] = yield select(getTableHeaderCells(widgetId))
-    const columns = getAllValuesByKey(headerCells, { keyToIterate: 'children' })
+
+    const columns = getAllValuesByKey(headerCells, { keyToIterate: 'children' })?.filter(obj => !NON_EXPORTABLE_KEYS.some(key => key in obj))
+
     const showed = getShowedColumns(columns)
     const exportURL = createExportUrl(resolvedURL, baseURL, format, charset, showed)
 
