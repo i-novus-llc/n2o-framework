@@ -75,7 +75,35 @@ public class GitLabDiffService {
     }
 
     public List<String> listFilesAtTag(String tag, String resourcesPath) throws IOException, InterruptedException {
-        return listFilesRecursive(projectId, tag, resourcesPath);
+        //return listFilesRecursive(projectId, tag, resourcesPath);
+        return listFilesRecursivePageByPage(projectId, tag, resourcesPath);
+    }
+
+    private List<String> listFilesRecursivePageByPage(String projectId, String tag, String path) throws IOException, InterruptedException {
+        int pageNumber = 1;
+        boolean hasNext = true;
+        List<String> files = new ArrayList<>();
+        while (hasNext) {
+            String url = String.format("%s/projects/%s/repository/tree?recursive=true&ref=%s&per_page=100&page=%s",
+                    gitlabApi, projectId, tag, pageNumber);
+
+            if (path != null && !path.isBlank()) {
+                url += "&path=" + URLEncoder.encode(path, StandardCharsets.UTF_8);
+            }
+            JsonNode json = callApi(url);
+            for (JsonNode fileNode : json) {
+                if ("blob".equals(fileNode.get("type").asText())) {
+                    files.add(fileNode.get("path").asText());
+                }
+            }
+            if (json.size() == 0) {
+                hasNext = false;
+            }
+
+            pageNumber++;
+        }
+
+        return files;
     }
 
     private List<String> listFilesRecursive(String projectId, String tag, String path) throws IOException, InterruptedException {
