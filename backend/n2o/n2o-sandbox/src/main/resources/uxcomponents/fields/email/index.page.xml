@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Поле ввода email">
+    <form>
+        <fields>
+            <email id="email" label="Email"
+                   invalid-text="Невалидный почтовый адрес"/>
+        </fields>
+    </form>
+</simple-page>

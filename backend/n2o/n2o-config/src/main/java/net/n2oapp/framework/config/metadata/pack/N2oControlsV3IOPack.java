@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.io.control.v3.filters_buttons.SearchButtonIOv
 import net.n2oapp.framework.config.io.control.v3.filters_buttons.SearchButtonsIOv3;
 import net.n2oapp.framework.config.io.control.v3.interval.DateIntervalIOv3;
 import net.n2oapp.framework.config.io.control.v3.list.*;
+import net.n2oapp.framework.config.io.control.v3.masked.*;
 import net.n2oapp.framework.config.io.control.v3.plain.*;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.io.toolbar.v2.SubmenuIOv2;
@@ -59,6 +60,10 @@ public class N2oControlsV3IOPack implements MetadataPack<XmlIOBuilder<?>> {
                 new ImageFieldIOv3(),
                 new NumberPickerIOv3(),
                 new TimePickerIOv3(),
-                new MarkdownFieldIOv3());
+                new MarkdownFieldIOv3(),
+                new UuidFieldIOv3(),
+                new EmailFieldIOv3(),
+                new PhoneFieldIOv3(),
+                new SnilsFieldIOv3());
     }
 }

@@ -1,14 +1,14 @@
-package net.n2oapp.framework.api.metadata.control.plain;
+package net.n2oapp.framework.api.metadata.control.masked;
 
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Компонент ввода текста с маской
+ * Исходная модель поля {@code <masked-input>}
  */
 @Getter
 @Setter
-public class N2oMaskedInput extends N2oPlainField {
+public class N2oMaskedInput extends N2oMaskedField {
     private String mask;
     private String measure;
     private Boolean clearOnBlur;

@@ -6,6 +6,7 @@ import net.n2oapp.framework.config.metadata.compile.control.*;
 import net.n2oapp.framework.config.metadata.compile.control.filters_buttons.ClearButtonCompiler;
 import net.n2oapp.framework.config.metadata.compile.control.filters_buttons.SearchButtonCompiler;
 import net.n2oapp.framework.config.metadata.compile.control.filters_buttons.SearchButtonsCompiler;
+import net.n2oapp.framework.config.metadata.compile.control.masked.*;
 
 public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
@@ -50,7 +51,11 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ImageFieldCompiler(),
                 new NumberPickerCompiler(),
                 new TimePickerCompiler(),
-                new MarkdownCompiler()
+                new MarkdownCompiler(),
+                new UuidFieldCompiler(),
+                new EmailFieldCompiler(),
+                new PhoneFieldCompiler(),
+                new SnilsFieldCompiler()
         );
         b.binders(new ListControlBinder(),
                 new FieldBinder());

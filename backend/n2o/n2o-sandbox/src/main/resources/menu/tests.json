@@ -1146,6 +1146,22 @@
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filters/buttons/fetch_on_enter",
           "name": "FilterButtonsAT. testFetchOnEnter"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/email",
+          "name": "EmailFieldAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/phone",
+          "name": "PhoneFieldAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/snils",
+          "name": "SnilsFieldAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/uuid",
+          "name": "UuidFieldAT"
         }
       ]
     },
