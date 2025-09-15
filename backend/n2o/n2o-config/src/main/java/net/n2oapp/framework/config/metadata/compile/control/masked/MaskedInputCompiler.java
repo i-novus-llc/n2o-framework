@@ -1,23 +1,22 @@
-package net.n2oapp.framework.config.metadata.compile.control;
+package net.n2oapp.framework.config.metadata.compile.control.masked;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.plain.N2oMaskedInput;
+import net.n2oapp.framework.api.metadata.control.masked.N2oMaskedInput;
 import net.n2oapp.framework.api.metadata.domain.DomainEnum;
-import net.n2oapp.framework.api.metadata.meta.control.MaskedInput;
+import net.n2oapp.framework.api.metadata.meta.control.masked.MaskedInput;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
-
 /**
- * Компиляция поля с маской для ввода текста
+ * Компиляция поля {@code <masked-input>}
  */
 @Component
-public class MaskedInputCompiler extends StandardFieldCompiler<MaskedInput, N2oMaskedInput> {
+public class MaskedInputCompiler extends MaskedFieldCompiler<MaskedInput, N2oMaskedInput> {
 
     @Override
     protected String getControlSrcProperty() {
@@ -40,6 +39,6 @@ public class MaskedInputCompiler extends StandardFieldCompiler<MaskedInput, N2oM
                 () -> p.resolve(property("n2o.api.control.masked_input.clear_on_blur"), Boolean.class)));
         maskedInput.setAutocomplete(castDefault(source.getAutocomplete(),
                 () -> p.resolve(property("n2o.api.control.masked_input.autocomplete"), String.class)));
-        return compileStandardField(maskedInput, source, context, p);
+        return compileMaskedField(maskedInput, source, context, p);
     }
 }

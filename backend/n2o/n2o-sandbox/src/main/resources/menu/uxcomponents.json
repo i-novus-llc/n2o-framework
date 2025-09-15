@@ -100,7 +100,6 @@
         }
       ]
     },
-
     {
       "name": "Таблица",
       "templates": [
@@ -278,7 +277,6 @@
         }
       ]
     },
-
     {
       "name": "Поля ввода",
       "templates": [
@@ -341,6 +339,22 @@
         {
           "templateId": "uxcomponents/fields/autocomplete_multi",
           "name": "Поле ввода с автозаполнением и множественным выбором"
+        },
+        {
+          "templateId": "uxcomponents/fields/uuid",
+          "name": "Поле ввода UUID"
+        },
+        {
+          "templateId": "uxcomponents/fields/email",
+          "name": "Поле ввода email"
+        },
+        {
+          "templateId": "uxcomponents/fields/phone",
+          "name": "Поле ввода телефона"
+        },
+        {
+          "templateId": "uxcomponents/fields/snils",
+          "name": "Поле ввода СНИЛС"
         }
       ]
     },
@@ -660,7 +674,6 @@
         }
       ]
     },
-
     {
       "name": "Навигация",
       "templates": [
@@ -750,8 +763,6 @@
         }
       ]
     },
-
-
     {
       "name": "Пагинация",
       "templates": [
@@ -818,7 +829,6 @@
         }
       ]
     },
-
     {
       "name": "Действия",
       "templates": [

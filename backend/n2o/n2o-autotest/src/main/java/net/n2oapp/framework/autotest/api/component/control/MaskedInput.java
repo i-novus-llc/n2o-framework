@@ -1,25 +1,13 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 /**
- * Компонент ввода текста с маской для автотестирования
+ * Интерфейс поля {@code <masked-input>} для автотестов
  */
-public interface MaskedInput extends Control {
+public interface MaskedInput extends MaskedControl {
     /**
      * @return значения из поля ввода
      */
     String getValue();
-
-    /**
-     * Установка знаения в поле ввода
-     * @param value устанавливаемое значение
-     */
-    void setValue(String value);
-
-    /**
-     * Проверка соответствия текста подсказки для ввода
-     * @param value ожидаемый текст
-     */
-    void shouldHavePlaceholder(String value);
 
     /**
      * Проверка наличия единиц измерения

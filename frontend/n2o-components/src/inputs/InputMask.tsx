@@ -1,16 +1,13 @@
-import React, { ChangeEvent, FocusEvent, useEffect, useState } from 'react'
-import classNames from 'classnames'
+import React from 'react'
 
 import { withRightPlaceholder } from '../helpers/withRightPlaceholder'
 
-import { useMask } from './useMask'
-import { type CommonMaskedInputProps } from './types'
+import { useMask } from './helpers/input/mask'
+import { useInputController } from './helpers/input/useInputController'
+import { type InputProps } from './helpers/input/types'
 
-export interface MaskProps extends CommonMaskedInputProps {
-    placeholder: string
-    id: string
-    clearOnBlur: boolean
-    mask: string
+export interface MaskProps extends InputProps {
+    mask?: string
 }
 
 function Component({
@@ -21,49 +18,31 @@ function Component({
     className,
     onChange,
     onBlur,
-    autocomplete,
-    value: propsValue,
+    onMessage,
+    invalidText,
+    value,
     mask = '',
+    autocomplete,
 }: MaskProps) {
-    const { maskRef, isMaskFilled, maskedValue } = useMask(mask, propsValue)
-    // для отображения не полность заполненного value (при clearOnBlur = false)
-    const [value, setValue] = useState<string>(maskedValue)
+    const { maskRef, isMaskFilled, maskedValue } = useMask(mask, value)
 
-    useEffect(() => {
-        if (maskedValue !== value) { setValue(maskedValue) }
-    }, [maskedValue])
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { value: targetValue } = e.target
-
-        setValue(targetValue)
-
-        if (isMaskFilled(targetValue)) {
-            onChange?.(targetValue)
-        }
-    }
-
-    const handleBlur = (e: FocusEvent<HTMLInputElement>): void => {
-        const { value: targetValue } = e.target
-
-        if (clearOnBlur && !isMaskFilled(targetValue)) {
-            onChange?.(null)
-            onBlur?.(null)
-
-            setValue('')
-
-            return
-        }
-
-        onBlur?.(targetValue)
-    }
+    const { stateValue, handleChange, handleBlur, inputClassName } = useInputController({
+        value: maskedValue,
+        onChange,
+        onBlur,
+        onMessage,
+        invalidText,
+        clearOnBlur,
+        validate: isMaskFilled,
+        className,
+    })
 
     return (
         <input
-            value={value}
+            value={stateValue}
             id={id}
             disabled={disabled}
-            className={classNames(['form-control', 'n2o-input-mask', className])}
+            className={inputClassName}
             ref={maskRef}
             placeholder={placeholder}
             onInput={handleChange}
@@ -74,5 +53,3 @@ function Component({
 }
 
 export const InputMask = withRightPlaceholder(Component)
-
-Component.displayName = 'InputMask'

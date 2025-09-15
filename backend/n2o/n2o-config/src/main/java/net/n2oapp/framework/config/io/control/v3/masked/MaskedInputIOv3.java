@@ -1,16 +1,16 @@
-package net.n2oapp.framework.config.io.control.v3.plain;
+package net.n2oapp.framework.config.io.control.v3.masked;
 
 
-import net.n2oapp.framework.api.metadata.control.plain.N2oMaskedInput;
+import net.n2oapp.framework.api.metadata.control.masked.N2oMaskedInput;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение, запись компонента ввода текст с маской версии 3.0
+ * Чтение/запись поля {@code <masked-input>} версии 3.0
  */
 @Component
-public class MaskedInputIOv3 extends PlainFieldIOv3<N2oMaskedInput> {
+public class MaskedInputIOv3 extends MaskedFieldIOv3<N2oMaskedInput> {
 
     @Override
     public void io(Element e, N2oMaskedInput m, IOProcessor p) {

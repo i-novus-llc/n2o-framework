@@ -14,6 +14,10 @@ import { Slider } from '@i-novus/n2o-components/lib/display/Slider'
 import { Switch } from '@i-novus/n2o-components/lib/inputs/Switch'
 import { TextArea } from '@i-novus/n2o-components/lib/inputs/TextArea'
 import { TimePicker } from '@i-novus/n2o-components/lib/inputs/TimePicker'
+import { InputUUID } from '@i-novus/n2o-components/lib/inputs/InputUUID'
+import { InputEmail } from '@i-novus/n2o-components/lib/inputs/InputEmail'
+import { InputPhone } from '@i-novus/n2o-components/lib/inputs/InputPhone'
+import { InputSNILS } from '@i-novus/n2o-components/lib/inputs/InputSNILS'
 
 import { defineAsync } from '../../core/factory/defineAsync'
 
@@ -65,4 +69,8 @@ export default {
     OutputList,
     NumberPicker,
     TimePicker,
+    'Inputs/UUID': InputUUID,
+    'Inputs/Email': InputEmail,
+    'Inputs/Phone': InputPhone,
+    'Inputs/SNILS': InputSNILS,
 }

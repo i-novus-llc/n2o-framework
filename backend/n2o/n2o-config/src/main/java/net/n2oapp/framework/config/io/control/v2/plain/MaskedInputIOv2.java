@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.control.v2.plain;
 
-import net.n2oapp.framework.api.metadata.control.plain.N2oMaskedInput;
+import net.n2oapp.framework.api.metadata.control.masked.N2oMaskedInput;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;

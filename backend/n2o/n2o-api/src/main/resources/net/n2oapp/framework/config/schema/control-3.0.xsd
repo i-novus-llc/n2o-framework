@@ -17,6 +17,10 @@
     <xs:element name="image" type="imageDefinition"/>
     <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
     <xs:element name="number-picker" type="numberPickerFieldDefinition"/>
+    <xs:element name="uuid" type="controlUuidDefinition"/>
+    <xs:element name="email" type="controlEmailDefinition"/>
+    <xs:element name="phone" type="controlPhoneDefinition"/>
+    <xs:element name="snils" type="controlSnilsDefinition"/>
     <xs:element name="checkbox" type="controlCheckboxDefinition"/>
     <xs:element name="date-time" type="controlDatePickerDefinition"/>
     <xs:element name="time-picker" type="controlTimePickerDefinition"/>
@@ -92,6 +96,10 @@
             <xs:element name="number-picker" type="numberPickerFieldDefinition" minOccurs="0"/>
             <xs:element name="time-picker" type="controlTimePickerDefinition" minOccurs="0"/>
             <xs:element name="markdown" type="controlMarkdownDefinition" minOccurs="0"/>
+            <xs:element name="uuid" type="controlUuidDefinition" minOccurs="0"/>
+            <xs:element name="email" type="controlEmailDefinition" minOccurs="0"/>
+            <xs:element name="phone" type="controlPhoneDefinition" minOccurs="0"/>
+            <xs:element name="snils" type="controlSnilsDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемое через библиотеку поле.</xs:documentation>
@@ -229,6 +237,20 @@
                 <xs:attribute name="default-value" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Значение по умолчанию</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlMaskedFieldDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="invalid-text" type="xs:string" default="Данные не соответствуют формату">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Сообщение при вводе значения, не соответствующего формату поля
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -710,13 +732,13 @@
 
     <xs:complexType name="controlHiddenDefinition">
         <xs:complexContent>
-            <xs:extension base="controlSimpleFieldDefinition"></xs:extension>
+            <xs:extension base="controlSimpleFieldDefinition"/>
         </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="controlMaskedInputDefinition">
         <xs:complexContent>
-            <xs:extension base="controlSimpleFieldDefinition">
+            <xs:extension base="controlMaskedFieldDefinition">
                 <xs:attribute name="mask" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Маска текста.</xs:documentation>
@@ -742,6 +764,58 @@
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlUuidDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Поле ввода UUID
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="controlMaskedFieldDefinition"/>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlEmailDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Поле ввода email
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="controlMaskedFieldDefinition"/>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlPhoneDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>
+                    Поле ввода телефона
+                </xs:documentation>
+            </xs:annotation>
+            <xs:extension base="controlMaskedFieldDefinition">
+                <xs:attribute name="country" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Список наименований стран, указанный в ISO 3166-1 alpha-2
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlSnilsDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Поле ввода СНИЛС
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="controlMaskedFieldDefinition"/>
         </xs:complexContent>
     </xs:complexType>
 

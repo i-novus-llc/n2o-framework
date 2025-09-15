@@ -1,15 +1,15 @@
-package net.n2oapp.framework.api.metadata.meta.control;
+package net.n2oapp.framework.api.metadata.meta.control.masked;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель компонента ввода текста с маской
+ * Клиентская модель поля {@code <masked-input>}
  */
 @Getter
 @Setter
-public class MaskedInput extends Control {
+public class MaskedInput extends MaskedControl {
     @JsonProperty
     private String mask;
     @JsonProperty

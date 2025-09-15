@@ -673,35 +673,6 @@ n2o.api.control.input_text.autocomplete=off
 
 
 
-### &lt;masked-input&gt;
-
-Компонент ввода текста с маской
-
-**Атрибуты**
-
-|Наименование |Тип       |Описание                            |Значение по умолчанию|Обязательность
-|-------------|----------|------------------------------------|---------------------|----------------
-|mask         |Строка    |Маска текста                        |                     |!
-|measure      |Строка    |Единица измерения                   |                     |
-|clear-on-blur|true false|Стирать ли значение при уходе с поля|true                 |
-|autocomplete |on off Строка|Браузерное автозаполнение поля введенными ранее значениями. Списком строковых значений через запятую можно задать [токены](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete#token_list_tokens) для конкретизации подсказок| off      |
-
-**Настройки**
-```yaml
-# Стирать ли значение при уходе с поля
-n2o.api.control.masked_input.clear_on_blur=true
-# Браузерное автозаполнение поля введенными ранее значениями
-n2o.api.control.masked_input.autocomplete=off
-```
-
-**Пример**
-```xml
-<masked-input id="phone" mask="+7 (999) 999-99-99"/>
-```
-<Sandbox height={100} projectId="uxcomponents_fields_masked_input" />
-
-
-
 ### &lt;number-picker&gt;
 
 Компонент выбора числа из диапазона
@@ -1116,6 +1087,131 @@ n2o.api.control.time_picker.format=symbols
 <time-picker id="test1" prefix="from: " format="digit" mode="hour,minute" time-format="hh:mm"/>
 ```
 <Sandbox height={400} projectId="uxcomponents_date_time_time" />
+
+
+
+## Поля ввода с маской {#masked_fields}
+
+Базовые свойства полей ввода с маской
+
+**Атрибуты**
+
+| Наименование | Тип       | Описание                                                       | Значение по умолчанию           |
+|--------------|-----------|----------------------------------------------------------------|---------------------------------|
+| invalid-text | Строка    | Сообщение при вводе значения, не соответствующего формату поля | Данные не соответствуют формату |
+
+**Настройки**
+
+```yaml
+# Сообщение при вводе значения, не соответствующего формату поля
+n2o.api.control.masked.invalid_text = Данные не соответствуют формату
+```
+
+
+
+### &lt;masked-input&gt;
+
+Компонент ввода текста с настраиваемой маской
+
+**Атрибуты**
+
+| Наименование  | Тип           | Описание                                                                                                                                                                                                                                                      | Значение по умолчанию | Обязательность |
+|---------------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|----------------|
+| mask          | Строка        | Маска текста                                                                                                                                                                                                                                                  |                       | !              |
+| measure       | Строка        | Единица измерения                                                                                                                                                                                                                                             |                       |                |
+| clear-on-blur | true false    | Стирать ли значение при уходе с поля                                                                                                                                                                                                                          | true                  |                |
+| autocomplete  | on off Строка | Браузерное автозаполнение поля введенными ранее значениями. Списком строковых значений через запятую можно задать [токены](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete#token_list_tokens) для конкретизации подсказок | off                   |                |
+
+**Настройки**
+
+```yaml
+# Стирать ли значение при уходе с поля
+n2o.api.control.masked_input.clear_on_blur = true
+# Браузерное автозаполнение поля введенными ранее значениями
+n2o.api.control.masked_input.autocomplete = off
+```
+
+**Пример**
+
+```xml
+<masked-input id="phone" mask="+7 (999) 999-99-99"/>
+```
+
+<Sandbox height={100} projectId="uxcomponents_fields_masked_input" />
+
+
+
+### &lt;email&gt;
+
+Поле ввода email
+
+**Атрибуты**
+
+Наследует базовые свойства простых компонентов
+
+**Пример**
+
+```xml
+<email id="email"/>
+```
+
+<Sandbox height={400} projectId="uxcomponents_masked_fields_email" />
+
+
+
+### &lt;phone&gt;
+
+Поле ввода телефона
+
+**Атрибуты**
+
+| Наименование | Тип    | Описание                                                  |
+|--------------|--------|-----------------------------------------------------------|
+| country      | Строка | Список наименований стран, указанный в ISO 3166-1 alpha-2 |
+
+**Пример**
+
+```xml
+<phone id="phone" country="RU, KZ"/>
+```
+
+<Sandbox height={400} projectId="uxcomponents_masked_fields_phone" />
+
+
+
+### &lt;snils&gt;
+
+Полe ввода СНИЛС
+
+**Атрибуты**
+
+Наследует базовые свойства простых компонентов
+
+**Пример**
+
+```xml
+<snils id="snils"/>
+```
+
+<Sandbox height={400} projectId="uxcomponents_masked_fields_snils" />
+
+
+
+### &lt;uuid&gt;
+
+Полe ввода UUID
+
+**Атрибуты**
+
+Наследует базовые свойства простых компонентов
+
+**Пример**
+
+```xml
+<uuid id="id"/>
+```
+
+<Sandbox height={400} projectId="uxcomponents_masked_fields_uuid" />
 
 
 
