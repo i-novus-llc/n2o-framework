@@ -12,12 +12,11 @@ import { type ErrorContainerError } from '../../core/error/types'
 import { State } from '../../ducks/State'
 import { requestConfig as requestConfigAction, registerLocales } from '../../ducks/global/store'
 import { globalSelector } from '../../ducks/global/selectors'
-import { FactoryLevels } from '../../core/factory/factoryLevels'
-import { FactoryContext } from '../../core/factory/context'
 import { Locale, type LocaleArray, type LocalesPreset } from '../../locales'
 import { type SidebarProps } from '../../plugins/SideBar/types'
 import { type SimpleHeaderBodyProps } from '../../plugins/Header/SimpleHeader/SimpleHeader'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
+import { Spinner, SpinnerType } from '../../factoryComponents/Spinner'
 
 import { GlobalAlertsConnected } from './GlobalAlerts'
 
@@ -84,15 +83,12 @@ function Application(props: ApplicationProps) {
         configLocale: locale,
     }
 
-    const { getComponent } = useContext(FactoryContext)
-    const FactorySpinner = getComponent('Spinner', FactoryLevels.SNIPPETS)
-
     return (
         <ApplicationContext.Provider value={contextValue}>
             <GlobalAlertsConnected />
             <ErrorContainer error={error}>
                 <>
-                    {!ready && FactorySpinner && <FactorySpinner type="cover" loading={loading} />}
+                    {!ready && <Spinner type={SpinnerType.cover} loading={loading} />}
                     {ready && <Block disabled={loading}>{render()}</Block>}
                 </>
             </ErrorContainer>

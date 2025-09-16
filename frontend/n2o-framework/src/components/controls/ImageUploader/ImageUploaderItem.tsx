@@ -130,7 +130,7 @@ export const ImageUploaderItem = ({
                     )}
                     <span className="n2o-image-uploader-img-info__file-size">
                         {listType === 'card' && showSize && <span>{convertSize(file.size)}</span>}
-                        {loading && <Spinner className="ml-2" type={SpinnerType.inline} size="sm" />}
+                        {loading && <Spinner loading={loading} className="ml-2" type={SpinnerType.inline} size="sm" />}
                     </span>
                 </div>
             </span>
