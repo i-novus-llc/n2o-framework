@@ -4,9 +4,9 @@ import toString from 'lodash/toString'
 import isEqual from 'lodash/isEqual'
 import classNames from 'classnames'
 import { RadioGroup as Group } from '@i-novus/n2o-components/lib/inputs/RadioGroup'
-import { Spinner } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
-import { TOption } from '@i-novus/n2o-components/lib/types'
+import { type TOption } from '@i-novus/n2o-components/lib/types'
 
+import { Spinner, SpinnerType } from '../../../factoryComponents/Spinner'
 import withFetchData from '../withFetchData'
 
 enum RadioGroupType {
@@ -118,7 +118,7 @@ class RadioGroup extends Component<Props, State> {
         const { groupName, options } = this.state
 
         if (loading) {
-            return <Spinner />
+            return <Spinner loading={loading} />
         }
 
         const groupValue = value?.[valueFieldId as keyof TOption<string | number>]

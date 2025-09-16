@@ -4,8 +4,8 @@ import omit from 'lodash/omit'
 import get from 'lodash/get'
 import has from 'lodash/has'
 import { EventHandlersContext } from '@i-novus/n2o-components/lib/inputs/eventHandlersContext'
-import { Spinner, SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 
+import { Spinner, SpinnerType } from '../../../../../factoryComponents/Spinner'
 import { Toolbar, type ToolbarProps } from '../../../../buttons/Toolbar'
 import { useResolved } from '../../../../../core/Expression/useResolver'
 import { EMPTY_OBJECT, NOOP_FUNCTION } from '../../../../../utils/emptyTypes'
@@ -174,6 +174,7 @@ export const StandardField = ({
                     <FieldActions actions={fieldActions} />
                     {loading && (
                         <Spinner
+                            loading={loading}
                             className="n2o-form-group__spinner align-self-center"
                             type={SpinnerType.inline}
                             size="sm"

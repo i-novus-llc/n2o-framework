@@ -1,5 +1,6 @@
 import React, { ComponentType, lazy, Suspense } from 'react'
 
+import { Spinner, SpinnerType } from '../../factoryComponents/Spinner'
 import { logger } from '../utils/logger'
 
 const ErrorComponent = () => (
@@ -8,11 +9,7 @@ const ErrorComponent = () => (
     </div>
 )
 
-const LoadingComponent = () => (
-    <span>
-        {/* TODO Подключить лоадер через фабрику, чтобы был одинаковый во всем приложении */}
-    </span>
-)
+const LoadingComponent = () => <Spinner type={SpinnerType.inline} minSpinnerTimeToShow={1000} loading />
 
 export function defineAsync<
     P extends {},

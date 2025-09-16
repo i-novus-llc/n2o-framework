@@ -2,8 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 import { Progress } from 'reactstrap'
 import isEmpty from 'lodash/isEmpty'
-import { Spinner, SpinnerType } from '@i-novus/n2o-components/lib/layouts/Spinner/Spinner'
 
+import { Spinner, SpinnerType } from '../../../factoryComponents/Spinner'
 import { Tooltip } from '../../snippets/Tooltip/TooltipHOC'
 
 import { convertSize } from './utils'
@@ -41,7 +41,7 @@ function FileUploaderItem({
                             className={classNames('n2o-file-uploader-remove ml-2', deleteIcon || 'fa fa-times')}
                         />
                     )}
-                    {loading && <Spinner type={SpinnerType.inline} size="sm" />}
+                    {loading && <Spinner type={SpinnerType.inline} size="sm" loading={loading} />}
                 </span>
             </span>
             {inProgress && (
