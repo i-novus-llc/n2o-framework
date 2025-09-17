@@ -31,10 +31,10 @@ export default defineConfig(({ mode }) => {
                     entryFileNames: isProduction ? 'index-[hash].js' : 'index.js',
                     chunkFileNames: 'assets/[name]-[hash].js',
                     assetFileNames: 'assets/[name]-[hash][extname]',
-                    manualChunks: (id) => {     
+                    manualChunks: (id) => {
                         if(ROLLUP_COMMON_MODULES.some((commonModule) => id.includes(commonModule))) {
                             return 'rollup'
-                        }                   
+                        }
                         if (id.includes('node_modules')) {
                             const moduleName = getModuleName(id)
 
@@ -93,8 +93,9 @@ export default defineConfig(({ mode }) => {
         },
         optimizeDeps: {
             include: [
-                'moment/locale/ru',
-                'moment/min/moment.min.js',
+                'moment/dist/locale/ru',
+                // C обновлением vite ло 7.1.5 Падает start demo [ERROR] Could not resolve require("./locale/**/*")
+                // 'moment/min/moment.min.js',
                 'lodash-es/debounce',
                 'lodash-es/isEqual',
                 'lodash-es/isEmpty',
