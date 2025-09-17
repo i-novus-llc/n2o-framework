@@ -76,15 +76,15 @@ class TabsLazyInitAT extends AutoTestBase {
         Regions regions = page.regions();
         regions.shouldHaveSize(5);
 
-        checkTabRegion(regions.region(1, TabsRegion.class), "tab1", "one", "tab2", "two", "always-refresh=\"true\", lazy=\"true\"");
-        checkTabRegion(regions.region(2, TabsRegion.class), "tab3", "three", "tab4", "four", "always-refresh=\"true\", lazy=\"false\"");
-        checkTabRegion(regions.region(3, TabsRegion.class), "tab5", "five", "tab6", "six", "always-refresh=\"false\", lazy=\"true\"");
-        checkTabRegion(regions.region(4, TabsRegion.class), "tab7", "seven", "tab8", "eight", "always-refresh=\"false\", lazy=\"false\"");
+        checkTabRegion(regions, 1, "tab1", "one", "tab2", "two", "always-refresh=\"true\", lazy=\"true\"");
+        checkTabRegion(regions, 2, "tab3", "three", "tab4", "four", "always-refresh=\"true\", lazy=\"false\"");
+        checkTabRegion(regions, 3, "tab5", "five", "tab6", "six", "always-refresh=\"false\", lazy=\"true\"");
+        checkTabRegion(regions, 4, "tab7", "seven", "tab8", "eight", "always-refresh=\"false\", lazy=\"false\"");
     }
 
-    private void checkTabRegion(TabsRegion tab, String tab1Name, String tab1Value,
-                                String tab2Name, String tab2Value,
-                                String fieldLabel) {
+    private void checkTabRegion(Regions regions, int i, String tab1Name, String tab1Value,
+                                String tab2Name, String tab2Value, String fieldLabel) {
+        TabsRegion tab = regions.region(i, TabsRegion.class);
         tab.shouldHaveSize(2);
         tab.tab(0).shouldHaveName(tab1Name);
         StandardField field = tab.tab(0).content().widget(FormWidget.class).fields().field(fieldLabel);
@@ -93,8 +93,14 @@ class TabsLazyInitAT extends AutoTestBase {
         tab.tab(1).click();
         field = tab.tab(1).content().widget(FormWidget.class).fields().field(fieldLabel);
         field.control(InputText.class).shouldHaveValue(tab2Value);
-    }
 
+        if (i == 1) {
+            field.control(InputText.class).setValue("test");
+            tab.tab(0).click();
+            tab.tab(1).click();
+            field.control(InputText.class).shouldHaveValue(tab2Value);
+        }
+    }
 
     @Test
     void testLazyInitWithDependencies() {
