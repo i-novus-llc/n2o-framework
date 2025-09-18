@@ -4,7 +4,7 @@ import every from 'lodash/every'
 import isFunction from 'lodash/isFunction'
 import isNull from 'lodash/isNull'
 import dayjs, { Dayjs } from 'dayjs'
-import { Manager, Popper, Reference, RefHandler } from 'react-popper'
+import { Manager, Popper, Reference, RefHandler, Modifier, PopperChildrenProps } from 'react-popper'
 
 import { buildDateFormat, createDefaultTime, mapToDefaultTime, mapToValue } from './utils'
 import { DateInputGroup } from './DateInputGroup'
@@ -29,6 +29,37 @@ type DateTimeControlState = {
 
 const DEFAULT_DATE_FORMAT = 'DD.MM.YYYY'
 const DEFAULT_OUTPUT_FORMAT = `${DEFAULT_DATE_FORMAT}  HH:mm:ss`
+
+const POPPER_MODIFIERS: Array<Partial<Modifier<unknown, {}>>> = [
+    {
+        name: 'flip',
+        options: {
+            boundary: 'viewport',
+            rootBoundary: 'document',
+            padding: 8,
+        },
+    },
+    {
+        name: 'preventOverflow',
+        options: {
+            boundary: 'viewport',
+            rootBoundary: 'document',
+            padding: 8,
+        },
+    },
+    {
+        name: 'offset',
+        options: {
+            offset: ({ placement }: { placement: PopperChildrenProps['placement'] }): [number, number] => {
+                if (placement.includes('left') || placement.includes('right')) {
+                    return [0, 10]
+                }
+
+                return [0, 0]
+            },
+        },
+    },
+]
 
 export class DateTimeControl extends React.Component<DateTimeControlProps, DateTimeControlState> {
     format: string
@@ -446,8 +477,9 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                         </Reference>
                         {isPopUpVisible && (
                             <Popper
-                                placement={popupPlacement}
                                 strategy={strategy}
+                                placement={popupPlacement}
+                                modifiers={POPPER_MODIFIERS}
                             >
                                 {({ ref, style, placement }) => (
                                     <div
