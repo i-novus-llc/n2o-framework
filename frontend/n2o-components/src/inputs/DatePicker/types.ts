@@ -1,6 +1,7 @@
 import { FocusEventHandler, KeyboardEvent, MouseEventHandler, Component, ReactNode } from 'react'
 import { Dayjs } from 'dayjs'
 import { PopperProps } from 'react-popper'
+import { Strategy } from '@floating-ui/react'
 
 import { TBaseInputProps, TBaseProps } from '../../types'
 
@@ -98,6 +99,7 @@ export type DateIntervalProps = BaseDateProps & TBaseInputProps<IntervalValue> &
     locale?: Locale
     onBlur?(value: IntervalValue): void
     onChange?(value: IntervalValue): void
+    strategy: Strategy
 }
 
 type Value = Record<string, Dayjs | null>

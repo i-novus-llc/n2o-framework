@@ -41,6 +41,7 @@ const AdvancedTableFilterPopupBody = ({
                         onKeyDown,
                         popupPlacement: 'right',
                         touched,
+                        strategy: 'absolute',
                         label: null,
                         ...error,
                     })
