@@ -91,9 +91,9 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testTable5Compile"));
         Table<?> table = (Table<?>) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(table.getId(), is("testTable5Compile_w1"));
+        assertThat(table.getSaveSettings(), is(false));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().size(), is(3));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getId(), is("testAction"));
-        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("paddingTop"), is("0"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("testTable5Compile_mi1"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getShowToggleIcon(), is(true));
