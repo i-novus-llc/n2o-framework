@@ -24,6 +24,10 @@ build and verify:
   cache: []
 
 autotesting mr stand:
+  cache:
+    key: "allure-2.34.0"
+    paths:
+      - allure/
   extends: .autotesting mr stand
   variables:
     AUTOTEST_PARAMS: '-Pautotests -o'
@@ -33,6 +37,20 @@ autotesting mr stand:
   dependencies:
     - build and verify
     - deploy mr stand
+  artifacts:
+    when: always
+    expire_in: 3 days
+    paths:
+      - public
+  after_script:
+    - 'if [ ! -d "allure" ]; then
+        wget -q "https://github.com/allure-framework/allure2/releases/download/2.34.0/allure-2.34.0.tgz";
+        mkdir -p allure;
+        tar xzf "allure-2.34.0.tgz" -C allure --strip-components=1;
+        fi'
+    - 'export PATH="$PATH:$(pwd)/allure/bin"'
+    - 'mkdir public'
+    - 'allure generate demo/server/allure-results backend/n2o/n2o-autotest/allure-results -o ./public --clean'
 
 build story:
   variables:
