@@ -223,7 +223,7 @@ export function* modify(
 
             if (currentRequired === nextRequired) { break }
 
-            yield put(setFieldRequired(formName, fieldName, nextRequired))
+            yield put(setFieldRequired(formName, fieldName, nextRequired, !isInit))
 
             break
         }
