@@ -23,6 +23,7 @@ export const DateInterval = ({
     configLocale = 'ru',
     openOnFocus = false,
     defaultTime,
+    strategy = 'fixed',
     ...rest
 }: DateIntervalProps) => {
     const newValue = defaults({ ...value }, defaultValue)
@@ -60,7 +61,7 @@ export const DateInterval = ({
             min={min}
             max={max}
             dateFormat={dateFormat}
-            strategy="absolute"
+            strategy={strategy}
             value={mappedValue}
             onChange={handleChange}
             onBlur={handleBlur}

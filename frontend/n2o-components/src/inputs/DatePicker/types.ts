@@ -101,6 +101,7 @@ export type DateIntervalProps = BaseDateProps & TBaseInputProps<IntervalValue> &
     locale?: Locale
     onBlur?(value: IntervalValue): void
     onChange?(value: IntervalValue): void
+    strategy: 'fixed' | 'absolute'
 }
 
 export type DateInputProps = BaseDateProps & Omit<TBaseInputProps<Dayjs | null>, 'onFocus' | 'onBlur'> & {
