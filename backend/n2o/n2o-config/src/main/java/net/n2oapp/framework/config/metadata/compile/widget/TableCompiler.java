@@ -304,28 +304,27 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     }
 
     private boolean shouldSaveSettings(S source, CompileProcessor p) {
-        if (Boolean.FALSE.equals(p.resolve(property("n2o.api.widget.table.save_settings"), Boolean.class))) {
+        if (Boolean.FALSE.equals(p.resolve(property("n2o.api.widget.table.save_settings"), Boolean.class)) ||
+            source.getToolbars() == null)
             return false;
-        }
+
         return Arrays.stream(source.getToolbars())
                 .flatMap(toolbar -> Arrays.stream(toolbar.getItems()))
                 .anyMatch(this::containsSettingToSave);
     }
 
     private boolean containsSettingToSave(ToolbarItem item) {
-        if (item instanceof N2oSubmenu submenu) {
+        if (item instanceof N2oSubmenu submenu && submenu.getMenuItems() != null)
             return Arrays.stream(submenu.getMenuItems()).anyMatch(this::isSettingToSave);
-        }
-        if (item instanceof N2oGroup group) {
+        if (item instanceof N2oGroup group && group.getItems() != null)
             return Arrays.stream(group.getItems()).anyMatch(this::containsSettingToSave);
-        }
         return isSettingToSave(item);
     }
 
     private boolean isSettingToSave(ToolbarItem item) {
         return item instanceof N2oColumnsTableSetting ||
-                item instanceof N2oResizeTableSetting ||
-                item instanceof N2oWordWrapTableSetting;
+               item instanceof N2oResizeTableSetting ||
+               item instanceof N2oWordWrapTableSetting;
     }
 
     /**
