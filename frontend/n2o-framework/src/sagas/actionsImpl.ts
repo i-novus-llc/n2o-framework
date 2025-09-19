@@ -35,7 +35,8 @@ import { ButtonContainer } from '../ducks/toolbar/Toolbar'
 import { metaPropsType } from '../plugins/utils'
 import { DataSourceState } from '../ducks/datasource/DataSource'
 import { dataSourceByIdSelector } from '../ducks/datasource/selectors'
-import { validate } from '../ducks/datasource/sagas/validate'
+import { validate as validateSaga } from '../ducks/datasource/sagas/validate'
+import { N2OMeta } from '../ducks/Action'
 import { ValidationsKey } from '../core/validation/types'
 
 import fetchSaga from './fetch'
@@ -152,9 +153,9 @@ export interface HandleInvokePayload {
     widgetId?: string
 }
 
-export interface HandleInvokeMeta {
-    success: metaPropsType
-    fail: metaPropsType
+export interface HandleInvokeMeta extends N2OMeta {
+    success?: metaPropsType
+    fail?: metaPropsType
 }
 
 interface ErrorFields {
@@ -164,14 +165,14 @@ interface ErrorFields {
 // eslint-disable-next-line complexity
 export function* handleInvoke(
     apiProvider: unknown,
-    action: { payload: HandleInvokePayload, meta?: HandleInvokeMeta },
+    { payload, meta = {} }: { payload: HandleInvokePayload, meta?: HandleInvokeMeta },
 ) {
     const {
         datasource,
         model: modelPrefix,
         dataProvider,
         pageId,
-    } = action.payload
+    } = payload
 
     const state: State = yield select()
     const optimistic = get(dataProvider, 'optimistic')
@@ -189,8 +190,11 @@ export function* handleInvoke(
         if (!dataProvider) {
             throw new Error('dataProvider is undefined')
         }
-        if (modelPrefix === ModelPrefix.active) {
-            const isValid: boolean = yield validate(startValidate(
+
+        const { validate } = meta
+
+        if ((validate !== false) && (modelPrefix === ModelPrefix.active)) {
+            const isValid: boolean = yield validateSaga(startValidate(
                 datasource,
                 ValidationsKey.Validations,
                 modelPrefix,
@@ -218,7 +222,7 @@ export function* handleInvoke(
 
         errorFields = get(response, 'meta.messages.fields', {})
 
-        const meta = merge(action.meta?.success || {}, response.meta || {})
+        const successMeta = merge(meta.success || {}, response.meta || {})
 
         if (optimistic === false) {
             const newModel = modelPrefix === ModelPrefix.selected ? response.data?.$list : response.data
@@ -229,7 +233,7 @@ export function* handleInvoke(
                 )
             }
         }
-        yield put(successInvoke(datasource, modelPrefix, meta))
+        yield put(successInvoke(datasource, modelPrefix, successMeta))
         yield enable(pageId, widgets, buttons, buttonIds)
     } catch (err) {
         // eslint-disable-next-line no-console
@@ -240,7 +244,7 @@ export function* handleInvoke(
         errorFields = get(errorMeta, 'messages.fields', {})
 
         yield* handleFailInvoke(
-            action?.meta?.fail || {},
+            meta.fail || {},
             datasource,
             errorMeta,
         )

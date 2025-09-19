@@ -3,17 +3,18 @@ import { Action as ReduxAction } from 'redux'
 import { State } from './State'
 
 export interface N2OMeta {
-    operationId?: string
-    target?: string
-    key?: string
+    abortController?: AbortController
     buttonId?: string
     evalContext?: Record<string, unknown>
+    operationId?: string
+    initAction?: boolean
+    isTriggeredByFieldChange?: boolean
+    key?: string
     pageId?: string
     prevState?: State
+    target?: string
+    validate?: boolean
     [key: string]: unknown
-    abortController?: AbortController
-    isTriggeredByFieldChange?: boolean
-    initAction?: boolean
 }
 
 export interface N2OAction<
