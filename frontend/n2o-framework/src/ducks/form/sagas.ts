@@ -1,6 +1,7 @@
 import { takeEvery, put, select, debounce } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 
 import { ModelPrefix } from '../../core/datasource/const'
 import { Validation, ValidationsKey } from '../../core/validation/types'
@@ -11,7 +12,7 @@ import {
     copyFieldArray,
     setModel,
 } from '../models/store'
-import { failValidate, startValidate } from '../datasource/store'
+import { failValidate, startValidate, resetValidation } from '../datasource/store'
 import { FailValidateAction } from '../datasource/Actions'
 import { dataSourceValidationSelector } from '../datasource/selectors'
 import { getModelByPrefixAndNameSelector } from '../models/selectors'
@@ -24,6 +25,7 @@ import {
     handleTouch,
 } from './store'
 import { Form } from './types'
+import { FieldAction } from './Actions'
 
 const validateFields: Record<string, string[]> = {}
 
@@ -150,9 +152,25 @@ export const formPluginSagas = [
     takeEvery([
         handleBlur,
         setFieldRequired,
-    ], function* addFieldToBuffer({ payload }) {
+    ], function* addFieldToBuffer({ payload, meta = {} }: FieldAction) {
         const { formName, fieldName } = payload
         const { datasource }: Form = yield select(makeFormByName(formName))
+
+        const { validate } = meta
+
+        if (validate === false) {
+            const { formName, fieldName } = payload
+
+            // Сброс required валидации, даже если в зависимости стоит validate=false
+            if (get(payload, 'required') !== false) {
+                const { modelPrefix } = yield select(makeFormByName(formName))
+
+                // @ts-ignore типизация пофикшена в 7.29+
+                yield put(resetValidation(formName, [fieldName], modelPrefix))
+            }
+
+            return
+        }
 
         if (!validateFields[datasource]) {
             validateFields[datasource] = []

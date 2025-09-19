@@ -194,10 +194,15 @@ export const formSlice = createSlice({
         },
 
         setFieldRequired: {
-            prepare(formName: string, fieldName: string, required: boolean) {
+            prepare(
+                formName: string,
+                fieldName: string,
+                required: boolean,
+                validate?: boolean,
+            ) {
                 return ({
                     payload: { formName, fieldName, required },
-                    meta: { formName, fieldName },
+                    meta: { validate },
                 })
             },
 
