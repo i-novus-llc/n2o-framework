@@ -103,6 +103,7 @@ function useAction({ validate, ...rest }: UseActionProps, onClick: EventHandler)
             buttonId,
             evalContext: evalContext.current,
             pageId,
+            validate: false,
         }) : undefined
 
         const state = store.getState()
