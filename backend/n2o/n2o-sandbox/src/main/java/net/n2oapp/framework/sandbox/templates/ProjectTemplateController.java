@@ -5,6 +5,7 @@ import net.n2oapp.framework.sandbox.file_storage.model.ProjectModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -26,6 +27,8 @@ public class ProjectTemplateController {
     private ProjectSearcher projectSearcher;
     @Autowired
     private GitLabDiffService gitLabDiffService;
+    @Value("${sandbox.projects.resources.path:backend/n2o/n2o-sandbox/src/main/resources}")
+    private String sandboxProjectsResourcesPath;
 
     @CrossOrigin(origins = "*")
     @GetMapping("/project")
@@ -58,7 +61,6 @@ public class ProjectTemplateController {
     @GetMapping("/projects-diff")
     public ProjectsDiffResponse getNewProjectFiles(@RequestParam(name = "oldTag") String oldTag,
                                                    @RequestParam(name = "newTag") String newTag) {
-        String resourcesPath = "backend/n2o/n2o-sandbox/src/main/resources";
         try {
             File gitRoot = findGitRoot(new File("."));
             Set<String> changedPackages = new HashSet<>();
@@ -69,15 +71,15 @@ public class ProjectTemplateController {
             List<String> allNewFiles;
             if (gitRoot == null) {
                 logger.info("Git root not found, using gitlab diff");
-                gitLabDiffService.collectChangedPackages(resourcesPath, oldTag, newTag, maybeDeletedPackages, changedPackages);
+                gitLabDiffService.collectChangedPackages(sandboxProjectsResourcesPath, oldTag, newTag, maybeDeletedPackages, changedPackages);
                 logger.info("Get all old files");
-                allOldFiles = gitLabDiffService.listFilesAtTag(oldTag, resourcesPath);
+                allOldFiles = gitLabDiffService.listFilesAtTag(oldTag, sandboxProjectsResourcesPath);
                 logger.info("Get all new files");
-                allNewFiles = gitLabDiffService.listFilesAtTag(newTag, resourcesPath);
+                allNewFiles = gitLabDiffService.listFilesAtTag(newTag, sandboxProjectsResourcesPath);
             } else {
-                collectChangedPackagesFromPackage(gitRoot, resourcesPath, oldTag, newTag, maybeDeletedPackages, changedPackages);
-                allOldFiles = runGitCommand(gitRoot, "ls-tree", "-r", "--name-only", oldTag, "--", resourcesPath);
-                allNewFiles = runGitCommand(gitRoot, "ls-tree", "-r", "--name-only", newTag, "--", resourcesPath);
+                collectChangedPackagesFromPackage(gitRoot, sandboxProjectsResourcesPath, oldTag, newTag, maybeDeletedPackages, changedPackages);
+                allOldFiles = runGitCommand(gitRoot, "ls-tree", "-r", "--name-only", oldTag, "--", sandboxProjectsResourcesPath);
+                allNewFiles = runGitCommand(gitRoot, "ls-tree", "-r", "--name-only", newTag, "--", sandboxProjectsResourcesPath);
             }
 
             for (String pkg : changedPackages) {
