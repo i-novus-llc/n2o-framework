@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.*;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.ExportFormatEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oExportTableSetting;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -13,11 +16,14 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.DatasourceUtil;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Внутренняя утилита для генерации кнопок таблицы
@@ -85,7 +91,7 @@ public class TableSettingsGeneratorUtil {
         return wordWrapButton;
     }
 
-    public static N2oButton generateExport(boolean isForSubMenu, CompileProcessor p) {
+    public static N2oButton generateExport(N2oExportTableSetting source, CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String datasourceId = widgetScope == null ? null : widgetScope.getDatasourceId();
         String clientWidgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
@@ -129,11 +135,23 @@ public class TableSettingsGeneratorUtil {
 
         N2oShowModal showModalAction = new N2oShowModal();
         showModalAction.setToolbars(new N2oToolbar[]{modalToolbar});
-        showModalAction.setPageId(exportPage);
         showModalAction.setRoute("/" + exportPage + "_" + clientWidgetId);
+        ExportFormatEnum[] format = castDefault(source.getFormat(), ExportFormatEnum.values());
+        String defaultFormat = source.getDefaultFormat() != null ? source.getDefaultFormat().getId() : format[0].getId();
+        showModalAction.setPageId(exportPage + "?formatId=" + defaultFormat.toLowerCase() + "&formatName=" + defaultFormat.toUpperCase());
+        N2oInheritedDatasource inheritedDs = new N2oInheritedDatasource();
+        inheritedDs.setId("formatDs");
+        inheritedDs.setSourceDatasource(datasourceId);
+        String fetchValue = "return [\n" +
+                Arrays.stream(format)
+                        .map(f -> "{'id': '" + f.getId().toLowerCase() + "', 'name': \"" + f.getId().toUpperCase() + "\"}")
+                        .collect(Collectors.joining(",\n")) +
+                "\n]";
+        inheritedDs.setFetchValue(fetchValue);
+        showModalAction.setDatasources(new N2oInheritedDatasource[]{inheritedDs});
 
         N2oButton exportButton = new N2oButton();
-        fillButton(exportButton, isForSubMenu, "export", p);
+        fillButton(exportButton, source.isGeneratedForSubMenu(), "export", p);
         exportButton.setActions(new N2oShowModal[]{showModalAction});
         exportButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
         N2oButton.EnablingDependency dependency = new N2oButton.EnablingDependency();

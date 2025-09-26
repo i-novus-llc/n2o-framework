@@ -3,19 +3,16 @@
       name="Экспортировать">
     <datasources>
         <datasource id="exportModalDs"/>
+        <datasource id="formatDs"/>
     </datasources>
-
     <regions>
         <form datasource="exportModalDs">
             <fields>
                 <set field-label-location="left" field-label-width="100px">
-                    <select id="format" label="Формат">
-                        <options>
-                            <option id="csv" name="CSV"/>
-                        </options>
-                        <default-value id="csv" name="CSV"/>
+                    <select id="format" label="Формат"
+                            datasource="formatDs">
+                        <default-value id="${formatId}" name="${formatName}"/>
                     </select>
-
                     <select id="charset" label="Кодировка">
                         <options>
                             <option id="utf8" name="UTF-8"/>
@@ -23,7 +20,6 @@
                         </options>
                         <default-value id="utf8" name="UTF-8"/>
                     </select>
-
                     <radio-group id="type" no-label="true">
                         <options>
                             <option id="all" name="Загрузить все (но не более 1000 записей)"/>

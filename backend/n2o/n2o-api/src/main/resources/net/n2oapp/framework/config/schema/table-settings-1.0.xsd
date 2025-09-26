@@ -11,7 +11,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="export" maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="export" type="exportType" maxOccurs="unbounded" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
                         Экспортировать данные таблицы
@@ -68,6 +68,23 @@
             <xs:annotation>
                 <xs:documentation>
                     Список заблокированных колонок (через запятую), у которых нельзя изменить состояние
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="exportType">
+        <xs:attribute name="format" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Список доступных форматов (через запятую)
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="default-format" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Формат по умолчанию
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

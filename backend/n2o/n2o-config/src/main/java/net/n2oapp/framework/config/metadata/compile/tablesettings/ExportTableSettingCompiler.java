@@ -25,7 +25,7 @@ public class ExportTableSettingCompiler implements BaseSourceCompiler<PerformBut
 
     @Override
     public PerformButton compile(N2oExportTableSetting source, CompileContext<?, ?> context, CompileProcessor p) {
-        N2oButton button = generateExport(source.isGeneratedForSubMenu(), p);
+        N2oButton button = generateExport(source, p);
         return p.compile(button, context, source);
     }
 }

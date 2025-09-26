@@ -1,0 +1,184 @@
+---
+title: Настройки таблицы
+description: ""
+---
+
+import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
+
+Библиотека компонентов:
+```
+http://n2oapp.net/framework/config/schema/table-settings-1.0
+```
+
+### &lt;columns&gt; {#columns}
+
+Отобразить\скрыть выбранные столбцы таблицы
+
+**Атрибуты**
+
+| Наименование  | Тип    | Описание                                                                                                           |
+|---------------|--------|--------------------------------------------------------------------------------------------------------------------|
+| default-value | Строка | Список идентификаторов колонок (через запятую), которые отображаются по умолчанию                                  |
+| locked        | Строка | Список идентификаторов колонок (через запятую), которые отображаются по умолчанию и их нельзя скрыть и передвинуть |
+
+**Настройки**
+
+```yaml
+n2o.api.generate.button.columns.icon = fa fa-table
+n2o.api.generate.button.columns.description = Скрытие столбцов
+```
+
+:::note
+1. Колонки, указанные в `locked`, не нужно дублировать в `default-value`.
+2. Порядок колонок в атрибутах не влияет на их фактическое расположение в таблице.
+3. Чтобы в атрибутах `locked` или `default-value` сослаться на мультиколонку, ей необходимо явно задавать `id` в тэге `<multi-column>`.
+:::
+
+**Пример**
+
+```xml
+<toolbar>
+    <ts:columns default-value="name, region" locked="id"/>
+</toolbar>
+```
+
+
+
+### &lt;export&gt; {#export}
+
+Экспортировать данные таблицы
+
+**Атрибуты**
+
+| Наименование   | Тип     | Описание                                  | Значение по умолчанию        |
+|----------------|---------|-------------------------------------------|------------------------------|
+| format         | Строка  | Список доступных форматов (через запятую) | csv, xlsx                    |
+| default-format | Строка  | Формат по умолчанию                       | Первый из доступных форматов |
+
+**Настройки**
+
+```yaml
+n2o.api.generate.button.export.icon = fa fa-share-square-o
+n2o.api.generate.button.export.description = Экспортировать
+n2o.api.generate.button.export.page = exportModal
+n2o.api.generate.button.export.url = /n2o/export
+n2o.api.generate.button.export.all_limit = 1000
+```
+
+:::note
+При необходимости изменить внешний вид модального окна экспорта рекомендуется переопределить настройку
+`n2o.api.generate.button.export.page`, задав в качестве значения имя вашей страницы
+:::
+
+**Пример**
+
+```xml
+<toolbar>
+    <ts:export format="xlsx"/>
+</toolbar>
+```
+
+
+
+### &lt;filters&gt; {#filters}
+
+Отобразить\скрыть фильтры таблицы
+
+**Настройки**
+```yaml
+n2o.api.generate.button.filters.icon = fa fa-filter
+n2o.api.generate.button.filters.description = Фильтры
+```
+
+**Пример**
+
+```xml
+<toolbar>
+    <ts:filters/>
+</toolbar>
+```
+
+
+
+### &lt;refresh&gt; {#refresh}
+
+Обновить таблицу
+
+**Настройки**
+
+```yaml
+n2o.api.generate.button.refresh.icon = fa fa-refresh
+n2o.api.generate.button.refresh.description = Обновить
+```
+
+**Пример**
+
+```xml
+<toolbar>
+    <ts:refresh/>
+</toolbar>
+```
+
+
+
+### &lt;resize&gt; {#resize}
+
+Изменить количество отображаемых данных в таблице
+
+**Настройки**
+
+```yaml
+n2o.api.generate.button.resize.icon = fa fa-bars
+n2o.api.generate.button.resize.description = Количество записей
+```
+
+**Пример**
+
+```xml
+<toolbar>
+    <ts:resize/>
+</toolbar>
+```
+
+
+### &lt;word-wrap&gt; {#word-wrap}
+
+Перенести по словам текст в ячейках
+
+**Настройки**
+
+```yaml
+n2o.api.generate.button.wordwrap.icon = fa fa-exchange
+n2o.api.generate.button.wordwrap.description = Перенос по словам
+n2o.api.generate.button.wordwrap.action.param_key = textWrap
+```
+
+**Пример**
+
+```xml
+<toolbar>
+    <ts:word-wrap/>
+</toolbar>
+```
+
+
+
+### &lt;reset-settings&gt; {#reset-settings}
+
+Сбросить настройки к значениям по умолчанию
+
+**Настройки**
+```yaml
+n2o.api.generate.button.reset.icon = fa fa-times
+n2o.api.generate.button.reset.description = Сброс к настройкам по умолчанию
+```
+
+**Пример**
+
+```xml
+<toolbar>
+    <ts:reset-settings/>
+</toolbar>
+```
+
+<Sandbox height={500} projectId="uxcomponents_tables_settings" />

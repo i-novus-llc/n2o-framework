@@ -12,4 +12,6 @@ public interface FileGenerator {
     byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, List<String> headers);
 
     String getFormat();
+
+    String getContentType();
 }

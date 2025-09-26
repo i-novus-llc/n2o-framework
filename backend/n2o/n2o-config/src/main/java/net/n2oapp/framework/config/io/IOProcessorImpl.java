@@ -950,9 +950,43 @@ public class IOProcessorImpl implements IOProcessor {
             }
         } else {
             if (getter.get() == null) return;
-            StringJoiner str = new StringJoiner(",");
+            StringJoiner str = new StringJoiner(separator);
             for (String s : getter.get())
                 str.add(s);
+            element.setAttribute(new Attribute(name, str.toString()));
+        }
+    }
+
+    @Override
+    public <T extends Enum<T>> void attributeEnumArray(Element element, String name, String separator,
+                                                       Supplier<T[]> getter, Consumer<T[]> setter, Class<T> enumClass) {
+        if (r) {
+            Attribute attribute = element.getAttribute(name);
+            if (attribute != null && attribute.getValue() != null && !attribute.getValue().trim().isEmpty()) {
+                String[] values = attribute.getValue().trim().split("\\s*" + separator + "\\s*");
+                List<T> enumList = Arrays.stream(values)
+                        .filter(value -> value != null && !value.trim().isEmpty())
+                        .map(value -> stringToEnum(value.trim(), enumClass))
+                        .filter(Objects::nonNull)
+                        .toList();
+                if (!enumList.isEmpty())
+                    setter.accept(enumList.toArray((T[]) Array.newInstance(enumClass, enumList.size())));
+                else
+                    setter.accept(null);
+            } else {
+                setter.accept(null);
+            }
+        } else {
+            T[] values = getter.get();
+            if (values == null || values.length == 0) return;
+            StringJoiner str = new StringJoiner(separator);
+            for (T value : values) {
+                if (N2oEnum.class.isAssignableFrom(enumClass)) {
+                    str.add(((N2oEnum) value).getId());
+                } else {
+                    str.add(value.name());
+                }
+            }
             element.setAttribute(new Attribute(name, str.toString()));
         }
     }

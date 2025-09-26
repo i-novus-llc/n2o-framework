@@ -462,6 +462,18 @@ public interface IOProcessor {
      *
      * @param element   элемент
      * @param name      имя атрибута
+     * @param separator знак разделителя
+     * @param getter    получение атрибута
+     * @param setter    запись атрибута
+     */
+    <T extends Enum<T>> void attributeEnumArray(Element element, String name, String separator,
+                                                Supplier<T[]> getter, Consumer<T[]> setter, Class<T> enumClass);
+
+    /**
+     * Считывание\запись атрибута enum
+     *
+     * @param element   элемент
+     * @param name      имя атрибута
      * @param getter    получение атрибута
      * @param setter    запись атрибута
      * @param enumClass класс enum

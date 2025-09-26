@@ -11,7 +11,7 @@
         <toolbar>
             <ts:refresh/>
             <ts:refresh/>
-            <ts:export/>
+            <ts:export default-format="xlsx"/>
             <ts:columns default-value="id,name,region" locked="id,name"/>
             <ts:filters/>
             <button id="id1" label="button1"/>
@@ -21,7 +21,7 @@
             <sub-menu>
                 <ts:refresh/>
                 <ts:refresh/>
-                <ts:export/>
+                <ts:export default-format="xlsx"/>
                 <ts:columns default-value="id,name,region" locked="id,name"/>
                 <ts:filters/>
                 <button id="id1" label="button1"/>
@@ -33,7 +33,7 @@
             <group>
                 <ts:refresh/>
                 <ts:refresh/>
-                <ts:export/>
+                <ts:export default-format="xlsx"/>
                 <ts:columns default-value="id,name,region" locked="id,name"/>
                 <ts:filters/>
                 <button id="id1" label="button1"/>
@@ -43,7 +43,7 @@
                 <sub-menu>
                     <ts:refresh/>
                     <ts:refresh/>
-                    <ts:export/>
+                    <ts:export default-format="xlsx"/>
                     <ts:columns default-value="id,name,region" locked="id,name"/>
                     <ts:filters/>
                     <button id="id1" label="button1"/>

@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.ui.controller.AbstractController;
 import net.n2oapp.framework.ui.controller.DataController;
+import net.n2oapp.framework.ui.controller.export.format.FileGenerator;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 
 import java.util.*;
@@ -20,7 +21,6 @@ public class ExportController extends AbstractController {
 
     private static final String FILES_DIRECTORY_NAME = System.getProperty("java.io.tmpdir");
     private static final String FILE_NAME = "export_data";
-    private static final String CONTENT_TYPE = "text/";
     private static final String CONTENT_DISPOSITION_FORMAT = "attachment;filename=%s";
     private final DataController dataController;
     private final FileGeneratorFactory fileGeneratorFactory;
@@ -34,14 +34,15 @@ public class ExportController extends AbstractController {
     public ExportResponse export(List<DataSet> data, String format, String charset, Map<String, String> headers) {
         ExportResponse response = new ExportResponse();
         String lowerFormat = format.toLowerCase();
-        byte[] fileBytes = fileGeneratorFactory.getGenerator(lowerFormat)
+        FileGenerator generator = fileGeneratorFactory.getGenerator(lowerFormat);
+        byte[] fileBytes = generator
                 .createFile(FILE_NAME, FILES_DIRECTORY_NAME, charset, data, resolveHeaders(data, headers));
 
         if (fileBytes == null)
             response.setStatus(500);
 
         response.setFile(fileBytes);
-        response.setContentType(CONTENT_TYPE + lowerFormat);
+        response.setContentType(generator.getContentType());
         response.setContentDisposition(String.format(CONTENT_DISPOSITION_FORMAT, getFileName(lowerFormat)));
         response.setCharacterEncoding(charset);
         response.setContentLength(fileBytes == null ? 0 : fileBytes.length);
