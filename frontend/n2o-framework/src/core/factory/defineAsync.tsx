@@ -2,12 +2,7 @@ import React, { ComponentType, lazy, Suspense } from 'react'
 
 import { Spinner, SpinnerType } from '../../factoryComponents/Spinner'
 import { logger } from '../utils/logger'
-
-const ErrorComponent = () => (
-    <div>
-        {/* TODO: Подключить обработчик ошибок, для отображения заглушек */}
-    </div>
-)
+import { ErrorContainer } from '../error/Container'
 
 const LoadingComponent = () => <Spinner type={SpinnerType.inline} minSpinnerTimeToShow={1000} loading />
 
@@ -26,7 +21,7 @@ export function defineAsync<
     }).catch((error) => {
         logger.error(error)
 
-        return { default: ErrorComponent }
+        return { default: () => <ErrorContainer error={error} /> }
     })) as unknown as ComponentType<P>
 
     return (props: P) => (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ComponentType } from 'react'
 
 import translation from '../../locales/ru/translation'
 import { PageTitle as DocumentTitle } from '../core/PageTitle'
@@ -47,19 +47,19 @@ const NetworkErrorPage = () => (
     </>
 )
 
-type Error = { error?: { text?: string } }
+type Error = { error?: Error & { status?: number, text?: string } }
 
-const InternalErrorPage = ({ error = {} }: Error) => {
-    const { text } = error
+const InternalErrorPage = ({ error }: Error) => {
+    const { text, status } = error || {}
 
     return (
         <>
-            <DocumentTitle htmlTitle={text} />
-            <ErrorPage status={null} error={text} />
+            <DocumentTitle htmlTitle={text || String(error)} />
+            <ErrorPage status={status || 'Внутренняя ошибка приложения'} error={text || String(error)} />
         </>
     )
 }
-const defaultComponents: Record<number | string, React.ComponentType<Error>> = {
+const defaultComponents: Record<number | string, ComponentType<Error>> = {
     403: ForbiddenPage,
     404: NotFoundPage,
     500: ServerErrorPage,
@@ -71,11 +71,8 @@ const defaultComponents: Record<number | string, React.ComponentType<Error>> = {
 
 /* example config = {404: CustomComponent} */
 // eslint-disable-next-line @typescript-eslint/default-param-last
-export const errorTemplates = (config: Record<number | string, React.ComponentType> = {}, isOnline: boolean) => {
-    const components: Record<number | string, React.ComponentType> = {
-        ...defaultComponents,
-        ...config,
-    }
+export const errorTemplates = (config: Record<number | string, ComponentType> = {}, isOnline: boolean) => {
+    const components: Record<number | string, ComponentType> = { ...defaultComponents, ...config }
 
     return (error: { status: number }) => {
         if (components[error?.status]) { return components[error.status] }
