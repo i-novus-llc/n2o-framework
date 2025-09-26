@@ -39,12 +39,30 @@ class TableValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testColumnsTableSetting() {
+    void testUniqueColumnsTableSetting() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testColumnsTableSetting.widget.xml")
         );
         assertEquals("В таблице 'testColumnsTableSetting' найдено несколько элементов <ts:columns/>. Допускается только один элемент.", exception.getMessage());
+    }
+
+    @Test
+    void testUniqueExportTableSetting() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testExportTableSetting.widget.xml")
+        );
+        assertEquals("В таблице 'testExportTableSetting' найдено несколько элементов <ts:export/>. Допускается только один элемент.", exception.getMessage());
+    }
+
+    @Test
+    void testExportTableSettingDefaultFormat() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testDefaultFormat.widget.xml")
+        );
+        assertEquals("В таблице 'testDefaultFormat' в элементе <ts:export/> значение default-format=\"xlsx\" не содержится в списке format", exception.getMessage());
     }
 
     @Test

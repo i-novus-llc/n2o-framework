@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import net.n2oapp.engine.factory.EngineNotFoundException;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -155,17 +156,11 @@ class IOProcessorTest {
         }
     }
 
+    @Getter
+    @Setter
     public static class EnumEntity extends BaseEntity {
         private MyEnum en;
-
-        MyEnum getEn() {
-            return en;
-        }
-
-        void setEn(MyEnum en) {
-            this.en = en;
-        }
-
+        private MyEnum[] enArray;
     }
 
     public static class ChildEntity implements NamespaceUriAware {
@@ -568,6 +563,23 @@ class IOProcessorTest {
         Element out = new Element("test", Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
         p.attributeArray(out, "att1", ",", arrayEntity::getArrayAttr, arrayEntity::setArrayAttr);
         assertThat(out.getAttributeValue("att1"), equalTo("1,2,3"));
+    }
+
+    @Test
+    void testAttributeEnumArray() throws Exception {
+        IOProcessor p = new IOProcessorImpl(true);
+        Element in = dom("net/n2oapp/framework/config/io/ioprocessor26.xml");
+        EnumEntity enumEntity = new EnumEntity();
+        p.attributeEnumArray(in, "att1", ",", enumEntity::getEnArray, enumEntity::setEnArray, MyEnum.class);
+
+        assertThat(enumEntity.getEnArray().length, equalTo(2));
+        assertThat(enumEntity.getEnArray()[0], equalTo(MyEnum.EN_1));
+        assertThat(enumEntity.getEnArray()[1], equalTo(MyEnum.EN_2));
+
+        p = new IOProcessorImpl(false);
+        Element out = new Element("test", Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
+        p.attributeEnumArray(out, "att1", ",", enumEntity::getEnArray, enumEntity::setEnArray, MyEnum.class);
+        assertThat(out.getAttributeValue("att1"), equalTo("en1,en2"));
     }
 
     @Test

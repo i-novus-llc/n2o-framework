@@ -386,7 +386,9 @@ class TableButtonGeneratorAT extends AutoTestBase {
 
         Select format = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Формат").control(Select.class);
         format.openPopup();
-        format.dropdown().selectItemBy(Condition.text("CSV"));
+        format.dropdown().shouldHaveOptions(2);
+        format.dropdown().item(0).shouldHaveValue("CSV");
+        format.dropdown().item(1).shouldHaveValue("XLSX");
         format.shouldHaveValue("CSV");
 
         Select charset = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Кодировка").control(Select.class);
@@ -446,7 +448,10 @@ class TableButtonGeneratorAT extends AutoTestBase {
 
         Select format = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Формат").control(Select.class);
         format.openPopup();
-        format.dropdown().selectItemBy(Condition.text("CSV"));
+        format.dropdown().shouldHaveOptions(2);
+        format.dropdown().shouldHaveOptions(2);
+        format.dropdown().item(0).shouldHaveValue("CSV");
+        format.dropdown().item(1).shouldHaveValue("XLSX");
         format.shouldHaveValue("CSV");
 
         Select charset = form.fieldsets().fieldset(0, N2oSimpleFieldSet.class).fields().field("Кодировка").control(Select.class);
@@ -655,15 +660,7 @@ class TableButtonGeneratorAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/columns_table_settings/data.query.xml")
         );
         openPage();
-
-        // Проверка начального состояния колонок
-        checkTableHeadersShouldHaveTitles(new String[]{"id", "multi1", "multi2", "multi3", "dnd0", "dnd1"}, 16);
-
-        // Открываем настройки колонок
         N2oDropdownButton columnsButton = table.toolbar().bottomLeft().button(0, N2oDropdownButton.class);
-        columnsButton.shouldBeCollapsed();
-        columnsButton.click();
-        columnsButton.shouldBeExpanded();
 
         checkItemsInitialState(columnsButton);
 
@@ -710,6 +707,14 @@ class TableButtonGeneratorAT extends AutoTestBase {
     }
 
     private void checkItemsInitialState(N2oDropdownButton columnsButton) {
+        // Проверка начального состояния колонок
+        checkTableHeadersShouldHaveTitles(new String[]{"id", "multi1", "multi2", "multi3", "dnd0", "dnd1"}, 16);
+
+        // Открываем настройки колонок
+        columnsButton.shouldBeCollapsed();
+        columnsButton.click();
+        columnsButton.shouldBeExpanded();
+
         // Существующие элементы
         columnsButton.shouldHaveItems(20);
         columnsButton.menuItem("ID").shouldExists();

@@ -6,7 +6,7 @@
     <regions>
         <table object-id="utBlank" datasource="ds1">
             <toolbar place="bottomRight">
-                <ts:export/>
+                <ts:export default-format="xlsx" format="xlsx"/>
             </toolbar>
         </table>
     </regions>

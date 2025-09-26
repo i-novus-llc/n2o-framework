@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.table.BaseColumn;
@@ -130,6 +131,8 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
         assertThat(labelExtractor.apply(buttons.get(1)), is("Обновить"));
 
         assertThat(buttons.get(2).getSrc(), is("StandardButton"));
+        assertThat(buttons.get(2).getAction(), instanceOf(ShowModal.class));
+        assertThat(((ShowModal) buttons.get(2).getAction()).getPageId(), is("exportModal?formatId=xlsx&formatName=XLSX"));
         assertThat(labelExtractor.apply(buttons.get(2)), is("Экспортировать"));
 
         assertThat(buttons.get(3).getSrc(), is("ToggleColumn"));

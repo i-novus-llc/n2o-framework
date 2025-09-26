@@ -3,15 +3,14 @@
       name="Экспортировать">
     <datasources>
         <datasource id="exportModalDs"/>
+        <datasource id="formatDs"/>
     </datasources>
     <regions>
         <form datasource="exportModalDs">
             <fields>
                 <set field-label-location="left" field-label-width="100px">
-                    <select id="format" label="Формат">
-                        <options>
-                            <option id="csv" name="CSV"/>
-                        </options>
+                    <select id="format" label="Формат" datasource="formatDs">
+                        <default-value id="${formatId}" name="${formatName}"/>
                     </select>
                     <select id="charset" label="Кодировка">
                         <options>

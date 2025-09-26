@@ -5,14 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ExportResponse extends N2oResponse{
-    byte[] file;
-
-    String contentType;
-
-    String contentDisposition;
-
-    int contentLength;
-
-    String characterEncoding;
+public class ExportResponse extends N2oResponse {
+    private byte[] file;
+    private String contentType;
+    private String contentDisposition;
+    private int contentLength;
+    private String characterEncoding;
 }

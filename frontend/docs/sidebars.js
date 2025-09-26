@@ -48,6 +48,7 @@ module.exports = {
                 'guides/xml/event',
                 'guides/xml/access',
                 'guides/xml/accesspoint',
+                'guides/xml/tablesettings',
                 'guides/xml/processing',
                 'guides/xml/base',
             ],

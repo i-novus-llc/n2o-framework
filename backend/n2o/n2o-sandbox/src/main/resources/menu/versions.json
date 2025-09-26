@@ -27,6 +27,10 @@
         {
           "templateId": "versions/7.29/user_input_fields",
           "name": "Поля ввода с маской"
+        },
+        {
+          "templateId": "versions/7.29/xlsx_file_export",
+          "name": "Формат XLSX экспорта данных"
         }
       ]
     },

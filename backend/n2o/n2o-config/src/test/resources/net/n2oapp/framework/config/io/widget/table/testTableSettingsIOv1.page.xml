@@ -6,7 +6,7 @@
             <ts:reset-settings/>
             <ts:refresh/>
             <ts:refresh/>
-            <ts:export/>
+            <ts:export format="csv,xlsx" default-format="xlsx"/>
             <ts:columns default-value="id,name,region" locked="id,name"/>
             <ts:filters/>
             <button id="id1"/>

@@ -24,7 +24,7 @@
             <toolbar place="topRight">
                 <group>
                     <ts:filters/>
-                    <ts:columns default-value="id,name,region" locked="id"/>
+                    <ts:columns default-value="id_ips,name,region" locked="id"/>
                     <ts:refresh/>
                     <ts:resize/>
                     <ts:word-wrap/>

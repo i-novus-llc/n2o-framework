@@ -54,6 +54,7 @@ import net.n2oapp.framework.ui.controller.action.ValidationController;
 import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
+import net.n2oapp.framework.ui.controller.export.format.XlsxFileGenerator;
 import net.n2oapp.framework.ui.controller.query.MergeValuesController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
 import net.n2oapp.framework.ui.servlet.AppConfigJsonWriter;
@@ -236,7 +237,7 @@ public class ViewController {
             getMenu(builder);
 
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
-            FileGeneratorFactory fileGeneratorFactory = new FileGeneratorFactory(List.of(new CsvFileGenerator()));
+            FileGeneratorFactory fileGeneratorFactory = new FileGeneratorFactory(List.of(new CsvFileGenerator(), new XlsxFileGenerator()));
             ExportController exportController = new ExportController(builder.getEnvironment(), dataController, fileGeneratorFactory);
 
             String url = request.getParameter("url");

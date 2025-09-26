@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
+import net.n2oapp.framework.ui.controller.export.format.XlsxFileGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.Charset;
@@ -13,36 +14,15 @@ import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ExportControllerTest extends DataControllerTestBase {
 
     private final FileGeneratorFactory factory = new FileGeneratorFactory(List.of(new CsvFileGenerator()));
 
     @Test
-    void test() {
-        DataSet body1 = new DataSet();
-        DataSet body2 = new DataSet();
-        DataSet body3 = new DataSet();
-
-        body1.put("id", 1);
-        body1.put("name", "test1");
-        body1.put("list", Arrays.asList(1, 2, 3));
-        body1.put("type", Map.of("name", "test1"));
-
-        body2.put("id", 2);
-        body2.put("name", "test2");
-        body2.put("list", Arrays.asList(1, 2, 3));
-        body2.put("type", Map.of("name", "test2"));
-
-        body3.put("id", 3);
-        body3.put("name", "test3");
-        body3.put("list", Arrays.asList(1, 2, 3));
-        body3.put("type", Map.of("name", "test3"));
-
-        List<DataSet> list = new ArrayList<>();
-        list.add(body1);
-        list.add(body2);
-        list.add(body3);
+    void testCsvExport() {
+        List<DataSet> list = testData();
 
         ExportController exportController = new ExportController(builder.getEnvironment(), null, factory);
         HashMap<String, String> headers = new HashMap<>();
@@ -74,5 +54,54 @@ class ExportControllerTest extends DataControllerTestBase {
         assertThat(export.getContentType(), is("text/csv"));
         assertThat(export.getContentDisposition().matches("attachment;filename=export_data_\\d{13}\\.csv"), is(true));
         assertThat(export.getContentLength(), is(exp.getBytes(cp1251).length));
+    }
+
+    @Test
+    void testXlsxExport() {
+        List<DataSet> list = testData();
+
+        FileGeneratorFactory XlsxFactory = new FileGeneratorFactory(List.of(new XlsxFileGenerator()));
+
+        ExportController exportController = new ExportController(builder.getEnvironment(), null, XlsxFactory);
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("id", "Идентификатор");
+        headers.put("name", "Наименование");
+        headers.put("list", "Список");
+        headers.put("type.name", "Тип");
+
+        ExportResponse export = exportController.export(list, "xlsx", "UTF-8", headers);
+
+        assertNotNull(export.getFile());
+        assertThat(export.getCharacterEncoding(), is("UTF-8"));
+        assertThat(export.getContentType(), is("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        assertThat(export.getContentDisposition().matches("attachment;filename=export_data_\\d{13}\\.xlsx"), is(true));
+        assertThat(export.getContentLength(), is(export.getFile().length));
+    }
+
+    private List<DataSet> testData() {
+        DataSet body1 = new DataSet();
+        DataSet body2 = new DataSet();
+        DataSet body3 = new DataSet();
+
+        body1.put("id", 1);
+        body1.put("name", "test1");
+        body1.put("list", Arrays.asList(1, 2, 3));
+        body1.put("type", Map.of("name", "test1"));
+
+        body2.put("id", 2);
+        body2.put("name", "test2");
+        body2.put("list", Arrays.asList(1, 2, 3));
+        body2.put("type", Map.of("name", "test2"));
+
+        body3.put("id", 3);
+        body3.put("name", "test3");
+        body3.put("list", Arrays.asList(1, 2, 3));
+        body3.put("type", Map.of("name", "test3"));
+
+        List<DataSet> list = new ArrayList<>();
+        list.add(body1);
+        list.add(body2);
+        list.add(body3);
+        return list;
     }
 }

@@ -41,7 +41,6 @@ public class CsvFileGenerator implements FileGenerator {
 
             List<String[]> csvData = resolveToCsvFormat(data, headers);
             writer.writeAll(csvData, false);
-
             writer.close();
 
             fileBytes = Files.readAllBytes(Path.of(fullFileName));
@@ -55,6 +54,11 @@ public class CsvFileGenerator implements FileGenerator {
     @Override
     public String getFormat() {
         return FILE_FORMAT;
+    }
+
+    @Override
+    public String getContentType() {
+        return "text/csv";
     }
 
     public void setSeparator(char separator) {
