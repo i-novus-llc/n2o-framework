@@ -25,11 +25,18 @@ export const RowResolver: VFC<RowResolverProps> = ({
     rowIndex,
     ...otherProps
 }) => {
-    const { setFocusOnRow, onRowClick } = useTableActions()
+    const { setFocusOnRow, onRowClick, selectSingleRow } = useTableActions()
     const { onShowOverlay, onHideOverlay } = useToolbarOverlay()
 
     const onClickRowAction = useCallback((data) => { onRowClick(data) }, [onRowClick])
-    const onSelection = useCallback((data) => { setFocusOnRow(data.id, data) }, [setFocusOnRow])
+
+    const onSelection = useCallback((data) => {
+        setFocusOnRow(data.id, data)
+
+        if (selection === Selection.Radio) {
+            selectSingleRow(data?.id)
+        }
+    }, [selectSingleRow, selection, setFocusOnRow])
 
     const tableProps = useTableRefProps()
     const CellComponentContainer = tableProps.current.components?.CellContainer || CellContainer
