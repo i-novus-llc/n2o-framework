@@ -38,7 +38,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
     protected void compileBase(AbstractButton button, N2oAbstractButton source, CompileProcessor p) {
         button.setId(source.getId());
         button.setProperties(p.mapAttributes(source));
-        button.setIcon(source.getIcon());
+        button.setIcon(p.resolveJS(source.getIcon()));
         button.setIconPosition(castDefault(source.getIconPosition(),
                 () -> p.resolve(property("n2o.api.button.icon_position"), PositionEnum.class)));
         button.setLabel(p.resolveJS(source.getLabel()));
