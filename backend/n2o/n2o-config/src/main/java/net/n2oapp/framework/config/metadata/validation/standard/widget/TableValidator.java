@@ -30,6 +30,11 @@ import static net.n2oapp.framework.config.metadata.validation.standard.Validatio
 public class TableValidator extends ListWidgetValidator<N2oTable> {
 
     @Override
+    public Class<? extends Source> getSourceClass() {
+        return N2oTable.class;
+    }
+
+    @Override
     public void validate(N2oTable source, SourceProcessor p) {
         super.validate(source, p);
 
@@ -53,8 +58,7 @@ public class TableValidator extends ListWidgetValidator<N2oTable> {
                     .forEach(col -> p.validate(col, widgetScope));
         }
 
-        if (source.getFilters() != null)
-            p.safeStreamOf(source.getFilters().getItems()).forEach(item -> p.validate(item, widgetScope));
+        validateFilters(source, widgetScope, p);
 
         checkEmptyToolbar(source);
         checkUniqueTableSetting(source, N2oColumnsTableSetting.class, "ts:columns");
@@ -134,12 +138,6 @@ public class TableValidator extends ListWidgetValidator<N2oTable> {
                 });
     }
 
-    @Override
-    public Class<? extends Source> getSourceClass() {
-        return N2oTable.class;
-    }
-
-
     /**
      * Проверка настроек экспорта в таблице (default-format содержится в списке format)
      */
@@ -187,5 +185,19 @@ public class TableValidator extends ListWidgetValidator<N2oTable> {
             }
         }
         return null;
+    }
+
+    private void validateFilters(N2oTable source, WidgetScope widgetScope, SourceProcessor p) {
+        if (source.getFilters() == null)
+            return;
+        N2oTable.N2oTableFilters filters = source.getFilters();
+
+        p.safeStreamOf(filters.getItems()).forEach(item -> p.validate(item, widgetScope));
+
+        if (filters.getFetchOnChange() == Boolean.TRUE && filters.getFetchOnClear() == Boolean.FALSE)
+            throw new N2oMetadataValidationException(
+                    String.format("В фильтрах таблицы %s заданы несочетаемые атрибуты 'fetch-on-change=\"true\"' и 'fetch-on-clear=\"false\"'",
+                            ValidationUtils.getIdOrEmptyString(source.getId()))
+            );
     }
 }
