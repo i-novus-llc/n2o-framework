@@ -9,7 +9,9 @@ import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.table.BaseColumn;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,12 @@ import static net.n2oapp.framework.config.util.StylesResolver.resolveStyles;
 public abstract class BaseColumnCompiler<S extends N2oBaseColumn> implements BaseSourceCompiler<BaseColumn, S, CompileContext<?, ?>> {
 
     protected void compileBaseProperties(S source, BaseColumn compiled, CompileProcessor p) {
+        IndexScope idx = p.getScope(IndexScope.class);
+        source.setId(castDefault(source.getId(),
+                StringUtils.isEmpty(source.getTextFieldId()) ? null : source.getTextFieldId(),
+                "cell" + idx.get()));
+        compiled.setId(source.getId());
+
         compiled.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.widget.column.src"), String.class)));
         compiled.setEnabled(true);
         compiled.setVisibleState(true);

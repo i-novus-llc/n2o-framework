@@ -154,7 +154,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(column.getLabel(), is("label"));
 
         column = (BaseColumn) table.getComponent().getHeader().getCells().get(5);
-        assertThat(column.getLabel(), is("id"));
+        assertThat(column.getLabel(), is("textFieldId"));
 
         column = (BaseColumn) table.getComponent().getHeader().getCells().get(6);
         assertThat(column.getLabel(), is("label"));
@@ -390,6 +390,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(abstractColumns.size(), is(2));
         assertThat(abstractColumns.get(0).getId(), is("test1"));
 
+        assertThat(abstractColumns.get(1).getId(), is("cell1"));
         assertThat(((BaseColumn) abstractColumns.get(1)).getLabel(), is("label"));
         assertThat(((MultiColumn) abstractColumns.get(1)).getMultiHeader(), is(true));
 
@@ -434,6 +435,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(abstractColumns.get(0).getId(), is("test1"));
         assertThat(abstractColumns.get(0), instanceOf(SimpleColumn.class));
 
+        assertThat(abstractColumns.get(1).getId(), is("cell1"));
         assertThat(((DndColumn) abstractColumns.get(1)).getMoveMode(), is(MoveModeEnum.TABLE));
 
         List<SimpleColumn> dndColumns = ((DndColumn) abstractColumns.get(1)).getChildren();

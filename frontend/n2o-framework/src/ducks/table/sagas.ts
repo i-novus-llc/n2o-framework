@@ -79,29 +79,12 @@ function* registerTableEffect(action: Register) {
     const { cells } = header || {}
     const { cells: bodyCells } = body || {}
 
-    const computedHeaderCells = cells?.map((cell, index) => {
-        // INFO backend не присылает id для мультиколонки
-
-        if (!cell.id) {
-            return computeHeaderCell(widgetId, { ...cell, id: `${widgetId}_${index}` }, state)
-        }
-
-        return computeHeaderCell(widgetId, cell, state)
-    }) as HeaderCell[]
-
-    const computedBodyCells = bodyCells?.map((cell, index) => {
-        // INFO backend не присылает id для колонок с тулбаром
-        if (!cell.id) {
-            return { ...cell, id: `${widgetId}_${index}` }
-        }
-
-        return cell
-    }) as BodyCell[]
+    const computedHeaderCells = cells?.map((cell, index) => computeHeaderCell(widgetId, cell, state)) as HeaderCell[]
 
     const props = {
         ...tableInitProps,
         header: { cells: computedHeaderCells },
-        body: { ...body, cells: computedBodyCells },
+        body: { ...body, cells: bodyCells },
     }
 
     let savedProps = {}
@@ -117,7 +100,7 @@ function* registerTableEffect(action: Register) {
         savedSettings[SAVED_SETTINGS.BODY]
     ) {
         const savedHeaderCells = createColumns(computedHeaderCells, savedSettings[SAVED_SETTINGS.HEADER])
-        const savedBodyCells = createColumns(computedBodyCells, savedSettings[SAVED_SETTINGS.BODY])
+        const savedBodyCells = createColumns(bodyCells, savedSettings[SAVED_SETTINGS.BODY])
 
         const datasourceSettings = savedSettings[SAVED_SETTINGS.DATA_SOURCE_SETTINGS] as DatasourceSavedSettings
 

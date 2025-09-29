@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oAbst
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oDndColumn;
 import net.n2oapp.framework.api.metadata.meta.widget.table.DndColumn;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -28,12 +29,16 @@ public class DndColumnCompiler<S extends N2oDndColumn> implements BaseSourceComp
     @Override
     public DndColumn compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
         DndColumn compiled = new DndColumn();
+        IndexScope idx = p.getScope(IndexScope.class);
+        compiled.setId(castDefault(source.getId(), "cell" + idx.get()));
+
         compiled.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.widget.column.dnd.src"), String.class)));
         compiled.setMoveMode(castDefault(source.getMoveMode(), () -> p.resolve(property("n2o.api.widget.column.dnd.move_mode"), MoveModeEnum.class)));
         compiled.setChildren(new ArrayList<>());
-        for (N2oAbstractColumn subColumn : source.getChildren()) {
+
+        for (N2oAbstractColumn subColumn : source.getChildren())
             compiled.getChildren().add(p.compile(subColumn, context, p));
-        }
+
         return compiled;
     }
 }

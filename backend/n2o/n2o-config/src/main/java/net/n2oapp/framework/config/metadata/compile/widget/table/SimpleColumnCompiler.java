@@ -43,26 +43,20 @@ public class SimpleColumnCompiler<S extends N2oSimpleColumn> extends BaseColumnC
     @Override
     public SimpleColumn compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
         SimpleColumn compiled = new SimpleColumn();
-        IndexScope idx = p.getScope(IndexScope.class);
-        int indexNumber = idx.get();
+        compileBaseProperties(source, compiled, p);
 
-        source.setId(castDefault(source.getId(), source.getTextFieldId(), "cell" + indexNumber));
         source.setSortingFieldId(castDefault(source.getSortingFieldId(), source.getTextFieldId()));
         source.setAlignment(castDefault(source.getAlignment(),
                 () -> p.resolve(property("n2o.api.widget.column.alignment"), AlignmentEnum.class)));
         source.setContentAlignment(castDefault(source.getContentAlignment(), source.getAlignment()));
 
-        N2oCell cell = source.getCell();
-        if (cell == null) {
-            cell = new N2oTextCell();
-        }
+        N2oCell cell = castDefault(source.getCell(), N2oTextCell::new);
+
         Cell compiledCell = p.compile(cell, context, new ComponentScope(source), new IndexScope());
         CellsScope cellsScope = p.getScope(CellsScope.class);
         if (cellsScope != null && cellsScope.getCells() != null)
             cellsScope.getCells().add(compiledCell);
 
-        compileBaseProperties(source, compiled, p);
-        compiled.setId(source.getId());
         compiled.setIcon(source.getIcon());
         compiled.setResizable(castDefault(source.getResizable(),
                 p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
@@ -107,6 +101,6 @@ public class SimpleColumnCompiler<S extends N2oSimpleColumn> extends BaseColumnC
             return source.getLabel();
         if (query != null && query.getSimpleFieldsMap().containsKey(source.getTextFieldId()))
             return query.getSimpleFieldsMap().get(source.getTextFieldId()).getName();
-        return source.getId();
+        return source.getTextFieldId();
     }
 }
