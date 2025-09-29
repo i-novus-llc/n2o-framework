@@ -49,7 +49,7 @@ function copyColumn<T extends BaseColumn>(column: T): T {
 }
 
 // создание колонок
-export function createColumns<P extends HeaderCell | BodyCell>(source: P[], target: P[]): P[] {
+export function createColumns<P extends HeaderCell | BodyCell>(source: P[] = [], target: P[] = []): P[] {
     return target.map((targetColumn) => {
         const sourceColumn = source.find(s => s.id === targetColumn.id)
 

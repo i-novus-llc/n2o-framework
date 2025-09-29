@@ -71,14 +71,14 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
         checkColumn(multiColumn2.getChildren().get(1), "region", false, true);
 
         MultiColumn nestedMulti = (MultiColumn) multiColumn2.getChildren().get(2);
-        checkColumn(nestedMulti, null, false, true);
+        checkColumn(nestedMulti, "cell7", false, true);
         checkColumn(nestedMulti.getChildren().get(0), "city", false, true);
         checkColumn(nestedMulti.getChildren().get(1), "country", false, true);
 
         checkColumn(multiColumn3, "id_multi3", true, true);
         checkColumn(multiColumn3.getChildren().getFirst(), "address", true, true);
 
-        checkColumn(multiColumn4, null, true, false);
+        checkColumn(multiColumn4, "cell12", true, false);
         checkColumn(multiColumn4.getChildren().getFirst(), "gender", true, false);
     }
 
