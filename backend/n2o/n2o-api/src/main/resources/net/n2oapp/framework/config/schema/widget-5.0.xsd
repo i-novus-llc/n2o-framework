@@ -374,7 +374,7 @@
             <xs:annotation>
                 <xs:documentation>
                     Наименование заголовка столбца.
-                    По умолчанию: значение `name` поля из query.xml, иначе `text-field-id`
+                    По умолчанию: значение `name` поля выборки, указанного в `text-field-id`, иначе значение `text-field-id`
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

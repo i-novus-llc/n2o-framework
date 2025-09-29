@@ -1136,10 +1136,6 @@
           "name": "FilterButtonsAT. testSearchButtons"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/widget/table/filters/buttons/clear_button_fetch_on_clear",
-          "name": "FilterButtonsAT. testFetchOnClearWithClearButton"
-        },
-        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons_fetch_on_clear",
           "name": "FilterButtonsAT. testFetchOnClearWithSearchButtons"
         },

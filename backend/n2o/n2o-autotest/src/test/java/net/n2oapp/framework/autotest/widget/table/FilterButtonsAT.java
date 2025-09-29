@@ -128,29 +128,6 @@ class FilterButtonsAT extends AutoTestBase {
     }
 
     @Test
-    void testFetchOnClearWithClearButton() {
-        setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/buttons/clear_button_fetch_on_clear");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/clear_button_fetch_on_clear/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filters/buttons/clear_button_fetch_on_clear/test.query.xml")
-        );
-
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-
-        TableWidget table = page.widget(TableWidget.class);
-        InputText input = table.filters().fields().field("name").control(InputText.class);
-        table.columns().rows().shouldHaveSize(4);
-        input.click();
-        input.setValue("test1");
-        table.columns().rows().shouldHaveSize(1);
-
-        table.filters().toolbar().button("clear").click();
-        table.columns().rows().shouldHaveSize(0);
-        input.shouldBeEmpty();
-    }
-
-    @Test
     void testFetchOnClearWithSearchButtons() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/filters/buttons/search_buttons_fetch_on_clear");
         builder.sources(

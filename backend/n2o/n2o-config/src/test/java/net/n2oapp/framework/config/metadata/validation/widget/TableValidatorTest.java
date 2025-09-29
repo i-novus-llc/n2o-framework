@@ -100,4 +100,14 @@ class TableValidatorTest extends SourceValidationTestBase {
         );
         assertEquals("В <filter-column text-field-id='test'> таблицы не задан <filter>", exception.getMessage());
     }
+
+    @Test
+    void testFilterFetchOnAttributes() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testFilterFetchOnAttributes.page.xml")
+        );
+        assertEquals("В фильтрах таблицы 'testFilterFetchOnAttributes' заданы несочетаемые атрибуты 'fetch-on-change=\"true\"' и 'fetch-on-clear=\"false\"'",
+                exception.getMessage());
+    }
 }
