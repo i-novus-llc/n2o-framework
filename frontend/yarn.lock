@@ -3444,7 +3444,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@i-novus/n2o-components@7.28.16, @i-novus/n2o-components@workspace:n2o-components":
+"@i-novus/n2o-components@7.28.17, @i-novus/n2o-components@workspace:n2o-components":
   version: 0.0.0-use.local
   resolution: "@i-novus/n2o-components@workspace:n2o-components"
   dependencies:
@@ -14711,7 +14711,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^6.4.2
     "@fortawesome/react-fontawesome": ^0.2.0
     "@i-novus/eslint-config": ^1.0.19
-    "@i-novus/n2o-components": 7.28.16
+    "@i-novus/n2o-components": 7.28.17
     "@popperjs/core": ^2.2.1
     "@reduxjs/toolkit": 1.6.2
     "@types/classnames": ^2.3.1
