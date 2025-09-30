@@ -179,7 +179,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.length, is(1));
         PerformButton button = (PerformButton) toolbar[0].getButtons().get(0);
         assertThat(button.getClassName(), is("class"));
-        assertThat(button.getIcon(), is("icon"));
+        assertThat(button.getIcon(), is("`icon`"));
         assertThat(button.getLabel(), is("Button"));
         assertThat(button.getStyle().size(), is(1));
         assertThat(button.getStyle().get("color"), is("red"));
