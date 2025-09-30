@@ -135,17 +135,18 @@ export function withActionButton({ onClick = emptyHandler }: { onClick?: EventHa
                 ...reduxProps,
             }, onClick)
 
-            const { model: prefix, datasource, icon } = props
+            const { model: prefix, datasource } = props
             const model = useSelector(getModelByPrefixAndNameSelector(prefix, datasource))
             /* TODO брать label & hint для резолва из reduxProps
              * как костыль берём его из пропсов только потому что кнопки в форме уже зарезолвены на уровне филда,
              * и если брать редаксовое значение, то не будет работать обновлиние по модели
              */
-            const { hint: propsHint, label: propsLabel, color: propsColor } = props
-            const { hint, label, color } = useResolved<Pick<ActionButtonProps, 'hint' | 'label' | 'color'>>({
+            const { hint: propsHint, label: propsLabel, color: propsColor, icon: propsIcon } = props
+            const { hint, label, color, icon } = useResolved<Pick<ActionButtonProps, 'hint' | 'label' | 'color' | 'icon'>>({
                 hint: propsHint,
                 label: propsLabel,
                 color: propsColor,
+                icon: withExtendedAction.icon || propsIcon,
             }, model)
 
             // FIXME проверить нужно ли это и снести, либо описать зачем
@@ -164,13 +165,11 @@ export function withActionButton({ onClick = emptyHandler }: { onClick?: EventHa
                 label,
                 placement: withExtendedAction.hintPosition,
                 color,
-                icon: withExtendedAction.icon || icon,
+                icon,
                 // url,
             }
 
-            return (
-                <ActionButton Component={WrappedComponent} {...buttonProps} />
-            )
+            return <ActionButton Component={WrappedComponent} {...buttonProps} />
         }
 
         return WithActionButton
