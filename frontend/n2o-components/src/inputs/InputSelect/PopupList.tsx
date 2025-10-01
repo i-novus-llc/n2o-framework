@@ -43,6 +43,7 @@ export interface BadgeType {
 }
 
 interface Props {
+    className?: string
     activeValueId?: string | number | null
     autocomplete?: boolean
     badge?: BadgeType
@@ -118,13 +119,13 @@ export class PopupList extends Component<Props> {
     setMenuElement = (menuElement: State['menuElement']) => { this.setState({ menuElement }) }
 
     render() {
-        const { children, style, ...rest } = this.props
+        const { children, style, className, ...rest } = this.props
 
         return (
-            <div className="n2o-pop-up__wrapper">
+            <div className={classNames('n2o-pop-up__wrapper', className)}>
                 <div
                     style={style}
-                    className={classNames('n2o-dropdown-control n2o-pop-up')}
+                    className='n2o-dropdown-control n2o-pop-up'
                     ref={this.setMenuElement}
                 >
                     {children}
