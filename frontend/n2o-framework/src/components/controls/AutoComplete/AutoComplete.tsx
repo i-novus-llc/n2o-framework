@@ -402,6 +402,7 @@ class AutoComplete extends React.Component<Props, State> {
                                     className="n2o-pop-up"
                                 >
                                     <PopupList
+                                        className="n2o-autocomplete__popup"
                                         scheduleUpdate={scheduleUpdate}
                                         autocomplete
                                         isExpanded={isExpanded}
