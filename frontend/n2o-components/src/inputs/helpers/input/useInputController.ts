@@ -36,6 +36,10 @@ export function useInputController(
 
     useEffect(() => {
         setStateValue(defaultValue || '')
+
+        if (defaultValue && !validate(defaultValue)) {
+            onMessage?.(new Error(invalidText))
+        }
     }, [defaultValue])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,36 +47,31 @@ export function useInputController(
 
         setStateValue(value)
 
+        if (!value) { onChange?.(value) }
+
         if (validate(value)) {
             const stored = storeCleanValue ? value.replace(/\D/g, '') : value
 
-            onChange?.(stored)
-
-            return
-        }
-
-        if (!value) {
-            onChange?.(null)
+            return onChange?.(stored)
         }
     }
 
     const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
         const { value } = e.target
 
+        if (!value) { return onBlur?.(value) }
+
         if (validate(value)) {
             const stored = storeCleanValue ? value.replace(/\D/g, '') : value
 
-            onBlur?.(stored)
-
-            return
+            return onBlur?.(stored)
         }
 
-        if (clearOnBlur && value) {
-            setStateValue('')
+        if (clearOnBlur) {
             onChange?.(null)
-            onBlur?.(null)
+            setStateValue('')
 
-            return
+            return onBlur?.(null)
         }
 
         onMessage?.(new Error(invalidText))

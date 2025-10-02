@@ -13,6 +13,7 @@ import { ModelPrefix } from '../datasource/const'
 
 import { hasError, validateModel } from './validateModel'
 import { ValidationsKey } from './types'
+import { addFieldMessages } from './addFieldMessages'
 
 /**
  * Валидация datasource по стейту
@@ -43,7 +44,8 @@ export const validate = async (
     const pageId = dataSourcePageIdSelector(datasourceId)(state) || ''
     const pageUrl = makePageUrlByIdSelector(pageId)(state)
 
-    const messages = await validateModel(model, validation, { datasourceId, pageUrl })
+    const modelMessages = await validateModel(model, validation, { datasourceId, pageUrl })
+    const messages = addFieldMessages(datasourceId, modelMessages, state)
 
     if (!isEmpty(messages)) {
         dispatch(failValidate(datasourceId, messages, prefix, { touched }))

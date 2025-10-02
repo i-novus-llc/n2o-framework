@@ -1,10 +1,7 @@
-import { type MaskitoOptions } from '@maskito/core'
-
-export const SNILS_MASK_ARRAY: Array<string | RegExp> = [
+export const SNILS_MASK = [
     /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, ' ', /\d/, /\d/,
 ]
 
-export const SNILS_MASK: MaskitoOptions = { mask: SNILS_MASK_ARRAY }
 export const DEFAULT_PLACEHOLDER = '___-___-___ __'
 export const DEFAULT_INVALID_TEXT = 'Неверный СНИЛС'
 
