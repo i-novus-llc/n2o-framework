@@ -1,7 +1,4 @@
 import React from 'react'
-import { useMaskito } from '@maskito/react'
-import { type MaskitoOptions } from '@maskito/core'
-import { maskitoWithPlaceholder } from '@maskito/kit'
 
 import { useInputController } from './helpers/input/useInputController'
 import { type InputProps } from './helpers/input/types'
@@ -12,22 +9,30 @@ import {
     isValidSNILS,
     formatSNILS,
 } from './helpers/input/snils'
+import { useMask } from './helpers/input/useMask'
 
 export function InputSNILS({
-    id,
+    autocomplete,
     className,
+    clearOnBlur = false,
+    disabled = false,
+    id,
+    invalidText = DEFAULT_INVALID_TEXT,
     onChange,
     onBlur,
     onFocus,
     onMessage,
+    placeholder,
     value,
-    disabled = false,
-    clearOnBlur = false,
-    placeholder = DEFAULT_PLACEHOLDER,
-    invalidText = DEFAULT_INVALID_TEXT,
 }: InputProps) {
+    const { maskRef, maskedValue } = useMask(
+        SNILS_MASK,
+        DEFAULT_PLACEHOLDER,
+        formatSNILS(value),
+    )
+    
     const { stateValue, handleChange, handleBlur, inputClassName } = useInputController({
-        value: formatSNILS(value),
+        value: maskedValue,
         onChange,
         onBlur,
         onMessage,
@@ -37,12 +42,10 @@ export function InputSNILS({
         className,
         storeCleanValue: true,
     })
-    const placeholderOptions = maskitoWithPlaceholder(placeholder)
-    const options: MaskitoOptions = { ...SNILS_MASK, ...placeholderOptions }
-    const maskRef = useMaskito({ options })
 
     return (
         <input
+            autoComplete={autocomplete}
             id={id}
             ref={maskRef}
             value={stateValue}

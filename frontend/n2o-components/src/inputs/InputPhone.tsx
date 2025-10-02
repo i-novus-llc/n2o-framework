@@ -1,52 +1,43 @@
 import React, { useMemo } from 'react'
-import { useMaskito } from '@maskito/react'
-import { type MaskitoOptions, maskitoTransform } from '@maskito/core'
-import { maskitoWithPlaceholder } from '@maskito/kit'
 
 import { useInputController } from './helpers/input/useInputController'
 import { type InputProps } from './helpers/input/types'
 import { COUNTRY_PHONE_CONFIGS, DEFAULT_COUNTRY, DEFAULT_COUNTRIES, DEFAULT_INVALID_TEXT } from './helpers/input/phone'
+import { useMask } from './helpers/input/useMask'
 
 export interface InputPhoneProps extends InputProps {
     countries?: string[]
 }
 
 export function InputPhone({
-    id,
+    autocomplete,
     className,
+    clearOnBlur = false,
+    countries = DEFAULT_COUNTRIES,
+    disabled = false,
+    id,
+    invalidText = DEFAULT_INVALID_TEXT,
     onChange,
     onBlur,
     onFocus,
     onMessage,
-    value,
     placeholder,
-    disabled = false,
-    clearOnBlur = false,
-    countries = DEFAULT_COUNTRIES,
-    invalidText = DEFAULT_INVALID_TEXT,
+    value,
 }: InputPhoneProps) {
-    const countryConfig = useMemo(() => {
+    const config = useMemo(() => {
         const countryCode = countries[0]?.toUpperCase() || DEFAULT_COUNTRY
 
         return COUNTRY_PHONE_CONFIGS[countryCode as keyof typeof COUNTRY_PHONE_CONFIGS] ||
             COUNTRY_PHONE_CONFIGS.DEFAULT
     }, [countries])
 
+    const { maskRef, maskedValue } = useMask(config.mask, config.placeholder, value)
     const isValidPhone = (phone: string): boolean => {
-        return countryConfig.validate(phone)
+        return config.validate(phone)
     }
 
-    const formattedInitialValue = useMemo(() => {
-        if (!value) { return '' }
-
-        return maskitoTransform(value, {
-            mask: countryConfig.mask,
-            ...maskitoWithPlaceholder(placeholder || countryConfig.placeholder),
-        })
-    }, [value, countryConfig, placeholder])
-
     const { stateValue, handleChange, handleBlur, inputClassName } = useInputController({
-        value: formattedInitialValue,
+        value: maskedValue,
         onChange,
         onBlur,
         onMessage,
@@ -56,29 +47,20 @@ export function InputPhone({
         className,
     })
 
-    const options: MaskitoOptions = useMemo(() => {
-        const maskitoPlaceholder = maskitoWithPlaceholder(
-            placeholder || countryConfig.placeholder,
-        )
-
-        return { mask: countryConfig.mask, ...maskitoPlaceholder }
-    }, [countryConfig, placeholder])
-
-    const maskRef = useMaskito({ options })
-
     return (
         <input
+            autoComplete={autocomplete}
             type="tel"
             id={id}
             ref={maskRef}
             value={stateValue}
             disabled={disabled}
             className={inputClassName}
-            placeholder={placeholder || countryConfig.placeholder}
+            placeholder={placeholder || config.placeholder}
             onInput={handleChange}
             onBlur={handleBlur}
             onFocus={onFocus}
-            pattern={countryConfig.pattern}
+            pattern={config.pattern}
         />
     )
 }

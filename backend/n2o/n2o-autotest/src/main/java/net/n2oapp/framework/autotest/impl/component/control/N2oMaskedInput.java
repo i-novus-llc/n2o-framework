@@ -2,7 +2,10 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.control.MaskedInput;
+
+import java.time.Duration;
 
 /**
  * Реализация поля {@code <masked-input>} для автотестов
@@ -26,4 +29,8 @@ public class N2oMaskedInput extends N2oMaskedControl implements MaskedInput {
         inputMeasure().shouldHave(Condition.text(text));
     }
 
+    @Override
+    public void shouldHaveInvalidText(WebElementCondition condition, Duration... duration) {
+        should(condition, element().parent().parent().parent().$(".n2o-validation-message"), duration);
+    }
 }

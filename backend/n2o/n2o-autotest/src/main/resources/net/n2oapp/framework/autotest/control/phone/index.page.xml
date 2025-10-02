@@ -1,10 +1,15 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Тестирование поля phone">
     <form>
+        <datasource object-id="test" query-id="test"/>
         <fields>
-            <phone id="phone" default-value="+79991234567" country="RU, KZ"
+            <phone id="phone" country="RU, KZ"
                    invalid-text="Невалидный номер телефона"/>
-            <input-text id="input"/>
         </fields>
+        <toolbar place="bottomLeft">
+            <button label="Сохранить" disable-on-empty-model="false">
+                <invoke operation-id="submit"/>
+            </button>
+        </toolbar>
     </form>
 </simple-page>

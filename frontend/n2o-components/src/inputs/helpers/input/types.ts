@@ -1,25 +1,25 @@
 export type Validate = (value: string) => boolean
 
 export interface useInputControllerOptions {
-    onChange?(value: string | null): void
-    onBlur?(value: string | null): void
-    onMessage?(error: Error): void
-    invalidText?: string
-    value?: string | null
     clearOnBlur?: boolean
+    invalidText?: string
+    onBlur?(value: string | null): void
+    onChange?(value: string | null): void
+    onMessage?(error: Error): void
+    value?: string | null
 }
 
 export interface useInputControllerProps extends useInputControllerOptions {
-    validate: Validate
-    storeCleanValue?: boolean
     className?: string
+    storeCleanValue?: boolean
+    validate: Validate
 }
 
 export interface InputProps extends useInputControllerOptions {
-    id?: string
-    className?: string
-    onFocus?(): void
-    disabled?: boolean
-    placeholder?: string
     autocomplete?: string
+    className?: string
+    disabled?: boolean
+    id?: string
+    onFocus?(): void
+    placeholder?: string
 }

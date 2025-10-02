@@ -13,6 +13,7 @@ import {
 import { failValidate, resetValidation } from '../store'
 import type { StartValidateAction } from '../Actions'
 import { hasError, validateModel } from '../../../core/validation/validateModel'
+import { addFieldMessages } from '../../../core/validation/addFieldMessages'
 import { makePageUrlByIdSelector } from '../../pages/selectors'
 
 type AsyncValidation = {
@@ -73,7 +74,8 @@ export function* validate({ payload, meta }: StartValidateAction) {
 
     asyncValidations[id] = currentProcess
 
-    const messages: Awaited<ReturnType<typeof validateModel>> = yield currentProcess.task.toPromise()
+    const modelMessages: Awaited<ReturnType<typeof validateModel>> = yield currentProcess.task.toPromise()
+    const messages = addFieldMessages(id, modelMessages, yield select())
     const fieldsToReset = fields2Validate.filter(field => isEmpty(messages[field]))
 
     if (!isEmpty(fieldsToReset)) {
