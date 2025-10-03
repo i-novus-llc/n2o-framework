@@ -41,7 +41,10 @@ class DisableValidationAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/validation/disable/index.page.xml"));
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/validation/disable/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/validation/disable/test.object.xml")
+        );
     }
 
     @Test
@@ -63,6 +66,10 @@ class DisableValidationAT extends AutoTestBase {
         input.setValue("1");
         field1.shouldHaveValidationMessage(Condition.empty);
         field2.shouldHaveValidationMessage(Condition.text("Значение не должно быть пустым"));
+
+        toolbar.button("Сохранить без валидации").click();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
+
         field1.control(InputText.class).setValue("любой текст");
         field2.control(InputText.class).setValue("любой текст");
         field1.shouldHaveValidationMessage(Condition.empty);
