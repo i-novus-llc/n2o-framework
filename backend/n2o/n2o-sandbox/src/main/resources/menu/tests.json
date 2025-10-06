@@ -1797,12 +1797,15 @@
           "name": "ValidationMessageAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/validation/tab",
-          "name": "ValidationTabMessageAT"
+          "templateId": "net/n2oapp/framework/autotest/validation/tab/simple",
+          "name": "ValidationTabMessageAT. testValidationTabMessageInModal"
+        },{
+          "templateId": "net/n2oapp/framework/autotest/validation/tab/lazy",
+          "name": "ValidationTabMessageAT. testNoAutoSwitchToInvalidTab"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/validation/condition",
-          "name": "ConditionValidationAT .testCondition"
+          "name": "ConditionValidationAT. testCondition"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/validation/two_validations",

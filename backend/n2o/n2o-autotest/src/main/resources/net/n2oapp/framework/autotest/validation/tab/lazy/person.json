@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1,
+    "lastname": "Козлова",
+    "firstname": "Елена"
+  },
+  {
+    "id": 2,
+    "lastname": "Вермишельева"
+  },
+  {
+    "id": 3,
+    "lastname": "Иванов",
+    "firstname": "Валерий"
+  },
+  {
+    "id": 4,
+    "lastname": "Косяк",
+    "firstname": "Павел"
+  }
+]
