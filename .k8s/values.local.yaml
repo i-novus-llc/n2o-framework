@@ -1,0 +1,48 @@
+global:
+  imageTag: "${docker.image.tag}"
+  spring:
+    env:
+      SPRING_CLOUD_CONSUL_CONFIG_PREFIX: n2o-framework
+      SPRING_CLOUD_CONSUL_CONFIG_FORMAT: yaml
+  ingress:
+    ## External host name.
+    host: "n2o.local.kubernetes"
+
+springServices:
+  demo:
+    imageName: n2o/demo
+    resources:
+      limits:
+        memory: 1500Mi
+        cpu: 3000m
+    replicaCount: 1
+    contextPath: demo
+    ingress:
+      path: /demo
+
+  n2o-sandbox:
+    imageName: n2o/n2o-sandbox
+    resources:
+      limits:
+        memory: 1500Mi
+        cpu: 3000m
+    env:
+      N2O_SANDBOX_URL: https://sandbox.i-novus.ru/
+      SPRING_CLOUD_CONSUL_HOST: "paste consul ip\url here"
+    replicaCount: 1
+    contextPath: sandbox
+    ingress:
+      path: /sandbox
+
+supportingServices:
+  docusaurus:
+    useGlobalRegistry: true
+    imageName: n2o/docusaurus
+    port: 80
+    resources:
+      limits:
+        memory: 256Mi
+        cpu: 1500m
+    replicaCount: 1
+    ingress:
+      path: /
