@@ -45,7 +45,7 @@ class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(),
-                new N2oQueriesPack(), new N2oObjectsPack())
+                        new N2oQueriesPack(), new N2oObjectsPack())
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml"))
                 .extensions(new SecurityExtensionAttributeMapper());
     }

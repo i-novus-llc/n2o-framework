@@ -17,6 +17,7 @@ import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 
 
 /**
@@ -58,11 +59,11 @@ public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2o
         print.getPayload().setBase64(castDefault(source.getBase64(),
                 () -> p.resolve(property("n2o.api.action.print.base64"), Boolean.class)));
 
-        initMappings(print, source, p, routeScope);
+        compileMappings(print, source, p, routeScope);
         return print;
     }
 
-    private void initMappings(PrintAction compiled, N2oPrintAction source, CompileProcessor p, ParentRouteScope routeScope) {
+    private void compileMappings(PrintAction compiled, N2oPrintAction source, CompileProcessor p, ParentRouteScope routeScope) {
         Map<String, ModelLink> pathMapping = initParentRoutePathMappings(routeScope, compiled.getPayload().getUrl());
         Map<String, ModelLink> queryMapping = new LinkedHashMap<>();
         initMappings(source.getPathParams(), source.getQueryParams(), pathMapping, queryMapping, p);

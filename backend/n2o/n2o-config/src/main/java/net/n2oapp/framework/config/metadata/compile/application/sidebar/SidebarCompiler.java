@@ -41,8 +41,8 @@ public class SidebarCompiler implements BaseSourceCompiler<Sidebar, N2oSidebar, 
         sidebar.setPath(source.getPath());
         sidebar.setSubtitle(p.resolveJS(source.getSubtitle()));
         ComponentScope componentScope = new ComponentScope(source);
-        sidebar.setMenu(source.getMenu() != null
-                ? p.compile(source.getMenu(), context, componentScope)
+        sidebar.setMenu(source.getNavMenu() != null
+                ? p.compile(source.getNavMenu(), context, componentScope)
                 : new SimpleMenu());
         sidebar.setExtraMenu(source.getExtraMenu() != null
                 ? p.compile(source.getExtraMenu(), context, componentScope)

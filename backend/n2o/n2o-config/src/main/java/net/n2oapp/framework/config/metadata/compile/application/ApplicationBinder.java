@@ -56,7 +56,7 @@ public class ApplicationBinder implements BaseMetadataBinder<Application> {
     private void bindMenu(SimpleMenu menu, BindProcessor p) {
         if (menu != null && menu.getItems() != null)
             menu.getItems()
-                .forEach(i -> resolveItem(i, p));
+                    .forEach(i -> resolveItem(i, p));
     }
 
     private void resolveItem(MenuItem item, BindProcessor p) {

@@ -2,7 +2,8 @@
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/menu-3.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
-           xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0">
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
+           xmlns:bt="http://n2oapp.net/framework/config/schema/button-1.0">
 
     <xs:element name="nav" type="menuDefinition"/>
     <xs:element name="extra-menu" type="menuDefinition"/>
@@ -15,6 +16,10 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="button" type="buttonMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="divider" type="dividerMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="link" type="linkMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="group" type="groupMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="dropdown-menu" type="dropdownMenuDef" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="src">
@@ -58,7 +63,15 @@
                 <xs:attribute name="name" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Наименование элемента меню.
+                            Заголовок элемента меню.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок элемента меню.
                             Возможно использование плейсхолдеров
                         </xs:documentation>
                     </xs:annotation>
@@ -66,8 +79,16 @@
                 <xs:attribute name="datasource" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор источника данных.
-                            По умолчанию: источник данных родительского компонента
+                            Идентификатор источника данных, из которого будет взято значение для плейсхолдеров.
+                            По умолчанию: идентификатор источника данных родительского компонента
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="model" type="act:clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель, из которой будет взято значение для плейсхолдеров.
+                            По умолчанию: модель родительского компонента
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -81,7 +102,7 @@
                 <xs:attribute name="icon-position" type="positionType" default="left">
                     <xs:annotation>
                         <xs:documentation>
-                            Позиция иконки относительно наименования элемента меню
+                            Позиция иконки относительно заголовка элемента меню
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -173,6 +194,29 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="visible" type="xs:string" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Условие видимости.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:string" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Условие доступности.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Действие, которое будет вызвано при нажатии на элемент меню.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:anyAttribute>
                     <xs:annotation>
                         <xs:documentation>
@@ -184,6 +228,408 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="buttonMenuItemDef">
+        <xs:annotation>
+            <xs:documentation>
+                Кнопка
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="act:actions">
+                <xs:attribute name="id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок элемента меню.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор источника данных, из которого будет взято значение для плейсхолдеров.
+                            По умолчанию: идентификатор источника данных родительского компонента
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="model" type="act:clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель, из которой будет взято значение для плейсхолдеров.
+                            По умолчанию: модель родительского компонента
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Иконка элемента меню из https://fontawesome.com/v6/icons/
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Позиция иконки относительно заголовка элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="image" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Ссылка на картинку.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="image-shape" type="shapeType" default="square">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Форма картинки
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Значок элемента меню.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-color" type="bs:colorDefinition">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Цвет значка.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-position" type="positionType" default="right">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Позиция значка
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Форма значка
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Ссылка на картинку в значке.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Позиция картинки в значке
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Форма картинки в значке
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="src" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            React компонент элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            CSS класс элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            CSS стиль элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:string" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Условие видимости.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:string" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Условие доступности.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="bs:buttonColorDefinition">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Цвет кнопки.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Описание при наведении на кнопку
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="tooltip-position" type="bt:tooltipPositionType" default="bottom">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Позиция подсказки
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Действие, которое будет вызвано при нажатии на элемент меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>
+                            Возможность подключать любые атрибуты
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="dividerMenuItemDef">
+        <xs:annotation>
+            <xs:documentation>
+                Разделитель
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    CSS класс элемента меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    CSS стиль элемента меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="linkMenuItemDef">
+        <xs:annotation>
+            <xs:documentation>
+                Ссылка
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="act:aDefinition">
+                <xs:attribute name="label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок ссылки.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Иконка элемента меню из https://fontawesome.com/v6/icons/
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon-position" type="positionType" default="left">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Позиция иконки относительно наименования элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target" type="act:targetType" default="newWindow">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Сценарий открытия ссылки
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:string" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Условие видимости.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:string" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Условие доступности.
+                            Возможно использование плейсхолдеров
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            CSS класс элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            CSS стиль элемента меню
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>
+                            Возможность подключать любые атрибуты
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="groupMenuItemDef">
+        <xs:annotation>
+            <xs:documentation>
+                Группа
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="button" type="buttonMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="divider" type="dividerMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="link" type="linkMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="group" type="groupMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="dropdown-menu" type="dropdownMenuDef" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Заголовок элемента меню.
+                    Возможно использование плейсхолдеров
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="collapsible" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>
+                    Возможность раскрытия и сворачивания группы
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="default-state" type="groupStateType" default="expanded">
+            <xs:annotation>
+                <xs:documentation>
+                    Состояние раскрытия элементов группы
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Иконка элемента меню из https://fontawesome.com/v6/icons/
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon-position" type="positionType" default="left">
+            <xs:annotation>
+                <xs:documentation>
+                    Позиция иконки относительно заголовка элемента меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="visible" type="xs:string" default="true">
+            <xs:annotation>
+                <xs:documentation>
+                    Условие видимости.
+                    Возможно использование плейсхолдеров
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enabled" type="xs:string" default="true">
+            <xs:annotation>
+                <xs:documentation>
+                    Условие доступности.
+                    Возможно использование плейсхолдеров
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор источника данных, из которого будет взято значение для плейсхолдеров.
+                    По умолчанию: идентификатор источника данных родительского компонента
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="act:clientModel">
+            <xs:annotation>
+                <xs:documentation>
+                    Модель, из которой будет взято значение для плейсхолдеров.
+                    По умолчанию: модель родительского компонента
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    CSS класс элемента меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    CSS стиль элемента меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>
+                    Возможность подключать любые атрибуты
+                </xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
     <xs:complexType name="dropdownMenuDef">
         <xs:annotation>
             <xs:documentation>
@@ -192,27 +638,39 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="menu-item" type="menuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="button" type="buttonMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="divider" type="dividerMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="link" type="linkMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="group" type="groupMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="dropdown-menu" type="dropdownMenuDef" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Идентификатор выпадающего меню
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="name" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Наименование выпадающего меню
+                    Заголовок выпадающего меню.
+                    Возможно использование плейсхолдеров
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="datasource" type="xs:string">
+        <xs:attribute name="label" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Идентификатор источника данных.
-                    По умолчанию: источник данных родительского компонента
+                    Заголовок выпадающего меню.
+                    Возможно использование плейсхолдеров
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="trigger" type="bs:triggerType" default="click">
+            <xs:annotation>
+                <xs:documentation>
+                    Способ активации выпадающего меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="position" type="menuPositionType" default="auto">
+            <xs:annotation>
+                <xs:documentation>
+                    Расположение выпадающего меню относительно элемента
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -245,6 +703,52 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="visible" type="xs:string" default="true">
+            <xs:annotation>
+                <xs:documentation>
+                    Условие видимости.
+                    Возможно использование плейсхолдеров
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enabled" type="xs:string" default="true">
+            <xs:annotation>
+                <xs:documentation>
+                    Условие доступности.
+                    Возможно использование плейсхолдеров
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор источника данных, из которого будет взято значение для плейсхолдеров.
+                    По умолчанию: идентификатор источника данных родительского компонента
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="act:clientModel">
+            <xs:annotation>
+                <xs:documentation>
+                    Модель, из которой будет взято значение для плейсхолдеров.
+                    По умолчанию: модель родительского компонента
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    CSS класс элемента меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    CSS стиль элемента меню
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>
@@ -274,6 +778,33 @@
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="groupStateType">
+        <xs:annotation>
+            <xs:documentation>
+                Состояние раскрытия элементов группы
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="expanded"/>
+            <xs:enumeration value="collapsed"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="menuPositionType">
+        <xs:annotation>
+            <xs:documentation>
+                Расположение выпадающего меню относительно элемента
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="auto"/>
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="bottom"/>
             <xs:enumeration value="left"/>
             <xs:enumeration value="right"/>
         </xs:restriction>

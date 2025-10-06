@@ -22,7 +22,7 @@ http://n2oapp.net/framework/config/schema/region-3.0
 | id           | Строка | Идентификатор региона   |
 | src          | Строка | React компонент региона |
 | class        | Строка | CSS класс региона       |
-| style        | Строка | СSS стиль страницы      |
+| style        | Строка | CSS стиль региона       |
 
 
 
@@ -431,3 +431,47 @@ n2o.api.region.tabs.routable = true
 ```
 
 [Подробная документация o sub-page](../manual/components#sub-page)
+
+
+
+
+### &lt;nav&gt; {#nav}
+
+Регион с меню
+
+**Атрибуты**
+
+| Наименование | Тип                                                        | Описание                                                                           | Значение по умолчанию |
+|--------------|------------------------------------------------------------|------------------------------------------------------------------------------------|-----------------------|
+| direction    | row column                                                 | Направление отображения элементов                                                  | row                   |
+| datasource   | Ссылка на [источник данных](../xml/datasource#datasources) | Идентификатор источника данных, из которого будет взято значение для плейсхолдеров |                       |
+| model        | resolve edit filter multi datasource                       | Модель, из которой будет взято значение для плейсхолдеров                          | resolve               |
+
+**Настройки**
+
+```yaml
+# Направление отображения элементов
+n2o.api.nav.direction_type = row
+```
+
+**Тело**
+
+&lt;menu-item&gt; - [Компонент меню](../xml/menu#menu-item) <br/>
+&lt;dropdown-menu&gt; - [Выпадающее меню](../xml/menu#dropdown-menu)<br/>
+&lt;link&gt; - [Ссылка](../xml/menu#link-menu-item)<br/>
+&lt;divider&gt; - [Разделитель](../xml/menu#divider-menu-item)<br/>
+&lt;button&gt; - [Кнопка](../xml/menu#button-menu-item)<br/>
+&lt;group&gt; - [Группа](../xml/menu#group-menu-item)
+
+**Пример**
+
+```xml
+<nav datasource="ds_1" class="myClass">
+    <menu-item label="Пункт меню">...</menu-item>
+    <dropdown-menu label="Выпадающее меню">...</dropdown-menu>
+    <link href="/profile" label="Ссылка"/>
+    <divider/>
+    <button label="Кнопка"/>
+    <group label="Группа">...</group>
+<nav>
+```

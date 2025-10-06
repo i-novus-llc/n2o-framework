@@ -89,7 +89,7 @@ public class N2oSidebar extends N2oMetadata implements DatasourceIdAware, Extens
     /**
      * Основное меню
      */
-    private N2oSimpleMenu menu;
+    private N2oSimpleMenu navMenu;
     /**
      * Дополнительное меню
      */

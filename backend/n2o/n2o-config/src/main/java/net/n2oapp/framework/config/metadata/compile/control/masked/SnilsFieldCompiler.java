@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.masked.N2oSnilsField;
-import net.n2oapp.framework.api.metadata.meta.control.masked.SnilsField;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.masked.SnilsField;
 import org.springframework.stereotype.Component;
 
 /**

@@ -1,10 +1,11 @@
-import React, { useContext } from 'react'
+import React, { ComponentType, useContext } from 'react'
 import { connect } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
-import { Button } from 'reactstrap'
 import classNames from 'classnames'
+import { Button } from '@i-novus/n2o-components/lib/button/Button'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
+import { ROOT_CLASS_NAME_PARAM } from '@i-novus/n2o-components/lib/navigation/helpers'
 
 import { dataSourceLoadingSelector } from '../../../ducks/datasource/selectors'
 import { Position } from '../../snippets/Badge/enums'
@@ -27,17 +28,15 @@ export enum CLICK_EVENTS {
     NUMPAD_ENTER = 'NumpadEnter',
 }
 
-const SimpleButtonBody = ({
+const Component = ({
     id,
     label,
     icon,
-    size,
-    color,
-    outline,
     disabled,
     count,
     children,
     className,
+    [ROOT_CLASS_NAME_PARAM]: rootClassName,
     badge,
     dataSourceIsLoading,
     forwardedRef,
@@ -51,26 +50,26 @@ const SimpleButtonBody = ({
     ...rest
 }: Props) => {
     const { getComponent } = useContext(FactoryContext)
-    const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
+    const FactoryBadge = getComponent<ComponentType<Props['badge']>>(
+        'Badge',
+        FactoryLevels.SNIPPETS,
+    )
 
     if (!visible) { return null }
+
     const { text, position = Position.Right } = badge || {}
 
-    const needBadge = FactoryBadge && (!isEmpty(badge) || typeof count === 'number')
+    const showBadge = FactoryBadge && (!isEmpty(badge) || typeof count === 'number')
 
     return (
-        <div ref={forwardedRef}>
+        <div ref={forwardedRef} className={rootClassName}>
             <Button
                 id={id}
                 tag={tag}
-                size={size}
-                color={color}
-                outline={outline}
                 onClick={onClick}
                 disabled={dataSourceIsLoading || disabled}
+                rounded={rounded && !label}
                 className={classNames(className, {
-                    'btn-rounded': rounded && !label,
-                    'btn-disabled': disabled,
                     'btn-rounded__with-content': rounded && label,
                     'btn-with-entity': badge || (count || count === 0),
                     'with-badge': badge && (text || typeof count === 'number'),
@@ -96,7 +95,7 @@ const SimpleButtonBody = ({
                     {icon && <Icon name={icon} className="n2o-btn-icon" />}
                     <Text>{children || label}</Text>
                 </IconContainer>
-                {needBadge && (
+                {showBadge && (
                     <FactoryBadge
                         {...badge}
                         text={text || convertCounter(count)}
@@ -110,13 +109,13 @@ const SimpleButtonBody = ({
     )
 }
 
-SimpleButtonBody.displayName = 'SimpleButtonBody'
+Component.displayName = 'SimpleButtonComponent'
 
 const mapStateToProps = (state: State, { datasource }: Props) => ({
     dataSourceIsLoading: datasource ? dataSourceLoadingSelector(datasource)(state) : false,
 })
 
-export { SimpleButtonBody }
+export const SimpleButton = connect(mapStateToProps)(Component)
+export default SimpleButton
 
-export default connect(mapStateToProps)(SimpleButtonBody)
-export const SimpleButton = connect(mapStateToProps)(SimpleButtonBody)
+SimpleButton.displayName = 'SimpleButton'

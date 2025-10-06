@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Автотест. Регион навигации горизонтальный">
+    <regions>
+        <region>
+            <nav id="navcolumn" direction="row">
+                <menu-item label="Главная">
+                    <alert text="home"/>
+                </menu-item>
+
+                <link label="Новости" href="/news" target="self"/>
+
+                <button label="Поиск">
+                    <a href="/search"/>
+                </button>
+
+                <group label="Пользователь">
+                    <menu-item label="Профиль">
+                        <a href="/profile"/>
+                    </menu-item>
+
+                    <link label="Сообщения" href="/messages"/>
+
+                    <button label="Уведомления">
+                        <alert text="search"/>
+                    </button>
+
+                    <dropdown-menu label="Настройки" trigger="hover">
+                        <menu-item label="Безопасность" action-id="security"/>
+
+                        <link label="Конфиденциальность" href="/privacy"/>
+
+                        <button label="Сброс">
+                            <refresh/>
+                        </button>
+
+                        <group label="Внешний вид">
+                            <menu-item label="Тема">
+                                <a href="/theme"/>
+                            </menu-item>
+                        </group>
+
+                        <dropdown-menu label="Дополнительно">
+                            <menu-item label="Экспорт данных">
+                                <a href="/export"/>
+                            </menu-item>
+                        </dropdown-menu>
+                    </dropdown-menu>
+
+                    <group label="Действия">
+                        <button label="Выйти">
+                            <close/>
+                        </button>
+                    </group>
+                </group>
+
+                <dropdown-menu label="Магазин" trigger="hover">
+                    <menu-item label="Каталог">
+                        <a href="/catalog"/>
+                    </menu-item>
+
+                    <link label="Акции" href="/promo"/>
+
+                    <button label="Корзина">
+                        <alert text="cart"/>
+                    </button>
+
+                    <group label="Категории">
+                        <menu-item label="Электроника">
+                            <alert text="electronics"/>
+                        </menu-item>
+
+                        <link label="Одежда" href="/clothing"/>
+
+                        <button label="Фильтры">
+                            <refresh/>
+                        </button>
+
+                        <dropdown-menu label="Бренды">
+                            <menu-item label="Lime">
+                                <a href="/brands/lime"/>
+                            </menu-item>
+                        </dropdown-menu>
+
+                        <group label="Ценовые диапазоны">
+                            <menu-item label="До 1000">
+                                <a href="/price-low"/>
+                            </menu-item>
+                        </group>
+                    </group>
+
+                    <dropdown-menu label="Администрирование">
+                        <menu-item label="Статистика">
+                            <alert text="/stats"/>
+                        </menu-item>
+                    </dropdown-menu>
+                </dropdown-menu>
+
+                <group label="Справка">
+                    <menu-item label="FAQ">
+                        <a href="/faq"/>
+                    </menu-item>
+                </group>
+
+                <!-- кнопка для сброса фокуса -->
+                <button/>
+            </nav>
+        </region>
+    </regions>
+    <actions>
+        <action id="security">
+            <alert text="security"/>
+        </action>
+    </actions>
+</page>

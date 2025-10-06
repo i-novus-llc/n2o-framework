@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds"/>
+    </datasources>
+    <regions>
+        <nav model="datasource" datasource="ds">
+            <group
+                    label="test label"
+                    collapsible="false"
+                    default-state="collapsed"
+                    icon="fa fa-bell"
+                    icon-position="right"
+                    visible="{1==2}"
+                    enabled="{a==b}"
+                    class="class"
+                    style="background-color: blue">
+                <link label="link label" href="/logout"/>
+                <group
+                        label="sublabel"
+                        icon="fa fa-home"
+                        visible="false"
+                        class="class1"
+                        style="color: red">
+                    <link label="link label" href="/logout"/>
+                    <menu-item>
+                        <alert/>
+                    </menu-item>
+                    <dropdown-menu>
+                        <group>
+                            <menu-item>
+                                <alert/>
+                            </menu-item>
+                        </group>
+                    </dropdown-menu>
+                </group>
+            </group>
+        </nav>
+    </regions>
+</page>

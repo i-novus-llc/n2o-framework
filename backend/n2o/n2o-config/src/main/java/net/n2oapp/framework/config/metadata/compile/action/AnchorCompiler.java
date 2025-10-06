@@ -21,6 +21,7 @@ import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 
@@ -71,10 +72,10 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
             }
             linkAction.getPayload().setModelLink(new ModelLink(reduxModel, getClientDatasourceId(datasourceId, p)).getLink());
         } else
-            initMappings(linkAction, source, p, routeScope);
+            compileMappings(linkAction, source, p, routeScope);
     }
 
-    private void initMappings(LinkAction compiled, N2oAnchor source, CompileProcessor p, ParentRouteScope routeScope) {
+    private void compileMappings(LinkAction compiled, N2oAnchor source, CompileProcessor p, ParentRouteScope routeScope) {
         Map<String, ModelLink> pathMapping = initParentRoutePathMappings(routeScope, compiled.getUrl());
         Map<String, ModelLink> queryMapping = new LinkedHashMap<>();
         initMappings(source.getPathParams(), source.getQueryParams(), pathMapping, queryMapping, p);

@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.*;
  * Тестирование компиляции приложения
  */
 class ApplicationCompileTest extends SourceCompileTestBase {
-    
+
     @Override
     @BeforeEach
     public void setUp() {

@@ -6,6 +6,7 @@ import net.n2oapp.framework.config.io.action.AnchorElementIOV1;
 import net.n2oapp.framework.config.io.action.OpenPageElementIOV1;
 import net.n2oapp.framework.config.io.application.ApplicationIOv2;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
+import net.n2oapp.framework.config.io.application.header.HeaderIOv3;
 import net.n2oapp.framework.config.io.application.sidebar.SidebarIOv3;
 import net.n2oapp.framework.config.io.menu.ExtraMenuIOv3;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
@@ -25,8 +26,8 @@ public class N2oApplicationPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
         b.ios(
-                new ApplicationIOv2(), new ExtraMenuIOv3(),
-                new ApplicationIOv3(), new NavMenuIOv3(), new ExtraMenuIOv3(), new SidebarIOv3(),
+                new ApplicationIOv2(), new ApplicationIOv3(),
+                new NavMenuIOv3(), new ExtraMenuIOv3(), new SidebarIOv3(), new HeaderIOv3(),
                 new OpenPageElementIOV1(), new AnchorElementIOV1()
         );
         b.compilers(

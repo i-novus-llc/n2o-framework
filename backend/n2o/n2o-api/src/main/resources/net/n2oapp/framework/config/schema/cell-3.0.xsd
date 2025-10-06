@@ -562,7 +562,7 @@
                         <xs:documentation>Подчеркивание заголовка пунктиром.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="trigger" type="triggerType" default="hover">
+                <xs:attribute name="trigger" type="bs:triggerType" default="hover">
                     <xs:annotation>
                         <xs:documentation>Действие, при котором раскрывается список.</xs:documentation>
                     </xs:annotation>
@@ -742,17 +742,6 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
-
-    <xs:simpleType name="triggerType">
-        <xs:annotation>
-            <xs:documentation>Действие, после которого происходит событие.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="click"/>
-            <xs:enumeration value="hover"/>
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:simpleType name="sizeType">
         <xs:annotation>

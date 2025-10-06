@@ -1,0 +1,166 @@
+<nav xmlns="http://n2oapp.net/framework/config/schema/region-3.0"
+     xmlns:test="http://n2oapp.net/framework/config/schema/test"
+     direction="column"
+     datasource="messages"
+     model="filter"
+     class="navClass"
+     style="navStyle">
+    <divider class="class" style="background-color: blue"/>
+    <menu-item label="Пункт меню" action-id="act1"/>
+    <button label="Пункт меню" action-id="act1"/>
+    <menu-item id="notif"
+               label="Уведомления"
+               src="StaticMenuItem"
+               class="class"
+               style="background-color: blue"
+               datasource="ds1"
+               model="edit"
+               icon="fa fa-bell"
+               icon-position="right"
+               badge="2"
+               badge-color="warning"
+               badge-position="left"
+               badge-shape="square"
+               badge-image="/static/candidate.png"
+               badge-image-position="right"
+               badge-image-shape="square"
+               test:attr1="testAttribute">
+        <open-page page-id="index" route="/login"/>
+        <alert text="test" color="success"/>
+    </menu-item>
+    <button label="Кнопка" color="danger">
+        <open-page page-id="index" route="/login"/>
+        <alert text="test" color="success"/>
+    </button>
+    <menu-item image="/static/users/ivan90.png"
+               image-shape="square"
+               badge="new"
+               badge-color="danger">
+        <open-page page-id="index" route="/login"/>
+    </menu-item>
+    <menu-item id="alert" label="Menu-item с алертом">
+        <alert text="Алерт" color="success"/>
+    </menu-item>
+    <dropdown-menu id="user"
+                   label="Виктория"
+                   trigger="click"
+                   position="right"
+                   image="/static/users/vika91.png"
+                   image-shape="circle"
+                   visible="{expression}"
+                   enabled="{expression}"
+                   datasource="ds"
+                   model="filter"
+                   class="class"
+                   style="background-color: blue">
+        <divider class="class" style="background-color: blue"/>
+        <dropdown-menu label="Отделы" trigger="click"
+                       position="right">
+            <menu-item label="Отдел разработки">
+                <a href="/developers" target="application"/>
+            </menu-item>
+            <menu-item label="Отдел тестирования">
+                <a href="/testers" target="application"/>
+            </menu-item>
+            <button label="Кнопка" color="danger">
+                <alert text="test" color="success"/>
+                <open-page page-id="index" route="/login"/>
+            </button>
+        </dropdown-menu>
+        <menu-item label="Профиль"
+                   src="StaticMenuItem"
+                   class="class"
+                   style="background-color: blue"
+                   icon="fa fa-user"
+                   datasource="test">
+            <a href="/profile" target="application"/>
+        </menu-item>
+        <menu-item label="Сообщения"
+                   image="/static/users/ivan90.png"
+                   image-shape="square"
+                   badge="58"
+                   badge-color="primary">
+            <open-page page-id="page" route="/route"/>
+        </menu-item>
+        <menu-item label="Выход"
+                   icon="fa fa-door">
+            <a href="/logout" target="self"/>
+        </menu-item>
+        <link
+                label="label"
+                href="http://test.com"
+                icon="fa fa-bell"
+                icon-position="right"
+                target="newWindow"
+                visible="{expression}"
+                enabled="{expression}"
+                model="filter"
+                datasource="ds"
+                class="class"
+                style="style">
+            <path-param name="version" value="201" model="edit" datasource="user"/>
+            <query-param name="number" value="202" model="multi" datasource="messages"/>
+        </link>
+        <group>
+            <menu-item label="Выход"
+                       icon="fa fa-door">
+                <a href="/logout" target="self"/>
+            </menu-item>
+            <button label="Кнопка" color="danger">
+                <alert text="test" color="success"/>
+            </button>
+            <divider class="class" style="background-color: blue"/>
+            <link href="/logout">
+                <path-param name="version" value="201" model="edit" datasource="user"/>
+                <query-param name="number" value="202" model="multi" datasource="messages"/>
+            </link>
+            <dropdown-menu id="messages"
+                           label="Сообщения"
+                           icon="fa fa-bell"
+                           icon-position="right"
+                           datasource="test"/>
+        </group>
+    </dropdown-menu>
+    <dropdown-menu id="messages"
+                   label="Сообщения"
+                   icon="fa fa-bell"
+                   icon-position="right"
+                   datasource="test"/>
+    <link
+            label="label"
+            href="http://test.com"
+            icon="fa fa-bell"
+            icon-position="right"
+            target="newWindow"
+            visible="{expression}"
+            enabled="{expression}"
+            model="filter"
+            datasource="ds"
+            class="class"
+            style="style">
+        <path-param name="version" value="201" model="edit" datasource="user"/>
+        <query-param name="number" value="202" model="multi" datasource="messages"/>
+    </link>
+    <group
+            label="label"
+            collapsible="false"
+            default-state="collapsed"
+            icon="fa fa-bell"
+            icon-position="right"
+            visible="{expression}"
+            enabled="{expression}"
+            model="filter"
+            datasource="ds"
+            class="class"
+            style="style">
+        <menu-item
+                label="Выход"
+                icon="fa fa-door">
+            <a href="/logout" target="self"/>
+        </menu-item>
+        <link href="/logout">
+            <path-param name="version" value="201" model="edit" datasource="user"/>
+            <query-param name="number" value="202" model="multi" datasource="messages"/>
+        </link>
+    </group>
+</nav>

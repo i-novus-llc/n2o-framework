@@ -18,7 +18,7 @@ import java.util.Map;
 import static java.util.Objects.isNull;
 
 /**
- * Скомпилированный объект, описыващий object.xml файл
+ * Скомпилированный объект, описывающий object.xml файл
  */
 @Getter
 @Setter

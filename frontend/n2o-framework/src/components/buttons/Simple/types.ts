@@ -1,5 +1,6 @@
 import { ReactNode, LegacyRef } from 'react'
-import { type ButtonProps } from 'reactstrap'
+import { ButtonProps } from '@i-novus/n2o-components/lib/button/Button'
+import { type Props as BadgeProps } from '@i-novus/n2o-components/lib/display/Badge/Badge'
 
 import { ICON_POSITIONS } from '../../snippets/IconContainer/IconContainer'
 import { type UseActionProps } from '../withActionButton'
@@ -14,7 +15,8 @@ export interface Props extends Extension {
     children?: ReactNode
     rounded?: boolean
     className?: string
-    badge?: Record<string, unknown>
+    wrapperClassName?: string
+    badge?: BadgeProps
     dataSourceIsLoading?: boolean
     iconPosition?: ICON_POSITIONS
     forwardedRef: LegacyRef<HTMLDivElement>

@@ -68,6 +68,10 @@
         {
           "templateId": "uxcomponents/regions/subpage",
           "name": "Регион, обновляемый при частичной перезагрузке"
+        },
+        {
+          "templateId": "uxcomponents/regions/nav",
+          "name": "Регион навигации"
         }
       ]
     },

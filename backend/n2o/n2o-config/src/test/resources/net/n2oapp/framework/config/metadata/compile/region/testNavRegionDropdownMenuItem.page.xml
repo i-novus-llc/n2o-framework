@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds"/>
+    </datasources>
+    <regions>
+        <nav>
+            <dropdown-menu id="user"
+                           label="Виктория"
+                           trigger="hover"
+                           position="right"
+                           image="/static/users/vika91.png"
+                           image-shape="circle">
+                <dropdown-menu label="Отделы"
+                               src="AnySrc"
+                               trigger="hover"
+                               position="left">
+                    <menu-item label="Отдел разработки">
+                        <a href="/developers" target="application"/>
+                    </menu-item>
+                    <menu-item label="Отдел тестирования">
+                        <a href="/testers" target="application"/>
+                    </menu-item>
+                </dropdown-menu>
+                <menu-item label="Профиль"
+                           icon="fa fa-user" icon-position="right">
+                    <a href="/profile" target="application"/>
+                </menu-item>
+            </dropdown-menu>
+            <dropdown-menu id="messages"
+                           label="Сообщения"
+                           icon="fa fa-bell" icon-position="right"/>
+            <dropdown-menu id="add"
+                           label="Добавить"
+                           icon="fa fa-plus"/>
+        </nav>
+    </regions>
+</page>

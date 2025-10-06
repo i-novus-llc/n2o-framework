@@ -116,7 +116,7 @@ class ListCellAT extends AutoTestBase {
         cell.shouldHaveInnerLink(2, "link3");
         cell.shouldHaveInnerLink(3, "link4");
         cell.shouldHaveInnerLink(4, "link5");
-        cell.shouldHaveHref(0, "https://example.com/");
+        cell.shouldHaveHref(0, "http://example.org/");
         cell.shouldHaveHref(4, "https://mail.ru/");
     }
 

@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.menu;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 
 /**
- * Меню навигации
+ * Исходная модель меню навигации
  */
 public abstract class N2oMenu extends N2oMetadata {
 

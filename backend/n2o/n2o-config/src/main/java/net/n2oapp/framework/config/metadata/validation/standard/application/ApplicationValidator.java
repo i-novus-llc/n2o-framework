@@ -53,8 +53,8 @@ public class ApplicationValidator implements SourceValidator<N2oApplication>, So
 
             if (source.getHeader().getExtraMenu() != null)
                 p.validate(source.getHeader().getExtraMenu(), datasourceIdsScope);
-            if (source.getHeader().getMenu() != null)
-                p.validate(source.getHeader().getMenu(), datasourceIdsScope);
+            if (source.getHeader().getNavMenu() != null)
+                p.validate(source.getHeader().getNavMenu(), datasourceIdsScope);
 
         }
 

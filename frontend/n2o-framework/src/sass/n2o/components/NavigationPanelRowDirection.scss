@@ -1,0 +1,109 @@
+@mixin rowItem {
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+}
+
+@mixin flexColumnStart {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+
+.n2o-navigation-panel.direction-row {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+
+    .n2o-navigation-panel__children {
+        @include rowItem;
+
+        padding-left: 12px;
+        padding-right: 12px;
+        margin: 0 1px;
+
+        .group-header {
+            @include rowItem;
+        }
+    }
+
+    .n2o-navigation-panel__children.group {
+        @include flexColumnStart;
+
+        .group-children {
+            flex-flow: column;
+            align-items: flex-start;
+
+            .group-children__child {
+                @include rowItem;
+
+                margin: 0 1px;
+
+                .group-children__child.btn {
+                    margin: 0;
+                }
+            }
+
+            .group.group-children__child {
+                @include flexColumnStart;
+            }
+        }
+
+        .group-children__child.dropdown {
+            @include rowItem;
+
+            .group-children.dropdown-menu {
+                padding: 0 12px !important;
+
+                .group-children__child {
+                    @include rowItem;
+                }
+            }
+        }
+    }
+
+    .n2o-navigation-panel__children.dropdown.show {
+        .dropdown-menu.show.group-children {
+            @include flexColumnStart;
+
+            padding: 0 12px !important;
+
+            .group-children__child {
+                @include rowItem;
+
+                margin: 1px 0;
+
+                .group-children__child.btn {
+                    margin: 0;
+                }
+            }
+
+            .group.group-children__child {
+                @include flexColumnStart;
+            }
+        }
+    }
+
+    .n2o-navigation-panel__children.btn {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .btn {
+        max-width: max-content;
+        min-width: max-content;
+    }
+
+    .btn.btn-link {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .n2o-navigation-panel__children.divider {
+        min-height: -webkit-fill-available;
+        border-top: none !important;
+        width: 0 !important;
+        border-right: 1px solid $gray-dark;
+        padding: 0;
+    }
+}

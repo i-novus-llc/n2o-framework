@@ -33,8 +33,8 @@ class N2oSidebarMergerTest extends SourceMergerTestBase {
         assertThat(sidebar.getSubtitle(), is("Simple subtitle"));
         assertThat(sidebar.getPath(), is("/hello"));
         assertThat(sidebar.getHomePageUrl(), is("/home"));
-        assertThat(sidebar.getMenu().getMenuItems()[0].getName(), is("firstName"));
-        assertThat(sidebar.getMenu().getMenuItems()[1].getName(), is("lastName"));
+        assertThat(sidebar.getNavMenu().getMenuItems()[0].getName(), is("firstName"));
+        assertThat(sidebar.getNavMenu().getMenuItems()[1].getName(), is("lastName"));
         assertThat(sidebar.getLogoClass(), is("top-logo"));
 
         //check component merge

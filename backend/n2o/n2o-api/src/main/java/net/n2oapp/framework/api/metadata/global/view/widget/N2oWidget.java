@@ -53,7 +53,6 @@ public abstract class N2oWidget extends N2oMetadata
     private Integer size;
     private String cssClass;
     private String style;
-    private String refId;
     @Deprecated
     private String masterParam;
     /**

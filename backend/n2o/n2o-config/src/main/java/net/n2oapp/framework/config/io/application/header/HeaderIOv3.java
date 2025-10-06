@@ -40,7 +40,7 @@ public class HeaderIOv3 extends ComponentIO<N2oHeader> {
         p.attribute(e, "logo-src", m::getLogoSrc, m::setLogoSrc);
         p.attribute(e, "sidebar-icon", m::getSidebarIcon, m::setSidebarIcon);
         p.attribute(e, "sidebar-toggled-icon", m::getSidebarToggledIcon, m::setSidebarToggledIcon);
-        p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new NavMenuIOv3());
+        p.child(e, null, "nav", m::getNavMenu, m::setNavMenu, N2oSimpleMenu.class, new NavMenuIOv3());
         p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new ExtraMenuIOv3());
         p.child(e, null, "search", m::getSearchBar, m::setSearchBar, N2oSearchBar.class, new N2oSearchBarIOv2());
     }

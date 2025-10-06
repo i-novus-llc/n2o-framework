@@ -1,0 +1,11 @@
+.direction-panel {
+    display: flex;
+}
+
+.direction-panel.direction-row {
+    flex-flow: row nowrap;
+}
+
+.direction-panel.direction-col {
+    flex-flow: column nowrap;
+}
