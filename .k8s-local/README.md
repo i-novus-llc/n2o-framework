@@ -2,7 +2,7 @@
 ---
 
 ## Установить:
-- docker desktop, включить kubernetes
+- Docker Desktop + включить kubernetes
 - Helm Chart
 - Lens
 
@@ -13,9 +13,11 @@
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm upgrade --install nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace nginx --create-namespace
 ```
-В `Lens -> Network -> Services` убедиться, что у `ingress-nginx-controller` выставлен `External IP(по умолчанию localhost)` и в `hosts` прописано `127.0.0.1 n2o.local.kubernetes`.
+В `Lens -> Network -> Services` убедиться, что у `ingress-nginx-controller` выставлен `External IP(по умолчанию localhost)` 
+и в `hosts` прописано `127.0.0.1 n2o.local.kubernetes`.
 
-Сервисы будут доступ по https://n2o.local.kubernetes/${ingress.path}
+Сервисы будут доступны по https://n2o.local.kubernetes/${ingress.path}
+
 ![img.png](img.png)
 
 #### 2) Через port forwarding
