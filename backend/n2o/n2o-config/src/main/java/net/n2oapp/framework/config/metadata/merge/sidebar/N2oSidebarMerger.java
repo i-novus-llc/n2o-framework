@@ -28,7 +28,7 @@ public class N2oSidebarMerger<T extends N2oSidebar> implements BaseSourceMerger<
         setIfNotNull(source::setToggledState, source::getToggledState, ref::getToggledState);
         setIfNotNull(source::setToggleOnHover, source::getToggleOnHover, ref::getToggleOnHover);
         setIfNotNull(source::setOverlay, source::getOverlay, ref::getOverlay);
-        setIfNotNull(source::setMenu, source::getMenu, ref::getMenu);
+        setIfNotNull(source::setNavMenu, source::getNavMenu, ref::getNavMenu);
         setIfNotNull(source::setExtraMenu, source::getExtraMenu, ref::getExtraMenu);
         return source;
     }

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds"/>
+    </datasources>
+    <regions>
+        <nav model="datasource" datasource="ds">
+            <button label="test label"
+                    icon="fa fa-bell"
+                    icon-position="right"
+                    visible="{1==2}"
+                    enabled="{a==b}"
+                    badge="2"
+                    badge-color="warning"
+                    datasource="ds1"
+                    model="edit"
+                    color="primary"
+                    description="test"
+                    tooltip-position="right"
+                    class="class"
+                    style="background-color: blue">
+                <action type="perform"/>
+                <a href="/test2" target="application"/>
+            </button>
+            <group>
+                <button>
+                    <alert text="message"/>
+                </button>
+            </group>
+            <button label="Пункт меню" action-id="act1"/>
+            <button label="Пункт меню c MultiAction" action-id="act2"/>
+        </nav>
+    </regions>
+    <actions>
+        <action id="act1">
+            <alert text="alert1"/>
+        </action>
+        <action id="act2">
+            <alert text="alert2"/>
+            <set-value to="val"/>
+            <a href="/test1" target="application"/>
+        </action>
+    </actions>
+</page>

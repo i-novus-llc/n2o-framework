@@ -57,7 +57,7 @@ public class SidebarIOv3 implements NamespaceIO<N2oSidebar> {
         p.attributeBoolean(e, "toggle-on-hover", m::getToggleOnHover, m::setToggleOnHover);
         p.attributeBoolean(e, "overlay", m::getOverlay, m::setOverlay);
 
-        p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new NavMenuIOv3());
+        p.child(e, null, "nav", m::getNavMenu, m::setNavMenu, N2oSimpleMenu.class, new NavMenuIOv3());
         p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new ExtraMenuIOv3());
         p.child(e, null, "datasource", m::getDatasource, m::setDatasource, N2oStandardDatasource.class, new StandardDatasourceIO());
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);

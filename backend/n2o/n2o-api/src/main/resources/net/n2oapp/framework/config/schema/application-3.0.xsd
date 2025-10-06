@@ -92,7 +92,7 @@
             <xs:element name="nav" type="menu:menuDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
-                        Основное меню
+                        Навигационная панель
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>

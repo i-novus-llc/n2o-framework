@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control.masked;
 
-import net.n2oapp.framework.api.metadata.meta.control.masked.EmailField;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.masked.EmailField;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;

@@ -62,7 +62,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oSimplePage.class, N2oLeftRightPage.class, N2oStandardPage.class, N2oTopLeftRightPage.class,
                 N2oModal.class, N2oDrawer.class, N2oSimpleHeader.class, N2oSearchablePage.class,
                 // regions
-                N2oSimpleRegion.class, N2oPanelRegion.class, N2oLineRegion.class,
+                N2oSimpleRegion.class, N2oPanelRegion.class, N2oLineRegion.class, N2oNavRegion.class,
                 N2oTabsRegion.class, N2oScrollspyRegion.class, N2oSubPageRegion.class,
                 // widgets
                 N2oListWidget.class, N2oFormWidget.class,

@@ -5,7 +5,9 @@ import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityTypeEnum;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -18,6 +20,7 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatoryValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
@@ -391,6 +394,29 @@ public class DatasourceCompileStaticProcessor {
         initFiltersScope(datasourceId, filters, p);
 
         return filters;
+    }
+
+    /**
+     * Инициализирует объект на основе datasource
+     *
+     * @param p                 Процессор сборки метаданных
+     * @param datasourceIdAware Знание об идентификаторе источника данных
+     * @return Скомпилированный объект
+     */
+    public static CompiledObject initObject(CompileProcessor p, DatasourceIdAware datasourceIdAware) {
+        if (datasourceIdAware.getDatasourceId() != null && p.getScope(DataSourcesScope.class) != null) {
+            N2oAbstractDatasource datasource = p.getScope(DataSourcesScope.class).get(datasourceIdAware.getDatasourceId());
+
+            if (datasource instanceof N2oStandardDatasource standardDatasource) {
+                if (standardDatasource.getObjectId() != null) {
+                    return p.getCompiled(new ObjectContext(standardDatasource.getObjectId()));
+                } else if (standardDatasource.getQueryId() != null) {
+                    return p.getCompiled(new QueryContext(standardDatasource.getQueryId())).getObject();
+                }
+            }
+        }
+
+        return p.getScope(CompiledObject.class);
     }
 
     private static ModelLink getFilterModelLink(String datasourceId, N2oPreFilter preFilter, String filterParam, CompileProcessor p) {

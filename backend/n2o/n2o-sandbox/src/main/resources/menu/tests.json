@@ -318,6 +318,14 @@
         {
           "templateId": "net/n2oapp/framework/autotest/region/subpage/modal",
           "name": "SubPageRegionAT. testSubPageInModal"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/nav/column",
+          "name": "NavRegionAT.testColumn"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/nav/row",
+          "name": "NavRegionAT.testRow"
         }
       ]
     },

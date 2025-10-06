@@ -5,6 +5,7 @@
            xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:page="http://n2oapp.net/framework/config/schema/page-4.0"
+           xmlns:menu="http://n2oapp.net/framework/config/schema/menu-3.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/region-3.0">
 
     <xs:element name="region" type="simpleRegionDefinition"/>
@@ -13,6 +14,7 @@
     <xs:element name="tabs" type="tabsDefinition"/>
     <xs:element name="scrollspy" type="scrollspyDefinition"/>
     <xs:element name="sub-page" type="subPageDefinition"/>
+    <xs:element name="nav" type="navRegionDefinition"/>
 
     <xs:complexType name="regionsAndWidgets" abstract="true">
         <xs:sequence>
@@ -23,6 +25,7 @@
             <xs:element name="tabs" type="tabsDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="scrollspy" type="scrollspyDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="sub-page" type="subPageDefinition" minOccurs="0"/>
+            <xs:element name="nav" type="navRegionDefinition" minOccurs="0"/>
 
             <xs:element name="table" type="wgt:tableReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="form" type="wgt:formReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
@@ -70,7 +73,7 @@
                 <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            СSS стиль страницы
+                            СSS стиль региона
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -134,6 +137,78 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="navRegionDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Регион с меню
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="menu-item" type="menu:menuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="link" type="menu:linkMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="divider" type="menu:dividerMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="button" type="menu:buttonMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="dropdown-menu" type="menu:dropdownMenuDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="group" type="menu:groupMenuItemDef" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор региона
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    React компонент региона
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    CSS класс региона
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    СSS стиль региона
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="direction" type="bs:directionType" default="row">
+            <xs:annotation>
+                <xs:documentation>
+                    Направление отображения элементов
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор источника данных
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="act:clientModel" default="resolve">
+            <xs:annotation>
+                <xs:documentation>
+                    Модель данных
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>
+                    Возможность подключать любые атрибуты
+                </xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="panelDefinition">
@@ -245,7 +320,7 @@
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    СSS стиль страницы
+                    СSS стиль региона
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -413,7 +488,7 @@
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    СSS стиль страницы
+                    СSS стиль региона
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

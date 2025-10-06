@@ -1,14 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.compile.ButtonGeneratorFactory;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
@@ -21,9 +19,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
-import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +29,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileAction;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
+import static net.n2oapp.framework.config.metadata.compile.datasource.DatasourceCompileStaticProcessor.initObject;
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -104,22 +100,6 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         }
 
         return null;
-    }
-
-    private CompiledObject initObject(CompileProcessor p, N2oButton button) {
-        if (button.getDatasourceId() != null && p.getScope(DataSourcesScope.class) != null) {
-            N2oAbstractDatasource datasource = p.getScope(DataSourcesScope.class).get(button.getDatasourceId());
-
-            if (datasource instanceof N2oStandardDatasource standardDatasource) {
-                if (standardDatasource.getObjectId() != null) {
-                    return p.getCompiled(new ObjectContext(standardDatasource.getObjectId()));
-                } else if (standardDatasource.getQueryId() != null) {
-                    return p.getCompiled(new QueryContext(standardDatasource.getQueryId())).getObject();
-                }
-            }
-        }
-
-        return p.getScope(CompiledObject.class);
     }
 
     /**

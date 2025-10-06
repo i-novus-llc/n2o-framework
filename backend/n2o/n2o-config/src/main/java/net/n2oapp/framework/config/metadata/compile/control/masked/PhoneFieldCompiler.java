@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.masked.N2oPhoneField;
-import net.n2oapp.framework.api.metadata.meta.control.masked.PhoneField;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.masked.PhoneField;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

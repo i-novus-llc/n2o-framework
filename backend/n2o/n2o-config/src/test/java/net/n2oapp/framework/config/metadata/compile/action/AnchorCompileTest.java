@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 class AnchorCompileTest extends SourceCompileTestBase {
-    
+
     @Override
     @BeforeEach
     public void setUp() {
@@ -35,8 +35,8 @@ class AnchorCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
-                new N2oActionsPack(), new N2oApplicationPack(), new N2oAllDataPack(),
-                new N2oControlsPack())
+                        new N2oActionsPack(), new N2oApplicationPack(), new N2oAllDataPack(),
+                        new N2oControlsPack())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction2.page.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testAnchorMenuItem.query.xml"));
     }

@@ -30,6 +30,7 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getWidgetIdByComponentScope;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -52,7 +53,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         invokeAction.setOperationId(source.getOperationId());
         invokeAction.setType(getType(p));
 
-        invokeAction.getPayload().setModel(getModelFromComponentScope(p));
+        invokeAction.getPayload().setModel(ActionCompileStaticProcessor.getModelFromComponentScope(p));
         invokeAction.getPayload().setDatasource(getClientDatasourceId(getLocalDatasourceId(p), p));
         invokeAction.getPayload().setWidgetId(getClientDatasourceId(getWidgetIdByComponentScope(p), p));
         invokeAction.getPayload().setPageId(getPageId(p));
@@ -123,7 +124,7 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setId(source.getId());
         dataProvider.setOptimistic(source.getOptimistic());
-        dataProvider.setTargetModel(getModelFromComponentScope(p));
+        dataProvider.setTargetModel(ActionCompileStaticProcessor.getModelFromComponentScope(p));
         dataProvider.setDatasourceId(getLocalDatasourceId(p));
         dataProvider.setClientDatasourceId(getClientDatasourceId(dataProvider.getDatasourceId(), p));
         validatePathAndRoute(source, routeScope);

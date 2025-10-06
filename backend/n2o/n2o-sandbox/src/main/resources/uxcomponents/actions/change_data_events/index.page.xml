@@ -14,7 +14,7 @@
                 <case value="3">
                     <alert text="Вы выбрали пункт 3" color="danger"/>
                 </case>
-            </switch>>
+            </switch>
         </on-change>
     </events>
     <regions>

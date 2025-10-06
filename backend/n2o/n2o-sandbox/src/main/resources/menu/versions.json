@@ -31,6 +31,10 @@
         {
           "templateId": "versions/7.29/xlsx_file_export",
           "name": "Формат XLSX экспорта данных"
+        },
+        {
+          "templateId": "uxcomponents/regions/nav",
+          "name": "Регион навигации"
         }
       ]
     },

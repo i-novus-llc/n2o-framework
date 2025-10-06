@@ -109,8 +109,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         header.setLogo(logo);
 
         ComponentScope componentScope = new ComponentScope(source);
-        header.setMenu(source.getMenu() != null
-                ? p.compile(source.getMenu(), context, dataSourcesScope, componentScope)
+        header.setMenu(source.getNavMenu() != null
+                ? p.compile(source.getNavMenu(), context, dataSourcesScope, componentScope)
                 : new SimpleMenu());
         header.setExtraMenu(source.getExtraMenu() != null
                 ? p.compile(source.getExtraMenu(), context, dataSourcesScope, componentScope)

@@ -14,7 +14,7 @@
     "links": [
       {
         "linkField": "link1",
-        "link": "https://example.com"
+        "link": "http://example.org"
       },
       {
         "linkField": "link2",

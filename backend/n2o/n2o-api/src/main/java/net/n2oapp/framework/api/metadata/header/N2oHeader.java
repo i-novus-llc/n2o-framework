@@ -40,7 +40,7 @@ public class N2oHeader extends N2oComponent implements DatasourceIdAware {
     /**
      * Основное меню
      */
-    private N2oSimpleMenu menu;
+    private N2oSimpleMenu navMenu;
     /**
      * Дополнительное меню. Отображается в правой части заголовка
      */

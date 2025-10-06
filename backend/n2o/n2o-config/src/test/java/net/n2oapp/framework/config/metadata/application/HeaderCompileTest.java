@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.*;
  * Тестирование компиляции заголовка
  */
 class HeaderCompileTest extends SourceCompileTestBase {
-    
+
     @Override
     @BeforeEach
     public void setUp() {
@@ -150,7 +150,7 @@ class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(header.getLogo().getTitle(), is("`name`"));
         assertThat(header.getLogo().getHref(), is("/pageRoute"));
         assertThat(header.getStyle().size(), is(1));
-        assertThat(header.getStyle().get("marginLeft"),is("10px"));
+        assertThat(header.getStyle().get("marginLeft"), is("10px"));
         assertThat(header.getDatasource(), is("test"));
     }
 }

@@ -24,6 +24,7 @@
     "compile:lib:watch": "yarn workspace n2o-framework run compile:lib:watch",
     "compile:n2o-components-lib:watch": "yarn workspace @i-novus/n2o-components compile:lib:watch",
     "start:demo": "yarn workspace n2o-simple-project run start",
+    "compile-and-start:demo": "concurrently \"yarn run compile:watch\" \"yarn run start:demo\"",
     "start:preview": "yarn workspace n2o-simple-project run preview",
     "lint": "yarn workspace n2o-framework run lint",
     "clean": "yarn workspace n2o-simple-project clean && yarn workspace n2o-framework clean && yarn workspace @i-novus/n2o-components clean && rimraf ./node_modules/",

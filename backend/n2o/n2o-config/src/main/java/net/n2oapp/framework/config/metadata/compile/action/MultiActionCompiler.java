@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initFailConditionBranchesScope;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 
 /**
  * Сборка multi действия
@@ -30,7 +30,7 @@ public class MultiActionCompiler extends AbstractActionCompiler<MultiAction, N2o
     @Override
     public MultiAction compile(N2oMultiAction source, CompileContext<?, ?> context, CompileProcessor p) {
         List<Action> actions = Arrays.stream(source.getN2oActions())
-                .filter(a -> ActionCompileStaticProcessor.isNotFailConditions(a) && !(a instanceof N2oOnFailAction))
+                .filter(a -> isNotFailConditions(a) && !(a instanceof N2oOnFailAction))
                 .map(n2oAction -> (Action) p.compile(n2oAction, context,
                         initFailConditionBranchesScope(n2oAction, source.getN2oActions())))
                 .toList();

@@ -30,11 +30,11 @@ class N2oMenuMergerTest extends SourceMergerTestBase {
                 "net/n2oapp/framework/config/metadata/merge/menu/childNav.menu.xml")
                 .get("navParent", N2oApplication.class);
 
-        assertThat(application.getSidebars()[0].getMenu().getMenuItems().length, is(3));
-        assertThat(application.getSidebars()[0].getMenu().getSrc(), is("testParentSrc"));
-        assertThat(application.getSidebars()[0].getMenu().getMenuItems()[0].getId(), is("testChildDropdown"));
-        assertThat(application.getSidebars()[0].getMenu().getMenuItems()[1].getName(), is("testChildItem"));
-        assertThat(application.getSidebars()[0].getMenu().getMenuItems()[2].getName(), is("testParentItem"));
+        assertThat(application.getSidebars()[0].getNavMenu().getMenuItems().length, is(3));
+        assertThat(application.getSidebars()[0].getNavMenu().getSrc(), is("testParentSrc"));
+        assertThat(application.getSidebars()[0].getNavMenu().getMenuItems()[0].getId(), is("testChildDropdown"));
+        assertThat(application.getSidebars()[0].getNavMenu().getMenuItems()[1].getName(), is("testChildItem"));
+        assertThat(application.getSidebars()[0].getNavMenu().getMenuItems()[2].getName(), is("testParentItem"));
     }
 
     @Test

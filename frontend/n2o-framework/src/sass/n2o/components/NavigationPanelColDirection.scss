@@ -1,0 +1,96 @@
+@mixin columnItem {
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+}
+
+@mixin flexColumnStart {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+
+.n2o-navigation-panel.direction-col {
+    .n2o-navigation-panel__children {
+        @include columnItem;
+
+        margin: 1px 0;
+
+        .group-header {
+            @include columnItem;
+        }
+    }
+
+    .n2o-navigation-panel__children.group {
+        @include flexColumnStart;
+
+        .group-children {
+            flex-flow: column;
+            align-items: flex-start;
+
+            .group-children__child {
+                @include columnItem;
+
+                margin: 1px 0;
+
+                .group-children__child.btn {
+                    margin: 0;
+                }
+            }
+
+            .group.group-children__child {
+                @include flexColumnStart;
+            }
+        }
+
+        .group-children__child.dropdown {
+            @include columnItem;
+
+            .group-children.dropdown-menu {
+                padding: 0 12px !important;
+
+                .group-children__child {
+                    @include columnItem;
+                }
+            }
+        }
+    }
+
+    .n2o-navigation-panel__children.dropdown.show {
+        .dropdown-menu.show.group-children {
+            @include flexColumnStart;
+
+            padding: 0 12px !important;
+
+            .group-children__child {
+                @include columnItem;
+
+                margin: 1px 0;
+
+                .group-children__child.btn {
+                    margin: 0;
+                }
+            }
+
+            .group.group-children__child {
+                @include flexColumnStart;
+            }
+        }
+    }
+
+    .n2o-navigation-panel__children.btn {
+        padding-left: 12px;
+    }
+
+    .btn {
+        max-width: max-content;
+    }
+
+    .btn.btn-link {
+        padding-left: 0;
+    }
+
+    .n2o-navigation-panel__children.divider {
+        min-height: -webkit-fill-available;
+    }
+}

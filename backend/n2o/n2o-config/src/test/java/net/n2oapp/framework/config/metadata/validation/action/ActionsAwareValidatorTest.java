@@ -41,13 +41,13 @@ class ActionsAwareValidatorTest extends SourceValidationTestBase {
     }
 
     /**
-     * Проверка наличия тега <actions> на в виджете при указанном action-id
+     * Проверка наличия тега <actions> в виджете при указанном action-id
      */
     @Test
     void testMissedWidgetActions() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testMissedPageActions.page.xml"));
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/aware/testMissedWidgetActions.page.xml"));
         assertEquals("Для компонента с action-id=\"test\" не найдены действия <actions>", exception.getMessage());
     }
 

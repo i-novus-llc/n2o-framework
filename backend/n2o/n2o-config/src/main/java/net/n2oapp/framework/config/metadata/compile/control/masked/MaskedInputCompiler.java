@@ -5,8 +5,8 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.masked.N2oMaskedInput;
 import net.n2oapp.framework.api.metadata.domain.DomainEnum;
-import net.n2oapp.framework.api.metadata.meta.control.masked.MaskedInput;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.masked.MaskedInput;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;

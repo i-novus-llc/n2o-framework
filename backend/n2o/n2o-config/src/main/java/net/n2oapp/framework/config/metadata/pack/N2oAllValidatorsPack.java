@@ -14,6 +14,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.datasource.*;
 import net.n2oapp.framework.config.metadata.validation.standard.event.OnChangeEventValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.*;
 import net.n2oapp.framework.config.metadata.validation.standard.invocation.JavaDataProviderValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.menu.MenuItemValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.object.ObjectValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.*;
@@ -54,7 +55,8 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new ActionCellValidator(),
                 new ToolbarCellValidator(), new ListCellValidator(), new MultiColumnValidator(), new SimpleColumnValidator(),
                 new FilterColumnValidator(), new BlockValidator(), new DateIntervalValidator(),
-                new ProgressBarCellValidator(), new PanelRegionValidator(), new CustomRegionValidator(), new LineRegionValidator(),
-                new ProgressValidator(), new StatusValidator(), new AlertFieldValidator());
+                new MenuItemValidator(),
+                new NavRegionValidator(), new PanelRegionValidator(), new CustomRegionValidator(), new LineRegionValidator(),
+                new ProgressBarCellValidator(), new ProgressValidator(), new StatusValidator(), new AlertFieldValidator());
     }
 }

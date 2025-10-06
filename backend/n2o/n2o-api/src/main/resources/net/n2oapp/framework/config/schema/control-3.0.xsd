@@ -1528,7 +1528,7 @@
                         <xs:documentation>Разделитель между элементами.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="direction" type="directionType" default="column"/>
+                <xs:attribute name="direction" type="bs:directionType" default="column"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1562,24 +1562,6 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
-    <xs:simpleType name="directionType">
-        <xs:restriction base="xs:string">
-            <xs:annotation>
-                <xs:documentation>Направление отображения элементов.</xs:documentation>
-            </xs:annotation>
-            <xs:enumeration value="row">
-                <xs:annotation>
-                    <xs:documentation>Отображение элементов в строку.</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="column">
-                <xs:annotation>
-                    <xs:documentation>Отображение элементов в столбец.</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:simpleType name="fractionFormattingType">
         <xs:restriction base="xs:string">

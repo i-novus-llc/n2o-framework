@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.is;
  * Тестирование компиляции бокового меню
  */
 class SidebarCompileTest extends SourceCompileTestBase {
-    
+
     @Override
     @BeforeEach
     public void setUp() {
@@ -82,7 +82,7 @@ class SidebarCompileTest extends SourceCompileTestBase {
         assertThat(sidebar.getClassName(), is("class"));
         assertThat(sidebar.getLogo().getHref(), is("/pageRoute"));
         assertThat(sidebar.getStyle().size(), is(1));
-        assertThat(sidebar.getStyle().get("marginLeft"),is("10px"));
+        assertThat(sidebar.getStyle().get("marginLeft"), is("10px"));
 
         assertThat(sidebar.getMenu().getItems().size(), is(3));
         assertThat(sidebar.getExtraMenu().getItems().size(), is(1));
