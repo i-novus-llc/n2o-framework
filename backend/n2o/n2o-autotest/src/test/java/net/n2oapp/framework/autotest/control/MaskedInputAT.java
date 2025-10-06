@@ -44,8 +44,7 @@ class MaskedInputAT extends AutoTestBase {
         setResourcePath("net/n2oapp/framework/autotest/control/masked");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/masked/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/masked/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/masked/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/masked/test.object.xml")
         );
     }
 
@@ -72,14 +71,14 @@ class MaskedInputAT extends AutoTestBase {
     }
 
     @Test
-    void test() {
+    void testValidation() {
         StandardButton saveButton = simplePage.toolbar().bottomLeft().button("Сохранить");
         saveButton.shouldBeEnabled();
 
         MaskedInput mask = getFields().field("MaskedInputToSave").control(MaskedInput.class);
         mask.shouldBeVisible();
-        mask.shouldHaveValue("12-11");
         mask.setValue("12-12");
+        mask.shouldHaveValue("12-12");
         saveButton.click();
         simplePage.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
         mask.shouldHaveInvalidText(Condition.empty);

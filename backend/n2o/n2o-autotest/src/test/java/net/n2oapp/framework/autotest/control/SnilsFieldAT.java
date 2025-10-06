@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для поля {@code <snils>}
  */
-public class SnilsFieldAT extends AutoTestBase {
+class SnilsFieldAT extends AutoTestBase {
 
     @BeforeAll
     static void beforeClass() {
@@ -42,8 +42,7 @@ public class SnilsFieldAT extends AutoTestBase {
         setResourcePath("net/n2oapp/framework/autotest/control/snils");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/snils/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/snils/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/snils/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/snils/test.object.xml")
         );
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -53,8 +52,8 @@ public class SnilsFieldAT extends AutoTestBase {
 
         SnilsField snilsField = page.widget(FormWidget.class).fields().field("snils").control(SnilsField.class);
         snilsField.shouldBeVisible();
+        snilsField.setValue("424-225-277 48");
         snilsField.shouldHaveValue("424-225-277 48");
-        snilsField.setValue("");
         saveButton.click();
         page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
         snilsField.shouldHaveInvalidText(Condition.empty);

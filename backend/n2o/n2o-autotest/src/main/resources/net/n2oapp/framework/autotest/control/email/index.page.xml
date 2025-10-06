@@ -2,13 +2,13 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Тестирование поля email">
     <form>
-        <datasource object-id="test" query-id="test"/>
         <fields>
             <email id="mail" invalid-text="Невалидный почтовый адрес"/>
         </fields>
+
         <toolbar place="bottomLeft">
             <button label="Сохранить" disable-on-empty-model="false">
-                <invoke operation-id="submit"/>
+                <invoke operation-id="submit" object-id="test"/>
             </button>
         </toolbar>
     </form>

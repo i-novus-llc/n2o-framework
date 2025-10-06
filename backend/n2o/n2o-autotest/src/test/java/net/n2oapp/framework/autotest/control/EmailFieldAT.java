@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для поля {@code <email>}
  */
-public class EmailFieldAT extends AutoTestBase {
+class EmailFieldAT extends AutoTestBase {
 
     @BeforeAll
     static void beforeClass() {
@@ -42,8 +42,7 @@ public class EmailFieldAT extends AutoTestBase {
         setResourcePath("net/n2oapp/framework/autotest/control/email");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/email/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/email/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/email/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/email/test.object.xml")
         );
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -53,8 +52,8 @@ public class EmailFieldAT extends AutoTestBase {
 
         EmailField emailField = page.widget(FormWidget.class).fields().field("mail").control(EmailField.class);
         emailField.shouldBeVisible();
+        emailField.setValue("test@gmail.com");
         emailField.shouldHaveValue("test@gmail.com");
-        emailField.setValue("test1@gmail.com");
         saveButton.click();
         page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
         emailField.shouldHaveInvalidText(Condition.empty);

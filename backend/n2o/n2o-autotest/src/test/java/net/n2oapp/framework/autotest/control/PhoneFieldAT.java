@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для поля {@code <phone>}
  */
-public class PhoneFieldAT extends AutoTestBase {
+class PhoneFieldAT extends AutoTestBase {
 
     @BeforeAll
     static void beforeClass() {
@@ -42,8 +42,7 @@ public class PhoneFieldAT extends AutoTestBase {
         setResourcePath("net/n2oapp/framework/autotest/control/phone");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/phone/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/phone/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/phone/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/phone/test.object.xml")
         );
         SimplePage page = open(SimplePage.class);
         page.shouldExists();

@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для поля {@code <uuid>}
  */
-public class UuidFieldAT extends AutoTestBase {
+class UuidFieldAT extends AutoTestBase {
 
     @BeforeAll
     static void beforeClass() {
@@ -42,8 +42,7 @@ public class UuidFieldAT extends AutoTestBase {
         setResourcePath("net/n2oapp/framework/autotest/control/uuid");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/control/uuid/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/uuid/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/uuid/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/uuid/test.object.xml")
         );
 
         SimplePage page = open(SimplePage.class);
@@ -54,8 +53,8 @@ public class UuidFieldAT extends AutoTestBase {
 
         UuidField uuidField = page.widget(FormWidget.class).fields().field("uuid").control(UuidField.class);
         uuidField.shouldBeVisible();
+        uuidField.setValue("dfd11111-1111-1111-8111-111111111111");
         uuidField.shouldHaveValue("dfd11111-1111-1111-8111-111111111111");
-        uuidField.setValue("");
         saveButton.click();
         page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
         uuidField.shouldHaveInvalidText(Condition.empty);

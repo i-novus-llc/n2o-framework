@@ -3,16 +3,11 @@
     <operations>
         <operation id="submit">
             <invocation>
-                <test file="test.json" operation="update"/>
                 <test operation="echo"/>
             </invocation>
             <in>
-                <field id="id"/>
                 <field id="uuid"/>
             </in>
-            <out>
-                <field id="uuid"/>
-            </out>
         </operation>
     </operations>
 </object>
