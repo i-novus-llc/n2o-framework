@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Моя первая страница">
+    <datasources>
+        <datasource id="medicalReportsDs" query-id="medicalReports"/>
+    </datasources>
+    <regions>
+        <region>
+            <table datasource="medicalReportsDs">
+                <toolbar place="topLeft">
+                    <button id="update" label="Скрытая вспомогательная" visible="false">
+                        <open-page page-id="medicalReport" route=":reportId/update">
+                            <params>
+                                <path-param name="reportId" value="{id}"/>
+                            </params>
+                        </open-page>
+                    </button>
+                </toolbar>
+                <columns>
+                    <column text-field-id="id"/>
+                    <column text-field-id="name" label="Документ"/>
+                    <column text-field-id="org.name" label="Организация"/>
+                </columns>
+                <rows>
+                    <click>
+                        <a href="/:reportId/update" target="application">
+                            <path-param name="reportId" value="{id}"/>
+                        </a>
+                    </click>
+                </rows>
+            </table>
+        </region>
+    </regions>
+</page>

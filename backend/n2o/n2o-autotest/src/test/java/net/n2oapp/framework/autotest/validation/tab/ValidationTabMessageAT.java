@@ -12,6 +12,7 @@ import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -48,9 +49,9 @@ class ValidationTabMessageAT extends AutoTestBase {
                 new N2oAllDataPack()
         );
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/form.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/test.object.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/simple/form.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/simple/test.object.xml")
         );
     }
 
@@ -180,5 +181,26 @@ class ValidationTabMessageAT extends AutoTestBase {
 
         saveBtn.click();
         page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
+    }
+
+    @Test
+    void testNoAutoSwitchToInvalidTab() {
+        setResourcePath("net/n2oapp/framework/autotest/validation/tab/lazy");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/lazy/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/lazy/medicalReport.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/lazy/medicalReports.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/validation/tab/lazy/person.query.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldBeVisible();
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        table.columns().rows().shouldHaveSize(4);
+        table.columns().rows().row(1).click();
+        TabsRegion tabs = page.regions().region(0, TabsRegion.class);
+        tabs.shouldHaveSize(2);
+        tabs.tab(0).shouldBeActive();
+        tabs.tab(1).shouldNotBeActive();
     }
 }
