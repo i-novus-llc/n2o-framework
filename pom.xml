@@ -72,6 +72,7 @@
         <!-- Конфигурация TypeScript -->
         <sonar.typescript.tsconfig.path>frontend/n2o-framework/tsconfig.json</sonar.typescript.tsconfig.path>
         <sonar.typescript.lcov.reportPaths>frontend/n2o-framework/coverage/lcov.info</sonar.typescript.lcov.reportPaths>
+        <maven.build.timestamp.format>yyyyMMdd.HHmmss</maven.build.timestamp.format>
     </properties>
 
     <build>
