@@ -1,14 +1,29 @@
 import { type MaskitoMask } from '@maskito/core/src/lib/types/mask'
+import { useMemo } from 'react'
 import { useMaskito } from '@maskito/react'
 import { maskitoEventHandler, maskitoWithPlaceholder } from '@maskito/kit'
-import { maskitoUpdateElement, maskitoTransform } from '@maskito/core'
-import { useMemo } from 'react'
+import {
+    maskitoUpdateElement,
+    maskitoTransform,
+    MaskitoPreprocessor,
+    MaskitoPostprocessor,
+    MaskitoPlugin,
+} from '@maskito/core'
 
-export function useMask(
+interface Params {
     mask: MaskitoMask,
     placeholder: string,
-    initialValue?: string | number | null
-) {
+    defaultValue?: string | number | null
+    processors?: {
+        preprocessors?: MaskitoPreprocessor[]
+        postprocessors?: MaskitoPostprocessor[]
+        plugins?: MaskitoPlugin[]
+    }
+}
+
+export function useMask(params: Params) {
+    const { mask, placeholder, defaultValue, processors } = params
+
     const options = useMemo(() => {
         const {
             removePlaceholder,
@@ -16,12 +31,19 @@ export function useMask(
             ...placeholderOptions
         } = maskitoWithPlaceholder(placeholder)
 
+        const {
+            preprocessors: presetPreprocessors = [],
+            postprocessors: presetPostprocessors = [],
+            plugins: presetPlugins = [],
+        } = processors || {}
+
         return {
-            preprocessors: placeholderOptions.preprocessors,
-            postprocessors: [...placeholderOptions.postprocessors],
+            preprocessors: [...placeholderOptions.preprocessors, ...presetPreprocessors],
+            postprocessors: [...placeholderOptions.postprocessors, ...presetPostprocessors],
             mask,
             plugins: [
                 ...plugins,
+                ...presetPlugins,
                 maskitoEventHandler('focus', (element) => {
                     const initialValue = element.value
 
@@ -41,7 +63,7 @@ export function useMask(
 
     const maskRef = useMaskito({ options })
 
-    const maskedValue = initialValue ? maskitoTransform(String(initialValue), options) : ''
+    const maskedValue = defaultValue ? maskitoTransform(String(defaultValue), options) : ''
 
     return { maskRef, maskedValue }
 }
