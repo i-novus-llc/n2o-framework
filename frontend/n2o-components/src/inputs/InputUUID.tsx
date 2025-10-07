@@ -36,20 +36,24 @@ export interface InputUUIDProps extends InputProps {
 export function InputUUID({
     autocomplete,
     className,
-    clearOnBlur = false,
-    disabled = false,
     id,
-    invalidText = DEFAULT_INVALID_TEXT,
     onChange,
     onBlur,
     onFocus,
     onMessage,
     placeholder,
     value,
+    clearOnBlur = false,
+    disabled = false,
     uuidVersion = Versions.ANY,
+    invalidText = DEFAULT_INVALID_TEXT,
 }: InputUUIDProps) {
     const mask = useMemo(() => prepareMaskForVersion(uuidVersion), [uuidVersion])
-    const { maskRef, maskedValue } = useMask(mask, DEFAULT_PLACEHOLDER, value)
+    const { maskRef, maskedValue } = useMask({
+        mask,
+        placeholder: DEFAULT_PLACEHOLDER,
+        defaultValue: value,
+    })
     const isValidUUID = useCallback((value) => {
         return validateUUID(value, uuidVersion)
     }, [uuidVersion])

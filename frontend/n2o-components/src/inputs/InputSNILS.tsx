@@ -26,11 +26,17 @@ export function InputSNILS({
     value,
 }: InputProps) {
     const { maskRef, maskedValue } = useMask(
-        SNILS_MASK,
-        DEFAULT_PLACEHOLDER,
-        formatSNILS(value),
+        {
+            mask: SNILS_MASK,
+            placeholder: DEFAULT_PLACEHOLDER,
+            defaultValue: formatSNILS(value),
+        },
     )
-    
+
+    const prepareToStore = (value: string) => {
+        return value.replace(/\D/g, '')
+    }
+
     const { stateValue, handleChange, handleBlur, inputClassName } = useInputController({
         value: maskedValue,
         onChange,
@@ -40,7 +46,7 @@ export function InputSNILS({
         clearOnBlur,
         validate: isValidSNILS,
         className,
-        storeCleanValue: true,
+        prepareToStore,
     })
 
     return (

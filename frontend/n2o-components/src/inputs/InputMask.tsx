@@ -32,7 +32,11 @@ function Component({
             placeholder: maskArray.map(char => (char === '9' ? '_' : char)).join(('')),
         }
     }, [mask])
-    const { maskRef, maskedValue } = useMask(options.mask, options.placeholder, value)
+    const { maskRef, maskedValue } = useMask({
+        mask: options.mask,
+        placeholder: options.placeholder,
+        defaultValue: value,
+    })
 
     const isMaskFilled = useCallback((value: string): boolean => {
         if (value === '') { return true }

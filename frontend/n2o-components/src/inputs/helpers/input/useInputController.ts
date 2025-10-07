@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FocusEvent, useEffect, useState, ClipboardEvent } from 'react'
 import classNames from 'classnames'
 
 import { type useInputControllerProps } from './types'
@@ -15,7 +15,7 @@ const COMMON_INPUT_CLASS_NAMES = ['form-control', 'n2o-input-mask']
  * @param params.onMessage - Callback для показа сообщений
  * @param params.invalidText - Текст ошибки при невалидном значении
  * @param params.clearOnBlur - Очищать поле при невалидном значении
- * @param params.storeCleanValue - Сохранять очищенное значение
+ * @param params.prepareToStore - Дополнительная обработка значения перед сохранением в store
  * @param params.className - className
  * @returns Объект с состоянием и обработчиками
  */
@@ -28,7 +28,7 @@ export function useInputController(
         onMessage,
         invalidText,
         clearOnBlur,
-        storeCleanValue = false,
+        prepareToStore,
         className = '',
     }: useInputControllerProps,
 ) {
@@ -47,12 +47,20 @@ export function useInputController(
 
         setStateValue(value)
 
-        if (!value) { onChange?.(value) }
+        if (!value) {
+            onChange?.(value)
+
+            return
+        }
 
         if (validate(value)) {
-            const stored = storeCleanValue ? value.replace(/\D/g, '') : value
+            if (prepareToStore) {
+                onChange?.(prepareToStore(value))
 
-            return onChange?.(stored)
+                return
+            }
+
+            onChange?.(value)
         }
     }
 
@@ -62,9 +70,11 @@ export function useInputController(
         if (!value) { return onBlur?.(value) }
 
         if (validate(value)) {
-            const stored = storeCleanValue ? value.replace(/\D/g, '') : value
+            if (prepareToStore) {
+                return onBlur?.(prepareToStore(value))
+            }
 
-            return onBlur?.(stored)
+            return onBlur?.(value)
         }
 
         if (clearOnBlur) {
@@ -75,6 +85,8 @@ export function useInputController(
         }
 
         onMessage?.(new Error(invalidText))
+
+        return null
     }
 
     return {

@@ -11,7 +11,7 @@ export interface useInputControllerOptions {
 
 export interface useInputControllerProps extends useInputControllerOptions {
     className?: string
-    storeCleanValue?: boolean
+    prepareToStore?(value: string): string
     validate: Validate
 }
 
