@@ -92,6 +92,9 @@ class NavRegionAT extends AutoTestBase {
         groupItem.shouldExists();
         checkGroup(groupItem, page);
 
+        // сброс фокуса
+        nav.content().item(0, NavRegion.NavRegionItem.class).click();
+
         // <dropdown-menu label="Магазин">
         NavRegion.DropdownItem dropdownItem = nav.content().item(4, NavRegion.DropdownItem.class);
         dropdownItem.shouldExists();
