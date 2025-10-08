@@ -199,10 +199,16 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
         const needLabel = !!label && type !== 'line'
         const needDescription = !!description && type !== 'line'
 
-        const classes = classNames('n2o-fieldset', className, {
-            'd-none': !visible,
-            empty: !isEmpty(this.fieldsVisibility) && !this.checkGlobalFieldVisibility(this.fieldsVisibility),
-        })
+        const resolvedClassName = propsResolver?.(className, activeModel)
+
+        const classes = classNames(
+            'n2o-fieldset',
+            resolvedClassName,
+            {
+                'd-none': !visible,
+                empty: !isEmpty(this.fieldsVisibility) && !this.checkGlobalFieldVisibility(this.fieldsVisibility),
+            },
+        )
 
         const resolvedLabel = propsResolver?.(label, activeModel) as string
         const resolvedHelp = propsResolver?.(help, activeModel) as string
