@@ -11,6 +11,8 @@
 }
 
 .n2o-navigation-panel.direction-col {
+    max-width: max-content;
+
     .n2o-navigation-panel__children {
         @include columnItem;
 
@@ -38,6 +40,10 @@
                 }
             }
 
+            .divider {
+                min-height: auto;
+            }
+
             .group.group-children__child {
                 @include flexColumnStart;
             }
@@ -51,6 +57,10 @@
 
                 .group-children__child {
                     @include columnItem;
+                }
+
+                .divider {
+                    min-height: auto;
                 }
             }
         }
@@ -92,5 +102,7 @@
 
     .n2o-navigation-panel__children.divider {
         min-height: -webkit-fill-available;
+        width: 100%;
+        min-width: inherit;
     }
 }
