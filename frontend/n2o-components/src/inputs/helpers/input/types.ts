@@ -5,7 +5,7 @@ export interface useInputControllerOptions {
     invalidText?: string
     onBlur?(value: string | null): void
     onChange?(value: string | null): void
-    onMessage?(error: Error): void
+    onMessage?(error: Error | null): void
     value?: string | null
 }
 
