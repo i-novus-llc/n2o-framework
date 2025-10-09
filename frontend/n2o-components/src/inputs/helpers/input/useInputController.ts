@@ -39,6 +39,8 @@ export function useInputController(
 
         if (defaultValue && !validate(defaultValue)) {
             onMessage?.(new Error(invalidText))
+        } else {
+            onMessage?.(null)
         }
     }, [defaultValue])
 
