@@ -1,7 +1,1 @@
-import isEmpty from 'lodash/isEmpty'
-import isNil from 'lodash/isNil'
-import every from 'lodash/every'
-
-export function isEmptyModel(model: Record<string, unknown> | undefined | object): boolean {
-    return isEmpty(model) || every(model, value => value === '' || isNil(value))
-}
+export { isEmptyModel } from '@i-novus/n2o-components/lib/utils/isEmptyModel'

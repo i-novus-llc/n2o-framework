@@ -6,10 +6,10 @@ import isNaN from 'lodash/isNaN'
 import isString from 'lodash/isString'
 import isObject from 'lodash/isObject'
 import get from 'lodash/get'
+import { isEmptyModel } from '@i-novus/n2o-components/lib/utils/isEmptyModel'
 
 import evalExpression from '../../utils/evalExpression'
 import { defaultApiProvider, FETCH_VALIDATE } from '../api'
-import { isEmptyModel } from '../../utils/isEmptyModel'
 
 import type { ValidateFunction, ValidationResult } from './types'
 import { ValidationTypes } from './types'
