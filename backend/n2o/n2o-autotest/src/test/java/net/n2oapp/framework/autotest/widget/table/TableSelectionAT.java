@@ -129,22 +129,25 @@ class TableSelectionAT extends AutoTestBase {
         rows.shouldHaveSize(3);
         rows.shouldBeSelected(0);
 
-        RadioCell cell1 = rows.row(0).cell(0, RadioCell.class);
-        RadioCell cell2 = rows.row(1).cell(0, RadioCell.class);
-        RadioCell cell3 = rows.row(2).cell(0, RadioCell.class);
-        cell1.click();
-        cell1.shouldBeChecked();
-        cell2.shouldBeUnchecked();
-        cell3.shouldBeUnchecked();
-        cell2.click();
-        cell2.shouldBeChecked();
-        cell3.click();
-        cell3.shouldBeChecked();
-        cell1.shouldBeUnchecked();
-        cell2.shouldBeUnchecked();
+        RadioCell row0RadioCell = rows.row(0).cell(0, RadioCell.class);
+        RadioCell row1RadioCell = rows.row(1).cell(0, RadioCell.class);
+        RadioCell row2RadioCell = rows.row(2).cell(0, RadioCell.class);
+        row0RadioCell.click();
+        row0RadioCell.shouldBeChecked();
+        row1RadioCell.shouldBeUnchecked();
+        row2RadioCell.shouldBeUnchecked();
+        row1RadioCell.click();
+        row1RadioCell.shouldBeChecked();
+        row2RadioCell.click();
+        row2RadioCell.shouldBeChecked();
+        row0RadioCell.shouldBeUnchecked();
+        row1RadioCell.shouldBeUnchecked();
 
         rows.row(1).click();
         rows.shouldBeSelected(1);
+        row0RadioCell.shouldBeUnchecked();
+        row1RadioCell.shouldBeChecked();
+        row2RadioCell.shouldBeUnchecked();
 
         StandardButton button = table.toolbar().topLeft().button("Открыть");
         button.shouldBeEnabled();

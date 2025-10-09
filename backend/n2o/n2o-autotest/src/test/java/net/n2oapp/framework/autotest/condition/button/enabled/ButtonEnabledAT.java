@@ -120,6 +120,7 @@ class ButtonEnabledAT extends AutoTestBase {
         StandardButton item2 = subMenu.menuItem("item2");
 
         type.shouldBeEmpty();
+        disabledSubMenu.shouldBeVisible();
         disabledSubMenu.shouldBeDisabled();
         subMenu.shouldBeDisabled();
 
