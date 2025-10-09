@@ -1,7 +1,6 @@
 import React from 'react'
 import { ButtonGroup } from 'reactstrap'
-
-import { isEmptyModel } from '../../../../../utils/isEmptyModel'
+import { isEmptyModel } from '@i-novus/n2o-components/lib/utils/isEmptyModel'
 
 import { FilterSearchButton, Props as SearchProps } from './FilterSearchButton/FilterSearchButton'
 import { FilterClearButton, Props as ClearProps } from './FilterClearButton/FilterClearButton'

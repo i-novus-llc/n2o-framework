@@ -1,7 +1,6 @@
 import isEmpty from 'lodash/isEmpty'
 import isNil from 'lodash/isNil'
-import every from 'lodash/every'
 
 export function isEmptyModel(model: Record<string, unknown> | undefined | object): boolean {
-    return isEmpty(model) || every(model, value => value === '' || isNil(value))
+    return !model || isEmpty(model) || Object.values(model).every(value => value === '' || isNil(value))
 }
