@@ -1,5 +1,4 @@
 import React, { ComponentType, useContext } from 'react'
-import { connect } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 import { Button } from '@i-novus/n2o-components/lib/button/Button'
@@ -7,12 +6,10 @@ import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 import { ROOT_CLASS_NAME_PARAM } from '@i-novus/n2o-components/lib/navigation/helpers'
 
-import { dataSourceLoadingSelector } from '../../../ducks/datasource/selectors'
 import { Position } from '../../snippets/Badge/enums'
 import { IconContainer, ICON_POSITIONS } from '../../snippets/IconContainer/IconContainer'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
-import { State } from '../../../ducks/State'
 import { NOOP_FUNCTION } from '../../../utils/emptyTypes'
 
 import { type Props } from './types'
@@ -28,7 +25,7 @@ export enum CLICK_EVENTS {
     NUMPAD_ENTER = 'NumpadEnter',
 }
 
-const Component = ({
+export const SimpleButton = ({
     id,
     label,
     icon,
@@ -38,7 +35,6 @@ const Component = ({
     className,
     [ROOT_CLASS_NAME_PARAM]: rootClassName,
     badge,
-    dataSourceIsLoading,
     forwardedRef,
     url,
     onKeyDown,
@@ -67,7 +63,7 @@ const Component = ({
                 id={id}
                 tag={tag}
                 onClick={onClick}
-                disabled={dataSourceIsLoading || disabled}
+                disabled={disabled}
                 rounded={rounded && !label}
                 className={classNames(className, {
                     'btn-rounded__with-content': rounded && label,
@@ -109,13 +105,6 @@ const Component = ({
     )
 }
 
-Component.displayName = 'SimpleButtonComponent'
-
-const mapStateToProps = (state: State, { datasource }: Props) => ({
-    dataSourceIsLoading: datasource ? dataSourceLoadingSelector(datasource)(state) : false,
-})
-
-export const SimpleButton = connect(mapStateToProps)(Component)
 export default SimpleButton
 
 SimpleButton.displayName = 'SimpleButton'

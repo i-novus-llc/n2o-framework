@@ -6,32 +6,19 @@ import {
     takeEvery,
 } from 'redux-saga/effects'
 import get from 'lodash/get'
-import has from 'lodash/has'
-import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
-import isEmpty from 'lodash/isEmpty'
-import every from 'lodash/every'
 import merge from 'deepmerge'
 
 import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
-import {
-    widgetsSelector,
-} from '../ducks/widgets/selectors'
 import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../ducks/models/store'
-import { disablePage, enablePage } from '../ducks/pages/store'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
-import { disableWidget, enableWidget } from '../ducks/widgets/store'
-import { resolveButton } from '../ducks/toolbar/sagas'
-import { changeButtonDisabled } from '../ducks/toolbar/store'
 import { ModelPrefix } from '../core/datasource/const'
 import { failValidate, startValidate, submit } from '../ducks/datasource/store'
 import { EffectWrapper } from '../ducks/api/utils/effectWrapper'
 import { State } from '../ducks/State'
-import { State as WidgetsState } from '../ducks/widgets/Widgets'
-import { ButtonContainer } from '../ducks/toolbar/Toolbar'
 import { metaPropsType } from '../plugins/utils'
 import { DataSourceState } from '../ducks/datasource/DataSource'
 import { dataSourceByIdSelector } from '../ducks/datasource/selectors'
@@ -113,38 +100,6 @@ export function* handleFailInvoke(
     yield put(failInvoke(widgetId, meta))
 }
 
-/**
- * @param {string} pageId
- * @param {string[]} widgets
- * @param {object[]} buttons
- * @param {string[]} buttonIds
- */
-function* enable(pageId: string, widgets: string[], buttons: ButtonContainer, buttonIds: string[]) {
-    if (pageId) {
-        yield put(enablePage(pageId))
-
-        if (buttons) {
-            for (const buttonId of buttonIds) {
-                const button = buttons[buttonId]
-                const needUnDisableButton = every(button.conditions, (v, k) => k !== 'enabled')
-
-                if (!isEmpty(button.conditions)) {
-                    yield call(resolveButton, buttons[buttonId])
-                }
-
-                if (needUnDisableButton) {
-                    yield put(changeButtonDisabled(pageId, buttonId, false))
-                }
-            }
-        }
-    }
-    if (widgets.length) {
-        for (const id of widgets) {
-            yield put(enableWidget(id))
-        }
-    }
-}
-
 export interface HandleInvokePayload {
     datasource: string
     model: ModelPrefix
@@ -171,18 +126,10 @@ export function* handleInvoke(
         datasource,
         model: modelPrefix,
         dataProvider,
-        pageId,
     } = payload
 
-    const state: State = yield select()
     const optimistic = get(dataProvider, 'optimistic')
-    const buttons = get(state, ['toolbar', pageId])
-    const buttonIds = !optimistic && has(state, 'toolbar') ? keys(buttons) : []
     const model: FetchInvokeModel = yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
-    const allWidgets: WidgetsState = yield select(widgetsSelector)
-    const widgets = Object.entries(allWidgets)
-        .filter(([, widget]) => widget?.datasource === datasource)
-        .map(([key]) => key)
 
     let errorFields: ErrorFields = {}
 
@@ -204,17 +151,6 @@ export function* handleInvoke(
 
             if (!isValid) { throw new Error('invalid model') }
         }
-        if (pageId && !optimistic) {
-            yield put(disablePage(pageId))
-            for (const buttonId of buttonIds) {
-                yield put(changeButtonDisabled(pageId, buttonId, true))
-            }
-        }
-        if (widgets.length && !optimistic) {
-            for (const id of widgets) {
-                yield put(disableWidget(id))
-            }
-        }
 
         const response: { meta: metaPropsType, data: { $list: metaPropsType } } = optimistic
             ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
@@ -234,7 +170,6 @@ export function* handleInvoke(
             }
         }
         yield put(successInvoke(datasource, modelPrefix, successMeta))
-        yield enable(pageId, widgets, buttons, buttonIds)
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
@@ -248,8 +183,6 @@ export function* handleInvoke(
             datasource,
             errorMeta,
         )
-
-        yield enable(pageId, widgets, buttons, buttonIds)
 
         throw err
     } finally {
