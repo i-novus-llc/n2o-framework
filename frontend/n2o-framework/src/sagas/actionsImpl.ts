@@ -38,7 +38,7 @@ import fetchSaga from './fetch'
  * @returns {IterableIterator<*>}
  */
 
-type FetchInvokeModel = { id: string } | Array<{ id: string }>
+type FetchInvokeModel = Record<string, unknown> | Array<Record<string, unknown>>
 
 const prepareModel = (
     model: FetchInvokeModel,
@@ -90,18 +90,8 @@ export function* fetchInvoke(
     )
 }
 
-export function* handleFailInvoke(
-    metaInvokeFail: Record<string, unknown>,
-    widgetId: string,
-    metaResponse: Record<string, unknown>,
-) {
-    const meta = merge(metaInvokeFail, metaResponse)
-
-    yield put(failInvoke(widgetId, meta))
-}
-
 export interface HandleInvokePayload {
-    datasource: string
+    datasource?: string
     model: ModelPrefix
     dataProvider: { submitForm?: boolean, optimistic?: boolean }
     pageId: string
@@ -129,18 +119,18 @@ export function* handleInvoke(
     } = payload
 
     const optimistic = get(dataProvider, 'optimistic')
-    const model: FetchInvokeModel = yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
+    const model: FetchInvokeModel = datasource
+        ? yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
+        : {}
 
     let errorFields: ErrorFields = {}
 
     try {
-        if (!dataProvider) {
-            throw new Error('dataProvider is undefined')
-        }
+        if (!dataProvider) { throw new Error('dataProvider is undefined') }
 
         const { validate } = meta
 
-        if ((validate !== false) && (modelPrefix === ModelPrefix.active)) {
+        if (datasource && (validate !== false) && (modelPrefix === ModelPrefix.active)) {
             const isValid: boolean = yield validateSaga(startValidate(
                 datasource,
                 ValidationsKey.Validations,
@@ -163,7 +153,7 @@ export function* handleInvoke(
         if (optimistic === false) {
             const newModel = modelPrefix === ModelPrefix.selected ? response.data?.$list : response.data
 
-            if (!isEqual(model, newModel)) {
+            if (datasource && !isEqual(model, newModel)) {
                 yield put(
                     setModel(modelPrefix, datasource, newModel),
                 )
@@ -178,22 +168,19 @@ export function* handleInvoke(
 
         errorFields = get(errorMeta, 'messages.fields', {})
 
-        yield* handleFailInvoke(
-            meta.fail || {},
-            datasource,
-            errorMeta,
-        )
+        yield put(failInvoke(datasource, merge(meta.fail || {}, errorMeta)))
 
         throw err
     } finally {
-        const fields: Record<string, unknown> = {}
+        if (datasource) {
+            const fields: Record<string, unknown> = {}
 
-        for (const [fieldName, error] of Object.entries(errorFields)) {
-            fields[fieldName] = Array.isArray(error) ? error : [error]
+            for (const [fieldName, error] of Object.entries(errorFields)) {
+                fields[fieldName] = Array.isArray(error) ? error : [error]
+            }
+
+            yield put(failValidate(datasource, fields, modelPrefix, { touched: true }))
         }
-
-        // @ts-ignore FIXME непонял как поправить
-        yield put(failValidate(datasource, fields, modelPrefix, { touched: true }))
     }
 }
 
@@ -205,7 +192,6 @@ export default (apiProvider: unknown) => [
         const { datasource } = payload
         const { submit: submitProvider }: DataSourceState = yield select(dataSourceByIdSelector(datasource))
 
-        // @ts-ignore проблема с типизацией saga
         yield put(submit(datasource, submitProvider, meta))
     }),
 ]
