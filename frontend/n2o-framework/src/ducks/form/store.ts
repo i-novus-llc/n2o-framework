@@ -394,13 +394,9 @@ export const formSlice = createSlice({
             if (datasource) { updateDirty(datasource, model, false, state) }
         },
         [updateModel.type](state, action) {
-            const { key: id, prefix, field: fieldName } = action.payload
+            const { key: id, prefix } = action.payload
 
             updateDirty(id, prefix, true, state)
-
-            const field = state[id]?.fields[fieldName]
-
-            if (field) { field.message = null }
         },
         [removeFieldFromArray.type](state, action: RemoveFieldFromArrayAction) {
             const { field, start, end, key: datasource, prefix } = action.payload
