@@ -391,7 +391,7 @@ export const formSlice = createSlice({
         [successInvoke.type](state, action) {
             const { datasource, model } = action.payload
 
-            updateDirty(datasource, model, false, state)
+            if (datasource) { updateDirty(datasource, model, false, state) }
         },
         [updateModel.type](state, action) {
             const { key: id, prefix } = action.payload
