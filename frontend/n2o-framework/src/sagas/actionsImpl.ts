@@ -6,32 +6,19 @@ import {
     takeEvery,
 } from 'redux-saga/effects'
 import get from 'lodash/get'
-import has from 'lodash/has'
-import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
-import isEmpty from 'lodash/isEmpty'
-import every from 'lodash/every'
 import merge from 'deepmerge'
 
 import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
-import {
-    widgetsSelector,
-} from '../ducks/widgets/selectors'
 import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../ducks/models/store'
-import { disablePage, enablePage } from '../ducks/pages/store'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
-import { disableWidget, enableWidget } from '../ducks/widgets/store'
-import { resolveButton } from '../ducks/toolbar/sagas'
-import { changeButtonDisabled } from '../ducks/toolbar/store'
 import { ModelPrefix } from '../core/datasource/const'
 import { failValidate, startValidate, submit } from '../ducks/datasource/store'
 import { EffectWrapper } from '../ducks/api/utils/effectWrapper'
 import { State } from '../ducks/State'
-import { State as WidgetsState } from '../ducks/widgets/Widgets'
-import { ButtonContainer } from '../ducks/toolbar/Toolbar'
 import { metaPropsType } from '../plugins/utils'
 import { DataSourceState } from '../ducks/datasource/DataSource'
 import { dataSourceByIdSelector } from '../ducks/datasource/selectors'
@@ -51,7 +38,7 @@ import fetchSaga from './fetch'
  * @returns {IterableIterator<*>}
  */
 
-type FetchInvokeModel = { id: string } | Array<{ id: string }>
+type FetchInvokeModel = Record<string, unknown> | Array<Record<string, unknown>>
 
 const prepareModel = (
     model: FetchInvokeModel,
@@ -103,50 +90,8 @@ export function* fetchInvoke(
     )
 }
 
-export function* handleFailInvoke(
-    metaInvokeFail: Record<string, unknown>,
-    widgetId: string,
-    metaResponse: Record<string, unknown>,
-) {
-    const meta = merge(metaInvokeFail, metaResponse)
-
-    yield put(failInvoke(widgetId, meta))
-}
-
-/**
- * @param {string} pageId
- * @param {string[]} widgets
- * @param {object[]} buttons
- * @param {string[]} buttonIds
- */
-function* enable(pageId: string, widgets: string[], buttons: ButtonContainer, buttonIds: string[]) {
-    if (pageId) {
-        yield put(enablePage(pageId))
-
-        if (buttons) {
-            for (const buttonId of buttonIds) {
-                const button = buttons[buttonId]
-                const needUnDisableButton = every(button.conditions, (v, k) => k !== 'enabled')
-
-                if (!isEmpty(button.conditions)) {
-                    yield call(resolveButton, buttons[buttonId])
-                }
-
-                if (needUnDisableButton) {
-                    yield put(changeButtonDisabled(pageId, buttonId, false))
-                }
-            }
-        }
-    }
-    if (widgets.length) {
-        for (const id of widgets) {
-            yield put(enableWidget(id))
-        }
-    }
-}
-
 export interface HandleInvokePayload {
-    datasource: string
+    datasource?: string
     model: ModelPrefix
     dataProvider: { submitForm?: boolean, optimistic?: boolean }
     pageId: string
@@ -171,29 +116,21 @@ export function* handleInvoke(
         datasource,
         model: modelPrefix,
         dataProvider,
-        pageId,
     } = payload
 
-    const state: State = yield select()
     const optimistic = get(dataProvider, 'optimistic')
-    const buttons = get(state, ['toolbar', pageId])
-    const buttonIds = !optimistic && has(state, 'toolbar') ? keys(buttons) : []
-    const model: FetchInvokeModel = yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
-    const allWidgets: WidgetsState = yield select(widgetsSelector)
-    const widgets = Object.entries(allWidgets)
-        .filter(([, widget]) => widget?.datasource === datasource)
-        .map(([key]) => key)
+    const model: FetchInvokeModel = datasource
+        ? yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
+        : {}
 
     let errorFields: ErrorFields = {}
 
     try {
-        if (!dataProvider) {
-            throw new Error('dataProvider is undefined')
-        }
+        if (!dataProvider) { throw new Error('dataProvider is undefined') }
 
         const { validate } = meta
 
-        if ((validate !== false) && (modelPrefix === ModelPrefix.active)) {
+        if (datasource && (validate !== false) && (modelPrefix === ModelPrefix.active)) {
             const isValid: boolean = yield validateSaga(startValidate(
                 datasource,
                 // @ts-ignore проблема с типизацией saga
@@ -204,17 +141,6 @@ export function* handleInvoke(
             ))
 
             if (!isValid) { throw new Error('invalid model') }
-        }
-        if (pageId && !optimistic) {
-            yield put(disablePage(pageId))
-            for (const buttonId of buttonIds) {
-                yield put(changeButtonDisabled(pageId, buttonId, true))
-            }
-        }
-        if (widgets.length && !optimistic) {
-            for (const id of widgets) {
-                yield put(disableWidget(id))
-            }
         }
 
         const response: { meta: metaPropsType, data: { $list: metaPropsType } } = optimistic
@@ -228,14 +154,13 @@ export function* handleInvoke(
         if (optimistic === false) {
             const newModel = modelPrefix === ModelPrefix.selected ? response.data?.$list : response.data
 
-            if (!isEqual(model, newModel)) {
+            if (datasource && !isEqual(model, newModel)) {
                 yield put(
                     setModel(modelPrefix, datasource, newModel),
                 )
             }
         }
         yield put(successInvoke(datasource, modelPrefix, successMeta))
-        yield enable(pageId, widgets, buttons, buttonIds)
     } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
@@ -244,24 +169,20 @@ export function* handleInvoke(
 
         errorFields = get(errorMeta, 'messages.fields', {})
 
-        yield* handleFailInvoke(
-            meta.fail || {},
-            datasource,
-            errorMeta,
-        )
-
-        yield enable(pageId, widgets, buttons, buttonIds)
+        yield put(failInvoke(datasource, merge(meta.fail || {}, errorMeta)))
 
         throw err
     } finally {
-        const fields: Record<string, unknown> = {}
+        if (datasource) {
+            const fields: Record<string, unknown> = {}
 
-        for (const [fieldName, error] of Object.entries(errorFields)) {
-            fields[fieldName] = Array.isArray(error) ? error : [error]
+            for (const [fieldName, error] of Object.entries(errorFields)) {
+                fields[fieldName] = Array.isArray(error) ? error : [error]
+            }
+
+            // @ts-ignore проблема с типизацией saga
+            yield put(failValidate(datasource, fields, modelPrefix, { touched: true }))
         }
-
-        // @ts-ignore FIXME непонял как поправить
-        yield put(failValidate(datasource, fields, modelPrefix, { touched: true }))
     }
 }
 

@@ -40,7 +40,11 @@ export function startInvoke(
  * @param datasource
  * @param meta
  */
-export const successInvoke = createAction(SUCCESS_INVOKE, (datasource: string, model: ModelPrefix, meta: Record<string, unknown>) => {
+export const successInvoke = createAction(SUCCESS_INVOKE, (
+    datasource: string | undefined,
+    model: ModelPrefix,
+    meta: Record<string, unknown>,
+) => {
     return {
         payload: { datasource, model },
         meta,
@@ -52,6 +56,9 @@ export const successInvoke = createAction(SUCCESS_INVOKE, (datasource: string, m
  * @param datasource
  * @param meta
  */
-export function failInvoke(datasource: string, meta: Record<string, unknown>) {
+export function failInvoke(
+    datasource: string | undefined,
+    meta: Record<string, unknown>,
+) {
     return createActionHelper(FAIL_INVOKE)({ datasource }, meta)
 }

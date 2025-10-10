@@ -150,11 +150,11 @@ function* print(action: Print) {
 }
 
 function* startOperationEffect({ key, buttonId }: SequenceMeta) {
-    if (key && buttonId) { yield put(changeButtonDisabled(key, buttonId, true)) }
+    if (buttonId) { yield put(changeButtonDisabled(key, buttonId, true)) }
 }
 
 function* endOperationEffect({ key, buttonId }: SequenceMeta) {
-    if (key && buttonId) { yield put(changeButtonDisabled(key, buttonId, false)) }
+    if (buttonId) { yield put(changeButtonDisabled(key, buttonId, false)) }
 }
 
 export default [
