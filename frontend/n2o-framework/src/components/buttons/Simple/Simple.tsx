@@ -1,17 +1,14 @@
 import React, { useContext } from 'react'
-import { connect } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'reactstrap'
 import classNames from 'classnames'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
-import { dataSourceLoadingSelector } from '../../../ducks/datasource/selectors'
 import { Position } from '../../snippets/Badge/enums'
 import { IconContainer, ICON_POSITIONS } from '../../snippets/IconContainer/IconContainer'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
-import { State } from '../../../ducks/State'
 import { NOOP_FUNCTION } from '../../../utils/emptyTypes'
 
 import { type Props } from './types'
@@ -27,7 +24,7 @@ export enum CLICK_EVENTS {
     NUMPAD_ENTER = 'NumpadEnter',
 }
 
-const SimpleButtonBody = ({
+export const SimpleButton = ({
     id,
     label,
     icon,
@@ -39,7 +36,6 @@ const SimpleButtonBody = ({
     children,
     className,
     badge,
-    dataSourceIsLoading,
     forwardedRef,
     url,
     onKeyDown,
@@ -67,7 +63,7 @@ const SimpleButtonBody = ({
                 color={color}
                 outline={outline}
                 onClick={onClick}
-                disabled={dataSourceIsLoading || disabled}
+                disabled={disabled}
                 className={classNames(className, {
                     'btn-rounded': rounded && !label,
                     'btn-disabled': disabled,
@@ -110,13 +106,6 @@ const SimpleButtonBody = ({
     )
 }
 
-SimpleButtonBody.displayName = 'SimpleButtonBody'
+SimpleButton.displayName = 'SimpleButton'
 
-const mapStateToProps = (state: State, { datasource }: Props) => ({
-    dataSourceIsLoading: datasource ? dataSourceLoadingSelector(datasource)(state) : false,
-})
-
-export { SimpleButtonBody }
-
-export default connect(mapStateToProps)(SimpleButtonBody)
-export const SimpleButton = connect(mapStateToProps)(SimpleButtonBody)
+export default SimpleButton
