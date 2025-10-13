@@ -66,14 +66,13 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         dataProvider.setSize(castDefault(source.getSize(), () -> p.resolve(property("n2o.api.datasource.size"), Integer.class)));
         List<Filter> filters = initFilters(source.getId(), source.getFilters(), context, p, query);
         compileRoutes(source.getId(), compiled.getId(), filters, query, p);
-        initDataProviderMappings(dataProvider, filters, p);
+        initDataProviderMappings(dataProvider, filters, source, p);
         p.addRoute(getQueryContext(source.getId(), compiled.getId(), source.getQueryId(),
                 source.getSize(), source.getDefaultValuesMode(), context, p, url, filters, query));
-
         return defaultValuesMode == DefaultValuesModeEnum.DEFAULTS ? null : dataProvider;
     }
 
-    private void initDataProviderMappings(ClientDataProvider dataProvider, List<Filter> filters, CompileProcessor p) {
+    private void initDataProviderMappings(ClientDataProvider dataProvider, List<Filter> filters, N2oStandardDatasource source, CompileProcessor p) {
         dataProvider.setPathMapping(new HashMap<>());
         dataProvider.setQueryMapping(new LinkedHashMap<>());
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
@@ -89,6 +88,9 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
             filters.stream()
                     .filter(f -> !dataProvider.getPathMapping().containsKey(f.getParam()))
                     .forEach(f -> dataProvider.getQueryMapping().put(f.getParam(), f.getLink()));
+        }
+        if (source.getAdditionalQueryMapping() != null) {
+            dataProvider.getQueryMapping().putAll(source.getAdditionalQueryMapping());
         }
     }
 

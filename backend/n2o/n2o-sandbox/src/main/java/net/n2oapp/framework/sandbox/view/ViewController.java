@@ -228,6 +228,26 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
+    @GetMapping({"/view/{projectId}/n2o/count/**", "/view/{projectId}/n2o/count", "/view/{projectId}/n2o/count/"})
+    public ResponseEntity<Integer> getCount(@PathVariable(value = "projectId") String projectId,
+                        HttpServletRequest request) {
+        try {
+            ThreadLocalProjectId.setProjectId(projectId);
+            N2oApplicationBuilder builder = getBuilder(projectId);
+
+            String path = getPath(request, "/n2o/count");
+            DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
+
+            GetDataResponse response = dataController.getData(path, request.getParameterMap(),
+                    new UserContext(sandboxContext));
+            return ResponseEntity.status(response.getStatus()).body(response.getPaging().getCount());
+        } finally {
+            sandboxContext.refresh();
+            ThreadLocalProjectId.clear();
+        }
+    }
+
+    @CrossOrigin(origins = "*")
     @GetMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export", "/view/{projectId}/n2o/export/"})
     public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId, HttpServletRequest request) {
         try {
@@ -426,7 +446,7 @@ public class ViewController {
         }
     }
 
-    private N2oApplicationBuilder getBuilder(@PathVariable("projectId") String projectId) {
+    private N2oApplicationBuilder getBuilder(String projectId) {
         N2oEnvironment env = createEnvironment(projectId);
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
         applicationBuilderConfigurers.forEach(configurer -> configurer.configure(builder));
@@ -491,7 +511,7 @@ public class ViewController {
 
     private N2oEnvironment createEnvironment(String projectId) {
         N2oEnvironment env = new N2oEnvironment();
-        String path = basePath + "/" + projectId;
+        String path = basePath + File.separator + projectId;
 
         TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
         Map<String, String> runtimeProperties = new HashMap<>();

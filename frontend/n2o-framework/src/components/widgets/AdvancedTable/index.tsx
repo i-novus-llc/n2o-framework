@@ -41,8 +41,8 @@ export const TABLE_SELECTOR = 'n2o-advanced-table'
 const CLASS_NAME = 'table'
 
 const Widget = ({
-    id, disabled, toolbar, datasource, className, setPage, loading,
-    fetchData, style, paging, table, size, count, validations,
+    id, disabled, toolbar, datasource, className, setPage, loading, count,
+    fetchData, style, paging, table, size, validations,
     page, sorting, children, hasNext, isInit, setResolve,
     changeColumnParam, columnsState, tableConfig, switchTableParam, resetSettings = NOOP_FUNCTION,
     resolvedFilter, resolvedCells, paginationVisible,
@@ -99,13 +99,14 @@ const Widget = ({
                 {...paging}
                 hasNext={hasNext}
                 size={size}
-                count={count}
                 activePage={page}
                 datasource={datasourceModel}
+                datasourceId={datasource}
                 setPage={setPage}
                 visible={paginationVisible}
                 showCount={showCount}
                 loading={loading}
+                count={count}
             />
         ),
     }

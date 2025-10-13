@@ -44,8 +44,7 @@ export const WithDatasourceLifeCycle = <P extends object>(Component: ComponentTy
             this.switchRegistration(visible)
 
             if (paging.showLast === false) {
-                // @ts-ignore FIXME updatePaging TS2554: Expected 1 arguments, but got 2
-                dispatch(updatePaging(datasource, { withCount: false }))
+                dispatch(updatePaging(datasource, {}))
             }
         }
 

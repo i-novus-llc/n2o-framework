@@ -35,11 +35,11 @@ function Widget(props: ListWidgetProps) {
         divider,
         rows,
         size,
-        count,
         page,
         setPage,
         loading,
         datasourceModelLength,
+        count,
         rowClick = null,
         hasMoreButton = false,
         hasSelect = false,
@@ -53,10 +53,11 @@ function Widget(props: ListWidgetProps) {
             <N2OPagination
                 {...paging}
                 size={size}
-                count={count}
                 activePage={page}
+                datasourceId={datasource}
                 datasource={datasourceModel}
                 setPage={setPage}
+                count={count}
                 visible={datasourceModelLength > 0}
             />
         ),

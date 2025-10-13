@@ -60,6 +60,7 @@ public class N2oController {
     private final InvocationProcessor serviceProvider;
     private static final String DEFAULT_APP_ID = "default";
     private static final String DATA_REQUEST_PREFIX = "/n2o/data";
+    private static final String COUNT_REQUEST_PREFIX = "/n2o/count";
 
     @Value("${n2o.config.path}")
     private String basePath;
@@ -123,7 +124,16 @@ public class N2oController {
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
-    @PostMapping(path = {"/n2o/validation/**", "/n2o/validation/", "/n2o/validation"})
+    @GetMapping({"/n2o/count/**", "/n2o/count/", "/n2o/count"})
+    public ResponseEntity<Integer> getCount(HttpServletRequest request) {
+        String path = getPath(request, COUNT_REQUEST_PREFIX);
+        DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
+        dataController.setMessageBuilder(messageBuilder);
+        GetDataResponse response = dataController.getData(path, request.getParameterMap(), null);
+        return ResponseEntity.status(response.getStatus()).body(response.getPaging().getCount());
+    }
+
+    @PostMapping({"/n2o/validation/**", "/n2o/validation/", "/n2o/validation"})
     public ResponseEntity<ValidationDataResponse> validateData(@RequestBody Object body,
                                                                HttpServletRequest request) {
         String path = getPath(request, "/n2o/validation");

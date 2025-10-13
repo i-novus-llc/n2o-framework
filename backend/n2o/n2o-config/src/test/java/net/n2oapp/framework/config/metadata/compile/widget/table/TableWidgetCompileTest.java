@@ -480,6 +480,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getClassName(), is("class"));
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(PlaceEnum.TOP_LEFT));
+        assertThat(pagination.getCountDataProvider().getUrl(), is("n2o/count"));
     }
 
     @Test
