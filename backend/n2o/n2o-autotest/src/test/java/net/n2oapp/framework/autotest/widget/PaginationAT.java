@@ -253,12 +253,12 @@ class PaginationAT extends AutoTestBase {
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");
 
         paging.countButtonClick();
-        paging.shouldHaveTotalElements(18);
+        paging.shouldHaveTotalElements(23);
         paging.countButtonShouldNotBeVisible();
         paging.shouldHaveActivePage("1");
         paging.pageNumberButtonShouldBeVisible("2");
-        paging.pageNumberButtonShouldNotBeVisible("3");
-        paging.shouldNotHaveLast();
+        paging.pageNumberButtonShouldNotBeVisible("6");
+        paging.shouldHaveLast();
         paging.firstPageShouldNotHaveEllipsis();
         paging.lastPageShouldHaveEllipsis();
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test1");
@@ -271,22 +271,21 @@ class PaginationAT extends AutoTestBase {
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
         paging.shouldHaveActivePage("3");
         paging.countButtonClick();
-        paging.shouldHaveTotalElements(18);
+        paging.shouldHaveTotalElements(23);
         paging.countButtonShouldNotBeVisible();
         paging.shouldHaveActivePage("3");
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
-        shouldHaveFirstAndNoLast(paging);
+        paging.shouldHaveFirst();
+        paging.shouldHaveLast();
         paging.firstPageShouldNotHaveEllipsis();
         paging.lastPageShouldHaveEllipsis();
         paging.pageNumberButtonShouldBeVisible("2");
         paging.pageNumberButtonShouldBeVisible("4");
-        paging.pageNumberButtonShouldNotBeVisible("5");
+        paging.pageNumberButtonShouldNotBeVisible("6");
 
         Selenide.refresh();
         paging.selectNext();
-        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test4");
         paging.selectNext();
-        table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test7");
         paging.selectNext();
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test10");
         paging.selectNext();
@@ -295,12 +294,20 @@ class PaginationAT extends AutoTestBase {
         paging.shouldHaveActivePage("6");
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test16");
         paging.countButtonClick();
-        paging.shouldHaveTotalElements(18);
+        paging.shouldHaveTotalElements(23);
         paging.shouldHaveActivePage("6");
         table.columns().rows().row(0).cell(0, TextCell.class).shouldHaveText("test16");
+        paging.pageNumberButtonShouldNotBeVisible("2");
+        paging.pageNumberButtonShouldNotBeVisible("3");
         paging.pageNumberButtonShouldBeVisible("4");
         paging.pageNumberButtonShouldBeVisible("5");
-        paging.pageNumberButtonShouldNotBeVisible("3");
+
+        table.filters().fields().field("name").control(InputText.class).setValue("test5");
+        table.filters().toolbar().button("Найти").click();
+        table.columns().rows().shouldHaveSize(1);
+        paging.countButtonShouldBeVisible();
+        paging.countButtonClick();
+        paging.shouldHaveTotalElements(1);
     }
 
     @Test

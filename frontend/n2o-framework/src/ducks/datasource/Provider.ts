@@ -20,6 +20,7 @@ export interface Provider {
     sourceField?: string
     sourceModel?: ModelPrefix
     sorting?: Record<string, unknown>
+    queryMapping: Mapping
 }
 
 export interface Filter {
@@ -34,6 +35,9 @@ export interface MappingParam {
     observe: boolean
     required: boolean
     value: string
+    withCount: {
+        value: boolean
+    }
 }
 
 export type Mapping = Record<string, MappingParam>
@@ -81,7 +85,10 @@ export interface Paging {
     page: number
     size: number
     count: number
-    withCount?: boolean
+    countDataProvider?: {
+        url: string
+        queryMapping: Mapping
+    }
 }
 
 export interface QueryResult<TModel extends object = Record<string, unknown>> {

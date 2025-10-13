@@ -10,4 +10,7 @@
         <field id="id"/>
         <field id="name"/>
     </fields>
+    <filters>
+        <eq filter-id="name" field-id="name"/>
+    </filters>
 </query>

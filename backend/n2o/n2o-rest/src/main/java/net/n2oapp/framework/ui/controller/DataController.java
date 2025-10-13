@@ -55,6 +55,10 @@ public class DataController extends AbstractController {
         return result;
     }
 
+    public Integer getCount(String path, Map<String, String[]> parameters, UserContext user) {
+        return getData(path, parameters, user).getPaging().getCount();
+    }
+
     public ValidationDataResponse validateData(String path, Object body) {
         ValidationRequestInfo validationRequestInfo = createValidationRequestInfo(path, body);
         return controllerFactory.execute(validationRequestInfo, new ValidationResponseInfo());

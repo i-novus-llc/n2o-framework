@@ -137,4 +137,15 @@ class SandboxDataProviderTest {
         String result = viewController.migrate(oldXml);
         assertEquals(newXml, result);
     }
+
+    @SneakyThrows
+    @Test
+    void testPagingCount() {
+        request.setRequestURI("/sandbox/view/myProjectId/n2o/count/_w1");
+        mockFileStorage();
+
+        ResponseEntity<Integer> response = viewController.getCount("myProjectId", request);
+        assertThat(response.getStatusCode().value(), is(200));
+        assertThat(response.getBody(), is(4));
+    }
 }

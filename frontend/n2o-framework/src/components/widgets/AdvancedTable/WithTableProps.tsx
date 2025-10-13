@@ -19,7 +19,7 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
         const { getState } = useStore()
         const state: State = getState()
 
-        const { filter, id, table, datasourceModelLength, datasource, page } = props
+        const { filter, id, table, datasourceModelLength, datasource, page, setPage } = props
         const { resolveProps } = useContext(FactoryContext)
 
         const { header, body } = table
@@ -65,6 +65,7 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
         )
 
         const validations = dataSourceValidationSelector(datasource, ValidationsKey.FilterValidations)(state) || {}
+
         const textWrap = useSelector(getTableParam(id, 'textWrap'))
 
         return (
@@ -79,6 +80,7 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
                 switchTableParam={switchTableParam}
                 validations={validations}
                 textWrap={textWrap}
+                setPage={setPage}
             />
         )
     }

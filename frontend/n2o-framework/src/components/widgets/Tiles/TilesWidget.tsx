@@ -28,11 +28,11 @@ function Widget(props: TilesWidgetProps) {
         width,
         height,
         size,
-        count,
         setPage,
         page,
         loading,
         setResolve,
+        count,
     } = props
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps]) as StandardWidgetFilter
@@ -43,10 +43,11 @@ function Widget(props: TilesWidgetProps) {
             <N2OPagination
                 {...paging}
                 size={size}
-                count={count}
                 activePage={page}
                 datasource={datasourceModel}
+                datasourceId={datasource}
                 setPage={setPage}
+                count={count}
             />
         ),
     }

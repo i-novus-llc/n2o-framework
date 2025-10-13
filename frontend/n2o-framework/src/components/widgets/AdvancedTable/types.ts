@@ -37,6 +37,7 @@ export interface WithTableType {
     size?: number
     saveSettings?: boolean
     sorting?: Record<string, SortDirection>
+    setPage: N2OPaginationProps['setPage']
 }
 
 type Enhancer = WithTableType & Pick<
