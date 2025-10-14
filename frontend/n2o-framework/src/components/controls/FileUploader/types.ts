@@ -95,7 +95,7 @@ export interface FileUploaderControlProps {
     disabled?: boolean
     showSize?: boolean
     propsResolver(expression: string, model?: Record<string, unknown>): string
-    onError(error: { message: string, status: string | number }): void
+    onError(error: { message: string, status?: string | number }): void
     uploadRequest(
         formData: FormData,
         onProgress: (event: ProgressEvent<EventTarget>) => void,
