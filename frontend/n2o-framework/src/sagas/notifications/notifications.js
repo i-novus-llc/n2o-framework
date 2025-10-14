@@ -58,7 +58,7 @@ export function createSocketChannel(
         stompClient.connect(
             {},
             (frame) => {
-            // eslint-disable-next-line no-console
+                // eslint-disable-next-line no-console
                 console.log(`isConnected: ${frame}`)
                 for (const { destination } of destinations) {
                     if (permanent) {
@@ -78,7 +78,7 @@ export function createSocketChannel(
                 }
             },
             (errorCallback) => {
-            // eslint-disable-next-line no-console
+                // eslint-disable-next-line no-console
                 console.log(errorCallback)
             },
         )
@@ -88,15 +88,16 @@ export function createSocketChannel(
 }
 
 function* connectionWS() {
-    // yield take(requestConfigSuccess.type)
-    /* FIXME bring it back it awaits config json*/
     const menu = yield select(menuSelector)
     const { wsPrefix } = menu
 
     if (wsPrefix) {
-        const SockJS = yield import('sockjs-client')
-        const socket = yield new SockJS(wsPrefix)
-        const Stomp = yield import('stompjs')
+        const SockJSModule = yield import('sockjs-client')
+        const SockJS = SockJSModule.default
+
+        const socket = new SockJS(wsPrefix)
+
+        const { Stomp } = yield import('stompjs')
 
         return Stomp.over(socket)
     }
@@ -105,22 +106,21 @@ function* connectionWS() {
 }
 
 // eslint-disable-next-line consistent-return
-function* connectionExecutor({ dataSourceId, componentId, updater, source, connected, menu, type }) {
+function* connectionExecutor({ id: dataSourceId, componentId, updater, source, connected, menu, type }) {
     const state = yield select()
 
     try {
-        const stompClient = yield call(connectionWS)
         const permanent = type === 'n2o/global/REQUEST_CONFIG_SUCCESS' && menu?.events
         const isStompProvider = get(state, `${source}.${dataSourceId}.provider.type`) === 'stomp'
 
         let destinations
         let needToSubscribe = true
 
+        if (!permanent && !isStompProvider) { return }
+
         /* connecting without a data source provider, this is from the config.json */
         if (permanent) {
             destinations = menu.events
-        } else if (!isStompProvider) {
-            return null
         } else {
             const connectedComponents = state[source][dataSourceId][connected] || []
 
@@ -130,6 +130,8 @@ function* connectionExecutor({ dataSourceId, componentId, updater, source, conne
             // eslint-disable-next-line sonarjs/no-nested-template-literals
             destinations = [{ destination: `/user${get(state, `${source}.${dataSourceId}.provider.destination`)}` }]
         }
+
+        const stompClient = yield call(connectionWS)
 
         const socketChannel = yield call(
             createSocketChannel,

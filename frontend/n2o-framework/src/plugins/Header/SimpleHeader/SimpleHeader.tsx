@@ -7,6 +7,7 @@ import isUndefined from 'lodash/isUndefined'
 import get from 'lodash/get'
 import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap'
 
+import { WithComponentId } from '../../utils'
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
 import { withItemsResolver } from '../../withItemsResolver/withItemResolver'
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
@@ -170,6 +171,8 @@ class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
 
 export const SimpleHeader = flowRight(
     WithDataSource,
+    // @INFO нужно для WithContextDataSource, иначе не добавит в addComponents
+    WithComponentId('n2o-simple-header'),
     WithContextDataSource,
     withItemsResolver,
     withTitlesResolver,

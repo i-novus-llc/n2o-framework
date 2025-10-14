@@ -31,7 +31,6 @@ export function Item(props: ItemProps) {
             datasource={datasource}
             id={id}
             datasources={datasources}
-            visible
         />
     )
 }

@@ -26,8 +26,10 @@ import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.api.util.ExternalFilesLoader;
+import net.n2oapp.framework.boot.stomp.N2oWebSocketController;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
+import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -113,6 +115,7 @@ public class ViewController {
     private final DomainProcessor domainProcessor;
     private final List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers;
     private final XmlIOVersionMigrator migrator;
+    private final N2oWebSocketController wsController;
 
     public ViewController(DataProcessingStack dataProcessingStack,
                           AlertMessageBuilder messageBuilder,
@@ -131,6 +134,7 @@ public class ViewController {
                           Optional<Map<String, DynamicMetadataProvider>> providers,
                           ObjectMapper objectMapper,
                           @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
+                          N2oWebSocketController wsController,
                           List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers) {
         this.dataProcessingStack = dataProcessingStack;
         this.messageBuilder = messageBuilder;
@@ -150,6 +154,7 @@ public class ViewController {
         this.objectMapper = objectMapper;
         this.domainProcessor = new DomainProcessor(objectMapper);
         this.messageSourceAccessor = messageSourceAccessor;
+        this.wsController = wsController;
         this.applicationBuilderConfigurers = applicationBuilderConfigurers;
 
         N2oApplicationBuilder builder = new N2oApplicationBuilder(new N2oEnvironment());
@@ -533,6 +538,8 @@ public class ViewController {
         env.setDynamicMetadataProviderFactory(dynamicMetadataProviderFactory);
         env.setRouteRegister(projectRouteRegister);
         env.setExternalFilesLoader(externalFilesLoader);
+        wsController.setEnvironment(env);
+        wsController.setPipeline(N2oPipelineSupport.readPipeline(env));
 
         return env;
     }
