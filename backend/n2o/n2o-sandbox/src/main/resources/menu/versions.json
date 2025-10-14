@@ -35,6 +35,10 @@
         {
           "templateId": "uxcomponents/regions/nav",
           "name": "Регион навигации"
+        },
+        {
+          "templateId": "uxcomponents/buttons/clipboard_button",
+          "name": "Кнопка копирования данных в буфер обмена"
         }
       ]
     },

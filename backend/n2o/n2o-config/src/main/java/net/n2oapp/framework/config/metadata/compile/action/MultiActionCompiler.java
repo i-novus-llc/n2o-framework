@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initFailConditionBranchesScope;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.isNotFailConditions;
 
 /**
  * Сборка multi действия

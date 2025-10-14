@@ -16,7 +16,7 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import java.util.Arrays;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalDatasourceId;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 

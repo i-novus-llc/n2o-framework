@@ -23,6 +23,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
         b.compilers(new FormCompiler(),
                 new ListWidgetCompiler(),
                 new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler(),
+                new ClipboardButtonCompiler(),
                 new ColumnsTableSettingCompiler(),
                 new ExportTableSettingCompiler(),
                 new FiltersTableSettingCompiler(),
