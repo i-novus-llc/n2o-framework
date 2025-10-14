@@ -56,8 +56,8 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setSidebars(collectSidebars(source.getSidebars(), header, context, dataSourcesScope, p));
         application.setFooter(initFooter(source.getFooter(), p));
         application.setEvents(initEvents(source.getEvents(), context, p));
-        application.setWsPrefix(initWsPrefix(application.getDatasources(), application.getEvents(), p));
         application.setDatasources(initDatasources(dataSourcesScope, context, p));
+        application.setWsPrefix(initWsPrefix(application.getDatasources(), application.getEvents(), p));
         return application;
     }
 

@@ -45,22 +45,23 @@ export function WithContextDataSource(Component) {
             const metaConfig = { ...datasources[datasource] }
 
             /* unresolved meta query mapping */
-            const metaQueryMapping = get(metaConfig, 'provider.queryMapping', null)
+            const metaQueryMapping = get(metaConfig, 'provider.queryMapping')
 
-            if (!metaQueryMapping) {
-                return
+            if (metaQueryMapping === undefined) {
+                dispatch(register(datasource, metaConfig))
+                dispatch(addComponent(datasource, id))
+            } else {
+                const dsQueryKey = `${datasource}_${queryKey}`
+                const dsQueryMapping = { [dsQueryKey]: { ...metaQueryMapping[dsQueryKey], value } }
+
+                const queryMapping = queryMappingResolver(metaQueryMapping, value, dsQueryMapping)
+
+                const config = { ...metaConfig, provider: { ...metaConfig.provider, queryMapping } }
+
+                dispatch(register(datasource, config))
+                dispatch(addComponent(datasource, id))
+                fetchData({}, force)
             }
-
-            const dsQueryKey = `${datasource}_${queryKey}`
-            const dsQueryMapping = { [dsQueryKey]: { ...metaQueryMapping[dsQueryKey], value } }
-
-            const queryMapping = queryMappingResolver(metaQueryMapping, value, dsQueryMapping)
-
-            const config = { ...metaConfig, provider: { ...metaConfig.provider, queryMapping } }
-
-            dispatch(register(datasource, config))
-            dispatch(addComponent(datasource, id))
-            fetchData({}, force)
 
             // eslint-disable-next-line consistent-return
             return () => {

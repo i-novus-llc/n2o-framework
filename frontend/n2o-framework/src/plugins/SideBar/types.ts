@@ -34,7 +34,6 @@ export interface SidebarProps extends Pick<LogoSectionProps, 'logo' | 'subtitle'
     side: 'left' | 'right'
     menu: { items: Item[] }
     extraMenu: { items: Item[] }
-    models: SidebarItemContainer['models']
     controlled: boolean
     defaultState: SidebarView
     toggledState: SidebarView

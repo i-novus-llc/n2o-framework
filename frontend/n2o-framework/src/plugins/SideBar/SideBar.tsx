@@ -12,6 +12,7 @@ import { WithContextDataSource } from '../WithContextDataSource/WithContextDataS
 import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 import { State } from '../../ducks/State'
+import { WithComponentId } from '../utils'
 
 import { NavItemContainer } from './NavItemContainer'
 import { LogoSection } from './LogoSection'
@@ -34,7 +35,6 @@ export function SideBarBody({
     controlled = false,
     menu = {} as never,
     extraMenu = {} as never,
-    models = {} as never,
     defaultState = SIDEBAR_VIEW.mini as SidebarView,
     toggledState = SIDEBAR_VIEW.maxi as SidebarView,
 }: SidebarProps) {
@@ -78,7 +78,6 @@ export function SideBarBody({
             isStaticView={isStaticView}
             datasources={datasources}
             datasource={item?.datasource || datasource}
-            models={models}
         />
     ))
 
@@ -140,6 +139,8 @@ const SideBar = flowRight(
     withTranslation(),
     mapProps,
     WithDataSource,
+    // @INFO нужно для WithContextDataSource, иначе не добавит в addComponents
+    WithComponentId('n2o-sidebar'),
     WithContextDataSource,
     withItemsResolver,
     connect(mapStateToProps),

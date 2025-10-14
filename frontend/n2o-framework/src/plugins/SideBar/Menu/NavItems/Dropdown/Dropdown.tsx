@@ -93,7 +93,6 @@ export function Dropdown({
                             isMiniView={isMiniView}
                             datasources={datasources}
                             datasource={datasource}
-                            models={models}
                             isStaticView={isStaticView}
                         />
                     </div>

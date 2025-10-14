@@ -1,13 +1,16 @@
 import React, { useContext } from 'react'
 import classNames from 'classnames'
+import { useSelector } from 'react-redux'
 
 import { getFromSource, metaPropsType } from '../utils'
 import { ITEM_SRC } from '../constants'
 import { Item, FactoryComponent } from '../CommonMenuTypes'
-import { DataSourceModels } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/datasource/const'
 import { FactoryContext } from '../../core/factory/context'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
 import { parseExpression } from '../../core/Expression/parse'
+import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
+import type { Model } from '../../ducks/models/selectors'
 
 export interface SidebarItemContainer {
     className?: string
@@ -19,7 +22,6 @@ export interface SidebarItemContainer {
     isStaticView: boolean
     datasources: metaPropsType[]
     datasource: string
-    models: DataSourceModels
     level?: number
 }
 
@@ -33,10 +35,10 @@ export function NavItemContainer({
     isStaticView,
     datasources,
     datasource,
-    models,
     level = 1,
 }: SidebarItemContainer) {
-    const item = getFromSource(itemProps, datasources, models, datasource)
+    const model = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)) as Model
+    const item = getFromSource(itemProps, datasources, model, datasource)
     const { src, className: itemClassName, style } = item
 
     const { getComponent } = useContext(FactoryContext)
@@ -70,7 +72,6 @@ export function NavItemContainer({
                 isStaticView={isStaticView}
                 datasources={datasources}
                 datasource={datasource}
-                models={models}
                 level={level}
                 active={false}
             />
