@@ -4,6 +4,7 @@ import { ChangeSize } from './ChangeSize/ChangeSize'
 import { ToggleColumn } from './ToggleColumn/ToggleColumn'
 import { WordWrap } from './WordWrap/WordWrap'
 import { ResetSettings } from './ResetSettings/ResetSettings'
+import { Clipboard } from './Clipboard/Clipboard'
 
 export default {
     DropdownButton,
@@ -12,4 +13,5 @@ export default {
     ToggleColumn,
     WordWrap,
     ResetSettings,
+    'Buttons/Clipboard': Clipboard,
 }

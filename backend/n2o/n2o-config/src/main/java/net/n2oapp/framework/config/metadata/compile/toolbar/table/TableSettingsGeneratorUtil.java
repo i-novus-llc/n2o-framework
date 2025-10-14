@@ -8,10 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.ExportFormatEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oExportTableSetting;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelTypeEnum;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.DatasourceUtil;
@@ -143,10 +140,10 @@ public class TableSettingsGeneratorUtil {
         inheritedDs.setId("formatDs");
         inheritedDs.setSourceDatasource(datasourceId);
         String fetchValue = "return [\n" +
-                Arrays.stream(format)
-                        .map(f -> "{'id': '" + f.getId().toLowerCase() + "', 'name': \"" + f.getId().toUpperCase() + "\"}")
-                        .collect(Collectors.joining(",\n")) +
-                "\n]";
+                            Arrays.stream(format)
+                                    .map(f -> "{'id': '" + f.getId().toLowerCase() + "', 'name': \"" + f.getId().toUpperCase() + "\"}")
+                                    .collect(Collectors.joining(",\n")) +
+                            "\n]";
         inheritedDs.setFetchValue(fetchValue);
         showModalAction.setDatasources(new N2oInheritedDatasource[]{inheritedDs});
 
@@ -154,12 +151,12 @@ public class TableSettingsGeneratorUtil {
         fillButton(exportButton, source.isGeneratedForSubMenu(), "export", p);
         exportButton.setActions(new N2oShowModal[]{showModalAction});
         exportButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
-        N2oButton.EnablingDependency dependency = new N2oButton.EnablingDependency();
+        N2oAbstractButton.EnablingDependency dependency = new N2oAbstractButton.EnablingDependency();
         dependency.setMessage("Недоступно при пустых данных");
         dependency.setValue("this.length > 0");
         dependency.setDatasource(datasourceId);
         dependency.setModel(ReduxModelEnum.DATASOURCE);
-        exportButton.setDependencies(new N2oButton.Dependency[]{dependency});
+        exportButton.setDependencies(new N2oAbstractButton.Dependency[]{dependency});
 
         return exportButton;
     }

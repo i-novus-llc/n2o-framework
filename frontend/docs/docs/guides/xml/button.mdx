@@ -156,6 +156,51 @@ n2o.api.submenu.show_toggle_icon=true
 <Sandbox height={200} projectId="uxcomponents_buttons_dropdown_button" />
 
 
+
+### &lt;clipboard-button&gt; {#clipboard_button}
+
+Кнопка копирования в буфер обмена
+
+**Атрибуты**
+
+| Наименование | Тип       | Описание                                                                                        | Значение по умолчанию | Обязательность |
+|--------------|-----------|-------------------------------------------------------------------------------------------------|-----------------------|----------------|
+| data         | Строка    | Данные для копирования. Возможно использование [плейсхолдеров](../manual/configs/#плейсхолдеры) |                       | !              |
+| type         | text html | Тип данных для копирования                                                                      | text                  |                |
+| message      | Строка    | Сообщение при успешном копировании                                                              |                       |                |
+
+:::note
+Наследует все базовые свойства кнопок, кроме generate.
+:::
+
+**Настройки**
+
+```yaml
+# Иконка
+n2o.api.clipboard_button.icon = fa fa-copy
+# Цвет кнопки
+n2o.api.clipboard_button.color = link
+# Тип данных для копирования
+n2o.api.clipboard_button.type = text
+```
+
+**Тело**
+
+&lt;dependencies&gt; - [Зависимости компонента](#dependencies)
+
+**Пример**
+
+```xml
+<clipboard-button
+            description="Копировать СНИЛС"
+            datasource="ds"
+            data="{snils}"
+            type="text"
+            message="Скопировано в буфер обмена"/>
+```
+
+
+
 ### &lt;dependencies&gt;
 
 Зависимости компонента.

@@ -1,9 +1,8 @@
 import React, { useContext, useCallback } from 'react'
 
-import { FilterButton, Props as FilterButtonProps } from '../FilterButton/FilterButton'
+import { FilterButton } from '../FilterButton/FilterButton'
 import { WidgetFilterContext } from '../../../../WidgetFilters'
-
-export type Props = FilterButtonProps
+import { type Props } from '../../../../../buttons/FactoryStandardButton'
 
 export function FilterClearButton(props: Props) {
     const { reset }: { reset(): void } = useContext(WidgetFilterContext)

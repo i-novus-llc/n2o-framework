@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <output-text id="snils" label="СНИЛС">
+                    <toolbar>
+                        <clipboard-button data="{snils}" description="Копировать СНИЛС"
+                                          type="html" message="Скопировано в буфер обмена">
+                            <dependencies>
+                                <enabling model="edit" message="Не доступно">a == null</enabling>
+                                <visibility model="datasource">b == null</visibility>
+                            </dependencies>
+                        </clipboard-button>
+                    </toolbar>
+                </output-text>
+            </fields>
+            <toolbar>
+                <clipboard-button data="Текст" icon="fa fa-check" icon-position="right" color="primary"/>
+            </toolbar>
+        </form>
+    </regions>
+</page>
