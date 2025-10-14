@@ -47,7 +47,7 @@ export const COUNTRY_PHONE_CONFIGS = {
         isoCode: CountryIsoCodes.BY,
         // 9 цифр без +375 (например: 29 123-45-67)
         expectedLengths: 12,
-        prefix: '+375  ',
+        prefix: '+375 ',
         mask: [
             '+', '3', '7', '5', ' ', '(',
             /\d/, /\d/,
