@@ -1,5 +1,6 @@
 import isObject from 'lodash/isObject'
 import uniq from 'lodash/uniq'
+import { isValidElement } from 'react'
 
 import { parseExpression } from './parse'
 import { executeExpression } from './execute'
@@ -36,11 +37,18 @@ export function propsResolver<
     const ignore = ignoreKeys ? uniq([...blackList, ...ignoreKeys]) : blackList
 
     function resolve<T>(prop: T): Resolve<T> {
-        if (!prop) { return prop as Resolve<T> }
-        if (prop instanceof Date) { return prop as Resolve<T> }
-        // @ts-ignore TODO временно, убрать после полного отказа от moment
-        // eslint-disable-next-line no-underscore-dangle
-        if (prop?._isAMomentObject) { return prop as Resolve<T> }
+        if (
+            !prop ||
+            prop instanceof Date ||
+            isValidElement(prop) ||
+            typeof prop === 'function' ||
+            // @ts-ignore TODO временно, убрать после полного отказа от moment
+            // eslint-disable-next-line no-underscore-dangle
+            prop?._isAMomentObject
+        ) {
+            return prop as Resolve<T>
+        }
+
         if (typeof prop === 'string') {
             const parsedExpression = parseExpression(prop)
 
@@ -48,7 +56,7 @@ export function propsResolver<
                 return executeExpression(parsedExpression, model, expressionContext)
             }
         }
-        if (typeof prop === 'function') { return prop as Resolve<T> }
+
         if (Array.isArray(prop)) {
             return prop.map(resolve) as Resolve<T>
         }
