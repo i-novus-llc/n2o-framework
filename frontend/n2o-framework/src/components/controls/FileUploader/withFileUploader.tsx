@@ -14,6 +14,7 @@ import find from 'lodash/find'
 import { WithPropsResolver } from '../../../core/Expression/withResolver'
 import { parseExpression } from '../../../core/Expression/parse'
 import { id } from '../../../utils/id'
+import { logger } from '../../../core/utils/logger'
 
 import { deleteFile, everyIsValid, post } from './utils'
 import {
@@ -23,6 +24,8 @@ import {
     type FileItem,
     type FileItemKeys,
 } from './types'
+
+export type UploaderError = { message: string, status?: string | number }
 
 export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
     class ReturnedComponent extends Component<FileUploaderControlProps & P, FileUploaderControlState> {
@@ -230,7 +233,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
             }
         }
 
-        handleRemove = (index: number, id: string) => {
+        handleRemove = async (index: number, id: string) => {
             const {
                 value = [],
                 multi,
@@ -249,35 +252,54 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
             const fileToBeDeleted = find(files, ({ id: idFromState }) => idFromState === id)
             const isUploading = !has(fileToBeDeleted, 'response') && !has(fileToBeDeleted, 'error')
 
-            const fileDeletionExecutor = () => {
-                if (isUploading) { fileToBeDeleted?.cancelSource?.cancel() }
+            try {
+                const fileDeletionExecutor = async () => {
+                    if (isUploading) {
+                        fileToBeDeleted?.cancelSource?.cancel()
+                    }
 
-                if (!deleteUrl) { return }
+                    const file = files.find(({ id: fileId }) => fileId === id)
 
-                if (isFunction(deleteRequest)) {
-                    deleteRequest(id)
+                    if (file?.error) {
+                        onDelete(index, id)
 
-                    return
+                        return
+                    }
+
+                    if (!deleteUrl) {
+                        return
+                    }
+
+                    if (isFunction(deleteRequest)) {
+                        deleteRequest(id)
+
+                        return
+                    }
+
+                    await deleteFile(this.resolveUrl(deleteUrl), id)
+                    onDelete(index, id)
                 }
 
-                deleteFile(this.resolveUrl(deleteUrl), id)
-                onDelete(index, id)
-            }
+                await fileDeletionExecutor()
 
-            fileDeletionExecutor()
+                const newFiles = files.slice()
+                const newImgFiles = imgFiles.slice()
 
-            const newFiles = files.slice()
-            const newImgFiles = imgFiles.slice()
+                newFiles.splice(index, 1)
+                newImgFiles.splice(index, 1)
+                this.setState({ files: [...newFiles], imgFiles: [...newImgFiles] })
 
-            newFiles.splice(index, 1)
-            newImgFiles.splice(index, 1)
-            this.setState({ files: [...newFiles], imgFiles: [...newImgFiles] })
+                if (value) {
+                    const newValue = multi ? value.filter(f => f[valueFieldId as keyof FileItem] !== id) : null
 
-            if (value) {
-                const newValue = multi ? value.filter(f => f[valueFieldId as keyof FileItem] !== id) : null
+                    onChange(newValue)
+                    onBlur(newValue)
+                }
+            } catch (e) {
+                logger.error(e)
+                const err = e as UploaderError
 
-                onChange(newValue)
-                onBlur(newValue)
+                this.onError(id, { message: err?.message })
             }
         }
 
@@ -421,7 +443,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
             }
         }
 
-        onError = (id: string, error: { message: string, status: string | number }) => {
+        onError = (id: string, error: UploaderError) => {
             const { responseFieldId, onError } = this.props
 
             const { uploading, files } = this.state
@@ -442,7 +464,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
                             formattedError = (
                                 get(error, `response.data[${responseFieldId}]`, null) ||
                                 error.message ||
-                                error.status
+                                error?.status
                             )
                         }
 
