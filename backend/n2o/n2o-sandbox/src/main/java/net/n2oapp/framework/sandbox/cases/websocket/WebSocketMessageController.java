@@ -34,7 +34,7 @@ public class WebSocketMessageController {
     public String sendColor(@PathVariable String destination, HttpSession session) {
         BadgeMessage message = new BadgeMessage();
         int pick = random.nextInt(BadgeColorEnum.values().length);
-        String color = BadgeColorEnum.values()[pick].toString();
+        String color = BadgeColorEnum.values()[pick].toString().toLowerCase();
         message.setColor(color);
         messagingTemplate.convertAndSendToUser(session.getId(), destination, message);
         return "Сгенерированный цвет баджа: " + "\"" + color + "\"";
