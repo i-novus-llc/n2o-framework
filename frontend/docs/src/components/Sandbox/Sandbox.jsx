@@ -10,6 +10,8 @@ import { visibilityHOC } from './visibilityHOC'
 import { CodeWrapper } from './CodeWrapper'
 import style from './sandbox.module.scss'
 
+const IS_DOCS = 'isDocs=true'
+
 function SandboxBody({
     projectId,
     height,
@@ -37,9 +39,7 @@ function SandboxBody({
     }, [projectData])
 
     useEffect(() => {
-        const { location } = window
-
-        fetch(`${CONFIG.sandboxUrl}/project/${projectId}?stand=${origin}/sandbox/`)
+        fetch(`${CONFIG.sandboxUrl}/project/${projectId}?stand=${origin}/sandbox/&${IS_DOCS}`)
                 .then((response) => {
                     if (response.ok) {
                         return response.json()
