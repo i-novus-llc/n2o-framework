@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Автотест. Цепочка действий, если в invoke не указан datasource">
+    <datasources>
+        <datasource id="testDs"/>
+    </datasources>
+    <regions>
+        <region>
+            <form datasource="testDs">
+                <fields>
+                    <input-text id="name" label="Наименование" default-value="name"/>
+                </fields>
+            </form>
+        </region>
+    </regions>
+    <toolbar place="bottomRight">
+        <button label="Сохранить из тулбара страницы (без datasource)"
+                color="danger">
+            <invoke operation-id="save" object-id="test"/>
+            <alert text="Запись создана, переход в режим редактирования" color="success"/>
+        </button>
+    </toolbar>
+</page>

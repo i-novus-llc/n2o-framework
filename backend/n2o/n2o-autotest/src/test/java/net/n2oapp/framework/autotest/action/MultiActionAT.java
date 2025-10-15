@@ -147,4 +147,23 @@ class MultiActionAT extends AutoTestBase {
         alert.shouldExists();
         alert.shouldHaveText("Выдвижное окно не будет открыто");
     }
+
+    @Test
+    void testInvokeWithoutDatasource() {
+        setResourcePath("net/n2oapp/framework/autotest/action/multi/invoke_without_datasource");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/multi/invoke_without_datasource/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/multi/invoke_without_datasource/test.object.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        StandardButton button = page.toolbar().bottomRight().button("Сохранить из тулбара страницы (без datasource)");
+        button.shouldBeVisible();
+        button.click();
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(1);
+        alert.shouldExists();
+        alert.shouldHaveText("Запись создана, переход в режим редактирования");
+        alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        alert.shouldExists();
+        alert.shouldHaveText("Данные сохранены");
+    }
 }
