@@ -53,10 +53,11 @@ function ListWidget(props) {
             <N2OPagination
                 {...paging}
                 size={size}
-                count={count}
                 activePage={page}
+                datasourceId={datasource}
                 datasource={datasourceModel}
                 setPage={setPage}
+                count={count}
                 visible={datasourceModelLength > 0}
             />
         ),

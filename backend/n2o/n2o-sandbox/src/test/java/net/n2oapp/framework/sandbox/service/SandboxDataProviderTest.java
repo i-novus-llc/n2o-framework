@@ -121,4 +121,15 @@ class SandboxDataProviderTest {
         assertThat(response.getBody().getData().get("name"), is("name3"));
         assertThat(response.getBody().getMeta().getAlert().getMessages().get(0).getText(), is("Данные сохранены"));
     }
+
+    @SneakyThrows
+    @Test
+    void testPagingCount() {
+        request.setRequestURI("/sandbox/view/myProjectId/n2o/count/_w1");
+        mockFileStorage();
+
+        ResponseEntity<Integer> response = viewController.getCount("myProjectId", request);
+        assertThat(response.getStatusCode().value(), is(200));
+        assertThat(response.getBody(), is(4));
+    }
 }

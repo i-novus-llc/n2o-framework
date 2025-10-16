@@ -2,23 +2,15 @@ import React from 'react'
 import classNames from 'classnames'
 
 import { Select } from './Select'
-import { Total } from './Total'
-import {
-    TOTAL,
-    TOTAL_TITLE,
-    PAGE_LINK_CLASS,
-    COUNT_NEVER,
-    Props,
-} from './constants'
+import { PAGE_LINK_CLASS, Props } from './constants'
 import { usePagination, getTotalPages } from './usePagination'
 import { Pages } from './Pages'
-import { getTotalVisibility, getHasNext } from './helpers'
+import { getHasNext } from './helpers'
 
 export { type Props }
 
 export function Pagination({
     className,
-    showCount,
     count,
     size,
     onSelect,
@@ -35,10 +27,7 @@ export function Pagination({
     loading = false,
     visible = true,
 }: Props) {
-    const total = count ? `${TOTAL} ${count}` : null
     const totalPages = getTotalPages(count, size)
-    const totalVisible = getTotalVisibility(showCount, showLast, count)
-    const totalClick = () => { onSelect(activePage, { withCount: true }) }
 
     const hasNext = getHasNext({
         loading,
@@ -68,17 +57,10 @@ export function Pagination({
     const multiplePages = pages.length > 1
     const pagesVisible = showSinglePage ? pages.length > 0 : multiplePages
 
-    if (!visible || (!pagesVisible && showCount === COUNT_NEVER)) { return null }
+    if (!visible || !pagesVisible) { return null }
 
     return (
         <section className={classNames('pagination-container d-inline-flex', className)}>
-            <Total
-                total={total}
-                title={TOTAL_TITLE}
-                visible={totalVisible}
-                className="pagination__total"
-                onClick={totalClick}
-            />
             <Select
                 onClick={prevClick}
                 className={classNames(

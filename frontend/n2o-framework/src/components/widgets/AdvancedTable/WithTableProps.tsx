@@ -17,7 +17,7 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
         const { getState } = useStore()
         const state: State = getState()
 
-        const { filter, id, table, datasourceModelLength, datasource, page } = props
+        const { filter, id, table, datasourceModelLength, datasource, page, setPage } = props
         const { resolveProps } = useContext(FactoryContext)
         const { header, body } = table
 
@@ -70,6 +70,7 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
                 paginationVisible={paginationVisible}
                 switchTableParam={switchTableParameter}
                 validations={validations}
+                setPage={setPage}
             />
         )
     }

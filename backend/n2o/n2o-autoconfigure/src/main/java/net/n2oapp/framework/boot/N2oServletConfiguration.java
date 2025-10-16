@@ -18,6 +18,7 @@ import net.n2oapp.framework.ui.servlet.AppConfigServlet;
 import net.n2oapp.framework.ui.servlet.ExposedResourceBundleMessageSource;
 import net.n2oapp.framework.ui.servlet.ModifiedClientCacheTemplate;
 import net.n2oapp.framework.ui.servlet.data.DataServlet;
+import net.n2oapp.framework.ui.servlet.data.PagingCountServlet;
 import net.n2oapp.framework.ui.servlet.data.ValidationDataServlet;
 import net.n2oapp.framework.ui.servlet.page.PageServlet;
 import net.n2oapp.framework.ui.servlet.table.ExportServlet;
@@ -87,6 +88,14 @@ public class N2oServletConfiguration {
         dataServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
         dataServlet.setMessageBuilder(messageBuilder);
         return new ServletRegistrationBean(dataServlet, n2oApiUrl + "/data/*");
+    }
+
+    @Bean
+    public ServletRegistrationBean pagingCountServlet(DataController controller,
+                                                      AlertMessageBuilder messageBuilder) {
+        PagingCountServlet dataServlet = new PagingCountServlet(controller);
+        dataServlet.setMessageBuilder(messageBuilder);
+        return new ServletRegistrationBean(dataServlet, n2oApiUrl + "/count/*");
     }
 
     @Bean
