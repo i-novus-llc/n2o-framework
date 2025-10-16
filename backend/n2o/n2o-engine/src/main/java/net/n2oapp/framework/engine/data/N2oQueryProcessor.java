@@ -6,14 +6,14 @@ import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.api.SortingDirectionEnum;
 import net.n2oapp.criteria.dataset.DataList;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.criteria.filters.Filter;
-import net.n2oapp.framework.api.criteria.filters.FilterReducer;
-import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
-import net.n2oapp.framework.api.criteria.filters.Result;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
+import net.n2oapp.framework.api.criteria.filters.Filter;
+import net.n2oapp.framework.api.criteria.filters.FilterReducer;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
+import net.n2oapp.framework.api.criteria.filters.Result;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
@@ -53,7 +53,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
     private ContextProcessor contextProcessor;
     private final N2oInvocationFactory invocationFactory;
     @Setter
-    private CriteriaConstructor criteriaConstructor = new N2oCriteriaConstructor(false);
+    private CriteriaConstructorFactory criteriaConstructorFactory;
     private DomainProcessor domainProcessor;
     private final QueryExceptionHandler exceptionHandler;
     @Setter
@@ -92,7 +92,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 result = argsInvocationEngine.invoke(
                         (N2oArgumentsInvocation) selection.getInvocation(),
                         mapToArgs((N2oArgumentsInvocation) selection.getInvocation(),
-                                query, criteria, criteriaConstructor, domainProcessor));
+                                query, criteria, criteriaConstructorFactory, domainProcessor));
             } catch (Exception e) {
                 throw exceptionHandler.handle(query, criteria, e);
             }
@@ -192,7 +192,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 result = argsInvocationEngine.invoke(
                         (N2oArgumentsInvocation) selection.getInvocation(),
                         mapToArgs((N2oArgumentsInvocation) selection.getInvocation(),
-                                query, criteria, criteriaConstructor, domainProcessor)
+                                query, criteria, criteriaConstructorFactory, domainProcessor)
                 );
             } catch (Exception e) {
                 throw exceptionHandler.handle(query, criteria, e);

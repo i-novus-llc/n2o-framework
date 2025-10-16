@@ -6,7 +6,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.FieldMapping;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
-import net.n2oapp.framework.api.data.CriteriaConstructor;
+import net.n2oapp.framework.api.data.CriteriaConstructorFactory;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.Argument;
@@ -27,23 +27,25 @@ public class ArgumentsInvocationUtil {
     /**
      * Собирает аргументы для действия invocation в выборке
      *
-     * @param invocation          Вызов действия
-     * @param query               Скомпилированная модель запроса за данными
-     * @param criteria            Критерий фильтрации данных
-     * @param criteriaConstructor Конструктор критериев
-     * @param domainProcessor     Процессор приведения к типу
+     * @param invocation                 Вызов действия
+     * @param query                      Скомпилированная модель запроса за данными
+     * @param criteria                   Критерий фильтрации данных
+     * @param criteriaConstructorFactory Фабрика конструкторов критериев
+     * @param domainProcessor            Процессор приведения к типу
      * @return Массив объектов
      */
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static Object[] mapToArgs(N2oArgumentsInvocation invocation, CompiledQuery query,
-                                     N2oPreparedCriteria criteria, CriteriaConstructor criteriaConstructor,
+                                     N2oPreparedCriteria criteria, CriteriaConstructorFactory criteriaConstructorFactory,
                                      DomainProcessor domainProcessor) {
         Object[] argumentInstances = instantiateArguments(invocation.getArguments());
         if (ArrayUtils.isEmpty(argumentInstances))
             return new Object[0];
 
-        for (int i = 0; i < invocation.getArguments().length; i++)
+        for (int i = 0; i < invocation.getArguments().length; i++) {
             if (Argument.TypeEnum.CRITERIA.equals(invocation.getArguments()[i].getType()))
-                argumentInstances[i] = criteriaConstructor.construct(criteria, argumentInstances[i]);
+                argumentInstances[i] = criteriaConstructorFactory.construct(criteria, argumentInstances[i]);
+        }
 
         if (Arrays.stream(invocation.getArguments()).filter(arg -> (Argument.TypeEnum.ENTITY.equals(arg.getType()) ||
                 Argument.TypeEnum.CRITERIA.equals(arg.getType()))).toList().size() > 1)
@@ -117,7 +119,6 @@ public class ArgumentsInvocationUtil {
 
         return resultMapping;
     }
-
 
     /**
      * Находит по имени номер позиции аргумента среди всех аргументов провайдера

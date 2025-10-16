@@ -5,7 +5,13 @@ import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 /**
  * Конструктор критериев
  */
-public interface CriteriaConstructor {
+public interface CriteriaConstructor<T> {
+
+    /**
+     * Поддерживаемый класс критериев
+     */
+    Class<T> getCriteriaClass();
+
     /**
      * Конструирование критерия по критерию фильтрации и экземпляру объекта
      *
@@ -13,5 +19,5 @@ public interface CriteriaConstructor {
      * @param instance Экземпляр класса
      * @return Сконструированный критерий
      */
-    Object construct(N2oPreparedCriteria criteria, Object instance);
+    T construct(N2oPreparedCriteria criteria, T instance);
 }

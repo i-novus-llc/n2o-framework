@@ -13,8 +13,11 @@ public class TestController {
     public CollectionPage<TestRow> getCollectionPage(TestCriteria criteria) {
         List<TestRow> result = new ArrayList<>();
         if (criteria.getId() == null) {
-            assert criteria.getSorting().getField().equals("value");
-            assert criteria.getSorting().getDirection().equals(SortingDirectionEnum.DESC);
+            if (criteria.getSorting() != null && criteria.getSorting().getField() != null) {
+                assert criteria.getSorting().getField().equals("value");
+                assert criteria.getSorting().getDirection().equals(SortingDirectionEnum.DESC);
+            }
+
             for (int i = 0; i < 10; i++) {
                 result.add(new TestRow(i, "value" + i));
             }
