@@ -114,14 +114,22 @@ public class N2oEngineConfiguration {
     @ConditionalOnMissingBean
     public QueryProcessor queryProcessor(N2oInvocationFactory invocationFactory,
                                          QueryExceptionHandler exceptionHandler,
-                                         MetadataEnvironment environment) {
+                                         MetadataEnvironment environment,
+                                         CriteriaConstructorFactory criteriaConstructorFactory) {
         N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(invocationFactory, exceptionHandler);
-        n2oQueryProcessor.setCriteriaConstructor(new N2oCriteriaConstructor(pageStartsWith0));
+        n2oQueryProcessor.setCriteriaConstructorFactory(criteriaConstructorFactory);
         n2oQueryProcessor.setPageStartsWith0(pageStartsWith0);
         n2oQueryProcessor.setAscExpression(ascExpression);
         n2oQueryProcessor.setDescExpression(descExpression);
         n2oQueryProcessor.setEnvironment(environment);
         return n2oQueryProcessor;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public CriteriaConstructorFactory criteriaConstructorFactory(
+            List<CriteriaConstructor<?>> criteriaConstructors) {
+        return new CriteriaConstructorFactory(criteriaConstructors);
     }
 
     @Bean
