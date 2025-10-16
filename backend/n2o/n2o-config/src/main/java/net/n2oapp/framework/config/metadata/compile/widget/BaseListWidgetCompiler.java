@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
@@ -9,6 +10,9 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
+import net.n2oapp.framework.api.metadata.meta.Filter;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.RoutablePayload;
@@ -17,10 +21,15 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.util.StylesResolver;
+import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
@@ -65,6 +74,11 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
                 () -> p.resolve(property("n2o.api.widget.list.paging.place"), Place.class)));
         if (Boolean.TRUE.equals(sourcePagination.getRoutable()))
             initRoute(p, widgetScope);
+        if (ShowCountType.BY_REQUEST.equals(pagination.getShowCount())) {
+            addAdditionalMapping(widgetScope, p);
+            pagination.setCountDataProvider(initCountDataProvider(widgetScope, p));
+        } else if (ShowCountType.NEVER.equals(pagination.getShowCount()) && Boolean.FALSE.equals(pagination.getShowLast()))
+            addAdditionalMapping(widgetScope, p);
         return pagination;
     }
 
@@ -83,6 +97,47 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
         addPagingQueryMapping(pageRoutes, sizeIndex, widgetScope, RoutablePayload.Paging.size, p);
     }
 
+    /**
+     * Инициализация withCount = false в провайдере datasource
+     *
+     * @param widgetScope Информация о виджете
+     * @param p           Процессор сборки метаданных
+     */
+    private void addAdditionalMapping(WidgetScope widgetScope, CompileProcessor p) {
+        DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
+        if (dataSourcesScope != null && dataSourcesScope.get(widgetScope.getDatasourceId()) != null) {
+            N2oAbstractDatasource datasource = dataSourcesScope.get(widgetScope.getDatasourceId());
+            Map<String, ModelLink> mapping = datasource.getAdditionalQueryMapping();
+            if (mapping == null) {
+                mapping = new HashMap<>();
+                datasource.setAdditionalQueryMapping(mapping);
+            }
+            mapping.putIfAbsent("withCount", new ModelLink(false));
+        }
+    }
+
+    /**
+     * Инициализация провайдера пагинации для получения количества записей по запросу
+     *
+     * @param widgetScope Информация о виджете
+     * @param p           Процессор сборки метаданных
+     * @return Провайдер данных для получения количества записей по запросу
+     */
+    private ClientDataProvider initCountDataProvider(WidgetScope widgetScope, CompileProcessor p) {
+        ClientDataProvider countDataProvider = new ClientDataProvider();
+        countDataProvider.setUrl(p.resolve(property("n2o.api.widget.list.paging.count.url"), String.class));
+        FiltersScope filtersScope = p.getScope(FiltersScope.class);
+        if (filtersScope != null) {
+            List<Filter> filters = filtersScope.getFilters(widgetScope.getDatasourceId());
+            if (!CollectionUtils.isEmpty(filters)) {
+                countDataProvider.setQueryMapping(new LinkedHashMap<>());
+                filtersScope.getFilters(widgetScope.getDatasourceId()).forEach(filter ->
+                        countDataProvider.getQueryMapping().put(filter.getParam(), filter.getLink()));
+            }
+        }
+        return countDataProvider;
+    }
+
     private void addPagingQueryMapping(PageRoutes pageRoutes, String param, WidgetScope widgetScope, RoutablePayload.Paging paramType, CompileProcessor p) {
         RoutablePayload payload = new RoutablePayload();
         payload.setId(widgetScope.getClientDatasourceId());
@@ -92,7 +147,6 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
         ReduxAction onGet = new ReduxAction(p.resolve(property("n2o.api.widget.list.paging.routable.type"), String.class), payload);
         pageRoutes.addQueryMapping(param, onGet, createRoutablePagingLink(widgetScope.getClientDatasourceId(), paramType));
     }
-
 
     /**
      * Компиляция действия клика по строке

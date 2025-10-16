@@ -26,12 +26,13 @@ export interface TableProps extends TableCells {
 }
 
 export interface WithTableType {
-    filter: { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] },
-    id: string,
-    table: TableProps,
-    datasourceModelLength: number,
-    datasource: string,
-    page: number,
+    filter: { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] }
+    id: string
+    table: TableProps
+    datasourceModelLength: number
+    datasource: string
+    page: number
+    setPage: N2OPaginationProps['setPage']
 }
 
 type Enhancer = WithTableType & Pick<StandardWidgetProps, 'fetchData' | 'datasource' | 'disabled' | 'loading' | 'children' | 'style'>

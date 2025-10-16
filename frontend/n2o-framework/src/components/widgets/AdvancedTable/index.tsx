@@ -96,13 +96,14 @@ export const AdvancedTableContainer = ({
                 {...paging}
                 hasNext={hasNext}
                 size={size}
-                count={count}
                 activePage={page}
                 datasource={datasourceModel}
+                datasourceId={datasource}
                 setPage={setPage}
                 visible={paginationVisible}
                 showCount={showCount}
                 loading={loading}
+                count={count}
             />
         ),
     }

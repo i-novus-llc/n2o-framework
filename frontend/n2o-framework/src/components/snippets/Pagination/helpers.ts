@@ -1,8 +1,8 @@
 import { COUNT_BY_REQUEST, COUNT_NEVER, showCountType } from './constants'
 
 export const getTotalVisibility = (
-    showCount: showCountType,
-    showLast: boolean,
+    showCount?: showCountType,
+    showLast?: boolean,
     count?: number,
 ) => {
     if (!showCount || showCount === COUNT_NEVER) {
