@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useMemo } from 'react'
 import { useStore } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 import isNil from 'lodash/isNil'
 
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
-import { COUNT_NEVER, type Props as PaginationSnippetProps } from '../../snippets/Pagination/constants'
+import { COUNT_NEVER, COUNT_BY_REQUEST, type Props as PaginationSnippetProps } from '../../snippets/Pagination/constants'
 import { DataSourceModels, ModelPrefix } from '../../../core/datasource/const'
 import request from '../../../utils/request'
 import { type Paging } from '../../../ducks/datasource/Provider'
@@ -39,20 +39,50 @@ export const N2OPagination = (props: Props) => {
     const { getState } = useStore()
     const state = getState()
     const filterModel = getModelByPrefixAndNameSelector(ModelPrefix.filter, datasourceId)(state)
-    const filterDependency = JSON.stringify(filterModel)
+
+    const filterDependency = useMemo(() => {
+        return filterModel ? JSON.stringify(filterModel) : null
+    }, [filterModel])
 
     const { getComponent } = useContext(FactoryContext)
     const [count, setCount] = useState(propsCount)
 
-    const Pagination = getComponent('Pagination', FactoryLevels.SNIPPETS)
+    /** FIXME костылек
+     *  default count установлен в 0, при loading = false полученный count приходит с задержкой
+     *  Из за этого бывают мерцания кнопки Узнать кол-во записей */
+    const [showCountButton, setShowCountButton] = useState(false)
+
+    useEffect(() => {
+        let timer: ReturnType<typeof setTimeout>
+
+        // показ кнопки сразу если count не ожидается (по запросу)
+        if (propShowCount === COUNT_BY_REQUEST) {
+            return setShowCountButton(true)
+        }
+
+        if (!loading && (Number(count) >= 0)) {
+            // показ кнопки с задержкой после окончания загрузки
+            timer = setTimeout(() => { setShowCountButton(true) }, 300)
+        }
+
+        return () => {
+            if (timer) {
+                clearTimeout(timer)
+            }
+        }
+    }, [loading, count, propShowCount])
+
+    useEffect(() => {
+        if (filterDependency !== null) { setCount(null) }
+    }, [filterDependency])
 
     useEffect(() => {
         if (!isNil(propsCount)) { setCount(propsCount) }
     }, [propsCount])
 
-    useEffect(() => {
-        setCount(null)
-    }, [filterDependency])
+    const Pagination = getComponent('Pagination', FactoryLevels.SNIPPETS)
+
+    if (!Pagination) { return null }
 
     const onClick = async () => {
         if (!countDataProvider) { return }
@@ -70,8 +100,6 @@ export const N2OPagination = (props: Props) => {
         setCount(count as never)
     }
 
-    if (!Pagination) { return null }
-
     const showCount = propShowCount !== COUNT_NEVER && !isEmpty(datasource)
     const calculatedHasNext = count ? hasNext : (!loading && hasNext)
 
@@ -81,6 +109,7 @@ export const N2OPagination = (props: Props) => {
                 count={count}
                 visible={showCount && !loading}
                 onClick={onClick}
+                showCountButton={showCountButton}
             />
             <Pagination
                 {...props}
