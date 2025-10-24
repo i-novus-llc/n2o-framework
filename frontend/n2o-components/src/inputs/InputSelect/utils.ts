@@ -11,7 +11,8 @@ import { TOption } from './types'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const inArray = (array: any[] = [], item: TOption | string = '') => array.some(arrayItem => (isString(item)
     ? arrayItem === item
-    : arrayItem.id && item.id && arrayItem.id === item.id))
+    /** @INFO преобразование из за особенности селектов, id могут приходить id = 1 || id = '1' */
+    : arrayItem.id && item.id && String(arrayItem.id) === String(item.id)))
 
 export const groupData = (data: TOption[], groupFieldId: string) => reduce(
     data,
