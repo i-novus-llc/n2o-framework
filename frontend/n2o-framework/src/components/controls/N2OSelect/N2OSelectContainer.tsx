@@ -1,6 +1,6 @@
 import React from 'react'
-import { Filter, TOption } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'
-import { BadgeType } from '@i-novus/n2o-components/lib/inputs/InputSelect/PopupList'
+import { Filter, type TOption } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'
+import { type BadgeType } from '@i-novus/n2o-components/lib/inputs/InputSelect/PopupList'
 import { Select } from '@i-novus/n2o-components/lib/inputs/Select/Select'
 
 import { listContainer } from '../listContainer'
