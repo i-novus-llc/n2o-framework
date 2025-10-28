@@ -30,9 +30,10 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileAction;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
@@ -58,7 +59,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     public PerformButton compile(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
         if (!ArrayUtils.isEmpty(source.getGenerate())) {
             N2oToolbar toolbar = p.getScope(N2oToolbar.class);
-            toolbar.setIsGeneratedForSubMenu(source.getIsGeneratedForSubMenu());
+            toolbar.setIsGeneratedForSubMenu(source.isGeneratedForSubMenu());
 
             return (PerformButton) generateButtons(source, toolbar, buttonGeneratorFactory, context, p).get(0);
         }
@@ -171,8 +172,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
         boolean autoDisableCondition = DisableOnEmptyModelType.AUTO.equals(disableOnEmptyModel) &&
-                (ReduxModel.resolve.equals(source.getModel()) || ReduxModel.multi.equals(source.getModel())) &&
-                parentIsNotCell;
+                                       (ReduxModel.resolve.equals(source.getModel()) || ReduxModel.multi.equals(source.getModel())) &&
+                                       parentIsNotCell;
 
         if (DisableOnEmptyModelType.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
             Condition condition = new Condition();

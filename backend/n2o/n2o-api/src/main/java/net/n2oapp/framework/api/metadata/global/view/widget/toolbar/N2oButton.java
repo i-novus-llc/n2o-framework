@@ -2,8 +2,6 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oIfBranchAction;
@@ -27,6 +25,8 @@ public class N2oButton extends N2oAbstractButton implements Button, WidgetIdAwar
     private Boolean rounded;
     private Boolean validate;
     private String[] validateDatasourceIds;
+    private Dependency[] dependencies;
+    private DisableOnEmptyModelType disableOnEmptyModel;
 
     @Deprecated
     private String confirm;
@@ -45,44 +45,13 @@ public class N2oButton extends N2oAbstractButton implements Button, WidgetIdAwar
     @Deprecated
     private String confirmCancelColor;
 
-    private DisableOnEmptyModelType disableOnEmptyModel;
-
-    private Dependency[] dependencies;
-
-    private Boolean isGeneratedForSubMenu = false;
+    private boolean isGeneratedForSubMenu = false;
 
     @Override
     public List<N2oAction> getListActions() {
         if (actions == null)
             return new ArrayList<>();
         return Arrays.asList(actions);
-    }
-
-    @Getter
-    @Setter
-    public static class Dependency implements Source {
-        private String value;
-        private String datasource;
-        private ReduxModel model;
-
-        @Deprecated
-        public String getRefWidgetId() {
-            return datasource;
-        }
-
-        @Deprecated
-        public void setRefWidgetId(String refWidgetId) {
-            this.datasource = refWidgetId;
-        }
-    }
-
-    @Getter
-    @Setter
-    public static class EnablingDependency extends Dependency {
-        private String message;
-    }
-
-    public static class VisibilityDependency extends Dependency {
     }
 
     @Deprecated
