@@ -18,6 +18,11 @@ public interface InputText extends Control {
     void setValue(String value);
 
     /**
+     * Вставка значения из буфера обмена в поле
+     */
+    void insert();
+
+    /**
      * Нажатие кнопки 'enter'
      */
     void pressEnter();

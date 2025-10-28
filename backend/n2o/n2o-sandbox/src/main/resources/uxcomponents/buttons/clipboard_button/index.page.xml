@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Кнопка копирования данных в буфер обмена">
+    <regions>
+        <form>
+            <datasource query-id="test"/>
+            <fields>
+                <output-text id="snils" label="СНИЛС">
+                    <toolbar>
+                        <clipboard-button
+                                icon="fa fa-copy"
+                                color="link"
+                                description="Копировать СНИЛС"
+                                message="Скопировано в буфер обмена"
+                                data="{snils}"/>
+                    </toolbar>
+                </output-text>
+            </fields>
+        </form>
+    </regions>
+</page>

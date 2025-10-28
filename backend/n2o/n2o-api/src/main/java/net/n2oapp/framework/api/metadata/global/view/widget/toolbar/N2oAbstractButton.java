@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
@@ -45,5 +46,32 @@ public abstract class N2oAbstractButton extends N2oComponent implements GroupIte
     @Deprecated
     public void setWidgetId(String widgetId) {
         this.datasourceId = widgetId;
+    }
+
+    @Getter
+    @Setter
+    public static class Dependency implements Source {
+        private String value;
+        private String datasource;
+        private ReduxModel model;
+
+        @Deprecated
+        public String getRefWidgetId() {
+            return datasource;
+        }
+
+        @Deprecated
+        public void setRefWidgetId(String refWidgetId) {
+            this.datasource = refWidgetId;
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class EnablingDependency extends Dependency {
+        private String message;
+    }
+
+    public static class VisibilityDependency extends Dependency {
     }
 }

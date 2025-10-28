@@ -74,7 +74,7 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
                             mi.setDatasourceId(source.getDatasourceId());
                         if (mi.getModel() == null)
                             mi.setModel(source.getModel());
-                        mi.setIsGeneratedForSubMenu(true);
+                        mi.setGeneratedForSubMenu(true);
                         PerformButton menuItem = p.compile(mi, context, p, idx);
                         menuItem.setColor(null);
 
