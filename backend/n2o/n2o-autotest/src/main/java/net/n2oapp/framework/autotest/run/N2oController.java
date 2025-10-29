@@ -143,15 +143,15 @@ public class N2oController {
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
-    @GetMapping({"/n2o/export/**", "/n2o/export/", "/n2o/export"})
-    public ResponseEntity<byte[]> export(HttpServletRequest request) {
+    @PostMapping({"/n2o/export/**", "/n2o/export/", "/n2o/export"})
+    public ResponseEntity<byte[]> export(@RequestBody ExportRequest request) {
         FileGeneratorFactory fileGeneratorFactory = new FileGeneratorFactory(List.of(new CsvFileGenerator()));
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
         ExportController exportController = new ExportController(builder.getEnvironment(), dataController, fileGeneratorFactory);
 
-        String url = request.getParameter("url");
-        String format = request.getParameter("format");
-        String charset = request.getParameter("charset");
+        String url = request.getUrl();
+        String format = request.getFormat();
+        String charset = request.getCharset();
 
         String dataPrefix = DATA_REQUEST_PREFIX;
         String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
@@ -160,7 +160,7 @@ public class N2oController {
             throw new N2oException("Query-параметр запроса пустой");
 
         GetDataResponse dataResponse = exportController.getData(path, params, null);
-        Map<String, String> headers = exportController.getHeaders(path, params);
+        Map<String, String> headers = request.getFields();
         ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers);
 
         return ResponseEntity.status(exportResponse.getStatus())
@@ -181,7 +181,7 @@ public class N2oController {
             return new DataSet((Map<String, ?>) body);
         else {
             DataSet dataSet = new DataSet("$list", body);
-            dataSet.put("$count", body != null ? ((List) body).size() : 0);
+            dataSet.put("$count", body != null ? ((List<?>) body).size() : 0);
             return dataSet;
         }
     }
