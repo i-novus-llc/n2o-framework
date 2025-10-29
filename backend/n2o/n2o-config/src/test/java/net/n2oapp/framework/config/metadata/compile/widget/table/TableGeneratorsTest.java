@@ -165,7 +165,7 @@ class TableGeneratorsTest extends SourceCompileTestBase {
         CustomAction download = ((CustomAction) downloadBtn.getAction());
         assertThat(download.getType(), is("n2o/api/utils/export"));
         assertThat(download.getPayload().getAttributes(), allOf(
-                hasEntry("baseURL", "/n2o/export"),
+                hasEntry("baseURL", "n2o/export"),
                 hasEntry("configDatasource", "table_settings_exportModal_table_settings_tb1_exportModalDs"),
                 hasEntry("exportDatasource", "table_settings_ds1")
         ));
@@ -339,7 +339,7 @@ class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(downloadBtn.getColor(), is("primary"));
         CustomAction download = ((CustomAction) downloadBtn.getAction());
         assertThat(download.getType(), is("n2o/api/utils/export"));
-        assertThat(download.getPayload().getAttributes().get("baseURL"), is("/n2o/export"));
+        assertThat(download.getPayload().getAttributes().get("baseURL"), is("n2o/export"));
         assertThat(download.getPayload().getAttributes().get("configDatasource"), is("export_exportModal_export_w1_exportModalDs"));
         assertThat(download.getPayload().getAttributes().get("exportDatasource"), is("export_ds1"));
         assertThat(download.getPayload().getAttributes().get("widgetId"), is("export_w1"));
