@@ -20,15 +20,15 @@ export const TableHeader = memo<TableHeaderProps>(({
 
     return (
         <Table.Header>
-            {rows.map(columns => (
+            {rows.map((columns, index) => (
                 <Table.Row>
-                    {selection === Selection.Checkbox && (
-                        <Table.HeaderCell key={selection} className="cell-selection">
+                    {selection === Selection.Checkbox && (index === 0) && (
+                        <Table.HeaderCell key={selection} className="cell-selection" rowSpan={rows.length}>
                             <CheckboxHeaderCell areAllRowsSelected={areAllRowsSelected} />
                         </Table.HeaderCell>
                     )}
-                    {selection === Selection.Radio && (
-                        <Table.HeaderCell key={selection} className="cell-selection" />
+                    {selection === Selection.Radio && (index === 0) && (
+                        <Table.HeaderCell key={selection} className="cell-selection" rowSpan={rows.length} />
                     )}
                     <>
                         {columns.map((cell) => {
