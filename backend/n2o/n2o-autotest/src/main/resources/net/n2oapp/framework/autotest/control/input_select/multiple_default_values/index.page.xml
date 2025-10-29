@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Выпадающий список с мультирежимом с несколькими значениями по умолчанию">
+    <regions>
+        <region>
+            <form id="main">
+                <fields>
+                    <input-select id="multiSelect"
+                                  label="MultiSelectWithDefaultValues"
+                                  type="multi"
+                                  query-id="test">
+                        <default-values>
+                            <value id="2"/>
+                            <value id="3"/>
+                        </default-values>
+                    </input-select>
+
+                    <input-select id="checkboxesSelect"
+                                  label="CheckboxesWithDefaultValues"
+                                  type="checkboxes"
+                                  query-id="test">
+                        <default-values>
+                            <value id="1"/>
+                            <value id="3"/>
+                            <value id="4"/>
+                        </default-values>
+                    </input-select>
+                </fields>
+            </form>
+        </region>
+    </regions>
+</page>

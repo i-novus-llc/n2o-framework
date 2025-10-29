@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkQueryExists;
@@ -37,6 +39,7 @@ public class ListFieldValidator implements SourceValidator<N2oListField>, Source
         if (field.getDatasourceId() != null) {
             checkDatasource(field, widgetScope, p);
         }
+        validateDefaultValues(field);
     }
 
     private void checkDatasource(N2oListField source, WidgetScope widgetScope, SourceProcessor p) {
@@ -45,6 +48,26 @@ public class ListFieldValidator implements SourceValidator<N2oListField>, Source
                         ValidationUtils.getIdOrEmptyString(source.getDatasourceId()),
                         ValidationUtils.getIdOrEmptyString(source.getId()),
                         ValidationUtils.getIdOrEmptyString(widgetScope.getWidgetId())));
+    }
+
+    /**
+     * Проверка корректности указания значений по умолчанию
+     */
+    private void validateDefaultValues(N2oListField field) {
+        boolean hasDefaultValue = MapUtils.isNotEmpty(field.getDefValue());
+        boolean hasDefaultValues = ArrayUtils.isNotEmpty(field.getDefValuesArray());
+
+        if (hasDefaultValue && hasDefaultValues) {
+            throw new N2oMetadataValidationException(
+                    String.format("Поле %s использует элемент '<default-value>' и '<default-values>' одновременно",
+                            getIdOrEmptyString(field.getId())));
+        }
+
+        if (field.isSingle() && hasDefaultValues) {
+            throw new N2oMetadataValidationException(
+                    String.format("Поле %s должно использовать в single режиме элемент '<default-value>' вместо '<default-values>'",
+                            getIdOrEmptyString(field.getId())));
+        }
     }
 
     @Override

@@ -35,5 +35,10 @@ class N2oListFieldXmlV3IOTest extends XmlIOTestBase {
     void test() {
         check("net/n2oapp/framework/config/io/control/v3/testBaseListControlV3.xml");
     }
+
+    @Test
+    void testMultipleDefaultValues() {
+        check("net/n2oapp/framework/config/io/control/v3/testMultipleDefaultValuesBaseListControlV3.xml");
+    }
 }
 

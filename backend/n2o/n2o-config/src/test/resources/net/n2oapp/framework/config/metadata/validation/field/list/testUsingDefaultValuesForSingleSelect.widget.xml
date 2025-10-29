@@ -1,0 +1,10 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
+    <fields>
+        <input-select id="select" query-id="utBlank2">
+            <default-values>
+                <value id="1"/>
+                <value id="2"/>
+            </default-values>
+        </input-select>
+    </fields>
+</form>

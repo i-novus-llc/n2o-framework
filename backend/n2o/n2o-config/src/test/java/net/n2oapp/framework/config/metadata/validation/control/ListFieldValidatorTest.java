@@ -75,4 +75,20 @@ class ListFieldValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/checkDatasourceExistence.page.xml"));
         assertEquals("Указан несуществующий источник данных 'test' для поля 'select' виджета 'form'", exception.getMessage());
     }
+
+    @Test
+    void testUsingDefaultValueAndDefaultValuesAtTheSameTime() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingDefaultValueAndDefaultValuesAtTheSameTime.widget.xml"));
+        assertEquals("Поле 'select' использует элемент '<default-value>' и '<default-values>' одновременно", exception.getMessage());
+    }
+
+    @Test
+    void testUsingDefaultValuesForSingleSelect() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/field/list/testUsingDefaultValuesForSingleSelect.widget.xml"));
+        assertEquals("Поле 'select' должно использовать в single режиме элемент '<default-value>' вместо '<default-values>'", exception.getMessage());
+    }
 }

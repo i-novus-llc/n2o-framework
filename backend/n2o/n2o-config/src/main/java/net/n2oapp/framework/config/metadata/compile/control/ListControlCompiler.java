@@ -23,6 +23,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.FieldCompileUtil;
 import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
 
@@ -60,8 +61,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         else if (source.getDatasourceId() != null) {
             listControl.setDatasource(getClientDatasourceId(source.getDatasourceId(), p));
             listControl.setQuickSearchParam(source.getDatasourceId() + "_" + castDefault(source.getSearchFilterId(), listControl.getLabelFieldId()));
-        }
-        else if (source.getOptions() != null) {
+        } else if (source.getOptions() != null) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (Map<String, String> option : source.getOptions()) {
                 DataSet dataItem = new DataSet();
@@ -74,13 +74,30 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
 
     @Override
     protected Object compileDefValues(S source, CompileProcessor p) {
-        if (source.getDefValue() == null) {
+        if (source.getDefValue() != null) {
+            DefaultValues values = createDefaultValues(source.getDefValue(), p);
+            return source.isSingle() ? values : Collections.singletonList(values);
+        }
+        if (!source.isSingle() && !ArrayUtils.isEmpty(source.getDefValuesArray())) {
+            return Arrays.stream(source.getDefValuesArray())
+                    .map(valueMap -> createDefaultValues(valueMap, p))
+                    .filter(Objects::nonNull)
+                    .toList();
+        }
+        return null;
+    }
+
+    /**
+     * Создание DefaultValues из карты значений
+     */
+    private DefaultValues createDefaultValues(Map<String, String> valueMap, CompileProcessor p) {
+        if (valueMap == null || valueMap.isEmpty()) {
             return null;
         }
         DefaultValues values = new DefaultValues();
         values.setValues(new HashMap<>());
-        source.getDefValue().forEach((f, v) -> values.getValues().put(f, p.resolve(v)));
-        return source.isSingle() ? values : Collections.singletonList(values);
+        valueMap.forEach((f, v) -> values.getValues().put(f, p.resolve(v)));
+        return values;
     }
 
     @Override
@@ -99,7 +116,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     protected ModelLink compileLinkOnSet(StandardField<T> control, S source, WidgetScope widgetScope, CompileProcessor p) {
         ModelLink onSet = new ModelLink(widgetScope.getModel(), widgetScope.getClientDatasourceId(), control.getId());
         onSet.setParam(source.getParam());
-        onSet.setSubModelQuery(createSubModel(source, control.getControl().getData(),p));
+        onSet.setSubModelQuery(createSubModel(source, control.getControl().getData(), p));
         onSet.setValue("`id`");
         return onSet;
     }
