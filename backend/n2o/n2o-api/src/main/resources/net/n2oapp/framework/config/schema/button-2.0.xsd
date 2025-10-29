@@ -4,122 +4,126 @@
            xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+    <xs:attributeGroup name="commonButtonAttributes">
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор кнопки. Если не задан - вычисляется из action-id.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Заголовок кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка кнопки из https://fontawesome.com/v6/icons/</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon-position" type="positionType" default="left">
+            <xs:annotation>
+                <xs:documentation>Позиция иконки относительно заголовка кнопки</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="color" type="bs:buttonColorDefinition">
+            <xs:annotation>
+                <xs:documentation>Цвет кнопки. Возможно использование плейсхолдеров</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Значок кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-color" type="bs:colorDefinition">
+            <xs:annotation>
+                <xs:documentation>Цвет значка. Возможно использование плейсхолдеров</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-shape" type="shapeType" default="circle">
+            <xs:annotation>
+                <xs:documentation>Форма значка</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-position" type="positionType" default="right">
+            <xs:annotation>
+                <xs:documentation>Позиция значка</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-image" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-image-position" type="positionType" default="left">
+            <xs:annotation>
+                <xs:documentation>Позиция картинки в значке</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
+            <xs:annotation>
+                <xs:documentation>Форма картинки в значке</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Класс компонента кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль компонента кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="acn:clientModel">
+            <xs:annotation>
+                <xs:documentation>
+                    Модель источника данных, над которым выполнится действие. Если модель пустая,
+                    то кнопка будет заблокирована.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>С каким источником данных работает кнопка.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="visible" type="xs:string" default="true">
+            <xs:annotation>
+                <xs:documentation>Условие видимости кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enabled" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Условие доступности кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>React компонент кнопки</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="description" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Описание при наведении на кнопку.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="tooltip-position" type="tooltipPositionType" default="bottom">
+            <xs:annotation>
+                <xs:documentation>Позиция подсказки</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
+
     <xs:complexType name="baseButtonDefinition" abstract="true">
         <xs:annotation>
             <xs:documentation>Базовое определение кнопки.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="acn:actions">
-                <xs:attribute name="id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор кнопки. Если не задан - вычисляется из action-id.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="label" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Заголовок кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="icon" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Иконка кнопки из https://fontawesome.com/v6/icons/</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="icon-position" type="positionType" default="left">
-                    <xs:annotation>
-                        <xs:documentation>Позиция иконки относительно заголовка кнопки</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="color" type="bs:buttonColorDefinition">
-                    <xs:annotation>
-                        <xs:documentation>Цвет кнопки. Возможно использование плейсхолдеров</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Значок кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-color" type="bs:colorDefinition">
-                    <xs:annotation>
-                        <xs:documentation>Цвет значка. Возможно использование плейсхолдеров</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-shape" type="shapeType" default="circle">
-                    <xs:annotation>
-                        <xs:documentation>Форма значка</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-position" type="positionType" default="right">
-                    <xs:annotation>
-                        <xs:documentation>Позиция значка</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-image" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за картинку в значке</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-image-position" type="positionType" default="left">
-                    <xs:annotation>
-                        <xs:documentation>Позиция картинки в значке</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="badge-image-shape" type="shapeType" default="circle">
-                    <xs:annotation>
-                        <xs:documentation>Форма картинки в значке</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="class" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Класс компонента кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="style" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Стиль компонента кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="model" type="acn:clientModel">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Модель источника данных, над которым выполнится действие. Если модель пустая,
-                            то кнопка будет заблокирована.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="datasource" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>С каким источником данных работает кнопка.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:string" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Условие видимости кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Условие доступности кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="src" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>React компонент кнопки</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="description" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Описание при наведении на кнопку.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="tooltip-position" type="tooltipPositionType" default="bottom">
-                    <xs:annotation>
-                        <xs:documentation>Позиция подсказки</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
+                <xs:attributeGroup ref="commonButtonAttributes"/>
                 <xs:anyAttribute>
                     <xs:annotation>
                         <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -152,7 +156,8 @@
                 </xs:attribute>
                 <xs:attribute name="generate" type="bs:generateDefinition">
                     <xs:annotation>
-                        <xs:documentation>Генерация стандартной кнопки. Можно указать только одно значение.</xs:documentation>
+                        <xs:documentation>Генерация стандартной кнопки. Можно указать только одно значение.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="validate-datasources" type="xs:string">
@@ -212,7 +217,8 @@
                 </xs:sequence>
                 <xs:attribute name="generate" type="bs:generateDefinition">
                     <xs:annotation>
-                        <xs:documentation>Генерация стандартных кнопок. Можно указать несколько значений через запятую</xs:documentation>
+                        <xs:documentation>Генерация стандартных кнопок. Можно указать несколько значений через запятую
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="show-toggle-icon" type="xs:boolean" default="true">
@@ -224,16 +230,60 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="clipboardButtonDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Кнопка копирования в буфер обмена
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="dependencies" type="buttonDependenciesDefinition" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="commonButtonAttributes"/>
+        <xs:attribute name="data" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Данные для копирования. Возможно использование плейсхолдеров
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type" type="dataType" default="text">
+            <xs:annotation>
+                <xs:documentation>
+                    Тип данных для копирования
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="message" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Сообщение при успешном копировании
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>
+                    Возможность подключать любые атрибуты
+                </xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
     <xs:complexType name="buttonDependenciesDefinition">
         <xs:sequence>
             <xs:element name="enabling" type="enablingDependencyDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Условие доступности.</xs:documentation>
+                    <xs:documentation>
+                        Условие доступности
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="visibility" type="baseDependencyDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Условие видимости.</xs:documentation>
+                    <xs:documentation>
+                        Условие видимости
+                    </xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -294,4 +344,13 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="dataType">
+        <xs:annotation>
+            <xs:documentation>Тип данных для копирования.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="html"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

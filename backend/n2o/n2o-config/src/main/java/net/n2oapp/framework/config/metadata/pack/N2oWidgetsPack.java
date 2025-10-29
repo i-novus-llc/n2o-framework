@@ -22,6 +22,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ListWidgetCompiler(),
                 new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler(),
                 new TableCompiler(), new SimpleColumnHeaderCompiler(), new FilterColumnHeaderCompiler(), new MultiColumnHeaderCompiler(),
+                new ClipboardButtonCompiler(),
                 new HtmlWidgetCompiler(),
                 new CustomWidgetCompiler(),
                 new TreeCompiler(),

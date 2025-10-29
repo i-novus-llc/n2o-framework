@@ -1456,6 +1456,10 @@
           "name": "ButtonAT"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/button/clipboard",
+          "name": "ClipboardButtonAT"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/websocket/common",
           "name": "WebSocketAT"
         },

@@ -89,8 +89,8 @@ public abstract class N2oWidget extends N2oMetadata
     @Deprecated
     public void adapterV4() {
         if (getQueryId() != null || getDefaultValuesQueryId() != null || getPreFilters() != null ||
-                getObjectId() != null ||
-                this.getUpload() != null || getDependsOn() != null) {
+            getObjectId() != null ||
+            this.getUpload() != null || getDependsOn() != null) {
             N2oStandardDatasource datasource = new N2oStandardDatasource();
             setDatasource(datasource);
             datasource.setQueryId(getQueryId());

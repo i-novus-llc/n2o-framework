@@ -4,14 +4,17 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oClipboardButton;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.badge.Position;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
@@ -20,6 +23,7 @@ import net.n2oapp.framework.config.util.DatasourceUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Objects.nonNull;
 import static net.n2oapp.framework.api.StringUtils.isLink;
@@ -93,7 +97,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         String defaultId = ("_".equals(pageIndexScope.getPageId()) ? "mi" : pageIndexScope.getPageId() + "_mi") + pageIndexScope.get();
         source.setId(castDefault(source.getId(), defaultId));
 
-        if (p.resolve(property("n2o.api.button.generate-label"), Boolean.class))
+        if (Boolean.TRUE.equals(p.resolve(property("n2o.api.button.generate-label"), Boolean.class)))
             source.setLabel(castDefault(source.getLabel(), source.getId()));
         source.setTooltipPosition(initTooltipPosition(source, p));
         source.setColor(initColor(source, p));
@@ -149,5 +153,106 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         if (!button.getConditions().containsKey(type))
             button.getConditions().put(type, new ArrayList<>());
         button.getConditions().get(type).add(condition);
+    }
+
+    /**
+     * Компиляция условий и зависимостей кнопки
+     *
+     * @param button Клиентская модель кнопки
+     * @param source Исходная модель кнопки
+     * @param p      Процессор сборки метаданных
+     */
+    protected void compileDependencies(N2oAbstractButton source, AbstractButton button,
+                                       CompileProcessor p) {
+        String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
+
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+
+        List<Condition> enabledConditions = new ArrayList<>();
+        if (source.getDatasourceId() != null) {
+            Condition emptyModelCondition = enabledByEmptyModelCondition(source, clientDatasource, componentScope, p);
+            if (emptyModelCondition != null)
+                enabledConditions.add(emptyModelCondition);
+        }
+
+        if (!enabledConditions.isEmpty()) {
+            button.getConditions().put(ValidationType.enabled, enabledConditions);
+        }
+        if (source instanceof N2oButton)
+            compileDependencies(((N2oButton) source).getDependencies(), button, clientDatasource, source.getModel(), p);
+        if (source instanceof N2oClipboardButton)
+            compileDependencies(((N2oClipboardButton) source).getDependencies(), button, clientDatasource, source.getModel(), p);
+
+        compileCondition(source, button, p, componentScope);
+    }
+
+    /**
+     * Получение условия доступности кнопки при пустой модели
+     *
+     * @param source           Исходная модель кнопки
+     * @param clientDatasource Идентификатор источника данных, к которому относится кнопка
+     * @param componentScope   Родительский компонент
+     * @param p                Процессор сборки метаданных
+     * @return Условие доступности кнопки при пустой модели
+     */
+    private Condition enabledByEmptyModelCondition(N2oAbstractButton source, String clientDatasource, ComponentScope componentScope, CompileProcessor p) {
+        DisableOnEmptyModelType disableOnEmptyModel;
+
+        if (source instanceof N2oButton)
+            disableOnEmptyModel = castDefault(((N2oButton) source).getDisableOnEmptyModel(),
+                    () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelType.class));
+
+        else if (source instanceof N2oClipboardButton)
+            disableOnEmptyModel = castDefault(((N2oClipboardButton) source).getDisableOnEmptyModel(),
+                    () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelType.class));
+        else return null;
+
+        if (DisableOnEmptyModelType.FALSE.equals(disableOnEmptyModel)) return null;
+
+        boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
+        boolean autoDisableCondition = DisableOnEmptyModelType.AUTO.equals(disableOnEmptyModel) &&
+                                       (ReduxModel.resolve.equals(source.getModel()) || ReduxModel.multi.equals(source.getModel())) &&
+                                       parentIsNotCell;
+
+        if (DisableOnEmptyModelType.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
+            Condition condition = new Condition();
+            condition.setExpression("!$.isEmptyModel(this)");
+            condition.setModelLink(new ModelLink(source.getModel(), clientDatasource).getBindLink());
+
+            return condition;
+        }
+
+        return null;
+    }
+
+    private void compileDependencies(N2oAbstractButton.Dependency[] dependencies, AbstractButton button, String clientDatasource,
+                                     ReduxModel buttonModel, CompileProcessor p) {
+        if (dependencies == null) return;
+        for (N2oAbstractButton.Dependency d : dependencies) {
+            ValidationType validationType = null;
+            if (d instanceof N2oAbstractButton.EnablingDependency)
+                validationType = ValidationType.enabled;
+            else if (d instanceof N2oAbstractButton.VisibilityDependency)
+                validationType = ValidationType.visible;
+
+            compileDependencyCondition(d, button, validationType, clientDatasource, buttonModel, p);
+        }
+    }
+
+    private void compileDependencyCondition(N2oAbstractButton.Dependency dependency, AbstractButton button, ValidationType validationType,
+                                            String buttonDatasource, ReduxModel buttonModel, CompileProcessor p) {
+        ReduxModel refModel = castDefault(dependency.getModel(), buttonModel, ReduxModel.resolve);
+        Condition condition = new Condition();
+        condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
+        String datasource = (dependency.getDatasource() != null) ?
+                getClientDatasourceId(dependency.getDatasource(), p) :
+                buttonDatasource;
+        condition.setModelLink(new ModelLink(refModel, datasource, null).getBindLink());
+        if (dependency instanceof N2oAbstractButton.EnablingDependency)
+            condition.setMessage(((N2oAbstractButton.EnablingDependency) dependency).getMessage());
+
+        if (!button.getConditions().containsKey(validationType))
+            button.getConditions().put(validationType, new ArrayList<>());
+        button.getConditions().get(validationType).add(condition);
     }
 }
