@@ -110,6 +110,7 @@ export interface ChildrenTableHeaderProps {
     id: string
     moveMode?: MOVE_MODE
     widgetId?: string
+    rowSpan?: number
 }
 
 export type CheckboxHeaderCellProps = {

@@ -17,6 +17,7 @@ export function DragNDropTableHeader(props: ChildrenTableHeaderProps) {
         id: tableId,
         widgetId,
         moveMode,
+        rowSpan,
     } = props
 
     const { onHeaderDrop } = useTableActions()
@@ -73,6 +74,7 @@ export function DragNDropTableHeader(props: ChildrenTableHeaderProps) {
                 ...(isDraggable ? omit(draggableAttributes, 'style') : {}),
             }}
             dragAttributes={isDraggable ? getMergedAttributes(child) : null}
+            rowSpan={rowSpan}
             {...omit(child, ['elementAttributes', 'id'])}
         />
     )
