@@ -67,6 +67,26 @@ description: ""
 - Всем enum в названии был проставлен суффикс `Enum`.
 Так, например, `BadgePosition` был переименован в `BadgePositionEnum`.
 
+### Изменения в Data API {#changes-data-api}
+
+- Изменен запрос для экспорта данных.
+```text title="Старая версия: GET запрос"
+?format=xlsx&charset=utf8&url=/sandbox/view/4oYjK/n2o/data/_ds?page=1%26size=5%26show=name%26show=region
+```
+
+```json title="Новая версия: POST запрос"
+{
+  "format": "xlsx",
+  "charset": "utf8"
+  "url": "/sandbox/view/4oYjK/n2o/data/_ds?page=1&size=5"
+  "fields": [
+    "name": "Наименование",
+    "region": "Регион"
+  ]
+}
+```
+Имена колонок будут браться непосредственно из UI. Задавать имена явно в полях query.xml необязательно.
+
 ### Изменения в настройках {#changes-settings}
 
 - Изменено значение по умолчанию для настройки `n2o.access.filtering_for_unique` на `true`.<br/>

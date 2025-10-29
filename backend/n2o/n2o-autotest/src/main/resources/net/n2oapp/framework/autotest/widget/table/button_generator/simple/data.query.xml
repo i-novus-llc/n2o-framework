@@ -13,8 +13,8 @@
     </filters>
 
     <fields>
-        <field id="id" domain="integer" sorting="true" name="Идентификатор"/>
-        <field id="id_ips" sorting="true" name="Идентификатор ИПС"/>
+        <field id="id" domain="integer" sorting="true"/>
+        <field id="id_ips" sorting="true"/>
         <field id="name" sorting="true" name="Наименование"/>
         <field id="region" domain="string" name="Регион"/>
     </fields>
