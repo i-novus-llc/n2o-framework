@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.pack;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
+import net.n2oapp.framework.config.io.toolbar.v2.ClipboardButtonIOv2;
 import net.n2oapp.framework.config.io.toolbar.v2.SubmenuIOv2;
 import net.n2oapp.framework.config.io.widget.v5.*;
 
@@ -18,6 +19,7 @@ public class N2oWidgetsV5IOPack implements MetadataPack<XmlIOBuilder<?>> {
                 new ChartWidgetIOv5(),
                 new CalendarWidgetIOv5(),
                 new ButtonIOv2(),
+                new ClipboardButtonIOv2(),
                 new SubmenuIOv2(),
                 new TilesWidgetIOV5(),
                 new CardsWidgetIOV5());

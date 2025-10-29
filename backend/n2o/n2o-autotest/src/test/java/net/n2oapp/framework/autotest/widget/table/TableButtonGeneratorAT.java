@@ -240,11 +240,11 @@ public class TableButtonGeneratorAT extends AutoTestBase {
         //клики необходимы, так как у кнопки две иконки в разных <i> элементах
         button.menuItem(0).click();
         button.menuItem(0).shouldHaveIcon("fa fa-plus");
-        button.menuItem(1).shouldHaveDescription("id_ips");
+        button.menuItem(1).shouldHaveLabel("id_ips");
         button.menuItem(2).click();
         button.menuItem(2).shouldHaveIcon("fa fa-pencil");
-        button.menuItem(2).shouldHaveDescription("Наименование");
-        button.menuItem(3).shouldHaveDescription("Регион");
+        button.menuItem(2).shouldHaveLabel("Наименование");
+        button.menuItem(3).shouldHaveLabel("Регион");
     }
 
     @Test

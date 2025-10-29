@@ -12,6 +12,7 @@
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="group" type="groupDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="clipboard-button" type="btn:clipboardButtonDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
@@ -44,6 +45,7 @@
         <xs:sequence>
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="clipboard-button" type="btn:clipboardButtonDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="generate" type="bs:generateDefinition">
             <xs:annotation>

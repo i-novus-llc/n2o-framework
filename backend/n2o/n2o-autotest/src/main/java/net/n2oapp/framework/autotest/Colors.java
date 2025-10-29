@@ -12,6 +12,7 @@ public enum Colors {
     INFO,
     LIGHT,
     MUTED,
+    LINK,
     WHITE;
 
     public String name(String prefix) {
