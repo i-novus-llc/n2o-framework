@@ -433,6 +433,10 @@
         {
           "templateId": "uxcomponents/select/multi",
           "name": "Выпадающий список с мультирежимом"
+        },
+        {
+          "templateId": "uxcomponents/select/default_values",
+          "name": "Выпадающий список с мультирежимом с несколькими значениями по умолчанию"
         }
       ]
     },

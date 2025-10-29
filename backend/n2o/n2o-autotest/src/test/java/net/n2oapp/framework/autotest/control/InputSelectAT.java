@@ -583,4 +583,25 @@ class InputSelectAT extends AutoTestBase {
         dropdown.shouldHaveOptions(4);
         dropdown.shouldHaveOptions(new String[]{"test1", "test2", "test3", "test4"});
     }
+
+    @Test
+    void testMultipleDefaultValues() {
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/multiple_default_values");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/multiple_default_values/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/multiple_default_values/test.query.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        InputSelect multiSelect = page.widget(FormWidget.class).fields().field("MultiSelectWithDefaultValues").control(InputSelect.class);
+        multiSelect.shouldExists();
+        multiSelect.shouldSelectedMulti(new String[]{"Two", "Three"});
+
+        InputSelect checkboxesSelect = page.widget(FormWidget.class).fields().field("CheckboxesWithDefaultValues").control(InputSelect.class);
+        checkboxesSelect.shouldExists();
+        checkboxesSelect.shouldSelectedMulti(new String[]{"One", "Three", "Four"});
+
+    }
 }

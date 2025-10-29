@@ -1261,10 +1261,15 @@ n2o.api.control.button.badge.image_shape=circle
 
 **Тело**<br/>
 &lt;default-value&gt; - [Значение по умолчанию спискового компонента](#default-value)<br/>
+&lt;default-values&gt; - [Список значений по умолчанию спискового компонента](#default-values)<br/>
 &lt;options&gt; - [Список вариантов для выбора](#options)<br/>
 &lt;filters&gt; - [Предустановленные фильтры выборки спискового компонента](#filters_in_field)
 
-
+:::note
+Нельзя указывать одновременно элементы `<default-value>` и `<default-values>`.
+Для компонентов с единичным выбором используйте `<default-value>`.
+Для компонентов с множественным выбором используйте `<default-values>`.
+ :::
 
 #### &lt;default-value&gt;
 
@@ -1288,7 +1293,37 @@ n2o.api.control.button.badge.image_shape=circle
 </select>
 ```
 
+#### &lt;default-values&gt;
 
+Список значений по умолчанию спискового компонента
+
+Применимо только к списковым компонентам с возможностью множественного выбора.
+
+**Тело**<br/>
+&lt;value&gt; - [Значение по умолчанию в списке значений](#value)<br/>
+
+##### &lt;value&gt;
+
+Значение по умолчанию в списке значений
+
+**Атрибуты**
+
+|Наименование  |Тип     |Описание
+|--------------|--------|-------------------
+|id            |Строка  |Идентификатор
+
+**Пример**
+
+```xml
+<input-select id="items" type="multi" query-id="test">
+    <default-values>
+        <value id="1"/>
+        <value id="2"/>
+    </default-values>
+</input-select>
+```
+
+<Sandbox height={230} projectId="uxcomponents_select_default_values"/>
 
 #### &lt;options&gt;
 

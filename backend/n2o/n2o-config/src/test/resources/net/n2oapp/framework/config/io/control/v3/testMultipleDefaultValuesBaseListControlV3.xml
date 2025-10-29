@@ -19,7 +19,6 @@
               sort-field-id="sortFieldId"
               size="10"
               status-field-id="testStatus">
-    <default-value id="1" name="testName" isTest="true"/>
     <default-values>
         <value id="1"/>
         <value id="3"/>

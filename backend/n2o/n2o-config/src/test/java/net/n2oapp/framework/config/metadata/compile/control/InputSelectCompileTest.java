@@ -115,13 +115,23 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         CompiledQuery compiledQuery = routeAndGet("/selectFetch", CompiledQuery.class);
         assertThat(compiledQuery.getId(), is("testSelectFetch"));
 
+        checkInputSelectInTableFilters(page, models);
+    }
+
+    private static void checkInputSelectInTableFilters(StandardPage page, Models models) {
         Table<?> table = (Table<?>) page.getRegions().get("single").get(1).getContent().get(0);
-        cdp = ((InputSelect) ((StandardField<?>) table.getFilter().getFilterFieldsets().get(0).getRows()
+        ClientDataProvider cdp = ((InputSelect) ((StandardField<?>) table.getFilter().getFilterFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
         assertThat(cdp.getUrl(), is("n2o/data/test"));
         assertThat(cdp.getQuickSearchParam(), is("search"));
         assertThat(cdp.getQueryMapping().get("noRef").getLink(), is("models.filter['testInputSelect_main']"));
         assertThat(cdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
         assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
+
+        List<?> value = (List<?>) models.get("filter['testInputSelect_second'].testId").getValue();
+        Map<String, Object> values = ((DefaultValues) value.get(0)).getValues();
+        assertThat(values.get("id"), is(1));
+        values = ((DefaultValues) value.get(1)).getValues();
+        assertThat(values.get("id"), is(3));
     }
 }

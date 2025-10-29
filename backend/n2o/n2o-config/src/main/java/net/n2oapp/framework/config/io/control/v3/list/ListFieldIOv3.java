@@ -32,19 +32,16 @@ public abstract class ListFieldIOv3<T extends N2oListField> extends StandardFiel
         p.attributeBoolean(e, "search", m::getSearch, m::setSearch);
         p.attributeBoolean(e, "cache", m::getCache, m::setCache);
         p.attributeInteger(e, "size", m::getSize, m::setSize);
-        p.child(e, null, "default-value", m::getDefValue, m::setDefValue, HashMap::new, this::defaultValue);
-        p.children(e, "options", "option", m::getOptions, m::setOptions, HashMap::new, this::option);
+        p.child(e, null, "default-value", m::getDefValue, m::setDefValue, HashMap::new, this::readAttributesToMap);
+        p.children(e, "default-values", "value", m::getDefValuesArray, m::setDefValuesArray, HashMap::new, this::readAttributesToMap);
+        p.children(e, "options", "option", m::getOptions, m::setOptions, HashMap::new, this::readAttributesToMap);
         p.childrenByEnum(e, "filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterTypeEnum.class, this::prefilter);
         p.attribute(e, "status-field-id", m::getStatusFieldId, m::setStatusFieldId);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
     }
 
-    private void option(Element e, Map<String, String> map, IOProcessor p) {
-        p.otherAttributes(e, Namespace.NO_NAMESPACE, map);
-    }
-
-    private void defaultValue(Element e, Map<String, String> map, IOProcessor p) {
+    private void readAttributesToMap(Element e, Map<String, String> map, IOProcessor p) {
         p.otherAttributes(e, Namespace.NO_NAMESPACE, map);
     }
 }

@@ -68,6 +68,10 @@
         {
           "templateId": "versions/7.28/fetch_on_enter",
           "name": "Управление фильтрацией при нажатии на Enter в фильтрах таблицы"
+        },
+        {
+          "templateId": "uxcomponents/select/default_values",
+          "name": "Выпадающий список с мультирежимом с несколькими значениями по умолчанию"
         }
       ]
     },
