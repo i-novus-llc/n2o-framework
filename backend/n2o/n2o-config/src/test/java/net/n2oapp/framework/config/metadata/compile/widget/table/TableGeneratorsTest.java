@@ -13,13 +13,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
-import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
-import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
-import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
-import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
-import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
-import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
+import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
@@ -129,7 +123,7 @@ class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(downloadBtn.getColor(), is("primary"));
         CustomAction download = ((CustomAction) downloadBtn.getAction());
         assertThat(download.getType(), is("n2o/api/utils/export"));
-        assertThat(download.getPayload().getAttributes().get("baseURL"), is("/n2o/export"));
+        assertThat(download.getPayload().getAttributes().get("baseURL"), is("n2o/export"));
         assertThat(download.getPayload().getAttributes().get("configDatasource"), is("table_settings_exportModal_table_settings_tb1_exportModalDs"));
         assertThat(download.getPayload().getAttributes().get("exportDatasource"), is("table_settings_ds1"));
 
@@ -286,7 +280,7 @@ class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(downloadBtn.getColor(), is("primary"));
         CustomAction download = ((CustomAction) downloadBtn.getAction());
         assertThat(download.getType(), is("n2o/api/utils/export"));
-        assertThat(download.getPayload().getAttributes().get("baseURL"), is("/n2o/export"));
+        assertThat(download.getPayload().getAttributes().get("baseURL"), is("n2o/export"));
         assertThat(download.getPayload().getAttributes().get("configDatasource"), is("export_exportModal_export_w1_exportModalDs"));
         assertThat(download.getPayload().getAttributes().get("exportDatasource"), is("export_ds1"));
         assertThat(download.getPayload().getAttributes().get("widgetId"), is("export_w1"));
