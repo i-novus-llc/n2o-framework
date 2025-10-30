@@ -26,16 +26,15 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
 }) => {
     const {
         className, componentClassName, alignment,
-        width, style, ...otherElementAttributes
+        style, ...otherElementAttributes
     } = elementAttributes
     const cellRef = useRef<HTMLTableCellElement>(null)
-    const onMouseDownResizeCell = useMouseDownResize(cellRef)
+    const onMouseDownResizeCell = useMouseDownResize(cellRef, style)
     let extStyle = style
 
-    if (width) {
+    if (otherElementAttributes.width) {
         extStyle = {
-            minWidth: width,
-            maxWidth: width,
+            minWidth: style?.minWidth ?? otherElementAttributes.width,
             ...style,
         }
     }
