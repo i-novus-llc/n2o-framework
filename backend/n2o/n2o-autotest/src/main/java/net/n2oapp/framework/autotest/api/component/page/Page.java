@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.application.NavigationLayoutEnum;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
+import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -60,6 +61,12 @@ public interface Page extends Component {
      * @return Компонент поповер для автотестирования
      */
     Popover popover(String title);
+
+    /**
+     * Возвращает компонент тултип
+     * @return Компонент тултип для автотестирования
+     */
+    Tooltip tooltip();
 
     /**
      * Возвращает компонент оповещение, положение которого совпадает с ожидаемым

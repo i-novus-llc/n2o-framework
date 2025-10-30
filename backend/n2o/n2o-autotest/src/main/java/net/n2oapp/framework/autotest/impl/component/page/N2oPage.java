@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.application.NavigationLayoutEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.application.Footer;
 import net.n2oapp.framework.autotest.api.component.application.Sidebar;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -67,6 +68,11 @@ public class N2oPage extends N2oComponent implements Page {
     @Override
     public Popover popover(String title) {
         return new N2oPopover(element().$$(".popover .popover-header, .popover-body").findBy(Condition.text(title)).parent());
+    }
+
+    @Override
+    public Tooltip tooltip() {
+        return N2oSelenide.component(element().$(".tooltip-container"), Tooltip.class);
     }
 
     @Override
