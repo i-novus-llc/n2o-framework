@@ -240,8 +240,8 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export", "/view/{projectId}/n2o/export/"})
-    public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId, HttpServletRequest request) {
+    @PostMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export", "/view/{projectId}/n2o/export/"})
+    public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId, @RequestBody ExportRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             N2oApplicationBuilder builder = getBuilder(projectId);
@@ -252,9 +252,9 @@ public class ViewController {
             FileGeneratorFactory fileGeneratorFactory = new FileGeneratorFactory(List.of(new CsvFileGenerator()));
             ExportController exportController = new ExportController(builder.getEnvironment(), dataController, fileGeneratorFactory);
 
-            String url = request.getParameter("url");
-            String format = request.getParameter("format");
-            String charset = request.getParameter("charset");
+            String url = request.getUrl();
+            String format = request.getFormat();
+            String charset = request.getCharset();
 
             String dataPrefix = "/n2o/data";
             String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
@@ -263,7 +263,7 @@ public class ViewController {
                 throw new N2oException("Query-параметр запроса пустой");
 
             GetDataResponse dataResponse = exportController.getData(path, params, new UserContext(sandboxContext));
-            Map<String, String> headers = exportController.getHeaders(path, params);
+            Map<String, String> headers = request.getFields();
             ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers);
 
             return ResponseEntity.status(exportResponse.getStatus())

@@ -45,7 +45,7 @@ class ExportControllerTest extends DataControllerTestBase {
         list.add(body3);
 
         ExportController exportController = new ExportController(builder.getEnvironment(), null, factory);
-        HashMap<String, String> headers = new HashMap<>();
+        HashMap<String, String> headers = new LinkedHashMap<>();
         headers.put("id", "Идентификатор");
         headers.put("name", "Наименование");
         headers.put("list", "Список");
@@ -53,10 +53,12 @@ class ExportControllerTest extends DataControllerTestBase {
         ExportResponse export = exportController.export(list, "csv", "UTF-8", headers);
 
         String act = new String(export.getFile(), StandardCharsets.UTF_8);
-        String exp = "\"Идентификатор\";\"Наименование\";\"Список\";\"Тип\"\n" +
-                "1;\"test1\";[1, 2, 3];\"test1\"\n" +
-                "2;\"test2\";[1, 2, 3];\"test2\"\n" +
-                "3;\"test3\";[1, 2, 3];\"test3\"\n";
+        String exp = """
+                "Идентификатор";"Наименование";"Список";"Тип"
+                1;"test1";[1, 2, 3];"test1"
+                2;"test2";[1, 2, 3];"test2"
+                3;"test3";[1, 2, 3];"test3"
+                """;
 
         assertThat(act, is(exp));
         assertThat(export.getCharacterEncoding(), is("UTF-8"));

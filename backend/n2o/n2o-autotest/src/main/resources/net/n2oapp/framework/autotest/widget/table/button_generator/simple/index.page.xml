@@ -4,8 +4,8 @@
     <table selection="none">
         <datasource query-id="data" object-id="data" size="5"/>
         <columns>
-            <column text-field-id="id"/>
-            <column text-field-id="id_ips"/>
+            <column text-field-id="id" label="Идентификатор"/>
+            <column text-field-id="id_ips" label="Идентификатор ИПС"/>
             <column text-field-id="name"/>
             <column text-field-id="region"/>
         </columns>
