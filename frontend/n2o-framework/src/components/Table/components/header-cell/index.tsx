@@ -24,9 +24,21 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
     dragAttributes = null,
     ...rest
 }) => {
-    const { className, componentClassName, alignment, ...otherElementAttributes } = elementAttributes
+    const {
+        className, componentClassName, alignment,
+        width, style, ...otherElementAttributes
+    } = elementAttributes
     const cellRef = useRef<HTMLTableCellElement>(null)
     const onMouseDownResizeCell = useMouseDownResize(cellRef)
+    let extStyle = style
+
+    if (width) {
+        extStyle = {
+            minWidth: width,
+            maxWidth: width,
+            ...style,
+        }
+    }
 
     return (
         <Table.HeaderCell
@@ -35,6 +47,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
             colSpan={colSpan}
             rowSpan={rowSpan}
             align={alignment}
+            style={extStyle}
             {...otherElementAttributes}
             className={classNames(className, { 'n2o-advanced-table-header-text-center': multiHeader, 'drag-header': dragAttributes })}
         >
