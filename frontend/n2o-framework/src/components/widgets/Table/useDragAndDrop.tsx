@@ -203,7 +203,7 @@ export const useDragAndDrop = ({
         containerRectRef.current = containerRect
 
         const offsetX = rect.left - containerRect.left + (container.scrollLeft || 0)
-        const offsetY = rect.top - containerRect.top + (container.scrollTop || 0)
+        const offsetY = 0 // rect.top - containerRect.top + (container.scrollTop || 0)
 
         headerRectsRef.current = Array.from(document.querySelectorAll(`${targetSelector}[${DATA_DRAGGABLE}]`)).map((element) => {
             const rect = element.getBoundingClientRect()
