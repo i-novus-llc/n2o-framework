@@ -39,6 +39,10 @@
         {
           "templateId": "uxcomponents/buttons/clipboard_button",
           "name": "Кнопка копирования данных в буфер обмена"
+        },
+        {
+          "templateId": "uxcomponents/select/default_values",
+          "name": "Выбор нескольких значений по умолчанию в списковых полях"
         }
       ]
     },
@@ -68,10 +72,6 @@
         {
           "templateId": "versions/7.28/fetch_on_enter",
           "name": "Управление фильтрацией при нажатии на Enter в фильтрах таблицы"
-        },
-        {
-          "templateId": "uxcomponents/select/default_values",
-          "name": "Выпадающий список с мультирежимом с несколькими значениями по умолчанию"
         }
       ]
     },

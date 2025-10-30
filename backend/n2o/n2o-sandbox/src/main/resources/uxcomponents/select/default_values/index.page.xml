@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             name="Выпадающий список с мультирежимом с несколькими значениями по умолчанию">
+             name="Выпадающий список с несколькими значениями по умолчанию">
     <form>
         <fields>
             <input-select
