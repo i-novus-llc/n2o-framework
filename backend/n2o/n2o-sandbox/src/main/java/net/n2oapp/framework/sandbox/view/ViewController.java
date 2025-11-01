@@ -72,12 +72,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findFilesByUri;
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
@@ -88,12 +85,11 @@ import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 public class ViewController {
     @Value("${n2o.version:unknown}")
     private String n2oVersion;
-    @Value("${n2o.config.path}")
-    private String basePath;
     @Value("${spring.messages.basename:messages}")
-    private String messageBundleBasename;
+    private String[] messageBundleBasename;
     private static final String DEFAULT_APP_ID = "default";
     private static final String DATA_REQUEST_PREFIX = "/n2o/data";
+    private static final Pattern PROJECT_ID_PATTERN = Pattern.compile("^\\w+$");
 
     private final DataProcessingStack dataProcessingStack;
     private final AlertMessageBuilder messageBuilder;
@@ -235,7 +231,7 @@ public class ViewController {
     @CrossOrigin(origins = "*")
     @GetMapping({"/view/{projectId}/n2o/count/**", "/view/{projectId}/n2o/count", "/view/{projectId}/n2o/count/"})
     public ResponseEntity<Integer> getCount(@PathVariable(value = "projectId") String projectId,
-                        HttpServletRequest request) {
+                                            HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             N2oApplicationBuilder builder = getBuilder(projectId);
@@ -452,6 +448,7 @@ public class ViewController {
     }
 
     private N2oApplicationBuilder getBuilder(String projectId) {
+        validateProjectId(projectId);
         N2oEnvironment env = createEnvironment(projectId);
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
         applicationBuilderConfigurers.forEach(configurer -> configurer.configure(builder));
@@ -516,7 +513,6 @@ public class ViewController {
 
     private N2oEnvironment createEnvironment(String projectId) {
         N2oEnvironment env = new N2oEnvironment();
-        String path = basePath + File.separator + projectId;
 
         TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
         Map<String, String> runtimeProperties = new HashMap<>();
@@ -524,7 +520,7 @@ public class ViewController {
         configurePropertyResolver(runtimeProperties, getApplicationProperties(projectId, templateModel));
 
         env.setSystemProperties(propertyResolver);
-        env.setMessageSource(getMessageSourceAccessor(path));
+        env.setMessageSource(getMessageSourceAccessor(projectId, templateModel));
         env.setContextProcessor(new ContextProcessor(sandboxContext));
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(env);
         env.setNamespaceReaderFactory(readerFactory);
@@ -542,6 +538,11 @@ public class ViewController {
         wsController.setPipeline(N2oPipelineSupport.readPipeline(env));
 
         return env;
+    }
+
+    private void validateProjectId(String projectId) {
+        if (projectId == null || !PROJECT_ID_PATTERN.matcher(projectId).matches())
+            throw new IllegalArgumentException("Некорректный идентификатор проекта");
     }
 
     private void configurePropertyResolver(Map<String, String> runtimeProperties, String applicationPropertyFile) {
@@ -562,21 +563,19 @@ public class ViewController {
         return new N2oControllerFactory(beans);
     }
 
-    private MessageSourceAccessor getMessageSourceAccessor(String projectPath) {
-        File projectFolder = new File(projectPath);
-        ClassLoader loader;
-        try {
-            File[] messageFiles = projectFolder.listFiles(f -> f.getName().contains("messages") && f.getName().endsWith("properties"));
-            if (messageFiles == null || messageFiles.length < 1) {
-                return messageSourceAccessor;
-            }
-            loader = new URLClassLoader(new URL[]{projectFolder.toURI().toURL()});
-        } catch (MalformedURLException e) {
+    private MessageSourceAccessor getMessageSourceAccessor(String projectId, TemplateModel templateModel) {
+        List<FileModel> projectFiles = templateModel == null
+                ? fileStorage.getProjectFiles(projectId)
+                : findResources(templateModel.getTemplateId());
+
+        List<FileModel> messageFiles = projectFiles.stream()
+                .filter(f -> f.getFile().contains("messages") && f.getFile().endsWith("properties"))
+                .toList();
+        if (messageFiles.isEmpty())
             return messageSourceAccessor;
-        }
+
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBundleClassLoader(loader);
-        messageSource.setBasenames(messageBundleBasename.split(","));
+        messageSource.setBasenames(messageBundleBasename);
         messageSource.setDefaultEncoding("UTF-8");
         return new MessageSourceAccessor(messageSource);
     }

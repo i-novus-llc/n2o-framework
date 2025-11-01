@@ -181,7 +181,7 @@
           "name": "Сетка полей"
         },
         {
-          "templateId": "uxcomponents/form/form_horizontal-fields",
+          "templateId": "uxcomponents/form/form_horizontal_fields",
           "name": "Горизонтальные поля"
         }
       ]
