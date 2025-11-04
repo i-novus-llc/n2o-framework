@@ -1,15 +1,5 @@
 @import "@fontsource/exo-2/400";
 
-.table {
-    th {
-        border-top: none;
-    }
-
-    thead th {
-        border-bottom: $table-border-width solid $gray-400;
-    }
-}
-
 // Верстка разделителя пустой таблицы для FF, почему то при collapsed ячейках перестает рисовать border
 @-moz-document url-prefix() {
     .cell.empty_content {

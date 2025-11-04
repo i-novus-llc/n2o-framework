@@ -3,7 +3,6 @@ import React, { ReactNode } from 'react'
 const mnemonicMap = {
     '\n': '&#10;',
     '\t': '&#9;',
-    '\s': ' ',
 }
 
 export function replaceWrappingSymbol(text: string): ReactNode {

@@ -1,4 +1,6 @@
-import React, { useMemo, VFC } from 'react'
+import React, { useMemo, useRef, VFC } from 'react'
+import classNames from 'classnames'
+import { useSticky } from '@i-novus/n2o-components/lib/layouts/Scroll/useSticky'
 
 import { TableWidgetContainerProps } from '../types/props'
 import { TableActionsProvider } from '../provider/TableActions'
@@ -9,7 +11,8 @@ import { EMPTY_ARRAY, EMPTY_OBJECT, NOOP_FUNCTION } from '../../../utils/emptyTy
 
 import { TableHeader } from './TableHeader'
 import { TableBody } from './TableBody'
-import Table from './basic'
+import { ScrollbarRow } from './ScrollbarRow'
+import { useFixedCells } from './useFixedCells'
 
 export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
     tableConfig,
@@ -28,6 +31,8 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
     expandedRows = EMPTY_ARRAY,
     selectedRows = EMPTY_ARRAY,
     filterErrors = EMPTY_OBJECT,
+    scrollPosition = 'bottom',
+    stickyHeader = false,
     ...props
 }) => {
     const { width, height, rowSelection, body, header } = tableConfig
@@ -40,6 +45,12 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
 
         return false
     }, [rowSelection, data, selectedRows])
+    const headerRef = useRef(null)
+    const hasSelection = rowSelection === Selection.Radio || rowSelection === Selection.Checkbox
+    const { cells: fixedCells, colgroup, hasFixedLeft } = useFixedCells({ cells, hasSelection })
+    const colSpan = fixedCells.body.length + (hasSelection ? 1 : 0)
+
+    useSticky(refContainerElem, headerRef)
 
     return (
         <TableRefProps
@@ -47,7 +58,7 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
                 ...props,
                 tableConfig,
                 sorting,
-                cells,
+                cells: fixedCells,
                 isTextWrap,
                 errorComponent,
                 EmptyContent,
@@ -67,22 +78,38 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
                 <div
                     ref={refContainerElem}
                     data-text-wrap={isTextWrap}
-                    className="table-container"
+                    className={
+                        classNames('table-container', {
+                            'sticky-header': stickyHeader,
+                        })
+                    }
                     style={{ width, height }}
                 >
-                    <Table className={className} id={id}>
+                    <table
+                        className={classNames(className, { 'hidden-scrollbar': scrollPosition === 'top' })}
+                        id={id}
+                        cellPadding="0"
+                        cellSpacing="0"
+                    >
+                        {colgroup}
                         <TableHeader
+                            ref={stickyHeader ? headerRef : undefined}
                             sorting={sorting}
                             selection={rowSelection}
+                            selectionFixed={hasFixedLeft}
                             row={header.row}
-                            cells={cells.header}
+                            cells={fixedCells.header}
                             areAllRowsSelected={areAllRowsSelected}
                             validateFilterField={validateFilterField}
                             filterErrors={filterErrors}
+                            scrollbar={scrollPosition === 'top'
+                                ? <ScrollbarRow targetRef={refContainerElem} cellType='th' colSpan={colSpan} />
+                                : null
+                            }
                         />
 
                         {errorComponent ? (
-                            <Table.Cell colSpan={cells.body.length}>{errorComponent}</Table.Cell>
+                            <td colSpan={fixedCells.body.length}>{errorComponent}</td>
                         ) : (
                             <TableBody
                                 focusedRowValue={focusedRowValue}
@@ -90,18 +117,19 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
                                 selectedKey="id"
                                 selectedRows={selectedRows}
                                 selection={rowSelection}
+                                selectionFixed={hasFixedLeft}
                                 expandedRows={expandedRows}
                                 row={body.row}
-                                cells={cells.body}
+                                cells={fixedCells.body}
                                 rowRenderFieldKey="id"
                                 data={data}
                             />
                         )}
 
                         {(!errorComponent && EmptyContent && data.length === 0) && (
-                            <Table.Cell className="empty_content" colSpan={cells.body.length}>{EmptyContent}</Table.Cell>
+                            <td className="empty_content" colSpan={fixedCells.body.length}>{EmptyContent}</td>
                         )}
-                    </Table>
+                    </table>
                 </div>
             </TableActionsProvider>
         </TableRefProps>

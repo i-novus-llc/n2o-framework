@@ -1,4 +1,5 @@
-import React, { ComponentType, memo, useMemo } from 'react'
+import React, { ComponentType, forwardRef, useMemo } from 'react'
+import classNames from 'classnames'
 
 import { Selection } from '../enum'
 import { type ChildrenTableHeaderProps, type TableHeaderProps } from '../types/props'
@@ -6,60 +7,65 @@ import { parseHeaderRows } from '../utils/parseHeaderRows'
 
 import { CheckboxHeaderCell } from './selection/checkbox-header'
 import { TableHeaderCell } from './header-cell'
-import Table from './basic'
 
-export const TableHeader = memo<TableHeaderProps>(({
+export const TableHeader = forwardRef<HTMLTableSectionElement, TableHeaderProps>(({
     selection,
     areAllRowsSelected,
     cells,
     sorting,
     validateFilterField,
     filterErrors,
-}) => {
+    scrollbar,
+    selectionFixed,
+}, ref) => {
     const rows = useMemo(() => parseHeaderRows(cells), [cells])
+    const selectClassName = classNames('cell-selection', { 'sticky-cell sticky-left': selectionFixed })
 
     return (
-        <Table.Header>
+        <thead ref={ref}>
             {rows.map((columns, index) => (
-                <Table.Row>
-                    {selection === Selection.Checkbox && (index === 0) && (
-                        <Table.HeaderCell key={selection} className="cell-selection" rowSpan={rows.length}>
+                <tr>
+                    {(selection === Selection.Checkbox) && (index === 0) && (
+                        // eslint-disable-next-line jsx-a11y/control-has-associated-label
+                        <th key={selection} className={selectClassName} rowSpan={rows.length}>
                             <CheckboxHeaderCell areAllRowsSelected={areAllRowsSelected} />
-                        </Table.HeaderCell>
+                        </th>
                     )}
-                    {selection === Selection.Radio && (index === 0) && (
-                        <Table.HeaderCell key={selection} className="cell-selection" rowSpan={rows.length} />
+                    {(selection === Selection.Radio) && (index === 0) && (
+                        // eslint-disable-next-line jsx-a11y/control-has-associated-label
+                        <th key={selection} className={selectClassName} rowSpan={rows.length} />
                     )}
-                    <>
-                        {columns.map((cell) => {
-                            const { moveMode } = cell
+                    {columns.map((cell) => {
+                        const { moveMode } = cell
 
-                            if (moveMode) {
-                                const Component = cell.component as ComponentType<ChildrenTableHeaderProps>
-
-                                return (
-                                    <Component
-                                        {...cell}
-                                        sorting={sorting}
-                                        validateFilterField={validateFilterField}
-                                        filterErrors={filterErrors}
-                                    />
-                                )
-                            }
+                        if (moveMode) {
+                            const Component = cell.component as ComponentType<ChildrenTableHeaderProps>
 
                             return (
-                                <TableHeaderCell
-                                    key={cell.id}
-                                    sortingDirection={cell.sortingParam ? sorting[cell.sortingParam] : undefined}
-                                    validateFilterField={validateFilterField}
-                                    filterError={filterErrors?.[cell.id]}
+                                <Component
                                     {...cell}
+                                    sorting={sorting}
+                                    validateFilterField={validateFilterField}
+                                    filterErrors={filterErrors}
                                 />
                             )
-                        })}
-                    </>
-                </Table.Row>
+                        }
+
+                        return (
+                            <TableHeaderCell
+                                key={cell.id}
+                                sortingDirection={cell.sortingParam ? sorting[cell.sortingParam] : undefined}
+                                validateFilterField={validateFilterField}
+                                filterError={filterErrors?.[cell.id]}
+                                {...cell}
+                            />
+                        )
+                    })}
+                </tr>
             ))}
-        </Table.Header>
+            {scrollbar}
+        </thead>
     )
 })
+
+TableHeader.displayName = 'TableHeader'

@@ -74,7 +74,8 @@ export class Popup extends React.Component<Props, State> {
             : {}
 
         return (
-            <Dropdown isOpen={isExpanded}
+            <Dropdown
+                isOpen={isExpanded}
                 direction={direction}
                 toggle={this.toggle}
             >

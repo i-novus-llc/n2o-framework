@@ -30,6 +30,9 @@ public class N2oTableMerger extends N2oWidgetMerger<N2oTable> {
             addIfNotNull(ref.getFilters(), source.getFilters(), N2oTable.N2oTableFilters::setItems, N2oTable.N2oTableFilters::getItems);
         }
         setIfNotNull(source::setChildren, source::getChildren, ref::getChildren);
+        setIfNotNull(source::setStickyHeader, source::getStickyHeader, ref::getStickyHeader);
+        setIfNotNull(source::setStickyFooter, source::getStickyFooter, ref::getStickyFooter);
+        setIfNotNull(source::setScrollbarPosition, source::getScrollbarPosition, ref::getScrollbarPosition);
         addIfNotNull(ref, source, N2oTable::setColumns, N2oTable::getColumns);
         return source;
     }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnFixedPositionEnum;
 
 
 /**
@@ -17,4 +18,6 @@ public class AbstractColumn implements IdAware, Compiled {
     private String id;
     @JsonProperty
     private String src;
+    @JsonProperty
+    private ColumnFixedPositionEnum fixed;
 }

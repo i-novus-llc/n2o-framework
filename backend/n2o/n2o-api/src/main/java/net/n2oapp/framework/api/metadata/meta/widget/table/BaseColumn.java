@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnFixedPositionEnum;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 
@@ -34,8 +33,6 @@ public abstract class BaseColumn extends AbstractColumn implements JsonPropertie
     private Boolean enabled;
     @JsonProperty
     private Boolean visibleState;
-    @JsonProperty
-    private ColumnFixedPositionEnum fixed;
     @JsonProperty
     private Map<ValidationTypeEnum, List<Condition>> conditions = new EnumMap<>(ValidationTypeEnum.class);
     @JsonProperty

@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.validation.standard.widget;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.ExportFormatEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oAbstractTableSetting;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oColumnsTableSetting;
@@ -25,7 +25,11 @@ import java.util.function.Function;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
+/**
+ * Валидатор таблицы
+ */
 @Component
 public class TableValidator extends ListWidgetValidator<N2oTable> {
 
@@ -56,6 +60,8 @@ public class TableValidator extends ListWidgetValidator<N2oTable> {
 
             Arrays.stream(source.getColumns())
                     .forEach(col -> p.validate(col, widgetScope));
+
+            validateFixedColumns(source);
         }
 
         validateFilters(source, widgetScope, p);
@@ -64,6 +70,92 @@ public class TableValidator extends ListWidgetValidator<N2oTable> {
         checkUniqueTableSetting(source, N2oColumnsTableSetting.class, "ts:columns");
         checkUniqueTableSetting(source, N2oExportTableSetting.class, "ts:export");
         checkExportTableSettingDefaultFormat(source);
+    }
+
+    private void validateFixedColumns(N2oTable source) {
+        validateLeftFixedColumns(source);
+        validateRightFixedColumns(source);
+        for (N2oAbstractColumn column : source.getColumns()) {
+            validateFixedOnlyOnFirstLevelColumns(column, source.getId());
+        }
+    }
+
+    /**
+     * Валидирует лево-фиксированные колонки
+     */
+    private void validateLeftFixedColumns(N2oTable table) {
+        boolean foundNonFixed = false;
+        N2oAbstractColumn[] columns = table.getColumns();
+        for (N2oAbstractColumn column : columns) {
+            if (column.getFixed() == null || column.getFixed() == ColumnFixedPositionEnum.RIGHT) {
+                foundNonFixed = true;
+            } else if (column.getFixed() == ColumnFixedPositionEnum.LEFT && foundNonFixed) {
+                throw new N2oMetadataValidationException(String.format(
+                        "В таблице %s колонка '%s' c 'fixed=\"left\"' не может находиться после нефиксированных слева колонок",
+                        ValidationUtils.getIdOrEmptyString(table.getId()), getLabel(column))
+                );
+            }
+        }
+    }
+
+    /**
+     * Валидирует право-фиксированные колонки
+     */
+    private void validateRightFixedColumns(N2oTable table) {
+        boolean foundNonFixed = false;
+        N2oAbstractColumn[] columns = table.getColumns();
+        for (int i = columns.length - 1; i >= 0; i--) {
+            if (columns[i].getFixed() == null || columns[i].getFixed() == ColumnFixedPositionEnum.LEFT) {
+                foundNonFixed = true;
+            } else if (columns[i].getFixed() == ColumnFixedPositionEnum.RIGHT && foundNonFixed) {
+                throw new N2oMetadataValidationException(String.format(
+                        "В таблице %s колонка '%s' c 'fixed=\"right\"' не может находиться перед нефиксированными справа колонками",
+                        ValidationUtils.getIdOrEmptyString(table.getId()), getLabel(columns[i]))
+                );
+            }
+        }
+    }
+
+    /**
+     * Получает метку колонки для сообщения об ошибке
+     */
+    private String getLabel(N2oAbstractColumn column) {
+        if (column instanceof N2oBaseColumn baseColumn) {
+            return castDefault(baseColumn.getLabel(), baseColumn.getTextFieldId(), getIdOrEmptyString(column.getId()));
+        } else
+            return getIdOrEmptyString(column.getId());
+    }
+
+
+    /**
+     * Валидирует, что fixed указан только на колонках первого уровня
+     */
+
+    private void validateFixedOnlyOnFirstLevelColumns(N2oAbstractColumn column, String tableId) {
+        if (column instanceof N2oMultiColumn col) {
+            checkChildrenFixed("<multi-column>", col.getChildren(), tableId, getLabel(col));
+        } else if (column instanceof N2oDndColumn col) {
+            checkChildrenFixed("<dnd-column>", col.getChildren(), tableId, getLabel(col));
+        }
+    }
+
+    /**
+     * Проверяет, что у дочерних колонок не указан fixed
+     */
+    private void checkChildrenFixed(String parentColumn, N2oAbstractColumn[] children, String tableId, String parentLabel) {
+        if (children == null) return;
+
+        for (N2oAbstractColumn child : children) {
+            if (child.getFixed() != null) {
+                throw new N2oMetadataValidationException(String.format(
+                        "В таблице %s колонка '%s' не может иметь атрибут 'fixed', так как находится внутри %s '%s'",
+                        ValidationUtils.getIdOrEmptyString(tableId),
+                        getLabel(child),
+                        parentColumn,
+                        parentLabel));
+            }
+            validateFixedOnlyOnFirstLevelColumns(child, tableId);
+        }
     }
 
     private static void checkEmptyToolbar(N2oTable source) {

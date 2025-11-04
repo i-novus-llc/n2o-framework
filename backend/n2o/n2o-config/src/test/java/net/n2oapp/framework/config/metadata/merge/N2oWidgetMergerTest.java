@@ -43,7 +43,7 @@ class N2oWidgetMergerTest extends SourceMergerTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oActionsPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack())
-                .ios(new FormElementIOV5(), new TableElementIOV5())
+                .ios(new FormElementIOV5(), new TableElementIOV5<>())
                 .mergers(new N2oWidgetMerger<>(), new N2oFormMerger(), new N2oTableMerger());
     }
 
@@ -97,6 +97,9 @@ class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(table.getDatasourceId(), is("ds"));
         assertThat(table.getFilters().getDatasourceId(), is("ds_filter"));
         assertThat(table.getFilters().getPlace(), is(FilterPositionEnum.LEFT));
+        assertThat(table.getStickyHeader(), is(false));
+        assertThat(table.getStickyFooter(), is(true));
+        assertThat(table.getScrollbarPosition(), is(ScrollbarPositionTypeEnum.TOP));
 
         N2oAbstractColumn[] columns = table.getColumns();
         assertThat(columns.length, is(2));

@@ -35,6 +35,7 @@ public class DndColumnCompiler<S extends N2oDndColumn> implements BaseSourceComp
         compiled.setSrc(castDefault(source.getSrc(), () -> p.resolve(property("n2o.api.widget.column.dnd.src"), String.class)));
         compiled.setMoveMode(castDefault(source.getMoveMode(), () -> p.resolve(property("n2o.api.widget.column.dnd.move_mode"), MoveModeEnum.class)));
         compiled.setChildren(new ArrayList<>());
+        compiled.setFixed(source.getFixed());
 
         for (N2oAbstractColumn subColumn : source.getChildren())
             compiled.getChildren().add(p.compile(subColumn, context, p));

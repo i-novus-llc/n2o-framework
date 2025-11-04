@@ -3,7 +3,7 @@
        src="testSrc" datasource="ds1"
        class="testClass" selection="radio" visible="true"
        width="300px" height="300px" text-wrap="false" children="expand"
-       auto-select="false" fetch-on-init="false">
+       auto-select="false" fetch-on-init="false" sticky-header="true" sticky-footer="true" scrollbar-position="top">
     <datasource query-id="qtest" object-id="otest" default-values-mode="query" size="10">
         <submit operation-id="update" refresh-datasources="ds1" auto-submit-on="blur" submit-all="true"
                 refresh-on-success="true" message-widget-id="w1" message-on-success="true" message-on-fail="true"
@@ -46,7 +46,7 @@
             <text/>
         </column>
 
-        <filter-column text-field-id="test" label="label" alignment="right" content-alignment="right">
+        <filter-column text-field-id="test" label="label" alignment="right" content-alignment="right" fixed="left">
             <filter>
                 <input-text id="name" label="label"/>
             </filter>
@@ -55,7 +55,7 @@
             </cell>
         </filter-column>
         <multi-column label="test" src="MyTableHeader" class="my-table-header" style="color: red" alignment="right"
-                      width="300"
+                      width="300" fixed="left"
                       visible="true">
             <column text-field-id="test1">
                 <cell>
@@ -76,7 +76,7 @@
             </filter-column>
             <column text-field-id="test5"/>
         </multi-column>
-        <dnd-column move-mode="settings">
+        <dnd-column move-mode="settings" fixed="left">
             <column text-field-id="testDependencies">
                 <dependencies>
                     <visibility model="resolve" datasource="tableWidget"/>

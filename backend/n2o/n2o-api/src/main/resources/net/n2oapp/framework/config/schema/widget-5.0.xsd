@@ -309,6 +309,27 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
+                <xs:attribute name="sticky-header" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Фиксация шапки таблицы при вертикальном скроле</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="sticky-footer" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Фиксация футера таблицы при вертикальном скроле</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="scrollbar-position" default="bottom">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>Расположение горизонтального скрол-бара</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="top"/>
+                            <xs:enumeration value="bottom"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -429,7 +450,9 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseColumnDefinition">
-                <xs:extension base="cell:cells"/>
+                <xs:sequence>
+                    <xs:group ref="cell:cells" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -522,6 +545,11 @@
                 <xs:documentation>
                     Режим перемещения колонок
                 </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="fixed" type="columnFixedPosition">
+            <xs:annotation>
+                <xs:documentation>Прилипание столбца к краю.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

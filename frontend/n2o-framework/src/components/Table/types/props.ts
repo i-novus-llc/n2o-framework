@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, RefObject, TdHTMLAttributes, CSSProperties, ReactNode } from 'react'
+import { FC, RefObject, ReactNode } from 'react'
 
 import { Selection, TableActions } from '../enum'
 import { SortDirection } from '../../../core/datasource/const'
@@ -20,7 +20,7 @@ export interface Validation {
     validationKey: string
 }
 
-interface FieldError {
+type FieldError = {
     message: { severity: Severity, text: string }
     validationClass: 'is-valid' | 'has-warning' | 'is-invalid'
 }
@@ -38,7 +38,7 @@ export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
     actionListener(action: TableActions, payload: any): void
     errorComponent?: ReactNode
     EmptyContent?: ReactNode
-    refContainerElem?: RefObject<T>
+    refContainerElem: RefObject<T>
     cells: {
         body: BodyCell[]
         header: HeaderCell[]
@@ -65,6 +65,8 @@ export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
         CellContainer: FC<CellContainerProps>
     }
     childrenToggleState?: ReactNode
+    scrollPosition?: 'top' | 'bottom'
+    stickyHeader?: boolean
 }
 
 export type TableProps = {
@@ -91,6 +93,7 @@ export type TableBodyProps = {
     expandedRows: TableProps['expandedRows']
     rowRenderFieldKey: TableProps['rowRenderFieldKey']
     data: TableProps['data']
+    selectionFixed?: boolean
 }
 
 export type TableHeaderProps = {
@@ -100,6 +103,8 @@ export type TableHeaderProps = {
     row: TableProps['headerRow']
     validateFilterField: TableWidgetContainerProps['validateFilterField']
     filterErrors?: TableWidgetContainerProps['filterErrors']
+    scrollbar: ReactNode | null
+    selectionFixed?: boolean
 } & Pick<TableProps, 'sorting'>
 
 export interface ChildrenTableHeaderProps {
@@ -203,6 +208,4 @@ export type CellContainerProps = {
     hasExpandedButton: boolean
     isTreeExpanded: boolean
     rowIndex: RowContainerProps['rowIndex']
-    alignment?: TdHTMLAttributes<HTMLTableCellElement>['align']
-    style?: CSSProperties
-} & Omit<BodyCell, 'elementAttributes'> & SwitchCellProps
+} & BodyCell & SwitchCellProps

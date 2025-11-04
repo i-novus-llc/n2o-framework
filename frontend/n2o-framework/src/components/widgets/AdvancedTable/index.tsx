@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { createContext, useContext as useContextSelector } from 'use-context-selector'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
+import { Scrollbar } from '@i-novus/n2o-components/lib/layouts/Scroll/Bar'
 
 import { N2OPagination } from '../Table/N2OPagination'
 import StandardWidget from '../StandardWidget'
@@ -46,7 +47,7 @@ const Widget = ({
     page, sorting, children, hasNext, isInit, setResolve,
     changeColumnParam, columnsState, tableConfig, switchTableParam, resetSettings = NOOP_FUNCTION,
     resolvedFilter, resolvedCells, paginationVisible,
-    dataMapper = defaultDataMapper, components, setFilter, textWrap,
+    dataMapper = defaultDataMapper, components, setFilter, textWrap, layout = {},
 }: AdvancedTableWidgetProps) => {
     const tableContainerElem = useRef(null)
     const [expandedRows, setExpandedRows] = useState([] as string[])
@@ -211,11 +212,19 @@ const Widget = ({
                     toolbar={toolbar}
                     filter={resolvedFilter}
                     className={className}
-                    style={style}
+                    style={{
+                        width: tableConfig.width,
+                        ...style,
+                    }}
                     fetchData={fetchData}
                     loading={loading}
                     pagination={pagination}
                     showCount={showCount}
+                    stickyFooter={layout.stickyFooter}
+                    scrollbar={layout.stickyFooter && layout.scrollbarPosition === 'bottom'
+                        ? <Scrollbar targetRef={tableContainerElem} />
+                        : null
+                    }
                 >
                     {isInit && (
                         <TableContainer
@@ -235,8 +244,14 @@ const Widget = ({
                             validateFilterField={validateFilterField}
                             filterErrors={filterErrors}
                             components={components}
-                            className={classNames(CLASS_NAME, TABLE_SELECTOR)}
+                            className={classNames(
+                                CLASS_NAME,
+                                TABLE_SELECTOR,
+                                { 'hidden-scrollbar': layout.stickyFooter && layout.scrollbarPosition === 'bottom' },
+                            )}
                             id={id}
+                            scrollPosition={layout.scrollbarPosition}
+                            stickyHeader={layout.stickyHeader}
                         />
                     )}
                 </StandardWidget>

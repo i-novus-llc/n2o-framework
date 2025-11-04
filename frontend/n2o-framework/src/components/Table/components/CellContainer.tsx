@@ -6,7 +6,6 @@ import { useResolved } from '../../../core/Expression/useResolver'
 import { CellContainerProps } from '../types/props'
 import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
-import Table from './basic'
 import { ExpandButton } from './ExpandButton'
 
 export const CellContainer = memo<CellContainerProps>((props) => {
@@ -17,8 +16,7 @@ export const CellContainer = memo<CellContainerProps>((props) => {
         isTreeExpanded,
         rowValue,
         rowIndex,
-        alignment,
-        style = EMPTY_OBJECT,
+        elementAttributes = {},
         ...rest
     } = props
     const resolvedProps = useResolved(rest, rest.model, ['toolbar', 'security', 'model', 'content'])
@@ -28,9 +26,10 @@ export const CellContainer = memo<CellContainerProps>((props) => {
     const cellAttributes = cellProps?.elementAttributes
 
     return (
-        <Table.Cell
-            className={rest.id === 'selectionCell' ? 'cell-selection' : ''}
-            align={alignment}
+        <td
+            className={classNames(elementAttributes.className, { 'cell-selection': rest.id === 'selectionCell' })}
+            align={elementAttributes.alignment}
+            style={elementAttributes.style}
         >
             <div className={classNames('cell-content', cellAttributes?.className)}>
                 {cellIndex === 0 && hasExpandedButton && (
@@ -39,9 +38,9 @@ export const CellContainer = memo<CellContainerProps>((props) => {
                         isTreeExpanded={isTreeExpanded}
                     />
                 )}
-                <CellComponent rowValue={rowValue} {...resolvedProps} rowIndex={rowIndex} style={style} />
+                <CellComponent rowValue={rowValue} {...resolvedProps} rowIndex={rowIndex} />
             </div>
-        </Table.Cell>
+        </td>
     )
 })
 

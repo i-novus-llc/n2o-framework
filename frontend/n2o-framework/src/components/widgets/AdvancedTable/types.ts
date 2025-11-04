@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react'
+
 import { type BodyCell, type FilterField, type HeaderCell } from '../../../ducks/table/Table'
 import { Selection } from '../../Table'
 import { ToolbarProps } from '../../buttons/Toolbar'
@@ -67,6 +69,12 @@ export interface AdvancedTableWidgetProps extends Enhancer {
     components: TableWidgetContainerProps['components']
     setFilter: onFilterType,
     textWrap: boolean
+    width?: CSSProperties['width']
+    layout: {
+        scrollbarPosition?: 'top' | 'bottom'
+        stickyHeader?: boolean
+        stickyFooter?: boolean
+    }
 }
 
 export interface AdvancedTableWidgetLocalStorageProps {

@@ -38,11 +38,11 @@ function TopLeftRightPageBody({
         if (timeout) { clearTimeout(timeout) }
 
         timeout = setTimeout(() => {
-            if (needScrollButton && scrollContext?.scrollTop) {
-                setShowScrollButton(scrollContext.scrollTop > 100)
+            if (needScrollButton && scrollContext?.container?.scrollTop) {
+                setShowScrollButton(scrollContext.container?.scrollTop > 100)
             }
         }, 100)
-    }, [needScrollButton, scrollContext.scrollTop])
+    }, [needScrollButton, scrollContext.container?.scrollTop])
 
     const scroll = useCallback(() => {
         if (scrollContext?.scrollTo) {
@@ -54,7 +54,7 @@ function TopLeftRightPageBody({
 
     useEffect(() => {
         scrollEvent()
-    }, [scrollContext.scrollTop, scrollEvent])
+    }, [scrollContext.container?.scrollTop, scrollEvent])
 
     return (
         <DefaultPage metadata={metadata} {...rest}>

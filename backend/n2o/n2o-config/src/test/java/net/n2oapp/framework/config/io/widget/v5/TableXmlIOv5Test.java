@@ -20,7 +20,7 @@ class TableXmlIOv5Test {
     void testTableXmlIOV5() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
 
-        tester.ios(new TableElementIOV5(),
+        tester.ios(new TableElementIOV5<>(),
                         new SetFieldsetElementIOv5(),
                         new InputTextIOv3(),
                         new CloseActionElementIOV2(),

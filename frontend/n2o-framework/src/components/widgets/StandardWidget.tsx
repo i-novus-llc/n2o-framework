@@ -1,14 +1,12 @@
 import React, { Children, useCallback, useMemo, ReactNode, CSSProperties, memo, isValidElement, cloneElement } from 'react'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
+import { useSelector } from 'react-redux'
 
 import { Spinner, SpinnerType } from '../../factoryComponents/Spinner'
 import { Toolbar, type ToolbarProps } from '../buttons/Toolbar'
 import { dataSourceError } from '../../ducks/datasource/selectors'
 import { ErrorContainer } from '../../core/error/Container'
-import { State } from '../../ducks/State'
 import { type ErrorContainerError } from '../../core/error/types'
 import { type Model } from '../../ducks/models/selectors'
 import { type Widget } from '../../ducks/widgets/Widgets'
@@ -46,6 +44,8 @@ export interface Props extends Widget {
     error?: ErrorContainerError
     activeModel?: Model | Model[]
     showCount?: boolean
+    stickyFooter?: boolean
+    scrollbar?: ReactNode
 }
 
 /**
@@ -60,11 +60,13 @@ const StandardWidget = memo(({
     style,
     children,
     loading,
-    error,
     filter = EMPTY_OBJECT as WidgetFilter,
     toolbar = EMPTY_OBJECT,
     pagination = EMPTY_OBJECT,
+    stickyFooter = false,
+    scrollbar,
 }: Props) => {
+    const error = useSelector(dataSourceError(datasource))
     const renderToolbar = useCallback((place: PLACES) => {
         const { [place]: placePagination } = pagination
         const { [place]: placeToolbar } = toolbar
@@ -153,8 +155,13 @@ const StandardWidget = memo(({
                         {childrenWithError}
                     </Spinner>
                 </div>
-                {!!bottomToolbars.length && (
-                    <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar-bottom">
+                {(!!bottomToolbars.length || !!scrollbar) && (
+                    <div className={classNames(
+                        'n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar-bottom',
+                        { 'sticky-footer': stickyFooter },
+                    )}
+                    >
+                        {scrollbar}
                         {bottomToolbars}
                     </div>
                 )}
@@ -168,18 +175,4 @@ const StandardWidget = memo(({
     )
 })
 
-const mapStateToProps = createStructuredSelector<
-    State,
-    Props,
-    { error: ErrorContainerError }
->({
-    error: (state: State, props: Props) => {
-        if (state.datasource[props.datasource]) {
-            return dataSourceError(props.datasource)(state)
-        }
-
-        return null
-    },
-})
-
-export default connect(mapStateToProps)(StandardWidget)
+export default StandardWidget

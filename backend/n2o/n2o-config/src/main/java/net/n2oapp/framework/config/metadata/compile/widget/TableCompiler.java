@@ -102,16 +102,30 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         TableWidgetComponent component = table.getComponent();
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetActions, object, null);
         compileColumns(source, context, p, component, query, object, widgetScope, widgetActions, subModelsScope, tableFiltersScope);
-        component.setWidth(prepareSizeAttribute(source.getWidth()));
+        table.setWidth(prepareSizeAttribute(source.getWidth()));
         component.setHeight(prepareSizeAttribute(source.getHeight()));
-        component.setTextWrap(castDefault(source.getTextWrap(), p.resolve(property("n2o.api.widget.table.text_wrap"), Boolean.class)));
+        component.setTextWrap(castDefault(source.getTextWrap(),
+                () -> p.resolve(property("n2o.api.widget.table.text_wrap"), Boolean.class)));
         component.getBody().setRow(initRows(source, context, p, object, widgetScope, component));
         table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p, widgetScope));
-        table.setChildren(castDefault(source.getChildren(), () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggleEnum.class)));
+        table.setChildren(castDefault(source.getChildren(),
+                () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggleEnum.class)));
         table.setSaveSettings(shouldSaveSettings(source, p));
-        component.setAutoSelect(castDefault(source.getAutoSelect(), () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
-
+        component.setAutoSelect(castDefault(source.getAutoSelect(),
+                () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
+        table.setLayout(initLayout(source, p));
         return table;
+    }
+
+    private AbstractTable.Layout initLayout(N2oTable source, CompileProcessor p) {
+        AbstractTable.Layout layout = new AbstractTable.Layout();
+        layout.setStickyHeader(castDefault(source.getStickyHeader(),
+                () -> p.resolve(property("n2o.api.widget.table.sticky_header"), Boolean.class)));
+        layout.setStickyFooter(castDefault(source.getStickyFooter(),
+                () -> p.resolve(property("n2o.api.widget.table.sticky_footer"), Boolean.class)));
+        layout.setScrollbarPosition(castDefault(source.getScrollbarPosition(),
+                () -> p.resolve(property("n2o.api.widget.table.scrollbar_position"), ScrollbarPositionTypeEnum.class)));
+        return layout;
     }
 
     private TableWidgetComponent.BodyRow initRows(S source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject object, WidgetScope widgetScope, TableWidgetComponent component) {
@@ -145,7 +159,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
      * Метод для создания экземпляра клиентской модели таблицы, должен быть переопределен в подклассах
      */
     protected D constructTable() {
-        return (D) new Table(new TableWidgetComponent());
+        return (D) new Table<>(new TableWidgetComponent());
     }
 
     private void compileColumns(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
@@ -305,7 +319,7 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
 
     private boolean shouldSaveSettings(S source, CompileProcessor p) {
         if (Boolean.FALSE.equals(p.resolve(property("n2o.api.widget.table.save_settings"), Boolean.class)) ||
-            source.getToolbars() == null)
+                source.getToolbars() == null)
             return false;
 
         return Arrays.stream(source.getToolbars())
@@ -323,8 +337,8 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
 
     private boolean isSettingToSave(ToolbarItem item) {
         return item instanceof N2oColumnsTableSetting ||
-               item instanceof N2oResizeTableSetting ||
-               item instanceof N2oWordWrapTableSetting;
+                item instanceof N2oResizeTableSetting ||
+                item instanceof N2oWordWrapTableSetting;
     }
 
     /**

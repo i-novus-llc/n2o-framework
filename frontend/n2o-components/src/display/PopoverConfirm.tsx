@@ -75,7 +75,7 @@ const noop = () => {}
  */
 export function PopoverConfirm({
     className = '',
-    title ='Вы уверены?',
+    title = 'Вы уверены?',
     text = '',
     ok,
     cancel,

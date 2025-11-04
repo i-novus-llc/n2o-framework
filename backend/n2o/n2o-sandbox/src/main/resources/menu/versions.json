@@ -43,6 +43,18 @@
         {
           "templateId": "uxcomponents/select/default_values",
           "name": "Выбор нескольких значений по умолчанию в списковых полях"
+        },
+        {
+          "templateId": "uxcomponents/tables/scroll_h_position",
+          "name": "Расположение горизонтального скролла"
+        },
+        {
+          "templateId": "uxcomponents/tables/fixed_columns_horizontal_scroll",
+          "name": "Фиксация колонок при горизонтальном скролле"
+        },
+        {
+          "templateId": "versions/7.29/sticky_header_footer",
+          "name": "Фиксация шапки и подвала таблицы"
         }
       ]
     },

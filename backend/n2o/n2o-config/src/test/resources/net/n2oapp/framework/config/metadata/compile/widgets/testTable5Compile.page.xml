@@ -35,7 +35,7 @@
             </toolbar>
             <columns>
                 <column text-field-id="id" src="MyTableHeader" class="my-table-header"
-                        style="color: red">
+                        style="color: red" fixed="right">
                     <text format="password" style="margin-left:10px">
                         <switch value-field-id="test">
                             <case value="1">css1</case>
