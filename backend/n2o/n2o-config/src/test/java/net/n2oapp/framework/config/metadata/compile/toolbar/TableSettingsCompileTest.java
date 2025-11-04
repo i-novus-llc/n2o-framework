@@ -124,11 +124,15 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
     }
 
     private static void checkButtons(List<AbstractButton> buttons, Function<AbstractButton, String> labelExtractor) {
-        assertThat(buttons.get(0).getSrc(), is("StandardButton"));
-        assertThat(labelExtractor.apply(buttons.get(0)), is("Обновить"));
+        assertThat(buttons.getFirst().getSrc(), is("StandardButton"));
+        assertThat(buttons.getFirst().getLabel(), is("Обновление"));
+        assertThat(buttons.getFirst().getIcon(), nullValue());
+        assertThat(buttons.getFirst().getHint(), nullValue());
 
         assertThat(buttons.get(1).getSrc(), is("StandardButton"));
-        assertThat(labelExtractor.apply(buttons.get(1)), is("Обновить"));
+        assertThat(buttons.get(1).getLabel(), nullValue());
+        assertThat(buttons.get(1).getIcon(), is("fas fa-sync"));
+        assertThat(buttons.get(1).getHint(), is("Подсказка"));
 
         assertThat(buttons.get(2).getSrc(), is("StandardButton"));
         assertThat(buttons.get(2).getAction(), instanceOf(ShowModal.class));

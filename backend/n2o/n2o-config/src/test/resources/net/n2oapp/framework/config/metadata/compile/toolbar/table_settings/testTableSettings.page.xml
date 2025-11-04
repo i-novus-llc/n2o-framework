@@ -9,8 +9,8 @@
             <column text-field-id="type"/>
         </columns>
         <toolbar>
-            <ts:refresh/>
-            <ts:refresh/>
+            <ts:refresh label="Обновление"/>
+            <ts:refresh icon="fas fa-sync" description="Подсказка"/>
             <ts:export default-format="xlsx"/>
             <ts:columns default-value="id,name,region" locked="id,name"/>
             <ts:filters/>
@@ -19,8 +19,8 @@
             <ts:word-wrap/>
             <ts:reset-settings/>
             <sub-menu>
-                <ts:refresh/>
-                <ts:refresh/>
+                <ts:refresh label="Обновление"/>
+                <ts:refresh icon="fas fa-sync" description="Подсказка"/>
                 <ts:export default-format="xlsx"/>
                 <ts:columns default-value="id,name,region" locked="id,name"/>
                 <ts:filters/>
@@ -31,8 +31,8 @@
                 <menu-item action-id="action1"/>
             </sub-menu>
             <group>
-                <ts:refresh/>
-                <ts:refresh/>
+                <ts:refresh label="Обновление"/>
+                <ts:refresh icon="fas fa-sync" description="Подсказка"/>
                 <ts:export default-format="xlsx"/>
                 <ts:columns default-value="id,name,region" locked="id,name"/>
                 <ts:filters/>
@@ -41,8 +41,8 @@
                 <ts:word-wrap/>
                 <ts:reset-settings/>
                 <sub-menu>
-                    <ts:refresh/>
-                    <ts:refresh/>
+                    <ts:refresh label="Обновление"/>
+                    <ts:refresh icon="fas fa-sync" description="Подсказка"/>
                     <ts:export default-format="xlsx"/>
                     <ts:columns default-value="id,name,region" locked="id,name"/>
                     <ts:filters/>

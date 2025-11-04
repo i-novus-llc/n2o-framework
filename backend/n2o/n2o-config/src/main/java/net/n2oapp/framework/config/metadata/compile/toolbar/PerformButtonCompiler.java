@@ -37,7 +37,8 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
  * Компиляция кнопки
  */
 @Component
-public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, PerformButton> implements MetadataEnvironmentAware {
+public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton> extends BaseButtonCompiler<S, D>
+        implements MetadataEnvironmentAware {
 
     protected ButtonGeneratorFactory buttonGeneratorFactory;
 
@@ -51,15 +52,16 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         buttonGeneratorFactory = environment.getButtonGeneratorFactory();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public PerformButton compile(N2oButton source, CompileContext<?, ?> context, CompileProcessor p) {
+    public D compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
         if (!ArrayUtils.isEmpty(source.getGenerate())) {
             N2oToolbar toolbar = p.getScope(N2oToolbar.class);
 
-            return (PerformButton) generateButtons(source, toolbar, buttonGeneratorFactory, context, p).get(0);
+            return (D) generateButtons(source, toolbar, buttonGeneratorFactory, context, p).get(0);
         }
 
-        PerformButton button = new PerformButton();
+        D button = constructButton();
         initDefaults(source, p);
         compileBase(button, source, p);
         button.setSrc(source.getSrc());
@@ -75,8 +77,14 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         return button;
     }
 
+    @SuppressWarnings("unchecked")
+    protected D constructButton() {
+        return (D) new PerformButton();
+    }
+
+
     @Override
-    protected void initDefaults(N2oButton source, CompileProcessor p) {
+    protected void initDefaults(S source, CompileProcessor p) {
         source.setId(castDefault(source.getId(), source.getActionId()));
         super.initDefaults(source, p);
 
@@ -150,8 +158,8 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
 
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
         boolean autoDisableCondition = DisableOnEmptyModelTypeEnum.AUTO.equals(disableOnEmptyModel) &&
-                                       (ReduxModelEnum.RESOLVE.equals(source.getModel()) || ReduxModelEnum.MULTI.equals(source.getModel())) &&
-                                       parentIsNotCell;
+                (ReduxModelEnum.RESOLVE.equals(source.getModel()) || ReduxModelEnum.MULTI.equals(source.getModel())) &&
+                parentIsNotCell;
 
         if (DisableOnEmptyModelTypeEnum.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
             Condition condition = new Condition();
