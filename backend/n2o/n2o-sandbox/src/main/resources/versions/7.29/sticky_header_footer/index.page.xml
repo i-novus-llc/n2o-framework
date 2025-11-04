@@ -4,7 +4,7 @@
     <table sticky-header="true" sticky-footer="true">
         <datasource query-id="data" size="20"/>
         <columns>
-            <column text-field-id="id" label="№" fixed="left" width="80"/>
+            <column text-field-id="id" label="№" width="80"/>
             <column text-field-id="last_name" label="Фамилия" width="150"/>
             <column text-field-id="first_name" label="Имя" width="150"/>
             <column text-field-id="middle_name" label="Отчество" width="150"/>
