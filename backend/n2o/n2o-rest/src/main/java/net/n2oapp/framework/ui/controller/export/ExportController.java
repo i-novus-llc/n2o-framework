@@ -3,18 +3,18 @@ package net.n2oapp.framework.ui.controller.export;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
-import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
-import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.ui.controller.AbstractController;
 import net.n2oapp.framework.ui.controller.DataController;
+import net.n2oapp.framework.ui.controller.export.format.FileGenerator;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ExportController extends AbstractController {
@@ -35,8 +35,9 @@ public class ExportController extends AbstractController {
     public ExportResponse export(List<DataSet> data, String format, String charset, Map<String, String> headers) {
         ExportResponse response = new ExportResponse();
         String lowerFormat = format.toLowerCase();
-        byte[] fileBytes = fileGeneratorFactory.getGenerator(lowerFormat)
-                .createFile(FILE_NAME, FILES_DIRECTORY_NAME, charset, data, resolveHeaders(data, headers));
+        FileGenerator generator = fileGeneratorFactory.getGenerator(lowerFormat);
+        byte[] fileBytes = generator
+                .createFile(FILE_NAME, FILES_DIRECTORY_NAME, charset, data, new ArrayList<>(headers.values()));
 
         if (fileBytes == null)
             response.setStatus(500);
@@ -120,37 +121,6 @@ public class ExportController extends AbstractController {
         ArrayList<DataSet> dataSets = new ArrayList<>();
         data.getList().forEach(ds -> dataSets.addAll((List<DataSet>) ds.getList(sourceFieldId[0])));
         data.setList(dataSets);
-    }
-
-    public Map<String, String> getHeaders(String path, Map<String, String[]> params) {
-        QueryRequestInfo queryRequestInfo = this.createQueryRequestInfo(path, params, null);
-        return getFieldsNames(queryRequestInfo.getQuery().getDisplayFields());
-    }
-
-    private List<String> resolveHeaders(List<DataSet> data, Map<String, String> headers) {
-        ArrayList<String> resolvedHeaders = new ArrayList<>();
-        if (!data.isEmpty())
-            for (String key : data.get(0).flatKeySet())
-                if (key.contains(".") && !headers.containsKey(key))
-                    resolvedHeaders.add(key);
-                else
-                    resolvedHeaders.add(headers.get(key));
-
-        return resolvedHeaders;
-    }
-
-    private Map<String, String> getFieldsNames(List<AbstractField> fields) {
-        Map<String, String> names = new HashMap<>();
-        for (AbstractField field : fields) {
-            if (field instanceof QueryReferenceField) {
-                names.putAll(getFieldsNames(List.of(((QueryReferenceField) field).getFields())));
-                continue;
-            }
-            QuerySimpleField simpleField = (QuerySimpleField) field;
-            names.put(simpleField.getId(), simpleField.getName());
-        }
-
-        return names;
     }
 
     private String getFileName(String fileFormat) {

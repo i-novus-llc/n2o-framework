@@ -18,7 +18,7 @@ function CardsWidget(props: CardsWidgetProps) {
         id: widgetId, datasource, toolbar,
         disabled, className, style, filter,
         paging, loading, cards, verticalAlign, height,
-        size, count, page, setPage, datasourceModelLength,
+        size, page, setPage, datasourceModelLength, count,
     } = props
     const { place = 'bottomLeft' } = paging
     const { resolveProps } = useContext(FactoryContext)
@@ -33,6 +33,7 @@ function CardsWidget(props: CardsWidgetProps) {
                 count={count}
                 activePage={page}
                 datasource={dataSourceModel}
+                datasourceId={datasource}
                 setPage={setPage}
                 visible={datasourceModelLength > 0}
             />

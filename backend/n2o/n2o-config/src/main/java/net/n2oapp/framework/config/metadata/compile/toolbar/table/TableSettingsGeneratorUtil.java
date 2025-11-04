@@ -3,9 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.toolbar.table;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.action.*;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.DatasourceUtil;
@@ -129,13 +127,13 @@ public class TableSettingsGeneratorUtil {
         N2oButton exportButton = new N2oButton();
         fillButton(exportButton, toolbar.getIsGeneratedForSubMenu(), "export", p);
         exportButton.setActions(new N2oShowModal[]{showModalAction});
-        exportButton.setModel(ReduxModel.filter);
-        N2oButton.EnablingDependency dependency = new N2oButton.EnablingDependency();
+        exportButton.setDisableOnEmptyModel(DisableOnEmptyModelType.FALSE);
+        N2oAbstractButton.EnablingDependency dependency = new N2oAbstractButton.EnablingDependency();
         dependency.setMessage("Недоступно при пустых данных");
         dependency.setValue("this.length > 0");
         dependency.setDatasource(datasourceId);
         dependency.setModel(ReduxModel.datasource);
-        exportButton.setDependencies(new N2oButton.Dependency[]{dependency});
+        exportButton.setDependencies(new N2oAbstractButton.Dependency[]{dependency});
 
         return exportButton;
     }

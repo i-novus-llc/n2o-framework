@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Place;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShowCountType;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 
 import java.util.Map;
 
@@ -41,4 +42,7 @@ public class Pagination implements Compiled {
     private Map<String, String> style;
     @JsonProperty
     private Place place;
+    @JsonProperty
+    private ClientDataProvider countDataProvider;
+
 }

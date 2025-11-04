@@ -129,10 +129,32 @@ description: ""
 то есть они устанавливаются в dependencies проекта, который их использует.
 Поддерживаемые версии react и react-dom "^17.0.0" и "^18.0.0".
 
-## 7.28.9 {#7_28_5}
+## 7.28.5 {#7_28_5}
 
 ### Изменения в настройках {#changes-settings}
 
 - Добавлена boolean настройка `n2o.access.filtering_for_unique`.<br/>
 При значении `true` во все запросы с size=1 будут добавлены фильтры `<object-filters>` из access схемы,
 чего не происходило ранее. По умолчанию значением настройки является `false`.
+
+## 7.28.19 {#7_28_19}
+
+### Изменения в Data API {#changes-data-api}
+
+- Изменен запрос для экспорта данных.
+```text title="Старая версия: GET запрос"
+?format=xlsx&charset=utf8&url=/n2o/data/_ds?page=1%26size=5%26show=name%26show=region
+```
+
+```json title="Новая версия: POST запрос"
+{
+  "format": "xlsx",
+  "charset": "utf8"
+  "url": "/n2o/data/_ds?page=1&size=5"
+  "fields": [
+    "name": "Наименование",
+    "region": "Регион"
+  ]
+}
+```
+Имена колонок будут браться непосредственно из UI. Задавать имена явно в полях query.xml необязательно.

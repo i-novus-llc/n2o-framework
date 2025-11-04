@@ -38,7 +38,7 @@ export const resolveConditions = (
     let resolve = true
 
     for (const { expression, modelLink, message } of conditions) {
-        const context = get(state, modelLink, {})
+        const context = get(state, modelLink) || {}
         const evalResult = evalExpression(expression, context)
 
         resolve = resolve && !!evalResult

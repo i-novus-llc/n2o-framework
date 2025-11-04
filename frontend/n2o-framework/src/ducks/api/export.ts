@@ -4,21 +4,20 @@ import { cancel, select, takeEvery } from 'redux-saga/effects'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import { getTableColumns } from '../table/selectors'
-import { Columns } from '../columns/Columns'
 import { Action } from '../Action'
 import { getModelSelector } from '../models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 import { DataSourceState } from '../datasource/DataSource'
 import { State } from '../State'
 import { Provider, ProviderType } from '../datasource/Provider'
+import { logger } from '../../core/utils/logger'
+import { Column, Columns } from '../columns/Columns'
 
 import { UTILS_PREFIX } from './constants'
 import { EffectWrapper } from './utils/effectWrapper'
-import { escapeUrl } from './utils/escapeUrl'
 
 const ATTRIBUTES_ERROR = 'Ошибка экспорта, payload содержит не все параметры'
 const PARAMS_ERROR = 'Ошибка экспорта, не передан формат или кодировка'
-const SHOW = 'show'
 const PARAM_KEY = 'id'
 const INHERITED_SOURCE_FIELD_ID = 'source_field_id'
 const PARENT_ROW_ID = 'parent_id'
@@ -40,35 +39,33 @@ export const creator = createAction(
     }),
 )
 
-function getShowedColumns(columns: Columns): string[] {
-    const ids = Object.keys(columns) || []
+function getShowedColumnsWithLabels(columns: Column[]): Record<string, string> {
+    const fields: Record<string, string> = {}
 
-    return ids.filter(id => columns[id].visible && columns[id].visibleState)
+    columns
+        .filter(column => column.visible && column.visibleState)
+        .forEach((column) => {
+            const id = column.columnId
+
+            // @INFO Используем label если он указан, иначе id колонки
+            fields[id] = column.label || column.columnId
+        })
+
+    return fields
 }
 
-function createExportUrl(
+function createExportPayload(
     resolvedURL: string,
-    baseURL: string,
     format: string,
     charset: string,
-    showed: string[],
+    fields: Record<string, string>,
 ) {
-    const { pathname } = window.location
-
-    const path = pathname.slice(0, -1)
-    const exportURL = `${path}${baseURL}?format=${format}&charset=${charset}&url=`
-
-    if (!showed.length) {
-        return `${exportURL}${escapeUrl(resolvedURL)}`
+    return {
+        format,
+        charset,
+        url: resolvedURL,
+        fields,
     }
-
-    let url = resolvedURL
-
-    for (const show of showed) {
-        url += `&${SHOW}=${show}`
-    }
-
-    return `${exportURL}${escapeUrl(url)}`
 }
 
 interface ExportConfig {
@@ -94,9 +91,7 @@ export function* effect({ payload }: Action<string, Payload>) {
     const { exportDatasource, configDatasource, baseURL, widgetId, allLimit = 1000 } = payload
 
     if (!exportDatasource || !configDatasource || !baseURL || !widgetId) {
-        // eslint-disable-next-line no-console
-        console.error(ATTRIBUTES_ERROR)
-
+        logger.error(ATTRIBUTES_ERROR)
         yield cancel()
     }
 
@@ -108,9 +103,7 @@ export function* effect({ payload }: Action<string, Payload>) {
     const charset = modelCharset[PARAM_KEY]
 
     if (!format || !charset) {
-        // eslint-disable-next-line no-console
-        console.error(PARAMS_ERROR)
-
+        logger.error(PARAMS_ERROR)
         yield cancel()
     }
 
@@ -143,7 +136,6 @@ export function* effect({ payload }: Action<string, Payload>) {
             const { id }: { id: string | number } = yield select(getModelSelector(`models.${sourceModel}.${sourceDs}`))
 
             extraParams[PARENT_ROW_ID] = id
-
             extraParams[SORTING] = sorting
         }
     }
@@ -160,12 +152,37 @@ export function* effect({ payload }: Action<string, Payload>) {
         },
     )
 
+    /** @INFO Здесь разница с более поздними версиями в том, как хранятся столбцы и заголовки. */
     const columns: Columns = yield select(getTableColumns(widgetId))
-    const showed = getShowedColumns(columns)
-    const exportURL = createExportUrl(resolvedURL, baseURL, format, charset, showed)
 
-    window.open(exportURL, '_blank')
+    const fields = getShowedColumnsWithLabels(Object.values(columns))
+    const exportPayload = createExportPayload(resolvedURL, format, charset, fields)
+
+    try {
+        const response: Response = yield fetch(baseURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(exportPayload),
+        })
+
+        if (response.ok) {
+            const blob: Blob = yield response.blob()
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+
+            a.style.display = 'none'
+            a.href = url
+            a.download = `export.${format}`
+            document.body.appendChild(a)
+            a.click()
+            window.URL.revokeObjectURL(url)
+            document.body.removeChild(a)
+        } else {
+            logger.error(response.statusText)
+        }
+    } catch (error) {
+        logger.error(error)
+    }
 }
 
-// @ts-ignore проблема с типизацией saga
 export const sagas = [takeEvery(creator.type, EffectWrapper(effect))]

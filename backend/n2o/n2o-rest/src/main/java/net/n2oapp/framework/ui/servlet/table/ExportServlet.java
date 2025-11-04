@@ -5,6 +5,7 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.rest.ExportRequest;
 import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.user.UserContext;
@@ -30,10 +31,12 @@ public class ExportServlet extends N2oServlet {
     }
 
     @Override
-    public void safeDoGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String format = req.getParameter("format");
-        String charset = req.getParameter("charset");
-        String url = req.getParameter("url");
+    public void safeDoPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        ExportRequest exportRequest = objectMapper.readValue(req.getInputStream(), ExportRequest.class);
+
+        String format = exportRequest.getFormat();
+        String charset = exportRequest.getCharset();
+        String url = exportRequest.getUrl();
 
         String path = getPath(url, "/n2o/data");
         Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
@@ -41,7 +44,7 @@ public class ExportServlet extends N2oServlet {
             throw new N2oException("Query-параметр запроса пустой");
 
         GetDataResponse dataResponse = controller.getData(path, params, (UserContext) req.getAttribute(USER));
-        Map<String, String> headers = controller.getHeaders(path, params);
+        Map<String, String> headers = exportRequest.getFields();
         ExportResponse exportResponse = controller.export(dataResponse.getList(), format, charset, headers);
 
         resp.setStatus(exportResponse.getStatus());

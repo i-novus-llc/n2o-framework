@@ -39,6 +39,11 @@ public class N2oInputText extends N2oControl implements InputText {
     }
 
     @Override
+    public void insert() {
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "v"));
+    }
+
+    @Override
     public void pressEnter() {
         inputElement().pressEnter();
     }

@@ -89,10 +89,26 @@ function getDeleteConfig(url: string, id: string): DeleteConfig {
     return { deleteUrl: `${url}/${id}` }
 }
 
-export function deleteFile(url: string, id: string) {
-    const { deleteUrl, params = {} } = getDeleteConfig(url, id)
+const DELETE_ERROR = 'Не удалось удалить файл'
 
-    axios.delete(deleteUrl, { params }) as never
+export async function deleteFile(url: string, id: string): Promise<void> {
+    try {
+        const { deleteUrl, params = {} } = getDeleteConfig(url, id)
+
+        await axios.delete(deleteUrl, { params })
+    } catch (error) {
+        if (!axios.isAxiosError(error)) {
+            throw new Error(DELETE_ERROR)
+        }
+
+        if (error.response) {
+            const serverMessage = error.response.data?.message
+
+            throw new Error(serverMessage || `${DELETE_ERROR}. Код ошибки: ${error.response.status}`)
+        }
+
+        throw new Error(`${DELETE_ERROR}: ${error.message}`)
+    }
 }
 
 export function convertSize(size: number, step = 0): string {

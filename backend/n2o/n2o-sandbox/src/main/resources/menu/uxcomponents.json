@@ -811,6 +811,10 @@
         {
           "templateId": "uxcomponents/buttons/field_toolbar",
           "name": "Кнопки в полях"
+        },
+        {
+          "templateId": "uxcomponents/buttons/clipboard_button",
+          "name": "Кнопка копирования данных в буфер обмена"
         }
       ]
     },

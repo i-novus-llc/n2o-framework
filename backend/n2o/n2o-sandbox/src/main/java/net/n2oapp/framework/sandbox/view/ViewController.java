@@ -220,8 +220,28 @@ public class ViewController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export", "/view/{projectId}/n2o/export/"})
-    public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId, HttpServletRequest request) {
+    @GetMapping({"/view/{projectId}/n2o/count/**", "/view/{projectId}/n2o/count", "/view/{projectId}/n2o/count/"})
+    public ResponseEntity<Integer> getCount(@PathVariable(value = "projectId") String projectId,
+                        HttpServletRequest request) {
+        try {
+            ThreadLocalProjectId.setProjectId(projectId);
+            N2oApplicationBuilder builder = getBuilder(projectId);
+
+            String path = getPath(request, "/n2o/count");
+            DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
+
+            GetDataResponse response = dataController.getData(path, request.getParameterMap(),
+                    new UserContext(sandboxContext));
+            return ResponseEntity.status(response.getStatus()).body(response.getPaging().getCount());
+        } finally {
+            sandboxContext.refresh();
+            ThreadLocalProjectId.clear();
+        }
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export", "/view/{projectId}/n2o/export/"})
+    public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId, @RequestBody ExportRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             N2oApplicationBuilder builder = getBuilder(projectId);
@@ -232,9 +252,9 @@ public class ViewController {
             FileGeneratorFactory fileGeneratorFactory = new FileGeneratorFactory(List.of(new CsvFileGenerator()));
             ExportController exportController = new ExportController(builder.getEnvironment(), dataController, fileGeneratorFactory);
 
-            String url = request.getParameter("url");
-            String format = request.getParameter("format");
-            String charset = request.getParameter("charset");
+            String url = request.getUrl();
+            String format = request.getFormat();
+            String charset = request.getCharset();
 
             String dataPrefix = "/n2o/data";
             String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
@@ -243,7 +263,7 @@ public class ViewController {
                 throw new N2oException("Query-параметр запроса пустой");
 
             GetDataResponse dataResponse = exportController.getData(path, params, new UserContext(sandboxContext));
-            Map<String, String> headers = exportController.getHeaders(path, params);
+            Map<String, String> headers = request.getFields();
             ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers);
 
             return ResponseEntity.status(exportResponse.getStatus())
@@ -412,7 +432,7 @@ public class ViewController {
         }
     }
 
-    private N2oApplicationBuilder getBuilder(@PathVariable("projectId") String projectId) {
+    private N2oApplicationBuilder getBuilder(String projectId) {
         N2oEnvironment env = createEnvironment(projectId);
         N2oApplicationBuilder builder = new N2oApplicationBuilder(env);
         applicationBuilderConfigurers.forEach(configurer -> configurer.configure(builder));
@@ -477,7 +497,7 @@ public class ViewController {
 
     private N2oEnvironment createEnvironment(String projectId) {
         N2oEnvironment env = new N2oEnvironment();
-        String path = basePath + "/" + projectId;
+        String path = basePath + File.separator + projectId;
 
         TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
         Map<String, String> runtimeProperties = new HashMap<>();

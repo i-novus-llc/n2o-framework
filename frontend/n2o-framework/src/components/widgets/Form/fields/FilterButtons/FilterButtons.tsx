@@ -1,15 +1,17 @@
 import React from 'react'
 import { ButtonGroup } from 'reactstrap'
+import { isEmptyModel } from '@i-novus/n2o-components/lib/utils/isEmptyModel'
 
-import { isEmptyModel } from '../../../../../utils/isEmptyModel'
+import { type Model } from '../../../../../ducks/models/selectors'
+import { type Props as FilterButtonProps } from '../../../../buttons/FactoryStandardButton'
 
-import { FilterSearchButton, Props as SearchProps } from './FilterSearchButton/FilterSearchButton'
-import { FilterClearButton, Props as ClearProps } from './FilterClearButton/FilterClearButton'
+import { FilterSearchButton } from './FilterSearchButton/FilterSearchButton'
+import { FilterClearButton } from './FilterClearButton/FilterClearButton'
 
 interface Props {
-    search: SearchProps
-    clear: ClearProps
-    model: Record<string, unknown>
+    search: FilterButtonProps
+    clear: FilterButtonProps
+    model: Model
     visible?: boolean
 }
 

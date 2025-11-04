@@ -16,7 +16,7 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     protected String pageItemLocator = ".page-item";
 
-    protected String countButtonLocator = ".pagination__total__button";
+    protected String countButtonLocator = ".pagination__total";
 
     protected String pagesLocator = ".pagination-pages";
 
