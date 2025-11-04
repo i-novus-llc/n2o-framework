@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM openjdk:17.0.2-jdk-oracle
 
 EXPOSE 8080
 
