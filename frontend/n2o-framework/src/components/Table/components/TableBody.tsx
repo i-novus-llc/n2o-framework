@@ -6,9 +6,8 @@ import { BodyCell } from '../../../ducks/table/Table'
 
 import { SelectionCell } from './selection'
 import { Rows } from './Rows'
-import Table from './basic'
 
-export const TableBody: VFC<TableBodyProps> = ({ cells, selection, row, ...otherProps }) => {
+export const TableBody: VFC<TableBodyProps> = ({ cells, selection, row, selectionFixed, ...otherProps }) => {
     const needSelectionComponent = selection === Selection.Radio || selection === Selection.Checkbox
     const resolvedCells = useMemo(() => {
         if (needSelectionComponent) {
@@ -17,23 +16,26 @@ export const TableBody: VFC<TableBodyProps> = ({ cells, selection, row, ...other
                 selection,
                 id: 'selectionCell',
                 fieldId: '',
+                elementAttributes: {
+                    className: selectionFixed ? 'sticky-cell sticky-left' : '',
+                },
             }
 
             return [selectionCellConfig, ...cells]
         }
 
         return cells
-    }, [cells, needSelectionComponent, selection]) as BodyCell[]
+    }, [cells, needSelectionComponent, selection, selectionFixed]) as BodyCell[]
 
     return (
-        <Table.Body>
+        <tbody>
             <Rows
                 {...otherProps}
                 {...row}
                 cells={resolvedCells}
                 selection={selection}
             />
-        </Table.Body>
+        </tbody>
     )
 }
 

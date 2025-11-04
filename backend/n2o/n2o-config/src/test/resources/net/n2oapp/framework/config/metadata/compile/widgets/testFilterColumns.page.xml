@@ -3,7 +3,7 @@
     <table>
         <datasource query-id="testTable5Compile" object-id="utBlank"/>
         <columns>
-            <filter-column text-field-id="name" label="label">
+            <filter-column text-field-id="name" label="label" fixed="right">
                 <filter>
                     <input-text id="name" style="color: red;">
                         <validations>

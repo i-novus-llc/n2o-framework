@@ -14,5 +14,5 @@ public class SimpleColumn extends BaseColumn {
     @JsonProperty
     private Boolean filterable;
     @JsonProperty
-    private StandardField filterField;
+    private StandardField<?> filterField;
 }

@@ -14,4 +14,5 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 public abstract class N2oAbstractColumn implements IdAware, Source {
     private String id;
     private String src;
+    private ColumnFixedPositionEnum fixed;
 }

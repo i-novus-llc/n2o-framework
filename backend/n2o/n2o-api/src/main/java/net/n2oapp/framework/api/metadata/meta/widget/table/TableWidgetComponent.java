@@ -20,8 +20,6 @@ import java.util.Map;
 @Setter
 public class TableWidgetComponent extends WidgetComponent {
     @JsonProperty
-    private String width;
-    @JsonProperty
     private String height;
     @JsonProperty
     private Boolean textWrap;

@@ -15,4 +15,7 @@ public abstract class N2oAbstractTable extends N2oAbstractListWidget {
     private String width;
     private String height;
     private Boolean textWrap;
+    private Boolean stickyHeader;
+    private Boolean stickyFooter;
+    private ScrollbarPositionTypeEnum scrollbarPosition;
 }

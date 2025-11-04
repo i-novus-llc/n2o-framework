@@ -1,6 +1,6 @@
 <table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
        ref-id="childTableMerger" selection="checkbox" height="100px" width="200px" text-wrap="true"
-       children="expand" datasource="ds">
+       children="expand" datasource="ds" sticky-header="false" sticky-footer="true" scrollbar-position="top">
     <filters fetch-on-change="true" fetch-on-enter="false"
              datasource="ds_filter" place="left">
         <input-text id="test1"/>

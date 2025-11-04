@@ -38,6 +38,7 @@ public abstract class BaseColumnCompiler<S extends N2oBaseColumn> implements Bas
         compiled.setVisibleState(true);
         compiled.getElementAttributes().put("className", source.getCssClass());
         compiled.getElementAttributes().put("style", resolveStyles(source.getStyle()));
+        compiled.setFixed(source.getFixed());
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (isLink(source.getVisible())) {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+       id="testInvalidRightFixed">
+    <columns>
+        <multi-column id="fio" label="ФИО" text-field-id="fio">
+            <column id="surname" label="Фамилия" text-field-id="surname"/>
+            <column id="name" label="Имя" text-field-id="name"/>
+        </multi-column>
+        <filter-column fixed="right" label="Возраст" text-field-id="age">
+            <filter>
+                <input-text id="age"/>
+            </filter>
+        </filter-column>
+        <column id="status" label="Статус" text-field-id="status"/>
+    </columns>
+</table>

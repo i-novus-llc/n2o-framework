@@ -2,7 +2,6 @@ import React, { useRef, VFC } from 'react'
 import classNames from 'classnames'
 import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
-import Table from '../basic'
 import { TableHeaderCellProps } from '../../types/props'
 import { useMouseDownResize } from '../../hooks/useMouseDownResize'
 import { DragHandle } from '../../../buttons/ToggleColumn/DragAndDropColumn/DragHandle'
@@ -40,7 +39,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
     }
 
     return (
-        <Table.HeaderCell
+        <th
             data-resizeble={resizable}
             ref={cellRef}
             colSpan={colSpan}
@@ -66,7 +65,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
                 </section>
             </div>
             {resizable && <div className="resizeTrigger" onMouseDown={onMouseDownResizeCell} />}
-        </Table.HeaderCell>
+        </th>
     )
 }
 

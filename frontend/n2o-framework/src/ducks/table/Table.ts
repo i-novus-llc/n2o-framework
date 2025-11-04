@@ -1,4 +1,4 @@
-import { ComponentType, CSSProperties, FC, MouseEvent, VFC } from 'react'
+import { ComponentProps, ComponentType, CSSProperties, FC, MouseEvent, VFC } from 'react'
 
 import { type Condition } from '../toolbar/Toolbar'
 import { Selection } from '../../components/Table'
@@ -20,13 +20,20 @@ export type FilterField = {
     style?: CSSProperties
 }
 
+type ElementAttributes = {
+    className?: string
+    style?: CSSProperties
+}
+
 export interface BodyCell {
     id: string
     label: string
     src: string
     fieldId: string
     component: VFC<Record<string, unknown>>
-    elementAttributes?: Record<string, unknown>
+    elementAttributes?: Record<string, unknown> & ElementAttributes & {
+        alignment?: ComponentProps<'td'>['align']
+    }
     treeExpandedCell?: boolean
     selection: Selection
     children?: HeaderCell['children']
@@ -48,11 +55,9 @@ export type HeaderCell = {
     multiHeader?: boolean;
     id: string
     fieldId: string
-    elementAttributes: {
+    elementAttributes: ElementAttributes & {
         alignment?: 'center' | 'right' | 'left' | 'justify'
-        className?: string
         width?: string
-        style?: CSSProperties
         onMouseDown?(event: MouseEvent): void
         id?: string
         'data-draggable'?: boolean
@@ -67,6 +72,7 @@ export type HeaderCell = {
     sortingParam?: string
     filterField?: FilterField
     format?: string
+    fixed?: 'left' | 'right'
 }
 
 export interface Table {

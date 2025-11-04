@@ -3,7 +3,7 @@
     <table id="table" query-id="testTable5Compile">
         <columns>
             <column text-field-id="test1"/>
-            <dnd-column move-mode="table">
+            <dnd-column move-mode="table" fixed="right">
                 <column text-field-id="test4"/>
                 <filter-column text-field-id="name">
                     <filter>

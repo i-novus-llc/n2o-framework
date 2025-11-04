@@ -65,3 +65,17 @@
 .n2o-standard-widget-layout-toolbar-wrapper {
     row-gap: 0.5rem;
 }
+
+.n2o-standard-widget-layout-toolbar-bottom.sticky-footer {
+    background: #fff;
+    bottom: -1px;
+    position: sticky;
+    padding-bottom: 6px;
+    padding-top: 5px;
+    border-top: $table-border-width solid $gray-400;
+    z-index: 10;
+
+    &:has(.scrollbar-container) {
+        padding-top: 0;
+    }
+}

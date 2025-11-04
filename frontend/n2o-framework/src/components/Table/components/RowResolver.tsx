@@ -71,10 +71,7 @@ export const RowResolver: VFC<RowResolverProps> = ({
             data-deep-level={treeDeepLevel}
             data-selected={isSelectedRow}
         >
-            {cells.map(({
-                elementAttributes,
-                ...cellProps
-            }, index) => (
+            {cells.map((cellProps, index) => (
                 <CellComponentContainer
                     key={cellProps.id}
                     cellIndex={index}
@@ -84,7 +81,6 @@ export const RowResolver: VFC<RowResolverProps> = ({
                     rowValue={rowValue}
                     isTreeExpanded={isTreeExpanded}
                     rowIndex={rowIndex}
-                    {...elementAttributes}
                     {...cellProps}
                 />
             ))}

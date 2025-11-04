@@ -29,7 +29,6 @@ public abstract class N2oBaseColumn extends N2oAbstractColumn implements Extensi
     private Boolean resizable;
     private String sortingFieldId;
     private SortingDirectionEnum sortingDirection;
-    private ColumnFixedPositionEnum fixed;
     private ColumnVisibility[] columnVisibilities;
     private AlignmentEnum alignment;
     private AlignmentEnum contentAlignment;

@@ -3,10 +3,7 @@ package net.n2oapp.framework.config.io.widget.v5;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggleEnum;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPositionEnum;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.ElementIOFactory;
@@ -48,6 +45,9 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.anyChildren(e, "columns", t::getColumns, t::setColumns, columns(p));
         p.child(e, null, "filters", t::getFilters, t::setFilters, N2oTable.N2oTableFilters::new, this::filters);
         p.attributeEnum(e, "children", t::getChildren, t::setChildren, ChildrenToggleEnum.class);
+        p.attributeBoolean(e, "sticky-header", t::getStickyHeader, t::setStickyHeader);
+        p.attributeBoolean(e, "sticky-footer", t::getStickyFooter, t::setStickyFooter);
+        p.attributeEnum(e, "scrollbar-position", t::getScrollbarPosition, t::setScrollbarPosition, ScrollbarPositionTypeEnum.class);
         p.merge(t, getElementName());
     }
 
@@ -63,6 +63,7 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
     private void abstractColumn(Element e, N2oAbstractColumn c, IOProcessor p) {
         p.attribute(e, "src", c::getSrc, c::setSrc);
         p.attribute(e, "id", c::getId, c::setId);
+        p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPositionEnum.class);
     }
 
     private void baseColumn(Element e, N2oBaseColumn c, IOProcessor p) {
@@ -74,7 +75,6 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
         p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, SortingDirectionEnum.class);
         p.attribute(e, WIDTH, c::getWidth, c::setWidth);
         p.attributeBoolean(e, "resizable", c::getResizable, c::setResizable);
-        p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPositionEnum.class);
         p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(N2oBaseColumn.ColumnVisibility.class)
                 .add("visibility", N2oBaseColumn.ColumnVisibility.class, this::dependency));
         p.anyAttributes(e, c::getExtAttributes, c::setExtAttributes);

@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ChildrenToggleEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.FilterPositionEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ScrollbarPositionTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 
@@ -25,6 +26,8 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
     private ChildrenToggleEnum children;
     @JsonProperty
     private Boolean saveSettings;
+    @JsonProperty
+    private String width;
 
     @JsonProperty("table")
     @Override
@@ -32,8 +35,22 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
         return component;
     }
 
+    @JsonProperty
+    private Layout layout;
+
     protected AbstractTable(T component) {
         super(component);
+    }
+
+    @Getter
+    @Setter
+    public static class Layout implements Compiled {
+        @JsonProperty
+        private Boolean stickyHeader;
+        @JsonProperty
+        private Boolean stickyFooter;
+        @JsonProperty
+        private ScrollbarPositionTypeEnum scrollbarPosition;
     }
 
     /**

@@ -2,8 +2,6 @@ import React, { FC, useCallback } from 'react'
 
 import { DataRowProps } from '../types/props'
 
-import Table from './basic'
-
 export const DataRow: FC<DataRowProps> = ({ children, onSelection, onClick, data, ...otherProps }) => {
     const onRowClick = useCallback((data) => {
         if (onSelection) {
@@ -16,11 +14,13 @@ export const DataRow: FC<DataRowProps> = ({ children, onSelection, onClick, data
     }, [onSelection, onClick])
 
     return (
-        <Table.Row
+        <tr
             {...otherProps}
             onClick={() => onRowClick(data)}
         >
             {children}
-        </Table.Row>
+        </tr>
     )
 }
+
+DataRow.displayName = 'DataRow'

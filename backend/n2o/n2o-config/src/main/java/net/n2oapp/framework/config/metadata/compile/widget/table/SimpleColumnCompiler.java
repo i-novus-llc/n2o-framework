@@ -63,7 +63,6 @@ public class SimpleColumnCompiler<S extends N2oSimpleColumn> extends BaseColumnC
         compiled.getElementAttributes().put("width", prepareSizeAttribute(source.getWidth()));
         compiled.setResizable(castDefault(source.getResizable(),
                 () -> p.resolve(property("n2o.api.widget.table.column.resizable"), Boolean.class)));
-        compiled.setFixed(source.getFixed());
         if (source.getAlignment() != null)
             compiled.getElementAttributes().put("alignment", source.getAlignment().getId());
 

@@ -148,6 +148,10 @@
           "name": "Горизонтальный скрол"
         },
         {
+          "templateId": "uxcomponents/tables/scroll_h_position",
+          "name": "Расположение горизонтального скролла"
+        },
+        {
           "templateId": "uxcomponents/tables/scroll_v",
           "name": "Вертикальный скрол"
         },
@@ -162,6 +166,18 @@
         {
           "templateId": "uxcomponents/tables/settings",
           "name": "Настройки таблицы"
+        },
+        {
+          "templateId": "uxcomponents/tables/fixed_columns_horizontal_scroll",
+          "name": "Фиксация колонок при горизонтальном скролле"
+        },
+        {
+          "templateId": "uxcomponents/tables/sticky_header",
+          "name": "Фиксация шапки таблицы"
+        },
+        {
+          "templateId": "uxcomponents/tables/sticky_footer",
+          "name": "Фиксация подвала таблицы"
         }
       ]
     },

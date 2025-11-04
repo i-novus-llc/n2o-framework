@@ -1,89 +1,96 @@
 .table-container {
-    overflow: auto;
-    position: relative;
-}
-
-.n2o-advanced-table .cell {
-    vertical-align: inherit;
-    padding: 0.3rem var(--padding-aside-cell);
-}
-
-.table-container[data-text-wrap="false"] table {
-    table-layout: fixed;
-}
-
-.table-container[data-text-wrap="false"] .cell {
-    white-space: nowrap;
-}
-
-.cell-content {
-    .tooltip {
-        .arrow {
-            overflow: visible !important;
-        }
-    }
-}
-
-.table-container[data-text-wrap="false"] .n2o-advanced-table-header-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.table-container[data-text-wrap="false"] .cell .cell-content * {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Отдельное правило для .link-button */
-.table-container[data-text-wrap="false"] .n2o-advanced-table-header-title .link-button,
-.table-container[data-text-wrap="false"] .cell .cell-content * .link-button {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: contents;
-}
-
-/* Отдельное правило для контейнеров иконок */
-.table-container[data-text-wrap="false"] .n2o-advanced-table-header-title .n2o-icon-container,
-.table-container[data-text-wrap="false"] .n2o-advanced-table-header-title .icon-cell-container,
-.table-container[data-text-wrap="false"] .cell .cell-content * .n2o-icon-container,
-.table-container[data-text-wrap="false"] .cell .cell-content * .icon-cell-container {
-    display: block;
-}
-
-.table-container[data-text-wrap="false"] .cell .cell-content .tooltip .tooltip-inner {
-    white-space: break-spaces;
-}
-
-.table-container .n2o-advanced-table-filter-dropdown-buttons button {
-    justify-content: center;
-}
-
-.n2o-advanced-table {
     --padding-aside-cell: 0.3rem;
     --padding-multiplier: 30px;
 
-    .checkbox-cell {
+    overflow: auto;
+    position: relative;
+
+    .cell-content {
         display: flex;
-        overflow: visible !important;
+        align-items: center;
 
-        .custom-checkbox .custom-control-label {
-            cursor: pointer;
+        .tooltip {
+            .arrow {
+                overflow: visible !important;
+            }
         }
     }
 
-    .cell[data-level] {
-        padding-left: attr(--data-level px);
+    .sticky-cell {
+        position: sticky;
+        background: #fff;
+        z-index: 6;
 
-        &::before {
-            content: attr(--data-level);
+        &.sticky-right {
+            right: 0;
+
+            &:not(.sticky-right ~ .sticky-right) {
+                border-left: $table-border-width solid $gray-400;
+            }
+        }
+
+        &.sticky-left {
+            left: 0;
+
+            &:not(:has(~ .sticky-left)) {
+                border-right: $table-border-width solid $gray-400;
+            }
         }
     }
 
-    .header {
-        .cell {
+    td,
+    th {
+        vertical-align: inherit !important;
+        padding: 0.3rem var(--padding-aside-cell);
+
+        &[align="right"] {
+            .cell-content,
+            .n2o-advanced-table-header-cell-content {
+                justify-content: flex-end;
+            }
+        }
+
+        &[align="center"] {
+            .cell-content,
+            .n2o-advanced-table-header-cell-content {
+                justify-content: center;
+            }
+        }
+
+        &[data-level] {
+            padding-left: attr(--data-level px);
+
+            &::before {
+                content: attr(--data-level);
+            }
+        }
+
+        &.cell-scrollbar {
+            overflow: unset;
+            padding: 0;
+
+            &:empty {
+                display: none;
+            }
+
+            > * {
+                position: sticky;
+                left: 0;
+            }
+        }
+    }
+
+    th {
+        border-top: none;
+    }
+
+    td:first-of-type {
+        padding-left: calc(var(--deep-level) * var(--padding-multiplier) + var(--padding-aside-cell));
+    }
+
+    thead {
+        th {
+            border-bottom: $table-border-width solid $gray-400;
             position: relative;
 
             .resizeTrigger {
@@ -109,11 +116,11 @@
                     z-index: 1;
                 }
             }
-        }
 
-        .cell[data-resizeble="true"]:hover {
-            .resizeTrigger {
-                visibility: visible;
+            &[data-resizeble="true"]:hover {
+                .resizeTrigger {
+                    visibility: visible;
+                }
             }
         }
 
@@ -122,29 +129,28 @@
         }
     }
 
-    .body {
-        .table-row {
+    tbody {
+        tr {
             &[data-focused="true"] {
                 background-color: #ececec;
+
+                .sticky-cell {
+                    background-color: inherit;
+                }
             }
 
             &[data-overlay-hovered="true"],
             &:hover {
                 background-color: #dfdfdf;
+
+                .sticky-cell {
+                    background-color: inherit;
+                }
             }
 
             &[data-has-click="true"] {
                 cursor: pointer;
             }
-
-            > .cell:first-of-type {
-                padding-left: calc(var(--deep-level) * var(--padding-multiplier) + var(--padding-aside-cell));
-            }
-        }
-
-        .cell-content {
-            display: flex;
-            align-items: center;
         }
 
         .cell-selection {
@@ -152,17 +158,87 @@
         }
     }
 
-    .cell[align="right"] {
-        .cell-content,
-        .n2o-advanced-table-header-cell-content {
-            justify-content: flex-end;
+    &[data-text-wrap="false"] {
+        table {
+            table-layout: fixed;
+        }
+
+        td,
+        th {
+            white-space: nowrap;
+
+            .cell-content * {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        .n2o-advanced-table-header-title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Отдельное правило для .link-button */
+        .n2o-advanced-table-header-title .link-button,
+        .cell-content * .link-button {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: contents;
+        }
+
+        /* Отдельное правило для контейнеров иконок */
+        .n2o-advanced-table-header-title .n2o-icon-container,
+        .n2o-advanced-table-header-title .icon-cell-container,
+        .cell-content * .n2o-icon-container,
+        .cell-content * .icon-cell-container {
+            display: block;
+        }
+
+        .cell-content .tooltip .tooltip-inner {
+            white-space: break-spaces;
         }
     }
 
-    .cell[align="center"] {
-        .cell-content,
-        .n2o-advanced-table-header-cell-content {
-            justify-content: center;
+    &.sticky-header {
+        table {
+            border-collapse: separate;
+        }
+
+        thead {
+            position: sticky;
+            z-index: 10;
+            background: #fff;
+
+            tr,
+            th {
+                background: #fff;
+            }
+        }
+    }
+
+    &:has(.hidden-scrollbar) {
+        /* For Firefox */
+        scrollbar-width: none;
+
+        /* For WebKit browsers (Chrome, Safari, Edge) */
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .n2o-advanced-table-filter-dropdown-buttons button {
+        justify-content: center;
+    }
+
+    .checkbox-cell {
+        display: flex;
+        overflow: visible !important;
+
+        .custom-checkbox .custom-control-label {
+            cursor: pointer;
         }
     }
 }

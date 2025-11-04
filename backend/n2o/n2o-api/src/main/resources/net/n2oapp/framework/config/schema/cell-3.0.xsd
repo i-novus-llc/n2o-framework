@@ -22,7 +22,7 @@
     <xs:element name="file-upload" type="fileUploadDefinition"/>
     <xs:element name="cell" type="customDefinition"/>
 
-    <xs:complexType name="cells">
+    <xs:group name="cells">
         <xs:sequence>
             <xs:element name="text" type="textDefinition" minOccurs="0"/>
             <xs:element name="link" type="linkDefinition" minOccurs="0"/>
@@ -44,6 +44,12 @@
                     <xs:documentation>Подключаемая через библиотеку ячейка.</xs:documentation>
                 </xs:annotation>
             </xs:any>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:complexType name="cells">
+        <xs:sequence>
+            <xs:group ref="cells"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -418,7 +424,7 @@
                         <xs:documentation>Формат текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="enabled" type="xs:string"  default="true">
+                <xs:attribute name="enabled" type="xs:string" default="true">
                     <xs:annotation>
                         <xs:documentation>Доступность для редактирования.</xs:documentation>
                     </xs:annotation>
