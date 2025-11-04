@@ -6,8 +6,7 @@ import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.*;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.ExportFormatEnum;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oExportTableSetting;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -30,48 +29,39 @@ public class TableSettingsGeneratorUtil {
 
     private static final String WIDGET_ID = "widgetId";
 
-    public static N2oButton generateColumns(boolean isForSubMenu, CompileProcessor p) {
-        N2oButton columnsButton = new N2oButton();
-        fillButton(columnsButton, isForSubMenu, "columns", p);
-        columnsButton.setSrc(p.resolve(property("n2o.api.generate.button.columns.action.src"), String.class));
-        columnsButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
-        return columnsButton;
+    public static void generateColumns(N2oColumnsTableSetting source, CompileProcessor p) {
+        fillButton(source, source.isGeneratedForSubMenu(), "columns", p);
+        source.setSrc(p.resolve(property("n2o.api.generate.button.columns.action.src"), String.class));
+        source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
     }
 
-    public static N2oButton generateFilters(boolean isForSubMenu, CompileProcessor p) {
+    public static void generateFilters(N2oFiltersTableSetting source, CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String widgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
-        N2oButton filterButton = new N2oButton();
-        fillButton(filterButton, isForSubMenu, "filters", p);
+        fillButton(source, source.isGeneratedForSubMenu(), "filters", p);
         N2oCustomAction filterAction = new N2oCustomAction();
         filterAction.setType(p.resolve(property("n2o.api.generate.button.filters.action.type"), String.class));
         Map<String, String> payload = Collections.singletonMap(WIDGET_ID, widgetId);
         filterAction.setPayload(payload);
-        filterButton.setActions(new N2oCustomAction[]{filterAction});
-        filterButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
-        return filterButton;
+        source.setActions(new N2oCustomAction[]{filterAction});
+        source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
     }
 
-    public static N2oButton generateRefresh(boolean isForSubMenu, CompileProcessor p) {
-        N2oButton refreshButton = new N2oButton();
-        fillButton(refreshButton, isForSubMenu, "refresh", p);
+    public static void generateRefresh(N2oRefreshTableSetting source, CompileProcessor p) {
+        fillButton(source, source.isGeneratedForSubMenu(), "refresh", p);
         N2oRefreshAction refreshAction = new N2oRefreshAction();
-        refreshButton.setActions(new N2oRefreshAction[]{refreshAction});
-        refreshButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
-        return refreshButton;
+        source.setActions(new N2oRefreshAction[]{refreshAction});
+        source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
     }
 
-    public static N2oButton generateResize(boolean isForSubMenu, CompileProcessor p) {
-        N2oButton resizeButton = new N2oButton();
-        fillButton(resizeButton, isForSubMenu, "resize", p);
-        resizeButton.setSrc(p.resolve(property("n2o.api.generate.button.resize.action.src"), String.class));
-        resizeButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
-        return resizeButton;
+    public static void generateResize(N2oResizeTableSetting source, CompileProcessor p) {
+        fillButton(source, source.isGeneratedForSubMenu(), "resize", p);
+        source.setSrc(p.resolve(property("n2o.api.generate.button.resize.action.src"), String.class));
+        source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
     }
 
-    public static N2oButton generateWordWrap(boolean isForSubMenu, CompileProcessor p) {
-        N2oButton wordWrapButton = new N2oButton();
-        fillButton(wordWrapButton, isForSubMenu, "wordwrap", p);
+    public static void generateWordWrap(N2oWordWrapTableSetting source, CompileProcessor p) {
+        fillButton(source, source.isGeneratedForSubMenu(), "wordwrap", p);
         N2oCustomAction wordWrapAction = new N2oCustomAction();
 
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
@@ -79,16 +69,14 @@ public class TableSettingsGeneratorUtil {
         payload.put(WIDGET_ID, widgetScope.getClientWidgetId());
         payload.put("paramKey", p.resolve(property("n2o.api.generate.button.wordwrap.action.param_key"), String.class));
 
-        wordWrapButton.setSrc(p.resolve(property("n2o.api.generate.button.wordwrap.action.src"), String.class));
+        source.setSrc(p.resolve(property("n2o.api.generate.button.wordwrap.action.src"), String.class));
         wordWrapAction.setType(p.resolve(property("n2o.api.generate.button.wordwrap.action.type"), String.class));
         wordWrapAction.setPayload(payload);
-        wordWrapButton.setActions(new N2oCustomAction[]{wordWrapAction});
-        wordWrapButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
-
-        return wordWrapButton;
+        source.setActions(new N2oCustomAction[]{wordWrapAction});
+        source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
     }
 
-    public static N2oButton generateExport(N2oExportTableSetting source, CompileProcessor p) {
+    public static void generateExport(N2oExportTableSetting source, CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String datasourceId = widgetScope == null ? null : widgetScope.getDatasourceId();
         String clientWidgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
@@ -140,39 +128,36 @@ public class TableSettingsGeneratorUtil {
         inheritedDs.setId("formatDs");
         inheritedDs.setSourceDatasource(datasourceId);
         String fetchValue = "return [\n" +
-                            Arrays.stream(format)
-                                    .map(f -> "{'id': '" + f.getId().toLowerCase() + "', 'name': \"" + f.getId().toUpperCase() + "\"}")
-                                    .collect(Collectors.joining(",\n")) +
-                            "\n]";
+                Arrays.stream(format)
+                        .map(f -> "{'id': '" + f.getId().toLowerCase() + "', 'name': \"" + f.getId().toUpperCase() + "\"}")
+                        .collect(Collectors.joining(",\n")) +
+                "\n]";
         inheritedDs.setFetchValue(fetchValue);
         showModalAction.setDatasources(new N2oInheritedDatasource[]{inheritedDs});
 
-        N2oButton exportButton = new N2oButton();
-        fillButton(exportButton, source.isGeneratedForSubMenu(), "export", p);
-        exportButton.setActions(new N2oShowModal[]{showModalAction});
-        exportButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
+        fillButton(source, source.isGeneratedForSubMenu(), "export", p);
+        source.setActions(new N2oShowModal[]{showModalAction});
+        source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
         N2oAbstractButton.EnablingDependency dependency = new N2oAbstractButton.EnablingDependency();
         dependency.setMessage("Недоступно при пустых данных");
         dependency.setValue("this.length > 0");
         dependency.setDatasource(datasourceId);
         dependency.setModel(ReduxModelEnum.DATASOURCE);
-        exportButton.setDependencies(new N2oAbstractButton.Dependency[]{dependency});
-
-        return exportButton;
+        source.setDependencies(new N2oAbstractButton.Dependency[]{dependency});
     }
 
-    public static N2oButton generateReset(boolean isForSubMenu, CompileProcessor p) {
-        N2oButton resetButton = new N2oButton();
-        fillButton(resetButton, isForSubMenu, "reset", p);
-        resetButton.setSrc(p.resolve(property("n2o.api.generate.button.reset.action.src"), String.class));
-        resetButton.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
-        return resetButton;
+    public static void generateReset(N2oResetTableSetting source, CompileProcessor p) {
+        fillButton(source, source.isGeneratedForSubMenu(), "reset", p);
+        source.setSrc(p.resolve(property("n2o.api.generate.button.reset.action.src"), String.class));
+        source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
     }
 
     private static void fillButton(N2oButton button, boolean isForSubMenu,
                                    String key, CompileProcessor p) {
-        String label = p.getMessage(String.format("n2o.api.generate.button.%s.description", key));
+        if (button.getLabel() != null || button.getIcon() != null || button.getDescription() != null)
+            return;
 
+        String label = p.getMessage(String.format("n2o.api.generate.button.%s.description", key));
         if (isForSubMenu)
             button.setLabel(label);
         else {

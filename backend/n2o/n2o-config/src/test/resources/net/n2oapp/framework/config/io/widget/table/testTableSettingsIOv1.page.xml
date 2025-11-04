@@ -3,12 +3,13 @@
              xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0">
     <table>
         <toolbar>
-            <ts:reset-settings/>
-            <ts:refresh/>
-            <ts:refresh/>
+            <ts:reset-settings label="Сбросить" icon="fa fa-times" description="Подсказка"/>
+            <ts:refresh label="Обновить" icon="fa fa-refresh" description="Подсказка"/>
+            <ts:resize label="Изменить количество" icon="fa fa-bars" description="Подсказка"/>
             <ts:export format="csv,xlsx" default-format="xlsx"/>
-            <ts:columns default-value="id,name,region" locked="id,name"/>
-            <ts:filters/>
+            <ts:columns default-value="id,name,region" locked="id,name"
+                        label="Колонки" icon="fa fa-table" description="Подсказка"/>
+            <ts:filters label="Фильтры" icon="fa fa-filter" description="Подсказка"/>
             <button id="id1"/>
             <sub-menu>
                 <ts:refresh/>
@@ -17,13 +18,13 @@
                 <ts:columns default-value="id,name,region" locked="id,name"/>
                 <ts:filters/>
                 <ts:reset-settings/>
-                <menu-item></menu-item>
-                <menu-item></menu-item>
+                <menu-item/>
+                <menu-item/>
                 <ts:resize/>
                 <ts:word-wrap/>
             </sub-menu>
             <ts:resize/>
-            <ts:word-wrap/>
+            <ts:word-wrap label="Перенести" icon="fa fa-exchange" description="Подсказка"/>
             <group>
                 <ts:refresh/>
                 <ts:export/>
@@ -36,8 +37,8 @@
                     <ts:export/>
                     <ts:columns default-value="id,name,region" locked="id,name"/>
                     <ts:filters/>
-                    <menu-item></menu-item>
-                    <menu-item></menu-item>
+                    <menu-item/>
+                    <menu-item/>
                     <ts:resize/>
                     <ts:reset-settings/>
                     <ts:word-wrap/>

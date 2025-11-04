@@ -1,13 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.tablesettings;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oRefreshTableSetting;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
-import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.toolbar.PerformButtonCompiler;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.metadata.compile.toolbar.table.TableSettingsGeneratorUtil.generateRefresh;
@@ -16,7 +14,7 @@ import static net.n2oapp.framework.config.metadata.compile.toolbar.table.TableSe
  * Компиляция пользовательских настроек отображения таблицы
  */
 @Component
-public class RefreshTableSettingCompiler implements BaseSourceCompiler<PerformButton, N2oRefreshTableSetting, CompileContext<?, ?>>, SourceClassAware {
+public class RefreshTableSettingCompiler extends PerformButtonCompiler<N2oRefreshTableSetting, PerformButton> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -25,7 +23,7 @@ public class RefreshTableSettingCompiler implements BaseSourceCompiler<PerformBu
 
     @Override
     public PerformButton compile(N2oRefreshTableSetting source, CompileContext<?, ?> context, CompileProcessor p) {
-        N2oButton button = generateRefresh(source.isGeneratedForSubMenu(), p);
-        return p.compile(button, context, source);
+        generateRefresh(source, p);
+        return super.compile(source, context, p);
     }
 }

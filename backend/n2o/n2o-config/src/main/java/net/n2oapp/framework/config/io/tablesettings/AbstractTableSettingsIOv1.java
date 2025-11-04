@@ -12,5 +12,8 @@ public abstract class AbstractTableSettingsIOv1<T extends N2oAbstractTableSettin
 
     @Override
     public void io(Element e, T m, IOProcessor p) {
+        p.attribute(e, "label", m::getLabel, m::setLabel);
+        p.attribute(e, "icon", m::getIcon, m::setIcon);
+        p.attribute(e, "description", m::getDescription, m::setDescription);
     }
 }

@@ -18,35 +18,35 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="filters" maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="filters" type="tableSettingBaseType" maxOccurs="unbounded" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
                         Отобразить\скрыть фильтры таблицы
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="refresh" maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="refresh" type="tableSettingBaseType" maxOccurs="unbounded" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
                         Обновить таблицу
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="resize" maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="resize" type="tableSettingBaseType" maxOccurs="unbounded" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
                         Изменить количество отображаемых данных в таблице
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="word-wrap" maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="word-wrap" type="tableSettingBaseType" maxOccurs="unbounded" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
                         Перенести по словам текст в ячейках
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="reset-settings" maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="reset-settings" type="tableSettingBaseType" maxOccurs="unbounded" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
                         Сбросить настройки к значениям по умолчанию
@@ -56,37 +56,74 @@
         </xs:sequence>
     </xs:group>
 
-    <xs:complexType name="columnsType">
-        <xs:attribute name="default-value" type="xs:string">
+    <xs:complexType name="tableSettingBaseType">
+        <xs:annotation>
+            <xs:documentation>
+                Базовая настройка таблицы
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="label" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Список колонок (через запятую), выбранных по умолчанию
+                    Заголовок
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="locked" type="xs:string">
+        <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Список заблокированных колонок (через запятую), у которых нельзя изменить состояние
+                    Иконка из https://fontawesome.com/v6/icons/
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="description" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Описание при наведении
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
 
+    <xs:complexType name="columnsType">
+        <xs:complexContent>
+            <xs:extension base="tableSettingBaseType">
+                <xs:attribute name="default-value" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Список колонок (через запятую), выбранных по умолчанию
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="locked" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Список заблокированных колонок (через запятую), у которых нельзя изменить состояние
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="exportType">
-        <xs:attribute name="format" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Список доступных форматов (через запятую)
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="default-format" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Формат по умолчанию
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
+        <xs:complexContent>
+            <xs:extension base="tableSettingBaseType">
+                <xs:attribute name="format" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Список доступных форматов (через запятую)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default-format" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Формат по умолчанию
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 </xs:schema>
