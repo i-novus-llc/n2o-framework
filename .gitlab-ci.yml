@@ -67,6 +67,6 @@ deploy story stand:
 
 deploy stable stand:
   variables:
-    K8S_NAMESPACE: "n2o-framework"
+    K8S_NAMESPACE: "n2o-framework-b"
     K8S_INGRESS_HOST: "7-28-n2o.i-novus.ru"
     HELM_RELEASE: "n2o-framework-7-28"
