@@ -158,6 +158,11 @@
         }
     }
 
+    table {
+        // из bootstrap тянется collapse, который ломает бордеры у position:sticky элементов таблицы
+        border-collapse: separate !important;
+    }
+
     &[data-text-wrap="false"] {
         table {
             table-layout: fixed;
@@ -203,10 +208,6 @@
     }
 
     &.sticky-header {
-        table {
-            border-collapse: separate;
-        }
-
         thead {
             position: sticky;
             z-index: 10;
