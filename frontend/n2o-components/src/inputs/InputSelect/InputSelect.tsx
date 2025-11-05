@@ -209,7 +209,8 @@ export class InputSelect extends React.Component<Props, State> {
     removeSelectedItem = (item: TOption) => {
         const { onChange } = this.props
         const { value: stateValue } = this.state
-        const value = stateValue?.filter(i => i.id !== item.id)
+        /** @INFO преобразование из за особенности селектов, id могут приходить id = 1 || id = '1' */
+        const value = stateValue?.filter(i => String(i.id) !== String(item.id))
 
         this.setState({ value }, () => onChange(value || null))
     }
