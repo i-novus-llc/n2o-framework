@@ -137,4 +137,12 @@ class ButtonValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/button/testOnFailActionWithoutInvoke.page.xml"));
         assertEquals("Задано действие <on-fail> при отсутствующем действии <invoke>", exception.getMessage());
     }
+
+    @Test
+    void testMultiActionWithClose() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/button/testMultiActionWithClose.page.xml"));
+        assertEquals("После действия <close> не должно быть других действий", exception.getMessage());
+    }
 }

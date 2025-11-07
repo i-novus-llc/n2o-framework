@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkCloseInMultiAction;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
 
@@ -48,6 +49,7 @@ public class TableValidator extends ListWidgetValidator<N2oTable> {
         if (source.getRows() != null && source.getRows().getRowClick() != null) {
             Arrays.stream(source.getRows().getRowClick().getActions()).forEach(item -> p.validate(item, widgetScope));
             checkOnFailAction(source.getRows().getRowClick().getActions());
+            checkCloseInMultiAction(source.getRows().getRowClick().getActions());
         }
 
         if (source.getColumns() != null) {

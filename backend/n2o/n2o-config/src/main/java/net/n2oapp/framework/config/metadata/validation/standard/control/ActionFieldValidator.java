@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.control.N2oActionField;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkCloseInMultiAction;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
 
 @Component
@@ -21,6 +22,7 @@ public class ActionFieldValidator implements SourceValidator<N2oActionField>, So
     public void validate(N2oActionField source, SourceProcessor p) {
         if (source.getActions() != null) {
             checkOnFailAction(source.getActions());
+            checkCloseInMultiAction(source.getActions());
         }
     }
 }

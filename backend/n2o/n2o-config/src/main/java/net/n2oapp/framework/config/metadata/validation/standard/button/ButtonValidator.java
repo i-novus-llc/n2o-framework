@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkCloseInMultiAction;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
 
 /**
@@ -27,6 +28,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
     public void validate(N2oButton source, SourceProcessor p) {
         checkValidateDependenciesDatasource(source, p);
         checkOnFailAction(source.getActions());
+        checkCloseInMultiAction(source.getActions());
     }
 
     /**
@@ -34,7 +36,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
      *
      * @param source Исходная модель кнопки
      */
-    private void checkValidateDependenciesDatasource(N2oButton source, SourceProcessor p) {
+    private static void checkValidateDependenciesDatasource(N2oButton source, SourceProcessor p) {
         if (source.getDependencies() != null) {
             for (N2oAbstractButton.Dependency dependency : source.getDependencies()) {
                 if (dependency.getDatasource() != null) {
@@ -46,7 +48,7 @@ public class ButtonValidator implements SourceValidator<N2oButton>, SourceClassA
         }
     }
 
-    private String getLabelOrId(Button button) {
+    private static String getLabelOrId(Button button) {
         return ValidationUtils.getIdOrEmptyString(button.getLabel() != null ? button.getLabel() : button.getId());
     }
 }

@@ -21,8 +21,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
-import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.*;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
@@ -36,8 +35,10 @@ public abstract class WidgetValidator<T extends N2oWidget> implements SourceVali
         checkActionIds(source, pageActions, p);
         MetaActions allMetaActions = getAllMetaActions(pageActions, source.getActions(), p);
         if (source.getActions() != null)
-            Stream.of(source.getActions()).forEach(actionbar ->
-                    checkOnFailAction(actionbar.getN2oActions()));
+            Stream.of(source.getActions()).forEach(actionbar -> {
+                checkOnFailAction(actionbar.getN2oActions());
+                checkCloseInMultiAction(actionbar.getN2oActions());
+            });
 
         ComponentScope componentScope = new ComponentScope(source);
         if (source.getDatasource() != null) {
