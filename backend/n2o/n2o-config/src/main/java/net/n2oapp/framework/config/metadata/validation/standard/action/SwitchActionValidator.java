@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkCloseInMultiAction;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailActionNotExist;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
@@ -40,6 +41,7 @@ public class SwitchActionValidator extends TypedMetadataValidator<N2oSwitchActio
         source.getValueCases().forEach(this::checkValue);
         Arrays.stream(cases).forEach(c -> {
             checkOnFailActionNotExist(c.getActions(), "<switch>");
+            checkCloseInMultiAction(c.getActions());
             p.validate(c);
         });
     }

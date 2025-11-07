@@ -85,4 +85,12 @@ class MenuItemValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/region/nav/testWrongTarget.page.xml"));
         assertEquals("В элементе меню <link> при абсолютном пути (http\\https) не может быть задан target=\"application\"", exception.getMessage());
     }
+
+    @Test
+    void testMultiActionWithClose() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/region/nav/testMultiActionWithClose.page.xml"));
+        assertEquals("После действия <close> не должно быть других действий", exception.getMessage());
+    }
 }

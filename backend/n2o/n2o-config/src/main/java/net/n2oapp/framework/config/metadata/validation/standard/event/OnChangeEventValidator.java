@@ -9,6 +9,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkCloseInMultiAction;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
 
 /**
@@ -30,5 +31,6 @@ public class OnChangeEventValidator extends TypedMetadataValidator<N2oOnChangeEv
         if (ArrayUtils.isEmpty(source.getActions()) && source.getActionId() == null)
             throw new N2oMetadataValidationException(String.format("В событии <on-change> %s не заданы действия", ValidationUtils.getIdOrEmptyString(source.getId())));
         checkOnFailAction(source.getActions());
+        checkCloseInMultiAction(source.getActions());
     }
 }

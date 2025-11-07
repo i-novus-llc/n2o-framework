@@ -10,7 +10,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MultiActionValidatorTest extends SourceValidationTestBase {
+/**
+ * Тестирование валидации if
+ */
+class OnFailActionValidatorTest extends SourceValidationTestBase {
 
     @Override
     @BeforeEach
@@ -26,18 +29,10 @@ class MultiActionValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testDatasourceExistence() {
+    void testMultiActionWithClose() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/alert/testAlertActionDatasourceExistence.page.xml"));
-        assertEquals("Действие <alert> ссылается на несуществующий источник данных 'ds'", exception.getMessage());
-    }
-
-    @Test
-    void testColor() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/action/alert/testAlertActionColor.page.xml"));
-        assertEquals("Действие <alert> использует недопустимое значение атрибута color=\"red\"", exception.getMessage());
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/on_fail/testMultiActionWithClose.page.xml"));
+        assertEquals("После действия <close> не должно быть других действий", exception.getMessage());
     }
 }

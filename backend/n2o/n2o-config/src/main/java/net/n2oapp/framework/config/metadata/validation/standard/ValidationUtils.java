@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.validation.standard;
 
 import net.n2oapp.framework.api.metadata.action.N2oAction;
+import net.n2oapp.framework.api.metadata.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.action.N2oOnFailAction;
 import net.n2oapp.framework.api.metadata.action.ifelse.N2oConditionBranch;
@@ -24,14 +25,12 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Nonnull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.config.util.StylesResolver.camelToSnake;
+import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
  * Утилиты проверки метаданных
@@ -263,6 +262,23 @@ public final class ValidationUtils {
                 if (Stream.of(actions).noneMatch(N2oInvokeAction.class::isInstance)) {
                     throw new N2oMetadataValidationException("Задано действие <on-fail> при отсутствующем действии <invoke>");
                 }
+            }
+        }
+    }
+
+    public static void checkCloseInMultiAction(N2oAction[] actions) {
+        if (isEmpty(actions))
+            return;
+        int actionsSize = actions.length;
+        for (int i = 0; i < actionsSize; i++) {
+            N2oAction action = actions[i];
+            if (action instanceof N2oCloseAction) {
+                Arrays.stream(actions, i + 1, actionsSize)
+                        .filter(a -> !(a instanceof N2oCloseAction || a instanceof N2oOnFailAction))
+                        .findFirst()
+                        .ifPresent(invalidAction -> {
+                            throw new N2oMetadataValidationException("После действия <close> не должно быть других действий");
+                        });
             }
         }
     }

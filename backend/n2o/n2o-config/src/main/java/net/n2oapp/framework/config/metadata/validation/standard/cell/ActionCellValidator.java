@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkCloseInMultiAction;
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
 
 @Component
@@ -15,6 +16,7 @@ public class ActionCellValidator implements SourceValidator<N2oActionCell>, Sour
     @Override
     public void validate(N2oActionCell source, SourceProcessor p) {
         checkOnFailAction(source.getActions());
+        checkCloseInMultiAction(source.getActions());
     }
 
     @Override

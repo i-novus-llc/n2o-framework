@@ -35,4 +35,12 @@ class ConditionBranchActionValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/if_branch/testOnFailActionNotExist.page.xml"));
         assertEquals("Действие <on-fail> нельзя использовать в операторе if-else", exception.getMessage());
     }
+
+    @Test
+    void testMultiActionWithClose() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/if_branch/testMultiActionWithClose.page.xml"));
+        assertEquals("После действия <close> не должно быть других действий", exception.getMessage());
+    }
 }
