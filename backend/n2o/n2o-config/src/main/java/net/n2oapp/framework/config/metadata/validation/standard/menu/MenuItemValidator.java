@@ -14,6 +14,7 @@ import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkCloseInMultiAction;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
 
 /**
  * Валидация элементов меню
@@ -30,6 +31,7 @@ public class MenuItemValidator implements SourceValidator<N2oAbstractMenuItem>, 
     public void validate(N2oAbstractMenuItem source, SourceProcessor p) {
         if (source instanceof N2oMenuItem item) {
             checkDatasource(item, p, "menu-item");
+            checkOnFailAction(item.getActions());
             checkCloseInMultiAction(item.getActions());
             checkMenuItem(item);
         } else if (source instanceof N2oLinkMenuItem item) {
