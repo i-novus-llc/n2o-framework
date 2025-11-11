@@ -49,24 +49,19 @@ public class FileCheckerController {
                 response.getErrors().add(e.getMessage());
             }
         }
-
-        if (response.getErrors().isEmpty()) {
-            response.setSuccess(true);
-        } else {
-            response.setSuccess(false);
-        }
+        response.setSuccess(response.getErrors().isEmpty());
 
         return ResponseEntity.ok(response);
     }
 
-    private N2oApplicationBuilder getBuilder() {
+    protected N2oApplicationBuilder getBuilder() {
         N2oEnvironment environment = new N2oEnvironment();
         environment.setNamespacePersisterFactory(new PersisterFactoryByMap());
         environment.setNamespaceReaderFactory(new ReaderFactoryByMap(environment));
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.addBasenames("n2o_api_messages", "n2o_api_messages", "n2o_config_messages", "test_messages", "messages");
         messageSource.setDefaultEncoding("UTF-8");
-        Locale locale = new Locale("ru");
+        Locale locale = Locale.forLanguageTag("ru");
         LocaleContextHolder.setLocale(locale);
         environment.setMessageSource(new MessageSourceAccessor(messageSource));
 
