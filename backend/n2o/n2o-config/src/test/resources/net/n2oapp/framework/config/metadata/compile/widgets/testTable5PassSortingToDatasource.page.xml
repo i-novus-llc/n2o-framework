@@ -7,12 +7,18 @@
         <table datasource="ds1">
             <columns>
                 <column text-field-id="name" sorting-direction="desc"/>
+                <dnd-column>
+                    <column text-field-id="orgName" sorting-direction="desc"/>
+                </dnd-column>
             </columns>
         </table>
         <table>
             <datasource/>
             <columns>
                 <column text-field-id="age" sorting-direction="asc"/>
+                <dnd-column>
+                    <column text-field-id="orgName" sorting-direction="asc"/>
+                </dnd-column>
             </columns>
         </table>
     </regions>

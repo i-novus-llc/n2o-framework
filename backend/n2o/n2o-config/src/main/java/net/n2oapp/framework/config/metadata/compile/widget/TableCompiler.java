@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
@@ -17,7 +16,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oAbstractColumn;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oColumnsTableSetting;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oResizeTableSetting;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oWordWrapTableSetting;
@@ -38,7 +36,7 @@ import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.register.route.RouteUtil;
+import net.n2oapp.framework.config.metadata.compile.widget.table.SortingsScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -168,21 +166,12 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         if (source.getColumns() == null)
             return;
         List<AbstractColumn> columns = new ArrayList<>();
-        Map<String, String> sortings = new HashMap<>();
+        SortingsScope sortings = new SortingsScope();
         IndexScope columnIndex = new IndexScope();
         CellsScope cellsScope = new CellsScope(new ArrayList<>());
 
         for (N2oAbstractColumn column : source.getColumns()) {
-            columns.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes));
-            if (column instanceof N2oBaseColumn baseColumn && baseColumn.getSortingDirection() != null) {
-                String fieldId = castDefault(baseColumn.getSortingFieldId(), baseColumn.getTextFieldId());
-                if (fieldId == null)
-                    throw new N2oException(String.format("В колонке \"<column>\" c 'id=%s' задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'",
-                            baseColumn.getId()));
-                sortings.put(RouteUtil.normalizeParam(fieldId),
-                        baseColumn.getSortingDirection().toString().toUpperCase()
-                );
-            }
+            columns.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, sortings, scopes));
         }
         component.getHeader().setCells(columns);
         compileColumnsTableSetting(source.getToolbars(), component.getHeader());

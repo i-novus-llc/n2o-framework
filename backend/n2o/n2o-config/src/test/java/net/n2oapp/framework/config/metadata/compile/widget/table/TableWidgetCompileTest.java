@@ -557,12 +557,14 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testTable5PassSortingToDatasource"));
 
         AbstractDatasource ds1 = page.getDatasources().get("testTable5PassSortingToDatasource_ds1");
-        assertThat(ds1.getSorting().size(), is(1));
+        assertThat(ds1.getSorting().size(), is(2));
         assertThat(ds1.getSorting().get("name"), is("DESC"));
+        assertThat(ds1.getSorting().get("orgName"), is("DESC"));
 
         AbstractDatasource inlineDatasource = page.getDatasources().get("testTable5PassSortingToDatasource_w2");
-        assertThat(inlineDatasource.getSorting().size(), is(1));
+        assertThat(inlineDatasource.getSorting().size(), is(2));
         assertThat(inlineDatasource.getSorting().get("age"), is("ASC"));
+        assertThat(inlineDatasource.getSorting().get("orgName"), is("ASC"));
     }
 
     @Test
