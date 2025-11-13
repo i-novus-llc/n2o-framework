@@ -42,7 +42,7 @@ export const N2OPagination = (props: Props) => {
     const filterModel = getModelByPrefixAndNameSelector(ModelPrefix.filter, datasourceId)(state)
 
     const filterDependency = useMemo(() => {
-        return filterModel ? JSON.stringify(filterModel) : null
+        return !isEmpty(filterModel) ? JSON.stringify(filterModel) : null
     }, [filterModel])
 
     const { getComponent } = useContext(FactoryContext)
@@ -73,9 +73,23 @@ export const N2OPagination = (props: Props) => {
         }
     }, [loading, count, propShowCount])
 
-    useEffect(() => {
-        if (filterDependency !== null) { setCount(null) }
-    }, [filterDependency])
+    /** @INFO для кейса получение кол-ва записей COUNT_BY_REQUEST с фильтрацией
+     *  после фильтрации устанавливает count => null, для отображение count request кнопки
+     *  иначе отобразится последнее полученное кол-во записей */
+    useEffect(
+        () => {
+            if (
+                propShowCount !== COUNT_BY_REQUEST ||
+                !filterModel ||
+                count === null
+            ) {
+                return
+            }
+
+            setCount(null)
+        },
+        [filterDependency, filterModel],
+    )
 
     useEffect(() => {
         if (!isNil(propsCount)) { setCount(propsCount) }
