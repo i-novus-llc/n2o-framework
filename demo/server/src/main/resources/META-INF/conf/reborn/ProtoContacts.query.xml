@@ -28,12 +28,12 @@
     <fields>
         <field id="id" mapping="['id']" select-expression="ic.id" domain="integer"/>
         <field id="individualId" mapping="['indiv_id']" select-expression="ic.indiv_id as indiv_id" domain="integer"/>
-        <field id="value" mapping="['value']" select-expression="ic.value"
+        <field id="value" mapping="['value']" select-expression="ic.&quot;value&quot;"
                domain="string" name="${value}"
-               sorting-expression="ic.value"/>
-        <field id="email" mapping="['value']" select-expression="ic.value"
+               sorting-expression="ic.&quot;value&quot;"/>
+        <field id="email" mapping="['value']" select-expression="ic.&quot;value&quot;"
                domain="string" name="${email}"/>
-        <field id="phone" mapping="['value']" select-expression="ic.value"
+        <field id="phone" mapping="['value']" select-expression="ic.&quot;value&quot;"
                domain="string" name="${phone}"/>
         <field id="type.id" mapping="['type_id']" select-expression="c.id as type_id"
                domain="integer"/>

@@ -89,8 +89,8 @@ class DataTest {
         assertThat(result.getPaging().getSize(), is(1));
         assertThat(result.getPaging().getPage(), is(1));
         assertThat(result.getList().size(), is(1));
-        assertThat(result.getList().get(0).get("id"), is(3));
-        assertThat(result.getList().get(0).get("value"), is("+79655000022"));
+        assertThat(result.getList().getFirst().get("id"), is(3));
+        assertThat(result.getList().getFirst().get("value"), is("+79655000022"));
     }
 
     @Test
