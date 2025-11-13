@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget.table;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -11,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -52,6 +54,19 @@ public abstract class BaseColumnCompiler<S extends N2oBaseColumn> implements Bas
             compiled.getConditions().get(ValidationTypeEnum.VISIBLE).add(condition);
         } else {
             compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        }
+
+        if (source.getSortingDirection() != null) {
+            SortingsScope sortingsScope = p.getScope(SortingsScope.class);
+            if (sortingsScope != null) {
+                String fieldId = castDefault(source.getSortingFieldId(), source.getTextFieldId());
+                if (fieldId == null)
+                    throw new N2oException(String.format("В колонке \"<column>\" c 'id=%s' задан атрибут 'sorting-direction', но не указано поле сортировки. Задайте 'sorting-field-id' или 'text-field-id'",
+                            source.getId()));
+                sortingsScope.put(RouteUtil.normalizeParam(fieldId),
+                        source.getSortingDirection().toString().toUpperCase()
+                );
+            }
         }
     }
 }
