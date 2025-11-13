@@ -21,7 +21,7 @@
     </filters>
     <fields>
         <field id="id" mapping="['id']" select-expression="a.id" domain="integer"/>
-        <field id="value" mapping="['val']" select-expression="a.value as val" domain="string"/>
+        <field id="value" mapping="['val']" select-expression="a.&quot;value&quot; as val" domain="string"/>
         <field id="individualId" mapping="['individual_id']" select-expression="a.indiv_id as individual_id" domain="integer"/>
     </fields>
 </query>

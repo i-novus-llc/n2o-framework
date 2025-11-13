@@ -23,6 +23,6 @@
     </filters>
     <fields>
         <field id="id" mapping="['id']" select-expression="a.id" domain="integer"/>
-        <field id="value" mapping="['val']" select-expression="a.value as val" domain="string" sorting-expression="a.value :sortName" sorting-mapping="['sortName']" sorting="true"/>
+        <field id="value" mapping="['val']" select-expression="a.&quot;value&quot; as val" domain="string" sorting-expression="a.&quot;value&quot; :sortName" sorting-mapping="['sortName']" sorting="true"/>
     </fields>
 </query>

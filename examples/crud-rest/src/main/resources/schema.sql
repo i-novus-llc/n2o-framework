@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS car (
   id INTEGER PRIMARY KEY auto_increment,
-  name CHAR(50),
+  name VARCHAR(50),
   price INTEGER
 );
 
