@@ -43,10 +43,10 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
     void testButtonDependency() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dependency/testButtonDependency.page.xml")
                 .get(new PageContext("testButtonDependency"));
-        List<AbstractButton> buttons = ((Widget<?>) ((TabsRegion) page.getRegions().get("single").get(0)).getItems().get(0).getContent().get(0))
-                .getToolbar().get("topLeft").get(0).getButtons();
+        List<AbstractButton> buttons = ((Widget<?>) ((TabsRegion) page.getRegions().get("single").getFirst()).getItems().getFirst().getContent().getFirst())
+                .getToolbar().get("topLeft").getFirst().getButtons();
 
-        assertThat(buttons.get(0), allOf(
+        assertThat(buttons.getFirst(), allOf(
                 hasProperty("visible", is(false)),
                 hasProperty("enabled", is(false))
         ));
@@ -56,37 +56,34 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
         ));
 
 
-        Condition condition = buttons.get(1).getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
+        Condition condition = buttons.get(1).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependency_table']", "property1");
 
         // if disable-on-empty-model = false, should not have contains enabled !_.isEmpty(this) condition
-        condition = buttons.get(1).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
+        condition = buttons.get(1).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependency_table']", "property2");
 
         // if disable-on-empty-model = auto, should have contains enabled !_.isEmpty(this) condition for MULTI model
-        condition = buttons.get(2).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
+        condition = buttons.get(2).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.multi['testButtonDependency_table']", "!$.isEmptyModel(this)");
 
         // if disable-on-empty-model = true, should have contains enabled !_.isEmpty(this) condition for MULTI model
-        condition = buttons.get(3).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
+        condition = buttons.get(3).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.multi['testButtonDependency_table']", "!$.isEmptyModel(this)");
 
-        condition = buttons.get(4).getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
+        condition = buttons.get(4).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
         checkCondition(condition, "models.filter['testButtonDependency_table']", "property1");
 
-        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
+        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
         checkCondition(condition, "models.filter['testButtonDependency_test']", "a==b");
 
-        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
-        checkCondition(condition, "models.resolve['testButtonDependency_table']", "!$.isEmptyModel(this)");
-
-        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.ENABLED).get(1);
+        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependency_table']", "c==d");
         assertThat(condition.getMessage(), is("Не указана дата"));
 
         List<PerformButton> submenu = ((Submenu) buttons.get(6)).getContent();
 
-        assertThat(submenu.get(0), allOf(
+        assertThat(submenu.getFirst(), allOf(
                 hasProperty("visible", is(false)),
                 hasProperty("enabled", is(false))
         ));
@@ -95,23 +92,20 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
                 hasProperty("enabled", nullValue())
         ));
 
-        condition = submenu.get(1).getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
+        condition = submenu.get(1).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependency_table']", "property1");
 
-        condition = submenu.get(1).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
+        condition = submenu.get(1).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependency_table']", "!$.isEmptyModel(this)");
 
         condition = submenu.get(1).getConditions().get(ValidationTypeEnum.ENABLED).get(1);
         checkCondition(condition, "models.resolve['testButtonDependency_table']", "property2");
 
-        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
+        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
         checkCondition(condition, "models.filter['testButtonDependency_test']", "a==b");
         assertThat(submenu.get(2).getConditions().get(ValidationTypeEnum.VISIBLE).size(), is(1));
 
-        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
-        checkCondition(condition, "models.resolve['testButtonDependency_table']", "!$.isEmptyModel(this)");
-
-        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.ENABLED).get(1);
+        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependency_table']", "c==d");
         assertThat(condition.getMessage(), is("Не указана дата"));
     }
@@ -125,10 +119,10 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
     void testButtonDependencyWithDatasource() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dependency/testButtonDependencyWithDatasource.page.xml")
                 .get(new PageContext("testButtonDependencyWithDatasource"));
-        List<AbstractButton> buttons = ((Widget<?>) ((TabsRegion) page.getRegions().get("single").get(0)).getItems().get(0).getContent().get(0))
-                .getToolbar().get("topLeft").get(0).getButtons();
+        List<AbstractButton> buttons = ((Widget<?>) ((TabsRegion) page.getRegions().get("single").getFirst()).getItems().getFirst().getContent().getFirst())
+                .getToolbar().get("topLeft").getFirst().getButtons();
 
-        assertThat(buttons.get(0), allOf(
+        assertThat(buttons.getFirst(), allOf(
                 hasProperty("visible", is(false)),
                 hasProperty("enabled", is(false))
         ));
@@ -138,30 +132,28 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
         ));
 
 
-        Condition condition = buttons.get(1).getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
+        Condition condition = buttons.get(1).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "property1");
         // if disable-on-empty-model = false, should not have contains enabled !_.isEmpty(this) condition
-        condition = buttons.get(1).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
+        condition = buttons.get(1).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "property2");
         // if disable-on-empty-model = auto, should have contains enabled !_.isEmpty(this) condition for MULTI model
-        condition = buttons.get(2).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
+        condition = buttons.get(2).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.multi['testButtonDependencyWithDatasource_table']", "!$.isEmptyModel(this)");
         // if disable-on-empty-model = true, should have contains enabled !_.isEmpty(this) condition for MULTI model
-        condition = buttons.get(3).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
+        condition = buttons.get(3).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.multi['testButtonDependencyWithDatasource_table']", "!$.isEmptyModel(this)");
 
-        condition = buttons.get(4).getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
+        condition = buttons.get(4).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
         checkCondition(condition, "models.filter['testButtonDependencyWithDatasource_table']", "property1");
-        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
+        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
         checkCondition(condition, "models.filter['testButtonDependencyWithDatasource_test']", "a==b");
-        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
-        checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "!$.isEmptyModel(this)");
-        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.ENABLED).get(1);
+        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "c==d");
         assertThat(condition.getMessage(), is("Не указана дата"));
 
         List<PerformButton> submenu = ((Submenu) buttons.get(6)).getContent();
-        assertThat(submenu.get(0), allOf(
+        assertThat(submenu.getFirst(), allOf(
                 hasProperty("visible", is(false)),
                 hasProperty("enabled", is(false))
         ));
@@ -169,18 +161,16 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
                 hasProperty("visible", nullValue()),
                 hasProperty("enabled", nullValue())
         ));
-        condition = submenu.get(1).getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
+        condition = submenu.get(1).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "property1");
-        condition = submenu.get(1).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
+        condition = submenu.get(1).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "!$.isEmptyModel(this)");
         condition = submenu.get(1).getConditions().get(ValidationTypeEnum.ENABLED).get(1);
         checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "property2");
-        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.VISIBLE).get(0);
+        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
         checkCondition(condition, "models.filter['testButtonDependencyWithDatasource_test']", "a==b");
         assertThat(submenu.get(2).getConditions().get(ValidationTypeEnum.VISIBLE).size(), is(1));
-        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.ENABLED).get(0);
-        checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "!$.isEmptyModel(this)");
-        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.ENABLED).get(1);
+        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
         checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "c==d");
         assertThat(condition.getMessage(), is("Не указана дата"));
     }
