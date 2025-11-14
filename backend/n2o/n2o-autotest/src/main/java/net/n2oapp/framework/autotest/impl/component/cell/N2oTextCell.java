@@ -4,8 +4,6 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
-import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 
 import java.time.Duration;
@@ -41,11 +39,5 @@ public class N2oTextCell extends N2oCell implements TextCell {
     @Override
     public void hover() {
         element().$(".icon-cell-container").hover();
-    }
-
-    @Override
-    public Tooltip tooltip() {
-        SelenideElement element = element().parent().parent().parent().parent().$(".tooltip-container");
-        return N2oSelenide.component(element, Tooltip.class);
     }
 }

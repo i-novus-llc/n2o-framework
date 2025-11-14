@@ -3,8 +3,7 @@ import get from 'lodash/get'
 import classNames from 'classnames'
 
 import { useResolved } from '../../../core/Expression/useResolver'
-import { CellContainerProps } from '../types/props'
-import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
+import { type CellContainerProps } from '../types/props'
 
 import { ExpandButton } from './ExpandButton'
 
