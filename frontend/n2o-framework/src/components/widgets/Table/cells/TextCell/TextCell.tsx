@@ -45,5 +45,8 @@ function TextCellBody({
     )
 }
 
+TextCellBody.displayName = 'TextCellBody'
+
 export const TextCell = withTooltip(TextCellBody)
+TextCell.displayName = 'TextCell'
 export default TextCell

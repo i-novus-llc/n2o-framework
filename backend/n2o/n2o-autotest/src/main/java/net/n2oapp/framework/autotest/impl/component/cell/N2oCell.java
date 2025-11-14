@@ -9,6 +9,8 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.Selenide.$;
+
 /**
  * Ячейка списковых виджетов (table, list) для автотестирования
  */
@@ -69,7 +71,7 @@ public class N2oCell extends N2oComponent implements Cell {
 
     @Override
     public Tooltip tooltip() {
-        SelenideElement element = element().$(".tooltip-container");
+        SelenideElement element = $("body").$(".tooltip-container");
         return N2oSelenide.component(element, Tooltip.class);
     }
 
