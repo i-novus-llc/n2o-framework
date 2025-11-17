@@ -94,6 +94,7 @@ export type TableBodyProps = {
     rowRenderFieldKey: TableProps['rowRenderFieldKey']
     data: TableProps['data']
     selectionFixed?: boolean
+    isTextWrap?: boolean
 }
 
 export type TableHeaderProps = {

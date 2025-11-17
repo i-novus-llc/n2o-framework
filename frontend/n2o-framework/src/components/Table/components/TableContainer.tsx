@@ -123,6 +123,7 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
                                 cells={fixedCells.body}
                                 rowRenderFieldKey="id"
                                 data={data}
+                                isTextWrap={isTextWrap}
                             />
                         )}
 
