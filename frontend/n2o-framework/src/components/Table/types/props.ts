@@ -88,6 +88,7 @@ export type TableBodyProps = {
     expandedRows: TableProps['expandedRows']
     rowRenderFieldKey: TableProps['rowRenderFieldKey']
     data: TableProps['data']
+    isTextWrap?: boolean
 }
 
 export type TableHeaderProps = {
@@ -190,4 +191,5 @@ export type CellContainerProps = {
     rowIndex: RowContainerProps['rowIndex']
     alignment?: TdHTMLAttributes<HTMLTableCellElement>['align']
     style?: CSSProperties
+    isTextWrap?: boolean
 } & Omit<Cell, 'elementAttributes'> & SwitchCellProps

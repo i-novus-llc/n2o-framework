@@ -23,6 +23,7 @@ export const RowResolver: VFC<RowResolverProps> = ({
     selection,
     click,
     rowIndex,
+    isTextWrap,
     ...otherProps
 }) => {
     const { setFocusOnRow, onRowClick, selectSingleRow } = useTableActions()
@@ -84,6 +85,7 @@ export const RowResolver: VFC<RowResolverProps> = ({
                     rowValue={rowValue}
                     isTreeExpanded={isTreeExpanded}
                     rowIndex={rowIndex}
+                    isTextWrap={isTextWrap}
                     {...elementAttributes}
                     {...cellProps}
                 />
