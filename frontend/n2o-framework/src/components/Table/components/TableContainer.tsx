@@ -73,6 +73,7 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = (p
                                 cells={cells.body}
                                 rowRenderFieldKey="id"
                                 data={data}
+                                isTextWrap={isTextWrap}
                             />
                         )}
 
