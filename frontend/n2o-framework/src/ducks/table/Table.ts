@@ -40,6 +40,7 @@ export interface BodyCell {
     visibleState?: HeaderCell['visibleState']
     format?: string
     filterField?: FilterField
+    isTextWrap?: boolean
 }
 
 export type HeaderCell = {

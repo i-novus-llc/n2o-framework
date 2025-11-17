@@ -23,4 +23,5 @@ export interface TextCellProps {
     tooltipFieldId: string
     style?: CSSProperties
     className?: string
+    isTextWrap?: boolean
 }

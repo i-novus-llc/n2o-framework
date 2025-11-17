@@ -2,6 +2,7 @@ import React from 'react'
 import get from 'lodash/get'
 import classNames from 'classnames'
 import { FormattedText } from '@i-novus/n2o-components/lib/Typography/FormattedText'
+import { EllipsisText } from '@i-novus/n2o-components/lib/Typography/EllipsisText'
 import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
 
 import { withTooltip } from '../../withTooltip'
@@ -22,6 +23,7 @@ function TextCellBody({
     iconPosition = ICON_POSITIONS.LEFT,
     style = EMPTY_OBJECT,
     className,
+    isTextWrap,
     ...rest
 }: TextCellProps) {
     const text = model && get(model, fieldKey || id)
@@ -38,7 +40,11 @@ function TextCellBody({
                 style={style}
             >
                 {icon && <Icon name={icon} />}
-                <FormattedText {...rest}>{text?.toString()}</FormattedText>
+                {
+                    isTextWrap
+                        ? <FormattedText {...rest}>{text?.toString()}</FormattedText>
+                        : <EllipsisText {...rest}>{text}</EllipsisText>
+                }
             </div>
             {subTextFieldKey && <SubText subText={model && get(model, subTextFieldKey)} format={subTextFormat} /> }
         </div>
