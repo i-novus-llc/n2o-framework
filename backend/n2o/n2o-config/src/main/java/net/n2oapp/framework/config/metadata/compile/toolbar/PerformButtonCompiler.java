@@ -23,6 +23,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -58,7 +59,7 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
         if (!ArrayUtils.isEmpty(source.getGenerate())) {
             N2oToolbar toolbar = p.getScope(N2oToolbar.class);
 
-            return (D) generateButtons(source, toolbar, buttonGeneratorFactory, context, p).get(0);
+            return (D) generateButtons(source, toolbar, buttonGeneratorFactory, context, p).getFirst();
         }
 
         D button = constructButton();
@@ -123,15 +124,15 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
 
-        List<Condition> enabledConditions = new ArrayList<>();
-        if (source.getDatasourceId() != null) {
-            Condition emptyModelCondition = enabledByEmptyModelCondition(source, clientDatasource, componentScope, p);
-            if (emptyModelCondition != null)
-                enabledConditions.add(emptyModelCondition);
-        }
-
-        if (!enabledConditions.isEmpty()) {
-            button.getConditions().put(ValidationTypeEnum.ENABLED, enabledConditions);
+        if (source.getDependencies() == null || Arrays.stream(source.getDependencies()).noneMatch(d -> d instanceof N2oButton.EnablingDependency)) {
+            List<Condition> enabledConditions = new ArrayList<>();
+            if (source.getDatasourceId() != null) {
+                Condition emptyModelCondition = enabledByEmptyModelCondition(source, clientDatasource, componentScope, p);
+                if (emptyModelCondition != null) {
+                    enabledConditions.add(emptyModelCondition);
+                    button.getConditions().put(ValidationTypeEnum.ENABLED, enabledConditions);
+                }
+            }
         }
 
         if (source.getDependencies() != null)
