@@ -25,7 +25,7 @@ class ExportControllerTest extends DataControllerTestBase {
         List<DataSet> list = testData();
 
         ExportController exportController = new ExportController(builder.getEnvironment(), null, factory);
-        HashMap<String, String> headers = new LinkedHashMap<>();
+        LinkedHashMap<String, String> headers = new LinkedHashMap<>();
         headers.put("id", "Идентификатор");
         headers.put("name", "Наименование");
         headers.put("list", "Список");
@@ -65,7 +65,7 @@ class ExportControllerTest extends DataControllerTestBase {
         FileGeneratorFactory xlsxFactory = new FileGeneratorFactory(List.of(new XlsxFileGenerator()));
 
         ExportController exportController = new ExportController(builder.getEnvironment(), null, xlsxFactory);
-        HashMap<String, String> headers = new HashMap<>();
+        LinkedHashMap<String, String> headers = new LinkedHashMap<>();
         headers.put("id", "Идентификатор");
         headers.put("name", "Наименование");
         headers.put("list", "Список");

@@ -21,7 +21,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
@@ -56,7 +56,7 @@ class ExportServletTest {
         exportRequest.setFormat("csv");
         exportRequest.setCharset("UTF-8");
         exportRequest.setUrl("/n2o/data/_main?main_minPrice=5000&page=1&size=10&sorting.name=DESC");
-        exportRequest.setFields(new HashMap<>());
+        exportRequest.setFields(new LinkedHashMap<>());
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(exportRequest);

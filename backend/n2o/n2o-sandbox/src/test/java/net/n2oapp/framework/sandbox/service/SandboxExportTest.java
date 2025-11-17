@@ -63,7 +63,7 @@ class SandboxExportTest {
         request.setFormat("csv");
         request.setCharset("UTF-8");
         request.setUrl("/n2o/data/_w1?main_minPrice=5000&page=1&size=10&sorting.name=DESC");
-        Map<String, String> requestHeaders = new LinkedHashMap<>();
+        LinkedHashMap<String, String> requestHeaders = new LinkedHashMap<>();
         requestHeaders.put("id", "id");
         requestHeaders.put("name", "name");
         request.setFields(requestHeaders);

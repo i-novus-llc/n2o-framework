@@ -2,7 +2,6 @@ package net.n2oapp.framework.ui.controller.export;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.user.UserContext;
@@ -34,8 +33,7 @@ public class ExportController extends AbstractController {
         ExportResponse response = new ExportResponse();
         String lowerFormat = format.toLowerCase();
         FileGenerator generator = fileGeneratorFactory.getGenerator(lowerFormat);
-        byte[] fileBytes = generator
-                .createFile(FILE_NAME, FILES_DIRECTORY_NAME, charset, data, new ArrayList<>(headers.values()));
+        byte[] fileBytes = generator.createFile(FILE_NAME, FILES_DIRECTORY_NAME, charset, data, headers);
 
         if (fileBytes == null)
             response.setStatus(500);
@@ -53,7 +51,6 @@ public class ExportController extends AbstractController {
         GetDataResponse data = dataController.getData(path, params, user);
         initDataByParentId(data, params.get("parent_id"));
         initDataBySourceField(data, params.get("source_field_id"));
-        initShowedFields(data, params.get("show"));
 
         return data;
     }
@@ -123,24 +120,5 @@ public class ExportController extends AbstractController {
 
     private String getFileName(String fileFormat) {
         return FILE_NAME + "_" + System.currentTimeMillis() + "." + fileFormat;
-    }
-
-    /**
-     * Функция оставляет только поля, указанные в параметре 'show'
-     *
-     * @param dataResponse - данные для экспорта
-     * @param showedFields - имена отображаемых полей
-     */
-    private void initShowedFields(GetDataResponse dataResponse, String[] showedFields) {
-        if (dataResponse.getList().isEmpty() || StringUtils.isEmpty(showedFields))
-            return;
-
-        for (int i = 0; i < dataResponse.getList().size(); i++) {
-            DataSet dataSet = dataResponse.getList().get(i);
-            DataSet orderedItem = new DataSet();
-            for (String key : showedFields)
-                orderedItem.put(key, dataSet.get(key));
-            dataResponse.getList().set(i, orderedItem);
-        }
     }
 }
