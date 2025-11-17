@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 @Getter
 @Setter
@@ -16,5 +16,5 @@ public class ExportRequest {
     @JsonProperty
     private String url;
     @JsonProperty
-    private Map<String, String> fields;
+    private LinkedHashMap<String, String> fields;
 }

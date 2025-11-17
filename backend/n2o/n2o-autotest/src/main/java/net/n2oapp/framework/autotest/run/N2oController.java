@@ -160,7 +160,7 @@ public class N2oController {
             throw new N2oException("Query-параметр запроса пустой");
 
         GetDataResponse dataResponse = exportController.getData(path, params, null);
-        Map<String, String> headers = request.getFields();
+        LinkedHashMap<String, String> headers = request.getFields();
         ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers);
 
         return ResponseEntity.status(exportResponse.getStatus())

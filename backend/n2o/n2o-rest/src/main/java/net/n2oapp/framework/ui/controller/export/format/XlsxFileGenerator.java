@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 @Component
 public class XlsxFileGenerator implements FileGenerator {
@@ -20,34 +20,35 @@ public class XlsxFileGenerator implements FileGenerator {
     private static final int MIN_COLUMN_WIDTH = 20;
 
     @Override
-    public byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, List<String> headers) {
+    public byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, Map<String, String> headers) {
         byte[] fileBytes = null;
 
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet();
             CellStyle headerStyle = createHeaderStyle(workbook);
 
+            // Заголовки и ширина колонок по headers (порядок соответствует LinkedHashMap)
             Row headerRow = sheet.createRow(0);
-            for (int i = 0; i < headers.size(); i++) {
-                Cell cell = headerRow.createCell(i);
-                cell.setCellValue(headers.get(i));
+            int colIndex = 0;
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                String headerTitle = entry.getValue();
+                Cell cell = headerRow.createCell(colIndex);
+                cell.setCellValue(headerTitle);
                 cell.setCellStyle(headerStyle);
 
-                // задаём ширину колонки по длине текста заголовка + 2 символа для отступа
-                int width = (Math.max(MIN_COLUMN_WIDTH, headers.get(i).length()) + 2) * 256;
-                sheet.setColumnWidth(i, width);
+                int width = (Math.max(MIN_COLUMN_WIDTH, headerTitle != null ? headerTitle.length() : 0) + 2) * 256;
+                sheet.setColumnWidth(colIndex, width);
+                colIndex++;
             }
 
-            if (!data.isEmpty()) {
-                Set<String> keys = data.getFirst().flatKeySet();
-                int rowNum = 1;
-                for (DataSet dataSet : data) {
-                    Row row = sheet.createRow(rowNum++);
-                    int colNum = 0;
-                    for (String key : keys) {
-                        Cell cell = row.createCell(colNum++);
-                        setCellValue(cell, dataSet.get(key));
-                    }
+            // Данные построчно по ключам из headers
+            int rowNum = 1;
+            for (DataSet rowData : data) {
+                Row row = sheet.createRow(rowNum++);
+                int c = 0;
+                for (Map.Entry<String, String> entry : headers.entrySet()) {
+                    Cell cell = row.createCell(c++);
+                    setCellValue(cell, rowData.get(entry.getKey()));
                 }
             }
 
