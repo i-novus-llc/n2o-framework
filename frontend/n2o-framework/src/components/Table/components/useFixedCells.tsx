@@ -101,19 +101,15 @@ export const useFixedCells = ({
     const groupElement = groupRef.current
 
     useEffect(() => {
-        if (!groupElement || !hasFixed) { return setOffsets(null) }
-
-        const table = groupElement.offsetParent
-
-        if (!table) { return setOffsets(null) }
+        if (!groupElement || !hasFixed) { return }
 
         const update = () => {
             const cols = groupElement.querySelectorAll('col') ?? []
-            const parentWidth = table.clientWidth || 0
+            const groupWidth = groupElement.clientWidth || 0
             const offsets = Object.fromEntries(Array.from(cols).map((e) => {
                 return [e.dataset.id, {
                     left: e.offsetLeft,
-                    right: parentWidth - e.offsetLeft - e.clientWidth,
+                    right: groupWidth - e.offsetLeft - e.clientWidth,
                 }]
             }))
 
@@ -122,17 +118,17 @@ export const useFixedCells = ({
 
         const resizeObserver = new ResizeObserver(update)
 
-        resizeObserver.observe(table)
+        resizeObserver.observe(groupElement)
         update()
 
         // eslint-disable-next-line consistent-return
         return () => {
-            resizeObserver.unobserve(table)
+            resizeObserver.unobserve(groupElement)
         }
     }, [groupElement, hasFixed])
 
     return useMemo(() => {
-        if (!hasFixed) { return { cells, colgroup: null, hasFixedLeft: false } }
+        if (!hasFixed) { return { cells, colgroup, hasFixedLeft: false } }
         if (!offsets) { return { cells, colgroup, hasFixedLeft } }
 
         const fixedCells: typeof cells = {
