@@ -44,6 +44,8 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
     private N2oToolbar toolbar;
     private Dependency[] dependencies;
 
+    private boolean usingRef;
+
     @Deprecated
     public String getRefWidgetId() {
         return refDatasourceId;
