@@ -25,7 +25,15 @@ public class CriteriaConstructorFactory {
     @SuppressWarnings("unchecked")
     public <T> T construct(N2oPreparedCriteria criteria, T instance) {
         Class<?> criteriaClass = instance.getClass();
-        CriteriaConstructor<T> constructor = (CriteriaConstructor<T>) constructors.get(criteriaClass);
+        CriteriaConstructor<T> constructor = null;
+        while (criteriaClass != null) {
+            constructor = (CriteriaConstructor<T>) constructors.get(criteriaClass);
+            if (constructor != null)
+                break;
+
+            criteriaClass = criteriaClass.getSuperclass();
+        }
+
         if (constructor == null) return instance;
         return constructor.construct(criteria, instance);
     }
