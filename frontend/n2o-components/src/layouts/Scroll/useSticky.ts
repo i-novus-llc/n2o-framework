@@ -36,14 +36,17 @@ export const useSticky = (
         }
 
         const resizeObserver = new ResizeObserver(onResize)
+        const intersectionObserver = new IntersectionObserver(onResize)
 
         scrollContainer.addEventListener('scroll', onScroll)
         resizeObserver.observe(scrollContainer)
+        intersectionObserver.observe(container)
         onScroll()
 
         // eslint-disable-next-line consistent-return
         return () => {
             resizeObserver.unobserve(scrollContainer)
+            intersectionObserver.unobserve(container)
             scrollContainer.removeEventListener('scroll', onScroll)
         }
     }, [scrollContainer, container, target])
