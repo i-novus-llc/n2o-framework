@@ -38,7 +38,7 @@ public class FieldModelsCompileTest extends SourceCompileTestBase {
     @Test
     void testFieldModelsCompile() {
         PageContext pageContext = new PageContext("index", "/");
-        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/control/fieldModelsCompileTest/index.page.xml")
+        compile("net/n2oapp/framework/config/metadata/compile/control/fieldModelsCompileTest/index.page.xml")
                 .get(pageContext);
 
         PageContext modalContext = (PageContext) route("/modalPage", Page.class);
