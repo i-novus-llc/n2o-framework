@@ -46,7 +46,6 @@ import net.n2oapp.framework.config.util.N2oClientDataProviderUtil;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.regex.Pattern;
 
 import static net.n2oapp.framework.api.StringUtils.isBoolean;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
@@ -59,8 +58,6 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
  */
 public abstract class FieldCompiler<D extends Field, S extends N2oField> extends ComponentCompiler<D, S, CompileContext<?, ?>> {
 
-    private static final Pattern EXT_EXPRESSION_PATTERN = Pattern.compile(".*\\(.*\\).*");
-
     @Override
     protected String getSrcProperty() {
         return "n2o.api.field.src";
@@ -71,6 +68,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 () -> p.resolve(property("n2o.api.control.no_label"), String.class)));
         source.setNoLabelBlock(castDefault(source.getNoLabelBlock(),
                 () -> p.resolve(property("n2o.api.control.no_label_block"), String.class)));
+        if (source.getRefDatasourceId() != null ||
+            source.getRefModel() != null ||
+            source.getRefFieldId() != null)
+            source.setUsingRef(true);
         source.setRefPage(castDefault(source.getRefPage(), PageRef.THIS));
         source.setRefDatasourceId(castDefault(source.getRefDatasourceId(), () -> {
             if (source.getRefPage().equals(PageRef.THIS)) {
@@ -124,7 +125,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             } catch (ScriptParserException e) {
                 throw new N2oException(
                         String.format("Невозможно извлечь переменные из выражения '%s'. Попробуйте использовать зависимость полей " +
-                                        "с явным указанием переменных в атрибуте 'on'",
+                                      "с явным указанием переменных в атрибуте 'on'",
                                 StringUtils.unwrapLink(conditionGetter.get())));
             }
 
@@ -296,7 +297,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 if (componentScope != null) {
                     N2oFilterColumn component = componentScope.unwrap(N2oFilterColumn.class);
                     if (component != null) {
-                        validations.forEach(v -> v.addEnablingCondition(String.format("%s || %s === 0",source.getId(),source.getId())));
+                        validations.forEach(v -> v.addEnablingCondition(String.format("%s || %s === 0", source.getId(), source.getId())));
                     }
                 }
             }
@@ -310,7 +311,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private Validation initRequiredValidation(String fieldId, Field field, S source, CompileProcessor p, Set<String> visibilityConditions) {
         MomentScope momentScope = p.getScope(MomentScope.class);
         String requiredMessage = momentScope != null
-                && N2oValidation.ServerMoment.beforeQuery.equals(momentScope.getMoment())
+                                 && N2oValidation.ServerMoment.beforeQuery.equals(momentScope.getMoment())
                 ? "n2o.required.filter" : "n2o.required.field";
         if (source.containsDependency(N2oField.RequiringDependency.class)) {
             MandatoryValidation mandatory = new MandatoryValidation(fieldId, p.getMessage(requiredMessage), fieldId);
@@ -362,7 +363,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             if (source.getDependencies() != null) {
                 for (N2oField.Dependency dependency : source.getDependencies()) {
                     if (dependency.getClass().equals(N2oField.VisibilityDependency.class) ||
-                            dependency.getClass().equals(N2oField.EnablingDependency.class))
+                        dependency.getClass().equals(N2oField.EnablingDependency.class))
                         fieldVisibilityConditions.add(dependency.getValue());
                 }
             } else if ("false".equals(source.getVisible()) || "false".equals(source.getEnabled())) {
@@ -482,7 +483,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     ModelLink defaultValue = getDefaultValueModelLink(source, context, p);
                     if (source.getRefFieldId() == null)
                         defaultValue.setValue(defValue);
-                    if (isExternalExpression((String) defValue))
+                    if (!source.isUsingRef())
                         defaultValue.setObserve(false);
                     defaultValue.setParam(source.getParam());
                     defaultValues.add(controlId, defaultValue);
@@ -575,10 +576,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             defaultValue.setObserve(true);
 
         return defaultValue;
-    }
-
-    private boolean isExternalExpression(String expression) {
-        return EXT_EXPRESSION_PATTERN.matcher(expression).find();
     }
 
     protected String initLocalDatasourceId(CompileProcessor p) {
