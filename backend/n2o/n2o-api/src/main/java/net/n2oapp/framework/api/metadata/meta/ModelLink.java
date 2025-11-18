@@ -138,6 +138,15 @@ public class ModelLink extends BindLink {
         return new ModelLink(getModel(), getDatasource(), subModelQuery.getFullName());
     }
 
+    public void copyAttributes(ModelLink source) {
+        setParam(source.getParam());
+        setValue(source.getValue());
+        setObserve(source.isObserve());
+        setQueryParam(source.getQueryParam());
+        setRequired(source.isRequired());
+        setSubModelQuery(source.getSubModelQuery());
+    }
+
 
     /**
      * Эквивалентны ли ссылки на модели.
