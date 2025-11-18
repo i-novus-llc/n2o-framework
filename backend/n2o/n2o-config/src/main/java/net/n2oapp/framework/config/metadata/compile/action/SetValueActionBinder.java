@@ -18,6 +18,8 @@ public class SetValueActionBinder implements BaseMetadataBinder<SetValueAction> 
     public SetValueAction bind(SetValueAction action, BindProcessor p) {
         String sourceMapper = p.resolveTextWithQuotes(action.getPayload().getSourceMapper());
         action.getPayload().setSourceMapper(sourceMapper);
+        action.getPayload().getSource().setField(p.resolveTextByParams(action.getPayload().getSource().getField()));
+        action.getPayload().getTarget().setField(p.resolveTextByParams(action.getPayload().getTarget().getField()));
         return action;
     }
 }
