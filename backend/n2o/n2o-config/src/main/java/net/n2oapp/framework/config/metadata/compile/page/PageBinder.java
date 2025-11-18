@@ -150,7 +150,15 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
     private void resolveLinks(Models models, BindProcessor p) {
         new HashSet<>(models.entrySet()).stream().filter(e -> !e.getValue().isConst()).forEach(e -> {
                     ModelLink link = models.get(e.getKey());
-                    ModelLink resolvedLink = (ModelLink) p.resolveLink(link, true, false);
+                    ModelLink newLink;
+                    if (link.getFieldValue() == null) {
+                        newLink = new ModelLink(link.getModel(), link.getDatasource(), p.resolveTextByParams(link.getFieldId()));
+                    } else {
+                        // значит fieldId пустой, а значение задано js выражением в value
+                        newLink = new ModelLink(link.getModel(), link.getDatasource());
+                    }
+                    newLink.copyAttributes(link);
+                    ModelLink resolvedLink = (ModelLink) p.resolveLink(newLink, true, false);
                     models.put(e.getKey(), resolvedLink);
                 }
         );
