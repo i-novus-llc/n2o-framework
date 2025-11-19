@@ -32,7 +32,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="resize" type="tableSettingBaseType" maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="resize" type="resizeType" maxOccurs="unbounded" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>
                         Изменить количество отображаемых данных в таблице
@@ -120,6 +120,20 @@
                     <xs:annotation>
                         <xs:documentation>
                             Формат по умолчанию
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="resizeType">
+        <xs:complexContent>
+            <xs:extension base="tableSettingBaseType">
+                <xs:attribute name="size" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Варианты количества отображаемых записей (через запятую)
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

@@ -20,7 +20,7 @@
                 <ts:reset-settings/>
                 <menu-item/>
                 <menu-item/>
-                <ts:resize/>
+                <ts:resize size="5,10,15"/>
                 <ts:word-wrap/>
             </sub-menu>
             <ts:resize/>

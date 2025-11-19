@@ -1,65 +1,82 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback, useMemo } from 'react'
 import { connect } from 'react-redux'
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
 import { DataSourceContext } from '../../../core/widget/context'
-import { SIZES } from '../constants'
-import { State } from '../../../ducks/State'
+import { type State } from '../../../ducks/State'
+import { dataSourceProviderSizeSelector } from '../../../ducks/datasource/selectors'
+
+export const DEFAULT_SIZE = [5, 10, 20, 50]
 
 export interface Props {
-    size: number
+    size: number[]
     icon: string
     label: string
     nested?: boolean
+    defaultSize: number | null
+    widgetSize: number
 }
 
-/**
- * Дропдаун для выбора размера(size) виджета
- * @reactProps {string} entityKey - id виджета, размер которого меняется
- * @reactProps {number} size - текущий размер(приходит из редакса)
- * @example
- * <ChangeSize entityKey='TestEntityKey'/>
- */
-
-function ChangeSizeComponent({ size: currentSize, icon, label, nested = false }: Props) {
+function ChangeSizeComponent({
+    defaultSize,
+    widgetSize,
+    icon,
+    label,
+    size = DEFAULT_SIZE,
+    nested = false,
+}: Props) {
     const { setSize } = useContext(DataSourceContext)
 
-    const items = SIZES.map((size, i) => {
-        const onClick = () => setSize(size)
+    const onSelect = useCallback((size: number) => { setSize(size) }, [setSize])
 
-        return (
-            <DropdownItem toggle={false} onClick={onClick}>
-                <span className="n2o-dropdown-check-container">
-                    {currentSize === size && <i className="fa fa-check" aria-hidden="true" />}
-                </span>
-                <span>{size}</span>
-            </DropdownItem>
-        )
-    })
+    const sizes = useMemo(() => {
+        const result = [...size]
+
+        // Добавляет defaultSize к списку, если он задан и отсутствует в size
+        if (typeof defaultSize === 'number' && !result.includes(defaultSize)) {
+            result.push(defaultSize)
+        }
+
+        return result.sort((a, b) => a - b)
+    }, [size, defaultSize])
 
     return (
         <UncontrolledButtonDropdown direction={nested ? 'right' : 'down'}>
-            <div>
-                <div className="n2o-dropdown visible">
-                    <div>
-                        <DropdownToggle caret>
-                            {icon && <i className={icon} />}
-                            {label}
-                        </DropdownToggle>
-                        <DropdownMenu>{items}</DropdownMenu>
-                    </div>
-                </div>
-            </div>
+            <DropdownToggle caret>
+                {icon && <i className={icon} />}
+                {label}
+            </DropdownToggle>
+            <DropdownMenu>
+                {sizes.map((size) => {
+                    const isActive = widgetSize === size
+
+                    const onClick = () => {
+                        if (isActive) { return }
+                        onSelect(size)
+                    }
+
+                    return (
+                        <DropdownItem disabled={isActive} toggle={false} onClick={onClick}>
+                            <span className="n2o-dropdown-check-container">
+                                {isActive && <i className="fa fa-check" aria-hidden="true" />}
+                            </span>
+                            <span>{size}</span>
+                        </DropdownItem>
+                    )
+                })}
+            </DropdownMenu>
         </UncontrolledButtonDropdown>
     )
 }
 
-const mapStateToProps = (state: State, { entityKey: widgetId }: { entityKey: string }) => ({
-    size: makeWidgetSizeSelector(widgetId)(state),
+const mapStateToProps = (state: State, { entityKey, datasource }: { entityKey: string, datasource: string }) => ({
+    /** dataSource size определенный в провайдере */
+    defaultSize: dataSourceProviderSizeSelector(datasource)(state),
+    /** текущий изменяемый size виджета */
+    widgetSize: makeWidgetSizeSelector(entityKey)(state),
 })
 
 const ChangeSize = connect(mapStateToProps)(ChangeSizeComponent)
 
-export { ChangeSize }
-export { ChangeSizeComponent }
+export { ChangeSize, ChangeSizeComponent }

@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.ResizeButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -150,6 +151,7 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
 
         assertThat(buttons.get(6).getSrc(), is("ChangeSize"));
         assertThat(labelExtractor.apply(buttons.get(6)), is("Количество записей"));
+        assertThat(((ResizeButton) buttons.get(6)).getSize(), is(new Integer[]{5, 10, 15}));
 
         assertThat(buttons.get(7).getSrc(), is("WordWrap"));
         assertThat(labelExtractor.apply(buttons.get(7)), is("Перенос по словам"));
