@@ -3,6 +3,8 @@ title: Миграция с 7.28 на 7.29
 description: ""
 ---
 
+## 7.29.0 {#7_29_0}
+
 ### Изменения в сборке {#changes-build}
 
 - Версия NodeJS повышена до 20 (с поддержкой 22)
@@ -92,3 +94,49 @@ description: ""
 - Изменено значение по умолчанию для настройки `n2o.access.filtering_for_unique` на `true`.<br/>
 Это означает, что теперь по умолчанию во все запросы с size=1 будут добавлены фильтры `<object-filters>` из access схемы.
 Рекомендуем учесть, что в будущих версиях поддержка данной настройки прекратится.
+
+## 7.29.5 {#7_29_5}
+
+### Изменения в Java API {#changes-java-api}
+
+- Для обработки разных конструкторов критериев был введен класс `CriteriaConstructorFactory`.
+Теперь для подключения своих конструкторов нет необходимости переопределять бин `N2oQueryProcessor`.
+Достаточно реализовать интерфейс `CriteriaConstructor`, сделав реализацию бином.
+
+```js
+@Component
+public class MyCriteriaConstructor implements CriteriaConstructor<MyCriteria> {
+
+    private final boolean pageStartsWith0;
+
+    public N2oCriteriaConstructor(@Value("${n2o.engine.pageStartsWith0:false}") boolean pageStartsWith0) {
+        this.pageStartsWith0 = pageStartsWith0;
+    }
+
+    @Override
+    public Class<MyCriteria> getCriteriaClass() {
+        return MyCriteria.class;
+    }
+
+    @Override
+    public MyCriteria construct(N2oPreparedCriteria criteria, MyCriteria instance) {
+        instance.addSorting(criteria.getSorting());
+        instance.setSize(criteria.getSize());
+        instance.setPage(pageStartsWith0 ? criteria.getPage() - 1 : criteria.getPage());
+        instance.setCount(criteria.getCount());
+        return instance;
+    }
+}
+```
+
+Более того, если в вашем проекте переопределялся `N2oQueryProcessor`, то его следует, либо удалить,
+либо задавать в нем `CriteriaConstructorFactory` вместо `CriteriaConstructor`.
+
+
+
+## 7.29.6 {#7_29_6}
+
+### Изменения в XML API {#changes-xml-api}
+
+- Добавлена проверка, которая после действия `<close>` разрешает указывать только действия `<close>` или `<on-fail>`
+

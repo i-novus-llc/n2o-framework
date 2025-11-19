@@ -44,18 +44,6 @@ public final class ValidationUtils {
     }
 
     /**
-     * Проверить идентификаторы метаданных по соглашениям об именовании
-     *
-     * @param items Метаданные
-     * @param p     Процессор исходных метаданных
-     */
-    public static void checkIds(NamespaceUriAware[] items, SourceProcessor p) {
-        if (items != null)
-            for (NamespaceUriAware item : items)
-                checkId(item, p);
-    }
-
-    /**
      * Проверить идентификатор метаданной по соглашениям об именовании
      *
      * @param item Метаданная
@@ -114,7 +102,7 @@ public final class ValidationUtils {
     }
 
     /**
-     * Проверка сущестования выборки
+     * Проверка существования выборки
      *
      * @param queryId          Идентификатор источника данных
      * @param messageFirstPart Первая часть сообщения об ошибке
@@ -277,7 +265,7 @@ public final class ValidationUtils {
                         .filter(a -> !(a instanceof N2oCloseAction || a instanceof N2oOnFailAction))
                         .findFirst()
                         .ifPresent(invalidAction -> {
-                            throw new N2oMetadataValidationException("После действия <close> не должно быть других действий");
+                            throw new N2oMetadataValidationException("После действия <close> не должно быть других действий кроме <close> или <on-fail>");
                         });
             }
         }
