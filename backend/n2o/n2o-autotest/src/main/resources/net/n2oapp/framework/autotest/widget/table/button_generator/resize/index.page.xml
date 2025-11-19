@@ -3,7 +3,7 @@
              xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
              name="Автотест настроек таблицы">
     <table selection="none">
-        <datasource query-id="data" object-id="data" size="5"/>
+        <datasource query-id="data" object-id="data" size="25"/>
         <columns>
             <column text-field-id="id"/>
             <column text-field-id="id_ips"/>
@@ -25,7 +25,7 @@
                 <ts:filters/>
                 <ts:columns/>
                 <ts:refresh/>
-                <ts:resize/>
+                <ts:resize size="5,10,20,51"/>
                 <ts:word-wrap/>
             </group>
             <ts:export/>

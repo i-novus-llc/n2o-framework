@@ -619,6 +619,7 @@
             <xs:element name="notEq" type="filterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="notIn" type="filterDefValues" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNotNull" type="filterDefSimple" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="overlaps" type="filterDefSimple" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 

@@ -84,6 +84,11 @@ export const dataSourceProviderSelector = (sourceId: string) => createSelector(
     state => state.provider,
 )
 
+export const dataSourceProviderSizeSelector = (sourceId: string) => createSelector(
+    dataSourceProviderSelector(sourceId),
+    state => state?.size || null,
+)
+
 export const dataSourceErrors = (
     sourceId: string,
     prefix: ModelPrefix = ModelPrefix.active,

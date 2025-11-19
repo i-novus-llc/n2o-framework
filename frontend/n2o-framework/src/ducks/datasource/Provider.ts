@@ -21,6 +21,7 @@ export interface Provider {
     sourceModel?: ModelPrefix
     sorting?: Record<string, unknown>
     queryMapping: Mapping
+    size?: number
 }
 
 export interface Filter {

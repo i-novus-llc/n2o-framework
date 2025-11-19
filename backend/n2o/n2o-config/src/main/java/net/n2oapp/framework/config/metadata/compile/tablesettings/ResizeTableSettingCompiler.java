@@ -4,9 +4,11 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oResizeTableSetting;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.ResizeButton;
 import net.n2oapp.framework.config.metadata.compile.toolbar.PerformButtonCompiler;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 import static net.n2oapp.framework.config.metadata.compile.toolbar.table.TableSettingsGeneratorUtil.generateResize;
 
@@ -14,7 +16,7 @@ import static net.n2oapp.framework.config.metadata.compile.toolbar.table.TableSe
  * Компиляция пользовательских настроек отображения таблицы
  */
 @Component
-public class ResizeTableSettingCompiler extends PerformButtonCompiler<N2oResizeTableSetting, PerformButton> {
+public class ResizeTableSettingCompiler extends PerformButtonCompiler<N2oResizeTableSetting, ResizeButton> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -22,8 +24,18 @@ public class ResizeTableSettingCompiler extends PerformButtonCompiler<N2oResizeT
     }
 
     @Override
-    public PerformButton compile(N2oResizeTableSetting source, CompileContext<?, ?> context, CompileProcessor p) {
+    public ResizeButton compile(N2oResizeTableSetting source, CompileContext<?, ?> context, CompileProcessor p) {
         generateResize(source, p);
-        return super.compile(source, context, p);
+        ResizeButton resizeButton = super.compile(source, context, p);
+        if (source.getSize() != null)
+            resizeButton.setSize(Arrays.stream(source.getSize())
+                    .map(Integer::parseInt)
+                    .toArray(Integer[]::new));
+        return resizeButton;
+    }
+
+    @Override
+    protected ResizeButton constructButton() {
+        return new ResizeButton();
     }
 }

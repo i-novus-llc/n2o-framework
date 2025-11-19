@@ -15,7 +15,7 @@
             <ts:columns default-value="id,name,region" locked="id,name"/>
             <ts:filters/>
             <button id="id1" label="button1"/>
-            <ts:resize/>
+            <ts:resize size="5,10,15"/>
             <ts:word-wrap/>
             <ts:reset-settings/>
             <sub-menu>
@@ -25,7 +25,7 @@
                 <ts:columns default-value="id,name,region" locked="id,name"/>
                 <ts:filters/>
                 <button id="id1" label="button1"/>
-                <ts:resize/>
+                <ts:resize size="5,10,15"/>
                 <ts:word-wrap/>
                 <ts:reset-settings/>
                 <menu-item action-id="action1"/>
@@ -37,7 +37,7 @@
                 <ts:columns default-value="id,name,region" locked="id,name"/>
                 <ts:filters/>
                 <button id="id1" label="button1"/>
-                <ts:resize/>
+                <ts:resize size="5,10,15"/>
                 <ts:word-wrap/>
                 <ts:reset-settings/>
                 <sub-menu>
@@ -47,7 +47,7 @@
                     <ts:columns default-value="id,name,region" locked="id,name"/>
                     <ts:filters/>
                     <button id="id1" label="button1"/>
-                    <ts:resize/>
+                    <ts:resize size="5,10,15"/>
                     <ts:word-wrap/>
                     <ts:reset-settings/>
                     <menu-item action-id="action2"/>

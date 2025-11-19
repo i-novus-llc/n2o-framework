@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { Fragment, useCallback, useEffect } from 'react'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 import classNames from 'classnames'
 
@@ -36,13 +36,14 @@ export const TextTableHeader = ({
         if (!visible) { toggleVisibility(visible) }
     }, [])
 
+    const Wrapper = sortingParam ? Sorter : Fragment
+
     return (
-        <span className={classNames('n2o-advanced-table-header-title', className)} style={style}>
-            <Sorter visible={Boolean(sortingParam)} sorting={sorting} sortingParam={sortingParam} onSort={setSorting}>
+        <Wrapper sorting={sorting} sortingParam={sortingParam} onSort={setSorting} className='n2o-advanced-table-header-sorter'>
+            <span className={classNames('n2o-advanced-table-header-title', className)} style={style}>
                 <Text>{label}</Text>
-            </Sorter>
-            {!sortingParam && <Text>{label}</Text>}
-        </span>
+            </span>
+        </Wrapper>
     )
 }
 

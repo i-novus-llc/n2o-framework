@@ -317,29 +317,30 @@ class TableButtonGeneratorAT extends AutoTestBase {
         );
 
         openPage();
-
         N2oDropdownButton resize = table.toolbar().topRight().button(3, N2oDropdownButton.class);
-        table.columns().rows().shouldHaveSize(5);
-        table.paging().lastShouldHavePage("12");
+        table.columns().rows().shouldHaveSize(25);
+        table.paging().lastShouldHavePage("3");
 
         resize.click();
-        resize.shouldHaveItems(4);
-        resize.shouldBeExpanded();
+        checkInitialState(resize);
+
+        resize.menuItem("5").click();
+        table.columns().rows().shouldHaveSize(5);
+        table.paging().lastShouldHavePage("12");
         resize.menuItem("5").shouldHaveIcon("fa fa-check");
         resize.menuItem("10").shouldNotHaveIcon();
         resize.menuItem("20").shouldNotHaveIcon();
-        resize.menuItem("50").shouldNotHaveIcon();
+        resize.menuItem("51").shouldNotHaveIcon();
 
         resize.menuItem("10").click();
         resize.menuItem("5").shouldNotHaveIcon();
         resize.menuItem("10").shouldHaveIcon("fa fa-check");
         table.columns().rows().shouldHaveSize(10);
         table.paging().lastShouldHavePage("6");
-        table.paging().selectPage("2");
-        table.columns().rows().shouldHaveSize(10);
-        table.paging().lastShouldHavePage("6");
 
+        table.paging().selectPage("2");
         resize.shouldBeCollapsed();
+        table.paging().lastShouldHavePage("6");
         table.columns().rows().shouldHaveSize(10);
 
         resize.click();
@@ -349,19 +350,29 @@ class TableButtonGeneratorAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(20);
         table.paging().lastShouldHavePage("3");
 
-        resize.menuItem("50").click();
+        resize.menuItem("51").click();
         resize.menuItem("20").shouldNotHaveIcon();
-        resize.menuItem("50").shouldHaveIcon("fa fa-check");
-        table.columns().rows().shouldHaveSize(50);
-        table.paging().lastShouldHavePage("2");
-        table.paging().selectPage("2");
-        table.columns().rows().shouldHaveSize(10);
+        resize.menuItem("51").shouldHaveIcon("fa fa-check");
+        table.columns().rows().shouldHaveSize(51);
         table.paging().lastShouldHavePage("2");
 
+        table.paging().selectPage("2");
         resize.shouldBeCollapsed();
-        table.columns().rows().shouldHaveSize(10);
+        table.paging().lastShouldHavePage("2");
+        table.columns().rows().shouldHaveSize(9);
+
         table.paging().selectFirst();
-        table.columns().rows().shouldHaveSize(50);
+        table.columns().rows().shouldHaveSize(51);
+    }
+
+    private static void checkInitialState(N2oDropdownButton resize) {
+        resize.shouldHaveItems(5);
+        resize.shouldBeExpanded();
+        resize.menuItem("5").shouldNotHaveIcon();
+        resize.menuItem("10").shouldNotHaveIcon();
+        resize.menuItem("20").shouldNotHaveIcon();
+        resize.menuItem("25").shouldHaveIcon("fa fa-check");
+        resize.menuItem("51").shouldNotHaveIcon();
     }
 
     @Test
