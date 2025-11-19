@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState, type VFC, MouseEvent } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import classNames from 'classnames'
 import flowRight from 'lodash/flowRight'
 import get from 'lodash/get'
@@ -24,21 +24,11 @@ const Cell = ({
     callAction,
 }: EditableCellProps) => {
     const controlId = control.id
-    const [isEditing, setIsEditing] = useState(false)
     const viewValue = useMemo(() => get(model, fieldKey), [model, fieldKey]) as string
     const controlValue = useMemo(() => get(model, controlId), [model, controlId])
     const modelRef = useRef(model)
 
     modelRef.current = model
-
-    const enableEditing = useCallback((event: MouseEvent<HTMLDivElement>) => {
-        event.stopPropagation()
-        setIsEditing(true)
-    }, [])
-
-    const disableEditing = useCallback(() => {
-        setIsEditing(false)
-    }, [])
 
     const handleChange = useCallback((value) => {
         if (model?.[controlId] === value) {
@@ -56,20 +46,16 @@ const Cell = ({
         <DefaultCell
             tag="div"
             disabled={disabled}
-            className={classNames({ 'n2o-editable-cell': editable })}
+            className={classNames('n2o-editable-cell', { editable, disabled })}
         >
-            {(isEditing && editable) ? (
-                <Control
-                    control={control}
-                    value={controlValue}
-                    onChange={handleChange}
-                    onBlur={disableEditing}
-                />
-            ) : (
-                <View className={classNames({ 'editable-cell-empty': isEmpty })} onClick={enableEditing}>
-                    <FormattedText format={format}>{viewValue}</FormattedText>
-                </View>
-            )}
+            <Control
+                control={control}
+                value={controlValue}
+                onChange={handleChange}
+            />
+            <View className={classNames({ 'editable-cell-empty': isEmpty })}>
+                <FormattedText format={format}>{viewValue}</FormattedText>
+            </View>
         </DefaultCell>
     )
 }

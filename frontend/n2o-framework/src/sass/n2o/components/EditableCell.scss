@@ -1,76 +1,60 @@
-.editable-cell-empty {
-    width: 100%;
-    min-width: 100px;
-    background-color: $white;
-    border: $input-select-border;
-}
-
-.editable-cell-empty:hover {
-    background-color: #fff;
-    transition: 0.3s;
-}
-
-.table-hover tbody tr:hover,
-.table-hover .table-active:hover {
-    .editable-cell-empty {
-        background-color: #fff;
-    }
-}
-
 .n2o-editable-cell {
-    .n2o-editable-cell-text {
-        span::before {
-            content: "\a0";
-        }
-
-        span::after {
-            content: "\a0";
-        }
-    }
-
-    .form-control:focus {
-        border-color: #163851;
-        box-shadow: none;
-        padding: 1px 0 2px 2px;
-    }
-
     min-width: 100px;
     width: 100%;
-    max-width: max-content;
     text-align: left;
+    position: relative;
 
-    &:hover {
-        color: #263238;
-        background-color: #fff;
-        outline: 0;
-        box-shadow: 0 0 0 1px #263238;
-        border: none;
-        cursor: text;
-        transition: 0.3s;
+    .n2o-editable-cell-text {
+        // хак для обрезки длинного текста
+        position: absolute;
+        width: 100%;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        padding-left: 0.75rem !important;
+        border: 1px solid transparent;
     }
 
-    .n2o-input-select .n2o-input-container {
-        min-height: $input-select-editable-cell-min-height;
+    .n2o-editable-cell-control {
+        visibility: hidden;
+        opacity: 0;
 
-        input {
-            padding: 0;
+        // Костыль чтоб немного сжать поля ввода, которые распирают высоту строки
+        .form-control,
+        .btn {
+            height: auto;
+            padding-top: 0.125rem;
+            padding-bottom: 0.125rem;
+            min-height: unset;
+        }
+
+        // select использует вложенный .form-control и даёт лишний отступ, тоже убираем
+        .form-control .form-control {
+            padding-top: 0;
         }
     }
-}
 
-.n2o-editable-cell:focus {
-    outline: 0;
-}
+    &.editable {
+        .editable-cell-empty {
+            width: 100%;
+            min-width: 100px;
+            background-color: $white;
+            border: $input-select-border;
+        }
 
-.n2o-editable-cell-control > div,
-.n2o-advanced-table-edit-control,
-.n2o-editable-cell-control .n2o-calendar-button {
-    height: 100%;
-    padding: 0;
-}
+        &:hover,
+        &:focus,
+        &:focus-within {
+            .n2o-editable-cell-text {
+                visibility: hidden;
+                opacity: 0;
+            }
 
-.n2o-editable-cell-control {
-    .n2o-advanced-table-edit-control {
-        padding-left: 0.75rem !important;
+            .n2o-editable-cell-control {
+                visibility: visible;
+                opacity: 1;
+            }
+        }
     }
 }

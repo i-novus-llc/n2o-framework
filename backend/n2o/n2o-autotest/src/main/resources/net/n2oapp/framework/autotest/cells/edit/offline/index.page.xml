@@ -10,6 +10,7 @@
                     <form-param id="list" value="{this}" model="datasource"/>
                 </invoke>
             </button>
+            <button label="Click"/>
         </toolbar>
         <columns>
             <column text-field-id="id" label="№"/>

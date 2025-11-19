@@ -129,6 +129,8 @@ class EditCellAT extends AutoTestBase {
         date.setValue("01.02.1980");
         date.shouldHaveValue("01.02.1980");
 
+        table.toolbar().topLeft().button("Click").click();
+
         select.shouldHaveValue("мужской");
         cell3.click();
         select.openPopup();
@@ -148,6 +150,7 @@ class EditCellAT extends AutoTestBase {
         date.setValue("01.02.1980");
         date.shouldHaveValue("01.02.1980");
 
+        table.toolbar().topLeft().button("Click").click();
 
         select.shouldHaveValue("мужской");
         cell3.click();
