@@ -116,7 +116,8 @@ class TableRowClickAT extends AutoTestBase {
         alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldNotExists();
 
-        firstRow.click();
+        // это необходимо чтобы клик был по строке, но не по edit-cell
+        firstRow.elements().get(1).$(".cell-content").click();
         alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldHaveColor(ColorsEnum.DANGER);
         alert.shouldHaveText("error");

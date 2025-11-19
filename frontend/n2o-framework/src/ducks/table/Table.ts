@@ -74,6 +74,7 @@ export type HeaderCell = {
     filterField?: FilterField
     format?: string
     fixed?: 'left' | 'right'
+    resizable?: boolean
 }
 
 export interface Table {

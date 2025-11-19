@@ -8,11 +8,11 @@ import { Selection } from '../enum'
 import { getAllValuesByKey } from '../utils'
 import { TableRefProps } from '../provider/TableRefProps'
 import { EMPTY_ARRAY, EMPTY_OBJECT, NOOP_FUNCTION } from '../../../utils/emptyTypes'
+import { useColumnPosition } from '../hooks/useColumnPosition'
 
 import { TableHeader } from './TableHeader'
 import { TableBody } from './TableBody'
 import { ScrollbarRow } from './ScrollbarRow'
-import { useFixedCells } from './useFixedCells'
 
 export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
     tableConfig,
@@ -47,7 +47,8 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
     }, [rowSelection, data, selectedRows])
     const headerRef = useRef(null)
     const hasSelection = rowSelection === Selection.Radio || rowSelection === Selection.Checkbox
-    const { cells: fixedCells, colgroup, hasFixedLeft } = useFixedCells({ cells, hasSelection })
+    const { cells: fixedCells, colgroup } = useColumnPosition({ cells, hasSelection })
+    const hasFixedLeft = fixedCells.header.some(cells => cells.fixed === 'left')
     const colSpan = fixedCells.body.length + (hasSelection ? 1 : 0)
 
     useSticky(refContainerElem, headerRef)
