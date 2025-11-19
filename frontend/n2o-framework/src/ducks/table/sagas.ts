@@ -1,4 +1,4 @@
-import { put, takeEvery, cancel, select } from 'redux-saga/effects'
+import { put, takeEvery, cancel, select, delay } from 'redux-saga/effects'
 import omit from 'lodash/omit'
 import isEmpty from 'lodash/isEmpty'
 
@@ -15,8 +15,9 @@ import {
 import { createColumns } from '../../components/widgets/AdvancedTable/helpers'
 import { updatePaging } from '../datasource/store'
 import { dataSourceByIdSelector } from '../datasource/selectors'
+import { makePageMetadataByIdSelector } from '../pages/selectors'
 
-import { type BodyCell, type HeaderCell } from './Table'
+import { type HeaderCell } from './Table'
 import { registerTable } from './store'
 import { getDefaultColumnState } from './constants'
 
@@ -69,6 +70,9 @@ function* registerTableEffect(action: Register) {
     const { widgetId, initProps } = payload
     const { table, datasource, saveSettings } = initProps
 
+    /** Необходимо дождаться регистрации datasource */
+    yield delay(50)
+
     if (!table) { yield cancel() }
 
     const state: State = yield select()
@@ -91,8 +95,13 @@ function* registerTableEffect(action: Register) {
 
     const savedSettings = getData(widgetId)
 
-    // TODO временно, проблема в том что тут еще нет datasource
-    const { paging = { page: 1, size: 5 }, sorting } = yield select(dataSourceByIdSelector(datasource))
+    const { sorting, pageId, id } = yield select(dataSourceByIdSelector(datasource))
+    // @ts-ignore FIXME временно
+    const metaData = yield select(makePageMetadataByIdSelector(pageId))
+
+    const { datasources = {} } = metaData || {}
+    const pageDs = datasources[id] || {}
+    const { paging } = pageDs
 
     if (saveSettings &&
         !isEmpty(savedSettings) &&
@@ -114,6 +123,7 @@ function* registerTableEffect(action: Register) {
             ...props,
             header: { cells: savedHeaderCells },
             body: { ...body, cells: savedBodyCells },
+            textWrap: savedSettings?.textWrap !== undefined ? savedSettings?.textWrap : props?.textWrap,
         }
     }
 

@@ -53,12 +53,11 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
         buttonGeneratorFactory = environment.getButtonGeneratorFactory();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public D compile(S source, CompileContext<?, ?> context, CompileProcessor p) {
         if (!ArrayUtils.isEmpty(source.getGenerate())) {
             N2oToolbar toolbar = p.getScope(N2oToolbar.class);
-
             return (D) generateButtons(source, toolbar, buttonGeneratorFactory, context, p).getFirst();
         }
 
@@ -83,7 +82,6 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
         return (D) new PerformButton();
     }
 
-
     @Override
     protected void initDefaults(S source, CompileProcessor p) {
         source.setId(castDefault(source.getId(), source.getActionId()));
@@ -100,7 +98,7 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
         source.setValidateDatasourceIds(initValidateDatasources(source, validate, source.getDatasourceId()));
     }
 
-    private String[] initValidateDatasources(N2oButton source, boolean validate, String datasource) {
+    private String[] initValidateDatasources(S source, boolean validate, String datasource) {
         if (validate) {
             if (source.getValidateDatasourceIds() != null)
                 return source.getValidateDatasourceIds();
@@ -118,8 +116,7 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
      * @param source Исходная модель кнопки
      * @param p      Процессор сборки метаданных
      */
-    protected void compileDependencies(N2oButton source, PerformButton button,
-                                       CompileProcessor p) {
+    protected void compileDependencies(S source, D button, CompileProcessor p) {
         String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
@@ -150,7 +147,7 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
      * @param p                Процессор сборки метаданных
      * @return Условие доступности кнопки при пустой модели
      */
-    private Condition enabledByEmptyModelCondition(N2oButton source, String clientDatasource, ComponentScope componentScope, CompileProcessor p) {
+    private Condition enabledByEmptyModelCondition(S source, String clientDatasource, ComponentScope componentScope, CompileProcessor p) {
         DisableOnEmptyModelTypeEnum disableOnEmptyModel = castDefault(
                 source.getDisableOnEmptyModel(),
                 () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelTypeEnum.class)
@@ -173,7 +170,7 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
         return null;
     }
 
-    private void compileDependencies(N2oButton.Dependency[] dependencies, PerformButton button, String clientDatasource,
+    private void compileDependencies(N2oButton.Dependency[] dependencies, D button, String clientDatasource,
                                      ReduxModelEnum buttonModel, CompileProcessor p) {
         for (N2oButton.Dependency d : dependencies) {
             ValidationTypeEnum validationType = null;
@@ -186,7 +183,7 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
         }
     }
 
-    private void compileDependencyCondition(N2oButton.Dependency dependency, PerformButton button, ValidationTypeEnum validationType,
+    private void compileDependencyCondition(N2oButton.Dependency dependency, D button, ValidationTypeEnum validationType,
                                             String buttonDatasource, ReduxModelEnum buttonModel, CompileProcessor p) {
         ReduxModelEnum refModel = castDefault(dependency.getModel(), buttonModel, ReduxModelEnum.RESOLVE);
         Condition condition = new Condition();

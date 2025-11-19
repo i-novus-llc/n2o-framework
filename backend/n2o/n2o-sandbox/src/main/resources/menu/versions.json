@@ -55,6 +55,9 @@
         {
           "templateId": "versions/7.29/sticky_header_footer",
           "name": "Фиксация шапки и подвала таблицы"
+        },{
+          "templateId": "versions/7.29/resize_table_settings",
+          "name": "Настройка вариантов количества отображаемых записей таблицы"
         }
       ]
     },

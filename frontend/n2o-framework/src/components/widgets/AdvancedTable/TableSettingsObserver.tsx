@@ -18,6 +18,7 @@ import { DATA_SOURCE_SAVED_SETTINGS, type DatasourceSavedSettings, SAVED_SETTING
 const EMPTY_CELLS = { cells: [] }
 
 export function TableSettingsObserver<P extends WithTableType>(Component: React.ComponentType<P>) {
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     function Wrapper(props: P) {
         const dispatch = useDispatch()
 
@@ -54,7 +55,7 @@ export function TableSettingsObserver<P extends WithTableType>(Component: React.
                 if (defaultDatasourceProps) {
                     const { paging: defaultPaging, sorting: defaultSorting } = defaultDatasourceProps
 
-                    fetchData(defaultPaging)
+                    fetchData(defaultPaging.page ? defaultPaging : { ...defaultPaging, page: 1 })
 
                     if (isEmpty(defaultSorting)) {
                         if (!isEmpty(sorting)) {
