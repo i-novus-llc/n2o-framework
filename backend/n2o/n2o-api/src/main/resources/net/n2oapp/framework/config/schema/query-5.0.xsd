@@ -256,6 +256,7 @@
             <xs:element name="like" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="in" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="notIn" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="overlaps" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <!-- only for Test provider -->
             <xs:element name="contains" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
