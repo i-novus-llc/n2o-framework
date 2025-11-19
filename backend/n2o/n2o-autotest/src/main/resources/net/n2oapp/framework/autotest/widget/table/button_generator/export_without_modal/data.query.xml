@@ -9,12 +9,13 @@
 
     <filters>
         <like field-id="name" filter-id="name"/>
+        <like field-id="region" filter-id="region"/>
     </filters>
 
     <fields>
-        <field id="id"/>
-        <field id="id_ips"/>
-        <field id="name"/>
-        <field id="region"/>
+        <field id="id" domain="integer" sorting="true"/>
+        <field id="id_ips" sorting="true"/>
+        <field id="name" sorting="true" name="Наименование"/>
+        <field id="region" domain="string" name="Регион"/>
     </fields>
 </query>

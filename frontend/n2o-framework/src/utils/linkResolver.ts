@@ -8,7 +8,7 @@ import { State } from '../ducks/State'
 
 import { evalExpression, parseExpression } from './evalExpression'
 
-interface LinkProps {
+export interface LinkProps {
     link: string,
     value?: string
 }

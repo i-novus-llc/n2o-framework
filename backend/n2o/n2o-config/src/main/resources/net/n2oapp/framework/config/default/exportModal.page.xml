@@ -18,14 +18,14 @@
                             <option id="utf8" name="UTF-8"/>
                             <option id="cp1251" name="Cp1251"/>
                         </options>
-                        <default-value id="utf8" name="UTF-8"/>
+                        <default-value id="${charsetId}" name="${charsetName}"/>
                     </select>
                     <radio-group id="type" no-label="true">
                         <options>
                             <option id="all" name="Загрузить все (но не более 1000 записей)"/>
                             <option id="page" name="Текущая страница"/>
                         </options>
-                        <default-value id="all"/>
+                        <default-value id="${sizeId}"/>
                     </radio-group>
                 </set>
             </fields>

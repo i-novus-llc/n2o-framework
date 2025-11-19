@@ -437,6 +437,10 @@
           "name": "TableButtonGeneratorAT. testTabSync"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/button_generator/export_without_modal",
+          "name": "TableButtonGeneratorAT. exportWithoutModalTest"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/checkboxes",
           "name": "TableCheckboxesAT"
         },

@@ -66,10 +66,13 @@ n2o.api.generate.button.columns.description = Скрытие столбцов
 
 **Атрибуты**
 
-| Наименование   | Тип     | Описание                                  | Значение по умолчанию        |
-|----------------|---------|-------------------------------------------|------------------------------|
-| format         | Строка  | Список доступных форматов (через запятую) | csv, xlsx                    |
-| default-format | Строка  | Формат по умолчанию                       | Первый из доступных форматов |
+| Наименование    | Тип          | Описание                                                                                    | Значение по умолчанию |
+|-----------------|--------------|---------------------------------------------------------------------------------------------|-----------------------|
+| format          | Строка       | Список доступных форматов (через запятую)                                                   | csv, xlsx             |
+| default-format  | csv xlsx     | Формат по умолчанию. Должен входить в список, указанный в `format`                          | csv                   |
+| default-size    | all page     | Размер экспортируемых данных по умолчанию                                                   | all                   |
+| default-charset | utf-8 cp1251 | Кодировка по умолчанию                                                                      | utf-8                 |
+| show-modal      | true false   | Показывать модальное окно с параметрами или сразу скачивать файл со значениями по умолчанию | true                  |
 
 **Настройки**
 
@@ -79,6 +82,9 @@ n2o.api.generate.button.export.description = Экспортировать
 n2o.api.generate.button.export.page = exportModal
 n2o.api.generate.button.export.url = n2o/export
 n2o.api.generate.button.export.all_limit = 1000
+n2o.api.generate.button.export.format = csv
+n2o.api.generate.button.export.charset = utf-8
+n2o.api.generate.button.export.size = all
 ```
 
 :::note
@@ -161,6 +167,7 @@ n2o.api.generate.button.resize.description = Количество записей
     <ts:resize size="5,10,15"/>
 </toolbar>
 ```
+
 
 
 ### &lt;word-wrap&gt; {#word-wrap}

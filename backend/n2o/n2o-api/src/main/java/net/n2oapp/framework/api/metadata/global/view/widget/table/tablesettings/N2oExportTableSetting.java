@@ -8,4 +8,7 @@ import lombok.Setter;
 public class N2oExportTableSetting extends N2oAbstractTableSetting {
     private ExportFormatEnum[] format;
     private ExportFormatEnum defaultFormat;
+    private ExportCharsetEnum defaultCharset;
+    private ExportSizeEnum defaultSize;
+    private Boolean showModal;
 }

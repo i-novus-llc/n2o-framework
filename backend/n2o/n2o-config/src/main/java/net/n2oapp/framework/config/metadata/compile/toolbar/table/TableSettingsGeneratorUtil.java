@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oInheritedDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.DatasourceUtil;
@@ -76,7 +77,7 @@ public class TableSettingsGeneratorUtil {
         source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
     }
 
-    public static void generateExport(N2oExportTableSetting source, CompileProcessor p) {
+    public static void generateExportShowModal(N2oExportTableSetting source, CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String datasourceId = widgetScope == null ? null : widgetScope.getDatasourceId();
         String clientWidgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
@@ -103,8 +104,18 @@ public class TableSettingsGeneratorUtil {
         payload.put("baseURL", exportUrl);
         payload.put("exportDatasource", exportDatasource);
         payload.put(WIDGET_ID, clientWidgetId);
-        payload.put("configDatasource", configDatasource);
         payload.put("allLimit", allLimit);
+        ModelLink link = new ModelLink(ReduxModelEnum.RESOLVE, configDatasource);
+        payload.put("values-format-link", link.getLink());
+        payload.put("values-format-value", "`format.id`");
+        payload.put("values-format-required", "true");
+        payload.put("values-charset-link", link.getLink());
+        payload.put("values-charset-value", "`charset.id`");
+        payload.put("values-charset-required", "true");
+        payload.put("values-type-link", link.getLink());
+        payload.put("values-type-value", "`type.id`");
+        payload.put("values-type-required", "true");
+
         downloadAction.setPayload(payload);
         downloadAction.setType("n2o/api/utils/export");
         downloadBtn.setActions(new N2oAction[]{downloadAction});
@@ -122,8 +133,19 @@ public class TableSettingsGeneratorUtil {
         showModalAction.setToolbars(new N2oToolbar[]{modalToolbar});
         showModalAction.setRoute("/" + exportPage + "_" + clientWidgetId);
         ExportFormatEnum[] format = castDefault(source.getFormat(), ExportFormatEnum.values());
-        String defaultFormat = source.getDefaultFormat() != null ? source.getDefaultFormat().getId() : format[0].getId();
-        showModalAction.setPageId(exportPage + "?formatId=" + defaultFormat.toLowerCase() + "&formatName=" + defaultFormat.toUpperCase());
+        String defaultFormat = source.getDefaultFormat() != null
+                ? source.getDefaultFormat().getId()
+                : format[0].getId();
+        ExportCharsetEnum defaultCharset = source.getDefaultCharset() != null
+                ? source.getDefaultCharset()
+                : ExportCharsetEnum.fromId(p.resolve(property("n2o.api.generate.button.export.charset"), String.class));
+        String defaultSize = source.getDefaultSize() != null
+                ? source.getDefaultSize().name().toLowerCase()
+                : p.resolve(property("n2o.api.generate.button.export.size"), String.class);
+        String exportPageId = exportPage + "?formatId=" + defaultFormat.toLowerCase() + "&formatName=" + defaultFormat.toUpperCase()
+                + "&charsetId=" + defaultCharset.getId().toLowerCase() + "&charsetName=" + defaultCharset.getId()
+                + "&sizeId=" + defaultSize;
+        showModalAction.setPageId(exportPageId);
         N2oInheritedDatasource inheritedDs = new N2oInheritedDatasource();
         inheritedDs.setId("formatDs");
         inheritedDs.setSourceDatasource(datasourceId);
@@ -137,6 +159,48 @@ public class TableSettingsGeneratorUtil {
 
         fillButton(source, source.isGeneratedForSubMenu(), "export", p);
         source.setActions(new N2oShowModal[]{showModalAction});
+        source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
+        N2oAbstractButton.EnablingDependency dependency = new N2oAbstractButton.EnablingDependency();
+        dependency.setMessage("Недоступно при пустых данных");
+        dependency.setValue("this.length > 0");
+        dependency.setDatasource(datasourceId);
+        dependency.setModel(ReduxModelEnum.DATASOURCE);
+        source.setDependencies(new N2oAbstractButton.Dependency[]{dependency});
+    }
+
+    public static void generateExport(N2oExportTableSetting source, CompileProcessor p) {
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String datasourceId = widgetScope == null ? null : widgetScope.getDatasourceId();
+        String clientWidgetId = widgetScope == null ? null : widgetScope.getClientWidgetId();
+        String exportDatasource = DatasourceUtil.getClientDatasourceId(
+                datasourceId,
+                p.getScope(PageScope.class).getPageId(),
+                p);
+
+        String exportUrl = p.resolve(property("n2o.api.generate.button.export.url"), String.class);
+        String allLimit = p.resolve(property("n2o.api.generate.button.export.all_limit"), String.class);
+        N2oCustomAction downloadAction = new N2oCustomAction();
+        Map<String, String> payload = new HashMap<>();
+        payload.put("baseURL", exportUrl);
+        payload.put("allLimit", allLimit);
+        payload.put("exportDatasource", exportDatasource);
+        payload.put(WIDGET_ID, clientWidgetId);
+        payload.put("values-format-value", castDefault(source.getDefaultFormat() == null
+                ? null
+                : source.getDefaultFormat().getId(), p.resolve(property("n2o.api.generate.button.export.format"), String.class)));
+        payload.put("values-format-required", "true");
+        payload.put("values-charset-value", castDefault(source.getDefaultCharset() == null
+                ? null
+                : source.getDefaultCharset().getId(), p.resolve(property("n2o.api.generate.button.export.charset"), String.class)));
+        payload.put("values-charset-required", "true");
+        payload.put("values-type-value", castDefault(source.getDefaultSize() == null
+                ? null
+                : source.getDefaultSize().getId(), p.resolve(property("n2o.api.generate.button.export.size"), String.class)));
+        payload.put("values-type-required", "true");
+        downloadAction.setPayload(payload);
+        downloadAction.setType("n2o/api/utils/export");
+        fillButton(source, source.isGeneratedForSubMenu(), "export", p);
+        source.setActions(new N2oAction[]{downloadAction});
         source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
         N2oAbstractButton.EnablingDependency dependency = new N2oAbstractButton.EnablingDependency();
         dependency.setMessage("Недоступно при пустых данных");

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.modal.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
@@ -19,6 +20,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 
@@ -103,7 +105,7 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
 
         Toolbar toolbar = page.getWidget().getToolbar();
         List<Group> groups = toolbar.getGroups();
-        assertThat(groups.size(), is(2));
+        assertThat(groups.size(), is(3));
 
         List<AbstractButton> buttons = groups.getFirst().getButtons();
         checkButtons(buttons, AbstractButton::getHint);
@@ -122,6 +124,14 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
         checkButtons(buttons, AbstractButton::getLabel);
         assertThat(buttons.get(9).getSrc(), is("StandardButton"));
         assertThat(buttons.get(9).getId(), is("action2"));
+
+        buttons = groups.get(2).getButtons();
+        assertThat(buttons.get(0).getAction(), instanceOf(CustomAction.class));
+        assertThat(((CustomAction)buttons.getFirst().getAction()).getType(), is("n2o/api/utils/export"));
+        HashMap<String, Object> values = (HashMap<String, Object>) ((CustomAction) buttons.getFirst().getAction()).getPayload().getAttributes().get("values");
+        assertThat(((HashMap<String, Object>)values.get("format")).get("value"), is("csv"));
+        assertThat(((HashMap<String, Object>)values.get("charset")).get("value"), is("utf-8"));
+        assertThat(((HashMap<String, Object>)values.get("type")).get("value"), is("all"));
     }
 
     private static void checkButtons(List<AbstractButton> buttons, Function<AbstractButton, String> labelExtractor) {
@@ -137,7 +147,7 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
 
         assertThat(buttons.get(2).getSrc(), is("StandardButton"));
         assertThat(buttons.get(2).getAction(), instanceOf(ShowModal.class));
-        assertThat(((ShowModal) buttons.get(2).getAction()).getPageId(), is("exportModal?formatId=xlsx&formatName=XLSX"));
+        assertThat(((ShowModal) buttons.get(2).getAction()).getPageId(), is("exportModal?formatId=xlsx&formatName=XLSX&charsetId=utf-8&charsetName=UTF-8&sizeId=all"));
         assertThat(labelExtractor.apply(buttons.get(2)), is("Экспортировать"));
 
         assertThat(buttons.get(3).getSrc(), is("ToggleColumn"));

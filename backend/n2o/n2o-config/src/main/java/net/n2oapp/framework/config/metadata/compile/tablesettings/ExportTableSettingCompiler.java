@@ -9,6 +9,7 @@ import net.n2oapp.framework.config.metadata.compile.toolbar.PerformButtonCompile
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.metadata.compile.toolbar.table.TableSettingsGeneratorUtil.generateExport;
+import static net.n2oapp.framework.config.metadata.compile.toolbar.table.TableSettingsGeneratorUtil.generateExportShowModal;
 
 /**
  * Компиляция пользовательских настроек отображения таблицы
@@ -23,7 +24,11 @@ public class ExportTableSettingCompiler extends PerformButtonCompiler<N2oExportT
 
     @Override
     public PerformButton compile(N2oExportTableSetting source, CompileContext<?, ?> context, CompileProcessor p) {
-        generateExport(source, p);
+        if (Boolean.FALSE.equals(source.getShowModal()))
+            generateExport(source, p);
+        else
+            generateExportShowModal(source, p);
+
         return super.compile(source, context, p);
     }
 }

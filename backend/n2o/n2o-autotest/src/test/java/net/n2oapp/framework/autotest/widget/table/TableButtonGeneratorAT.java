@@ -16,6 +16,7 @@ import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
+import net.n2oapp.framework.autotest.impl.component.button.N2oButton;
 import net.n2oapp.framework.autotest.impl.component.button.N2oDropdownButton;
 import net.n2oapp.framework.autotest.impl.component.button.N2oStandardButton;
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oSimpleFieldSet;
@@ -373,6 +374,40 @@ class TableButtonGeneratorAT extends AutoTestBase {
         resize.menuItem("20").shouldNotHaveIcon();
         resize.menuItem("25").shouldHaveIcon("fa fa-check");
         resize.menuItem("51").shouldNotHaveIcon();
+    }
+
+    @Test
+    void exportWithoutModalTest() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/export_without_modal");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/export_without_modal/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/export_without_modal/data.query.xml")
+        );
+
+        openPage();
+        N2oButton exportBtn = toolbar.button(0, N2oStandardButton.class);
+        exportBtn.shouldExists();
+        File file = exportBtn.element().download(
+                using(FOLDER).withFilter(withExtension("csv"))
+        );
+
+        try (FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
+            char[] chars = new char[(int) file.length() - 1];
+            fileReader.read(chars);
+
+            String actual = new String(chars);
+            String expected = """
+                    "Идентификатор";"Идентификатор ИПС";"Наименование";"Регион"
+                    1;"ey88ee-rugh34-asd4";"РМИС Республика Адыгея(СТП)";"Республика Адыгея"
+                    2;"ey88ee-ruqah34-54eqw";"РМИС Республика Татарстан(тестовая для ПСИ)";"Республика Татарстан"
+                    3;"ey88ea-ruaah34-54eqw";"ТМК";""
+                    4;"ey88ee-asd52a-54eqw";"МИС +МЕД";"Республика Адыгея"
+                    5;"ey88fe-asd52a-54eqb";"РМИС Комстромской области";"Комстромская область"
+                    """;
+            assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
+        } catch (IOException e) {
+            fail();
+        }
     }
 
     @Test

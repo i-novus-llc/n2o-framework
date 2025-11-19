@@ -12,9 +12,9 @@
     </filters>
 
     <fields>
-        <field id="id" domain="integer" sorting="true" name="Идентификатор"/>
-        <field id="id_ips" sorting="true" name="Идентификатор ИПС"/>
-        <field id="name" sorting="true" name="Наименование"/>
-        <field id="region" domain="string" name="Регион"/>
+        <field id="id"/>
+        <field id="id_ips"/>
+        <field id="name"/>
+        <field id="region"/>
     </fields>
 </query>

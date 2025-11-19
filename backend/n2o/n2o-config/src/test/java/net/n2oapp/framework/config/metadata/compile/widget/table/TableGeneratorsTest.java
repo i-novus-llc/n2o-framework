@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -121,7 +122,7 @@ class TableGeneratorsTest extends SourceCompileTestBase {
                 hasProperty("label", nullValue())
         ));
         assertThat(exportBtn.getAction(), Matchers.instanceOf(ShowModal.class));
-        assertThat(((ShowModal) exportBtn.getAction()).getPageId(), is("exportModal?formatId=csv&formatName=CSV"));
+        assertThat(((ShowModal) exportBtn.getAction()).getPageId(), is("exportModal?formatId=csv&formatName=CSV&charsetId=utf-8&charsetName=UTF-8&sizeId=all"));
         assertThat(((ShowModal) exportBtn.getAction()).getPayload().getPageUrl(), is("/table_settings/exportModal_table_settings_tb1"));
 
 
@@ -166,7 +167,6 @@ class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(download.getType(), is("n2o/api/utils/export"));
         assertThat(download.getPayload().getAttributes(), allOf(
                 hasEntry("baseURL", "n2o/export"),
-                hasEntry("configDatasource", "table_settings_exportModal_table_settings_tb1_exportModalDs"),
                 hasEntry("exportDatasource", "table_settings_ds1")
         ));
         AbstractButton closeBtn = modalPage.getToolbar().getButton("table_settings_exportModal_table_settings_tb1_mi1");
@@ -296,7 +296,7 @@ class TableGeneratorsTest extends SourceCompileTestBase {
         AbstractButton button = t.getToolbar().get("bottomRight").getFirst().getButtons().getFirst();
 
         assertThat(button.getAction(), Matchers.instanceOf(ShowModal.class));
-        assertThat(((ShowModal) button.getAction()).getPageId(), Matchers.is("exportModal?formatId=xlsx&formatName=XLSX"));
+        assertThat(((ShowModal) button.getAction()).getPageId(), Matchers.is("exportModal?formatId=xlsx&formatName=XLSX&charsetId=utf-8&charsetName=UTF-8&sizeId=all"));
         assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/exportModal_export_w1"));
         assertThat(button, allOf(
                 hasProperty("hint", is("Экспортировать")),
@@ -340,10 +340,16 @@ class TableGeneratorsTest extends SourceCompileTestBase {
         CustomAction download = ((CustomAction) downloadBtn.getAction());
         assertThat(download.getType(), is("n2o/api/utils/export"));
         assertThat(download.getPayload().getAttributes().get("baseURL"), is("n2o/export"));
-        assertThat(download.getPayload().getAttributes().get("configDatasource"), is("export_exportModal_export_w1_exportModalDs"));
         assertThat(download.getPayload().getAttributes().get("exportDatasource"), is("export_ds1"));
         assertThat(download.getPayload().getAttributes().get("widgetId"), is("export_w1"));
         assertThat(download.getPayload().getAttributes().get("allLimit"), is("1000"));
+        Map<String, Map<String, String>> values = (Map<String, Map<String, String>>) download.getPayload().getAttributes().get("values");
+        assertThat(values.get("format").get("link"), is("models.resolve['export_exportModal_export_w1_exportModalDs']"));
+        assertThat(values.get("format").get("value"), is("`format.id`"));
+        assertThat(values.get("charset").get("link"), is("models.resolve['export_exportModal_export_w1_exportModalDs']"));
+        assertThat(values.get("charset").get("value"), is("`charset.id`"));
+        assertThat(values.get("type").get("link"), is("models.resolve['export_exportModal_export_w1_exportModalDs']"));
+        assertThat(values.get("type").get("value"), is("`type.id`"));
 
         AbstractButton closeBtn = modalPage.getToolbar().getButton("export_exportModal_export_w1_mi1");
         assertThat(closeBtn.getLabel(), is("Закрыть"));

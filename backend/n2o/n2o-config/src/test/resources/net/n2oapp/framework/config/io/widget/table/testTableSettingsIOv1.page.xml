@@ -6,7 +6,7 @@
             <ts:reset-settings label="Сбросить" icon="fa fa-times" description="Подсказка"/>
             <ts:refresh label="Обновить" icon="fa fa-refresh" description="Подсказка"/>
             <ts:resize label="Изменить количество" icon="fa fa-bars" description="Подсказка"/>
-            <ts:export format="csv,xlsx" default-format="xlsx"/>
+            <ts:export format="csv,xlsx" default-format="xlsx" default-size="all" default-charset="UTF-8" show-modal="true"/>
             <ts:columns default-value="id,name,region" locked="id,name"
                         label="Колонки" icon="fa fa-table" description="Подсказка"/>
             <ts:filters label="Фильтры" icon="fa fa-filter" description="Подсказка"/>
