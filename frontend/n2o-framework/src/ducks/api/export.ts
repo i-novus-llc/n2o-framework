@@ -6,20 +6,19 @@ import { dataSourceByIdSelector } from '../datasource/selectors'
 import { getTableHeaderCells } from '../table/selectors'
 import { type Action } from '../Action'
 import { getModelSelector } from '../models/selectors'
-import { ModelPrefix } from '../../core/datasource/const'
 import { type DataSourceState } from '../datasource/DataSource'
 import { type State } from '../State'
 import { type Provider, ProviderType } from '../datasource/Provider'
 import { type HeaderCell } from '../table/Table'
 import { getAllValuesByKey } from '../../components/Table/utils'
 import { logger } from '../../core/utils/logger'
+import { linkResolver, type LinkProps } from '../../utils/linkResolver'
 
 import { UTILS_PREFIX } from './constants'
 import { EffectWrapper } from './utils/effectWrapper'
 
 const ATTRIBUTES_ERROR = 'Ошибка экспорта, payload содержит не все параметры'
 const PARAMS_ERROR = 'Ошибка экспорта, не передан формат или кодировка'
-const PARAM_KEY = 'id'
 const INHERITED_SOURCE_FIELD_ID = 'source_field_id'
 const PARENT_ROW_ID = 'parent_id'
 const SORTING = 'sorting'
@@ -28,9 +27,17 @@ const SORTING = 'sorting'
  * TODO при увеличении массива сделать 1 общий параметр прим. noExport */
 const NON_EXPORTABLE_KEYS = ['moveMode']
 
+enum Setting {
+    FORMAT = 'format',
+    CHARSET = 'charset',
+    TYPE = 'type',
+}
+
+type Values = Record<Setting, LinkProps>
+
 export interface Payload {
     exportDatasource: string
-    configDatasource: string
+    values: Values
     baseURL: string
     widgetId: string
     allLimit: number
@@ -71,39 +78,34 @@ function createExportPayload(
     }
 }
 
-interface ExportConfig {
-    format: {
-        [PARAM_KEY]: string
-    }
-    charset: {
-        [PARAM_KEY]: string
-    }
-    type: {
-        [PARAM_KEY]: 'all' | 'page'
-        name: string
-    }
-}
-
 interface InheritedExtraParams {
     [INHERITED_SOURCE_FIELD_ID]?: string
     [PARENT_ROW_ID]?: string | number
     [SORTING]?: Record<string, unknown>
 }
 
-export function* effect({ payload }: Action<string, Payload>) {
-    const { exportDatasource, configDatasource, baseURL, widgetId, allLimit = 1000 } = payload
+/** @OINFO в зависимости от value | link возвращает
+ * 1. const value если оно передано
+ * 2. Значение в model */
+function* getSetting(valueMeta: LinkProps) {
+    const state: State = yield select()
 
-    if (!exportDatasource || !configDatasource || !baseURL || !widgetId) {
+    return linkResolver(state, valueMeta)
+}
+
+export function* effect({ payload }: Action<string, Payload>) {
+    const { exportDatasource, values, baseURL, widgetId, allLimit = 1000 } = payload
+
+    if (!exportDatasource || !values || !baseURL || !widgetId) {
         logger.error(ATTRIBUTES_ERROR)
         yield cancel()
     }
 
-    const modelLink = `models.${ModelPrefix.active}.${configDatasource}`
-    const model: ExportConfig = yield select(getModelSelector(modelLink))
-    const { type, format: modelFormat, charset: modelCharset } = model
+    const { format: metaFormat, charset: metaCharset, type: metaType } = values
 
-    const format = modelFormat[PARAM_KEY]
-    const charset = modelCharset[PARAM_KEY]
+    const format: string = yield getSetting(metaFormat)
+    const charset: string = yield getSetting(metaCharset)
+    const type: string = yield getSetting(metaType)
 
     if (!format || !charset) {
         logger.error(PARAMS_ERROR)
@@ -145,11 +147,10 @@ export function* effect({ payload }: Action<string, Payload>) {
 
     const { url: resolvedURL } = dataProviderResolver(
         state,
-        // @ts-ignore FIXME ругается на тип аргумента
-        inheritedProvider || provider,
+        inheritedProvider as object || provider as object,
         {
-            size: type[PARAM_KEY] === 'page' ? paging.size : allLimit,
-            page: type[PARAM_KEY] === 'page' ? paging.page : 1,
+            size: type === 'page' ? paging.size : allLimit,
+            page: type === 'page' ? paging.page : 1,
             sorting,
             ...extraParams,
         },

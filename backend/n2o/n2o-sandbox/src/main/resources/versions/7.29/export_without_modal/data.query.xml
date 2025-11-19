@@ -7,14 +7,10 @@
         <test file="data.json" operation="count"/>
     </count>
 
-    <filters>
-        <like field-id="name" filter-id="name"/>
-    </filters>
-
     <fields>
         <field id="id"/>
         <field id="id_ips"/>
-        <field id="name"/>
+        <field id="name" sorting="true"/>
         <field id="region"/>
     </fields>
 </query>

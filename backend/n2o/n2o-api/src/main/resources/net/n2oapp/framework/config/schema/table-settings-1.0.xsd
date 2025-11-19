@@ -116,10 +116,31 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="default-format" type="xs:string">
+                <xs:attribute name="default-format" type="formatType" default="csv">
                     <xs:annotation>
                         <xs:documentation>
                             Формат по умолчанию
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default-charset" type="charset" default="utf-8">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Кодировка по умолчанию
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default-size" type="fileSize" default="all">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Размер экспортируемых данных по умолчанию
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="show-modal" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Показывать модальное окно с параметрами или сразу скачивать файл со значениями по умолчанию
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -140,4 +161,52 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="formatType">
+        <xs:annotation>
+            <xs:documentation>
+                Формат экспортируемого файла
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="csv"/>
+            <xs:enumeration value="xlsx"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="charset">
+        <xs:annotation>
+            <xs:documentation>
+                Кодировка экспортируемого файла
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="UTF-8"/>
+            <xs:enumeration value="Cp1251"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="fileSize">
+        <xs:annotation>
+            <xs:documentation>
+                Размер экспортируемых данных
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="all">
+                <xs:annotation>
+                    <xs:documentation>
+                        Все записи
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="page">
+                <xs:annotation>
+                    <xs:documentation>
+                        Записи текущей страницы
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

@@ -58,6 +58,10 @@
         },{
           "templateId": "versions/7.29/resize_table_settings",
           "name": "Настройка вариантов количества отображаемых записей таблицы"
+        },
+        {
+          "templateId": "versions/7.29/export_without_modal",
+          "name": "Экспорт данных без модального окна"
         }
       ]
     },

@@ -53,6 +53,9 @@
                     <menu-item action-id="action2"/>
                 </sub-menu>
             </group>
+            <group>
+                <ts:export default-format="csv" show-modal="false"/>
+            </group>
         </toolbar>
     </table>
 </simple-page>

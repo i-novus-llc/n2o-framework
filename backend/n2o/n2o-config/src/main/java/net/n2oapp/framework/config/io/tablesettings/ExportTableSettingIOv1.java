@@ -1,6 +1,8 @@
 package net.n2oapp.framework.config.io.tablesettings;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.ExportCharsetEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.ExportFormatEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.ExportSizeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oExportTableSetting;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
@@ -18,6 +20,9 @@ public class ExportTableSettingIOv1 extends AbstractTableSettingsIOv1<N2oExportT
         super.io(e, m, p);
         p.attributeEnumArray(e, "format", ",", m::getFormat, m::setFormat, ExportFormatEnum.class);
         p.attributeEnum(e, "default-format", m::getDefaultFormat, m::setDefaultFormat, ExportFormatEnum.class);
+        p.attributeEnum(e, "default-charset", m::getDefaultCharset, m::setDefaultCharset, ExportCharsetEnum.class);
+        p.attributeEnum(e, "default-size", m::getDefaultSize, m::setDefaultSize, ExportSizeEnum.class);
+        p.attributeBoolean(e, "show-modal", m::getShowModal, m::setShowModal);
     }
 
     @Override
