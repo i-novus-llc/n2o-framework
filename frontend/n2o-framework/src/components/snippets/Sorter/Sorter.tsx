@@ -6,7 +6,8 @@ import { SortDirection } from '../../../core/datasource/const'
 
 export interface Props {
     title?: string
-    children: ReactNode
+    children?: ReactNode
+    className?: string
     sorting?: SortDirection
     sortingParam: string
     onSort(param: string, direction: SortDirection): void
@@ -22,6 +23,7 @@ const SORTING_DIRECTIONS: Record<SortDirection, SortDirection> = {
 export const Sorter: React.FC<Props> = ({
     title,
     children,
+    className,
     sorting = SortDirection.none,
     sortingParam,
     onSort,
@@ -37,7 +39,7 @@ export const Sorter: React.FC<Props> = ({
     return (
         <button
             type="button"
-            className="link-button"
+            className={classNames('link-button', className)}
             title={title}
             tabIndex={-1}
             onClick={onClick}
