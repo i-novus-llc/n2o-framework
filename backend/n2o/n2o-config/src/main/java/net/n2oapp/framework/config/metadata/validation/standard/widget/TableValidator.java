@@ -46,7 +46,7 @@ public class TableValidator extends ListWidgetValidator<N2oTable> {
         MetaActions actions = getAllMetaActions(p.getScope(MetaActions.class), source.getActions(), p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), source.getDatasource(), actions);
 
-        if (source.getRows() != null && source.getRows().getRowClick() != null) {
+        if (source.getRows() != null && source.getRows().getRowClick() != null && source.getRows().getRowClick().getActions() != null) {
             Arrays.stream(source.getRows().getRowClick().getActions()).forEach(item -> p.validate(item, widgetScope));
             checkOnFailAction(source.getRows().getRowClick().getActions());
             checkCloseInMultiAction(source.getRows().getRowClick().getActions());
