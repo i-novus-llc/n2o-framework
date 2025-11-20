@@ -22,7 +22,7 @@
                     </select>
                     <radio-group id="type" no-label="true">
                         <options>
-                            <option id="all" name="Загрузить все (но не более 1000 записей)"/>
+                            <option id="all" name="Загрузить все (но не более ${n2o.api.generate.button.export.all_limit} записей)"/>
                             <option id="page" name="Текущая страница"/>
                         </options>
                         <default-value id="${sizeId}"/>
