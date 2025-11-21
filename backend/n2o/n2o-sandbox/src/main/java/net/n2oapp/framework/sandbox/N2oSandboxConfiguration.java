@@ -32,6 +32,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.servlet.config.annotation.CorsRegistration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -67,6 +69,17 @@ public class N2oSandboxConfiguration {
     @Value("${s3.bucket:#{null}}")
     private String bucket;
 
+    @Value("${cors.allowed-origins:#{null}}")
+    private String[] allowedOrigins;
+    @Value("${cors.allowed-methods:GET,OPTIONS}")
+    private String[] allowedMethods;
+    @Value("${cors.allowed-headers:*}")
+    private String[] allowedHeaders;
+    @Value("${cors.exposed-headers:#{null}}}")
+    private String[] exposedHeaders;
+    @Value("${cors.allow-credentials:#{false}}")
+    private Boolean allowCredentials;
+
     @Bean
     public ObjectMapper objectMapper() {
         return ObjectMapperConstructor.metaObjectMapper();
@@ -82,6 +95,22 @@ public class N2oSandboxConfiguration {
                         .addResourceLocations("/static/")
                         .resourceChain(true)
                         .addResolver(new WebStaticResolver("META-INF/resources"));
+            }
+
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                // CORS включается только если указано свойство cors.allowed-origins
+                if (allowedOrigins != null) {
+                    CorsRegistration corsRegistration = registry.addMapping("/**")
+                            .allowedMethods(allowedMethods)
+                            .allowedHeaders(allowedHeaders)
+                            .allowCredentials(allowCredentials);
+
+                    corsRegistration.allowedOrigins(allowedOrigins);
+
+                    if (exposedHeaders != null)
+                        corsRegistration.exposedHeaders(exposedHeaders);
+                }
             }
         };
     }
