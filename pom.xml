@@ -55,7 +55,7 @@
         <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
         <central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
 
-        <allure-junit5.version>2.27.0</allure-junit5.version>
+        <allure-junit5.version>2.30.0</allure-junit5.version>
         <selenium.version>4.21.0</selenium.version>
         <h2.version>2.2.220</h2.version>
         <webdrivermanager.version>5.8.0</webdrivermanager.version>
