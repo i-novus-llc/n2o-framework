@@ -83,7 +83,7 @@ public class SandboxTestDataProviderEngine extends TestDataProviderEngine {
                     return new ByteArrayInputStream(response.getBytes());
                 throw new FileNotFoundException(invocation.getFile());
             }
-        } catch (HttpClientErrorException.NotFound e) {
+        } catch (HttpClientErrorException.NotFound | FileNotFoundException e) {
             ClassPathResource classPathResource = new ClassPathResource(invocation.getFile());
             if (classPathResource.exists()) {
                 return classPathResource.getInputStream();
