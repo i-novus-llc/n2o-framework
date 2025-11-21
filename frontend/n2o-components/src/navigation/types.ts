@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from 'react'
+import { AnchorHTMLAttributes, CSSProperties, ReactNode, SyntheticEvent } from 'react'
 
 export enum Direction {
     ROW = 'row',
@@ -15,6 +15,7 @@ export enum LinkTarget {
     SELF = '_self',
     PARENT = '_parent',
     TOP = '_top',
+    APPLICATION = 'application',
 }
 
 export enum GroupView {
@@ -31,8 +32,7 @@ export interface CommonProps {
     label?: string
     className?: string
     style?: CSSProperties
-    visible?: boolean
-    enabled?: boolean
+    disabled?: boolean
     icon?: string
     iconPosition?: Position
     children?: ReactNode
@@ -48,6 +48,7 @@ export interface PanelProps extends CommonProps {
 export interface LinkProps extends CommonProps {
     url?: string
     target: LinkTarget
+    onClick?(e: SyntheticEvent): void
 }
 
 export interface GroupProps extends CommonProps {
@@ -59,8 +60,7 @@ export interface DropdownProps {
     label: string
     trigger?: Trigger
     position?: Position
-    visible?: boolean
-    enabled?: boolean
+    disabled?: boolean
     className?: string
     rootClassName?: string
     style?: CSSProperties

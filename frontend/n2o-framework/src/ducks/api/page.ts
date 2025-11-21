@@ -34,7 +34,7 @@ export const openPageCreator = createAction(
     }),
 )
 
-function getAnchorPage(url: string, state: GlobalState, pageId?: string): string | null {
+export function getAnchorPage(url: string, state: GlobalState, pageId?: string): string | null {
     if (!pageId) { return null }
 
     const page = makePageByIdSelector(pageId)(state)
