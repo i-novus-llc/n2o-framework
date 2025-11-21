@@ -43,6 +43,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.source.version>3.3.0</maven.source.version>
+        <bouncycastle.version>1.82</bouncycastle.version>
         <maven.javadoc.version>3.5.0</maven.javadoc.version>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>

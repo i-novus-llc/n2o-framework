@@ -66,6 +66,18 @@
                 <artifactId>mockito-all</artifactId>
                 <version>1.10.19</version>
             </dependency>
+
+            <!-- fix vulnerability GHSA-4h8f-2wvx-gg5w -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
