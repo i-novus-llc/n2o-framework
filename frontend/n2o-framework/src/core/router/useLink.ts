@@ -15,19 +15,46 @@ type Options = {
 }
 
 export function useLink(options: Options) {
-    const { url,
+    const {
+        url,
         pathMapping,
         queryMapping,
         model,
         visible,
-        enabled } = options
+        enabled,
+    } = options
 
     const { getState } = useStore()
-    const { url: compiledUrl } = dataProviderResolver(getState(), { url, pathMapping, queryMapping })
+
+    let compiledUrl: string | undefined
+    let hasUrlError = false
+
+    try {
+        const result = dataProviderResolver(getState(), { url, pathMapping, queryMapping })
+
+        compiledUrl = result.url
+    } catch (error) {
+        compiledUrl = undefined
+        hasUrlError = true
+    }
+
+    const isVisible = typeof visible === 'string'
+        ? executeExpression<boolean, undefined>(visible, model)
+        : visible
+
+    let disabled: boolean
+
+    if (hasUrlError) {
+        disabled = true
+    } else {
+        disabled = typeof enabled === 'string'
+            ? !executeExpression<boolean, undefined>(enabled, model)
+            : !enabled
+    }
 
     return {
         url: compiledUrl,
-        visible: typeof visible === 'string' ? executeExpression<boolean, undefined>(visible, model) : visible,
-        enabled: typeof enabled === 'string' ? executeExpression<boolean, undefined>(enabled, model) : enabled,
+        visible: isVisible,
+        disabled,
     }
 }

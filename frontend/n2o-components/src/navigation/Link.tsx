@@ -10,12 +10,10 @@ export function Link({
     target,
     className,
     style,
+    onClick,
     iconPosition = Position.LEFT,
-    visible = true,
-    enabled = true,
+    disabled = false,
 }: LinkProps) {
-    if (!visible) { return null }
-
     const content = (
         <>
             {icon && iconPosition === Position.LEFT && <i className={icon} />}
@@ -24,29 +22,16 @@ export function Link({
         </>
     )
 
-    const classes = classNames(className, { disabled: !enabled })
+    const classes = classNames(className, { disabled })
 
-    if (enabled && url) {
-        return (
-            <a
-                href={url}
-                rel={target === LinkTarget.BLANK ? 'noopener noreferrer' : undefined}
-                target={target}
-                className={classes}
-                style={style}
-            >
-                {content}
-            </a>
-        )
+    const props = {
+        className: classes,
+        style,
+        rel: target === LinkTarget.BLANK ? 'noopener noreferrer' : undefined,
+        target,
     }
 
-    return (
-        <span
-            className={classes}
-            style={style}
-            aria-disabled
-        >
-            {content}
-        </span>
-    )
+    if (disabled) { return <span {...props} aria-disabled>{content}</span> }
+
+    return <a {...props} href={onClick ? undefined : url} onClick={onClick}>{content}</a>
 }

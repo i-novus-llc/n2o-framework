@@ -22,8 +22,7 @@ export function Group({
     defaultState = GroupView.EXPANDED,
     iconPosition = Position.LEFT,
     [ROOT_CLASS_NAME_PARAM]: rootClassName,
-    visible = true,
-    enabled = true,
+    disabled = false,
 }: GroupProps) {
     const [isExpanded, setIsExpanded] = useState(
         collapsible ? defaultState === GroupView.EXPANDED : true,
@@ -38,10 +37,8 @@ export function Group({
         }
     }, [defaultState, collapsible])
 
-    if (!visible) { return null }
-
     const handleToggle = () => {
-        if (!enabled || !collapsible) { return }
+        if (disabled || !collapsible) { return }
         setIsExpanded(!isExpanded)
     }
 
@@ -54,7 +51,7 @@ export function Group({
     return (
         <section
             className={classNames('group', className, rootClassName, {
-                'group--disabled': !enabled,
+                'group--disabled': disabled,
                 'group--collapsed': !isExpanded,
             })}
             style={style}
@@ -64,9 +61,9 @@ export function Group({
                 onClick={handleToggle}
                 style={{ cursor: collapsible ? 'pointer' : 'default' }}
                 role="button"
-                tabIndex={enabled ? 0 : -1}
+                tabIndex={disabled ? -1 : 0}
                 aria-expanded={isExpanded}
-                aria-disabled={!enabled}
+                aria-disabled={disabled}
                 onKeyDown={onKeyDown}
             >
                 {iconPosition === Position.LEFT && iconElement}

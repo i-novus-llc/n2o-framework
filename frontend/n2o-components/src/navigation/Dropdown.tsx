@@ -19,14 +19,11 @@ export function Dropdown({
     children,
     trigger = Trigger.CLICK,
     position = Position.RIGHT,
-    enabled = true,
-    visible = true,
+    disabled = false,
     [ROOT_CLASS_NAME_PARAM]: rootClassName,
 }: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false)
     const currentLevel = useContext(LevelContext)
-
-    if (!visible) { return null }
 
     const handleToggle = () => {
         if (trigger !== Trigger.HOVER) {
@@ -35,13 +32,13 @@ export function Dropdown({
     }
 
     const handleMouseEnter = () => {
-        if (trigger === Trigger.HOVER && enabled) {
+        if (trigger === Trigger.HOVER && !disabled) {
             setIsOpen(true)
         }
     }
 
     const handleMouseLeave = () => {
-        if (trigger === Trigger.HOVER && enabled) {
+        if (trigger === Trigger.HOVER && !disabled) {
             setIsOpen(false)
         }
     }
@@ -54,7 +51,7 @@ export function Dropdown({
             onMouseLeave={handleMouseLeave}
             className={classNames(className, rootClassName)}
             style={style}
-            disabled={!enabled}
+            disabled={disabled}
             inNavbar={currentLevel > 0}
             direction={position}
         >
@@ -66,10 +63,10 @@ export function Dropdown({
                     flexDirection: position === Position.LEFT ? 'row-reverse' : 'row',
                     alignItems: 'center',
                     gap: '0.5rem',
-                    cursor: enabled ? 'pointer' : 'default',
-                    opacity: enabled ? 1 : 0.5,
+                    cursor: disabled ? 'default' : 'pointer',
+                    opacity: disabled ? 0.5 : 1,
                 }}
-                disabled={!enabled}
+                disabled={disabled}
             >
                 {label}
             </DropdownToggle>
