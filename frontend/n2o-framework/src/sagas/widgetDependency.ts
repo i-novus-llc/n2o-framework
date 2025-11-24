@@ -1,7 +1,6 @@
+// FIXME: зависимости виджета нуждаются в рефакторинге, переусложнено
 import { select, call, takeEvery } from 'redux-saga/effects'
-import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
-import sortBy from 'lodash/sortBy'
 
 import { REGISTER_DEPENDENCY } from '../constants/dependency'
 import {
@@ -15,7 +14,6 @@ import {
     removeFieldFromArray,
     copyFieldArray,
 } from '../ducks/models/store'
-import { DEPENDENCY_ORDER } from '../core/dependencyTypes'
 import { getModelsByDependency } from '../ducks/models/selectors'
 import { State } from '../ducks/State'
 
@@ -23,8 +21,6 @@ import { getWidgetDependency } from './widgetDependency/getWidgetDependency'
 import { resolveDependency } from './widgetDependency/resolve'
 import {
     type Dependencies,
-    type OptionsType,
-    type WidgetDependencies,
     type WidgetsDependencies,
 } from './widgetDependency/WidgetTypes'
 
@@ -79,34 +75,26 @@ export function* resolveWidgetDependency(
     type: string,
     prevState: State,
     state: State,
-    widgetsDependencies: WidgetDependencies,
+    widgetsDependencies: WidgetsDependencies,
 ) {
-    const dependenciesKeys = sortBy(keys(widgetsDependencies), item => DEPENDENCY_ORDER.indexOf(item))
-
-    for (let i = 0; i < dependenciesKeys.length; i += 1) {
-        const key = dependenciesKeys[i]
-        // @ts-ignore FIXME не знаю как поправить
-        const { dependency, widgetId } = widgetsDependencies[key]
-        const widgetDependenciesKeys = sortBy(keys(dependency), item => DEPENDENCY_ORDER.indexOf(item))
-
-        for (let j = 0; j < widgetDependenciesKeys.length; j += 1) {
-            const dep = dependency[widgetDependenciesKeys[j]]
-            const prevModel = getModelsByDependency(dep)(prevState)
-            const model = getModelsByDependency(dep)(state) as OptionsType
+    for (const { dependency, widgetId } of Object.values(widgetsDependencies)) {
+        for (const [depType, dep] of Object.entries(dependency || {})) {
+            const prevOptions = getModelsByDependency(dep)(prevState)
+            const options = getModelsByDependency(dep)(state)
             const isFormActionType = [
                 updateModel.type,
                 appendFieldToArray.type,
                 removeFieldFromArray.type,
                 copyFieldArray.type,
             ].some(actionType => actionType === type)
-            const isEqualModel = isFormActionType ? true : !isEqual(prevModel, model)
+            const isChanged = isFormActionType ? true : !isEqual(prevOptions, options)
 
-            if (isEqualModel) {
+            if (isChanged || REGISTER_DEPENDENCY === type) {
                 yield call<typeof resolveDependency>(
                     resolveDependency,
-                    widgetDependenciesKeys[j],
+                    depType,
                     widgetId,
-                    model,
+                    options,
                 )
             }
         }
@@ -115,16 +103,15 @@ export function* resolveWidgetDependency(
 
 export const widgetDependencySagas = [
     takeEvery(REGISTER_DEPENDENCY, registerDependency),
-    // @ts-ignore Проблема с типизацией saga
     takeEvery([
-        setModel,
-        removeModel,
-        removeAllModel,
-        copyModel,
-        clearModel,
-        updateModel,
-        appendFieldToArray,
-        removeFieldFromArray,
-        copyFieldArray,
+        setModel.type,
+        removeModel.type,
+        removeAllModel.type,
+        copyModel.type,
+        clearModel.type,
+        updateModel.type,
+        appendFieldToArray.type,
+        removeFieldFromArray.type,
+        copyFieldArray.type,
     ], updateModelSaga),
 ]
