@@ -1,28 +1,21 @@
+import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
+import { Model } from '../../ducks/models/selectors'
 import { metaPropsType } from '../../plugins/utils'
 
 export type ModelLinkType = string
-export type ModelType = metaPropsType
 export type Dependency = { condition: string, on: ModelLinkType }
 
-export interface Model {
-    model: ModelType
+export interface ResolveOption {
+    model: Model
     config: Dependency
 }
 
-export type OptionsType = Model[]
-
-export interface Dependencies {
-    visible?: Dependency[]
-    fetch?: Dependency[]
-    enabled?: Dependency[]
-}
-
-export type PossibleDependencies = 'fetch' | 'visible' | 'enabled'
+export type Dependencies = Partial<Record<DEPENDENCY_TYPES, Dependency[]>>
 
 export interface WidgetDependencies {
     dependency?: Dependencies
     parents?: string[]
-    widgetId?: string
+    widgetId: string
 }
 
 export type WidgetsDependencies = Record<string, WidgetDependencies>

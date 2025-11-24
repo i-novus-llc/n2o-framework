@@ -3,9 +3,3 @@ export enum DEPENDENCY_TYPES {
     enabled = 'enabled',
     fetch = 'fetch',
 }
-
-export const DEPENDENCY_ORDER = [
-    'fetch',
-    'visible',
-    'enabled',
-]

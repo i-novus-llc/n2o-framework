@@ -43,7 +43,7 @@ const getModelFieldByPath = (path: string) => createSelector(
     modelsState => get(modelsState, path, null),
 )
 
-const getModelsByDependency = (dependency: Array<{ on: string }>) => (state: GlobalState) => (
+const getModelsByDependency = <T extends { on: string }>(dependency: T[]) => (state: GlobalState) => (
     dependency.map(config => ({
         model: getModelSelector(config.on)(state),
         config,

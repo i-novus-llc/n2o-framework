@@ -5,15 +5,15 @@ import { disableWidget, enableWidget, hideWidget, showWidget } from '../../ducks
 import propsResolver from '../../utils/propsResolver'
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
 
-import { Model, OptionsType } from './WidgetTypes'
+import { ResolveOption } from './WidgetTypes'
 
-export const reduceFunction = (isTrue: boolean, { model, config }: Model) => isTrue && propsResolver<boolean>(`\`${config?.condition}\``, model)
+export const reduceFunction = (isTrue: boolean, { model, config }: ResolveOption) => isTrue && propsResolver<boolean>(`\`${config?.condition}\``, model)
 
 /**
  * Резолв видимости
  */
-export function* resolveVisible(widgetId: string, model: OptionsType) {
-    const visible = reduce(model, reduceFunction, true)
+export function* resolveVisible(widgetId: string, options: ResolveOption[]) {
+    const visible = reduce(options, reduceFunction, true)
 
     if (visible) {
         yield put(showWidget(widgetId))
@@ -25,8 +25,8 @@ export function* resolveVisible(widgetId: string, model: OptionsType) {
 /**
  * Резолв активности
  */
-export function* resolveEnabled(widgetId: string, model: OptionsType) {
-    const enabled = reduce(model, reduceFunction, true)
+export function* resolveEnabled(widgetId: string, options: ResolveOption[]) {
+    const enabled = reduce(options, reduceFunction, true)
 
     if (enabled) {
         yield put(enableWidget(widgetId))
@@ -41,16 +41,16 @@ export function* resolveEnabled(widgetId: string, model: OptionsType) {
 export function* resolveDependency(
     dependencyType: string,
     widgetId: string,
-    model: OptionsType,
+    options: ResolveOption[],
 ) {
     switch (dependencyType) {
         case DEPENDENCY_TYPES.visible: {
-            yield call(resolveVisible, widgetId, model)
+            yield call(resolveVisible, widgetId, options)
 
             break
         }
         case DEPENDENCY_TYPES.enabled: {
-            yield call(resolveEnabled, widgetId, model)
+            yield call(resolveEnabled, widgetId, options)
 
             break
         }
