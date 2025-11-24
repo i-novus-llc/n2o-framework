@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oAbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBaseColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.v5.FormElementIOV5;
 import net.n2oapp.framework.config.io.widget.v5.TableElementIOV5;
@@ -84,6 +86,19 @@ class N2oWidgetMergerTest extends SourceMergerTestBase {
 
     @Test
     void testMergeTable() {
+        N2oTable table = merge("net/n2oapp/framework/config/metadata/merge/widget/parentToolbarMerger.widget.xml",
+                "net/n2oapp/framework/config/metadata/merge/widget/childToolbarMerger.widget.xml")
+                .get("parentToolbarMerger", N2oTable.class);
+        N2oToolbar[] toolbars = table.getToolbars();
+        assertThat(toolbars.length, is(2));
+        assertThat(toolbars[0].getPlace(), is(PlaceEnum.TOP_RIGHT.getId()));
+        assertThat(((N2oButton) toolbars[0].getItems()[0]).getLabel(), is("test1"));
+        assertThat(toolbars[1].getPlace(), is(PlaceEnum.BOTTOM_CENTER.getId()));
+        assertThat(((N2oButton) toolbars[1].getItems()[0]).getLabel(), is("test3"));
+    }
+
+    @Test
+    void testSettingMergeTable() {
         N2oTable table = merge("net/n2oapp/framework/config/metadata/merge/widget/parentTableMerger.widget.xml",
                 "net/n2oapp/framework/config/metadata/merge/widget/childTableMerger.widget.xml")
                 .get("parentTableMerger", N2oTable.class);
