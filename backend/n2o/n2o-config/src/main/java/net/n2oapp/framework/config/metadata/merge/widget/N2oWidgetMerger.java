@@ -2,8 +2,11 @@ package net.n2oapp.framework.config.metadata.merge.widget;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceMerger;
 import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * Слияние двух виджетов
@@ -33,7 +36,7 @@ public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T>
         setIfNotNull(source::setVisible, source::getVisible, ref::getVisible);
         addIfNotNull(ref, source, N2oWidget::setPreFilters, N2oWidget::getPreFilters);
         addIfNotNull(ref, source, N2oWidget::setActions, N2oWidget::getActions);
-        addIfNotNull(ref, source, N2oWidget::setToolbars, N2oWidget::getToolbars);
+        mergeToolbar(ref, source);
         addIfNotNull(ref, source, N2oWidget::setDependencies, N2oWidget::getDependencies);
         mergeExtAttributes(ref, source);
         return source;
@@ -42,5 +45,49 @@ public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T>
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oWidget.class;
+    }
+
+    private void mergeToolbar(T ref, T source) {
+        N2oToolbar[] sourceToolbars = source.getToolbars();
+        N2oToolbar[] refToolbars = ref.getToolbars();
+
+        if (refToolbars == null || refToolbars.length == 0) {
+            return;
+        }
+
+        if (sourceToolbars == null || sourceToolbars.length == 0) {
+            source.setToolbars(refToolbars);
+            return;
+        }
+
+        N2oToolbar[] mergedToolbars = mergeToolbarsWithPlace(sourceToolbars, refToolbars);
+        source.setToolbars(mergedToolbars);
+    }
+
+    /**
+     * Объединяет два массива тулбаров, добавляя элементы из ref в source,
+     * если в source нет элементов с таким же place
+     */
+    private N2oToolbar[] mergeToolbarsWithPlace(N2oToolbar[] source, N2oToolbar[] ref) {
+        List<N2oToolbar> result = new ArrayList<>(Arrays.asList(source));
+        Set<String> existingPlaces = new HashSet<>();
+
+        for (N2oToolbar toolbar : source) {
+            String place = getNormalizedPlace(toolbar.getPlace());
+            existingPlaces.add(place);
+        }
+
+        for (N2oToolbar toolbar : ref) {
+            String place = getNormalizedPlace(toolbar.getPlace());
+            if (!existingPlaces.contains(place)) {
+                result.add(toolbar);
+            }
+        }
+
+        return result.toArray(new N2oToolbar[0]);
+    }
+
+    private String getNormalizedPlace(String place) {
+        return place != null ? place : "topLeft";
     }
 }
