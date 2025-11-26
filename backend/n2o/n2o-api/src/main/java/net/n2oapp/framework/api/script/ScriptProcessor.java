@@ -22,7 +22,8 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
-import static net.n2oapp.framework.api.StringUtils.*;
+import static net.n2oapp.framework.api.StringUtils.hasLink;
+import static net.n2oapp.framework.api.StringUtils.isJs;
 
 /**
  * Утилитный класс для генерации js скриптов
@@ -424,6 +425,9 @@ public class ScriptProcessor {
 
     public static Set<String> extractVars(String script) {
         final Set<String> names = new HashSet<>();
+        if (script == null)
+            return names;
+
         class Visitor implements NodeVisitor {
             @Override
             public boolean visit(AstNode node) {

@@ -4,14 +4,22 @@
         <fields>
             <input-text id="test1">
                 <dependencies>
-                    <set-value on="testField">if (testField == 1)
-                                return #{test};</set-value>
-                    <visibility>if (testField == #{test})
-                                return true;</visibility>
-                    <enabling>if (testField == #{test})
-                            return true;</enabling>
-                    <requiring>if (testField == #{test})
-                            return true;</requiring>
+                    <set-value on="testField">
+                        if (testField == 1)
+                                return #{test};
+                    </set-value>
+                    <visibility>
+                        if (testField == #{test})
+                                return true;
+                    </visibility>
+                    <enabling>
+                        if (testField == #{test})
+                            return true;
+                    </enabling>
+                    <requiring>
+                        if (testField == #{test})
+                            return true;
+                    </requiring>
                 </dependencies>
             </input-text>
         </fields>

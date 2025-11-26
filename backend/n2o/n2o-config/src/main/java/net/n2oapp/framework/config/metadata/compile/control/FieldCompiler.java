@@ -47,6 +47,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static net.n2oapp.framework.api.StringUtils.hasContext;
 import static net.n2oapp.framework.api.StringUtils.isBoolean;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -121,15 +122,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private void initCondition(S source, Supplier<String> conditionGetter, N2oField.Dependency dependency,
                                Consumer<Boolean> conditionSetter, Boolean defaultValue) {
         if (StringUtils.isLink(conditionGetter.get())) {
-            try {
-                Set<String> onFields = ScriptProcessor.extractVars(conditionGetter.get());
-                dependency.setOn(onFields.toArray(String[]::new));
-            } catch (ScriptParserException e) {
-                throw new N2oException(
-                        String.format("Невозможно извлечь переменные из выражения '%s'. Попробуйте использовать зависимость полей " +
-                                        "с явным указанием переменных в атрибуте 'on'",
-                                StringUtils.unwrapLink(conditionGetter.get())));
-            }
+            Set<String> onFields = extractOnVariables(conditionGetter.get());
+            dependency.setOn(onFields.toArray(String[]::new));
 
             dependency.setValue(StringUtils.unwrapLink(conditionGetter.get()));
             if (dependency instanceof N2oField.RequiringDependency requiringDependency)
@@ -138,6 +132,17 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             conditionSetter.accept(false);
         } else {
             conditionSetter.accept(defaultValue);
+        }
+    }
+
+    private static Set<String> extractOnVariables(String expression) {
+        try {
+            return ScriptProcessor.extractVars(expression);
+        } catch (ScriptParserException e) {
+            throw new N2oException(
+                    String.format("Невозможно извлечь переменные из выражения '%s'. Попробуйте использовать зависимость полей " +
+                                    "с явным указанием переменных в атрибуте 'on'",
+                            StringUtils.unwrapLink(expression)));
         }
     }
 
@@ -180,10 +185,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             else if (source instanceof N2oField.EnablingDependency)
                 field.setEnabled(false);
         }
-        if (source.getOn() != null) {
-            List<String> ons = Arrays.asList(source.getOn());
-            compiled.getOn().addAll(ons);
-        }
+
+        if (source.getOn() != null)
+            compiled.getOn().addAll(Set.of(source.getOn()));
+        else if (Boolean.TRUE.equals(p.resolve(property("n2o.api.control.dependency.requiring.validate"), Boolean.class)) &&
+                 !hasContext(compiled.getExpression()))
+            compiled.getOn().addAll(extractOnVariables(compiled.getExpression()));
+
         field.addDependency(compiled);
     }
 

@@ -36,14 +36,18 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 
 /**
@@ -476,13 +480,13 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         ));
         assertThat(field4.getDependencies().size(), is(3));
         assertThat(field4.getDependencies().get(0).getType(), is(ValidationTypeEnum.VISIBLE));
-        assertThat(field4.getDependencies().get(0).getOn(), is(Arrays.asList("f1", "f2", "f3")));
+        assertThat(field4.getDependencies().get(0).getOn(), is(containsInAnyOrder("f1", "f2", "f3")));
         assertThat(field4.getDependencies().get(0).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
         assertThat(field4.getDependencies().get(1).getType(), is(ValidationTypeEnum.ENABLED));
-        assertThat(field4.getDependencies().get(1).getOn(), is(Arrays.asList("f1", "f2", "f3")));
+        assertThat(field4.getDependencies().get(1).getOn(), is(containsInAnyOrder("f1", "f2", "f3")));
         assertThat(field4.getDependencies().get(1).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
         assertThat(field4.getDependencies().get(2).getType(), is(ValidationTypeEnum.REQUIRED));
-        assertThat(field4.getDependencies().get(2).getOn(), is(Arrays.asList("f1", "f2", "f3")));
+        assertThat(field4.getDependencies().get(2).getOn(), is(containsInAnyOrder("f1", "f2", "f3")));
         assertThat(field4.getDependencies().get(2).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
         assertThat(((RequiringDependency) field4.getDependencies().get(2)).getValidate(), is(false));
     }

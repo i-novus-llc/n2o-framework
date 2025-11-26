@@ -372,6 +372,9 @@ class ScriptProcessorTest {
         assertTrue(names.contains("a"));
         assertTrue(names.contains("a.b.c"));
         assertTrue(names.contains("b[0].c"));
+
+        names = ScriptProcessor.extractVars(null);
+        assertEquals(0, names.size());
     }
 
     @Test
