@@ -23,7 +23,7 @@ public class FieldSetRowCompiler implements BaseSourceCompiler<FieldSet.Row, N2o
     @Override
     public FieldSet.Row compile(N2oFieldsetRow source, CompileContext<?, ?> context, CompileProcessor p) {
         FieldSet.Row row = new FieldSet.Row();
-        row.setClassName(source.getCssClass());
+        row.setClassName(p.resolveJS(source.getCssClass()));
         row.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         row.setProperties(p.mapAndResolveAttributes(source));
         if (source.getItems() != null) {
