@@ -22,6 +22,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.DatasourceCompileStaticProcessor;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
@@ -125,7 +126,8 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
      */
     private ClientDataProvider initCountDataProvider(WidgetScope widgetScope, CompileProcessor p) {
         ClientDataProvider countDataProvider = new ClientDataProvider();
-        countDataProvider.setUrl(p.resolve(property("n2o.api.widget.list.paging.count.url"), String.class));
+        String route = DatasourceCompileStaticProcessor.getDatasourceRoute(widgetScope.getDatasourceId(), widgetScope.getClientDatasourceId(),null, p);
+        countDataProvider.setUrl(p.resolve(property("n2o.api.widget.list.paging.count.url"), String.class) + route);
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         if (filtersScope != null) {
             List<Filter> filters = filtersScope.getFilters(widgetScope.getDatasourceId());
