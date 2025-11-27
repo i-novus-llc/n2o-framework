@@ -8,7 +8,7 @@ import net.n2oapp.demo.model.ProtoPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.SortingDirectionEnum;
 import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.codeborne.selenide.Configuration.*;
+import static com.codeborne.selenide.Configuration.browserSize;
+import static com.codeborne.selenide.Configuration.headless;
 import static net.n2oapp.framework.autotest.run.AutoTestUtil.checkChromeDriver;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,7 +43,7 @@ class DemoIntegrationAT {
     private ProtoPage protoPage;
 
     @BeforeAll
-    public static void configure() {
+    static void configure() {
         checkChromeDriver();
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
@@ -54,8 +55,8 @@ class DemoIntegrationAT {
     }
 
     @BeforeEach
-    public void openProtoPage() {
-        N2oSelenide.open("http://localhost:" + port, LeftRightPage.class);
+    void openProtoPage() {
+        N2oSelenide.open("http://localhost:" + port, StandardPage.class);
         protoPage = new ProtoPage();
         protoPage.shouldBeClientsPage();
     }
@@ -65,7 +66,7 @@ class DemoIntegrationAT {
      */
     @Test
     @Order(1)
-    public void checkStaticContent() throws IOException {
+    void checkStaticContent() throws IOException {
         HttpUriRequest request = new HttpGet("http://localhost:" + port + "/index.html");
         try (CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().build()) {
             HttpResponse httpResponse = closeableHttpClient.execute(request);
@@ -262,7 +263,7 @@ class DemoIntegrationAT {
         int row = 3;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
-        String patronomic = protoPage.getPatronomic(row);
+        String patronymic = protoPage.getPatronymic(row);
         String birthday = protoPage.getBirthdayCell(row).getValue();
         String gender = protoPage.getGender(row);
 
@@ -271,7 +272,7 @@ class DemoIntegrationAT {
 
         clientCard.surname().shouldHaveValue(surname);
         clientCard.firstName().shouldHaveValue(name);
-        clientCard.patronymic().shouldHaveValue(patronomic);
+        clientCard.patronymic().shouldHaveValue(patronymic);
         clientCard.genderRadioGroup().shouldBeChecked(gender);
         clientCard.birthdayShouldHaveValue(birthday);
 
@@ -300,7 +301,7 @@ class DemoIntegrationAT {
         int row = 4;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
-        String patronomic = protoPage.getPatronomic(row);
+        String patronymic = protoPage.getPatronymic(row);
         String gender = protoPage.getGender(row);
         String birthday = protoPage.getBirthdayCell(row).getValue();
 
@@ -309,7 +310,7 @@ class DemoIntegrationAT {
 
         modalClientCard.surname().shouldHaveValue(surname);
         modalClientCard.firstName().shouldHaveValue(name);
-        modalClientCard.patronymic().shouldHaveValue(patronomic);
+        modalClientCard.patronymic().shouldHaveValue(patronymic);
         modalClientCard.genderRadioGroup().shouldBeChecked(gender);
         modalClientCard.birthdayShouldHaveValue(birthday);
 
@@ -340,7 +341,7 @@ class DemoIntegrationAT {
         int row = 5;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
-        String patronomic = protoPage.getPatronomic(row);
+        String patronymic = protoPage.getPatronymic(row);
         String gender = protoPage.getGender(row);
         String birthday = protoPage.getBirthdayCell(row).getValue();
 
@@ -349,7 +350,7 @@ class DemoIntegrationAT {
 
         clientCard.surname().shouldHaveValue(surname);
         clientCard.firstName().shouldHaveValue(name);
-        clientCard.patronymic().shouldHaveValue(patronomic);
+        clientCard.patronymic().shouldHaveValue(patronymic);
         clientCard.genderRadioGroup().shouldBeChecked(gender);
         clientCard.birthdayShouldHaveValue(birthday);
 
@@ -378,7 +379,7 @@ class DemoIntegrationAT {
         int row = 6;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
-        String patronomic = protoPage.getPatronomic(row);
+        String patronymic = protoPage.getPatronymic(row);
         String gender = protoPage.getGender(row);
         String birthday = protoPage.getBirthdayCell(row).getValue();
 
@@ -389,7 +390,7 @@ class DemoIntegrationAT {
 
         modalClientCard.surname().shouldHaveValue(surname);
         modalClientCard.firstName().shouldHaveValue(name);
-        modalClientCard.patronymic().shouldHaveValue(patronomic);
+        modalClientCard.patronymic().shouldHaveValue(patronymic);
         modalClientCard.birthdayShouldHaveValue(birthday);
         modalClientCard.genderRadioGroup().shouldBeChecked(gender);
 
@@ -423,7 +424,7 @@ class DemoIntegrationAT {
         int row = 7;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
-        String patronomic = protoPage.getPatronomic(row);
+        String patronymic = protoPage.getPatronymic(row);
         String gender = protoPage.getGender(row);
         String birthday = protoPage.getBirthdayCell(row).getValue();
 
@@ -432,7 +433,7 @@ class DemoIntegrationAT {
 
         modalClientCard.surname().shouldHaveValue(surname);
         modalClientCard.firstName().shouldHaveValue(name);
-        modalClientCard.patronymic().shouldHaveValue(patronomic);
+        modalClientCard.patronymic().shouldHaveValue(patronymic);
         modalClientCard.genderRadioGroup().shouldBeChecked(gender);
         modalClientCard.birthdayShouldHaveValue(birthday);
 
@@ -465,8 +466,7 @@ class DemoIntegrationAT {
         int row = 2;
         String surname = protoPage.getSurname(row);
         String name = protoPage.getName(row);
-        String patronomic = protoPage.getPatronomic(row);
-        String gender = protoPage.getGender(row);
+        String patronymic = protoPage.getPatronymic(row);
         String birthday = protoPage.getBirthdayCell(row).getValue();
 
         protoPage.selectClient(row);
@@ -475,7 +475,7 @@ class DemoIntegrationAT {
 
         modalClientCard.surname().shouldHaveValue(surname);
         modalClientCard.firstName().shouldHaveValue(name);
-        modalClientCard.patronymic().shouldHaveValue(patronomic);
+        modalClientCard.patronymic().shouldHaveValue(patronymic);
         modalClientCard.birthdayShouldHaveValue(birthday);
 //        modalClientCard.gender().shouldHaveValue(gender); todo not work in disabled mode
 

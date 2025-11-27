@@ -2,7 +2,10 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.io.page.v3.*;
+import net.n2oapp.framework.config.io.page.v3.LeftRightPageElementIOv3;
+import net.n2oapp.framework.config.io.page.v3.SimplePageElementIOv3;
+import net.n2oapp.framework.config.io.page.v3.StandardPageElementIOv3;
+import net.n2oapp.framework.config.io.page.v3.TopLeftRightPageElementIOv3;
 
 /**
  * Набор считывателей страниц версии 3.0
@@ -13,7 +16,6 @@ public class N2oPagesIOv3Pack implements MetadataPack<XmlIOBuilder> {
         b.ios(new SimplePageElementIOv3(),
                 new StandardPageElementIOv3(),
                 new LeftRightPageElementIOv3(),
-                new TopLeftRightPageElementIOv3(),
-                new SearchablePageElementIOv3());
+                new TopLeftRightPageElementIOv3());
     }
 }

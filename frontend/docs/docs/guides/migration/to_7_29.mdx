@@ -16,6 +16,7 @@ description: ""
 - Упразднены устаревшие схемы: `query-4.0`, `application-2.0`, `page-3.0`, `n2o-widget-4.0`, `region-2.0`,
 `fieldset-4.0`, `toolbar-base-1.0`, `button-1.0`, `action-1.0`, `control-2.0`, `n2o-cell-2.0`, `properties-base-1.0`
  с сохранением обратной совместимости.
+
 - Добавлена новая схема `table-settings-1.0` для задания [настроек таблицы](../manual/components#table-settings).
 Генерация кнопок с настройками с помощью атрибута `generate` объявлена устаревшей и удалена.
 
@@ -63,6 +64,37 @@ description: ""
 Это означает, что больше нет необходимости использовать запись `<column text-field-id="">`
 или `<column label=""/>` для задания пустого заголовка.
 - Добавлена проверка на несовместимость атрибутов `fetch-on-change="true"` и `fetch-on-clear="false"` фильтров таблицы.
+
+- Упразднена страница `<searchable-page>`.
+- Прекращена поддержка `<left-right-page>`, `<top-left-right-page>` с сохранением обратной совместимости.
+В будущих версиях эти элементы будут удалены.
+```xml title="Пример, как работало в версии 7.28 и ниже"
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <left width="80%">
+        <panel title="Регион 1">...</panel>
+        <panel title="Регион 2">...</panel>
+    </left>
+
+    <right width="20%">
+        <panel title="Регион 3">...</panel>
+    </right>
+</left-right-page>
+```
+
+```xml title="Пример, как аналогичное будет выглядеть в версии 7.29"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <flex-row>
+            <region style="width: 80%">
+                <panel title="Регион 1">...</panel>
+                <panel title="Регион 2">...</panel>
+            </region>
+
+            <panel title="Регион 3" style="width: 20%">...</panel>
+        </flex-row>
+    </regions>
+</page>
+```
 
 ### Изменения в Java API {#changes-java-api}
 

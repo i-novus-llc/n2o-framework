@@ -13,6 +13,7 @@ import java.util.function.Supplier;
 /**
  * Чтение\запись страницы c тремя регионами версии 4.0
  */
+@Deprecated(since = "7.29")
 @Component
 public class TopLeftRightPageElementIOv4 extends BasePageElementIOv4<N2oTopLeftRightPage> {
 

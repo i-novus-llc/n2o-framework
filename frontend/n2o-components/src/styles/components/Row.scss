@@ -1,0 +1,80 @@
+.layout-row {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+}
+
+// Управление переносом
+.layout-row--wrap {
+    flex-wrap: wrap;
+}
+
+.layout-row--nowrap {
+    flex-wrap: nowrap;
+}
+
+// Вертикальное выравнивание
+.layout-row--align-top {
+    align-items: flex-start;
+}
+
+.layout-row--align-middle {
+    align-items: center;
+}
+
+.layout-row--align-bottom {
+    align-items: flex-end;
+}
+
+.layout-row--align-stretch {
+    align-items: stretch;
+}
+
+// Горизонтальное выравнивание
+.layout-row--justify-start {
+    justify-content: flex-start;
+}
+
+.layout-row--justify-end {
+    justify-content: flex-end;
+}
+
+.layout-row--justify-center {
+    justify-content: center;
+}
+
+.layout-row--justify-around {
+    justify-content: space-around;
+}
+
+.layout-row--justify-between {
+    justify-content: space-between;
+}
+
+.layout-row--justify-evenly {
+    justify-content: space-evenly;
+}
+
+// Стилизация дочерних элементов (колонок)
+.layout-row > * {
+    box-sizing: border-box;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    // Основная ширина колонки
+    flex-basis: calc(100% / var(--columns) * var(--col-span, var(--columns)));
+    max-width: calc(100% / var(--columns) * var(--col-span, var(--columns)));
+
+    // Отступ слева (offset)
+    margin-left: calc(100% / var(--columns) * var(--col-offset, 0));
+}
+
+// Убираем margin-left для первого элемента в строке
+.layout-row > *:first-child {
+    margin-left: 0;
+}
+
+// Для элементов после переноса строки
+.layout-row > .layout-col--first-in-row {
+    margin-left: 0;
+}

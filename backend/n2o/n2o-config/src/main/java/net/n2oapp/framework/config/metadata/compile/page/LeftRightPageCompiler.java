@@ -12,38 +12,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
-
 /**
  * Компиляция страницы с правыми и левыми регионами
+ * @deprecated Устаревшая компиляция для обратной совместимости. Используйте {@link StandardPageCompiler}
  */
+@Deprecated(since = "7.29")
 @Component
 public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage, StandardPage> {
-    @Override
-    public StandardPage compile(N2oLeftRightPage source, PageContext context, CompileProcessor p) {
-        StandardPage page = new StandardPage();
-        if ((source.getLeftWidth() != null && !source.getLeftWidth().isEmpty()) ||
-                (source.getRightWidth() != null && !source.getRightWidth().isEmpty()))
-            page.setWidth(page.new RegionWidth(prepareSizeAttribute(source.getLeftWidth()), prepareSizeAttribute(source.getRightWidth())));
-        return compilePage(source, page, context, p, null);
-    }
-
-    @Override
-    protected Map<String, List<Region>> initRegions(N2oLeftRightPage source, StandardPage page,
-                                                    CompileProcessor p, PageContext context, Object... scopes) {
-        Map<String, List<Region>> regions = new HashMap<>();
-        initRegions(source.getLeft(), regions, "left", context, p, scopes);
-        initRegions(source.getRight(), regions, "right", context, p, scopes);
-        return regions;
-    }
-
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oLeftRightPage.class;
     }
 
     @Override
+    public StandardPage compile(N2oLeftRightPage source, PageContext context, CompileProcessor p) {
+        source.adapterV4();
+        return compilePage(source, new StandardPage(), context, p, null);
+    }
+
+    @Override
+    protected Map<String, List<Region>> initRegions(N2oLeftRightPage source, StandardPage page, CompileProcessor p,
+                                                    PageContext context, Object... scopes) {
+        Map<String, List<Region>> regions = new HashMap<>();
+        initRegions(source.getItems(), regions, "single", context, p, scopes);
+        return regions;
+    }
+
+    @Override
     protected String getSrcProperty() {
-        return "n2o.api.page.left_right.src";
+        return "n2o.api.page.standard.src";
     }
 }

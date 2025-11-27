@@ -44,7 +44,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new TableValidator(), new PageActionValidator(), new InvokeActionValidator(), new SetValueValidator(),
                 new AlertActionValidator(), new ClearActionValidator(), new CopyActionValidator(), new ConfirmActionValidator(),
                 new PrintActionValidator(), new AnchorActionValidator(), new StandardPageValidator(),
-                new LeftRightPageValidator(), new SimplePageValidator(), new BasePageValidator(), new SearchablePageValidator(),
+                new LeftRightPageValidator(), new SimplePageValidator(), new BasePageValidator(),
                 new StandardDatasourceValidator(), new ApplicationDatasourceValidator(), new InheritedDatasourceValidator(),
                 new BrowserStorageDatasourceValidator(), new ParentDatasourceValidator(), new CachedDatasourceValidator(),
                 new TopLeftRightPageValidator(), new SubPageRegionValidator(),
@@ -61,6 +61,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new FilterColumnValidator(), new BlockValidator(), new DateIntervalValidator(),
                 new MenuItemValidator(),
                 new NavRegionValidator(), new PanelRegionValidator(), new CustomRegionValidator(), new LineRegionValidator(),
+                new RowRegionValidator(),
                 new ProgressBarCellValidator(), new ProgressValidator(), new StatusValidator(), new AlertFieldValidator());
     }
 }

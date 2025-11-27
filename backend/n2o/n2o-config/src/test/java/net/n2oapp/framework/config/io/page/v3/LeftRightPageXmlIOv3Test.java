@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тестирование чтения\записи страницы с правыми и левыми регионами версии 3.0
  */
+@Deprecated(since = "7.29")
 class LeftRightPageXmlIOv3Test {
     
     @Test

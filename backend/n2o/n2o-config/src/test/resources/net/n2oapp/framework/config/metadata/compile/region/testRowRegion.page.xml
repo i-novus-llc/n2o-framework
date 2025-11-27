@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <row id="test" columns="3" wrap="false" align="middle" justify="center">
+            <tabs>
+                <tab name="tab1"/>
+            </tabs>
+            <form id="form1"/>
+            <col>
+                <scrollspy id="scrollspy1"/>
+                <form id="form2"/>
+            </col>
+        </row>
+    </regions>
+</page>

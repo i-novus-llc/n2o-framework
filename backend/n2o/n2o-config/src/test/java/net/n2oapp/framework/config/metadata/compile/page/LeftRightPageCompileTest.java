@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
+import net.n2oapp.framework.api.metadata.global.view.region.AlignEnum;
+import net.n2oapp.framework.api.metadata.global.view.region.JustifyEnum;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.*;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -17,11 +19,11 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNull.nullValue;
 
 /**
  * Тестирование компиляции страницы с левыми и правыми регионами
  */
+@Deprecated(since = "7.29")
 class LeftRightPageCompileTest extends SourceCompileTestBase {
 
     @Override
@@ -41,28 +43,31 @@ class LeftRightPageCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testLeftRightPage.page.xml")
                 .get(new PageContext("testLeftRightPage"));
 
-        assertThat(page.getWidth().getLeft(), is("70%"));
-        assertThat(page.getWidth().getRight(), nullValue());
+        List<Region> regions = page.getRegions().get("single");
+        assertThat(regions.size(), is(1));
 
-        assertThat(page.getRegions().size(), is(2));
-        List<Region> left = page.getRegions().get("left");
-        List<Region> right = page.getRegions().get("right");
+        FlexRowRegion row = (FlexRowRegion) regions.get(0);
+        assertThat(row.getWrap(), is(true));
+        assertThat(row.getAlign(), is(AlignEnum.TOP));
+        assertThat(row.getJustify(), is(JustifyEnum.START));
+        assertThat(row.getContent().size(), is(2));
 
-        assertThat(left.size(), is(2));
-        assertThat(left.get(0), instanceOf(CustomRegion.class));
-        assertThat(left.get(0).getContent().size(), is(2));
-        assertThat(left.get(0).getContent().get(0), instanceOf(Form.class));
-        assertThat(left.get(0).getContent().get(1), instanceOf(Table.class));
-        assertThat(left.get(1), instanceOf(LineRegion.class));
+        assertThat(row.getContent().get(0), instanceOf(CustomRegion.class));
+        CustomRegion col = (CustomRegion) row.getContent().get(0);
+        assertThat(col.getStyle().get("width"), is("70%"));
+        assertThat(col.getContent().size(), is(3));
+        assertThat(col.getContent().get(0), instanceOf(Form.class));
+        assertThat(col.getContent().get(1), instanceOf(Table.class));
+        assertThat(col.getContent().get(2), instanceOf(LineRegion.class));
 
-        assertThat(right.size(), is(4));
-        assertThat(right.get(0), instanceOf(PanelRegion.class));
-        assertThat(right.get(1), instanceOf(TabsRegion.class));
-        assertThat(right.get(2), instanceOf(CustomRegion.class));
-        assertThat(right.get(3), instanceOf(CustomRegion.class));
-        assertThat(right.get(3).getContent().size(), is(2));
-        assertThat(right.get(3).getContent().get(0), instanceOf(Form.class));
-        assertThat(right.get(3).getContent().get(1), instanceOf(Table.class));
+        assertThat(row.getContent().get(1), instanceOf(CustomRegion.class));
+        col = (CustomRegion) row.getContent().get(1);
+        assertThat(col.getContent().size(), is(5));
+        assertThat(col.getContent().get(0), instanceOf(PanelRegion.class));
+        assertThat(col.getContent().get(1), instanceOf(TabsRegion.class));
+        assertThat(col.getContent().get(2), instanceOf(Region.class));
+        assertThat(col.getContent().get(3), instanceOf(Form.class));
+        assertThat(col.getContent().get(4), instanceOf(Table.class));
     }
 
     @Test
@@ -70,7 +75,25 @@ class LeftRightPageCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testLeftRightPage1.page.xml")
                 .get(new PageContext("testLeftRightPage1"));
 
-        assertThat(page.getWidth().getLeft(), is("200px"));
-        assertThat(page.getWidth().getRight(), is("300px"));
+        List<Region> regions = page.getRegions().get("single");
+        assertThat(regions.size(), is(1));
+
+        // left-right
+        FlexRowRegion row = (FlexRowRegion) regions.get(0);
+        assertThat(row.getContent().size(), is(2));
+
+        // left
+        assertThat(row.getContent().get(0), instanceOf(CustomRegion.class));
+        CustomRegion col = (CustomRegion) row.getContent().get(0);
+        assertThat(col.getStyle().get("width"), is("200px"));
+        assertThat(col.getContent().size(), is(1));
+        assertThat(col.getContent().get(0), instanceOf(Form.class));
+
+        // right
+        assertThat(row.getContent().get(1), instanceOf(CustomRegion.class));
+        col = (CustomRegion) row.getContent().get(1);
+        assertThat(col.getStyle().get("width"), is("300px"));
+        assertThat(col.getContent().size(), is(1));
+        assertThat(col.getContent().get(0), instanceOf(Form.class));
     }
 }

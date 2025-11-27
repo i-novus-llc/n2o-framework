@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-                 xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
-                 name="${contact.list}" route="/">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
+      name="${contact.list}" route="/">
     <datasources>
         <datasource id="clientsDs" query-id="ProtoClient" object-id="ProtoClient" size="10"/>
         <datasource id="contacts" query-id="ProtoContacts" object-id="ProtoContacts">
@@ -42,267 +42,273 @@
             </open-page>
         </button>
     </toolbar>
-    <left width="60%">
-        <panel place="left" collapsible="false" title="${clients.title}">
-            <table id="clients" datasource="clientsDs" selection="checkbox"
-                   route="/">
-                <actions>
-                    <action id="update_birthday">
-                        <invoke operation-id="update" route="/clients/update_birthday"/>
-                    </action>
-                </actions>
-                <pagination/>
-                <columns>
-                    <column text-field-id="surname">
-                        <link>
-                            <open-page page-id="ProtoClient"
-                                       page-name="${clients.card}: {id}" route="/clients/:id/surname">
-                                <params>
-                                    <path-param name="id" value="{id}"/>
-                                </params>
-                                <datasources>
-                                    <parent-datasource id="clients"/>
-                                </datasources>
-                                <toolbars>
-                                    <toolbar>
-                                        <button label="Сохранить">
-                                            <invoke operation-id="update"/>
-                                            <refresh datasource="clientsDs"/>
-                                            <close/>
-                                        </button>
-                                    </toolbar>
-                                </toolbars>
-                            </open-page>
-                        </link>
-                    </column>
-                    <column text-field-id="name">
-                        <link>
-                            <show-modal page-id="ProtoClient"
-                                        page-name="${clients.card}: {id}" route="/clients/:id/name">
-                                <params>
-                                    <path-param name="id" value="{id}"/>
-                                </params>
-                                <datasources>
-                                    <parent-datasource id="clients"/>
-                                </datasources>
-                                <toolbars>
-                                    <toolbar>
-                                        <button label="Сохранить">
-                                            <invoke operation-id="update"/>
-                                            <refresh datasource="clientsDs"/>
-                                            <close/>
-                                        </button>
-                                    </toolbar>
-                                </toolbars>
-                            </show-modal>
-                        </link>
-                    </column>
-                    <column text-field-id="patrName">
-                        <link visible="{name!='Мария'}"
-                              url="/clients/{id}/update2" target="application"/>
-                    </column>
-                    <column text-field-id="birthday" sorting-direction="asc">
-                        <edit action-id="update_birthday" format="date DD.MM.YYYY">
-                            <date-time id="birthday"/>
-                        </edit>
-                    </column>
-                    <column text-field-id="genderName">
-                        <badge color="{gender.id==1?'danger':'success'}"/>
-                    </column>
-                    <column text-field-id="vip">
-                        <checkbox enabled="{name!='Мария'}">
-                            <invoke operation-id="update" route="/clients/update_vip"/>
-                        </checkbox>
-                    </column>
-                    <column text-field-id="">
-                        <toolbar>
-                            <sub-menu icon="fa fa-ellipsis-v">
-                                <menu-item label="Удалить" icon="fa fa-trash">
-                                    <confirm/>
-                                    <invoke operation-id="delete"/>
-                                </menu-item>
-                                <menu-item label="Изменить" icon="fa fa-pencil">
-                                    <show-modal page-id="ProtoClient" page-name="Клиент - Изменение"
-                                                route="/:id/update">
+    <regions>
+        <row>
+            <col style="width: 60%">
+                <panel collapsible="false" title="${clients.title}">
+                    <table id="clients" datasource="clientsDs" selection="checkbox"
+                           route="/">
+                        <actions>
+                            <action id="update_birthday">
+                                <invoke operation-id="update" route="/clients/update_birthday"/>
+                            </action>
+                        </actions>
+                        <pagination/>
+                        <columns>
+                            <column text-field-id="surname">
+                                <link>
+                                    <open-page page-id="ProtoClient"
+                                               page-name="${clients.card}: {id}" route="/clients/:id/surname">
                                         <params>
                                             <path-param name="id" value="{id}"/>
                                         </params>
-
+                                        <datasources>
+                                            <parent-datasource id="clients"/>
+                                        </datasources>
                                         <toolbars>
                                             <toolbar>
-                                                <button label="Сохранить" color="primary">
+                                                <button label="Сохранить">
                                                     <invoke operation-id="update"/>
                                                     <refresh datasource="clientsDs"/>
                                                     <close/>
                                                 </button>
-                                                <button label="Закрыть">
+                                            </toolbar>
+                                        </toolbars>
+                                    </open-page>
+                                </link>
+                            </column>
+                            <column text-field-id="name">
+                                <link>
+                                    <show-modal page-id="ProtoClient"
+                                                page-name="${clients.card}: {id}" route="/clients/:id/name">
+                                        <params>
+                                            <path-param name="id" value="{id}"/>
+                                        </params>
+                                        <datasources>
+                                            <parent-datasource id="clients"/>
+                                        </datasources>
+                                        <toolbars>
+                                            <toolbar>
+                                                <button label="Сохранить">
+                                                    <invoke operation-id="update"/>
+                                                    <refresh datasource="clientsDs"/>
                                                     <close/>
                                                 </button>
                                             </toolbar>
                                         </toolbars>
                                     </show-modal>
-                                </menu-item>
-                            </sub-menu>
-                        </toolbar>
-                    </column>
+                                </link>
+                            </column>
+                            <column text-field-id="patrName">
+                                <link visible="{name!='Мария'}"
+                                      url="/clients/{id}/update2" target="application"/>
+                            </column>
+                            <column text-field-id="birthday" sorting-direction="asc">
+                                <edit action-id="update_birthday" format="date DD.MM.YYYY">
+                                    <date-time id="birthday"/>
+                                </edit>
+                            </column>
+                            <column text-field-id="genderName">
+                                <badge color="{gender.id==1?'danger':'success'}"/>
+                            </column>
+                            <column text-field-id="vip">
+                                <checkbox enabled="{name!='Мария'}">
+                                    <invoke operation-id="update" route="/clients/update_vip"/>
+                                </checkbox>
+                            </column>
+                            <column text-field-id="">
+                                <toolbar>
+                                    <sub-menu icon="fa fa-ellipsis-v">
+                                        <menu-item label="Удалить" icon="fa fa-trash">
+                                            <confirm/>
+                                            <invoke operation-id="delete"/>
+                                        </menu-item>
+                                        <menu-item label="Изменить" icon="fa fa-pencil">
+                                            <show-modal page-id="ProtoClient" page-name="Клиент - Изменение"
+                                                        route="/:id/update">
+                                                <params>
+                                                    <path-param name="id" value="{id}"/>
+                                                </params>
 
-                </columns>
-                <filters place="top">
-                    <row>
-                        <input-text id="surname"/>
-                        <input-text id="name"/>
-                        <date-interval id="bdate" label="${bdate}" date-format="DD.MM.YYYY"/>
-                    </row>
-                    <row>
-                        <col size="10">
-                            <checkbox-group id="genders" label="${gender}" query-id="ProtoGender"
-                                            label-field-id="name" inline="true"/>
-                        </col>
-                        <checkbox id="vip"/>
-                    </row>
-                </filters>
-                <toolbar place="topLeft">
-                    <button id="create" label="${create}" description="${create}" icon="fa fa-plus" model="filter">
-                        <show-modal page-id="ProtoClient" page-name="Карточка клиента">
-                            <datasources>
-                                <parent-datasource id="clients"/>
-                                <datasource id="protoClient" default-values-mode="defaults"/>
-                            </datasources>
-                            <toolbars>
-                                <toolbar>
-                                    <button label="Сохранить">
-                                        <invoke operation-id="create"/>
-                                        <a href="/clients/:id/update2" target="application">
-                                            <path-param name="id" value="{id}" datasource="protoClient"/>
-                                        </a>
-                                    </button>
+                                                <toolbars>
+                                                    <toolbar>
+                                                        <button label="Сохранить" color="primary">
+                                                            <invoke operation-id="update"/>
+                                                            <refresh datasource="clientsDs"/>
+                                                            <close/>
+                                                        </button>
+                                                        <button label="Закрыть">
+                                                            <close/>
+                                                        </button>
+                                                    </toolbar>
+                                                </toolbars>
+                                            </show-modal>
+                                        </menu-item>
+                                    </sub-menu>
                                 </toolbar>
-                            </toolbars>
-                        </show-modal>
-                    </button>
-                    <button id="update_client" label="${update}" description="${update}" icon="fa fa-pencil">
-                        <show-modal page-id="ProtoClient"
-                                    page-name="${clients.card}: {id}" route="/clients/:id/update_client">
-                            <params>
-                                <path-param name="id" value="{id}"/>
-                            </params>
-                            <datasources>
-                                <parent-datasource id="clients"/>
-                            </datasources>
-                            <toolbars>
-                                <toolbar>
-                                    <button label="Сохранить">
-                                        <invoke operation-id="update"/>
-                                        <refresh datasource="clientsDs"/>
-                                        <close/>
-                                    </button>
-                                </toolbar>
-                            </toolbars>
-                        </show-modal>
-                    </button>
-                    <button id="delete" label="${delete}" description="${delete}" icon="fa fa-trash">
-                        <confirm text="${client.delete.confirm}"/>
-                        <invoke operation-id="delete" route="/clients/delete"/>
-                    </button>
-                </toolbar>
-                <toolbar place="topRight">
-                    <button id="update2" color="light" label="${update}" icon="fa fa-edit"
-                            visible="{name != 'Мария'}"
-                            description="${button.update2.description}">
-                        <open-page page-id="ProtoClient"
-                                   page-name="${clients.card}: {id}" route="/clients/:id/update2">
-                            <params>
-                                <path-param name="id" value="{id}"/>
-                            </params>
-                            <datasources>
-                                <parent-datasource id="clients"/>
-                            </datasources>
-                            <toolbars>
-                                <toolbar>
-                                    <button label="Сохранить">
-                                        <invoke operation-id="update"/>
-                                        <refresh datasource="clientsDs"/>
-                                        <close/>
-                                    </button>
-                                    <button label="Закрыть">
-                                        <close/>
-                                    </button>
-                                </toolbar>
-                            </toolbars>
-                        </open-page>
-                    </button>
-                    <button id="view" label="${view}" color="info" icon="fa fa-book"
-                            enabled="{name != 'Анна'}" tooltip-position="right"
-                            description="${button.view.description}">
-                        <show-modal page-id="ProtoClientView" route="/clients/:id/view">
-                            <params>
-                                <path-param name="id" value="{id}"/>
-                            </params>
-                        </show-modal>
-                    </button>
-                </toolbar>
-                <toolbar place="bottomRight">
-                    <ts:filters/>
-                    <ts:columns locked="id"/>
-                    <ts:refresh/>
-                    <ts:resize/>
-                    <ts:word-wrap/>
-                    <ts:export/>
-                </toolbar>
-            </table>
-        </panel>
-    </left>
-    <right>
-        <panel place="right" title="${contacts}">
-            <list datasource="contacts">
-                <dependencies>
-                    <visibility datasource="clientsDs" model="resolve">name != 'Мария'</visibility>
-                </dependencies>
-                <content>
-                    <left-top>
-                        <icon>
-                            <switch value-field-id="type.id">
-                                <case value="2">fa fa-phone</case>
-                                <case value="4">fa fa-envelop</case>
-                                <case value="7">fa fa-fax</case>
-                            </switch>
-                        </icon>
-                    </left-top>
-                    <header text-field-id="type.name">
-                        <text class="text-muted"/>
-                    </header>
-                    <body text-field-id="value">
-                        <text/>
-                    </body>
-                    <extra>
-                        <toolbar generate="update,delete"/>
-                    </extra>
-                </content>
-                <toolbar>
-                    <button id="createContact" label="${create}" model="filter">
-                        <show-modal page-id="ProtoContactsCreate" route="/contacts/:client_id/createContact">
-                            <params>
-                                <path-param name="client_id" value="{id}" model="resolve" datasource="clientsDs"/>
-                            </params>
-                            <datasources>
-                                <parent-datasource id="clients"/>
-                            </datasources>
-                            <toolbars>
-                                <toolbar>
-                                    <button label="Сохранить">
-                                        <invoke operation-id="create"/>
-                                        <refresh datasource="contacts"/>
-                                        <close/>
-                                    </button>
-                                </toolbar>
-                            </toolbars>
-                        </show-modal>
-                    </button>
-                </toolbar>
-            </list>
-        </panel>
-        <panel place="right" title="${card}">
-            <form id="form" ref-id="ProtoClient" route="/form/:client_id/card" datasource="clientCard"/>
-        </panel>
-    </right>
-</left-right-page>
+                            </column>
+
+                        </columns>
+                        <filters place="top">
+                            <row>
+                                <input-text id="surname"/>
+                                <input-text id="name"/>
+                                <date-interval id="bdate" label="${bdate}" date-format="DD.MM.YYYY"/>
+                            </row>
+                            <row>
+                                <col size="10">
+                                    <checkbox-group id="genders" label="${gender}" query-id="ProtoGender"
+                                                    label-field-id="name" inline="true"/>
+                                </col>
+                                <checkbox id="vip"/>
+                            </row>
+                        </filters>
+                        <toolbar place="topLeft">
+                            <button id="create" label="${create}" description="${create}" icon="fa fa-plus"
+                                    model="filter">
+                                <show-modal page-id="ProtoClient" page-name="Карточка клиента">
+                                    <datasources>
+                                        <parent-datasource id="clients"/>
+                                        <datasource id="protoClient" default-values-mode="defaults"/>
+                                    </datasources>
+                                    <toolbars>
+                                        <toolbar>
+                                            <button label="Сохранить">
+                                                <invoke operation-id="create"/>
+                                                <a href="/clients/:id/update2" target="application">
+                                                    <path-param name="id" value="{id}" datasource="protoClient"/>
+                                                </a>
+                                            </button>
+                                        </toolbar>
+                                    </toolbars>
+                                </show-modal>
+                            </button>
+                            <button id="update_client" label="${update}" description="${update}" icon="fa fa-pencil">
+                                <show-modal page-id="ProtoClient"
+                                            page-name="${clients.card}: {id}" route="/clients/:id/update_client">
+                                    <params>
+                                        <path-param name="id" value="{id}"/>
+                                    </params>
+                                    <datasources>
+                                        <parent-datasource id="clients"/>
+                                    </datasources>
+                                    <toolbars>
+                                        <toolbar>
+                                            <button label="Сохранить">
+                                                <invoke operation-id="update"/>
+                                                <refresh datasource="clientsDs"/>
+                                                <close/>
+                                            </button>
+                                        </toolbar>
+                                    </toolbars>
+                                </show-modal>
+                            </button>
+                            <button id="delete" label="${delete}" description="${delete}" icon="fa fa-trash">
+                                <confirm text="${client.delete.confirm}"/>
+                                <invoke operation-id="delete" route="/clients/delete"/>
+                            </button>
+                        </toolbar>
+                        <toolbar place="topRight">
+                            <button id="update2" color="light" label="${update}" icon="fa fa-edit"
+                                    visible="{name != 'Мария'}"
+                                    description="${button.update2.description}">
+                                <open-page page-id="ProtoClient"
+                                           page-name="${clients.card}: {id}" route="/clients/:id/update2">
+                                    <params>
+                                        <path-param name="id" value="{id}"/>
+                                    </params>
+                                    <datasources>
+                                        <parent-datasource id="clients"/>
+                                    </datasources>
+                                    <toolbars>
+                                        <toolbar>
+                                            <button label="Сохранить">
+                                                <invoke operation-id="update"/>
+                                                <refresh datasource="clientsDs"/>
+                                                <close/>
+                                            </button>
+                                            <button label="Закрыть">
+                                                <close/>
+                                            </button>
+                                        </toolbar>
+                                    </toolbars>
+                                </open-page>
+                            </button>
+                            <button id="view" label="${view}" color="info" icon="fa fa-book"
+                                    enabled="{name != 'Анна'}" tooltip-position="right"
+                                    description="${button.view.description}">
+                                <show-modal page-id="ProtoClientView" route="/clients/:id/view">
+                                    <params>
+                                        <path-param name="id" value="{id}"/>
+                                    </params>
+                                </show-modal>
+                            </button>
+                        </toolbar>
+                        <toolbar place="bottomRight">
+                            <ts:filters/>
+                            <ts:columns locked="id"/>
+                            <ts:refresh/>
+                            <ts:resize/>
+                            <ts:word-wrap/>
+                            <ts:export/>
+                        </toolbar>
+                    </table>
+                </panel>
+            </col>
+            <col>
+                <panel title="${contacts}">
+                    <list datasource="contacts">
+                        <dependencies>
+                            <visibility datasource="clientsDs" model="resolve">name != 'Мария'</visibility>
+                        </dependencies>
+                        <content>
+                            <left-top>
+                                <icon>
+                                    <switch value-field-id="type.id">
+                                        <case value="2">fa fa-phone</case>
+                                        <case value="4">fa fa-envelop</case>
+                                        <case value="7">fa fa-fax</case>
+                                    </switch>
+                                </icon>
+                            </left-top>
+                            <header text-field-id="type.name">
+                                <text class="text-muted"/>
+                            </header>
+                            <body text-field-id="value">
+                                <text/>
+                            </body>
+                            <extra>
+                                <toolbar generate="update,delete"/>
+                            </extra>
+                        </content>
+                        <toolbar>
+                            <button id="createContact" label="${create}" model="filter">
+                                <show-modal page-id="ProtoContactsCreate" route="/contacts/:client_id/createContact">
+                                    <params>
+                                        <path-param name="client_id" value="{id}" model="resolve"
+                                                    datasource="clientsDs"/>
+                                    </params>
+                                    <datasources>
+                                        <parent-datasource id="clients"/>
+                                    </datasources>
+                                    <toolbars>
+                                        <toolbar>
+                                            <button label="Сохранить">
+                                                <invoke operation-id="create"/>
+                                                <refresh datasource="contacts"/>
+                                                <close/>
+                                            </button>
+                                        </toolbar>
+                                    </toolbars>
+                                </show-modal>
+                            </button>
+                        </toolbar>
+                    </list>
+                </panel>
+                <panel title="${card}">
+                    <form id="form" ref-id="ProtoClient" route="/form/:client_id/card" datasource="clientCard"/>
+                </panel>
+            </col>
+        </row>
+    </regions>
+</page>

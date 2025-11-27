@@ -18,7 +18,10 @@ public class N2oRegionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new CustomRegionCompiler(),
                 new NavRegionCompiler(),
                 new ScrollspyRegionCompiler(),
-                new SubPageRegionCompiler());
+                new SubPageRegionCompiler(),
+                new RowRegionCompiler(),
+                new ColRegionCompiler(),
+                new FlexRowRegionCompiler());
         b.binders(new CustomRegionBinder(),
                 new LineRegionBinder(),
                 new NavRegionBinder(),

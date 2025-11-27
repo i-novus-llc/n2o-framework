@@ -1,0 +1,28 @@
+<row xmlns="http://n2oapp.net/framework/config/schema/region-3.0"
+     id="test"
+     src="test"
+     class="test"
+     style="test"
+     columns="12"
+     wrap="true"
+     align="middle"
+     justify="space-between">
+    <col size="3" offset="1">
+        <form/>
+        <tabs/>
+    </col>
+    <col size="6">
+        <tabs/>
+    </col>
+    <col size="2">
+        <form/>
+    </col>
+    <col/>
+    <region/>
+    <tabs>
+        <tab/>
+    </tabs>
+    <col>
+        <scrollspy/>
+    </col>
+</row>

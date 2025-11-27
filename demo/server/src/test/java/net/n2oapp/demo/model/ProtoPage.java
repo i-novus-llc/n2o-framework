@@ -8,7 +8,7 @@ import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.control.*;
-import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
@@ -25,15 +25,15 @@ import static org.hamcrest.Matchers.hasItem;
  */
 public class ProtoPage {
 
-    private final LeftRightPage leftRightPage;
+    private final StandardPage page;
 
     public ProtoPage() {
-        leftRightPage = N2oSelenide.page(LeftRightPage.class);
+        page = N2oSelenide.page(StandardPage.class);
     }
 
     public void shouldBeClientsPage() {
-        leftRightPage.shouldExists();
-        leftRightPage.breadcrumb().crumb(0).shouldHaveLabel("Список контактов");
+        page.shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Список контактов");
     }
 
     public void tableShouldHaveSize(int size) {
@@ -190,7 +190,7 @@ public class ProtoPage {
         return getTableCell(row, 2, LinkCell.class).element().text();
     }
 
-    public String getPatronomic(int row) {
+    public String getPatronymic(int row) {
         return getTableCell(row, 3, LinkCell.class).element().text();
     }
 
@@ -199,7 +199,7 @@ public class ProtoPage {
     }
 
     public ProtoClient addClient() {
-        leftRightPage.toolbar().topRight().button("Добавить клиента").click();
+        page.toolbar().topRight().button("Добавить клиента").click();
         return getProtoClient();
     }
 
@@ -236,19 +236,19 @@ public class ProtoPage {
     }
 
     public void shouldBeDialog(String title) {
-        leftRightPage.dialog(title).shouldBeVisible();
+        page.dialog(title).shouldBeVisible();
     }
 
     public void shouldDialogHaveText(String title, String text) {
-        leftRightPage.dialog(title).shouldHaveText(text);
+        page.dialog(title).shouldHaveText(text);
     }
 
     public void shouldDialogClosed(String title) {
-        leftRightPage.dialog(title).shouldBeClosed();
+        page.dialog(title).shouldBeClosed();
     }
 
     public void acceptDialog(String title) {
-        leftRightPage.dialog(title).button("Да").click();
+        page.dialog(title).button("Да").click();
     }
 
     public void contactsListShouldHaveText(int index, String text) {
@@ -273,7 +273,7 @@ public class ProtoPage {
     public void deleteContact(int index) {
         ListCell cell = getContacts().content(index).extra(ListCell.class);
         cell.element().$$(".btn").findBy(Condition.text("Удалить")).click();
-        leftRightPage.dialog("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.").button("Да").click();
+        page.dialog("Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.").button("Да").click();
     }
 
     public void alertTextShouldBe(String text) {
@@ -321,7 +321,7 @@ public class ProtoPage {
     }
 
     private TableWidget getTable() {
-        return leftRightPage.left().region(0, PanelRegion.class).content().widget(TableWidget.class);
+        return page.regions().region(0, PanelRegion.class).content().widget(TableWidget.class);
     }
 
     private <T extends Cell> T getTableCell(int row, int col, Class<T> componentClass) {
@@ -333,10 +333,10 @@ public class ProtoPage {
     }
 
     private Fields getCardFields() {
-        return leftRightPage.right().region(1, PanelRegion.class).content().widget(FormWidget.class).fields();
+        return page.regions().region(2, PanelRegion.class).content().widget(FormWidget.class).fields();
     }
 
     private ListWidget getContacts() {
-        return leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class);
+        return page.regions().region(1, PanelRegion.class).content().widget(ListWidget.class);
     }
 }

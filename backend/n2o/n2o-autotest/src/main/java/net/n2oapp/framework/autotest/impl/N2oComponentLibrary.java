@@ -26,7 +26,8 @@ import net.n2oapp.framework.autotest.impl.component.header.N2oDropdownMenuItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSearchItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
-import net.n2oapp.framework.autotest.impl.component.page.*;
+import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
+import net.n2oapp.framework.autotest.impl.component.page.N2oStandardPage;
 import net.n2oapp.framework.autotest.impl.component.region.*;
 import net.n2oapp.framework.autotest.impl.component.snippet.*;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
@@ -59,11 +60,12 @@ public class N2oComponentLibrary implements ComponentLibrary {
     public List<Class<? extends Component>> components() {
         return Arrays.asList(
                 // pages
-                N2oSimplePage.class, N2oLeftRightPage.class, N2oStandardPage.class, N2oTopLeftRightPage.class,
-                N2oModal.class, N2oDrawer.class, N2oSimpleHeader.class, N2oSearchablePage.class,
+                N2oSimplePage.class, N2oStandardPage.class,
+                N2oModal.class, N2oDrawer.class, N2oSimpleHeader.class,
                 // regions
                 N2oSimpleRegion.class, N2oPanelRegion.class, N2oLineRegion.class, N2oNavRegion.class,
                 N2oTabsRegion.class, N2oScrollspyRegion.class, N2oSubPageRegion.class,
+                N2oFlexRowRegion.class, N2oRowRegion.class, N2oColRegion.class,
                 // widgets
                 N2oListWidget.class, N2oFormWidget.class,
                 N2oTilesWidget.class, N2oTile.class,

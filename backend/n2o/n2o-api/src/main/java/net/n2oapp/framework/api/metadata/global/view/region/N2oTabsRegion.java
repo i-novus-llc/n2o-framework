@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class N2oTabsRegion extends N2oRegion implements RegionItem, RoutableRegion {
+public class N2oTabsRegion extends N2oRegion implements RoutableRegion {
     private Boolean alwaysRefresh;
     private Boolean lazy;
     private Boolean hideSingleTab;
