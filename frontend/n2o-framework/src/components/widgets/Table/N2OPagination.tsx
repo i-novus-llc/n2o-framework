@@ -101,10 +101,7 @@ export const N2OPagination = (props: Props) => {
     const onClick = async () => {
         if (!countDataProvider) { return }
 
-        const { url } = dataProviderResolver(state, {
-            ...countDataProvider,
-            url: `${countDataProvider.url}/${datasourceId}`,
-        })
+        const { url } = dataProviderResolver(state, countDataProvider)
 
         // TODO request,js не типизирован
         // eslint-disable-next-line @typescript-eslint/await-thenable
