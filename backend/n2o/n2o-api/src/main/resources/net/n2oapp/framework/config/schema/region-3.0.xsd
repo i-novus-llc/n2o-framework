@@ -15,6 +15,8 @@
     <xs:element name="scrollspy" type="scrollspyDefinition"/>
     <xs:element name="sub-page" type="subPageDefinition"/>
     <xs:element name="nav" type="navRegionDefinition"/>
+    <xs:element name="row" type="rowDefinition"/>
+    <xs:element name="flex-row" type="flexRowDefinition"/>
 
     <xs:complexType name="regionsAndWidgets" abstract="true">
         <xs:sequence>
@@ -37,6 +39,9 @@
             <xs:element name="html" type="wgt:htmlReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="cards" type="wgt:cardsReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="tiles" type="wgt:tilesReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
+
+            <xs:element name="row" type="rowDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="flex-row" type="flexRowDefinition" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -726,4 +731,136 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
+
+    <xs:complexType name="rowDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Регион Строка с сеточной вёрсткой
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="regionDefinition">
+                <xs:sequence>
+                    <xs:element name="col" type="colDefinition" maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:attribute name="columns" type="xs:integer" default="12">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Количество колонок, на которое разбивается строка
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="wrap" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Перенос не влезающих по размеру колонок на следующую строку
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="align" type="alignType" default="top">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Вертикальное выравнивание
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="justify" type="justifyType" default="start">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Горизонтальное выравнивание
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="colDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Колонка в строке
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="regionDefinition">
+                <xs:attribute name="size" type="xs:integer" default="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Занимаемое количество колонок
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="offset" type="xs:integer" default="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Отступ слева (в колонках)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="flexRowDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Регион Строка без сеточной вёрстки
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="regionDefinition">
+                <xs:attribute name="wrap" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Перенос не влезающих элементов на следующую строку
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="align" type="alignType" default="top">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Вертикальное выравнивание
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="justify" type="justifyType" default="start">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Горизонтальное выравнивание
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="alignType">
+        <xs:annotation>
+            <xs:documentation>
+                Вертикальное выравнивание
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="middle"/>
+            <xs:enumeration value="bottom"/>
+            <xs:enumeration value="stretch"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="justifyType">
+        <xs:annotation>
+            <xs:documentation>
+                Горизонтальное выравнивание
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="start"/>
+            <xs:enumeration value="end"/>
+            <xs:enumeration value="center"/>
+            <xs:enumeration value="space-around"/>
+            <xs:enumeration value="space-between"/>
+            <xs:enumeration value="space-evenly"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

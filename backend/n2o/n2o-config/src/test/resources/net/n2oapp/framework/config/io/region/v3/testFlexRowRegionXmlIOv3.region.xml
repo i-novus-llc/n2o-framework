@@ -1,0 +1,14 @@
+<flex-row xmlns="http://n2oapp.net/framework/config/schema/region-3.0"
+          id="test"
+          src="test"
+          class="test"
+          style="test"
+          wrap="false"
+          align="stretch"
+          justify="center">
+    <sub-page>
+        <page page-id="test" route="/test"/>
+    </sub-page>
+    <form/>
+    <tabs/>
+</flex-row>

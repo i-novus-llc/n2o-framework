@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * Чтение\запись страницы c двумя регионами версии 4.0
  */
+@Deprecated(since = "7.29")
 @Component
 public class LeftRightPageElementIOv4 extends BasePageElementIOv4<N2oLeftRightPage> {
 

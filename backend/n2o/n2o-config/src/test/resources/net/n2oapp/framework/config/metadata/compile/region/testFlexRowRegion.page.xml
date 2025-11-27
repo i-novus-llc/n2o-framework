@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <flex-row id="test" wrap="false" align="stretch" justify="space-between">
+            <tabs>
+                <tab name="tab1"/>
+            </tabs>
+            <form id="form1"/>
+        </flex-row>
+    </regions>
+</page>

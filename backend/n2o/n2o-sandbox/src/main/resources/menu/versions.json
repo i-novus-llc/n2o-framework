@@ -62,6 +62,14 @@
         {
           "templateId": "versions/7.29/export_without_modal",
           "name": "Экспорт данных без модального окна"
+        },
+        {
+          "templateId": "uxcomponents/regions/row",
+          "name": "Расположение регионов в сеточной вёрстке"
+        },
+        {
+          "templateId": "uxcomponents/regions/flex_row",
+          "name": "Расположение регионов без сеточной вёрстки"
         }
       ]
     },

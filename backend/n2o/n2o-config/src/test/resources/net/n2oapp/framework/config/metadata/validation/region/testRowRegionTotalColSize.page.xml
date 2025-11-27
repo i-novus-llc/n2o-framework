@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <row columns="10">
+            <col size="3"><form/></col>
+            <col><form/></col>
+            <form/>
+            <panel/>
+            <col size="5"><form/></col>
+        </row>
+    </regions>
+</page>

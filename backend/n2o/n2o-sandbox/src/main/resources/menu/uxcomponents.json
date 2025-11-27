@@ -11,18 +11,6 @@
         {
           "templateId": "uxcomponents/pages/simple_regions",
           "name": "Страница с регионами"
-        },
-        {
-          "templateId": "uxcomponents/pages/left_right_regions",
-          "name": "Страница с регионами слева и справа"
-        },
-        {
-          "templateId": "uxcomponents/pages/three_regions",
-          "name": "Страница с тремя регионами"
-        },
-        {
-          "templateId": "uxcomponents/pages/search",
-          "name": "Страница с поисковой строкой"
         }
       ]
     },
@@ -72,6 +60,14 @@
         {
           "templateId": "uxcomponents/regions/nav",
           "name": "Регион навигации"
+        },
+        {
+          "templateId": "uxcomponents/regions/row",
+          "name": "Расположение регионов в сеточной вёрстке"
+        },
+        {
+          "templateId": "uxcomponents/regions/flex_row",
+          "name": "Расположение регионов без сеточной вёрстки"
         }
       ]
     },

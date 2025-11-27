@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Расположение регионов в сеточной вёрстке">
+    <regions>
+        <row>
+            <col size="7">
+                <panel title="Панель сверху слева">
+                    <form/>
+                </panel>
+            </col>
+            <col size="5">
+                <panel title="Панель сверху справа">
+                    <form/>
+                </panel>
+            </col>
+        </row>
+        <row columns="3">
+            <panel title="Панель слева">
+                <form/>
+            </panel>
+            <panel title="Панель по центру">
+                <form/>
+            </panel>
+            <panel title="Панель справа">
+                <form/>
+            </panel>
+        </row>
+        <row justify="center">
+            <col size="6">
+                <panel title="Панель снизу по центру">
+                    <form/>
+                </panel>
+            </col>
+        </row>
+    </regions>
+</page>

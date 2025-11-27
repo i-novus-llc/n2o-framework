@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Расположение регионов без сеточной вёрстки">
+    <regions>
+        <flex-row>
+            <panel style="width: 60%" title="Панель сверху слева">
+                <form/>
+            </panel>
+            <panel style="width: 40%" title="Панель сверху справа">
+                <form/>
+            </panel>
+        </flex-row>
+        <flex-row justify="space-evenly">
+            <panel title="Панель слева">
+                <form/>
+            </panel>
+            <panel style="width: 40%" title="Панель по центру">
+                <form/>
+            </panel>
+            <panel title="Панель справа">
+                <form/>
+            </panel>
+        </flex-row>
+        <flex-row justify="center">
+            <panel style="width: 50%" title="Панель снизу по центру">
+                <form/>
+            </panel>
+        </flex-row>
+    </regions>
+</page>

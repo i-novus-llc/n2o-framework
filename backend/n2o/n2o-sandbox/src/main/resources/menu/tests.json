@@ -179,10 +179,6 @@
       "name": "Страница",
       "templates": [
         {
-          "templateId": "net/n2oapp/framework/autotest/page/searchable",
-          "name": "SearchableAT"
-        },
-        {
           "templateId": "net/n2oapp/framework/autotest/page/simple_page",
           "name": "SimplePageAT"
         },
@@ -205,10 +201,6 @@
         {
           "templateId": "net/n2oapp/framework/autotest/page/title/browser_storage",
           "name": "PageTitleLinkResolveAT. testBrowserStorage"
-        },
-        {
-          "templateId": "net/n2oapp/framework/autotest/page/top_left_right",
-          "name": "TopLeftRightPageAT"
         }
       ]
     },
@@ -326,6 +318,22 @@
         {
           "templateId": "net/n2oapp/framework/autotest/region/nav/row",
           "name": "NavRegionAT.testRow"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/row/simple",
+          "name": "RowRegionAT. testSimple"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/row/mixed",
+          "name": "RowRegionAT. testMixed"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/flexrow/simple",
+          "name": "FlexRowRegionAT. testSimple"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/flexrow/mixed",
+          "name": "FlexRowRegionAT. testMixed"
         }
       ]
     },

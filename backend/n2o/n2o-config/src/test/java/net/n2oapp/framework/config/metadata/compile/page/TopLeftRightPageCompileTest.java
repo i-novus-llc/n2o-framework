@@ -1,6 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-import net.n2oapp.framework.api.metadata.meta.page.TopLeftRightPage;
+import net.n2oapp.framework.api.metadata.global.view.region.AlignEnum;
+import net.n2oapp.framework.api.metadata.global.view.region.JustifyEnum;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.*;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -15,11 +17,13 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Тестирование компиляции страницы с тремя регионами
  */
+@Deprecated(since = "7.29")
 class TopLeftRightPageCompileTest extends SourceCompileTestBase {
 
     @Override
@@ -36,66 +40,88 @@ class TopLeftRightPageCompileTest extends SourceCompileTestBase {
 
     @Test
     void topLeftRightPage() {
-        TopLeftRightPage page = (TopLeftRightPage) compile("net/n2oapp/framework/config/metadata/compile/page/testTopLeftRightPage.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testTopLeftRightPage.page.xml")
                 .get(new PageContext("testTopLeftRightPage"));
 
-        assertThat(page.getNeedScrollButton(), is(true));
-        assertThat(page.getPlaces(), allOf(
-                hasProperty("top", allOf(
-                        hasProperty("width", is("100%")),
-                        hasProperty("fixed", is(true)),
-                        hasProperty("offset", is(100))
-                )),
-                hasProperty("left", allOf(
-                        hasProperty("width", is("70%")),
-                        hasProperty("fixed", is(false)),
-                        hasProperty("offset", nullValue())
-                )),
-                hasProperty("right", allOf(
-                        hasProperty("width", is("30%")),
-                        hasProperty("fixed", is(true)),
-                        hasProperty("offset", is(50))
-                ))
-        ));
+        List<Region> regions = page.getRegions().get("single");
+        assertThat(regions.size(), is(2));
 
-        assertThat(page.getRegions().size(), is(3));
-        List<Region> top = page.getRegions().get("top");
-        List<Region> left = page.getRegions().get("left");
-        List<Region> right = page.getRegions().get("right");
+        // top
+        FlexRowRegion row = (FlexRowRegion) regions.get(0);
+        checkRowAttributes(row);
+        assertThat(row.getContent().size(), is(1));
+        assertThat(row.getContent().get(0), instanceOf(CustomRegion.class));
+        CustomRegion col = (CustomRegion) row.getContent().get(0);
+        assertThat(col.getStyle().get("width"), is("100%"));
+        assertThat(col.getContent().get(0), instanceOf(Form.class));
+        assertThat(col.getContent().get(1), instanceOf(Table.class));
+        assertThat(col.getContent().get(2), instanceOf(PanelRegion.class));
+        assertThat(col.getContent().get(3), instanceOf(TabsRegion.class));
 
-        assertThat(top.size(), is(3));
-        assertThat(top.get(0), instanceOf(CustomRegion.class));
-        assertThat(top.get(0).getContent().size(), is(2));
-        assertThat(top.get(0).getContent().get(0), instanceOf(Form.class));
-        assertThat(top.get(0).getContent().get(1), instanceOf(Table.class));
-        assertThat(top.get(1), instanceOf(PanelRegion.class));
-        assertThat(top.get(2), instanceOf(TabsRegion.class));
+        // left-right
+        row = (FlexRowRegion) regions.get(1);
+        checkRowAttributes(row);
+        assertThat(row.getContent().size(), is(2));
 
-        assertThat(left.size(), is(2));
-        assertThat(left.get(0), instanceOf(CustomRegion.class));
-        assertThat(left.get(0).getContent().size(), is(2));
-        assertThat(left.get(0).getContent().get(0), instanceOf(Form.class));
-        assertThat(left.get(0).getContent().get(1), instanceOf(Table.class));
-        assertThat(left.get(1), instanceOf(LineRegion.class));
+        // left
+        assertThat(row.getContent().get(0), instanceOf(CustomRegion.class));
+        col = (CustomRegion) row.getContent().get(0);
+        assertThat(col.getContent().size(), is(3));
+        assertThat(col.getStyle().get("width"), is("70%"));
+        assertThat(col.getContent().get(0), instanceOf(Form.class));
+        assertThat(col.getContent().get(1), instanceOf(Table.class));
+        assertThat(col.getContent().get(2), instanceOf(LineRegion.class));
 
-        assertThat(right.size(), is(4));
-        assertThat(right.get(0), instanceOf(PanelRegion.class));
-        assertThat(right.get(1), instanceOf(TabsRegion.class));
-        assertThat(right.get(2), instanceOf(CustomRegion.class));
-        assertThat(right.get(3), instanceOf(CustomRegion.class));
-        assertThat(right.get(3).getContent().size(), is(2));
-        assertThat(right.get(3).getContent().get(0), instanceOf(Form.class));
-        assertThat(right.get(3).getContent().get(1), instanceOf(Table.class));
+        // right
+        assertThat(row.getContent().get(1), instanceOf(CustomRegion.class));
+        col = (CustomRegion) row.getContent().get(1);
+        assertThat(col.getContent().size(), is(5));
+        assertThat(col.getStyle().get("width"), is("30%"));
+        assertThat(col.getContent().get(0), instanceOf(PanelRegion.class));
+        assertThat(col.getContent().get(1), instanceOf(TabsRegion.class));
+        assertThat(col.getContent().get(2), instanceOf(Region.class));
+        assertThat(col.getContent().get(3), instanceOf(Form.class));
+        assertThat(col.getContent().get(4), instanceOf(Table.class));
     }
 
+    private static void checkRowAttributes(FlexRowRegion row) {
+        assertThat(row.getWrap(), is(true));
+        assertThat(row.getAlign(), is(AlignEnum.TOP));
+        assertThat(row.getJustify(), is(JustifyEnum.START));
+    }
+
+    @Deprecated
     @Test
     void testWidth() {
-        TopLeftRightPage page = (TopLeftRightPage) compile("net/n2oapp/framework/config/metadata/compile/page/testTopLeftRightPage1.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testTopLeftRightPage1.page.xml")
                 .get(new PageContext("testTopLeftRightPage1"));
 
-        assertThat(page.getPlaces().getTop().getWidth(), is("500px"));
-        assertThat(page.getPlaces().getLeft().getWidth(), is("200px"));
-        assertThat(page.getPlaces().getRight().getWidth(), is("300px"));
+        List<Region> regions = page.getRegions().get("single");
+        assertThat(regions.size(), is(2));
 
+        // top
+        FlexRowRegion row = (FlexRowRegion) regions.get(0);
+        assertThat(row.getContent().get(0), instanceOf(CustomRegion.class));
+        CustomRegion col = (CustomRegion) row.getContent().get(0);
+        assertThat(col.getContent().get(0), instanceOf(Form.class));
+        assertThat(col.getStyle().get("width"), is("500px"));
+
+        // left-right
+        row = (FlexRowRegion) regions.get(1);
+        assertThat(row.getContent().size(), is(2));
+
+        // left
+        assertThat(row.getContent().get(0), instanceOf(CustomRegion.class));
+        col = (CustomRegion) row.getContent().get(0);
+        assertThat(col.getStyle().get("width"), is("200px"));
+        assertThat(col.getContent().size(), is(1));
+        assertThat(col.getContent().get(0), instanceOf(Form.class));
+
+        // right
+        assertThat(row.getContent().get(1), instanceOf(CustomRegion.class));
+        col = (CustomRegion) row.getContent().get(1);
+        assertThat(col.getStyle().get("width"), is("300px"));
+        assertThat(col.getContent().size(), is(1));
+        assertThat(col.getContent().get(0), instanceOf(Form.class));
     }
 }

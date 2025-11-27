@@ -24,9 +24,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkCloseInMultiAction;
-import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.checkOnFailAction;
-import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.getIdOrEmptyString;
+import static net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils.*;
 
 /**
  * Валидатор таблицы

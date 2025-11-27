@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Автотест. Страница с регионом строка без сеточной вёрстки">
+    <regions>
+        <flex-row/>
+        <flex-row wrap="false" justify="center" align="middle">
+            <col/>
+            <col size="2" offset="3">
+                <form>
+                    <fields>
+                        <input-text id="input1"/>
+                    </fields>
+                </form>
+            </col>
+        </flex-row>
+    </regions>
+</page>

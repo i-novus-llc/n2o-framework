@@ -306,51 +306,7 @@ N2O - компонентно-ориентированный фреймворк.
 
 <Sandbox height={450} projectId="uxcomponents_pages_simple_regions" showHeader />
 
-```xml title="Страница с разметкой регионов "слева и справа""
-<?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-      name="Моя страница">
-  <left>
-    <panel>...</panel>
-  </left>
-  <right>
-    <panel>...</panel>
-  </right>
-</left-right-page>
-```
 
-<Sandbox height={450} projectId="uxcomponents_pages_left_right_regions" showHeader/>
-
-```xml title="Страница с разметкой регионов "сверху, слева и справа""
-<?xml version='1.0' encoding='UTF-8'?>
-<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-      name="Моя страница">
-  <top>
-    <panel>...</panel>
-  </top>
-  <left width="30%">
-    <panel>...</panel>
-  </left>
-  <right width="70%">
-    <panel>...</panel>
-  </right>
-</top-left-right-page>
-```
-
-<Sandbox height={550} projectId="uxcomponents_pages_three_regions" showHeader />
-
-```xml title="Страница с поисковой строкой"
-<?xml version='1.0' encoding='UTF-8'?>
-<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-      name="Моя страница">
-  <search-bar search-filter-id="name" search-param="name"/>
-  <regions>
-    <!-- Регионы -->
-  </regions>
-</searchable-page>
-```
-
-<Sandbox height={700} projectId="uxcomponents_pages_search" showHeader />
 
 __*Виды страниц*__
 
@@ -358,9 +314,6 @@ __*Виды страниц*__
 |---------------------------|----------------|-----------------------------------------------------------------------------------------|
 |&lt;simple-page&gt;        |SimplePage      |[Страница с единственным виджетом](../xml/page#simple-page)                              |
 |&lt;page&gt;               |StandardPage    |[Страница с регионами](../xml/page#page)                                                 |
-|&lt;left-right-page&gt;    |LeftRightPage   |[Страница с разметкой регионов "слева и справа"](../xml/page#left-right-page)            |
-|&lt;top-left-right-page&gt;|TopLeftRightPage|[Страница с разметкой регионов "сверху, слева и справа"](../xml/page#top-left-right-page)|
-|&lt;searchable-page&gt;    |SearchablePage  |[Страница с поисковой строкой](../xml/page#searchable-page)                              |
 
 ### Хлебные крошки (breadcrumbs) {#breadcrumbs}
 

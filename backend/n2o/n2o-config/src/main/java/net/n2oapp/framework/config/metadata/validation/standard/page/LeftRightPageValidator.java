@@ -24,7 +24,9 @@ import static net.n2oapp.framework.config.metadata.validation.standard.PageValid
 
 /**
  * Валидатор модели страницы с двумя регионами.
+ * @deprecated Устаревшая валидация для обратной совместимости
  */
+@Deprecated(since = "7.29")
 @Component
 public class LeftRightPageValidator implements SourceValidator<N2oLeftRightPage>, SourceClassAware {
 
