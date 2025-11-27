@@ -14,7 +14,6 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 import static net.n2oapp.framework.sandbox.templates.LocalGitDiffService.collectChangedPackagesFromPackage;
-import static net.n2oapp.framework.sandbox.templates.LocalGitDiffService.runGitCommand;
 import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 
 @Slf4j
@@ -60,51 +59,22 @@ public class ProjectTemplateController {
     @CrossOrigin(origins = "*")
     @GetMapping("/projects-diff")
     public ProjectsDiffResponse getNewProjectFiles(@RequestParam(name = "oldTag") String oldTag,
-                                                   @RequestParam(name = "newTag") String newTag) {
+                                                   @RequestParam(name = "newTag") String newTag,
+                                                   @RequestParam(name = "onlyNew", required = false, defaultValue = "true") Boolean onlyNew) {
         try {
             File gitRoot = findGitRoot(new File("."));
             Set<String> changedPackages = new HashSet<>();
             Set<String> maybeDeletedPackages = new HashSet<>();
-            boolean anyUpdated = false;
-            boolean anyDeleted = false;
-            List<String> allOldFiles;
-            List<String> allNewFiles;
             if (gitRoot == null) {
                 logger.info("Git root not found, using gitlab diff");
                 gitLabDiffService.collectChangedPackages(sandboxProjectsResourcesPath, oldTag, newTag, maybeDeletedPackages, changedPackages);
-                logger.info("Get all old files");
-                allOldFiles = gitLabDiffService.listFilesAtTag(oldTag, sandboxProjectsResourcesPath);
-                logger.info("Get all new files");
-                allNewFiles = gitLabDiffService.listFilesAtTag(newTag, sandboxProjectsResourcesPath);
             } else {
                 collectChangedPackagesFromPackage(gitRoot, sandboxProjectsResourcesPath, oldTag, newTag, maybeDeletedPackages, changedPackages);
-                allOldFiles = runGitCommand(gitRoot, "ls-tree", "-r", "--name-only", oldTag, "--", sandboxProjectsResourcesPath);
-                allNewFiles = runGitCommand(gitRoot, "ls-tree", "-r", "--name-only", newTag, "--", sandboxProjectsResourcesPath);
-            }
-
-            for (String pkg : changedPackages) {
-                if (allOldFiles.stream().anyMatch(f -> f.contains(pkg))) {
-                    anyUpdated = true;
-                    break;
-                }
-            }
-
-            for (String pkg : maybeDeletedPackages) {
-                if (allNewFiles.stream().noneMatch(f -> f.contains(pkg))) {
-                    anyDeleted = true;
-                    break;
-                }
             }
 
             ProjectsDiffResponse response = new ProjectsDiffResponse();
 
-            logger.info("Any Updated {} Any Deleted {}", anyUpdated, anyDeleted);
-            if (anyUpdated || anyDeleted) {
-                // if some projects were updated, then return all projects for reload
-                response.setReload(true);
-                response.setProjects(getAllProjects());
-            } else {
-                response.setReload(false);
+            if (Boolean.TRUE.equals(onlyNew)) {
                 Map<String, ProjectModel> projects = new HashMap<>();
                 for (String pkg : changedPackages) {
                     ProjectModel project = new ProjectModel();
@@ -113,6 +83,8 @@ public class ProjectTemplateController {
                     projects.put(project.getId(), project);
                 }
                 response.setProjects(projects);
+            } else {
+                response.setProjects(getAllProjects());
             }
             logger.info("Send response with {} projects", response.getProjects().size());
             return response;

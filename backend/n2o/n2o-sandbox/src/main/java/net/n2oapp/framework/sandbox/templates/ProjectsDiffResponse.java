@@ -9,6 +9,5 @@ import java.util.Map;
 @Getter
 @Setter
 public class ProjectsDiffResponse {
-    boolean reload;
     Map<String, ProjectModel> projects;
 }
