@@ -6,20 +6,20 @@ import { registerWidget } from '../widgets/store'
 import { type Register } from '../widgets/Actions'
 import { State } from '../State'
 import { resolveConditions } from '../../sagas/conditions'
-import { getData } from '../../core/widget/useData'
-import {
-    type DatasourceSavedSettings,
-    DATA_SOURCE_SAVED_SETTINGS,
-    SAVED_SETTINGS,
-} from '../../components/widgets/AdvancedTable/types'
-import { createColumns } from '../../components/widgets/AdvancedTable/helpers'
-import { updatePaging } from '../datasource/store'
+import { getData, setData } from '../../core/widget/useData'
+import { TableStateCache } from '../../components/widgets/AdvancedTable/types'
+import { mergeWithCache, prepareCellsToStore } from '../../components/widgets/AdvancedTable/helpers'
+import { changePage, changeSize, setSorting, updatePaging } from '../datasource/store'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import { makePageMetadataByIdSelector } from '../pages/selectors'
+import { DataSourceState } from '../datasource/DataSource'
+import { DatasourceAction } from '../datasource/Actions'
 
-import { type HeaderCell } from './Table'
-import { registerTable } from './store'
+import { Table, type HeaderCell } from './Table'
+import { changeTableColumnParam, registerTable, switchTableParam } from './store'
 import { getDefaultColumnState } from './constants'
+import { makeTableByDatasourceSelector, makeTableByIdSelector } from './selectors'
+import { ChangeTableColumnParam, SwitchTableColumnParam } from './Actions'
 
 function computeHeaderCell(
     widgetId: string,
@@ -83,7 +83,7 @@ function* registerTableEffect(action: Register) {
     const { cells } = header || {}
     const { cells: bodyCells } = body || {}
 
-    const computedHeaderCells = cells?.map((cell, index) => computeHeaderCell(widgetId, cell, state)) as HeaderCell[]
+    const computedHeaderCells = cells?.map(cell => computeHeaderCell(widgetId, cell, state)) as HeaderCell[]
 
     const props = {
         ...tableInitProps,
@@ -91,9 +91,9 @@ function* registerTableEffect(action: Register) {
         body: { ...body, cells: bodyCells },
     }
 
-    let savedProps = {}
+    let cachedProps = {}
 
-    const savedSettings = getData(widgetId)
+    const cachedSettings = getData<TableStateCache>(widgetId)
 
     const { sorting, pageId, id } = yield select(dataSourceByIdSelector(datasource))
     // @ts-ignore FIXME временно
@@ -103,27 +103,19 @@ function* registerTableEffect(action: Register) {
     const pageDs = datasources[id] || {}
     const { paging } = pageDs
 
-    if (saveSettings &&
-        !isEmpty(savedSettings) &&
-        savedSettings[SAVED_SETTINGS.HEADER] &&
-        savedSettings[SAVED_SETTINGS.BODY]
-    ) {
-        const savedHeaderCells = createColumns(computedHeaderCells, savedSettings[SAVED_SETTINGS.HEADER])
-        const savedBodyCells = createColumns(bodyCells, savedSettings[SAVED_SETTINGS.BODY])
+    if (saveSettings && !isEmpty(cachedSettings)) {
+        const savedHeaderCells = mergeWithCache(computedHeaderCells, cachedSettings.header)
+        const savedBodyCells = mergeWithCache(bodyCells, cachedSettings.body)
 
-        const datasourceSettings = savedSettings[SAVED_SETTINGS.DATA_SOURCE_SETTINGS] as DatasourceSavedSettings
+        const { paging } = cachedSettings.datasourceFeatures || {}
 
-        if (!isEmpty(datasourceSettings)) {
-            const paging = datasourceSettings[DATA_SOURCE_SAVED_SETTINGS.PAGING]
+        if (paging) { yield put(updatePaging(datasource, paging)) }
 
-            if (paging) { yield put(updatePaging(datasource, paging)) }
-        }
-
-        savedProps = {
+        cachedProps = {
             ...props,
             header: { cells: savedHeaderCells },
             body: { ...body, cells: savedBodyCells },
-            textWrap: savedSettings?.textWrap !== undefined ? savedSettings?.textWrap : props?.textWrap,
+            textWrap: cachedSettings?.textWrap ?? props?.textWrap,
         }
     }
 
@@ -132,11 +124,50 @@ function* registerTableEffect(action: Register) {
         widgetId,
         {
             ...props,
-            ...savedProps,
+            ...cachedProps,
             defaultProps: props,
             defaultDatasourceProps: { paging, sorting },
         },
     ))
 }
 
-export const sagas = [takeEvery(registerWidget, registerTableEffect)]
+function* onDatasourceUpdateEffect({ payload }: DatasourceAction) {
+    const { id: datasourceId } = payload
+    const { sorting, paging }: DataSourceState = yield select(dataSourceByIdSelector(datasourceId))
+    const { saveSettings, id }: Table = yield select(makeTableByDatasourceSelector(datasourceId))
+
+    if (saveSettings) {
+        const cache = getData<TableStateCache>(id)
+        const next = {
+            ...cache,
+            datasourceFeatures: {
+                sorting: isEmpty(sorting) ? undefined : sorting,
+                paging,
+            },
+        }
+
+        setData(id, next)
+    }
+}
+
+function* onTableUpdateEffect({ payload }: ChangeTableColumnParam | SwitchTableColumnParam) {
+    const { widgetId } = payload
+    const { saveSettings, textWrap, body, header }: Table = yield select(makeTableByIdSelector(widgetId))
+
+    if (saveSettings) {
+        const cache = getData<TableStateCache>(widgetId)
+
+        setData(widgetId, {
+            ...cache,
+            textWrap,
+            header: prepareCellsToStore(header.cells),
+            body: prepareCellsToStore(body.cells),
+        })
+    }
+}
+
+export const sagas = [
+    takeEvery(registerWidget, registerTableEffect),
+    takeEvery([changeSize, setSorting, changePage], onDatasourceUpdateEffect),
+    takeEvery([changeTableColumnParam, switchTableParam], onTableUpdateEffect),
+]

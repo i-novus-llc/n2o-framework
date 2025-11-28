@@ -14,4 +14,6 @@ export const getDefaultColumnState = () => ({
 
 export const getDefaultTableState = (): Table => ({
     header: { cells: [] },
+    body: { cells: [] },
+    id: '',
 })

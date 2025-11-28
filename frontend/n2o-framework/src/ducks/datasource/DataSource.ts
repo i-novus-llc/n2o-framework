@@ -17,7 +17,7 @@ export interface DataSourceState {
     paging: Paging
     additionalInfo: unknown
     loading: boolean
-    sorting: Partial<Record<string, SortDirection>>
+    sorting: Record<string, SortDirection>
     submit?: SubmitProvider
     fieldsSubmit: Record<string, ServiceSubmit>
     pageId?: string

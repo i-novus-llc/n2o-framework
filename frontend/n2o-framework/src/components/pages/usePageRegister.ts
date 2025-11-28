@@ -17,8 +17,8 @@ export const usePageRegister = (dispatch: Dispatch, datasources?: Record<string,
             const { paging: configPaging = {} as Paging, ...rest } = config
 
             // @INFO сохраненный paging (прим. local storage)
-            const data = getData(id)
-            const initialPaging = data?.datasourceFeatures?.paging || {}
+            const data = getData<{ datasourceFeatures: { paging: Paging } }>(id)
+            const initialPaging = data?.datasourceFeatures?.paging || {} as Paging
 
             const paging = (isEmpty(initialPaging) || initialPaging.size < 5) ? configPaging : initialPaging
 

@@ -13,6 +13,11 @@ export const makeTableByIdSelector = (widgetId: string) => createSelector(
     tables => tables[widgetId] || EMPTY_OBJECT,
 )
 
+export const makeTableByDatasourceSelector = (datasourceId: string) => createSelector(
+    tablesSelector,
+    tables => Object.values(tables).find(({ datasource }) => (datasource === datasourceId)) || EMPTY_OBJECT,
+)
+
 export const getTableHeaderCells = (widgetId: string) => createSelector(
     makeTableByIdSelector(widgetId),
     tableState => tableState?.header?.cells || [],

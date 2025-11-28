@@ -316,8 +316,8 @@ class TableButtonGeneratorAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/data.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/resize/data.object.xml")
         );
-
         openPage();
+
         N2oDropdownButton resize = table.toolbar().topRight().button(3, N2oDropdownButton.class);
         table.columns().rows().shouldHaveSize(25);
         table.paging().lastShouldHavePage("3");
@@ -364,6 +364,8 @@ class TableButtonGeneratorAT extends AutoTestBase {
 
         table.paging().selectFirst();
         table.columns().rows().shouldHaveSize(51);
+
+        Selenide.clearBrowserLocalStorage();
     }
 
     private static void checkInitialState(N2oDropdownButton resize) {
