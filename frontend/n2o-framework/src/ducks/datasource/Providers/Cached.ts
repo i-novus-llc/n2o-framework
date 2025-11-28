@@ -1,10 +1,11 @@
 import { call, select } from 'redux-saga/effects'
 
 import { dataSourceByIdSelector } from '../selectors'
-import { CachedAutoSubmit, CachedProvider, CachedSubmit, ProviderType, QueryOptions, type QueryResult, StorageType } from '../Provider'
+import { CachedAutoSubmit, CachedProvider, CachedSubmit, ProviderType, QueryOptions, type QueryResult } from '../Provider'
 import { getModelByPrefixAndNameSelector, Model } from '../../models/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { mapQueryToUrl } from '../../pages/sagas/restoreFilters'
+import { getStorage } from '../../../utils/Storage'
 
 import { getFullKey } from './Storage'
 import { request } from './cached/request'
@@ -23,7 +24,7 @@ export function* submit(
 
     if (clearCache) {
         const fullKey = getFullKey(key)
-        const storage = storageType === StorageType.local ? localStorage : sessionStorage
+        const storage = getStorage(storageType)
 
         storage.removeItem(fullKey)
     }
@@ -37,9 +38,9 @@ export function* autoSubmit(id: string, provider: CachedAutoSubmit) {
     } = provider
 
     const model: Model | Model[] = yield select(getModelByPrefixAndNameSelector(prefix, id))
-    const storage = storageType === StorageType.local ? localStorage : sessionStorage
+    const storage = getStorage(storageType)
     const fullKey = getFullKey(key)
-    const storageData: CacheData = JSON.parse(storage.getItem(fullKey) || 'null') || {
+    const storageData = storage.getItem<CacheData>(fullKey) || {
         list: [],
         mappings: {},
         paging: {
@@ -67,7 +68,7 @@ export function* autoSubmit(id: string, provider: CachedAutoSubmit) {
     storageData.paging.page = 1
     storageData.paging.size = storageData.paging.size >= list.length ? storageData.paging.size : list.length
 
-    return storage.setItem(fullKey, JSON.stringify(storageData))
+    return storage.setItem(fullKey, storageData)
 }
 
 export function* query(id: string, provider: CachedProvider, options: QueryOptions, apiProvider: unknown) {
@@ -77,7 +78,7 @@ export function* query(id: string, provider: CachedProvider, options: QueryOptio
 
     const { key, storage: storageType } = provider
 
-    const storage = storageType === StorageType.local ? localStorage : sessionStorage
+    const storage = getStorage(storageType)
     const params = { provider, page, sorting, id, apiProvider, storage, key }
 
     yield call(mapQueryToUrl, pageId || '')

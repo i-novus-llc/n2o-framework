@@ -1,4 +1,5 @@
 import type { ModelPrefix } from '../../core/datasource/const'
+import type { Type as StorageType } from '../../utils/Storage'
 import { Meta } from '../Action'
 
 export enum ProviderType {
@@ -50,11 +51,6 @@ export interface ServiceProvider extends Provider {
     queryMapping: Mapping
     headerMapping: Mapping
     size: number
-}
-
-export enum StorageType {
-    local = 'localStorage',
-    session = 'sessionStorage',
 }
 
 export interface StorageProvider extends Provider {
