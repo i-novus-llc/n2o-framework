@@ -9,6 +9,7 @@ import { CachedProvider, QueryResult } from '../../Provider'
 import { getFullKey } from '../Storage'
 import { fetch } from '../service/fetch'
 import { clearEmptyParams } from '../../../../utils/clearEmptyParams'
+import { ObjectStorage as Storage } from '../../../../utils/Storage'
 
 import { checkExpiration } from './checkExpiration'
 import { CacheData } from './types'
@@ -48,19 +49,18 @@ export function* request(params: Params) {
         pathParams: resolvedProvider.pathParams,
     })
 
-    const storageData = storage.getItem(getFullKey(key))
+    const storageData = storage.getItem<CacheData>(getFullKey(key))
 
     if (storageData) {
         const { cacheExpires } = provider
 
-        const json: CacheData = JSON.parse(storageData)
-        const { timestamp } = json
+        const { timestamp } = storageData
         const isExpired = checkExpiration(timestamp, cacheExpires)
 
         if (!isExpired) {
-            const { mappings: cachedMappings } = json
+            const { mappings: cachedMappings } = storageData
 
-            if (isEqual(cachedMappings, mappings)) { return json }
+            if (isEqual(cachedMappings, mappings)) { return storageData }
         }
     }
 
@@ -71,7 +71,7 @@ export function* request(params: Params) {
         mappings,
     }
 
-    storage.setItem(getFullKey(key), JSON.stringify(cachedData))
+    storage.setItem(getFullKey(key), cachedData)
 
     return data
 }

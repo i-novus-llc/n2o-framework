@@ -3,10 +3,11 @@ import isEmpty from 'lodash/isEmpty'
 
 import { dataSourceByIdSelector, dataSourceProviderSelector } from '../selectors'
 import type { Provider, QueryOptions, StorageProvider, StorageSubmit } from '../Provider'
-import { ProviderType, StorageType } from '../Provider'
+import { ProviderType } from '../Provider'
 import type { DataSourceState } from '../DataSource'
 import { getModelByPrefixAndNameSelector } from '../../models/selectors'
 import { State } from '../../State'
+import { getStorage } from '../../../utils/Storage'
 
 import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
@@ -18,28 +19,24 @@ export const getFullKey = (key: string) => `${KEY_PREFIX}${key}`
 
 export function* submit(id: string, { key, model: prefix, storage: storageType }: StorageSubmit) {
     const model: unknown = yield select(getModelByPrefixAndNameSelector(prefix, id))
-    const storage = storageType === StorageType.local ? localStorage : sessionStorage
+    const storage = getStorage(storageType)
 
     if (isEmpty(model)) {
         return storage.removeItem(getFullKey(key))
     }
 
     const data = Array.isArray(model) ? model : [model]
-    const stringData = JSON.stringify(data)
 
-    return storage.setItem(getFullKey(key), stringData)
+    return storage.setItem(getFullKey(key), data)
 }
 
 export function* query(id: string, { storage: storageType, key }: StorageProvider, options: QueryOptions) {
     const datasource: DataSourceState = yield select(dataSourceByIdSelector(id))
     const { sorting, paging: { page, size } } = datasource
 
-    if (!key) {
-        throw new Error('Parameter "key" is required for query data')
-    }
+    if (!key) { throw new Error('Parameter "key" is required for query data') }
 
-    const storage = storageType === StorageType.local ? localStorage : sessionStorage
-    const storageData = storage.getItem(getFullKey(key))
+    const storageData = getStorage(storageType).getItem<object[]>(getFullKey(key))
 
     if (!storageData) {
         return {
@@ -51,14 +48,10 @@ export function* query(id: string, { storage: storageType, key }: StorageProvide
         }
     }
 
-    const json = JSON.parse(storageData)
-
-    if (!Array.isArray(json)) {
-        throw new Error('invalid data format')
-    }
+    if (!Array.isArray(storageData)) { throw new Error('invalid data format') }
 
     const state: State = yield select()
-    const filtered: object[] = applyFilter(state, json)
+    const filtered = applyFilter(state, storageData)
     const sorted = applySorting(filtered, sorting)
     const { list, paging } = applyPaging(
         sorted,
@@ -89,7 +82,6 @@ export function* clear({ meta }: {
     if (!provider || provider.type !== ProviderType.storage) { return }
 
     const { storage: storageType, key } = provider as StorageProvider
-    const storage = storageType === StorageType.local ? localStorage : sessionStorage
 
-    storage.removeItem(getFullKey(key))
+    getStorage(storageType).removeItem(getFullKey(key))
 }
