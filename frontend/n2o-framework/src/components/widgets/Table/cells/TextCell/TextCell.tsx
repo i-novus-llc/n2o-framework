@@ -41,7 +41,7 @@ function TextCellBody({
             >
                 {icon && <Icon name={icon} />}
                 {
-                    isTextWrap
+                    (isTextWrap || rest.format)
                         ? <FormattedText {...rest}>{text?.toString()}</FormattedText>
                         : <EllipsisText {...rest}>{text}</EllipsisText>
                 }
