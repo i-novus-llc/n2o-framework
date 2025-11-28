@@ -6,22 +6,23 @@ export enum ICON_POSITIONS {
 }
 
 export interface SubTextType {
-    subText: string[] | string
     format: string
+    subText: string[] | string
 }
 
 export interface TextCellProps {
+    className?: string
     fieldKey: string
+    format?: string
+    forwardedRef: LegacyRef<HTMLDivElement>
     icon: string
     iconPosition: ICON_POSITIONS
     id: string
+    isTextWrap?: boolean
     model: Record<string, string>
+    style?: CSSProperties
     subTextFieldKey: string
     subTextFormat: string
-    visible: boolean
-    forwardedRef: LegacyRef<HTMLDivElement>
     tooltipFieldId: string
-    style?: CSSProperties
-    className?: string
-    isTextWrap?: boolean
+    visible: boolean
 }
