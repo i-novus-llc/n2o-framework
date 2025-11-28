@@ -12,7 +12,7 @@ import { onFilterType } from '../../Table/hooks/useChangeFilter'
 import { SortDirection } from '../../../core/datasource/const'
 import { type Paging } from '../../../ducks/datasource/Provider'
 
-import { type ChangeColumnParam, type SwitchTableParam, type ColumnState } from './hooks/useColumnsState'
+import { type ChangeColumnParam, type ColumnState } from './hooks/useColumnsState'
 
 export type BodyCells = { cells: BodyCell[] }
 export type HeaderCells = { cells: HeaderCell[] }
@@ -26,7 +26,7 @@ export interface TableProps extends TableCells {
     autoFocus: boolean
     autoSelect: boolean
     rowSelection: Selection
-    textWrap: true
+    textWrap: boolean
 }
 
 export interface WithTableType {
@@ -61,7 +61,6 @@ export interface AdvancedTableWidgetProps extends Enhancer {
     resetSettings(): void
     columnsState: ColumnState
     tableConfig: TableWidgetContainerProps['tableConfig']
-    switchTableParam: SwitchTableParam
     resolvedFilter: WithTableType['filter']
     resolvedCells: TableWidgetContainerProps['cells']
     paginationVisible: N2OPaginationProps['visible']
@@ -77,37 +76,20 @@ export interface AdvancedTableWidgetProps extends Enhancer {
     }
 }
 
-export interface AdvancedTableWidgetLocalStorageProps {
-    widgetId: AdvancedTableWidgetProps['id']
-    textWrap: AdvancedTableWidgetProps['textWrap']
-    columnsState: AdvancedTableWidgetProps['columnsState']
-    sorting: AdvancedTableWidgetProps['sorting']
-    page: AdvancedTableWidgetProps['page']
-    size: AdvancedTableWidgetProps['size']
-    componentName: string
+export type TableStateCache = {
+    header: CellStateCache[]
+    body: CellStateCache[]
+    textWrap: boolean
+    datasourceFeatures: Partial<{ // TODO rename: datasource
+        paging: Partial<Pick<Paging, 'size' | 'page'>>
+        sorting: Record<string, SortDirection>
+    }>
 }
 
-export enum SAVED_SETTINGS {
-    HEADER = 'header',
-    BODY = 'body',
-    TEXT_WRAP = 'textWrap',
-    DATA_SOURCE_SETTINGS = 'datasourceFeatures',
-}
-
-export enum DATA_SOURCE_SAVED_SETTINGS {
-    PAGING = 'paging',
-    SORTING = 'sorting',
-}
-
-export interface DatasourceSavedSettings {
-    [DATA_SOURCE_SAVED_SETTINGS.PAGING]: Paging
-    [DATA_SOURCE_SAVED_SETTINGS.SORTING]: Record<string, SortDirection>
-}
-
-export interface SavedColumn {
+export interface CellStateCache {
     id: string
     visibleState?: boolean
-    children?: SavedColumn[]
+    children?: CellStateCache[]
     format: string | null
     filterField: FilterField | null
 }

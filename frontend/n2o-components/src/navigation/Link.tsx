@@ -33,5 +33,5 @@ export function Link({
 
     if (disabled) { return <span {...props} aria-disabled>{content}</span> }
 
-    return <a {...props} href={onClick ? undefined : url} onClick={onClick}>{content}</a>
+    return <a {...props} href={url} onClick={onClick}>{content}</a>
 }

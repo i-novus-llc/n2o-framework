@@ -78,11 +78,12 @@ export type HeaderCell = {
 }
 
 export interface Table {
+    id: string
     textWrap?: boolean
-    header?: {
+    header: {
         cells: HeaderCell[]
     }
-    body?: {
+    body: {
         cells: BodyCell[]
     }
     saveSettings?: boolean

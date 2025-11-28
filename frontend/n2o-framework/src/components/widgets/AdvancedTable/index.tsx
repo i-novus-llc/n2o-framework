@@ -30,7 +30,7 @@ import { TableSettingsObserver } from './TableSettingsObserver'
 
 const tableWidgetContext = createContext(null as unknown)
 
-type tableWidgetContextType = Pick<AdvancedTableWidgetProps, 'changeColumnParam' | 'switchTableParam' | 'resetSettings'>
+type tableWidgetContextType = Pick<AdvancedTableWidgetProps, 'changeColumnParam' | 'resetSettings'>
 
 const EmptyComponent = () => (
     <div className="d-flex justify-content-center text-muted">Нет данных для отображения</div>
@@ -45,7 +45,7 @@ const Widget = ({
     id, disabled, toolbar, datasource, className, setPage, loading, count,
     fetchData, style, paging, table, size, validations,
     page, sorting, children, hasNext, isInit, setResolve,
-    changeColumnParam, columnsState, tableConfig, switchTableParam, resetSettings = NOOP_FUNCTION,
+    changeColumnParam, columnsState, tableConfig, resetSettings = NOOP_FUNCTION,
     resolvedFilter, resolvedCells, paginationVisible,
     dataMapper = defaultDataMapper, components, setFilter, textWrap, layout = {},
 }: AdvancedTableWidgetProps) => {
@@ -194,7 +194,7 @@ const Widget = ({
     useExpandAllRows(setExpandedRows, children as ChildrenToggleState, datasourceModel)
 
     return (
-        <tableWidgetContext.Provider value={{ changeColumnParam, switchTableParam, actionListener, resetSettings }}>
+        <tableWidgetContext.Provider value={{ changeColumnParam, actionListener, resetSettings }}>
             <VoidResolveColumnConditions
                 columnsState={columnsState}
                 changeColumnParam={changeColumnParam}

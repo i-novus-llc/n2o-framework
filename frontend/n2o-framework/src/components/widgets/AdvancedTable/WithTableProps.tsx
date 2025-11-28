@@ -10,7 +10,7 @@ import { State } from '../../../ducks/State'
 import { getTableParam } from '../../../ducks/table/selectors'
 import { getAllValuesByKey } from '../../Table/utils'
 
-import { ChangeColumnParam, SwitchTableParam, useColumnsState } from './hooks/useColumnsState'
+import { ChangeColumnParam, useColumnsState } from './hooks/useColumnsState'
 import { useResolveCellsVisible } from './hooks/useResolveCellsVisible'
 import { type WithTableType, type BodyCells, type HeaderCells } from './types'
 
@@ -31,9 +31,8 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
 
         const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
 
-        const [changeColumnParam, switchTableParam] = useColumnsState() as [
+        const [changeColumnParam] = useColumnsState() as [
             changeColumnParam: ChangeColumnParam,
-            switchTableParam: SwitchTableParam,
         ]
 
         // INFO Объект, содержащий все заголовки по ключу, соответствующему идентификатору колонки
@@ -77,7 +76,6 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
                 resolvedFilter={resolvedFilter}
                 resolvedCells={resolvedCells}
                 paginationVisible={paginationVisible}
-                switchTableParam={switchTableParam}
                 validations={validations}
                 textWrap={textWrap}
                 setPage={setPage}

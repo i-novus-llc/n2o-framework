@@ -1,71 +1,59 @@
 import { useEffect, useState } from 'react'
 import isEqual from 'lodash/isEqual'
 
-import { logger } from '../utils/logger'
+import { local as localStorage } from '../../utils/Storage'
 
 export const LOCAL_WIDGET_CONFIG_KEY = 'n2oLocalWidgetConfig'
 
-export const getData = (key: string) => {
+export const getData = <
+    T extends Record<string, unknown>,
+    R extends Partial<T> = Partial<T>,
+>(key: string): R => {
     const storageFullKey = `${LOCAL_WIDGET_CONFIG_KEY}_${key}`
 
-    try {
-        const stored = localStorage.getItem(storageFullKey)
+    return localStorage.getItem<R>(storageFullKey) || {} as R
+}
 
-        return stored ? JSON.parse(stored) : {}
-    } catch (error) {
-        logger.error(error)
+export const setData = <T extends Record<string, unknown>>(key: string, value: T | null): void => {
+    const storageFullKey = `${LOCAL_WIDGET_CONFIG_KEY}_${key}`
 
-        return {}
-    }
+    localStorage.setItem(storageFullKey, value)
 }
 
 /**
  * ХУК позволяет сохранять и впоследствии получать сохранённые данные
  */
-export const useData = (key: string) => {
+export const useData = <T extends Record<string, unknown>>(key: string) => {
     const storageFullKey = `${LOCAL_WIDGET_CONFIG_KEY}_${key}`
-    const [value, setStateValue] = useState<Record<string, unknown>>(getData(key))
+    const [value, setStateValue] = useState<Partial<T>>(() => getData(key))
 
     // synchronization between tabs
     useEffect(() => {
-        const handleStorageChange = (event: StorageEvent) => {
-            if (event.key === storageFullKey) {
-                try {
-                    const newValue = event.newValue ? JSON.parse(event.newValue) : {}
-
-                    if (!isEqual(newValue, value)) {
-                        setStateValue(newValue)
-                    }
-                } catch (error) {
-                    logger.error(error)
-                }
+        return localStorage.subscribe((key, newValue) => {
+            if (key === storageFullKey) {
+                setStateValue(value => (
+                    isEqual(newValue, value)
+                        ? value
+                        : newValue || {}
+                ))
             }
-        }
-
-        window.addEventListener('storage', handleStorageChange)
-
-        return () => window.removeEventListener('storage', handleStorageChange)
-    }, [storageFullKey, value])
+        })
+    }, [storageFullKey])
 
     // update method
-    const setValue = (data: Record<string, unknown> | null) => {
-        try {
-            if (data === null) {
-                localStorage.removeItem(storageFullKey)
-                setStateValue({})
+    const setValue = (data: Partial<T> | null) => {
+        if (data === null) {
+            setData(key, data)
+            setStateValue({})
 
-                return
-            }
-
-            if (isEqual(data, value)) { return }
-
-            const newValue = { ...value, ...data }
-
-            localStorage.setItem(storageFullKey, JSON.stringify(newValue))
-            setStateValue(newValue)
-        } catch (error) {
-            logger.error(error)
+            return
         }
+        if (isEqual(data, value)) { return }
+
+        const newValue = { ...value, ...data }
+
+        setData(key, newValue)
+        setStateValue(newValue)
     }
 
     return { value, setValue }
