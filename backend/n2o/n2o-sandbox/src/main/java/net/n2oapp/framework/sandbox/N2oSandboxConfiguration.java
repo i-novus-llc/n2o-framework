@@ -75,7 +75,7 @@ public class N2oSandboxConfiguration {
     private String[] allowedMethods;
     @Value("${cors.allowed-headers:*}")
     private String[] allowedHeaders;
-    @Value("${cors.exposed-headers:#{null}}}")
+    @Value("${cors.exposed-headers:#{null}}")
     private String[] exposedHeaders;
     @Value("${cors.allow-credentials:#{false}}")
     private Boolean allowCredentials;
