@@ -1,0 +1,10 @@
+.n2o-navigation-panel {
+    .n2o-navigation-panel__children {
+        color: #163851;
+    }
+
+    .n2o-navigation-panel__children:hover {
+        cursor: pointer;
+        color: $pink;
+    }
+}
