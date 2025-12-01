@@ -684,4 +684,12 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertFalse(((RoutablePayload) routes.getQueryMapping().get("table_size").getOnGet().getPayload()).getParams().containsKey("paging.page"));
         assertEquals("datasource.testRoutableManyWidgets_ds1.paging.size", (routes.getQueryMapping().get("table_size").getOnSet().getLink()));
     }
+
+    @Test
+    void testActionsCompiler() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testActionsCompiler.page.xml")
+                .get(new PageContext("testActionsCompiler"));
+        TableWidgetComponent.BodyRow row = ((Table<?>) page.getWidget()).getComponent().getBody().getRow();
+        assertNotNull(row.getClick().getAction());
+    }
 }

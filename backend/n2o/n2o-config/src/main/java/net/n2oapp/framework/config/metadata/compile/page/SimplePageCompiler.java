@@ -66,9 +66,10 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         PageIndexScope pageIndexScope = new PageIndexScope(page.getId());
         FiltersScope filtersScope = new FiltersScope();
         SubModelsScope subModelsScope = new SubModelsScope();
+        MetaActions metaActions = new MetaActions();
 
         Widget<?> compiledWidget = p.compile(widget, context, routes, pageScope, pageRouteScope, breadcrumbs,
-                validationScope, page.getModels(), pageRoutesScope, datasourcesScope, clientDatasourceIdsScope, filtersScope, copiedFieldScope, subModelsScope, pageIndexScope);
+                validationScope, page.getModels(), pageRoutesScope, datasourcesScope, clientDatasourceIdsScope, filtersScope, copiedFieldScope, subModelsScope, pageIndexScope, metaActions);
         initContextDatasources(datasourcesScope, clientDatasourceIdsScope, pageScope, context, p);
         page.setDatasources(initDatasources(datasourcesScope, context, p,
                 clientDatasourceIdsScope, pageScope, validationScope, routes,
@@ -81,7 +82,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         page.setRoutes(routes);
 
         page.setToolbar(compileToolbar(context, widget, p, pageScope,
-                new MetaActions(), pageRouteScope, breadcrumbs, validationScope, datasourcesScope,
+                metaActions, pageRouteScope, breadcrumbs, validationScope, datasourcesScope,
                 clientDatasourceIdsScope, pageIndexScope));
         return page;
     }
