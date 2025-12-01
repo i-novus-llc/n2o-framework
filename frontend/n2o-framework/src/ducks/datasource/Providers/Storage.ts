@@ -1,4 +1,4 @@
-import { select } from 'redux-saga/effects'
+import { select, put } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 
 import { dataSourceByIdSelector, dataSourceProviderSelector } from '../selectors'
@@ -7,6 +7,7 @@ import { ProviderType } from '../Provider'
 import type { DataSourceState } from '../DataSource'
 import { getModelByPrefixAndNameSelector } from '../../models/selectors'
 import { State } from '../../State'
+import { dataRequest } from '../store'
 import { getStorage } from '../../../utils/Storage'
 
 import { applyFilter } from './storage/applyFilter'
@@ -26,6 +27,9 @@ export function* submit(id: string, { key, model: prefix, storage: storageType }
     }
 
     const data = Array.isArray(model) ? model : [model]
+
+    /** @INFO Чтобы пересчитался count в datasource */
+    yield put(dataRequest(id))
 
     return storage.setItem(getFullKey(key), data)
 }
