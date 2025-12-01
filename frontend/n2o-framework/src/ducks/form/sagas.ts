@@ -21,6 +21,7 @@ import { makeFormByName, makeFormsByModel } from './selectors'
 import {
     setFieldRequired,
     handleBlur,
+    remove,
 } from './store'
 import { Form } from './types'
 import { FieldAction } from './Actions'
@@ -201,5 +202,10 @@ export const formPluginSagas = [
         if (!isEmpty(fields)) {
             yield put(startValidate(datasource, validationKey, modelPrefix, fields, { isTriggeredByFieldChange: true }))
         }
+    }),
+    takeEvery(remove, ({ payload }) => {
+        const { formName } = payload
+
+        delete validateFields[formName]
     }),
 ]

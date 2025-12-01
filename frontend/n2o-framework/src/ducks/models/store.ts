@@ -39,7 +39,7 @@ export const modelsSlice = createSlice({
             ) {
                 return ({
                     payload: { prefix, key, model, isDefault },
-                    meta: { prefix, key, model, validate: typeof validate === 'boolean' ? validate : true },
+                    meta: { prefix, key, model, validate: typeof validate === 'boolean' ? validate : !isDefault },
                 })
             },
 
