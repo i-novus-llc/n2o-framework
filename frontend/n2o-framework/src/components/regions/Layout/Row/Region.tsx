@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row } from '@i-novus/n2o-components/src/display/Layout/Row'
+import { Row } from '@i-novus/n2o-components/lib/display/Layout/Row'
 
 import { type RowRegionProps } from '../types'
 import { LayoutContent } from '../LayoutContent'
