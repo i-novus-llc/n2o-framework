@@ -76,8 +76,8 @@ public class N2oPipelineSupport implements PipelineSupport {
     }
 
     @Override
-    public CompilePipeline merge() {
-        return compilePipeline(env).merge();
+    public CompilePipeline transform() {
+        return compilePipeline(env).transform();
     }
 
     @Override

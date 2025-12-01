@@ -19,11 +19,11 @@ public interface PipelineSupport {
     CompileTerminalPipeline<CompileBindTerminalPipeline> compile();
 
     /**
-     * Получить конвейер на этапе слияния метаданных.
+     * Получить конвейер на этапе трансформации метаданных.
      *
      * @return Конвейер сборки метаданных
      */
-    CompilePipeline merge();
+    CompilePipeline transform();
 
     /**
      * Получить конвейер на этапе связывания метаданных с данными

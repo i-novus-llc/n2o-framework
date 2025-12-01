@@ -271,9 +271,9 @@ public class N2oApplicationBuilder implements XmlIOBuilder<N2oApplicationBuilder
      * Запустить конвейер слияния метаданных
      */
     @Override
-    public CompilePipeline merge() {
+    public CompilePipeline transform() {
         build();
-        return N2oPipelineSupport.compilePipeline(environment).merge();
+        return N2oPipelineSupport.compilePipeline(environment).transform();
     }
 
     /**
