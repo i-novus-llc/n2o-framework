@@ -1,4 +1,4 @@
-import { type RowProps, type ColProps } from '@i-novus/n2o-components/src/display/Layout/types'
+import { type RowProps, type ColProps } from '@i-novus/n2o-components/lib/display/Layout/types'
 
 import { type ContentMeta } from '../../../ducks/regions/Regions'
 
