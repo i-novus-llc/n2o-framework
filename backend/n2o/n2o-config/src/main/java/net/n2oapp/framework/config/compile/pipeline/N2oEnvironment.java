@@ -76,8 +76,9 @@ public class N2oEnvironment implements MetadataEnvironment {
             p.read().transform().validate().copy().compile().transform().cache();
     private PipelineFunction<ReadCompileBindTerminalPipeline> readCompileBindTerminalPipelineFunction = p ->
             p.read().transform().validate().copy().compile().transform().cache().copy().bind();
-    private PipelineFunction<CompileTerminalPipeline<?>> compilePipelineFunction = p -> p.compile().transform();
-    private PipelineFunction<BindTerminalPipeline> bindPipelineFunction = p -> p.bind();
+    private PipelineFunction<CompileTerminalPipeline<?>> compilePipelineFunction =
+            p -> p.transform().compile().transform();
+    private PipelineFunction<BindTerminalPipeline> bindPipelineFunction = PipelineSupport::bind;
 
     public N2oEnvironment() {
         this.metadataRegister = new N2oMetadataRegister();
