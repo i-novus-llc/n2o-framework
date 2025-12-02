@@ -50,6 +50,9 @@
 
     .n2o-cards__cell {
         margin: $cards-cell-margin;
-        text-align: center;
+
+        .ellipsis-text {
+            text-wrap: auto;
+        }
     }
 }
