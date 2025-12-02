@@ -22,7 +22,7 @@ export const EllipsisText = memo(({
     if (isMultiline) { title = encodeAttribute(text) }
 
     return (
-        <span title={title} className={classNames('d-inline-block text-truncate w-100', className)} {...attributes}>
+        <span title={title} className={classNames('d-inline-block text-truncate w-100 ellipsis-text', className)} {...attributes}>
             {
                 isMultiline
                     // фиктивное троеточие для многострочного текста, если первая строка короткая

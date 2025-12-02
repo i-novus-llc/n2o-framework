@@ -27,7 +27,7 @@ export function TilesCell(props: TilesCellType) {
                 model={model}
                 {...resolvedProps}
                 {...omit(props, ['component', 'model'])}
-                className={classNames('n2o-cards__cell', resolvedProps.className, className)}
+                className={classNames('n2o-cards__cell tiles-cell', resolvedProps.className, className)}
             />
         </div>
     )
