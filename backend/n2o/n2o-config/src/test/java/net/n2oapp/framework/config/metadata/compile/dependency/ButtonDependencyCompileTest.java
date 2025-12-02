@@ -78,6 +78,9 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
         checkCondition(condition, "models.filter['testButtonDependency_test']", "a==b");
 
         condition = buttons.get(5).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
+        checkCondition(condition, "models.resolve['testButtonDependency_table']", "!$.isEmptyModel(this)");
+
+        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.ENABLED).get(1);
         checkCondition(condition, "models.resolve['testButtonDependency_table']", "c==d");
         assertThat(condition.getMessage(), is("Не указана дата"));
 
@@ -106,6 +109,9 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
         assertThat(submenu.get(2).getConditions().get(ValidationTypeEnum.VISIBLE).size(), is(1));
 
         condition = submenu.get(2).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
+        checkCondition(condition, "models.resolve['testButtonDependency_table']", "!$.isEmptyModel(this)");
+
+        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.ENABLED).get(1);
         checkCondition(condition, "models.resolve['testButtonDependency_table']", "c==d");
         assertThat(condition.getMessage(), is("Не указана дата"));
     }
@@ -149,6 +155,8 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
         condition = buttons.get(5).getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
         checkCondition(condition, "models.filter['testButtonDependencyWithDatasource_test']", "a==b");
         condition = buttons.get(5).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
+        checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "!$.isEmptyModel(this)");
+        condition = buttons.get(5).getConditions().get(ValidationTypeEnum.ENABLED).get(1);
         checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "c==d");
         assertThat(condition.getMessage(), is("Не указана дата"));
 
@@ -171,6 +179,8 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
         checkCondition(condition, "models.filter['testButtonDependencyWithDatasource_test']", "a==b");
         assertThat(submenu.get(2).getConditions().get(ValidationTypeEnum.VISIBLE).size(), is(1));
         condition = submenu.get(2).getConditions().get(ValidationTypeEnum.ENABLED).getFirst();
+        checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "!$.isEmptyModel(this)");
+        condition = submenu.get(2).getConditions().get(ValidationTypeEnum.ENABLED).get(1);
         checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "c==d");
         assertThat(condition.getMessage(), is("Не указана дата"));
     }
