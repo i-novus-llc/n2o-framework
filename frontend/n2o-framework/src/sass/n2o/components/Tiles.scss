@@ -11,6 +11,14 @@
     margin: $tiles-item-margin;
     padding: $tiles-item-padding;
 
+    .n2o-cards__cell.tiles-cell {
+        text-align: center;
+
+        .ellipsis-text {
+            text-wrap: auto;
+        }
+    }
+
     &:hover {
         border: $tiles-hover-border;
         box-shadow: $tiles-hover-shadow;
