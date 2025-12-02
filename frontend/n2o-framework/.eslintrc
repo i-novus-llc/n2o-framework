@@ -28,6 +28,12 @@
                 "name": "lodash",
                 "message": "Use individual imports like 'lodash/get' instead"
               }
+            ],
+            "patterns": [
+              {
+                "group": ["@i-novus/n2o-components/src/**"],
+                "message": "Use import from lib/** instead of src/**"
+              }
             ]
           }
         ]
