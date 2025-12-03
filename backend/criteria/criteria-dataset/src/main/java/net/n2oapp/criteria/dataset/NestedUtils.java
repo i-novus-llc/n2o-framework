@@ -2,6 +2,11 @@ package net.n2oapp.criteria.dataset;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.SpelEvaluationException;
+import org.springframework.expression.spel.SpelParserConfiguration;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import java.util.List;
 import java.util.Map;
@@ -9,6 +14,8 @@ import java.util.function.Function;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class NestedUtils {
+
+    private static final ExpressionParser readParser = new SpelExpressionParser(new SpelParserConfiguration(false, false));
 
     public static boolean isNumeric(String key) {
         int len = key.length();
@@ -134,6 +141,17 @@ public abstract class NestedUtils {
             return listConstructor.apply(null);
         } else {
             return mapConstructor.apply(null);
+        }
+    }
+
+    public static Object resolveObjectValue(String mapping, Object value) {
+        try {
+            Expression expression = readParser.parseExpression(mapping);
+            return expression.getValue(value);
+        } catch (SpelEvaluationException e) {
+            if ("PROPERTY_OR_FIELD_NOT_READABLE".equals(e.getMessageCode().name()))
+                return null;
+            throw e;
         }
     }
 }
