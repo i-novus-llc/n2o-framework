@@ -3,6 +3,7 @@ package net.n2oapp.criteria.dataset;
 import java.util.*;
 
 import static net.n2oapp.criteria.dataset.NestedUtils.applicableFor;
+import static net.n2oapp.criteria.dataset.NestedUtils.resolveObjectValue;
 
 /**
  * It's implementation of access to a {@link ArrayList} as JavaScript objects
@@ -45,7 +46,7 @@ public class NestedList extends ArrayList<Object> {
                 }
                 if (applicableFor(value, info.getRight(), NestedList.class))
                     return ((NestedList) value).get(info.getRight());//case: "[0][1]"
-                return null;
+                return resolveObjectValue(info.getRight(), value);
             } else {
                 if (!(value instanceof List array))
                     return null;//case: "[0]*.foo", but "[0]" isn't list

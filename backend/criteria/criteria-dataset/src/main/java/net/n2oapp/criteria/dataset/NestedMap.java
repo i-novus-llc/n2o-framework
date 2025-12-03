@@ -78,7 +78,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
                     return ((Map) value).get(info.getRight());//case: "foo.bar"
                 if (applicableFor(value, info.getRight(), NestedList.class))
                     return ((NestedList) value).get(info.getRight());//case: "foo[0]"
-                return null;
+                return resolveObjectValue(info.getRight(), value);
             } else {
                 if (!(value instanceof List array))
                     return null;//case: "foo*.bar", but "foo" isn't list
