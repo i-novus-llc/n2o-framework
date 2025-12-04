@@ -29,8 +29,6 @@ import static net.n2oapp.framework.api.StringUtils.hasLink;
  */
 public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D> {
     public D bindPage(D page, BindProcessor p, List<Widget<?>> widgets) {
-        if (widgets != null)
-            widgets.forEach(p::bind);
         bindDatasources(page, p);
         if (page.getRoutes() != null) {
             if (page.getRoutes().getPath() != null)
