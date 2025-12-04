@@ -21,6 +21,8 @@ public class SimplePageBinder extends PageBinder<SimplePage> {
                 grp.forEach(g -> {if (g.getButtons() != null) g.getButtons().forEach(p::bind);});
             }
         }
+        p.bind(page.getWidget());
+
         return bindPage(page, p, Collections.singletonList(page.getWidget()));
     }
 
