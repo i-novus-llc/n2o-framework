@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds"/>
+    </datasources>
+
+    <regions>
+        <nav>
+            <button>
+                <a href="./route1" target="application"/>
+            </button>
+            <link href="./route2" target="application"/>
+            <menu-item>
+                <a href="./route3" target="application"/>
+            </menu-item>
+
+            <dropdown-menu>
+                <button>
+                    <a href="./route4" target="application"/>
+                </button>
+                <group>
+                    <link href="./route5" target="application"/>
+                    <menu-item>
+                        <a href="./route6" target="application"/>
+                    </menu-item>
+                </group>
+            </dropdown-menu>
+        </nav>
+    </regions>
+</page>
