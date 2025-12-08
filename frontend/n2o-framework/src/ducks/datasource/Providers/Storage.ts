@@ -7,7 +7,7 @@ import { ProviderType } from '../Provider'
 import type { DataSourceState } from '../DataSource'
 import { getModelByPrefixAndNameSelector } from '../../models/selectors'
 import { State } from '../../State'
-import { dataRequest } from '../store'
+import { updatePaging } from '../store'
 import { getStorage } from '../../../utils/Storage'
 
 import { applyFilter } from './storage/applyFilter'
@@ -29,7 +29,7 @@ export function* submit(id: string, { key, model: prefix, storage: storageType }
     const data = Array.isArray(model) ? model : [model]
 
     /** @INFO Чтобы пересчитался count в datasource */
-    yield put(dataRequest(id))
+    if (Array.isArray(model)) { yield put(updatePaging(id, { count: model.length })) }
 
     return storage.setItem(getFullKey(key), data)
 }
