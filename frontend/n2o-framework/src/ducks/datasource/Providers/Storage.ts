@@ -7,7 +7,7 @@ import { ProviderType, StorageType } from '../Provider'
 import type { DataSourceState } from '../DataSource'
 import { getModelByPrefixAndNameSelector } from '../../models/selectors'
 import { State } from '../../State'
-import { dataRequest } from '../store'
+import { updatePaging } from '../store'
 
 import { applyFilter } from './storage/applyFilter'
 import { applySorting } from './storage/applySorting'
@@ -29,7 +29,8 @@ export function* submit(id: string, { key, model: prefix, storage: storageType }
     const stringData = JSON.stringify(data)
 
     /** @INFO Чтобы пересчитался count в datasource */
-    yield put(dataRequest(id))
+    // @ts-ignore кривая типизация в datasource/store, пофикшено в 7.29
+    if (Array.isArray(model)) { yield put(updatePaging(id, { count: model.length })) }
 
     return storage.setItem(getFullKey(key), stringData)
 }
