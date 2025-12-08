@@ -1,9 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.widget.table;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.control.InputSelect;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
@@ -47,9 +49,9 @@ class TableBinderTest extends SourceCompileTestBase {
         ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/page/testTableRowClick.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml");
         PageContext context = new PageContext("testTableRowClick", "/p/w/:param/row");
-        TableWidgetComponent component = (TableWidgetComponent) ((SimplePage) pipeline.get(context, new DataSet().add("param", "1"))).getWidget().getComponent();
-        assertThat(component.getBody().getRow().getClick().getUrl(), is("/p/w/1/row/p_w_row_w1_row"));
-        assertThat(component.getBody().getRow().getClick().getPathMapping().isEmpty(), is(true));
+        SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("param", "1"));
+        RowClick rowClick = ((TableWidgetComponent) page.getWidget().getComponent()).getBody().getRow().getClick();
+        assertThat(((LinkAction) rowClick.getAction()).getUrl(), is("/p/w/1/row/p_w_row_w1_row"));
     }
 
     /**

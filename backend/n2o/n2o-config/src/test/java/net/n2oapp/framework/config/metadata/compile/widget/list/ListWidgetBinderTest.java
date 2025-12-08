@@ -1,9 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.widget.list;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
+import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -35,7 +36,7 @@ class ListWidgetBinderTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testListWidgetRowClick", "/p/w/:param/row");
         ListWidget listWidget = (ListWidget) ((StandardPage) pipeline.get(context, new DataSet().add("param", "1")))
                 .getRegions().get("single").get(0).getContent().get(8);
-        assertThat(listWidget.getRowClick().getUrl(), is("https://www.google.com/"));
-        assertThat(listWidget.getRowClick().getTarget(), is(TargetEnum.SELF));
+        RowClick rowClick = listWidget.getRowClick();
+        assertThat(((LinkAction) rowClick.getAction()).getUrl(), is("/p/w/1/row/p_w_row_panel9_row"));
     }
 }

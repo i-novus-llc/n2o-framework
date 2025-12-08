@@ -61,7 +61,7 @@
             <list>
                 <rows>
                     <click>
-                        <a href="https://www.google.com/"/>
+                        <open-page page-id="testTableRowClick"/>
                     </click>
                 </rows>
             </list>
