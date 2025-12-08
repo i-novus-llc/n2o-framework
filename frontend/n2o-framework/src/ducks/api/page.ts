@@ -10,13 +10,12 @@ import { State as GlobalState } from '../State'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { executeExpression } from '../../core/Expression/execute'
 import { parseExpression } from '../../core/Expression/parse'
-import { makePageByIdSelector } from '../pages/selectors'
-import { resolvePath } from '../../components/core/router/resolvePath'
 import { setLocation } from '../pages/store'
 
 import { EffectWrapper } from './utils/effectWrapper'
 import { PAGE_PREFIX, INVALID_URL_MESSAGE } from './constants'
 import { stopTheSequence } from './utils/stopTheSequence'
+import { getAnchorPage } from './page/getAnchorPage'
 
 export type OpenPagePayload = {
     url: string
@@ -34,22 +33,6 @@ export const openPageCreator = createAction(
         meta,
     }),
 )
-
-function getAnchorPage(url: string, state: GlobalState, pageId?: string): string | null {
-    if (!pageId) { return null }
-
-    const page = makePageByIdSelector(pageId)(state)
-
-    if (!page || page.rootPage) { return null }
-    if (page.parentId) { return getAnchorPage(url, state, page.parentId) }
-
-    const isAnchor = url.startsWith(page.pageUrl) &&
-        page.metadata?.routes?.subRoutes?.some(route => url.startsWith(
-            resolvePath(page.pageUrl, route),
-        ))
-
-    return isAnchor ? pageId : null
-}
 
 function* openPage(
     url: string,
