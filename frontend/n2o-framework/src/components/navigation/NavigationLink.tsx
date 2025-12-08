@@ -9,7 +9,7 @@ import { LinkTarget } from '@i-novus/n2o-components/lib/navigation/types'
 
 import { useLink } from '../../core/router/useLink'
 import { type Model } from '../../ducks/models/selectors'
-import { getAnchorPage } from '../../ducks/api/page'
+import { getAnchorPage } from '../../ducks/api/page/getAnchorPage'
 import { setLocation } from '../../ducks/pages/store'
 import { type State as GlobalState } from '../../ducks/State'
 import { PageContext } from '../core/router/context'
