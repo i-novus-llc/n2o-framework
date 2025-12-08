@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.action.ActionAware;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 
 /**
@@ -11,7 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.badge.Badge;
  */
 @Getter
 @Setter
-public class ButtonMenuItem extends BaseMenuItem {
+public class ButtonMenuItem extends BaseMenuItem implements ActionAware {
     @JsonProperty
     private String color;
     @JsonProperty

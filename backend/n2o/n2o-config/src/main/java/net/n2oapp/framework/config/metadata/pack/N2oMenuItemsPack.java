@@ -14,5 +14,11 @@ public class N2oMenuItemsPack implements MetadataPack<N2oApplicationBuilder> {
                 new DropdownMenuItemCompiler(),
                 new DividerMenuItemCompiler(),
                 new ButtonMenuItemCompiler());
+        b.binders(
+                new MenuItemBinder(),
+                new LinkMenuItemBinder(),
+                new GroupMenuItemBinder(),
+                new DropdownMenuItemBinder(),
+                new ButtonMenuItemBinder());
     }
 }
