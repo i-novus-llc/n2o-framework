@@ -5,13 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
-import net.n2oapp.framework.api.metadata.aware.UrlAware;
-import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -19,15 +14,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class RowClick implements Compiled, UrlAware, JsonPropertiesAware {
-    @JsonProperty
-    private String url;
-    @JsonProperty
-    private TargetEnum target;
-    @JsonProperty
-    private Map<String, ModelLink> pathMapping = new HashMap<>();
-    @JsonProperty
-    private Map<String, ModelLink> queryMapping = new LinkedHashMap<>();
+public class RowClick implements Compiled, JsonPropertiesAware {
     @JsonProperty
     private Action action;
     @JsonProperty
