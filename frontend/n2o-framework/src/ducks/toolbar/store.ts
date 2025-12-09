@@ -254,6 +254,7 @@ export const toolbarSlice = createSlice({
                     key,
                     ...ButtonResolver.defaultState,
                     ...initialState,
+                    isInit: true,
                 }
             },
         },
