@@ -4,7 +4,7 @@ import { type BodyCell, type FilterField, type HeaderCell } from '../../../ducks
 import { Selection } from '../../Table'
 import { ToolbarProps } from '../../buttons/Toolbar'
 import type { Props as WidgetFiltersProps } from '../WidgetFilters'
-import { PLACES } from '../StandardWidget'
+import { PLACES } from '../WidgetLayout/WidgetLayout'
 import { type Props as StandardWidgetProps } from '../StandardWidget'
 import { Validation, TableWidgetContainerProps } from '../../Table/types/props'
 import { type Props as N2OPaginationProps } from '../Table/N2OPagination'
