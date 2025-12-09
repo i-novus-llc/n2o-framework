@@ -3,11 +3,13 @@ import { defineAsync } from '../../core/factory/defineAsync'
 import { HtmlWidget } from './Html/HtmlWidget'
 import { FormWidget } from './Form/FormWidget'
 import { AdvancedTableWidget } from './AdvancedTable'
+import { WidgetLayout } from './WidgetLayout/WidgetLayout'
 
 export default {
     HtmlWidget,
     FormWidget,
     AdvancedTableWidget,
+    WidgetLayout,
     ListWidget: defineAsync(() => import('./List/ListWidget')
         .then(({ ListWidget }) => ListWidget)),
     TreeWidget: defineAsync(() => import('./Tree/TreeWidget')

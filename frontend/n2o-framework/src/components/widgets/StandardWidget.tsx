@@ -1,9 +1,18 @@
-import React, { Children, useCallback, useMemo, ReactNode, CSSProperties, memo, isValidElement, cloneElement } from 'react'
+import React, {
+    Children,
+    useCallback,
+    useMemo,
+    ReactNode,
+    CSSProperties,
+    memo,
+    isValidElement,
+    cloneElement,
+    useContext, ComponentType,
+} from 'react'
 import classNames from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { useSelector } from 'react-redux'
 
-import { Spinner, SpinnerType } from '../../factoryComponents/Spinner'
 import { Toolbar, type ToolbarProps } from '../buttons/Toolbar'
 import { dataSourceError } from '../../ducks/datasource/selectors'
 import { ErrorContainer } from '../../core/error/Container'
@@ -11,21 +20,11 @@ import { type ErrorContainerError } from '../../core/error/types'
 import { type Model } from '../../ducks/models/selectors'
 import { type Widget } from '../../ducks/widgets/Widgets'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
+import { FactoryContext } from '../../core/factory/context'
+import { FactoryLevels } from '../../core/factory/factoryLevels'
 
+import { type WidgetLayoutProps, PLACES } from './WidgetLayout/WidgetLayout'
 import { WidgetFilters, type Props as WidgetFiltersProps } from './WidgetFilters'
-
-export enum PLACES {
-    top = 'top',
-    left = 'left',
-    right = 'right',
-    center = 'center',
-    topLeft = 'topLeft',
-    topRight = 'topRight',
-    topCenter = 'topCenter',
-    bottomLeft = 'bottomLeft',
-    bottomRight = 'bottomRight',
-    bottomCenter = 'bottomCenter',
-}
 
 export type WidgetFilter = { filterPlace: PLACES, filterFieldsets: WidgetFiltersProps['fieldsets'] }
 
@@ -49,7 +48,7 @@ export interface Props extends Widget {
 }
 
 /**
- * Обертка над виджетами, размещает filters и toolbars, отображает loading
+ * Обертка над виджетами, передает компоненты и параметры в WidgetLayout
  */
 const StandardWidget = memo(({
     widgetId,
@@ -66,6 +65,9 @@ const StandardWidget = memo(({
     stickyFooter = false,
     scrollbar,
 }: Props) => {
+    const { getComponent } = useContext(FactoryContext)
+    const FactoryWidgetLayout = getComponent('WidgetLayout', FactoryLevels.WIDGETS) as ComponentType<WidgetLayoutProps>
+
     const error = useSelector(dataSourceError(datasource))
     const renderToolbar = useCallback((place: PLACES) => {
         const { [place]: placePagination } = pagination
@@ -114,11 +116,7 @@ const StandardWidget = memo(({
         ].filter(Boolean),
     }), [renderToolbar])
 
-    const classes = classNames([
-        className,
-        'n2o-standard-widget-layout',
-        { 'n2o-disabled': disabled },
-    ])
+    const classes = classNames([className, 'n2o-standard-widget-layout', { 'n2o-disabled': disabled }])
 
     const errorComponent = useMemo(() => (
         isEmpty(error) ? null : <ErrorContainer error={error} />
@@ -133,45 +131,19 @@ const StandardWidget = memo(({
     })
 
     return (
-        <div className={classes} style={style}>
-            {filter.filterPlace === PLACES.left && (
-                <div className="n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--left">
-                    {filterComponent}
-                </div>
-            )}
-            <div className="n2o-standard-widget-layout-center">
-                {filter.filterPlace === PLACES.top && (
-                    <div className="n2o-standard-widget-layout-center-filter">
-                        {filterComponent}
-                    </div>
-                )}
-                {!!topToolbars.length && (
-                    <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar-top">
-                        {topToolbars}
-                    </div>
-                )}
-                <div className="n2o-standard-widget-layout-content">
-                    <Spinner loading={loading} type={SpinnerType.cover}>
-                        {childrenWithError}
-                    </Spinner>
-                </div>
-                {(!!bottomToolbars.length || !!scrollbar) && (
-                    <div className={classNames(
-                        'n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar-bottom',
-                        { 'sticky-footer': stickyFooter },
-                    )}
-                    >
-                        {scrollbar}
-                        {bottomToolbars}
-                    </div>
-                )}
-            </div>
-            {filter.filterPlace === PLACES.right && (
-                <div className="n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--right">
-                    {filterComponent}
-                </div>
-            )}
-        </div>
+        <FactoryWidgetLayout
+            className={classes}
+            style={style}
+            filterComponent={filterComponent}
+            filterPlace={filter.filterPlace}
+            topToolbars={topToolbars}
+            bottomToolbars={bottomToolbars}
+            scrollbar={scrollbar}
+            stickyFooter={stickyFooter}
+            loading={loading}
+        >
+            {childrenWithError}
+        </FactoryWidgetLayout>
     )
 })
 
