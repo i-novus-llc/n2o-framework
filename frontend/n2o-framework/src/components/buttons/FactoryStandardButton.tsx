@@ -31,19 +31,11 @@ export interface Props {
     visible?: boolean
     labelPosition?: LabelPosition
     children?: ReactNode
+    entityKey?: string
 }
 
 export function FactoryStandardButton({
-    label,
-    style,
-    className,
-    onClick,
-    color,
-    id,
     modelPrefix,
-    datasource,
-    disabled = false,
-    visible = true,
     ...rest
 }: Props) {
     const { getComponent } = useContext(FactoryContext)
@@ -51,7 +43,7 @@ export function FactoryStandardButton({
 
     if (!Button) { return null }
 
-    const button = { id, model: modelPrefix, datasource, label, style, className, disabled, visible, onClick, color }
+    const button = { model: modelPrefix }
 
     return <Button {...button} {...rest} />
 }
