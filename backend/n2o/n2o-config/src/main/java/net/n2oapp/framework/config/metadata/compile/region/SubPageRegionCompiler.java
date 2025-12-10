@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.region.SubPageRegion;
-import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -26,7 +26,6 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 import static net.n2oapp.framework.config.util.PageContextCompileUtil.initParentDatasourceIdsMap;
@@ -35,14 +34,14 @@ import static net.n2oapp.framework.config.util.PageContextCompileUtil.initParent
  * Компиляция региона `<sub-page>`
  */
 @Component
-public class SubPageRegionCompiler implements BaseSourceCompiler<SubPageRegion, N2oSubPageRegion, CompileContext<?, ?>> {
+public class SubPageRegionCompiler extends ComponentCompiler<SubPageRegion, N2oSubPageRegion, CompileContext<?, ?>> {
 
     private static final Pattern SUBROUTE_ANT_PATTERN = Pattern.compile(":\\w+");
 
     @Override
     public SubPageRegion compile(N2oSubPageRegion source, CompileContext<?, ?> context, CompileProcessor p) {
         SubPageRegion compiled = new SubPageRegion();
-        compiled.setSrc(p.resolve(property("n2o.api.region.sub_page.src"), String.class));
+        compileComponent(compiled, source, p);
         compilePages(source, compiled, context, p);
         compiled.setDefaultPageId(compileDefaultPageId(source.getDefaultPageId(), source.getPages(), compiled.getPages()));
         return compiled;
@@ -90,7 +89,7 @@ public class SubPageRegionCompiler implements BaseSourceCompiler<SubPageRegion, 
         if (CollectionUtils.isEmpty(pages))
             return null;
         if (defaultPageId == null)
-            return pages.get(0).getId();
+            return pages.getFirst().getId();
 
         int idx = -1;
         for (int i = 0; i < sourcePages.length; i++) {
@@ -154,6 +153,11 @@ public class SubPageRegionCompiler implements BaseSourceCompiler<SubPageRegion, 
 
         pageContext.setBreadcrumbFromParent(false);
         return p.getScope(BreadcrumbList.class);
+    }
+
+    @Override
+    protected String getSrcProperty() {
+        return "n2o.api.region.sub_page.src";
     }
 
     @Override
