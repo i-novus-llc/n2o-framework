@@ -4,7 +4,7 @@ import { ActionMeta } from '../../sagas/types'
 import { ValidationsKey } from '../../core/validation/types'
 import { Action, Meta } from '../Action'
 
-import type { DataSourceState } from './DataSource'
+import type { DataSourceState, DataSourceConfig } from './DataSource'
 import type { Provider, SubmitProvider, QueryResult, Paging } from './Provider'
 
 export interface DatasourcePayload {
@@ -18,7 +18,7 @@ export type DatasourceAction<
 
 export type RegisterAction = DatasourceAction<{
     id: string
-    initProps: Partial<DataSourceState>
+    initProps: Partial<DataSourceConfig>
 }>
 
 export type RemoveAction = DatasourceAction<DatasourcePayload>

@@ -6,6 +6,7 @@ import merge from 'deepmerge'
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import { Meta } from '../../sagas/types'
 import { ValidationsKey } from '../../core/validation/types'
+import { INDEX_MASK, INDEX_REGEXP } from '../../core/validation/const'
 import { Meta as N2OMeta } from '../Action'
 import { removeFieldFromArray } from '../models/store'
 import { RemoveFieldFromArrayAction } from '../models/Actions'
@@ -29,7 +30,7 @@ import type {
     SubmitAction,
     UpdatePagingAction,
 } from './Actions'
-import type { DataSourceState } from './DataSource'
+import type { DataSourceState, DataSourceConfig } from './DataSource'
 import { DataSource } from './DataSource'
 import {
     Provider,
@@ -41,12 +42,37 @@ import {
 
 export const initialState: Record<string, DataSourceState> = {}
 
+const prepareValidations = <T extends ValidationsKey>(
+    record?: DataSourceConfig[T],
+): DataSourceState[T] => {
+    if (!record) { return {} }
+
+    return Object.fromEntries(Object.entries(record).map(([key, validations]) => [key, validations.map(v => ({
+        ...v,
+        on: v.on?.map((key) => {
+            const mask = key
+                .replaceAll(INDEX_REGEXP, INDEX_MASK)
+                .replaceAll(/\./ig, '\\.')
+
+            return new RegExp(`^${mask}(\\[.+|\\..+)?$`)
+        }) ?? [],
+    }))]))
+}
+
+const mapProps = (initProps: Partial<DataSourceConfig>): Partial<DataSourceState> => {
+    return {
+        ...initProps,
+        [ValidationsKey.Validations]: prepareValidations(initProps[ValidationsKey.Validations]),
+        [ValidationsKey.FilterValidations]: prepareValidations(initProps[ValidationsKey.FilterValidations]),
+    }
+}
+
 export const datasource = createSlice({
     name: 'n2o/datasource',
     initialState,
     reducers: {
         register: {
-            prepare(id: string, initProps: DataSourceState) {
+            prepare(id: string, initProps: DataSourceConfig) {
                 return ({
                     type: '',
                     payload: { id, initProps },
@@ -66,7 +92,7 @@ export const datasource = createSlice({
 
                 const defaultState = state[id] || DataSource.defaultState
 
-                const datasource = { ...merge(defaultState, initProps), provider }
+                const datasource = { ...merge(defaultState, mapProps(initProps)), provider }
 
                 state[id] = datasource
             },

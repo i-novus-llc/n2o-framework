@@ -9,4 +9,5 @@ export const VALIDATION_SEVERITY_PRIORITY = {
     [Severity.success]: 2,
 }
 
-export const INDEX_REGEXP = /\[(index|\$index_\d+)]\./ig
+export const INDEX_REGEXP = /\[(index|\$index_\d+)]/ig
+export const INDEX_MASK = '\\[(\\d+)]'
