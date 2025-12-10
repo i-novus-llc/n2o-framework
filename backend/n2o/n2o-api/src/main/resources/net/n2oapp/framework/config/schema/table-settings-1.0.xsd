@@ -83,6 +83,34 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    React компонент кнопки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    CSS класс кнопки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    СSS стиль кнопки
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>
+                    Возможность подключать любые атрибуты
+                </xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="columnsType">
