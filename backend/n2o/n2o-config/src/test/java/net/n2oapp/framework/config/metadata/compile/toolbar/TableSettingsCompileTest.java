@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -127,11 +128,11 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
 
         buttons = groups.get(2).getButtons();
         assertThat(buttons.get(0).getAction(), instanceOf(CustomAction.class));
-        assertThat(((CustomAction)buttons.getFirst().getAction()).getType(), is("n2o/api/utils/export"));
+        assertThat(((CustomAction) buttons.getFirst().getAction()).getType(), is("n2o/api/utils/export"));
         HashMap<String, Object> values = (HashMap<String, Object>) ((CustomAction) buttons.getFirst().getAction()).getPayload().getAttributes().get("values");
-        assertThat(((HashMap<String, Object>)values.get("format")).get("value"), is("csv"));
-        assertThat(((HashMap<String, Object>)values.get("charset")).get("value"), is("utf-8"));
-        assertThat(((HashMap<String, Object>)values.get("type")).get("value"), is("all"));
+        assertThat(((HashMap<String, Object>) values.get("format")).get("value"), is("csv"));
+        assertThat(((HashMap<String, Object>) values.get("charset")).get("value"), is("utf-8"));
+        assertThat(((HashMap<String, Object>) values.get("type")).get("value"), is("all"));
     }
 
     private static void checkButtons(List<AbstractButton> buttons, Function<AbstractButton, String> labelExtractor) {
@@ -160,6 +161,8 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
         assertThat(buttons.get(5).getSrc(), is("StandardButton"));
 
         assertThat(buttons.get(6).getSrc(), is("ChangeSize"));
+        assertThat(buttons.get(6).getClassName(), is("test"));
+        assertThat(buttons.get(6).getStyle(), is(Map.of("color", "red")));
         assertThat(labelExtractor.apply(buttons.get(6)), is("Количество записей"));
         assertThat(((ResizeButton) buttons.get(6)).getSize(), is(new Integer[]{5, 10, 15}));
 

@@ -32,7 +32,8 @@ public class TableSettingsGeneratorUtil {
 
     public static void generateColumns(N2oColumnsTableSetting source, CompileProcessor p) {
         fillButton(source, source.isGeneratedForSubMenu(), "columns", p);
-        source.setSrc(p.resolve(property("n2o.api.generate.button.columns.action.src"), String.class));
+        source.setSrc(castDefault(source.getSrc(),
+                () -> p.resolve(property("n2o.api.generate.button.columns.action.src"), String.class)));
         source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
     }
 
@@ -57,7 +58,8 @@ public class TableSettingsGeneratorUtil {
 
     public static void generateResize(N2oResizeTableSetting source, CompileProcessor p) {
         fillButton(source, source.isGeneratedForSubMenu(), "resize", p);
-        source.setSrc(p.resolve(property("n2o.api.generate.button.resize.action.src"), String.class));
+        source.setSrc(castDefault(source.getSrc(),
+                () -> p.resolve(property("n2o.api.generate.button.resize.action.src"), String.class)));
         source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
     }
 
@@ -70,7 +72,8 @@ public class TableSettingsGeneratorUtil {
         payload.put(WIDGET_ID, widgetScope.getClientWidgetId());
         payload.put("paramKey", p.resolve(property("n2o.api.generate.button.wordwrap.action.param_key"), String.class));
 
-        source.setSrc(p.resolve(property("n2o.api.generate.button.wordwrap.action.src"), String.class));
+        source.setSrc(castDefault(source.getSrc(),
+                () -> p.resolve(property("n2o.api.generate.button.wordwrap.action.src"), String.class)));
         wordWrapAction.setType(p.resolve(property("n2o.api.generate.button.wordwrap.action.type"), String.class));
         wordWrapAction.setPayload(payload);
         source.setActions(new N2oCustomAction[]{wordWrapAction});
@@ -143,17 +146,17 @@ public class TableSettingsGeneratorUtil {
                 ? source.getDefaultSize().name().toLowerCase()
                 : p.resolve(property("n2o.api.generate.button.export.size"), String.class);
         String exportPageId = exportPage + "?formatId=" + defaultFormat.toLowerCase() + "&formatName=" + defaultFormat.toUpperCase()
-                + "&charsetId=" + defaultCharset.getId().toLowerCase() + "&charsetName=" + defaultCharset.getId()
-                + "&sizeId=" + defaultSize;
+                              + "&charsetId=" + defaultCharset.getId().toLowerCase() + "&charsetName=" + defaultCharset.getId()
+                              + "&sizeId=" + defaultSize;
         showModalAction.setPageId(exportPageId);
         N2oInheritedDatasource inheritedDs = new N2oInheritedDatasource();
         inheritedDs.setId("formatDs");
         inheritedDs.setSourceDatasource(datasourceId);
         String fetchValue = "return [\n" +
-                Arrays.stream(format)
-                        .map(f -> "{'id': '" + f.getId().toLowerCase() + "', 'name': \"" + f.getId().toUpperCase() + "\"}")
-                        .collect(Collectors.joining(",\n")) +
-                "\n]";
+                            Arrays.stream(format)
+                                    .map(f -> "{'id': '" + f.getId().toLowerCase() + "', 'name': \"" + f.getId().toUpperCase() + "\"}")
+                                    .collect(Collectors.joining(",\n")) +
+                            "\n]";
         inheritedDs.setFetchValue(fetchValue);
         showModalAction.setDatasources(new N2oInheritedDatasource[]{inheritedDs});
 
@@ -212,7 +215,8 @@ public class TableSettingsGeneratorUtil {
 
     public static void generateReset(N2oResetTableSetting source, CompileProcessor p) {
         fillButton(source, source.isGeneratedForSubMenu(), "reset", p);
-        source.setSrc(p.resolve(property("n2o.api.generate.button.reset.action.src"), String.class));
+        source.setSrc(castDefault(source.getSrc(),
+                () -> p.resolve(property("n2o.api.generate.button.reset.action.src"), String.class)));
         source.setDisableOnEmptyModel(DisableOnEmptyModelTypeEnum.FALSE);
     }
 
