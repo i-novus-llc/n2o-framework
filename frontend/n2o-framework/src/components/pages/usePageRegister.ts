@@ -4,11 +4,11 @@ import isEmpty from 'lodash/isEmpty'
 import { Dispatch } from 'redux'
 
 import { register, remove } from '../../ducks/datasource/store'
-import { type DataSourceState } from '../../ducks/datasource/DataSource'
+import { type DataSourceConfig } from '../../ducks/datasource/DataSource'
 import { type Paging } from '../../ducks/datasource/Provider'
 import { getData } from '../../core/widget/useData'
 
-export const usePageRegister = (dispatch: Dispatch, datasources?: Record<string, DataSourceState>, pageId?: string) => {
+export const usePageRegister = (dispatch: Dispatch, datasources?: Record<string, DataSourceConfig>, pageId?: string) => {
     const { getState } = useStore()
 
     useLayoutEffect(() => {

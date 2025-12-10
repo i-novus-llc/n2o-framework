@@ -5,6 +5,7 @@ import get from 'lodash/get'
 
 import { ModelPrefix } from '../../core/datasource/const'
 import { Validation, ValidationsKey } from '../../core/validation/types'
+import { INDEX_MASK } from '../../core/validation/const'
 import {
     updateModel,
     appendFieldToArray,
@@ -16,8 +17,9 @@ import { resetValidation, startValidate } from '../datasource/store'
 import { dataSourceValidationSelector } from '../datasource/selectors'
 import { getModelByPrefixAndNameSelector } from '../models/selectors'
 import { State } from '../State'
+import { getCtxFromField, isMulti, createRegexpWithContext } from '../../core/validation/utils'
 
-import { makeFormByName, makeFormsByModel } from './selectors'
+import { getFormFieldsByName, makeFormByName, makeFormsByModel } from './selectors'
 import {
     setFieldRequired,
     handleBlur,
@@ -29,14 +31,7 @@ import { FieldAction } from './Actions'
 const validateFields: Record<string, string[]> = {}
 
 const includesField = (validations: Validation[], actionField: string) => validations.some(
-    validation => validation.on?.some(
-        dependencyField => (
-            dependencyField === actionField || // full equality
-            dependencyField.startsWith(`${actionField}.`) || // fieldName: "field", on: "field.id"
-            actionField.startsWith(`${dependencyField}.`) || // fieldName: "field.inner", on: "field"
-            actionField.startsWith(`${dependencyField}[`) // fieldName: "field[index]", on: "field"
-        ),
-    ),
+    validation => validation.on?.some(mask => actionField.match(mask)),
 )
 
 const getValidationFields = (state: State, id: string) => {
@@ -89,20 +84,28 @@ export const formPluginSagas = [
         const allValidations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
             state => getValidationFields(state, datasource),
         )
+        const allFields = Object.keys(yield select(getFormFieldsByName(datasource)))
 
         fields.forEach((field) => {
+            const ctx = getCtxFromField(field, new RegExp(field.replaceAll(/\[\d+]/g, INDEX_MASK)))
+
             if (!validateFields[datasource].includes(field)) {
                 validateFields[datasource].push(field)
             }
 
-            for (const [fieldName, validations] of Object.entries(allValidations || {})) {
-                if (
-                    includesField(validations, field) &&
-                    !validateFields[datasource].includes(fieldName)
-                ) {
-                    validateFields[datasource].push(fieldName)
-                }
-            }
+            const dependent = Object.entries(allValidations || {})
+                .filter(validation => includesField(validation[1], field))
+                .map(([validationKey]) => {
+                    if (!isMulti(validationKey)) { return validationKey }
+
+                    const mask = createRegexpWithContext(validationKey, ctx)
+
+                    return allFields.filter(field => field.match(mask))
+                })
+                .flat()
+                .filter(fieldName => !validateFields[datasource].includes(fieldName))
+
+            validateFields[datasource].push(...dependent)
         })
     }),
     takeEvery([
@@ -128,15 +131,22 @@ export const formPluginSagas = [
         const allValidations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
             state => getValidationFields(state, datasource),
         )
+        const allFields = Object.keys(yield select(getFormFieldsByName(datasource)))
+        const ctx = getCtxFromField(field, new RegExp(field.replaceAll(/\[\d+]/g, INDEX_MASK)))
 
-        for (const [fieldName, validations] of Object.entries(allValidations || {})) {
-            if (
-                includesField(validations, field) &&
-                !validateFields[datasource].includes(fieldName)
-            ) {
-                validateFields[datasource].push(fieldName)
-            }
-        }
+        const dependent = Object.entries(allValidations || {})
+            .filter(validation => includesField(validation[1], field))
+            .map(([validationKey]) => {
+                if (!isMulti(validationKey)) { return validationKey }
+
+                const mask = createRegexpWithContext(validationKey, ctx)
+
+                return allFields.filter(field => field.match(mask))
+            })
+            .flat()
+            .filter(fieldName => !validateFields[datasource].includes(fieldName))
+
+        validateFields[datasource].push(...dependent)
     }),
     takeEvery([
         handleBlur,

@@ -8,7 +8,11 @@ import type { Provider, SubmitProvider, Paging, ServiceSubmit } from './Provider
 
 export type State = Record<string, DataSourceState>
 
-export interface DataSourceState {
+type ValidationConfig = Omit<Validation, 'on'> & {
+    on?: string[]
+}
+
+export type DataSourceState = {
     provider?: Provider
     [ValidationsKey.Validations]: Record<string, Validation[]>
     [ValidationsKey.FilterValidations]: Record<string, Validation[]>
@@ -29,6 +33,14 @@ export interface DataSourceState {
     error?: ErrorContainerError
     fetchOnInit?: boolean
 }
+
+type Prettify<T> = {
+    [K in keyof T]: T[K];
+}
+
+export type DataSourceConfig = Prettify<Omit<DataSourceState, ValidationsKey> & {
+    [k in ValidationsKey]?: Record<string, ValidationConfig[]>
+}>
 
 export class DataSource {
     static get defaultState(): DataSourceState {

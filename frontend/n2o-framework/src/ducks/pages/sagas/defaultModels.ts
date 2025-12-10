@@ -21,8 +21,7 @@ import {
 } from '../../models/store'
 // @ts-ignore import from js file
 import linkResolver from '../../../utils/linkResolver'
-
-const INDEX_REGEXP = /\[(index|\$index_\d+)]\./ig
+import { INDEX_REGEXP } from '../../../core/validation/const'
 
 const createContext = (fieldName: string) => {
     const match = fieldName.match(/\b\d+\b/g)
@@ -134,7 +133,7 @@ export function* flowDefaultModels(config: DefaultModels) {
             const ctx = createContext(itemPath)
 
             for (const [path, value] of Object.entries(arrayFields)) {
-                const pathMask = path.replaceAll(INDEX_REGEXP, `${arrSymbol}.`)
+                const pathMask = path.replaceAll(INDEX_REGEXP, `${arrSymbol}`)
 
                 if (
                     pathMask.startsWith(fieldMask) &&

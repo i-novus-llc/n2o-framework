@@ -29,11 +29,12 @@ export interface ExtraValidationConfig {
 }
 
 export interface Validation extends ExtraValidationConfig {
+    enablingConditions: string[]
+    on: RegExp[]
     severity: Severity
     text: string
     type: ValidationTypes
-    enablingConditions: string[]
-    on: string[]
+    validationKey?: string
 }
 
 export interface ValidationResult {
@@ -44,16 +45,11 @@ export interface ValidationResult {
 export type ValidateFunction = (
     key: string,
     values: Record<string, unknown>,
-    config: {
-        severity: Severity;
+    config: Validation & {
         expression: string;
         min: number;
-        enablingConditions: string[];
         max: number;
         datasourceId: string | undefined;
-        text: string;
-        type: ValidationTypes;
         pageUrl?: string | null;
         signal: AbortSignal | undefined;
-        on: string[]
     }) => boolean | Promise<boolean | ValidationResult>

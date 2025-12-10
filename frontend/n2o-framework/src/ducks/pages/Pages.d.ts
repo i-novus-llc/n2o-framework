@@ -2,7 +2,7 @@ import { CSSProperties } from 'react'
 
 import { ModelPrefix } from '../../core/datasource/const'
 import { Crumb } from '../../components/core/Breadcrumb/const'
-import { DataSourceState } from '../datasource/DataSource'
+import { DataSourceConfig } from '../datasource/DataSource'
 import { DefaultModels } from '../models/Models'
 import { Action } from '../Action'
 import { Places } from '../../components/pages/types'
@@ -39,7 +39,7 @@ export interface Metadata {
         bottomRight?: ToolbarProps
     }
     breadcrumb?: Crumb[]
-    datasources?: Record<string, DataSourceState>
+    datasources?: Record<string, DataSourceConfig>
     /* FIXME */
     regions?: Record<string, object[]>
     width?: { [key: string]: string }
