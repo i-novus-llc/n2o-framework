@@ -1,6 +1,7 @@
-import React, { useContext, useMemo } from 'react'
+import React, { CSSProperties, useContext, useMemo } from 'react'
 import { Switch, Route, matchPath } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import classNames from 'classnames'
 
 import { Page } from '../../core/Page'
 import { PageContext } from '../../core/router/context'
@@ -28,11 +29,15 @@ interface RouteProps {
 export type Props = {
     routes: RouteProps[]
     defaultPageId?: string
+    className?: string
+    style?: CSSProperties
 }
 
 export function SubPage({
-    routes = EMPTY_ARRAY,
+    className,
     defaultPageId,
+    routes = EMPTY_ARRAY,
+    style,
 }: Props) {
     const location = useLocation()
     const { pageId: currentPageId } = useContext(PageContext)
@@ -92,5 +97,11 @@ export function SubPage({
      */
     if (!matchPath(location.pathname, baseUrl)) { return null }
 
-    return <Switch location={location}>{pages}</Switch>
+    return (
+        <section className={classNames('n2o-subpage', className)} style={style}>
+            <Switch location={location}>{pages}</Switch>
+        </section>
+    )
 }
+
+SubPage.displayName = 'n2o/regions/SubPage'

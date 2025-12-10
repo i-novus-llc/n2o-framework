@@ -4,7 +4,7 @@
         <datasource id="ds1"/>
     </datasources>
     <regions>
-        <sub-page default-page-id="page2">
+        <sub-page default-page-id="page2" class="test" style="color: red">
             <page page-id="page1" route="./route1">
                 <datasources>
                     <inherited-datasource id="inh" source-datasource="ds1"/>

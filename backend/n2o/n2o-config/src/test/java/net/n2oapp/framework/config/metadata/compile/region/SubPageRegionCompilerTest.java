@@ -58,10 +58,22 @@ class SubPageRegionCompilerTest extends SourceCompileTestBase {
         assertThat(subRoutes, is(List.of("./route1", "./route2", "./route3/subroute", "./route4")));
         assertThat(page.getRoutes().getPath(), is("/user/:parentId"));
 
-        SubPageRegion region = (SubPageRegion) page.getRegions().get("single").get(0);
+        SubPageRegion region = (SubPageRegion) page.getRegions().get("single").getFirst();
         assertThat(region.getSrc(), is("SubPage"));
         assertThat(region.getDefaultPageId(), is("user_subpage2"));
+        assertThat(region.getClassName(), is("test"));
+        assertThat(region.getStyle(), is(Map.of("color", "red")));
 
+        checkPage(region);
+        // Проверка построения контекста первой подстраницы
+        checkPageContext();
+        assertThat(parentPageContext.getSubRoutes(), is(List.of(
+                "/user/*/route1", "/user/*/route2",
+                "/user/*/route3/subroute", "/user/*/route4"))
+        );
+    }
+
+    private static void checkPage(SubPageRegion region) {
         List<SubPageRegion.Page> pages = region.getPages();
         assertThat(pages.size(), is(4));
         assertThat(pages.get(0).getId(), is("user_subpage1"));
@@ -79,13 +91,6 @@ class SubPageRegionCompilerTest extends SourceCompileTestBase {
         assertThat(pages.get(3).getId(), is("user_subpage4"));
         assertThat(pages.get(3).getRoute(), is("./route4"));
         assertThat(pages.get(3).getUrl(), is("/user/:parentId/subpage4"));
-
-        // Проверка построения контекста первой подстраницы
-        checkPageContext();
-        assertThat(parentPageContext.getSubRoutes(), is(List.of(
-                "/user/*/route1", "/user/*/route2",
-                "/user/*/route3/subroute", "/user/*/route4"))
-        );
     }
 
     private void checkPageContext() {

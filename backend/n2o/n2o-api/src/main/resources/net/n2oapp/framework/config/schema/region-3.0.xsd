@@ -661,23 +661,27 @@
                 Подгружает одну из подстраниц в зависимости от текущего URL
             </xs:documentation>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="page" type="subPagePageDefinition" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>
-                        Подстраница
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="default-page-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Идентификатор открываемой страницы по умолчанию.
-                    По умолчанию: идентификатор первой подстраницы
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
+        <xs:complexContent>
+            <xs:extension base="regionDefinition">
+                <xs:sequence>
+                    <xs:element name="page" type="subPagePageDefinition" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Подстраница
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="default-page-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор открываемой страницы по умолчанию.
+                            По умолчанию: идентификатор первой подстраницы
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="subPagePageDefinition">

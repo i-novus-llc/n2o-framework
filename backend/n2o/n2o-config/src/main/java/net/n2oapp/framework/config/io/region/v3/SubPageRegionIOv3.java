@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.global.view.ActionBar;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oSubPageRegion;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
+import net.n2oapp.framework.config.io.control.ComponentIO;
 import net.n2oapp.framework.config.io.datasource.DatasourceIOv1;
 import net.n2oapp.framework.config.io.toolbar.v2.ToolbarIOv2;
 import org.jdom2.Element;
@@ -17,10 +17,11 @@ import org.springframework.stereotype.Component;
  * Чтение\запись региона `<sub-page>` версии 3.0
  */
 @Component
-public class SubPageRegionIOv3 implements NamespaceIO<N2oSubPageRegion> {
+public class SubPageRegionIOv3 extends ComponentIO<N2oSubPageRegion> {
 
     @Override
     public void io(Element e, N2oSubPageRegion r, IOProcessor p) {
+        super.io(e, r, p);
         p.attribute(e, "default-page-id", r::getDefaultPageId, r::setDefaultPageId);
         p.children(e, null, "page", r::getPages, r::setPages, N2oSubPageRegion.Page.class, this::page);
     }
