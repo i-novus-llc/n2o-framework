@@ -11,16 +11,15 @@ import {
     copyFieldArray,
     setModel,
 } from '../models/store'
-import { resetValidation, startValidate } from '../datasource/store'
+import { resetValidation, startValidate, remove as removeDatasource } from '../datasource/store'
 import { dataSourceValidationSelector } from '../datasource/selectors'
 import { getModelByPrefixAndNameSelector } from '../models/selectors'
 import { getCtxFromField, isMulti, createRegexpWithContext } from '../../core/validation/utils'
 
-import { getFormFieldsByName, makeFormByName, makeFormsByModel } from './selectors'
+import { makeFormByName, makeFormsByModel } from './selectors'
 import {
     setFieldRequired,
     handleBlur,
-    remove,
 } from './store'
 import { Form } from './types'
 import { FieldAction } from './Actions'
@@ -93,7 +92,7 @@ export const formPluginSagas = [
         ) as Record<string, unknown> | null
         // @ts-ignore разобраться с типами
         const changedFields = diffKeys(model, prevModel)
-        const allFields = Object.keys(yield select(getFormFieldsByName(datasource)))
+        const allFields = Object.keys(forms.map(form => form.fields).reduce((a, b) => ({ ...a, ...b }), {}))
 
         changedFields.forEach(field => addToBuffer(datasource, field, validations, allFields))
     }),
@@ -108,7 +107,7 @@ export const formPluginSagas = [
 
         if (validate === false) { return }
 
-        const { key: datasource, field } = payload
+        const { key: datasource, field, prefix } = payload
 
         const validations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
             state => getValidationFields(state, datasource),
@@ -116,7 +115,8 @@ export const formPluginSagas = [
 
         if (isEmpty(validations)) { return }
 
-        const allFields = Object.keys(yield select(getFormFieldsByName(datasource)))
+        const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
+        const allFields = Object.keys(forms.map(form => form.fields).reduce((a, b) => ({ ...a, ...b }), {}))
 
         addToBuffer(datasource, field, validations, allFields)
     }),
@@ -189,9 +189,5 @@ export const formPluginSagas = [
             yield put(startValidate(datasource, validationKey, modelPrefix, fields, { isTriggeredByFieldChange: true }))
         }
     }),
-    takeEvery(remove, ({ payload }) => {
-        const { formName } = payload
-
-        delete validateBuffer[formName]
-    }),
+    takeEvery(removeDatasource, ({ payload }) => { delete validateBuffer[payload.id] }),
 ]
