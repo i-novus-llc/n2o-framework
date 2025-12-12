@@ -1,5 +1,5 @@
 import type { ModelPrefix, SortDirection } from '../../core/datasource/const'
-import type { ValidationResult } from '../../core/validation/types'
+import type { Validation, ValidationResult } from '../../core/validation/types'
 import { ActionMeta } from '../../sagas/types'
 import { ValidationsKey } from '../../core/validation/types'
 import { Action, Meta } from '../Action'
@@ -82,6 +82,13 @@ export type ChangeSizeAction = DatasourceAction<{
 }>
 
 export type StartValidateAction = DatasourceAction<{
+    id: string
+    validationsKey?: ValidationsKey
+    prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
+    fields?: Record<string, Validation[]>
+}, { touched: boolean }>
+
+export type ResetValidateAction = DatasourceAction<{
     id: string
     validationsKey?: ValidationsKey
     prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter

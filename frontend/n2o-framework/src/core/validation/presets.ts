@@ -131,7 +131,7 @@ export function maxLength<
     return typeof value === 'string' && value.length < options.max
 }
 
-export const presets: Record<ValidationTypes, ValidateFunction> = {
+export const presets = {
     [ValidationTypes.condition]: condition,
     [ValidationTypes.email]: email,
     [ValidationTypes.required]: required,
@@ -139,4 +139,4 @@ export const presets: Record<ValidationTypes, ValidateFunction> = {
     [ValidationTypes.integer]: integer,
     [ValidationTypes.minLength]: minLength,
     [ValidationTypes.maxLength]: maxLength,
-}
+} as Record<ValidationTypes, ValidateFunction>

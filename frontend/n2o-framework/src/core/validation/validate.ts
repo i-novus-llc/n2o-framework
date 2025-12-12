@@ -37,7 +37,7 @@ export const validate = async (
         datasourceId,
         prefix === ModelPrefix.filter ? ValidationsKey.FilterValidations : ValidationsKey.Validations,
     )(state)
-    const model = dataSourceModelByPrefixSelector(datasourceId, prefix)(state)
+    const model = dataSourceModelByPrefixSelector(datasourceId, prefix)(state) as Record<string, unknown>
 
     dispatch(resetValidation(datasourceId, [], prefix))
 

@@ -19,16 +19,17 @@ export enum ValidationsKey {
     FilterValidations = 'filterValidations',
 }
 
-export interface ExtraValidationConfig {
+export type ExtraValidationConfig = Partial<{
     expression: string
     min: number
     max: number
-    signal?: AbortSignal
-    datasourceId?: string
-    pageId?: string
-}
+    signal: AbortSignal
+    datasourceId: string
+    pageId: string
+    pageUrl: string
+}>
 
-export interface Validation extends ExtraValidationConfig {
+export interface Validation {
     enablingConditions: string[]
     on: RegExp[]
     severity: Severity
@@ -45,11 +46,4 @@ export interface ValidationResult {
 export type ValidateFunction = (
     key: string,
     values: Record<string, unknown>,
-    config: Validation & {
-        expression: string;
-        min: number;
-        max: number;
-        datasourceId: string | undefined;
-        pageUrl?: string | null;
-        signal: AbortSignal | undefined;
-    }) => boolean | Promise<boolean | ValidationResult>
+    config: Validation & ExtraValidationConfig) => boolean | Promise<boolean | ValidationResult>

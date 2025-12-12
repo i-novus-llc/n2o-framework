@@ -5,8 +5,8 @@ import merge from 'deepmerge'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import { Meta } from '../../sagas/types'
-import { ValidationsKey } from '../../core/validation/types'
 import { INDEX_MASK, INDEX_REGEXP } from '../../core/validation/const'
+import { Validation, ValidationsKey } from '../../core/validation/types'
 import { Meta as N2OMeta } from '../Action'
 import { removeFieldFromArray } from '../models/store'
 import { RemoveFieldFromArrayAction } from '../models/Actions'
@@ -19,6 +19,7 @@ import type {
     FailRequestAction,
     FailValidateAction,
     ResetDatasourceAction,
+    ResetValidateAction,
     RegisterAction,
     RemoveAction,
     RemoveComponentAction,
@@ -300,7 +301,7 @@ export const datasource = createSlice({
                 id: string,
                 validationsKey = ValidationsKey.Validations,
                 prefix = ModelPrefix.active,
-                fields?: string[],
+                fields?: Record<string, Validation[]>,
                 meta = {},
             ) {
                 return ({
@@ -364,7 +365,7 @@ export const datasource = createSlice({
                     payload: { id, fields, prefix },
                 })
             },
-            reducer(state, action: StartValidateAction) {
+            reducer(state, action: ResetValidateAction) {
                 const { id, fields = [], prefix } = action.payload
                 const datasource = state[id]
 

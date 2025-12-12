@@ -30,7 +30,6 @@ import {
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
-import { startValidate } from '../ducks/datasource/store'
 import {
     appendFieldToArray,
     combineModels,
@@ -40,7 +39,6 @@ import {
     updateModel,
 } from '../ducks/models/store'
 import { getModelByPrefixAndNameSelector, Model } from '../ducks/models/selectors'
-import { ValidationsKey } from '../core/validation/types'
 import { addAlert } from '../ducks/alerts/store'
 import { GLOBAL_KEY } from '../ducks/alerts/constants'
 import { ModelPrefix } from '../core/datasource/const'
@@ -225,20 +223,6 @@ export function* modify(
             if (currentRequired === nextRequired) { break }
 
             yield put(setFieldRequired(formName, fieldName, nextRequired, !isInit && validate))
-
-            break
-        }
-        case 'reRender': {
-            if (!isInit && validate) {
-                yield delay(50)
-                yield put(startValidate(
-                    datasource,
-                    ValidationsKey.Validations,
-                    modelPrefix,
-                    [fieldName],
-                    { touched: true },
-                ))
-            }
 
             break
         }

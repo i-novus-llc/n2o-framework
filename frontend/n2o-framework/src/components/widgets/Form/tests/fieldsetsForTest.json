@@ -174,30 +174,14 @@
                                 ]
                               }
                             ],
-                            "visible": "`!(typeof dduConcession == 'undefined' || dduConcession == null || dduConcession==false)`",
-                            "dependency": [
-                              {
-                                "type": "reRender",
-                                "on": [
-                                  "dduConcession"
-                                ]
-                              }
-                            ]
+                            "visible": "`!(typeof dduConcession == 'undefined' || dduConcession == null || dduConcession==false)`"
                           }
                         ]
                       }
                     ]
                   }
                 ],
-                "visible": "`dealType.id==1`",
-                "dependency": [
-                  {
-                    "type": "reRender",
-                    "on": [
-                      "dealType"
-                    ]
-                  }
-                ]
+                "visible": "`dealType.id==1`"
               }
             ]
           }

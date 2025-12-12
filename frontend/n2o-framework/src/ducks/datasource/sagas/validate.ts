@@ -12,17 +12,36 @@ import {
 } from '../selectors'
 import { failValidate, resetValidation } from '../store'
 import type { StartValidateAction } from '../Actions'
-import { hasError, validateModel } from '../../../core/validation/validateModel'
+import { hasError, validateFields, validateModel } from '../../../core/validation/validateModel'
 import { addFieldMessages } from '../../../core/validation/addFieldMessages'
 import { makePageUrlByIdSelector } from '../../pages/selectors'
+import { Validation } from '../../../core/validation/types'
 
+type FieldId = string
+type Validations = Record<FieldId, Validation[]>
 type AsyncValidation = {
-    fields: string[]
+    fields: Validations | null
     abortController: AbortController
     task: Task
 }
 
 const asyncValidations: Record<string, AsyncValidation | null> = {}
+
+const mergeFields = <
+    T extends Record<string, Validation[]>,
+>(first: T, second: T) => {
+    const result: Record<string, Validation[]> = {}
+    const keys = new Set([
+        ...Object.keys(first),
+        ...Object.keys(second),
+    ])
+
+    keys.forEach((key) => {
+        result[key] = [...new Set([...first[key], ...second[key]])]
+    })
+
+    return result
+}
 
 export function* validate({ payload, meta }: StartValidateAction) {
     const { id, validationsKey, prefix, fields } = payload
@@ -32,19 +51,21 @@ export function* validate({ payload, meta }: StartValidateAction) {
     if (!validation) { return true }
 
     const prevProcess = asyncValidations[id]
-    let fields2Validate = fields?.length ? fields : Object.keys(validation)
+    let fields2Validate = fields ?? null
 
     if (prevProcess) {
-        fields2Validate = [...new Set([
-            ...fields2Validate,
-            ...prevProcess.fields,
-        ])]
+        fields2Validate = fields2Validate === null || prevProcess.fields === null
+            ? null
+            : mergeFields(fields2Validate, prevProcess.fields)
         prevProcess.abortController.abort()
         yield prevProcess.task.cancel()
     }
-    const allMessages: ReturnType<ReturnType<typeof dataSourceErrors>> =
+
+    const currentMessages: ReturnType<ReturnType<typeof dataSourceErrors>> =
             yield select(dataSourceErrors(id, prefix))
-    const fieldsMessages = pick(allMessages, fields2Validate)
+    const fieldsMessages = fields2Validate
+        ? pick(currentMessages, Object.keys(fields2Validate))
+        : currentMessages
 
     // TODO удалить после рефакторинга форм
     // после blur валидация срабатывает раньше, чем сетится модель, поэтому тут временный костылек
@@ -55,28 +76,25 @@ export function* validate({ payload, meta }: StartValidateAction) {
     const abortController = new AbortController()
     const pageId: string = yield select(dataSourcePageIdSelector(id))
     const pageUrl: string = yield select(makePageUrlByIdSelector(pageId))
+    const options = {
+        signal: abortController.signal,
+        datasourceId: id,
+        pageUrl,
+    }
 
     const currentProcess: AsyncValidation = {
         fields: fields2Validate,
         abortController,
-        task: yield fork(
-            validateModel,
-            model,
-            validation,
-            {
-                fields: fields2Validate,
-                signal: abortController.signal,
-                datasourceId: id,
-                pageUrl,
-            },
-        ),
+        task: fields2Validate === null
+            ? yield fork(validateModel, model, validation, options)
+            : yield fork(validateFields, fields2Validate, model, options),
     }
 
     asyncValidations[id] = currentProcess
 
     const modelMessages: Awaited<ReturnType<typeof validateModel>> = yield currentProcess.task.toPromise()
     const messages = addFieldMessages(id, modelMessages, yield select())
-    const fieldsToReset = fields2Validate.filter(field => isEmpty(messages[field]))
+    const fieldsToReset = Object.keys(fieldsMessages).filter(field => isEmpty(messages[field]))
 
     if (!isEmpty(fieldsToReset)) {
         yield put(resetValidation(id, fieldsToReset, prefix))
