@@ -325,9 +325,11 @@ export const datasource = createSlice({
                 const { id, fields, prefix } = action.payload
                 const datasource = state[id]
 
-                datasource.errors[prefix] = {
-                    ...datasource.errors[prefix],
-                    ...fields,
+                if (datasource) {
+                    datasource.errors[prefix] = {
+                        ...datasource.errors[prefix],
+                        ...fields,
+                    }
                 }
             },
         },
