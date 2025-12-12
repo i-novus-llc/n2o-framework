@@ -9,7 +9,6 @@ export enum FieldDependencyTypes {
     setValue = 'setValue',
     reset = 'reset',
     required = 'required',
-    reRender = 'reRender',
     fetchValue = 'fetchValue',
 }
 

@@ -1,11 +1,9 @@
 import { takeEvery, put, select, debounce } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
-import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 
 import { ModelPrefix } from '../../core/datasource/const'
-import { Validation, ValidationsKey } from '../../core/validation/types'
-import { INDEX_MASK } from '../../core/validation/const'
+import { Validation } from '../../core/validation/types'
 import {
     updateModel,
     appendFieldToArray,
@@ -16,7 +14,6 @@ import {
 import { resetValidation, startValidate } from '../datasource/store'
 import { dataSourceValidationSelector } from '../datasource/selectors'
 import { getModelByPrefixAndNameSelector } from '../models/selectors'
-import { State } from '../State'
 import { getCtxFromField, isMulti, createRegexpWithContext } from '../../core/validation/utils'
 
 import { getFormFieldsByName, makeFormByName, makeFormsByModel } from './selectors'
@@ -27,34 +24,46 @@ import {
 } from './store'
 import { Form } from './types'
 import { FieldAction } from './Actions'
+import { diffKeys, getDependentSet, getValidationFields, pickValidations, unionSets, mapFields } from './helpers'
 
-const validateFields: Record<string, string[]> = {}
+type DataSourceId = string
+type FieldId = string
+type ValidationKey = string
 
-const includesField = (validations: Validation[], actionField: string) => validations.some(
-    validation => validation.on?.some(mask => actionField.match(mask)),
-)
+const validateBuffer: Record<
+    string,
+    Record<FieldId, Set<Validation> | null>
+> = {}
 
-const getValidationFields = (state: State, id: string) => {
-    const filterValidation = dataSourceValidationSelector(id, ValidationsKey.FilterValidations)(state) || {}
-    const validation = dataSourceValidationSelector(id, ValidationsKey.Validations)(state) || {}
+const addToBuffer = (
+    datasource: DataSourceId,
+    field: FieldId,
+    allValidations: Record<ValidationKey, Validation[]>,
+    fields: string[],
+) => {
+    const buffer = validateBuffer[datasource] || {}
+    const ctx = getCtxFromField(field)
 
-    return Object.keys(filterValidation).length ? filterValidation : validation
-}
+    buffer[field] = buffer[field] || pickValidations(allValidations, field)
 
-function diffKeys <
-    TValue extends Record<string, unknown> | undefined | null,
->(first: TValue, second: TValue) {
-    if (!first || !second) {
-        if (first) { return Object.keys(first) }
-        if (second) { return Object.keys(second) }
+    for (const [validationKey, validations] of Object.entries(allValidations || {})) {
+        const dependent = getDependentSet(validations, field)
 
-        return []
+        if (!dependent.size) { continue }
+        if (!isMulti(validationKey)) {
+            buffer[validationKey] = unionSets(dependent, buffer[validationKey]) // validationKey equal fieldId
+
+            continue
+        }
+
+        const mask = createRegexpWithContext(validationKey, ctx)
+
+        fields.filter(field => mask.test(field)).forEach((fieldName) => {
+            buffer[fieldName] = unionSets(dependent, buffer[fieldName])
+        })
     }
 
-    return [...new Set([
-        ...Object.keys(first),
-        ...Object.keys(second),
-    ])].filter(key => !isEqual(first[key], second[key]))
+    validateBuffer[datasource] = buffer
 }
 
 export const formPluginSagas = [
@@ -62,6 +71,8 @@ export const formPluginSagas = [
         const { prefix, key: datasource, model, isDefault } = payload
         const { validate } = meta
 
+        //  FIXME: разобраться что не так с типами meta И почему он "validate?: boolean" принимает за "validate: boolean"
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
         if (isDefault || validate === false) { return }
         if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected) { return }
 
@@ -70,43 +81,21 @@ export const formPluginSagas = [
 
         if (isEmpty(form)) { return }
 
+        const validations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
+            state => getValidationFields(state, datasource),
+        )
+
+        if (isEmpty(validations)) { return }
+
         const prevModel = getModelByPrefixAndNameSelector(prefix, datasource)(
             // @ts-ignore разобраться с типами
             meta.prevState,
         ) as Record<string, unknown> | null
         // @ts-ignore разобраться с типами
-        const fields = diffKeys(model, prevModel)
-
-        if (!validateFields[datasource]) {
-            validateFields[datasource] = []
-        }
-
-        const allValidations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
-            state => getValidationFields(state, datasource),
-        )
+        const changedFields = diffKeys(model, prevModel)
         const allFields = Object.keys(yield select(getFormFieldsByName(datasource)))
 
-        fields.forEach((field) => {
-            const ctx = getCtxFromField(field, new RegExp(field.replaceAll(/\[\d+]/g, INDEX_MASK)))
-
-            if (!validateFields[datasource].includes(field)) {
-                validateFields[datasource].push(field)
-            }
-
-            const dependent = Object.entries(allValidations || {})
-                .filter(validation => includesField(validation[1], field))
-                .map(([validationKey]) => {
-                    if (!isMulti(validationKey)) { return validationKey }
-
-                    const mask = createRegexpWithContext(validationKey, ctx)
-
-                    return allFields.filter(field => field.match(mask))
-                })
-                .flat()
-                .filter(fieldName => !validateFields[datasource].includes(fieldName))
-
-            validateFields[datasource].push(...dependent)
-        })
+        changedFields.forEach(field => addToBuffer(datasource, field, validations, allFields))
     }),
     takeEvery([
         updateModel,
@@ -114,39 +103,22 @@ export const formPluginSagas = [
         removeFieldFromArray,
         copyFieldArray,
     ], function* addFieldToBuffer({ payload, meta }) {
+        //  FIXME: разобраться что не так с типами meta
         const { validate } = meta
 
         if (validate === false) { return }
 
         const { key: datasource, field } = payload
 
-        if (!validateFields[datasource]) {
-            validateFields[datasource] = []
-        }
-
-        if (!validateFields[datasource].includes(field)) {
-            validateFields[datasource].push(field)
-        }
-
-        const allValidations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
+        const validations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
             state => getValidationFields(state, datasource),
         )
+
+        if (isEmpty(validations)) { return }
+
         const allFields = Object.keys(yield select(getFormFieldsByName(datasource)))
-        const ctx = getCtxFromField(field, new RegExp(field.replaceAll(/\[\d+]/g, INDEX_MASK)))
 
-        const dependent = Object.entries(allValidations || {})
-            .filter(validation => includesField(validation[1], field))
-            .map(([validationKey]) => {
-                if (!isMulti(validationKey)) { return validationKey }
-
-                const mask = createRegexpWithContext(validationKey, ctx)
-
-                return allFields.filter(field => field.match(mask))
-            })
-            .flat()
-            .filter(fieldName => !validateFields[datasource].includes(fieldName))
-
-        validateFields[datasource].push(...dependent)
+        addToBuffer(datasource, field, validations, allFields)
     }),
     takeEvery([
         handleBlur,
@@ -170,10 +142,14 @@ export const formPluginSagas = [
         const { formName, fieldName } = payload
         const { datasource }: Form = yield select(makeFormByName(formName))
 
-        if (!validateFields[datasource]) { validateFields[datasource] = [] }
+        if (!validateBuffer[datasource]) { validateBuffer[datasource] = {} }
 
-        if (!validateFields[datasource].includes(fieldName)) {
-            validateFields[datasource].push(fieldName)
+        if (!validateBuffer[datasource][fieldName]) {
+            const validations: Record<ValidationKey, Validation[]> = yield select(
+                state => getValidationFields(state, datasource),
+            )
+
+            validateBuffer[datasource][fieldName] = pickValidations(validations, fieldName)
         }
     }),
     debounce(200, [
@@ -190,9 +166,9 @@ export const formPluginSagas = [
 
         if (isEmpty(form)) { return }
 
-        const fields = validateFields[datasource]
+        const fields = mapFields(validateBuffer[datasource])
 
-        delete validateFields[datasource]
+        delete validateBuffer[datasource]
 
         if (!isEmpty(fields)) {
             yield put(startValidate(datasource, form.validationKey, prefix, fields, { isTriggeredByFieldChange: true }))
@@ -205,9 +181,9 @@ export const formPluginSagas = [
         const { formName } = payload
         const { datasource, modelPrefix, validationKey } = yield select(makeFormByName(formName))
 
-        const fields = validateFields[datasource]
+        const fields = mapFields(validateBuffer[datasource])
 
-        delete validateFields[datasource]
+        delete validateBuffer[datasource]
 
         if (!isEmpty(fields)) {
             yield put(startValidate(datasource, validationKey, modelPrefix, fields, { isTriggeredByFieldChange: true }))
@@ -216,6 +192,6 @@ export const formPluginSagas = [
     takeEvery(remove, ({ payload }) => {
         const { formName } = payload
 
-        delete validateFields[formName]
+        delete validateBuffer[formName]
     }),
 ]

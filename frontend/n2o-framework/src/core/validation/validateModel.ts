@@ -1,86 +1,69 @@
-import type { Validation, ValidationResult } from './types'
-import { filterByFields, getCtxByModel, getCtxFromField, isMulti, keyToRegexp } from './utils'
-import { validateField, ValidateField, hasError as checkErrors } from './validateField'
+import type { ExtraValidationConfig, Validation, ValidationResult } from './types'
+import { getCtxByModel, getCtxFromField, isMulti } from './utils'
+import { validateField, hasError as checkErrors } from './validateField'
 
-const validateSimple = async (options: ValidateField): Promise<void> => {
-    const messages = await validateField(options)
-
-    const { allMessages, validationKey } = options
+// Валидация простого поля
+const validateSimple = async (
+    fieldId: string,
+    model: Record<string, unknown>,
+    validations: Validation[],
+    options: ExtraValidationConfig,
+    buffer: Record<string, ValidationResult[]>,
+): Promise<void> => {
+    const messages = await validateField(fieldId, model, validations, options)
 
     if (messages.length) {
-        allMessages[validationKey] = messages
+        buffer[fieldId] = messages
     }
 }
 
-const validateMulti = async (options: ValidateField): Promise<void> => {
-    const { model, validationKey } = options
+// Валидация всех строк мультисета
+const validateMulti = async (
+    validationKey: string,
+    model: Record<string, unknown>,
+    validations: Validation[],
+    options: ExtraValidationConfig,
+    buffer: Record<string, ValidationResult[]>,
+): Promise<void> => {
     const list = getCtxByModel(validationKey, model)
 
     for (const [fieldName, ctx] of list) {
-        await validateSimple({ ...options, validationKey: fieldName, model: { ...ctx, ...model } })
+        await validateSimple(fieldName, { ...ctx, ...model }, validations, options, buffer)
     }
 }
 
-const validateMultiByFields = async (options: ValidateField): Promise<void> => {
-    const { fields, validationKey, model } = options
-    const findIndexRegexp = keyToRegexp(validationKey)
+export const validateFields = async (
+    fields: Record<string, Validation[]>,
+    model: Record<string, unknown>,
+    options: ExtraValidationConfig,
+) => {
+    const messages: Record<string, ValidationResult[]> = {}
 
-    if (!fields) {
-        return
+    for (const [fieldName, validations] of Object.entries(fields)) {
+        const ctx = getCtxFromField(fieldName) || {}
+
+        await validateSimple(fieldName, { ...ctx, ...model }, validations, options, messages)
     }
 
-    for (const field of fields) {
-        const ctx = getCtxFromField(field, findIndexRegexp)
-
-        if (ctx) {
-            await validateSimple({ ...options, validationKey: field, model: { ...ctx, ...model } })
-        }
-    }
+    return messages
 }
-
-interface Options { fields?: string[], signal?: AbortSignal, datasourceId?: string, pageUrl?: string | null }
 
 export const validateModel = async (
-    model: object,
+    model: Record<string, unknown>,
     validations: Record<string, Validation[]>,
-    options: Options = {},
+    options: ExtraValidationConfig,
 ): Promise<Record<string, ValidationResult[]>> => {
-    let entries = Object.entries(validations)
-    const allMessages: Record<string, ValidationResult[]> = {}
+    const messages: Record<string, ValidationResult[]> = {}
 
-    const { fields, signal, datasourceId, pageUrl } = options
-
-    if (fields?.length) {
-        entries = entries.filter(([key]) => filterByFields(key, fields))
-    }
-
-    const settings = {
-        allMessages,
-        model,
-        fields,
-        signal,
-        datasourceId,
-        pageUrl,
-    }
-
-    for (const [validationKey, validationList] of entries) {
-        const options = { ...settings, validationKey, validationList }
-
+    for (const [validationKey, validationList] of Object.entries(validations)) {
         if (isMulti(validationKey)) {
-            if (fields?.length) {
-                // Валидация конкретных строк мультисета
-                await validateMultiByFields(options)
-            } else {
-                // Валидация всех строк мультисета
-                await validateMulti(options)
-            }
+            await validateMulti(validationKey, model, validationList, options, messages)
         } else {
-            // Валидация простого поля
-            await validateSimple(options)
+            await validateSimple(validationKey, model, validationList, options, messages)
         }
     }
 
-    return allMessages
+    return messages
 }
 
 export const hasError = (
