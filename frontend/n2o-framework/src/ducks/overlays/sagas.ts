@@ -1,41 +1,33 @@
 import { takeEvery, select, put, call, fork, cancel } from 'redux-saga/effects'
 import get from 'lodash/get'
 import { LOCATION_CHANGE } from 'connected-react-router'
+import { type Action } from 'redux'
 
 import { makePageRoutesByIdSelector } from '../pages/selectors'
 import { makeWidgetsByPageIdSelector } from '../widgets/selectors'
 import { dataRequest } from '../datasource/store'
 import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
 import { makeFormByName } from '../form/selectors'
-import { Routes } from '../pages/sagas/types'
-import { State as WidgetsState } from '../widgets/Widgets'
-import { Form } from '../form/types'
+import { type Routes } from '../pages/sagas/types'
+import { type State as WidgetsState } from '../widgets/Widgets'
+import { type Form } from '../form/types'
 import { EffectWrapper } from '../api/utils/effectWrapper'
 import { stopTheSequence } from '../api/utils/stopTheSequence'
 import { resetPage } from '../pages/store'
 import { type Reset } from '../pages/Actions'
+import { type N2OMeta } from '../Action'
 
 import { State as OverlaysState } from './Overlays'
 import { CLOSE } from './constants'
 import {
     showPrompt,
     destroyOverlays,
+    destroyAllOverlays,
     insertOverlay,
     insertDrawer,
     remove,
 } from './store'
 import { overlaysSelector } from './selectors'
-
-interface Refresh {
-    datasources: string[]
-}
-
-interface Meta {
-    onClose: {
-        refresh: Refresh
-    }
-    modalsToClose: number
-}
 
 /**
  * Проверка на изменение данных в формах
@@ -73,20 +65,32 @@ export function* checkPrompt(action: { payload: { name: string, prompt: boolean 
     }
 }
 
-export function* closeOverlays({ meta }: { meta: Meta }) {
+export function* closeOverlays({ meta, type }: { meta: N2OMeta, type: Action['type'] }) {
     if (meta.modalsToClose) {
         yield put(destroyOverlays(meta.modalsToClose))
+
+        return
+    }
+
+    if (type === LOCATION_CHANGE) {
+        const { overlays = [] } = meta?.prevState || {}
+
+        if (overlays.length > 0) {
+            yield put(destroyAllOverlays())
+        }
     }
 }
 
-function* onCloseEffects() {
-    const onCloseHandlers: Record<string, { refresh: Refresh, [key: string]: unknown }> = {}
+type RefreshHandler = { refresh: { datasources: string[] } }
 
-    function* getClose({ meta, payload }: { meta: Meta, payload: { name: string } }) {
+function* onCloseEffects() {
+    const onCloseHandlers: Record<string, RefreshHandler> = {}
+
+    function* getClose({ meta, payload }: { meta: N2OMeta, payload: { name: string } }) {
         const { name } = payload
 
         if (get(meta, 'onClose')) {
-            yield onCloseHandlers[name] = meta.onClose
+            yield onCloseHandlers[name] = meta.onClose as RefreshHandler
         }
     }
 
