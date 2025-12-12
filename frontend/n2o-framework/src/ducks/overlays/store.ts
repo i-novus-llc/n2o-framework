@@ -147,6 +147,13 @@ export const overlaysSlice = createSlice({
             return state.slice(0, -action.payload)
         },
 
+        /**
+         * Удалить все окна
+         */
+        DESTROY_ALL_OVERLAYS() {
+            return []
+        },
+
         SHOW_PROMPT(state, action) {
             const index = OverlayResolver.findIndexByNameInArray(state, action.payload)
 
@@ -170,6 +177,7 @@ export default overlaysSlice.reducer
 export const {
     DESTROY: destroyOverlay,
     DESTROY_OVERLAYS: destroyOverlays,
+    DESTROY_ALL_OVERLAYS: destroyAllOverlays,
     HIDE: hideOverlay,
     SHOW: showOverlay,
     SHOW_PROMPT: showPrompt,
