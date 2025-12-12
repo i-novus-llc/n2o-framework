@@ -35,7 +35,6 @@ export const RangeField = ({
     validationClass,
     onFocus,
     onBlur,
-    placeholder,
     message,
     help,
     visible = true,
@@ -109,7 +108,6 @@ export const RangeField = ({
                         <div className="d-flex align-items-center">
                             <Control
                                 value={begin}
-                                placeholder={placeholder}
                                 visible={visible}
                                 autoFocus={autoFocus}
                                 onBlur={(value) => {
@@ -134,7 +132,6 @@ export const RangeField = ({
                         <div className="d-flex align-items-center">
                             <Control
                                 value={end}
-                                placeholder={placeholder}
                                 visible={visible}
                                 autoFocus={false}
                                 onBlur={(value) => {
