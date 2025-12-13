@@ -1753,6 +1753,10 @@
           "name": "FieldRequiredAT. defaultValue"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/required/modal",
+          "name": "FieldRequiredAT. testModal"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/condition/field/visible",
           "name": "FieldVisibleAT"
         },
