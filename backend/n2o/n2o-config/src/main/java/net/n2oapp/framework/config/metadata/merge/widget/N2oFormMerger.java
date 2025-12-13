@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import org.springframework.stereotype.Component;
 
 /**
- * Слияние двух виджетов Форма
+ * Слияние виджетов {@code <form>}
  */
 @Component
 public class N2oFormMerger extends N2oWidgetMerger<N2oForm> {
@@ -13,7 +13,6 @@ public class N2oFormMerger extends N2oWidgetMerger<N2oForm> {
     public N2oForm merge(N2oForm ref, N2oForm source) {
         setIfNotNull(source::setMode, source::getMode, ref::getMode);
         setIfNotNull(source::setUnsavedDataPrompt, source::getUnsavedDataPrompt, ref::getUnsavedDataPrompt);
-        setIfNotNull(source::setDefaultValuesQueryId, source::getDefaultValuesQueryId, ref::getDefaultValuesQueryId);
         addIfNotNull(ref, source, N2oForm::setItems, N2oForm::getItems);
         return source;
     }

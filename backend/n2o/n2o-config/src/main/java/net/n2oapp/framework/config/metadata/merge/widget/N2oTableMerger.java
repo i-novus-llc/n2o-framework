@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import org.springframework.stereotype.Component;
 
 /**
- * Слияние двух виджетов Таблица
+ * Слияние виджетов {@code <table>}
  */
 @Component
 public class N2oTableMerger extends N2oWidgetMerger<N2oTable> {

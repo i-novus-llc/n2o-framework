@@ -1,15 +1,8 @@
-package net.n2oapp.framework.config.metadata.merge;
+package net.n2oapp.framework.config.metadata.merge.widget;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.v4.FormElementIOV4;
-import net.n2oapp.framework.config.io.widget.v4.TableElementIOV4;
-import net.n2oapp.framework.config.io.widget.v5.TableElementIOV5;
 import net.n2oapp.framework.config.io.widget.v5.TilesWidgetIOV5;
-import net.n2oapp.framework.config.metadata.merge.widget.N2oFormMerger;
-import net.n2oapp.framework.config.metadata.merge.widget.N2oTableMerger;
-import net.n2oapp.framework.config.metadata.merge.widget.N2oTilesMerger;
-import net.n2oapp.framework.config.metadata.merge.widget.N2oWidgetMerger;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * Тестирование слияния виджетов {@code <tiles>}
+ */
 class N2oTilesMergerTest extends SourceMergerTestBase {
 
     @Override
@@ -29,7 +25,7 @@ class N2oTilesMergerTest extends SourceMergerTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs( new N2oCellsPack())
+        builder.packs( new N2oCellsV3IOPack())
                 .ios(new TilesWidgetIOV5())
                 .mergers(new N2oTilesMerger());
     }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 /**
- * Слияние двух виджетов
+ * Слияние виджетов
  */
 @Component
 public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T> {
@@ -33,6 +33,7 @@ public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T>
         setIfNotNull(source::setDependsOn, source::getDependsOn, ref::getDependsOn);
         setIfNotNull(source::setMasterFieldId, source::getMasterFieldId, ref::getMasterFieldId);
         setIfNotNull(source::setDetailFieldId, source::getDetailFieldId, ref::getDetailFieldId);
+        setIfNotNull(source::setDefaultValuesQueryId, source::getDefaultValuesQueryId, ref::getDefaultValuesQueryId);
         setIfNotNull(source::setVisible, source::getVisible, ref::getVisible);
         addIfNotNull(ref, source, N2oWidget::setPreFilters, N2oWidget::getPreFilters);
         addIfNotNull(ref, source, N2oWidget::setActions, N2oWidget::getActions);
