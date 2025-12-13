@@ -1,15 +1,20 @@
 package net.n2oapp.framework.autotest.condition.field.required;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPack;
@@ -80,7 +85,7 @@ class FieldRequiredAT extends AutoTestBase {
 
         page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
     }
-    
+
     @Test
     void expressionValue() {
         builder.sources(
@@ -95,7 +100,7 @@ class FieldRequiredAT extends AutoTestBase {
         final InputText field = fields.field("message").control(InputText.class);
 
         fieldEnabled.check("required");
-        
+
         field.click();
         fields.field("message").shouldBeRequired();
 
@@ -103,5 +108,44 @@ class FieldRequiredAT extends AutoTestBase {
 
         field.click();
         fields.field("message").shouldNotBeRequired();
+    }
+
+    @Test
+    void testModal() {
+        setResourcePath("net/n2oapp/framework/autotest/condition/field/required/modal");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/modal/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/modal/data.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/modal/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/modal/data.object.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        table.shouldBeVisible();
+        table.columns().rows().shouldHaveSize(0);
+        StandardButton createButton = table.toolbar().topLeft().button("Создать");
+        createButton.click();
+
+        Modal modal = N2oSelenide.modal();
+        modal.shouldExists();
+
+        Fields fields = modal.content(StandardPage.class).regions().region(0, SimpleRegion.class).content()
+                .widget(FormWidget.class).fields();
+        StandardField field1 = fields.field("Имя");
+        StandardField field2 = fields.field("Тип");
+
+        field1.control(InputText.class).setValue("test message");
+        modal.toolbar().bottomRight().button("Сохранить").click();
+        field2.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        field2.control(InputText.class).setValue("test message");
+        field2.shouldHaveValidationMessage(Condition.empty);
+        modal.toolbar().bottomRight().button("Закрыть").click();
+
+        createButton.click();
+        field1.shouldHaveValidationMessage(Condition.empty);
+        field2.shouldHaveValidationMessage(Condition.empty);
     }
 }
