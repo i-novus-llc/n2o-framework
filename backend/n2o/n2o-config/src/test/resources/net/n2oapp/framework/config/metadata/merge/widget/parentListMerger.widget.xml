@@ -1,0 +1,8 @@
+<list xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+      ref-id="childListMerger">
+    <content>
+        <left-top text-field-id="test">
+            <image data="testUrl"/>
+        </left-top>
+    </content>
+</list>

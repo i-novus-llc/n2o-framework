@@ -10,10 +10,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.table.DndColumnCompil
 import net.n2oapp.framework.config.metadata.compile.widget.table.FilterColumnCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.table.MultiColumnCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.table.SimpleColumnCompiler;
-import net.n2oapp.framework.config.metadata.merge.widget.N2oFormMerger;
-import net.n2oapp.framework.config.metadata.merge.widget.N2oTableMerger;
-import net.n2oapp.framework.config.metadata.merge.widget.N2oTilesMerger;
-import net.n2oapp.framework.config.metadata.merge.widget.N2oWidgetMerger;
+import net.n2oapp.framework.config.metadata.merge.widget.*;
 
 public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
 
@@ -39,7 +36,8 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new CalendarCompiler(),
                 new TilesCompiler(),
                 new CardsCompiler());
-        b.mergers(new N2oWidgetMerger(), new N2oFormMerger(), new N2oTableMerger(), new N2oTilesMerger());
+        b.mergers(new N2oWidgetMerger(), new N2oFormMerger(), new N2oTableMerger(),
+                new N2oTilesMerger(), new N2oListMerger());
 
         CrudGenerator crudGenerator = new CrudGenerator();
         N2oButtonGeneratorFactory buttonGeneratorFactory = new N2oButtonGeneratorFactory();

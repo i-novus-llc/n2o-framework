@@ -1,12 +1,11 @@
 package net.n2oapp.framework.config.metadata.merge.widget;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
 import org.springframework.stereotype.Component;
 
 /**
- * Слияние двух виджетов Плитка
+ * Слияние виджетов {@code <tiles>}
  */
 @Component
 public class N2oTilesMerger extends N2oWidgetMerger<N2oTiles> {

@@ -3,4 +3,7 @@
     <fields>
         <input-select id="test2"/>
     </fields>
+    <submit>
+        <invoke operation-id="submit"/>
+    </submit>
 </form>
