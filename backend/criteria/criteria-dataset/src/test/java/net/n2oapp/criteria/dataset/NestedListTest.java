@@ -1,5 +1,8 @@
 package net.n2oapp.criteria.dataset;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -116,6 +119,58 @@ class NestedListTest {
         assertThrows(IllegalArgumentException.class, () -> list.put("[0]123", 1));//there isn't a '.'
     }
 
+    @Test
+    void testResolveObjectValue() {
+        // Test with simple Java object - direct property access
+        NestedList list = new NestedList();
+        TestObject testObj = new TestObject();
+        testObj.setName("Иван");
+        testObj.setAge(30);
+        list.add(testObj);
+
+        assertEquals("Иван", list.get("[0].name"));
+        assertEquals(30, list.get("[0].age"));
+
+        // Test with nested object property
+        TestObject nestedObj = new TestObject();
+        nestedObj.setName("Мария");
+        testObj.setNested(nestedObj);
+        assertEquals("Мария", list.get("[0].nested.name"));
+
+        // Test with non-existent property - should return null
+        assertNull(list.get("[0].nonExistent"));
+
+        // Test with array/list property access
+        TestObject objWithList = new TestObject();
+        objWithList.setTags(Arrays.asList("tag1", "tag2"));
+        list.add(objWithList);
+        assertEquals("tag1", list.get("[1].tags[0]"));
+        assertEquals("tag2", list.get("[1].tags[1]"));
+
+        // Test with method call
+        assertEquals("ИВАН", list.get("[0].name.toUpperCase()"));
+
+        // Test with multiple objects
+        TestObject secondObj = new TestObject();
+        secondObj.setName("Петр");
+        list.add(secondObj);
+        assertEquals("Петр", list.get("[2].name"));
+    }
+
+    @Test
+    void testResolveObjectValueWithExceptions() {
+        NestedList list = new NestedList();
+        TestObject testObj = new TestObject();
+        testObj.setName("Иван");
+        list.add(testObj);
+
+        // Test that PROPERTY_OR_FIELD_NOT_READABLE returns null (not throws)
+        assertNull(list.get("[0].privateField"));
+
+        // Test that other SpEL errors are thrown
+        assertThrows(Exception.class, () -> list.get("[0].invalidExpression("));
+    }
+
     private boolean fail(Supplier<Object> test, Class<? extends Exception> exClass) {
         try {
             test.get();
@@ -126,5 +181,16 @@ class NestedListTest {
             }
             throw e;
         }
+    }
+
+    @Getter
+    @Setter
+    static class TestObject {
+        private String name;
+        private int age;
+        private TestObject nested;
+        private java.util.List<String> tags;
+        @Getter(value = AccessLevel.NONE)
+        private String privateField = "private";
     }
 }
