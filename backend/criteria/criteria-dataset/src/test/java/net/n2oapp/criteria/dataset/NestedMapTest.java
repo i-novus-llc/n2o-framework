@@ -1,5 +1,8 @@
 package net.n2oapp.criteria.dataset;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -914,6 +917,56 @@ class NestedMapTest {
         assertNull(map.remove("list[0]"));
     }
 
+    @Test
+    void testResolveObjectValue() {
+        // Test with simple Java object - direct property access
+        NestedMap map = new NestedMap();
+        TestObject testObj = new TestObject();
+        testObj.setName("Иван");
+        testObj.setAge(30);
+        map.put("person", testObj);
+
+        assertEquals("Иван", map.get("person.name"));
+        assertEquals(30, map.get("person.age"));
+
+        // Test with nested object property
+        TestObject nestedObj = new TestObject();
+        nestedObj.setName("Мария");
+        testObj.setNested(nestedObj);
+        assertEquals("Мария", map.get("person.nested.name"));
+
+        // Test with non-existent property - should return null
+        assertNull(map.get("person.nonExistent"));
+
+        // Test with array/list property access
+        TestObject objWithList = new TestObject();
+        objWithList.setTags(Arrays.asList("tag1", "tag2"));
+        map.put("obj", objWithList);
+        assertEquals("tag1", map.get("obj.tags[0]"));
+        assertEquals("tag2", map.get("obj.tags[1]"));
+
+        // Test with method call
+        assertEquals("ИВАН", map.get("person.name.toUpperCase()"));
+
+        // Test with nested map access after object
+        map.put("person.address", Map.of("city", "Moscow"));
+        assertEquals("Moscow", map.get("person.address.city"));
+    }
+
+    @Test
+    void testResolveObjectValueWithExceptions() {
+        NestedMap map = new NestedMap();
+        TestObject testObj = new TestObject();
+        testObj.setName("Иван");
+        map.put("person", testObj);
+
+        // Test that PROPERTY_OR_FIELD_NOT_READABLE returns null (not throws)
+        assertNull(map.get("person.privateField"));
+
+        // Test that other SpEL errors are thrown
+        assertThrows(Exception.class, () -> map.get("person.invalidExpression("));
+    }
+
     private boolean fail(Supplier<Object> test, Class<? extends Exception> exClass) {
         try {
             test.get();
@@ -924,5 +977,16 @@ class NestedMapTest {
             }
             throw e;
         }
+    }
+
+    @Getter
+    @Setter
+    static class TestObject {
+        private String name;
+        private int age;
+        private TestObject nested;
+        private java.util.List<String> tags;
+        @Getter(value = AccessLevel.NONE)
+        private String privateField = "private";
     }
 }
