@@ -54,11 +54,8 @@ export function WithCell<P extends WrappedComponentProps>(
             (actionModel: Record<string, unknown>) => {
                 setResolve(actionModel)
 
-                if (isEmpty(action) && !isEqual(actionModel, modelRef.current)) {
-                    onUpdateModel(actionModel, rowIndex)
-                } else {
-                    dispatch(action)
-                }
+                if (!isEmpty(action)) { dispatch(action) }
+                if (!isEqual(actionModel, modelRef.current)) { onUpdateModel(actionModel, rowIndex) }
             },
             [setResolve, action, onUpdateModel, rowIndex, dispatch],
         )
