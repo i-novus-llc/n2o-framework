@@ -1,10 +1,12 @@
 import React from 'react'
+import classNames from 'classnames'
 
 import { StandardButton } from '../StandardButton/StandardButton'
 import { useTableWidget } from '../../widgets/AdvancedTable'
+import { type Props } from '../Simple/types'
 
-export function ResetSettings(props: Record<string, unknown>) {
+export function ResetSettings({ className, ...rest }: Props) {
     const { resetSettings } = useTableWidget()
 
-    return <StandardButton {...props} className="reset-settings-btn" onClick={resetSettings} />
+    return <StandardButton {...rest} className={classNames('reset-settings-btn', className)} onClick={resetSettings} />
 }
