@@ -5,7 +5,11 @@ import isNil from 'lodash/isNil'
 
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
-import { COUNT_NEVER, COUNT_BY_REQUEST, type Props as PaginationSnippetProps } from '../../snippets/Pagination/constants'
+import {
+    COUNT_NEVER,
+    COUNT_BY_REQUEST,
+    type Props as PaginationSnippetProps,
+} from '../../snippets/Pagination/constants'
 import { DataSourceModels, ModelPrefix } from '../../../core/datasource/const'
 import request from '../../../utils/request'
 import { type Paging } from '../../../ducks/datasource/Provider'
@@ -20,7 +24,6 @@ export interface Props extends PaginationSnippetProps {
     countDataProvider?: Paging['countDataProvider']
     setPage: PaginationSnippetProps['onSelect']
 }
-
 /**
  * Компонент табличной пейджинации
  */
@@ -46,31 +49,6 @@ export const N2OPagination = (props: Props) => {
 
     const { getComponent } = useContext(FactoryContext)
     const [count, setCount] = useState(propsCount)
-
-    /** FIXME костылек
-     *  default count установлен в 0, при loading = false полученный count приходит с задержкой
-     *  Из за этого бывают мерцания кнопки Узнать кол-во записей */
-    const [showCountButton, setShowCountButton] = useState(false)
-
-    useEffect(() => {
-        let timer: ReturnType<typeof setTimeout>
-
-        // показ кнопки сразу если count не ожидается (по запросу)
-        if (propShowCount === COUNT_BY_REQUEST) {
-            return setShowCountButton(true)
-        }
-
-        if (!loading && (Number(count) >= 0)) {
-            // показ кнопки с задержкой после окончания загрузки
-            timer = setTimeout(() => { setShowCountButton(true) }, 300)
-        }
-
-        return () => {
-            if (timer) {
-                clearTimeout(timer)
-            }
-        }
-    }, [loading, count, propShowCount])
 
     /** @INFO для кейса получение кол-ва записей COUNT_BY_REQUEST с фильтрацией
      *  после фильтрации устанавливает count => null, для отображение count request кнопки
@@ -120,7 +98,7 @@ export const N2OPagination = (props: Props) => {
                 count={count}
                 visible={showCount && !loading}
                 onClick={onClick}
-                showCountButton={showCountButton}
+                showCountButton={propShowCount === COUNT_BY_REQUEST}
             />
             <Pagination
                 {...props}
