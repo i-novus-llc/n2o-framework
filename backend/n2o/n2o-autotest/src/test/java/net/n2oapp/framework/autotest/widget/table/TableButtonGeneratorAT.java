@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -92,14 +93,20 @@ class TableButtonGeneratorAT extends AutoTestBase {
         search.shouldBeVisible();
         reset.shouldBeVisible();
 
-        toolbar.button(0, N2oStandardButton.class).shouldHaveIcon("fa fa-filter");
-        toolbar.button(0, N2oStandardButton.class).click();
+        N2oStandardButton filterButton = toolbar.button(0, N2oStandardButton.class);
+        filterButton.shouldHaveIcon("fa fa-filter");
+
+        filterButton.hover();
+        Tooltip tooltip = filterButton.tooltip();
+        tooltip.shouldHaveText(new String[]{"Фильтры"});
+
+        filterButton.click();
         inputName.shouldBeHidden();
         inputRegion.shouldBeHidden();
         search.shouldBeHidden();
         reset.shouldBeHidden();
 
-        toolbar.button(0, N2oStandardButton.class).click();
+        filterButton.click();
         inputName.shouldBeVisible();
         inputRegion.shouldBeVisible();
         search.shouldBeVisible();
@@ -113,14 +120,14 @@ class TableButtonGeneratorAT extends AutoTestBase {
         button.menuItem("Наименование").click();
 
         table.columns().rows().row(0).cell(2).shouldHaveText("ТМК");
-        toolbar.button(0, N2oStandardButton.class).click();
+        filterButton.click();
         inputName.shouldBeHidden();
         inputRegion.shouldBeHidden();
         search.shouldBeHidden();
         reset.shouldBeHidden();
         table.columns().rows().shouldHaveSize(1);
 
-        toolbar.button(0, N2oStandardButton.class).click();
+        filterButton.click();
         inputName.shouldHaveValue("ТМК");
         table.columns().rows().shouldHaveSize(1);
     }
@@ -134,6 +141,11 @@ class TableButtonGeneratorAT extends AutoTestBase {
         N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);
         button.shouldBeCollapsed();
         button.shouldHaveIcon("fa fa-table");
+
+        button.hover();
+        Tooltip tooltip = button.tooltip();
+        tooltip.shouldHaveText(new String[]{"Скрытие столбцов"});
+
         button.click();
         checkInitials(button);
 
@@ -294,6 +306,10 @@ class TableButtonGeneratorAT extends AutoTestBase {
         Button delete = table.toolbar().topLeft().button("Удалить");
         Button refresh = table.toolbar().topRight().button(2, N2oStandardButton.class);
 
+        refresh.hover();
+        Tooltip tooltip = refresh.tooltip();
+        tooltip.shouldHaveText(new String[]{"Обновить"});
+
         table.columns().rows().row(0).cell(2).shouldHaveText("РМИС Республика Адыгея(СТП)");
         create.click();
         table.columns().rows().row(0).cell(2).shouldHaveText("РМИС Республика Адыгея(СТП)");
@@ -321,6 +337,10 @@ class TableButtonGeneratorAT extends AutoTestBase {
         N2oDropdownButton resize = table.toolbar().topRight().button(3, N2oDropdownButton.class);
         table.columns().rows().shouldHaveSize(25);
         table.paging().lastShouldHavePage("3");
+
+        resize.hover();
+        Tooltip tooltip = resize.tooltip();
+        tooltip.shouldHaveText(new String[]{"Количество записей"});
 
         resize.click();
         checkInitialState(resize);
@@ -423,6 +443,10 @@ class TableButtonGeneratorAT extends AutoTestBase {
 
         StandardButton exportBtn = table.toolbar().topRight().button(5, StandardButton.class);
         exportBtn.shouldBeVisible();
+
+        exportBtn.hover();
+        Tooltip tooltip = exportBtn.tooltip();
+        tooltip.shouldHaveText(new String[]{"Экспортировать"});
 
         exportBtn.click();
 
@@ -664,6 +688,11 @@ class TableButtonGeneratorAT extends AutoTestBase {
         resizeButton.menuItem("10").click();
 
         N2oStandardButton wordWrapButton = toolbar.button(4, N2oStandardButton.class);
+
+        wordWrapButton.hover();
+        Tooltip tooltip = wordWrapButton.tooltip();
+        tooltip.shouldHaveText(new String[]{"Перенос по словам"});
+
         wordWrapButton.click();
         table.shouldNotBeWordWrapped();
 
@@ -687,6 +716,11 @@ class TableButtonGeneratorAT extends AutoTestBase {
 
         //сбросить значения
         N2oStandardButton resetSettingsButton = toolbar.button(6, N2oStandardButton.class);
+
+        resetSettingsButton.hover();
+        tooltip = resetSettingsButton.tooltip();
+        tooltip.shouldHaveText(new String[]{"Сброс к настройкам по умолчанию"});
+
         resetSettingsButton.click();
 
         //проверить значения

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
 
 import type { DropdownItemProps } from '../types'
 import { Column } from '../Column'
@@ -20,7 +20,8 @@ type ChildrenColumnProps = DropdownItemProps & { level: number }
 export function ChildrenColumn({ item, level, onClick }: ChildrenColumnProps) {
     const { columnId, visibleState, parentId } = item
 
-    const handleClick = () => {
+    const handleClick = (e: MouseEvent) => {
+        e.stopPropagation()
         onClick?.(columnId, visibleState, parentId)
     }
 
@@ -44,8 +45,14 @@ export interface ParentColumnProps {
 export function ParentColumn({
     onClick, level, label, checked, indeterminate, enabled,
 }: ParentColumnProps) {
+    const handleClick = (e: MouseEvent) => {
+        e.stopPropagation()
+
+        onClick()
+    }
+
     return (
-        <section className="d-flex n2o-multi-toggle-column__parent-item" onClick={onClick}>
+        <section className="d-flex n2o-multi-toggle-column__parent-item" onClick={handleClick}>
             <Stubs count={level - 1} />
             <MultiColumnLabel
                 label={label}
