@@ -3,6 +3,7 @@ import React, { ComponentType, useContext, forwardRef, cloneElement } from 'reac
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 
+// TODO необходим рефакторинг, должен работать без `forwardedRef` который нужно устанавливать в ручную
 export interface TooltipHocProps {
     hint?: string | number | React.Component | Element[] | ComponentType | JSX.Element[] | null
     placement?: string

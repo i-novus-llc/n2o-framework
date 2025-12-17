@@ -1,15 +1,24 @@
-import React, { useContext, useCallback, useMemo } from 'react'
+import React, { useContext, useCallback, useMemo, MouseEvent } from 'react'
 import { connect } from 'react-redux'
-import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { combineRefs } from '@i-novus/n2o-components/lib/inputs/utils'
 
 import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
 import { DataSourceContext } from '../../../core/widget/context'
 import { type State } from '../../../ducks/State'
 import { dataSourceProviderSizeSelector } from '../../../ducks/datasource/selectors'
+import { useDropdownEvents } from '../useDropdownEvents'
+import { Tooltip } from '../../snippets/Tooltip/TooltipHOC'
+import { UseDropDownProps } from '../ToggleColumn/types'
 
 export const DEFAULT_SIZE = [5, 10, 20, 50]
 
-export interface Props {
+// eslint-disable-next-line react/no-unused-prop-types
+interface ConnectedProps { entityKey: string, datasource: string }
+
+type Enhancer = ConnectedProps & UseDropDownProps
+
+export interface Props extends Enhancer {
     size: number[]
     icon: string
     label: string
@@ -18,11 +27,15 @@ export interface Props {
     widgetSize: number
 }
 
-function ChangeSizeComponent({
+function Component({
     defaultSize,
     widgetSize,
     icon,
     label,
+    isOpen,
+    onClick,
+    forwardedRef,
+    clickOutsideRef,
     size = DEFAULT_SIZE,
     nested = false,
 }: Props) {
@@ -42,41 +55,61 @@ function ChangeSizeComponent({
     }, [size, defaultSize])
 
     return (
-        <UncontrolledButtonDropdown direction={nested ? 'right' : 'down'}>
-            <DropdownToggle caret>
-                {icon && <i className={icon} />}
-                {label}
-            </DropdownToggle>
-            <DropdownMenu>
-                {sizes.map((size) => {
-                    const isActive = widgetSize === size
+        <ButtonDropdown isOpen={isOpen} onClick={onClick} direction={nested ? 'right' : 'down'}>
+            <div className="n2o-dropdown n2o-toggle-column visible" ref={combineRefs(clickOutsideRef, forwardedRef)}>
+                <DropdownToggle caret>
+                    {icon && <i className={icon} />}
+                    {label}
+                </DropdownToggle>
+                <DropdownMenu>
+                    {sizes.map((size) => {
+                        const isActive = widgetSize === size
 
-                    const onClick = () => {
-                        if (isActive) { return }
-                        onSelect(size)
-                    }
+                        const onItemClick = (e: MouseEvent) => {
+                            e.stopPropagation()
 
-                    return (
-                        <DropdownItem disabled={isActive} toggle={false} onClick={onClick}>
-                            <span className="n2o-dropdown-check-container">
-                                {isActive && <i className="fa fa-check" aria-hidden="true" />}
-                            </span>
-                            <span>{size}</span>
-                        </DropdownItem>
-                    )
-                })}
-            </DropdownMenu>
-        </UncontrolledButtonDropdown>
+                            if (isActive) { return }
+                            onSelect(size)
+                        }
+
+                        return (
+                            <DropdownItem disabled={isActive} toggle={false} onClick={onItemClick}>
+                                <span className="n2o-dropdown-check-container">
+                                    {isActive && <i className="fa fa-check" aria-hidden="true" />}
+                                </span>
+                                <span>{size}</span>
+                            </DropdownItem>
+                        )
+                    })}
+                </DropdownMenu>
+            </div>
+        </ButtonDropdown>
     )
 }
 
-const mapStateToProps = (state: State, { entityKey, datasource }: { entityKey: string, datasource: string }) => ({
+Component.displayName = 'ChangeSizeComponent'
+
+const mapStateToProps = (state: State, { entityKey, datasource }: ConnectedProps) => ({
     /** dataSource size определенный в провайдере */
     defaultSize: dataSourceProviderSizeSelector(datasource)(state),
     /** текущий изменяемый size виджета */
     widgetSize: makeWidgetSizeSelector(entityKey)(state),
 })
 
-const ChangeSize = connect(mapStateToProps)(ChangeSizeComponent)
+const ChangeSizeConnected = connect(mapStateToProps)(Component)
 
-export { ChangeSize, ChangeSizeComponent }
+ChangeSizeConnected.displayName = 'ChangeSizeConnected'
+
+export const ChangeSize = ({ hint, ...rest }: Props) => {
+    const { isOpen, onClick, hint: resolvedHint, clickOutsideRef } = useDropdownEvents({ hint })
+
+    return (
+        <Tooltip hint={resolvedHint}>
+            <ChangeSizeConnected {...rest} isOpen={isOpen} onClick={onClick} clickOutsideRef={clickOutsideRef} />
+        </Tooltip>
+    )
+}
+
+ChangeSize.displayName = 'ChangeSize'
+
+export default ChangeSize

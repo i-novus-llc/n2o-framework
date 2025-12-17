@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
 import { useStore } from 'react-redux'
-import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu } from 'reactstrap'
+import { DropdownToggle, DropdownMenu, ButtonDropdown } from 'reactstrap'
 import classNames from 'classnames'
 import get from 'lodash/get'
+import { combineRefs } from '@i-novus/n2o-components/lib/inputs/utils'
 
 import { useTableWidget } from '../../widgets/AdvancedTable'
 import { makeTableByIdSelector } from '../../../ducks/table/selectors'
@@ -10,6 +11,8 @@ import { VISIBLE_STATE } from '../../../ducks/table/constants'
 import { useReduxButton } from '../useReduxButton'
 import { type HeaderCell } from '../../../ducks/table/Table'
 import { TableActionsProvider } from '../../Table/provider/TableActions'
+import { Tooltip } from '../../snippets/Tooltip/TooltipHOC'
+import { useDropdownEvents } from '../useDropdownEvents'
 
 import { type ToggleColumnProps } from './types'
 import { DRAG_WRAPPER_CLASS, DragAndDropColumn } from './DragAndDropColumn/DragAndDropColumn'
@@ -17,9 +20,8 @@ import { Column } from './Column'
 import { DragHandle } from './DragAndDropColumn/DragHandle'
 import { MultiColumn } from './MultiColumn/MultiColumn'
 
-export const ToggleColumn = (props: ToggleColumnProps) => {
-    const { icon, label, entityKey: widgetId, nested = false } = props
-
+const Component = (props: ToggleColumnProps) => {
+    const { icon, label, entityKey: widgetId, forwardedRef, clickOutsideRef, isOpen, onClick, nested = false } = props
     const { getState } = useStore()
 
     const { header } = makeTableByIdSelector(widgetId)(getState())
@@ -40,15 +42,15 @@ export const ToggleColumn = (props: ToggleColumnProps) => {
     const menuId = `${widgetId}-toggle-menu`
 
     return (
-        <UncontrolledButtonDropdown direction={nested ? 'right' : 'down'}>
-            <div className="n2o-dropdown n2o-toggle-column visible">
+        <ButtonDropdown onClick={onClick} isOpen={isOpen} direction={nested ? 'right' : 'down'}>
+            <div className="n2o-dropdown n2o-toggle-column visible" ref={combineRefs(clickOutsideRef, forwardedRef)}>
                 <div>
                     <DropdownToggle caret>
                         {icon && <i className={icon} />}
                         {label}
                     </DropdownToggle>
 
-                    <DropdownMenu id={menuId} className={classNames('n2o-toggle-column__menu', { moveMode: hasMoveMode })}>
+                    <DropdownMenu id={menuId} className={classNames('n2o-toggle-column__menu', { moveMode: hasMoveMode })} onClick={(e: MouseEvent) => e.stopPropagation()}>
                         {cells.map((cell) => {
                             const { columnId, visible, moveMode, children } = cell
 
@@ -95,7 +97,19 @@ export const ToggleColumn = (props: ToggleColumnProps) => {
                     </DropdownMenu>
                 </div>
             </div>
-        </UncontrolledButtonDropdown>
+        </ButtonDropdown>
+    )
+}
+
+Component.displayName = 'ToggleColumnComponent'
+
+export const ToggleColumn = ({ hint, ...rest }: ToggleColumnProps) => {
+    const { isOpen, onClick, hint: resolvedHint, clickOutsideRef } = useDropdownEvents({ hint })
+
+    return (
+        <Tooltip hint={resolvedHint}>
+            <Component {...rest} isOpen={isOpen} onClick={onClick} clickOutsideRef={clickOutsideRef} />
+        </Tooltip>
     )
 }
 

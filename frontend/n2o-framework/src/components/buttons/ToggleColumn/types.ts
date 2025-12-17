@@ -1,8 +1,16 @@
-import { type MouseEvent } from 'react'
+import { type MouseEvent, type RefObject } from 'react'
 
 import { type HeaderCell, MOVE_MODE } from '../../../ducks/table/Table'
 
-export interface ToggleColumnProps {
+export interface UseDropDownProps {
+    forwardedRef: RefObject<HTMLDivElement>
+    isOpen: boolean
+    onClick(): void
+    hint?: string
+    clickOutsideRef: RefObject<HTMLDivElement>
+}
+
+export interface ToggleColumnProps extends UseDropDownProps {
     id: string
     icon?: string
     label?: string
