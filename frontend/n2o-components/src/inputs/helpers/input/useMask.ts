@@ -22,7 +22,7 @@ interface Params {
 }
 
 export function useMask(params: Params) {
-    const { mask, placeholder, defaultValue, processors } = params
+    const { mask, placeholder, defaultValue, processors, ...rest } = params
 
     const options = useMemo(() => {
         const {
@@ -57,6 +57,7 @@ export function useMask(params: Params) {
                     maskitoUpdateElement(element, cleanValue)
                 }),
             ],
+            ...rest,
 
         }
     }, [mask])

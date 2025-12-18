@@ -1,15 +1,16 @@
 import React from 'react'
 import flowRight from 'lodash/flowRight'
 import { maskitoDateTimeOptionsGenerator, maskitoDateOptionsGenerator } from '@maskito/kit'
-import { useMaskito } from '@maskito/react'
 
 import { combineRefs } from '../../utils'
 import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
+import { useMask } from '../../helpers/input/useMask'
 
 import { WithFormat } from './WithFormat'
 import { WithEvents } from './WithEvents'
 import { WithDecorators } from './WithDecorators'
 import { type DateMaskProps } from './types'
+import { getFloatingPlaceholder } from './helpers'
 
 function Component({
     className,
@@ -50,13 +51,18 @@ function Component({
             max,
         })
 
-    const maskRef = useMaskito({ options })
+    const { maskRef, maskedValue } = useMask({
+        ...options,
+        mask: options.mask,
+        placeholder: getFloatingPlaceholder(dateMode, timeMode),
+        defaultValue: value,
+    })
 
     return (
         <div className={className}>
             {prefixComponent}
             <input
-                value={value || ''}
+                value={maskedValue}
                 ref={combineRefs(maskRef, ref)}
                 className={inputClassName}
                 style={style}
