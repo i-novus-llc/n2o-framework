@@ -22,7 +22,7 @@ export function getDateModeInfo(format: string): { separator: string; mode: stri
         return part
     })
 
-    const mode = convertedParts.join('/')
+    const mode = convertedParts.join(separator || '/')
 
     return { separator, mode }
 }
