@@ -123,16 +123,25 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             }
         }
 
-        componentDidUpdate({ datasourceModel: prevDatasourceModel }: Props) {
-            const { datasourceModel } = this.props
+        componentDidUpdate({ datasourceModel: prevDatasourceModel, data: prevData }: Props) {
+            const { datasourceModel, data, page, count, size } = this.props
+            const { merge } = this.state
 
             if (datasourceModel && !isEqual(datasourceModel, prevDatasourceModel)) {
-                const { merge } = this.state
-                const { page, count, size } = this.props
-
                 // @INFO данные полученные datasource fetchData
                 this.setState({
                     data: merge ? [...prevDatasourceModel, ...datasourceModel] : datasourceModel,
+                    page,
+                    count,
+                    size,
+                })
+
+                return
+            }
+
+            if (data && !isEqual(data, prevData)) {
+                this.setState({
+                    data: merge ? [...prevData, ...data] : data,
                     page,
                     count,
                     size,
