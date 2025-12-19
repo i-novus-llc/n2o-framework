@@ -1,4 +1,4 @@
-import { ReactNode, LegacyRef } from 'react'
+import { ReactNode } from 'react'
 import { ButtonProps } from '@i-novus/n2o-components/lib/button/Button'
 import { type Props as BadgeProps } from '@i-novus/n2o-components/lib/display/Badge/Badge'
 
@@ -19,5 +19,5 @@ export interface Props extends Extension {
     badge?: BadgeProps
     dataSourceIsLoading?: boolean
     iconPosition?: ICON_POSITIONS
-    forwardedRef: LegacyRef<HTMLDivElement>
+    forwardedRef: React.Ref<HTMLButtonElement>
 }

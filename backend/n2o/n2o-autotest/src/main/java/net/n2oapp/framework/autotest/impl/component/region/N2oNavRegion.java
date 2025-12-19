@@ -57,7 +57,7 @@ public class N2oNavRegion extends N2oRegion implements NavRegion {
 
         @Override
         public void click() {
-            element().$(".btn").click();
+            element().click();
         }
     }
 

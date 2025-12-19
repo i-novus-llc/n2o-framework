@@ -13,7 +13,7 @@ import { type PanelTitleProps } from './types'
 export function PanelTitle({ icon, children, toggleCollapse }: PanelTitleProps) {
     return (
         <a className="n2o-panel-region__panel-title" onClick={toggleCollapse}>
-            {icon && <Icon name={icon} className="p-0 mr-2" />}
+            <Icon name={icon} className="p-0 mr-2" />
             {children}
         </a>
     )

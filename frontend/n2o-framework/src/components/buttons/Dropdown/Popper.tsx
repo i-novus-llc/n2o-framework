@@ -30,7 +30,7 @@ function Component({
                     {({ ref }) => (
                         <SimpleButton
                             {...rest}
-                            forwardedRef={forwardedRef}
+                            forwardedRef={forwardedRef as React.Ref<HTMLButtonElement>}
                             // FIXME из за автотеста который для чего то проверяет что кнопки в DOM но невидимы
                             // visible={visible}
                             actionCallback={actionCallback}

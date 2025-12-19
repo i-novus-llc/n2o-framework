@@ -46,7 +46,7 @@ export const collectionToComponentObject = (
         datasource.forEach((data) => {
             buf[data[valueFieldId]] = {
                 ...data,
-                icon: has(data, iconFieldId) && <Icon key={uniqueId('tree_icon_')} name={data[iconFieldId]} />,
+                icon: <Icon key={uniqueId('tree_icon_')} name={data[iconFieldId]} />,
                 key: data[valueFieldId],
                 title: React.createElement(Component, { data, ...props }),
                 children: [],

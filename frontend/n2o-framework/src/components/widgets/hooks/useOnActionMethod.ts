@@ -1,20 +1,13 @@
 import { useCallback } from 'react'
-import isEmpty from 'lodash/isEmpty'
-import merge from 'deepmerge'
-import { push } from 'connected-react-router'
-import { useStore } from 'react-redux'
 
 import { useDispatch } from '../../../core/Redux/useDispatch'
-import { ModelPrefix } from '../../../core/datasource/const'
 import evalExpression from '../../../utils/evalExpression'
-import { dataProviderResolver } from '../../../core/dataProviderResolver'
 
 type ActionFunc = (model: never) => void
 
 export type ClickAction = Record<string, never>
 
-export const useOnActionMethod = <Action extends ClickAction>(modelsId: string, config?: Action) => {
-    const store = useStore()
+export const useOnActionMethod = <Action extends ClickAction>(config?: Action) => {
     const dispatch = useDispatch()
 
     return (
@@ -28,10 +21,6 @@ export const useOnActionMethod = <Action extends ClickAction>(modelsId: string, 
             const {
                 enablingCondition,
                 action,
-                url,
-                pathMapping,
-                queryMapping,
-                target,
             } = config
 
             const allowRowClick = (
@@ -42,32 +31,7 @@ export const useOnActionMethod = <Action extends ClickAction>(modelsId: string, 
 
             if (action && allowRowClick) {
                 dispatch(action)
-
-                return
             }
-
-            if (url) {
-                const state = store.getState()
-                const updatedState = !isEmpty(model) ? merge(state, {
-                    models: {
-                        [ModelPrefix.active]: {
-                            [modelsId]: model,
-                        },
-                    },
-                }) : state
-
-                // @ts-ignore import from js file
-                const { url: compiledUrl } = dataProviderResolver(updatedState, { url, pathMapping, queryMapping })
-
-                if (target === 'application') {
-                    dispatch(push(compiledUrl))
-                } else if (target === '_blank') {
-                    window.open(compiledUrl)
-                } else {
-                    // @ts-ignore import from js file
-                    window.location = compiledUrl
-                }
-            }
-        }, [config, dispatch, modelsId, store])
+        }, [config, dispatch])
     )
 }

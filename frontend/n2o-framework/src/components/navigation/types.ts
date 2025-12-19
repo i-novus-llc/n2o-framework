@@ -1,26 +1,27 @@
-import { CSSProperties } from 'react'
+import { CSSProperties, ReactNode } from 'react'
 import {
     type PanelProps,
     type LinkProps,
     type GroupProps,
     type DropdownProps,
-    LinkTarget,
     Position,
     GroupView,
 } from '@i-novus/n2o-components/lib/navigation/types'
 
 import { type Mapping } from '../../ducks/datasource/Provider'
 import { type DataSourceModels, ModelPrefix } from '../../core/datasource/const'
+import { LinkTarget } from '../core/router/types'
 
 export type Content = Array<{
     src: string
     id: string
+    className?: string
 }>
 
 interface BaseNavigationItem {
     src: string
     id: string
-    label: string
+    label: string | ReactNode
     icon?: string
     iconPosition?: Position
     visible?: boolean | string
@@ -49,7 +50,6 @@ type NavigationLinkPropsEnhancer = BaseNavigationItem & WithDataSourceFeatures
 
 export interface NavigationLinkProps extends NavigationLinkPropsEnhancer {
     url: string
-    rootClassName?: string
     target: LinkTarget
     queryMapping: Mapping
     pathMapping: Mapping

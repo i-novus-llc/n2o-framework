@@ -3,12 +3,14 @@ import get from 'lodash/get'
 import omit from 'lodash/omit'
 import flowRight from 'lodash/flowRight'
 import classNames from 'classnames'
+import { Link } from '@i-novus/n2o-components/lib/navigation/Link'
 
 import { WithCell } from '../../withCell'
 import { withTooltip } from '../../withTooltip'
 import StandardButton from '../../../../buttons/StandardButton/StandardButton'
 import { DefaultCell } from '../DefaultCell'
 import { EMPTY_OBJECT } from '../../../../../utils/emptyTypes'
+import { useLink } from '../../../../core/router/useLink'
 
 import { CELL_TYPE, type Props } from './types'
 
@@ -25,6 +27,7 @@ function LinkCellBody({
     action,
     resolveWidget,
     model = EMPTY_OBJECT,
+    target,
     ...rest
 }: Props) {
     const modelUrl = get(model, 'url', '') as string
@@ -46,18 +49,18 @@ function LinkCellBody({
         return propsUrl
     }
 
-    const url = createUrl()
+    const href = createUrl()
 
     const submitType = useMemo(() => {
         if (type === CELL_TYPE.TEXT) {
-            return { label: get(model, fieldKey || id, '') }
+            return { label: get(model, fieldKey || id, '') as string }
         }
 
         if (type === CELL_TYPE.ICON) {
             return { icon }
         }
 
-        return { icon, label: get(model, fieldKey || id, '') }
+        return { icon, label: get(model, fieldKey || id, '') as string }
     }, [type, model, fieldKey, id, icon])
 
     const onClick = (e?: MouseEvent) => {
@@ -65,6 +68,7 @@ function LinkCellBody({
 
         onResolve(e)
     }
+    const { active, ...linkProps } = useLink({ href, disabled, target })
 
     return (
         <DefaultCell
@@ -72,17 +76,28 @@ function LinkCellBody({
             disabled={disabled}
             onClick={onClick}
         >
-            <StandardButton
-                id={id}
-                className={classNames(className, 'n2o-link-cell')}
-                color="link"
-                model={model}
-                entityKey={widgetId}
-                {...submitType}
-                {...omit(rest, ['icon', 'label', 'resolveWidget', 'columnId', 'dispatch'])}
-                url={url}
-                href={url}
-            />
+            {
+                href
+                    ? (
+                        <Link
+                            className={classNames(className, 'n2o-link-cell', { active })}
+                            disabled={disabled}
+                            {...linkProps}
+                            {...submitType}
+                        />
+                    )
+                    : (
+                        <StandardButton
+                            id={id}
+                            className={classNames(className, 'n2o-link-cell')}
+                            color="link"
+                            model={model}
+                            entityKey={widgetId}
+                            {...submitType}
+                            {...omit(rest, ['icon', 'label', 'resolveWidget', 'columnId', 'dispatch'])}
+                        />
+                    )
+            }
         </DefaultCell>
     )
 }

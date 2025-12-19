@@ -38,7 +38,7 @@ function IconCellBody({
                 'icon-cell-container__text-left': iconPosition === ICON_POSITION.RIGHT,
             })}
         >
-            {icon && <Icon name={icon} style={style} />}
+            <Icon name={icon} style={style} />
             {text && <div className="n2o-cell-text"><Text>{text}</Text></div>}
         </div>
     )

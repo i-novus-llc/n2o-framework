@@ -68,7 +68,8 @@ class SubPageRegionAT extends AutoTestBase {
         Toolbar toolbar = form.toolbar().bottomLeft();
 
         SimplePage subPage = userPage.regions().region(1, SubPageRegion.class).content(SimplePage.class);
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2");
+        // При открытии должен быть редирект на default-page
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2/info");
         form = subPage.widget(FormWidget.class);
         form.fields().field("userInfo").control(OutputText.class).shouldHaveValue("USER INFO");
         userPage.breadcrumb().crumb(2).shouldHaveLabel("userInfo sub-page");
@@ -117,7 +118,7 @@ class SubPageRegionAT extends AutoTestBase {
         userPage.breadcrumb().crumb(1).shouldHaveLabel("Страница пользователя");
 
         SimplePage subPage = userPage.regions().region(0, SubPageRegion.class).content(SimplePage.class);
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3");
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3/info");
         FormWidget form = subPage.widget(FormWidget.class);
         form.fields().field("userInfo").control(OutputText.class).shouldHaveValue("USER INFO");
 

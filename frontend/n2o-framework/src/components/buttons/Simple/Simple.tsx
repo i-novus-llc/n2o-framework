@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import { Button } from '@i-novus/n2o-components/lib/button/Button'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
-import { ROOT_CLASS_NAME_PARAM } from '@i-novus/n2o-components/lib/navigation/helpers'
 
 import { Position } from '../../snippets/Badge/enums'
 import { IconContainer, ICON_POSITIONS } from '../../snippets/IconContainer/IconContainer'
@@ -33,7 +32,6 @@ export const SimpleButton = ({
     count,
     children,
     className,
-    [ROOT_CLASS_NAME_PARAM]: rootClassName,
     badge,
     forwardedRef,
     url,
@@ -58,50 +56,49 @@ export const SimpleButton = ({
     const showBadge = FactoryBadge && (!isEmpty(badge) || typeof count === 'number')
 
     return (
-        <div ref={forwardedRef} className={rootClassName}>
-            <Button
-                id={id}
-                tag={tag}
-                onClick={onClick}
-                disabled={disabled}
-                rounded={rounded && !label}
-                className={classNames(className, {
-                    'btn-rounded__with-content': rounded && label,
-                    'btn-with-entity': badge || (count || count === 0),
-                    'with-badge': badge && (text || typeof count === 'number'),
-                    'with-label': label,
-                    'with-icon': icon,
-                    [`btn-badge-position--${position}`]: position,
-                })}
-                onKeyDown={(event) => {
-                    if (onKeyDown) {
-                        onKeyDown(event)
+        <Button
+            id={id}
+            innerRef={forwardedRef}
+            tag={tag}
+            onClick={onClick}
+            disabled={disabled}
+            rounded={rounded && !label}
+            className={classNames(className, {
+                'btn-rounded__with-content': rounded && label,
+                'btn-with-entity': badge || (count || count === 0),
+                'with-badge': badge && (text || typeof count === 'number'),
+                'with-label': label,
+                'with-icon': icon,
+                [`btn-badge-position--${position}`]: position,
+            })}
+            onKeyDown={(event) => {
+                if (onKeyDown) {
+                    onKeyDown(event)
 
-                        return
-                    }
+                    return
+                }
 
-                    if (event.code === CLICK_EVENTS.ENTER || event.code === CLICK_EVENTS.NUMPAD_ENTER) {
-                        onClick(event as never)
-                    }
-                }}
-                href={url}
-                {...rest}
-            >
-                <IconContainer icon={icon} iconPosition={iconPosition}>
-                    {icon && <Icon name={icon} className="n2o-btn-icon" />}
-                    <Text>{children || label}</Text>
-                </IconContainer>
-                {showBadge && (
-                    <FactoryBadge
-                        {...badge}
-                        text={text || convertCounter(count)}
-                        hasMargin={false}
-                        color={badge?.color || 'primary'}
-                        className="n2o-btn-badge"
-                    />
-                )}
-            </Button>
-        </div>
+                if (event.code === CLICK_EVENTS.ENTER || event.code === CLICK_EVENTS.NUMPAD_ENTER) {
+                    onClick(event as never)
+                }
+            }}
+            href={url}
+            {...rest}
+        >
+            <IconContainer icon={icon} iconPosition={iconPosition}>
+                <Icon name={icon} className="n2o-btn-icon" />
+                <Text>{children || label}</Text>
+            </IconContainer>
+            {showBadge && (
+                <FactoryBadge
+                    {...badge}
+                    text={text || convertCounter(count)}
+                    hasMargin={false}
+                    color={badge?.color || 'primary'}
+                    className="n2o-btn-badge"
+                />
+            )}
+        </Button>
     )
 }
 

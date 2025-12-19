@@ -1,6 +1,6 @@
 // TODO пока тут оставил, в будущем, наверно, вся meta переедет вместе с типами
 import { Meta as N2OMeta } from '../ducks/Action'
-import { LinkTarget } from '../constants/linkTarget'
+import { LinkTarget } from '../components/core/router/types'
 
 export enum MetaType {
     Refresh = 'refresh',

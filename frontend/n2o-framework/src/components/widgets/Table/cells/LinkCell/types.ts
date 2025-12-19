@@ -1,5 +1,7 @@
 import { RefObject } from 'react'
 
+import { LinkTarget } from '../../../../core/router/types'
+
 export enum CELL_TYPE {
     ICON = 'icon',
     TEXT = 'text',
@@ -22,4 +24,5 @@ export interface Props {
     model: LinkCellModel
     forwardedRef: RefObject<HTMLElement>
     tooltipFieldId: string
+    target: LinkTarget
 }

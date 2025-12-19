@@ -5,10 +5,9 @@ import React, {
     Context,
 } from 'react'
 import { Dropdown as ReactstrapDropdown, DropdownToggle, DropdownMenu } from 'reactstrap'
-import classNames from 'classnames'
 
 import { type DropdownProps, Trigger, Position } from './types'
-import { CHILD_ROOT_CLASS_NAME, GroupChildren, ROOT_CLASS_NAME_PARAM } from './helpers'
+import { mapWithClassName } from './helpers'
 
 export const LevelContext: Context<number> = createContext(0)
 
@@ -20,7 +19,6 @@ export function Dropdown({
     trigger = Trigger.CLICK,
     position = Position.RIGHT,
     disabled = false,
-    [ROOT_CLASS_NAME_PARAM]: rootClassName,
 }: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false)
     const currentLevel = useContext(LevelContext)
@@ -49,7 +47,7 @@ export function Dropdown({
             toggle={handleToggle}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={classNames(className, rootClassName)}
+            className={className}
             style={style}
             disabled={disabled}
             inNavbar={currentLevel > 0}
@@ -82,7 +80,7 @@ export function Dropdown({
                 modifiers={currentLevel > 0 ? [{ name: 'flip', enabled: currentLevel < 3 }] : undefined}
             >
                 <LevelContext.Provider value={currentLevel + 1}>
-                    <GroupChildren rootClassName={CHILD_ROOT_CLASS_NAME}>{children}</GroupChildren>
+                    {mapWithClassName(children)}
                 </LevelContext.Provider>
             </DropdownMenu>
         </ReactstrapDropdown>
