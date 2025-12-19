@@ -118,7 +118,7 @@ function SearchBar({
                             onClick={onClear}
                         />
                     )}
-                    {isString(icon) ? <Icon className={icon} /> : icon}
+                    {isString(icon) ? <Icon name={icon} /> : icon}
                 </div>
                 {isEmpty(menu) ? (
                     <SearchBarEmptyMenu

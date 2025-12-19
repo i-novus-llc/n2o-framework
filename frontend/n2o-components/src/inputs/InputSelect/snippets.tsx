@@ -24,5 +24,5 @@ export function PopupIcon({ item, iconFieldId }: {
 
     const iconName = get(item, iconFieldId, null)
 
-    return iconName && <Icon name={iconName} />
+    return <Icon name={iconName} />
 }

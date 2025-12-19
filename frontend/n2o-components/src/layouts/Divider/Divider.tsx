@@ -1,8 +1,6 @@
 import React, { CSSProperties } from 'react'
 import classNames from 'classnames'
 
-import { ROOT_CLASS_NAME_PARAM } from '../../navigation/helpers'
-
 export enum TYPE {
     HORIZONTAL = 'horizontal',
     VERTICAL = 'vertical',
@@ -22,7 +20,6 @@ export interface DividerProps {
     thickness?: number | string
     variant?: VARIANT
     gap?: string | null
-    rootClassName?: string
 }
 
 function getThickness(thickness: number | string): string {
@@ -38,7 +35,6 @@ export function Divider({
     thickness = 1,
     variant = VARIANT.SOLID,
     type = TYPE.HORIZONTAL,
-    [ROOT_CLASS_NAME_PARAM]: rootClassName,
 }: DividerProps) {
     const computedStyle: CSSProperties = {
         flexShrink: 0,
@@ -55,5 +51,5 @@ export function Divider({
         ...style,
     }
 
-    return <div className={classNames('divider', className, rootClassName)} style={computedStyle} />
+    return <div className={classNames('divider', className)} style={computedStyle} />
 }

@@ -8,7 +8,7 @@ import React, {
 import classNames from 'classnames'
 
 import { type GroupProps, Position, GroupView } from './types'
-import { CHILD_ROOT_CLASS_NAME, GroupChildren, ROOT_CLASS_NAME_PARAM } from './helpers'
+import { mapWithClassName } from './helpers'
 
 const GroupLevelContext = createContext(0)
 
@@ -21,7 +21,6 @@ export function Group({
     collapsible = true,
     defaultState = GroupView.EXPANDED,
     iconPosition = Position.LEFT,
-    [ROOT_CLASS_NAME_PARAM]: rootClassName,
     disabled = false,
 }: GroupProps) {
     const [isExpanded, setIsExpanded] = useState(
@@ -50,7 +49,7 @@ export function Group({
 
     return (
         <section
-            className={classNames('group', className, rootClassName, {
+            className={classNames('group', className, {
                 'group--disabled': disabled,
                 'group--collapsed': !isExpanded,
             })}
@@ -76,7 +75,7 @@ export function Group({
                         className={classNames('group-children', `level-${level + 1}`)}
                         style={{ paddingLeft: `${(level + 1) * 20}px` }}
                     >
-                        <GroupChildren rootClassName={CHILD_ROOT_CLASS_NAME}>{children}</GroupChildren>
+                        {mapWithClassName(children)}
                     </div>
                 </GroupLevelContext.Provider>
             )}

@@ -115,7 +115,7 @@ const Widget = ({
     const { setActiveModel, setMultiModel, unsetMultiModel, updateDatasource, reorderColumn } = useTableActionReactions(datasource, id)
     const onFilter = useChangeFilter(setFilter, datasource)
 
-    const onRowClickAction = useOnActionMethod(datasource, tableConfig?.body?.row?.click as never)
+    const onRowClickAction = useOnActionMethod(tableConfig?.body?.row?.click as never)
     const actionListener = useCallback((action, payload) => {
         switch (action) {
             case TableActions.toggleExpandRow: {

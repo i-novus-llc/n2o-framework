@@ -39,7 +39,7 @@ function TextCellBody({
                 })}
                 style={style}
             >
-                {icon && <Icon name={icon} />}
+                <Icon name={icon} />
                 {
                     (isTextWrap || rest.format)
                         ? <FormattedText {...rest}>{text?.toString()}</FormattedText>

@@ -311,7 +311,7 @@ function InputSelectTree({
                 value={rcValue}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
                 switcherIcon={renderSwitcherIcon}
-                suffixIcon={<Icon name="fa fa-chevron-down" visible={!disabled} />}
+                suffixIcon={!disabled && <Icon name="fa fa-chevron-down" />}
                 multiple={multiSelect}
                 treeCheckable={hasCheckboxes && <Checkbox preventDefault inline />}
                 treeData={treeData}

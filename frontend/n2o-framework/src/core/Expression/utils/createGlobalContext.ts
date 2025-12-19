@@ -6,7 +6,7 @@ let context: object | undefined
 const allowList: Array<string | symbol> = [
     'undefined', 'null', 'NaN', 'Infinity', 'console', 'JSON', 'Math',
     // тут сомнительные пропсы, но пусть пока будут, будем убирать по мере разбора
-    'location', 'history', 'navigator', 'crypto',
+    'navigator', 'crypto',
 ]
 
 const selfKeys: Array<string | symbol> = ['window', 'self', 'global', 'globalThis']

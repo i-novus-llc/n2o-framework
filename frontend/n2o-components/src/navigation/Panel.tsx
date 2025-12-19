@@ -3,13 +3,12 @@ import classNames from 'classnames'
 
 import '../styles/components/Panel.scss'
 import { type PanelProps, Direction } from './types'
-import { GroupChildren } from './helpers'
+import { mapWithClassName } from './helpers'
 
 export function Panel({
     className,
     style,
     children,
-    childrenClassName = 'direction-panel__children',
     direction = Direction.ROW,
 }: PanelProps) {
     if (!children) { return null }
@@ -22,7 +21,7 @@ export function Panel({
             })}
             style={style}
         >
-            <GroupChildren rootClassName={childrenClassName}>{children}</GroupChildren>
+            {mapWithClassName(children)}
         </section>
     )
 }

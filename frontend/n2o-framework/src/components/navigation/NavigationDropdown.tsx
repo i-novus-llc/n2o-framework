@@ -3,9 +3,9 @@ import get from 'lodash/get'
 import { Dropdown } from '@i-novus/n2o-components/lib/navigation/Dropdown'
 
 import { type Model } from '../../ducks/models/selectors'
-import { useLink } from '../../core/router/useLink'
 
-import { FactoryChildren } from './FactoryChildren'
+import { useLinkPropsResolver } from './useLinkPropsResolver'
+import { useFactoryChildren } from './FactoryChildren'
 import { type NavigationDropdownProps } from './types'
 
 export function NavigationDropdown({
@@ -18,13 +18,14 @@ export function NavigationDropdown({
 }: NavigationDropdownProps) {
     const model = get(models, modelPrefix, {}) as Model
 
-    const { visible, disabled } = useLink({ model, visible: propsVisible, enabled })
+    const { visible, disabled } = useLinkPropsResolver({ model, visible: propsVisible, enabled })
+    const children = useFactoryChildren({ content })
 
     if (!visible) { return null }
 
     return (
         <Dropdown {...rest} disabled={disabled}>
-            <FactoryChildren content={content} />
+            {children}
         </Dropdown>
     )
 }

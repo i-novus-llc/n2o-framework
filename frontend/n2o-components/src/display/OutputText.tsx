@@ -28,7 +28,7 @@ export const OutputText = memo(({
             className={classNames('n2o-output-text', className, iconPosition)}
             style={style}
         >
-            {icon && <Icon className="icon" name={icon} />}
+            <Icon className="icon" name={icon} />
             {value && (
                 <div className="text">
                     <FormattedText format={format}>{value}</FormattedText>

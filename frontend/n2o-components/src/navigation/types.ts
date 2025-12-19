@@ -1,4 +1,4 @@
-import { AnchorHTMLAttributes, CSSProperties, ReactNode, SyntheticEvent } from 'react'
+import { CSSProperties, ReactNode, SyntheticEvent } from 'react'
 
 export enum Direction {
     ROW = 'row',
@@ -10,13 +10,7 @@ export enum Position {
     RIGHT = 'right',
 }
 
-export enum LinkTarget {
-    BLANK = '_blank',
-    SELF = '_self',
-    PARENT = '_parent',
-    TOP = '_top',
-    APPLICATION = 'application',
-}
+export type LinkTarget = '_blank' |  '_self' | '_parent' | '_top'
 
 export enum GroupView {
     EXPANDED = 'expanded',
@@ -29,16 +23,13 @@ export enum Trigger {
 }
 
 export interface CommonProps {
-    label?: string
+    label?: string | ReactNode
     className?: string
     style?: CSSProperties
     disabled?: boolean
     icon?: string
     iconPosition?: Position
     children?: ReactNode
-    rootClassName?: string
-    // className каждого родительского тега элемента Panel
-    childrenClassName?: string
 }
 
 export interface PanelProps extends CommonProps {
@@ -47,7 +38,7 @@ export interface PanelProps extends CommonProps {
 
 export interface LinkProps extends CommonProps {
     url?: string
-    target: LinkTarget
+    target?: LinkTarget
     onClick?(e: SyntheticEvent): void
 }
 
@@ -57,12 +48,11 @@ export interface GroupProps extends CommonProps {
 }
 
 export interface DropdownProps {
-    label: string
+    label: string | ReactNode
     trigger?: Trigger
     position?: Position
     disabled?: boolean
     className?: string
-    rootClassName?: string
     style?: CSSProperties
     children?: ReactNode
 }

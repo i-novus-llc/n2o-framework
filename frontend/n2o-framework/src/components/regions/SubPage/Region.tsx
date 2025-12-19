@@ -7,6 +7,7 @@ import { Page } from '../../core/Page'
 import { PageContext } from '../../core/router/context'
 import { resolvePath } from '../../core/router/resolvePath'
 import { useLocation } from '../../core/router/useLocation'
+import { Redirect } from '../../core/router/Redirect'
 import { makePageUrlByIdSelector } from '../../../ducks/pages/selectors'
 import { EMPTY_ARRAY } from '../../../utils/emptyTypes'
 
@@ -42,12 +43,14 @@ export function SubPage({
     const location = useLocation()
     const { pageId: currentPageId } = useContext(PageContext)
     const baseUrl = useSelector(makePageUrlByIdSelector(currentPageId))
+    const defaultPage = defaultPageId && routes.find(({ id }) => id === defaultPageId)
+
     const pages = useMemo(() => {
         /**
          * Сортировка элементов в порядке от самого длинного route к самому короткому
          * т.к. react-router рисует первый, а не наиболее подходящий
          */
-        const pages = [...routes]
+        return [...routes]
             .sort((a, b) => b.route.length - a.route.length)
             .map(({ route, ...page }) => {
                 const { id, url } = page
@@ -68,27 +71,7 @@ export function SubPage({
                     />
                 )
             })
-        const defaultPage = defaultPageId && routes.find(({ id }) => id === defaultPageId)
-
-        if (defaultPage) {
-            const { id, url } = defaultPage
-
-            pages.push(<Route
-                key="no-match"
-                render={() => (
-                    <Page
-                        {...defaultPage}
-                        pageId={id}
-                        pageUrl={url}
-                        parentId={currentPageId}
-                        className="n2o-sub-page-body"
-                    />
-                )}
-            />)
-        }
-
-        return pages
-    }, [routes, defaultPageId, baseUrl, currentPageId])
+    }, [routes, baseUrl, currentPageId])
 
     /*
      * скрываем весь регион, если базовый роут страницы не совпадает с адресом
@@ -99,7 +82,19 @@ export function SubPage({
 
     return (
         <section className={classNames('n2o-subpage', className)} style={style}>
-            <Switch location={location}>{pages}</Switch>
+            <Switch location={location}>
+                {pages}
+                {
+                    defaultPage
+                        ? (
+                            <Route
+                                key="no-match"
+                                render={() => (<Redirect to={resolvePath(baseUrl, defaultPage.route)} />)}
+                            />
+                        )
+                        : null
+                }
+            </Switch>
         </section>
     )
 }

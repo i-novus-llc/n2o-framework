@@ -43,7 +43,7 @@ const HintButton = ({
     return (
         <>
             <Button id={uId} onClick={handleClick(action)} {...otherBtnProps}>
-                {icon && <Icon name={icon} />}
+                <Icon name={icon} />
                 {title}
             </Button>
             {hint && (

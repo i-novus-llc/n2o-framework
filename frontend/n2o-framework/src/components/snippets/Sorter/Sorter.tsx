@@ -35,6 +35,10 @@ export const Sorter: React.FC<Props> = ({
         event.preventDefault()
         onSort(sortingParam, SORTING_DIRECTIONS[sorting])
     }
+    let icon: string | undefined
+
+    if (sorting === SortDirection.asc) { icon = 'fa fa-sort-amount-asc' }
+    if (sorting === SortDirection.desc) { icon = 'fa fa-sort-amount-desc' }
 
     return (
         <button
@@ -46,11 +50,8 @@ export const Sorter: React.FC<Props> = ({
         >
             {children}
             <Icon
-                visible={sorting !== SortDirection.none}
-                className={classNames('n2o-sorting-icon', {
-                    'fa fa-sort-amount-asc': sorting === SortDirection.asc,
-                    'fa fa-sort-amount-desc': sorting === SortDirection.desc,
-                })}
+                name={icon}
+                className="n2o-sorting-icon"
                 aria-hidden="true"
             />
         </button>

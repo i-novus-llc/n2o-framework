@@ -1,3 +1,12 @@
+.btn-group > .btn {
+    max-width: fit-content;
+}
+
+.btn.btn-disabled {
+    // в bootstrap по умолчанию pointer-events: none, он ломает работку обработчиков moseenter/leave, которые нужны для tooltip-хоков
+    pointer-events: auto;
+}
+
 .buttons-toolbar.btn-toolbar > .btn-group > .list-text-cell__trigger {
     display: flex;
     justify-content: center;
@@ -6,7 +15,7 @@
 }
 
 .buttons-toolbar {
-    .btn-group:not(:last-of-type) {
+    .btn-group:has(~ *) {
         margin-right: 0.5rem;
     }
 }

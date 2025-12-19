@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { LinkTarget } from '../../../../../../constants/linkTarget'
+import { LinkTarget } from '../../../../../../components/core/router/types'
 import { Item } from '../../../../../CommonMenuTypes'
 
 import { OuterLink } from './OuterLink'
@@ -27,7 +27,7 @@ export function Link({
         style,
     } = item
 
-    const target = propsTarget === LinkTarget.Application ? LinkTarget.Self : propsTarget
+    const target = propsTarget === LinkTarget.application ? LinkTarget.self : propsTarget
 
     if (linkType === 'outer') {
         return (

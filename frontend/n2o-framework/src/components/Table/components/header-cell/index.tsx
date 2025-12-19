@@ -51,7 +51,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
         >
             <div className="n2o-advanced-table-header-cell-content">
                 {dragAttributes && <DragHandle {...dragAttributes} {...rest} />}
-                <Icon name={icon} visible={typeof icon === 'string'} />
+                <Icon name={icon} />
                 <section className="n2o-advanced-table-header-cell__header">
                     <Component {...rest} className={componentClassName} sorting={sortingDirection} />
                     {filterField && (

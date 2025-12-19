@@ -23,10 +23,11 @@ export function Button({
 
     return (
         <Component
-            className={classNames(className, {
-                'btn-rounded': rounded,
-                'btn-disabled': disabled,
-            })
+            className={
+                classNames(className, {
+                    'btn-rounded': rounded,
+                    'btn-disabled': disabled,
+                })
             }
             disabled={disabled}
             {...rest}

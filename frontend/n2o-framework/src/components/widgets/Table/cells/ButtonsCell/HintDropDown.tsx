@@ -72,7 +72,7 @@ function HintDropDown({
                 onClick={handleClick(action)}
                 {...rest}
             >
-                {icon && <Icon name={icon} />}
+                <Icon name={icon} />
                 {title}
             </DropdownCustomItem>
         ) : null)
@@ -99,7 +99,7 @@ function HintDropDown({
                         onClick={onToggleDropdown as never}
                         {...dropdownProps}
                     >
-                        {icon && <Icon name={icon} />}
+                        <Icon name={icon} />
                         {title}
                         <Icon className="n2o-dropdown-icon" name="fa fa-angle-down" />
                     </Button>

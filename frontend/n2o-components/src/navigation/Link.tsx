@@ -1,7 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { type LinkProps, Position, LinkTarget } from './types'
+import { Icon } from '../display/Icon'
+
+import { type LinkProps, Position } from './types'
 
 export function Link({
     label,
@@ -16,9 +18,9 @@ export function Link({
 }: LinkProps) {
     const content = (
         <>
-            {icon && iconPosition === Position.LEFT && <i className={icon} />}
+            {iconPosition === Position.LEFT && <Icon name={icon} />}
             {label && <span>{label}</span>}
-            {icon && iconPosition === Position.RIGHT && <i className={icon} />}
+            {iconPosition === Position.RIGHT && <Icon name={icon} />}
         </>
     )
 
@@ -27,7 +29,7 @@ export function Link({
     const props = {
         className: classes,
         style,
-        rel: target === LinkTarget.BLANK ? 'noopener noreferrer' : undefined,
+        rel: target === '_blank' ? 'noopener noreferrer' : undefined,
         target,
     }
 

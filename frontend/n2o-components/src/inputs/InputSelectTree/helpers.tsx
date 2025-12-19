@@ -34,7 +34,7 @@ export const visiblePartPopup = (
     return (
         <span className={`${prefixCls}-content-wrapper`}>
             {[
-                has(item, iconFieldId) && (
+                (
                     <Icon key={uniqueId('tree_icon_')} name={item[iconFieldId]} />
                 ),
                 !isNil(item[imageFieldId]) && (
