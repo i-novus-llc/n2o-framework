@@ -37,7 +37,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new TilesCompiler(),
                 new CardsCompiler());
         b.mergers(new N2oWidgetMerger(), new N2oFormMerger(), new N2oTableMerger(),
-                new N2oTilesMerger(), new N2oListMerger());
+                new N2oTilesMerger(), new N2oListMerger(), new N2oCardsMerger());
 
         CrudGenerator crudGenerator = new CrudGenerator();
         N2oButtonGeneratorFactory buttonGeneratorFactory = new N2oButtonGeneratorFactory();
