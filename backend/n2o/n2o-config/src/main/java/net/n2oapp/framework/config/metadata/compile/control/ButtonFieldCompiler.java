@@ -48,7 +48,7 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
     protected void initItem(ButtonField button, N2oButtonField source,
                             CompileContext<?, ?> context, CompileProcessor p) {
         button.setProperties(p.mapAttributes(source));
-        button.setIcon(source.getIcon());
+        button.setIcon(p.resolveJS(source.getIcon()));
         button.setLabel(p.resolveJS(source.getLabel()));
 
         compileAction(source, button, context, p);

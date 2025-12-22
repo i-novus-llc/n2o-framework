@@ -46,8 +46,8 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
     void testField() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/control/testButtonFieldCompile.page.xml")
                 .get(new PageContext("testButtonFieldCompile"));
-        Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
-        ButtonField field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        Form form = (Form) page.getRegions().get("single").getFirst().getContent().getFirst();
+        ButtonField field = (ButtonField) form.getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
 
         assertThat(field, allOf(
                 hasProperty("id", is("btn1")),
@@ -60,10 +60,10 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
                 hasProperty("validate", contains("testButtonFieldCompile_ds")),
                 hasProperty("datasource", is("testButtonFieldCompile_ds"))
         ));
-        assertThat(field.getDependencies().get(0).getExpression(), is("test == null"));
-        assertThat(field.getDependencies().get(0).getOn().get(0), is("url"));
-        assertThat(field.getDependencies().get(0).getType(), is(ValidationTypeEnum.ENABLED));
-        assertThat(((EnablingDependency) field.getDependencies().get(0)).getMessage(), is("test message"));
+        assertThat(field.getDependencies().getFirst().getExpression(), is("test == null"));
+        assertThat(field.getDependencies().getFirst().getOn().getFirst(), is("url"));
+        assertThat(field.getDependencies().getFirst().getType(), is(ValidationTypeEnum.ENABLED));
+        assertThat(((EnablingDependency) field.getDependencies().getFirst()).getMessage(), is("test message"));
 
         assertThat(((LinkAction) field.getAction()).getUrl(), is("/test2/:param1/:param2?param3=:param3"));
         assertThat(((LinkAction) field.getAction()).getTarget(), is(TargetEnum.APPLICATION));
@@ -75,7 +75,7 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(((LinkAction) field.getAction()).getQueryMapping().get("param3").getLink(), is("models.resolve['testButtonFieldCompile_ds']"));
         assertThat(((LinkAction) field.getAction()).getQueryMapping().get("param3").getValue(), is("`field3`"));
 
-        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
+        field = (ButtonField) form.getComponent().getFieldsets().getFirst().getRows().get(2).getCols().getFirst().getFields().getFirst();
         assertThat(field, allOf(
                 hasProperty("id", is("btn2")),
                 hasProperty("action", allOf(
@@ -88,27 +88,27 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
                 hasProperty("rounded", is(true))
         ));
 
-        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
+        field = (ButtonField) form.getComponent().getFieldsets().getFirst().getRows().get(3).getCols().getFirst().getFields().getFirst();
         assertThat(field, allOf(
                 hasProperty("id", is("btn3")),
                 hasProperty("src", is("ButtonField")),
                 hasProperty("label", is("load")),
-                hasProperty("icon", is("fa fa-download"))
+                hasProperty("icon", is("`(check ? 'fa fa-plus' : 'fa fa-minus')`"))
         ));
 
-        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(5).getCols().get(0).getFields().get(0);
+        field = (ButtonField) form.getComponent().getFieldsets().getFirst().getRows().get(5).getCols().getFirst().getFields().getFirst();
         assertThat(field, allOf(
                 hasProperty("id", is("btn5")),
                 hasProperty("src", is("ButtonField"))
         ));
 
-        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(6).getCols().get(0).getFields().get(0);
+        field = (ButtonField) form.getComponent().getFieldsets().getFirst().getRows().get(6).getCols().getFirst().getFields().getFirst();
         assertThat(field, allOf(
                 hasProperty("description", is("`description`")),
                 hasProperty("hint", is("`description`"))
         ));
 
-        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(7).getCols().get(0).getFields().get(0);
+        field = (ButtonField) form.getComponent().getFieldsets().getFirst().getRows().get(7).getCols().getFirst().getFields().getFirst();
         assertThat(field.getAction(), allOf(
                 instanceOf(MultiAction.class),
                 hasProperty("payload", hasProperty("actions", contains(
@@ -117,7 +117,7 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
                         ))
                 )));
 
-        ConfirmAction confirm = (ConfirmAction) ((MultiAction) field.getAction()).getPayload().getActions().get(0);
+        ConfirmAction confirm = (ConfirmAction) ((MultiAction) field.getAction()).getPayload().getActions().getFirst();
         assertThat(confirm.getPayload(), allOf(
                 hasProperty("mode", is(ConfirmTypeEnum.MODAL)),
                 hasProperty("title", is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.title"))),
@@ -132,7 +132,7 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
                 ))
         ));
 
-        field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(8).getCols().get(0).getFields().get(0);
+        field = (ButtonField) form.getComponent().getFieldsets().getFirst().getRows().get(8).getCols().getFirst().getFields().getFirst();
         confirm = (ConfirmAction) field.getAction();
         assertThat(confirm.getPayload(), allOf(
                 hasProperty("title", is("Предупреждение")),

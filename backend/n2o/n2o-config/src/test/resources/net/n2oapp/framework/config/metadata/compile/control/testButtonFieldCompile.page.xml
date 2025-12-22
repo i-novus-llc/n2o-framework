@@ -24,7 +24,7 @@
                     </dependencies>
                 </button>
                 <button id="btn2" action-id="act1" icon="fa fa-pencil" rounded="true"/>
-                <button id="btn3" label="load" icon="fa fa-download"/>
+                <button id="btn3" label="load" icon="{check ? 'fa fa-plus' : 'fa fa-minus'}"/>
                 <button id="btn4">
                     <show-modal page-id="test" route="/test2/:param1/:param2?param3=:param3">
                         <params>
