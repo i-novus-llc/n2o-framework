@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cards xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+       vertical-align="center"
+       height="200px">
+
+    <content>
+        <col size="12">
+            <block id="childBlock">
+                <icon text="childIcon"/>
+            </block>
+        </col>
+    </content>
+
+    <pagination class="childPagination"/>
+
+</cards>
+
