@@ -11,6 +11,7 @@ import { type CommonMaskedInputProps } from './types'
 export interface InputNumberProps extends Omit<CommonMaskedInputProps, 'onChange' | 'onBlur'> {
     min: number
     max: number
+    placeholder?: string
     precision?: number
     step: number
     visible?: boolean
@@ -44,6 +45,7 @@ function Component({
     step: propsStep,
     value: defaultValue,
     precision: maximumFractionDigits,
+    placeholder,
     disabled = false,
     controlButtons = true,
     visible = true,
@@ -130,6 +132,7 @@ function Component({
     return (
         <div className="n2o-input-number">
             <input
+                placeholder={placeholder}
                 value={value}
                 ref={maskRef}
                 className={classNames('n2o-input', 'form-control', className)}
