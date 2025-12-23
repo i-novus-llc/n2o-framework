@@ -1843,6 +1843,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/validation/table_filters",
           "name": "ConditionValidationAT. testTableFilters"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/validation/multi_set",
+          "name": "ConditionValidationAT. testMultiSet"
         }
       ]
     }
