@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import isString from 'lodash/isString'
 import get from 'lodash/get'
+import DOMPurify from 'dompurify'
 
 import withTooltip from '../../withTooltip'
 import { EMPTY_ARRAY } from '../../../../../utils/emptyTypes'
@@ -34,10 +35,10 @@ function CollapsedCellBody({
     const separatorAsHtml = useMemo(() => {
         if (separator) {
             return {
-                __html: separator
+                __html: DOMPurify.sanitize(separator
                     .replaceAll(/(<([^>]+)>)/gi, '')
                     .replaceAll(/\r\n|\r|\n/g, '<br />')
-                    .replaceAll(/ /g, '&nbsp;'),
+                    .replaceAll(/ /g, '&nbsp;')),
             }
         }
 
