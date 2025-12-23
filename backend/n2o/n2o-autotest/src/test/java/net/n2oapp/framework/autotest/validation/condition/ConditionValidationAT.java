@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
+import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
@@ -148,5 +149,41 @@ class ConditionValidationAT extends AutoTestBase {
 
         ageBegin.control(InputText.class).setValue("1");
         ageEnd.shouldHaveValidationMessage(Condition.empty);
+    }
+
+    @Test
+    void testMultiSet() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/validation/multi_set/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FormWidget form = page.widget(FormWidget.class);
+        MultiFieldSet multiSet = form.fieldsets().fieldset(MultiFieldSet.class);
+        multiSet.clickAddButton();
+        multiSet.shouldHaveItems(1);
+
+        StandardField fieldA = form.fields().field("A");
+        StandardField fieldB = form.fields().field("B");
+        StandardField fieldC = multiSet.item(0).fields().field("C");
+        StandardField fieldD = multiSet.item(0).fields().field("D");
+
+        fieldA.control(InputText.class).shouldBeEmpty();
+        fieldB.control(InputText.class).shouldHaveValue("5");
+        fieldC.control(InputText.class).shouldHaveValue("5");
+        fieldD.control(InputText.class).shouldBeEmpty();
+        fieldB.shouldHaveValidationMessage(Condition.empty);
+        fieldC.shouldHaveValidationMessage(Condition.empty);
+
+        fieldA.control(InputText.class).setValue("4");
+        fieldB.shouldHaveValidationMessage(Condition.text("Не может быть больше чем А"));
+        fieldC.shouldHaveValidationMessage(Condition.text("Не может быть больше чем А"));
+
+        fieldA.control(InputText.class).setValue("5");
+        fieldB.shouldHaveValidationMessage(Condition.empty);
+        fieldC.shouldHaveValidationMessage(Condition.empty);
+
+        fieldD.control(InputText.class).setValue("6");
+        fieldB.shouldHaveValidationMessage(Condition.empty);
+        fieldC.shouldHaveValidationMessage(Condition.text("Не может быть меньше чем D"));
     }
 }

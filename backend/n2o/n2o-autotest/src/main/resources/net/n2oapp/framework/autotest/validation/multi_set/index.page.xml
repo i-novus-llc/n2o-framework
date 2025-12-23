@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Моя первая страница">
+    <form>
+        <fields>
+
+            <multi-set id="multi" >
+                <row>
+                    <input-text id="C" default-value="5">
+                        <validations>
+                            <condition id="id2"
+                                       on="A"
+                                       message="Не может быть больше чем А"
+                            >
+                                return Number(A ?? 0) >= Number(multi[index].C ?? 0)
+                            </condition>
+                            <condition id="id3"
+                                       on="multi[index].D"
+                                       message="Не может быть меньше чем D"
+                            >
+                                return Number(multi[index].C ?? 0) >= Number(multi[index].D ?? 0)
+                            </condition>
+                        </validations>
+                    </input-text>
+                    <input-text id="D" domain="integer"/>
+                </row>
+            </multi-set>
+            <input-text id="A" domain="integer" min="-5" max="5"/>
+            <input-text id="B" default-value="5">
+                <validations>
+                    <condition id="id1"
+                               on="A"
+                               message="Не может быть больше чем А"
+                    >
+                        return Number(A ?? 0) >= Number(B ?? 0)
+                    </condition>
+                </validations>
+            </input-text>
+        </fields>
+        <toolbar place="bottomCenter">
+            <button label="validate" validate="true" disable-on-empty-model="false">
+
+            </button>
+        </toolbar>
+    </form>
+</simple-page>
