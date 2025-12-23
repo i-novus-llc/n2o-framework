@@ -1,5 +1,6 @@
 import React, { RefObject, createRef, MouseEvent } from 'react'
 import { UncontrolledPopover, PopoverBody, PopoverProps } from 'reactstrap'
+import DOMPurify from 'dompurify'
 
 import { id } from '../utils/id'
 import { Text } from '../Typography/Text'
@@ -60,7 +61,7 @@ export class HelpPopover extends React.Component<Props> {
                             typeof help === 'string'
                                 ? <Text>{help}</Text>
                                 /* eslint-disable-next-line react/no-danger */
-                                : <div dangerouslySetInnerHTML={{ __html: help }} />
+                                : <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(help) }} />
                         }
                     </PopoverBody>
                 </UncontrolledPopover>
