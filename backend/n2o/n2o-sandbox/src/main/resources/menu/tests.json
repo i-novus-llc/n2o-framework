@@ -1757,6 +1757,10 @@
           "name": "FieldRequiredAT. testModal"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/required/validations",
+          "name": "FieldRequiredAT. testValidations"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/condition/field/visible",
           "name": "FieldVisibleAT"
         },

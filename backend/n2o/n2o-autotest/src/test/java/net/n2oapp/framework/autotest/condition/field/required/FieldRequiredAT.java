@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
+import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -147,5 +148,64 @@ class FieldRequiredAT extends AutoTestBase {
         createButton.click();
         field1.shouldHaveValidationMessage(Condition.empty);
         field2.shouldHaveValidationMessage(Condition.empty);
+    }
+
+
+    @Test
+    void testValidations() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/validations/index.page.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FormWidget form = page.widget(FormWidget.class);
+
+        StandardField fieldA = form.fields().field(3);
+        StandardField fieldB = form.fields().field(4);
+        StandardField fieldC = form.fields().field(5);
+        StandardField fieldD = form.fields().field(6);
+
+        MultiFieldSet multiSet = form.fieldsets().fieldset(0, MultiFieldSet.class);
+        StandardField fieldE = multiSet.item(0).fields().field("E");
+        multiSet.clickAddButton("add submulti");
+        MultiFieldSet subMultiSet = multiSet.item(0).fieldsets().fieldset(0, MultiFieldSet.class);
+        StandardField fieldF = subMultiSet.item(0).fields().field(0);
+        StandardField fieldG = subMultiSet.item(0).fields().field(1);
+
+        // Исходное состояние
+        fieldA.control(InputText.class).shouldBeEmpty();
+        fieldB.control(InputText.class).shouldBeEmpty();
+        fieldC.control(InputText.class).shouldBeEmpty();
+        fieldD.control(InputText.class).shouldBeEmpty();
+        fieldE.control(InputText.class).shouldBeEmpty();
+        fieldF.control(InputText.class).shouldHaveValue("10");
+        fieldG.control(InputText.class).shouldHaveValue("5");
+
+        fieldB.shouldHaveValidationMessage(Condition.empty);
+        fieldC.shouldHaveValidationMessage(Condition.empty);
+        fieldD.shouldHaveValidationMessage(Condition.empty);
+        fieldE.shouldHaveValidationMessage(Condition.empty);
+        fieldF.shouldHaveValidationMessage(Condition.empty);
+
+        // Ставим значение в поле А
+        fieldA.control(InputText.class).setValue("1");
+
+        fieldB.shouldHaveValidationMessage(Condition.empty);
+        fieldC.shouldHaveValidationMessage(Condition.empty);
+        fieldD.shouldHaveValidationMessage(Condition.empty);
+        fieldE.shouldHaveValidationMessage(Condition.empty);
+        fieldF.shouldHaveValidationMessage(Condition.empty);
+
+        // Нажимаем кнопку validate
+        StandardButton validateButton = form.toolbar().bottomLeft().button("validate");
+        validateButton.shouldBeEnabled();
+        validateButton.click();
+
+        fieldB.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        fieldC.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        fieldD.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        fieldE.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        fieldF.shouldHaveValidationMessage(Condition.text("Не может быть больше чем E"));
     }
 }

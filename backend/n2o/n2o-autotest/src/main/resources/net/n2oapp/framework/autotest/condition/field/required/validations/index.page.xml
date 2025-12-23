@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автотест. Проверка required и condition валидаций">
+    <form>
+        <fields>
+
+            <multi-set id="multi" label="multi" add-label="add multi">
+                <input-text id="E" required="true" description="dependend on A">
+                    <validations>
+                        <condition id="id3"
+                                   on="A"
+                                   message="Не может быть больше чем А"
+                        >
+                            return Number(A ?? 0) >= Number(multi[index].E ?? 0)
+                        </condition>
+                    </validations>
+                </input-text>
+                <multi-set id="test" label="submulti" add-label="add submulti">
+                    <input-text id="F" required="true" default-value="10"
+                                description="dependend on multi[index].E, multi[index].test[$index_1].G"
+                    >
+                        <validations>
+                            <condition id="id4"
+                                       on="multi[index].E"
+                                       message="Не может быть больше чем E"
+                            >
+                                return Number(multi[index].E ?? 0) >= Number(multi[index].test[$index_1].F ?? 0)
+                            </condition>
+                            <condition id="id5"
+                                       on="multi[index].test[$index_1].G"
+                                       message="Не может быть меньше чем G"
+                            >
+                                return Number(multi[index].test[$index_1].F ?? 0) >=
+                                Number(multi[index].test[$index_1].G ?? 0)
+                            </condition>
+                        </validations>
+                    </input-text>
+                    <input-text id="G" default-value="5"/>
+                </multi-set>
+            </multi-set>
+
+
+            <input-text id="A" domain="integer" min="-5" max="5"/>
+            <input-text id="B" required="true" description="without dependencies">
+
+            </input-text>
+            <input-text id="C" required="true" domain="integer" description="without dependencies">
+                <validations>
+                    <condition id="id1"
+                               message="Не может быть больше чем А"
+                    >
+                        return Number(A ?? 0) >= Number(C ?? 0)
+                    </condition>
+                </validations>
+            </input-text>
+            <input-text id="D" required="true" description="dependend on A">
+                <validations>
+                    <condition id="id2"
+                            on="A"
+                            message="Не может быть больше чем А"
+                    >
+                        return Number(A ?? 0) >= Number(D ?? 0)
+                    </condition>
+                </validations>
+            </input-text>
+            <hidden id="multi" default-value="{[Object.create(null)]}"/>
+
+        </fields>
+        <toolbar place="bottomLeft">
+            <button label="validate" validate="true" disable-on-empty-model="false"/>
+        </toolbar>
+    </form>
+</simple-page>
