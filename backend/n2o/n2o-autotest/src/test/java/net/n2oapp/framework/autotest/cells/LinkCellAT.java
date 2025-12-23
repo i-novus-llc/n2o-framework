@@ -61,7 +61,7 @@ class LinkCellAT extends AutoTestBase {
 
         cell = rows.row(0).cell(2, LinkCell.class);
         cell.shouldNotHaveText();
-        cell.shouldHaveHref(getBaseUrl() + "/123");
+        cell.shouldHaveHref(getBaseUrl() + "/#/123");
         cell.shouldHaveIcon("fa-plus");
 
         cell.click();
