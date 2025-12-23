@@ -28,20 +28,14 @@ export const Html = ({
     className,
     loading = false,
 }: Props) => {
-    const resolvedHtml = useHtmlResolver(html, data) as string
+    const resolvedHtml = useHtmlResolver(html, data)
 
-    if (!resolvedHtml) {
-        return null
-    }
+    if (!resolvedHtml) { return null }
 
     /* устраняет мерцания с плейсхолдерами */
-    if (parseExpression(resolvedHtml)) {
-        return null
-    }
+    if (parseExpression(resolvedHtml)) { return null }
 
-    if (loading) {
-        return null
-    }
+    if (loading) { return null }
 
     return <HtmlSnippet html={resolvedHtml} id={id} className={className} />
 }

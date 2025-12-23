@@ -1,4 +1,4 @@
-import React, { ComponentType, MutableRefObject, RefObject } from 'react'
+import React, { ComponentType, RefObject } from 'react'
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
 import filter from 'lodash/filter'
@@ -12,6 +12,7 @@ import { findDOMNode } from 'react-dom'
 // @ts-ignore import from js file
 import cssAnimation from 'css-animation'
 import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
+import DOMPurify from 'dompurify'
 
 import { type FilterType, type TreeProps, type DatasourceItem, KEY_CODES } from './types'
 
@@ -302,7 +303,7 @@ export const splitSearchText = (text: string, searchText: string, filter: Filter
         const html = text.replace(regExp, (str: string) => `<span class='search-text'>${str}</span>`)
 
         // eslint-disable-next-line react/no-danger
-        return <span dangerouslySetInnerHTML={{ __html: html }} />
+        return <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }} />
     }
 
     return text
