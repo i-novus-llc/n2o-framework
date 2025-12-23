@@ -9,11 +9,22 @@ import { type State as GlobalState } from '../../../ducks/State'
 import { PageContext } from './context'
 import { useLocation } from './useLocation'
 import { LinkTarget } from './types'
+import { resolvePath } from './resolvePath'
 
 export type Props = {
     disabled?: boolean
     target: LinkTarget
     href?: string
+}
+
+const getURL = (href: string | undefined, target: LinkTarget) => {
+    if (!href) { return undefined }
+    if (href.startsWith('http://') || href.startsWith('https://')) { return href }
+
+    if (target === LinkTarget.self) { return href }
+    if (target === LinkTarget.blank) { return href }
+
+    return `./#${resolvePath('', href)}`
 }
 
 export function useLink({
@@ -28,6 +39,8 @@ export function useLink({
     const { pageId } = useContext(PageContext)
 
     const { pathname } = useLocation()
+
+    const url = disabled ? undefined : getURL(href, target)
 
     /** Учитывает роутинг sub-pages (прим. страницы в модальных окнах)*/
     const onClick = useCallback((event: MouseEvent) => {
@@ -46,19 +59,18 @@ export function useLink({
         }
 
         if (event.ctrlKey) {
-            window.open(href, LinkTarget.blank)
+            window.open(url, LinkTarget.blank)
 
             return
         }
 
         dispatch(push(href))
-    }, [disabled, dispatch, href, pageId, getState])
+    }, [disabled, dispatch, href, pageId, getState, url])
 
     return {
         active: href ? pathname.includes(href) : false,
         target: target === LinkTarget.blank ? target : undefined,
-        // FIXME поправить ссылку для target=application, сейчас встаёт без учёра hash роутинга и ломается при открытии на новой вкладке
-        url: disabled ? undefined : href,
+        url,
         onClick: target === LinkTarget.application ? onClick : undefined,
     }
 }

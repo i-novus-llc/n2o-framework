@@ -4,10 +4,10 @@
         <datasource query-id="test"/>
         <columns>
             <column id="c1" label="Text" text-field-id="name">
-                <link url="/{url}"/>
+                <link url="/{url}" target="newWindow"/>
             </column>
             <column id="c2" label="Text and icon" text-field-id="name2">
-                <link icon="{icon}" url="/{url}"/>
+                <link icon="{icon}" url="/{url}" target="self"/>
             </column>
             <column id="c3" label="Icon">
                 <link icon="{icon}" url="/{url}"/>
