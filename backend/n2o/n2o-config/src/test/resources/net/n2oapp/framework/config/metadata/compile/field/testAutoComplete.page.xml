@@ -20,7 +20,7 @@
                 </auto-complete>
                 <auto-complete id="auto2" label="Auto complete" max-tag-text-length="15">
                     <options>
-                        <option name="test1"/>
+                        <option name="{test1}"/>
                         <option name="test2"/>
                     </options>
                 </auto-complete>
