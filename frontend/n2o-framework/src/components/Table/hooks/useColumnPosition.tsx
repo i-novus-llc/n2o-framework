@@ -1,57 +1,85 @@
-import React, { RefObject, useEffect, useMemo, useRef, useState } from 'react'
+import React, { RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import isEqual from 'lodash/isEqual'
 
 import { BodyCell, HeaderCell } from '../../../ducks/table/Table'
 import { mergeAttributes, mergeAttrToCells } from '../utils/mergeAttributes'
 import { getAttributesFromHeader, AttributesMap } from '../utils/getColumnsAttributes'
 
+const getAttr = (
+    groupElement: HTMLTableColElement,
+    initAttr: AttributesMap,
+): AttributesMap => {
+    const cols = Array.from(groupElement.querySelectorAll('col') ?? [])
+
+    const nextAttrs = { ...initAttr }
+
+    function collect(list: HTMLElement[], side: 'left' | 'right') {
+        let temp = 0
+
+        list.filter(el => (el.dataset.fixed === side)).forEach((el) => {
+            const id = el.dataset.id as keyof typeof nextAttrs
+            const attr = nextAttrs[id]
+
+            if (attr) { nextAttrs[id] = mergeAttributes(attr, { style: { [side]: temp } }) }
+
+            temp += el.clientWidth
+        })
+    }
+
+    collect(cols, 'left')
+    collect(cols.reverse(), 'right')
+
+    return nextAttrs
+}
+
 /**
  * Обновление left/right позиционирования для фиксированных колонок
  */
-const useFixed = <T extends AttributesMap>(
+const useFixed = (
     groupRef: RefObject<HTMLTableColElement>,
-    hasFixed: boolean,
-    setAttrsMap: (arg: T | ((prev: T) => T)) => void,
-) => {
+    initAttr: AttributesMap,
+): AttributesMap => {
+    const [attrMap, setAttr] = useState(initAttr)
+    const widthRef = useRef(0)
+    const initRef = useRef(initAttr)
     const groupElement = groupRef.current
 
+    initRef.current = initAttr
+
+    const update = useCallback(() => {
+        const groupElement = groupRef.current
+
+        if (!groupElement) { return }
+
+        setAttr((attrMap) => {
+            const nextAttrs = getAttr(groupElement, initRef.current)
+
+            widthRef.current = groupElement.clientWidth || 0
+
+            return (isEqual(attrMap, nextAttrs) ? attrMap : nextAttrs)
+        })
+    }, [groupRef])
+
+    useLayoutEffect(update, [initAttr])
     useEffect(() => {
-        if (!groupElement || !hasFixed) { return }
+        if (!groupElement) { return }
 
-        const update = () => {
-            setAttrsMap((attrMap) => {
-                const cols = groupElement.querySelectorAll('col') ?? []
-                const groupWidth = groupElement.clientWidth || 0
-                const nextAttrs = { ...attrMap }
+        const resizeObserver = new ResizeObserver(() => {
+            const groupWidth = groupElement.clientWidth || 0
 
-                Array.from(cols).forEach((e) => {
-                    const id = e.dataset.id as keyof typeof nextAttrs
-                    const fixed = e.dataset.fixed as ('left' | 'right' | undefined)
-                    const attr = nextAttrs[id]
-
-                    if (!attr || !fixed) { return }
-
-                    nextAttrs[id] = mergeAttributes(attr, { style: {
-                        [fixed]: fixed === 'left'
-                            ? e.offsetLeft
-                            : groupWidth - e.offsetLeft - e.clientWidth,
-                    } })
-                })
-
-                return isEqual(attrMap, nextAttrs) ? attrMap : nextAttrs
-            })
-        }
-
-        const resizeObserver = new ResizeObserver(update)
+            // ignore vertical resize
+            if (widthRef.current !== groupWidth) { update() }
+        })
 
         resizeObserver.observe(groupElement)
-        update()
 
         // eslint-disable-next-line consistent-return
         return () => {
             resizeObserver.unobserve(groupElement)
         }
-    }, [groupElement, hasFixed, setAttrsMap])
+    }, [groupElement, update])
+
+    return attrMap
 }
 
 export type Props = {
@@ -69,33 +97,29 @@ export type Props = {
  */
 export const useColumnPosition = ({ cells, hasSelection }: Props) => {
     const { header } = cells
-    const [attrsMap, setAttrsMap] = useState(() => getAttributesFromHeader(header))
     const groupRef = useRef<HTMLTableColElement>(null)
-    const colgroup = useMemo(() => (
-        <colgroup ref={groupRef} key="colgroup">
-            {hasSelection ? <col /> : null}
-            {Object.entries(attrsMap).map(([id, { fixed }]) => (<col data-id={id} data-fixed={fixed} key={id} />))}
-        </colgroup>
-    ), [attrsMap, hasSelection])
 
-    useFixed(
-        groupRef,
-        header.some(cell => cell.fixed),
-        setAttrsMap,
-    )
+    const [colgroup, hattrMap] = useMemo(() => {
+        const attrsMap = getAttributesFromHeader(header)
 
-    useEffect(() => {
-        const nextAttrs = getAttributesFromHeader(header)
+        const colgroup = (
+            <colgroup ref={groupRef} key="colgroup">
+                {hasSelection ? <col key="__selection_col__" data-fixed="left" /> : null}
+                {Object.entries(attrsMap).map(([id, { fixed, style, className }]) => (
+                    <col data-id={id} data-fixed={fixed} key={id} className={className} style={style} />
+                ))}
+            </colgroup>
+        )
 
-        setAttrsMap(attrsMap => (isEqual(attrsMap, nextAttrs) ? attrsMap : nextAttrs))
-    }, [header])
+        return [colgroup, attrsMap]
+    }, [header, hasSelection])
 
-    return useMemo(() => {
-        const fixedCells: typeof cells = {
-            body: mergeAttrToCells(cells.body, attrsMap),
-            header: mergeAttrToCells(cells.header, attrsMap),
-        }
+    const attrsMap = useFixed(groupRef, hattrMap)
 
-        return { cells: fixedCells, colgroup }
-    }, [cells, attrsMap, colgroup])
+    const fixedCells = useMemo(() => ({
+        body: mergeAttrToCells(cells.body, attrsMap),
+        header: mergeAttrToCells(cells.header, attrsMap),
+    }), [cells, attrsMap])
+
+    return { cells: fixedCells, colgroup }
 }
