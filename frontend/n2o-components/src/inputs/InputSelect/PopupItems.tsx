@@ -170,7 +170,7 @@ export function PopupItems({
                     })}
                     onMouseOver={() => onMouseOver(item)}
                     onMouseLeave={onMouseLeave}
-                    disabled={disabled}
+                    disabled={disabled || loading}
                     key={index}
                     onClick={e => handleItemClick(e, item)}
                     title={displayTitle(item)}
