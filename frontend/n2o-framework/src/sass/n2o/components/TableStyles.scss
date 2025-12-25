@@ -123,10 +123,6 @@
                 }
             }
         }
-
-        .cell-selection {
-            width: 34px;
-        }
     }
 
     tbody {
@@ -152,15 +148,18 @@
                 cursor: pointer;
             }
         }
-
-        .cell-selection {
-            width: 30px;
-        }
     }
 
     table {
         // из bootstrap тянется collapse, который ломает бордеры у position:sticky элементов таблицы
         border-collapse: separate !important;
+    }
+
+    .cell-selection {
+        width: 34px;
+        // Если не указывать min/max, то таблица может игнорировать width и тянуть/сжимать колонку как хочет
+        min-width: 34px;
+        max-width: 34px;
     }
 
     &[data-text-wrap="false"] {

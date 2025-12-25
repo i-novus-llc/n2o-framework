@@ -43,6 +43,7 @@ export const TableHeader = forwardRef<HTMLTableSectionElement, TableHeaderProps>
 
                             return (
                                 <Component
+                                    key={cell.id}
                                     {...cell}
                                     sorting={sorting}
                                     validateFilterField={validateFilterField}

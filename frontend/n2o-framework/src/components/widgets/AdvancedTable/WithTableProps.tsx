@@ -36,7 +36,7 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
         ]
 
         // INFO Объект, содержащий все заголовки по ключу, соответствующему идентификатору колонки
-        const columnsState = getAllValuesByKey(cells.header, { keyToIterate: 'children' })
+        const columnsState = useMemo(() => getAllValuesByKey(cells.header, { keyToIterate: 'children' }), [cells.header])
 
         // INFO содержит только видимые колонки
         const resolvedCells = useResolveCellsVisible(cells, columnsState)
