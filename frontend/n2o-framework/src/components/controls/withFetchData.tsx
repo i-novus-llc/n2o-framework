@@ -123,17 +123,32 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             }
         }
 
-        componentDidUpdate({ datasourceModel: prevDatasourceModel, data: prevData }: Props) {
+        componentDidUpdate({
+            datasourceModel: prevDatasourceModel,
+            data: prevData,
+            count: prevCount,
+            page: prevPage,
+            size: prevSize,
+        }: Props) {
             const { datasourceModel, data, page, count, size } = this.props
             const { merge } = this.state
+
+            if (count !== prevCount) {
+                this.setState({ count })
+            }
+
+            if (page !== prevPage) {
+                this.setState({ page })
+            }
+
+            if (size !== prevSize) {
+                this.setState({ size })
+            }
 
             if (datasourceModel && !isEqual(datasourceModel, prevDatasourceModel)) {
                 // @INFO данные полученные datasource fetchData
                 this.setState({
                     data: merge ? [...prevDatasourceModel, ...datasourceModel] : datasourceModel,
-                    page,
-                    count,
-                    size,
                 })
 
                 return
@@ -142,9 +157,6 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             if (data && !isEqual(data, prevData)) {
                 this.setState({
                     data: merge ? [...prevData, ...data] : data,
-                    page,
-                    count,
-                    size,
                 })
             }
         }
