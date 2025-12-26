@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.data.validation.Validation;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
@@ -56,10 +57,17 @@ public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
         return filtersMap.get(fieldId) != null && filtersMap.get(fieldId).containsKey(type);
     }
 
-    public N2oQuery.Filter getFilterByPreFilter(N2oPreFilter preFilter) {
-        return filtersMap.containsKey(preFilter.getFieldId()) ?
-                filtersMap.get(preFilter.getFieldId()).get(preFilter.getType())
-                : null;
+    public N2oQuery.Filter getFilterByPreFilter(N2oPreFilter preFilter, String queryId) {
+        if (!filtersMap.containsKey(preFilter.getFieldId())) {
+            throw new N2oException(String.format("Не найден фильтр для поля %s в %s.query.xml",
+                    preFilter.getFieldId(), queryId));
+        }
+        N2oQuery.Filter filter = filtersMap.get(preFilter.getFieldId()).get(preFilter.getType());
+        if (filter == null) {
+            throw new N2oException(String.format("Не найден фильтр типа %s для поля %s в %s.query.xml",
+                    preFilter.getType().getId(), preFilter.getFieldId(), queryId));
+        }
+        return filter;
     }
 
     public String getFilterFieldId(String fieldId, FilterTypeEnum type) {
