@@ -103,11 +103,11 @@ public class ActionCompileStaticProcessor {
             if (actions.size() > 1) {
                 N2oMultiAction n2oMultiAction = new N2oMultiAction();
                 n2oMultiAction.setN2oActions(n2oActions);
-                return p.compile(n2oMultiAction, context, initActionObject(actions.get(0), dsObject, p), scopes);
+                return p.compile(n2oMultiAction, context, initActionObject(actions.getFirst(), dsObject, p), scopes);
             } else {
-                return p.compile(actions.get(0), context,
-                        initActionObject(actions.get(0), dsObject, p),
-                        initFailConditionBranchesScope(actions.get(0), n2oActions), scopes);
+                return p.compile(actions.getFirst(), context,
+                        initActionObject(actions.getFirst(), dsObject, p),
+                        initFailConditionBranchesScope(actions.getFirst(), n2oActions), scopes);
             }
         }
         return null;
@@ -200,7 +200,10 @@ public class ActionCompileStaticProcessor {
         i++;
 
         while (i < n2oActions.length && !isNotFailConditions(n2oActions[i])) {
-            failBranches.add((N2oConditionBranch) n2oActions[i]);
+            N2oConditionBranch failBranch = (N2oConditionBranch) n2oActions[i];
+            failBranch.setDatasourceId(((N2oIfBranchAction) n2oAction).getDatasourceId());
+            failBranch.setModel(((N2oIfBranchAction) n2oAction).getModel());
+            failBranches.add(failBranch);
             i++;
         }
 
@@ -300,13 +303,10 @@ public class ActionCompileStaticProcessor {
     }
 
     public static ReduxModelEnum getModelFromComponentScope(CompileProcessor p) {
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            ModelAware modelAware = componentScope.unwrap(ModelAware.class);
-            if (modelAware != null && modelAware.getModel() != null) {
-                return modelAware.getModel();
-            }
-        }
+        ReduxModelEnum model = ComponentScope.getFirstNotNull(p.getScope(ComponentScope.class),
+                ModelAware.class, ModelAware::getModel);
+        if (model != null)
+            return model;
         return ReduxModelEnum.RESOLVE;
     }
 

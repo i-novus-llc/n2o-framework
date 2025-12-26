@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.action.*;
 import net.n2oapp.framework.config.metadata.compile.action.condition.ConditionActionBinder;
-import net.n2oapp.framework.config.metadata.compile.action.condition.ElseBranchActionCompiler;
 import net.n2oapp.framework.config.metadata.compile.action.condition.ElseIfBranchActionCompiler;
 import net.n2oapp.framework.config.metadata.compile.action.condition.IfBranchActionCompiler;
 import net.n2oapp.framework.config.metadata.compile.cell.SwitchCellBinder;
@@ -34,7 +33,6 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new SwitchActionCompiler(),
                 new IfBranchActionCompiler(),
                 new ElseIfBranchActionCompiler(),
-                new ElseBranchActionCompiler(),
                 new EditListActionCompiler());
         b.binders(new InvokeActionBinder(),
                 new ReduxActionBinder(),

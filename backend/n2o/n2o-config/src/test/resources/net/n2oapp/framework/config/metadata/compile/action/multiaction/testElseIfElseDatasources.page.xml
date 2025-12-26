@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Bulk Операции">
+    <table selection="checkbox">
+        <toolbar>
+            <button id="test1" label="Изменить выбранные" model="multi">
+                <if test="true" model="multi">
+                    <invoke operation-id="create"/>
+                    <alert text="if"/>
+                </if>
+                <else-if test="true">
+                    <invoke operation-id="update"/>
+                    <alert text="else-if"/>
+                </else-if>
+                <else>
+                    <invoke operation-id="update2"/>
+                    <alert text="else"/>
+                </else>
+            </button>
+
+            <button id="test2" label="Изменить выбранные" model="multi">
+                <if test="true">
+                    <invoke operation-id="update"/>
+                    <alert text="if"/>
+                </if>
+                <else-if test="true">
+                    <invoke operation-id="update2"/>
+                    <alert text="else-if"/>
+                </else-if>
+                <else>
+                    <invoke operation-id="update2"/>
+                    <alert text="else"/>
+                </else>
+            </button>
+        </toolbar>
+        <datasource query-id="utBlank" object-id="utBlank"/>
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
+        </columns>
+    </table>
+</simple-page>

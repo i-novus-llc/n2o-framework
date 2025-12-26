@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
@@ -25,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тестирование компиляции условного оператора
@@ -51,8 +49,8 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/condition/testConditionAction.page.xml")
                 .get(new PageContext("testConditionAction"));
         //if верхнего уровня
-        ConditionAction condition = (ConditionAction) ((MultiAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
-                .getToolbar().getButton("b1").getAction()).getPayload().getActions().get(0);
+        ConditionAction condition = (ConditionAction) ((MultiAction) ((Form) page.getRegions().get("single").getFirst().getContent().getFirst())
+                .getToolbar().getButton("b1").getAction()).getPayload().getActions().getFirst();
         assertThat(condition.getType(), is("n2o/api/action/condition"));
         assertThat(condition.getPayload().getDatasource(), is("testConditionAction_ds1"));
         assertThat(condition.getPayload().getModel(), is(ReduxModelEnum.EDIT));
@@ -61,7 +59,7 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
         //success if-а верхнего уровня
         MultiAction success = (MultiAction) condition.getPayload().getSuccess();
         assertThat(success.getPayload().getActions().size(), is(2));
-        assertThat(success.getPayload().getActions().get(0), instanceOf(CustomAction.class));
+        assertThat(success.getPayload().getActions().getFirst(), instanceOf(CustomAction.class));
 
         //вложенный if success-a if-а верхнего уровня
         ConditionAction successCondition = (ConditionAction) success.getPayload().getActions().get(1);
@@ -87,7 +85,7 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
         assertThat(failSuccess.getPayload().getActions().get(1), instanceOf(ShowModal.class));
 
         //вложенный if success-a else-if-a верхнего уровня
-        ConditionAction failSuccessCondition = (ConditionAction) failSuccess.getPayload().getActions().get(0);
+        ConditionAction failSuccessCondition = (ConditionAction) failSuccess.getPayload().getActions().getFirst();
         assertThat(failSuccessCondition.getPayload().getDatasource(), is("testConditionAction_ds2"));
         assertThat(failSuccessCondition.getPayload().getModel(), is(ReduxModelEnum.FILTER));
         assertThat(failSuccessCondition.getPayload().getCondition(), is("name == 'test2'"));
@@ -106,7 +104,7 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
 
     private void checkOtherConditions(StandardPage page) {
         //Следующий if в кнопке b1
-        ConditionAction condition = (ConditionAction) ((MultiAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
+        ConditionAction condition = (ConditionAction) ((MultiAction) ((Form) page.getRegions().get("single").getFirst().getContent().getFirst())
                 .getToolbar().getButton("b1").getAction()).getPayload().getActions().get(1);
         assertThat(condition.getType(), is("n2o/api/action/condition"));
         assertThat(condition.getPayload().getDatasource(), is("testConditionAction_ds1"));
@@ -115,7 +113,7 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
         assertThat(condition.getPayload().getSuccess(), instanceOf(AlertAction.class));
 
         //Последний if в кнопке b1
-        condition = (ConditionAction) ((MultiAction) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
+        condition = (ConditionAction) ((MultiAction) ((Form) page.getRegions().get("single").getFirst().getContent().getFirst())
                 .getToolbar().getButton("b1").getAction()).getPayload().getActions().get(2);
         assertThat(condition.getPayload().getCondition(), is("code == 'C'"));
         assertThat(condition.getPayload().getSuccess(), instanceOf(AlertAction.class));
@@ -156,25 +154,15 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
 
         //проверка кейса когда мультиэкшен внутри if или else
         PerformButton button2 = (PerformButton) page.getToolbar().getButton("b2");
-        InvokeAction but2Action = (InvokeAction) ((MultiAction) button2.getAction()).getPayload().getActions().get(0);
+        InvokeAction but2Action = (InvokeAction) ((MultiAction) button2.getAction()).getPayload().getActions().getFirst();
         String but2invokeUrl = but2Action.getPayload().getDataProvider().getUrl();
         assertThat(but2invokeUrl, is("n2o/data/p/w/123/modal/multi8"));
         ConditionAction but2ifAction = (ConditionAction) ((MultiAction) button2.getAction()).getPayload().getActions().get(1);
         String but2invokeUrl1 = ((InvokeAction) but2ifAction.getPayload().getSuccess()).getPayload().getDataProvider().getUrl();
         assertThat(but2invokeUrl1, is("n2o/data/p/w/123/modal/condition_10"));
 
-        InvokeAction but2elseIfAction1 = (InvokeAction) ((MultiAction) but2ifAction.getPayload().getFail()).getPayload().getActions().get(0);
+        InvokeAction but2elseIfAction1 = (InvokeAction) ((MultiAction) but2ifAction.getPayload().getFail()).getPayload().getActions().getFirst();
         String but2invokeUrl2 = but2elseIfAction1.getPayload().getDataProvider().getUrl();
         assertThat(but2invokeUrl2, is("n2o/data/p/w/123/modal/multi12"));
-    }
-
-    @Test
-    void testNestedWithoutDatasource() {
-        N2oException e = assertThrows(
-                N2oException.class,
-                () -> compile("net/n2oapp/framework/config/metadata/compile/action/condition/testNestedWithoutDatasource.page.xml")
-                        .get(new PageContext("testNestedWithoutDatasource"))
-        );
-        assertThat(e.getMessage(), is("Источник данных не определен для \"<if-branch>\" с атрибутом 'test=name == 'test1''"));
     }
 }
