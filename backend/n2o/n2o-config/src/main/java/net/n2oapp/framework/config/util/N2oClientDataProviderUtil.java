@@ -61,11 +61,7 @@ public class N2oClientDataProviderUtil {
             N2oParam[] queryParams = new N2oParam[preFilters.length];
             for (int i = 0; i < preFilters.length; i++) {
                 N2oPreFilter preFilter = preFilters[i];
-                N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
-                if (filter == null) {
-                    throw new N2oException(String.format("Filter for field %s is not found in the query %s",
-                            preFilter.getFieldId(), queryId));
-                }
+                N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter, queryId);
                 N2oParam queryParam = new N2oParam();
                 queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterId()));
                 queryParam.setRequired(preFilter.getRequired());
@@ -104,7 +100,7 @@ public class N2oClientDataProviderUtil {
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setMethod(RequestMethodEnum.POST);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        dataProvider.setUrl(castDefault(submit.getRoute(), ()-> widgetScope.getDatasourceId() + "_" + fieldId));
+        dataProvider.setUrl(castDefault(submit.getRoute(), () -> widgetScope.getDatasourceId() + "_" + fieldId));
         dataProvider.setTargetModel(widgetScope.getModel());
         dataProvider.setClientDatasourceId(widgetScope.getClientDatasourceId());
         dataProvider.setPathParams(submit.getPathParams());

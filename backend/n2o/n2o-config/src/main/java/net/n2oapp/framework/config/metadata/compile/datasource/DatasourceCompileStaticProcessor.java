@@ -364,11 +364,7 @@ public class DatasourceCompileStaticProcessor {
 
         if (preFilters != null) {
             for (N2oPreFilter preFilter : preFilters) {
-                N2oQuery.Filter queryFilter = query.getFilterByPreFilter(preFilter);
-
-                if (queryFilter == null) {
-                    throw new N2oException("Pre-filter " + preFilter + " not found in query " + query.getId());
-                }
+                N2oQuery.Filter queryFilter = query.getFilterByPreFilter(preFilter, query.getId());
 
                 Filter filter = new Filter();
                 initMandatoryValidation(datasourceId, preFilter, queryFilter, context, p);
