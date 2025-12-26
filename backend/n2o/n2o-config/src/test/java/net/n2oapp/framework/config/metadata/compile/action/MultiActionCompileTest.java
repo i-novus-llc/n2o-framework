@@ -1,9 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
+import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
 import net.n2oapp.framework.api.metadata.meta.action.custom.CustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
@@ -118,7 +120,7 @@ class MultiActionCompileTest extends SourceCompileTestBase {
         assertThat(action, instanceOf(MultiAction.class));
         assertThat(action.getType(), is("n2o/api/action/sequence"));
         assertThat(action.getPayload().getActions().size(), is(1));
-        assertThat(action.getPayload().getActions().get(0), instanceOf(InvokeAction.class));
+        assertThat(action.getPayload().getActions().getFirst(), instanceOf(InvokeAction.class));
         assertThat(action.getPayload().getFallback(), instanceOf(AlertAction.class));
 
         button = (PerformButton) page.getToolbar().getButton("test2");
@@ -126,12 +128,36 @@ class MultiActionCompileTest extends SourceCompileTestBase {
         assertThat(action, instanceOf(MultiAction.class));
         assertThat(action.getType(), is("n2o/api/action/sequence"));
         assertThat(action.getPayload().getActions().size(), is(1));
-        assertThat(action.getPayload().getActions().get(0), instanceOf(InvokeAction.class));
+        assertThat(action.getPayload().getActions().getFirst(), instanceOf(InvokeAction.class));
         assertThat(action.getPayload().getFallback(), instanceOf(MultiAction.class));
 
         action = (MultiAction) action.getPayload().getFallback();
         assertThat(action.getPayload().getActions().size(), is(2));
         assertThat(action.getPayload().getActions().get(0), instanceOf(AlertAction.class));
         assertThat(action.getPayload().getActions().get(1), instanceOf(LinkActionImpl.class));
+    }
+
+    @Test
+    void testElseIfElseDatasource() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"));
+
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/multiaction/testElseIfElseDatasources.page.xml")
+                .get(new PageContext("testElseIfElseDatasources"));
+
+        testActions((PerformButton) page.getWidget().getToolbar().get("topLeft").getFirst().getButtons().get(0));
+        testActions((PerformButton) page.getWidget().getToolbar().get("topLeft").getFirst().getButtons().get(1));
+    }
+
+    private static void testActions(PerformButton button) {
+        ConditionAction action = (ConditionAction) button.getAction();
+        assertThat(action.getPayload().getDatasource(), is("testElseIfElseDatasources_w1"));
+        assertThat(action.getPayload().getModel(), is(ReduxModelEnum.MULTI));
+        ConditionAction elseif = ((ConditionAction)action.getPayload().getFail());
+        assertThat(elseif.getPayload().getDatasource(), is("testElseIfElseDatasources_w1"));
+        assertThat(elseif.getPayload().getModel(), is(ReduxModelEnum.MULTI));
+        MultiAction elseAction = (MultiAction) elseif.getPayload().getFail();
+        assertThat(((InvokeAction)elseAction.getPayload().getActions().getFirst()).getPayload().getDatasource(), is("testElseIfElseDatasources_w1"));
+        assertThat(((InvokeAction)elseAction.getPayload().getActions().getFirst()).getPayload().getModel(), is(ReduxModelEnum.MULTI));
     }
 }

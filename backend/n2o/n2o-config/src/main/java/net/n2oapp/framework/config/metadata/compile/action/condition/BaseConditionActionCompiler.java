@@ -51,6 +51,7 @@ public abstract class BaseConditionActionCompiler<S extends N2oConditionBranch>
         N2oConditionBranch branch = failBranchesScope.pop();
         if (branch == null)
             return null;
+        // необходимо, чтобы в fail ветке было действие не обернутое еще одним ConditionAction
         if (branch instanceof N2oElseBranchAction) {
             setBranchId(branch, indexScope);
             return compileActionAware(branch, context, p, indexScope);
