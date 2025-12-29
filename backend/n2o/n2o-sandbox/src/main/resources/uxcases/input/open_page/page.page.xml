@@ -126,7 +126,7 @@
                                   label="Заграничный паспорт имеется"/>
                     </col>
                 </row>
-                <set visible="{hasForeignPassport==true}" depends-on="hasForeignPassport">
+                <set visible="{hasForeignPassport==true}">
                     <row>
                         <col size="3">
                             <masked-input id="oldSerial" label="Серия" mask="99 99"/>

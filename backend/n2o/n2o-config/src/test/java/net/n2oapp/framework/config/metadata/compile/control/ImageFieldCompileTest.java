@@ -3,10 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.control;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.cell.ImageStatusElementPlaceEnum;
-import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.ImageField;
 import net.n2oapp.framework.api.metadata.meta.control.TextPositionEnum;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -65,11 +63,6 @@ class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getStatuses()[1].getPlace(), Matchers.is(ImageStatusElementPlaceEnum.TOP_LEFT));
         assertThat(field.getAction(), notNullValue());
         assertThat(((LinkAction) field.getAction()).getUrl(), is("http://example.com"));
-
-        ControlDependency dependency = field.getDependencies().get(0);
-        assertThat(dependency.getType(), is(ValidationTypeEnum.RE_RENDER));
-        assertThat(dependency.getOn().get(0), is("name"));
-        assertThat(dependency.getOn().get(1), is("type"));
 
         field = (ImageField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("testId2"));

@@ -1,6 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.control.*;
+import net.n2oapp.framework.api.metadata.meta.control.CustomControl;
+import net.n2oapp.framework.api.metadata.meta.control.CustomField;
+import net.n2oapp.framework.api.metadata.meta.control.InputText;
+import net.n2oapp.framework.api.metadata.meta.control.Text;
 import net.n2oapp.framework.api.metadata.meta.control.filters_buttons.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -43,11 +46,6 @@ class CustomFieldCompileTest extends SourceCompileTestBase {
                 hasProperty("src", is("testSrc")),
                 hasProperty("label", is("testLabel")),
                 hasProperty("description", is("testDescription"))));
-
-        ControlDependency dependency = field.getDependencies().get(0);
-        assertThat(dependency.getType(), is(ValidationTypeEnum.RE_RENDER));
-        assertThat(dependency.getOn().get(0), is("name"));
-        assertThat(dependency.getOn().get(1), is("type"));
 
         assertThat(field.getJsonProperties().size(), is(3));
         assertThat(field.getJsonProperties().get("sendEmailUrl"), is("/send/email"));

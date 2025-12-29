@@ -1,8 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Text;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -46,12 +43,6 @@ class TextFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getFormat(), is("formatTest"));
         assertThat(field.getClassName(), is("testClass"));
         assertThat(field.getVisible(), is(false));
-
-        ControlDependency dependency = field.getDependencies().get(0);
-        assertThat(dependency.getType(),is(ValidationTypeEnum.RE_RENDER));
-        assertThat(dependency.getOn().get(0), is("type"));
-        assertThat(dependency.getExpression(), nullValue());
-        assertThat(dependency.getApplyOnInit(), nullValue());
     }
 
 }

@@ -14,7 +14,6 @@ public enum ValidationTypeEnum implements N2oEnum {
     VISIBLE("visible"),
     REQUIRED("required"),
     SET_VALUE("setValue"),
-    RE_RENDER("reRender"),
     FETCH("fetch"),
     FETCH_VALUE("fetchValue"),
     RESET("reset");

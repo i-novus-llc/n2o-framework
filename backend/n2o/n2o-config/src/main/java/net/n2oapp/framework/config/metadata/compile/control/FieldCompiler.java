@@ -163,14 +163,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 addToField(dependency, field, d, p);
             }
         }
-
-        if (source.getDependsOn() != null) {
-            ControlDependency dependency = new ControlDependency();
-            List<String> ons = Arrays.asList(source.getDependsOn());
-            dependency.setOn(ons);
-            dependency.setType(ValidationTypeEnum.RE_RENDER);
-            field.addDependency(dependency);
-        }
     }
 
     private void addToField(ControlDependency compiled, Field field, N2oField.Dependency source, CompileProcessor p) {

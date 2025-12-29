@@ -8,12 +8,12 @@
             <column text-field-id="type"/>
         </columns>
         <filters>
-            <set label="set1" visible="{checkbox[0].id == 1 || checkbox[1].id == 1}" depends-on="checkbox">
+            <set label="set1" visible="{checkbox[0].id == 1 || checkbox[1].id == 1}">
                 <input-text id="id" label="first_input">
 
                 </input-text>
             </set>
-            <set label="set2" visible="{checkbox[0].id == 2 || checkbox[1].id == 2}"  depends-on="checkbox">
+            <set label="set2" visible="{checkbox[0].id == 2 || checkbox[1].id == 2}">
                 <input-text id="name" label="second_input">
 
                 </input-text>

@@ -7,14 +7,11 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
-import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,16 +44,6 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
 
         compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
         compiled.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
-
-        if (source.getDependsOn() != null) {
-            ControlDependency[] dependency = new ControlDependency[1];
-            ControlDependency dep = new ControlDependency();
-            dep.setType(ValidationTypeEnum.RE_RENDER);
-            List<String> ons = Arrays.asList(source.getDependsOn());
-            dep.setOn(ons);
-            dependency[0] = dep;
-            compiled.setDependency(dependency);
-        }
 
         compileContent(compiled, source, context, p, scopes);
     }

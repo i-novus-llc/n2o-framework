@@ -46,7 +46,7 @@
                             <option name="No" id="2"/>
                         </options>
                     </radio-group>
-                    <input-text id="input1" label="Field" depends-on="validator">
+                    <input-text id="input1" label="Field">
                         <validations>
                             <condition id="validateKs" severity="danger" message="Field is not valid" on="validator">return typeof validator !== 'undefined' &amp;&amp; validator !== null
                                 &amp;&amp; validator.id === 2</condition>

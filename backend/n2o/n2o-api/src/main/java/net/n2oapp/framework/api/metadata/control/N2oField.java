@@ -24,7 +24,6 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
     private String visible;
     private String required;
     private String enabled;
-    private String[] dependsOn;
     private String label;
     private String labelClass;
     private String description;

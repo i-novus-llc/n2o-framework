@@ -4,7 +4,6 @@
            visible="false"
            class="class"
            style="color:red"
-           depends-on="a,b"
            description="desc"
            field-label-align="left"
            field-label-location="left"

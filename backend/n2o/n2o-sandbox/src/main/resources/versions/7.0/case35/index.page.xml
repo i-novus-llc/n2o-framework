@@ -4,9 +4,9 @@
     <form>
         <fields>
             <input-text id="test" label="Введите что-нибудь" default-value="123"/>
-            <input-text id="test1" label="Лейбл и {test}" description="Лейбл зависит от поля выше" depends-on="test"/>
-            <input-text id="test2" label="Лейбл" description="Подсказка и {test}" depends-on="test"/>
-            <input-text id="test3" label="Лейбл" description="Плейсхолдер зависит от поля выше" depends-on="test" placeholder="Плейсхолдер и {test}"/>
+            <input-text id="test1" label="Лейбл и {test}" description="Лейбл зависит от поля выше"/>
+            <input-text id="test2" label="Лейбл" description="Подсказка и {test}"/>
+            <input-text id="test3" label="Лейбл" description="Плейсхолдер зависит от поля выше" placeholder="Плейсхолдер и {test}"/>
         </fields>
     </form>
 </simple-page>
