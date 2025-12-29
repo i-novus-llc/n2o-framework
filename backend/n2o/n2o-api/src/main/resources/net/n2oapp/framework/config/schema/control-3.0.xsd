@@ -53,7 +53,7 @@
     <xs:element name="checkbox-group" type="controlOptionsListInlineDefinitionCheckboxGroup"/>
 
     <xs:element name="date-interval" type="controlDateIntervalDefinition"/>
-    <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
+    <xs:element name="interval-field" type="controlIntervalFieldDefinition"/>
 
 
     <xs:complexType name="controls">
@@ -92,7 +92,7 @@
             <xs:element name="progress" type="controlProgressDefinition" minOccurs="0"/>
             <xs:element name="status" type="controlStatusDefinition" minOccurs="0"/>
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
-            <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
+            <xs:element name="interval-field" type="controlIntervalFieldDefinition" minOccurs="0"/>
             <xs:element name="number-picker" type="numberPickerFieldDefinition" minOccurs="0"/>
             <xs:element name="time-picker" type="controlTimePickerDefinition" minOccurs="0"/>
             <xs:element name="markdown" type="controlMarkdownDefinition" minOccurs="0"/>
@@ -108,10 +108,112 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="intervalFieldControls">
+        <xs:sequence>
+            <xs:element name="input-text" minOccurs="0">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="controlInputTextDefinitionCropped">
+                            <xs:attribute name="visible" use="prohibited"/>
+                            <xs:attribute name="enabled" use="prohibited"/>
+                            <xs:attribute name="required" use="prohibited"/>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="input-money" minOccurs="0">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="controlInputMoneyDefinitionCropped">
+                            <xs:attribute name="visible" use="prohibited"/>
+                            <xs:attribute name="enabled" use="prohibited"/>
+                            <xs:attribute name="required" use="prohibited"/>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="output-text" minOccurs="0">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="controlOutputTextDefinitionCropped">
+                            <xs:attribute name="visible" use="prohibited"/>
+                            <xs:attribute name="enabled" use="prohibited"/>
+                            <xs:attribute name="required" use="prohibited"/>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="masked-input" minOccurs="0">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="controlMaskedInputDefinitionCropped">
+                            <xs:attribute name="visible" use="prohibited"/>
+                            <xs:attribute name="enabled" use="prohibited"/>
+                            <xs:attribute name="required" use="prohibited"/>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="date-time" minOccurs="0">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="controlDatePickerDefinitionCropped">
+                            <xs:attribute name="visible" use="prohibited"/>
+                            <xs:attribute name="enabled" use="prohibited"/>
+                            <xs:attribute name="required" use="prohibited"/>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="select" minOccurs="0">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="controlSelectDefinitionCropped">
+                            <xs:attribute name="visible" use="prohibited"/>
+                            <xs:attribute name="enabled" use="prohibited"/>
+                            <xs:attribute name="required" use="prohibited"/>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="input-select" minOccurs="0">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="controlInputSelectDefinitionCropped">
+                            <xs:attribute name="visible" use="prohibited"/>
+                            <xs:attribute name="enabled" use="prohibited"/>
+                            <xs:attribute name="required" use="prohibited"/>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="field" minOccurs="0">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="fieldCustomCropped">
+                            <xs:attribute name="visible" use="prohibited"/>
+                            <xs:attribute name="enabled" use="prohibited"/>
+                            <xs:attribute name="required" use="prohibited"/>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="text" minOccurs="0">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="controlTextCropped">
+                            <xs:attribute name="visible" use="prohibited"/>
+                            <xs:attribute name="enabled" use="prohibited"/>
+                            <xs:attribute name="required" use="prohibited"/>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="controlDefinition" abstract="true">
         <xs:sequence>
-            <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
-            <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
             <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
         </xs:sequence>
@@ -231,7 +333,7 @@
         </xs:anyAttribute>
     </xs:complexType>
 
-    <xs:complexType name="controlSimpleFieldDefinition">
+    <xs:complexType name="controlSimpleFieldDefinition" abstract="true">
         <xs:complexContent>
             <xs:extension base="controlDefinition">
                 <xs:attribute name="default-value" type="xs:string">
@@ -437,39 +539,6 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="controlIntervalFieldDefinition">
-        <xs:complexContent>
-            <xs:extension base="controlDefinition">
-                <xs:sequence>
-                    <xs:element name="default-value" minOccurs="0" maxOccurs="1">
-                        <xs:complexType>
-                            <xs:attribute name="begin" use="optional">
-                                <xs:annotation>
-                                    <xs:documentation>Значение начала интервала</xs:documentation>
-                                </xs:annotation>
-                            </xs:attribute>
-                            <xs:attribute name="end" use="optional">
-                                <xs:annotation>
-                                    <xs:documentation>Значение окончания интервала</xs:documentation>
-                                </xs:annotation>
-                            </xs:attribute>
-                        </xs:complexType>
-                    </xs:element>
-                </xs:sequence>
-                <xs:attribute name="begin-param" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию начала интервала</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="end-param" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию конца интервала</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
     <xs:complexType name="controlValidationsDefinition">
         <xs:complexContent>
             <xs:extension base="obj:validationsDefinition">
@@ -557,6 +626,8 @@
         <xs:complexContent>
             <xs:extension base="controlDefinition">
                 <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                     <xs:element name="default-value" minOccurs="0">
                         <xs:complexType>
                             <xs:attribute name="id" type="xs:string"/>
@@ -756,6 +827,17 @@
 
     <xs:complexType name="controlMaskedInputDefinition">
         <xs:complexContent>
+            <xs:extension base="controlMaskedInputDefinitionCropped">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlMaskedInputDefinitionCropped">
+        <xs:complexContent>
             <xs:extension base="controlMaskedFieldDefinition">
                 <xs:attribute name="mask" type="xs:string" use="required">
                     <xs:annotation>
@@ -866,6 +948,8 @@
         <xs:complexContent>
             <xs:extension base="controlDefinition">
                 <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                     <xs:element name="children" type="xs:string" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
                 <xs:attribute name="language" type="codeLanguage">
@@ -960,6 +1044,17 @@
 
     <xs:complexType name="controlText">
         <xs:complexContent>
+            <xs:extension base="controlTextCropped">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlTextCropped">
+        <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="id" type="xs:string" use="optional">
                     <xs:annotation>
@@ -1045,12 +1140,12 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="controlRangeFieldDefinition">
+    <xs:complexType name="controlIntervalFieldDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:sequence>
-                    <xs:element name="begin" type="controls" minOccurs="1" maxOccurs="1"/>
-                    <xs:element name="end" type="controls" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="begin" type="intervalFieldControls" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="end" type="intervalFieldControls" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -1171,6 +1266,17 @@
     </xs:complexType>
 
     <xs:complexType name="fieldCustom">
+        <xs:complexContent>
+            <xs:extension base="fieldCustomCropped">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="fieldCustomCropped">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:sequence>
@@ -1300,6 +1406,17 @@
     </xs:complexType>
 
     <xs:complexType name="controlInputTextDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlInputTextDefinitionCropped">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlInputTextDefinitionCropped">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="domain" type="dmn:domainType">
@@ -1433,6 +1550,18 @@
 
     <xs:complexType name="controlInputMoneyDefinition">
         <xs:complexContent>
+            <xs:extension base="controlInputMoneyDefinitionCropped">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <xs:complexType name="controlInputMoneyDefinitionCropped">
+        <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="suffix" type="xs:string">
                     <xs:annotation>
@@ -1483,6 +1612,10 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="controlDefinition">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                </xs:sequence>
                 <xs:attribute name="id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Идентификатор поля.</xs:documentation>
@@ -1493,6 +1626,17 @@
     </xs:complexType>
 
     <xs:complexType name="controlOutputTextDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlOutputTextDefinitionCropped">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlOutputTextDefinitionCropped">
         <xs:complexContent>
             <xs:annotation>
                 <xs:documentation>Компонент вывода однострочного текста.</xs:documentation>
@@ -1598,7 +1742,25 @@
 
     <xs:complexType name="controlDateIntervalDefinition">
         <xs:complexContent>
-            <xs:extension base="controlIntervalFieldDefinition">
+            <xs:extension base="controlDefinition">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                    <xs:element name="default-value" minOccurs="0" maxOccurs="1">
+                        <xs:complexType>
+                            <xs:attribute name="begin" use="optional">
+                                <xs:annotation>
+                                    <xs:documentation>Значение начала интервала</xs:documentation>
+                                </xs:annotation>
+                            </xs:attribute>
+                            <xs:attribute name="end" use="optional">
+                                <xs:annotation>
+                                    <xs:documentation>Значение окончания интервала</xs:documentation>
+                                </xs:annotation>
+                            </xs:attribute>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
                 <xs:attribute name="date-format" use="optional" type="dataFormatEnum">
                     <xs:annotation>
                         <xs:documentation>Формат отображения даты.</xs:documentation>
@@ -1622,6 +1784,19 @@
                 <xs:attribute name="utc" type="xs:boolean" default="false" use="optional">
                     <xs:annotation>
                         <xs:documentation>Время в UTC</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="begin-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию начала
+                            интервала
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="end-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию конца интервала
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1672,6 +1847,17 @@
 
     <xs:complexType name="controlDatePickerDefinition">
         <xs:complexContent>
+            <xs:extension base="controlDatePickerDefinitionCropped">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlDatePickerDefinitionCropped">
+        <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="date-format" use="optional" type="dataFormatEnum" default="DD.MM.YYYY">
                     <xs:annotation>
@@ -1717,6 +1903,17 @@
     </xs:complexType>
 
     <xs:complexType name="controlSelectDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSelectDefinitionCropped">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlSelectDefinitionCropped">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:annotation>
@@ -1813,6 +2010,17 @@
     </xs:complexType>
 
     <xs:complexType name="controlInputSelectDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlInputSelectDefinitionCropped">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlInputSelectDefinitionCropped">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:attribute name="type" type="inputSelectType">
@@ -2003,6 +2211,10 @@
     <xs:complexType name="controlMarkdownDefinition">
         <xs:complexContent>
             <xs:extension base="controlDefinition">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+                    <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+                </xs:sequence>
                 <xs:attribute name="id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Идентификатор поля</xs:documentation>
