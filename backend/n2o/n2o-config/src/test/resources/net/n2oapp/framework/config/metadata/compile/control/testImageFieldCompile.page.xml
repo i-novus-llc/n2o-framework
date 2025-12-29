@@ -7,7 +7,7 @@
             </action>
         </actions>
         <fields>
-            <image src="testSrc" id="testId" label="testLabel" description="{Description}" depends-on="name,type" action-id="test" data="data:image/jpeg;base64{image}" title="{title}" text-position="top" shape="circle" width="500px">
+            <image src="testSrc" id="testId" label="testLabel" description="{Description}" action-id="test" data="data:image/jpeg;base64{image}" title="{title}" text-position="top" shape="circle" width="500px">
                 <statuses>
                     <status src="testSrc" field-id="status1" icon="{icon1}" place="topRight"/>
                     <status field-id="id"/>

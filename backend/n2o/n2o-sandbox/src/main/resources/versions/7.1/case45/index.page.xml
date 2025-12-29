@@ -16,15 +16,15 @@
                     <visibility on="type">type.id==1 || type.id==2</visibility>
                 </dependencies>
             </input-select>
-            <set visible="{type.id==1 || type.id==2}" depends-on="type">
+            <set visible="{type.id==1 || type.id==2}">
                 <input-select id="test1" required="true" label="Дочернее поле в невидимом филдсете" query-id="ref" label-field-id="name" search-filter-id="fullName"/>
             </set>
-            <set visible="{type.id==1 || type.id==2}" depends-on="type">
+            <set visible="{type.id==1 || type.id==2}">
                 <set>
                     <input-select id="test2" required="true" label="Дочернее поле в невидимом филдсете в филдсете" query-id="ref" label-field-id="name" search-filter-id="fullName"/>
                 </set>
             </set>
-            <set visible="{type.id==1 || type.id==2}" depends-on="type">
+            <set visible="{type.id==1 || type.id==2}">
                 <set>
                     <set>
                         <input-select id="test3" required="true" label="Дочернее поле в невидимом филдсете в филдсете в филдсете" query-id="ref" label-field-id="name" search-filter-id="fullName"/>

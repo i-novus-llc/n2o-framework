@@ -40,7 +40,6 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getLabel(), is("parent-label"));
         assertThat(fieldSet.getCssClass(), is("class"));
         assertThat(fieldSet.getStyle(), is("color:red"));
-        assertThat(fieldSet.getDependsOn(), is(new String[]{"a", "b"}));
         assertThat(fieldSet.getDescription(), is("desc"));
         assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlignEnum.LEFT));
         assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocationEnum.LEFT));
@@ -69,7 +68,6 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getLabel(), is("parent-label"));
         assertThat(fieldSet.getCssClass(), is("class"));
         assertThat(fieldSet.getStyle(), is("color:red"));
-        assertThat(fieldSet.getDependsOn(), is(new String[]{"a", "b"}));
         assertThat(fieldSet.getDescription(), is("desc"));
         assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlignEnum.LEFT));
         assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocationEnum.LEFT));
@@ -104,7 +102,6 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getLabel(), is("parent-label"));
         assertThat(fieldSet.getCssClass(), is("class"));
         assertThat(fieldSet.getStyle(), is("color:red"));
-        assertThat(fieldSet.getDependsOn(), is(new String[]{"a", "b"}));
         assertThat(fieldSet.getDescription(), is("desc"));
         assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlignEnum.LEFT));
         assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocationEnum.LEFT));

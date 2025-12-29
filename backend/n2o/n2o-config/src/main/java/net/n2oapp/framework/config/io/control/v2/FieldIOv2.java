@@ -40,7 +40,6 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
                 .add("fetch", N2oField.FetchDependency.class, this::dependency)
                 .add("reset", N2oField.ResetDependency.class, this::dependency)
                 .add("fetch-value", N2oField.FetchValueDependency.class, this::fetchValueDependency));
-        p.attributeArray(e, "depends-on", ",", m::getDependsOn, m::setDependsOn);
         p.attributeEnum(e, "ref-model", m::getRefModel, m::setRefModel, ReduxModelEnum.class);
         p.attributeEnum(e, "ref-page", m::getRefPage, m::setRefPage, PageRefEnum.class);
         p.attribute(e, "ref-widget-id", m::getRefWidgetId, m::setRefWidgetId);

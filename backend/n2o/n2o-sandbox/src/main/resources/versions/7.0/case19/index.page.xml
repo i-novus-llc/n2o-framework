@@ -10,7 +10,7 @@
                     <option name="никто не откроется" id="3"/>
                 </options>
             </radio-group>
-            <set visible="{type.id==1}" depends-on="type.id">
+            <set visible="{type.id==1}">
                 <input-text id="reportingPeriod" label="Отчетный период"/>
                 <line label="Комиссия за поручительство">
                     <row>
@@ -39,7 +39,7 @@
                     </row>
                 </line>
             </set>
-            <set visible="{type.id==2}" depends-on="type.id">
+            <set visible="{type.id==2}">
                 <row>
                     <col>
                         <input-text id="usedAmount" label="Начисленная сумма"/>

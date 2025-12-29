@@ -31,7 +31,6 @@ public abstract class FieldsetElementIOv4<T extends N2oFieldSet> implements Name
         p.attribute(e, "field-label-width", fs::getFieldLabelWidth, fs::setFieldLabelWidth);
         p.attribute(e, "enabled", fs::getEnabled, fs::setEnabled);
         p.attribute(e, "visible", fs::getVisible, fs::setVisible);
-        p.attributeArray(e, "depends-on", ",", fs::getDependsOn, fs::setDependsOn);
         p.anyChildren(e, null, fs::getItems, fs::setItems, p.anyOf(FieldsetItem.class), fieldsetDefaultNamespace, controlDefaultNamespace);
         p.anyAttributes(e, fs::getExtAttributes, fs::setExtAttributes);
     }

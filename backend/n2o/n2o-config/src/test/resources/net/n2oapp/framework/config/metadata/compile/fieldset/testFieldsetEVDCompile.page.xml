@@ -5,7 +5,7 @@
             <set ref-id="testSetFieldsetCompileWithFields"/>
             <set ref-id="testSetFieldsetCompileWithFields" description="description" visible="true" enabled="true"/>
             <set ref-id="testSetFieldsetCompileWithFields" visible="false" enabled="false"/>
-            <set ref-id="testSetFieldsetCompileWithFields" label="Label {master}" visible="{x &gt; 1}" enabled="{x &lt; 5}" depends-on="a.b.c,z.x.c"/>
+            <set ref-id="testSetFieldsetCompileWithFields" label="Label {master}" visible="{x &gt; 1}" enabled="{x &lt; 5}"/>
         </fields>
     </form>
 </simple-page>

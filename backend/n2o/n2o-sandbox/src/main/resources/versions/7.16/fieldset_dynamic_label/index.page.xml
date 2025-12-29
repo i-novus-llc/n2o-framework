@@ -4,10 +4,10 @@
     <form>
         <fields>
             <input-text id="master" label="Master поле" default-value="test"/>
-            <set label="Set {master}" depends-on="master">
+            <set label="Set {master}">
                 <text id="text">Текст внутри филдсета: {master}</text>
             </set>
-            <line label="Line {master}" depends-on="master">
+            <line label="Line {master}">
                 <text id="text">Текст внутри line филдсета: {master}</text>
             </line>
         </fields>

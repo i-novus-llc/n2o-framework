@@ -2,7 +2,7 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" xmlns:test="http://n2oapp.net/framework/config/schema/testAttrs">
     <form>
         <fields>
-            <field src="testSrc" test:sendEmailUrl="/send/email" test:codeVerified="{emailSender.status=='send'}" test:sendCodeUrl="/send/code" id="testId" label="testLabel" description="testDescription" depends-on="name,type">
+            <field src="testSrc" test:sendEmailUrl="/send/email" test:codeVerified="{emailSender.status=='send'}" test:sendCodeUrl="/send/code" id="testId" label="testLabel" description="testDescription">
                 <controls>
                     <control src="MyControl"/>
                 </controls>

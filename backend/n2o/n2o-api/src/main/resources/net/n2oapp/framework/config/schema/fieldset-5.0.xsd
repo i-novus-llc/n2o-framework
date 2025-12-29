@@ -135,13 +135,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="depends-on" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Список полей (через запятую), от которых зависит филдсет
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="badge" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>

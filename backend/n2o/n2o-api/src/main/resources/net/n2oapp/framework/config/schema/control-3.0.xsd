@@ -298,11 +298,6 @@
                 <xs:documentation>Копируется ли это поле при upload="copy"</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="depends-on" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Зависимость от полей</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="param" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>

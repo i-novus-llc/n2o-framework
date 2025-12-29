@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.fieldset;
 
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.fieldset.LineFieldSet;
 import net.n2oapp.framework.api.metadata.meta.fieldset.SetFieldSet;
@@ -18,7 +17,6 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -156,9 +154,6 @@ class SetFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(fieldSet.getEnabled(), is("`x < 5`"));
         assertThat(fieldSet.getVisible(), is("`x > 1`"));
         assertThat(fieldSet.getLabel(), is("`'Label '+master`"));
-        ControlDependency dependency = fieldSet.getDependency()[0];
-        assertThat(dependency.getOn(), is(Arrays.asList("a.b.c", "z.x.c")));
-        assertThat(dependency.getType().getId(), is("reRender"));
     }
 
     /**

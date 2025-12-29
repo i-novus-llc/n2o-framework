@@ -32,7 +32,6 @@ public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttrib
     private String visible;
     private String enabled;
     private String help;
-    private String[] dependsOn;
     private String badge;
     private String badgeColor;
     private PositionEnum badgePosition;

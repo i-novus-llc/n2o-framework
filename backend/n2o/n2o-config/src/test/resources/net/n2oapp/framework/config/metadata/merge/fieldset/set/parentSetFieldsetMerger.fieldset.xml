@@ -6,7 +6,6 @@
      label="parent-label"
      class="class"
      style="color:red"
-     depends-on="a,b"
      description="desc"
 >
     <input-text id="parentField"/>

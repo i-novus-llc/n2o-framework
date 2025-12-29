@@ -29,7 +29,6 @@ public class N2oFieldSetMerger<T extends N2oFieldSet> implements BaseSourceMerge
         setIfNotNull(source::setFieldLabelWidth, source::getFieldLabelWidth, ref::getFieldLabelWidth);
         setIfNotNull(source::setVisible, source::getVisible, ref::getVisible);
         setIfNotNull(source::setEnabled, source::getEnabled, ref::getEnabled);
-        setIfNotNull(source::setDependsOn, source::getDependsOn, ref::getDependsOn);
         setIfNotNull(source::setHelp, source::getHelp, ref::getHelp);
         setIfNotNull(source::setBadge, source::getBadge, ref::getBadge);
         setIfNotNull(source::setBadgeColor, source::getBadgeColor, ref::getBadgeColor);

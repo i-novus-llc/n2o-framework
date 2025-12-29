@@ -19,10 +19,10 @@
                     <visibility on="type">type.id==2</visibility>
                 </dependencies>
             </input-text>
-            <set visible="{type.id==2}" depends-on="type">
+            <set visible="{type.id==2}">
                 <input-text id="test2" required="true" label="Дочернее поле в невидимом филдсете"/>
             </set>
-            <set visible="{type.id==2}" depends-on="type">
+            <set visible="{type.id==2}">
                 <set>
                     <input-text id="test3" required="true" label="Дочернее поле в невидимом филдсете в филдсете"/>
                 </set>
