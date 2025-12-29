@@ -65,37 +65,6 @@ description: ""
 или `<column label=""/>` для задания пустого заголовка.
 - Добавлена проверка на несовместимость атрибутов `fetch-on-change="true"` и `fetch-on-clear="false"` фильтров таблицы.
 
-- Упразднена страница `<searchable-page>`.
-- Прекращена поддержка `<left-right-page>`, `<top-left-right-page>` с сохранением обратной совместимости.
-В будущих версиях эти элементы будут удалены.
-```xml title="Пример, как работало в версии 7.28 и ниже"
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-    <left width="80%">
-        <panel title="Регион 1">...</panel>
-        <panel title="Регион 2">...</panel>
-    </left>
-
-    <right width="20%">
-        <panel title="Регион 3">...</panel>
-    </right>
-</left-right-page>
-```
-
-```xml title="Пример, как аналогичное будет выглядеть в версии 7.29"
-<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-    <regions>
-        <flex-row>
-            <region style="width: 80%">
-                <panel title="Регион 1">...</panel>
-                <panel title="Регион 2">...</panel>
-            </region>
-
-            <panel title="Регион 3" style="width: 20%">...</panel>
-        </flex-row>
-    </regions>
-</page>
-```
-
 ### Изменения в Java API {#changes-java-api}
 
 - Всем enum в названии был проставлен суффикс `Enum`.
@@ -126,6 +95,8 @@ description: ""
 - Изменено значение по умолчанию для настройки `n2o.access.filtering_for_unique` на `true`.<br/>
 Это означает, что теперь по умолчанию во все запросы с size=1 будут добавлены фильтры `<object-filters>` из access схемы.
 Рекомендуем учесть, что в будущих версиях поддержка данной настройки прекратится.
+
+
 
 ## 7.29.5 {#7_29_5}
 
@@ -172,6 +143,8 @@ public class MyCriteriaConstructor implements CriteriaConstructor<MyCriteria> {
 
 - Добавлена проверка, которая после действия `<close>` разрешает указывать только действия `<close>` или `<on-fail>`
 
+
+
 ## 7.29.7 {#7_29_7}
 
 ### Изменения в настройках {#changes-settings}
@@ -181,3 +154,43 @@ public class MyCriteriaConstructor implements CriteriaConstructor<MyCriteria> {
 Для большего контроля все же рекомендуется не устанавливать настройку в `true`,
 а вручную указывать значения атрибута `on`
 
+### Изменения в XML API {#changes-xml-api}
+
+- Упразднена страница `<searchable-page>`.
+- Прекращена поддержка `<left-right-page>`, `<top-left-right-page>` с сохранением обратной совместимости.
+В будущих версиях эти элементы будут удалены.
+```xml title="Пример, как работало в версии 7.28 и ниже"
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <left width="80%">
+        <panel title="Регион 1">...</panel>
+        <panel title="Регион 2">...</panel>
+    </left>
+
+    <right width="20%">
+        <panel title="Регион 3">...</panel>
+    </right>
+</left-right-page>
+```
+
+```xml title="Пример, как аналогичное будет выглядеть в версии 7.29"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <flex-row>
+            <region style="width: 80%">
+                <panel title="Регион 1">...</panel>
+                <panel title="Регион 2">...</panel>
+            </region>
+
+            <panel title="Регион 3" style="width: 20%">...</panel>
+        </flex-row>
+    </regions>
+</page>
+```
+
+
+
+## 7.29.10 {#7_29_10}
+
+### Изменения в XML API {#changes-xml-api}
+
+- Удален неподдерживаемый атрибут `depends-on` из филдсетов и полей
