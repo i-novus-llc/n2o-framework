@@ -17,14 +17,14 @@ export type Props = {
     href?: string
 }
 
-const getURL = (href: string | undefined, target: LinkTarget) => {
+const getURL = (href: string | undefined, target: LinkTarget, base = '') => {
     if (!href) { return undefined }
     if (href.startsWith('http://') || href.startsWith('https://')) { return href }
 
     if (target === LinkTarget.self) { return href }
     if (target === LinkTarget.blank) { return href }
 
-    return `./#${resolvePath('', href)}`
+    return `./#${resolvePath(base, href)}`
 }
 
 export function useLink({
@@ -40,7 +40,7 @@ export function useLink({
 
     const { pathname } = useLocation()
 
-    const url = disabled ? undefined : getURL(href, target)
+    const url = disabled ? undefined : getURL(href, target, pathname)
 
     /** Учитывает роутинг sub-pages (прим. страницы в модальных окнах)*/
     const onClick = useCallback((event: MouseEvent) => {
