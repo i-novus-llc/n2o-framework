@@ -17,7 +17,7 @@
         </fields>
 
         <toolbar place="bottomLeft">
-            <button id="check" label="Проверить" validate="false"
+            <button id="check" label="Провалидировать часть полей" validate="false"
                     disable-on-empty-model="false">
                 <validate>
                     <field id="name"/>
@@ -26,8 +26,9 @@
                 <alert text="Имя и название заполнены верно" color="success"/>
                 <invoke operation-id="create"/>
             </button>
-            <button id="create" label="Сохранить"
-                    disable-on-empty-model="false" description="Проверит все поля">
+
+            <button id="create" label="Провалидировать все поля"
+                    disable-on-empty-model="false">
                 <invoke operation-id="create"/>
             </button>
         </toolbar>
