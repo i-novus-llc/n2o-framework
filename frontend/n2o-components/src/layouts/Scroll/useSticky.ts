@@ -6,14 +6,14 @@ export const useSticky = (
     containerRef: RefObject<HTMLElement>,
     targetRef: RefObject<HTMLElement>,
 ) => {
-    const { container: scrollContainer } = useContext(ScrollContext)
+    const { container: scrollContainer, content: scrollContent } = useContext(ScrollContext)
     const container = containerRef.current
     const target = targetRef.current
 
     useEffect(() => {
         let offset = 0
 
-        if (!scrollContainer || !container || !target) { return }
+        if (!scrollContainer ||!scrollContent || !container || !target) { return }
 
         const onScroll = () => {
             const { scrollTop } = scrollContainer
@@ -28,18 +28,20 @@ export const useSticky = (
 
             target.style.transform = `translateY(${top}px)`
         }
+
         const onResize = () => {
-            const sc = scrollContainer.getBoundingClientRect()
+            const sc = scrollContent.getBoundingClientRect()
             const cc = container.getBoundingClientRect()
 
-            offset = Math.floor(cc.top - sc.top + scrollContainer.scrollTop)
+            offset = Math.floor(cc.top - sc.top)
+            onScroll()
         }
 
         const resizeObserver = new ResizeObserver(onResize)
         const intersectionObserver = new IntersectionObserver(onResize)
 
         scrollContainer.addEventListener('scroll', onScroll)
-        resizeObserver.observe(scrollContainer)
+        resizeObserver.observe(scrollContent)
         intersectionObserver.observe(container)
         onScroll()
 

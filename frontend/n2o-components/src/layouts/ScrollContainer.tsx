@@ -5,11 +5,13 @@ import { TBaseProps } from '../types'
 
 export type State = {
     container: null | HTMLDivElement
+    content: null | HTMLDivElement
     scrollTo(config: Record<string, unknown>): void
 }
 
 const DEFAULT_STATE: State = {
     container: null,
+    content: null,
     scrollTo() {},
 }
 
@@ -54,6 +56,7 @@ export const ScrollContainer = ({
     }, [containerRef])
 
     state.current.container = containerRef.current
+    state.current.content = contentRef.current
     state.current.scrollTo = scrollTo
 
     return (
