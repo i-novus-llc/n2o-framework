@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Действие валидация на клиенте">
+    <form id="form">
+        <datasource object-id="test"/>
+        <fields>
+            <input-text id="name" label="Имя" required="true"/>
+            <date-time id="birthday" label="Дата рождения" required="true"/>
+            <multi-set id="works" label="Место работы">
+                <input-text id="jobTitle" label="Название" required="true"/>
+                <input-text id="startYear" label="Год начала" required="true" domain="integer"/>
+                <input-text id="endYear" label="Год окончания" domain="integer"/>
+            </multi-set>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button id="check" label="Проверить" validate="false" disable-on-empty-model="false">
+                <validate>
+                    <field id="name"/>
+                    <field id="works[$index_0].jobTitle"/>
+                </validate>
+                <alert text="Имя и название заполнены верно" color="success"/>
+            </button>
+            <button id="create" label="Сохранить" disable-on-empty-model="false" description="Проверит все поля">
+                <invoke operation-id="create"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

@@ -1,3 +1,4 @@
+import { Severity } from './types'
 import type { ExtraValidationConfig, Validation, ValidationResult } from './types'
 import { getCtxByModel, getCtxFromField, isMulti } from './utils'
 import { validateField, hasError as checkErrors } from './validateField'
@@ -68,4 +69,5 @@ export const validateModel = async (
 
 export const hasError = (
     messages: Record<string, ValidationResult[]>,
-): boolean => Object.values(messages).some(checkErrors)
+    severity: Severity = Severity.danger,
+): boolean => Object.values(messages).some(message => checkErrors(message, severity))

@@ -24,6 +24,7 @@
     <xs:element name="show-modal" type="showModalDefinition"/>
     <xs:element name="submit" type="submitDatasourceDefinition"/>
     <xs:element name="switch" type="switchActionDefinition"/>
+    <xs:element name="validate" type="validateDefinition"/>
 
     <xs:complexType name="actions">
         <xs:sequence>
@@ -51,6 +52,7 @@
             <xs:element name="show-modal" type="showModalDefinition" minOccurs="0"/>
             <xs:element name="submit" type="submitDatasourceDefinition" minOccurs="0"/>
             <xs:element name="switch" type="switchActionDefinition" minOccurs="0"/>
+            <xs:element name="validate" type="validateDefinition" minOccurs="0"/>
             <xs:group ref="ifElseDefinition" minOccurs="0"/>
             <xs:any namespace="##other">
                 <xs:annotation>
@@ -1587,6 +1589,76 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
+
+    <xs:complexType name="validateDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Действие валидации полей на клиенте
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="field" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="datasource" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Идентификатор источника данных, который будет провалидирован
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="model" type="validateModelEnum">
+            <xs:annotation>
+                <xs:documentation>
+                    Модель данных, которая будет провалидирована
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="break-on" type="validateBreakOnEnum">
+            <xs:annotation>
+                <xs:documentation>
+                    Режим прерывания цепочки действий при негативном результате
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="validateModelEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="resolve"/>
+            <xs:enumeration value="filter"/>
+            <xs:enumeration value="edit"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="validateBreakOnEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="danger">
+                <xs:annotation>
+                    <xs:documentation>
+                        Цепочка действий останавливается
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="warning">
+                <xs:annotation>
+                    <xs:documentation>
+                        Отображается предупреждение, но цепочка продолжается
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="false">
+                <xs:annotation>
+                    <xs:documentation>
+                        Цепочка действий не прекращается
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="modalSize">
         <xs:annotation>

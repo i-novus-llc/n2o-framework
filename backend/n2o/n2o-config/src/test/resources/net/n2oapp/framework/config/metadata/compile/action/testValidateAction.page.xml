@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <datasource object-id="utBlank"/>
+        <fields>
+            <input-text id="name"/>
+            <input-select id="country" required="true">
+                <options>
+                    <option value="1">Россия</option>
+                    <option value="2">Бразилия</option>
+                </options>
+            </input-select>
+        </fields>
+        <toolbar>
+            <button label="Сохранить" validate="false">
+                <validate>
+                    <field id="country"/>
+                </validate>
+                <invoke operation-id="create"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

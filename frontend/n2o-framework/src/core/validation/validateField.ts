@@ -58,6 +58,15 @@ export async function validateField(
     return messages.sort((first, second) => SEVERITY_PRIORITY[first.severity] - SEVERITY_PRIORITY[second.severity])
 }
 
-export const hasError = (messages: ValidationResult[]): boolean => messages.some(message => (
-    message.severity === Severity.danger
+const severityLevel: Record<Severity, Number> = {
+    [Severity.danger]: 2,
+    [Severity.warning]: 1,
+    [Severity.success]: 0,
+}
+
+export const hasError = (
+    messages: ValidationResult[],
+    severity: Severity = Severity.danger,
+): boolean => messages.some(message => (
+    severityLevel[message.severity] >= severityLevel[severity]
 ))

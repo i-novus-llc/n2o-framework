@@ -70,6 +70,10 @@
         {
           "templateId": "uxcomponents/regions/flex_row",
           "name": "Расположение регионов без сеточной вёрстки"
+        },
+        {
+          "templateId": "uxcomponents/actions/validate",
+          "name": "Действие валидации полей на клиенте"
         }
       ]
     },
