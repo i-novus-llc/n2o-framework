@@ -33,6 +33,7 @@ public class N2oActionsIOV2Pack implements MetadataPack<XmlIOBuilder<?>> {
                 new IfBranchActionElementIOV2(),
                 new ElseIfBranchActionElementIOV2(),
                 new ElseBranchActionElementIOV2(),
-                new OnFailActionElementIOV2());
+                new OnFailActionElementIOV2(),
+                new ValidateActionElementIOV2());
     }
 }

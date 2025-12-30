@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <actions>
+        <action id="validateFull">
+            <validate
+                    datasource="dsMain"
+                    model="edit"
+                    break-on="warning">
+                <field id="firstName"/>
+                <field id="age"/>
+            </validate>
+        </action>
+        <action id="validateDanger">
+            <validate datasource="dsMain" model="resolve" break-on="danger"/>
+        </action>
+        <action id="validateFalse">
+            <validate datasource="anotherDs" model="filter" break-on="false">
+                <field id="code"/>
+            </validate>
+        </action>
+    </actions>
+</page>

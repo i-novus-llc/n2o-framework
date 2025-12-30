@@ -24,7 +24,8 @@ import { DataSourceState } from '../ducks/datasource/DataSource'
 import { dataSourceByIdSelector } from '../ducks/datasource/selectors'
 import { validate as validateSaga } from '../ducks/datasource/sagas/validate'
 import { N2OMeta } from '../ducks/Action'
-import { ValidationsKey } from '../core/validation/types'
+import { ValidationResult, ValidationsKey } from '../core/validation/types'
+import { hasError } from '../core/validation/validateModel'
 
 import fetchSaga from './fetch'
 
@@ -131,7 +132,7 @@ export function* handleInvoke(
         const { validate } = meta
 
         if (datasource && (validate !== false) && (modelPrefix === ModelPrefix.active)) {
-            const isValid: boolean = yield validateSaga(startValidate(
+            const messages: Record<string, ValidationResult[]> = yield validateSaga(startValidate(
                 datasource,
                 ValidationsKey.Validations,
                 modelPrefix,
@@ -139,7 +140,7 @@ export function* handleInvoke(
                 { touched: true },
             ))
 
-            if (!isValid) { throw new Error('invalid model') }
+            if (hasError(messages)) { throw new Error('invalid model') }
         }
 
         const response: { meta: metaPropsType, data: { $list: metaPropsType } } = optimistic

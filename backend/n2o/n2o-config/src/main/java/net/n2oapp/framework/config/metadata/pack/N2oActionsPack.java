@@ -33,7 +33,8 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new SwitchActionCompiler(),
                 new IfBranchActionCompiler(),
                 new ElseIfBranchActionCompiler(),
-                new EditListActionCompiler());
+                new EditListActionCompiler(),
+                new ValidateActionCompiler());
         b.binders(new InvokeActionBinder(),
                 new ReduxActionBinder(),
                 new LinkActionBinder(),

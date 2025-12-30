@@ -12,10 +12,10 @@ import {
 } from '../selectors'
 import { failValidate, resetValidation } from '../store'
 import type { StartValidateAction } from '../Actions'
-import { hasError, validateFields, validateModel } from '../../../core/validation/validateModel'
+import { validateFields, validateModel } from '../../../core/validation/validateModel'
 import { addFieldMessages } from '../../../core/validation/addFieldMessages'
 import { makePageUrlByIdSelector } from '../../pages/selectors'
-import { Validation } from '../../../core/validation/types'
+import { Validation, ValidationResult } from '../../../core/validation/types'
 
 type FieldId = string
 type Validations = Record<FieldId, Validation[]>
@@ -106,5 +106,5 @@ export function* validate({ payload, meta }: StartValidateAction) {
 
     asyncValidations[id] = null
 
-    return !hasError(yield select(dataSourceErrors(id, prefix)))
+    return (yield select(dataSourceErrors(id, prefix))) as Record<string, ValidationResult[]>
 }

@@ -5,6 +5,7 @@ import { sagas as pageSagas } from './page'
 import { sagas as exportSagas } from './export'
 import { sagas as confirmSagas } from './confirm'
 import { sagas as mapParamsSagas } from './mapParams'
+import { sagas as datasourceSagas } from './datasource'
 
 export const sagas = [
     ...actionsSagas,
@@ -14,4 +15,5 @@ export const sagas = [
     ...exportSagas,
     ...confirmSagas,
     ...mapParamsSagas,
+    ...datasourceSagas,
 ]

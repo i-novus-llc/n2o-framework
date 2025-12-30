@@ -10,7 +10,8 @@ import { generateErrorMeta } from '../../../utils/generateErrorMeta'
 import { id as generateId } from '../../../utils/id'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { Meta, ValidationFieldMessage } from '../../../sagas/types'
-import { ValidationsKey } from '../../../core/validation/types'
+import { ValidationResult, ValidationsKey } from '../../../core/validation/types'
+import { hasError } from '../../../core/validation/validateModel'
 import { dataSourceByIdSelector } from '../selectors'
 import {
     failValidate,
@@ -59,11 +60,11 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
         // @ts-ignore поправить типы
         const validateByPrefix = (prefix: ModelPrefix) => startValidate(id, ValidationsKey.FilterValidations, prefix, undefined, { touched: true })
 
-        const filtersIsValid: boolean = yield call(validate, validateByPrefix(ModelPrefix.filter))
+        const filtersIsValid: Record<string, ValidationResult[]> = yield call(validate, validateByPrefix(ModelPrefix.filter))
         // Хак в WidgetFilters, пока явно не нажата кнопка «Найти», данные будут храниться в ModelPrefix.edit
-        const editFiltersIsValid: boolean = yield call(validate, validateByPrefix(ModelPrefix.edit))
+        const editFiltersIsValid: Record<string, ValidationResult[]> = yield call(validate, validateByPrefix(ModelPrefix.edit))
 
-        if (!filtersIsValid || !editFiltersIsValid) { throw new Error('Invalid filters, request canceled') }
+        if (hasError(filtersIsValid) || hasError(editFiltersIsValid)) { throw new Error('Invalid filters, request canceled') }
 
         const query = getQuery(provider.type)
 
