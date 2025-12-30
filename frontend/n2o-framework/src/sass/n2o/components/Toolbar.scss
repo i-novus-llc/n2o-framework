@@ -14,10 +14,8 @@
     max-width: max-content;
 }
 
-.buttons-toolbar {
-    .btn-group:has(~ *) {
-        margin-right: 0.5rem;
-    }
+.btn-toolbar {
+    gap: 0.5rem;
 }
 
 .modal-footer {
