@@ -146,7 +146,7 @@ export function withActionButton({ onClick = emptyHandler }: { onClick?: EventHa
                 hint: propsHint,
                 label: propsLabel,
                 color: propsColor,
-                icon: withExtendedAction.icon || propsIcon,
+                icon: propsIcon,
             }, model)
 
             // FIXME проверить нужно ли это и снести, либо описать зачем
