@@ -201,6 +201,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/page/title/browser_storage",
           "name": "PageTitleLinkResolveAT. testBrowserStorage"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/page/title/page_title_resolving",
+          "name": "PageTitleLinkResolveAT. testPageTitleResolvingWithDatasource"
         }
       ]
     },

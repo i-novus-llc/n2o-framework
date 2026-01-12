@@ -18,14 +18,20 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Objects;
 
 /**
  * Автотест разрешения ссылок в заголовках страниц
  */
 class PageTitleLinkResolveAT extends AutoTestBase {
+    private static SimplePropertyResolver systemProperties;
+    private static String systemPageTitleResolving;
 
     @BeforeAll
     static void beforeClass() {
@@ -45,10 +51,72 @@ class PageTitleLinkResolveAT extends AutoTestBase {
                 new N2oAllPagesPack(),
                 new N2oApplicationPack(),
                 new N2oAllDataPack());
+        systemProperties = (SimplePropertyResolver) builder.getEnvironment().getSystemProperties();
+        systemPageTitleResolving = systemProperties.getProperty("n2o.api.page.title.resolving");
+    }
+
+    @AfterAll
+    static void afterClass() {
+        systemProperties.setProperty("n2o.api.page.title.resolving", systemPageTitleResolving);
+    }
+
+    @Test
+    void testPageTitleResolvingWithDatasource() {
+        checkPageTitleResolvingWithDatasource("old");
+        checkPageTitleResolvingWithDatasource("new");
+    }
+
+    private void checkPageTitleResolvingWithDatasource(String pageTitleResolving) {
+        systemProperties.setProperty("n2o.api.page.title.resolving", pageTitleResolving);
+
+        setResourcePath("net/n2oapp/framework/autotest/page/title/page_title_resolving");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/page_title_resolving/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/page_title_resolving/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/page_title_resolving/page.page.xml")
+        );
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        RegionItems content = page.regions().region(0, SimpleRegion.class).content();
+        TableWidget table = content.widget(TableWidget.class);
+        table.shouldBeVisible();
+        table.columns().rows().row(1).click();
+
+        Toolbar tableToolbar = table.toolbar().topLeft();
+        tableToolbar.button("Открыть").click();
+
+        SimplePage open = N2oSelenide.page(SimplePage.class);
+        open.shouldExists();
+        open.breadcrumb().shouldBeVisible();
+        open.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница: id=2; name=test2");
+
+        FormWidget form = content.widget(0, FormWidget.class);
+        InputText id = form.fields().field("id").control(InputText.class);
+        InputText name = form.fields().field("name").control(InputText.class);
+
+        id.shouldBeVisible();
+        id.shouldHaveValue("2");
+        id.setValue("5");
+        name.shouldBeVisible();
+        name.shouldHaveValue("test2");
+        name.setValue("test0");
+        String title = Objects.equals(pageTitleResolving, "old")
+                ? "Вторая страница: id=2; name=test2"
+                : "Вторая страница: id=5; name=test0";
+        open.breadcrumb().crumb(1).shouldHaveLabel(title);
     }
 
     @Test
     void testPathParam() {
+        checkPathParam("old");
+        checkPathParam("new");
+    }
+
+    private void checkPathParam(String pageTitleResolving) {
+        systemProperties.setProperty("n2o.api.page.title.resolving", pageTitleResolving);
+
         setResourcePath("net/n2oapp/framework/autotest/page/title/params/path_params");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/path_params/test.query.xml"),
@@ -76,7 +144,10 @@ class PageTitleLinkResolveAT extends AutoTestBase {
         // test title in open page
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
-        open.breadcrumb().crumb(1).shouldHaveLabel("Page name=test3 type=type2");
+        String title = Objects.equals(pageTitleResolving, "old")
+                ? "Page name=test3 type=type2"
+                : "Page name=test1 type=type1";
+        open.breadcrumb().crumb(1).shouldHaveLabel(title);
         open.breadcrumb().crumb(0).click();
 
         page.breadcrumb().shouldHaveSize(1);
@@ -86,7 +157,7 @@ class PageTitleLinkResolveAT extends AutoTestBase {
 
         // test title in modal
         Modal modal = N2oSelenide.modal();
-        modal.shouldHaveTitle("Page name=test3 type=type2");
+        modal.shouldHaveTitle(title);
         modal.close();
         modal.shouldNotExists();
 
@@ -97,7 +168,8 @@ class PageTitleLinkResolveAT extends AutoTestBase {
         formToolbar.button("Open page from master").click();
         open.shouldExists();
         open.breadcrumb().shouldHaveSize(2);
-        open.breadcrumb().crumb(1).shouldHaveLabel("Page name=test2 type=type1");
+        title = Objects.equals(pageTitleResolving, "old") ? "Page name=test2 type=type1" : "Page name=test1 type=type1";
+        open.breadcrumb().crumb(1).shouldHaveLabel(title);
         open.breadcrumb().crumb(0).click();
 
         // test title in modal (opened from dependent widget)
@@ -106,13 +178,20 @@ class PageTitleLinkResolveAT extends AutoTestBase {
         table.columns().rows().row(1).click();
         formToolbar.button("Modal from detail").click();
         modal.shouldExists();
-        modal.shouldHaveTitle("Page name=test2 type=type1");
+        modal.shouldHaveTitle(title);
         modal.closeByEsc();
         modal.shouldNotExists();
     }
 
     @Test
     void testQueryParams() {
+        checkQueryParams("old");
+        checkQueryParams("new");
+    }
+
+    private void checkQueryParams(String pageTitleResolving) {
+        systemProperties.setProperty("n2o.api.page.title.resolving", pageTitleResolving);
+
         setResourcePath("net/n2oapp/framework/autotest/page/title/params/query_params");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/query_params/test.query.xml"),
@@ -140,7 +219,10 @@ class PageTitleLinkResolveAT extends AutoTestBase {
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
         open.breadcrumb().shouldHaveSize(2);
-        open.breadcrumb().crumb(1).shouldHaveLabel("Page id=3 name=test3 type=type2");
+        String title = Objects.equals(pageTitleResolving, "old")
+                ? "Page id=3 name=test3 type=type2"
+                : "Page id=1 name=test1 type=type1";
+        open.breadcrumb().crumb(1).shouldHaveLabel(title);
         open.breadcrumb().crumb(0).click();
 
         open.breadcrumb().shouldHaveSize(1);
@@ -151,7 +233,7 @@ class PageTitleLinkResolveAT extends AutoTestBase {
 
         // test title in modal
         Modal modal = N2oSelenide.modal();
-        modal.shouldHaveTitle("Page id=3 name=test3 type=type2");
+        modal.shouldHaveTitle(title);
         modal.close();
         modal.shouldNotExists();
 
@@ -162,7 +244,10 @@ class PageTitleLinkResolveAT extends AutoTestBase {
         formToolbar.button("Open page from master").click();
         open.shouldExists();
         open.breadcrumb().shouldHaveSize(2);
-        open.breadcrumb().crumb(1).shouldHaveLabel("Page id=2 name=test2 type=type1");
+        title = Objects.equals(pageTitleResolving, "old")
+                ? "Page id=2 name=test2 type=type1"
+                : "Page id=1 name=test1 type=type1";
+        open.breadcrumb().crumb(1).shouldHaveLabel(title);
         open.breadcrumb().crumb(0).click();
 
         // test title in modal (opened from dependent widget)
@@ -172,13 +257,20 @@ class PageTitleLinkResolveAT extends AutoTestBase {
         table.columns().rows().row(1).click();
         formToolbar.button("Modal from detail").click();
         modal.shouldExists();
-        modal.shouldHaveTitle("Page id=2 name=test2 type=type1");
+        modal.shouldHaveTitle(title);
         modal.close();
         modal.shouldNotExists();
     }
 
     @Test
     void testConstantParams() {
+        checkConstantParams("old");
+        checkConstantParams("new");
+    }
+
+    private void checkConstantParams(String pageTitleResolving) {
+        systemProperties.setProperty("n2o.api.page.title.resolving", pageTitleResolving);
+
         setResourcePath("net/n2oapp/framework/autotest/page/title/params/constant_value");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/page/title/params/constant_value/test.query.xml"),
@@ -192,7 +284,10 @@ class PageTitleLinkResolveAT extends AutoTestBase {
         page.toolbar().topLeft().button("Открыть").click();
 
         page.shouldExists();
-        page.shouldHaveTitle("Версия:201 №202");
+        String title = Objects.equals(pageTitleResolving, "old")
+                ? "Версия:201 №202"
+                : "Версия:undefined №undefined";
+        page.shouldHaveTitle(title);
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/201/open\\?number=202");
     }
 

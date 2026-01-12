@@ -6,9 +6,9 @@ import { FactoryLevels } from '../../../core/factory/factoryLevels'
 import { useModel } from '../hooks/useModel'
 import { makePageByIdSelector } from '../../../ducks/pages/selectors'
 import { activePageSelector } from '../../../ducks/global/selectors'
+import { useResolved } from '../../../core/Expression/useResolver'
 
 import { Breadcrumb } from './const'
-import { breadcrumbResolver } from './breadcrumbResolver'
 
 const useBreadCrumbs = () => {
     const activePage = useSelector(activePageSelector)
@@ -16,11 +16,11 @@ const useBreadCrumbs = () => {
     const breadcrumb: Breadcrumb = page?.metadata.breadcrumb || []
     const modelPrefix = page?.metadata.page?.model
     const datasource = page?.metadata.page?.datasource
-    const model = useModel(datasource, modelPrefix)
 
-    return (modelPrefix && datasource)
-        ? breadcrumbResolver(model, breadcrumb)
-        : breadcrumb
+    const model = useModel(datasource, modelPrefix)
+    const resolvedBreadcrumb = useResolved({ breadcrumb }, model).breadcrumb
+
+    return (modelPrefix && datasource) ? resolvedBreadcrumb : breadcrumb
 }
 
 export function BreadcrumbContainer(): JSX.Element | null {
