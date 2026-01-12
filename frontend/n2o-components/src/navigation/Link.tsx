@@ -37,3 +37,5 @@ export function Link({
 
     return <a {...props} href={url} onClick={onClick}>{content}</a>
 }
+
+Link.displayName = '@n2o-components/navigation/Link'

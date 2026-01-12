@@ -29,6 +29,7 @@ export function Dropdown({
     onItemClick = () => {},
     level = 0,
     iconPosition = ICON_POSITIONS.LEFT,
+    disabled,
 }: DropdownProps) {
     const [isOpen, setOpen] = useState(false)
 
@@ -46,7 +47,7 @@ export function Dropdown({
             direction={direction}
             tag="li"
         >
-            <DropdownToggle className={classNames({ 'dropdown-item': level > 0 })} caret>
+            <DropdownToggle className={classNames({ 'dropdown-item': level > 0 })} disabled={disabled} caret>
                 <LinkBody
                     imageSrc={imageSrc}
                     icon={icon}
@@ -89,7 +90,11 @@ export function Dropdown({
                     }
 
                     return (
-                        <DropdownItem active={active} onClick={onItemClick} disabled={src === ITEM_SRC.STATIC}>
+                        <DropdownItem
+                            active={active}
+                            onClick={onItemClick}
+                            disabled={src === ITEM_SRC.STATIC || item.disabled}
+                        >
                             <FactoryComponent
                                 item={item}
                                 from="HEADER"

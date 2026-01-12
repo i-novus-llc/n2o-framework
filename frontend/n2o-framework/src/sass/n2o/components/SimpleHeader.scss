@@ -59,7 +59,7 @@
             @include navItem;
         }
 
-        .dropdown-toggle:hover {
+        .dropdown-toggle:not(.disabled):hover {
             @include hoverColor;
         }
 
