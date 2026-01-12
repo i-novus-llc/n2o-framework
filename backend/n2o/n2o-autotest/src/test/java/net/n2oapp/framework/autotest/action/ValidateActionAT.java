@@ -10,7 +10,9 @@ import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,5 +83,25 @@ class ValidateActionAT extends AutoTestBase {
         birthdayField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         startYearField.shouldHaveValidationMessage(Condition.exist);
         startYearField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+    }
+
+    @Test
+    void testBreakOn() {
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget form = page.widget(FormWidget.class);
+
+        MultiFieldSet multiFieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
+        multiFieldset.clickAddButton();
+        form.toolbar().bottomLeft().button("Проверить break-on=warning").click();
+        form.fields().field("Место рождения").control(InputText.class).shouldHaveCssClass("is-invalid");
+        multiFieldset.item(0).fields().field("Компания").control(InputText.class).shouldHaveCssClass("is-invalid");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Сообщение после break-on=warning");
+
+        form.toolbar().bottomLeft().button("Проверить break-on=false").click();
+        form.fields().field("Имя").shouldBeRequired();
+        multiFieldset.item(0).fields().field("Название").shouldBeRequired();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Сообщение после break-on=false");
     }
 }
