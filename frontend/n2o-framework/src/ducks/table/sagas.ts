@@ -11,7 +11,6 @@ import { TableStateCache } from '../../components/widgets/AdvancedTable/types'
 import { mergeWithCache, prepareCellsToStore } from '../../components/widgets/AdvancedTable/helpers'
 import { changePage, changeSize, setSorting, updatePaging } from '../datasource/store'
 import { dataSourceByIdSelector } from '../datasource/selectors'
-import { makePageMetadataByIdSelector } from '../pages/selectors'
 import { DataSourceState } from '../datasource/DataSource'
 import { DatasourceAction } from '../datasource/Actions'
 
@@ -95,14 +94,6 @@ function* registerTableEffect(action: Register) {
 
     const cachedSettings = getData<TableStateCache>(widgetId)
 
-    const { sorting, pageId, id } = yield select(dataSourceByIdSelector(datasource))
-    // @ts-ignore FIXME временно
-    const metaData = yield select(makePageMetadataByIdSelector(pageId))
-
-    const { datasources = {} } = metaData || {}
-    const pageDs = datasources[id] || {}
-    const { paging } = pageDs
-
     if (saveSettings && !isEmpty(cachedSettings)) {
         const savedHeaderCells = mergeWithCache(computedHeaderCells, cachedSettings.header)
         const savedBodyCells = mergeWithCache(bodyCells, cachedSettings.body)
@@ -119,15 +110,9 @@ function* registerTableEffect(action: Register) {
         }
     }
 
-    // TODO подумать как можно проще сохранить defaultProps и defaultDatasourceProps
     yield put(registerTable(
         widgetId,
-        {
-            ...props,
-            ...cachedProps,
-            defaultProps: props,
-            defaultDatasourceProps: { paging, sorting },
-        },
+        { ...props, ...cachedProps, defaultProps: props },
     ))
 }
 
@@ -140,6 +125,7 @@ function* onDatasourceUpdateEffect({ payload }: DatasourceAction) {
         const cache = getData<TableStateCache>(id)
         const next = {
             ...cache,
+            // @INFO настройки таблицы для datasource
             datasourceFeatures: {
                 sorting: isEmpty(sorting) ? undefined : sorting,
                 paging,

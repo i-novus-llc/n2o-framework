@@ -41,6 +41,13 @@ export const dataSourcePagingSelector = (sourceId: string) => createSelector(
     state => state.paging || {},
 )
 
+export const dataSourceDefaultPropsSelector = (
+    sourceId: string,
+) => createSelector(
+    dataSourceByIdSelector(sourceId),
+    state => state.defaultDatasourceProps || {},
+)
+
 export const dataSourceSizeSelector = (sourceId: string) => createSelector(
     dataSourcePagingSelector(sourceId),
     state => state.size,

@@ -22,7 +22,16 @@ export const usePageRegister = (dispatch: Dispatch, datasources?: Record<string,
 
             const paging = (isEmpty(initialPaging) || initialPaging.size < 5) ? configPaging : initialPaging
 
-            dispatch(register(id, { pageId, paging, ...rest }))
+            dispatch(register(id, {
+                pageId,
+                paging,
+                // @INFO изначальные настройки полученные от сервера
+                defaultDatasourceProps: {
+                    paging: configPaging,
+                    sorting: rest.sorting,
+                },
+                ...rest,
+            }))
         })
 
         // eslint-disable-next-line consistent-return

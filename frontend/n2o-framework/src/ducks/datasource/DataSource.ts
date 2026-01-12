@@ -18,6 +18,7 @@ export type DataSourceState = {
     [ValidationsKey.FilterValidations]: Record<string, Validation[]>
     components: string[]
     dependencies: DataSourceDependency[]
+    defaultDatasourceProps?: { sorting?: Record<string, SortDirection>, paging?: Paging }
     paging: Paging
     additionalInfo: unknown
     loading: boolean
