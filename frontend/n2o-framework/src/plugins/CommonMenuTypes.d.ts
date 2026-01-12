@@ -4,7 +4,6 @@ import { ImageShape } from '@i-novus/n2o-components/lib/display/NavItemImage'
 
 import { Action } from '../ducks/Action'
 import { Props } from '../components/snippets/Badge/Badge'
-import { LinkTarget } from '../components/core/router/types'
 import { DataSourceModels } from '../core/datasource/const'
 
 import { metaPropsType } from './utils'
@@ -27,7 +26,6 @@ export interface Common {
     sidebarOpen?: boolean
     showContent?: boolean
     isMiniView?: boolean
-    disabled?: boolean
 }
 export interface Item extends Common {
     id: string
@@ -35,7 +33,7 @@ export interface Item extends Common {
     href: string
     datasource: string
     datasources: metaPropsType[]
-    target: LinkTarget
+    target: string
     style?: React.CSSProperties
     pathMapping?: metaPropsType[]
     queryMapping?: metaPropsType[]

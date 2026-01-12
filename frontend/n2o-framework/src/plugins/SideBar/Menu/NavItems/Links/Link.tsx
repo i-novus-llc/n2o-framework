@@ -1,12 +1,12 @@
 import React from 'react'
-import { Link as LinkComponent } from '@i-novus/n2o-components/lib/navigation/Link'
-import classNames from 'classnames'
 
+import { OUTER_LINK_TYPE } from '../../../../constants'
 import { Item } from '../../../../CommonMenuTypes'
 import { Tooltip } from '../../../../../components/snippets/Tooltip/TooltipHOC'
-import { useLink } from '../../../../../components/core/router/useLink'
+import { id as generateId } from '../../../../../utils/id'
 
-import { LinkBody } from './LinkBody'
+import { OuterLink } from './OuterLink'
+import { InnerLink } from './InnerLink'
 
 interface LinkProps {
     item: Item
@@ -17,29 +17,24 @@ interface LinkProps {
 }
 
 export function Link({ item, sidebarOpen, isMiniView, isStaticView, showContent }: LinkProps) {
-    const { href, title, disabled, target } = item
+    const { linkType, href, title } = item
 
     const hint = isMiniView ? title : null
-    const { active, ...linkProps } = useLink({ href, disabled, target })
+    const id = generateId()
+    const linkProps = {
+        sidebarOpen,
+        isMiniView,
+        item,
+        isStaticView,
+        showContent,
+        href,
+        title,
+        id,
+    }
 
     return (
         <Tooltip placement="right" hint={hint}>
-            <LinkComponent
-                className={classNames('n2o-sidebar__item', { active })}
-                disabled={disabled}
-                {...linkProps}
-                label={(
-                    <LinkBody
-                        {...item}
-                        sidebarOpen={sidebarOpen}
-                        isStaticView={isStaticView}
-                        showContent={showContent}
-                        isMiniView={isMiniView}
-                    />
-                )}
-            />
+            {linkType === OUTER_LINK_TYPE ? <OuterLink {...linkProps} /> : <InnerLink {...linkProps} /> }
         </Tooltip>
     )
 }
-
-Link.displayName = 'n2o/Sidebar/Link'
