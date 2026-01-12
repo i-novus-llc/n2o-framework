@@ -73,6 +73,7 @@ export type Page = {
     metadata: Metadata
     spinner?: boolean
     pageUrl: string
+    baseUrl?: string
     parentId?: string
     rootPage?: boolean
     location?: Location

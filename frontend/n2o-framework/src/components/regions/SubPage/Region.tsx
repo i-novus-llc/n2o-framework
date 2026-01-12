@@ -54,17 +54,19 @@ export function SubPage({
             .sort((a, b) => b.route.length - a.route.length)
             .map(({ route, ...page }) => {
                 const { id, url } = page
+                const path = resolvePath(baseUrl, route)
 
                 return (
                     <Route
                         key={id}
-                        path={resolvePath(baseUrl, route)}
+                        path={path}
                         render={() => (
                             <Page
                                 {...page}
                                 pageId={id}
                                 pageUrl={url}
                                 parentId={currentPageId}
+                                baseUrl={path}
                                 className="n2o-sub-page-body"
                             />
                         )}

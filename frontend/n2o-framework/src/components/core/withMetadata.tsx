@@ -19,6 +19,7 @@ import { PageContext } from './router/context'
 export interface WithMetadataProps {
     pageId: string
     pageUrl: string
+    baseUrl?: string
     pageMapping: Mapping
     rootPage: string
     parentId: string
@@ -30,7 +31,8 @@ export interface WithMetadataProps {
         pageUrl: string,
         pageMapping: Mapping,
         rootPage: string,
-        parentId: string
+        parentId: string,
+        baseUrl?: string,
     ): void;
     reset(pageId: string): void
     location: Location & { state: { silent: boolean } }
@@ -74,9 +76,10 @@ export const WithMetadata = <P extends WithMetadataProps>(Component: ComponentTy
                 rootPage,
                 getMetadata,
                 parentId,
+                baseUrl,
             } = this.props
 
-            getMetadata(pageId, pageUrl, pageMapping, rootPage, parentId)
+            getMetadata(pageId, pageUrl, pageMapping, rootPage, parentId, baseUrl)
         }
 
         shouldGetPageMetadata(prevProps: WithMetadataProps) {
@@ -136,7 +139,8 @@ export const WithMetadata = <P extends WithMetadataProps>(Component: ComponentTy
                 pageMapping: WithMetadataProps['pageMapping'],
                 rootPage: WithMetadataProps['rootPage'],
                 parentId: WithMetadataProps['parentId'],
-            ) => dispatch(metadataRequest(pageId, rootPage, pageUrl, pageMapping, parentId)),
+                baseUrl: WithMetadataProps['baseUrl'],
+            ) => dispatch(metadataRequest(pageId, rootPage, pageUrl, pageMapping, parentId, baseUrl)),
             reset: (pageId: WithMetadataProps['pageId']) => dispatch(resetPage(pageId)),
         }
     }
