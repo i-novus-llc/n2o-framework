@@ -77,14 +77,9 @@ export const makePageMetadataByIdSelector = (pageId: string) => createSelector(
     pageState => pageState?.metadata,
 )
 
-/**
- * Селектор-генератор для получения метеданных страницы по ID
- * @param {string} pageId
- * @return {Object.<string, any> | undefined}
- */
 export const makePageUrlByIdSelector = (pageId: string) => createSelector(
     makePageByIdSelector(pageId),
-    pageState => pageState?.pageUrl,
+    pageState => pageState?.baseUrl || pageState?.pageUrl,
 )
 
 /**

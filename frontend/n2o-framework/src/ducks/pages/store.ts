@@ -18,14 +18,14 @@ export const pageSlice = createSlice({
     initialState,
     reducers: {
         METADATA_REQUEST: {
-            prepare(pageId, rootPage, pageUrl, mapping, parentId) {
+            prepare(pageId, rootPage, pageUrl, mapping, parentId, baseUrl) {
                 return {
-                    payload: { pageId, rootPage, pageUrl, mapping, parentId },
+                    payload: { pageId, rootPage, pageUrl, mapping, parentId, baseUrl },
                 }
             },
 
             reducer(state, action: MetadataRequest) {
-                const { pageId, pageUrl, rootPage, parentId } = action.payload
+                const { pageId, pageUrl, rootPage, parentId, baseUrl } = action.payload
 
                 if (!state[pageId]) {
                     state[pageId] = PageResolver.defaultState
@@ -38,6 +38,7 @@ export const pageSlice = createSlice({
                 state[pageId].pageUrl = pageUrl
                 state[pageId].rootPage = rootPage
                 state[pageId].parentId = parentId
+                state[pageId].baseUrl = baseUrl
             },
         },
 

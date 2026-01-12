@@ -6,6 +6,7 @@ export type MetadataRequestPayload = {
     pageId: string
     rootPage: boolean
     pageUrl: string
+    baseUrl?: string
     mapping: Record<string, unknown>
     parentId?: string
 }
