@@ -2,6 +2,7 @@ import { ComponentProps, ComponentType, CSSProperties, FC, MouseEvent, VFC } fro
 
 import { type Condition } from '../toolbar/Toolbar'
 import { Selection } from '../../components/Table'
+import { DataSourceState } from '../datasource/DataSource'
 
 export enum MOVE_MODE {
     TABLE = 'table',
@@ -53,7 +54,7 @@ export type HeaderCell = {
     conditions?: Condition
     label: string
     icon?: string
-    multiHeader?: boolean;
+    multiHeader?: boolean
     id: string
     fieldId: string
     elementAttributes: ElementAttributes & {
@@ -89,6 +90,7 @@ export interface Table {
     saveSettings?: boolean
     defaultProps?: Table
     datasource?: string
+    defaultDatasourceProps?: Pick<DataSourceState, 'sorting' | 'paging'>
 }
 
 export type State = Record<string, Table>

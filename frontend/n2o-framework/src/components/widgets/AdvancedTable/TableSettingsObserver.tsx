@@ -8,7 +8,11 @@ import isEqual from 'lodash/isEqual'
 import { useData } from '../../../core/widget/useData'
 import { makeTableByIdSelector } from '../../../ducks/table/selectors'
 import { registerTable, updateTableParams } from '../../../ducks/table/store'
-import { dataSourcePagingSelector, dataSourceSortingSelector } from '../../../ducks/datasource/selectors'
+import {
+    dataSourceDefaultPropsSelector,
+    dataSourcePagingSelector,
+    dataSourceSortingSelector,
+} from '../../../ducks/datasource/selectors'
 import { SortDirection } from '../../../core/datasource/const'
 import { DataSourceContext } from '../../../core/widget/context'
 
@@ -34,6 +38,8 @@ export function TableSettingsObserver<P extends WithTableType>(Component: React.
         const paging = useSelector(dataSourcePagingSelector(datasource))
         const sorting = useSelector(dataSourceSortingSelector(datasource))
 
+        const defaultDatasourceProps = useSelector(dataSourceDefaultPropsSelector(datasource))
+
         const { cells: headerCells = [] } = header || {}
         const { cells: bodyCells = [] } = body || {}
 
@@ -41,36 +47,37 @@ export function TableSettingsObserver<P extends WithTableType>(Component: React.
         useEffect(() => {
             if (!saveSettings) { return }
 
-            // сброс и установка default
+            // сброс локальных настроек и установка default
             if (isEmpty(cachedSettings)) {
-                // @ts-ignore FIXME скорее всего будет не в этом месте, пока не типизирую
-                const { defaultProps, defaultDatasourceProps } = table || {}
+                const { defaultProps } = table || {}
 
                 if (defaultProps) {
                     // overwrite true иначе редюсер смержит параметры в header/body.cells
                     dispatch(registerTable(id, defaultProps, true))
                 }
 
+                // TODO DataSourceSettingsObserver
+                // нужен механизм для datasource который будет заниматься get/set своих локальных настроек
+                // table observer должен работать только со строками таблицы
                 if (defaultDatasourceProps) {
                     const { paging: defaultPaging, sorting: defaultSorting } = defaultDatasourceProps
 
-                    fetchData(defaultPaging.page ? defaultPaging : { ...defaultPaging, page: 1 })
+                    fetchData(defaultPaging?.page ? defaultPaging : { ...defaultPaging, page: 1 })
 
-                    if (isEmpty(defaultSorting)) {
-                        if (!isEmpty(sorting)) {
-                            const [[id]] = Object.entries(sorting)
+                    if ((isEmpty(defaultSorting) || defaultSorting === undefined) && !isEmpty(sorting)) {
+                        const [[id]] = Object.entries(sorting)
 
-                            setSorting(id, SortDirection.none)
+                        setSorting(id, SortDirection.none)
+                    } else if (defaultSorting) {
+                        const [[id, direction]] = Object.entries(defaultSorting)
 
-                            return
-                        }
-
-                        return
+                        setSorting(id, direction || SortDirection.none)
                     }
 
-                    const [[id]] = Object.entries(defaultSorting)
-
-                    setSorting(id, SortDirection.none)
+                    if (defaultPaging) {
+                        setPage(defaultPaging?.page || 1)
+                        setSize(defaultPaging.size)
+                    }
                 }
 
                 return
@@ -93,27 +100,29 @@ export function TableSettingsObserver<P extends WithTableType>(Component: React.
             if (datasourceFeatures && !isEmpty(datasourceFeatures)) {
                 const { sorting: savedSorting = {}, paging: savedPaging } = datasourceFeatures
 
-                if (!isEqual(savedSorting, sorting)) {
-                    // Синхронизация с другой вкладки, перебивает sorting из props
-                    if (isEmpty(savedSorting) && !isEmpty(sorting)) {
-                        const [[id, direction]] = Object.entries(sorting)
+                // Синхронизация с другой вкладки, перебивает sorting из props
+                if (isEmpty(savedSorting) && !isEmpty(sorting)) {
+                    const [[id, direction]] = Object.entries(sorting)
 
+                    setSorting(id, SortDirection.none)
+                } else if (!isEmpty(savedSorting)) {
+                    const [[id, direction]] = Object.entries(savedSorting)
+
+                    setSorting(id, direction)
+                } else if (isEmpty(savedSorting) && isEmpty(sorting)) {
+                    // @INFO Если сортировка неизвестна, приходится обходить все колонки и устанавливать direction: none.
+                    // Так как это может указывать на отключение локальной сортировки. Иначе dataSource выставит свой default.
+                    props.table.header.cells.forEach(({ id }) => {
                         setSorting(id, SortDirection.none)
-                    } else if (!isEmpty(savedSorting)) {
-                        const [[id, direction]] = Object.entries(savedSorting)
-
-                        setSorting(id, direction)
-                    }
+                    })
                 }
 
                 if (savedPaging && !isEmpty(savedPaging) && !isEqual(savedPaging, paging)) {
-                    if (!isEqual(savedPaging.size, size)) {
+                    if (savedPaging.size !== size) {
                         setSize(savedPaging.size)
-
-                        return
                     }
 
-                    if (!isEqual(savedPaging.page, page)) {
+                    if (savedPaging.page !== page) {
                         setPage(savedPaging.page)
                     }
                 }
