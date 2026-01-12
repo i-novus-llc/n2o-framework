@@ -74,6 +74,10 @@
         {
           "templateId": "uxcomponents/actions/validate",
           "name": "Действие валидации полей на клиенте"
+        },
+        {
+          "templateId": "versions/7.29/page_title_resolving",
+          "name": "Перерисовка 'хлебных крошек' по данным модели"
         }
       ]
     },

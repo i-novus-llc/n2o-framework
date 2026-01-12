@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
-import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
@@ -23,6 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static net.n2oapp.framework.api.StringUtils.hasLink;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Базовое связывание данных на странице
@@ -54,7 +54,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             page.getBreadcrumb()
                     .forEach(b -> {
                         b.setPath(p.resolveUrl(b.getPath()));
-                        b.setLabel(tryToResolve(b.getLabel(), b.getModelLinks(), p));
+                        b.setLabel(tryToResolve(b.getLabel(), b.getModelLinks(), p, page));
                     });
         }
 
@@ -77,17 +77,12 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         }
         if (page.getPageProperty() != null) {
             page.getPageProperty().setTitle(tryToResolve(page.getPageProperty().getTitle(),
-                    page.getPageProperty().getModelLinks(), p));
+                    page.getPageProperty().getModelLinks(), p, page));
             page.getPageProperty().setHtmlTitle(tryToResolve(page.getPageProperty().getHtmlTitle(),
-                    page.getPageProperty().getModelLinks(), p));
+                    page.getPageProperty().getModelLinks(), p, page));
             page.getPageProperty().setModalHeaderTitle(tryToResolve(page.getPageProperty().getModalHeaderTitle(),
-                    page.getPageProperty().getModelLinks(), p));
+                    page.getPageProperty().getModelLinks(), p, page));
 
-        }
-        if (page.getBreadcrumb() != null) {
-            for (Breadcrumb crumb : page.getBreadcrumb()) {
-                crumb.setLabel(p.resolveText(crumb.getLabel(), crumb.getModelLinks()));
-            }
         }
         return page;
     }
@@ -140,8 +135,16 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         return criteria;
     }
 
-    private String tryToResolve(String value, List<ModelLink> modelLinks, BindProcessor p) {
-        String resolved = p.resolveText(value, modelLinks); //TODO использовать только один modelLink https://jira.i-novus.ru/browse/NNO-8532
+    private String tryToResolve(String value, List<ModelLink> modelLinks, BindProcessor p, D page) {
+        String pageTitleResolvingMode = p.resolve(property("n2o.api.page.title.resolving"), String.class);
+
+        // Если включено новое поведение И в странице есть datasource И есть ссылки в значении
+        // В остальных случаях разрешаем на сервере (старое поведение)
+        String resolved = ("new".equals(pageTitleResolvingMode) && hasLink(value) &&
+                           page.getPageProperty() != null && page.getPageProperty().getDatasource() != null)
+                ? value
+                : p.resolveText(value, modelLinks); //TODO использовать только один modelLink https://jira.i-novus.ru/browse/NNO-8532
+
         return hasLink(resolved) ? ScriptProcessor.resolveLinks(resolved) : resolved;
     }
 

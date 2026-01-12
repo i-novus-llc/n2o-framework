@@ -7,6 +7,8 @@ import { BreadcrumbContainer } from '../core/Breadcrumb/BreadcrumbContainer'
 import Toolbar from '../buttons/Toolbar'
 import { ModelPrefix } from '../../core/datasource/const'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
+import { useModel } from '../core/hooks/useModel'
+import { useResolved } from '../../core/Expression/useResolver'
 
 import { type DefaultPageProps } from './types'
 import { usePageRegister } from './usePageRegister'
@@ -27,11 +29,15 @@ const DefaultPageBody = ({
 
     usePageRegister(dispatch, datasources, pageId)
 
+    const model = useModel(datasource, modelPrefix)
+
+    const { resolvedHtmlTitle } = useResolved({ resolvedHtmlTitle: htmlTitle }, model)
+
     return (
         <div className={classNames('n2o-page-body', className, { 'n2o-disabled-page': disabled })} style={style}>
             {error && <Alert {...error} visible />}
             <DocumentTitle
-                htmlTitle={htmlTitle}
+                htmlTitle={resolvedHtmlTitle}
                 datasource={datasource}
                 modelPrefix={modelPrefix || ModelPrefix.active}
             />

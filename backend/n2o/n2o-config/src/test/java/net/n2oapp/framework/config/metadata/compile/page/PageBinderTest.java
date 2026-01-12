@@ -19,8 +19,10 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipelin
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +35,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 
 class PageBinderTest extends SourceCompileTestBase {
+    private static SimplePropertyResolver systemProperties;
+    private static String systemPageTitleResolving;
+
     @Override
     @BeforeEach
     public void setUp() {
@@ -45,6 +50,84 @@ class PageBinderTest extends SourceCompileTestBase {
         builder.getEnvironment().getContextProcessor().set("test", "Test");
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oPagesPack(),
                 new N2oWidgetsPack(), new N2oRegionsPack(), new N2oCellsPack(), new N2oActionsPack());
+        systemProperties = (SimplePropertyResolver) builder.getEnvironment().getSystemProperties();
+        systemPageTitleResolving = systemProperties.getProperty("n2o.api.page.title.resolving");
+    }
+
+    @AfterAll
+    static void afterClass() {
+        systemProperties.setProperty("n2o.api.page.title.resolving", systemPageTitleResolving);
+    }
+
+    /**
+     * Резолв на сервере, задание значения на клиенте, если задан datasource и n2o.api.page.title.resolving=new
+     */
+    @Test
+    void testPageTitleResolvingWithDatasource() {
+        PageContext context = new PageContext("testPageTitleResolvingWithDatasource", "/page/:id/open");
+        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModelEnum.RESOLVE, "page_master")));
+        ModelLink modelLink = new ModelLink(ReduxModelEnum.RESOLVE, "page_master", "id");
+        modelLink.setSubModelQuery(new SubModelQuery("query1"));
+        context.setPathRouteMapping(Collections.singletonMap("id", modelLink));
+        N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
+        doAnswer(invocation -> {
+            List<SubModelQuery> subModelQueries = invocation.getArgument(0);
+            DataSet data = invocation.getArgument(1);
+            if (!subModelQueries.isEmpty()
+                    && "query1".equals(subModelQueries.getFirst().getQueryId())
+                    && data.get("id").equals("2")) {
+                data.put("name", "test2");
+            }
+            return null;
+        }).when(subModelsProcessor).executeSubModels(anyList(), any());
+
+        checkPageTitleResolving(context, subModelsProcessor, "old");
+        checkPageTitleResolving(context, subModelsProcessor, "new");
+    }
+
+    private void checkPageTitleResolving(PageContext context, N2oSubModelsProcessor subModelsProcessor, String pageTitleResolving) {
+        SimplePropertyResolver systemPropertiesResolver = (SimplePropertyResolver) builder.getEnvironment().getSystemProperties();
+        systemPropertiesResolver.setProperty("n2o.api.page.title.resolving", pageTitleResolving);
+        Page page = bind("net/n2oapp/framework/config/metadata/compile/page/binder/testPageTitleResolvingWithDatasource.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/binder/testPageTitleResolving.query.xml")
+                .get(context, new DataSet().add("id", "2"), subModelsProcessor);
+        String value = Objects.equals(pageTitleResolving, "old")
+                ? "Вторая страница: id=2; name=test2"
+                : "`'Вторая страница: id='+id+'; name='+name`";
+        assertThat(page.getBreadcrumb().getFirst().getLabel(), is(value));
+        assertThat(page.getPageProperty().getTitle(), is(value));
+        assertThat(page.getPageProperty().getHtmlTitle(), is(value));
+    }
+
+    /**
+     * Задание на сервере (сохраняем поведение из-за обратной совместимости), если не задан datasource
+     */
+    @Test
+    void testPageTitleResolvingWithoutDatasource() {
+        PageContext context = new PageContext("testPageTitleResolvingWithoutDatasource", "/page/:id/open");
+        context.setParentModelLinks(Collections.singletonList(new ModelLink(ReduxModelEnum.RESOLVE, "page_master")));
+        ModelLink modelLink = new ModelLink(ReduxModelEnum.RESOLVE, "page_master", "id");
+        modelLink.setSubModelQuery(new SubModelQuery("query1"));
+        context.setPathRouteMapping(Collections.singletonMap("id", modelLink));
+        N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
+        doAnswer(invocation -> {
+            List<SubModelQuery> subModelQueries = invocation.getArgument(0);
+            DataSet data = invocation.getArgument(1);
+            if (!subModelQueries.isEmpty()
+                    && "query1".equals(subModelQueries.getFirst().getQueryId())
+                    && data.get("id").equals("2")) {
+                data.put("name", "test2");
+            }
+            return null;
+        }).when(subModelsProcessor).executeSubModels(anyList(), any());
+
+        Page page = bind("net/n2oapp/framework/config/metadata/compile/page/binder/testPageTitleResolvingWithoutDatasource.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/binder/testPageTitleResolving.query.xml")
+                .get(context, new DataSet().add("id", "2"), subModelsProcessor);
+        String value = "Вторая страница: id=2; name=test2";
+        assertThat(page.getBreadcrumb().getFirst().getLabel(), is(value));
+        assertThat(page.getPageProperty().getTitle(), is(value));
+        assertThat(page.getPageProperty().getHtmlTitle(), is(value));
     }
 
     @Test
@@ -116,7 +199,6 @@ class PageBinderTest extends SourceCompileTestBase {
         ModelLink modelLink = new ModelLink(ReduxModelEnum.RESOLVE, "page_master", "id");
         modelLink.setSubModelQuery(new SubModelQuery("query1"));
         context.setPathRouteMapping(Collections.singletonMap("id_param", modelLink));
-        context.setParentModelLinks(Collections.singletonList(modelLink));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("id_param", 123), subModelsProcessor);
         assertThat(page.getPageProperty().getTitle(), is("`'Hello, Joe '+code`"));

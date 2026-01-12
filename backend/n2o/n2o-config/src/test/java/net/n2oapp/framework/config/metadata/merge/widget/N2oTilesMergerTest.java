@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.merge.widget;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.v5.TilesWidgetIOV5;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oCellsV3IOPack;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
