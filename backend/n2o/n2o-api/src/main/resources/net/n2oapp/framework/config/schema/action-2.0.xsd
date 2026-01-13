@@ -1617,7 +1617,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="break-on" type="validateBreakOnEnum">
+        <xs:attribute name="break-on" type="validateBreakOnEnum" default="danger">
             <xs:annotation>
                 <xs:documentation>
                     Режим прерывания цепочки действий при негативном результате
