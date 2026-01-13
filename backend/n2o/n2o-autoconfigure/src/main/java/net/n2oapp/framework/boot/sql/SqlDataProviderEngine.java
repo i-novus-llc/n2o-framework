@@ -17,6 +17,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ResourceLoaderAware;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,12 +52,16 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
         ApplicationContextAware, ResourceLoaderAware {
 
     private static final Pattern SQL_ERROR_PATTERN = Pattern.compile("(\\A|\n)[A-Z][a-z](.|\n)+?; SQL statement:");
+    @Value("${spring.datasource.hikari.minimum-idle:0}")
+    private int defaultMinimumIdle;
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private String defaultJdbcDriver;
 
     private EngineFactory<String, RowMapper> rowMapperFactory;
     private ResourceLoader resourceLoader;
+
+    private final Map<String, HikariDataSource> dataSourceCache = new ConcurrentHashMap<>();
 
     @Override
     public Object invoke(N2oSqlDataProvider invocation, Map<String, Object> data) {
@@ -132,7 +138,7 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
             }
             return rows.toArray();
         } else if (keyList.size() == 1) {
-            return keyList.get(0).values().toArray();
+            return keyList.getFirst().values().toArray();
         }
         return null;
     }
@@ -177,12 +183,22 @@ public class SqlDataProviderEngine implements MapInvocationEngine<N2oSqlDataProv
     }
 
     private NamedParameterJdbcTemplate createJdbcTemplate(N2oSqlDataProvider invocation) {
+        String key = invocation.getConnectionUrl();
+        HikariDataSource ds = dataSourceCache.computeIfAbsent(key, k -> new HikariDataSource(initHikariConfig(invocation, k)));
+        return new NamedParameterJdbcTemplate(ds);
+    }
+
+    protected HikariConfig initHikariConfig(N2oSqlDataProvider invocation, String k) {
         HikariConfig config = new HikariConfig();
-        config.setDriverClassName(invocation.getJdbcDriver() == null ? defaultJdbcDriver : invocation.getJdbcDriver());
         config.setJdbcUrl(invocation.getConnectionUrl());
         config.setUsername(invocation.getUsername());
         config.setPassword(invocation.getPassword());
-        return new NamedParameterJdbcTemplate(new HikariDataSource(config));
+        config.setDriverClassName(
+                invocation.getJdbcDriver() == null ? defaultJdbcDriver : invocation.getJdbcDriver()
+        );
+        config.setMinimumIdle(defaultMinimumIdle);
+        config.setPoolName("n2o-ds-" + k.hashCode());
+        return config;
     }
 
     private String constructSqlMessage(DataAccessException e) {
