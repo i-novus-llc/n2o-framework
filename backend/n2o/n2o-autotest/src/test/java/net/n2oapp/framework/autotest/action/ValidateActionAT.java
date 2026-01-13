@@ -84,4 +84,24 @@ class ValidateActionAT extends AutoTestBase {
         startYearField.shouldHaveValidationMessage(Condition.exist);
         startYearField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
     }
+
+    @Test
+    void testBreakOn() {
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget form = page.widget(FormWidget.class);
+
+        MultiFieldSet multiFieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
+        multiFieldset.clickAddButton();
+        form.toolbar().bottomLeft().button("Проверить break-on=warning").click();
+        form.fields().field("Место рождения").control(InputText.class).shouldHaveCssClass("is-invalid");
+        multiFieldset.item(0).fields().field("Компания").control(InputText.class).shouldHaveCssClass("is-invalid");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Сообщение после break-on=warning");
+
+        form.toolbar().bottomLeft().button("Проверить break-on=false").click();
+        form.fields().field("Имя").shouldBeRequired();
+        multiFieldset.item(0).fields().field("Название").shouldBeRequired();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Сообщение после break-on=false");
+    }
 }
