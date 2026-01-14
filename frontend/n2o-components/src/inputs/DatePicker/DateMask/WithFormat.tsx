@@ -3,6 +3,7 @@ import React, { ComponentType, FC } from 'react'
 import { buildDateFormat } from '../utils'
 
 import { type WithFormatProps, type DateMaskProps } from './types'
+import dayjs from "dayjs";
 
 export function getDateModeInfo(format: string): { separator: string; mode: string } {
     const separatorMatch = format.match(/[^A-Za-z]/)
@@ -48,8 +49,8 @@ export const WithFormat = <P extends DateMaskProps>(Component: ComponentType<P>)
                 dateMode={dateMode}
                 timeMode={timeMode}
                 dateSeparator={dateSeparator}
-                min={min ? new Date(min) : undefined}
-                max={max ? new Date(max) : undefined}
+                min={min ? dayjs(min) : undefined}
+                max={max ? dayjs(max) : undefined}
             />
         )
     }
