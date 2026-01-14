@@ -88,6 +88,11 @@ public interface Page extends Component {
     void shouldHaveTitle(String title, Duration... duration);
 
     /**
+     * Проверка отсутствия заголовка
+     */
+    void shouldNotHaveTitle(Duration... duration);
+
+    /**
      * Прокрутка страницы в самый верх
      */
     void scrollUp();

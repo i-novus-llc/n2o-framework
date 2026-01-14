@@ -91,6 +91,11 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
+    public void shouldNotHaveTitle(Duration... duration) {
+        should(Condition.not(Condition.exist), element().$(".n2o-page__title"), duration);
+    }
+
+    @Override
     public void scrollUp() {
         element().click();
         element().sendKeys(Keys.HOME);
