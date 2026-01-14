@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.page;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
@@ -264,6 +265,7 @@ class PageTitleLinkResolveAT extends AutoTestBase {
 
     @Test
     void testConstantParams() {
+        Configuration.headless = false;
         checkConstantParams("old");
         checkConstantParams("new");
     }
@@ -284,10 +286,11 @@ class PageTitleLinkResolveAT extends AutoTestBase {
         page.toolbar().topLeft().button("Открыть").click();
 
         page.shouldExists();
-        String title = Objects.equals(pageTitleResolving, "old")
-                ? "Версия:201 №202"
-                : "Версия:undefined №undefined";
-        page.shouldHaveTitle(title);
+        if (Objects.equals(pageTitleResolving, "old"))
+            page.shouldHaveTitle("Версия:201 №202");
+        else
+            page.shouldNotHaveTitle();
+
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/201/open\\?number=202");
     }
 
