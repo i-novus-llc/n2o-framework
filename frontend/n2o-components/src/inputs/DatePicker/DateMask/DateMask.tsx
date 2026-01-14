@@ -1,6 +1,7 @@
 import React from 'react'
 import flowRight from 'lodash/flowRight'
 import { maskitoDateTimeOptionsGenerator, maskitoDateOptionsGenerator } from '@maskito/kit'
+import { MaskitoPlugin } from '@maskito/core'
 
 import { combineRefs } from '../../utils'
 import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
@@ -56,6 +57,7 @@ function Component({
         mask: options.mask,
         placeholder: getFloatingPlaceholder(dateMode, timeMode),
         defaultValue: value,
+        processors: { plugins: options.plugins as MaskitoPlugin[] },
     })
 
     return (

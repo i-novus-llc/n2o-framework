@@ -31,6 +31,18 @@ export const WithEvents = <P extends DateMaskProps>(Component: ComponentType<P>)
             const isValidValue = parsedValue.format(fullFormat) === value
 
             if (isValidValue) {
+                if (min && parsedValue.isBefore(min)) {
+                    onInputChange?.(dayjs(min), name)
+
+                    return
+                }
+
+                if (max && parsedValue.isAfter(max)) {
+                    onInputChange?.(dayjs(max), name)
+
+                    return
+                }
+
                 onInputChange?.(parsedValue, name)
             }
         }
