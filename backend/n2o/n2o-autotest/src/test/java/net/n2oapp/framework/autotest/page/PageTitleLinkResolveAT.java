@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.page;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
@@ -265,7 +264,6 @@ class PageTitleLinkResolveAT extends AutoTestBase {
 
     @Test
     void testConstantParams() {
-        Configuration.headless = false;
         checkConstantParams("old");
         checkConstantParams("new");
     }
