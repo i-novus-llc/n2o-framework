@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { useSelector } from 'react-redux'
+import isEmpty from 'lodash/isEmpty'
 
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
@@ -7,6 +8,7 @@ import { useModel } from '../hooks/useModel'
 import { makePageByIdSelector } from '../../../ducks/pages/selectors'
 import { activePageSelector } from '../../../ducks/global/selectors'
 import { useResolved } from '../../../core/Expression/useResolver'
+import { parseExpression } from '../../../utils/evalExpression'
 
 import { Breadcrumb } from './const'
 
@@ -19,6 +21,10 @@ const useBreadCrumbs = () => {
 
     const model = useModel(datasource, modelPrefix)
     const resolvedBreadcrumb = useResolved({ breadcrumb }, model).breadcrumb
+
+    const hasExpressions = breadcrumb.some(({ label }) => parseExpression(label))
+
+    if (hasExpressions && isEmpty(model)) { return [] }
 
     return (modelPrefix && datasource) ? resolvedBreadcrumb : breadcrumb
 }
