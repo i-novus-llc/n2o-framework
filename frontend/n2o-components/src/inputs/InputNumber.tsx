@@ -1,14 +1,15 @@
-import React, { ChangeEvent, KeyboardEvent } from 'react'
+import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
 import { useMaskito } from '@maskito/react'
 import { maskitoNumberOptionsGenerator } from '@maskito/kit'
 import classNames from 'classnames'
-import { maskitoTransform } from '@maskito/core'
+import { type MaskitoOptions, maskitoTransform } from '@maskito/core'
 
 import { withRightPlaceholder } from '../helpers/withRightPlaceholder'
 
 import { type CommonMaskedInputProps } from './types'
 
 export interface InputNumberProps extends Omit<CommonMaskedInputProps, 'onChange' | 'onBlur'> {
+    decimalSymbol?: string
     min: number
     max: number
     placeholder?: string
@@ -34,6 +35,18 @@ export enum KEY {
 
 const MINUS_SIGN = '-'
 
+const getValue = (
+    defaultValue: CommonMaskedInputProps['value'],
+    viewFloatValue: string | null,
+    options: MaskitoOptions,
+) => {
+    if (viewFloatValue) { return maskitoTransform(viewFloatValue, options) }
+
+    if (defaultValue || defaultValue === 0) { return maskitoTransform(String(defaultValue), options) }
+
+    return ''
+}
+
 function Component({
     className,
     onChange,
@@ -49,7 +62,10 @@ function Component({
     disabled = false,
     controlButtons = true,
     visible = true,
+    decimalSymbol = '.',
 }: InputNumberProps) {
+    // @INFO для отображения/редактирования незаконченных float numbers (прим "0.00")
+    const [viewFloatValue, setViewFloatValue] = useState<string | null>(null)
     // TODO @INFO Backend присылает type of step = string, но в NumberPicker number type
     const step = Number(propsStep)
 
@@ -61,18 +77,15 @@ function Component({
         maximumFractionDigits,
     })
     const maskRef = useMaskito({ options })
-    const value = (defaultValue || defaultValue === 0) ? maskitoTransform(String(defaultValue), options) : ''
+
+    const value = getValue(defaultValue, viewFloatValue, options)
 
     if (!visible) { return null }
 
     const keepWithinRange = (value: number) => {
-        if (value < min) {
-            return min
-        }
+        if (value < min) { return min }
 
-        if (value > max) {
-            return max
-        }
+        if (value > max) { return max }
 
         return value
     }
@@ -110,13 +123,17 @@ function Component({
 
         if (maskedValue === MINUS_SIGN) { return }
 
-        const numberValue = maskedValue ? Number(maskedValue) : null
+        const isDecimalEnding = maskedValue.includes(decimalSymbol) &&
+            (maskedValue.endsWith(decimalSymbol) || maskedValue.endsWith('0'))
 
-        onChange?.(numberValue)
+        setViewFloatValue(isDecimalEnding ? maskedValue : null)
+        onChange?.(maskedValue ? Number(maskedValue) : null)
     }
 
     const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
         const { value: maskedValue } = e.target
+
+        setViewFloatValue(null)
 
         if (maskedValue === MINUS_SIGN) {
             onBlur?.(min)
