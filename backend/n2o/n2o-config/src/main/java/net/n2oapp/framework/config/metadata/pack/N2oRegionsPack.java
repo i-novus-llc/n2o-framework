@@ -28,6 +28,9 @@ public class N2oRegionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new PanelRegionBinder(),
                 new ScrollspyRegionBinder(),
                 new TabsRegionBinder(),
-                new SubPageRegionBinder());
+                new SubPageRegionBinder(),
+                new FlexRowRegionBinder(),
+                new RowRegionBinder(),
+                new ColRegionBinder());
     }
 }
