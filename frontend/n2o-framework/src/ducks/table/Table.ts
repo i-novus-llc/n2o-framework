@@ -1,8 +1,14 @@
 import { ComponentProps, ComponentType, CSSProperties, FC, MouseEvent, VFC } from 'react'
 
 import { type Condition } from '../toolbar/Toolbar'
-import { Selection } from '../../components/Table'
 import { DataSourceState } from '../datasource/DataSource'
+
+export const enum Selection {
+    Checkbox = 'checkbox',
+    Radio = 'radio',
+    None = 'none',
+    Row = 'active',
+}
 
 export enum MOVE_MODE {
     TABLE = 'table',

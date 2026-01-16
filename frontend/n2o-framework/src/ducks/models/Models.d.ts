@@ -1,5 +1,14 @@
 import type { ModelPrefix } from '../../core/datasource/const'
-import { MappingParam } from '../datasource/Provider'
+
+export interface MappingParam {
+    link: string
+    observe: boolean
+    required: boolean
+    value: string
+    withCount: {
+        value: boolean
+    }
+}
 
 export type State<TModel extends object = object, TFilter extends object = TModel> = {
     [ModelPrefix.source]: Record<string, TModel[]>

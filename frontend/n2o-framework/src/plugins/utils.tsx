@@ -7,9 +7,7 @@ import { dataProviderResolver } from '../core/dataProviderResolver'
 import propsResolver from '../utils/propsResolver'
 import { Model } from '../ducks/models/selectors'
 
-import { Item } from './CommonMenuTypes'
-
-export type metaPropsType = { [key: string]: unknown }
+import { type Item, type metaPropsType } from './CommonMenuTypes'
 
 // TODO рефакторинг
 export const getFromSource = (

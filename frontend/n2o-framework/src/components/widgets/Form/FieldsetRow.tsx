@@ -1,6 +1,8 @@
 import React, { memo } from 'react'
 import { Row } from 'reactstrap'
 
+// TODO рефакторинг
+// eslint-disable-next-line import/no-cycle
 import { FieldsetCol } from './FieldsetCol'
 import { type FieldSetRowComponentProps } from './types'
 

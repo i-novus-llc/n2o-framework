@@ -1,5 +1,4 @@
-import { call, select, put } from 'redux-saga/effects'
-import { getLocation } from 'connected-react-router'
+import { put } from 'redux-saga/effects'
 import queryString from 'query-string'
 import { Action } from 'redux'
 import isEmpty from 'lodash/isEmpty'
@@ -7,14 +6,6 @@ import each from 'lodash/each'
 import isObject from 'lodash/isObject'
 
 import { Location, Routes } from './types'
-
-export function* mappingUrlToRedux(routes: Routes) {
-    const location: Location = yield select(getLocation)
-
-    if (routes) {
-        call(queryMapping, location, routes)
-    }
-}
 
 export function* queryMapping(location: Location, routes: Routes) {
     const parsedQuery: Record<string, unknown> = queryString.parse(location.search)

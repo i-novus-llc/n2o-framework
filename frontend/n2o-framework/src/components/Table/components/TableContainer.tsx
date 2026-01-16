@@ -4,7 +4,7 @@ import { useSticky } from '@i-novus/n2o-components/lib/layouts/Scroll/useSticky'
 
 import { TableWidgetContainerProps } from '../types/props'
 import { TableActionsProvider } from '../provider/TableActions'
-import { Selection } from '../enum'
+import { Selection } from '../../../ducks/table/Table'
 import { getAllValuesByKey } from '../utils'
 import { TableRefProps } from '../provider/TableRefProps'
 import { EMPTY_ARRAY, EMPTY_OBJECT, NOOP_FUNCTION } from '../../../utils/emptyTypes'

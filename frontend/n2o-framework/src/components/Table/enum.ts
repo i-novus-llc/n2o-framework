@@ -9,13 +9,6 @@ export const enum Action {
     RowClick = 'RowClick',
 }
 
-export const enum Selection {
-    Checkbox = 'checkbox',
-    Radio = 'radio',
-    None = 'none',
-    Row = 'active',
-}
-
 export const enum ChildrenToggleState {
     Expand = 'expand',
     Collapse = 'collapse',

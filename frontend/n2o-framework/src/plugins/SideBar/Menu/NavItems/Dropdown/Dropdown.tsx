@@ -5,8 +5,7 @@ import classNames from 'classnames'
 
 import { id as generateId } from '../../../../../utils/id'
 import { NavItemContainer } from '../../../NavItemContainer'
-import { Item } from '../../../../CommonMenuTypes'
-import { metaPropsType } from '../../../../utils'
+import { type Item, type metaPropsType } from '../../../../CommonMenuTypes'
 import { DataSourceModels } from '../../../../../core/datasource/const'
 import { useLocation } from '../../../../../components/core/router/useLocation'
 

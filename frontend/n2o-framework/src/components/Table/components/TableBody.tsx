@@ -1,8 +1,7 @@
 import React, { useMemo, VFC } from 'react'
 
 import { TableBodyProps } from '../types/props'
-import { Selection } from '../enum'
-import { BodyCell } from '../../../ducks/table/Table'
+import { Selection, BodyCell } from '../../../ducks/table/Table'
 
 import { SelectionCell } from './selection'
 import { Rows } from './Rows'

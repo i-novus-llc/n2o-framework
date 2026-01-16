@@ -1,7 +1,7 @@
 import forOwn from 'lodash/forOwn'
 import isEmpty from 'lodash/isEmpty'
 
-import { metaPropsType } from '../../plugins/utils'
+import { type metaPropsType } from '../../plugins/CommonMenuTypes'
 
 import { Dependencies } from './WidgetTypes'
 

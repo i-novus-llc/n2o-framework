@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, RefObject, ReactNode } from 'react'
 
-import { Selection, TableActions } from '../enum'
+import { TableActions } from '../enum'
+import { Selection } from '../../../ducks/table/Table'
 import { SortDirection } from '../../../core/datasource/const'
 import { Severity } from '../../../core/validation/types'
 import { type BodyCell, type HeaderCell, MOVE_MODE } from '../../../ducks/table/Table'

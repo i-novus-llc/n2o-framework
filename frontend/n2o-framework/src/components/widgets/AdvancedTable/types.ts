@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react'
 
 import { type BodyCell, type FilterField, type HeaderCell } from '../../../ducks/table/Table'
-import { Selection } from '../../Table'
+import { Selection } from '../../../ducks/table/Table'
 import { ToolbarProps } from '../../buttons/Toolbar'
 import type { Props as WidgetFiltersProps } from '../WidgetFilters'
 import { PLACES } from '../WidgetLayout/WidgetLayout'

@@ -1,6 +1,7 @@
 import type { ModelPrefix } from '../../core/datasource/const'
 import type { Type as StorageType } from '../../utils/Storage'
 import { Meta } from '../Action'
+import { type MappingParam } from '../models/Models'
 
 export enum ProviderType {
     storage = 'browser',
@@ -30,16 +31,6 @@ export interface Filter {
     fieldId: string
     value: string
     link?: string
-}
-
-export interface MappingParam {
-    link: string
-    observe: boolean
-    required: boolean
-    value: string
-    withCount: {
-        value: boolean
-    }
 }
 
 export type Mapping = Record<string, MappingParam>
