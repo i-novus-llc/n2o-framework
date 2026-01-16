@@ -9,17 +9,17 @@
             <column text-field-id="type"/>
         </columns>
         <toolbar>
-            <ts:refresh label="Обновление"/>
+            <ts:refresh label="Обновление" color="success"/>
             <ts:refresh icon="fas fa-sync" description="Подсказка"/>
-            <ts:export default-format="xlsx"/>
-            <ts:columns default-value="id,name,region" locked="id,name"/>
-            <ts:filters/>
+            <ts:export default-format="xlsx" color="success"/>
+            <ts:columns default-value="id,name,region" locked="id,name" color="success"/>
+            <ts:filters color="success"/>
             <button id="id1" label="button1"/>
             <ts:resize size="5,10,15"
                        class="test"
-                       style="color: red"/>
-            <ts:word-wrap/>
-            <ts:reset-settings/>
+                       style="color: red" color="success"/>
+            <ts:word-wrap color="success"/>
+            <ts:reset-settings color="success"/>
             <sub-menu>
                 <ts:refresh label="Обновление"/>
                 <ts:refresh icon="fas fa-sync" description="Подсказка"/>
@@ -35,17 +35,17 @@
                 <menu-item action-id="action1"/>
             </sub-menu>
             <group>
-                <ts:refresh label="Обновление"/>
+                <ts:refresh label="Обновление" color="success"/>
                 <ts:refresh icon="fas fa-sync" description="Подсказка"/>
-                <ts:export default-format="xlsx"/>
-                <ts:columns default-value="id,name,region" locked="id,name"/>
-                <ts:filters/>
+                <ts:export default-format="xlsx" color="success"/>
+                <ts:columns default-value="id,name,region" locked="id,name" color="success"/>
+                <ts:filters color="success"/>
                 <button id="id1" label="button1"/>
                 <ts:resize size="5,10,15"
                            class="test"
-                           style="color: red"/>
-                <ts:word-wrap/>
-                <ts:reset-settings/>
+                           style="color: red" color="success"/>
+                <ts:word-wrap color="success"/>
+                <ts:reset-settings color="success"/>
                 <sub-menu>
                     <ts:refresh label="Обновление"/>
                     <ts:refresh icon="fas fa-sync" description="Подсказка"/>

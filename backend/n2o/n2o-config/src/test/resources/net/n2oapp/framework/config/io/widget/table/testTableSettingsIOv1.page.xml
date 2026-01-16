@@ -3,12 +3,13 @@
              xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0">
     <table>
         <toolbar>
-            <ts:reset-settings label="Сбросить" icon="fa fa-times" description="Подсказка"/>
-            <ts:refresh label="Обновить" icon="fa fa-refresh" description="Подсказка"/>
+            <ts:reset-settings label="Сбросить" icon="fa fa-times" description="Подсказка" color="secondary"/>
+            <ts:refresh label="Обновить" icon="fa fa-refresh" description="Подсказка" color="success"/>
             <ts:resize label="Изменить количество" icon="fa fa-bars" description="Подсказка"
                        class="test"
                        style="color: red"
-                       src="CustomChangeSize"/>
+                       src="CustomChangeSize"
+                       color="danger"/>
             <ts:export format="csv,xlsx" default-format="xlsx" default-size="all" default-charset="UTF-8"
                        show-modal="true"/>
             <ts:columns default-value="id,name,region" locked="id,name"
