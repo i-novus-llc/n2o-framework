@@ -1,18 +1,10 @@
 import { Action } from 'redux'
 
-import { MappingParam } from '../../datasource/Provider'
+import { MappingParam } from '../../models/Models'
 
 export interface Location {
     pathname: string
     search: string
-}
-
-// В connected-react-router кривой тип экшена
-export interface LocationChangeAction {
-    type: string
-    payload: {
-        location: Location
-    }
 }
 
 export type Routes = {

@@ -16,8 +16,7 @@ import {
 } from '../../ducks/regions/store'
 import { type State } from '../../ducks/State'
 import { type State as WidgetsState } from '../../ducks/widgets/Widgets'
-import { type State as RegionsState, type TabMeta } from '../../ducks/regions/Regions'
-import { type ServiceInfo } from '../../ducks/regions/Actions'
+import type { State as RegionsState, TabMeta, ServiceInfo } from '../../ducks/regions/Regions'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { setFirstAvailableTab, checkTabAvailability, getFirstAvailableTab, getTabMetaById, Service } from './helpers'

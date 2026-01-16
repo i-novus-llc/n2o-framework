@@ -8,6 +8,8 @@ import { executeExpression } from '../../../core/Expression/execute'
 import { parseExpression } from '../../../core/Expression/parse'
 
 import ReduxField from './ReduxField'
+// TODO рефакторинг
+// eslint-disable-next-line import/no-cycle
 import { FieldsetContainer } from './Fieldset'
 import { type FieldSetColComponentProps } from './types'
 

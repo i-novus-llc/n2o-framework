@@ -25,12 +25,12 @@ import { checkTabAvailability } from '../../components/regions/helpers'
 import { State } from '../State'
 import { Page } from '../pages/Pages'
 
-import { SetTabInvalid, RegisterRegion, ServiceInfo } from './Actions'
+import { SetTabInvalid, RegisterRegion } from './Actions'
+import type { ServiceInfo, State as Regions } from './Regions'
 import {
     regionsSelector, registerRegion, MAP_URL,
     setRegionServiceInfo, setTabInvalid, setActiveRegion,
 } from './store'
-import { State as Regions } from './Regions'
 
 const DEFAULT_INFO_META = {
     datasources: [],

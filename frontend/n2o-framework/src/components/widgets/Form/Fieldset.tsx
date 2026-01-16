@@ -12,8 +12,10 @@ import { setMultiFieldVisible, setMultiFieldDisabled } from '../../../ducks/form
 import { WithPropsResolver } from '../../../core/Expression/withResolver'
 import { FormContext } from '../../core/FormProvider/provider'
 
+// TODO рефакторинг
+// eslint-disable-next-line import/no-cycle
 import FieldsetRow from './FieldsetRow'
-import { type FieldsetComponentProps, RowProps } from './types'
+import { type FieldsetComponentProps, type RowProps } from './types'
 
 /**
  * Компонент - филдсет формы

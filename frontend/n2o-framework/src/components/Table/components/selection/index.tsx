@@ -1,6 +1,6 @@
 import React, { VFC } from 'react'
 
-import { Selection } from '../../enum'
+import { Selection } from '../../../../ducks/table/Table'
 import { CustomCellComponentProps } from '../../types/props'
 
 import { RadioCell } from './radio'

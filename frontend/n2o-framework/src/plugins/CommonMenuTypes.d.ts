@@ -6,14 +6,14 @@ import { Action } from '../ducks/Action'
 import { Props } from '../components/snippets/Badge/Badge'
 import { DataSourceModels } from '../core/datasource/const'
 
-import { metaPropsType } from './utils'
-
 export type ActionMenuItemSrcType = 'ActionMenuItem'
 export type DropdownMenuItemSrcType = 'DropdownMenuItem'
 export type LinkMenuItemSrcType = 'LinkMenuItem'
 export type StaticMenuItemScrType = 'StaticMenuItem'
 
 export type SrcTypes = ActionMenuItemSrcType | DropdownMenuItemSrcType | LinkMenuItemSrcType | StaticMenuItemScrType
+
+export type metaPropsType = { [key: string]: unknown }
 
 export interface Common {
     title?: string

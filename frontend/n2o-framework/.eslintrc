@@ -14,7 +14,6 @@
         "no-param-reassign": "off",
         "sonarjs/cognitive-complexity": ["error", 50],
         "react/jsx-no-constructed-context-values": "off",
-        "import/no-cycle": "off",
         "@typescript-eslint/restrict-plus-operands": "off",
         "react/default-props-match-prop-types": "off",
         "class-methods-use-this": "off",
