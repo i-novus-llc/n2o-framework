@@ -1,6 +1,6 @@
 import { Action as ReduxAction } from 'redux'
 
-import { State } from './State'
+import { type State } from './State'
 
 export interface N2OMeta {
     abortController?: AbortController

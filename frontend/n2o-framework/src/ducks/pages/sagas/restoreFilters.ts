@@ -10,7 +10,6 @@ import identity from 'lodash/identity'
 import omit from 'lodash/omit'
 import { replace } from 'connected-react-router'
 
-// @ts-ignore import from js file
 import { getParams } from '../../../core/dataProviderResolver'
 import { getLocation } from '../../global/selectors'
 import { State } from '../../State'

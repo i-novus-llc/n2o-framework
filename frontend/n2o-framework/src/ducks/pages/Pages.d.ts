@@ -5,10 +5,17 @@ import { Crumb } from '../../components/core/Breadcrumb/const'
 import { DataSourceConfig } from '../datasource/DataSource'
 import { DefaultModels } from '../models/Models'
 import { Action } from '../Action'
-import { Places } from '../../components/pages/types'
 import { ToolbarProps } from '../../components/buttons/Toolbar'
 
 import { Routes } from './sagas/types'
+
+export enum FIXED_PLACE {
+    TOP = 'top',
+    LEFT = 'left',
+    RIGHT = 'right',
+}
+
+export type Places = Record<FIXED_PLACE, CSSProperties & { fixed: boolean }>
 
 export interface Events {
     datasource: string

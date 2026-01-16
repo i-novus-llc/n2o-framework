@@ -18,13 +18,6 @@ export type SetTabInvalidPayload = {
     invalid: boolean
 }
 
-export interface InfoMeta {
-    datasources: string[]
-    widgets: string[]
-}
-
-export type ServiceInfo = Record<string, InfoMeta>
-
 export type SetRegionServiceInfoPayload = {
     regionId: string
     serviceInfo: ServiceInfo

@@ -1,7 +1,7 @@
 import React, { ComponentType, forwardRef, useMemo } from 'react'
 import classNames from 'classnames'
 
-import { Selection } from '../enum'
+import { Selection } from '../../../ducks/table/Table'
 import { type ChildrenTableHeaderProps, type TableHeaderProps } from '../types/props'
 import { parseHeaderRows } from '../utils/parseHeaderRows'
 

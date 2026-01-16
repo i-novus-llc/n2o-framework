@@ -2,15 +2,15 @@ import React, { useContext } from 'react'
 import classNames from 'classnames'
 import { useSelector } from 'react-redux'
 
-import { getFromSource, metaPropsType } from '../utils'
+import { getFromSource } from '../utils'
+import { type metaPropsType, type Item, type FactoryComponent } from '../CommonMenuTypes'
 import { ITEM_SRC } from '../constants'
-import { Item, FactoryComponent } from '../CommonMenuTypes'
 import { ModelPrefix } from '../../core/datasource/const'
 import { FactoryContext } from '../../core/factory/context'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
 import { parseExpression } from '../../core/Expression/parse'
 import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
-import type { Model } from '../../ducks/models/selectors'
+import { type Model } from '../../ducks/models/selectors'
 
 export interface SidebarItemContainer {
     className?: string

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, VFC, MouseEvent } from 'react'
 
 import { RowResolverProps } from '../types/props'
-import { Selection } from '../enum'
+import { Selection } from '../../../ducks/table/Table'
 import { useTableActions } from '../provider/TableActions'
 import { useToolbarOverlay } from '../provider/ToolbarOverlay'
 import { useTableRefProps } from '../provider/TableRefProps'

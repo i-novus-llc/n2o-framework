@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import React, { VFC, SyntheticEvent } from 'react'
 
 import { ExpandButtonProps } from '../types/props'
-import { useTableActions } from '..'
+import { useTableActions } from '../provider/TableActions'
 
 export const ExpandButton: VFC<ExpandButtonProps> = ({ rowValue, isTreeExpanded }) => {
     const { toggleExpandRow } = useTableActions()

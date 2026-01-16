@@ -1,6 +1,5 @@
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
 import { Model } from '../../ducks/models/selectors'
-import { metaPropsType } from '../../plugins/utils'
 
 export type ModelLinkType = string
 export type Dependency = { condition: string, on: ModelLinkType }

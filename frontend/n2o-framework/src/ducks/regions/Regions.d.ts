@@ -1,6 +1,4 @@
-import { Tab } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
-
-import { ServiceInfo } from './Actions'
+import { type Tab } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
 
 interface ConditionParams {
     expression: string
@@ -43,6 +41,13 @@ export interface ContentMeta {
     datasource: string
     form?: { fieldsets: string[] }
 }
+
+export interface InfoMeta {
+    datasources: string[]
+    widgets: string[]
+}
+
+export type ServiceInfo = Record<string, InfoMeta>
 
 export interface Region {
     regionId: string | null

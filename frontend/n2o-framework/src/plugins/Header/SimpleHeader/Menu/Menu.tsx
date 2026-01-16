@@ -1,8 +1,7 @@
 import React from 'react'
 import isEmpty from 'lodash/isEmpty'
 
-import { metaPropsType } from '../../../utils'
-import { Item as ItemProps } from '../../../CommonMenuTypes'
+import { type metaPropsType, type Item as ItemProps } from '../../../CommonMenuTypes'
 
 import { Item as ItemComponent } from './Item'
 

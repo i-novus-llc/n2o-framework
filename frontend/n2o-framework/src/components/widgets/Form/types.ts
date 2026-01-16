@@ -4,7 +4,7 @@ import { ColumnProps } from 'reactstrap/es/Col'
 import { Mapping } from '../../../ducks/datasource/Provider'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { Model } from '../../../ducks/models/selectors'
-import { Props as StandardWidgetProps } from '../StandardWidget'
+import { type Props as StandardWidgetProps } from '../StandardWidget'
 import { ValidationsKey } from '../../../core/validation/types'
 
 export type ActiveModel = Model | Model[]
