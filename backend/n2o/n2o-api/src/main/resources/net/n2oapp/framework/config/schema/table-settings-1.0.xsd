@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/table-settings-1.0"
+           xmlns:bs="http://n2oapp.net/framework/config/schema/base-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:group name="tableGenerateGroup">
@@ -102,6 +103,11 @@
                 <xs:documentation>
                     СSS стиль кнопки
                 </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="color" type="bs:buttonColorDefinition">
+            <xs:annotation>
+                <xs:documentation>Цвет кнопки. Возможно использование плейсхолдеров</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>

@@ -16,5 +16,6 @@ public abstract class AbstractTableSettingsIOv1<T extends N2oAbstractTableSettin
         p.attribute(e, "label", m::getLabel, m::setLabel);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "description", m::getDescription, m::setDescription);
+        p.attribute(e, "color", m::getColor, m::setColor);
     }
 }

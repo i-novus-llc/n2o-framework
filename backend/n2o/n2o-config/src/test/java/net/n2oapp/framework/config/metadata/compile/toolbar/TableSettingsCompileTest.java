@@ -109,25 +109,26 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
         assertThat(groups.size(), is(3));
 
         List<AbstractButton> buttons = groups.getFirst().getButtons();
-        checkButtons(buttons, AbstractButton::getHint);
+        checkButtons(buttons, AbstractButton::getHint, "success");
         assertThat(buttons.get(9).getSrc(), is("DropdownButton"));
 
         buttons = ((Submenu) buttons.get(9)).getContent().stream().map(AbstractButton.class::cast).toList();
-        checkButtons(buttons, AbstractButton::getLabel);
+        checkButtons(buttons, AbstractButton::getLabel, null);
         assertThat(buttons.get(9).getSrc(), is("StandardButton"));
         assertThat(buttons.get(9).getId(), is("action1"));
 
         buttons = groups.get(1).getButtons();
-        checkButtons(buttons, AbstractButton::getHint);
+        checkButtons(buttons, AbstractButton::getHint, "success");
         assertThat(buttons.get(9).getSrc(), is("DropdownButton"));
 
         buttons = ((Submenu) buttons.get(9)).getContent().stream().map(AbstractButton.class::cast).toList();
-        checkButtons(buttons, AbstractButton::getLabel);
+        checkButtons(buttons, AbstractButton::getLabel, null);
         assertThat(buttons.get(9).getSrc(), is("StandardButton"));
         assertThat(buttons.get(9).getId(), is("action2"));
 
         buttons = groups.get(2).getButtons();
         assertThat(buttons.get(0).getAction(), instanceOf(CustomAction.class));
+
         assertThat(((CustomAction) buttons.getFirst().getAction()).getType(), is("n2o/api/utils/export"));
         HashMap<String, Object> values = (HashMap<String, Object>) ((CustomAction) buttons.getFirst().getAction()).getPayload().getAttributes().get("values");
         assertThat(((HashMap<String, Object>) values.get("format")).get("value"), is("csv"));
@@ -135,11 +136,12 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
         assertThat(((HashMap<String, Object>) values.get("type")).get("value"), is("all"));
     }
 
-    private static void checkButtons(List<AbstractButton> buttons, Function<AbstractButton, String> labelExtractor) {
+    private static void checkButtons(List<AbstractButton> buttons, Function<AbstractButton, String> labelExtractor, String color) {
         assertThat(buttons.getFirst().getSrc(), is("StandardButton"));
         assertThat(buttons.getFirst().getLabel(), is("Обновление"));
         assertThat(buttons.getFirst().getIcon(), nullValue());
         assertThat(buttons.getFirst().getHint(), nullValue());
+        assertThat(buttons.getFirst().getColor(), is(color));
 
         assertThat(buttons.get(1).getSrc(), is("StandardButton"));
         assertThat(buttons.get(1).getLabel(), nullValue());
@@ -150,12 +152,15 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
         assertThat(buttons.get(2).getAction(), instanceOf(ShowModal.class));
         assertThat(((ShowModal) buttons.get(2).getAction()).getPageId(), is("exportModal?formatId=xlsx&formatName=XLSX&charsetId=utf-8&charsetName=UTF-8&sizeId=all"));
         assertThat(labelExtractor.apply(buttons.get(2)), is("Экспортировать"));
+        assertThat(buttons.get(2).getColor(), is(color));
 
         assertThat(buttons.get(3).getSrc(), is("ToggleColumn"));
         assertThat(labelExtractor.apply(buttons.get(3)), is("Скрытие столбцов"));
+        assertThat(buttons.get(3).getColor(), is(color));
 
         assertThat(buttons.get(4).getSrc(), is("StandardButton"));
         assertThat(labelExtractor.apply(buttons.get(4)), is("Фильтры"));
+        assertThat(buttons.get(4).getColor(), is(color));
 
         assertThat(buttons.get(5).getLabel(), is("button1"));
         assertThat(buttons.get(5).getSrc(), is("StandardButton"));
@@ -165,10 +170,13 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
         assertThat(buttons.get(6).getStyle(), is(Map.of("color", "red")));
         assertThat(labelExtractor.apply(buttons.get(6)), is("Количество записей"));
         assertThat(((ResizeButton) buttons.get(6)).getSize(), is(new Integer[]{5, 10, 15}));
+        assertThat(buttons.get(6).getColor(), is(color));
 
         assertThat(buttons.get(7).getSrc(), is("WordWrap"));
         assertThat(labelExtractor.apply(buttons.get(7)), is("Перенос по словам"));
+        assertThat(buttons.get(7).getColor(), is(color));
 
         assertThat(buttons.get(8).getSrc(), is("ResetSettings"));
+        assertThat(buttons.get(8).getColor(), is(color));
     }
 }
