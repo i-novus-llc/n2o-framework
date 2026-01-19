@@ -6,7 +6,7 @@
         <datasource query-id="data" size="5"/>
         <columns>
             <column text-field-id="id"/>
-            <column text-field-id="id_ips"/>
+            <column text-field-id="id_ips" sorting-direction="asc"/>
             <column text-field-id="name"/>
             <column text-field-id="region"/>
         </columns>
