@@ -54,6 +54,12 @@ class IntervalFieldAT extends AutoTestBase {
         inputEnd.shouldHaveValue("10");
         inputEnd.clickMinusStepButton();
         inputEnd.shouldHaveValue("9");
+
+        inputBegin.clear();
+        inputBegin.shouldHavePlaceholder("От");
+        inputEnd.clear();
+        inputEnd.shouldHavePlaceholder("До");
+
     }
 
     @Test

@@ -4,10 +4,10 @@
         <fields>
             <interval-field id="inputText" label="Интервал">
                 <begin>
-                    <input-text id="beginInputText" domain="integer" default-value="5"/>
+                    <input-text id="beginInputText" domain="integer" default-value="5" placeholder="От"/>
                 </begin>
                 <end>
-                    <input-text id="endInputText" domain="integer" default-value="10" max="10"/>
+                    <input-text id="endInputText" domain="integer" default-value="10" max="10" placeholder="До"/>
                 </end>
             </interval-field>
             <interval-field id="dataTime" label="Дата">
