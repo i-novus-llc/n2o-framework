@@ -668,6 +668,8 @@ class TableButtonGeneratorAT extends AutoTestBase {
         shouldNotBeChecked(columnsButton.menuItem("Наименование"));
         shouldBeChecked(columnsButton.menuItem("Регион"));
         table.columns().headers().shouldHaveSize(3);
+        table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
+        table.columns().headers().header(1).shouldBeSortedByAsc();
 
         N2oDropdownButton resizeButton = toolbar.button(3, N2oDropdownButton.class);
         resizeButton.click();
@@ -680,6 +682,8 @@ class TableButtonGeneratorAT extends AutoTestBase {
         table.shouldBeWordWrapped();
 
         //задать новые значения
+        table.columns().headers().header(1).click();
+        table.columns().headers().header(1).shouldBeSortedByDesc();
 
         columnsButton.click();
         columnsButton.menuItem("Наименование").click();
@@ -884,12 +888,13 @@ class TableButtonGeneratorAT extends AutoTestBase {
     }
 
     private void checkValues(N2oDropdownButton resizeButton, N2oDropdownButton columnsButton) {
-
+        table.columns().headers().shouldHaveSize(3);
+        table.columns().headers().header(1).shouldHaveTitle("Идентификатор ИПС");
+        table.columns().headers().header(1).shouldBeSortedByAsc();
         columnsButton.click();
         shouldBeChecked(columnsButton.menuItem("Идентификатор ИПС"));
         shouldNotBeChecked(columnsButton.menuItem("Наименование"));
         shouldBeChecked(columnsButton.menuItem("Регион"));
-        table.columns().headers().shouldHaveSize(3);
 
         resizeButton.click();
         resizeButton.menuItem("5").shouldHaveIcon("fa fa-check");
