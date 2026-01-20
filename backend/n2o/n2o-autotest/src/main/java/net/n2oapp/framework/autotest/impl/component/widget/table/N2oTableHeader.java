@@ -38,12 +38,12 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
 
     @Override
     public void shouldBeSortedByAsc() {
-        sortingIcon().should(Condition.exist, Condition.cssClass("fa-sort-amount-asc"));
+        sortingIcon().should(Condition.exist, Condition.cssClass("fa-solid fa-arrow-down-short-wide"));
     }
 
     @Override
     public void shouldBeSortedByDesc() {
-        sortingIcon().should(Condition.exist, Condition.cssClass("fa-sort-amount-desc"));
+        sortingIcon().should(Condition.exist, Condition.cssClass("fa-solid fa-arrow-down-wide-short"));
     }
 
     @Override

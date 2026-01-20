@@ -37,8 +37,8 @@ export const Sorter: React.FC<Props> = ({
     }
     let icon: string | undefined
 
-    if (sorting === SortDirection.asc) { icon = 'fa fa-sort-amount-asc' }
-    if (sorting === SortDirection.desc) { icon = 'fa fa-sort-amount-desc' }
+    if (sorting === SortDirection.asc) { icon = 'fa-solid fa-arrow-down-short-wide' }
+    if (sorting === SortDirection.desc) { icon = 'fa-solid fa-arrow-down-wide-short' }
 
     return (
         <button
