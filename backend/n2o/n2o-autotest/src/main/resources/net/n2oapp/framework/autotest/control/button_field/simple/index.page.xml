@@ -16,6 +16,7 @@
             <button
                     id="button1"
                     label="Кнопка-поле1"
+                    icon="{clicked ? 'fa fa-plus' : 'fa fa-minus'}"
                     color="{clicked ? 'danger' : 'success'}"
                     style="text-decoration: underline"
             />

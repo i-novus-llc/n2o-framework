@@ -59,14 +59,17 @@ class ButtonFieldAT extends AutoTestBase {
         buttonField.shouldNotBeRounded();
         buttonField.shouldHaveColor(ColorsEnum.SUCCESS);
         buttonField.shouldHaveStyle("text-decoration: underline;");
+        buttonField.shouldHaveIcon("fa fa-minus");
 
         Checkbox checkbox = fields.field("Checkbox1").control(Checkbox.class);
         checkbox.shouldExists();
         checkbox.shouldNotBeChecked();
         checkbox.setChecked(true);
         buttonField.shouldHaveColor(ColorsEnum.DANGER);
+        buttonField.shouldHaveIcon("fa fa-plus");
         checkbox.setChecked(false);
         buttonField.shouldHaveColor(ColorsEnum.SUCCESS);
+        buttonField.shouldHaveIcon("fa fa-minus");
 
         buttonField = fields.field("Кнопка в контроле закругленная", ButtonField.class);
         buttonField.shouldExists();
