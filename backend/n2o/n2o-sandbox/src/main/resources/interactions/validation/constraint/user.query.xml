@@ -3,7 +3,7 @@
     <list result-mapping="#this">
         <sql>
             SELECT :select
-            FROM user
+            FROM "user"
             WHERE :filters
             LIMIT :limit OFFSET :offset
         </sql>
@@ -11,7 +11,7 @@
     <count count-mapping="[0]['cnt']">
         <sql>
             SELECT count(*) as cnt
-            FROM user
+            FROM "user"
         </sql>
     </count>
     <filters>
@@ -19,6 +19,6 @@
     </filters>
     <fields>
         <field id="id" select-expression="id"/>
-        <field id="username" mapping="['username']" select-expression="username"/>
+        <field id="username" mapping="['username']" select-expression='"username"'/>
     </fields>
 </query>

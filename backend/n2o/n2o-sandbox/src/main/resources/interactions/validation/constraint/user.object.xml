@@ -3,7 +3,7 @@
     <operations>
         <operation id="create" success-text="Пользователь добавлен">
             <invocation>
-                <sql>INSERT INTO user (id, username) VALUES (null, :username);</sql>
+                <sql>INSERT INTO "user" ("username") VALUES (:username);</sql>
             </invocation>
             <in>
                 <field id="username"/>
@@ -23,8 +23,8 @@
             <invocation>
                 <sql>
                     SELECT count(1) as cnt
-                    FROM user
-                    WHERE username = :username
+                    FROM "user"
+                    WHERE "username" = :username
                 </sql>
             </invocation>
             <in>

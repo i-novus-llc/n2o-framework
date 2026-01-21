@@ -20,7 +20,7 @@
 
         <operation id="errorSql">
             <invocation>
-                <sql>INSERT INTO car (id, name, price) VALUES (null, :name, :price);</sql>
+                <sql>INSERT INTO car (name, price) VALUES (:name, :price);</sql>
             </invocation>
             <in>
                 <field id="name"/>

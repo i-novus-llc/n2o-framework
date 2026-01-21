@@ -3,7 +3,7 @@
     <operations>
         <operation id="create" success-text="Человек добавлен в базу">
             <invocation>
-                <sql>INSERT INTO persons (id, first_name) VALUES (null, :name);</sql>
+                <sql>INSERT INTO persons (first_name) VALUES (:name);</sql>
             </invocation>
             <in>
                 <field id="name" mapping="['name']"/>
