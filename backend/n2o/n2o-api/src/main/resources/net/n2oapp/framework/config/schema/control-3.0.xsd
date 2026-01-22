@@ -436,6 +436,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="sort-filter-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Поле выборки, отвечающее за сортировку вариантов выбора
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="group-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, отвечающее за группировку вариантов выбора</xs:documentation>
