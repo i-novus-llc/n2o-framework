@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile;
 
+import net.n2oapp.engine.factory.EngineNotFoundException;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.ButtonGenerator;
 import net.n2oapp.framework.api.metadata.compile.ButtonGeneratorFactory;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -8,10 +10,13 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.config.factory.BaseMetadataFactory;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class N2oButtonGeneratorFactory extends BaseMetadataFactory<ButtonGenerator> implements ButtonGeneratorFactory {
+
+    private final static List<String> TABLE_SETTINGS_BUTTONS = Arrays.asList("filters", "columns", "refresh", "resize", "word-wrap", "export", "reset-settings");
 
     public N2oButtonGeneratorFactory() {
     }
@@ -22,7 +27,14 @@ public class N2oButtonGeneratorFactory extends BaseMetadataFactory<ButtonGenerat
 
     @Override
     public List<ToolbarItem> generate(String code, N2oToolbar toolbar, CompileContext context, CompileProcessor p) {
-        ButtonGenerator generator = produce((tg, c) -> tg.getCode().equals(c), code);
-        return generator.generate(toolbar, context, p);
+        try {
+            ButtonGenerator generator = produce((tg, c) -> tg.getCode().equals(c), code);
+            return generator.generate(toolbar, context, p);
+        } catch (EngineNotFoundException e) {
+            if (TABLE_SETTINGS_BUTTONS.contains(code)) {
+                throw new N2oException(String.format("Генерация кнопки '%s' с помощью атрибута 'generate' больше не поддерживается. Добавьте кнопку '%s' в таблице отдельным тегом, используя xsd схему 'http://n2oapp.net/framework/config/schema/table-settings-1.0'", code, code));
+            }
+            throw new N2oException(String.format("Генерации кнопок по слову %s не существует.", code));
+        }
     }
 }
