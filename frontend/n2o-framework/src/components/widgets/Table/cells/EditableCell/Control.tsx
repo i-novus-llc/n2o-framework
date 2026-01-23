@@ -1,4 +1,4 @@
-import React, { createElement, useCallback, type FC, useState, useRef, useMemo } from 'react'
+import React, { createElement, useCallback, type FC, useState, useRef, useMemo, useEffect } from 'react'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { HotKeys } from 'react-hotkeys/cjs'
@@ -18,6 +18,8 @@ export const Control = ({ control, value, onBlur, onChange }: ControlProps) => {
     const { component, ...otherProps } = control
     const [innerValue, setInnerValue] = useState(value)
     const refSendValue = useRef<unknown>(null)
+
+    useEffect(() => { setInnerValue(value) }, [value])
 
     refSendValue.current = innerValue
 
