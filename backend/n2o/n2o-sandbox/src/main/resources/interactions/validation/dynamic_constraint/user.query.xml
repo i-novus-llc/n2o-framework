@@ -4,7 +4,7 @@
     <list result-mapping="#this">
         <sql>
             SELECT :select
-            FROM user
+            FROM "user"
             WHERE :filters
             LIMIT :limit OFFSET :offset
         </sql>
@@ -12,7 +12,7 @@
     <count count-mapping="[0]['cnt']">
         <sql>
             SELECT count(*) as cnt
-            FROM user
+            FROM "user"
         </sql>
     </count>
 
