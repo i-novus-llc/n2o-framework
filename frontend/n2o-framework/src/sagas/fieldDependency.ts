@@ -31,10 +31,10 @@ import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { evalResultCheck } from '../utils/evalResultCheck'
 import {
-    appendFieldToArray,
+    appendToArray,
     combineModels,
     copyFieldArray,
-    removeFieldFromArray,
+    removeFromArray,
     setModel,
     updateModel,
 } from '../ducks/models/store'
@@ -295,6 +295,9 @@ export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateMo
     const { prevState } = meta
     // the updated model
     const { value, key: datasource, field, prefix } = payload
+
+    if (!field) { return }
+
     // prev model
     const prevValue = get(prevState, `models.${prefix}.${datasource}.${field}`)
 
@@ -429,8 +432,8 @@ export const fieldDependencySagas = [
     takeEvery(registerFieldExtra.type, resolveOnInit),
     takeEvery([
         updateModel,
-        appendFieldToArray,
-        removeFieldFromArray,
+        appendToArray,
+        removeFromArray,
         copyFieldArray,
     ], resolveOnUpdateModel),
     takeEvery(setModel.type, resolveOnSetModel),

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { State } from '../../../../ducks/State'
 import { getFormDataSelector } from '../../../../ducks/models/form/selectors'
-import { appendFieldToArray, copyFieldArray, removeFieldFromArray } from '../../../../ducks/models/store'
+import { appendToArray, copyFieldArray, removeFromArray } from '../../../../ducks/models/store'
 
 import { useFormContext } from './useFormContext'
 
@@ -13,10 +13,10 @@ type UseFieldArray<T> = {
     primaryKey?: string
 }
 
-const isEqualArrayLength = (current: unknown[], prev: unknown[]) => current.length === prev.length
+const isEqualArrayLength = <T extends unknown[]>(current: T, prev: T) => current.length === prev.length
 
 // TODO: добавить уникальный id на каждый эллемент
-export const useFieldArray = <T>({ defaultValue = [], name: fieldName, primaryKey }: UseFieldArray<T>) => {
+export const useFieldArray = <T extends Record<string, unknown>>({ defaultValue = [], name: fieldName, primaryKey }: UseFieldArray<T>) => {
     const { datasource, prefix } = useFormContext()
     const dispatch = useDispatch()
     /**
@@ -31,15 +31,15 @@ export const useFieldArray = <T>({ defaultValue = [], name: fieldName, primaryKe
     /**
      * Добавление пустого элемента в массив
      */
-    const append = useCallback(() => {
-        dispatch(appendFieldToArray({ prefix, key: datasource, fieldName, primaryKey }))
+    const append = useCallback((position?: number) => {
+        dispatch(appendToArray({ prefix, key: datasource, field: fieldName, primaryKey, position }))
     }, [dispatch, fieldName, datasource, prefix, primaryKey])
 
     /**
      * Удаление элемента по индексу или диапазон элементов
      */
-    const remove = useCallback((start: number, end?: number) => {
-        dispatch(removeFieldFromArray(prefix, datasource, fieldName, start, end))
+    const remove = useCallback((start: number, count?: number) => {
+        dispatch(removeFromArray({ prefix, key: datasource, field: fieldName, start, count }))
     }, [dispatch, fieldName, datasource, prefix])
 
     /**

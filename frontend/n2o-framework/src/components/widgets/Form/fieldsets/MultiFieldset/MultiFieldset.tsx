@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Button } from 'reactstrap'
 import isEmpty from 'lodash/isEmpty'
 import isNil from 'lodash/isNil'
@@ -8,6 +8,7 @@ import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 import { withFieldsetHeader } from '../withFieldsetHeader'
 import { useFieldArray } from '../../../../core/FormProvider'
 import { useResolved } from '../../../../../core/Expression/useResolver'
+import { guid as uuid } from '../../../../../utils/id'
 import { ArrayFieldProvider } from '../../../../../core/datasource/ArrayField/ArrayFieldProvider'
 import { RowProvider } from '../../../../../core/datasource/ArrayField/RowProvider'
 import { FieldsetProps } from '../types'
@@ -37,6 +38,7 @@ function MultiFieldset({
     needRemoveAllButton: needToRemoveAllButtonsExpression = false,
     ...props
 }: Props) {
+    const [keysMap] = useState(() => new WeakMap<Record<string, unknown>, string>())
     const isEnabled = useResolved(isNil(enabledExpression) ? true : enabledExpression, activeModel)
 
     const labelAddButton = useResolved(addButtonLabelExpression, activeModel)
@@ -56,26 +58,30 @@ function MultiFieldset({
         <ArrayFieldProvider>
             <div className="n2o-multi-fieldset">
                 {help && !label && <HelpPopover help={help} />}
-                {fields.map((field, index) => (
-                    <RowProvider index={index}>
-                        <MultiFieldsetItem
-                            {...props}
-                            index={index}
-                            model={activeModel}
-                            label={firstChildrenLabel && index === 0 ? firstChildrenLabel : childrenLabel}
-                            onRemoveField={remove}
-                            onCopyField={copy}
-                            parentName={name}
-                            enabled={isEnabled}
-                            canRemoveFirstItem={isFirstItemCanBeRemoved}
-                        />
-                    </RowProvider>
-                ))}
+                {fields.map((field, index) => {
+                    if (!keysMap.has(field)) { keysMap.set(field, uuid()) }
+
+                    return (
+                        <RowProvider index={index} key={keysMap.get(field)}>
+                            <MultiFieldsetItem
+                                {...props}
+                                index={index}
+                                model={activeModel}
+                                label={firstChildrenLabel && index === 0 ? firstChildrenLabel : childrenLabel}
+                                onRemoveField={remove}
+                                onCopyField={copy}
+                                parentName={name}
+                                enabled={isEnabled}
+                                canRemoveFirstItem={isFirstItemCanBeRemoved}
+                            />
+                        </RowProvider>
+                    )
+                })}
                 <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--common">
                     {isNeedToAddButton && (
                         <Button
                             className="n2o-multi-fieldset__add"
-                            onClick={append}
+                            onClick={() => append()}
                             disabled={!isEnabled}
                         >
                             <i className="fa fa-plus mr-1" />

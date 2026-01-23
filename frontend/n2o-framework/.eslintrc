@@ -19,6 +19,7 @@
         "class-methods-use-this": "off",
         "react/no-unused-class-component-methods": "off",
         "sonarjs/no-nested-template-literals": "off",
+        "no-continue": "off",
         "no-restricted-imports": [
           "error",
           {

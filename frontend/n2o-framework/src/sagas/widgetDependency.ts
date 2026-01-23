@@ -10,8 +10,8 @@ import {
     removeAllModel,
     setModel,
     updateModel,
-    appendFieldToArray,
-    removeFieldFromArray,
+    appendToArray,
+    removeFromArray,
     copyFieldArray,
 } from '../ducks/models/store'
 import { getModelsByDependency } from '../ducks/models/selectors'
@@ -83,8 +83,8 @@ export function* resolveWidgetDependency(
             const options = getModelsByDependency(dep)(state)
             const isFormActionType = [
                 updateModel.type,
-                appendFieldToArray.type,
-                removeFieldFromArray.type,
+                appendToArray.type,
+                removeFromArray.type,
                 copyFieldArray.type,
             ].some(actionType => actionType === type)
             const isChanged = isFormActionType ? true : !isEqual(prevOptions, options)
@@ -110,8 +110,8 @@ export const widgetDependencySagas = [
         copyModel.type,
         clearModel.type,
         updateModel.type,
-        appendFieldToArray.type,
-        removeFieldFromArray.type,
+        appendToArray.type,
+        removeFromArray.type,
         copyFieldArray.type,
     ], updateModelSaga),
 ]

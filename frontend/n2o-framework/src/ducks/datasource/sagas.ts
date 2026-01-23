@@ -13,9 +13,9 @@ import {
     removeModel,
     setModel,
     updateModel,
-    appendFieldToArray,
+    appendToArray,
     copyFieldArray,
-    removeFieldFromArray,
+    removeFromArray,
 } from '../models/store'
 import { EffectWrapper } from '../api/utils/effectWrapper'
 import { ModelPrefix } from '../../core/datasource/const'
@@ -109,8 +109,8 @@ export default (apiProvider: unknown) => [
         removeAllModel,
         clearModel,
         updateModel,
-        appendFieldToArray,
-        removeFieldFromArray,
+        appendToArray,
+        removeFromArray,
         copyFieldArray,
     ], watchDependencies),
     takeEvery(register, function* fetchOnInit({ payload }: RegisterAction) {

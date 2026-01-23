@@ -2,20 +2,20 @@ import { debounce, put, select, takeEvery } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 
 import {
-    AppendFieldToArrayAction,
+    AppendToArrayAction,
     CopyFieldArrayAction,
-    RemoveFieldFromArrayAction,
+    RemoveFromArrayAction,
     SetModelAction,
     UpdateModelAction,
 } from '../../models/Actions'
 import { DataSourceState } from '../DataSource'
 import { dataSourceByIdSelector } from '../selectors'
 import { submit } from '../store'
-import { appendFieldToArray, copyFieldArray, removeFieldFromArray, setModel, updateModel } from '../../models/store'
+import { appendToArray, copyFieldArray, removeFromArray, setModel, updateModel } from '../../models/store'
 import { CachedAutoSubmit, CachedProvider, ProviderType, SubmitProvider } from '../Provider'
 import { ModelPrefix } from '../../../core/datasource/const'
 
-type ModelAction = AppendFieldToArrayAction | RemoveFieldFromArrayAction | CopyFieldArrayAction | UpdateModelAction
+type ModelAction = AppendToArrayAction | RemoveFromArrayAction | CopyFieldArrayAction | UpdateModelAction
 
 let buffer: Record<string, {
     key: string
@@ -36,7 +36,7 @@ function* collectFormUpdates({ payload }: ModelAction) {
     if (isEmpty(datasource)) { return }
 
     let bufferKey: string = key
-    let provider: SubmitProvider | void
+    let provider: SubmitProvider | undefined
 
     if (datasource.submit?.auto || datasource.submit?.autoSubmitOn) {
         provider = datasource.submit
@@ -49,12 +49,12 @@ function* collectFormUpdates({ payload }: ModelAction) {
             storage,
             model: prefix || ModelPrefix.active,
         } as CachedAutoSubmit
-    } else {
+    } else if (field) {
         provider = datasource.fieldsSubmit[field]
         bufferKey = `${key}:${field}`
     }
 
-    if (!isEmpty(provider)) {
+    if (provider && !isEmpty(provider)) {
         buffer[bufferKey] = { key, provider }
     }
 }
@@ -105,8 +105,8 @@ function* submitSaga() {
 
 const updatePattern = [
     updateModel,
-    appendFieldToArray,
-    removeFieldFromArray,
+    appendToArray,
+    removeFromArray,
     copyFieldArray,
 ]
 
