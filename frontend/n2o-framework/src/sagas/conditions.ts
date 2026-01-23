@@ -10,8 +10,8 @@ import evalExpression from '../utils/evalExpression'
 import {
     setModel,
     clearModel,
-    appendFieldToArray,
-    removeFieldFromArray,
+    appendToArray,
+    removeFromArray,
     copyFieldArray,
     updateModel,
     combineModels,
@@ -113,8 +113,8 @@ function* conditionWatchers() {
         setModel,
         clearModel,
         updateModel,
-        appendFieldToArray,
-        removeFieldFromArray,
+        appendToArray,
+        removeFromArray,
         copyFieldArray,
     ], watchModel)
     yield takeEvery(combineModels, watchCombineModels)

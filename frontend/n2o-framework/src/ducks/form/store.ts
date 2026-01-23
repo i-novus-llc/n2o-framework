@@ -2,12 +2,14 @@ import { createSlice } from '@reduxjs/toolkit'
 import set from 'lodash/set'
 import get from 'lodash/get'
 
-import { removeFieldFromArray, updateModel } from '../models/store'
-import { RemoveFieldFromArrayAction } from '../models/Actions'
+import { appendToArray, removeFromArray, updateModel } from '../models/store'
+import { AppendToArrayAction, RemoveFromArrayAction } from '../models/Actions'
 import { submitSuccess } from '../datasource/store'
 import { ModelPrefix } from '../../core/datasource/const'
 import { successInvoke } from '../../actions/actionImpl'
 import { ValidationResult } from '../../core/validation/types'
+import { getCtxFromField } from '../../core/validation/utils'
+import { mapMultiFields } from '../../core/models/mapMultiFields'
 
 import { getDefaultField, getDefaultState } from './FormPlugin'
 import { Form, FormsState } from './types'
@@ -110,7 +112,7 @@ export const formSlice = createSlice({
 
             reducer(state, { payload, meta = {} }: RegisterFieldAction) {
                 const { formName, fieldName, initialState = {} } = payload
-                const formState = {
+                const field = {
                     ...getDefaultField(),
                     ...initialState,
                     isInit: true,
@@ -119,7 +121,7 @@ export const formSlice = createSlice({
                 const fieldPath = createFieldPath(formName, fieldName)
                 const registeredInfo = get(state, fieldPath, {})
 
-                set(state, fieldPath, Object.assign(registeredInfo, formState))
+                set(state, fieldPath, Object.assign(registeredInfo, field))
             },
         },
 
@@ -398,63 +400,59 @@ export const formSlice = createSlice({
 
             updateDirty(id, prefix, true, state)
         },
-        [removeFieldFromArray.type](state, action: RemoveFieldFromArrayAction) {
-            const { field, start, end, key: datasource, prefix } = action.payload
-            const deleteAll = end !== undefined
+        [removeFromArray.type](state, action: RemoveFromArrayAction) {
+            const { field: listName, start, count = 1, key: datasource, prefix } = action.payload
+
+            if (!listName) { return }
 
             for (const form of Object.values(state)) {
-                // eslint-disable-next-line no-continue
                 if (form.datasource !== datasource || form.modelPrefix !== prefix) { continue }
 
-                // Чистим мапу form[dsName].fields[fieldsetName[index].fieldName]
-                const registredKeys = Object
-                    .keys(form.fields)
-                    .filter(fieldName => fieldName.startsWith(`${field}[`))
-                    // Разделяем индекс и имя поля в строке мультифилдсета
-                    .map(fieldName => fieldName.replace(field, '').match(/\[(\d+)]\.(.+)/))
-                    // @ts-ignore ts не догоняет что Boolean уберёт всё null из списка
-                    .filter<RegExpMatchArray>(Boolean)
-                    .map(([, index, fieldName]) => ({
-                        index: +index,
-                        fieldName,
-                    }))
-                const groupedFields: string[][] = registredKeys.reduce((out: string[][], { index, fieldName }) => {
-                    out[index] = out[index] || []
-                    out[index].push(fieldName)
+                form.fields = mapMultiFields(form.fields, listName, ({ item: field, fullName, subName, index }) => {
+                    // index before removed elements
+                    if (index < start) { return { name: fullName, value: field } }
+                    // removed elements: ignore it
+                    if ((index >= start) && (index < start + count)) { return }
 
-                    return out
-                }, [])
+                    // after removed: shift index
+                    const newName = `${listName}[${index - count}].${subName}`
 
-                const deleteCount = deleteAll ? groupedFields.length - start : 1
-                let i = start
+                    return {
+                        name: newName,
+                        value: {
+                            ...field,
+                            ctx: form.fields[newName]?.ctx,
+                        },
+                    }
+                })
+            }
+        },
+        [appendToArray.type](state, action: AppendToArrayAction) {
+            const { field: listName, position, key: datasource, prefix } = action.payload
 
-                // Котыль для синхронизации контекста строки
-                const ctxMap = Object.fromEntries(Object.entries(form.fields)
-                    .filter(([fieldName]) => fieldName.startsWith(`${field}[`))
-                    .map(([key, field]) => [key, field.ctx]))
+            if (typeof position === 'undefined') { return }
+            if (!listName) { return }
 
-                for (; i < start + deleteCount; i += 1) {
-                    // eslint-disable-next-line no-loop-func,@typescript-eslint/no-loop-func
-                    groupedFields[i]?.forEach((fieldName) => {
-                        const sourceKey = `${field}[${i}].${fieldName}`
+            for (const form of Object.values(state)) {
+                if (form.datasource !== datasource || form.modelPrefix !== prefix) { continue }
 
-                        delete form.fields[sourceKey]
-                    })
-                }
+                form.fields = mapMultiFields(form.fields, listName, ({ item: field, fullName, subName, index }) => {
+                    // index before new element
+                    if (index < position) { return { name: fullName, value: field } }
 
-                for (; i < groupedFields.length; i += 1) {
-                    // eslint-disable-next-line no-loop-func,@typescript-eslint/no-loop-func
-                    groupedFields[i]?.forEach((fieldName) => {
-                        const newIndex = i - deleteCount
-                        const sourceKey = `${field}[${i}].${fieldName}`
-                        const destKey = `${field}[${newIndex}].${fieldName}`
+                    const newName = `${listName}[${index + 1}].${subName}`
 
-                        form.fields[destKey] = form.fields[sourceKey]
-                        form.fields[destKey].ctx = ctxMap[destKey]
-
-                        delete form.fields[sourceKey]
-                    })
-                }
+                    return {
+                        name: newName,
+                        value: {
+                            ...field,
+                            ctx: {
+                                ...(field.ctx ?? {}),
+                                ...(getCtxFromField(newName) ?? {}),
+                            },
+                        },
+                    }
+                })
             }
         },
     },

@@ -11,8 +11,8 @@ import type { State } from './Models'
 import type {
     ClearModelAction, CopyAction, MergeModelAction,
     RemoveAllModelAction, RemoveModelAction, SetModelAction,
-    UpdateModelAction, AppendFieldToArrayAction, CopyFieldArrayAction,
-    RemoveFieldFromArrayAction,
+    UpdateModelAction, AppendToArrayAction, CopyFieldArrayAction,
+    RemoveFromArrayAction,
 } from './Actions'
 
 export const initialState: State = {
@@ -158,46 +158,42 @@ export const modelsSlice = createSlice({
             },
         },
 
-        appendFieldToArray: {
-            prepare({ key, fieldName, ...options }) {
+        appendToArray: {
+            prepare({ key, field, position, ...options }) {
                 return ({
-                    meta: { key, field: fieldName, ...options },
-                    payload: { key, field: fieldName, ...options },
+                    meta: { key, field, ...options },
+                    payload: { key, field, position, ...options },
                 })
             },
 
-            reducer(state, action: AppendFieldToArrayAction) {
-                const { prefix, key, field, value = {}, primaryKey } = action.payload
-                const arrayValue = get(state, `${prefix}.${key}.${field}`)
-                const item = primaryKey ? { [primaryKey]: id(), ...value } : value
+            reducer(state, action: AppendToArrayAction) {
+                const { prefix, key, field, value = {}, primaryKey, position } = action.payload
+                const path = field ? `${prefix}.${key}.${field}` : `${prefix}.${key}`
+                const arrayValue = get(state, path)
+                const item = primaryKey ? { [primaryKey]: id(), ...value } : { ...value }
 
                 if (arrayValue) {
-                    arrayValue.push(item)
+                    arrayValue.splice(position ?? arrayValue.length, 0, item)
                 } else {
-                    set(state, `${prefix}.${key}.${field}`, [item])
+                    set(state, path, [item])
                 }
             },
         },
 
-        removeFieldFromArray: {
-            prepare(prefix: ModelPrefix, key: string, field: string, start: number, end?: number) {
+        removeFromArray: {
+            prepare({ prefix, key, field, start, count }) {
                 return ({
                     meta: { prefix, key, field },
-                    payload: { prefix, key, field, start, end },
+                    payload: { prefix, key, field, start, count },
                 })
             },
 
-            reducer(state, action: RemoveFieldFromArrayAction) {
-                const { prefix, key, field, start, end } = action.payload
-                const arrayValue = get(state, `${prefix}.${key}.${field}`, [])
+            reducer(state, action: RemoveFromArrayAction) {
+                const { prefix, key, field, start, count } = action.payload
+                const path = field ? `${prefix}.${key}.${field}` : `${prefix}.${key}`
+                const arrayValue: unknown[] = get(state, path, [])
 
-                if (end === undefined) {
-                    arrayValue.splice(start, 1)
-
-                    return
-                }
-
-                arrayValue.splice(start, end)
+                arrayValue.splice(start, count ?? 1)
             },
         },
 
@@ -212,11 +208,9 @@ export const modelsSlice = createSlice({
             reducer(state, action: CopyFieldArrayAction) {
                 const { prefix, key, field, index, primaryKey } = action.payload
                 const arrayValue = get(state, `${prefix}.${key}.${field}`, [])
-                let item = arrayValue[index]
+                const item = { ...arrayValue[index] }
 
-                if (primaryKey) {
-                    item = { ...item, [primaryKey]: id() }
-                }
+                if (primaryKey) { item[primaryKey] = id() }
 
                 arrayValue.push(item)
             },
@@ -234,7 +228,7 @@ export const {
     MERGE: combineModels,
     COPY: copyModel,
     REMOVE_ALL: removeAllModel,
-    appendFieldToArray,
-    removeFieldFromArray,
+    appendToArray,
+    removeFromArray,
     copyFieldArray,
 } = modelsSlice.actions

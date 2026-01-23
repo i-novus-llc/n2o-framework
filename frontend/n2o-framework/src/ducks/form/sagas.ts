@@ -6,8 +6,8 @@ import { ModelPrefix } from '../../core/datasource/const'
 import { Validation } from '../../core/validation/types'
 import {
     updateModel,
-    appendFieldToArray,
-    removeFieldFromArray,
+    appendToArray,
+    removeFromArray,
     copyFieldArray,
     setModel,
 } from '../models/store'
@@ -15,6 +15,7 @@ import { resetValidation, startValidate, remove as removeDatasource } from '../d
 import { dataSourceValidationSelector } from '../datasource/selectors'
 import { getModelByPrefixAndNameSelector } from '../models/selectors'
 import { getCtxFromField, isMulti, createRegexpWithContext } from '../../core/validation/utils'
+import { mapMultiFields } from '../../core/models/mapMultiFields'
 
 import { makeFormByName, makeFormsByModel } from './selectors'
 import {
@@ -30,7 +31,7 @@ type FieldId = string
 type ValidationKey = string
 
 const validateBuffer: Record<
-    string,
+    DataSourceId,
     Record<FieldId, Set<Validation> | null>
 > = {}
 
@@ -98,8 +99,8 @@ export const formPluginSagas = [
     }),
     takeEvery([
         updateModel,
-        appendFieldToArray,
-        removeFieldFromArray,
+        appendToArray,
+        removeFromArray,
         copyFieldArray,
     ], function* addFieldToBuffer({ payload, meta }) {
         //  FIXME: разобраться что не так с типами meta
@@ -108,6 +109,8 @@ export const formPluginSagas = [
         if (validate === false) { return }
 
         const { key: datasource, field, prefix } = payload
+
+        if (!field || prefix === ModelPrefix.source || prefix === ModelPrefix.selected) { return }
 
         const validations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
             state => getValidationFields(state, datasource),
@@ -154,8 +157,8 @@ export const formPluginSagas = [
     }),
     debounce(200, [
         updateModel,
-        appendFieldToArray,
-        removeFieldFromArray,
+        appendToArray,
+        removeFromArray,
         copyFieldArray,
         setModel,
     ], function* startValidateSaga({ payload }) {
@@ -190,4 +193,43 @@ export const formPluginSagas = [
         }
     }),
     takeEvery(removeDatasource, ({ payload }) => { delete validateBuffer[payload.id] }),
+    takeEvery(appendToArray, ({ payload }) => {
+        const { field, position, key: datasource } = payload
+        const buffer = validateBuffer[datasource]
+
+        if (typeof position === 'undefined' || !field || isEmpty(buffer)) { return }
+
+        validateBuffer[datasource] = mapMultiFields(
+            buffer,
+            field,
+            ({ item: value, fullName: name, subName, index }) => {
+                // index before removed elements
+                if (index < position) { return { name, value } }
+
+                return { name: `${field}[${index + 1}].${subName}`, value }
+            },
+        )
+    }),
+    takeEvery(removeFromArray, ({ payload }) => {
+        const { field, start, count = 1, key: datasource } = payload
+        const buffer = validateBuffer[datasource]
+
+        if (!field || isEmpty(buffer)) { return }
+
+        validateBuffer[datasource] = mapMultiFields(
+            buffer,
+            field,
+            ({ item: value, fullName: name, subName, index }) => {
+                // index before removed elements
+                if (index < start) { return { name, value } }
+                // removed elements: ignore it
+                if ((index >= start) && (index < start + count)) { return undefined }
+
+                // after removed: shift index
+                const newIndex = index - count
+
+                return { name: `${field}[${newIndex}].${subName}`, value }
+            },
+        )
+    }),
 ]

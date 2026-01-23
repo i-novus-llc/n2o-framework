@@ -12,7 +12,7 @@ import isEmpty from 'lodash/isEmpty'
 import { DefaultModels, State as ModelsState } from '../../models/Models'
 import { State } from '../../State'
 import {
-    appendFieldToArray,
+    appendToArray,
     combineModels,
     copyModel,
     removeModel,
@@ -121,14 +121,17 @@ export function* flowDefaultModels(config: DefaultModels) {
     }
 
     if (!isEmpty(arrayFields)) {
-        yield takeEvery([appendFieldToArray], function* watcher({ payload }) {
+        yield takeEvery([appendToArray], function* watcher({ payload }) {
             const state: State = yield select()
-            const { prefix, key, field } = payload
+            const { prefix, key, field, position } = payload
+
+            if (!field) { return }
+
             const fieldPath = `${prefix}['${key}'].${field}`
             const arrSymbol = '[*]'
             const fieldMask = `${fieldPath.replaceAll(/\[\d+]/g, arrSymbol)}${arrSymbol}`
             const combine: Partial<ModelsState> = {}
-            const index = get(state, `models.${fieldPath}`).length - 1
+            const index = position ?? get(state, `models.${fieldPath}`).length - 1
             const itemPath = `${fieldPath}[${index}]`
             const ctx = createContext(itemPath)
 

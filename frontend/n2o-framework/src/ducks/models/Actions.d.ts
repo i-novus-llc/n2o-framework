@@ -8,8 +8,8 @@ export interface ModelsPayload {
     key: string
 }
 
-type FieldPath = ModelsPayload & {
-    field: string
+export type FieldPath = ModelsPayload & {
+    field?: string
 }
 
 export type SetModelAction<Prefix extends ModelPrefix = ModelPrefix.active> = Action<string, ModelsPayload & {
@@ -52,14 +52,15 @@ export type CopyAction = Action<string, {
     sourceMapper?: string
 }>
 
-export type AppendFieldToArrayAction = Action<string, FieldPath & {
+export type AppendToArrayAction = Action<string, FieldPath & {
     primaryKey?: string
     value?: object
+    position?: number
 }>
 
-export type RemoveFieldFromArrayAction = Action<string, FieldPath & {
+export type RemoveFromArrayAction = Action<string, FieldPath & {
     start: number
-    end?: number
+    count?: number
 }>
 
 export type CopyFieldArrayAction = Action<string, FieldPath & {

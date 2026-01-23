@@ -8,8 +8,9 @@ import { Meta } from '../../sagas/types'
 import { INDEX_MASK, INDEX_REGEXP } from '../../core/validation/const'
 import { Validation, ValidationsKey } from '../../core/validation/types'
 import { Meta as N2OMeta } from '../Action'
-import { removeFieldFromArray } from '../models/store'
-import { RemoveFieldFromArrayAction } from '../models/Actions'
+import { appendToArray, removeFromArray } from '../models/store'
+import { AppendToArrayAction, RemoveFromArrayAction } from '../models/Actions'
+import { mapMultiFields } from '../../core/models/mapMultiFields'
 
 import type {
     AddComponentAction,
@@ -447,45 +448,47 @@ export const datasource = createSlice({
         },
     },
     extraReducers: {
-        [removeFieldFromArray.type](state, action: RemoveFieldFromArrayAction) {
-            const { key, field, start, end = 1, prefix } = action.payload
+        [removeFromArray.type](state, action: RemoveFromArrayAction) {
+            const { key, field, start, count = 1, prefix } = action.payload
             const datasource = state[key]
-            const errors: Partial<typeof datasource.errors[typeof prefix]> = {}
 
-            const mask = new RegExp(`${field}\\[(\\d+)]\\.(.+)`)
+            if (!datasource || !field || prefix === ModelPrefix.source || prefix === ModelPrefix.selected) { return }
 
-            for (const [key, messages] of Object.entries(datasource.errors[prefix] || {})) {
-                const match = key.match(mask)
-
-                if (match) {
-                    const [, i, name] = match
-                    const matchedIndex = Number(i)
-
+            datasource.errors[prefix] = mapMultiFields(
+                datasource.errors[prefix] || {},
+                field,
+                ({ item: value, fullName: name, subName, index }) => {
                     // index before removed elements
-                    if (matchedIndex < start) {
-                        errors[key] = messages
-
-                        // eslint-disable-next-line no-continue
-                        continue
-                    }
-
+                    if (index < start) { return { name, value } }
                     // removed elements: ignore it
-                    if ((matchedIndex >= start) && (matchedIndex < start + end)) {
-                        // eslint-disable-next-line no-continue
-                        continue
-                    }
+                    if ((index >= start) && (index < start + count)) { return undefined }
 
                     // after removed: shift index
-                    const newIndex = matchedIndex - end
+                    const newIndex = index - count
 
-                    errors[`${field}[${newIndex}].${name}`] = messages
-                } else {
-                    // not multi-set fields
-                    errors[key] = messages
-                }
-            }
+                    return { name: `${field}[${newIndex}].${subName}`, value }
+                },
+            )
+        },
+        [appendToArray.type](state, action: AppendToArrayAction) {
+            const { field, key, prefix, position } = action.payload
+            const datasource = state[key]
 
-            datasource.errors[prefix] = errors
+            if (
+                !datasource || !field || (typeof position === 'undefined') ||
+                prefix === ModelPrefix.source || prefix === ModelPrefix.selected
+            ) { return }
+
+            datasource.errors[prefix] = mapMultiFields(
+                datasource.errors[prefix] || {},
+                field,
+                ({ item: value, fullName: name, subName, index }) => {
+                    // index before removed elements
+                    if (index < position) { return { name, value } }
+
+                    return { name: `${field}[${index + 1}].${subName}`, value }
+                },
+            )
         },
     },
 })
