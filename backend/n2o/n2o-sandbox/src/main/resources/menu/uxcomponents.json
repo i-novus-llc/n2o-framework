@@ -124,6 +124,10 @@
           "name": "Подсветка строк"
         },
         {
+          "templateId": "uxcomponents/tables/rows_color_types",
+          "name": "Цвета строк"
+        },
+        {
           "templateId": "uxcomponents/tables/tree",
           "name": "Древовидные строки"
         },
