@@ -18,7 +18,6 @@
 
     .sticky-cell {
         position: sticky;
-        background: #fff;
         z-index: 6;
 
         &.sticky-right {
@@ -36,6 +35,10 @@
                 border-right: $table-border-width solid $gray-400;
             }
         }
+    }
+
+    tr:not(.table-success, .table-warning, .table-danger, .table-info, .table-secondary, .table-primary) .sticky-cell {
+        background: #fff;
     }
 
     td,
@@ -130,7 +133,7 @@
             &[data-focused="true"] {
                 background-color: #ececec;
 
-                .sticky-cell {
+                &:not(.table-success, .table-warning, .table-danger, .table-info, .table-secondary, .table-primary) .sticky-cell {
                     background-color: inherit;
                 }
             }
@@ -139,7 +142,7 @@
             &:hover {
                 background-color: #dfdfdf;
 
-                .sticky-cell {
+                &:not(.table-success, .table-warning, .table-danger, .table-info, .table-secondary, .table-primary) .sticky-cell {
                     background-color: inherit;
                 }
             }
