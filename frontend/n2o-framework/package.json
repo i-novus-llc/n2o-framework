@@ -131,7 +131,7 @@
     "chokidar-cli": "3.0.0",
     "copyfiles": "^2.4.1",
     "core-js": "^3.15.1",
-    "css-loader": "^0.28.9",
+    "css-loader": "^1.0.0",
     "enzyme": "^3.9.0",
     "enzyme-to-json": "3.6.2",
     "eslint": "8.57.0",
