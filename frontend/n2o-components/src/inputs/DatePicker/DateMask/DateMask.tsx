@@ -1,11 +1,11 @@
 import React from 'react'
 import flowRight from 'lodash/flowRight'
-import { maskitoDateTimeOptionsGenerator, maskitoDateOptionsGenerator } from '@maskito/kit'
-import { MaskitoPlugin } from '@maskito/core'
+import { maskitoDateTimeOptionsGenerator, maskitoDateOptionsGenerator, maskitoEventHandler } from '@maskito/kit'
+import { MaskitoPlugin, maskitoUpdateElement } from '@maskito/core'
 
 import { combineRefs } from '../../utils'
 import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
-import { useMask } from '../../helpers/input/useMask'
+import { type onInputProcessorParams, useMask } from '../../helpers/input/useMask'
 
 import { WithFormat } from './WithFormat'
 import { WithEvents } from './WithEvents'
@@ -52,12 +52,23 @@ function Component({
             max,
         })
 
+    const onInputProcessor = (params: onInputProcessorParams) => {
+        const { element, placeholder } = params
+
+        if (element.value === placeholder) {
+            return maskitoUpdateElement(element, '')
+        }
+
+        return null
+    }
+
     const { maskRef, maskedValue } = useMask({
         ...options,
         mask: options.mask,
         placeholder: getFloatingPlaceholder(dateMode, timeMode),
         defaultValue: value,
         processors: { plugins: options.plugins as MaskitoPlugin[] },
+        onInputProcessor,
     })
 
     return (

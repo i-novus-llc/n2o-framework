@@ -8,21 +8,30 @@ import {
     MaskitoPreprocessor,
     MaskitoPostprocessor,
     MaskitoPlugin,
+    MaskitoElement,
 } from '@maskito/core'
 
-interface Params {
-    mask: MaskitoMask,
-    placeholder: string,
+interface Enhancer {
+    placeholder: string
     defaultValue?: string | number | null
+}
+
+export interface onInputProcessorParams extends Enhancer {
+    element: MaskitoElement
+}
+
+interface Params extends Enhancer {
+    mask: MaskitoMask
     processors?: {
         preprocessors?: MaskitoPreprocessor[]
         postprocessors?: MaskitoPostprocessor[]
         plugins?: MaskitoPlugin[]
     }
+    onInputProcessor?(params: onInputProcessorParams): void
 }
 
 export function useMask(params: Params) {
-    const { mask, placeholder, defaultValue, processors } = params
+    const { mask, placeholder, defaultValue, processors, onInputProcessor } = params
 
     const options = useMemo(() => {
         const {
@@ -55,6 +64,13 @@ export function useMask(params: Params) {
                         : removePlaceholder(element.value)
 
                     maskitoUpdateElement(element, cleanValue)
+                }),
+                maskitoEventHandler('input', (element) => {
+                    onInputProcessor?.({
+                        element,
+                        placeholder,
+                        defaultValue,
+                    })
                 }),
             ],
         }
