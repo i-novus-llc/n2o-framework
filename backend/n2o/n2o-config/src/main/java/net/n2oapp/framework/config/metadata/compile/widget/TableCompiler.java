@@ -16,6 +16,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandard
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oAbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oDndColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oColumnsTableSetting;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oResizeTableSetting;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oWordWrapTableSetting;
@@ -307,9 +308,14 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
     }
 
     private boolean shouldSaveSettings(S source, CompileProcessor p) {
-        if (Boolean.FALSE.equals(p.resolve(property("n2o.api.widget.table.save_settings"), Boolean.class)) ||
-                source.getToolbars() == null)
+        if (Boolean.FALSE.equals(p.resolve(property("n2o.api.widget.table.save_settings"), Boolean.class)))
             return false;
+
+        if (source.getColumns() != null &&
+                Arrays.stream(source.getColumns()).anyMatch(N2oDndColumn.class::isInstance))
+            return true;
+
+        if (source.getToolbars() == null) return false;
 
         return Arrays.stream(source.getToolbars())
                 .flatMap(toolbar -> Arrays.stream(toolbar.getItems()))

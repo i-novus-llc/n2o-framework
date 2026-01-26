@@ -443,9 +443,11 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     void testDndColumn() {
+        builder.properties("n2o.api.widget.table.save_settings=true");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testDndColumn.page.xml")
                 .get(new PageContext("testDndColumn"));
-
+        Table<?> table = ((Table<?>) page.getWidget());
+        assertThat(table.getSaveSettings(), is(true));
         List<AbstractColumn> abstractColumns = ((Table<?>) page.getWidget()).getComponent().getHeader().getCells();
         assertThat(abstractColumns.size(), is(2));
         assertThat(abstractColumns.getFirst().getId(), is("test1"));
