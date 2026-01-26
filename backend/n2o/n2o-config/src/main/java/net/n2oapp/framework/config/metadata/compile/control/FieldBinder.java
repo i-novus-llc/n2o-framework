@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.control.FetchValueDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.util.BindUtil;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,12 @@ public class FieldBinder implements BaseMetadataBinder<Field> {
             field.getDependencies().stream().filter(FetchValueDependency.class::isInstance)
                     .forEach(f -> BindUtil.bindDataProvider(((FetchValueDependency) f).getDataProvider(), p));
             field.getDependencies().forEach(d -> d.setExpression(p.resolveTextWithQuotes(d.getExpression())));
+        }
+        if (field.getToolbar() != null) {
+            for (Group grp : field.getToolbar()) {
+                if (grp.getButtons() != null)
+                    grp.getButtons().forEach(p::bind);
+            }
         }
         return field;
     }

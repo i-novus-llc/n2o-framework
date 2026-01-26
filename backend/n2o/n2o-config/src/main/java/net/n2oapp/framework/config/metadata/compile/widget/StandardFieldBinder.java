@@ -21,12 +21,6 @@ public class StandardFieldBinder implements BaseMetadataBinder<StandardField<?>>
     @Override
     public StandardField<?> bind(StandardField<?> compiled, BindProcessor p) {
         BindUtil.bindDataProvider(compiled.getDataProvider(), p);
-        if (compiled.getToolbar() != null) {
-            for (Group grp : compiled.getToolbar()) {
-                if (grp.getButtons() != null)
-                    grp.getButtons().forEach(p::bind);
-            }
-        }
         if (compiled.getControl() != null) {
             p.bind(compiled.getControl());
         }
