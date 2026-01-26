@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.action;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.Source;
 
 /**
  * Исходная модель действия валидации
@@ -17,7 +18,7 @@ public class N2oValidateAction extends N2oAbstractAction {
 
     @Getter
     @Setter
-    public static class Field {
+    public static class Field implements Source {
         private String id;
     }
 
