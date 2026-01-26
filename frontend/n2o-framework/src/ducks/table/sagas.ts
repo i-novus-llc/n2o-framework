@@ -15,7 +15,7 @@ import { DataSourceState } from '../datasource/DataSource'
 import { DatasourceAction } from '../datasource/Actions'
 
 import { Table, type HeaderCell } from './Table'
-import { changeTableColumnParam, registerTable, switchTableParam } from './store'
+import { changeTableColumnParam, registerTable, switchTableParam, reorderColumn } from './store'
 import { getDefaultColumnState } from './constants'
 import { makeTableByDatasourceSelector, makeTableByIdSelector } from './selectors'
 import { ChangeTableColumnParam, SwitchTableColumnParam } from './Actions'
@@ -155,5 +155,5 @@ function* onTableUpdateEffect({ payload }: ChangeTableColumnParam | SwitchTableC
 export const sagas = [
     takeEvery(registerWidget, registerTableEffect),
     takeEvery([changeSize, setSorting, changePage], onDatasourceUpdateEffect),
-    takeEvery([changeTableColumnParam, switchTableParam], onTableUpdateEffect),
+    takeEvery([changeTableColumnParam, switchTableParam, reorderColumn], onTableUpdateEffect),
 ]
