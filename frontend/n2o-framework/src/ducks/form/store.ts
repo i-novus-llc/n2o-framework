@@ -125,20 +125,6 @@ export const formSlice = createSlice({
             },
         },
 
-        unRegisterExtraField: {
-            prepare(formName: string, fieldName: string) {
-                return ({
-                    payload: { formName, fieldName },
-                })
-            },
-
-            reducer(state, action: UnregisterFieldAction) {
-                const { formName, fieldName } = action.payload
-
-                delete state[formName]?.fields[fieldName]
-            },
-        },
-
         setFieldDisabled: {
             prepare(formName: string, fieldName: string, disabled: boolean) {
                 return ({
@@ -421,6 +407,7 @@ export const formSlice = createSlice({
                         name: newName,
                         value: {
                             ...field,
+                            dependency: form.fields[newName]?.dependency || field.dependency,
                             ctx: form.fields[newName]?.ctx,
                         },
                     }
@@ -446,6 +433,13 @@ export const formSlice = createSlice({
                         name: newName,
                         value: {
                             ...field,
+                            dependency: field.dependency.map(dep => ({
+                                ...dep,
+                                on: dep.on?.map(on => on.replace(
+                                    `${listName}[${index}]`,
+                                    `${listName}[${index + 1}]`,
+                                )),
+                            })),
                             ctx: {
                                 ...(field.ctx ?? {}),
                                 ...(getCtxFromField(newName) ?? {}),
@@ -479,6 +473,5 @@ export const {
     FOCUS: handleFocus,
     // TODO @touched удалить
     TOUCH: handleTouch,
-    unRegisterExtraField,
     setDirty,
 } = formSlice.actions
