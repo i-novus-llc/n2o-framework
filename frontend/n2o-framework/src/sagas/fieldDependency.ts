@@ -5,8 +5,6 @@ import {
     fork,
     takeEvery,
     delay,
-    race,
-    take,
     debounce,
 } from 'redux-saga/effects'
 import { createAction } from '@reduxjs/toolkit'
@@ -25,7 +23,6 @@ import {
     registerFieldExtra,
     dangerouslySetFieldValue,
     setFieldTooltip,
-    unRegisterExtraField,
 } from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -44,10 +41,13 @@ import { GLOBAL_KEY } from '../ducks/alerts/constants'
 import { ModelPrefix } from '../core/datasource/const'
 import { FETCH_TRIGGER } from '../core/dependencies/constants'
 import { State as GlobalState } from '../ducks/State'
-import { Action } from '../ducks/Action'
 import { Form, Field, FieldDependency } from '../ducks/form/types'
-import { RegisterFieldAction, UnregisterFieldAction } from '../ducks/form/Actions'
-import { MergeModelAction, SetModelAction } from '../ducks/models/Actions'
+import { RegisterFieldAction } from '../ducks/form/Actions'
+import type {
+    AppendToArrayAction, CopyFieldArrayAction,
+    MergeModelAction, RemoveFromArrayAction,
+    SetModelAction, UpdateModelAction,
+} from '../ducks/models/Actions'
 import { State } from '../ducks/models/Models'
 
 import fetchSaga from './fetch'
@@ -129,34 +129,8 @@ export function* fetchValue(
 const ResolveDependencyAction = createAction('n2o/form/resolveDependency')
 let defModels: Partial<State> = {}
 
-function* resolveDependency(
-    form: Form,
-    values: Record<string, unknown>,
-    fieldName: string,
-    field: Field,
-    dependency: FieldDependency,
-    isInit: boolean,
-) {
-    yield race([
-        call(modify, form, values, fieldName, field, dependency, isInit),
-        // @ts-ignore ругается take на тип экшена
-        take((action: Action) => {
-            const { type, payload } = action
-
-            if (type !== unRegisterExtraField.type) { return false }
-
-            const {
-                fieldName: actionField,
-                formName: actionForm,
-            } = payload as UnregisterFieldAction['payload']
-
-            return (form.formName === actionForm) && (fieldName === actionField)
-        }),
-    ])
-}
-
 // eslint-disable-next-line complexity
-export function* modify(
+export function* resolveDependency(
     form: Form,
     values: Record<string, unknown>,
     fieldName: string,
@@ -261,6 +235,7 @@ const shouldBeResolved = (
     actionField: string,
     model: Record<string, unknown>,
     prevModel: Record<string, unknown>,
+    checkInner = true,
 ) => {
     const { on } = dependency
 
@@ -271,35 +246,28 @@ const shouldBeResolved = (
         isParentFieldOf(dependencyField, actionField) ||
         // Подписка на внутрнее поле, изменилось внешнее: field="field", on="field[index].id"
         (
+            checkInner &&
             isParentFieldOf(actionField, dependencyField) &&
             !isEqual(get(model, dependencyField), get(prevModel, dependencyField))
         )
     ))
 }
 
-interface ResolveOnUpdateModel {
-    type: string
-    meta: {
-        prevState: GlobalState
+function* resolveOnUpdateList(action: AppendToArrayAction | RemoveFromArrayAction | CopyFieldArrayAction) {
+    const { meta, payload } = action
+    const { field, prefix } = payload
+
+    if (!field || prefix === ModelPrefix.selected || prefix === ModelPrefix.source) {
+        return
     }
-    payload: {
-        key: string
-        prefix: ModelPrefix
-        fieldName: string
-        value: Record<string, unknown>
-        field: string
-    }
+
+    yield resolveOnUpdateModel({ meta, payload } as UpdateModelAction, false)
 }
 
-export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateModel) {
+export function* resolveOnUpdateModel({ meta = {}, payload }: UpdateModelAction, checkInner = true) {
     const { prevState } = meta
-    // the updated model
-    const { value, key: datasource, field, prefix } = payload
-
-    if (!field) { return }
-
-    // prev model
-    const prevValue = get(prevState, `models.${prefix}.${datasource}.${field}`)
+    const { value, key: datasource, field: fieldName, prefix } = payload
+    const prevValue = get(prevState, `models.${prefix}.${datasource}.${fieldName}`)
 
     if (isEqual(value, prevValue)) { return }
 
@@ -309,16 +277,10 @@ export function* resolveOnUpdateModel({ type, meta, payload }: ResolveOnUpdateMo
     const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
 
     for (const form of forms) {
-        const fieldName = type === registerFieldExtra.type ? payload.fieldName : field
-
-        if (isEmpty(form.fields)) { return }
-
         for (const [fieldId, field] of Object.entries(form.fields)) {
-            if (field.dependency) {
-                for (const dep of field.dependency) {
-                    if (shouldBeResolved(dep, fieldName, model, prevModel)) {
-                        yield fork(resolveDependency, form, model, fieldId, field, dep, false)
-                    }
+            for (const dep of field.dependency) {
+                if (shouldBeResolved(dep, fieldName, model, prevModel, checkInner)) {
+                    yield fork(resolveDependency, form, model, fieldId, field, dep, false)
                 }
             }
         }
@@ -431,11 +393,11 @@ function* resolveOnDefault({ payload, meta = {} }: MergeModelAction) {
 export const fieldDependencySagas = [
     takeEvery(registerFieldExtra.type, resolveOnInit),
     takeEvery([
-        updateModel,
         appendToArray,
         removeFromArray,
         copyFieldArray,
-    ], resolveOnUpdateModel),
+    ], resolveOnUpdateList),
+    takeEvery(updateModel.type, resolveOnUpdateModel),
     takeEvery(setModel.type, resolveOnSetModel),
     takeEvery(combineModels.type, resolveOnDefault),
     /*

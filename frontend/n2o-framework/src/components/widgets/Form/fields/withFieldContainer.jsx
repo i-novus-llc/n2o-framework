@@ -7,7 +7,7 @@ import isNil from 'lodash/isNil'
 import isEmpty from 'lodash/isEmpty'
 
 import { makeFieldByName, messageSelector } from '../../../../ducks/form/selectors'
-import { registerFieldExtra, unRegisterExtraField } from '../../../../ducks/form/store'
+import { registerFieldExtra } from '../../../../ducks/form/store'
 import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
 import { useFormContext } from '../../../core/FormProvider'
 import { setFieldSubmit } from '../../../../ducks/datasource/store'
@@ -30,10 +30,6 @@ const useReduxField = ({ name: fieldName, ...fieldProps }, formName, dispatch) =
             dispatch(registerFieldExtra(formName, fieldName, fieldProps))
         }
     }, [formName, fieldName, dispatch, field, fieldProps])
-
-    useEffect(() => () => {
-        dispatch(unRegisterExtraField(formName, fieldName))
-    }, [formName, fieldName, dispatch])
 
     if (field.isInit) {
         return field
