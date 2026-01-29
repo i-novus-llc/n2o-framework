@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.action;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.control.Checkbox;
+import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
@@ -18,10 +20,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
 /**
  * Автотест для действия валидация на клиенте
  */
 class ValidateActionAT extends AutoTestBase {
+
+    public static final String REQUIRED = "Поле обязательно для заполнения";
+    public static final String SHOULD_HAVE_VALUE = "Следует заполнить поле";
 
     @BeforeAll
     static void beforeClass() {
@@ -38,14 +45,15 @@ class ValidateActionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/validate/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/validate/test.object.xml")
-        );
+
     }
 
     @Test
     void testValidateAction() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/validate/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/validate/simple/test.object.xml")
+        );
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -64,10 +72,10 @@ class ValidateActionAT extends AutoTestBase {
         checkBtn.click();
 
         nameField.shouldHaveValidationMessage(Condition.exist);
-        nameField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        nameField.shouldHaveValidationMessage(Condition.text(REQUIRED));
         birthdayField.shouldHaveValidationMessage(Condition.empty);
         jobTitleField.shouldHaveValidationMessage(Condition.exist);
-        jobTitleField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        jobTitleField.shouldHaveValidationMessage(Condition.text(REQUIRED));
         startYearField.shouldHaveValidationMessage(Condition.empty);
 
         name.setValue("Иван");
@@ -80,28 +88,200 @@ class ValidateActionAT extends AutoTestBase {
         saveBtn.click();
 
         birthdayField.shouldHaveValidationMessage(Condition.exist);
-        birthdayField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        birthdayField.shouldHaveValidationMessage(Condition.text(REQUIRED));
         startYearField.shouldHaveValidationMessage(Condition.exist);
-        startYearField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        startYearField.shouldHaveValidationMessage(Condition.text(REQUIRED));
     }
 
     @Test
-    void testBreakOn() {
+    void testBreakOnNoValidateElement() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/validate/multi_action/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/validate/multi_action/test.object.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FormWidget form = page.widget(FormWidget.class);
+        MultiFieldSet multiFieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
+        multiFieldset.clickAddButton();
+
+        StandardButton button = form.toolbar().bottomLeft().button("Провалидировать все поля");
+        button.click();
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        alert.shouldNotExists();
+
+        form.fields().field("Имя").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+        multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+
+        form.fields().field("Имя").control(InputText.class).setValue("test");
+        multiFieldset.item(0).fields().field("Название").control(InputText.class).setValue("test");
+        multiFieldset.item(0).fields().field("Год начала").control(InputText.class).setValue("2025");
+
+        button.click();
+        alert.shouldHaveText("Данные сохранены");
+        alert.closeButton().click();
+
+        form.fields().field("Имя").shouldHaveValidationMessage(Condition.empty);
+        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+        multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.empty);
+        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
+        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+
+        form.fields().field("Дата рождения").control(DateInput.class).setValue("01.01.2000");
+        multiFieldset.item(0).fields().field("Год окончания").control(DateInput.class).setValue("01.01.2026");
+
+        button.click();
+        alert.shouldHaveText("Данные сохранены");
+    }
+
+    @Test
+    void testBreakOnDangerValidateElement() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/validate/multi_action/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/validate/multi_action/test.object.xml")
+        );
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
         FormWidget form = page.widget(FormWidget.class);
+        Checkbox checkbox = form.fields().field("Поля имя и название заполнены верно").control(Checkbox.class);
+        checkbox.shouldNotBeChecked();
 
         MultiFieldSet multiFieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
         multiFieldset.clickAddButton();
-        form.toolbar().bottomLeft().button("Проверить break-on=warning").click();
-        form.fields().field("Место рождения").control(InputText.class).shouldHaveCssClass("is-invalid");
-        multiFieldset.item(0).fields().field("Компания").control(InputText.class).shouldHaveCssClass("is-invalid");
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Сообщение после break-on=warning");
 
-        form.toolbar().bottomLeft().button("Проверить break-on=false").click();
-        form.fields().field("Имя").shouldBeRequired();
-        multiFieldset.item(0).fields().field("Название").shouldBeRequired();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Сообщение после break-on=false");
+        StandardButton button = form.toolbar().bottomLeft().button("Провалидировать часть полей (danger)");
+        button.click();
+        checkbox.shouldNotBeChecked();
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        alert.shouldNotExists();
+
+        form.fields().field("Имя").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+        multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
+        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+        form.fields().field("Имя").control(InputText.class).setValue("test");
+        multiFieldset.item(0).fields().field("Название").control(InputText.class).setValue("test");
+
+        button.click();
+        form.fields().field("Имя").shouldHaveValidationMessage(Condition.empty);
+        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+        multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.empty);
+        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+        checkbox.shouldBeChecked();
+        checkbox.setChecked(false);
+        alert.shouldNotExists();
+
+        multiFieldset.item(0).fields().field("Год начала").control(InputText.class).setValue("2025");
+        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
+        button.click();
+        checkbox.shouldBeChecked();
+        checkbox.setChecked(false);
+        alert.shouldHaveText("Данные сохранены", Duration.ofSeconds(5));
+
+        form.fields().field("Дата рождения").control(DateInput.class).setValue("01.01.2000");
+        multiFieldset.item(0).fields().field("Год окончания").control(DateInput.class).setValue("01.01.2026");
+        button.click();
+        checkbox.shouldBeChecked();
+        alert.shouldHaveText("Данные сохранены", Duration.ofSeconds(5));
+    }
+
+    @Test
+    void testBreakOnWarningValidateElement() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/validate/multi_action/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/validate/multi_action/test.object.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget form = page.widget(FormWidget.class);
+        Checkbox checkbox = form.fields().field("Поля имя и название заполнены верно").control(Checkbox.class);
+        checkbox.shouldNotBeChecked();
+
+        MultiFieldSet multiFieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
+        multiFieldset.clickAddButton();
+
+        StandardButton button = form.toolbar().bottomLeft().button("Провалидировать часть полей (warning)");
+        button.click();
+        checkbox.shouldNotBeChecked();
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        alert.shouldNotExists();
+
+        form.fields().field("Имя").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+        multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
+        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+
+        form.fields().field("Имя").control(InputText.class).setValue("test");
+        multiFieldset.item(0).fields().field("Название").control(InputText.class).setValue("test");
+
+        button.click();
+        checkbox.shouldNotBeChecked();
+        alert.shouldNotExists();
+
+        multiFieldset.item(0).fields().field("Год окончания").control(DateInput.class).setValue("01.01.2026");
+        form.fields().field("Дата рождения").control(DateInput.class).setValue("01.01.2000");
+        button.click();
+        checkbox.shouldBeChecked();
+        checkbox.setChecked(false);
+        alert.shouldNotExists();
+
+        form.fields().field("Имя").shouldHaveValidationMessage(Condition.empty);
+        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.empty);
+        multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.empty);
+        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.empty);
+
+        multiFieldset.item(0).fields().field("Год начала").control(InputText.class).setValue("2025");
+        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
+        button.click();
+        checkbox.shouldBeChecked();
+        alert.shouldHaveText("Данные сохранены", Duration.ofSeconds(5));
+    }
+
+    @Test
+    void testBreakOnFalseValidateElement() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/action/validate/multi_action/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/validate/multi_action/test.object.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget form = page.widget(FormWidget.class);
+        Checkbox checkbox = form.fields().field("Поля имя и название заполнены верно").control(Checkbox.class);
+        checkbox.shouldNotBeChecked();
+        MultiFieldSet multiFieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
+        multiFieldset.clickAddButton();
+
+        StandardButton button = form.toolbar().bottomLeft().button("Провалидировать часть полей (false)");
+        button.click();
+
+        form.fields().field("Имя").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+        multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.text(REQUIRED));
+        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+        checkbox.shouldBeChecked();
+        checkbox.setChecked(false);
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        alert.shouldNotExists();
+
+        form.fields().field("Имя").control(InputText.class).setValue("test");
+        form.fields().field("Дата рождения").control(DateInput.class).setValue("01.01.2000");
+        multiFieldset.item(0).fields().field("Год начала").control(InputText.class).setValue("2025");
+        multiFieldset.item(0).fields().field("Год окончания").control(DateInput.class).setValue("01.01.2026");
+        multiFieldset.item(0).fields().field("Название").control(InputText.class).setValue("test");
+
+        button.click();
+        checkbox.shouldBeChecked();
+        alert.shouldHaveText("Данные сохранены", Duration.ofSeconds(5));
     }
 }

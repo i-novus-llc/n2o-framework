@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Действие валидации полей на клиенте">
+    <form id="form">
+        <datasource object-id="test"/>
+        <fields>
+            <input-text id="name" label="Имя" required="true"/>
+            <date-time id="birthday" label="Дата рождения">
+                <validations>
+                    <mandatory field-id="birthday" id="checkBirthday"
+                               severity="warning"
+                               message="Следует заполнить поле"/>
+                </validations>
+            </date-time>
+            <checkbox id="checkValidation" label="Поля имя и название заполнены верно"/>
+            <multi-set id="works" label="Место работы">
+                <row>
+                    <input-text id="jobTitle" label="Название" required="true"/>
+                    <input-text id="startYear" label="Год начала" required="true" domain="integer"/>
+                    <date-time id="endYear" label="Год окончания" domain="integer">
+                        <validations>
+                            <mandatory field-id="works[index].endYear" id="checkEndYear"
+                                       severity="warning"
+                                       message="Следует заполнить поле"/>
+                        </validations>
+                    </date-time>
+                </row>
+            </multi-set>
+        </fields>
+
+        <toolbar place="bottomLeft">
+
+            <button label="Провалидировать все поля"
+                    disable-on-empty-model="false">
+                <invoke operation-id="create"/>
+            </button>
+
+            <button label="Провалидировать часть полей (danger)" validate="false"
+                    disable-on-empty-model="false">
+                <validate break-on="danger">
+                    <field id="name"/>
+                    <field id="works[$index_0].jobTitle"/>
+                    <field id="birthday"/>
+                    <field id="works[$index_0].endYear"/>
+                </validate>
+                <set-value to="checkValidation">true</set-value>
+                <invoke operation-id="create"/>
+            </button>
+
+            <button label="Провалидировать часть полей (warning)" validate="false"
+                    disable-on-empty-model="false">
+                <validate break-on="warning">
+                    <field id="name"/>
+                    <field id="works[$index_0].jobTitle"/>
+                    <field id="birthday"/>
+                    <field id="works[$index_0].endYear"/>
+                </validate>
+                <set-value to="checkValidation">true</set-value>
+                <invoke operation-id="create"/>
+            </button>
+
+            <button label="Провалидировать часть полей (false)" validate="false"
+                    disable-on-empty-model="false">
+                <validate break-on="false">
+                    <field id="name"/>
+                    <field id="works[$index_0].jobTitle"/>
+                    <field id="birthday"/>
+                    <field id="works[$index_0].endYear"/>
+                </validate>
+                <set-value to="checkValidation">true</set-value>
+                <invoke operation-id="create"/>
+            </button>
+
+        </toolbar>
+    </form>
+</simple-page>
