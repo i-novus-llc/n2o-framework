@@ -1652,8 +1652,12 @@
           "name": "SwitchCaseActionAT. testSwitchCaseInRowClick"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/action/validate",
-          "name": "ValidateActionAT"
+          "templateId": "net/n2oapp/framework/autotest/action/validate/simple",
+          "name": "ValidateActionAT. testValidateAction"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/validate/multi_action",
+          "name": "ValidateActionAT. testBreakOnWarningValidateElement"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/condition/button/enabled/simple",

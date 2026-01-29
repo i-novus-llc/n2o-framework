@@ -1,25 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             name="Действие валидация на клиенте">
+             name="Действие валидации полей на клиенте">
     <form id="form">
         <datasource object-id="test"/>
         <fields>
             <input-text id="name" label="Имя" required="true"/>
             <date-time id="birthday" label="Дата рождения" required="true"/>
-            <input-text id="city" label="Место рождения">
-                <validations>
-                    <condition id="cityValidation" severity="info">#this</condition>
-                </validations>
-            </input-text>
             <multi-set id="works" label="Место работы">
                 <input-text id="jobTitle" label="Название" required="true"/>
                 <input-text id="startYear" label="Год начала" required="true" domain="integer"/>
                 <input-text id="endYear" label="Год окончания" domain="integer"/>
-                <input-text id="company" label="Компания">
-                    <validations>
-                        <condition id="companyValidation" severity="info">#this</condition>
-                    </validations>
-                </input-text>
             </multi-set>
         </fields>
         <toolbar place="bottomLeft">
@@ -29,20 +19,6 @@
                     <field id="works[$index_0].jobTitle"/>
                 </validate>
                 <alert text="Имя и название заполнены верно" color="success"/>
-            </button>
-            <button id="warningCheck" label="Проверить break-on=warning" validate="false" disable-on-empty-model="false">
-                <validate break-on="warning">
-                    <field id="city"/>
-                    <field id="works[$index_0].company"/>
-                </validate>
-                <alert text="Сообщение после break-on=warning" color="success"/>
-            </button>
-            <button id="falseCheck" label="Проверить break-on=false" validate="false" disable-on-empty-model="false">
-                <validate break-on="false">
-                    <field id="city"/>
-                    <field id="works[$index_0].company"/>
-                </validate>
-                <alert text="Сообщение после break-on=false" color="success"/>
             </button>
             <button id="create" label="Сохранить" disable-on-empty-model="false" description="Проверит все поля">
                 <invoke operation-id="create"/>
