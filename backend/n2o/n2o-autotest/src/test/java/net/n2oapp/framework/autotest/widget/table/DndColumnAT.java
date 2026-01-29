@@ -143,7 +143,15 @@ class DndColumnAT extends AutoTestBase {
             // Проверка dnd-колонок в настройках
             button.menuItem(i).shouldHaveLabel(labels[i]);
         }
-
+        Selenide.refresh();
+        button.click();
+        table.shouldBeVisible();
+        for (int i = 0; i < 5; i++) {
+            // Проверка dnd-колонок в таблице
+            headers.header(i).shouldHaveTitle(labels[i]);
+            // Проверка dnd-колонок в настройках
+            button.menuItem(i).shouldHaveLabel(labels[i]);
+        }
         Selenide.clearBrowserLocalStorage();
     }
 }
