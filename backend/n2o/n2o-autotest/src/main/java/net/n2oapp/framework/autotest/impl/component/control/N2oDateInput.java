@@ -54,6 +54,19 @@ public class N2oDateInput extends N2oControl implements DateInput {
     }
 
     @Override
+    public void clear() {
+        boolean isEditableCell = element().is(Condition.cssClass("n2o-editable-cell"));
+
+        if (!inputElement().exists() && isEditableCell)
+            element().click();
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.chord(Keys.DELETE));
+        if (isEditableCell)
+            inputElement().sendKeys(Keys.chord(Keys.ENTER));
+        else
+            inputElement().click();
+    }
+
+    @Override
     public void timeButtonShouldHaveLabel(String label) {
         element().$(".n2o-calendar-time-container").shouldHave(Condition.text(label));
     }

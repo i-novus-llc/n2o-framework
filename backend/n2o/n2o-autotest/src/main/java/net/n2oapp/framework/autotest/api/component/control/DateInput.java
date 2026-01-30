@@ -30,6 +30,11 @@ public interface DateInput extends Control, PopupControl {
     void setValue(String value);
 
     /**
+     * Очистка поля
+     */
+    void clear();
+
+    /**
      * Проверка подсказки для ввода
      *
      * @param value ожидаемое значение подсказки
