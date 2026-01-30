@@ -12,13 +12,18 @@ type ValidationConfig = Omit<Validation, 'on'> & {
     on?: string[]
 }
 
+export interface DefaultDataSourceProps {
+    sorting?: Record<string, SortDirection>,
+    paging?: Paging
+}
+
 export type DataSourceState = {
     provider?: Provider
     [ValidationsKey.Validations]: Record<string, Validation[]>
     [ValidationsKey.FilterValidations]: Record<string, Validation[]>
     components: string[]
     dependencies: DataSourceDependency[]
-    defaultDatasourceProps?: { sorting?: Record<string, SortDirection>, paging?: Paging }
+    defaultDatasourceProps?: DefaultDataSourceProps
     paging: Paging
     additionalInfo: unknown
     loading: boolean

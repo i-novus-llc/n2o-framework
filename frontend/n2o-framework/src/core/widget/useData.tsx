@@ -25,7 +25,7 @@ export const setData = <T extends Record<string, unknown>>(key: string, value: T
  */
 export const useData = <T extends Record<string, unknown>>(key: string) => {
     const storageFullKey = `${LOCAL_WIDGET_CONFIG_KEY}_${key}`
-    const [value, setStateValue] = useState<Partial<T>>(() => getData(key))
+    const [value, setStateValue] = useState<Partial<T>>(() => getData<T>(key))
 
     // synchronization between tabs
     useEffect(() => {
@@ -50,7 +50,7 @@ export const useData = <T extends Record<string, unknown>>(key: string) => {
         }
         if (isEqual(data, value)) { return }
 
-        const newValue = { ...value, ...data }
+        const newValue = Object.assign(value, data)
 
         setData(key, newValue)
         setStateValue(newValue)
