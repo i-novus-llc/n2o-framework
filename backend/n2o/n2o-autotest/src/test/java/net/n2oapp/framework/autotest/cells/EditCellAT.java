@@ -23,6 +23,13 @@ import org.junit.jupiter.api.Test;
  */
 class EditCellAT extends AutoTestBase {
 
+    public static final String FIRST_DATE = "11.01.1981";
+    public static final String SECOND_DATE = "01.02.1980";
+    public static final String FIRST_NAME = "Иванов П.И.";
+    public static final String SECOND_NAME = "Иванова П.И.";
+    public static final String MAN = "мужской";
+    public static final String WOMAN = "женский";
+
     @BeforeAll
     static void beforeClass() {
         configureSelenide();
@@ -67,28 +74,36 @@ class EditCellAT extends AutoTestBase {
         date.shouldExists();
         select.shouldExists();
 
-        input.shouldHaveValue("Иванов П.И.");
+        input.shouldHaveValue(FIRST_NAME);
         cell1.click();
-        input.setValue("Иванова П.И.");
-        input.shouldHaveValue("Иванова П.И.");
+        input.setValue(SECOND_NAME);
+        input.shouldHaveValue(SECOND_NAME);
+        table.toolbar().topLeft().button("Установить Test").click();
+        input.shouldHaveValue("Test");
         Selenide.refresh();
-        input.shouldHaveValue("Иванова П.И.");
+        input.shouldHaveValue("Test");
 
-        date.shouldHaveValue("11.01.1981");
+        date.shouldHaveValue(FIRST_DATE);
         cell2.click();
-        date.setValue("01.02.1980");
-        date.shouldHaveValue("01.02.1980");
+        date.setValue(SECOND_DATE);
+        date.shouldHaveValue(SECOND_DATE);
         Selenide.refresh();
-        date.shouldHaveValue("01.02.1980");
+        date.shouldHaveValue(SECOND_DATE);
 
-        select.shouldHaveValue("мужской");
+        cell2.click();
+        date.clear();
+        date.shouldBeEmpty();
+        Selenide.refresh();
+        date.shouldBeEmpty();
+
+        select.shouldHaveValue(MAN);
         cell3.click();
         select.openPopup();
         select.dropdown().selectItem(1);
         select.pressEnter();
-        select.shouldHaveValue("женский");
+        select.shouldHaveValue(WOMAN);
         Selenide.refresh();
-        select.shouldHaveValue("женский");
+        select.shouldHaveValue(WOMAN);
 
     }
 
@@ -119,53 +134,53 @@ class EditCellAT extends AutoTestBase {
         date.shouldExists();
         select.shouldExists();
 
-        input.shouldHaveValue("Иванов П.И.");
+        input.shouldHaveValue(FIRST_NAME);
         cell1.click();
-        input.setValue("Иванова П.И.");
-        input.shouldHaveValue("Иванова П.И.");
+        input.setValue(SECOND_NAME);
+        input.shouldHaveValue(SECOND_NAME);
 
-        date.shouldHaveValue("11.01.1981");
+        date.shouldHaveValue(FIRST_DATE);
         cell2.click();
-        date.setValue("01.02.1980");
-        date.shouldHaveValue("01.02.1980");
+        date.setValue(SECOND_DATE);
+        date.shouldHaveValue(SECOND_DATE);
 
         table.toolbar().topLeft().button("Click").click();
 
-        select.shouldHaveValue("мужской");
+        select.shouldHaveValue(MAN);
         cell3.click();
         select.openPopup();
         select.dropdown().selectItem(1);
         select.pressEnter();
-        select.shouldHaveValue("женский");
+        select.shouldHaveValue(WOMAN);
 
         Selenide.refresh();
 
-        input.shouldHaveValue("Иванов П.И.");
+        input.shouldHaveValue(FIRST_NAME);
         cell1.click();
-        input.setValue("Иванова П.И.");
-        input.shouldHaveValue("Иванова П.И.");
+        input.setValue(SECOND_NAME);
+        input.shouldHaveValue(SECOND_NAME);
 
-        date.shouldHaveValue("11.01.1981");
+        date.shouldHaveValue(FIRST_DATE);
         cell2.click();
-        date.setValue("01.02.1980");
-        date.shouldHaveValue("01.02.1980");
+        date.setValue(SECOND_DATE);
+        date.shouldHaveValue(SECOND_DATE);
 
         table.toolbar().topLeft().button("Click").click();
 
-        select.shouldHaveValue("мужской");
+        select.shouldHaveValue(MAN);
         cell3.click();
         select.openPopup();
         select.dropdown().selectItem(1);
         select.pressEnter();
-        select.shouldHaveValue("женский");
+        select.shouldHaveValue(WOMAN);
 
         StandardButton button = table.toolbar().topLeft().button("Отправить");
         button.shouldExists();
         button.click();
         Selenide.refresh();
 
-        input.shouldHaveValue("Иванова П.И.");
-        date.shouldHaveValue("01.02.1980");
-        select.shouldHaveValue("женский");
+        input.shouldHaveValue(SECOND_NAME);
+        date.shouldHaveValue(SECOND_DATE);
+        select.shouldHaveValue(WOMAN);
     }
 }
