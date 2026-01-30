@@ -3,16 +3,24 @@
              xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
     <header title="Хедер">
         <nav>
-            <menu-item name="Доступно всем" sec:permit-all="true" sec:behavior="disable">
+            <menu-item name="Доступно всем"
+                       sec:permit-all="true"
+                       sec:behavior="disable">
                 <open-page page-id="menu1"/>
             </menu-item>
-            <menu-item name="Требуется роль admin" sec:roles="admin" sec:behavior="disable">
+            <menu-item name="Требуется роль admin"
+                       sec:roles="admin"
+                       sec:behavior="disable">
                 <open-page page-id="menu2"/>
             </menu-item>
-            <menu-item name="Требуется право edit" sec:permissions="edit" sec:behavior="disable">
+            <menu-item name="Требуется право edit"
+                       sec:permissions="edit"
+                       sec:behavior="disable">
                 <open-page page-id="menu3"/>
             </menu-item>
-            <menu-item name="Только анонимам" sec:anonymous="true" sec:behavior="disable">
+            <menu-item name="Только анонимам"
+                       sec:anonymous="true"
+                       sec:behavior="disable">
                 <open-page page-id="menu4"/>
             </menu-item>
         </nav>
