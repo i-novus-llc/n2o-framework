@@ -7,15 +7,17 @@ import { register, remove } from '../../ducks/datasource/store'
 import { type DataSourceConfig } from '../../ducks/datasource/DataSource'
 import { type Paging } from '../../ducks/datasource/Provider'
 import { getData } from '../../core/widget/useData'
+import { dataSourceSortingSelector, getDataSourceFieldValidation } from '../../ducks/datasource/selectors'
 
 export const usePageRegister = (dispatch: Dispatch, datasources?: Record<string, DataSourceConfig>, pageId?: string) => {
     const { getState } = useStore()
+    const state = getState()
 
     useLayoutEffect(() => {
         if (!datasources || isEmpty(datasources)) { return }
         Object.entries(datasources).forEach(([id, config]) => {
             const { paging: configPaging = {} as Paging, ...rest } = config
-
+            const reduxSorting = dataSourceSortingSelector(id)(state) || {}
             // @INFO сохраненный paging (прим. local storage)
             const data = getData<{ datasourceFeatures: { paging: Paging } }>(id)
             const initialPaging = data?.datasourceFeatures?.paging || {} as Paging
@@ -31,6 +33,7 @@ export const usePageRegister = (dispatch: Dispatch, datasources?: Record<string,
                     sorting: rest.sorting,
                 },
                 ...rest,
+                sorting: { ...rest.sorting, ...reduxSorting },
             }))
         })
 
@@ -40,5 +43,5 @@ export const usePageRegister = (dispatch: Dispatch, datasources?: Record<string,
                 dispatch(remove(id))
             })
         }
-    }, [datasources, dispatch, getState, pageId])
+    }, [datasources, dispatch, pageId])
 }

@@ -40,8 +40,8 @@ const parse = <T extends object>(str: string): T | null => {
     }
 }
 
-const getFullKey = (key: string) => `${baseUrl}:/${key}`
-const getClearKey = (key: string) => key.replace(`${baseUrl}:/`, '')
+export const getFullKey = (key: string) => `${baseUrl}:/${key}`
+export const getClearKey = (key: string) => key.replace(`${baseUrl}:/`, '')
 
 // TODO: Сборка мусора на старте
 const createStorage = (original: Storage): ObjectStorage => {

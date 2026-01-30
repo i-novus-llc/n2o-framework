@@ -93,8 +93,15 @@ export const datasource = createSlice({
                 }
 
                 const defaultState = state[id] || DataSource.defaultState
+                const mappedProps = mapProps(initProps)
 
-                const datasource = { ...merge(defaultState, mapProps(initProps)), provider }
+                // TODO временно из за фичи восстановления пагинации по хешу api/mapParams
+                // Не приходит page в paging, из за отсутствия page где то дальше ломается
+                const paging = { ...defaultState.paging, ...mappedProps.paging }
+
+                const props = { ...defaultState, ...mappedProps, paging }
+
+                const datasource = { ...props, provider }
 
                 state[id] = datasource
             },
