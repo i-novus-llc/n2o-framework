@@ -38,12 +38,13 @@ class ButtonsAccessAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/access/attributes/buttons/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/access/attributes/buttons/default.access.xml"));
     }
 
     @Test
     void testAdminAccess() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/access/attributes/buttons/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/attributes/buttons/default.access.xml"));
+
         setUserInfo(loadUser());
 
         SimplePage page = open(SimplePage.class);
@@ -73,6 +74,9 @@ class ButtonsAccessAT extends AutoTestBase {
 
     @Test
     void testAnonymousAccess() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/access/attributes/buttons/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/attributes/buttons/default.access.xml"));
+
         setUserInfo(null);
 
         SimplePage page = open(SimplePage.class);
@@ -93,6 +97,96 @@ class ButtonsAccessAT extends AutoTestBase {
         button.shouldExists();
         button.shouldHaveLabel("Только анонимам");
         button.shouldBeEnabled();
+    }
+
+    /**
+     * Проверка что при sec:behavior="disable" и отсутствии прав кнопки не скрываются, а блокируются
+     */
+    @Test
+    void testDisableBehaviorAnonymousAccess() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/buttons/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/buttons/default.access.xml"));
+
+        setUserInfo(null);
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.header().shouldHaveBrandName("N2O");
+        page.widget(FormWidget.class).shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам с sec:behavior=disable");
+
+        Toolbar topLeft = page.widget(FormWidget.class).toolbar().topLeft();
+        // Все 4 кнопки должны отображаться (не скрыты)
+        topLeft.shouldHaveSize(4);
+
+        // Первая кнопка доступна всем - должна быть активна
+        StandardButton button = topLeft.button(0, StandardButton.class);
+        button.shouldExists();
+        button.shouldHaveLabel("Доступно всем");
+        button.shouldBeEnabled();
+
+        // Вторая кнопка требует роли admin - должна быть заблокирована
+        button = topLeft.button(1, StandardButton.class);
+        button.shouldExists();
+        button.shouldHaveLabel("Только с ролью admin");
+        button.shouldBeDisabled();
+
+        // Третья кнопка требует права edit - должна быть заблокирована
+        button = topLeft.button(2, StandardButton.class);
+        button.shouldExists();
+        button.shouldHaveLabel("Только с правом edit");
+        button.shouldBeDisabled();
+
+        // Четвертая кнопка для анонимов - должна быть активна
+        button = topLeft.button(3, StandardButton.class);
+        button.shouldExists();
+        button.shouldHaveLabel("Только анонимам");
+        button.shouldBeEnabled();
+    }
+
+    /**
+     * Проверка что при sec:behavior="disable" и наличии прав кнопки доступны
+     */
+    @Test
+    void testDisableBehaviorAdminAccess() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/buttons/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/buttons/default.access.xml"));
+
+        setUserInfo(loadUser());
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.header().shouldHaveBrandName("N2O");
+        page.widget(FormWidget.class).shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к кнопкам с sec:behavior=disable");
+
+        Toolbar topLeft = page.widget(FormWidget.class).toolbar().topLeft();
+        // Все 4 кнопки должны отображаться
+        topLeft.shouldHaveSize(4);
+
+        // Все кнопки должны быть активны для пользователя с правами (кроме anonymous)
+        StandardButton button = topLeft.button(0, StandardButton.class);
+        button.shouldExists();
+        button.shouldHaveLabel("Доступно всем");
+        button.shouldBeEnabled();
+
+        button = topLeft.button(1, StandardButton.class);
+        button.shouldExists();
+        button.shouldHaveLabel("Только с ролью admin");
+        button.shouldBeEnabled();
+
+        button = topLeft.button(2, StandardButton.class);
+        button.shouldExists();
+        button.shouldHaveLabel("Только с правом edit");
+        button.shouldBeEnabled();
+
+        // Кнопка для анонимов - для авторизованного пользователя должна быть заблокирована
+        button = topLeft.button(3, StandardButton.class);
+        button.shouldExists();
+        button.shouldHaveLabel("Только анонимам");
+        button.shouldBeDisabled();
     }
 
     @SneakyThrows

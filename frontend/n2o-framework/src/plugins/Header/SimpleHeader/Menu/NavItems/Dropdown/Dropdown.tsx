@@ -25,15 +25,15 @@ export function Dropdown({
     imageSrc,
     imageShape = 'square',
     direction = 'down',
-    recursiveClose = true,
-    onItemClick = () => {},
+    onItemClick,
     level = 0,
     iconPosition = ICON_POSITIONS.LEFT,
+    disabled,
 }: DropdownProps) {
     const [isOpen, setOpen] = useState(false)
 
     const toggle = useCallback(() => setOpen(!isOpen), [isOpen])
-    const forceParentClose = useCallback(() => setOpen(false), [setOpen])
+    const close = useCallback(() => setOpen(false), [setOpen])
     const { getComponent } = useContext(FactoryContext)
 
     if (!items.length) { return null }
@@ -46,7 +46,7 @@ export function Dropdown({
             direction={direction}
             tag="li"
         >
-            <DropdownToggle className={classNames({ 'dropdown-item': level > 0 })} caret>
+            <DropdownToggle className={classNames({ 'dropdown-item': level > 0 })} disabled={disabled} caret>
                 <LinkBody
                     imageSrc={imageSrc}
                     icon={icon}
@@ -60,12 +60,6 @@ export function Dropdown({
                     const { items: nestedItems, title, src } = item
 
                     if (nestedItems) {
-                        const onItemClick = () => {
-                            if (recursiveClose) {
-                                forceParentClose()
-                            }
-                        }
-
                         return (
                             <Dropdown
                                 items={nestedItems}
@@ -73,8 +67,7 @@ export function Dropdown({
                                 title={title}
                                 className={classNames(className, 'dropdown-item')}
                                 level={level + 1}
-                                recursiveClose={recursiveClose}
-                                onItemClick={onItemClick}
+                                onItemClick={close}
                                 direction="right"
                                 iconPosition={iconPosition}
                                 nested
@@ -89,12 +82,16 @@ export function Dropdown({
                     }
 
                     return (
-                        <DropdownItem active={active} onClick={onItemClick} disabled={src === ITEM_SRC.STATIC}>
+                        <DropdownItem
+                            active={active}
+                            disabled={src === ITEM_SRC.STATIC || item.disabled}
+                        >
                             <FactoryComponent
                                 item={item}
                                 from="HEADER"
                                 className={classNames('dropdown-item', className)}
                                 active={active}
+                                onClick={onItemClick || close}
                             />
                         </DropdownItem>
                     )

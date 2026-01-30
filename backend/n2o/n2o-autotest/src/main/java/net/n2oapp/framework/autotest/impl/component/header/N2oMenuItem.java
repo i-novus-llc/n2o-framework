@@ -48,6 +48,16 @@ public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
         element().shouldBe(Condition.exist).click();
     }
 
+    @Override
+    public void shouldBeDisabled() {
+        element().$(".nav-link").shouldHave(Condition.cssClass("disabled"));
+    }
+
+    @Override
+    public void shouldBeEnabled() {
+        element().$(".nav-link").shouldNotHave(Condition.cssClass("disabled"));
+    }
+
     private void checkShape(String shape) {
         image().shouldHave(Condition.attribute("class", shape));
     }

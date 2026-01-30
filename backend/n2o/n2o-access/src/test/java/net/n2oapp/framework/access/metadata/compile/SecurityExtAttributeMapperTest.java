@@ -1,5 +1,6 @@
 package net.n2oapp.framework.access.metadata.compile;
 
+import net.n2oapp.framework.access.metadata.BehaviorEnum;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.api.metadata.application.Application;
@@ -21,10 +22,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -57,16 +55,17 @@ class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         SecurityObject securityObject = new SecurityObject();
         securityObject.setAnonymous(false);
         securityObject.setAuthenticated(false);
-        securityObject.setUsernames(new HashSet<>(Arrays.asList("user")));
+        securityObject.setUsernames(new HashSet<>(List.of("user")));
         securityObject.setPermissions(new HashSet<>(Arrays.asList("admin", "user")));
-        securityObject.setRoles(new HashSet<>(Arrays.asList("admin")));
+        securityObject.setRoles(new HashSet<>(List.of("admin")));
+        securityObject.setBehavior(BehaviorEnum.DISABLE);
         Security security = new Security();
         Map<String, SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         security.add(securityObjectMap);
-        assertThat(application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) application.getHeader().getMenu().getItems().get(0).getProperties().get(SECURITY_PROP_NAME))
-                .get(0).get("custom"), is(securityObject));
+        assertThat(application.getHeader().getMenu().getItems().getFirst().getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) application.getHeader().getMenu().getItems().getFirst().getProperties().get(SECURITY_PROP_NAME))
+                .getFirst().get("custom"), is(securityObject));
     }
 
     @Test
@@ -76,24 +75,25 @@ class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         SecurityObject securityObject = new SecurityObject();
         securityObject.setAnonymous(false);
         securityObject.setAuthenticated(false);
-        securityObject.setUsernames(new HashSet<>(Arrays.asList("user")));
+        securityObject.setUsernames(new HashSet<>(List.of("user")));
         securityObject.setPermissions(new HashSet<>(Arrays.asList("admin", "user")));
-        securityObject.setRoles(new HashSet<>(Arrays.asList("admin")));
+        securityObject.setRoles(new HashSet<>(List.of("admin")));
+        securityObject.setBehavior(BehaviorEnum.HIDE);
         Security security = new Security();
         Map<String, SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         security.add(securityObjectMap);
-        assertThat(page.getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) page.getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME))
-                .get(0).get("custom"), is(securityObject));
-        assertThat(((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+        assertThat(page.getRegions().get("single").getFirst().getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) page.getRegions().get("single").getFirst().getProperties().get(SECURITY_PROP_NAME))
+                .getFirst().get("custom"), is(securityObject));
+        assertThat(((Widget) page.getRegions().get("single").getFirst().getContent().getFirst())
                 .getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
-                .getProperties().get(SECURITY_PROP_NAME)).get(0).get("custom"), is(securityObject));
-        assertThat(page.getToolbar().get("bottomRight").get(0).getButtons().get(0)
+        assertThat(((Security) ((Widget) page.getRegions().get("single").getFirst().getContent().getFirst())
+                .getProperties().get(SECURITY_PROP_NAME)).getFirst().get("custom"), is(securityObject));
+        assertThat(page.getToolbar().get("bottomRight").getFirst().getButtons().getFirst()
                 .getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) page.getRegions().get("single").get(0)
-                .getProperties().get(SECURITY_PROP_NAME)).get(0).get("custom"), is(securityObject));
+        assertThat(((Security) page.getRegions().get("single").getFirst()
+                .getProperties().get(SECURITY_PROP_NAME)).getFirst().get("custom"), is(securityObject));
     }
 
     @Test
@@ -107,15 +107,16 @@ class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObject.setDenied(false);
         securityObject.setAnonymous(false);
         securityObject.setRoles(new HashSet<>(Arrays.asList("role1", "role2")));
-        securityObject.setUsernames(new HashSet<>(Arrays.asList("user1")));
+        securityObject.setUsernames(new HashSet<>(List.of("user1")));
         securityObject.setPermissions(new HashSet<>(Arrays.asList("p1", "p2", "p3")));
+        securityObject.setBehavior(BehaviorEnum.HIDE);
         Security security = new Security();
         Map<String, SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         security.add(securityObjectMap);
         assertThat(operation.getProperties().get(SECURITY_PROP_NAME), is(security));
         assertThat(((Security) operation.getProperties().get(SECURITY_PROP_NAME))
-                .get(0).get("custom"), is(securityObject));
+                .getFirst().get("custom"), is(securityObject));
     }
 
     @Test
@@ -128,13 +129,14 @@ class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObject.setDenied(false);
         securityObject.setAnonymous(false);
         securityObject.setRoles(new HashSet<>(Arrays.asList("role1", "role2")));
-        securityObject.setUsernames(new HashSet<>(Arrays.asList("user1")));
+        securityObject.setUsernames(new HashSet<>(List.of("user1")));
         securityObject.setPermissions(new HashSet<>(Arrays.asList("p1", "p2", "p3")));
+        securityObject.setBehavior(BehaviorEnum.HIDE);
         Security security = new Security();
         Map<String, SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         security.add(securityObjectMap);
         assertThat(query.getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).get(0).get("custom"), is(securityObject));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getFirst().get("custom"), is(securityObject));
     }
 }

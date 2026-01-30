@@ -37,4 +37,14 @@ public interface MenuItem extends Component {
      * Клик по элементу
      */
     void click();
+
+    /**
+     * Проверка что элемент меню заблокирован
+     */
+    void shouldBeDisabled();
+
+    /**
+     * Проверка что элемент меню не заблокирован
+     */
+    void shouldBeEnabled();
 }

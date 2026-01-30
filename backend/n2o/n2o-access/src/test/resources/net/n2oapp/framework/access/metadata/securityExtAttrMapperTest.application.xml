@@ -6,7 +6,7 @@
 
         <nav>
             <menu-item name="headerLabel" sec:roles="admin" sec:permissions="admin,user" sec:authenticated="false" sec:usernames="user"
-                       sec:anonymous="false">
+                       sec:anonymous="false" sec:behavior="disable">
                 <open-page page-id="securityExtAttrMapperTest"/>
             </menu-item>
             <menu-item name="hrefLabel">
