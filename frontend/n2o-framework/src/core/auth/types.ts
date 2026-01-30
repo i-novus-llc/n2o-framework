@@ -1,4 +1,7 @@
-export type SecurityBehavior = 'hide' | 'disabled'
+export enum SecurityBehavior {
+    hide = 'hide',
+    disable = 'disable',
+}
 
 export type SecurityConfig = {
     anonymous?: boolean

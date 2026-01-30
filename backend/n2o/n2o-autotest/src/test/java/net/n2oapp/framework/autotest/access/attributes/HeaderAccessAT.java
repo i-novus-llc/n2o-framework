@@ -37,6 +37,10 @@ class HeaderAccessAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack(), new AccessSchemaPack());
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
+    }
+
+    @Test
+    void testAdminAccess() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/tutorial.application.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/menu1.page.xml"),
@@ -44,10 +48,7 @@ class HeaderAccessAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/menu3.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/menu4.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/default.access.xml"));
-    }
 
-    @Test
-    void testAdminAccess() {
         Map<String, Object> testUser = loadUser();
         setUserInfo(testUser);
         builder.getEnvironment().getContextProcessor().set("username", testUser.get("username"));
@@ -85,6 +86,14 @@ class HeaderAccessAT extends AutoTestBase {
 
     @Test
     void testAnonymousAccess() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/tutorial.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/menu1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/menu2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/menu3.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/menu4.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/attributes/header/default.access.xml"));
+
         setUserInfo(null);
 
         SimplePage page = open(SimplePage.class);
@@ -106,6 +115,112 @@ class HeaderAccessAT extends AutoTestBase {
         menuItem3.shouldHaveUrl(getBaseUrl() + "/#/mi4");
         menuItem3.click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная только анонимам");
+    }
+
+    /**
+     * Проверка что при sec:behavior="disable" и отсутствии прав меню не скрываются, а блокируются
+     */
+    @Test
+    void testDisableBehaviorAnonymousAccess() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/tutorial.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/menu1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/menu2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/menu3.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/menu4.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/default.access.xml"));
+
+        setUserInfo(null);
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.header().shouldHaveBrandName("Хедер");
+        page.widget(FormWidget.class).shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к меню по sec атрибутам с behavior=disable");
+
+        // Все 4 пункта меню должны отображаться (не скрыты)
+        page.header().nav().shouldHaveSize(4);
+
+        // Первый пункт меню доступен всем - должен быть активен
+        AnchorMenuItem menuItem0 = page.header().nav().anchor(0);
+        menuItem0.shouldExists();
+        menuItem0.shouldHaveLabel("Доступно всем");
+        menuItem0.shouldBeEnabled();
+
+        // Второй пункт меню требует роли admin - должен быть заблокирован
+        AnchorMenuItem menuItem1 = page.header().nav().anchor(1);
+        menuItem1.shouldExists();
+        menuItem1.shouldHaveLabel("Требуется роль admin");
+        menuItem1.shouldBeDisabled();
+
+        // Третий пункт меню требует права edit - должен быть заблокирован
+        AnchorMenuItem menuItem2 = page.header().nav().anchor(2);
+        menuItem2.shouldExists();
+        menuItem2.shouldHaveLabel("Требуется право edit");
+        menuItem2.shouldBeDisabled();
+
+        // Четвертый пункт меню только для анонимов - должен быть активен
+        AnchorMenuItem menuItem3 = page.header().nav().anchor(3);
+        menuItem3.shouldExists();
+        menuItem3.shouldHaveLabel("Только анонимам");
+        menuItem3.shouldBeEnabled();
+    }
+
+    /**
+     * Проверка что при sec:behavior="disable" и наличии прав меню доступны
+     */
+    @Test
+    void testDisableBehaviorAdminAccess() {
+        Map<String, Object> testUser = loadUser();
+        setUserInfo(testUser);
+        builder.getEnvironment().getContextProcessor().set("username", testUser.get("username"));
+
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/tutorial.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/menu1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/menu2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/menu3.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/menu4.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/access/disable_behavior/header/default.access.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.header().shouldHaveBrandName("Хедер");
+        page.widget(FormWidget.class).shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Доступ к меню по sec атрибутам с behavior=disable");
+
+        // Все 4 пункта меню должны отображаться
+        page.header().nav().shouldHaveSize(4);
+
+        // Первый пункт меню доступен всем - должен быть активен
+        AnchorMenuItem menuItem0 = page.header().nav().anchor(0);
+        menuItem0.shouldExists();
+        menuItem0.shouldHaveLabel("Доступно всем");
+        menuItem0.shouldBeEnabled();
+
+        // Второй пункт меню требует роли admin - должен быть активен (у пользователя есть роль admin)
+        AnchorMenuItem menuItem1 = page.header().nav().anchor(1);
+        menuItem1.shouldExists();
+        menuItem1.shouldHaveLabel("Требуется роль admin");
+        menuItem1.shouldBeEnabled();
+
+        // Третий пункт меню требует права edit - должен быть активен (у пользователя есть право edit)
+        AnchorMenuItem menuItem2 = page.header().nav().anchor(2);
+        menuItem2.shouldExists();
+        menuItem2.shouldHaveLabel("Требуется право edit");
+        menuItem2.shouldBeEnabled();
+
+        // Четвертый пункт меню только для анонимов - должен быть заблокирован (пользователь авторизован)
+        AnchorMenuItem menuItem3 = page.header().nav().anchor(3);
+        menuItem3.shouldExists();
+        menuItem3.shouldHaveLabel("Только анонимам");
+        menuItem3.shouldBeDisabled();
+
+        page.header().extra().shouldHaveSize(1);
+        AnchorMenuItem extraLink = page.header().extra().item(0, AnchorMenuItem.class);
+        extraLink.shouldHaveLabel((String) testUser.get("username"));
     }
 
     @SneakyThrows

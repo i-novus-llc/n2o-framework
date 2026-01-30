@@ -25,6 +25,8 @@ public class SecurityObject implements Compiled {
     private Boolean authenticated;
     @JsonProperty
     private Boolean anonymous;
+    @JsonProperty
+    private BehaviorEnum behavior;
 
     @Override
     public boolean equals(Object o) {
@@ -38,6 +40,7 @@ public class SecurityObject implements Compiled {
         if (usernames != null ? !usernames.equals(that.usernames) : that.usernames != null) return false;
         if (authenticated != null ? !authenticated.equals(that.authenticated) : that.authenticated != null)
             return false;
+        if (behavior != null ? !behavior.equals(that.behavior) : that.behavior != null) return false;
         return anonymous != null ? anonymous.equals(that.anonymous) : that.anonymous == null;
     }
 
@@ -48,6 +51,7 @@ public class SecurityObject implements Compiled {
         result = 31 * result + (usernames != null ? usernames.hashCode() : 0);
         result = 31 * result + (authenticated != null ? authenticated.hashCode() : 0);
         result = 31 * result + (anonymous != null ? anonymous.hashCode() : 0);
+        result = 31 * result + (behavior != null ? behavior.hashCode() : 0);
         return result;
     }
 

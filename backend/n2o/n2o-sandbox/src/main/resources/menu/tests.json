@@ -6,19 +6,51 @@
       "templates": [
         {
           "templateId": "net/n2oapp/framework/autotest/access/application",
-          "name": "MenuItemAccessAT"
+          "name": "MenuItemAccessAT. testAdminAccess and testAnonymousAccess"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/disable_behavior/application",
+          "name": "MenuItemAccessAT. testDisableBehaviorAnonymousAccess"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/disable_behavior/application",
+          "name": "MenuItemAccessAT. testDisableBehaviorAdminAccess"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/access/attributes/fields",
-          "name": "FieldsAccessAT"
+          "name": "FieldsAccessAT. testAdminAccess and testAnonymousAccess"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/disable_behavior/fields",
+          "name": "FieldsAccessAT. testDisableBehaviorAnonymousAccess"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/disable_behavior/fields",
+          "name": "FieldsAccessAT. testDisableBehaviorAdminAccess"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/access/attributes/buttons",
-          "name": "ButtonsAccessAT"
+          "name": "ButtonsAccessAT. testAdminAccess and testAnonymousAccess"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/disable_behavior/buttons",
+          "name": "ButtonsAccessAT. testDisableBehaviorAnonymousAccess"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/disable_behavior/buttons",
+          "name": "ButtonsAccessAT. testDisableBehaviorAdminAccess"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/access/attributes/header",
-          "name": "HeaderAccessAT"
+          "name": "HeaderAccessAT. testAdminAccess and testAnonymousAccess"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/disable_behavior/header",
+          "name": "HeaderAccessAT. testDisableBehaviorAnonymousAccess"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/disable_behavior/header",
+          "name": "HeaderAccessAT. testDisableBehaviorAdminAccess"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/access/attributes/widgets",

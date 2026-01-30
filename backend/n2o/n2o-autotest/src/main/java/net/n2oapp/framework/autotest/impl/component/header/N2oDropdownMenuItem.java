@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.header;
 
 import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.header.DropdownMenuItem;
@@ -24,6 +25,16 @@ public class N2oDropdownMenuItem extends N2oMenuItem implements DropdownMenuItem
     @Override
     public void shouldHaveSize(int size) {
         element().$$(".dropdown-menu > .dropdown-item").shouldHave(CollectionCondition.size(size));
+    }
+
+    @Override
+    public void shouldBeDisabled() {
+        element().$(".dropdown-toggle").shouldBe(Condition.disabled);
+    }
+
+    @Override
+    public void shouldBeEnabled() {
+        element().$(".dropdown-toggle").shouldNotBe(Condition.disabled);
     }
 }
 

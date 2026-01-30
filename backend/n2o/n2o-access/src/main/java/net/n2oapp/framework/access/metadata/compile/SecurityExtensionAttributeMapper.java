@@ -1,5 +1,6 @@
 package net.n2oapp.framework.access.metadata.compile;
 
+import net.n2oapp.framework.access.metadata.BehaviorEnum;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -7,6 +8,8 @@ import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Сборка атрибутов прав доступа
@@ -29,6 +32,9 @@ public class SecurityExtensionAttributeMapper implements ExtensionAttributeMappe
         securityObject.setUsernames(parseAttributes(attributes.get("usernames")));
         securityObject.setAuthenticated(attributes.containsKey("authenticated") ? Boolean.valueOf(attributes.get("authenticated")) : null);
         securityObject.setAnonymous(attributes.containsKey("anonymous") ? Boolean.valueOf(attributes.get("anonymous")) : null);
+        securityObject.setBehavior(attributes.containsKey("behavior") ?
+                BehaviorEnum.valueOf(attributes.get("behavior").toUpperCase()) :
+                p.resolve(property("n2o.access.behavior"), BehaviorEnum.class));
         List<Map<String, SecurityObject>> security = new Security();
         Map<String, SecurityObject> securityMap = new HashMap<>();
         securityMap.put("custom", securityObject);

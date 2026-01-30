@@ -1,4 +1,4 @@
-import { useContext, MouseEvent, useCallback } from 'react'
+import { useContext, MouseEvent, useCallback, MouseEventHandler } from 'react'
 import { push } from 'connected-react-router'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 
@@ -16,6 +16,7 @@ export type Props = {
     disabled?: boolean
     target: LinkTarget
     href?: string
+    onClick?: MouseEventHandler
 }
 
 const getURL = (href: string | undefined, target: LinkTarget, base = '') => {
@@ -32,6 +33,7 @@ export function useLink({
     disabled,
     target,
     href,
+    onClick,
 }: Props) {
     const { getState } = useStore()
     const dispatch = useDispatch()
@@ -42,7 +44,11 @@ export function useLink({
     const url = disabled ? undefined : getURL(href, target, baseUrl)
 
     /** Учитывает роутинг sub-pages (прим. страницы в модальных окнах)*/
-    const onClick = useCallback((event: MouseEvent) => {
+    const onClickHandler = useCallback((event: MouseEvent) => {
+        onClick?.(event)
+
+        if (event.isDefaultPrevented()) { return }
+
         event.preventDefault()
         event.stopPropagation()
 
@@ -64,12 +70,12 @@ export function useLink({
         }
 
         dispatch(push(url.replace(/^\.\/#/, '')))
-    }, [disabled, dispatch, href, pageId, getState, url])
+    }, [disabled, dispatch, href, pageId, getState, url, onClick])
 
     return {
         active: href ? pathname.includes(href) : false,
         target: target === LinkTarget.blank ? target : undefined,
         url,
-        onClick: target === LinkTarget.application ? onClick : undefined,
+        onClick: target === LinkTarget.application ? onClickHandler : onClick,
     }
 }

@@ -78,6 +78,10 @@
         {
           "templateId": "versions/7.29/page_title_resolving",
           "name": "Перерисовка 'хлебных крошек' по данным модели"
+        },
+        {
+          "templateId": "versions/7.29/sequrity_disable_behavior",
+          "name": "Блокировка элементов при отсутствии доступа"
         }
       ]
     },

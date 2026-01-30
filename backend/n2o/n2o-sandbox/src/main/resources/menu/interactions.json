@@ -362,7 +362,11 @@
       "templates": [
         {
           "templateId": "interactions/access/attributes/header",
-          "name": "Меню навигации"
+          "name": "Меню навигации (скрытие)"
+        },
+        {
+          "templateId": "interactions/access/attributes/disable_behavior/header",
+          "name": "Меню навигации (блокировка)"
         },
         {
           "templateId": "interactions/access/attributes/widgets",
@@ -370,11 +374,19 @@
         },
         {
           "templateId": "interactions/access/attributes/buttons",
-          "name": "Кнопки"
+          "name": "Кнопки (скрытие)"
+        },
+        {
+          "templateId": "interactions/access/attributes/disable_behavior/buttons",
+          "name": "Кнопки (блокировка)"
         },
         {
           "templateId": "interactions/access/attributes/fields",
-          "name": "Поля"
+          "name": "Поля (скрытие)"
+        },
+        {
+          "templateId": "interactions/access/attributes/disable_behavior/fields",
+          "name": "Поля (блокировка)"
         },
         {
           "templateId": "interactions/access/attributes/columns",

@@ -30,6 +30,7 @@ interface MenuItem {
     badge?: string
     badgeColor?: string
     target?: string
+    disabled?: boolean
 }
 
 interface MenuProps {

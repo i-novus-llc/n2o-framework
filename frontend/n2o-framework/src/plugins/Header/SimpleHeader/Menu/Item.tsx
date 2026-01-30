@@ -9,7 +9,6 @@ export interface Dropdown extends Common {
     items: ItemProps[]
     nested?: boolean
     direction?: ButtonDropdownProps['direction']
-    recursiveClose?: boolean
     onItemClick?(): void
     level?: number
     from?: 'HEADER' | 'SIDEBAR'

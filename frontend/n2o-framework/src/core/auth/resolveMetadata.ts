@@ -1,4 +1,4 @@
-import { UserConfig, Security } from './types'
+import { UserConfig, Security, SecurityBehavior } from './types'
 import { AuthProvider, defaultProvider } from './Provider'
 
 async function check(
@@ -27,7 +27,7 @@ async function check(
         }
 
         if (!hasAccess) {
-            if (config.behavior === 'disabled') {
+            if (config.behavior === SecurityBehavior.disable) {
                 newJson = { ...props, disabled: true, enabled: false }
             } else {
                 return null

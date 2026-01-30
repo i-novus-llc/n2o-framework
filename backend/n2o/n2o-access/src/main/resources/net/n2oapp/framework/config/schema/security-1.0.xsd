@@ -9,4 +9,12 @@
     <xs:attribute name="usernames" type="xs:string"/>
     <xs:attribute name="authenticated" type="xs:boolean"/>
     <xs:attribute name="anonymous" type="xs:boolean"/>
+    <xs:attribute name="behavior" type="behaviorEnum" default="hide"/>
+
+    <xs:simpleType name="behaviorEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="hide"/>
+            <xs:enumeration value="disable"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>
