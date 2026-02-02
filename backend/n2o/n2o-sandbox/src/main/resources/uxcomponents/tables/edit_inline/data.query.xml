@@ -10,5 +10,6 @@
         <field id="id"/>
         <field id="name"/>
         <field id="date"/>
+        <field id="description"/>
     </fields>
 </query>

@@ -41,6 +41,8 @@ const Cell = ({
     if (!visible) { return null }
 
     const isEmpty = !viewValue
+    const isMultiline = !!control.maxRows ||
+        control.component?.displayName?.toLocaleLowerCase().includes('textarea')
 
     return (
         <DefaultCell
@@ -52,8 +54,12 @@ const Cell = ({
                 control={control}
                 value={controlValue}
                 onChange={handleChange}
+                isMultiline={isMultiline}
             />
-            <View className={classNames({ 'editable-cell-empty': isEmpty })}>
+            <View
+                className={classNames({ 'editable-cell-empty': isEmpty })}
+                maxRows={isMultiline ? control.maxRows : undefined}
+            >
                 <FormattedText format={format}>{viewValue}</FormattedText>
             </View>
         </DefaultCell>

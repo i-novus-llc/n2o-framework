@@ -374,7 +374,7 @@
                 <xs:annotation>
                     <xs:documentation>Редактирование значения.</xs:documentation>
                 </xs:annotation>
-                <xs:sequence maxOccurs="1" minOccurs="1">
+                <xs:sequence>
                     <xs:element name="input-text" minOccurs="0" maxOccurs="unbounded">
                         <xs:complexType>
                             <xs:complexContent>
@@ -398,6 +398,16 @@
                             <xs:complexContent>
                                 <xs:restriction base="ctr:controlInputSelectDefinition">
                                     <xs:attribute name="id" type="xs:string" use="required"/>
+                                </xs:restriction>
+                            </xs:complexContent>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="text-area" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                            <xs:complexContent>
+                                <xs:restriction base="ctr:controlTextAreaDefinition">
+                                    <xs:attribute name="id" type="xs:string" use="prohibited"/>
+                                    <xs:attribute name="min-rows" type="xs:positiveInteger" default="1"/>
                                 </xs:restriction>
                             </xs:complexContent>
                         </xs:complexType>

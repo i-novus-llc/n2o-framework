@@ -10,14 +10,19 @@
         </actions>
         <columns>
             <column text-field-id="id" label="№"/>
-            <column text-field-id="name" label="Фамилия И.О">
+            <column text-field-id="name" label="Фамилия И.О.">
                 <edit action-id="update">
                     <input-text id="name"/>
                 </edit>
             </column>
-            <column text-field-id="date">
+            <column text-field-id="date" label="Дата рождения">
                 <edit action-id="update" format="date DD.MM.YYYY">
                     <date-time id="date" date-format="DD.MM.YYYY"/>
+                </edit>
+            </column>
+            <column text-field-id="description" width="300px" label="Описание">
+                <edit action-id="update">
+                    <text-area min-rows="1" max-rows="5"/>
                 </edit>
             </column>
         </columns>

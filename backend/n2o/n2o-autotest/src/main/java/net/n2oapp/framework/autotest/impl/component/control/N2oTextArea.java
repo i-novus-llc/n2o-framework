@@ -1,8 +1,10 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.api.component.control.TextArea;
+import org.openqa.selenium.Keys;
 
 import java.time.Duration;
 
@@ -23,7 +25,10 @@ public class N2oTextArea extends N2oControl implements TextArea {
 
     @Override
     public void setValue(String value) {
-        element().setValue(value);
+        if (editCellInputElement().exists()) {
+            editCellInputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+            element().parent().parent().parent().click();
+        } else element().setValue(value);
     }
 
     @Override
@@ -37,4 +42,7 @@ public class N2oTextArea extends N2oControl implements TextArea {
         element().should(Condition.attribute("placeholder", value));
     }
 
+    protected SelenideElement editCellInputElement() {
+        return element().$(".n2o-advanced-table-edit-control");
+    }
 }
