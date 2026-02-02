@@ -1,11 +1,13 @@
 package net.n2oapp.framework.autotest.cells;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.EditCell;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.TextArea;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -49,6 +51,7 @@ class EditCellAT extends AutoTestBase {
 
     @Test
     void testSimple() {
+        Configuration.headless = false;
         setResourcePath("net/n2oapp/framework/autotest/cells/edit/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/edit/simple/index.page.xml"),
@@ -63,16 +66,20 @@ class EditCellAT extends AutoTestBase {
         EditCell cell1 = rows.row(0).cell(1, EditCell.class);
         EditCell cell2 = rows.row(0).cell(2, EditCell.class);
         EditCell cell3 = rows.row(0).cell(3, EditCell.class);
+        EditCell cell4 = rows.row(1).cell(4, EditCell.class);
         cell1.shouldExists();
         cell2.shouldExists();
         cell3.shouldExists();
+        cell4.shouldExists();
 
         InputText input = cell1.control(InputText.class);
         DateInput date = cell2.control(DateInput.class);
         InputSelect select = cell3.control(InputSelect.class);
+        TextArea textArea = cell4.control(TextArea.class);
         input.shouldExists();
         date.shouldExists();
         select.shouldExists();
+        textArea.shouldExists();
 
         input.shouldHaveValue(FIRST_NAME);
         cell1.click();
@@ -105,6 +112,13 @@ class EditCellAT extends AutoTestBase {
         Selenide.refresh();
         select.shouldHaveValue(WOMAN);
 
+        textArea.shouldHaveValue("");
+        cell4.click();
+        textArea.setValue("1\n2\n3\n4\n5\n6\n7");
+        textArea.shouldHaveValue("1\n2\n3\n4\n5\n6\n7");
+        Selenide.refresh();
+        textArea.shouldBeVisible();
+        textArea.shouldHaveValue("1\n2\n3\n4\n5\n6\n7");
     }
 
     @Test

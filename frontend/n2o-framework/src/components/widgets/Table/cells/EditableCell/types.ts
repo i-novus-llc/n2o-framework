@@ -4,7 +4,10 @@ import { ControlProps } from './Control'
 
 export interface EditableCellProps {
     visible: boolean
-    control: ControlProps['control'] & { id: string }
+    control: ControlProps['control'] & {
+        id: string
+        maxRows?: number
+    }
     editable: boolean
     disabled: boolean
     format: string

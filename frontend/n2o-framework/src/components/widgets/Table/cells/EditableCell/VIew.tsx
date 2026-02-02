@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import React, { FC, HTMLAttributes } from 'react'
 
-type ViewProps = Pick<HTMLAttributes<HTMLDivElement>, 'onClick' | 'className'>
+type ViewProps = Pick<HTMLAttributes<HTMLDivElement>, 'className'> & { maxRows?: number }
 
-export const View: FC<ViewProps> = ({ children, className, onClick }) => (
-    <div className={classNames('n2o-editable-cell-text', className)} onClick={onClick}>
-        <span className="n2o-snippet text-truncate">{children}</span>
+export const View: FC<ViewProps> = ({ children, className, maxRows }) => (
+    <div className={classNames('n2o-editable-cell-text', className)}>
+        <span className="n2o-snippet text-truncate" data-max-rows={maxRows}>{children}</span>
     </div>
 )

@@ -14,11 +14,27 @@
         align-items: center;
         padding-left: 0.75rem !important;
         border: 1px solid transparent;
+        overflow: hidden;
+
+        [data-max-rows] {
+            display: -webkit-box;
+            white-space: normal;
+            overflow: hidden;
+            line-clamp: attr(data-max-rows number, 3);
+            -webkit-line-clamp: attr(data-max-rows number, 3);
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
     }
 
     .n2o-editable-cell-control {
         visibility: hidden;
         opacity: 0;
+
+        textarea {
+            resize: none;
+        }
 
         // Костыль чтоб немного сжать поля ввода, которые распирают высоту строки
         .form-control,

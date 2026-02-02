@@ -11,5 +11,6 @@
         <field id="name"/>
         <field id="date"/>
         <field id="gender"/>
+        <field id="description"/>
     </fields>
 </query>

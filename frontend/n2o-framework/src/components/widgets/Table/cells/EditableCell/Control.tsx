@@ -10,11 +10,12 @@ export type ControlProps<Value = unknown, OnChangeValue = unknown> = {
     value: Value
     onChange(value: OnChangeValue): void
     onBlur?(): void
+    isMultiline?: boolean
 }
 
 const eventsMap = { events: 'enter' }
 
-export const Control = ({ control, value, onBlur, onChange }: ControlProps) => {
+export const Control = ({ control, value, onBlur, onChange, isMultiline }: ControlProps) => {
     const { component, ...otherProps } = control
     const [innerValue, setInnerValue] = useState(value)
     const refSendValue = useRef<unknown>(null)
@@ -39,7 +40,7 @@ export const Control = ({ control, value, onBlur, onChange }: ControlProps) => {
 
     return (
         <div className="n2o-editable-cell-control" onClick={event => event.stopPropagation()}>
-            <HotKeys keyMap={eventsMap} handlers={handlersMap}>
+            <HotKeys keyMap={eventsMap} handlers={!isMultiline && handlersMap}>
                 {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {createElement<any>(component, {
                     ...otherProps,

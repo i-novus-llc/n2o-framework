@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from 'react'
+import React from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import omit from 'lodash/omit'
 import classNames from 'classnames'
@@ -8,7 +8,6 @@ import { TBaseInputProps, TBaseProps } from '../types'
 
 type TextAreaProps = TBaseProps & Omit<TBaseInputProps<string>, 'onBlur' | 'onFocus'> & {
     maxRows?: number,
-    onChange?: ChangeEventHandler<HTMLTextAreaElement>,
     rows?: number
 }
 
@@ -34,7 +33,7 @@ const TextAreaComponent = ({
             minRows={rows}
             maxRows={max}
             value={value === null ? '' : value}
-            onChange={onChange}
+            onChange={(event) => onChange?.(event.target.value)}
             {...omit(rest, 'id')}
         />
     )
