@@ -76,7 +76,7 @@ class DatasourceAT extends AutoTestBase {
         InputText filterName = page.regions().region(0, SimpleRegion.class).content()
                 .widget(0, FormWidget.class).fields().field("Фильтр по name").control(InputText.class);
         Button searchButton = page.regions().region(0, SimpleRegion.class).content()
-                .widget(0, FormWidget.class).toolbar().topLeft().button("Найти");
+                .widget(0, FormWidget.class).toolbar().topLeft().button(searchButtonLabel);
         Button clearButton = page.regions().region(0, SimpleRegion.class).content()
                 .widget(0, FormWidget.class).toolbar().topLeft().button("Очистить");
 
@@ -182,13 +182,13 @@ class DatasourceAT extends AutoTestBase {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         //проверка, что имя и валидная дата сохранены
-        validationManyForm(page, "Сергей", dateTimeFormatter.format(LocalDate.now().minusDays(1)), "Данные сохранены", 1);
+        validationManyForm(page, "Сергей", dateTimeFormatter.format(LocalDate.now().minusDays(1)), successAlertMessage, 1);
 
         //проверка, что сохранение не происходит при существующем имени
         validationManyForm(page, "Сергей", dateTimeFormatter.format(LocalDate.now().minusDays(1)), "Имя Сергей уже существует", 1);
 
         //проверка, что сохранение происходит при новом имени
-        validationManyForm(page, "Артем", dateTimeFormatter.format(LocalDate.now().minusDays(1)), "Данные сохранены", 2);
+        validationManyForm(page, "Артем", dateTimeFormatter.format(LocalDate.now().minusDays(1)), successAlertMessage, 2);
 
         //проверка, что сохранение не происходит при невалидной дате
         validationManyForm(page, "Иван", dateTimeFormatter.format(LocalDate.now().plusDays(1)), "Дата рождения не может быть в будущем", 2);

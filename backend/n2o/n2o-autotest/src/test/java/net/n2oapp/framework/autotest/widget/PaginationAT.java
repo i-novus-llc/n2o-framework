@@ -303,7 +303,7 @@ class PaginationAT extends AutoTestBase {
         paging.pageNumberButtonShouldBeVisible("5");
 
         table.filters().fields().field("name").control(InputText.class).setValue("test5");
-        table.filters().toolbar().button("Найти").click();
+        table.filters().toolbar().button(searchButtonLabel).click();
         table.columns().rows().shouldHaveSize(1);
         paging.countButtonShouldBeVisible();
         paging.countButtonClick();

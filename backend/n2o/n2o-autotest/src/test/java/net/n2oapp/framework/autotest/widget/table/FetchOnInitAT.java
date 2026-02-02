@@ -72,7 +72,7 @@ class FetchOnInitAT extends AutoTestBase {
         tableWidget.shouldExists();
         TableWidget.Rows rows = tableWidget.columns().rows();
         rows.shouldNotHaveRows();
-        tableWidget.filters().toolbar().button("Найти").click();
+        tableWidget.filters().toolbar().button(searchButtonLabel).click();
         rows.shouldHaveSize(4);
     }
 

@@ -162,7 +162,7 @@ class FileUploadAT extends AutoTestBase {
         inputText.setValue("Любой текст");
         inputText.shouldHaveValue("Любой текст");
         toolbar.button("Отправить").click();
-        getFields().field("Загрузка файлов").shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        getFields().field("Загрузка файлов").shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
     }
 
     private Fields getFields() {

@@ -73,7 +73,7 @@ class FieldRequiredAT extends AutoTestBase {
         button.click();
 
         StandardField nameField = formWidget.fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("Имя");
-        nameField.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        nameField.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
         InputText inputTextName = nameField.control(InputText.class);
         inputTextName.shouldExists();
         inputTextName.shouldBeEnabled();
@@ -84,7 +84,7 @@ class FieldRequiredAT extends AutoTestBase {
 
         nameField.shouldHaveValidationMessage(Condition.empty);
 
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(successAlertMessage);
     }
 
     @Test
@@ -139,8 +139,8 @@ class FieldRequiredAT extends AutoTestBase {
         StandardField field2 = fields.field("Тип");
 
         field1.control(InputText.class).setValue("test message");
-        modal.toolbar().bottomRight().button("Сохранить").click();
-        field2.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        modal.toolbar().bottomRight().button(saveButtonLabel).click();
+        field2.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
         field2.control(InputText.class).setValue("test message");
         field2.shouldHaveValidationMessage(Condition.empty);
         modal.toolbar().bottomRight().button("Закрыть").click();
@@ -202,10 +202,10 @@ class FieldRequiredAT extends AutoTestBase {
         validateButton.shouldBeEnabled();
         validateButton.click();
 
-        fieldB.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        fieldC.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        fieldD.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        fieldE.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        fieldB.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        fieldC.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        fieldD.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        fieldE.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
         fieldF.shouldHaveValidationMessage(Condition.text("Не может быть больше чем E"));
     }
 }

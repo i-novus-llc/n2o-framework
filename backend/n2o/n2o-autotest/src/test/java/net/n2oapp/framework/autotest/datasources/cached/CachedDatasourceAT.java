@@ -157,7 +157,7 @@ class CachedDatasourceAT extends AutoTestBase {
                 .fields().field("type").control(RadioGroup.class);
 
         ButtonField button = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).
-                fields().field("Найти", ButtonField.class);
+                fields().field(searchButtonLabel, ButtonField.class);
 
         InputText input = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class)
                 .fields().field("Тип документа").control(InputText.class);
@@ -275,7 +275,7 @@ class CachedDatasourceAT extends AutoTestBase {
         input.shouldBeEmpty();
         table.columns().rows().shouldHaveSize(4);
         input.setValue("1");
-        table.filters().toolbar().button("Найти").click();
+        table.filters().toolbar().button(searchButtonLabel).click();
         table.columns().rows().shouldHaveSize(1);
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/\\?w1_name=1");
         Selenide.refresh();
@@ -351,7 +351,7 @@ class CachedDatasourceAT extends AutoTestBase {
         modal.shouldExists();
         FormWidget form = modal.content(StandardPage.class).regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
         form.fields().field("name").control(InputText.class).setValue("test3");
-        modal.toolbar().bottomRight().button("Сохранить").click();
+        modal.toolbar().bottomRight().button(saveButtonLabel).click();
         modal.toolbar().bottomRight().button("Закрыть").click();
 
         table.columns().rows().shouldHaveSize(3);

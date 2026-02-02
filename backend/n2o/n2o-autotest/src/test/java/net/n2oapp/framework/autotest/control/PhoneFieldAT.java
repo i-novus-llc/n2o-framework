@@ -47,7 +47,7 @@ class PhoneFieldAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        StandardButton saveButton = page.toolbar().bottomLeft().button("Сохранить");
+        StandardButton saveButton = page.toolbar().bottomLeft().button(saveButtonLabel);
         saveButton.shouldBeEnabled();
 
         PhoneField phoneField = page.widget(FormWidget.class).fields().field("phone").control(PhoneField.class);
@@ -55,7 +55,7 @@ class PhoneFieldAT extends AutoTestBase {
         phoneField.shouldHaveValue("+7 (999) 123-45-67");
         phoneField.setValue("+7 (999) 123-45-00");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(successAlertMessage);
         phoneField.shouldHaveInvalidText(Condition.empty);
 
         phoneField.setValue("123");

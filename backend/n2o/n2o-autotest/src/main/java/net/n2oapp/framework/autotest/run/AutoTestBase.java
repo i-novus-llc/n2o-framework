@@ -25,6 +25,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import java.util.Map;
@@ -50,6 +51,11 @@ public class AutoTestBase extends N2oTestBase {
     @LocalServerPort
     protected int port;
     protected Logs logs;
+    protected String requiredValidationMessage;
+    protected String successAlertMessage;
+    protected String searchButtonLabel;
+    protected String clearButtonLabel;
+    protected String saveButtonLabel;
     @Autowired
     private TestDataProviderEngine provider;
     private N2oController n2oController;
@@ -105,6 +111,12 @@ public class AutoTestBase extends N2oTestBase {
         super.configure(builder);
         builder.transformers(new TestEngineQueryTransformer());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
+        MessageSourceAccessor messageSource = builder.getEnvironment().getMessageSource();
+        requiredValidationMessage = messageSource.getMessage("n2o.required.field");
+        successAlertMessage = messageSource.getMessage("n2o.success");
+        searchButtonLabel = messageSource.getMessage("n2o.api.control.search_button.label");
+        clearButtonLabel = messageSource.getMessage("n2o.api.control.clear_button.label");
+        saveButtonLabel = messageSource.getMessage("n2o.save");
     }
 
     protected String getBaseUrl() {

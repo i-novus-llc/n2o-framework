@@ -185,7 +185,7 @@ class ShowModalAT extends AutoTestBase {
         modalPage.shouldHaveTitle("Модальное окно");
         modalPage.content(SimplePage.class).widget(FormWidget.class).fields().shouldHaveSize(1);
         StandardButton saveButton = modalPage.content(SimplePage.class).widget(FormWidget.class).toolbar()
-                .bottomLeft().button("Сохранить");
+                .bottomLeft().button(saveButtonLabel);
         saveButton.shouldExists();
         saveButton.shouldBeDisabled();
         StandardButton closeButton = modalPage.content(SimplePage.class).widget(FormWidget.class).toolbar()

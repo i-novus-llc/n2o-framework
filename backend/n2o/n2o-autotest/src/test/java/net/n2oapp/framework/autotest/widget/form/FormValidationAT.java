@@ -61,7 +61,7 @@ class FormValidationAT extends AutoTestBase {
         InputText form1Control = form1Field.control(InputText.class);
         form1Control.shouldBeEmpty();
         validateFormBtn.click();
-        form1Field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        form1Field.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
         page.alerts(Alert.PlacementEnum.TOP).shouldBeEmpty();
 
         form1Control.click();
