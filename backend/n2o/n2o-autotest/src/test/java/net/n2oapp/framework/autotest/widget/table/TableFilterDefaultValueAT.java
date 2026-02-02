@@ -57,14 +57,14 @@ class TableFilterDefaultValueAT extends AutoTestBase {
 
         filter.click();
         filter.setValue("4");
-        table.filters().toolbar().button("Найти").click();
+        table.filters().toolbar().button(searchButtonLabel).click();
         rows.row(0).cell(1).shouldHaveText("test4");
 
         // filter value should saved after refresh
         Selenide.refresh();
         rows.row(0).cell(1).shouldHaveText("test4");
 
-        table.filters().toolbar().button("Сбросить").click();
+        table.filters().toolbar().button(clearButtonLabel).click();
         rows.shouldHaveSize(4);
         filter.shouldBeEmpty();
     }
@@ -114,14 +114,14 @@ class TableFilterDefaultValueAT extends AutoTestBase {
 
         filter.click();
         filter.setValue("test4");
-        table.filters().toolbar().button("Найти").click();
+        table.filters().toolbar().button(searchButtonLabel).click();
         rows.row(0).cell(1).shouldHaveText("test4");
 
         //todo NNO-7523 filter value should saved after refresh
         /*Selenide.refresh();
         rows.row(0).cell(1).textShouldHave("test4");
 
-        table.filters().toolbar().button("Сбросить").click();
+        table.filters().toolbar().button(clearButtonLabel).click();
         rows.shouldHaveSize(4);
         filter.shouldBeEmpty();*/
     }

@@ -47,7 +47,7 @@ class EmailFieldAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        StandardButton saveButton = page.toolbar().bottomLeft().button("Сохранить");
+        StandardButton saveButton = page.toolbar().bottomLeft().button(saveButtonLabel);
         saveButton.shouldBeEnabled();
 
         EmailField emailField = page.widget(FormWidget.class).fields().field("mail").control(EmailField.class);
@@ -55,7 +55,7 @@ class EmailFieldAT extends AutoTestBase {
         emailField.setValue("test@gmail.com");
         emailField.shouldHaveValue("test@gmail.com");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(successAlertMessage);
         emailField.shouldHaveInvalidText(Condition.empty);
 
         emailField.setValue("invalid.com");

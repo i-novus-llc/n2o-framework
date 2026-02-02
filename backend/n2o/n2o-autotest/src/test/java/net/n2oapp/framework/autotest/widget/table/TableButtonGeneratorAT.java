@@ -85,8 +85,8 @@ class TableButtonGeneratorAT extends AutoTestBase {
 
         InputText inputName = table.filters().fields().field("Наименование").control(InputText.class);
         InputText inputRegion = table.filters().fields().field("Регион").control(InputText.class);
-        Button search = table.filters().toolbar().button("Найти");
-        Button reset = table.filters().toolbar().button("Сбросить");
+        Button search = table.filters().toolbar().button(searchButtonLabel);
+        Button reset = table.filters().toolbar().button(clearButtonLabel);
 
         inputName.shouldBeVisible();
         inputRegion.shouldBeVisible();

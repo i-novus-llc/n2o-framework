@@ -85,7 +85,7 @@ class BulkOperationAT extends AutoTestBase {
         newValue.shouldExists();
         newValue.click();
         newValue.setValue("new name");
-        StandardButton saveButton = modalPage.toolbar().bottomRight().button("Сохранить");
+        StandardButton saveButton = modalPage.toolbar().bottomRight().button(saveButtonLabel);
         saveButton.shouldExists();
         saveButton.click();
         modalPage.shouldNotExists();
@@ -95,7 +95,7 @@ class BulkOperationAT extends AutoTestBase {
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(successAlertMessage);
         table.columns().rows().shouldHaveSize(2);
         name1.shouldHaveText("test3");
         name2.shouldHaveText("test4");
@@ -140,7 +140,7 @@ class BulkOperationAT extends AutoTestBase {
         newValue.shouldExists();
         newValue.click();
         newValue.setValue("new name");
-        StandardButton saveButton = modalPage.toolbar().bottomRight().button("Сохранить");
+        StandardButton saveButton = modalPage.toolbar().bottomRight().button(saveButtonLabel);
         saveButton.shouldExists();
         saveButton.click();
         modalPage.shouldNotExists();
@@ -152,7 +152,7 @@ class BulkOperationAT extends AutoTestBase {
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(successAlertMessage);
         table.columns().rows().shouldHaveSize(1);
     }
 }

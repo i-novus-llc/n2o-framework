@@ -92,7 +92,7 @@ class ParentDatasourceAT extends AutoTestBase {
                 .widget(0,FormWidget.class);
         formWidget.fields().field("id").control(InputText.class).setValue("5");
         formWidget.fields().field("name").control(InputText.class).setValue("Mary");
-        modalPage.toolbar().bottomRight().button("Сохранить").click();
+        modalPage.toolbar().bottomRight().button(saveButtonLabel).click();
 
         table1.columns().rows().shouldHaveSize(5);
         table1.columns().rows().row(4).cell(0).shouldHaveText("5");
@@ -110,7 +110,7 @@ class ParentDatasourceAT extends AutoTestBase {
                 .widget(0,FormWidget.class);
         formWidget.fields().field("id").control(InputText.class).setValue("3");
         formWidget.fields().field("name").control(InputText.class).setValue("Mary");
-        modalPage.toolbar().bottomRight().button("Сохранить").click();
+        modalPage.toolbar().bottomRight().button(saveButtonLabel).click();
 
         table2.columns().rows().shouldHaveSize(3);
         table2.columns().rows().row(2).cell(0).shouldHaveText("3");

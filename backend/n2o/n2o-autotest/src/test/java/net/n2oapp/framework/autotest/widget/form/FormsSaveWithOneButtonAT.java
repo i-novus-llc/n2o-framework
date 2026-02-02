@@ -86,7 +86,7 @@ class FormsSaveWithOneButtonAT extends AutoTestBase {
         org.control(InputText.class).click();
         org.control(InputText.class).setValue("Ай-новус");
 
-        open.toolbar().bottomRight().button("Сохранить").click();
+        open.toolbar().bottomRight().button(saveButtonLabel).click();
 
         tableWidget.columns().rows().row(0).cell(0).shouldHaveText("Александр");
         tableWidget.columns().rows().row(0).cell(1).shouldHaveText("Цой");
@@ -121,7 +121,7 @@ class FormsSaveWithOneButtonAT extends AutoTestBase {
         org.control(InputText.class).click();
         org.control(InputText.class).setValue("КИР");
 
-        open.toolbar().bottomRight().button("Сохранить").click();
+        open.toolbar().bottomRight().button(saveButtonLabel).click();
 
         tableWidget.columns().rows().row(0).cell(0).shouldHaveText("Иван");
         tableWidget.columns().rows().row(0).cell(1).shouldHaveText("Лебедев");

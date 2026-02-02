@@ -106,7 +106,7 @@ class CopyActionAT extends AutoTestBase {
         TableWidget table = modalPage.widget(TableWidget.class);
         table.shouldExists();
 
-        StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
+        StandardButton saveBtn = modal.toolbar().bottomRight().button(saveButtonLabel);
 
         table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(1).click();
@@ -151,7 +151,7 @@ class CopyActionAT extends AutoTestBase {
         btn.click();
         Modal modal = N2oSelenide.modal();
         TableWidget table = modal.content(SimplePage.class).widget(TableWidget.class);
-        StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
+        StandardButton saveBtn = modal.toolbar().bottomRight().button(saveButtonLabel);
 
         table.columns().rows().row(0).cell(0, CheckboxCell.class).setChecked(true);
         table.columns().rows().row(2).cell(0, CheckboxCell.class).setChecked(true);
@@ -217,7 +217,7 @@ class CopyActionAT extends AutoTestBase {
         city.setValue("NY");
         street.click();
         street.setValue("Wall Street");
-        StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
+        StandardButton saveBtn = modal.toolbar().bottomRight().button(saveButtonLabel);
         saveBtn.click();
 
         // проверяем, что оба значения скопировались
@@ -269,7 +269,7 @@ class CopyActionAT extends AutoTestBase {
         inputText.click();
         inputText.setValue("val1");
 
-        StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
+        StandardButton saveBtn = modal.toolbar().bottomRight().button(saveButtonLabel);
         saveBtn.shouldExists();
         saveBtn.click();
 

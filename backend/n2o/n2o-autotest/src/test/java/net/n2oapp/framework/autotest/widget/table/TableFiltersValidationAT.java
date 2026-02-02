@@ -69,7 +69,7 @@ class TableFiltersValidationAT extends AutoTestBase {
         like.shouldBeHidden();
         id.control(InputText.class).shouldHaveValue("3");
         id.shouldHaveValidationMessage(Condition.text("поле должно быть равным 1 или 2"));
-        eq.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        eq.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
 
         id.control(InputText.class).click();
         id.control(InputText.class).clear();
@@ -77,10 +77,10 @@ class TableFiltersValidationAT extends AutoTestBase {
         id.shouldHaveValidationMessage(Condition.empty);
         like.control(InputText.class).shouldExists();
         like.shouldBeRequired();
-        like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        like.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
         like.control(InputText.class).click();
         like.control(InputText.class).clear();
-        like.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        like.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
         like.control(InputText.class).click();
         like.control(InputText.class).setValue("test");
         like.shouldHaveValidationMessage(Condition.empty);
@@ -90,9 +90,9 @@ class TableFiltersValidationAT extends AutoTestBase {
         id.control(InputText.class).setValue("2");
         like.control(InputText.class).shouldBeDisabled();
         like.shouldHaveValidationMessage(Condition.empty);
-        tableWidget.filters().toolbar().button("Найти").click();
+        tableWidget.filters().toolbar().button(searchButtonLabel).click();
         like.shouldHaveValidationMessage(Condition.empty);
-        tableWidget.filters().toolbar().button("Сбросить").click();
+        tableWidget.filters().toolbar().button(clearButtonLabel).click();
         id.control(InputText.class).click();
         id.control(InputText.class).setValue("2");
         like.control(InputText.class).shouldBeDisabled();
@@ -116,15 +116,15 @@ class TableFiltersValidationAT extends AutoTestBase {
         page.shouldExists();
 
         TableWidget tableWidget = page.widget(TableWidget.class);
-        tableWidget.filters().toolbar().button("Найти").click();
+        tableWidget.filters().toolbar().button(searchButtonLabel).click();
         StandardField field = tableWidget.filters().fields().field("name");
-        field.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        field.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
         verifyNeverGetDataInvocation("Запрос за данными таблицы при валидации фильтров");
 
         InputText inputText = field.control(InputText.class);
         inputText.click();
         inputText.setValue("test1");
-        tableWidget.filters().toolbar().button("Найти").click();
+        tableWidget.filters().toolbar().button(searchButtonLabel).click();
         tableWidget.columns().rows().row(0).cell(0).shouldHaveText("test1");
     }
 
@@ -139,8 +139,8 @@ class TableFiltersValidationAT extends AutoTestBase {
         page.shouldExists();
 
         TableWidget.Filters filters = page.widget(TableWidget.class).filters();
-        StandardButton searchButton = filters.toolbar().button("Найти");
-        StandardButton resetButton = filters.toolbar().button("Сбросить");
+        StandardButton searchButton = filters.toolbar().button(searchButtonLabel);
+        StandardButton resetButton = filters.toolbar().button(clearButtonLabel);
         InputText minPriceInput = filters.fields().field("Минимальная цена").control(InputText.class);
         StandardField maxPriceField = filters.fields().field("Максимальная  цена");
         InputText maxPriceInput = maxPriceField.control(InputText.class);

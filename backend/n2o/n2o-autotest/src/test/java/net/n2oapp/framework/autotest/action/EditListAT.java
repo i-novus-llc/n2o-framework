@@ -59,7 +59,7 @@ class EditListAT extends AutoTestBase {
         Modal modalPage = N2oSelenide.modal();
         InputText description = modalPage.content(SimplePage.class).widget(FormWidget.class).fields().field("description").control(InputText.class);
         InputText url = modalPage.content(SimplePage.class).widget(FormWidget.class).fields().field("url").control(InputText.class);
-        Button saveButton = modalPage.content(SimplePage.class).widget(FormWidget.class).toolbar().topLeft().button("Сохранить");
+        Button saveButton = modalPage.content(SimplePage.class).widget(FormWidget.class).toolbar().topLeft().button(saveButtonLabel);
 
         table.columns().rows().shouldHaveSize(0);
         addButton.click();

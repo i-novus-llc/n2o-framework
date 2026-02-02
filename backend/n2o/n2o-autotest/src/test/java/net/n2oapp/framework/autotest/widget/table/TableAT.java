@@ -36,7 +36,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.exceptions.verification.TooManyActualInvocations;
-
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -411,7 +410,7 @@ class TableAT extends AutoTestBase {
         page.shouldExists();
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
-        StandardButton button = table.filters().toolbar().button("Сбросить");
+        StandardButton button = table.filters().toolbar().button(clearButtonLabel);
         InputText input = table.filters().fields().field("name").control(InputText.class);
 
         button.shouldExists();

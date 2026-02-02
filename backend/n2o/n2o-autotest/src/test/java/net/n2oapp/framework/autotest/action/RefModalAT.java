@@ -85,7 +85,7 @@ class RefModalAT extends AutoTestBase {
         houseInputModal.click();
         houseInputModal.setValue("1");
         houseInputModal.shouldHaveValue("1");
-        modalPage.toolbar().bottomRight().button("Сохранить").click();
+        modalPage.toolbar().bottomRight().button(saveButtonLabel).click();
         address.shouldHaveValue("Москва, Ленина, 1");
         city.shouldHaveValue("Москва");
         street.shouldHaveValue("Качалова");

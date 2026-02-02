@@ -72,7 +72,7 @@ class MaskedInputAT extends AutoTestBase {
 
     @Test
     void testValidation() {
-        StandardButton saveButton = simplePage.toolbar().bottomLeft().button("Сохранить");
+        StandardButton saveButton = simplePage.toolbar().bottomLeft().button(saveButtonLabel);
         saveButton.shouldBeEnabled();
 
         MaskedInput mask = getFields().field("MaskedInputToSave").control(MaskedInput.class);
@@ -80,7 +80,7 @@ class MaskedInputAT extends AutoTestBase {
         mask.setValue("12-12");
         mask.shouldHaveValue("12-12");
         saveButton.click();
-        simplePage.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("Данные сохранены");
+        simplePage.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(successAlertMessage);
         mask.shouldHaveInvalidText(Condition.empty);
 
         mask.setValue("00");

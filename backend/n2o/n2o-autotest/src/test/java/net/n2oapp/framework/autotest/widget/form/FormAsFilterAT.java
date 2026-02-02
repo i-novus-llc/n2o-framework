@@ -162,7 +162,7 @@ class FormAsFilterAT extends AutoTestBase {
         InputText searchField = form.fields().field("Поиск").control(InputText.class);
         searchField.click();
         searchField.setValue("test2");
-        form.toolbar().topLeft().button("Найти").click();
+        form.toolbar().topLeft().button(searchButtonLabel).click();
         table.columns().rows().shouldHaveSize(1);
         table.columns().rows().row(0).cell(0).shouldHaveText("test2");
 

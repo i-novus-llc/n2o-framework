@@ -85,7 +85,7 @@ class DataBackFromModalAT extends AutoTestBase {
         inputField.control(InputText.class).click();
         inputField.control(InputText.class).setValue("test message");
         inputField.control(InputText.class).shouldHaveValue("test message");
-        modal.toolbar().bottomRight().button("Сохранить").click();
+        modal.toolbar().bottomRight().button(saveButtonLabel).click();
         testField.control(InputText.class).shouldHaveValue("test message");
     }
 }
