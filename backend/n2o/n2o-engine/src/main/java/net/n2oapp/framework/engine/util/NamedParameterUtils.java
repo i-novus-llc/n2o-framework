@@ -111,7 +111,7 @@ public class NamedParameterUtils {
         int escapes = 0;
         int i = 0;
         while (i < statement.length) {
-            int skipToPosition = i;
+            int skipToPosition;
             while (i < statement.length) {
                 skipToPosition = skipCommentsAndQuotes(statement, i);
                 if (i == skipToPosition) {

@@ -127,17 +127,19 @@ public class N2oServletConfiguration {
         writer.setPath("classpath*:META-INF/config.json");
         writer.setOverridePath("classpath*:META-INF/config-build.json");
 
-        AppConfigServlet appConfigServlet = new AppConfigServlet();
-        appConfigServlet.setAppConfigJsonWriter(writer);
-        appConfigServlet.setObjectMapper(objectMapper);
-        appConfigServlet.setMessageSource(clientMessageSource);
-        appConfigServlet.setEnvironment(env);
         ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().copy()
                 .compile().transform().cache().copy()
                 .bind();
-        appConfigServlet.setPipeline(pipeline);
-        appConfigServlet.setApplicationSourceId(applicationId);
+
+        AppConfigServlet appConfigServlet = new AppConfigServlet(
+                writer,
+                clientMessageSource,
+                pipeline,
+                env,
+                applicationId,
+                objectMapper
+        );
         return new ServletRegistrationBean(appConfigServlet, n2oApiUrl + "/config", "/n2o/config.json");
     }
 }

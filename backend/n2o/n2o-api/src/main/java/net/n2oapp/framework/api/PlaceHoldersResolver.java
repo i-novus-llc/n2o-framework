@@ -28,9 +28,9 @@ public class PlaceHoldersResolver {
     private static final String OPTIONAL_SUFFIX = "?";
     private static final String REQUIRED_SUFFIX = "!";
 
-    private String prefix;
-    private String suffix;
-    private Boolean onlyJavaVariable;
+    private final String prefix;
+    private final String suffix;
+    private final Boolean onlyJavaVariable;
     private ToIntFunction<String> defaultSuffixIdx = str -> {
         String[] ends = str.split("\\W");
         return ends.length > 0 ? ends[0].length() : 0;
@@ -308,10 +308,6 @@ public class PlaceHoldersResolver {
                 result = obj[0];
             return result != null ? result : prefix.concat(key).concat(suffix);
         };
-    }
-
-    private Function<String, Object> replaceNull(Object data) {
-        return key -> function(data).apply(key);
     }
 
     /**

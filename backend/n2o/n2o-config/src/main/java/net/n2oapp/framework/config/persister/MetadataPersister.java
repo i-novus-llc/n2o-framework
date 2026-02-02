@@ -13,7 +13,6 @@ import net.n2oapp.framework.config.ConfigStarter;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.ConfigId;
 import net.n2oapp.framework.config.register.InfoConstructor;
-import net.n2oapp.framework.config.register.InfoStatus;
 import net.n2oapp.framework.config.register.XmlInfo;
 import net.n2oapp.framework.config.register.event.ConfigPersistEvent;
 import net.n2oapp.framework.config.register.event.MetadataRemovedEvent;
@@ -137,7 +136,7 @@ public class MetadataPersister {
                 if (directory != null && !normalize(xmlInfo.getDirectory()).equalsIgnoreCase(normalize(directory))) {
                     throw new IllegalArgumentException("Attempt to make a duplicate file.");
                 }
-                if (InfoStatus.isSystemFile(xmlInfo)) {
+                if (!xmlInfo.isOverride()) {
                     //create server file from system file
                     InfoConstructor infoC = new InfoConstructor(xmlInfo);
                     infoC.setAncestor(null);//why??
