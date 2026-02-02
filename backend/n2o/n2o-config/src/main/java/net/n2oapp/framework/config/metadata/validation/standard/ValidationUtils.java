@@ -23,8 +23,8 @@ import org.apache.commons.lang3.EnumUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Nonnull;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -37,8 +37,9 @@ import static org.apache.commons.lang3.ArrayUtils.isEmpty;
  */
 public final class ValidationUtils {
 
-    private static final SimpleDateFormat SIMPLE_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final DateTimeFormatter SIMPLE_DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    private static final DateTimeFormatter SIMPLE_DATETIME_WITH_SPACE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter SIMPLE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private ValidationUtils() {
     }
@@ -61,7 +62,6 @@ public final class ValidationUtils {
      * @param p    Процессор исходных метаданных
      * @param msg  Сообщение об ошибке
      */
-    //fixme упразднить этот метод с удалением лишних скоупов datasource
     public static void checkDatasourceExistence(String dsId, SourceProcessor p, String msg) {
         ValidatorDatasourceIdsScope datasourceIdsScope = p.getScope(ValidatorDatasourceIdsScope.class);
         ValidatorDataSourcesScope dataSourcesScope = p.getScope(ValidatorDataSourcesScope.class);
@@ -143,7 +143,7 @@ public final class ValidationUtils {
             throw new N2oMetadataValidationException("Условный оператор if-else начинается не с тега <if>");
 
         LinkedList<N2oConditionBranch> operator = constructOperator(branches);
-        checkDatasourceExistenceInTag(((N2oIfBranchAction) operator.getFirst()).getDatasourceId(), p, "<if>");
+        checkDatasourceExistenceInTag(operator.getFirst().getDatasourceId(), p, "<if>");
         Optional<N2oElseIfBranchAction> elseIfBranch = findFirstByInstance(operator, N2oElseIfBranchAction.class);
         Optional<N2oElseBranchAction> elseBranch = findFirstByInstance(operator, N2oElseBranchAction.class);
 
@@ -227,7 +227,9 @@ public final class ValidationUtils {
     }
 
     public static void checkDate(String date, String message) {
-        if (!(isValidDateByFormat(date, SIMPLE_DATETIME_FORMAT) || isValidDateByFormat(date, SIMPLE_DATE_FORMAT))) {
+        if (!(isValidDateByFormat(date, SIMPLE_DATETIME_FORMAT) ||
+                isValidDateByFormat(date, SIMPLE_DATETIME_WITH_SPACE_FORMAT) ||
+                isValidDateByFormat(date, SIMPLE_DATE_FORMAT))) {
             throw new N2oMetadataValidationException(message);
         }
     }
@@ -277,10 +279,10 @@ public final class ValidationUtils {
                 && !EnumUtils.isValidEnum(ColorEnum.class, camelToSnake(color));
     }
 
-    private static boolean isValidDateByFormat(String date, SimpleDateFormat dateFormat) {
+    private static boolean isValidDateByFormat(String date, DateTimeFormatter dateFormatter) {
         try {
-            dateFormat.parseObject(date);
-        } catch (ParseException ex) {
+            dateFormatter.parse(date);
+        } catch (DateTimeParseException ex) {
             return false;
         }
         return true;
@@ -299,9 +301,10 @@ public final class ValidationUtils {
 
     private static LinkedList<N2oConditionBranch> constructOperator(Queue<N2oConditionBranch> branches) {
         LinkedList<N2oConditionBranch> ifElseOperator = new LinkedList<>();
-        ifElseOperator.add(branches.poll());
-        while (!(branches.isEmpty() || (branches.element() instanceof N2oIfBranchAction)))
-            ifElseOperator.add(branches.poll());
+
+        do ifElseOperator.add(branches.poll());
+        while (!(branches.isEmpty() || (branches.element() instanceof N2oIfBranchAction)));
+
         return ifElseOperator;
     }
 }

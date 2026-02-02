@@ -11,6 +11,10 @@ import java.util.Set;
 
 public class LocalGitDiffService {
 
+    private LocalGitDiffService() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static void collectChangedPackagesFromPackage(File gitRoot, String resourcesPath, String oldTag, String newTag,
                                                          Set<String> maybeDeletedPackages, Set<String> changedPackages) throws IOException, InterruptedException {
         List<String> diffOutput = runGitCommand(gitRoot, "diff", "--name-status", oldTag, newTag, "--", resourcesPath);

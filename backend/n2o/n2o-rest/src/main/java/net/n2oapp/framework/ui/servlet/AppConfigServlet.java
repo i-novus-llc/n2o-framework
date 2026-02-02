@@ -4,14 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.MessageSourceAccessor;
 
@@ -20,42 +19,46 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+@Slf4j
 public class AppConfigServlet extends HttpServlet {
+    private final AppConfigJsonWriter appConfigJsonWriter;
+    private final ExposedResourceBundleMessageSource messageSource;
+    private final ReadCompileBindTerminalPipeline pipeline;
+    private final MetadataEnvironment environment;
+    private final String applicationSourceId;
+    private final ObjectMapper objectMapper;
 
-    private static final Logger log = LoggerFactory.getLogger(AppConfigServlet.class);
-    private AppConfigJsonWriter appConfigJsonWriter;
-    private ExposedResourceBundleMessageSource messageSource;
-    private ReadCompileBindTerminalPipeline pipeline;
-    private MetadataEnvironment environment;
-    private String applicationSourceId;
-
-    private ObjectMapper objectMapper = new ObjectMapper();
-
-    @Override
-    public void init() {
-        // no implementation
+    public AppConfigServlet(AppConfigJsonWriter appConfigJsonWriter,
+                            ExposedResourceBundleMessageSource messageSource,
+                            ReadCompileBindTerminalPipeline pipeline,
+                            MetadataEnvironment environment,
+                            String applicationSourceId,
+                            ObjectMapper objectMapper) {
+        this.appConfigJsonWriter = appConfigJsonWriter;
+        this.messageSource = messageSource;
+        this.pipeline = pipeline;
+        this.environment = environment;
+        this.applicationSourceId = applicationSourceId;
+        this.objectMapper = objectMapper != null ? objectMapper : new ObjectMapper();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse res) throws IOException {
-        Map<String, Object> addedValues = new HashMap<>();
-        addedValues.put("menu", getMenu());
-        addedValues.put("messages", getMessages());
-
         res.setContentType("application/json");
-        res.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-        PrintWriter out = res.getWriter();
-        try {
+        res.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+        try (PrintWriter out = res.getWriter()) {
+            Map<String, Object> addedValues = new HashMap<>();
+            addedValues.put("menu", getMenu());
+            addedValues.put("messages", getMessages());
             appConfigJsonWriter.writeValues(out, addedValues);
         } catch (Exception e) {
+            log.error("Error generating application config", e);
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            e.printStackTrace(out);
-            log.error(e.getMessage(), e);
-        } finally {
-            out.close();
         }
     }
 
+    @SuppressWarnings("unchecked")
     private Map<String, Object> getMenu() {
         return objectMapper.convertValue(getApplication(), Map.class);
     }
@@ -84,31 +87,4 @@ public class AppConfigServlet extends HttpServlet {
         return map;
     }
 
-    public void setAppConfigJsonWriter(AppConfigJsonWriter appConfigJsonWriter) {
-        this.appConfigJsonWriter = appConfigJsonWriter;
-    }
-
-    public AppConfigJsonWriter getAppConfigJsonWriter() {
-        return appConfigJsonWriter;
-    }
-
-    public void setMessageSource(ExposedResourceBundleMessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
-
-    public void setPipeline(ReadCompileBindTerminalPipeline pipeline) {
-        this.pipeline = pipeline;
-    }
-
-    public void setApplicationSourceId(String applicationSourceId) {
-        this.applicationSourceId = applicationSourceId;
-    }
-
-    public void setEnvironment(MetadataEnvironment environment) {
-        this.environment = environment;
-    }
-
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
 }

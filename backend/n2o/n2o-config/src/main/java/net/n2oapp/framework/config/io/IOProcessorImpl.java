@@ -1197,7 +1197,7 @@ public class IOProcessorImpl implements IOProcessor {
         if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null && (hasText(getParentNameSpacePrefix(element)) || parentNamespace.getURI().equals(element.getNamespaceURI()))) {
             reader = factory.produce(element, parentNamespace, ArrayUtils.add(defaultNamespaces, element.getNamespace()));
         } else {
-            reader = factory.produce(element, parentNamespace, null);
+            reader = factory.produce(element, parentNamespace);
         }
         if (reader != null) {
             if (reader instanceof IOProcessorAware ioProcessorAware)

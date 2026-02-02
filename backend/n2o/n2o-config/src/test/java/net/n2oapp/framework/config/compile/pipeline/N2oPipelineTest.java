@@ -161,7 +161,7 @@ class N2oPipelineTest {
 
         //read + persist
         InputStream inputStream = N2oPipelineSupport.readPipeline(env).read().persist().get("pageId", N2oSimplePage.class);
-        String xml = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
+        String xml = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         assertThat(xml, containsString("<test xmlns=\"test-namespace\" />"));
     }
 
@@ -257,7 +257,7 @@ class N2oPipelineTest {
         when(readerFactory.read(pageInfo, null)).then(m -> createSource());
 
         InputStream inputStream = N2oPipelineSupport.persistPipeline(env).persist().get(createSource());
-        String xml = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
+        String xml = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         assertThat(xml, containsString("<test xmlns=\"test-namespace\" />"));
     }
 

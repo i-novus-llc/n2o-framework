@@ -16,7 +16,6 @@ import java.time.Duration;
  */
 public class N2oImageUploadControl extends N2oControl implements ImageUploadControl {
     private static final String UPLOAD_SHAPE_CLASS = "n2o-image-uploader-control--shape-";
-    private static final String INPUT = "input";
     private static final String STYLE = "style";
 
     @Override
