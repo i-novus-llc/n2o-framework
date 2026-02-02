@@ -743,6 +743,10 @@
           "name": "LineFieldSetAT. testEnabled"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/row_updates",
+          "name": "MultiFieldSetAT. testMultiSetRowUpdatesAndValidation"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/fieldset/multiset/add",
           "name": "MultiFieldSetAT. testAdd"
         },
