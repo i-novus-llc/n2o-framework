@@ -57,17 +57,19 @@
         width: 100%;
     }
 
+    // dnd элемент, скрыт по умолчанию
     .drag-handle.table-header-drag-handle {
         position: absolute;
-        padding: 0;
-        left: 0;
+        padding: 0 6px;
+        left: -16px;
         top: 1px;
         width: 100%;
-        height: 99%;
-        z-index: 1;
-        display: flex;
+        height: 100%;
+        z-index: 5;
         align-items: center;
         justify-content: flex-start;
+        display: flex;
+        opacity: 0;
     }
 
     .n2o-advanced-table-header-title {
@@ -79,12 +81,17 @@
         display: flex;
         width: 100%;
         z-index: 5;
-        margin-left: 7px;
-        padding-left: 8px;
     }
 
     .n2o-advanced-table-filter-btn {
         position: relative;
         z-index: 2;
+    }
+}
+
+.drag-header:hover {
+    // dnd элемент
+    .drag-handle.table-header-drag-handle {
+        opacity: 1;
     }
 }

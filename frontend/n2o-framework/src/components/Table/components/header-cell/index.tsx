@@ -28,6 +28,7 @@ export const TableHeaderCell: VFC<TableHeaderCellProps> = ({
         style, ...otherElementAttributes
     } = elementAttributes
     const cellRef = useRef<HTMLTableCellElement>(null)
+
     const onMouseDownResizeCell = useMouseDownResize(cellRef, style)
     let extStyle = style
 
