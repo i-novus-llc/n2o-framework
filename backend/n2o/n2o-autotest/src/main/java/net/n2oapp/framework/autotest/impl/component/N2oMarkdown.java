@@ -24,4 +24,9 @@ public class N2oMarkdown extends N2oSnippet implements Markdown {
     public void shouldHaveElement(String cssSelector) {
         element().$(cssSelector).shouldBe(Condition.exist);
     }
+
+    @Override
+    public void shouldNotHaveElement(String cssSelector) {
+        element().$(cssSelector).shouldNotBe(Condition.exist);
+    }
 }

@@ -10,6 +10,7 @@ public interface Markdown extends Snippet {
 
     /**
      * Возвращает маркдаун-кнопку по метке
+     *
      * @param label метка для поиска
      * @return Стандартная кнопка для автотестирования
      */
@@ -17,7 +18,15 @@ public interface Markdown extends Snippet {
 
     /**
      * Проверка наличия элемента по css селектору
+     *
      * @param cssSelector css селектр
      */
     void shouldHaveElement(String cssSelector);
+
+    /**
+     * Проверка отсутствия элемента по css селектору
+     *
+     * @param cssSelector css селектр
+     */
+    void shouldNotHaveElement(String cssSelector);
 }
