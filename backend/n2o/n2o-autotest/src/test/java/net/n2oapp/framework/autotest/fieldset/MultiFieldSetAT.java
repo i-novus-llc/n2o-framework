@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.fieldset;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.collection.Fields;
@@ -74,7 +73,9 @@ class MultiFieldSetAT extends AutoTestBase {
         multiSet.item(2).fields().field("input2").control(InputText.class).shouldHaveValue("def - 2");
 
         // 2. Проверка сдвига ошибок при добавлении в начало
-        // Добавить строку => сделать невалидной => добавить строку в начало => ошибка валидации сдвигается вниз, вместе с данными
+        // Добавить строку => сделать невалидной
+        // => добавить строку в начало
+        // => ошибка валидации сдвигается вниз, вместе с данными
         multiSet.item(0).fields().field("input").control(InputText.class).clear();
         multiSet.item(0).fields().field("input").shouldHaveValidationMessage(Condition.exist);
         ButtonField addToStartBtn = form.fields().field("add to start", ButtonField.class);
@@ -84,7 +85,10 @@ class MultiFieldSetAT extends AutoTestBase {
         multiSet.item(1).fields().field("input2").control(InputText.class).shouldHaveValue("def - 0");
 
         // 3. Проверка сдвига ошибок при потере фокуса
-        // Добавить строку => фокус на пустом обязательном поле => добавить строку в начало => ошибка валидации сдвигается вниз, вместе с данными (смысл в том что валидация на потерю фокуса вызывается асинхронно и раньше оставалась на первой строке, а не сдвигалась)
+        // Добавить строку => фокус на пустом обязательном поле
+        // => добавить строку в начало
+        // => ошибка валидации сдвигается вниз, вместе с данными
+        // (смысл в том что валидация на потерю фокуса вызывается асинхронно и раньше оставалась на первой строке, а не сдвигалась)
         ButtonField removeFromStartBtn = form.fields().field("remove from start", ButtonField.class);
         for (int i = 0; i < 3; i++)
             removeFromStartBtn.click();
@@ -95,7 +99,9 @@ class MultiFieldSetAT extends AutoTestBase {
         multiSet.item(1).fields().field("input").shouldHaveValidationMessage(Condition.exist);
 
         // 4. Проверка сдвига ошибок при удалении с начала
-        // Добавить n >= 2 строк => сделать через одну невалидными => удалить с начала списка => ошибки о валидациях сдвигаются наверх, вместе с данными
+        // Добавить n >= 2 строк => сделать через одну невалидными
+        // => удалить с начала списка
+        // => ошибки о валидациях сдвигаются наверх, вместе с данными
         removeFromStartBtn.click();
         removeFromStartBtn.click();
         for (int i = 0; i < 4; i++)
@@ -110,7 +116,9 @@ class MultiFieldSetAT extends AutoTestBase {
         multiSet.item(2).fields().field("input").shouldHaveValidationMessage(Condition.empty);
 
         // 5. Проверка сдвига ошибок при удалении случайной строки
-        // Добавить n >= 3 строк => сделать через одну невалидными => удалить случайную строку => ошибки о валидациях сдвигаются наверх, вместе с данными
+        // Добавить n >= 3 строк => сделать через одну невалидными
+        // => удалить случайную строку
+        // => ошибки о валидациях сдвигаются наверх, вместе с данными
         for (int i = 0; i < 4; i++)
             removeFromStartBtn.click();
         for (int i = 0; i < 5; i++)
@@ -126,7 +134,10 @@ class MultiFieldSetAT extends AutoTestBase {
         multiSet.item(3).fields().field("input").shouldHaveValidationMessage(Condition.exist);
 
         // 6. Проверка что ошибка не сохраняется при удалении с конца и добавлении новой
-        // Добавить n строк => сделать последнюю невалидной => удалить с конца => добавить строку по кнопке мультисета => строка добавилась без ошибки валидации от удалённой
+        // Добавить n строк => сделать последнюю невалидной
+        // => удалить с конца
+        // => добавить строку по кнопке мультисета
+        // => строка добавилась без ошибки валидации от удалённой
         ButtonField removeFromEndBtn = form.fields().field("remove from end", ButtonField.class);
         for (int i = 0; i < 4; i++)
             removeFromEndBtn.click();
@@ -139,7 +150,10 @@ class MultiFieldSetAT extends AutoTestBase {
         multiSet.item(2).fields().field("input").shouldHaveValidationMessage(Condition.empty);
 
         // 7. Аналогично через внешнюю кнопку добавления в конец
-        // Добавить n строк => сделать последнюю невалидной => удалить с конца => добавить строку в конец по внешней кнопке => строка добавилась без ошибки валидации от удалённой
+        // Добавить n строк => сделать последнюю невалидной
+        // => удалить с конца
+        // => добавить строку в конец по внешней кнопке
+        // => строка добавилась без ошибки валидации от удалённой
         multiSet.item(2).fields().field("input").control(InputText.class).clear();
         multiSet.item(2).fields().field("input").shouldHaveValidationMessage(Condition.exist);
         removeFromEndBtn.click();
@@ -147,8 +161,6 @@ class MultiFieldSetAT extends AutoTestBase {
         multiSet.item(2).fields().field("input").shouldHaveValidationMessage(Condition.empty);
         for (int i = 0; i < 3; i++)
             multiSet.item(i).fields().field("input2").control(InputText.class).shouldHaveValue("def - " + i);
-
-        Selenide.clearBrowserLocalStorage();
     }
 
     @Test
