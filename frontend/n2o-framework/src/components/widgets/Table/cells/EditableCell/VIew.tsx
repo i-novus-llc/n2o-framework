@@ -5,6 +5,6 @@ type ViewProps = Pick<HTMLAttributes<HTMLDivElement>, 'className'> & { maxRows?:
 
 export const View: FC<ViewProps> = ({ children, className, maxRows }) => (
     <div className={classNames('n2o-editable-cell-text', className)}>
-        <span className="n2o-snippet text-truncate" data-max-rows={maxRows}>{children}</span>
+        <span className="n2o-snippet text-truncate" data-max-rows={maxRows ?? 3}>{children}</span>
     </div>
 )
