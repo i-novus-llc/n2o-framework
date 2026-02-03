@@ -1,6 +1,6 @@
 [
   {
     "id": 1,
-    "firstName": "Mike<b>asd</b><img src=x onclick='alert(document.cookie)'><script>alert(document.domain)</script>"
+    "firstName": "Mike<b>asd</b><img src=x onerror='alert(document.cookie)'><script>alert(document.domain)</script>"
   }
 ]

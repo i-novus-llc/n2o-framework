@@ -1697,7 +1697,15 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/action/validate/multi_action",
+          "name": "ValidateActionAT. testBreakOnDangerValidateElement"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/validate/multi_action",
           "name": "ValidateActionAT. testBreakOnWarningValidateElement"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/action/validate/multi_action",
+          "name": "ValidateActionAT. testBreakOnFalseValidateElement"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/condition/button/enabled/simple",

@@ -143,10 +143,10 @@ class HtmlAT extends AutoTestBase {
 
     }
 
-    private static void check(Html htmlWidget) {
-        htmlWidget.shouldNotHaveElement("script");
-        htmlWidget.shouldNotHaveElement("[onerror]");
-        htmlWidget.shouldNotHaveElement("[onload]");
-        htmlWidget.shouldNotHaveElement("[onclick]");
+    private static void check(Html html) {
+        html.shouldNotHaveElement("script");
+        html.shouldNotHaveElement("[onerror]");
+        html.shouldNotHaveElement("[onload]");
+        html.shouldNotHaveElement("[onclick]");
     }
 }

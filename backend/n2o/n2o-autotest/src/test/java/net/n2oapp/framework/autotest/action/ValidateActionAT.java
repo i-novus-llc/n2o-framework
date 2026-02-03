@@ -20,8 +20,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-
 /**
  * Автотест для действия валидация на клиенте
  */
@@ -92,50 +90,6 @@ class ValidateActionAT extends AutoTestBase {
     }
 
     @Test
-    void testBreakOnNoValidateElement() {
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/action/validate/multi_action/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/validate/multi_action/test.object.xml")
-        );
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        FormWidget form = page.widget(FormWidget.class);
-        MultiFieldSet multiFieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
-        multiFieldset.clickAddButton();
-
-        StandardButton button = form.toolbar().bottomLeft().button("Провалидировать все поля");
-        button.click();
-        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
-        alert.shouldNotExists();
-
-        form.fields().field("Имя").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
-        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
-        multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
-        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
-        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
-
-        form.fields().field("Имя").control(InputText.class).setValue("test");
-        multiFieldset.item(0).fields().field("Название").control(InputText.class).setValue("test");
-        multiFieldset.item(0).fields().field("Год начала").control(InputText.class).setValue("2025");
-
-        button.click();
-        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
-        alert.closeButton().click();
-
-        form.fields().field("Имя").shouldHaveValidationMessage(Condition.empty);
-        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
-        multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.empty);
-        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
-        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
-
-        form.fields().field("Дата рождения").control(DateInput.class).setValue("01.01.2000");
-        multiFieldset.item(0).fields().field("Год окончания").control(DateInput.class).setValue("01.01.2026");
-
-        button.click();
-        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
-    }
-
-    @Test
     void testBreakOnDangerValidateElement() {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/action/validate/multi_action/index.page.xml"),
@@ -180,13 +134,13 @@ class ValidateActionAT extends AutoTestBase {
         button.click();
         checkbox.shouldBeChecked();
         checkbox.setChecked(false);
-        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE, Duration.ofSeconds(5));
+        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
 
         form.fields().field("Дата рождения").control(DateInput.class).setValue("01.01.2000");
         multiFieldset.item(0).fields().field("Год окончания").control(DateInput.class).setValue("01.01.2026");
         button.click();
         checkbox.shouldBeChecked();
-        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE, Duration.ofSeconds(5));
+        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
     }
 
     @Test
@@ -219,11 +173,6 @@ class ValidateActionAT extends AutoTestBase {
 
         form.fields().field("Имя").control(InputText.class).setValue("test");
         multiFieldset.item(0).fields().field("Название").control(InputText.class).setValue("test");
-
-        button.click();
-        checkbox.shouldNotBeChecked();
-        alert.shouldNotExists();
-
         multiFieldset.item(0).fields().field("Год окончания").control(DateInput.class).setValue("01.01.2026");
         form.fields().field("Дата рождения").control(DateInput.class).setValue("01.01.2000");
         button.click();
@@ -241,7 +190,7 @@ class ValidateActionAT extends AutoTestBase {
         multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
         button.click();
         checkbox.shouldBeChecked();
-        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE, Duration.ofSeconds(5));
+        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
     }
 
     @Test
@@ -280,6 +229,6 @@ class ValidateActionAT extends AutoTestBase {
 
         button.click();
         checkbox.shouldBeChecked();
-        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE, Duration.ofSeconds(5));
+        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
     }
 }

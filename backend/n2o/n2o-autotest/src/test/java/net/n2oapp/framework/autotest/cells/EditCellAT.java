@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.cells;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.EditCell;
@@ -51,7 +50,6 @@ class EditCellAT extends AutoTestBase {
 
     @Test
     void testSimple() {
-        Configuration.headless = false;
         setResourcePath("net/n2oapp/framework/autotest/cells/edit/simple");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/cells/edit/simple/index.page.xml"),
