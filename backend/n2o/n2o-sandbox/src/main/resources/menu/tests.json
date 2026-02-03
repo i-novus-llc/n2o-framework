@@ -952,6 +952,10 @@
           "name": "HtmlAT. testHtmlPlaceholder"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/control/html/html_with_xss",
+          "name": "HtmlAT. testXSS"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/control/image_field",
           "name": "ImageFieldAT"
         },

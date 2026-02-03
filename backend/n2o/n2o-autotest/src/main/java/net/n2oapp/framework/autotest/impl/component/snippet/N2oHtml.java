@@ -15,6 +15,11 @@ public class N2oHtml extends N2oSnippet implements Html {
     }
 
     @Override
+    public void shouldNotHaveElement(String cssSelector) {
+        element().$(cssSelector).shouldNotBe(Condition.exist);
+    }
+
+    @Override
     public void shouldHaveText(String text, Duration... duration) {
         should(Condition.text(text), duration);
     }
@@ -22,8 +27,6 @@ public class N2oHtml extends N2oSnippet implements Html {
     @Override
     public void shouldHaveElementWithAttributes(String cssSelector, Map<String, String> attributes) {
         SelenideElement element = element().$(cssSelector).shouldBe(Condition.exist);
-        attributes.entrySet().forEach(
-                e -> element.shouldHave(Condition.attribute(e.getKey(), e.getValue()))
-        );
+        attributes.forEach((key, value) -> element.shouldHave(Condition.attribute(key, value)));
     }
 }

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.Markdown;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
@@ -112,5 +113,40 @@ class HtmlAT extends AutoTestBase {
         Html html11 = page.regions().region(0, SimpleRegion.class).content().widget(10, FormWidget.class).fields().field(Html.class);
         html11.shouldExists();
         html11.shouldHaveText("-10- Mike");
+    }
+
+    @Test
+    void testXSS() {
+        setResourcePath("net/n2oapp/framework/autotest/control/html/html_with_xss");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/html/html_with_xss/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/html/html_with_xss/test.query.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        Html htmlWidget = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class).fields().field(Html.class);
+        htmlWidget.shouldExists();
+        htmlWidget.shouldHaveText("Widget Mikeasd");
+        check(htmlWidget);
+
+        Html htmlField = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class).fields().field(0, Html.class);
+        htmlField.shouldExists();
+        htmlField.shouldHaveText("Field Mikeasd");
+        check(htmlField);
+
+        Markdown markdown = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class).fields().field(1, Markdown.class);
+        markdown.shouldExists();
+        markdown.shouldHaveText("Markdown Mikeasd");
+        markdown.shouldNotHaveElement("script");
+        markdown.shouldNotHaveElement("[onerror]");
+        markdown.shouldNotHaveElement("[onload]");
+        markdown.shouldNotHaveElement("[onclick]");
+
+    }
+
+    private static void check(Html htmlWidget) {
+        htmlWidget.shouldNotHaveElement("script");
+        htmlWidget.shouldNotHaveElement("[onerror]");
+        htmlWidget.shouldNotHaveElement("[onload]");
+        htmlWidget.shouldNotHaveElement("[onclick]");
     }
 }
