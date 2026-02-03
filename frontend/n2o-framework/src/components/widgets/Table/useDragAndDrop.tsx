@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, CSSProperties } from 'react'
 
 const GHOST_CLASSNAME = 'n2o-draggable-header-ghost'
 const DROP_INDICATOR_CLASSNAME = 'n2o-draggable-header-ghost-indicator'
@@ -110,6 +110,7 @@ export const useDragAndDrop = ({
     const headerRectsRef = useRef<HeaderRect[]>([])
     const containerRectRef = useRef<DOMRect | null>(null)
     const [draggingId, setDraggingId] = useState<string | null>(null)
+    const [opacityStyle, setStyle] = useState<CSSProperties>({})
 
     const handleMouseMove = (e: MouseEvent) => {
         if (!ghostRef.current || !containerRectRef.current) { return }
@@ -236,6 +237,16 @@ export const useDragAndDrop = ({
         }
     }, [])
 
+    useEffect(() => {
+        if (draggingId) {
+            setStyle(() => ({ opacity: 0 }))
+
+            return
+        }
+
+        setStyle(() => ({}))
+    }, [draggingId])
+
     return {
         onMouseDown,
         draggingId,
@@ -243,8 +254,8 @@ export const useDragAndDrop = ({
             [DATA_DRAGGABLE]: true,
             style: {
                 cursor: 'grab',
-                opacity: draggingId ? 0.5 : 1,
                 transition: 'opacity 0.2s',
+                ...opacityStyle,
             },
             dragTitleSelector,
         },
