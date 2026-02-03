@@ -67,7 +67,7 @@ class FormAT extends AutoTestBase {
         surname.control(InputText.class).click();
 
         name.shouldBeRequired();
-        name.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        name.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
 
         name.control(InputText.class).click();
         name.control(InputText.class).setValue("1");

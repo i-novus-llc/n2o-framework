@@ -201,15 +201,15 @@ class TabsRegionAT extends AutoTestBase {
         table.columns().rows().row(0).cell(1).shouldHaveText("test2");
 
         filter.setValue("3");
-        table.filters().toolbar().button(searchButtonLabel).click();
+        table.filters().toolbar().button(SEARCH_BUTTON_LABEL).click();
         table.columns().rows().shouldHaveSize(1);
         table.columns().rows().row(0).cell(1).shouldHaveText("test3");
 
-        table.filters().toolbar().button(clearButtonLabel).click();
+        table.filters().toolbar().button(CLEAR_BUTTON_LABEL).click();
         table.columns().rows().shouldHaveSize(4);
 
         filter.setValue("1");
-        table.filters().toolbar().button(searchButtonLabel).click();
+        table.filters().toolbar().button(SEARCH_BUTTON_LABEL).click();
         table.columns().rows().shouldHaveSize(1);
     }
 

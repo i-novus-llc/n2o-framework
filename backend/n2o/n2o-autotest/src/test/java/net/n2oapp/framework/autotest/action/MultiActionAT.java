@@ -164,6 +164,6 @@ class MultiActionAT extends AutoTestBase {
         alert.shouldHaveText("Запись создана, переход в режим редактирования");
         alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldExists();
-        alert.shouldHaveText(successAlertMessage);
+        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
     }
 }

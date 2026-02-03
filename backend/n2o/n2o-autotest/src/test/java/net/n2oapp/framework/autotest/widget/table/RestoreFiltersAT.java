@@ -63,7 +63,7 @@ class RestoreFiltersAT extends AutoTestBase {
         page.shouldExists();
 
         TableWidget table = page.widget(TableWidget.class);
-        Button search = table.filters().toolbar().button(searchButtonLabel);
+        Button search = table.filters().toolbar().button(SEARCH_BUTTON_LABEL);
         InputText filter = table.filters().fields().field("name").control(InputText.class);
         Button openPage = table.toolbar().topLeft().button("open-page");
         Button showModal = table.toolbar().topLeft().button("show-modal");
@@ -135,7 +135,7 @@ class RestoreFiltersAT extends AutoTestBase {
         kindInpSelect.dropdown().selectMulti(0, 2);
         kindInpSelect.shouldSelectedMultiSize(2);
         kindInpSelect.closePopup();
-        table.filters().toolbar().button(searchButtonLabel).click();
+        table.filters().toolbar().button(SEARCH_BUTTON_LABEL).click();
         table.paging().shouldHaveTotalElements(3);
 
         Selenide.refresh();

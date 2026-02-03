@@ -66,7 +66,7 @@ class InvokeActionAT extends AutoTestBase {
         secondValue2.click();
         secondValue2.setValue("3");
 
-        StandardButton btn = page.toolbar().bottomRight().button(saveButtonLabel);
+        StandardButton btn = page.toolbar().bottomRight().button(SAVE_BUTTON_LABEL);
         btn.click();
         Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldHaveColor(ColorsEnum.SUCCESS);

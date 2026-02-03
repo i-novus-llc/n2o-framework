@@ -615,8 +615,8 @@ class MultiFieldSetAT extends AutoTestBase {
         StandardButton validateBtn = formWidget.toolbar().topLeft().button("Validate");
         validateBtn.click();
 
-        surnameFirst.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
-        nameFirst.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        surnameFirst.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
+        nameFirst.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
         ageFirst.shouldHaveValidationMessage(Condition.text("Не заполнено поле"));
 
         fieldset.clickAddButton();

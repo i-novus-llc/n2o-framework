@@ -61,7 +61,7 @@ class ValidationMessageAT extends AutoTestBase {
         textAreaField.control(TextArea.class).shouldBeEmpty();
 
         form.toolbar().bottomLeft().button("Check").click();
-        textAreaField.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        textAreaField.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
 
         rg.check("requiring false");
         textAreaField.shouldNotBeRequired();
@@ -70,11 +70,11 @@ class ValidationMessageAT extends AutoTestBase {
 
         rg.check("requiring true");
         textAreaField.shouldBeRequired();
-        textAreaField.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        textAreaField.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
         textAreaField.control(TextArea.class).shouldBeEnabled();
 
         form.toolbar().bottomLeft().button("Check").click();
-        textAreaField.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        textAreaField.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
         textAreaField.control(TextArea.class).shouldBeEnabled();
     }
 
@@ -138,6 +138,6 @@ class ValidationMessageAT extends AutoTestBase {
         form.toolbar().bottomLeft().button("Empty").click();
 
         field.shouldBeRequired();
-        field.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        field.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
     }
 }

@@ -410,7 +410,7 @@ class TableAT extends AutoTestBase {
         page.shouldExists();
 
         TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
-        StandardButton button = table.filters().toolbar().button(clearButtonLabel);
+        StandardButton button = table.filters().toolbar().button(CLEAR_BUTTON_LABEL);
         InputText input = table.filters().fields().field("name").control(InputText.class);
 
         button.shouldExists();

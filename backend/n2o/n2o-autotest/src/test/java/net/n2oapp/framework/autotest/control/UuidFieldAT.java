@@ -48,7 +48,7 @@ class UuidFieldAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        StandardButton saveButton = page.toolbar().bottomLeft().button(saveButtonLabel);
+        StandardButton saveButton = page.toolbar().bottomLeft().button(SAVE_BUTTON_LABEL);
         saveButton.shouldBeEnabled();
 
         UuidField uuidField = page.widget(FormWidget.class).fields().field("uuid").control(UuidField.class);
@@ -56,7 +56,7 @@ class UuidFieldAT extends AutoTestBase {
         uuidField.setValue("dfd11111-1111-1111-8111-111111111111");
         uuidField.shouldHaveValue("dfd11111-1111-1111-8111-111111111111");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(successAlertMessage);
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
         uuidField.shouldHaveInvalidText(Condition.empty);
 
         uuidField.setValue("123");
