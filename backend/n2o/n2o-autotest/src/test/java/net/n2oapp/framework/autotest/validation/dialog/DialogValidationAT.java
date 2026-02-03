@@ -68,7 +68,7 @@ class DialogValidationAT extends AutoTestBase {
         modal.shouldExists();
 
         FormWidget modalForm = modal.content(SimplePage.class).widget(FormWidget.class);
-        StandardButton modalSaveBtn = modalForm.toolbar().topLeft().button(saveButtonLabel);
+        StandardButton modalSaveBtn = modalForm.toolbar().topLeft().button(SAVE_BUTTON_LABEL);
         InputText name = modalForm.fields().field("name").control(InputText.class);
         InputText age = modalForm.fields().field("age").control(InputText.class);
 

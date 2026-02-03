@@ -142,10 +142,10 @@ class FilterButtonsAT extends AutoTestBase {
         InputText input = table.filters().fields().field("name").control(InputText.class);
         input.click();
         input.setValue("test");
-        table.filters().toolbar().button(searchButtonLabel).click();
+        table.filters().toolbar().button(SEARCH_BUTTON_LABEL).click();
         table.columns().rows().shouldHaveSize(4);
 
-        table.filters().toolbar().button(clearButtonLabel).click();
+        table.filters().toolbar().button(CLEAR_BUTTON_LABEL).click();
         table.columns().rows().shouldHaveSize(0);
         verifyNeverGetDataInvocation(2, "Запрос за данными таблицы при fetch-on-clear=false");
         input.shouldBeEmpty();
@@ -167,7 +167,7 @@ class FilterButtonsAT extends AutoTestBase {
         // fetch-on-enter="false"
         TableWidget table = content.widget(0, TableWidget.class);
         TableWidget.Filters filters = table.filters();
-        StandardButton searchButton = filters.toolbar().button(searchButtonLabel);
+        StandardButton searchButton = filters.toolbar().button(SEARCH_BUTTON_LABEL);
         InputText minPriceInput = filters.fields().field("Минимальная цена").control(InputText.class);
         InputText maxPriceInput = filters.fields().field("Максимальная цена").control(InputText.class);
 
@@ -185,7 +185,7 @@ class FilterButtonsAT extends AutoTestBase {
         // fetch-on-enter="true"
         table = content.widget(1, TableWidget.class);
         filters = table.filters();
-        searchButton = filters.toolbar().button(searchButtonLabel);
+        searchButton = filters.toolbar().button(SEARCH_BUTTON_LABEL);
         minPriceInput = filters.fields().field("Минимальная цена").control(InputText.class);
         maxPriceInput = filters.fields().field("Максимальная цена").control(InputText.class);
 

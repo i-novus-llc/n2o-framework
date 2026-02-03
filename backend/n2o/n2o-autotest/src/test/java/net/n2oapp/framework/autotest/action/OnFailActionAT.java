@@ -50,7 +50,7 @@ class OnFailActionAT extends AutoTestBase {
         form.shouldExists();
         InputText inputText = form.fields().field("Введите имя").control(InputText.class);
         inputText.setValue("Петя");
-        StandardButton saveBtn = form.toolbar().bottomLeft().button(saveButtonLabel);
+        StandardButton saveBtn = form.toolbar().bottomLeft().button(SAVE_BUTTON_LABEL);
         saveBtn.click();
 
         Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);

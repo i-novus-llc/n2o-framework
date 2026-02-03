@@ -47,7 +47,7 @@ class SnilsFieldAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        StandardButton saveButton = page.toolbar().bottomLeft().button(saveButtonLabel);
+        StandardButton saveButton = page.toolbar().bottomLeft().button(SAVE_BUTTON_LABEL);
         saveButton.shouldBeEnabled();
 
         SnilsField snilsField = page.widget(FormWidget.class).fields().field("snils").control(SnilsField.class);
@@ -55,7 +55,7 @@ class SnilsFieldAT extends AutoTestBase {
         snilsField.setValue("424-225-277 48");
         snilsField.shouldHaveValue("424-225-277 48");
         saveButton.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(successAlertMessage);
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
         snilsField.shouldHaveInvalidText(Condition.empty);
 
         snilsField.setValue("123");

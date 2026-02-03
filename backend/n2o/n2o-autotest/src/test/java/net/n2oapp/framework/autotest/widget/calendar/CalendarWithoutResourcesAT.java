@@ -215,7 +215,7 @@ class CalendarWithoutResourcesAT extends AutoTestBase {
         // СОЗДАНИЕ события
         fields.field("Название события").control(InputText.class).click();
         fields.field("Название события").control(InputText.class).setValue("Новое событие");
-        modal.toolbar().bottomRight().button(saveButtonLabel).click();
+        modal.toolbar().bottomRight().button(SAVE_BUTTON_LABEL).click();
         modal.shouldNotExists();
         // проверка, что событие появилось в календаре
         CalendarEvent event3 = dayView.event("Новое событие");

@@ -48,7 +48,7 @@ class CustomActionsAT extends AutoTestBase {
         customInvoke.click();
 
         Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
-        alert.shouldHaveText(successAlertMessage);
+        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
 
         page.breadcrumb().crumb(1).shouldHaveLabel("Страница для редиректа");
     }

@@ -55,7 +55,7 @@ class DisabledFieldValidationAT extends AutoTestBase {
 
         name.setValue("Den");
         validateBtn.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(successAlertMessage);
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
 
         name.setValue("Anna");
         validateBtn.click();

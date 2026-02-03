@@ -25,7 +25,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import java.util.Map;
@@ -51,11 +50,12 @@ public class AutoTestBase extends N2oTestBase {
     @LocalServerPort
     protected int port;
     protected Logs logs;
-    protected String requiredValidationMessage;
-    protected String successAlertMessage;
-    protected String searchButtonLabel;
-    protected String clearButtonLabel;
-    protected String saveButtonLabel;
+    protected static final String REQUIRED_VALIDATION_MESSAGE = "Поле обязательно для заполнения";
+    protected static final String SUCCESS_ALERT_MESSAGE = "Данные сохранены";
+    protected static final String SEARCH_BUTTON_LABEL = "Найти";
+    protected static final String CLEAR_BUTTON_LABEL = "Сбросить";
+    protected static final String SAVE_BUTTON_LABEL = "Сохранить";
+
     @Autowired
     private TestDataProviderEngine provider;
     private N2oController n2oController;
@@ -111,12 +111,6 @@ public class AutoTestBase extends N2oTestBase {
         super.configure(builder);
         builder.transformers(new TestEngineQueryTransformer());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/default/default.application.xml"));
-        MessageSourceAccessor messageSource = builder.getEnvironment().getMessageSource();
-        requiredValidationMessage = messageSource.getMessage("n2o.required.field");
-        successAlertMessage = messageSource.getMessage("n2o.success");
-        searchButtonLabel = messageSource.getMessage("n2o.api.control.search_button.label");
-        clearButtonLabel = messageSource.getMessage("n2o.api.control.clear_button.label");
-        saveButtonLabel = messageSource.getMessage("n2o.save");
     }
 
     protected String getBaseUrl() {

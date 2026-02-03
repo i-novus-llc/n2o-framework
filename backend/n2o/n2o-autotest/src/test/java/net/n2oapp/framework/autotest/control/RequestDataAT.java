@@ -64,7 +64,7 @@ class RequestDataAT extends AutoTestBase {
                 .control(InputSelect.class);
         AutoComplete autoCompleteMulti = page.widget(FormWidget.class).fields().field("auto_multi")
                 .control(AutoComplete.class);
-        StandardButton save = page.widget(FormWidget.class).toolbar().topLeft().button(saveButtonLabel);
+        StandardButton save = page.widget(FormWidget.class).toolbar().topLeft().button(SAVE_BUTTON_LABEL);
 
         checkFields(select, inputSelect, autoComplete, inputSelectMulti, autoCompleteMulti);
 

@@ -68,7 +68,7 @@ class ValidationTabMessageAT extends AutoTestBase {
         Modal modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Создание записи");
         StandardPage newPage = modal.content(StandardPage.class);
-        StandardButton saveBtn = modal.toolbar().bottomRight().button(saveButtonLabel);
+        StandardButton saveBtn = modal.toolbar().bottomRight().button(SAVE_BUTTON_LABEL);
         StandardButton validationBtn = modal.toolbar().bottomRight().button("Валидировать страницу");
 
         validationBtn.click();
@@ -90,7 +90,7 @@ class ValidationTabMessageAT extends AutoTestBase {
         page.breadcrumb().shouldHaveSize(2);
         page.breadcrumb().crumb(1).shouldHaveLabel("Создание записи");
 
-        StandardButton saveBtn = newPage.toolbar().bottomRight().button(saveButtonLabel);
+        StandardButton saveBtn = newPage.toolbar().bottomRight().button(SAVE_BUTTON_LABEL);
         StandardButton validationBtn = newPage.toolbar().bottomRight().button("Валидировать страницу");
 
         validationBtn.click();
@@ -119,7 +119,7 @@ class ValidationTabMessageAT extends AutoTestBase {
         tabs.tab(2).shouldBeInvalid();
 
         nameInputText.clear();
-        nameField.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        nameField.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
 
         nameInputText.click();
         nameInputText.setValue("unique");
@@ -143,7 +143,7 @@ class ValidationTabMessageAT extends AutoTestBase {
         orgInputText.click();
         orgInputText.setValue("test");
         orgInputText.clear();
-        orgField.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        orgField.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
 
         orgInputText.click();
         orgInputText.setValue("test");
@@ -168,7 +168,7 @@ class ValidationTabMessageAT extends AutoTestBase {
                 .field("Отдел");
         InputText comInputText = comField.control(InputText.class);
 
-        comField.shouldHaveValidationMessage(Condition.text(requiredValidationMessage));
+        comField.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
 
         comInputText.click();
         comInputText.setValue("test");
@@ -180,7 +180,7 @@ class ValidationTabMessageAT extends AutoTestBase {
         tabs.tab(2).shouldBeValid();
 
         saveBtn.click();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(successAlertMessage);
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
     }
 
     @Test
