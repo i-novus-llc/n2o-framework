@@ -2,6 +2,9 @@ package net.n2oapp.framework.autotest.condition.field.dependency.reset;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.control.*;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
+import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
+import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -152,6 +155,43 @@ class FieldResetDependencyAT extends AutoTestBase {
         name.setValue("BMW");
         price.shouldBeEmpty();
         defaultValue.shouldHaveValue("on name");
-        initValue.shouldHaveValue(  "on name");
+        initValue.shouldHaveValue("on name");
+    }
+
+    @Test
+    void testMultiSet() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/multi_set/index.page.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FormWidget form = page.widget(FormWidget.class);
+
+        MultiFieldSet mainMultiSet = form.fieldsets().fieldset(0, MultiFieldSet.class);
+        mainMultiSet.clickAddButton();
+        mainMultiSet.shouldHaveItems(1);
+        MultiFieldSetItem mainItem = mainMultiSet.item(0);
+        MultiFieldSet nestedMultiSet = mainItem.fieldsets().fieldset(0, MultiFieldSet.class);
+        nestedMultiSet.clickAddButton("inner add");
+        nestedMultiSet.clickAddButton("inner add");
+        nestedMultiSet.clickAddButton("inner add");
+        nestedMultiSet.shouldHaveItems(3);
+
+        nestedMultiSet.item(0).fields().field("test").control(OutputText.class).shouldHaveValue("text - 0.0");
+        nestedMultiSet.item(1).fields().field("test").control(OutputText.class).shouldHaveValue("text - 0.1");
+        nestedMultiSet.item(2).fields().field("test").control(OutputText.class).shouldHaveValue("text - 0.2");
+
+        nestedMultiSet.item(0).fields().field("o1").control(OutputText.class).shouldHaveValue("text - 0.0");
+        nestedMultiSet.item(1).fields().field("o1").control(OutputText.class).shouldHaveValue("text - 0.1");
+        nestedMultiSet.item(2).fields().field("o1").control(OutputText.class).shouldHaveValue("text - 0.2");
+
+        nestedMultiSet.item(0).fields().field("remove", ButtonField.class).click();
+        nestedMultiSet.shouldHaveItems(2);
+
+        nestedMultiSet.item(0).fields().field("test").control(OutputText.class).shouldHaveValue("text - 0.1");
+        nestedMultiSet.item(1).fields().field("test").control(OutputText.class).shouldHaveValue("text - 0.2");
+
+        nestedMultiSet.item(0).fields().field("o1").control(OutputText.class).shouldHaveValue("text - 0.1");
+        nestedMultiSet.item(1).fields().field("o1").control(OutputText.class).shouldHaveValue("text - 0.2");
     }
 }
