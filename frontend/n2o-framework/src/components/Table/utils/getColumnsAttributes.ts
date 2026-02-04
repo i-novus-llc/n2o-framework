@@ -34,7 +34,7 @@ export const getAttributesFromHeader = (cells: HeaderCell[], parentFix?: HeaderC
                 className: fixed ? classNames(`sticky-cell sticky-${fixed}`, className) : className,
                 style: {
                     width,
-                    minWidth: style?.minWidth,
+                    minWidth: style?.minWidth ?? (resizable ? undefined : width),
                     maxWidth,
                 },
             }

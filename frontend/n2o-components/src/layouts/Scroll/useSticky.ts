@@ -13,7 +13,7 @@ export const useSticky = (
     useEffect(() => {
         let offset = 0
 
-        if (!scrollContainer ||!scrollContent || !container || !target) { return }
+        if (!scrollContainer || !scrollContent || !container || !target) { return }
 
         const onScroll = () => {
             const { scrollTop } = scrollContainer

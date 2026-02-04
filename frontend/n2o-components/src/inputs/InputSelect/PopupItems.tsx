@@ -31,6 +31,7 @@ type Props = {
     hasCheckboxes?: boolean
     iconFieldId?: string
     imageFieldId?: string
+    isExpanded?: boolean
     labelFieldId?: string
     loading?: boolean
     onRemoveItem?: InputContentProps['onRemoveItem']
@@ -93,9 +94,10 @@ export function PopupItems({
     popUpItemRef,
     multiSelect = false,
     searchMinLengthHint = null,
+    isExpanded,
 }: Props) {
     const handleRef = (item: React.ReactInstance | null | undefined) => {
-        if (loading) { return }
+        if (loading || !isExpanded) { return }
 
         if (item) {
             // eslint-disable-next-line react/no-find-dom-node
