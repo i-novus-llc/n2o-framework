@@ -129,7 +129,7 @@ export class PopupList extends Component<Props> {
                     ref={this.setMenuElement}
                 >
                     {children}
-                    <PopupItems {...omit(rest, ['needAddFilter', 'filterValue', 'expandPopUp', 'fetchData', 'isExpanded'])} />
+                    <PopupItems {...omit(rest, ['needAddFilter', 'filterValue', 'expandPopUp', 'fetchData'])} />
                 </div>
             </div>
         )

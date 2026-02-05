@@ -58,7 +58,7 @@ const Cell = ({
             />
             <View
                 className={classNames({ 'editable-cell-empty': isEmpty })}
-                maxRows={isMultiline ? control.maxRows : undefined}
+                maxRows={isMultiline ? control.maxRows || 3 : undefined}
             >
                 <FormattedText format={format}>{viewValue}</FormattedText>
             </View>
