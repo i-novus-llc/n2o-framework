@@ -3,6 +3,7 @@
     <form>
         <fields>
             <text-area id="test" placeholder="test" min-rows="10" max-rows="20"/>
+            <text-area id="test2"/>
         </fields>
     </form>
 </simple-page>
