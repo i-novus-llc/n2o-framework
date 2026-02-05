@@ -4,21 +4,22 @@ import {
     select,
     delay,
 } from 'redux-saga/effects'
+import isEmpty from 'lodash/isEmpty'
 
 import { setModel } from '../../models/store'
 import { generateErrorMeta } from '../../../utils/generateErrorMeta'
 import { id as generateId } from '../../../utils/id'
 import { ModelPrefix } from '../../../core/datasource/const'
-import { Meta, ValidationFieldMessage } from '../../../sagas/types'
+import { Meta } from '../../../sagas/types'
 import { ValidationResult, ValidationsKey } from '../../../core/validation/types'
 import { hasError } from '../../../core/validation/validateModel'
 import { dataSourceByIdSelector } from '../selectors'
 import {
-    failValidate,
     rejectRequest,
     resolveRequest,
     startValidate,
     setAdditionalInfo,
+    endValidation,
 } from '../store'
 import type { Provider, QueryResult, Query } from '../Provider'
 import { ProviderType } from '../Provider'
@@ -95,14 +96,20 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
         const errorMeta = err?.json?.meta || {}
 
         if (errorMeta.messages) {
-            const fields: Record<string, ValidationFieldMessage[]> = {}
+            const messages: Record<string, ValidationResult[]> = {}
 
             for (const [fieldName, error] of Object.entries(errorMeta.messages.fields)) {
-                fields[fieldName] = Array.isArray(error) ? error : [error]
+                messages[fieldName] = Array.isArray(error) ? error : [error]
             }
 
-            // @ts-ignore Проблема с типизацией
-            yield put(failValidate(id, fields, ModelPrefix.filter, { touched: true }))
+            if (!isEmpty(messages)) {
+                yield put(endValidation({
+                    id,
+                    prefix: ModelPrefix.filter,
+                    messages,
+                    fields: Object.keys(messages),
+                }, { touched: true }))
+            }
         }
 
         // eslint-disable-next-line no-console

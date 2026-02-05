@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/isEmpty'
 import { Dispatch } from 'redux'
 
 import {
@@ -7,7 +6,7 @@ import {
     dataSourcePageIdSelector,
 } from '../../ducks/datasource/selectors'
 import { makePageUrlByIdSelector } from '../../ducks/pages/selectors'
-import { failValidate, resetValidation } from '../../ducks/datasource/store'
+import { endValidation } from '../../ducks/datasource/store'
 import type { State as GlobalState } from '../../ducks/State'
 import { ModelPrefix } from '../datasource/const'
 
@@ -39,17 +38,13 @@ export const validate = async (
     )(state)
     const model = dataSourceModelByPrefixSelector(datasourceId, prefix)(state) as Record<string, unknown>
 
-    dispatch(resetValidation(datasourceId, [], prefix))
-
     const pageId = dataSourcePageIdSelector(datasourceId)(state) || ''
     const pageUrl = makePageUrlByIdSelector(pageId)(state)
 
     const modelMessages = await validateModel(model, validation, { datasourceId, pageUrl })
     const messages = addFieldMessages(datasourceId, modelMessages, state)
 
-    if (!isEmpty(messages)) {
-        dispatch(failValidate(datasourceId, messages, prefix, { touched }))
-    }
+    dispatch(endValidation({ id: datasourceId, messages, prefix }, { touched }))
 
     return !hasError(messages)
 }

@@ -1,6 +1,7 @@
 // TODO пока тут оставил, в будущем, наверно, вся meta переедет вместе с типами
 import { Meta as N2OMeta } from '../ducks/Action'
 import { LinkTarget } from '../components/core/router/types'
+import { ValidationResult } from '../core/validation/types'
 
 export enum MetaType {
     Refresh = 'refresh',
@@ -66,5 +67,5 @@ export interface ValidationFieldMessage {
 
 export interface ValidationMessagesMeta {
     form: string
-    fields: Record<string, ValidationFieldMessage>
+    fields: Record<string, ValidationResult | ValidationResult[]>
 }

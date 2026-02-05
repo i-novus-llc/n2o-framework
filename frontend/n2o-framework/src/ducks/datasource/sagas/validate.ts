@@ -1,7 +1,4 @@
-import { delay, fork, put, select } from 'redux-saga/effects'
-import isEmpty from 'lodash/isEmpty'
-import isEqual from 'lodash/isEqual'
-import pick from 'lodash/pick'
+import { fork, put, select } from 'redux-saga/effects'
 import { Task } from 'redux-saga'
 
 import {
@@ -10,7 +7,7 @@ import {
     dataSourcePageIdSelector,
     dataSourceValidationSelector,
 } from '../selectors'
-import { failValidate, resetValidation } from '../store'
+import { endValidation } from '../store'
 import type { StartValidateAction } from '../Actions'
 import { validateFields, validateModel } from '../../../core/validation/validateModel'
 import { addFieldMessages } from '../../../core/validation/addFieldMessages'
@@ -61,16 +58,6 @@ export function* validate({ payload, meta }: StartValidateAction) {
         yield prevProcess.task.cancel()
     }
 
-    const currentMessages: ReturnType<ReturnType<typeof dataSourceErrors>> =
-            yield select(dataSourceErrors(id, prefix))
-    const fieldsMessages = fields2Validate
-        ? pick(currentMessages, Object.keys(fields2Validate))
-        : currentMessages
-
-    // TODO удалить после рефакторинга форм
-    // после blur валидация срабатывает раньше, чем сетится модель, поэтому тут временный костылек
-    yield delay(16)
-
     const model: Record<string, unknown> =
             yield select(dataSourceModelByPrefixSelector(id, prefix))
     const abortController = new AbortController()
@@ -94,15 +81,8 @@ export function* validate({ payload, meta }: StartValidateAction) {
 
     const modelMessages: Awaited<ReturnType<typeof validateModel>> = yield currentProcess.task.toPromise()
     const messages = addFieldMessages(id, modelMessages, yield select())
-    const fieldsToReset = Object.keys(fieldsMessages).filter(field => isEmpty(messages[field]))
 
-    if (!isEmpty(fieldsToReset)) {
-        yield put(resetValidation(id, fieldsToReset, prefix))
-    }
-
-    if (!isEmpty(messages) && !isEqual(messages, fieldsMessages)) {
-        yield put(failValidate(id, messages, prefix, meta))
-    }
+    yield put(endValidation({ id, messages, prefix, fields: Object.keys(fields2Validate || {}) }, meta))
 
     asyncValidations[id] = null
 

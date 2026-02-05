@@ -14,7 +14,7 @@ import {
     makeWidgetFetchOnVisibility,
     makeWidgetIsInitSelector,
 } from '../widgets/selectors'
-import { dataRequest, failValidate, resetValidation } from '../datasource/store'
+import { dataRequest, endValidation } from '../datasource/store'
 import { dataSourcesSelector } from '../datasource/selectors'
 import { State as DataSources } from '../datasource/DataSource'
 import { formsSelector } from '../form/selectors'
@@ -245,7 +245,7 @@ function* mapUrl(value: string) {
 
 export const sagas = [
     takeEvery(registerRegion, createServiceInfo),
-    takeEvery([failValidate, resetValidation], validateTabs),
+    takeEvery(endValidation.type, validateTabs),
     takeEvery(setTabInvalid, autoSwitch),
     // @ts-ignore FIXME переделать на rtk экшен
     takeEvery(MAP_URL, mapUrl),
