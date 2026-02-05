@@ -1015,12 +1015,12 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="min-rows" type="xs:positiveInteger">
+                <xs:attribute name="min-rows" type="xs:positiveInteger" default="3">
                     <xs:annotation>
                         <xs:documentation>Минимальная высота поля в строках текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="max-rows" type="xs:positiveInteger">
+                <xs:attribute name="max-rows" type="xs:positiveInteger" default="3">
                     <xs:annotation>
                         <xs:documentation>Максимальная высота поля в строках текста.</xs:documentation>
                     </xs:annotation>

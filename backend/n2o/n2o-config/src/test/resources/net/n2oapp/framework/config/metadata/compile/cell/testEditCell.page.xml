@@ -18,6 +18,11 @@
                     <input-text/>
                 </edit>
             </column>
+            <column text-field-id="test3">
+                <edit>
+                    <text-area/>
+                </edit>
+            </column>
         </columns>
     </table>
 </simple-page>

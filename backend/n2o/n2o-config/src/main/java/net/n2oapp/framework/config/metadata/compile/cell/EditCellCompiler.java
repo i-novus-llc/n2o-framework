@@ -32,7 +32,7 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
 
         if (source.getN2oField() != null) {
             Field control = p.compile(source.getN2oField(), context);
-            if (control instanceof StandardField field) {
+            if (control instanceof StandardField<?> field) {
                 ComponentScope columnScope = p.getScope(ComponentScope.class);
                 String columnTextFieldId = null;
                 if (columnScope != null) {
