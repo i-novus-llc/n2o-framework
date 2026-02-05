@@ -12,7 +12,7 @@ import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selector
 import { ModelPrefix } from '../../core/datasource/const'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { setModel } from '../../ducks/models/store'
-import { failValidate, reset as dataSourceReset } from '../../ducks/datasource/store'
+import { endValidation, reset as dataSourceReset } from '../../ducks/datasource/store'
 import { ValidationsKey } from '../../core/validation/types'
 import { dataSourceErrors } from '../../ducks/datasource/selectors'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
@@ -134,8 +134,11 @@ export const WidgetFilters = ({
             const model = getModelByPrefixAndNameSelector(ModelPrefix.edit, datasource)(getState())
 
             if (isEqual(filterModel, model) && !isEmpty(filterMessages)) {
-                // @ts-ignore FIXME TS2554: Expected 1 arguments, but got 4
-                dispatch(failValidate(datasource, filterMessages, ModelPrefix.edit, { touched: true }))
+                dispatch(endValidation({
+                    id: datasource,
+                    messages: filterMessages,
+                    prefix: ModelPrefix.edit,
+                }, { touched: true }))
             }
         }
     }, [datasource, dispatch, filterMessages, getState, modelPrefix])

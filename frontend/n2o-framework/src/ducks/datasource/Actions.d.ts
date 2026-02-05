@@ -88,18 +88,13 @@ export type StartValidateAction = DatasourceAction<{
     fields?: Record<string, Validation[]>
 }, { touched: boolean }>
 
-export type ResetValidateAction = DatasourceAction<{
-    id: string
-    validationsKey?: ValidationsKey
-    prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
+export type ValidateEndPayload = DatasourcePayload & {
+    prefix: ModelPrefix
+    messages: Record<string, ValidationResult[]>
     fields?: string[]
-}, { touched: boolean }>
+}
 
-export type FailValidateAction = DatasourceAction<{
-    id: string
-    prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
-    fields: Record<string, ValidationResult[]>
-}, { touched: boolean, isTriggeredByFieldChange?: boolean }>
+export type ValidateEndAction = DatasourceAction<ValidateEndPayload, {}>
 
 export type SetFieldSubmitAction = DatasourceAction<{
     id: string

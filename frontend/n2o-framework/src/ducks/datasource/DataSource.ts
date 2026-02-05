@@ -34,7 +34,7 @@ export type DataSourceState = {
     // TODO: rename to "messages"
     errors: Record<
     ModelPrefix,
-    Partial<Record<string, ValidationResult[]>>
+    Record<string, ValidationResult[]>
     >
     error?: ErrorContainerError
     fetchOnInit?: boolean

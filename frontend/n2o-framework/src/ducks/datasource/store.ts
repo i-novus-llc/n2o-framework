@@ -1,26 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit'
 import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
-import merge from 'deepmerge'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import { Meta } from '../../sagas/types'
 import { INDEX_MASK, INDEX_REGEXP } from '../../core/validation/const'
-import { Validation, ValidationsKey } from '../../core/validation/types'
+import { Validation, ValidationResult, ValidationsKey } from '../../core/validation/types'
 import { Meta as N2OMeta } from '../Action'
 import { appendToArray, removeFromArray } from '../models/store'
 import { AppendToArrayAction, RemoveFromArrayAction } from '../models/Actions'
-import { mapMultiFields } from '../../core/models/mapMultiFields'
+import { getOnAppend, getOnRemove, mapMultiFields } from '../../core/models/mapMultiFields'
 
 import type {
     AddComponentAction,
     ChangePageAction,
     ChangeSizeAction,
     DataRequestAction,
+    ValidateEndAction,
+    ValidateEndPayload,
     FailRequestAction,
-    FailValidateAction,
     ResetDatasourceAction,
-    ResetValidateAction,
     RegisterAction,
     RemoveAction,
     RemoveComponentAction,
@@ -322,26 +321,6 @@ export const datasource = createSlice({
             },
         },
 
-        failValidate: {
-            prepare(id, fields, prefix = ModelPrefix.active, meta = {}) {
-                return ({
-                    payload: { id, fields, prefix },
-                    meta,
-                })
-            },
-            reducer(state, action: FailValidateAction) {
-                const { id, fields, prefix } = action.payload
-                const datasource = state[id]
-
-                if (datasource) {
-                    datasource.errors[prefix] = {
-                        ...datasource.errors[prefix],
-                        ...fields,
-                    }
-                }
-            },
-        },
-
         reset: {
             // eslint-disable-next-line sonarjs/no-identical-functions
             prepare(id: string) {
@@ -369,20 +348,24 @@ export const datasource = createSlice({
             },
         },
 
-        resetValidation: {
-            prepare(id, fields, prefix = ModelPrefix.active) {
-                return ({
-                    payload: { id, fields, prefix },
-                })
-            },
-            reducer(state, action: ResetValidateAction) {
-                const { id, fields = [], prefix } = action.payload
+        endValidation: {
+            prepare(payload: ValidateEndPayload, meta = {}) { return ({ payload, meta }) },
+            reducer(state, action: ValidateEndAction) {
+                const { id, fields, prefix, messages } = action.payload
                 const datasource = state[id]
 
-                if (datasource) {
-                    datasource.errors[prefix] = isEmpty(fields)
-                        ? {}
-                        : omit(datasource.errors[prefix], fields)
+                if (!datasource) { return }
+
+                if (!fields || isEmpty(fields)) {
+                    datasource.errors[prefix] = messages
+
+                    return
+                }
+
+                // TODO merge arrays
+                datasource.errors[prefix] = {
+                    ...omit(datasource.errors[prefix], fields),
+                    ...messages,
                 }
             },
         },
@@ -464,17 +447,7 @@ export const datasource = createSlice({
             datasource.errors[prefix] = mapMultiFields(
                 datasource.errors[prefix] || {},
                 field,
-                ({ item: value, fullName: name, subName, index }) => {
-                    // index before removed elements
-                    if (index < start) { return { name, value } }
-                    // removed elements: ignore it
-                    if ((index >= start) && (index < start + count)) { return undefined }
-
-                    // after removed: shift index
-                    const newIndex = index - count
-
-                    return { name: `${field}[${newIndex}].${subName}`, value }
-                },
+                getOnRemove<typeof datasource.errors[ModelPrefix][string]>(field, start, count),
             )
         },
         [appendToArray.type](state, action: AppendToArrayAction) {
@@ -489,12 +462,7 @@ export const datasource = createSlice({
             datasource.errors[prefix] = mapMultiFields(
                 datasource.errors[prefix] || {},
                 field,
-                ({ item: value, fullName: name, subName, index }) => {
-                    // index before removed elements
-                    if (index < position) { return { name, value } }
-
-                    return { name: `${field}[${index + 1}].${subName}`, value }
-                },
+                getOnAppend<typeof datasource.errors[ModelPrefix][string]>(field, position),
             )
         },
     },
@@ -512,9 +480,8 @@ export const {
     setSorting,
     setAdditionalInfo,
     startValidate,
-    resetValidation,
     reset,
-    failValidate,
+    endValidation,
     changePage,
     changeSize,
     addComponent,

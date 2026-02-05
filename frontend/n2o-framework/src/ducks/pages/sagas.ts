@@ -36,8 +36,8 @@ import { DEFAULT_CONTEXT } from '../../utils/evalExpression'
 import { userSelector } from '../user/selectors'
 import { resolveMetadata } from '../../core/auth/resolveMetadata'
 import { AuthProvider } from '../../core/auth/Provider'
-import { failValidate } from '../datasource/store'
-import { FailValidateAction } from '../datasource/Actions'
+import { endValidation } from '../datasource/store'
+import { ValidateEndAction } from '../datasource/Actions'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import { DATASOURCE_PREFIX } from '../api/constants'
 import { logger } from '../../core/utils/logger'
@@ -210,11 +210,11 @@ export function* watchEvents() {
     prevModels = models
 }
 
-function* pageScrolling(action: FailValidateAction) {
+function* pageScrolling(action: ValidateEndAction) {
     const { payload, meta } = action
     const isTriggeredByFieldChange = get(meta, 'isTriggeredByFieldChange', false)
 
-    if (isTriggeredByFieldChange) { yield cancel() }
+    if (isTriggeredByFieldChange || isEmpty(payload.messages)) { yield cancel() }
 
     const { id } = payload
     const { pageId } = yield select(dataSourceByIdSelector(id))
@@ -231,7 +231,7 @@ function* pageScrolling(action: FailValidateAction) {
 export default (apiProvider: unknown, security: { provider: AuthProvider }) => [
     // @ts-ignore fixme: разобрать почему takeEvery не разрулил автоматом тип metadataRequest
     takeEvery(metadataRequest, getMetadata, apiProvider, security.provider),
-    takeEvery(failValidate, pageScrolling),
+    takeEvery(endValidation, pageScrolling),
     debounce(100, [
         setModel,
         removeModel,

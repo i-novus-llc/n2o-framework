@@ -11,11 +11,11 @@ import {
     copyFieldArray,
     setModel,
 } from '../models/store'
-import { resetValidation, startValidate, remove as removeDatasource } from '../datasource/store'
+import { startValidate, remove as removeDatasource, endValidation } from '../datasource/store'
 import { dataSourceValidationSelector } from '../datasource/selectors'
 import { getModelByPrefixAndNameSelector } from '../models/selectors'
 import { getCtxFromField, isMulti, createRegexpWithContext } from '../../core/validation/utils'
-import { mapMultiFields } from '../../core/models/mapMultiFields'
+import { getOnAppend, getOnRemove, mapMultiFields } from '../../core/models/mapMultiFields'
 
 import { makeFormByName, makeFormsByModel } from './selectors'
 import {
@@ -29,10 +29,11 @@ import { diffKeys, getDependentSet, getValidationFields, pickValidations, unionS
 type DataSourceId = string
 type FieldId = string
 type ValidationKey = string
+type BufferValue = Set<Validation> | null
 
 const validateBuffer: Record<
     DataSourceId,
-    Record<FieldId, Set<Validation> | null>
+    Record<FieldId, BufferValue>
 > = {}
 
 const addToBuffer = (
@@ -134,9 +135,9 @@ export const formPluginSagas = [
 
             // Сброс required валидации, даже если в зависимости стоит validate=false
             if (get(payload, 'required') !== false) {
-                const { modelPrefix } = yield select(makeFormByName(formName))
+                const { modelPrefix: prefix, datasource: id } = yield select(makeFormByName(formName))
 
-                yield put(resetValidation(formName, [fieldName], modelPrefix))
+                yield put(endValidation({ id, prefix, fields: [fieldName], messages: {} }))
             }
 
             return
@@ -202,12 +203,7 @@ export const formPluginSagas = [
         validateBuffer[datasource] = mapMultiFields(
             buffer,
             field,
-            ({ item: value, fullName: name, subName, index }) => {
-                // index before removed elements
-                if (index < position) { return { name, value } }
-
-                return { name: `${field}[${index + 1}].${subName}`, value }
-            },
+            getOnAppend<BufferValue>(field, position),
         )
     }),
     takeEvery(removeFromArray, ({ payload }) => {
@@ -219,17 +215,7 @@ export const formPluginSagas = [
         validateBuffer[datasource] = mapMultiFields(
             buffer,
             field,
-            ({ item: value, fullName: name, subName, index }) => {
-                // index before removed elements
-                if (index < start) { return { name, value } }
-                // removed elements: ignore it
-                if ((index >= start) && (index < start + count)) { return undefined }
-
-                // after removed: shift index
-                const newIndex = index - count
-
-                return { name: `${field}[${newIndex}].${subName}`, value }
-            },
+            getOnRemove<BufferValue>(field, start, count),
         )
     }),
 ]

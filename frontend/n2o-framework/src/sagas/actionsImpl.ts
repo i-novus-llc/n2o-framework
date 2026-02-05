@@ -7,6 +7,7 @@ import {
 } from 'redux-saga/effects'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
 import merge from 'deepmerge'
 
 import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
@@ -16,7 +17,7 @@ import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../ducks/models/store'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { ModelPrefix } from '../core/datasource/const'
-import { failValidate, startValidate, submit } from '../ducks/datasource/store'
+import { endValidation, startValidate, submit } from '../ducks/datasource/store'
 import { EffectWrapper } from '../ducks/api/utils/effectWrapper'
 import { type State } from '../ducks/State'
 import { type metaPropsType } from '../plugins/CommonMenuTypes'
@@ -105,7 +106,7 @@ export interface HandleInvokeMeta extends N2OMeta {
 }
 
 interface ErrorFields {
-    [key: string]: Record<string, unknown>
+    [key: string]: ValidationResult | ValidationResult[]
 }
 
 // eslint-disable-next-line complexity
@@ -174,13 +175,20 @@ export function* handleInvoke(
         throw err
     } finally {
         if (datasource) {
-            const fields: Record<string, unknown> = {}
+            const messages: Record<string, ValidationResult[]> = {}
 
             for (const [fieldName, error] of Object.entries(errorFields)) {
-                fields[fieldName] = Array.isArray(error) ? error : [error]
+                messages[fieldName] = Array.isArray(error) ? error : [error]
             }
 
-            yield put(failValidate(datasource, fields, modelPrefix, { touched: true }))
+            if (!isEmpty(messages)) {
+                yield put(endValidation({
+                    id: datasource,
+                    messages,
+                    prefix: modelPrefix,
+                    fields: Object.keys(messages),
+                }, { touched: true }))
+            }
         }
     }
 }
