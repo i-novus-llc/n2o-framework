@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Автотест на лишнее срабатывание reset во вложенном мультисете при удалении элемента">
+    <form>
+        <fields>
+            <col size="6">
+                <multi-set id="multi_1" can-remove="false" add-label="add">
+                    <output-text id="length">
+                        <dependencies>
+                            <set-value on="multi_1[index].multi_2"
+                                       apply-on-init="true"
+                            >
+                                return multi_1[index].multi_2 ? multi_1[index].multi_2.length : 0
+                            </set-value>
+                        </dependencies>
+                    </output-text>
+                    <multi-set id="multi_2" can-remove="false" add-label="inner add">
+                        <row>
+                            <output-text id="o1" default-value="text - {index}.{$index_1}">
+                                <dependencies>
+                                    <reset on="multi_1[index].multi_2[$index_1].test"
+                                           apply-on-init="false"
+                                    >
+                                        return multi_1[index].multi_2[$index_1]
+                                    </reset>
+                                </dependencies>
+                            </output-text>
+                            <output-text id="test" default-value="text - {index}.{$index_1}">
+
+                            </output-text>
+                            <button label="remove">
+                                <set-value to="multi_1[index].multi_2">
+                                    const result = [...multi_1[index].multi_2]
+                                    result.splice($index_1, 1)
+                                    return result
+                                </set-value>
+                            </button>
+                        </row>
+                    </multi-set>
+                </multi-set>
+            </col>
+        </fields>
+    </form>
+</simple-page>
