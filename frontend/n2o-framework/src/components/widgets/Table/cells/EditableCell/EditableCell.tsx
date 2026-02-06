@@ -43,12 +43,12 @@ const Cell = ({
     const isEmpty = !viewValue
     const isMultiline = !!control.maxRows ||
         control.component?.displayName?.toLocaleLowerCase().includes('textarea')
+    const readOnly = disabled || !editable
 
     return (
         <DefaultCell
             tag="div"
-            disabled={disabled}
-            className={classNames('n2o-editable-cell', { editable, disabled })}
+            className={classNames('n2o-editable-cell', { editable: !readOnly })}
         >
             <Control
                 control={control}
