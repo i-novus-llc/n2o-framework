@@ -43,7 +43,7 @@
         </button>
     </toolbar>
     <regions>
-        <row>
+        <flex-row>
             <col style="width: 60%">
                 <panel collapsible="false" title="${clients.title}">
                     <table id="clients" datasource="clientsDs" selection="checkbox"
@@ -309,6 +309,6 @@
                     <form id="form" ref-id="ProtoClient" route="/form/:client_id/card" datasource="clientCard"/>
                 </panel>
             </col>
-        </row>
+        </flex-row>
     </regions>
 </page>
