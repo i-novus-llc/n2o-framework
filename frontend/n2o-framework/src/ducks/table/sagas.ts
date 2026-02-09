@@ -177,6 +177,9 @@ function* registerTableWidgetEffect(action: Register) {
 // Обновляет локальные настройки
 function* onDatasourceUpdateEffect({ payload, type }: DatasourceAction) {
     const { id: datasourceId } = payload
+
+    yield delay(16)
+
     const { sorting, paging }: DataSourceState = yield select(dataSourceByIdSelector(datasourceId))
     const { saveSettings, id }: Table = yield select(makeTableByDatasourceSelector(datasourceId))
 
