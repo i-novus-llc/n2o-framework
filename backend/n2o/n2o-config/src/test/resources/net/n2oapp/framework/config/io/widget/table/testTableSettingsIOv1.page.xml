@@ -11,7 +11,7 @@
                        src="CustomChangeSize"
                        color="danger"/>
             <ts:export format="csv,xlsx" default-format="xlsx" default-size="all" default-charset="UTF-8"
-                       show-modal="true"/>
+                       show-modal="true" filename="Выгрузка из перечня заявок"/>
             <ts:columns default-value="id,name,region" locked="id,name"
                         label="Колонки" icon="fa fa-table" description="Подсказка"/>
             <ts:filters label="Фильтры" icon="fa fa-filter" description="Подсказка"/>

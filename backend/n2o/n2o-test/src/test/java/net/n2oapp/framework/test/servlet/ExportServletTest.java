@@ -65,7 +65,7 @@ class ExportServletTest {
         request.setContentType("application/json");
 
         doReturn(getDataResponse).when(exportController).getData(eq("/_main"), anyMap(), any());
-        doReturn(exportResponse).when(exportController).export(any(), any(), any(), anyMap());
+        doReturn(exportResponse).when(exportController).export(any(), any(), any(), anyMap(), any());
 
         doReturn(200).when(exportResponse).getStatus();
         doReturn("text/csv").when(exportResponse).getContentType();

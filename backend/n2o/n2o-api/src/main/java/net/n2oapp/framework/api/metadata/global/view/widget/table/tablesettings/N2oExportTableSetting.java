@@ -11,4 +11,5 @@ public class N2oExportTableSetting extends N2oAbstractTableSetting {
     private ExportCharsetEnum defaultCharset;
     private ExportSizeEnum defaultSize;
     private Boolean showModal;
+    private String filename;
 }

@@ -41,6 +41,7 @@ export interface Payload {
     baseURL: string
     widgetId: string
     allLimit: number
+    filename?: string
 }
 
 export const creator = createAction(
@@ -69,12 +70,14 @@ function createExportPayload(
     format: string,
     charset: string,
     fields: Record<string, string>,
+    filename?: string,
 ) {
     return {
         format,
         charset,
         url: resolvedURL,
         fields,
+        filename,
     }
 }
 
@@ -93,8 +96,38 @@ function* getSetting(valueMeta: LinkProps) {
     return linkResolver(state, valueMeta)
 }
 
+/**
+ * Извлекает имя файла из заголовка Content-Disposition
+ * Обрабатывает оба формата: filename="..." и filename*=utf-8''...
+ */
+function extractFilenameFromContentDisposition(contentDisposition: string | null): string | null {
+    if (!contentDisposition) { return null }
+
+    const regexp = /filename(=|\*=utf-8'')/i
+
+    // Ищем часть строки с именем файла
+    const fileNamePart = contentDisposition
+        .split(';')
+        .find(part => regexp.test(part.trim()))
+
+    if (!fileNamePart) { return null }
+
+    // Убираем префикс filename= или filename*=utf-8''
+    const fileName = fileNamePart
+        .replace(regexp, '')
+        .trim()
+
+    try {
+        // Декодируем URL-encoded строку и убираем кавычки если есть
+        return decodeURIComponent(fileName.replace(/^["']|["']$/g, ''))
+    } catch {
+        // Если декодирование не удалось, возвращаем как есть без кавычек
+        return fileName.replace(/^["']|["']$/g, '')
+    }
+}
+
 export function* effect({ payload }: Action<string, Payload>) {
-    const { exportDatasource, values, baseURL, widgetId, allLimit = 1000 } = payload
+    const { exportDatasource, values, baseURL, widgetId, allLimit = 1000, filename } = payload
 
     if (!exportDatasource || !values || !baseURL || !widgetId) {
         logger.error(ATTRIBUTES_ERROR)
@@ -161,7 +194,7 @@ export function* effect({ payload }: Action<string, Payload>) {
     const columns = getAllValuesByKey(headerCells, { keyToIterate: 'children' })?.filter(obj => !NON_EXPORTABLE_KEYS.some(key => key in obj))
 
     const fields = getShowedColumnsWithLabels(columns)
-    const exportPayload = createExportPayload(resolvedURL, format, charset, fields)
+    const exportPayload = createExportPayload(resolvedURL, format, charset, fields, filename)
 
     try {
         const response: Response = yield fetch(baseURL, {
@@ -175,9 +208,12 @@ export function* effect({ payload }: Action<string, Payload>) {
             const url = window.URL.createObjectURL(blob)
             const a = document.createElement('a')
 
+            const contentDisposition = response.headers.get('Content-Disposition')
+            const fileName = extractFilenameFromContentDisposition(contentDisposition)
+
             a.style.display = 'none'
             a.href = url
-            a.download = `export.${format}`
+            a.download = fileName || `document.${format}`
             document.body.appendChild(a)
             a.click()
             window.URL.revokeObjectURL(url)

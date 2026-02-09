@@ -107,6 +107,8 @@ public class TableSettingsGeneratorUtil {
         payload.put("baseURL", exportUrl);
         payload.put("exportDatasource", exportDatasource);
         payload.put(WIDGET_ID, clientWidgetId);
+        payload.put("filename", castDefault(source.getFilename(),
+                () -> p.resolve(property("n2o.api.generate.button.export.filename"), String.class)));
         payload.put("allLimit", allLimit);
         ModelLink link = new ModelLink(ReduxModelEnum.RESOLVE, configDatasource);
         payload.put("values-format-link", link.getLink());
@@ -146,17 +148,17 @@ public class TableSettingsGeneratorUtil {
                 ? source.getDefaultSize().name().toLowerCase()
                 : p.resolve(property("n2o.api.generate.button.export.size"), String.class);
         String exportPageId = exportPage + "?formatId=" + defaultFormat.toLowerCase() + "&formatName=" + defaultFormat.toUpperCase()
-                              + "&charsetId=" + defaultCharset.getId().toLowerCase() + "&charsetName=" + defaultCharset.getId()
-                              + "&sizeId=" + defaultSize;
+                + "&charsetId=" + defaultCharset.getId().toLowerCase() + "&charsetName=" + defaultCharset.getId()
+                + "&sizeId=" + defaultSize;
         showModalAction.setPageId(exportPageId);
         N2oInheritedDatasource inheritedDs = new N2oInheritedDatasource();
         inheritedDs.setId("formatDs");
         inheritedDs.setSourceDatasource(datasourceId);
         String fetchValue = "return [\n" +
-                            Arrays.stream(format)
-                                    .map(f -> "{'id': '" + f.getId().toLowerCase() + "', 'name': \"" + f.getId().toUpperCase() + "\"}")
-                                    .collect(Collectors.joining(",\n")) +
-                            "\n]";
+                Arrays.stream(format)
+                        .map(f -> "{'id': '" + f.getId().toLowerCase() + "', 'name': \"" + f.getId().toUpperCase() + "\"}")
+                        .collect(Collectors.joining(",\n")) +
+                "\n]";
         inheritedDs.setFetchValue(fetchValue);
         showModalAction.setDatasources(new N2oInheritedDatasource[]{inheritedDs});
 
@@ -188,6 +190,8 @@ public class TableSettingsGeneratorUtil {
         payload.put("allLimit", allLimit);
         payload.put("exportDatasource", exportDatasource);
         payload.put(WIDGET_ID, clientWidgetId);
+        payload.put("filename", castDefault(source.getFilename(),
+                () -> p.resolve(property("n2o.api.generate.button.export.filename"), String.class)));
         payload.put("values-format-value", castDefault(source.getDefaultFormat() == null
                 ? null
                 : source.getDefaultFormat().getId(), p.resolve(property("n2o.api.generate.button.export.format"), String.class)));

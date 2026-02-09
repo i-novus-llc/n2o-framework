@@ -49,6 +49,27 @@ class TableSettingsCompileTest extends SourceCompileTestBase {
     }
 
     @Test
+    void testExportWithFilenameAndNoModal() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/toolbar/table_settings/testExportWithFilenameNoModal.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml")
+                .get(new PageContext("testExportWithFilenameNoModal"));
+
+        AbstractButton exportButton = page.getWidget().getToolbar().getGroups().getFirst().getButtons().getFirst();
+
+        assertThat(exportButton.getAction(), instanceOf(CustomAction.class));
+        CustomAction exportAction = (CustomAction) exportButton.getAction();
+        assertThat(exportAction.getType(), is("n2o/api/utils/export"));
+
+        Map<String, Object> payloadAttributes = exportAction.getPayload().getAttributes();
+        assertThat(payloadAttributes.get("filename"), is("Выгрузка из перечня заявок"));
+
+        HashMap<String, Object> values = (HashMap<String, Object>) payloadAttributes.get("values");
+        assertThat(((HashMap<String, Object>) values.get("format")).get("value"), is("xlsx"));
+        assertThat(((HashMap<String, Object>) values.get("charset")).get("value"), is("utf-8"));
+        assertThat(((HashMap<String, Object>) values.get("type")).get("value"), is("all"));
+    }
+
+    @Test
     void testColumnsTableSettingsInMultiColumn() {
         SimplePage page = (SimplePage) compile(
                 "net/n2oapp/framework/config/metadata/compile/toolbar/table_settings/testColumnsTableSettings.page.xml",
