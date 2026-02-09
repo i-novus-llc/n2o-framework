@@ -82,10 +82,12 @@ public class N2oServletConfiguration {
 
     @Bean
     public ServletRegistrationBean dataServlet(DataController controller,
-                                               AlertMessageBuilder messageBuilder) {
+                                               AlertMessageBuilder messageBuilder,
+                                               AlertMessagesConstructor messagesConstructor) {
         DataServlet dataServlet = new DataServlet(controller);
         dataServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
         dataServlet.setMessageBuilder(messageBuilder);
+        dataServlet.setMessagesConstructor(messagesConstructor);
         return new ServletRegistrationBean(dataServlet, n2oApiUrl + "/data/*");
     }
 
