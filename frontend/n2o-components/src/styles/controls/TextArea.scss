@@ -1,0 +1,17 @@
+@import '../variables.scss';
+
+$line-height: 1.5rem;
+$paddings: 0.5rem;
+
+textarea.n2o-text-area {
+    field-sizing: content;
+    min-height: $line-height;
+
+    &[data-max-rows] {
+        max-height: calc(($line-height * attr(data-max-rows number)) + paddings)!important;
+    }
+
+    &[data-min-rows] {
+        min-height: calc(($line-height * attr(data-min-rows number)) + paddings)!important;
+    }
+}
