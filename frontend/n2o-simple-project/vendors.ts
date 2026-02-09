@@ -51,7 +51,6 @@ export const VENDORS = {
     // UI компоненты
     'ui-libs': [
         'react-copy-to-clipboard',
-        'react-textarea-autosize',
         'scroll-into-view-if-needed',
         'react-onclickoutside',
         'react-resize-detector',

@@ -3204,7 +3204,6 @@ __metadata:
     "@types/react-router-dom": 5.3.3
     "@types/react-scroll-into-view-if-needed": 2.1.1
     "@types/react-syntax-highlighter": 15.5.6
-    "@types/react-textarea-autosize": 4.3.6
     "@typescript-eslint/eslint-plugin": ^5.28.0
     "@typescript-eslint/parser": ^5.27.1
     "@wojtekmaj/enzyme-adapter-react-17": ^0.6.3
@@ -3245,7 +3244,6 @@ __metadata:
     react-popper: 2.3.0
     react-router-dom: 5.2.0
     react-syntax-highlighter: ^15.5.0
-    react-textarea-autosize: 7.0.4
     reactstrap: 8.10.1-popper2-beta.0
     rimraf: 5.0.7
     scroll-into-view-if-needed: 2.2.26
@@ -4895,15 +4893,6 @@ __metadata:
   dependencies:
     "@types/react": "*"
   checksum: 81a9f26da41606ff595d42a064ec4097cd17c4ef242558aa5b3b76a1063729b2ae73f063350069a4692218cf6843d7ea59d3eaeac4df2a4894d969d911fb80b2
-  languageName: node
-  linkType: hard
-
-"@types/react-textarea-autosize@npm:4.3.6":
-  version: 4.3.6
-  resolution: "@types/react-textarea-autosize@npm:4.3.6"
-  dependencies:
-    "@types/react": "*"
-  checksum: af30e35ff007daf7ba4d3269b12b1236f1620c88988f8f528271814d00a76bb1840b689197197bd2c493f23285072dcaaf47fb6e65cdb9ca853ab72f6b916617
   languageName: node
   linkType: hard
 
@@ -16976,17 +16965,6 @@ __metadata:
   peerDependencies:
     react: 17.0.2
   checksum: e6b5c6ed2a0bde2c34f1ab9523ff9bc4c141a271daf730d6b852374e83acc0155d58ab71a318251e953ebfa65b8bebb9c5dce3eba1ccfcbef7cc4e1e8261c401
-  languageName: node
-  linkType: hard
-
-"react-textarea-autosize@npm:7.0.4":
-  version: 7.0.4
-  resolution: "react-textarea-autosize@npm:7.0.4"
-  dependencies:
-    prop-types: ^15.6.0
-  peerDependencies:
-    react: ">=0.14.0 <17.0.0"
-  checksum: bc2cea73b70335d40ab6fa913a32e00c6262f1a995650f531ddf5eddf141a37239f71bf9b521626aa89410f33d7bf7a70ed2d79dd91f3dd0b921bdabc067a569
   languageName: node
   linkType: hard
 
