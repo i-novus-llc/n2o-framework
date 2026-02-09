@@ -32,6 +32,7 @@ public class ExportServlet extends N2oServlet {
         String format = exportRequest.getFormat();
         String charset = exportRequest.getCharset();
         String url = exportRequest.getUrl();
+        String filename = exportRequest.getFilename();
 
         String path = getPath(url, "/n2o/data");
         Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
@@ -40,7 +41,7 @@ public class ExportServlet extends N2oServlet {
 
         GetDataResponse dataResponse = controller.getData(path, params, (UserContext) req.getAttribute(USER));
         LinkedHashMap<String, String> headers = exportRequest.getFields();
-        ExportResponse exportResponse = controller.export(dataResponse.getList(), format, charset, headers);
+        ExportResponse exportResponse = controller.export(dataResponse.getList(), format, charset, headers, filename);
 
         resp.setStatus(exportResponse.getStatus());
         resp.setContentType(exportResponse.getContentType());

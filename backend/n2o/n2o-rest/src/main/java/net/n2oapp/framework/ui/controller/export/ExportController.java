@@ -18,7 +18,6 @@ import java.util.Objects;
 public class ExportController extends AbstractController {
 
     private static final String FILES_DIRECTORY_NAME = System.getProperty("java.io.tmpdir");
-    private static final String FILE_NAME = "export_data";
     private static final String CONTENT_DISPOSITION_FORMAT = "attachment;filename=%s";
     private final DataController dataController;
     private final FileGeneratorFactory fileGeneratorFactory;
@@ -29,18 +28,19 @@ public class ExportController extends AbstractController {
         this.fileGeneratorFactory = fileGeneratorFactory;
     }
 
-    public ExportResponse export(List<DataSet> data, String format, String charset, Map<String, String> headers) {
+    public ExportResponse export(List<DataSet> data, String format, String charset, Map<String, String> headers, String filename) {
         ExportResponse response = new ExportResponse();
         String lowerFormat = format.toLowerCase();
         FileGenerator generator = fileGeneratorFactory.getGenerator(lowerFormat);
-        byte[] fileBytes = generator.createFile(FILE_NAME, FILES_DIRECTORY_NAME, charset, data, headers);
+        String fileName = getFileName(filename, lowerFormat);
+        byte[] fileBytes = generator.createFile(fileName, FILES_DIRECTORY_NAME, charset, data, headers);
 
         if (fileBytes == null)
             response.setStatus(500);
 
         response.setFile(fileBytes);
         response.setContentType(generator.getContentType());
-        response.setContentDisposition(String.format(CONTENT_DISPOSITION_FORMAT, getFileName(lowerFormat)));
+        response.setContentDisposition(String.format(CONTENT_DISPOSITION_FORMAT, fileName));
         response.setCharacterEncoding(charset);
         response.setContentLength(fileBytes == null ? 0 : fileBytes.length);
 
@@ -118,7 +118,7 @@ public class ExportController extends AbstractController {
         data.setList(dataSets);
     }
 
-    private String getFileName(String fileFormat) {
-        return FILE_NAME + "_" + System.currentTimeMillis() + "." + fileFormat;
+    protected String getFileName(String customFilename, String fileFormat) {
+        return customFilename + "." + fileFormat;
     }
 }

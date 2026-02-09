@@ -70,6 +70,7 @@ class SandboxExportTest {
         requestHeaders.put("id", "id");
         requestHeaders.put("name", "name");
         request.setFields(requestHeaders);
+        request.setFilename("export_data");
 
         mockFileStorage();
 
@@ -77,12 +78,12 @@ class SandboxExportTest {
         assertThat(response.getStatusCode().value(), is(200));
         assertThat(response.getBody(), is(expectedBody.getBytes(StandardCharsets.UTF_8)));
         HttpHeaders headers = response.getHeaders();
-        assertThat(headers.getContentDisposition().toString().matches("attachment; filename=\"export_data_\\d{13}\\.csv\""), is(true));
+        assertThat(headers.getContentDisposition().toString().matches("attachment; filename=\"export_data.csv\""), is(true));
 
-        Optional<MediaType> contentType = Optional.of(headers.getContentType());
+        Optional<MediaType> contentType = Optional.ofNullable(headers.getContentType());
         assertThat(contentType.get().toString(), is("text/csv"));
 
-        Optional<List<String>> contentEncoding = Optional.of(headers.get("Content-Encoding"));
+        Optional<List<String>> contentEncoding = Optional.ofNullable(headers.get("Content-Encoding"));
         assertThat(contentEncoding.get().toString(), is("[UTF-8]"));
 
         assertThat(headers.getContentLength(), is(Integer.toUnsignedLong(expectedBody.getBytes(StandardCharsets.UTF_8).length)));
@@ -91,125 +92,34 @@ class SandboxExportTest {
     private void mockFileStorage() {
         List<FileModel> fileModels = new ArrayList<>();
 
-        FileModel fileModel = new FileModel();
-        fileModel.setFile("index.page.xml");
-        fileModel.setSource("""
-        <?xml version='1.0' encoding='UTF-8'?>
-        <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
-                     name="CRUD Операции">
-            <table query-id="test" auto-focus="true">
-                <columns>
-                    <column text-field-id="id"/>
-                    <column text-field-id="name"/>
-                </columns>
-                <toolbar generate="crud"/>
-            </table>
-        </simple-page>
-        """);
+        FileModel fileModel = getFileModel();
         fileModels.add(fileModel);
 
         FileModel testJson = new FileModel();
         testJson.setFile("test.json");
         testJson.setSource("""
-        [
-          {
-            "id": 1,
-            "name": "test1"
-          },
-          {
-            "id": 2,
-            "name": "test2"
-          },
-          {
-            "id": 3,
-            "name": "test3"
-          },
-          {
-            "id": 4,
-            "name": "test4"
-          }
-        ]
-        """);
+                [
+                  {
+                    "id": 1,
+                    "name": "test1"
+                  },
+                  {
+                    "id": 2,
+                    "name": "test2"
+                  },
+                  {
+                    "id": 3,
+                    "name": "test3"
+                  },
+                  {
+                    "id": 4,
+                    "name": "test4"
+                  }
+                ]
+                """);
         fileModels.add(testJson);
 
-        FileModel testObject = new FileModel();
-        testObject.setFile("test.object.xml");
-        testObject.setSource("""
-        <?xml version='1.0' encoding='UTF-8'?>
-        <object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
-            <operations>
-                <operation id="create">
-                    <invocation>
-                        <test file="test.json" operation="create"/>
-                    </invocation>
-                    <in>
-                        <field id="name"/>
-                    </in>
-                    <out>
-                        <field id="id"/>
-                    </out>
-                </operation>
-
-                <operation id="update">
-                    <invocation>
-                        <test file="test.json" operation="update"/>
-                    </invocation>
-                    <in>
-                        <field id="id"/>
-                        <field id="name"/>
-                    </in>
-                </operation>
-
-                <operation id="delete">
-                    <invocation>
-                        <test file="test.json" operation="delete"/>
-                    </invocation>
-                    <in>
-                        <field id="id"/>
-                    </in>
-                </operation>
-            </operations>
-        </object>
-        """);
-        fileModels.add(testObject);
-
-        FileModel testPage = new FileModel();
-        testPage.setFile("test.page.xml");
-        testPage.setSource("""
-        <?xml version='1.0' encoding='UTF-8'?>
-        <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
-            <form query-id="test">
-                <fields>
-                    <input-text id="name"/>
-                </fields>
-            </form>
-        </simple-page>
-        """);
-        fileModels.add(testPage);
-
-        FileModel testQuery = new FileModel();
-        testQuery.setFile("test.query.xml");
-        testQuery.setSource("""
-        <?xml version='1.0' encoding='UTF-8'?>
-        <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
-               object-id="test">
-            <list>
-                <test file="test.json" operation="findAll"/>
-            </list>
-
-            <fields>
-                <field id="id" domain="integer">
-                    <select/>
-                    <filters>
-                        <eq filter-id="id"/>
-                    </filters>
-                </field>
-                <field id="name">
-                    <select/>
-                </field>
-            </fields>
-        </query>
-        """);
+        FileModel testQuery = getTestQuery();
         fileModels.add(testQuery);
 
         String myProjectId = "myProjectId";
@@ -217,24 +127,70 @@ class SandboxExportTest {
         doReturn("").when(fileStorage).getFileContent(myProjectId, "application.properties");
         doReturn("").when(fileStorage).getFileContent(myProjectId, "user.properties");
         doReturn("""
-        [
-          {
-            "id": 1,
-            "name": "test1"
-          },
-          {
-            "id": 2,
-            "name": "test2"
-          },
-          {
-            "id": 3,
-            "name": "test3"
-          },
-          {
-            "id": 4,
-            "name": "test4"
-          }
-        ]
-        """).when(fileStorage).getFileContent(myProjectId, "test.json");
+                [
+                  {
+                    "id": 1,
+                    "name": "test1"
+                  },
+                  {
+                    "id": 2,
+                    "name": "test2"
+                  },
+                  {
+                    "id": 3,
+                    "name": "test3"
+                  },
+                  {
+                    "id": 4,
+                    "name": "test4"
+                  }
+                ]
+                """).when(fileStorage).getFileContent(myProjectId, "test.json");
+    }
+
+    private static FileModel getTestQuery() {
+        FileModel testQuery = new FileModel();
+        testQuery.setFile("test.query.xml");
+        testQuery.setSource("""
+                <?xml version='1.0' encoding='UTF-8'?>
+                <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+                       object-id="test">
+                    <list>
+                        <test file="test.json" operation="findAll"/>
+                    </list>
+                
+                    <fields>
+                        <field id="id" domain="integer">
+                            <select/>
+                            <filters>
+                                <eq filter-id="id"/>
+                            </filters>
+                        </field>
+                        <field id="name">
+                            <select/>
+                        </field>
+                    </fields>
+                </query>
+                """);
+        return testQuery;
+    }
+
+    private static FileModel getFileModel() {
+        FileModel fileModel = new FileModel();
+        fileModel.setFile("index.page.xml");
+        fileModel.setSource("""
+                <?xml version='1.0' encoding='UTF-8'?>
+                <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+                             name="CRUD Операции">
+                    <table query-id="test" auto-focus="true">
+                        <columns>
+                            <column text-field-id="id"/>
+                            <column text-field-id="name"/>
+                        </columns>
+                        <toolbar generate="crud"/>
+                    </table>
+                </simple-page>
+                """);
+        return fileModel;
     }
 }

@@ -181,6 +181,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="filename" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Имя экспортируемого файла
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

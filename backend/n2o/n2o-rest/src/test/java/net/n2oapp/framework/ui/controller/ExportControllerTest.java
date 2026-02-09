@@ -30,7 +30,7 @@ class ExportControllerTest extends DataControllerTestBase {
         headers.put("name", "Наименование");
         headers.put("list", "Список");
         headers.put("type.name", "Тип");
-        ExportResponse export = exportController.export(list, "csv", "UTF-8", headers);
+        ExportResponse export = exportController.export(list, "csv", "UTF-8", headers, "export_data");
 
         String act = new String(export.getFile(), StandardCharsets.UTF_8);
         String exp = """
@@ -43,10 +43,10 @@ class ExportControllerTest extends DataControllerTestBase {
         assertThat(act, is(exp));
         assertThat(export.getCharacterEncoding(), is("UTF-8"));
         assertThat(export.getContentType(), is("text/csv"));
-        assertThat(export.getContentDisposition().matches("attachment;filename=export_data_\\d{13}\\.csv"), is(true));
+        assertThat(export.getContentDisposition().matches("attachment;filename=export_data.csv"), is(true));
         assertThat(export.getContentLength(), is(exp.getBytes(StandardCharsets.UTF_8).length));
 
-        export = exportController.export(list, "csv", "Cp1251", headers);
+        export = exportController.export(list, "csv", "Cp1251", headers, "export_data");
 
         Charset cp1251 = Charset.forName("cp1251");
         act = new String(export.getFile(), cp1251);
@@ -54,7 +54,7 @@ class ExportControllerTest extends DataControllerTestBase {
         assertThat(act, is(exp));
         assertThat(export.getCharacterEncoding(), is("Cp1251"));
         assertThat(export.getContentType(), is("text/csv"));
-        assertThat(export.getContentDisposition().matches("attachment;filename=export_data_\\d{13}\\.csv"), is(true));
+        assertThat(export.getContentDisposition().matches("attachment;filename=export_data.csv"), is(true));
         assertThat(export.getContentLength(), is(exp.getBytes(cp1251).length));
     }
 
@@ -71,12 +71,12 @@ class ExportControllerTest extends DataControllerTestBase {
         headers.put("list", "Список");
         headers.put("type.name", "Тип");
 
-        ExportResponse export = exportController.export(list, "xlsx", "UTF-8", headers);
+        ExportResponse export = exportController.export(list, "xlsx", "UTF-8", headers, "export_data");
 
         assertNotNull(export.getFile());
         assertThat(export.getCharacterEncoding(), is("UTF-8"));
         assertThat(export.getContentType(), is("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
-        assertThat(export.getContentDisposition().matches("attachment;filename=export_data_\\d{13}\\.xlsx"), is(true));
+        assertThat(export.getContentDisposition().matches("attachment;filename=export_data.xlsx"), is(true));
         assertThat(export.getContentLength(), is(export.getFile().length));
     }
 

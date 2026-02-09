@@ -152,6 +152,7 @@ public class N2oController {
         String url = request.getUrl();
         String format = request.getFormat();
         String charset = request.getCharset();
+        String filename = request.getFilename();
 
         String dataPrefix = DATA_REQUEST_PREFIX;
         String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
@@ -161,7 +162,7 @@ public class N2oController {
 
         GetDataResponse dataResponse = exportController.getData(path, params, null);
         LinkedHashMap<String, String> headers = request.getFields();
-        ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers);
+        ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers, filename);
 
         return ResponseEntity.status(exportResponse.getStatus())
                 .contentLength(exportResponse.getContentLength())

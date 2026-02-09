@@ -17,4 +17,6 @@ public class ExportRequest {
     private String url;
     @JsonProperty
     private LinkedHashMap<String, String> fields;
+    @JsonProperty
+    private String filename;
 }

@@ -264,6 +264,7 @@ public class ViewController {
             String url = request.getUrl();
             String format = request.getFormat();
             String charset = request.getCharset();
+            String filename = request.getFilename();
 
             String dataPrefix = DATA_REQUEST_PREFIX;
             String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
@@ -273,7 +274,7 @@ public class ViewController {
 
             GetDataResponse dataResponse = exportController.getData(path, params, new UserContext(sandboxContext));
             LinkedHashMap<String, String> headers = request.getFields();
-            ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers);
+            ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers, filename);
 
             return ResponseEntity.status(exportResponse.getStatus())
                     .contentLength(exportResponse.getContentLength())
