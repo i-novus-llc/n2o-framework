@@ -64,6 +64,8 @@ export class InputSelect extends React.Component<Props, State> {
 
     inputRef: Ref | undefined
 
+    popUpRef: Ref
+
     constructor(props: Props) {
         super(props)
         const { value, options, labelFieldId, multiSelect } = this.props
@@ -79,10 +81,63 @@ export class InputSelect extends React.Component<Props, State> {
             prevModel: {},
             options,
             input,
+            // FIXME все манипуляции с direction, из за того, что DropdownMenu
+            //  неправильно считает flip позицию при первом рендере
+            direction: undefined,
         }
 
-        this.inputHeightRef = React.createRef()
+        this.inputHeightRef = createRef()
         this.textAreaRef = createRef()
+        this.popUpRef = createRef()
+    }
+
+    componentDidUpdate(prevProps: Props, prevState: State) {
+        if (isEqual(this.state, prevState)) { return }
+
+        this.checkPopupPosition()
+    }
+
+    adjustPopupPosition = (violations: { down?: boolean, up?: boolean }) => {
+        if (violations.down) {
+            this.setState({ direction: 'up' })
+
+            return
+        }
+
+        if (violations.up) {
+            this.setState({ direction: 'down' })
+        }
+    }
+
+    checkPopupPosition = () => {
+        const element = this.popUpRef.current
+
+        if (!element) { return }
+
+        const rect = element.getBoundingClientRect()
+        const viewportHeight = window.innerHeight
+        const viewportWidth = window.innerWidth
+
+        // Выход за границы viewport
+        const violations = {
+            up: rect.top < 0,
+            down: rect.bottom > viewportHeight,
+            left: rect.left < 0,
+            right: rect.right > viewportWidth,
+        }
+
+        const isOutOfBounds = violations.up || violations.down ||
+            violations.left || violations.right
+
+        if (isOutOfBounds) {
+            this.adjustPopupPosition(violations)
+
+            return
+        }
+
+        const { direction } = this.state
+
+        if (direction) { this.setState({ direction: undefined }) }
     }
 
     // eslint-disable-next-line react/no-deprecated
@@ -553,6 +608,12 @@ export class InputSelect extends React.Component<Props, State> {
             quickSearchParam,
             popUpItemRef,
             popUpStyle,
+            inputElements,
+            popUpFullSize = false,
+            fixed = true,
+            flip = true,
+            modifiers = {},
+            container,
         } = this.props
         const {
             value: stateValue,
@@ -561,6 +622,7 @@ export class InputSelect extends React.Component<Props, State> {
             inputFocus,
             activeValueId,
             options,
+            direction,
         } = this.state
         const inputSelectStyle = { width: '100%', cursor: 'text', ...style }
 
@@ -581,6 +643,7 @@ export class InputSelect extends React.Component<Props, State> {
                     isOpen={isExpanded}
                     toggle={this.toggle}
                     ref={this.inputHeightRef}
+                    direction={direction}
                 >
                     <DropdownToggle tag="div" className="n2o-input-select__toggle">
                         <InputSelectGroup
@@ -597,6 +660,7 @@ export class InputSelect extends React.Component<Props, State> {
                             disabled={disabled}
                             className={`${className} ${(isExpanded || inputFocus) ? 'focus' : ''}`}
                             onClick={this.onInputSelectGroupClick}
+                            inputElements={inputElements}
                         >
                             <InputContent
                                 setRef={this.setInputRef}
@@ -629,12 +693,22 @@ export class InputSelect extends React.Component<Props, State> {
                     </DropdownToggle>
 
                     <DropdownMenu
-                        className={classNames('n2o-input-select__menu', {
-                            'n2o-input-select__menu--autosize': popupAutoSize,
-                        })}
-                        modifiers={{ offset: { enabled: true,
-                            offset: `0 ${this.inputHeightRef?.current?.containerRef?.current.clientHeight}px` } }}
-                        positionFixed
+                        className={classNames(
+                            'n2o-input-select__menu',
+                            {
+                                'n2o-input-select__menu--autosize': popupAutoSize,
+                                'full-size': popUpFullSize,
+                            },
+                        )}
+                        modifiers={{
+                            offset: { enabled: true, offset: `0 ${this.inputHeightRef?.current?.containerRef?.current.clientHeight}px` },
+                            ...modifiers,
+                        }}
+                        // @INFO при fixed = true не установить ширину по относительному элементу
+                        positionFixed={fixed && !popUpFullSize}
+                        container={container}
+                        // TODO flip при первом рендере не срабатывает смена позиции
+                        flip={flip}
                     >
                         <PopupList
                             scheduleUpdate={() => {}}
@@ -667,6 +741,7 @@ export class InputSelect extends React.Component<Props, State> {
                             style={popUpStyle}
                             multiSelect={multiSelect}
                             searchMinLengthHint={searchMinLengthHint}
+                            popUpRef={this.popUpRef}
                         >
                             <div className="n2o-alerts">
                                 {alerts?.map(alert => (
@@ -688,17 +763,21 @@ export class InputSelect extends React.Component<Props, State> {
         valueFieldId: 'id',
         labelFieldId: 'name',
         iconFieldId: 'icon',
+        fixed: true,
         loading: false,
         disabled: false,
         disabledValues: [],
         resetOnBlur: false,
+        flip: true,
         filter: false,
         multiSelect: false,
+        modifiers: {},
         closePopupOnSelect: true,
         hasCheckboxes: false,
         expandPopUp: false,
         autoFocus: false,
         popupAutoSize: false,
+        popUpFullSize: false,
         descriptionFieldId: '',
         enabledFieldId: '',
         statusFieldId: '',
@@ -706,6 +785,7 @@ export class InputSelect extends React.Component<Props, State> {
         groupFieldId: '',
         sortFieldId: '',
         style: {},
+        inputElements: {},
         options: [],
         value: {},
         className: '',
