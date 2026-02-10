@@ -18,7 +18,7 @@ export type Content = Array<{
     className?: string
 }>
 
-interface BaseNavigationItem {
+export interface BaseNavigationItem {
     src: string
     id: string
     label: string | ReactNode
