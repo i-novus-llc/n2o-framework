@@ -188,6 +188,7 @@ public class ClientDataProviderUtil {
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
             actionContext.setMessageOnFail(castDefault(actionContextData.isMessageOnFail(), true));
             actionContext.setUseFailOut(actionContextData.isUseFailOut());
+            actionContext.setCallValidation(actionContextData.isCallValidation());
             actionContext.setMessagePosition(castDefault(actionContextData.getMessagePosition(),
                     () -> p.resolve(property("n2o.api.message.position"), MessagePositionEnum.class)));
             actionContext.setMessagePlacement(castDefault(actionContextData.getMessagePlacement(),

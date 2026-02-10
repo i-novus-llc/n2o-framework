@@ -12,7 +12,6 @@
                                message="Следует заполнить поле"/>
                 </validations>
             </date-time>
-            <checkbox id="checkValidation" label="Поля имя и название заполнены верно"/>
             <multi-set id="works" label="Место работы">
                 <row>
                     <input-text id="jobTitle" label="Название" required="true"/>
@@ -43,7 +42,6 @@
                     <field id="birthday"/>
                     <field id="works[$index_0].endYear"/>
                 </validate>
-                <set-value to="checkValidation">true</set-value>
                 <invoke operation-id="create"/>
             </button>
 
@@ -55,7 +53,6 @@
                     <field id="birthday"/>
                     <field id="works[$index_0].endYear"/>
                 </validate>
-                <set-value to="checkValidation">true</set-value>
                 <invoke operation-id="create"/>
             </button>
 
@@ -67,7 +64,6 @@
                     <field id="birthday"/>
                     <field id="works[$index_0].endYear"/>
                 </validate>
-                <set-value to="checkValidation">true</set-value>
                 <invoke operation-id="create"/>
             </button>
 

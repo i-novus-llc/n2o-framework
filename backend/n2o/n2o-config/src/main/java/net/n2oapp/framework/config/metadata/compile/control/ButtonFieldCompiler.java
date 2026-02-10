@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ButtonScope;
 import net.n2oapp.framework.config.util.DatasourceUtil;
 import org.springframework.stereotype.Component;
 
@@ -51,7 +52,8 @@ public class ButtonFieldCompiler extends ActionFieldCompiler<ButtonField, N2oBut
         button.setIcon(p.resolveJS(source.getIcon()));
         button.setLabel(p.resolveJS(source.getLabel()));
 
-        compileAction(source, button, context, p);
+        ButtonScope buttonScope = new ButtonScope(source.getValidate());
+        compileAction(source, button, context, p, buttonScope);
 
         String hint;
         hint = source.getDescription();

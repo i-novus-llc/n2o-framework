@@ -68,8 +68,9 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
         button.setValidate(compileValidate(source,
                 p,
                 source.getDatasourceId()));
+        ButtonScope buttonScope = new ButtonScope(source.getValidate());
         CompiledObject compiledObject = initObject(p, source);
-        Action action = compileAction(source, context, p, compiledObject);
+        Action action = compileAction(source, context, p, compiledObject, buttonScope);
         button.setAction(action);
         compileDependencies(source, button, p);
 

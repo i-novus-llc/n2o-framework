@@ -3,10 +3,7 @@ package net.n2oapp.framework.api.processing;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.ui.ActionRequestInfo;
-import net.n2oapp.framework.api.ui.ActionResponseInfo;
-import net.n2oapp.framework.api.ui.QueryRequestInfo;
-import net.n2oapp.framework.api.ui.QueryResponseInfo;
+import net.n2oapp.framework.api.ui.*;
 
 /**
  * Обработка вызовов действий и выборок N2O
@@ -64,5 +61,9 @@ public interface DataProcessing {
      */
     default void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
 
+    }
+
+    default boolean isEnabled(RequestInfo requestInfo) {
+        return true;
     }
 }

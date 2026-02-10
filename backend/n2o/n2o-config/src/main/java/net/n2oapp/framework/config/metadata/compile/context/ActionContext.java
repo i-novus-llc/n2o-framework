@@ -42,6 +42,7 @@ public class ActionContext extends ObjectContext {
     private boolean messageOnSuccess = true;
     private boolean messageOnFail = true;
     private boolean useFailOut;
+    private boolean callValidation;
     private MessagePositionEnum messagePosition;
     private MessagePlacementEnum messagePlacement;
     /**
@@ -95,6 +96,7 @@ public class ActionContext extends ObjectContext {
                 messageOnSuccess == that.messageOnSuccess &&
                 messageOnFail == that.messageOnFail &&
                 useFailOut == that.useFailOut &&
+                callValidation == that.callValidation &&
                 messagePosition == that.messagePosition &&
                 messagePlacement == that.messagePlacement &&
                 Objects.equals(operationMapping, that.operationMapping);

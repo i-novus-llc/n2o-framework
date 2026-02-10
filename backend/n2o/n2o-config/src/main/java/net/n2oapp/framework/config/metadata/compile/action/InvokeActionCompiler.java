@@ -21,6 +21,7 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ButtonScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -151,6 +152,9 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         actionContextData.setMessageOnSuccess(source.getMessageOnSuccess());
         actionContextData.setMessageOnFail(source.getMessageOnFail());
         actionContextData.setUseFailOut(source.getUseFailOut());
+        Object buttonScope = p.getScope(ButtonScope.class);
+        if (buttonScope instanceof ButtonScope bs)
+            actionContextData.setCallValidation(!Boolean.FALSE.equals(bs.getValidate()));
         actionContextData.setMessagePosition(source.getMessagePosition());
         actionContextData.setMessagePlacement(source.getMessagePlacement());
         actionContextData.setOperation(compiledObject.getOperations().get(source.getOperationId()));
