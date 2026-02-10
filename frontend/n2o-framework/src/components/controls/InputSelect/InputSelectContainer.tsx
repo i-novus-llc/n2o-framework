@@ -2,6 +2,8 @@ import React from 'react'
 import { InputSelectComponent as InputSelect } from '@i-novus/n2o-components/lib/inputs/InputSelect/InputSelect'
 import { type TOption, Filter } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'
 import { type BadgeType } from '@i-novus/n2o-components/lib/inputs/InputSelect/PopupList'
+import { InputElementsProps } from '@i-novus/n2o-components/lib/inputs/InputSelect/InputSelectGroup'
+import { DropdownMenuProps } from 'reactstrap'
 
 import propsResolver from '../../../utils/propsResolver'
 import listContainer from '../listContainer'
@@ -136,14 +138,12 @@ class InputSelectContainer extends React.Component<Props, State> {
          * Флаг наличия чекбоксов в селекте
          */
         hasCheckboxes: false,
-        // eslint-disable-next-line react/default-props-match-prop-types
         expandPopUp: true,
         /**
          * Ключ id в данных
          */
-        // eslint-disable-next-line react/default-props-match-prop-types
         valueFieldId: 'id',
-        flip: false,
+        flip: true,
         /**
          * Авто фокусировка на селекте
          */
@@ -170,6 +170,11 @@ class InputSelectContainer extends React.Component<Props, State> {
 }
 
 type Props = {
+    modifiers?: DropdownMenuProps
+    popUpFullSize?: boolean,
+    container?: string | HTMLElement | React.RefObject<HTMLElement>,
+    fixed?: boolean,
+    inputElements?: InputElementsProps
     loading: boolean,
     options: TOption[],
     valueFieldId: string,
@@ -184,7 +189,7 @@ type Props = {
     onInput(): void,
     onSelect(): void,
     placeholder?: string,
-    flip: boolean,
+    flip?: boolean,
     resetOnBlur: boolean,
     onOpen(): void,
     onClose(): void,

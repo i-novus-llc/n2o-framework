@@ -1,6 +1,8 @@
 import React, { CSSProperties, KeyboardEvent, RefObject } from 'react'
+import { DropdownMenuProps } from 'reactstrap'
 
 import { BadgeType } from './PopupList'
+import { InputElementsProps } from './InputSelectGroup'
 
 export interface PopUpProps { popUpStyle?: CSSProperties, popUpItemRef?: Ref | null }
 
@@ -42,10 +44,17 @@ export interface State {
     prevModel?: Record<string, unknown>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value?: any[]
+    direction?: 'up' | 'down'
 }
 
 /* FIXME сделать общиим с Select props */
 export interface Props {
+    flip?: boolean
+    inputElements?: InputElementsProps
+    fixed?: boolean
+    container?: string | HTMLElement | React.RefObject<HTMLElement>
+    modifiers?: DropdownMenuProps
+    popUpFullSize?: boolean
     popUpItemRef?: PopUpProps['popUpItemRef']
     popUpStyle?: PopUpProps['popUpStyle']
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

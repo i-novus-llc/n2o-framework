@@ -8,7 +8,7 @@ import { Position, Shape } from '../../display/Badge/enums'
 
 import { PopupItems } from './PopupItems'
 import { isBottom } from './utils'
-import { TOption, PopUpProps } from './types'
+import { TOption, PopUpProps, Ref } from './types'
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -80,6 +80,7 @@ interface Props {
     valueFieldId: string
     multiSelect?: boolean
     searchMinLengthHint?: string | null | JSX.Element
+    popUpRef?: Ref
 }
 
 interface State { menuElement: HTMLDivElement | null }
@@ -119,10 +120,10 @@ export class PopupList extends Component<Props> {
     setMenuElement = (menuElement: State['menuElement']) => { this.setState({ menuElement }) }
 
     render() {
-        const { children, style, className, ...rest } = this.props
+        const { children, style, className, popUpRef, ...rest } = this.props
 
         return (
-            <div className={classNames('n2o-pop-up__wrapper', className)}>
+            <div ref={popUpRef} className={classNames('n2o-pop-up__wrapper', className)}>
                 <div
                     style={style}
                     className='n2o-dropdown-control n2o-pop-up'

@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, MouseEvent } from 'react'
+import React, { ReactNode, useCallback, MouseEvent, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { Spinner, SpinnerType } from '../../layouts/Spinner/Spinner'
@@ -6,6 +6,18 @@ import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../utils/emptyTypes'
 
 import { InputAddon } from './InputAddon'
 import { TOption } from './types'
+
+// TODO временное решение для изменения ui элементов внутри input
+export interface InputElementsProps {
+    spinner?: ReactNode | {
+        color?: string
+    }
+    buttons?: {
+        up?: string | ReactNode
+        down?: string | ReactNode
+        clear?: string | ReactNode
+    }
+}
 
 interface Props {
     children: ReactNode
@@ -16,11 +28,12 @@ interface Props {
     iconFieldId?: string
     imageFieldId?: string
     input?: ReactNode
+    inputElements?: InputElementsProps
     inputFocus?: boolean
     isExpanded?: boolean
     loading?: boolean
     multiSelect?: boolean
-    onClearClick?(evt: MouseEvent): void,
+    onClearClick?(evt: MouseEvent): void
     onClick?(): void
     selected?: TOption[]
     setSelectedItemsRef?(): void
@@ -30,17 +43,55 @@ interface Props {
 interface RenderButtonProps {
     loading: boolean
     hidePopUp(): void
+    spinner?: ReactNode | { color?: string }
+    buttons?: {
+        up?: string | ReactNode
+        down?: string | ReactNode
+        clear?: string | ReactNode
+    }
+    isExpanded?: boolean
 }
 
-const RenderButton = ({ loading, hidePopUp }: RenderButtonProps) => (
-    <Spinner type={SpinnerType.inline} loading={loading}>
+const RenderButton = ({ loading, hidePopUp, spinner, buttons, isExpanded }: RenderButtonProps): ReactElement | null => {
+    if (loading) {
+        if (spinner) {
+            if (React.isValidElement(spinner)) {
+                return spinner as ReactElement
+            }
+            if (typeof spinner === 'object' && 'color' in spinner) {
+                return <Spinner className="input-select-loader" type={SpinnerType.cover} color={spinner.color} loading />
+            }
+        }
+
+        return <Spinner className="input-select-loader" type={SpinnerType.cover} loading />
+    }
+
+    const toggleButton: ReactNode | string = isExpanded ? buttons?.up : buttons?.down
+
+    if (toggleButton) {
+        if (typeof toggleButton === 'string') {
+            return (
+                <i
+                    onClick={hidePopUp}
+                    className={toggleButton}
+                    aria-hidden="true"
+                />
+            )
+        }
+
+        if (React.isValidElement(toggleButton)) {
+            return toggleButton as ReactElement
+        }
+    }
+
+    return (
         <i
             onClick={hidePopUp}
             className="fa fa-chevron-down"
             aria-hidden="true"
         />
-    </Spinner>
-)
+    )
+}
 
 /**
  * InputSelectGroup
@@ -48,14 +99,14 @@ const RenderButton = ({ loading, hidePopUp }: RenderButtonProps) => (
  * @reactProps {boolean} isExpanded - флаг видимости popUp
  * @reactProps {array} selected - список выбранных элементов
  * @reactProps {node} input
- * @reactProps {node} children - эдемент потомок компонента InputSelectGroup
+ * @reactProps {node} children - элемент потомок компонента InputSelectGroup
  * @reactProps {boolean} isInputInFocus
  * @reactProps {boolean} disabled
  * @reactProps {function} onClearClick
  * @reactProps {function} setIsExpanded
  * @reactProps {string} iconFieldId - поле для иконки
  * @reactProps {string} imageFieldId - поле для картинки
- * @reactProps {boolean} cleanable - показывать иконку очисть поле
+ * @reactProps {boolean} cleanable - показывать иконку очистки поля
  * @reactProps {boolean} multiSelect - флаг мульти выбора
  * @reactProps {boolean} withoutButtons - флаг скрытия кнопок действий
  */
@@ -78,6 +129,7 @@ export function InputSelectGroup({
     setSelectedItemsRef,
     withoutButtons = false,
     onClick = NOOP_FUNCTION,
+    inputElements = {},
 }: Props) {
     const clearClickHandler = useCallback((evt: MouseEvent<HTMLElement>) => {
         evt.stopPropagation()
@@ -85,6 +137,22 @@ export function InputSelectGroup({
     }, [onClearClick])
 
     const displayAddon = !multiSelect && !!selected?.length && (iconFieldId || imageFieldId)
+
+    const { spinner, buttons } = inputElements
+
+    const renderClearButton = (): ReactElement => {
+        const clearButton = buttons?.clear
+
+        if (typeof clearButton === 'string') {
+            return <i className={clearButton} aria-hidden="true" />
+        }
+
+        if (clearButton && React.isValidElement(clearButton)) {
+            return clearButton as ReactElement
+        }
+
+        return <i className="fa fa-times" aria-hidden="true" />
+    }
 
     return (
         <div
@@ -104,16 +172,22 @@ export function InputSelectGroup({
             </div>
             {!withoutButtons && !disabled && (
                 <div className="n2o-input-control">
-                    {(selected?.length || input) && cleanable && (
+                    {!loading && (selected?.length || input) && cleanable && (
                         <div
                             className={classNames('n2o-input-clear', { 'input-in-focus': inputFocus })}
                             onClick={clearClickHandler}
                         >
-                            <i className="fa fa-times" aria-hidden="true" />
+                            {renderClearButton()}
                         </div>
                     )}
                     <div className={classNames('n2o-popup-control', { isExpanded })}>
-                        <RenderButton loading={loading} hidePopUp={hidePopUp} />
+                        <RenderButton
+                            loading={loading}
+                            hidePopUp={hidePopUp}
+                            spinner={spinner}
+                            buttons={buttons}
+                            isExpanded={isExpanded}
+                        />
                     </div>
                 </div>
             )}
