@@ -2,7 +2,6 @@ package net.n2oapp.framework.autotest.action;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
-import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
@@ -99,15 +98,12 @@ class ValidateActionAT extends AutoTestBase {
         page.shouldExists();
 
         FormWidget form = page.widget(FormWidget.class);
-        Checkbox checkbox = form.fields().field("Поля имя и название заполнены верно").control(Checkbox.class);
-        checkbox.shouldNotBeChecked();
 
         MultiFieldSet multiFieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
         multiFieldset.clickAddButton();
 
         StandardButton button = form.toolbar().bottomLeft().button("Провалидировать часть полей (danger)");
         button.click();
-        checkbox.shouldNotBeChecked();
         Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldNotExists();
 
@@ -116,31 +112,25 @@ class ValidateActionAT extends AutoTestBase {
         multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
         multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
         multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+
         form.fields().field("Имя").control(InputText.class).setValue("test");
         multiFieldset.item(0).fields().field("Название").control(InputText.class).setValue("test");
-
         button.click();
+
         form.fields().field("Имя").shouldHaveValidationMessage(Condition.empty);
         form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
         multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.empty);
-        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
-        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
-        checkbox.shouldBeChecked();
-        checkbox.setChecked(false);
-        alert.shouldNotExists();
-
-        multiFieldset.item(0).fields().field("Год начала").control(InputText.class).setValue("2025");
         multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
-        button.click();
-        checkbox.shouldBeChecked();
-        checkbox.setChecked(false);
+        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
         alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        alert.closeButton().click();
 
         form.fields().field("Дата рождения").control(DateInput.class).setValue("01.01.2000");
         multiFieldset.item(0).fields().field("Год окончания").control(DateInput.class).setValue("01.01.2026");
         button.click();
-        checkbox.shouldBeChecked();
         alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.empty);
+        form.fields().field("Год окончания").shouldHaveValidationMessage(Condition.empty);
     }
 
     @Test
@@ -153,15 +143,12 @@ class ValidateActionAT extends AutoTestBase {
         page.shouldExists();
 
         FormWidget form = page.widget(FormWidget.class);
-        Checkbox checkbox = form.fields().field("Поля имя и название заполнены верно").control(Checkbox.class);
-        checkbox.shouldNotBeChecked();
 
         MultiFieldSet multiFieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
         multiFieldset.clickAddButton();
 
         StandardButton button = form.toolbar().bottomLeft().button("Провалидировать часть полей (warning)");
         button.click();
-        checkbox.shouldNotBeChecked();
         Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldNotExists();
 
@@ -173,24 +160,21 @@ class ValidateActionAT extends AutoTestBase {
 
         form.fields().field("Имя").control(InputText.class).setValue("test");
         multiFieldset.item(0).fields().field("Название").control(InputText.class).setValue("test");
-        multiFieldset.item(0).fields().field("Год окончания").control(DateInput.class).setValue("01.01.2026");
-        form.fields().field("Дата рождения").control(DateInput.class).setValue("01.01.2000");
         button.click();
-        checkbox.shouldBeChecked();
-        checkbox.setChecked(false);
         alert.shouldNotExists();
 
         form.fields().field("Имя").shouldHaveValidationMessage(Condition.empty);
-        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.empty);
+        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
         multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.empty);
-        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
-        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.empty);
-
-        multiFieldset.item(0).fields().field("Год начала").control(InputText.class).setValue("2025");
         multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
+        multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
+
+        multiFieldset.item(0).fields().field("Год окончания").control(DateInput.class).setValue("01.01.2026");
+        form.fields().field("Дата рождения").control(DateInput.class).setValue("01.01.2000");
         button.click();
-        checkbox.shouldBeChecked();
         alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.empty);
+        form.fields().field("Год окончания").shouldHaveValidationMessage(Condition.empty);
     }
 
     @Test
@@ -203,8 +187,6 @@ class ValidateActionAT extends AutoTestBase {
         page.shouldExists();
 
         FormWidget form = page.widget(FormWidget.class);
-        Checkbox checkbox = form.fields().field("Поля имя и название заполнены верно").control(Checkbox.class);
-        checkbox.shouldNotBeChecked();
         MultiFieldSet multiFieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
         multiFieldset.clickAddButton();
 
@@ -214,12 +196,11 @@ class ValidateActionAT extends AutoTestBase {
         form.fields().field("Имя").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
         form.fields().field("Дата рождения").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
         multiFieldset.item(0).fields().field("Название").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
-        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
+        multiFieldset.item(0).fields().field("Год начала").shouldHaveValidationMessage(Condition.empty);
         multiFieldset.item(0).fields().field("Год окончания").shouldHaveValidationMessage(Condition.text(SHOULD_HAVE_VALUE));
-        checkbox.shouldBeChecked();
-        checkbox.setChecked(false);
         Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
-        alert.shouldNotExists();
+        alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        alert.closeButton().click();
 
         form.fields().field("Имя").control(InputText.class).setValue("test");
         form.fields().field("Дата рождения").control(DateInput.class).setValue("01.01.2000");
@@ -228,7 +209,6 @@ class ValidateActionAT extends AutoTestBase {
         multiFieldset.item(0).fields().field("Название").control(InputText.class).setValue("test");
 
         button.click();
-        checkbox.shouldBeChecked();
         alert.shouldHaveText(SUCCESS_ALERT_MESSAGE);
     }
 }

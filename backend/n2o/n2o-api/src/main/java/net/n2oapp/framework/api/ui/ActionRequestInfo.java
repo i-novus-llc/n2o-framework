@@ -35,6 +35,7 @@ public class ActionRequestInfo<D> extends RequestInfo {
     private boolean messageOnSuccess = true;
     private boolean messageOnFail = true;
     private boolean useFailOut;
+    private boolean callValidation = true;
 
     //mutable
     private Map<String, AbstractParameter> inParametersMap = new LinkedHashMap<>();

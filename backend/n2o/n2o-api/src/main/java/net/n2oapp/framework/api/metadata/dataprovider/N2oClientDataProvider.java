@@ -58,6 +58,7 @@ public class N2oClientDataProvider implements Serializable {
         private boolean messageOnSuccess;
         private boolean messageOnFail;
         private boolean useFailOut;
+        private boolean callValidation;
         private String messagesForm;
         private MessagePositionEnum messagePosition;
         private MessagePlacementEnum messagePlacement;

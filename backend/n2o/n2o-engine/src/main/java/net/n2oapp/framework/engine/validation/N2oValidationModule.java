@@ -75,6 +75,11 @@ public class N2oValidationModule implements DataProcessing {
         }
     }
 
+    @Override
+    public boolean isEnabled(RequestInfo requestInfo) {
+        return !(requestInfo instanceof ActionRequestInfo<?> actionRequestInfo) || actionRequestInfo.isCallValidation();
+    }
+
     private ObjectValidationInfo buildInfo(ActionRequestInfo<DataSet> requestInfo, DataSet dataSet) {
         return new ObjectValidationInfo(
                 requestInfo.getObject().getId(),

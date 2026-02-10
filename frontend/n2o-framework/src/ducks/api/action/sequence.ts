@@ -1,6 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
 import { cancel, put } from 'redux-saga/effects'
-import get from 'lodash/get'
 
 import { Action, ErrorAction, Meta } from '../../Action'
 import { ACTIONS_PREFIX } from '../constants'
@@ -21,23 +20,18 @@ export const finisher = createAction(
     (payload: Record<string, unknown>, meta: SequenceMeta) => ({ payload, meta }),
 )
 
-let abortController = new AbortController()
-
 export function* effect({ payload, meta }: ReturnType<typeof creator>) {
     const { actions, fallback } = payload
-    const { target, key, buttonId, evalContext } = meta
 
     for (const action of actions) {
         const resultAction: Action | ErrorAction = yield waitOperation(
-            mergeMeta(action, { target, key, buttonId, evalContext, abortController }),
+            mergeMeta(action, { ...meta, abortController: new AbortController() }),
         )
 
         if (resultAction.error) {
-            const { meta } = resultAction
-            const aborted = get(meta, 'abortController.signal.aborted', false)
+            const { meta = {} } = resultAction
 
-            if (aborted) {
-                abortController = new AbortController()
+            if (meta.abortController?.signal.aborted) {
                 throw new Error(resultAction.error)
             }
 
@@ -52,5 +46,5 @@ export function* effect({ payload, meta }: ReturnType<typeof creator>) {
         }
     }
 
-    yield put(finisher({}, { target, key, buttonId, evalContext }))
+    yield put(finisher({}, meta))
 }
