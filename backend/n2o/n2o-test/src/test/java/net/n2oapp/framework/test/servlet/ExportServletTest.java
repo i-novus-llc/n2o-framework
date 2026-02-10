@@ -70,7 +70,8 @@ class ExportServletTest {
         doReturn(200).when(exportResponse).getStatus();
         doReturn("text/csv").when(exportResponse).getContentType();
         doReturn("UTF-8").when(exportResponse).getCharacterEncoding();
-        doReturn("attachment;filename=testExport.csv").when(exportResponse).getContentDisposition();
+        doReturn("attachment; filename=\"=?UTF-8?Q?testExport.csv?=\"; filename*=UTF-8''testExport.csv")
+                .when(exportResponse).getContentDisposition();
         doReturn(bytes).when(exportResponse).getFile();
 
         ((ExportServlet) exportServlet.getServlet()).safeDoPost(request, response);
@@ -78,7 +79,8 @@ class ExportServletTest {
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(response.getContentType()).isEqualTo("text/csv;charset=UTF-8");
         assertThat(response.getCharacterEncoding()).isEqualTo("UTF-8");
-        assertThat(response.getHeader("Content-Disposition")).isEqualTo("attachment;filename=testExport.csv");
+        assertThat(response.getHeader("Content-Disposition"))
+                .isEqualTo("attachment; filename=\"=?UTF-8?Q?testExport.csv?=\"; filename*=UTF-8''testExport.csv");
         String exp = new String(bytes, StandardCharsets.UTF_8);
         String act = new String(response.getContentAsByteArray(), StandardCharsets.UTF_8);
         assertThat(act).isEqualTo(exp);
