@@ -1,50 +1,64 @@
-import { useStore } from 'react-redux'
+import { useSelector, useStore } from 'react-redux'
 
-import { type Model } from '../../ducks/models/selectors'
+import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { type Mapping } from '../../ducks/datasource/Provider'
-import { executeExpression } from '../../core/Expression/execute'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
+import { useResolved } from '../../core/Expression/useResolver'
+import { ModelPrefix } from '../../core/datasource/const'
+
+import { BaseNavigationItem } from './types'
 
 type Options = {
     url?: string,
     pathMapping?: Mapping
     queryMapping?: Mapping
-    model: Model,
-    visible: boolean | string
-    enabled: boolean | string
+    model: ModelPrefix,
+    datasource: string,
+    enabled?: boolean | string
+    visible?: boolean | string
 }
 
-export function useLinkPropsResolver(options: Options) {
-    const {
-        url,
-        pathMapping,
-        queryMapping,
-        model,
-        visible,
-        enabled,
-    } = options
+type Result = {
+    url?: string
+    disabled: boolean
+    visible: boolean
+}
 
+export function useLinkPropsResolver<
+    P extends BaseNavigationItem,
+    O extends Options & P,
+    R extends Result & P,
+>({
+    url,
+    pathMapping,
+    queryMapping,
+    model: prefix,
+    datasource,
+    visible: propsVisible = true,
+    enabled: propsEnabled = true,
+    ...rest
+}: O): R {
+    const model = useSelector(getModelByPrefixAndNameSelector(prefix, datasource))
     const { getState } = useStore()
-
-    const isVisible = typeof visible === 'string'
-        ? executeExpression<boolean, undefined>(visible, model)
-        : visible
+    const { enabled, ...resolved } = useResolved<R>({
+        visible: propsVisible,
+        enabled: propsEnabled,
+        ...rest,
+    }, model)
 
     try {
         const compiledUrl = url && dataProviderResolver(getState(), { url, pathMapping, queryMapping }).url
 
         return {
+            ...resolved,
             url: compiledUrl,
-            visible: isVisible,
-            disabled: typeof enabled === 'string'
-                ? !executeExpression<boolean, undefined>(enabled, model)
-                : !enabled,
-        }
+            disabled: !enabled,
+        } as R
     } catch (error) {
         return {
+            ...resolved,
             url: undefined,
-            visible: isVisible,
             disabled: true,
-        }
+        } as R
     }
 }
