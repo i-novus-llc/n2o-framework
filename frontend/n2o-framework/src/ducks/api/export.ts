@@ -103,27 +103,30 @@ function* getSetting(valueMeta: LinkProps) {
 function extractFilenameFromContentDisposition(contentDisposition: string | null): string | null {
     if (!contentDisposition) { return null }
 
-    const regexp = /filename(=|\*=utf-8'')/i
+    // 1. Современный стандарт RFC 5987
+    const filenameStartMatch = contentDisposition.match(/filename\*=utf-8''([^;]+)/i)
 
-    // Ищем часть строки с именем файла
-    const fileNamePart = contentDisposition
-        .split(';')
-        .find(part => regexp.test(part.trim()))
-
-    if (!fileNamePart) { return null }
-
-    // Убираем префикс filename= или filename*=utf-8''
-    const fileName = fileNamePart
-        .replace(regexp, '')
-        .trim()
-
-    try {
-        // Декодируем URL-encoded строку и убираем кавычки если есть
-        return decodeURIComponent(fileName.replace(/^["']|["']$/g, ''))
-    } catch {
-        // Если декодирование не удалось, возвращаем как есть без кавычек
-        return fileName.replace(/^["']|["']$/g, '')
+    if (filenameStartMatch) {
+        try {
+            return decodeURIComponent(filenameStartMatch[1].trim())
+        } catch (e) {
+            console.error('Failed to decode filename*:', e)
+        }
     }
+
+    // 2. Fallback на обычный filename (для старых серверов или ASCII имен)
+    const filenameMatch = contentDisposition.match(/filename="?([^\n";]+)"?/i)
+
+    if (filenameMatch) {
+        const filename = filenameMatch[1].trim()
+
+        // Пропускаем MIME-encoded варианты, они некорректны для HTTP
+        if (!filename.startsWith('=?')) {
+            return filename
+        }
+    }
+
+    return null
 }
 
 export function* effect({ payload }: Action<string, Payload>) {

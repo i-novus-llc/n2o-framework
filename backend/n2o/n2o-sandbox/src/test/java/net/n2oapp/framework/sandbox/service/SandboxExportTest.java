@@ -78,7 +78,9 @@ class SandboxExportTest {
         assertThat(response.getStatusCode().value(), is(200));
         assertThat(response.getBody(), is(expectedBody.getBytes(StandardCharsets.UTF_8)));
         HttpHeaders headers = response.getHeaders();
-        assertThat(headers.getContentDisposition().toString().matches("attachment; filename=\"export_data.csv\""), is(true));
+        assertThat(headers.getContentDisposition().toString()
+                .equals("attachment; filename=\"=?UTF-8?Q?export=5Fdata.csv?=\"; filename*=UTF-8''export_data.csv"),
+                is(true));
 
         Optional<MediaType> contentType = Optional.ofNullable(headers.getContentType());
         assertThat(contentType.get().toString(), is("text/csv"));

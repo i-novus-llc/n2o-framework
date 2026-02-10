@@ -9,7 +9,9 @@ import net.n2oapp.framework.ui.controller.AbstractController;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.controller.export.format.FileGenerator;
 import net.n2oapp.framework.ui.controller.export.format.FileGeneratorFactory;
+import org.springframework.http.ContentDisposition;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,6 @@ import java.util.Objects;
 public class ExportController extends AbstractController {
 
     private static final String FILES_DIRECTORY_NAME = System.getProperty("java.io.tmpdir");
-    private static final String CONTENT_DISPOSITION_FORMAT = "attachment;filename=%s";
     private final DataController dataController;
     private final FileGeneratorFactory fileGeneratorFactory;
 
@@ -40,7 +41,7 @@ public class ExportController extends AbstractController {
 
         response.setFile(fileBytes);
         response.setContentType(generator.getContentType());
-        response.setContentDisposition(String.format(CONTENT_DISPOSITION_FORMAT, fileName));
+        response.setContentDisposition(encodeContentDisposition(fileName));
         response.setCharacterEncoding(charset);
         response.setContentLength(fileBytes == null ? 0 : fileBytes.length);
 
@@ -120,5 +121,12 @@ public class ExportController extends AbstractController {
 
     protected String getFileName(String customFilename, String fileFormat) {
         return customFilename + "." + fileFormat;
+    }
+
+    private String encodeContentDisposition(String fileName) {
+        ContentDisposition contentDisposition = ContentDisposition.attachment()
+                .filename(fileName, StandardCharsets.UTF_8)
+                .build();
+        return contentDisposition.toString();
     }
 }
