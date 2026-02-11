@@ -8,10 +8,10 @@ textarea.n2o-text-area {
     min-height: $line-height;
 
     &[data-max-rows] {
-        max-height: calc(($line-height * attr(data-max-rows number)) + paddings)!important;
+        max-height: calc(($line-height * attr(data-max-rows number)) + $paddings)!important;
     }
 
     &[data-min-rows] {
-        min-height: calc(($line-height * attr(data-min-rows number)) + paddings)!important;
+        min-height: calc(($line-height * attr(data-min-rows number)) + $paddings)!important;
     }
 }
