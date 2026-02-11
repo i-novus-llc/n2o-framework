@@ -79,7 +79,6 @@ export type HeaderCell = {
     hasSubColumns?: boolean
     sortingParam?: string
     filterField?: FilterField
-    format?: string
     fixed?: 'left' | 'right'
     resizable?: boolean
 }

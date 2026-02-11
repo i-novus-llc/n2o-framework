@@ -433,6 +433,40 @@ class TableButtonGeneratorAT extends AutoTestBase {
     }
 
     @Test
+    void exportWithFormatDataTest() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/export_with_format_data");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/export_with_format_data/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/export_with_format_data/data.query.xml")
+        );
+
+        openPage();
+        N2oButton exportBtn = toolbar.button(0, N2oStandardButton.class);
+        exportBtn.shouldExists();
+        File file = exportBtn.element().download(
+                using(FOLDER).withFilter(withExtension("csv"))
+        );
+
+        try (FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
+            char[] chars = new char[(int) file.length() - 1];
+            fileReader.read(chars);
+
+            String actual = new String(chars);
+            String expected = """
+                    "Номер машины";"Марка / модель";"Дата регистрации";"Цена";"ФИО владельца";"Номер телефона владельца";"СНИЛС владельца"
+                    1;"Toyota Camry";"15.05.2023";"2 500 000,00";"Иванов Иван Иванович";"+7 (999) 123-45-67";"123-456-789 01"
+                    2;"BMW X5";"20.11.2022";"5 800 000,00";"Петров Петр Петрович";"+7 (916) 234-56-78";"234-567-890 12"
+                    3;"Mercedes-Benz E-Class";"10.01.2024";"4 200 000,00";"Сидорова Анна Владимировна";"+7 (903) 345-67-89";"345-678-901 23"
+                    4;"Volkswagen Tiguan";"25.08.2021";"2 100 000,00";"Козлов Дмитрий Сергеевич";"+7 (926) 456-78-90";"456-789-012 34"
+                    5;"Audi A6";"05.03.2023";"3 900 000,00";"Новикова Елена Александровна";"+7 (915) 567-89-01";"567-890-123 45"
+                    """;
+            assertTrue(actual.contains(expected), "Экспортированное значение таблицы не соответствует ожидаемому");
+        } catch (IOException e) {
+            fail();
+        }
+    }
+
+    @Test
     void exportCurrentPageTest() {
         openPage();
         N2oDropdownButton button = toolbar.button(1, N2oDropdownButton.class);

@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "Toyota Camry",
+    "reg_date": "2023-05-15",
+    "price": 2500000,
+    "owner_name": "Иванов Иван Иванович",
+    "owner_phone": "+7 (999) 123-45-67",
+    "owner_snils": "123-456-789 01"
+  },
+  {
+    "id": 2,
+    "name": "BMW X5",
+    "reg_date": "2022-11-20",
+    "price": 5800000,
+    "owner_name": "Петров Петр Петрович",
+    "owner_phone": "+7 (916) 234-56-78",
+    "owner_snils": "234-567-890 12"
+  },
+  {
+    "id": 3,
+    "name": "Mercedes-Benz E-Class",
+    "reg_date": "2024-01-10",
+    "price": 4200000,
+    "owner_name": "Сидорова Анна Владимировна",
+    "owner_phone": "+7 (903) 345-67-89",
+    "owner_snils": "345-678-901 23"
+  },
+  {
+    "id": 4,
+    "name": "Volkswagen Tiguan",
+    "reg_date": "2021-08-25",
+    "price": 2100000,
+    "owner_name": "Козлов Дмитрий Сергеевич",
+    "owner_phone": "+7 (926) 456-78-90",
+    "owner_snils": "456-789-012 34"
+  },
+  {
+    "id": 5,
+    "name": "Audi A6",
+    "reg_date": "2023-03-05",
+    "price": 3900000,
+    "owner_name": "Новикова Елена Александровна",
+    "owner_phone": "+7 (915) 567-89-01",
+    "owner_snils": "567-890-123 45"
+  },
+  {
+    "id": 6,
+    "name": "Kia Sportage",
+    "reg_date": "2022-07-18",
+    "price": 1800000,
+    "owner_name": "Морозов Алексей Николаевич",
+    "owner_phone": "+7 (985) 678-90-12",
+    "owner_snils": "678-901-234 56"
+  },
+  {
+    "id": 7,
+    "name": "Hyundai Tucson",
+    "reg_date": "2024-02-28",
+    "price": 2300000,
+    "owner_name": "Волкова Мария Игоревна",
+    "owner_phone": "+7 (909) 789-01-23",
+    "owner_snils": "789-012-345 67"
+  },
+  {
+    "id": 8,
+    "name": "Lexus RX",
+    "reg_date": "2021-12-01",
+    "price": 4700000,
+    "owner_name": "Соколов Андрей Викторович",
+    "owner_phone": "+7 (917) 890-12-34",
+    "owner_snils": "890-123-456 78"
+  },
+  {
+    "id": 9,
+    "name": "Mazda CX-5",
+    "reg_date": "2023-09-14",
+    "price": 2700000,
+    "owner_name": "Лебедева Ольга Павловна",
+    "owner_phone": "+7 (925) 901-23-45",
+    "owner_snils": "901-234-567 89"
+  },
+  {
+    "id": 10,
+    "name": "Skoda Kodiaq",
+    "reg_date": "2022-04-22",
+    "price": 2400000,
+    "owner_name": "Федоров Максим Олегович",
+    "owner_phone": "+7 (919) 012-34-56",
+    "owner_snils": "012-345-678 90"
+  }
+]

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.rest.ExportRequest;
 import net.n2oapp.framework.api.rest.ExportResponse;
 import net.n2oapp.framework.ui.controller.export.ExportController;
 import net.n2oapp.framework.ui.controller.export.format.CsvFileGenerator;
@@ -25,11 +26,12 @@ class ExportControllerTest extends DataControllerTestBase {
         List<DataSet> list = testData();
 
         ExportController exportController = new ExportController(builder.getEnvironment(), null, factory);
-        LinkedHashMap<String, String> headers = new LinkedHashMap<>();
-        headers.put("id", "Идентификатор");
-        headers.put("name", "Наименование");
-        headers.put("list", "Список");
-        headers.put("type.name", "Тип");
+        List<ExportRequest.ExportField> headers = List.of(
+                createExportField("id", "Идентификатор", null),
+                createExportField("name", "Наименование", null),
+                createExportField("list", "Список", null),
+                createExportField("type.name", "Тип", null)
+        );
         ExportResponse export = exportController.export(list, "csv", "UTF-8", headers, "Пациенты");
 
         String act = new String(export.getFile(), StandardCharsets.UTF_8);
@@ -49,7 +51,13 @@ class ExportControllerTest extends DataControllerTestBase {
                 is(true));
         assertThat(export.getContentLength(), is(exp.getBytes(StandardCharsets.UTF_8).length));
 
-        export = exportController.export(list, "csv", "Cp1251", headers, "Пациенты");
+        List<ExportRequest.ExportField> headersCp1251 = List.of(
+                createExportField("id", "Идентификатор", null),
+                createExportField("name", "Наименование", null),
+                createExportField("list", "Список", null),
+                createExportField("type.name", "Тип", null)
+        );
+        export = exportController.export(list, "csv", "Cp1251", headersCp1251, "Пациенты");
 
         Charset cp1251 = Charset.forName("cp1251");
         act = new String(export.getFile(), cp1251);
@@ -71,11 +79,12 @@ class ExportControllerTest extends DataControllerTestBase {
         FileGeneratorFactory xlsxFactory = new FileGeneratorFactory(List.of(new XlsxFileGenerator()));
 
         ExportController exportController = new ExportController(builder.getEnvironment(), null, xlsxFactory);
-        LinkedHashMap<String, String> headers = new LinkedHashMap<>();
-        headers.put("id", "Идентификатор");
-        headers.put("name", "Наименование");
-        headers.put("list", "Список");
-        headers.put("type.name", "Тип");
+        List<ExportRequest.ExportField> headers = List.of(
+                createExportField("id", "Идентификатор", null),
+                createExportField("name", "Наименование", null),
+                createExportField("list", "Список", null),
+                createExportField("type.name", "Тип", null)
+        );
 
         ExportResponse export = exportController.export(list, "xlsx", "UTF-8", headers, "Пациенты");
 
@@ -114,5 +123,13 @@ class ExportControllerTest extends DataControllerTestBase {
         list.add(body2);
         list.add(body3);
         return list;
+    }
+
+    private ExportRequest.ExportField createExportField(String id, String title, String format) {
+        ExportRequest.ExportField field = new ExportRequest.ExportField();
+        field.setId(id);
+        field.setTitle(title);
+        field.setFormat(format);
+        return field;
     }
 }

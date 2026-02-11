@@ -14,7 +14,7 @@ import net.n2oapp.framework.ui.controller.export.ExportController;
 import org.springframework.http.HttpHeaders;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ExportServlet extends N2oServlet {
@@ -40,7 +40,7 @@ public class ExportServlet extends N2oServlet {
             throw new N2oException("Query-параметр запроса пустой");
 
         GetDataResponse dataResponse = controller.getData(path, params, (UserContext) req.getAttribute(USER));
-        LinkedHashMap<String, String> headers = exportRequest.getFields();
+        List<ExportRequest.ExportField> headers = exportRequest.getFields();
         ExportResponse exportResponse = controller.export(dataResponse.getList(), format, charset, headers, filename);
 
         resp.setStatus(exportResponse.getStatus());

@@ -3,13 +3,13 @@ import { cancel, select, takeEvery } from 'redux-saga/effects'
 
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { dataSourceByIdSelector } from '../datasource/selectors'
-import { getTableHeaderCells } from '../table/selectors'
+import { getTableCells } from '../table/selectors'
 import { type Action } from '../Action'
 import { getModelSelector } from '../models/selectors'
 import { type DataSourceState } from '../datasource/DataSource'
 import { type State } from '../State'
 import { type Provider, ProviderType } from '../datasource/Provider'
-import { type HeaderCell } from '../table/Table'
+import { BodyCell, type HeaderCell } from '../table/Table'
 import { getAllValuesByKey } from '../../components/Table/utils'
 import { logger } from '../../core/utils/logger'
 import { linkResolver, type LinkProps } from '../../utils/linkResolver'
@@ -52,24 +52,22 @@ export const creator = createAction(
     }),
 )
 
-function getShowedColumnsWithLabels(columns: HeaderCell[]): Record<string, string> {
-    const fields: Record<string, string> = {}
-
-    columns
+function getShowedColumnsWithLabels(header: HeaderCell[], body: BodyCell[]) {
+    return header
         .filter(column => column.visible && column.visibleState)
-        .forEach((column) => {
+        .map(({ id, label }) => ({
+            id,
             // @INFO Используем label если он указан, иначе id колонки
-            fields[column.id] = column.label || column.id
-        })
-
-    return fields
+            title: label || id,
+            format: body.find(cell => cell.id === id)?.format,
+        }))
 }
 
 function createExportPayload(
     resolvedURL: string,
     format: string,
     charset: string,
-    fields: Record<string, string>,
+    fields: Array<{ id: string, title: string, format?: string }>,
     filename?: string,
 ) {
     return {
@@ -192,11 +190,11 @@ export function* effect({ payload }: Action<string, Payload>) {
         },
     )
 
-    const headerCells: HeaderCell[] = yield select(getTableHeaderCells(widgetId))
+    const cells: { header: HeaderCell[], body: BodyCell[] } = yield select(getTableCells(widgetId))
 
-    const columns = getAllValuesByKey(headerCells, { keyToIterate: 'children' })?.filter(obj => !NON_EXPORTABLE_KEYS.some(key => key in obj))
+    const columns = getAllValuesByKey(cells.header, { keyToIterate: 'children' })?.filter(obj => !NON_EXPORTABLE_KEYS.some(key => key in obj))
 
-    const fields = getShowedColumnsWithLabels(columns)
+    const fields = getShowedColumnsWithLabels(columns, cells.body)
     const exportPayload = createExportPayload(resolvedURL, format, charset, fields, filename)
 
     try {

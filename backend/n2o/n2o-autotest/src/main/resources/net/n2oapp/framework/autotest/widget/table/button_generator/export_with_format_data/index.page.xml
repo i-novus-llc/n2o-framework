@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
+             name="Поддержка форматирования колонок при экспорте таблицы">
+    <table selection="none">
+        <datasource query-id="data" size="5"/>
+        <columns>
+            <column text-field-id="id" label="Номер машины"/>
+            <column text-field-id="name" label="Марка / модель"/>
+            <column text-field-id="reg_date" label="Дата регистрации">
+                <text format="date DD.MM.YYYY"/>
+            </column>
+            <column text-field-id="price" label="Цена">
+                <text format="number 0,0.00"/>
+            </column>
+            <column text-field-id="owner_name" label="ФИО владельца"/>
+            <column text-field-id="owner_phone" label="Номер телефона владельца">
+                <text format="phone"/>
+            </column>
+            <column text-field-id="owner_snils" label="СНИЛС владельца">
+                <text format="snils"/>
+            </column>
+        </columns>
+        <toolbar place="topRight">
+            <ts:export default-format="csv" default-size="page" default-charset="utf-8" show-modal="false"/>
+        </toolbar>
+    </table>
+</simple-page>

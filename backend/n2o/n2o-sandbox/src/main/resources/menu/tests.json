@@ -485,6 +485,10 @@
           "name": "TableButtonGeneratorAT. exportWithoutModalTest"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/button_generator/export_with_format_data",
+          "name": "TableButtonGeneratorAT. exportWithFormatDataTest"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/checkboxes",
           "name": "TableCheckboxesAT"
         },

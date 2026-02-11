@@ -4,6 +4,7 @@ import com.opencsv.CSVWriter;
 import com.opencsv.ICSVWriter;
 import lombok.NoArgsConstructor;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.rest.ExportRequest;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -14,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.UnaryOperator;
 
 @NoArgsConstructor
@@ -25,7 +25,7 @@ public class CsvFileGenerator implements FileGenerator {
     private char csvSeparator = ';';
 
     @Override
-    public byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, Map<String, String> headers) {
+    public byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, List<ExportRequest.ExportField> headers) {
         byte[] fileBytes = null;
 
         try {
@@ -65,27 +65,26 @@ public class CsvFileGenerator implements FileGenerator {
         this.csvSeparator = separator;
     }
 
-    private List<String[]> resolveToCsvFormat(List<DataSet> data, Map<String, String> headers) {
+    private List<String[]> resolveToCsvFormat(List<DataSet> data, List<ExportRequest.ExportField> headers) {
         if (data.isEmpty())
             return new ArrayList<>();
 
-        // Колонки строго по headers (порядок — как в headers)
-        List<String> headerKeys = new ArrayList<>(headers.keySet());
-        int columnCount = headerKeys.size();
+        int columnCount = headers.size();
         List<String[]> csvData = new ArrayList<>();
 
         UnaryOperator<String> quoteWrapper = s -> "\"".concat(s).concat("\"");
 
-        // Заголовки из values() в том же порядке
-        List<String> titles = new ArrayList<>(headers.values());
-        titles.replaceAll(quoteWrapper);
-        csvData.add(titles.toArray(new String[0]));
+        // Заголовки из title в порядке списка headers
+        String[] titles = headers.stream()
+                .map(field -> quoteWrapper.apply(field.getTitle()))
+                .toArray(String[]::new);
+        csvData.add(titles);
 
-        // Формируем строки данных по ключам из headers, поддерживаем составные пути a.b.c
+        // Формируем строки данных по id из headers
         for (DataSet row : data) {
             String[] csvRow = new String[columnCount];
-            for (int i = 0; i < headerKeys.size(); i++) {
-                Object value = row.get(headerKeys.get(i));
+            for (int i = 0; i < headers.size(); i++) {
+                Object value = row.get(headers.get(i).getId());
                 if (value != null) {
                     csvRow[i] = (value instanceof String valueStr)
                             ? quoteWrapper.apply(valueStr)

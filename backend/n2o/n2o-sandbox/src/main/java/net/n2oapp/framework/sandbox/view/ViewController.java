@@ -273,7 +273,7 @@ public class ViewController {
                 throw new N2oException("Query-параметр запроса пустой");
 
             GetDataResponse dataResponse = exportController.getData(path, params, new UserContext(sandboxContext));
-            LinkedHashMap<String, String> headers = request.getFields();
+            List<ExportRequest.ExportField> headers = request.getFields();
             ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers, filename);
 
             return ResponseEntity.status(exportResponse.getStatus())
