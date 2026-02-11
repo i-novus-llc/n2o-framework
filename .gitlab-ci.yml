@@ -70,6 +70,11 @@ build story:
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^(fix|sub|story)\/.+/ && $CI_PIPELINE_SOURCE == 'web'
 
+build stable:
+  variables:
+    MAVEN_RUN_OPTIONS: 'install'
+    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+
 cleanup:
   dependencies: []
 
