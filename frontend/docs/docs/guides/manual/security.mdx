@@ -14,8 +14,8 @@ description: ""
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, Customizer<CorsConfigurer<HttpSecurity>> n2oCorsCustomizer, Customizer<CsrfConfigurer<HttpSecurity>> n2oCsrfCustomizer) throws Exception {
         ...
-        http.csrf(csrfCustomizer);
-        http.cors(corsCustomizer);
+        http.csrf(n2oCsrfCustomizer);
+        http.cors(n2oCorsCustomizer);
         ...
         return http.build();
     }
