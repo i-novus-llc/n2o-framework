@@ -71,7 +71,14 @@ interface Options {
     pageUrl?: string | null
 }
 
-export function constraint<TData extends object, TKey extends keyof TData>(fieldId: TKey, data: TData, { signal, datasourceId, validationKey, pageUrl }: Options): Promise<ValidationResult> | boolean {
+export function constraint<
+    TData extends object,
+    TKey extends keyof TData,
+>(
+    fieldId: TKey,
+    data: TData,
+    { signal, datasourceId, validationKey, pageUrl }: Options,
+): Promise<ValidationResult | boolean> {
     const body = { data, datasourceId, validationId: validationKey }
 
     const pagePath = pageUrl || ''

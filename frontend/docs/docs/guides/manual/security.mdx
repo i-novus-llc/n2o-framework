@@ -1,180 +1,93 @@
 ---
-title: Управление доступом
+title: Безопасность
 description: ""
 ---
 
-В этом разделе рассказывается о том, как защитить данные от несанкционированного доступа.
+В этом разделе рассказывается о том, как включить защиту от csrf атак и разрешить междоменные запросы.
 
-### Атрибуты доступа
+### Подключение CSRF и CORS в приложении
 
-В некоторых элементах, например, в кнопках `<button>` или навигации,
-можно напрямую определить ограничения доступа с помощью специальных атрибутов:
+Для создания бина Customizer для CORS задайте настройку `n2o.security.cors.allowed-origins`.\
+Для создания бина Customizer для CSRF задайте настройку `n2o.security.csrf.enabled=true`.
 
-__*Атрибуты доступа*__
-
-| Наименование  | Тип          | Описание                                                                                             | Значение по умолчанию |
-|---------------|--------------|------------------------------------------------------------------------------------------------------|-----------------------|
-| authenticated | true false   | Доступ только для аутентифицированных пользователей                                                  |                       |
-| anonymous     | true false   | Доступ только для анонимных пользователей                                                            |                       |
-| roles         | Список строк | Доступ пользователям с перечисленными ролями (через запятую)                                         |                       |
-| permissions   | Список строк | Доступ пользователям с перечисленными правами (через запятую)                                        |                       |
-| usernames     | Список строк | Доступ только перечисленным пользователям (через запятую)                                            |                       |
-| permit-all    | true false   | Доступ разрешен для всех                                                                             |                       |
-| denied        | true false   | Доступ запрещен для всех                                                                             |                       |
-| behavior      | hide disable | Поведение компонента при отсутствии прав доступа:<br/> `hide` - скрытие,<br/> `disable` - блокировка | hide                  |
-
-**Настройки**
-
-```yaml
-#Поведение компонента при отсутствии прав доступа
-n2o.access.behavior = hide
-```
-
-Атрибуты доступа подключается дополнительной xsd схемой: `http://n2oapp.net/framework/config/schema/security-1.0`.
-
-```xml title="Ограничение доступа к кнопке с помощью атрибутов"
-<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-  xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
-    ...
-    <button sec:authenticated="true"/>
-    ...
-</page>
-```
-
-```xml title="Ограничение доступа к странице с помощью атрибутов"
-<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0"
-             xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
-    <header class="inverse" title="N2O">
+```java title="Подключение в конфигурацию безопасности"
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http, Customizer<CorsConfigurer<HttpSecurity>> n2oCorsCustomizer, Customizer<CsrfConfigurer<HttpSecurity>> n2oCsrfCustomizer) throws Exception {
         ...
-        <menu-item sec:roles="admin, user"/>
+        http.csrf(csrfCustomizer);
+        http.cors(corsCustomizer);
         ...
-    </header>
-</application>
+        return http.build();
+    }
 ```
 
-При нехватке прав доступа визуальный компонент будет скрыт.
-Проверки доступа действуют и на сервере.
-При попытке несанкционированного доступа сервер выдаст ошибку 401 или 403.
+### Настройки CSRF защиты
 
-Права доступа вычисляются по свойству `user` в [контексте пользователя](../manual/context).
+Настройки защиты от межсайтовой подделки запросов (Cross-Site Request Forgery).
 
-```json title="Контекст пользователя"
-{
-  "user" : {
-    "username" : "Joe",
-    "roles" : ["admin"],
-    "permissions" : ["something.edit", "something.read"]
-  }
-}
+| Наименование | Тип | Описание | Значение по умолчанию |
+|--------------|-----|----------|-----------------------|
+| n2o.security.csrf.enabled | boolean | Включить CSRF защиту | false |
+| n2o.security.csrf.cookie-name | string | Имя cookie для CSRF токена | XSRF-TOKEN |
+| n2o.security.csrf.header-name | string | Имя HTTP заголовка для CSRF токена | X-XSRF-TOKEN |
+| n2o.security.csrf.parameter-name | string | Имя параметра для CSRF токена | _csrf |
+| n2o.security.csrf.cookie-path | string | Путь для CSRF cookie | / |
+| n2o.security.csrf.ignoring-request-matchers | Список строк | Список URL patterns, которые исключаются из CSRF защиты. Поддерживает Ant-style patterns (например: /api/public/**) | [] |
+| n2o.security.csrf.secure | boolean | Использовать Secure flag для cookies (только HTTPS) | true |
+
+```yaml title="Пример настройки CSRF защиты"
+n2o:
+  security:
+    csrf:
+      enabled: true
+      ignoring-request-matchers:
+        - /api/public/**
+        - /health
 ```
 
-### Схема доступа {#Access_scheme}
+### Настройки Cookie
 
-С помощью схемы доступа можно управлять доступом,
-выставляя правила не для каждого компонента,
-а над объектной моделью данных.
+Настройки для session cookies.
 
-Схема доступа записывается в отдельном файле `[id].access.xml`.
+| Наименование | Тип | Описание | Значение по умолчанию |
+|--------------|-----|----------|-----------------------|
+| n2o.security.cookie.same-site | enum | SameSite политика для session cookie. Возможные значения: Strict, Lax, None | Lax |
 
-```xml title="Ограничение доступа к странице с помощью атрибутов"
-<access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
-    <role id="admin">
-        <object-access object-id="something"
-                       operations="*"/>
-    </role>
-</access>
+```yaml title="Пример настройки Cookie"
+n2o:
+  security:
+    cookie:
+      same-site: Strict
 ```
 
-Идентификатор схемы доступа определяется настройкой `n2o.access.id`.
-В схеме описываются права пользователя с привязкой к точкам доступа.
+### Настройки CORS
 
-Точками доступа называются правила, задающие доступность компонентов и данных.
+Настройки междоменных запросов (Cross-Origin Resource Sharing).
 
-__*Точки доступа*__
+| Наименование | Тип | Описание | Значение по умолчанию |
+|--------------|-----|----------|-----------------------|
+| n2o.security.cors.allowed-origins | Список строк | Разрешенные origins для CORS | null |
+| n2o.security.cors.allowed-methods | Список строк | Разрешенные методы для CORS | GET, OPTIONS |
+| n2o.security.cors.allowed-headers | Список строк | Разрешенные заголовки для CORS | * |
+| n2o.security.cors.exposed-headers | Список строк | Список заголовков, которые может содержать фактический ответ и могут быть доступны | null |
+| n2o.security.cors.allow-credentials | boolean | Должен ли браузер отправлять учетные данные, такие как файлы cookie, вместе с междоменными запросами | false |
 
-|Наименование          |Описание                    |
-|----------------------|----------------------------|
-|&lt;object-access&gt; |Доступ к объекту и операциям|
-|&lt;object-filters&gt;|Фильтрация доступа к объекту|
-|&lt;url-access&gt;    |Доступ к ссылке             |
-|&lt;page-access&gt;   |Доступ к странице           |
-
-#### Доступ к объекту
-
-С помощью точки доступа к объекту `<object-access>` можно защитить компоненты,
-связанные с объектом или с операцией объекта.
-Например, можно скрыть кнопку с действием `<invoke>`,
-если объект или операция кнопки недоступны пользователю.
-
-```xml title="Права доступа к объекту"
-<authenticated>
-    <object-access object-id="person"/>
-</authenticated>
-```
-
-Атрибут `object-id` задаёт права доступа на чтение объекта.
-
-Атрибут `operations` задаёт право выполнять указанные операции объекта.
-Если указан знак `*` (звёздочка), позволяется выполнять любые операции.
-
-:::note
-Если есть право на выполнение операций объекта, то на чтение объекта доступ даётся автоматически.
-:::
-
-#### Фильтрация доступа к объекту
-
-Точка доступа `<object-filters>` задаёт фильтрацию объекта.
-Фильтры будут действовать на объект, доступ к которому уже дан с помощью `<object-access>`.
-
-```xml title="Фильтры доступа к объекту"
-<permit-all>
-    <object-filters object-id="contract">
-        <!-- Доступны договоры только созданные мной -->
-        <eq id="onlyMyself"
-            field-id="creator" value="#{username}"/>
-        <!-- Доступны договоры моей организации -->
-        <eq id="onlyMyOrg"
-            field-id="org" value="#{orgId}"/>
-    </object-filters>
-</permit-all>
-```
-
-Фильтрам можно задать идентификатор `id`.
-Идентификатор используется в атрибуте `remove-filters` в `<object-access>`.
-С помощью `remove-filters` можно удалить один или несколько фильтров у объекта,
-чтобы пользователю с определенными правами получить больше данных.
-
-```xml title="Удаление фильтров доступа"
-<permission id="MyContracts">
-    <!-- Действует фильтр onlyMyself и onlyMyOrg -->
-    <object-access object-id="contract"/>
-</permission>
-<permission id="MyOrgContracts">
-    <!-- Действует фильтр onlyMyOrg -->
-    <object-access object-id="contract" remove-filters="onlyMyself"/>
-</permission>
-```
-
-#### Доступ к ссылке
-
-С помощью точки доступа к ссылке `<url-access>` можно защитить компоненты,
-связанные с определенной ссылкой.
-Например, можно скрыть кнопку с действием `<a>`,
-если её url или часть url недоступна пользователю.
-
-```xml title="Правила доступа к ссылке"
-<authenticated>
-    <url-access url-pattern="/persons/*"/>
-</authenticated>
-```
-
-#### Доступ к странице
-
-Точка доступа к странице позволяет ограничить доступ к страницам,
-и кнопкам, открывающим страницы.
-
-```xml title="Правила доступа к ссылке"
-<authenticated>
-    <page-access page-id="persons"/>
-</authenticated>
+```yaml title="Пример настройки CORS"
+n2o:
+  security:
+    cors:
+      allowed-origins:
+        - https://example.com
+        - https://app.example.com
+      allowed-methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+      allowed-headers:
+        - Content-Type
+        - Authorization
+      exposed-headers:
+        - X-Total-Count
+      allow-credentials: true
 ```
