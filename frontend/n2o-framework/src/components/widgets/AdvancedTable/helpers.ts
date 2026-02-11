@@ -50,7 +50,14 @@ export function mergeWithCache<
 
 // облегченные колонки для хранения
 export function prepareCellsToStore(cells: HeaderCell[] | BodyCell[]): CellStateCache[] {
-    return cells.map(({ id, children, visibleState = true, format = null, filterField = null }) => {
+    return cells.map(({
+        id,
+        children,
+        visibleState = true,
+        // @ts-expect-error format есть только в BodyCell
+        format = undefined,
+        filterField = null,
+    }) => {
         const prepared: CellStateCache = { id, visibleState, format, filterField }
 
         if (children) {

@@ -20,6 +20,15 @@ const typesFunctions = {
     dateFromNow: ({ format }) => dayjs().format(format),
     time: ({ data, format }) => dayjs(data, 'HH:mm:ss').format(format),
     snils: ({ data }) => snils(data),
+    phone: ({ data }) => {
+        if (!data) { return data }
+
+        const str = String(data).replaceAll(/\D/g, '')
+
+        if (str.length < 11) { return data }
+
+        return str.replace(/(\d)(\d{3})(\d{3})(\d{2})(\d{2})/, '+$1 ($2) $3-$4-$5')
+    },
 }
 
 function snils(value, formatString = '000-000-000 00') {
@@ -52,37 +61,6 @@ function snils(value, formatString = '000-000-000 00') {
  * @returns {*}
  */
 export function parseFormatter(data, typeAndformat = '') {
-    if (numeral.formats.phone === undefined) {
-        numeral.register('format', 'phone', {
-            regexps: {
-                format: /\+?0?[ .-]?\(?000\)?[ .-]?000[ .-]?00[ .-]?00/,
-            },
-            format(value, formatString) {
-                if (!value || !formatString) {
-                    return ''
-                }
-
-                function normalize(phoneNumber) {
-                    return phoneNumber.toString().replace(
-                        /^[\d\s+,{}-]*\(?(\d{3})\)?[ .-](\d{3})[ .-](\d{2})[ .-](\d{2})$/,
-                        '$1$2$3$4',
-                    )
-                }
-
-                function format(phoneNumber, formatString) {
-                    phoneNumber = normalize(phoneNumber)
-                    for (let i = 0, l = phoneNumber.length; i < l; i++) {
-                        formatString = formatString.replace('0', phoneNumber[i])
-                    }
-
-                    return formatString
-                }
-
-                return format(value, formatString)
-            },
-        })
-    }
-
     if (numeral.formats.snils === undefined) {
         numeral.register('format', 'snils', {
             regexps: {
@@ -107,5 +85,13 @@ export function parseFormatter(data, typeAndformat = '') {
 
     const format = join(slice(typeAndFormat, 1), ' ')
 
-    return typesFunctions[type]({ data: str, format })
+    const formatter = typesFunctions[type]
+
+    if (!formatter) {
+        console.warn(`unknown text format "${type}"`)
+
+        return data
+    }
+
+    return formatter({ data: str, format })
 }

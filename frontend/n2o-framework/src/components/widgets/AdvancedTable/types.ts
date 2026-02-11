@@ -90,6 +90,6 @@ export interface CellStateCache {
     id: string
     visibleState?: boolean
     children?: CellStateCache[]
-    format: string | null
+    format?: string
     filterField: FilterField | null
 }

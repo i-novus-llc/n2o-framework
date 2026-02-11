@@ -4,7 +4,7 @@ import get from 'lodash/get'
 import { State } from '../State'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
-import { State as TableState } from './Table'
+import { State as TableState, Table } from './Table'
 
 export const tablesSelector = (state: State): TableState => state.table || EMPTY_OBJECT
 
@@ -18,9 +18,16 @@ export const makeTableByDatasourceSelector = (datasourceId: string) => createSel
     tables => Object.values(tables).find(({ datasource }) => (datasource === datasourceId)) || EMPTY_OBJECT,
 )
 
-export const getTableHeaderCells = (widgetId: string) => createSelector(
+export const getTableCells = (widgetId: string) => createSelector(
     makeTableByIdSelector(widgetId),
-    tableState => tableState?.header?.cells || [],
+    (tableState: Table) => {
+        if (!tableState) { return { header: [], body: [] } }
+
+        return {
+            header: tableState.header.cells,
+            body: tableState.body.cells,
+        }
+    },
 )
 
 export const getTableParam = (widgetId: string, paramKey: string) => createSelector(

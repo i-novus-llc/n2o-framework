@@ -23,7 +23,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,9 +65,15 @@ class SandboxExportTest {
         request.setFormat("csv");
         request.setCharset("UTF-8");
         request.setUrl("/n2o/data/_w1?main_minPrice=5000&page=1&size=10&sorting.name=DESC");
-        LinkedHashMap<String, String> requestHeaders = new LinkedHashMap<>();
-        requestHeaders.put("id", "id");
-        requestHeaders.put("name", "name");
+        List<ExportRequest.ExportField> requestHeaders = new ArrayList<>();
+        ExportRequest.ExportField idField = new ExportRequest.ExportField();
+        idField.setId("id");
+        idField.setTitle("id");
+        requestHeaders.add(idField);
+        ExportRequest.ExportField nameField = new ExportRequest.ExportField();
+        nameField.setId("name");
+        nameField.setTitle("name");
+        requestHeaders.add(nameField);
         request.setFields(requestHeaders);
         request.setFilename("export_data");
 

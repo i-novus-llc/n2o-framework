@@ -204,3 +204,54 @@ public class MyCriteriaConstructor implements CriteriaConstructor<MyCriteria> {
 для разрешений по данным Redux модели.<br/>
 По умолчанию установлено значение "old" для обеспечения обратной совместимости в версии 7.29.
 Рекомендуем учесть, что в будущих версиях поддержка данной настройки прекратится и будет использоваться только новое поведение.
+
+
+## 7.29.13 {#7_29_13}
+
+### Изменения в Data API {#7_29_13-changes-data-api}
+
+- Изменено тело запроса для экспорта данных. Если в столбце задано форматирование через xml-атрибут `format` то оно будет
+учитываться в экспорте.
+
+```json title="Старая версия: POST запрос"
+{
+  "format": "xlsx",
+  "charset": "utf8",
+  "url": "/sandbox/view/4oYjK/n2o/data/_ds?page=1&size=5",
+  "filename": "document",
+  "fields": {
+    "id": "Идентификатор",
+    "name": "Наименование",
+    "region": "Регион",
+    "created_date": "Дата создания"
+  }
+}
+```
+
+```json title="Новая версия: POST запрос"
+{
+  "format": "xlsx",
+  "charset": "utf8",
+  "url": "/sandbox/view/4oYjK/n2o/data/_ds?page=1&size=5",
+  "filename": "document",
+  "fields": [
+      {
+          "id": "id",
+          "title": "Идентификатор"
+      },
+      {
+          "id": "name",
+          "title": "Наименование"
+      },
+      {
+          "id": "region",
+          "title": "Регион"
+      },
+      {
+          "id": "created_date",
+          "title": "Дата создания",
+          "format": "date DD.MM.YYYY"
+      }
+  ]
+}
+```

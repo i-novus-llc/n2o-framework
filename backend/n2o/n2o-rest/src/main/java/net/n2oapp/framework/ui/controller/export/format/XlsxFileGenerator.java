@@ -1,6 +1,7 @@
 package net.n2oapp.framework.ui.controller.export.format;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.rest.ExportRequest;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class XlsxFileGenerator implements FileGenerator {
@@ -20,7 +20,7 @@ public class XlsxFileGenerator implements FileGenerator {
     private static final int MIN_COLUMN_WIDTH = 20;
 
     @Override
-    public byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, Map<String, String> headers) {
+    public byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, List<ExportRequest.ExportField> headers) {
         byte[] fileBytes = null;
 
         try (Workbook workbook = new XSSFWorkbook()) {
@@ -30,8 +30,8 @@ public class XlsxFileGenerator implements FileGenerator {
             // Заголовки и ширина колонок по headers (порядок соответствует LinkedHashMap)
             Row headerRow = sheet.createRow(0);
             int colIndex = 0;
-            for (Map.Entry<String, String> entry : headers.entrySet()) {
-                String headerTitle = entry.getValue();
+            for (ExportRequest.ExportField entry : headers) {
+                String headerTitle = entry.getTitle();
                 Cell cell = headerRow.createCell(colIndex);
                 cell.setCellValue(headerTitle);
                 cell.setCellStyle(headerStyle);
@@ -46,9 +46,9 @@ public class XlsxFileGenerator implements FileGenerator {
             for (DataSet rowData : data) {
                 Row row = sheet.createRow(rowNum++);
                 int c = 0;
-                for (Map.Entry<String, String> entry : headers.entrySet()) {
+                for (ExportRequest.ExportField entry : headers) {
                     Cell cell = row.createCell(c++);
-                    setCellValue(cell, rowData.get(entry.getKey()));
+                    setCellValue(cell, rowData.get(entry.getId()));
                 }
             }
 

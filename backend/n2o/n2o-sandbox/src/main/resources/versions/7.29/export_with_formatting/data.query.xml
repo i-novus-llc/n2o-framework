@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0">
+    <list>
+        <test file="data.json" operation="findAll"/>
+    </list>
+    <count>
+        <test file="data.json" operation="count"/>
+    </count>
+
+    <fields>
+        <field id="id"/>
+        <field id="name" sorting="true"/>
+        <field id="reg_date"/>
+        <field id="price"/>
+        <field id="owner_name"/>
+        <field id="owner_phone"/>
+        <field id="owner_snils"/>
+    </fields>
+</query>

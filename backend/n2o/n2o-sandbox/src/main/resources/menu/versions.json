@@ -80,6 +80,10 @@
           "name": "Перерисовка 'хлебных крошек' по данным модели"
         },
         {
+          "templateId": "versions/7.29/export_with_formatting",
+          "name": "Поддержка форматирования колонок при экспорте таблицы"
+        },
+        {
           "templateId": "versions/7.29/sequrity_disable_behavior",
           "name": "Блокировка элементов при отсутствии доступа"
         }
