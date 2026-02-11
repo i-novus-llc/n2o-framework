@@ -32,6 +32,7 @@ public class ScriptProcessor {
     private static final List<String> momentFuncs = Arrays.asList("moment", "now", "today", "yesterday", "tomorrow",
             "beginWeek", "endWeek", "beginMonth", "endMonth", "beginQuarter", "endQuarter", "beginYear", "endYear");
     private static final String SPREAD_OPERATOR = "*.";
+    private static final String SPREAD_TO_MAP_TEMPLATE = ".map(function(t){return t.";
 
     private static final ScriptEngineManager engineMgr = new ScriptEngineManager();
     private static volatile ScriptEngine scriptEngine;
@@ -220,10 +221,7 @@ public class ScriptProcessor {
             int idxSuffix = split[i].indexOf("}");
             if (idxSuffix > 0) {
                 String value = split[i].substring(0, idxSuffix);
-                if (value.contains(SPREAD_OPERATOR)) {
-                    value = value.substring(0, value.indexOf(SPREAD_OPERATOR)) + ".map(function(t){return t." +
-                            value.substring(value.indexOf(SPREAD_OPERATOR) + 2) + "})";
-                }
+                value = processSpreadOperatorInExpression(value);
                 sb.append("+").append(value);
                 if (idxSuffix < split[i].length() - 1) {
                     String afterValue = split[i].substring(idxSuffix + 1);
@@ -239,6 +237,75 @@ public class ScriptProcessor {
             res = res.substring(0, res.length() - 1);
         }
         return res;
+    }
+
+    /**
+     * Обрабатывает spread-оператор (*.) в JavaScript выражении, заменяя его на вызов .map().
+     * Spread-оператор {@code *.} преобразуется в шаблон {@code .map(function(t){return t.}}.
+     * Метод корректно обрабатывает выражения как с тернарными операторами, так и без них.
+     *
+     * @param value JavaScript выражение, которое может содержать spread-операторы
+     */
+    private static String processSpreadOperatorInExpression(String value) {
+        int spreadPos = value.indexOf(SPREAD_OPERATOR);
+
+        if (spreadPos == -1)
+            return value;
+
+        if (!(value.contains("?") && value.contains(":")))
+            return value.substring(0, spreadPos) + SPREAD_TO_MAP_TEMPLATE +
+                    value.substring(spreadPos + 2) + "})";
+
+        // Если выражение содержит тернарный оператор
+        StringBuilder result = new StringBuilder();
+        int start = 0;
+        while (spreadPos != -1) {
+            // Находим конец свойства после spread оператора
+            String after = value.substring(spreadPos + SPREAD_OPERATOR.length());
+            int propEnd = findEndOfProperty(after);
+            result.append(value, start, spreadPos) // Добавляем часть до spread оператора
+                    .append(SPREAD_TO_MAP_TEMPLATE) // Добавляем преобразованный spread оператор
+                    .append(after, 0, propEnd).append("})");
+
+            start = spreadPos + SPREAD_OPERATOR.length() + propEnd;
+            spreadPos = value.indexOf(SPREAD_OPERATOR, start);
+        }
+        // Добавляем оставшуюся часть
+        if (start < value.length())
+            result.append(value.substring(start));
+        return result.toString();
+    }
+
+    /**
+     * Находит позицию конца идентификатора в строке.
+     * Метод анализирует строку и определяет позицию, на которой заканчивается идентификатор
+     *
+     * @param str строка для анализа
+     */
+    private static int findEndOfProperty(String str) {
+        // Находим конец идентификатора
+        int bracketCount = 0;
+        char bracketType = 0;
+        int i = 0;
+        while (i < str.length()) {
+            char c = str.charAt(i);
+            if (c == '[' || c == '(') {
+                if (bracketCount == 0)
+                    bracketType = (c == '[') ? ']' : ')';
+                bracketCount++;
+            } else if (bracketCount > 0 && c == bracketType) {
+                bracketCount--;
+                if (bracketCount == 0)
+                    bracketType = 0;
+                i++;
+                continue; // Продолжаем, если внутри скобок
+            }
+            // Если не внутри скобок и символ не является частью идентификатора
+            if (bracketCount == 0 && !Character.isJavaIdentifierPart(c))
+                return i;
+            i++;
+        }
+        return str.length();
     }
 
     public static String createFunctionCall(String funcName, Object... args) {

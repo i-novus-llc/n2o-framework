@@ -59,6 +59,18 @@ class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveExpression("{gender*.id}"), is("`gender.map(function(t){return t.id})`"));
         assertThat(ScriptProcessor.resolveExpression("{name} test {gender*.id}"),
                 is("`name+' test '+gender.map(function(t){return t.id})`"));
+
+        assertThat(ScriptProcessor.resolveLinks("{status ? status*.id : [3,4,5]}"),
+                is("`(status ? status.map(function(t){return t.id}) : [3,4,5])`"));
+
+        assertThat(ScriptProcessor.resolveExpression("{!status ? [3,4,5] : (flag ? status*.id : [1,2])}"),
+                is("`(!status ? [3,4,5] : (flag ? status.map(function(t){return t.id}) : [1,2]))`"));
+
+        assertThat(ScriptProcessor.resolveExpression("{check ? (test == 1 ? status*.id : [3,4,5]) : (flag ? status*.number : status*.value)}"),
+                is("`(check ? (test == 1 ? status.map(function(t){return t.id}) : [3,4,5]) : (flag ? status.map(function(t){return t.number}) : status.map(function(t){return t.value})))`"));
+
+
+
         assertThat(ScriptProcessor.resolveExpression("{test == 1}"), is("`test == 1`"));
         assertThat(ScriptProcessor.resolveExpression("Hello, {test + 1}"), is("`'Hello, '+test + 1`"));
 
