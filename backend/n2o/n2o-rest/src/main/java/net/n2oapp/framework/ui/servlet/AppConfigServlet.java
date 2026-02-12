@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.application.Application;
@@ -21,6 +22,7 @@ import java.util.*;
 
 @Slf4j
 public class AppConfigServlet extends HttpServlet {
+    @Getter
     private final AppConfigJsonWriter appConfigJsonWriter;
     private final ExposedResourceBundleMessageSource messageSource;
     private final ReadCompileBindTerminalPipeline pipeline;
