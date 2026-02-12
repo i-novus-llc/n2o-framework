@@ -73,7 +73,7 @@ build story:
 build stable:
   variables:
     MAVEN_RUN_OPTIONS: 'install'
-    MAVEN_EXTRA_BUILD_OPTIONS: '-Pfrontend,frontend-build,backend,!examples,jacoco,demo,docs,sandbox'
+    MAVEN_EXTRA_BUILD_OPTIONS: '-P!frontend,!frontend-build,!backend,!examples,!jacoco,demo,docs,sandbox'
 
 cleanup:
   dependencies: []
