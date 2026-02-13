@@ -1,5 +1,6 @@
 import { fork, put, select } from 'redux-saga/effects'
 import { Task } from 'redux-saga'
+import pick from 'lodash/pick'
 
 import {
     dataSourceErrors,
@@ -80,11 +81,14 @@ export function* validate({ payload, meta }: StartValidateAction) {
     asyncValidations[id] = currentProcess
 
     const modelMessages: Awaited<ReturnType<typeof validateModel>> = yield currentProcess.task.toPromise()
-    const messages = addFieldMessages(id, modelMessages, yield select())
+    const newMessages = addFieldMessages(id, modelMessages, yield select())
+    const keys = fields2Validate ? Object.keys(fields2Validate) : undefined
 
-    yield put(endValidation({ id, messages, prefix, fields: Object.keys(fields2Validate || {}) }, meta))
+    yield put(endValidation({ id, messages: newMessages, prefix, fields: keys }, meta))
 
     asyncValidations[id] = null
 
-    return (yield select(dataSourceErrors(id, prefix))) as Record<string, ValidationResult[]>
+    const messages: Record<string, ValidationResult[]> = yield select(dataSourceErrors(id, prefix))
+
+    return keys ? pick(messages, keys) : messages
 }
