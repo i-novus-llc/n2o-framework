@@ -4,7 +4,7 @@ import get from 'lodash/get'
 import merge from 'lodash/merge'
 
 import { reorderElement, findItemRecursive } from '../utils'
-import { logger } from '../../core/utils/logger'
+import { logger } from '../../utils/logger'
 
 import {
     ChangeTableColumnParam,

@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
+import { logger } from '../../utils/logger'
 
 import { presets } from './presets'
 import { VALIDATION_SEVERITY_PRIORITY as SEVERITY_PRIORITY } from './const'
@@ -17,8 +18,7 @@ export async function validateField(
 
     const filtered = validations.filter((validation) => {
         if (typeof presets[validation.type] !== 'function') {
-            // eslint-disable-next-line no-console
-            console.warn(`Validation error: not found preset for type="${validation.type}", field="${String(fieldId)}"`)
+            logger.warn(`Validation error: not found preset for type="${validation.type}", field="${String(fieldId)}"`)
 
             return false
         }
@@ -50,8 +50,7 @@ export async function validateField(
                 messages.push({ text, severity: validation.severity })
             }
         } catch (error) {
-            // eslint-disable-next-line no-console
-            console.warn(`validate error: ${error instanceof Error ? error.message : error}`)
+            logger.warn(`validate error: ${error instanceof Error ? error.message : error}`)
         }
     }
 

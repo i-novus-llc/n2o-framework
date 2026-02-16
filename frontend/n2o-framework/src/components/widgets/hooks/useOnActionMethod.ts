@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 
 import { useDispatch } from '../../../core/Redux/useDispatch'
 import evalExpression from '../../../utils/evalExpression'
+import { logger } from '../../../utils/logger'
 
 type ActionFunc = (model: never) => void
 
@@ -13,7 +14,7 @@ export const useOnActionMethod = <Action extends ClickAction>(config?: Action) =
     return (
         useCallback<ActionFunc>((model) => {
             if (!config) {
-                console.warn('Config - second argument, not passed')
+                logger.warn('Config - second argument, not passed')
 
                 return
             }

@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
 
+import { logger } from '../../utils/logger'
+
 import { FactoryContext } from './context'
 
 export function Factory(props) {
@@ -14,7 +16,7 @@ export function Factory(props) {
 
     if (!src) { return null }
 
-    console.error(`Фабрике не удалось найти компонент: ${src} в ${level}`)
+    logger.error(`Фабрике не удалось найти компонент: ${src} в ${level}`)
 
     return null
 }

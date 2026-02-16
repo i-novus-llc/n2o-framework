@@ -2,6 +2,7 @@ import { put } from 'redux-saga/effects'
 
 import { Action } from '../../Action'
 import { failOperation, startOperation, successOperation } from '../Operation'
+import { logger } from '../../../utils/logger'
 
 const getErrorMessage = (error: unknown): string => {
     if (!error) { return 'Unknown error' }
@@ -45,8 +46,7 @@ export function EffectWrapper<
             if (operationId) {
                 yield put(failOperation(type, operationId, message, { ...meta }))
             } else {
-                // eslint-disable-next-line no-console
-                console.warn(`Saga effect<${action.type}> error: ${message}`)
+                logger.warn(`Saga effect<${action.type}> error: ${message}`)
             }
         }
     }

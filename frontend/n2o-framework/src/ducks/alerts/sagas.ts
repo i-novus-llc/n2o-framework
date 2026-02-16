@@ -1,6 +1,8 @@
 import { call, put, select, takeEvery, all, delay } from 'redux-saga/effects'
 import take from 'lodash/take'
 
+import { logger } from '../../utils/logger'
+
 import { addAlert, addMultiAlerts, removeAlert } from './store'
 import { alertsByKeySelector } from './selectors'
 import { ALLOWED_ALERTS_QUANTITY } from './constants'
@@ -44,8 +46,7 @@ export function* addAlertSideEffect(config: Config, action: Add | AddMulti) {
 
         yield all(effects)
     } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error(e)
+        logger.error(e)
     }
 }
 

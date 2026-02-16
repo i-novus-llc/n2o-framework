@@ -10,6 +10,7 @@ import { State as DatasourceState } from '../DataSource'
 import { State as GlobalState } from '../../State'
 import { RegisterAction } from '../Actions'
 import { DefaultModels } from '../../models/Models'
+import { logger } from '../../../utils/logger'
 
 /**
  * @param {String} id
@@ -49,8 +50,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
         }
 
         default: {
-            // eslint-disable-next-line no-console
-            console.warn(`unknown dependency type "${type}" for datasource "${id}"`)
+            logger.warn(`unknown dependency type "${type}" for datasource "${id}"`)
         }
     }
 }

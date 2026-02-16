@@ -4,6 +4,7 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 
 import { menuSelector } from '../../ducks/global/selectors'
+import { logger } from '../../utils/logger'
 
 export function subscribeMetadata(emitter, updater, dataSourceId, source) {
     // eslint-disable-next-line consistent-return
@@ -58,8 +59,7 @@ export function createSocketChannel(
         stompClient.connect(
             {},
             (frame) => {
-                // eslint-disable-next-line no-console
-                console.log(`isConnected: ${frame}`)
+                logger.log(`isConnected: ${frame}`)
                 for (const { destination } of destinations) {
                     if (permanent) {
                         stompClient.subscribe(`/user${destination}`, doReduxAction(emitter))
@@ -78,8 +78,7 @@ export function createSocketChannel(
                 }
             },
             (errorCallback) => {
-                // eslint-disable-next-line no-console
-                console.log(errorCallback)
+                logger.log(errorCallback)
             },
         )
 
@@ -150,8 +149,7 @@ function* connectionExecutor({ id: dataSourceId, componentId, updater, source, c
 
                 yield put(action)
             } catch (error) {
-                // eslint-disable-next-line no-console
-                console.error('socketChannel Error: ', error)
+                logger.error('socketChannel Error: ', error)
 
                 socketChannel.close()
 
@@ -159,8 +157,7 @@ function* connectionExecutor({ id: dataSourceId, componentId, updater, source, c
             }
         }
     } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error)
+        logger.log(error)
     }
 }
 

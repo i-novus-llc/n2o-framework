@@ -1,7 +1,7 @@
 import React, { ComponentType, lazy, Suspense } from 'react'
 
 import { Spinner, SpinnerType } from '../../factoryComponents/Spinner'
-import { logger } from '../utils/logger'
+import { logger } from '../../utils/logger'
 import { ErrorContainer } from '../error/Container'
 
 const LoadingComponent = () => <Spinner type={SpinnerType.inline} minSpinnerTimeToShow={1000} loading />

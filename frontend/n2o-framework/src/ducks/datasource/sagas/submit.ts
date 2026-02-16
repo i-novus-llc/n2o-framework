@@ -11,6 +11,7 @@ import { submit as submitCached, autoSubmit } from '../Providers/Cached'
 import type { SubmitAction } from '../Actions'
 import type { DataSourceState } from '../DataSource'
 import { submitFail, submitSuccess } from '../store'
+import { logger } from '../../../utils/logger'
 
 type SubmitMethod<TProvider extends SubmitProvider = SubmitProvider> = (
     id: string,
@@ -54,7 +55,6 @@ export function* submitSaga(apiProvider: unknown, { meta, payload }: SubmitActio
     } catch (error) {
         // @ts-ignore поправить типы
         yield put(submitFail(error, meta?.fail))
-        // eslint-disable-next-line no-console
-        console.warn(`JS Error: DataSource(${id}) submit saga. ${error instanceof Error ? error.message : error}`)
+        logger.warn(`JS Error: DataSource(${id}) submit saga. ${error instanceof Error ? error.message : error}`)
     }
 }

@@ -1,4 +1,4 @@
-import warning from '../../utils/warning'
+import { logger } from '../../utils/logger'
 
 import { createFunction } from './utils/createFunction'
 
@@ -40,8 +40,7 @@ function execute<
 
         return fn.call(model, extendedContext) as ExpectedResult
     } catch (error) {
-        warning(
-            true,
+        logger.warn(
             `Execute expression error: ${error instanceof Error ? error.message : error}. expression: ${expression}. model: ${JSON.stringify(model)}`,
         )
 
