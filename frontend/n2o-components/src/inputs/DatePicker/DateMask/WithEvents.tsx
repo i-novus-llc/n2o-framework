@@ -2,6 +2,7 @@ import React, { ChangeEvent, ComponentType, FC, FocusEvent, MouseEvent } from 'r
 import dayjs from 'dayjs'
 
 import { type WithEventsProps, DateMaskProps } from './types'
+import { getFloatingPlaceholder } from './helpers'
 
 export const WithEvents = <P extends DateMaskProps>(Component: ComponentType<P>) => {
     const Wrapper: FC<P & WithEventsProps> = ({
@@ -16,12 +17,20 @@ export const WithEvents = <P extends DateMaskProps>(Component: ComponentType<P>)
         max,
         min,
         fullFormat,
+        dateMode,
+        timeMode,
+        value: storedValue,
         ...rest
     }) => {
         const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
             const { value } = e.target
 
-            if (value === '') {
+            const floatingPlaceholder = getFloatingPlaceholder(dateMode, timeMode)
+            const isEmptyMask = value === floatingPlaceholder
+
+            if (!storedValue && isEmptyMask) { return }
+
+            if (value === '' || isEmptyMask) {
                 onInputChange?.(null, name)
 
                 return
@@ -81,6 +90,9 @@ export const WithEvents = <P extends DateMaskProps>(Component: ComponentType<P>)
                 max={max}
                 name={name}
                 {...rest as P}
+                dateMode={dateMode}
+                timeMode={timeMode}
+                value={storedValue}
             />
         )
     }
