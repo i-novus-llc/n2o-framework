@@ -2,10 +2,12 @@ import React, { createElement, useCallback, type FC, useState, useRef, useMemo, 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { HotKeys } from 'react-hotkeys/cjs'
+import classNames from 'classnames'
 
 export type ControlProps<Value = unknown, OnChangeValue = unknown> = {
     control: {
         component: FC<unknown>
+        className?: string
     },
     value: Value
     onChange(value: OnChangeValue): void
@@ -16,7 +18,7 @@ export type ControlProps<Value = unknown, OnChangeValue = unknown> = {
 const eventsMap = { events: 'enter' }
 
 export const Control = ({ control, value, onBlur, onChange, isMultiline }: ControlProps) => {
-    const { component, ...otherProps } = control
+    const { component, className, ...rest } = control
     const [innerValue, setInnerValue] = useState(value)
     const refSendValue = useRef<unknown>(null)
 
@@ -43,16 +45,11 @@ export const Control = ({ control, value, onBlur, onChange, isMultiline }: Contr
             <HotKeys keyMap={eventsMap} handlers={!isMultiline && handlersMap}>
                 {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {createElement<any>(component, {
-                    ...otherProps,
-                    className: 'n2o-advanced-table-edit-control',
+                    ...rest,
+                    className: classNames('n2o-advanced-table-edit-control', className),
                     onChange: handleChange,
                     onBlur: handleBlur,
                     value: innerValue,
-                    autoFocus: true,
-                    openOnFocus: true,
-                    showButtons: false,
-                    resetOnNotValid: false,
-                    strategy: 'fixed',
                 })}
             </HotKeys>
         </div>

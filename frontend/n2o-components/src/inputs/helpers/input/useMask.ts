@@ -65,7 +65,7 @@ export function useMask(params: Params) {
 
                     maskitoUpdateElement(element, cleanValue)
                 }),
-                maskitoEventHandler('input', (element) => {
+                maskitoEventHandler('change', (element) => {
                     onInputProcessor?.({
                         element,
                         placeholder,
