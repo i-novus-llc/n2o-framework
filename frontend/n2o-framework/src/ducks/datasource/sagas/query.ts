@@ -29,6 +29,7 @@ import { query as inheritedQuery } from '../Providers/Inherited'
 import { query as cachedQuery } from '../Providers/Cached'
 import type { DataRequestAction } from '../Actions'
 import type { DataSourceState } from '../DataSource'
+import { logger } from '../../../utils/logger'
 
 import { validate } from './validate'
 
@@ -112,8 +113,7 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
             }
         }
 
-        // eslint-disable-next-line no-console
-        console.warn(`JS Error: DataSource(${id}) fetch saga. ${err.message}`)
+        logger.warn(`JS Error: DataSource(${id}) fetch saga. ${err.message}`)
 
         yield put(
             rejectRequest(

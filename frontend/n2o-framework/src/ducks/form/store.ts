@@ -10,6 +10,7 @@ import { successInvoke } from '../../actions/actionImpl'
 import { ValidationResult } from '../../core/validation/types'
 import { getCtxFromField } from '../../core/validation/utils'
 import { mapMultiFields } from '../../core/models/mapMultiFields'
+import { logger } from '../../utils/logger'
 
 import { getDefaultField, getDefaultState } from './FormPlugin'
 import { Form, FormsState } from './types'
@@ -33,8 +34,7 @@ import {
     UnregisterFieldAction,
 } from './Actions'
 
-// eslint-disable-next-line no-console
-const warnNonExistent = (field: string, property: string) => console.warn(`Attempt to change "${property}" a non-existent field "${field}"`)
+const warnNonExistent = (field: string, property: string) => logger.warn(`Attempt to change "${property}" a non-existent field "${field}"`)
 
 /*
  * TODO выделить filedset'ы нормально в редакс и убрать поля:

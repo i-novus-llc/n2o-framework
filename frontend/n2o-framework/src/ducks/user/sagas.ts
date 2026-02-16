@@ -4,6 +4,7 @@ import { call, put, takeEvery, select } from 'redux-saga/effects'
 import { getAuthUrl } from '../global/selectors'
 import { Action } from '../Action'
 import { AuthProvider } from '../../core/auth/Provider'
+import { logger } from '../../utils/logger'
 
 import { userLoginSuccess, userLogoutSuccess } from './store'
 import { USER_LOGIN, USER_LOGOUT } from './constants'
@@ -35,8 +36,7 @@ export function* resolveAuth({ provider, authUrl = DEFAULT_AUTH_URL }: Config, {
 
                 yield put(userLoginSuccess(userPayload))
             } catch (e) {
-                // eslint-disable-next-line no-console
-                console.warn(e)
+                logger.warn(e)
             }
 
             break

@@ -14,6 +14,7 @@ import { submit } from '../store'
 import { appendToArray, copyFieldArray, removeFromArray, setModel, updateModel } from '../../models/store'
 import { CachedAutoSubmit, CachedProvider, ProviderType, SubmitProvider } from '../Provider'
 import { ModelPrefix } from '../../../core/datasource/const'
+import { logger } from '../../../utils/logger'
 
 type ModelAction = AppendToArrayAction | RemoveFromArrayAction | CopyFieldArrayAction | UpdateModelAction
 
@@ -95,8 +96,7 @@ function* submitSaga() {
         if (!isEmpty(datasource)) {
             yield put(submit(key, provider))
         } else {
-            // eslint-disable-next-line no-console
-            console.warn('Can\'t auto-submit after destroy datasource')
+            logger.warn('Can\'t auto-submit after destroy datasource')
         }
     }
 

@@ -7,6 +7,7 @@ import fetchSaga from '../../sagas/fetch'
 import { addAlert } from '../alerts/store'
 import { resolveMetadata } from '../../core/auth/resolveMetadata'
 import { AuthProvider } from '../../core/auth/Provider'
+import { logger } from '../../utils/logger'
 
 import {
     requestConfigSuccess,
@@ -80,8 +81,7 @@ export function* changeLocale(apiProvider: unknown, action: { payload: { locale:
         yield call(fetchSaga, CHANGE_LOCALE_API, locale, apiProvider)
         window.location.reload()
     } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
+        logger.error(err)
     }
 }
 

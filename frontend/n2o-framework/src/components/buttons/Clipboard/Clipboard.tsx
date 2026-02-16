@@ -10,6 +10,7 @@ import { propsResolver } from '../../../core/Expression/propsResolver'
 import { addAlert } from '../../../ducks/alerts/store'
 import { GLOBAL_KEY, Severity } from '../../../ducks/alerts/constants'
 import { id } from '../../../utils/id'
+import { logger } from '../../../utils/logger'
 
 export enum Type {
     TEXT = 'text',
@@ -73,7 +74,7 @@ export function Clipboard(props: Props) {
                 }))
             }
         } catch (error) {
-            console.error('Ошибка копирования: ', error)
+            logger.error(`Ошибка копирования: ${error}`)
         }
     }
 

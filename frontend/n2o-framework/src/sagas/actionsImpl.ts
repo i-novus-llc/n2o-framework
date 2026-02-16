@@ -27,6 +27,7 @@ import { validate as validateSaga } from '../ducks/datasource/sagas/validate'
 import { type N2OMeta } from '../ducks/Action'
 import { type ValidationResult, ValidationsKey } from '../core/validation/types'
 import { hasError } from '../core/validation/validateModel'
+import { logger } from '../utils/logger'
 
 import fetchSaga from './fetch'
 
@@ -163,8 +164,7 @@ export function* handleInvoke(
         }
         yield put(successInvoke(datasource, modelPrefix, successMeta))
     } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
+        logger.error(err)
 
         const errorMeta = get(err, 'json.meta', {})
 

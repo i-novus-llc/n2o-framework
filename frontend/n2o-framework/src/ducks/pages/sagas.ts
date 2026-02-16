@@ -40,7 +40,7 @@ import { endValidation } from '../datasource/store'
 import { ValidateEndAction } from '../datasource/Actions'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import { DATASOURCE_PREFIX } from '../api/constants'
-import { logger } from '../../core/utils/logger'
+import { logger } from '../../utils/logger'
 
 import { makeIsRootChildByIdSelector, pagesSelector } from './selectors'
 import {

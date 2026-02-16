@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 
 import { ContextType } from '../datasource/ArrayField/Context'
+import { logger } from '../../utils/logger'
 
 import { INDEX_MASK, INDEX_REGEXP } from './const'
 
@@ -77,9 +78,8 @@ export const getCtxByModel = (validationKey: string, model: object) => {
         const res: FieldContext[] = []
 
         if (!Array.isArray(list)) {
-            console.warn(
+            logger.warn(
                 `Ошибка валидации multi-set: модель "${fullName}${fullName ? '.' : ''}${key}" не является списком`,
-                list,
             )
 
             return res

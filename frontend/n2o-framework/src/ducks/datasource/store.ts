@@ -10,6 +10,7 @@ import { Meta as N2OMeta } from '../Action'
 import { appendToArray, removeFromArray } from '../models/store'
 import { AppendToArrayAction, RemoveFromArrayAction } from '../models/Actions'
 import { getOnAppend, getOnRemove, mapMultiFields } from '../../core/models/mapMultiFields'
+import { logger } from '../../utils/logger'
 
 import type {
     AddComponentAction,
@@ -172,8 +173,7 @@ export const datasource = createSlice({
                 const { id } = action.payload
 
                 if (!state[id]) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`Attempt to request data from a non-existent source: ${id}`)
+                    logger.warn(`Attempt to request data from a non-existent source: ${id}`)
 
                     return
                 }

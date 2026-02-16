@@ -1,5 +1,7 @@
 import React, { Component, createContext, ErrorInfo } from 'react'
 
+import { logger } from '../../utils/logger'
+
 import { ErrorContainer } from './Container'
 import { ErrorBoundaryContextType, ErrorBoundaryProps } from './types'
 
@@ -11,10 +13,7 @@ const toError = (error: unknown): Error => {
 }
 
 export const ErrorBoundaryContext = createContext<ErrorBoundaryContextType>({
-    onError(error: Error | string): void {
-        // eslint-disable-next-line no-console
-        console.error(error)
-    },
+    onError(error: Error | string): void { logger.error(error) },
 })
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps> {

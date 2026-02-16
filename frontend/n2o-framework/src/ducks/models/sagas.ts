@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual'
 
 import { EffectWrapper } from '../api/utils/effectWrapper'
 import { executeExpression } from '../../core/Expression/execute'
+import { logger } from '../../utils/logger'
 
 import { appendToArray, copyModel, removeFromArray, setModel, updateModel } from './store'
 import { getModelByPrefixAndNameSelector, Model } from './selectors'
@@ -98,8 +99,7 @@ export function* copyAction({ payload, meta = {}, validate = true }: CopyAction)
                 targetField = []
             }
             if (!Array.isArray(targetField)) {
-                // eslint-disable-next-line no-console
-                console.warn('Source or target is not an array!')
+                logger.warn('Source or target is not an array!')
 
                 return
             }

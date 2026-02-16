@@ -4,6 +4,7 @@ import { createContext, useContext } from 'use-context-selector'
 
 import { TableActions } from '../enum'
 import { NOOP_FUNCTION } from '../../../utils/emptyTypes'
+import { logger } from '../../../utils/logger'
 
 type TableActionContextValue = {
     toggleExpandRow(rowValue: string, isOpen: boolean): void
@@ -18,35 +19,18 @@ type TableActionContextValue = {
 }
 
 const MESSAGE = 'Need an implementation method\''
+const warn = () => { logger.warn(MESSAGE) }
 
 const tableActionsContext = createContext<TableActionContextValue>({
-    toggleExpandRow() {
-        console.warn(MESSAGE)
-    },
-    selectRows() {
-        console.warn(MESSAGE)
-    },
-    deselectRows() {
-        console.warn(MESSAGE)
-    },
-    selectSingleRow() {
-        console.warn(MESSAGE)
-    },
-    setFocusOnRow() {
-        console.warn(MESSAGE)
-    },
-    onRowClick() {
-        console.warn(MESSAGE)
-    },
-    onChangeFilter() {
-        console.warn(MESSAGE)
-    },
-    onUpdateModel() {
-        console.warn(MESSAGE)
-    },
-    onHeaderDrop() {
-        console.warn(MESSAGE)
-    },
+    toggleExpandRow: warn,
+    selectRows: warn,
+    deselectRows: warn,
+    selectSingleRow: warn,
+    setFocusOnRow: warn,
+    onRowClick: warn,
+    onChangeFilter: warn,
+    onUpdateModel: warn,
+    onHeaderDrop: warn,
 })
 
 type TableActionsProviderProps = {
@@ -100,7 +84,7 @@ export const useTableActions = () => {
     const context = useContext(tableActionsContext)
 
     if (!context) {
-        console.warn('useTableActions must be used in TableActionsProvider')
+        logger.warn('useTableActions must be used in TableActionsProvider')
     }
 
     return context

@@ -14,7 +14,7 @@ import find from 'lodash/find'
 import { WithPropsResolver } from '../../../core/Expression/withResolver'
 import { parseExpression } from '../../../core/Expression/parse'
 import { id } from '../../../utils/id'
-import { logger } from '../../../core/utils/logger'
+import { logger } from '../../../utils/logger'
 
 import { deleteFile, everyIsValid, post } from './utils'
 import {

@@ -21,6 +21,7 @@ import { register } from '../ducks/datasource/store'
 import { requestConfigSuccess } from '../ducks/global/store'
 import { State } from '../ducks/State'
 import { Alert } from '../ducks/alerts/Alerts'
+import { logger } from '../utils/logger'
 
 type MessagesType = Alert[]
 const mapMessage = (message: Alert) => ({ ...message, id: message?.id || id() })
@@ -83,10 +84,7 @@ export function* alertEffect(action: AlertEffect) {
 
             yield put(addMultiAlerts(placement, alerts))
         }
-    } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error(e)
-    }
+    } catch (e) { logger.error(e) }
 }
 
 interface ClearOnSuccessEffect {
@@ -137,10 +135,7 @@ export function* redirectEffect(action: RedirectEffect) {
         } else {
             window.open(newUrl)
         }
-    } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error(e)
-    }
+    } catch (e) { logger.error(e) }
 }
 
 interface ClearEffect {

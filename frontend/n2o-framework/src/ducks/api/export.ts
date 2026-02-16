@@ -11,7 +11,7 @@ import { type State } from '../State'
 import { type Provider, ProviderType } from '../datasource/Provider'
 import { BodyCell, type HeaderCell } from '../table/Table'
 import { getAllValuesByKey } from '../../components/Table/utils'
-import { logger } from '../../core/utils/logger'
+import { logger } from '../../utils/logger'
 import { linkResolver, type LinkProps } from '../../utils/linkResolver'
 
 import { UTILS_PREFIX } from './constants'
@@ -108,7 +108,7 @@ function extractFilenameFromContentDisposition(contentDisposition: string | null
         try {
             return decodeURIComponent(filenameStartMatch[1].trim())
         } catch (e) {
-            console.error('Failed to decode filename*:', e)
+            logger.error(`Failed to decode filename*: ${e}`)
         }
     }
 

@@ -8,6 +8,7 @@ import { getModelByPrefixAndNameSelector } from '../../models/selectors'
 import { setModel } from '../../models/store'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { MODELS_PREFIX } from '../constants'
+import { logger } from '../../../utils/logger'
 
 import { EMPTY_ELEMENT, NOT_ARRAY, Operations, UNKNOWN_OPERATION } from './const'
 import { create } from './editList/create'
@@ -74,8 +75,7 @@ export function* effect({ payload, type }: ReturnType<typeof creator>) {
     } catch (error) {
         const message = error instanceof Error ? error.message : error
 
-        // eslint-disable-next-line no-console
-        console.warn(`Ошибка выполнения операции "${type}": ${message}`)
+        logger.warn(`Ошибка выполнения операции "${type}": ${message}`)
     }
 }
 

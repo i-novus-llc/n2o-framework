@@ -49,6 +49,7 @@ import type {
     SetModelAction, UpdateModelAction,
 } from '../ducks/models/Actions'
 import { State } from '../ducks/models/Models'
+import { logger } from '../utils/logger'
 
 import fetchSaga from './fetch'
 
@@ -118,8 +119,7 @@ export function* fetchValue(
             yield put(addAlert(placement, alert))
         }
 
-        // eslint-disable-next-line no-console
-        console.error(error)
+        logger.error(error)
     } finally {
         yield put(setFieldLoading(formName, field, false))
         FetchValueCache.delete(fetchValueKey)

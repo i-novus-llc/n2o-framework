@@ -1,9 +1,9 @@
 import { Resolve, propsResolver as resolver } from '../core/Expression/propsResolver'
 
-import warning from './warning'
+import { logger } from './logger'
 import { DEFAULT_CONTEXT } from './evalExpression'
 
-warning(true, '"./utils/propsResolver" is deprecated, use "./core/Expression/useResolver"')
+logger.warn('"./utils/propsResolver" is deprecated, use "./core/Expression/useResolver"')
 
 /**
  * Функция преобразует шаблоные props свойства вида \`name\` в константные данные из контекста

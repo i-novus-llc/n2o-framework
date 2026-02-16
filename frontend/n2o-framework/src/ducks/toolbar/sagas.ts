@@ -6,6 +6,7 @@ import { dataProviderResolver } from '../../core/dataProviderResolver'
 // eslint-disable-next-line import/no-cycle
 import { resolveConditions } from '../../sagas/conditions'
 import request from '../../utils/request'
+import { logger } from '../../utils/logger'
 import { State } from '../State'
 import { SequenceMeta, creator as sequence, finisher as sequenceEnd } from '../api/action/sequence'
 import { failOperation, startOperation, successOperation } from '../api/Operation'
@@ -100,8 +101,7 @@ function* print(action: Print) {
 
         const onError = (text: string) => (err: unknown) => {
             alert(text)
-            // eslint-disable-next-line no-console
-            console.error(err)
+            logger.error(err)
         }
 
         const printConfig: printJS.Configuration = {
@@ -144,8 +144,7 @@ function* print(action: Print) {
 
         printJS(printConfig)
     } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
+        logger.error(err)
     }
 }
 

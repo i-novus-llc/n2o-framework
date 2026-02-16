@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import isEmpty from 'lodash/isEmpty'
 
-import { logger } from '../core/utils/logger'
+import { logger } from './logger'
 
 export enum Type {
     localStorage = 'localStorage',

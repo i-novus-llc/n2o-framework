@@ -1,17 +1,11 @@
 import { ResponseStatus } from '../constants/ResponseStatus'
 
+import { getCookie } from './cookie'
 import RequestError from './RequestError'
 
 const CSRF_TOKEN_NAME = 'XSRF-TOKEN'
 const CSRF_HEADER_NAME = 'X-XSRF-TOKEN'
 const UNSAFE_METHODS = ['POST', 'PUT', 'DELETE', 'PATCH']
-
-function parseCookie(cookies: string, name: string) {
-    const cookie = cookies.split(';')
-        .find(cookie => cookie.trim().startsWith(`${name}=`))
-
-    return cookie ? cookie.split('=')[1].trim() : null
-}
 
 function addCsrfToken(token: string | null, options: RequestInit = {}) {
     const method = options.method ? options.method.toUpperCase() : 'GET'
@@ -73,7 +67,7 @@ function fetchWithToken(url: string, options: RequestInit = {}, token: string | 
 function retryOnUpdateToken(url: string, options: RequestInit = {}, token: string | null = null) {
     return ((response: Response) => {
         if (response.status === 403 && !token) {
-            const newToken = parseCookie(document?.cookie ?? '', CSRF_TOKEN_NAME)
+            const newToken = getCookie(CSRF_TOKEN_NAME)
 
             if (newToken) { return fetchWithToken(url, options, newToken) }
         }
@@ -87,7 +81,7 @@ type ParseParam = {
 }
 
 export default function request(url: string, options: RequestInit = {}, { parseJson }: ParseParam = {}) {
-    const token = parseCookie(document?.cookie ?? '', CSRF_TOKEN_NAME)
+    const token = getCookie(CSRF_TOKEN_NAME)
 
     return fetchWithToken(url, options, token)
         .then(retryOnUpdateToken(url, options, token))

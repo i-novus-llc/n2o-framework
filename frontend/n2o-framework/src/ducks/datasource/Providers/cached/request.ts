@@ -10,6 +10,7 @@ import { getFullKey } from '../Storage'
 import { fetch } from '../service/fetch'
 import { clearEmptyParams } from '../../../../utils/clearEmptyParams'
 import { ObjectStorage as Storage } from '../../../../utils/Storage'
+import { logger } from '../../../../utils/logger'
 
 import { checkExpiration } from './checkExpiration'
 import { CacheData } from './types'
@@ -38,8 +39,7 @@ export function* request(params: Params) {
     } catch (error) {
         // TODO обработка error?
 
-        // eslint-disable-next-line no-console
-        console.error(error)
+        logger.error(error)
 
         return { list: [], paging: { count: 0, page: 1 } }
     }

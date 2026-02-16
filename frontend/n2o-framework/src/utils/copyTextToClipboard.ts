@@ -1,4 +1,4 @@
-import { logger } from '../core/utils/logger'
+import { logger } from './logger'
 
 export enum CopyMessage {
     Empty = 'Текст для копирования отсутствует',
