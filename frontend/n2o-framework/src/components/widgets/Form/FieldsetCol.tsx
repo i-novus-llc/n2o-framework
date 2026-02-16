@@ -73,6 +73,7 @@ function FieldsetColComponent({
                             onBlur={onBlur}
                             multiSetDisabled={multiSetDisabled}
                             {...field}
+                            id={name}
                         />
                     )
                 })}
