@@ -52,6 +52,8 @@ const prepareValidations = <T extends ValidationsKey>(
     return Object.fromEntries(Object.entries(record).map(([key, validations]) => [key, validations.map(v => ({
         ...v,
         on: v.on?.map((key) => {
+            if (key instanceof RegExp) { return key }
+
             const mask = key
                 .replaceAll(INDEX_REGEXP, INDEX_MASK)
                 .replaceAll(/\./ig, '\\.')

@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual'
 import { registerWidget } from '../widgets/store'
 import { type Register } from '../widgets/Actions'
 import { type State } from '../State'
-import { DataSource, DataSourceConfig, DataSourceState, DefaultDataSourceProps } from '../datasource/DataSource'
+import { DataSource, DataSourceState, DefaultDataSourceProps } from '../datasource/DataSource'
 import { resolveConditions } from '../../sagas/conditions'
 import { getData, LOCAL_WIDGET_CONFIG_KEY, setData } from '../../core/widget/useData'
 import { TableStateCache } from '../../components/widgets/AdvancedTable/types'
@@ -31,7 +31,9 @@ export interface Options {
 // @INFO эффект при изменении локальных данных ds таблицы с другой вкладки
 function* dataSourceStorageEvent(cache: TableStateCache, options: Options) {
     const { datasource } = options
-    const reduxDataSourceProps: DataSourceConfig = yield select(dataSourceByIdSelector(datasource))
+    const state: State = yield select()
+
+    const reduxDataSourceProps = dataSourceByIdSelector(datasource)(state)
 
     // @INFO локальные данные были сброшены
     if (isEmpty(cache)) {
@@ -221,7 +223,9 @@ function* tableDataRequest(
     sorting: TableStateCache['datasourceFeatures']['sorting'] | DefaultDataSourceProps['sorting'] = {},
     paging: TableStateCache['datasourceFeatures']['paging'] | DefaultDataSourceProps['paging'] = {},
 ) {
-    const reduxDataSourceProps: DataSourceConfig = yield select(dataSourceByIdSelector(datasource))
+    const state: State = yield select()
+
+    const reduxDataSourceProps = dataSourceByIdSelector(datasource)(state)
     const { sorting: reduxSorting } = reduxDataSourceProps
 
     if (!isEqual(sorting, reduxSorting)) {
