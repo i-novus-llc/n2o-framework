@@ -3,7 +3,7 @@ import { useStore } from 'react-redux'
 import get from 'lodash/get'
 import classNames from 'classnames'
 
-import StandardButton from '../StandardButton/StandardButton'
+import { FactoryStandardButton, type Props as FactoryStandardButtonProps } from '../FactoryStandardButton'
 
 function getIcon(nested: boolean, icon: string, textWrap: boolean): string | null {
     if (!nested) { return icon }
@@ -12,7 +12,7 @@ function getIcon(nested: boolean, icon: string, textWrap: boolean): string | nul
     return null
 }
 
-export interface Props {
+export interface Props extends FactoryStandardButtonProps {
     className?: string
     nested: boolean
     icon: string
@@ -33,7 +33,7 @@ export const WordWrap = (props: Props) => {
     const currentIcon = getIcon(nested, icon, textWrap)
 
     return (
-        <StandardButton
+        <FactoryStandardButton
             {...props}
             className={classNames(className, 'word-wrap-btn')}
             icon={currentIcon}
