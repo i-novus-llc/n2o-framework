@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useMemo } from 'react'
+import React, { ReactElement, ReactNode, useCallback, useMemo } from 'react'
 import classNames from 'classnames'
 import split from 'lodash/split'
 import { useTranslation } from 'react-i18next'
@@ -6,7 +6,17 @@ import { useTranslation } from 'react-i18next'
 import { Props as InputContentProps } from './InputContent'
 import { TOption } from './types'
 
-const SelectedItem = ({ id, title, callback, maxTagTextLength, disabled }: SelectedItemProps) => {
+function SelectedItemIcon({ icon }: { icon: | ReactNode | string }) {
+    if (!icon) { return null }
+
+    if (React.isValidElement(icon)) {
+        return icon as ReactElement
+    }
+
+    return <i className={icon as string} />
+}
+
+const SelectedItem = ({ id, title, callback, maxTagTextLength, disabled, icon = 'fa fa-times fa-1' }: SelectedItemProps) => {
     const onClear = useCallback((event) => {
         event.stopPropagation()
         callback?.(event)
@@ -23,7 +33,7 @@ const SelectedItem = ({ id, title, callback, maxTagTextLength, disabled }: Selec
             onClick={onClear}
             disabled={disabled}
         >
-            <i className="fa fa-times fa-1" />
+            <SelectedItemIcon icon={icon} />
         </button>
     ) : null
 
@@ -47,6 +57,7 @@ type SelectedItemProps = {
     id: string | number,
     maxTagTextLength?: number,
     title: string
+    icon?: string | ReactNode
 }
 
 const ItemWrapper = ({ onRemoveItem, item, index, ...props }: ItemWrapperProps) => {
@@ -64,10 +75,11 @@ const ItemWrapper = ({ onRemoveItem, item, index, ...props }: ItemWrapperProps) 
 }
 
 type ItemWrapperProps = Pick<InputElementsProps, 'onRemoveItem' | 'maxTagTextLength' | 'disabled'> & {
-    id: string | number,
-    index: number,
-    item: TOption,
+    id: string | number
+    index: number
+    item: TOption
     title: string
+    icon?: ReactNode | string
 }
 
 /**
@@ -80,7 +92,7 @@ type ItemWrapperProps = Pick<InputElementsProps, 'onRemoveItem' | 'maxTagTextLen
  */
 
 type InputElementsProps = Pick<InputContentProps,
-'selected' | 'labelFieldId' | 'onRemoveItem' | 'maxTagTextLength' | 'maxTagCount' | 'disabled'>
+'selected' | 'labelFieldId' | 'onRemoveItem' | 'maxTagTextLength' | 'maxTagCount' | 'disabled'> & { close?: ReactNode | string }
 
 const getTitle = (item: TOption, labelFieldId: InputElementsProps['labelFieldId']) => {
     if (typeof item === 'string') {
@@ -97,6 +109,7 @@ export function InputElements({
     disabled,
     maxTagTextLength,
     maxTagCount,
+    close,
 }: InputElementsProps) {
     const { t } = useTranslation()
 
@@ -117,6 +130,7 @@ export function InputElements({
                     title={title}
                     maxTagTextLength={maxTagTextLength}
                     disabled={disabled}
+                    icon={close}
                 />
             )
         } else if (selected.length > maxTagCount) {
@@ -127,6 +141,7 @@ export function InputElements({
                     title={`+ ${selected.length - maxTagCount}...`}
                     maxTagTextLength={maxTagTextLength}
                     disabled={disabled}
+                    icon={close}
                 />
             )
         }
@@ -145,6 +160,7 @@ export function InputElements({
                 item={item}
                 index={index}
                 onRemoveItem={onRemoveItem}
+                icon={close}
             />
         )
     })

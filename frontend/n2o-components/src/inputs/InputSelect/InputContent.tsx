@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent } from 'react'
+import React, { ChangeEvent, KeyboardEvent, ReactNode } from 'react'
 import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
@@ -67,6 +67,9 @@ export type Props = {
     valueFieldId: string
     className?: string
     readOnly?: boolean
+    elementAttributes?: {
+        close?: ReactNode | string
+    }
 }
 
 export function InputContent({
@@ -99,6 +102,7 @@ export function InputContent({
     maxTagCount,
     className,
     readOnly = false,
+    elementAttributes = {},
 }: Props) {
     const setOnlyElementFound = () => {
         if (mode !== 'autocomplete' && !multiSelect && options.length === 1) {
@@ -247,6 +251,7 @@ export function InputContent({
                         disabled={disabled}
                         maxTagTextLength={maxTagTextLength}
                         maxTagCount={maxTagCount}
+                        close={elementAttributes.close}
                     />
                     <textarea
                         onKeyDown={handleKeyDown}

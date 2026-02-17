@@ -644,6 +644,11 @@ export class InputSelect extends React.Component<Props, State> {
                     toggle={this.toggle}
                     ref={this.inputHeightRef}
                     direction={direction}
+                    className={classNames({
+                        // @INFO пустой dropdown рендерится сразу и расчитывает позицию, может мешать верстке в проектах
+                        // прим. при открытии видно схолопнутый попап с обводкой
+                        computing: loading && !input && !options.length,
+                    })}
                 >
                     <DropdownToggle tag="div" className="n2o-input-select__toggle">
                         <InputSelectGroup
@@ -663,6 +668,7 @@ export class InputSelect extends React.Component<Props, State> {
                             inputElements={inputElements}
                         >
                             <InputContent
+                                elementAttributes={inputElements?.item}
                                 setRef={this.setInputRef}
                                 onFocus={this.onFocus}
                                 onBlur={this.onInputBlur}

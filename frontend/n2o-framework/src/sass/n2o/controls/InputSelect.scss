@@ -386,6 +386,12 @@
             visibility: visible !important;
         }
     }
+
+    .dropdown.computing {
+        .n2o-input-select__menu {
+            display: none;
+        }
+    }
 }
 
 .n2o-input-select__menu.dropdown-menu.full-size {
