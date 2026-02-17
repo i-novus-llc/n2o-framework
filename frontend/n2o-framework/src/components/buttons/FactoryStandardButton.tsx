@@ -7,7 +7,7 @@ import { FactoryLevels } from '../../core/factory/factoryLevels'
 export enum Color {
     danger = 'danger', dark = 'dark', info = 'info',
     light = 'light', primary = 'primary', secondary = 'secondary',
-    success = 'success', warning = 'warning', white = 'white',
+    success = 'success', warning = 'warning', white = 'white', link = 'link',
 }
 
 export enum LabelPosition {
@@ -32,6 +32,7 @@ export interface Props {
     labelPosition?: LabelPosition
     children?: ReactNode
     entityKey?: string
+    icon?: string | null | ReactNode
 }
 
 export function FactoryStandardButton({
