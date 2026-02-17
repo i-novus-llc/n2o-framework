@@ -13,9 +13,14 @@ export interface InputElementsProps {
         color?: string
     }
     buttons?: {
+        // иконки управление инпутом
         up?: string | ReactNode
         down?: string | ReactNode
         clear?: string | ReactNode
+    }
+    item?: {
+        // иконка удаления элемента
+        close?: ReactNode | string
     }
 }
 
