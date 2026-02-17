@@ -9,7 +9,7 @@ import type { Provider, SubmitProvider, Paging, ServiceSubmit } from './Provider
 export type State = Record<string, DataSourceState>
 
 type ValidationConfig = Omit<Validation, 'on'> & {
-    on?: string[]
+    on?: Array<string | RegExp>
 }
 
 export interface DefaultDataSourceProps {
