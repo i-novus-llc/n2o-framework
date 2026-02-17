@@ -1,9 +1,11 @@
 package net.n2oapp.framework.autotest.action;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -86,6 +88,14 @@ class ValidateActionAT extends AutoTestBase {
         birthdayField.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
         startYearField.shouldHaveValidationMessage(Condition.exist);
         startYearField.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
+
+        Selenide.refresh();
+        name.setValue("test");
+        page.widget(FormWidget.class).fields().field("Провалидировать часть полей", ButtonField.class).click();
+        nameField.shouldHaveValidationMessage(Condition.empty);
+        birthdayField.shouldHaveValidationMessage(Condition.empty);
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
+        page.alerts(Alert.PlacementEnum.TOP).alert(1).shouldHaveText("Имя и название заполнены верно");
     }
 
     @Test

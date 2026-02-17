@@ -11,6 +11,8 @@
                 <input-text id="startYear" label="Год начала" required="true" domain="integer"/>
                 <input-text id="endYear" label="Год окончания" domain="integer"/>
             </multi-set>
+            <button id="check" label="Провалидировать часть полей" validate="false"
+                                disable-on-empty-model="false" action-id="act"/>
         </fields>
         <toolbar place="bottomLeft">
             <button id="check" label="Проверить" validate="false" disable-on-empty-model="false">
@@ -24,5 +26,14 @@
                 <invoke operation-id="create"/>
             </button>
         </toolbar>
+        <actions>
+            <action id="act">
+                <validate>
+                    <field id="name"/>
+                </validate>
+                <invoke operation-id="create"/>
+                <alert text="Имя и название заполнены верно" color="success"/>
+            </action>
+        </actions>
     </form>
 </simple-page>
