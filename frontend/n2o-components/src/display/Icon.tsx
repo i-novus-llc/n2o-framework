@@ -1,22 +1,22 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, isValidElement, ReactNode } from 'react'
 import classNames from 'classnames'
 
 type Props = ComponentProps<'i'> & {
-    name?: string
+    name?: ReactNode | string
     disabled?: boolean
 }
 
 export function Icon({
-    name = '',
+    name,
     className,
     disabled = false,
     ...props
 }: Props) {
     if (!name) { return null }
 
-    const iconClass = classNames('n2o-icon', {
-        [name]: name,
-        [className || '']: className,
+    if (isValidElement(name)) { return name }
+
+    const iconClass = classNames('n2o-icon', name, className, {
         disabled,
     })
 

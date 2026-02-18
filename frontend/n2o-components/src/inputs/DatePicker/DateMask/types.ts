@@ -56,4 +56,5 @@ export interface WithDecoratorsProps {
     inputClassName?: string
     setControlRef?(el: HTMLInputElement | null): void
     onClick?(e: MouseEvent<HTMLButtonElement>): void
+    icon?: ReactNode | string
 }

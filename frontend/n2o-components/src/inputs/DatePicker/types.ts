@@ -1,4 +1,4 @@
-import { FocusEventHandler, KeyboardEvent, MouseEventHandler, Component, ReactNode } from 'react'
+import { FocusEventHandler, KeyboardEvent, ReactNode } from 'react'
 import { Dayjs } from 'dayjs'
 import { PopperProps } from 'react-popper'
 import { Strategy } from '@floating-ui/react'
@@ -113,6 +113,7 @@ export type DateInputGroupProps = BaseDateProps & Omit<TBaseInputProps<Value>, '
     setControlRef(el?: unknown): void
     setVisibility(visible: boolean): void
     value: Value
+    icon?: ReactNode | string
 }
 
 export type DayProps = TBaseProps & {

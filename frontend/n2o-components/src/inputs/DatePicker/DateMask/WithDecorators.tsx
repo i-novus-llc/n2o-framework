@@ -2,6 +2,7 @@ import React, { ComponentType, FC } from 'react'
 import classNames from 'classnames'
 
 import { DateTimeControlName } from '../types'
+import { Icon } from '../../../display/Icon'
 
 import { type WithDecoratorsProps, type DateMaskProps } from './types'
 
@@ -13,6 +14,7 @@ export const WithDecorators = <P extends DateMaskProps>(Component: ComponentType
         inputClassName,
         setControlRef,
         onClick,
+        icon,
         ...rest
     }) => {
         const prefixComponent = name === DateTimeControlName.END && <span style={{ alignSelf: 'center' }}>-</span>
@@ -26,7 +28,7 @@ export const WithDecorators = <P extends DateMaskProps>(Component: ComponentType
                     className="btn n2o-calendar-button"
                     tabIndex={-1}
                 >
-                    <i className="fa fa-calendar" aria-hidden="true" />
+                    <Icon name={icon} aria-hidden />
                 </button>
         )
 
