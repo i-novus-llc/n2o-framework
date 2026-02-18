@@ -201,7 +201,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private DataSet findOne(Map<String, Object> inParams, List<DataSet> data) {
         List<String> filters = (List<String>) inParams.get(FILTERS);
         if (filters == null)
-            filters = inParams.keySet().stream().map(k -> k + " :eq :" + k).toList();
+            filters = inParams.keySet().stream().map(k -> k + " :eq :" + k).collect(Collectors.toCollection(ArrayList::new));
         List<DataSet> modifiableData = new ArrayList<>(data);
         modifiableData = filter(filters, inParams, modifiableData);
         return modifiableData.isEmpty() ? null : modifiableData.get(0);
@@ -259,7 +259,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         List<DataSet> elements = modifiableData.stream()
                 .filter(buildListPredicate(getPrimaryKeyType(invocation), getPrimaryKey(invocation),
                         getPrimaryKeys(invocation), inParams))
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
         Map<String, Object> fields = new HashMap<>(inParams);
         fields.remove(getPrimaryKeys(invocation));
         for (DataSet element : elements) {
@@ -366,7 +366,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             data = data
                     .stream()
                     .limit(limit + offset)
-                    .skip(offset).toList();
+                    .skip(offset).collect(Collectors.toCollection(ArrayList::new));
         }
         return data;
     }
@@ -375,7 +375,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         if (filters == null || filters.isEmpty()) {
             if (inParams != null && inParams.containsKey("id")) {
                 String id = "" + inParams.get("id");
-                data = data.stream().filter(m -> m.getId().equals(id)).toList();
+                data = data.stream().filter(m -> m.getId().equals(id)).collect(Collectors.toCollection(ArrayList::new));
             }
             return data;
         }
@@ -436,7 +436,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             return ((Long) numberField.longValue()).equals(numberPattern.longValue());
                         return m.get(field).toString().equals(pattern.toString());
                     })
-                    .toList();
+                    .collect(Collectors.toCollection(ArrayList::new));
         }
         return data;
     }
@@ -452,7 +452,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             return !((Long) numberField.longValue()).equals(numberPattern.longValue());
                         return !m.get(field).toString().equals(pattern.toString());
                     })
-                    .toList();
+                    .collect(Collectors.toCollection(ArrayList::new));
         }
         return data;
     }
@@ -467,7 +467,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         return m.get(field).toString().toLowerCase()
                                 .contains(pattern.toString().toLowerCase());
                     })
-                    .toList();
+                    .collect(Collectors.toCollection(ArrayList::new));
         }
         return data;
     }
@@ -503,7 +503,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         }
                         return false;
                     })
-                    .toList();
+                    .collect(Collectors.toCollection(ArrayList::new));
         }
         return data;
     }
@@ -535,7 +535,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         }
                         return !patterns.contains(m.get(field).toString());
                     })
-                    .toList();
+                    .collect(Collectors.toCollection(ArrayList::new));
         }
         return data;
     }
@@ -553,7 +553,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             return false;
                         return m.getList(splittedField.get(0)).containsAll(patterns);
                     })
-                    .toList();
+                    .collect(Collectors.toCollection(ArrayList::new));
         }
         String indexedField = splittedField.remove(splittedField.size() - 1);
         String parentField = String.join(".", splittedField);
@@ -566,10 +566,10 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             .stream()
                             .filter(DataSet.class::isInstance)
                             .map(d -> ((DataSet) d).get(indexedField))
-                            .toList();
+                            .collect(Collectors.toCollection(ArrayList::new));
                     return mappedData.containsAll(patterns);
                 })
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private List<DataSet> lessFilterData(String field, Object pattern, List<DataSet> data) {
@@ -592,7 +592,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         }
                         return m.get(field).toString().compareTo(pattern.toString()) < 0;
                     })
-                    .toList();
+                    .collect(Collectors.toCollection(ArrayList::new));
         }
         return data;
     }
@@ -617,7 +617,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         }
                         return m.get(field).toString().compareTo(pattern.toString()) > 0;
                     })
-                    .toList();
+                    .collect(Collectors.toCollection(ArrayList::new));
         }
         return data;
     }
@@ -625,14 +625,14 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private List<DataSet> isNullFilterData(String field, List<DataSet> data) {
         return data.stream()
                 .filter(m -> m.containsKey(field) && m.get(field) == null)
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
 
     }
 
     private List<DataSet> isNotNullFilterData(String field, List<DataSet> data) {
         return data.stream()
                 .filter(m -> m.containsKey(field) && m.get(field) != null)
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private List<DataSet> eqOrIsNullFilterData(String field, Object pattern, List<DataSet> data) {
@@ -646,7 +646,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             return ((Long) fieldNumber.longValue()).equals(patternNumber.longValue());
                         return m.get(field).toString().equals(pattern.toString());
                     })
-                    .toList();
+                    .collect(Collectors.toCollection(ArrayList::new));
         }
         return data;
     }
