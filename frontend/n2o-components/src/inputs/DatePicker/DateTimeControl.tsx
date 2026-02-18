@@ -472,6 +472,7 @@ export class DateTimeControl extends React.Component<DateTimeControlProps, DateT
                                     max={max}
                                     min={min}
                                     autocomplete={autocomplete}
+                                    icon="fa fa-calendar"
                                 />
                             )}
                         </Reference>
