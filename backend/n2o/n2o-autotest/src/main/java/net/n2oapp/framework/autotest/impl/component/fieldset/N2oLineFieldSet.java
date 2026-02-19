@@ -14,6 +14,9 @@ import java.time.Duration;
  */
 public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
 
+    public static final String COLLAPSE_PANEL_CONTENT_ACTIVE = ".collapse-panel-content-active";
+    public static final String COLLAPSE_PANEL_CONTENT_INACTIVE = ".collapse-panel-content-inactive";
+
     @Override
     public Fields fields() {
         return N2oSelenide.collection(element().$$(".n2o-form-group"), Fields.class);
@@ -51,24 +54,24 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
 
     @Override
     public void expand() {
-        if (!item().is(expandedContentCondition()))
+        if (element().$(COLLAPSE_PANEL_CONTENT_INACTIVE).exists())
             header().click();
     }
 
     @Override
     public void collapse() {
-        if (item().is(expandedContentCondition()))
+        if (element().$(COLLAPSE_PANEL_CONTENT_ACTIVE).exists())
             header().click();
     }
 
     @Override
     public void shouldBeExpanded() {
-        item().shouldBe(expandedContentCondition());
+        item().$(COLLAPSE_PANEL_CONTENT_ACTIVE).shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldBeCollapsed() {
-        item().shouldNotBe(expandedContentCondition());
+        item().$(COLLAPSE_PANEL_CONTENT_INACTIVE).shouldBe(Condition.exist);
     }
 
     protected SelenideElement header() {
@@ -76,15 +79,15 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
     }
 
     protected SelenideElement item() {
-        return element().$(".rc-collapse-item");
+        return element().$(".collapse-panel");
     }
 
     protected SelenideElement content() {
-        return element().$(".rc-collapse-content-box");
+        return element().$(".collapse-panel-content-box");
     }
 
     private WebElementCondition expandedContentCondition() {
-        return Condition.cssClass("rc-collapse-item-active");
+        return Condition.cssClass("collapse-panel-content-active");
     }
 
     protected SelenideElement fieldsetTitleText() {

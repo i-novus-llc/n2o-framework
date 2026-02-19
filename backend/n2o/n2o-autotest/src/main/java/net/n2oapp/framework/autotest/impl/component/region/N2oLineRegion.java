@@ -2,7 +2,6 @@ package net.n2oapp.framework.autotest.impl.component.region;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebElementCondition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.region.LineRegion;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
@@ -13,6 +12,10 @@ import java.time.Duration;
  * Регион с горизонтальным делителем для автотестирования
  */
 public class N2oLineRegion extends N2oRegion implements LineRegion {
+
+    public static final String COLLAPSE_PANEL_CONTENT_ACTIVE = ".collapse-panel-content-active";
+    public static final String COLLAPSE_PANEL_CONTENT_INACTIVE = ".collapse-panel-content-inactive";
+
     @Override
     public RegionItems content() {
         return content("nested-content");
@@ -20,7 +23,7 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
 
     @Override
     public RegionItems content(String className) {
-        return N2oSelenide.collection(firstLevelElements(".rc-collapse-content-box", "div > ." + className), RegionItems.class);
+        return N2oSelenide.collection(firstLevelElements(".collapse-panel-content-box", "div > ." + className), RegionItems.class);
     }
 
     @Override
@@ -40,24 +43,24 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
 
     @Override
     public void expand() {
-        if (!item().is(expandedContentCondition()))
+        if (element().$(COLLAPSE_PANEL_CONTENT_INACTIVE).exists())
             header().click();
     }
 
     @Override
     public void collapse() {
-        if (item().is(expandedContentCondition()))
+        if (element().$(COLLAPSE_PANEL_CONTENT_ACTIVE).exists())
             header().click();
     }
 
     @Override
     public void shouldBeExpanded() {
-        item().shouldBe(expandedContentCondition());
+        element().$(COLLAPSE_PANEL_CONTENT_ACTIVE).shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldBeCollapsed() {
-        item().shouldNotBe(expandedContentCondition());
+        element().$(COLLAPSE_PANEL_CONTENT_INACTIVE).shouldBe(Condition.exist);
     }
 
 
@@ -66,10 +69,6 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
     }
 
     protected SelenideElement item() {
-        return element().$(".rc-collapse-item");
-    }
-
-    private WebElementCondition expandedContentCondition() {
-        return Condition.cssClass("rc-collapse-item-active");
+        return element().$(".collapse-panel");
     }
 }

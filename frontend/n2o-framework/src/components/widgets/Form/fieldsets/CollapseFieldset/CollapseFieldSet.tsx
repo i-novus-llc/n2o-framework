@@ -29,8 +29,8 @@ function CollapseFieldSetBody({
 
     return (
         <Collapse
-            className={classNames({ 'n2o-disabled': disabled })}
-            defaultActiveKey={expand ? '0' : null}
+            className={classNames('n2o-collapse', { 'n2o-disabled': disabled })}
+            defaultActiveKey={expand ? 'open' : null}
             collapsible
         >
             <Panel
@@ -40,7 +40,9 @@ function CollapseFieldSetBody({
                 showArrow={hasArrow}
                 help={help}
                 badge={badge}
+                hasSeparator={hasSeparator}
                 forceRender
+                panelKey={expand ? 'open' : 'close'}
             >
                 {render(rows)}
             </Panel>

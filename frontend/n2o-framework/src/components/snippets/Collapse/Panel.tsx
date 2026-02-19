@@ -58,10 +58,12 @@ export type Props = {
     collapsible?: boolean
     badge?: BadgeProps
     className?: string
+    hasSeparator?: boolean
     headerClass?: string
     children?: ReactNode
     showArrow?: boolean
     forceRender?: boolean
+    panelKey: string
 } & PanelHeaderProps
 
 export const Panel = ({
@@ -74,9 +76,11 @@ export const Panel = ({
     badge,
     type = 'default',
     collapsible = true,
+    hasSeparator,
     ...rest
 }: Props) => (
     <BasePanel
+        hasSeparator={hasSeparator}
         header={<PanelHeader header={header} help={help} description={description} badge={badge} />}
         className={classNames('n2o-collapse-panel', type, className, {
             'with-description': description,

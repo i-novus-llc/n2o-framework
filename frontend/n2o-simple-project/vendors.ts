@@ -31,11 +31,11 @@ export const VENDORS = {
         'query-string',
         'deepmerge',
         'lodash',
-        /* 
+        /*
          * Костыли:
          * Не прямая зависимость,но если не указать явно в отдельный модуль,
          * то rollup подмешивает их в бандлы, которые мы хотим тянуть лениво, а получаем на старте приложения
-         */ 
+         */
         'lodash.get',
         'lodash.isequal',
         '@babel/runtime',
@@ -59,7 +59,6 @@ export const VENDORS = {
         'rc-slider',
         'rc-tree-select',
         'rc-tree',
-        'rc-collapse',
         'rc-drawer',
         'rc-switch',
         'reactstrap',
