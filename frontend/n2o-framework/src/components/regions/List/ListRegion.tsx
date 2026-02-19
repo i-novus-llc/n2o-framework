@@ -83,6 +83,7 @@ const ListRegion = (props: ListRegionProps) => {
                 <Panel
                     {...panelProps}
                     key={expand ? 'open' : 'close'}
+                    panelKey={expand ? 'open' : 'close'}
                     header={<span className="n2o-list-region__collapse-name"><Text>{label}</Text></span>}
                     className={classNames({ line: hasSeparator, 'd-none': isVisible === false })}
                 >
