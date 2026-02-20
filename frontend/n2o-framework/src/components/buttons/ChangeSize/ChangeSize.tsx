@@ -10,6 +10,7 @@ import { dataSourceProviderSizeSelector } from '../../../ducks/datasource/select
 import { useDropdownEvents } from '../useDropdownEvents'
 import { Tooltip } from '../../snippets/Tooltip/TooltipHOC'
 import { UseDropDownProps } from '../ToggleColumn/types'
+import { type Color, FactoryStandardButton } from '../FactoryStandardButton'
 
 export const DEFAULT_SIZE = [5, 10, 20, 50]
 
@@ -25,6 +26,7 @@ export interface Props extends Enhancer {
     nested?: boolean
     defaultSize: number | null
     widgetSize: number
+    color?: Color
 }
 
 function Component({
@@ -36,6 +38,7 @@ function Component({
     onClick,
     forwardedRef,
     clickOutsideRef,
+    color,
     size = DEFAULT_SIZE,
     nested = false,
 }: Props) {
@@ -56,11 +59,16 @@ function Component({
 
     return (
         <ButtonDropdown isOpen={isOpen} onClick={onClick} direction={nested ? 'right' : 'down'}>
-            <div className="n2o-dropdown n2o-toggle-column visible" ref={combineRefs(clickOutsideRef, forwardedRef)}>
-                <DropdownToggle caret>
-                    {icon && <i className={icon} />}
-                    {label}
+            <div className="n2o-dropdown n2o-toggle-column n2o-change-size visible" ref={combineRefs(clickOutsideRef, forwardedRef)}>
+                <DropdownToggle tag="div">
+                    <FactoryStandardButton
+                        className="n2o-change-size-btn dropdown-toggle"
+                        color={color}
+                        icon={icon}
+                        label={label}
+                    />
                 </DropdownToggle>
+
                 <DropdownMenu>
                     {sizes.map((size) => {
                         const isActive = widgetSize === size

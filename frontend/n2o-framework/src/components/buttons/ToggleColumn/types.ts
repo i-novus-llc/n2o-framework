@@ -1,6 +1,7 @@
 import { type MouseEvent, type RefObject } from 'react'
 
 import { type HeaderCell, MOVE_MODE } from '../../../ducks/table/Table'
+import { type Color } from '../FactoryStandardButton'
 
 export interface UseDropDownProps {
     forwardedRef: RefObject<HTMLDivElement>
@@ -16,6 +17,7 @@ export interface ToggleColumnProps extends UseDropDownProps {
     label?: string
     entityKey: string
     nested: string
+    color: Color
 }
 
 export interface DragHandleProps {
