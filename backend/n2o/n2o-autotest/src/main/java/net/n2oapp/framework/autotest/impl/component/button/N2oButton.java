@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.button;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.N2oSelenide;
@@ -38,11 +39,7 @@ public abstract class N2oButton extends N2oComponent implements Button {
 
     @Override
     public Tooltip tooltip() {
-        SelenideElement element = element().parent()
-                .parent().parent().parent()
-                .$(".tooltip-container");
-
-        return N2oSelenide.component(element, Tooltip.class);
+        return N2oSelenide.component(Selenide.$(".tooltip-container"), Tooltip.class);
     }
 
     @Override

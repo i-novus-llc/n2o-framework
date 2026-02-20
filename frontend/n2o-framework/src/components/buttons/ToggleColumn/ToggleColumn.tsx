@@ -13,6 +13,7 @@ import { type HeaderCell } from '../../../ducks/table/Table'
 import { TableActionsProvider } from '../../Table/provider/TableActions'
 import { Tooltip } from '../../snippets/Tooltip/TooltipHOC'
 import { useDropdownEvents } from '../useDropdownEvents'
+import { FactoryStandardButton } from '../FactoryStandardButton'
 
 import { type ToggleColumnProps } from './types'
 import { DRAG_WRAPPER_CLASS, DragAndDropColumn } from './DragAndDropColumn/DragAndDropColumn'
@@ -21,7 +22,7 @@ import { DragHandle } from './DragAndDropColumn/DragHandle'
 import { MultiColumn } from './MultiColumn/MultiColumn'
 
 const Component = (props: ToggleColumnProps) => {
-    const { icon, label, entityKey: widgetId, forwardedRef, clickOutsideRef, isOpen, onClick, nested = false } = props
+    const { icon, label, entityKey: widgetId, forwardedRef, clickOutsideRef, isOpen, onClick, color, nested = false } = props
     const { getState } = useStore()
 
     const { header } = makeTableByIdSelector(widgetId)(getState())
@@ -45,9 +46,13 @@ const Component = (props: ToggleColumnProps) => {
         <ButtonDropdown onClick={onClick} isOpen={isOpen} direction={nested ? 'right' : 'down'}>
             <div className="n2o-dropdown n2o-toggle-column visible" ref={combineRefs(clickOutsideRef, forwardedRef)}>
                 <div>
-                    <DropdownToggle caret>
-                        {icon && <i className={icon} />}
-                        {label}
+                    <DropdownToggle tag="div">
+                        <FactoryStandardButton
+                            className="n2o-change-size-btn dropdown-toggle"
+                            color={color}
+                            icon={icon}
+                            label={label}
+                        />
                     </DropdownToggle>
 
                     <DropdownMenu id={menuId} className={classNames('n2o-toggle-column__menu', { moveMode: hasMoveMode })} onClick={(e: MouseEvent) => e.stopPropagation()}>
