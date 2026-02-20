@@ -40,7 +40,7 @@ export function pickValidations(
 ) {
     if (validations[fieldName]?.length) { return new Set(validations[fieldName]) }
 
-    const mask = new RegExp(`^${fieldName.replaceAll(/\[\d+]/g, '\\[index]')}$`)
+    const mask = new RegExp(`^${fieldName.replaceAll(/\[\d+]/g, '\\[(index|\\$index_\\d+)]')}$`)
 
     for (const [validationKey, list] of Object.entries(validations || {})) {
         if (mask.test(validationKey)) { return new Set(list) }
