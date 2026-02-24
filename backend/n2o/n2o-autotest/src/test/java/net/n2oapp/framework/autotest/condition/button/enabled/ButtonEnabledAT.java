@@ -116,8 +116,6 @@ class ButtonEnabledAT extends AutoTestBase {
         Toolbar toolbar = form.toolbar().bottomLeft();
         DropdownButton disabledSubMenu = toolbar.dropdown(Condition.text("Disabled submenu"));
         DropdownButton subMenu = toolbar.dropdown(Condition.textCaseSensitive("SubMenu"));
-        StandardButton item1 = subMenu.menuItem("item1");
-        StandardButton item2 = subMenu.menuItem("item2");
 
         type.shouldBeEmpty();
         disabledSubMenu.shouldBeVisible();
@@ -127,6 +125,8 @@ class ButtonEnabledAT extends AutoTestBase {
         type.check("enable");
         subMenu.shouldBeEnabled();
         subMenu.click();
+        StandardButton item1 = subMenu.menuItem("item1");
+        StandardButton item2 = subMenu.menuItem("item2");
         item1.shouldBeEnabled();
         item2.shouldBeEnabled();
 
