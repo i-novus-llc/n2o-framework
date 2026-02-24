@@ -62,5 +62,7 @@ public class ApplicationValidator implements SourceValidator<N2oApplication>, So
             SidebarPathsScope sidebarsPaths = new SidebarPathsScope();
             p.safeStreamOf(sidebars).forEach(sidebar -> p.validate(sidebar, sidebarsPaths, dataSourcesScope, datasourceIdsScope));
         }
+
+        p.safeStreamOf(source.getEvents()).forEach(event -> p.validate(event, dataSourcesScope, datasourceIdsScope));
     }
 }

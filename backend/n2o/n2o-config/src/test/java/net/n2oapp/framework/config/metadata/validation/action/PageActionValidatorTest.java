@@ -7,10 +7,13 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(OutputCaptureExtension.class)
 class PageActionValidatorTest extends SourceValidationTestBase {
 
     @Override
@@ -163,5 +166,17 @@ class PageActionValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testEmptyToolbar.page.xml")
         );
         assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре действия открытия страницы 'utBlank'", exception.getMessage());
+    }
+
+    @Test
+    void testDuplicateRoute(CapturedOutput output) {
+        validate("net/n2oapp/framework/config/metadata/validation/action/page/testDuplicateRoute.page.xml");
+        assertTrue(output.getOut().contains("Маршрут '/duplicate-route' действия открытия страницы 'utBlank' уже используется на странице. Рекомендуется вынести действие в блок \"<actions/>\""));
+    }
+
+    @Test
+    void testUniqueRoutes(CapturedOutput output) {
+        validate("net/n2oapp/framework/config/metadata/validation/action/page/testUniqueRoutes.page.xml");
+        assertFalse(output.getOut().contains("Маршрут '/duplicate-route' действия открытия страницы 'utBlank' уже используется на странице."));
     }
 }

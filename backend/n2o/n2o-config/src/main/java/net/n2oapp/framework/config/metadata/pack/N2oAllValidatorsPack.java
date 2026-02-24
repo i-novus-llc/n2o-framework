@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.cell.*;
 import net.n2oapp.framework.config.metadata.validation.standard.control.*;
 import net.n2oapp.framework.config.metadata.validation.standard.datasource.*;
 import net.n2oapp.framework.config.metadata.validation.standard.event.OnChangeEventValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.event.StompEventValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.*;
 import net.n2oapp.framework.config.metadata.validation.standard.invocation.JavaDataProviderValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.menu.MenuItemValidator;
@@ -53,7 +54,8 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new ButtonValidator(), new ClipboardButtonValidator(),
                 new SubmitActionValidator(), new CustomActionValidator(), new ActionsAwareValidator(), new SwitchActionValidator(),
                 new ConditionBranchActionValidator(), new ActionFieldValidator(), new OnFailActionValidator(),
-                new EditListActionValidator(), new OnChangeEventValidator(), new MarkdownValidator(), new TilesValidator(),
+                new EditListActionValidator(), new OnChangeEventValidator(), new StompEventValidator(),
+                new MarkdownValidator(), new TilesValidator(),
                 new CardsValidator(), new TabsValidator(), new ScrollspyValidator(), new SwitchCellValidator(),
                 new LinkCellValidator(), new BadgeCellValidator(), new IconCellValidator(), new EditCellValidator(),
                 new ActionCellValidator(),
