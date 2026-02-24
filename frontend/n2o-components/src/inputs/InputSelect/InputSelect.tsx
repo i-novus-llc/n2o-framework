@@ -267,6 +267,9 @@ export class InputSelect extends React.Component<Props, State> {
         /** @INFO преобразование из за особенности селектов, id могут приходить id = 1 || id = '1' */
         const value = stateValue?.filter(i => String(i.id) !== String(item.id))
 
+        // @ts-ignore TODO type Ref типизировано как any требуется рефакторинг
+        this.textAreaRef.focus()
+
         this.setState({ value }, () => onChange(value || null))
     }
 
@@ -516,7 +519,7 @@ export class InputSelect extends React.Component<Props, State> {
     }
 
     onInputBlur = () => {
-        const { onBlur, datasource, setFilter, sortFieldId, resetOnBlur, models = {} } = this.props
+        const { onBlur, datasource, setFilter, sortFieldId, resetOnBlur, multiSelect, models = {} } = this.props
         const { isExpanded, value } = this.state
 
         if (datasource && sortFieldId) {
@@ -530,6 +533,7 @@ export class InputSelect extends React.Component<Props, State> {
         }
 
         if (!isExpanded) {
+            if (multiSelect) { this.setState({ input: '' }) }
             onBlur(this.getValue())
         }
 
