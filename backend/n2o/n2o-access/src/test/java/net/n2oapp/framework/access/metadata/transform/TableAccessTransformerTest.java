@@ -3,6 +3,8 @@ package net.n2oapp.framework.access.metadata.transform;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
+import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
+import net.n2oapp.framework.api.metadata.meta.cell.Cell;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
@@ -19,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 class TableAccessTransformerTest extends SourceCompileTestBase {
     @Override
@@ -53,5 +56,26 @@ class TableAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getPermissions().size(), is(1));
         assertThat(securityObject.getPermissions().contains("permission"), is(true));
         assertThat(securityObject.getUsernames().contains("user"), is(true));
+    }
+
+    @Test
+    void testColumnSecurityTransferToCell() {
+        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/default.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testColumnSecurityTransfer.page.xml");
+
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new PageContext("testColumnSecurityTransfer"));
+
+        Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
+        Cell cell = table.getComponent().getBody().getCells().get(0);
+
+        Security security = (Security) ((PropertiesAware) cell).getProperties().get(SECURITY_PROP_NAME);
+        assertThat(security, notNullValue());
+        assertThat(security.isEmpty(), is(false));
+
+        SecurityObject securityObject = security.get(0).get("custom");
+        assertThat(securityObject, notNullValue());
+        assertThat(securityObject.getRoles().contains("admin"), is(true));
+        assertThat(securityObject.getPermissions().contains("edit"), is(true));
     }
 }
