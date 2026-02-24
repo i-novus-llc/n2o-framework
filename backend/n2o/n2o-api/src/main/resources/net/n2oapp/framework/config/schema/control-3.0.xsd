@@ -216,6 +216,7 @@
         <xs:sequence>
             <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
             <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
+            <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
@@ -628,7 +629,6 @@
         <xs:complexContent>
             <xs:extension base="controlDefinition">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                     <xs:element name="default-value" minOccurs="0">
                         <xs:complexType>
@@ -831,7 +831,6 @@
         <xs:complexContent>
             <xs:extension base="controlMaskedInputDefinitionCropped">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -950,7 +949,6 @@
         <xs:complexContent>
             <xs:extension base="controlDefinition">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                     <xs:element name="children" type="xs:string" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
@@ -1048,7 +1046,6 @@
         <xs:complexContent>
             <xs:extension base="controlTextCropped">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -1271,7 +1268,6 @@
         <xs:complexContent>
             <xs:extension base="fieldCustomCropped">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -1411,7 +1407,6 @@
         <xs:complexContent>
             <xs:extension base="controlInputTextDefinitionCropped">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -1554,7 +1549,6 @@
         <xs:complexContent>
             <xs:extension base="controlInputMoneyDefinitionCropped">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -1615,7 +1609,6 @@
         <xs:complexContent>
             <xs:extension base="controlDefinition">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="id" type="xs:string" use="optional">
@@ -1631,7 +1624,6 @@
         <xs:complexContent>
             <xs:extension base="controlOutputTextDefinitionCropped">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -1746,7 +1738,6 @@
         <xs:complexContent>
             <xs:extension base="controlDefinition">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                     <xs:element name="default-value" minOccurs="0" maxOccurs="1">
                         <xs:complexType>
@@ -1851,7 +1842,6 @@
         <xs:complexContent>
             <xs:extension base="controlDatePickerDefinitionCropped">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -1908,7 +1898,6 @@
         <xs:complexContent>
             <xs:extension base="controlSelectDefinitionCropped">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -2015,7 +2004,6 @@
         <xs:complexContent>
             <xs:extension base="controlInputSelectDefinitionCropped">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -2214,7 +2202,6 @@
         <xs:complexContent>
             <xs:extension base="controlDefinition">
                 <xs:sequence>
-                    <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="id" type="xs:string" use="optional">
