@@ -11,8 +11,11 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.validation.standard.PageRoutesValidationScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidatorDatasourceIdsScope;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -25,6 +28,8 @@ import static net.n2oapp.framework.config.metadata.validation.standard.Validatio
  */
 @Component
 public class PageActionValidator implements SourceValidator<N2oAbstractPageAction>, SourceClassAware {
+    private final Logger logger = LoggerFactory.getLogger(PageActionValidator.class);
+
     @Override
     public void validate(N2oAbstractPageAction source, SourceProcessor p) {
         ValidationUtils.checkForExistsObject(source.getObjectId(),
@@ -41,6 +46,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                             " ссылается на несуществующую в объекте " + source.getObjectId() + " операцию " + source.getSubmitOperationId()));
         }
         PageScope pageScope = p.getScope(PageScope.class);
+        checkRouteUniqueness(source, p);
         checkRefreshWidgetDatasourceIds(source, pageScope, p);
 
         ValidatorDatasourceIdsScope datasourceIdsScope = p.getScope(ValidatorDatasourceIdsScope.class);
@@ -94,6 +100,25 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                                 ValidationUtils.getIdOrEmptyString(datasourceId)));
             }
         }
+    }
+
+    /**
+     * Проверка уникальности route в рамках страницы
+     *
+     * @param source Действие открытия страницы
+     * @param p      Процессор
+     */
+    private void checkRouteUniqueness(N2oAbstractPageAction source, SourceProcessor p) {
+        String route = source.getRoute();
+        if (route == null)
+            return;
+        PageRoutesValidationScope routesScope = p.getScope(PageRoutesValidationScope.class);
+        if (routesScope == null)
+            return;
+        if (routesScope.contains(route)) {
+            logger.warn(String.format("Маршрут '%s' действия открытия страницы '%s' уже используется на странице. Рекомендуется вынести действие в блок \"<actions/>\"", route, source.getPageId()));
+        }
+        routesScope.add(route);
     }
 
     private void checkDatasourceInParam(N2oAbstractPageAction action, SourceProcessor p) {

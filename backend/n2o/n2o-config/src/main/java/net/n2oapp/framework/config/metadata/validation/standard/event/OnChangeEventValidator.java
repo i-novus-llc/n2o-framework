@@ -32,5 +32,6 @@ public class OnChangeEventValidator extends TypedMetadataValidator<N2oOnChangeEv
             throw new N2oMetadataValidationException(String.format("В событии <on-change> %s не заданы действия", ValidationUtils.getIdOrEmptyString(source.getId())));
         checkOnFailAction(source.getActions());
         checkCloseInMultiAction(source.getActions());
+        p.safeStreamOf(source.getActions()).forEach(p::validate);
     }
 }

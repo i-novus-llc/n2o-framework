@@ -15,6 +15,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import net.n2oapp.framework.config.metadata.validation.standard.PageRoutesValidationScope;
 import net.n2oapp.framework.config.metadata.validation.standard.ValidatorDatasourceIdsScope;
 import org.springframework.stereotype.Component;
 
@@ -67,6 +68,7 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
         MetaActions actionBarScope = new MetaActions(
                 p.safeStreamOf(actions).collect(Collectors.toMap(ActionBar::getId, Function.identity()))
         );
+        PageRoutesValidationScope routesScope = new PageRoutesValidationScope();
         if (actions != null)
             Stream.of(actions).forEach(actionbar -> {
                 checkOnFailAction(actionbar.getN2oActions());
@@ -78,15 +80,16 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
 
         p.safeStreamOf(toolbars)
                 .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions())
-                        .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope)));
+                        .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope, routesScope)));
         p.safeStreamOf(toolbars).map(N2oToolbar::getItems).filter(Objects::nonNull)
                 .flatMap(Arrays::stream).forEach(button -> p.validate(button, datasourceIdsScope, dataSourcesScope,
                         actionBarScope, new ComponentScope(page)));
         p.safeStreamOf(actions).flatMap(actionBar -> p.safeStreamOf(actionBar.getN2oActions()))
-                .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope));
+                .forEach(action -> p.validate(action, pageScope, datasourceIdsScope, dataSourcesScope, routesScope));
 
         p.safeStreamOf(datasources).forEach(datasource -> p.validate(datasource, pageScope, datasourceIdsScope));
-        p.safeStreamOf(page.getEvents()).forEach(event -> p.validate(event, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope));
+        p.safeStreamOf(page.getEvents()).forEach(event ->
+                p.validate(event, pageScope, datasourceIdsScope, dataSourcesScope, actionBarScope, routesScope));
 
         checkEmptyToolbar(toolbars);
     }
