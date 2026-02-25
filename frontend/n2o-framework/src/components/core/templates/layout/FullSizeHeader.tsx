@@ -32,7 +32,7 @@ export function Layout({
             <div className={classNames('w-100 d-flex flex-grow-1', {
                 'flex-row': side === 'left',
                 'flex-row-reverse': side === 'right',
-                'overflow-auto': fixed,
+                'overflow-hidden': fixed,
             })}
             >
                 {sidebar}

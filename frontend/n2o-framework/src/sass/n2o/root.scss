@@ -32,6 +32,10 @@ body {
     padding-top: 1rem;
 }
 
+.scroll_content {
+    height: max-content;
+}
+
 .application-body--aside {
     height: calc(100vh - #{$footer-height});
     overflow: auto;
