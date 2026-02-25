@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Действие валидации полей на клиенте">
+    <form id="form">
+        <datasource object-id="test"/>
+
+        <fields>
+            <multi-set id="outerList" label="Внешний список" add-label="Добавить во внешний список">
+                <row>
+                    <input-text id="outerField" label="{index}. Внешнее поле" required="true"/>
+                </row>
+                <row>
+                    <multi-set id="innerList" label="{index}. Внутренний список" add-label="Добавить во внутренний список">
+                        <row>
+                            <input-text id="innerField" label="{index}.{$index_1}. Обязательное внутреннее поле" required="true"/>
+                      </row>
+                    </multi-set>
+                </row>
+            </multi-set>
+
+        </fields>
+        <toolbar>
+            <button label="validate outerList.*" validate="false"
+                    disable-on-empty-model="false">
+                <validate>
+                    <field id="outerList.*"/>
+                </validate>
+                <alert text="Имя и название заполнены верно" color="success"/>
+            </button>
+            <button label="validate outerList[0].*" validate="false"
+                    disable-on-empty-model="false">
+                <validate>
+                    <field id="outerList[0].*"/>
+                </validate>
+                <alert text="Имя и название заполнены верно" color="success"/>
+            </button>
+            <button label="validate outerList[0].innerList[0].*" validate="false"
+                    disable-on-empty-model="false">
+                <validate>
+                    <field id="outerList[0].innerList[0].*"/>
+                </validate>
+                <alert text="Имя и название заполнены верно" color="success"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

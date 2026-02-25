@@ -1712,6 +1712,10 @@
           "name": "ValidateActionAT. testBreakOnFalseValidateElement"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/action/validate/nested_multiset",
+          "name": "ValidateActionAT. testValidateNestedMultiSet"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/condition/button/enabled/simple",
           "name": "ButtonEnabledAT. testEnabledButton"
         },
