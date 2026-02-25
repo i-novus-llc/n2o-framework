@@ -11,9 +11,10 @@ export const useSticky = (
     const target = targetRef.current
 
     useEffect(() => {
-        let offset = 0
-
         if (!scrollContainer || !scrollContent || !container || !target) { return }
+
+        const paddingTop = parseInt(getComputedStyle(scrollContainer).paddingTop, 10)
+        let offset = paddingTop
 
         const onScroll = () => {
             const { scrollTop } = scrollContainer
@@ -33,7 +34,7 @@ export const useSticky = (
             const sc = scrollContent.getBoundingClientRect()
             const cc = container.getBoundingClientRect()
 
-            offset = Math.floor(cc.top - sc.top)
+            offset = Math.floor(cc.top - sc.top + paddingTop)
             onScroll()
         }
 

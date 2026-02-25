@@ -61,11 +61,11 @@ export const ScrollContainer = ({
 
     return (
         <div
-            className={`scroll_container overflow-auto ${className} d-flex`}
+            className={`scroll_container overflow-auto ${className}`}
             ref={containerRef}
         >
             <div
-                className="scroll_content d-flex flex-column flex-grow-1"
+                className="scroll_content d-flex flex-column"
                 ref={contentRef}
             >
                 <ScrollContext.Provider value={state.current}>
