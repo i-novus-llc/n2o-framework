@@ -8,6 +8,7 @@ import { Admonition } from '../Admonition/Admonition'
 
 import { visibilityHOC } from './visibilityHOC'
 import { CodeWrapper } from './CodeWrapper'
+import { NETWORK_PERMISSION_INSTRUCTION, useNetworkPermission } from './useNetworkPermission'
 import style from './sandbox.module.scss'
 
 const IS_DOCS = 'isDocs=true'
@@ -57,12 +58,37 @@ function SandboxBody({
                 )
     }, [])
 
+
+    const src = useMemo(() => {
+        if (!projectData) { return null }
+
+        return isLightEditor
+            ? `${CONFIG.sandboxUrl}/editor/${projectData.id}/?light`
+            : `${origin}/sandbox/view/${projectData.id}/`
+    }, [projectData, isLightEditor, origin])
+
+
+    const { permissionState, isLoading: permissionLoading } = useNetworkPermission(src)
+
+    // Ошибка проекта
     if (loadError) {
-        return <Admonition type="danger" title="Ошибка" text={loadError}/>
+        return <Admonition type="danger" title="Ошибка" text={loadError} />
     }
 
-    if (!projectData) {
-        return <Spinner/>
+    // Загрузка
+    if (!projectData || permissionLoading) {
+        return <Spinner />
+    }
+
+    // Запрещен доступ
+    if (permissionState === 'denied') {
+        return (
+            <Admonition
+                type="danger"
+                title="Доступ запрещён"
+                text={NETWORK_PERMISSION_INSTRUCTION}
+            />
+        )
     }
 
     function onIframeLoadHandler(event) {
@@ -75,13 +101,8 @@ function SandboxBody({
                 footer: showFooter,
             },
         }
-
         event.target.contentWindow.postMessage(message, '*')
     }
-
-    const src = isLightEditor ?
-            `${CONFIG.sandboxUrl}/editor/${projectData.id}/?light` :
-            `${origin}/sandbox/view/${projectData.id}/`
 
     return (
             <>
@@ -91,6 +112,7 @@ function SandboxBody({
                         style={{ height, ...customStyle }}
                         className={clsx(style.iframe, className)}
                         src={src}
+                        allow="local-network *"
                 />
 
                 {!isLightEditor && <CodeWrapper projectId={projectId} filesMap={filesMap} />}
