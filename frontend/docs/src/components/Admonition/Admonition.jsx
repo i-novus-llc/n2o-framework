@@ -42,7 +42,7 @@ function Admonition({ type, title, text }) {
                 <h5><span className="admonition-icon">{icon}</span>{title}
                 </h5>
             </div>
-            <div className="admonition-content"><p>{text}</p></div>
+            <div className="admonition-content"><p style={{ whiteSpace: 'break-spaces' }}>{text}</p></div>
         </div>
     )
 }
