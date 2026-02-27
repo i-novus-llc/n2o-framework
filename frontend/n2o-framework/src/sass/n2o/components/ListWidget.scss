@@ -1,7 +1,7 @@
 .n2o-widget-list {
     padding: 1rem 0;
     margin-bottom: 1rem;
-    overflow: auto;
+    overflow: hidden;
 
     .ReactVirtualized__Grid {
         outline: none;
@@ -9,6 +9,10 @@
 
     .ReactVirtualized__Grid.ReactVirtualized__List {
         will-change: auto !important;
+
+        .ReactVirtualized__Grid__innerScrollContainer {
+            overflow-x: auto !important;
+        }
     }
 }
 
