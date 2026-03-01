@@ -16,6 +16,7 @@ public class TextAreaIOv3 extends PlainFieldIOv3<N2oTextArea> {
         super.io(e, m, p);
         p.attributeInteger(e, "min-rows", m::getMinRows, m::setMinRows);
         p.attributeInteger(e, "max-rows", m::getMaxRows, m::setMaxRows);
+        p.attributeInteger(e, "max-length", m::getMaxLength, m::setMaxLength);
     }
 
     @Override

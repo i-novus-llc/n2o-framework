@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Ограничение на количество вводимых символов в text-area">
+    <form>
+        <fields>
+            <text-area id="textArea" label="TextArea"
+                       placeholder="Максимальная длина текста 5 символов"
+                       max-length="5"/>
+        </fields>
+    </form>
+</simple-page>

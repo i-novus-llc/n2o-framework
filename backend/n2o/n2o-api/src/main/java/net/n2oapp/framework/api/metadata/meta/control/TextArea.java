@@ -15,4 +15,6 @@ public class TextArea extends Control {
     private Integer minRows;
     @JsonProperty
     private Integer maxRows;
+    @JsonProperty
+    private Integer maxLength;
 }

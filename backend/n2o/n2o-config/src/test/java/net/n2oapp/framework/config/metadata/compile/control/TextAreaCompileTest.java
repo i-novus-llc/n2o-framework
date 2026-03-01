@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Тестирование компиляции компонента ввода многострочного текста
@@ -45,11 +46,13 @@ class TextAreaCompileTest extends SourceCompileTestBase {
         assertThat(textArea.getMinRows(), is(10));
         assertThat(textArea.getMaxRows(), is(20));
         assertThat(textArea.getPlaceholder(), is("test"));
+        assertThat(textArea.getMaxLength(), is(1000));
 
         textArea = (TextArea) ((StandardField<?>) rowList.get(1).getCols().getFirst().getFields().getFirst()).getControl();
         assertThat(textArea.getSrc(), is("TextArea"));
         assertThat(textArea.getMinRows(), is(3));
         assertThat(textArea.getMaxRows(), is(3));
         assertThat(textArea.getId(), is("test2"));
+        assertThat(textArea.getMaxLength(), is(nullValue()));
     }
 }

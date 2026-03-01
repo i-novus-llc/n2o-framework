@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.control;
 
-import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.TextArea;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -44,16 +43,13 @@ class TextAreaAT extends AutoTestBase {
 
     @Test
     void textAreaTest() {
-        TextArea textArea = getFields().field("TextArea").control(TextArea.class);
+        TextArea textArea = simplePage.widget(FormWidget.class).fields().field("TextArea").control(TextArea.class);
         textArea.shouldBeEnabled();
         textArea.shouldHaveValue("");
         textArea.shouldHavePlaceholder("test");
         textArea.setValue("1\n2\n3\n4\n5\n6\n7");
         textArea.shouldHaveValue("1\n2\n3\n4\n5\n6\n7");
-    }
-
-
-    private Fields getFields() {
-        return simplePage.widget(FormWidget.class).fields();
+        textArea.setValue("1 2 3 4 5 6 7 8 9 0 1 2 3 4 5");
+        textArea.shouldHaveValue("1 2 3 4 5 6 7 8 9 0 ");
     }
 }

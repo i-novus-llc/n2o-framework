@@ -12,4 +12,5 @@ import lombok.Setter;
 public class N2oTextArea extends N2oPlainText {
     private Integer minRows;
     private Integer maxRows;
+    private Integer maxLength;
 }

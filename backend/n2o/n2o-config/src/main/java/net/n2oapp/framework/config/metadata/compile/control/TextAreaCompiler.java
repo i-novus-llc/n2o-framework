@@ -36,6 +36,7 @@ public class TextAreaCompiler extends StandardFieldCompiler<TextArea, N2oTextAre
         textArea.setMinRows(castDefault(source.getMinRows(), () -> getMinRowsFromProperties(p)));
         textArea.setMaxRows(castDefault(source.getMaxRows(),
                 () -> p.resolve(property("n2o.api.control.text_area.max_rows"), Integer.class)));
+        textArea.setMaxLength(source.getMaxLength());
         return compileStandardField(textArea, source, context, p);
     }
 

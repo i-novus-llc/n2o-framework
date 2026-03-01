@@ -8,8 +8,9 @@ import { TBaseInputProps, TBaseProps } from '../types'
 import '../styles/controls/TextArea.scss'
 
 type TextAreaProps = TBaseProps & Omit<TBaseInputProps<string>, 'onBlur' | 'onFocus'> & {
-    maxRows?: number,
+    maxRows?: number
     rows?: number
+    maxLength?: number
 }
 
 const TextAreaComponent = ({
@@ -21,12 +22,14 @@ const TextAreaComponent = ({
     maxRows = 3,
     value = '',
     onChange,
+    maxLength,
     ...rest
 }: TextAreaProps) => {
     const max = rows > maxRows ? rows : maxRows
 
     return (
         <textarea
+            maxLength={maxLength}
             className={classNames('n2o-text-area form-control', className)}
             style={style}
             disabled={disabled}
