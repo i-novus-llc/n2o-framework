@@ -1023,6 +1023,13 @@
                         <xs:documentation>Максимальная высота поля в строках текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="max-length" type="xs:positiveInteger">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Максимальное количество вводимых символов
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

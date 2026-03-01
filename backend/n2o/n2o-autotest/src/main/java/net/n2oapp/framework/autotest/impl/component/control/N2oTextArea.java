@@ -33,7 +33,7 @@ public class N2oTextArea extends N2oControl implements TextArea {
 
     @Override
     public void shouldHaveValue(String value, Duration... duration) {
-        WebElementCondition condition = value == null || value.isEmpty() ? Condition.empty : Condition.text(value);
+        WebElementCondition condition = value == null || value.isEmpty() ? Condition.empty : Condition.exactText(value);
         should(condition, duration);
     }
 
