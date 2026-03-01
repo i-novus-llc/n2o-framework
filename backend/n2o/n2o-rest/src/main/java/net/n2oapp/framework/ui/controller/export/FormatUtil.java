@@ -166,4 +166,27 @@ public class FormatUtil {
         }
         return result;
     }
+
+    public static String applyFormat(Object value, String format) {
+        if (format == null || value == null)
+            return value != null ? value.toString() : null;
+
+        String formatLower = format.toLowerCase().trim();
+
+        if (formatLower.startsWith("number ")) {
+            String pattern = format.substring(7).trim();
+            return formatNumber(value, pattern);
+        } else if (formatLower.startsWith("date ")) {
+            String pattern = format.substring(5).trim();
+            return formatDate(value, pattern);
+        } else if (formatLower.equals("password")) {
+            return maskPassword(value.toString());
+        } else if (formatLower.equals("phone")) {
+            return formatPhone(value.toString());
+        } else if (formatLower.equals("snils")) {
+            return formatSnils(value.toString());
+        }
+
+        return value.toString();
+    }
 }

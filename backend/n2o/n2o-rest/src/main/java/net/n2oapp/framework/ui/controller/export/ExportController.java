@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static net.n2oapp.framework.ui.controller.export.FormatUtil.*;
-
 public class ExportController extends AbstractController {
 
     private static final String FILES_DIRECTORY_NAME = System.getProperty("java.io.tmpdir");
@@ -34,11 +32,10 @@ public class ExportController extends AbstractController {
 
     public ExportResponse export(List<DataSet> data, String fileFormat, String charset, List<ExportRequest.ExportField> headers, String filename) {
         ExportResponse response = new ExportResponse();
-        List<DataSet> formattedData = formatData(data, headers);
         String lowerFileFormat = fileFormat.toLowerCase();
         FileGenerator generator = fileGeneratorFactory.getGenerator(lowerFileFormat);
         String fileName = getFileName(filename, lowerFileFormat);
-        byte[] fileBytes = generator.createFile(filename, FILES_DIRECTORY_NAME, charset, formattedData, headers);
+        byte[] fileBytes = generator.createFile(filename, FILES_DIRECTORY_NAME, charset, data, headers);
 
         if (fileBytes == null)
             response.setStatus(500);
@@ -58,49 +55,6 @@ public class ExportController extends AbstractController {
         initDataBySourceField(data, params.get("source_field_id"));
 
         return data;
-    }
-
-    private List<DataSet> formatData(List<DataSet> data, List<ExportRequest.ExportField> headers) {
-        if (data == null || headers == null)
-            return data;
-
-        for (DataSet dataSet : data) {
-            for (ExportRequest.ExportField header : headers) {
-                String fieldId = header.getId();
-                String format = header.getFormat();
-                if (format != null && fieldId != null) {
-                    Object value = dataSet.get(fieldId);
-                    if (value != null) {
-                        String formattedValue = applyFormat(value, format);
-                        dataSet.put(fieldId, formattedValue);
-                    }
-                }
-            }
-        }
-        return data;
-    }
-
-    private String applyFormat(Object value, String format) {
-        if (format == null || value == null)
-            return value != null ? value.toString() : null;
-
-        String formatLower = format.toLowerCase().trim();
-
-        if (formatLower.startsWith("number ")) {
-            String pattern = format.substring(7).trim();
-            return formatNumber(value, pattern);
-        } else if (formatLower.startsWith("date ")) {
-            String pattern = format.substring(5).trim();
-            return formatDate(value, pattern);
-        } else if (formatLower.equals("password")) {
-            return maskPassword(value.toString());
-        } else if (formatLower.equals("phone")) {
-            return formatPhone(value.toString());
-        } else if (formatLower.equals("snils")) {
-            return formatSnils(value.toString());
-        }
-
-        return value.toString();
     }
 
     /**
