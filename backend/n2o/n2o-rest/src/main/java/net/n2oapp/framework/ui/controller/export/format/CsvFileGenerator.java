@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
+import static net.n2oapp.framework.ui.controller.export.FormatUtil.applyFormat;
+
 @NoArgsConstructor
 @Component
 public class CsvFileGenerator implements FileGenerator {
@@ -27,6 +29,7 @@ public class CsvFileGenerator implements FileGenerator {
     @Override
     public byte[] createFile(String fileName, String fileDir, String charset, List<DataSet> data, List<ExportRequest.ExportField> headers) {
         byte[] fileBytes = null;
+        List<DataSet> formattedData = formatData(data, headers);
 
         try {
             String fullFileName = fileDir + File.separator + fileName + "." + FILE_FORMAT;
@@ -39,7 +42,7 @@ public class CsvFileGenerator implements FileGenerator {
                     ICSVWriter.DEFAULT_LINE_END
             );
 
-            List<String[]> csvData = resolveToCsvFormat(data, headers);
+            List<String[]> csvData = resolveToCsvFormat(formattedData, headers);
             writer.writeAll(csvData, false);
             writer.close();
 
@@ -95,5 +98,25 @@ public class CsvFileGenerator implements FileGenerator {
         }
 
         return csvData;
+    }
+
+    private List<DataSet> formatData(List<DataSet> data, List<ExportRequest.ExportField> headers) {
+        if (data == null || headers == null)
+            return data;
+
+        for (DataSet dataSet : data) {
+            for (ExportRequest.ExportField header : headers) {
+                String fieldId = header.getId();
+                String format = header.getFormat();
+                if (format != null && fieldId != null) {
+                    Object value = dataSet.get(fieldId);
+                    if (value != null) {
+                        String formattedValue = applyFormat(value, format);
+                        dataSet.put(fieldId, formattedValue);
+                    }
+                }
+            }
+        }
+        return data;
     }
 }

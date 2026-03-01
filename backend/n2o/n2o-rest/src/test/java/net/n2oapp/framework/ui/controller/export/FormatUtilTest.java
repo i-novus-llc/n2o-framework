@@ -111,4 +111,49 @@ class FormatUtilTest {
     void testFormatDateWithInvalidString() {
         assertThat(FormatUtil.formatDate("invalid date", "DD.MM.YYYY"), is("invalid date"));
     }
+
+    @Test
+    void testApplyFormatWithNull() {
+        assertThat(FormatUtil.applyFormat(null, "number 0,0"), is(nullValue()));
+        assertThat(FormatUtil.applyFormat("test", null), is("test"));
+        assertThat(FormatUtil.applyFormat(null, null), is(nullValue()));
+    }
+
+    @Test
+    void testApplyFormatNumber() {
+        assertThat(FormatUtil.applyFormat(1234, "number 0,0"), is("1 234"));
+        assertThat(FormatUtil.applyFormat(1234.56, "number 0,0.00"), is("1 234,56"));
+        assertThat(FormatUtil.applyFormat("1234567890", "NUMBER +7 (000) 000-00-00"), is("+7 (123) 456-78-90"));
+    }
+
+    @Test
+    void testApplyFormatDate() {
+        LocalDate date = LocalDate.of(2024, 3, 15);
+        assertThat(FormatUtil.applyFormat(date, "date DD.MM.YYYY"), is("15.03.2024"));
+        assertThat(FormatUtil.applyFormat(date, "DATE YYYY-MM-DD"), is("2024-03-15"));
+    }
+
+    @Test
+    void testApplyFormatPassword() {
+        assertThat(FormatUtil.applyFormat("secret123", "password"), is("*********"));
+        assertThat(FormatUtil.applyFormat("abc", "PASSWORD"), is("***"));
+    }
+
+    @Test
+    void testApplyFormatPhone() {
+        assertThat(FormatUtil.applyFormat("9161234567", "phone"), is("+7 (916) 123-45-67"));
+        assertThat(FormatUtil.applyFormat("79161234567", "PHONE"), is("+7 (916) 123-45-67"));
+    }
+
+    @Test
+    void testApplyFormatSnils() {
+        assertThat(FormatUtil.applyFormat("12345678901", "snils"), is("123-456-789 01"));
+        assertThat(FormatUtil.applyFormat("12345678901", "SNILS"), is("123-456-789 01"));
+    }
+
+    @Test
+    void testApplyFormatUnknown() {
+        assertThat(FormatUtil.applyFormat("value", "unknown"), is("value"));
+        assertThat(FormatUtil.applyFormat(123, "custom"), is("123"));
+    }
 }
