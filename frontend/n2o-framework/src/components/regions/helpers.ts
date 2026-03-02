@@ -118,17 +118,3 @@ export const getTabReduxMeta = (regionsState: RegionsState, regionId: string, ta
 
     return getTabMetaById(tabId, tabs)
 }
-
-export function getFetchOnInit(metaFetchOnInit?: boolean, lazy?: boolean, active?: string) {
-    if (!lazy || active) { return metaFetchOnInit }
-
-    return false
-}
-
-export function getFetch(lazy?: boolean, active?: string, tabId?: string) {
-    if (!lazy || (active === tabId)) { return FETCH_TYPE.always }
-
-    if (active) { return FETCH_TYPE.lazy }
-
-    return FETCH_TYPE.never
-}

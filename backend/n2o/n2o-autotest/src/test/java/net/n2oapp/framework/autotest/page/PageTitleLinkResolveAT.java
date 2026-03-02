@@ -176,6 +176,7 @@ class PageTitleLinkResolveAT extends AutoTestBase {
         page.breadcrumb().shouldHaveSize(1);
         page.breadcrumb().crumb(0).shouldHaveLabel("Start page");
         table.columns().rows().row(1).click();
+        name.shouldHaveValue("test2");
         formToolbar.button("Modal from detail").click();
         modal.shouldExists();
         modal.shouldHaveTitle(title);
@@ -255,6 +256,7 @@ class PageTitleLinkResolveAT extends AutoTestBase {
         open.breadcrumb().crumb(0).shouldHaveLabel("Start page");
         // lost query parameter after returning from open page
         table.columns().rows().row(1).click();
+        name.shouldHaveValue("test2");
         formToolbar.button("Modal from detail").click();
         modal.shouldExists();
         modal.shouldHaveTitle(title);

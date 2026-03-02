@@ -19,7 +19,7 @@ import { type State as WidgetsState } from '../../ducks/widgets/Widgets'
 import type { State as RegionsState, TabMeta, ServiceInfo } from '../../ducks/regions/Regions'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
-import { setFirstAvailableTab, checkTabAvailability, getFirstAvailableTab, getTabMetaById, Service } from './helpers'
+import { setFirstAvailableTab, checkTabAvailability, getFirstAvailableTab, getTabMetaById } from './helpers'
 
 export type Config = { listKey: string }
 export type RegionEnhancer = { changeActiveEntity(value: string): void }
@@ -33,7 +33,7 @@ export interface RegionProps {
     lazy?: boolean
     alwaysRefresh?: boolean
     widgetsState: WidgetsState
-    serviceInfo: ServiceInfo
+    serviceInfo?: ServiceInfo
     regionsState: RegionsState
     activeParam: string
     setResolve?(model: Record<string, unknown>): void | undefined,
@@ -72,7 +72,7 @@ export const createRegionContainer = <P extends RegionEnhancer>(config: Config) 
 
         const { getState } = useStore()
 
-        const service = { serviceInfo, widgetsState, regionsState, tabs }
+        const service = { serviceInfo: serviceInfo || {}, widgetsState, regionsState, tabs }
         const isModelDependency = activeTabFieldId && datasource
         const prepared = !isEmpty(tabs) || !isEmpty(serviceInfo) || !isEmpty(widgetsState)
 
@@ -143,7 +143,7 @@ export const createRegionContainer = <P extends RegionEnhancer>(config: Config) 
 
                     const activeFromResolve = model[activeTabFieldId]
 
-                    if (!serviceInfo[activeFromResolve]) {
+                    if (!serviceInfo?.[activeFromResolve]) {
                         changeActiveEntity(activeFromResolve)
 
                         return
@@ -210,9 +210,11 @@ export const createRegionContainer = <P extends RegionEnhancer>(config: Config) 
             const state = getState()
             const firstVisibleTab = getFirstAvailableTab(state, service)
 
-            dispatch(setActiveRegion(regionId, firstVisibleTab))
+            if (firstVisibleTab) {
+                dispatch(setActiveRegion(regionId, firstVisibleTab))
+            }
             // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [widgetsState])
+        }, [serviceInfo])
 
         useEffect(() => {
             return () => {
@@ -228,7 +230,7 @@ export const createRegionContainer = <P extends RegionEnhancer>(config: Config) 
         activeEntity: makeRegionActiveEntitySelector(props.id)(state),
         resolveModel: get(state, 'models.resolve', {}),
         query: get(state, 'router.location.query', {}),
-        serviceInfo: get(state, `regions.${props.id}.serviceInfo`, {}),
+        serviceInfo: get(state, `regions.${props.id}.serviceInfo`),
         widgetsState: get(state, 'widgets', {}),
         regionsState: get(state, 'regions', {}),
     })

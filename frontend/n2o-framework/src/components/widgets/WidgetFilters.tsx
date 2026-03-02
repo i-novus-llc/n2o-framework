@@ -121,7 +121,7 @@ export const WidgetFilters = ({
     ])
 
     useEffect(() => {
-        if (fetchOnChange && reduxFormFilter && fetchData) { fetchData({ page: 1 }) }
+        if (fetchOnChange && reduxFormFilter && fetchData) { fetchData({ page: 1 }, true) }
     }, [fetchData, reduxFormFilter, fetchOnChange])
 
     /*

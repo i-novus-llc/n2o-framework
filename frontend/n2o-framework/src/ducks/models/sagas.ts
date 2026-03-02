@@ -6,10 +6,12 @@ import isEqual from 'lodash/isEqual'
 import { EffectWrapper } from '../api/utils/effectWrapper'
 import { executeExpression } from '../../core/Expression/execute'
 import { logger } from '../../utils/logger'
+import { FormModelPrefix } from '../../core/models/types'
 
 import { appendToArray, copyModel, removeFromArray, setModel, updateModel } from './store'
 import { getModelByPrefixAndNameSelector, Model } from './selectors'
 import { CopyAction, FieldPath } from './Actions'
+import { sagas } from './sagas/watcher'
 
 function getAction<T extends Model | Model[]>({
     model,
@@ -64,7 +66,9 @@ function getAction<T extends Model | Model[]>({
         }
     }
 
-    if (target.field) { return updateModel(target.prefix, target.key, target.field, newModel, validate) }
+    if (target.field) {
+        return updateModel(target.prefix as FormModelPrefix, target.key, target.field, newModel, validate)
+    }
 
     return setModel(target.prefix, target.key, newModel, undefined, validate)
 }
@@ -121,4 +125,5 @@ export function* copyAction({ payload, meta = {}, validate = true }: CopyAction)
 
 export const modelSagas = [
     takeEvery(copyModel, EffectWrapper(copyAction)),
+    ...sagas,
 ]

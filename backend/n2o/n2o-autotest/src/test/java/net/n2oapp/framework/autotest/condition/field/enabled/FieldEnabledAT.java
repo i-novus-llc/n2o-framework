@@ -11,6 +11,7 @@ import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -113,11 +114,14 @@ class FieldEnabledAT extends AutoTestBase {
         maskedInput.setValue("111-111-111 11");
         buttonField.shouldBeEnabled();
         buttonField.click();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
         inputText.shouldBeEnabled();
         inputField.shouldBeRequired();
+        inputText.shouldBeEmpty();
 
         maskedInput.setValue("555-750-462 12");
         buttonField.click();
+        inputText.shouldHaveValue("TEST");
         inputText.shouldBeDisabled();
         inputField.shouldNotBeRequired();
 
@@ -157,20 +161,24 @@ class FieldEnabledAT extends AutoTestBase {
         maskedInput.setValue("111-111-111 11");
         buttonField.shouldBeEnabled();
         buttonField.click();
+        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
         inputText.shouldBeEnabled();
         inputField.shouldBeRequired();
+        inputText.shouldBeEmpty();
 
         maskedInput.setValue("555-750-462 12");
         buttonField.click();
+        inputText.shouldHaveValue("TEST");
         inputText.shouldBeDisabled();
         inputField.shouldNotBeRequired();
 
         N2oSelenide.modal().close();
         modal.shouldNotExists();
-        openModalBtn.click();
 
+        openModalBtn.click();
         modal.shouldExists();
 
+        maskedInput.shouldBeEmpty();
         buttonField.shouldBeDisabled();
         inputText.shouldBeEnabled();
         inputField.shouldBeRequired();

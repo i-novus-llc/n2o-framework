@@ -27,7 +27,7 @@ const createMethod = (methodLevel: LogLevel) => {
     return (message: unknown) => {
         if (!shouldLog(methodLevel)) { return }
 
-        currentLogger[methodLevel](`=> ${message}`)
+        currentLogger[methodLevel](message)
     }
 }
 

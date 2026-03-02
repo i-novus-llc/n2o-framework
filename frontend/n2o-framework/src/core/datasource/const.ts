@@ -1,3 +1,5 @@
+import { ModelLink, ModelPrefix } from '../models/types'
+
 /**
  * @enum SortDirection Направление сортировки
  */
@@ -7,18 +9,7 @@ export enum SortDirection {
     desc = 'DESC',
 }
 
-/**
- * @enum ModelPrefix Префиксы для используемых моделей
- */
-export enum ModelPrefix {
-    active = 'resolve',
-    selected = 'multi',
-    source = 'datasource',
-    filter = 'filter',
-    edit = 'edit',
-}
-
-export type ModelPrefixes = 'resolve' | 'multi' | 'datasource' | 'filter' | 'edit'
+export { ModelPrefix }
 
 /**
  * @enum DependencyTypes Типы зависимостей
@@ -31,7 +22,7 @@ export enum DependencyTypes {
 
 export interface DataSourceDependencyBase {
     type: DependencyTypes
-    on: string
+    on: ModelLink
     applyOnInit: boolean
 }
 

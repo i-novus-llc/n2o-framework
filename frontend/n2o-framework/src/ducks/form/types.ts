@@ -1,6 +1,5 @@
-/* eslint-disable camelcase */
 import { ValidationResult, ValidationsKey } from '../../core/validation/types'
-import { ModelPrefix } from '../../core/datasource/const'
+import { FormModelPrefix } from '../../core/models/types'
 
 export enum FieldDependencyTypes {
     visible = 'visible',
@@ -48,7 +47,7 @@ export type Form = {
     isInit: boolean
     formName: string
     datasource: string
-    modelPrefix: ModelPrefix
+    modelPrefix: FormModelPrefix
     validationKey: ValidationsKey
     dirty: boolean
     fields: Record<string, Field>

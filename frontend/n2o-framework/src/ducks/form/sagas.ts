@@ -2,8 +2,9 @@ import { takeEvery, put, select, debounce } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 
+import { State } from '../State'
 import { ModelPrefix } from '../../core/datasource/const'
-import { Validation } from '../../core/validation/types'
+import { Validation, ValidationsKey } from '../../core/validation/types'
 import {
     updateModel,
     appendToArray,
@@ -16,6 +17,7 @@ import { dataSourceValidationSelector } from '../datasource/selectors'
 import { getModelByPrefixAndNameSelector } from '../models/selectors'
 import { getCtxFromField, isMulti, createRegexpWithContext } from '../../core/validation/utils'
 import { getOnAppend, getOnRemove, mapMultiFields } from '../../core/models/mapMultiFields'
+import { SetModelAction } from '../models/Actions'
 
 import { makeFormByName, makeFormsByModel } from './selectors'
 import {
@@ -217,5 +219,40 @@ export const formPluginSagas = [
             field,
             getOnRemove<BufferValue>(field, start, count),
         )
+    }),
+    takeEvery(setModel.type, function* setActiveModel({ payload }: SetModelAction<ModelPrefix.source>) {
+        const { prefix, key, model } = payload
+
+        if (prefix !== ModelPrefix.source) { return }
+
+        const state: State = yield select()
+        const form = [
+            ...makeFormsByModel(key, ModelPrefix.active)(state),
+            ...makeFormsByModel(key, ModelPrefix.edit)(state),
+        ][0]
+
+        // Костыль, чтобы убрать формы фильтров
+        if (!form || form.validationKey === ValidationsKey.FilterValidations) { return }
+
+        const datasourceModel = model?.[0] || {}
+        const resolveModel = getModelByPrefixAndNameSelector(ModelPrefix.active, key)(state)
+        const editModel = getModelByPrefixAndNameSelector(ModelPrefix.edit, key)(state)
+        const { modelPrefix } = form
+
+        // FIXME: Удалить костыль с добалением resolveModel если нет editModel, после удаления edit из редюсера models
+        const activeModel = modelPrefix === ModelPrefix.edit
+            ? (editModel || resolveModel)
+            : resolveModel
+
+        const initialValues = isEmpty(activeModel) && isEmpty(datasourceModel)
+            // Возвращение null необходимо, поскольку если вернуть undefined redux-toolkit не вызовет экшен
+            ? null
+            : { ...activeModel, ...datasourceModel }
+
+        if (modelPrefix === ModelPrefix.edit) {
+            yield put(setModel(ModelPrefix.edit, key, initialValues, true))
+        }
+
+        yield put(setModel(ModelPrefix.active, key, initialValues, true))
     }),
 ]

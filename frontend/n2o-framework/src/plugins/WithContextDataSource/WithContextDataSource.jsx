@@ -72,8 +72,8 @@ export function WithContextDataSource(Component) {
 
         /* the current resolve ds model received by custom mapping */
         useEffect(() => {
-            if (datasourceModel) {
-                setResolve(datasourceModel)
+            if (datasourceModel?.length) {
+                setResolve(datasourceModel[0])
             }
         }, [datasourceModel, setResolve])
 

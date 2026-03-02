@@ -202,7 +202,7 @@ export const widgetSlice = createSlice({
 
         REMOVE: {
             // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(widgetId, savedProps) {
+            prepare(widgetId, savedProps?) {
                 return ({
                     payload: { widgetId, savedProps },
                 })

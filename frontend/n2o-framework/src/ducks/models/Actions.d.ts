@@ -1,10 +1,10 @@
 import { Action } from '../Action'
-import type { ModelPrefix } from '../../core/datasource/const'
+import type { FormModelPrefix, ModelPrefix } from '../../core/models/types'
 
 import { State } from './Models'
 
-export interface ModelsPayload {
-    prefix: ModelPrefix
+export interface ModelsPayload<T extends ModelPrefix = ModelPrefix> {
+    prefix: T
     key: string
 }
 
@@ -12,7 +12,7 @@ export type FieldPath = ModelsPayload & {
     field?: string
 }
 
-export type SetModelAction<Prefix extends ModelPrefix = ModelPrefix.active> = Action<string, ModelsPayload & {
+export type SetModelAction<Prefix extends ModelPrefix = ModelPrefix> = Action<string, ModelsPayload & {
     model: (Prefix extends (ModelPrefix.source | ModelPrefix.selected)
         ? Array<Record<string, unknown>>
         : Record<string, unknown>) | null
@@ -27,10 +27,12 @@ export type SyncModelAction = Action<string, {
     model: object
 }>
 
-export type UpdateModelAction = Action<string, ModelsPayload & {
-    field: string
-    value: unknown
-}>
+export type UpdateModelAction = Action<
+    string,
+    ModelsPayload<FormModelPrefix> & {
+        field: string
+        value: unknown
+    }>
 
 export type RemoveAllModelAction = Action<string, {
     key: string

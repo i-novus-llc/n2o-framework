@@ -10,15 +10,10 @@ import type { Task } from 'redux-saga'
 import {
     clearModel,
     removeAllModel,
-    removeModel,
-    setModel,
-    updateModel,
-    appendToArray,
-    copyFieldArray,
-    removeFromArray,
 } from '../models/store'
 import { EffectWrapper } from '../api/utils/effectWrapper'
 import { ModelPrefix } from '../../core/datasource/const'
+import { subscribe } from '../models/sagas/subscribe'
 
 import { dataRequest as query } from './sagas/query'
 import { validate as validateSaga } from './sagas/validate'
@@ -88,6 +83,8 @@ export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAct
     })
 }
 
+subscribe(watchDependencies)
+
 export default (apiProvider: unknown) => [
     // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
@@ -103,16 +100,6 @@ export default (apiProvider: unknown) => [
     // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery(submit, EffectWrapper(submitSaga), apiProvider),
     takeEvery(remove, removeSaga),
-    takeEvery([
-        setModel,
-        removeModel,
-        removeAllModel,
-        clearModel,
-        updateModel,
-        appendToArray,
-        removeFromArray,
-        copyFieldArray,
-    ], watchDependencies),
     takeEvery(register, function* fetchOnInit({ payload }: RegisterAction) {
         const { id, initProps } = payload
         const { fetchOnInit } = initProps

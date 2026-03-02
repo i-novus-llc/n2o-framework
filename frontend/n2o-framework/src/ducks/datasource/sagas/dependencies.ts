@@ -1,8 +1,8 @@
 import { put, select, fork } from 'redux-saga/effects'
 import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
 
 import { DataSourceDependency, DependencyTypes } from '../../../core/datasource/const'
+import { FormModelPrefix, ModelLink } from '../../../core/models/types'
 import { dataRequest, startValidate, submit as submitAction } from '../store'
 import { dataSourcesSelector, dataSourceByIdSelector } from '../selectors'
 import { updateModel, setModel } from '../../models/store'
@@ -35,7 +35,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
             const { model: targetPrefix, field: targetField, submit: submitAfterCopy } = dependency
 
             if (targetField) {
-                yield put(updateModel(targetPrefix, id, targetField, model))
+                yield put(updateModel(targetPrefix as FormModelPrefix, id, targetField, model))
             } else {
                 yield put(setModel(targetPrefix, id, model as Record<string, unknown>))
             }
@@ -59,9 +59,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
  * Сага наблюдения за зависимостями
  * @param action
  */
-let prevState: GlobalState | void
-
-export function* watchDependencies() {
+export function* watchDependencies(keys: ModelLink[]) {
     const state: GlobalState = yield select()
     const dataSources: DatasourceState = yield select(dataSourcesSelector)
     const entries = Object.entries(dataSources)
@@ -70,15 +68,16 @@ export function* watchDependencies() {
         for (const dependency of dependencies) {
             const { on } = dependency
             const model = get(state, on)
-            const prevModel = get(prevState, on)
 
-            if (!isEqual(model, prevModel)) {
+            if (keys.some(link => (
+                on === link ||
+                link.startsWith(`${on}.`) ||
+                link.startsWith(`${on}[`)
+            ))) {
                 yield fork(resolveDependency, id, dependency, model)
             }
         }
     }
-
-    prevState = state
 }
 
 export function* applyOnInitDependencies({ payload }: RegisterAction) {
