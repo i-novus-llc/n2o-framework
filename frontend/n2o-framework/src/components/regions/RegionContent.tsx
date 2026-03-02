@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import classNames from 'classnames'
 import map from 'lodash/map'
 import get from 'lodash/get'
@@ -7,8 +7,8 @@ import isEmpty from 'lodash/isEmpty'
 import { Factory } from '../../core/factory/Factory'
 import { WIDGETS } from '../../core/factory/factoryLevels'
 import { ContentMeta } from '../../ducks/regions/Regions'
-
-import { getFetchOnInit, getFetch } from './helpers'
+import { Widget as DummyWidget } from '../widgets/Dummy'
+import { FETCH_TYPE } from '../../core/widget/const'
 
 interface Props {
     content: ContentMeta[]
@@ -38,47 +38,48 @@ export function RegionContent({
     const mapClassNames = {
         TabsRegion: tabSubContentClass,
     }
+    const isActive = active === tabId
+    const isInitRef = useRef(isActive)
 
     if (isEmpty(content)) { return null }
 
     const getContentVisibility = (meta: ContentMeta) => {
         if (!lazy) { return true }
 
-        if (alwaysRefresh) {
-            return (active === undefined || active === tabId)
-        }
+        if (alwaysRefresh) { return (active === undefined || isActive) }
 
         return meta?.visible
     }
 
+    isInitRef.current = isInitRef.current || isActive
+
+    const needDummy = lazy && !isInitRef.current && !isActive
+    const fetch = alwaysRefresh || !tabId ? FETCH_TYPE.always : FETCH_TYPE.lazy
+
     return (
         <div className={className}>
-            {map(content, (meta: ContentMeta, index) => {
-                const { src, fetchOnInit: metaFetchOnInit } = meta
+            {map(content, (meta: ContentMeta) => {
+                const { src, id, className } = meta
 
-                const getClassName = (meta: ContentMeta | { TabsRegion?: string }, path: string) => get(meta, path) || ''
+                const options = {
+                    ...meta,
+                    pageId,
+                    className: classNames(className, 'nested-content', get(mapClassNames, src, '')),
+                    parent: parent || (tabId ? { regionId, tabId } : {}),
+                    fetch,
+                }
 
-                const regionClassName = getClassName(mapClassNames, src)
-                const metaClassName = getClassName(meta, 'className')
-
-                const className = classNames('nested-content', {
-                    [regionClassName]: regionClassName,
-                    [metaClassName]: metaClassName,
-                })
-
-                const fetchOnInit = getFetchOnInit(metaFetchOnInit, lazy, active)
-                const fetch = getFetch(lazy, active, tabId)
+                if (needDummy) {
+                    // Для lazy рисуем заглушку до первого перехода на вкладку
+                    // @ts-ignore TODO fix types
+                    return (<DummyWidget key={id} {...options} />)
+                }
 
                 return (
                     <Factory
                         level={WIDGETS}
-                        key={index}
-                        {...meta}
-                        pageId={pageId}
-                        className={className}
-                        fetchOnInit={fetchOnInit}
-                        fetch={fetch}
-                        parent={parent || (tabId ? { regionId, tabId } : {})}
+                        key={id}
+                        {...options}
                         visible={getContentVisibility(meta)}
                     />
                 )

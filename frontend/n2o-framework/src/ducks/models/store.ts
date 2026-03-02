@@ -4,8 +4,9 @@ import omit from 'lodash/omit'
 import set from 'lodash/set'
 import get from 'lodash/get'
 
-import { ModelPrefix } from '../../core/datasource/const'
+import { ModelPrefix, FormModelPrefix } from '../../core/models/types'
 import { id } from '../../utils/id'
+import { N2OMeta } from '../Action'
 
 import type { State } from './Models'
 import type {
@@ -71,10 +72,10 @@ export const modelsSlice = createSlice({
         },
 
         UPDATE: {
-            prepare(prefix: ModelPrefix, key: string, field: string, value: unknown, validate?: boolean) {
+            prepare(prefix: FormModelPrefix, key: string, field: string, value: unknown, validate?: boolean) {
                 return ({
                     payload: { prefix, key, field, value },
-                    meta: { validate: typeof validate === 'boolean' ? validate : true },
+                    meta: { validate: typeof validate === 'boolean' ? validate : true } as N2OMeta,
                 })
             },
 

@@ -1,3 +1,4 @@
+// TODO move to form/sagas
 import {
     call,
     put,
@@ -38,7 +39,8 @@ import {
 import { getModelByPrefixAndNameSelector, Model } from '../ducks/models/selectors'
 import { addAlert } from '../ducks/alerts/store'
 import { GLOBAL_KEY } from '../ducks/alerts/constants'
-import { ModelPrefix } from '../core/datasource/const'
+import { FormModelPrefix, ModelPrefix } from '../core/models/types'
+import { getModelLink } from '../core/models/getModelLink'
 import { FETCH_TRIGGER } from '../core/dependencies/constants'
 import { State as GlobalState } from '../ducks/State'
 import { Form, Field, FieldDependency } from '../ducks/form/types'
@@ -233,8 +235,8 @@ const isParentFieldOf = (field: string, path: string) => (
 const shouldBeResolved = (
     dependency: FieldDependency,
     actionField: string,
-    model: Record<string, unknown>,
-    prevModel: Record<string, unknown>,
+    model: Model,
+    prevModel: Model,
     checkInner = true,
 ) => {
     const { on } = dependency
@@ -267,13 +269,12 @@ function* resolveOnUpdateList(action: AppendToArrayAction | RemoveFromArrayActio
 export function* resolveOnUpdateModel({ meta = {}, payload }: UpdateModelAction, checkInner = true) {
     const { prevState } = meta
     const { value, key: datasource, field: fieldName, prefix } = payload
-    const prevValue = get(prevState, `models.${prefix}.${datasource}.${fieldName}`)
+    const prevValue = get(prevState, getModelLink(prefix, datasource, fieldName))
 
     if (isEqual(value, prevValue)) { return }
 
-    const model: Record<string, unknown> = yield select(getModelByPrefixAndNameSelector(prefix, datasource))
-    // @ts-ignore FIXME: Поправить типы
-    const prevModel: Record<string, unknown> = getModelByPrefixAndNameSelector(prefix, datasource)(prevState || {})
+    const model: Model = yield select(getModelByPrefixAndNameSelector(prefix, datasource))
+    const prevModel = prevState ? getModelByPrefixAndNameSelector(prefix, datasource)(prevState) : {}
     const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
 
     for (const form of forms) {
@@ -345,7 +346,7 @@ function* compareAndResolve(
     }
 }
 
-function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
+function* resolveOnSetModel({ payload, meta = {} }: SetModelAction<FormModelPrefix>) {
     const { prefix, key: datasource, model, isDefault } = payload
 
     if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected || !model) {

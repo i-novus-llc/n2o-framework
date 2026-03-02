@@ -6,7 +6,8 @@
                 <fetch on="snilsFilter" model="filter"/>
             </dependencies>
             <filters>
-                <eq field-id="snils" value="{snils}" datasource="snilsFilter" model="filter"/>
+                <eq field-id="snils" value="{snils}" datasource="snilsFilter" model="filter"
+                    required="true"/>
             </filters>
         </datasource>
         <datasource id="snilsFilter"/>
@@ -23,7 +24,7 @@
         </form>
         <form datasource="dsMod" fetch-on-init="false">
             <fields>
-                <hidden id="id"/>
+                <input-text id="id" enabled="false"/>
                 <input-text id="surname" label="Фамилия" required="{!id}" enabled="{!id}"/>
             </fields>
         </form>

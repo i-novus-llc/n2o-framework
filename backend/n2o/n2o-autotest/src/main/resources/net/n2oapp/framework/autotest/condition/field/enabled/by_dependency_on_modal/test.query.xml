@@ -13,5 +13,6 @@
     <fields>
         <field id="id" sorting="true"/>
         <field id="snils"/>
+        <field id="surname"/>
     </fields>
 </query>

@@ -76,8 +76,7 @@ class PanelRegionBody extends Component<PanelRegionProps, State> {
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async checkPanel(panel: PanelTab) {
+    checkPanel(panel: PanelTab) {
         const { tabs } = this.state
 
         this.setState({ tabs: tabs.concat(this.getTab(panel)) })
@@ -86,10 +85,10 @@ class PanelRegionBody extends Component<PanelRegionProps, State> {
     getPanelsWithAccess() {
         const { content } = this.props
 
-        this.setState({ tabs: [] }, async () => {
+        this.setState({ tabs: [] }, () => {
             if (content && typeof content[Symbol.iterator] === 'function') {
                 for (const panel of content) {
-                    await this.checkPanel(panel)
+                    this.checkPanel(panel)
                 }
             }
         })

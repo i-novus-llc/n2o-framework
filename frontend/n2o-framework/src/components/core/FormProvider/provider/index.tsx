@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useMemo, createContext } from 'react
 import get from 'lodash/get'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 
-import { ModelPrefix } from '../../../../core/datasource/const'
+import { FormModelPrefix } from '../../../../core/models/types'
 import { updateModel } from '../../../../ducks/models/store'
 import { handleBlur, handleFocus, register, remove, setMessage } from '../../../../ducks/form/store'
 import { GetValues, SetBlur, SetFocus, SetValue, SetMessage } from '../types'
@@ -21,14 +21,14 @@ type Methods = {
 type FormContextType = {
     getValues: GetValues
     formName: string
-    prefix: ModelPrefix
+    prefix: FormModelPrefix
     datasource: string
 } & Methods
 
 type FormProviderType = {
     formName: string,
     datasource: string,
-    prefix: ModelPrefix,
+    prefix: FormModelPrefix,
     validationKey?: ValidationsKey,
 }
 

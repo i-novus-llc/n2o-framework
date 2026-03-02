@@ -11,7 +11,7 @@ export const getDefaultState = () => ({
     modelPrefix: ModelPrefix.active,
     // Костыль для валидации фильтров
     validationKey: ValidationsKey.Validations,
-})
+} as const)
 
 export const getDefaultField = (): Field => ({
     isInit: false,

@@ -235,6 +235,8 @@ class DatasourceAT extends AutoTestBase {
         copy.shouldHaveValue("test");
         source.click();
         source.clear();
+        // Фиктивная проверка чтоб успел отработать тайминг у зависимости
+        source.shouldBeEmpty();
         copy.shouldBeEmpty();
     }
 

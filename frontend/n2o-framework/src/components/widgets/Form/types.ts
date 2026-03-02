@@ -2,7 +2,7 @@ import { ComponentType, CSSProperties } from 'react'
 import { ColumnProps } from 'reactstrap/es/Col'
 
 import { Mapping } from '../../../ducks/datasource/Provider'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { FormModelPrefix } from '../../../core/models/types'
 import { Model } from '../../../ducks/models/selectors'
 import { type Props as StandardWidgetProps } from '../StandardWidget'
 import { ValidationsKey } from '../../../core/validation/types'
@@ -63,7 +63,7 @@ export interface FieldsetProps {
     component: FieldComponent
     activeModel?: ActiveModel
     autoFocusId?: string
-    modelPrefix?: ModelPrefix
+    modelPrefix?: FormModelPrefix
     autoSubmit?: boolean
 }
 
@@ -77,7 +77,7 @@ export interface FieldSetColComponentProps {
     labelPosition: string
     labelWidth: string
     labelAlignment: string
-    modelPrefix: ModelPrefix
+    modelPrefix: FormModelPrefix
     form?: string
     parentName: string
     disabled: boolean
@@ -95,7 +95,7 @@ interface CommonRowProps {
     labelWidth?: string
     labelAlignment?: string
     autoFocusId?: string
-    modelPrefix: ModelPrefix
+    modelPrefix: FormModelPrefix
     disabled?: boolean
     autoSubmit?: boolean
     activeModel: ActiveModel
@@ -127,7 +127,7 @@ export interface FieldsetComponentProps extends FieldsetComponentPropsEnhancer {
 export interface ReduxFormProps {
     name: string
     datasource: string
-    modelPrefix: ModelPrefix
+    modelPrefix: FormModelPrefix
     fieldsets: FieldSetsProps
     autoFocus?(): void
     autoSubmit?: boolean
@@ -145,6 +145,6 @@ export interface FormWidgetProps extends FormWidgetPropsEnhancer {
     id: string
     disabled: boolean
     datasource: string
-    form: { fieldsets: FieldSetsProps, modelPrefix: ModelPrefix }
+    form: { fieldsets: FieldSetsProps, modelPrefix: FormModelPrefix }
     loading: boolean
 }

@@ -4,7 +4,6 @@ import {
     select,
     takeEvery,
     take,
-    debounce,
     race,
     fork,
     cancel,
@@ -14,21 +13,12 @@ import isEmpty from 'lodash/isEmpty'
 import { getLocation } from 'connected-react-router'
 import queryString from 'query-string'
 import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
 
 import { destroyOverlay } from '../overlays/store'
 import { FETCH_PAGE_METADATA } from '../../core/api'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { changeRootPage } from '../global/store'
 import fetchSaga from '../../sagas/fetch'
-import {
-    clearModel,
-    removeAllModel,
-    removeModel,
-    setModel,
-    updateModel,
-} from '../models/store'
-import { modelsSelector } from '../models/selectors'
 import { DefaultModels } from '../models/Models'
 import { State } from '../State'
 import { mergeMeta } from '../api/utils/mergeMeta'
@@ -41,6 +31,9 @@ import { ValidateEndAction } from '../datasource/Actions'
 import { dataSourceByIdSelector } from '../datasource/selectors'
 import { DATASOURCE_PREFIX } from '../api/constants'
 import { logger } from '../../utils/logger'
+import { subscribe } from '../models/sagas/subscribe'
+import { getModelLink } from '../../core/models/getModelLink'
+import { ModelLink } from '../../core/models/types'
 
 import { makeIsRootChildByIdSelector, pagesSelector } from './selectors'
 import {
@@ -172,42 +165,26 @@ export function* getMetadata(
  * FIXME вынести на общий механизм
  * @param action
  */
-let prevModels: DefaultModels
-
-export function* watchEvents() {
-    const models: DefaultModels = yield select(modelsSelector)
+export function* watchEvents(keys: ModelLink[]) {
     const pagesMap: Page[] = yield select(pagesSelector)
     const pagesList: Page[] = Object.values(pagesMap)
 
     for (const { metadata } of pagesList) {
-        const { events } = metadata
-
-        if (!events || !events.length) {
-            // eslint-disable-next-line no-continue
-            continue
-        }
+        const { events = [] } = metadata
 
         for (const { datasource, model: prefix, field, action } of events) {
-            const modelLink = [prefix, datasource]
-            const model = get(models, modelLink, null)
-            const prevModel = get(prevModels, modelLink, null)
+            const modelLink = getModelLink(prefix, datasource, field)
 
-            let value = model
-            let prevValue = prevModel
-
-            if (field) {
-                value = get(value, field)
-                prevValue = get(prevValue, field)
-            }
-
-            if (!isEqual(value, prevValue)) {
+            if (keys.some(link => (
+                modelLink === link ||
+                link.startsWith(`${modelLink}.`) ||
+                link.startsWith(`${modelLink}[`)
+            ))) {
                 // FIXME костыльный проброс контекста
                 yield put(mergeMeta(action, { evalContext: DEFAULT_CONTEXT }))
             }
         }
     }
-
-    prevModels = models
 }
 
 function* pageScrolling(action: ValidateEndAction) {
@@ -224,6 +201,8 @@ function* pageScrolling(action: ValidateEndAction) {
     yield put(setPageScrolling(pageId, true))
 }
 
+subscribe(watchEvents)
+
 /**
  * Сайд-эффекты для page редюсера
  * @ignore
@@ -232,11 +211,4 @@ export default (apiProvider: unknown, security: { provider: AuthProvider }) => [
     // @ts-ignore fixme: разобрать почему takeEvery не разрулил автоматом тип metadataRequest
     takeEvery(metadataRequest, getMetadata, apiProvider, security.provider),
     takeEvery(endValidation, pageScrolling),
-    debounce(100, [
-        setModel,
-        removeModel,
-        removeAllModel,
-        clearModel,
-        updateModel,
-    ], watchEvents),
 ]
