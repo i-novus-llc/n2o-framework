@@ -1,6 +1,7 @@
 import React, { ComponentType, useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
+import { Spinner } from 'reactstrap'
 import { Button } from '@i-novus/n2o-components/lib/button/Button'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 import { Icon } from '@i-novus/n2o-components/lib/display/Icon'
@@ -41,6 +42,7 @@ export const SimpleButton = ({
     onClick = NOOP_FUNCTION,
     rounded = false,
     iconPosition = ICON_POSITIONS.LEFT,
+    loading = false,
     ...rest
 }: Props) => {
     const { getComponent } = useContext(FactoryContext)
@@ -54,6 +56,9 @@ export const SimpleButton = ({
     const { text, position = Position.Right } = badge || {}
 
     const showBadge = FactoryBadge && (!isEmpty(badge) || typeof count === 'number')
+    let iconComponent = icon ? <Icon name={icon} className="n2o-btn-icon" /> : null
+
+    if (loading) { iconComponent = <i className='n2o-icon'><Spinner size="sm" /></i> }
 
     return (
         <Button
@@ -68,7 +73,7 @@ export const SimpleButton = ({
                 'btn-with-entity': badge || (count || count === 0),
                 'with-badge': badge && (text || typeof count === 'number'),
                 'with-label': label,
-                'with-icon': icon,
+                'with-icon': !!iconComponent,
                 [`btn-badge-position--${position}`]: position,
             })}
             onKeyDown={(event) => {
@@ -86,7 +91,7 @@ export const SimpleButton = ({
             {...rest}
         >
             <IconContainer icon={icon} iconPosition={iconPosition}>
-                <Icon name={icon} className="n2o-btn-icon" />
+                {iconComponent}
                 <Text>{children || label}</Text>
             </IconContainer>
             {showBadge && (

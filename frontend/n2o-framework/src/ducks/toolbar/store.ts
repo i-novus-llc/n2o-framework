@@ -280,6 +280,17 @@ export const toolbarSlice = createSlice({
             },
         },
 
+        updateButton(state, action) {
+            const { key, buttonId, state: button } = action.payload
+
+            if (state[key]?.[buttonId]) {
+                state[key][buttonId] = {
+                    ...state[key][buttonId],
+                    ...button,
+                }
+            }
+        },
+
         REMOVE_BUTTONS(state, action) {
             if (state[action.payload]) {
                 delete state[action.payload]
@@ -322,4 +333,5 @@ export const {
     REMOVE_BUTTONS: removeAllButtons,
     TOGGLE_BUTTON_DISABLED: toggleButtonDisabled,
     TOGGLE_BUTTON_VISIBILITY: toggleButtonVisibility,
+    updateButton,
 } = toolbarSlice.actions
