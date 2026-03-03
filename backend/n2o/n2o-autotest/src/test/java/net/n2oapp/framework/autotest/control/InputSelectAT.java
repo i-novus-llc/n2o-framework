@@ -147,9 +147,8 @@ class InputSelectAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-
-        InputSelect input = page.widget(FormWidget.class).fields().field("InputSelect")
-                .control(InputSelect.class);
+        Fields fields = page.widget(FormWidget.class).fields();
+        InputSelect input = fields.field("InputSelect").control(InputSelect.class);
         input.shouldExists();
 
         input.shouldBeEmpty();
@@ -182,8 +181,14 @@ class InputSelectAT extends AutoTestBase {
         input.backspace();
         input.shouldBeEmpty();
 
+        input.setValue("One");
+        input.openPopup();
+        input.dropdown().selectMulti(0);
+        page.element().click();
+        input.shouldHaveValue("");
+
         // Проверка сохранения фильтра при выборе нескольких значений
-        input = page.widget(FormWidget.class).fields().field("InputSelect1").control(InputSelect.class);
+        input = fields.field("InputSelect1").control(InputSelect.class);
         input.openPopup();
         input.dropdown().shouldHaveOptions(new String[]{"1","2","11","100","101"});
 
@@ -199,6 +204,8 @@ class InputSelectAT extends AutoTestBase {
         input.dropdown().shouldHaveOptions(new String[]{"1","11","100","101"});
         input.shouldSelectedMulti(new String[]{"1","100"});
         input.shouldHaveValue("1");
+        page.element().click();
+        input.shouldHaveValue("");
     }
 
     @Test
@@ -210,8 +217,8 @@ class InputSelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        InputSelect input = page.widget(FormWidget.class).fields().field("InputSelect")
-                .control(InputSelect.class);
+        Fields fields = page.widget(FormWidget.class).fields();
+        InputSelect input = fields.field("InputSelect").control(InputSelect.class);
         input.shouldExists();
 
         input.shouldBeEmpty();
@@ -233,9 +240,13 @@ class InputSelectAT extends AutoTestBase {
         input.clearItems("Two", "One");
         input.shouldBeEmpty();
 
-        input.closePopup();
-        input = page.widget(FormWidget.class).fields().field("InputSelect3")
-                .control(InputSelect.class);
+        input.setValue("One");
+        input.openPopup();
+        input.dropdown().selectMulti(0);
+        page.element().click();
+        input.shouldHaveValue("");
+
+        input = fields.field("InputSelect3").control(InputSelect.class);
         input.click();
         input.dropdown().item("One").shouldBeEnabled();
         input.dropdown().item("Two").shouldBeEnabled();
