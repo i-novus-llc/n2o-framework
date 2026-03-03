@@ -80,12 +80,18 @@ public class ScriptProcessor {
             }
             if (hasLink(expr)) {
                 expr = resolveToJsString(expr);
-                return toJsExpression(expr.replace("#<", "#{").replace("$<", "${").replace(">>", "}"));
+                return toJsExpression(restorePlaceholders(expr));
             } else {
-                return expr.replace("#<", "#{").replace("$<", "${").replace(">>", "}");
+                if (text.startsWith("{") && text.endsWith("}"))
+                    return toJsExpression(restorePlaceholders(expr));
+                return restorePlaceholders(expr);
             }
         }
         return text;
+    }
+
+    private static String restorePlaceholders(String expr) {
+        return expr.replace("#<", "#{").replace("$<", "${").replace(">>", "}");
     }
 
     /**
@@ -119,6 +125,10 @@ public class ScriptProcessor {
     }
 
     private static boolean isFunction(String text) {
+        if (text.startsWith("{") && text.endsWith("}"))
+            text = text.substring(1, text.length() - 1);
+        if (text.contains("*."))
+            return false;
         String wordReplaced = text.replaceAll("'[^']*'", "");
         String bracesReplaced = wordReplaced.replaceAll("\\{[^{}]*}", "");
         return FUNCTION_CONTENT_PATTERN.matcher(bracesReplaced).find();
@@ -211,32 +221,102 @@ public class ScriptProcessor {
     private static String resolveToJsString(String text) {
         if (text == null) return null;
         StringBuilder sb = new StringBuilder();
-        String[] split = text.split("\\{");
-        if (split.length <= 1)
-            return text;
-        if (!split[0].equals("")) {
-            sb.append("'".concat(split[0]).concat("'"));
+
+        int pos = 0;
+        boolean first = true;
+
+        while (pos < text.length()) {
+            int openBrace = text.indexOf('{', pos);
+            if (openBrace == -1) {
+                String remaining = text.substring(pos);
+                if (!remaining.isEmpty()) {
+                    if (first) {
+                        sb.append("'").append(remaining).append("'");
+                    } else {
+                        sb.append("+'").append(remaining).append("'");
+                    }
+                }
+                break;
+            }
+
+            if (openBrace > pos) {
+                String before = text.substring(pos, openBrace);
+                if (first) {
+                    sb.append("'").append(before).append("'");
+                    first = false;
+                } else {
+                    sb.append("+'").append(before).append("'");
+                }
+            }
+
+            int closeBrace = findMatchingBrace(text, openBrace);
+            if (closeBrace == -1) {
+                String rest = text.substring(openBrace);
+                if (first) {
+                    sb.append("'").append(rest).append("'");
+                } else {
+                    sb.append("+'").append(rest).append("'");
+                }
+                break;
+            }
+
+            // Извлекаем содержимое между скобками (исходное, до обработки spread)
+            String rawInner = text.substring(openBrace + 1, closeBrace);
+
+            // Обрабатываем spread-оператор
+            String inner = processSpreadOperatorInExpression(rawInner);
+
+            // Если это функция, оборачиваем в самовызывающуюся функцию
+            if (isFunction("{" + rawInner + "}")) {
+                inner = String.format("(function(){%s}).call(this)", inner);
+            }
+
+            if (first) {
+                sb.append(inner);
+                first = false;
+            } else {
+                sb.append("+").append(inner);
+            }
+
+            pos = closeBrace + 1;
         }
-        for (int i = 1; i < split.length; i++) {
-            int idxSuffix = split[i].indexOf("}");
-            if (idxSuffix > 0) {
-                String value = split[i].substring(0, idxSuffix);
-                value = processSpreadOperatorInExpression(value);
-                sb.append("+").append(value);
-                if (idxSuffix < split[i].length() - 1) {
-                    String afterValue = split[i].substring(idxSuffix + 1);
-                    sb.append("+'").append(afterValue).append("'");
+
+        return sb.toString();
+    }
+
+    /**
+     * Находит позицию закрывающей скобки с учетом вложенности
+     */
+    private static int findMatchingBrace(String text, int openPos) {
+        int braceCount = 1;
+        boolean inString = false;
+        char stringChar = 0;
+
+        for (int i = openPos + 1; i < text.length(); i++) {
+            char c = text.charAt(i);
+
+            if (c == '\'' || c == '"') {
+                if (!inString) {
+                    inString = true;
+                    stringChar = c;
+                } else if (c == stringChar && text.charAt(i - 1) != '\\') {
+                    inString = false;
+                }
+                continue;
+            }
+
+            if (!inString) {
+                if (c == '{') {
+                    braceCount++;
+                } else if (c == '}') {
+                    braceCount--;
+                    if (braceCount == 0) {
+                        return i;
+                    }
                 }
             }
         }
-        String res = sb.toString();
-        if (res.startsWith("+")) {
-            res = res.replaceFirst("\\+", "");
-        }
-        if (res.endsWith("+")) {
-            res = res.substring(0, res.length() - 1);
-        }
-        return res;
+        return -1;
     }
 
     /**
