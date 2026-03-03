@@ -29,6 +29,24 @@ class ScriptProcessorTest {
     }
 
     @Test
+    void testResolveLinksWithNestedObjects() {
+        assertThat(ScriptProcessor.resolveLinks("{{ test }}"),
+                is("`{ test }`"));
+        assertThat(ScriptProcessor.resolveLinks("label: { name }, text: { { a: 123 }.a }"),
+                is("`'label: '+ name +', text: '+ { a: 123 }.a `"));
+        assertThat(ScriptProcessor.resolveLinks("{ { name: 'qwe'}.name }"),
+                is("` { name: 'qwe'}.name `"));
+        assertThat(ScriptProcessor.resolveLinks("{ [{ name: 'qwe'}, { name: 'eqw' }] }"),
+                is("` [{ name: 'qwe'}, { name: 'eqw' }] `"));
+        assertThat(ScriptProcessor.resolveLinks("{ return [{ name: 'qwe'}, { name: 'eqw' }] }"),
+                is("`(function(){ return [{ name: 'qwe'}, { name: 'eqw' }] }).call(this)`"));
+        assertThat(ScriptProcessor.resolveLinks("{'it\\'s ok'}"), is("`'it\\'s ok'`"));
+        assertThat(ScriptProcessor.resolveLinks("{`hello ${name}`}"), is("``hello ${name}``"));
+        assertThat(ScriptProcessor.resolveLinks("{}"), is("{}"));
+        assertThat(ScriptProcessor.resolveLinks("{ }"), is("` `"));
+    }
+
+    @Test
     void resolveLinks() {
         assertThat(ScriptProcessor.resolveLinks("test"), is("test"));
         assertThat(ScriptProcessor.resolveLinks("{test}"), is("`test`"));
@@ -68,7 +86,6 @@ class ScriptProcessorTest {
 
         assertThat(ScriptProcessor.resolveExpression("{check ? (test == 1 ? status*.id : [3,4,5]) : (flag ? status*.number : status*.value)}"),
                 is("`(check ? (test == 1 ? status.map(function(t){return t.id}) : [3,4,5]) : (flag ? status.map(function(t){return t.number}) : status.map(function(t){return t.value})))`"));
-
 
 
         assertThat(ScriptProcessor.resolveExpression("{test == 1}"), is("`test == 1`"));
