@@ -58,7 +58,8 @@ public class XlsxFileGenerator implements FileGenerator {
                 for (ExportRequest.ExportField entry : headers) {
                     Cell cell = row.createCell(c);
                     if (entry.getFormat() != null) {
-                        if (entry.getFormat().equals("date") || entry.getFormat().equals("number")) {
+                        String formatLower = entry.getFormat().toLowerCase().trim();
+                        if (formatLower.startsWith("date") || formatLower.startsWith("number")) {
                             setCellWithStyle(cell, datum.get(entry.getId()), columnStyles.get(c));
                         } else {
                             setCellValue(cell, applyFormat(datum.get(entry.getId()), entry.getFormat()));
