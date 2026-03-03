@@ -40,7 +40,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     @Override
     public void shouldHaveValue(String value, Duration... duration) {
         if (inputElement().exists())
-            should(Condition.value(value), inputElement(), duration);
+            should(Condition.exactValue(value), inputElement(), duration);
         else
             should(Condition.text(value), cellInputElement(), duration);
     }
