@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
-import { cancel, select, takeEvery } from 'redux-saga/effects'
+import { cancel, put, select, takeEvery } from 'redux-saga/effects'
+import pick from 'lodash/pick'
 
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { dataSourceByIdSelector } from '../datasource/selectors'
@@ -13,6 +14,8 @@ import { BodyCell, type HeaderCell } from '../table/Table'
 import { getAllValuesByKey } from '../../components/Table/utils'
 import { logger } from '../../utils/logger'
 import { linkResolver, type LinkProps } from '../../utils/linkResolver'
+import { buttonSelector } from '../toolbar/selectors'
+import { updateButton } from '../toolbar/store'
 
 import { UTILS_PREFIX } from './constants'
 import { EffectWrapper } from './utils/effectWrapper'
@@ -127,7 +130,7 @@ function extractFilenameFromContentDisposition(contentDisposition: string | null
     return null
 }
 
-export function* effect({ payload }: Action<string, Payload>) {
+export function* effect({ payload, meta = {} }: Action<string, Payload>) {
     const { exportDatasource, values, baseURL, widgetId, allLimit = 1000, filename } = payload
 
     if (!exportDatasource || !values || !baseURL || !widgetId) {
@@ -196,6 +199,18 @@ export function* effect({ payload }: Action<string, Payload>) {
 
     const fields = getShowedColumnsWithLabels(columns, cells.body)
     const exportPayload = createExportPayload(resolvedURL, format, charset, fields, filename)
+    const { key, buttonId } = meta
+    const button = buttonSelector(state, key as string, buttonId as string)
+
+    yield put(updateButton({
+        key,
+        buttonId,
+        state: {
+            loading: true,
+            message: 'Загрузка документа...',
+            disabled: true,
+        },
+    }))
 
     try {
         const response: Response = yield fetch(baseURL, {
@@ -225,6 +240,12 @@ export function* effect({ payload }: Action<string, Payload>) {
     } catch (error) {
         logger.error(error)
     }
+
+    yield put(updateButton({
+        key,
+        buttonId,
+        state: pick(button, ['loading', 'disabled', 'message']),
+    }))
 }
 
 export const sagas = [takeEvery(creator.type, EffectWrapper(effect))]
