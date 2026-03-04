@@ -63,8 +63,15 @@ export interface SimpleHeaderBodyProps {
 
 type State = { isOpen: boolean, style: CSSProperties }
 
+function getHeaderVisibilityStyle(): CSSProperties {
+    const { N2O_ELEMENT_VISIBILITY } = window as WindowType
+    const isVisible = N2O_ELEMENT_VISIBILITY ? !!N2O_ELEMENT_VISIBILITY.header : true
+
+    return isVisible ? {} : { display: 'none' }
+}
+
 class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
-    state: State = { isOpen: false, style: {} }
+    state: State = { isOpen: false, style: getHeaderVisibilityStyle() }
 
     toggle = () => {
         const { isOpen } = this.state
@@ -73,15 +80,22 @@ class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
     }
 
     handleVisibilityUpdate = () => {
-        const { N2O_ELEMENT_VISIBILITY } = window as WindowType
+        const nextStyle = getHeaderVisibilityStyle()
 
-        if (N2O_ELEMENT_VISIBILITY && !N2O_ELEMENT_VISIBILITY.header) {
-            this.setState({ style: { display: 'none' } })
-        }
+        const { style } = this.state
+
+        const prevDisplay = style?.display
+        const nextDisplay = (nextStyle as CSSProperties)?.display
+
+        if (prevDisplay === nextDisplay) { return }
+
+        this.setState({ style: nextStyle })
     }
 
     componentDidMount() {
         window.addEventListener(VISIBILITY_EVENT, this.handleVisibilityUpdate)
+
+        this.handleVisibilityUpdate()
     }
 
     componentWillUnmount() {
