@@ -22,7 +22,19 @@ import { DragHandle } from './DragAndDropColumn/DragHandle'
 import { MultiColumn } from './MultiColumn/MultiColumn'
 
 const Component = (props: ToggleColumnProps) => {
-    const { icon, label, entityKey: widgetId, forwardedRef, clickOutsideRef, isOpen, onClick, color, nested = false } = props
+    const {
+        icon,
+        label,
+        entityKey: widgetId,
+        forwardedRef,
+        clickOutsideRef,
+        isOpen,
+        onClick,
+        color,
+        style,
+        className,
+        nested = false,
+    } = props
     const { getState } = useStore()
 
     const { header } = makeTableByIdSelector(widgetId)(getState())
@@ -48,10 +60,11 @@ const Component = (props: ToggleColumnProps) => {
                 <div>
                     <DropdownToggle tag="div">
                         <FactoryStandardButton
-                            className="n2o-change-size-btn dropdown-toggle"
+                            className={classNames('n2o-change-size-btn dropdown-toggle', className)}
                             color={color}
                             icon={icon}
                             label={label}
+                            style={style}
                         />
                     </DropdownToggle>
 
