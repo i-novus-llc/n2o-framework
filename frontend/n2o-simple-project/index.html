@@ -37,14 +37,18 @@
         window.N2O_WARNING_WATCHER = true;
 
         window.addEventListener('message', function (event) {
-            const { target } = event || {};
-            if (target?.['N2O_ELEMENT_VISIBILITY']) {
-                window.N2O_ELEMENT_VISIBILITY = {
-                    ...window.N2O_ELEMENT_VISIBILITY,
-                    ...event.data.payload,
-                };
-                window.dispatchEvent(new CustomEvent('N2O_ELEMENT_VISIBILITY_UPDATED'));
+            const data = event && event.data;
+
+            if (!data || data.source !== 'docusaurus' || data.type !== 'SET_N2O_ELEMENT_VISIBILITY') {
+                return;
             }
+
+            window.N2O_ELEMENT_VISIBILITY = {
+                ...(window.N2O_ELEMENT_VISIBILITY || {}),
+                ...(data.payload || {}),
+            };
+
+            window.dispatchEvent(new CustomEvent('N2O_ELEMENT_VISIBILITY_UPDATED', { detail: data.payload }));
         });
     </script>
 </head>

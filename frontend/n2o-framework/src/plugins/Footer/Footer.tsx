@@ -15,19 +15,33 @@ export interface Props {
     style?: CSSProperties
 }
 
+function getFooterVisibilityStyle(): CSSProperties {
+    const { N2O_ELEMENT_VISIBILITY } = window as WindowType
+    const isVisible = N2O_ELEMENT_VISIBILITY ? !!N2O_ELEMENT_VISIBILITY.footer : true
+
+    return isVisible ? {} : { display: 'none' }
+}
+
 export function Footer({ textRight, textLeft, className, style: propsStyle }: Props) {
-    const [style, setStyle] = useState<CSSProperties>({})
+    const [style, setStyle] = useState<CSSProperties>(getFooterVisibilityStyle())
 
     useEffect(() => {
         const handleVisibilityUpdate = () => {
-            const { N2O_ELEMENT_VISIBILITY } = window as WindowType
+            const nextStyle = getFooterVisibilityStyle()
 
-            if (N2O_ELEMENT_VISIBILITY && !N2O_ELEMENT_VISIBILITY.footer) {
-                setStyle({ display: 'none' })
-            }
+            setStyle((prevStyle) => {
+                const prevDisplay = prevStyle?.display
+                const nextDisplay = nextStyle?.display
+
+                if (prevDisplay === nextDisplay) { return prevStyle }
+
+                return nextStyle
+            })
         }
 
         window.addEventListener(VISIBILITY_EVENT, handleVisibilityUpdate)
+
+        handleVisibilityUpdate()
 
         return () => {
             window.removeEventListener(VISIBILITY_EVENT, handleVisibilityUpdate)
