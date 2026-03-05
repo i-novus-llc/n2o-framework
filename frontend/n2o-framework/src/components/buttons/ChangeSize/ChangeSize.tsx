@@ -1,7 +1,8 @@
-import React, { useContext, useCallback, useMemo, MouseEvent } from 'react'
+import React, { useContext, useCallback, useMemo, type MouseEvent, type CSSProperties } from 'react'
 import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { combineRefs } from '@i-novus/n2o-components/lib/inputs/utils'
+import classNames from 'classnames'
 
 import { makeWidgetSizeSelector } from '../../../ducks/widgets/selectors'
 import { DataSourceContext } from '../../../core/widget/context'
@@ -27,6 +28,8 @@ export interface Props extends Enhancer {
     defaultSize: number | null
     widgetSize: number
     color?: Color
+    style?: CSSProperties
+    className?: string
 }
 
 function Component({
@@ -39,6 +42,8 @@ function Component({
     forwardedRef,
     clickOutsideRef,
     color,
+    style,
+    className,
     size = DEFAULT_SIZE,
     nested = false,
 }: Props) {
@@ -62,10 +67,11 @@ function Component({
             <div className="n2o-dropdown n2o-toggle-column n2o-change-size visible" ref={combineRefs(clickOutsideRef, forwardedRef)}>
                 <DropdownToggle tag="div">
                     <FactoryStandardButton
-                        className="n2o-change-size-btn dropdown-toggle"
+                        className={classNames('n2o-change-size-btn dropdown-toggle', className)}
                         color={color}
                         icon={icon}
                         label={label}
+                        style={style}
                     />
                 </DropdownToggle>
 
