@@ -64,7 +64,7 @@ const ListRegion = (props: ListRegionProps) => {
             return regionsState[id].visible
         }
 
-        const { visible = true } = getWidgetProps(id) || {}
+        const { visible } = getWidgetProps(id) || {}
 
         return visible
     })
