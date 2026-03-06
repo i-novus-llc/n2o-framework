@@ -1401,8 +1401,12 @@
           "name": "RefFieldModelAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/model/modal",
-          "name": "RefModalAT"
+          "templateId": "net/n2oapp/framework/autotest/model/modal/from_form",
+          "name": "RefModalAT. refParentModalTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/model/modal/from_filters",
+          "name": "RefModalAT. refParentModalFromFiltersTest"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/query",
