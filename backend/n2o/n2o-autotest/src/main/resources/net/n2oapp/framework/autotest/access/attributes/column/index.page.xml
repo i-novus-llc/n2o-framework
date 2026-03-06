@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
+    name="Доступ к колонкам по sec атрибутам">
+    <table id="list">
+        <datasource query-id="test"/>
+        <columns>
+            <column text-field-id="id"/>
+            <column label="Колонка видима с ролью admin" sec:roles="admin">
+                <toolbar>
+                    <button sec:roles="admin" label="Удалить" icon="fa fa-trash"/>
+                </toolbar>
+            </column>
+            <column label="Колонка видима с правом edit"
+                    sec:permissions="edit">
+                <toolbar>
+                    <button sec:permissions="edit" id="archive" label="Редактировать" icon="fa fa-edit"/>
+                </toolbar>
+            </column>
+
+            <column label="Колонка доступна с правом edit (toolbar)"
+                    sec:permissions="edit" sec:behavior="disable">
+                <toolbar>
+                    <button label="Кнопка" icon="fa fa-edit" visible="{id == 1}"/>
+                </toolbar>
+            </column>
+            <column label="Колонка доступна с правом edit (input-text)" text-field-id="name"
+                    sec:permissions="edit" sec:behavior="disable">
+                <edit>
+                    <input-text/>
+                </edit>
+            </column>
+            <column label="Колонка доступна с правом edit (input-select)" text-field-id="ref.name"
+                    sec:permissions="edit" sec:behavior="disable">
+                <edit>
+                    <input-select id="ref">
+                        <options>
+                            <option id="1" name="one"/>
+                            <option id="2" name="two"/>
+                            <option id="3" name="three"/>
+                        </options>
+                    </input-select>
+                </edit>
+            </column>
+            <column label="Колонка доступна с правом edit (date-time)" text-field-id="birthDate"
+                    sec:permissions="edit" sec:behavior="disable">
+                <edit format="date DD.MM.YYYY">
+                    <date-time date-format="DD.MM.YYYY"/>
+                </edit>
+            </column>
+            <column label="Колонка доступна с правом edit (text-area)" text-field-id="textArea"
+                      sec:permissions="edit" sec:behavior="disable">
+                <edit>
+                    <text-area/>
+                </edit>
+            </column>
+
+        </columns>
+    </table>
+</simple-page>

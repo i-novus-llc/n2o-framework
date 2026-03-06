@@ -67,6 +67,14 @@
         {
           "templateId": "net/n2oapp/framework/autotest/access/schema/header",
           "name": "HeaderAccessAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/attributes/column",
+          "name": "ColumnAccessAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/access/attributes/cell",
+          "name": "CellAccessAT"
         }
       ]
     },
@@ -643,10 +651,6 @@
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/row_overlay",
           "name": "TableAT. testOverlay"
-        },
-        {
-          "templateId": "net/n2oapp/framework/autotest/widget/table/toolbar/access",
-          "name": "ToolbarColumnAccessAT"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/with_children",

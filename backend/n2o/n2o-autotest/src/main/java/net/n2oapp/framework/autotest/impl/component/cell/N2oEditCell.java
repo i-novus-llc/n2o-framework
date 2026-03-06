@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.cell;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.cell.EditCell;
@@ -16,6 +17,16 @@ public class N2oEditCell extends N2oCell implements EditCell {
     public void click() {
         element().scrollTo();
         editableCell().click();
+    }
+
+    @Override
+    public void shouldBeDisabled() {
+        editableCell().shouldNotHave(Condition.cssClass("editable"));
+    }
+
+    @Override
+    public void shouldBeEnabled() {
+        editableCell().shouldHave(Condition.cssClass("editable"));
     }
 
     protected SelenideElement editableCell() {

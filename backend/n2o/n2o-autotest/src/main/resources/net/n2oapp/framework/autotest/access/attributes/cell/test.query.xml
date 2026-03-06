@@ -3,11 +3,11 @@
     <list>
         <test file="test.json"/>
     </list>
-    <filters>
-        <eq filter-id="id" field-id="id"/>
-    </filters>
     <fields>
         <field id="id"/>
-        <field id="Имя"/>
+        <field id="name"/>
+        <field id="ref"/>
+        <field id="birthDate"/>
+        <field id="textArea"/>
     </fields>
 </query>

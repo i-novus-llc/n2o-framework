@@ -19,4 +19,13 @@ public interface EditCell extends Cell {
      */
     void click();
 
+    /**
+     * Проверка, что ячейка недоступна для редактирования
+     */
+    void shouldBeDisabled();
+
+    /**
+     * Проверка, что ячейка доступна для редактирования
+     */
+    void shouldBeEnabled();
 }
