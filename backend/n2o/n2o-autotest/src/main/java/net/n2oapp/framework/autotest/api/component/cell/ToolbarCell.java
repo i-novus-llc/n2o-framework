@@ -11,4 +11,14 @@ public interface ToolbarCell extends Cell {
      * @return Панель кнопок для автотестирования
      */
     Toolbar toolbar();
+
+    /**
+     * Проверка того, что ячейка недоступна
+     */
+    void shouldBeDisabled();
+
+    /**
+     * Проверка что элемент ячейка доступна
+     */
+    void shouldBeEnabled();
 }

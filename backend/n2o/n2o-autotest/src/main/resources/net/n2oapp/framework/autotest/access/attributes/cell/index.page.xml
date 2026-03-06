@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
+    name="Доступ к ячейкам по sec атрибутам">
+    <table id="list">
+        <datasource query-id="test"/>
+        <columns>
+            <column text-field-id="id"/>
+            <column label="Ячейка доступна с правом edit (toolbar)">
+                <toolbar sec:permissions="edit" sec:behavior="disable">
+                    <button label="Кнопка" icon="fa fa-edit" visible="{id == 1}"/>
+                </toolbar>
+            </column>
+            <column label="Ячейка доступна с правом edit (input-text)" text-field-id="name">
+                <edit sec:permissions="edit" sec:behavior="disable">
+                    <input-text/>
+                </edit>
+            </column>
+            <column label="Ячейка доступна с правом edit (input-select)" text-field-id="ref.name">
+                <edit sec:permissions="edit" sec:behavior="disable">
+                    <input-select id="ref">
+                        <options>
+                            <option id="1" name="one"/>
+                            <option id="2" name="two"/>
+                            <option id="3" name="three"/>
+                        </options>
+                    </input-select>
+                </edit>
+            </column>
+            <column label="Ячейка доступна с правом edit (date-time)" text-field-id="birthDate">
+                <edit format="date DD.MM.YYYY" sec:permissions="edit" sec:behavior="disable">
+                    <date-time date-format="DD.MM.YYYY"/>
+                </edit>
+            </column>
+            <column label="Ячейка доступна с правом edit (text-area)" text-field-id="textArea">
+                <edit sec:permissions="edit" sec:behavior="disable">
+                    <text-area/>
+                </edit>
+            </column>
+
+        </columns>
+    </table>
+</simple-page>
