@@ -30,7 +30,7 @@ import static net.n2oapp.framework.config.metadata.validation.standard.Validatio
  * Валидатор таблицы
  */
 @Component
-public class TableValidator extends ListWidgetValidator<N2oTable> {
+public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
 
     @Override
     public Class<? extends Source> getSourceClass() {

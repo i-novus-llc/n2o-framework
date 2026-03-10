@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 @Component
-public class CardsValidator extends ListWidgetValidator<N2oCards> {
+public class CardsValidator extends AbstractListWidgetValidator<N2oCards> {
 
     @Override
     public Class<? extends Source> getSourceClass() {

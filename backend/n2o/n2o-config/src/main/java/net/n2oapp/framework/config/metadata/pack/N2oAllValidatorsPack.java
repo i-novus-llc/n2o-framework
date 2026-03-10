@@ -22,10 +22,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.object.ObjectVal
 import net.n2oapp.framework.config.metadata.validation.standard.page.*;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.regions.*;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.CardsValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.TableValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.TilesValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.widget.*;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.BlockValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.FilterColumnValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.MultiColumnValidator;
@@ -55,7 +52,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new SubmitActionValidator(), new CustomActionValidator(), new ActionsAwareValidator(), new SwitchActionValidator(),
                 new ConditionBranchActionValidator(), new ActionFieldValidator(), new OnFailActionValidator(),
                 new EditListActionValidator(), new OnChangeEventValidator(), new StompEventValidator(),
-                new MarkdownValidator(), new TilesValidator(),
+                new MarkdownValidator(), new TilesValidator(), new ListWidgetValidator(),
                 new CardsValidator(), new TabsValidator(), new ScrollspyValidator(), new SwitchCellValidator(),
                 new LinkCellValidator(), new BadgeCellValidator(), new IconCellValidator(), new EditCellValidator(),
                 new ActionCellValidator(),
