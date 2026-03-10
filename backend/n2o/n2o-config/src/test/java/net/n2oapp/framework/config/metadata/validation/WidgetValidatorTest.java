@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageVal
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.widget.ListWidgetValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.TableValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
@@ -42,7 +43,8 @@ class WidgetValidatorTest extends SourceValidationTestBase {
                 new StandardPageValidator(),
                 new BasePageValidator(),
                 new FormValidator(),
-                new TableValidator()
+                new TableValidator(),
+                new ListWidgetValidator()
         );
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
@@ -135,6 +137,14 @@ class WidgetValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/widget/widgetHasNotExistingDatasource.page.xml")
         );
         assertEquals("Виджет 'w1' ссылается на несуществующий источник данных 'ds2'", exception.getMessage());
+    }
+
+    @Test
+    void testListWidgetHasNotExistingDatasource() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testListWidgetHasNotExistingDatasource.widget.xml"));
+        assertEquals("Виджет 'testListWidgetHasNotExistingDatasource' ссылается на несуществующий источник данных 'ds'", exception.getMessage());
     }
 
     @Test
