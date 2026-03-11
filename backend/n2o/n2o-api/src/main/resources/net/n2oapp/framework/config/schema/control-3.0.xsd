@@ -1803,15 +1803,6 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:simpleType name="popupPlacementEnum">
-        <xs:restriction>
-            <xs:enumeration value="up,right"/>
-            <xs:enumeration value="up,left"/>
-            <xs:enumeration value="down,right"/>
-            <!--<xs:enumeration value="down,left"/>-->
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:simpleType name="dataFormatEnum">
         <xs:union memberTypes="xs:string">
             <xs:simpleType>
@@ -1828,18 +1819,6 @@
                 <xs:restriction base="xs:string">
                     <xs:enumeration value="HH:mm"/>
                     <xs:enumeration value="HH:mm:ss"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:union>
-    </xs:simpleType>
-    <xs:simpleType name="defaultTimeEnum">
-        <xs:union memberTypes="xs:string">
-            <xs:simpleType>
-                <xs:restriction base="xs:string">
-                    <xs:enumeration value="now()"/>
-                    <xs:enumeration value="00:00"/>
-                    <xs:enumeration value="12:00"/>
-                    <xs:enumeration value="23:59"/>
                 </xs:restriction>
             </xs:simpleType>
         </xs:union>
@@ -2147,24 +2126,6 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:simpleType name="searchTypeEnumeration">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="eq"/>
-            <xs:enumeration value="notEq"/>
-            <xs:enumeration value="isNull"/>
-            <xs:enumeration value="isNotNull"/>
-            <xs:enumeration value="in"/>
-            <xs:enumeration value="notIn"/>
-            <xs:enumeration value="more"/>
-            <xs:enumeration value="less"/>
-            <xs:enumeration value="eqOrIsNull"/>
-            <xs:enumeration value="inOrIsNull"/>
-            <xs:enumeration value="like"/>
-            <xs:enumeration value="likeStart"/>
-            <xs:enumeration value="contains"/>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:complexType name="controlCheckboxDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
@@ -2239,13 +2200,6 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="single"/>
             <xs:enumeration value="multi"/>
-            <xs:enumeration value="checkboxes"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="multiType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="radio"/>
             <xs:enumeration value="checkboxes"/>
         </xs:restriction>
     </xs:simpleType>
@@ -2342,13 +2296,13 @@
             <xs:element name="in" type="preFilterDefValuesWithBody" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="like" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="likeStart" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNull" type="preFilterDefBaseIsNull" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="contains" type="preFilterDefValuesWithBody" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="more" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="less" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="notEq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="notIn" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNotNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNotNull" type="preFilterDefBaseIsNotNull" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -2366,6 +2320,30 @@
                 <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="preFilterDefBaseIsNull">
+        <xs:complexContent>
+            <xs:extension base="preFieldDefBase">
+                <xs:attribute name="value" type="xs:string" use="optional" default="is:null">
+                    <xs:annotation>
+                        <xs:documentation>Значение фильтра (одно значение).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="preFilterDefBaseIsNotNull">
+        <xs:complexContent>
+            <xs:extension base="preFieldDefBase">
+                <xs:attribute name="value" type="xs:string" use="optional" default="is:notnull">
+                    <xs:annotation>
+                        <xs:documentation>Значение фильтра (одно значение).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="preFilterDefValue">
@@ -2442,21 +2420,6 @@
                 <xs:attribute name="value" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение предустановки (одно значение).</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="preFieldDefValues">
-        <xs:complexContent>
-            <xs:extension base="preFieldDefValue">
-                <xs:annotation>
-                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-                </xs:annotation>
-                <xs:attribute name="values" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Значения предустановки (через запятую).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

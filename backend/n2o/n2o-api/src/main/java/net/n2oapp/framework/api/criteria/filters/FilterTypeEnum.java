@@ -21,8 +21,6 @@ public enum FilterTypeEnum implements N2oEnum {
     IN("in", ArityEnum.N_ARY),
     NOT_IN("notIn", ArityEnum.N_ARY),
     IN_OR_IS_NULL("inOrIsNull", ArityEnum.N_ARY),
-    INFINITE("infinite", ArityEnum.NULLARY),
-    EMPTY("empty", ArityEnum.NULLARY),
     LIKE("like", ArityEnum.UNARY),
     LIKE_START("likeStart", ArityEnum.UNARY),
     OVERLAPS("overlaps", ArityEnum.N_ARY),

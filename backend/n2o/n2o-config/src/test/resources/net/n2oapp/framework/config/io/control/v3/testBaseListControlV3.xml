@@ -33,7 +33,7 @@
         <contains field-id="test" value="1" values="1,2,3"/>
         <in field-id="test" value="1" values="1,2,3"/>
         <isNotNull field-id="test"/>
-        <isNull field-id="test"/>
+        <isNull field-id="test" value="is:null"/>
         <less field-id="test" value="1"/>
         <like field-id="test" value="1"/>
         <likeStart field-id="test" value="1"/>

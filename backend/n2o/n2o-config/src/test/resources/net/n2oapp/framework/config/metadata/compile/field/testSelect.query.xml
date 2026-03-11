@@ -7,6 +7,8 @@
         <contains filter-id="name" field-id="name"/>
         <eq filter-id="ref" field-id="ref"/>
         <notEq filter-id="noRef" field-id="ref"/>
+        <isNotNull field-id="parent" filter-id="parent"/>
+        <isNull field-id="parent2" filter-id="parent2"/>
     </filters>
     <fields>
         <field id="id"/>
@@ -14,5 +16,7 @@
         <field id="country"/>
         <field id="name"/>
         <field id="ref" select="false"/>
+        <field id="parent"/>
+        <field id="parent2"/>
     </fields>
 </query>

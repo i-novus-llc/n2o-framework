@@ -19,6 +19,8 @@
                                 <value>2</value>
                                 <value>3</value>
                             </contains>
+                            <isNotNull field-id="parent"/>
+                            <isNull field-id="parent2"/>
                         </filters>
                     </input-select>
                     <input-select id="testId2" query-id="testSelect"
@@ -53,6 +55,8 @@
                                 <value>2</value>
                                 <value>3</value>
                             </contains>
+                            <isNotNull field-id="parent" value="test"/>
+                            <isNull field-id="parent2" value="test2"/>
                         </filters>
                     </input-select>
                 </filters>

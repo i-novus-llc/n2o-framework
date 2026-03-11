@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.util;
 
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.Submit;
@@ -66,7 +67,7 @@ public class N2oClientDataProviderUtil {
                 queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterId()));
                 queryParam.setRequired(preFilter.getRequired());
                 if (preFilter.getParam() == null) {
-                    queryParam.setValueList(getPrefilterValue(preFilter));
+                    queryParam.setValueList(getPrefilterValue(preFilter, p));
                     queryParam.setModel(preFilter.getModel());
                     queryParam.setDatasourceId(preFilter.getDatasourceId());
                     if (queryParam.getDatasourceId() == null && preFilter.getRefWidgetId() != null) {
@@ -133,7 +134,14 @@ public class N2oClientDataProviderUtil {
         return dataProvider;
     }
 
-    private static Object getPrefilterValue(N2oPreFilter n2oPreFilter) {
+    private static Object getPrefilterValue(N2oPreFilter n2oPreFilter, CompileProcessor p) {
+        if (n2oPreFilter.getValueAttr() == null && n2oPreFilter.getType() != null) {
+            if (n2oPreFilter.getType() == FilterTypeEnum.IS_NULL)
+                return p.resolve(property("n2o.api.filter.is_null.value"));
+            if (n2oPreFilter.getType() == FilterTypeEnum.IS_NOT_NULL)
+                return p.resolve(property("n2o.api.filter.is_not_null.value"));
+        }
+
         if (n2oPreFilter.getValues() == null) {
             return ScriptProcessor.resolveExpression(n2oPreFilter.getValue());
         } else {
