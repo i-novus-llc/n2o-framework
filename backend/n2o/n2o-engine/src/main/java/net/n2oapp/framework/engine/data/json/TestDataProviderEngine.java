@@ -624,9 +624,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     private List<DataSet> isNullFilterData(String field, List<DataSet> data) {
         return data.stream()
-                .filter(m -> m.containsKey(field) && m.get(field) == null)
+                .filter(m -> m.get(field) == null)
                 .collect(Collectors.toCollection(ArrayList::new));
-
     }
 
     private List<DataSet> isNotNullFilterData(String field, List<DataSet> data) {

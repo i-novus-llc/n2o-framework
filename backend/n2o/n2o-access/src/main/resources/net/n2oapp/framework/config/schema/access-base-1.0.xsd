@@ -44,8 +44,6 @@
 
     <xs:simpleType name="filterTypeEnumeration">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="infinite"/>
-            <xs:enumeration value="empty"/>
             <xs:enumeration value="eq"/>
             <xs:enumeration value="notEq"/>
             <xs:enumeration value="isNull"/>
