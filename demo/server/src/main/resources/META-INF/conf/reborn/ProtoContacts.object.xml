@@ -13,7 +13,7 @@
     <operations>
         <operation id="create">
             <invocation>
-                <sql>insert into pim_indiv_contact (indiv_id, value, type_id) values (:indiv_id, :value, :type_id)</sql>
+                <sql>insert into pim_indiv_contact (indiv_id, "value", type_id) values (:indiv_id, :value, :type_id)</sql>
             </invocation>
             <in>
                 <field id="type.id" mapping="['type_id']"/>
@@ -27,7 +27,7 @@
         </operation>
         <operation id="update">
             <invocation>
-                <sql>update pim_indiv_contact set indiv_id = :indiv_id, value = :value, type_id = :type_id where id = :id</sql>
+                <sql>update pim_indiv_contact set indiv_id = :indiv_id, "value" = :value, type_id = :type_id where id = :id</sql>
             </invocation>
             <in>
                 <field id="id" mapping="['id']"/>
