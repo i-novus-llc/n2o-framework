@@ -9,7 +9,10 @@ import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.control.*;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.ColRegion;
+import net.n2oapp.framework.autotest.api.component.region.FlexRowRegion;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableSimpleHeader;
@@ -321,7 +324,9 @@ public class ProtoPage {
     }
 
     private TableWidget getTable() {
-        return page.regions().region(0, PanelRegion.class).content().widget(TableWidget.class);
+        return getMainRegion()
+                .region(0, ColRegion.class).content()
+                .widget(TableWidget.class);
     }
 
     private <T extends Cell> T getTableCell(int row, int col, Class<T> componentClass) {
@@ -333,10 +338,20 @@ public class ProtoPage {
     }
 
     private Fields getCardFields() {
-        return page.regions().region(2, PanelRegion.class).content().widget(FormWidget.class).fields();
+        return getMainRegion()
+                .region(1, ColRegion.class).content()
+                .region(1, PanelRegion.class).content()
+                .widget(FormWidget.class).fields();
     }
 
     private ListWidget getContacts() {
-        return page.regions().region(1, PanelRegion.class).content().widget(ListWidget.class);
+        return getMainRegion()
+                .region(1, ColRegion.class).content()
+                .region(0, PanelRegion.class).content()
+                .widget(ListWidget.class);
+    }
+
+    private RegionItems getMainRegion() {
+        return page.regions().region(0, FlexRowRegion.class).content();
     }
 }

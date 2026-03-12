@@ -171,7 +171,6 @@ class DemoIntegrationAT {
     void testTableSorting() {
         List<String> unsortedSurnameColumn = new ArrayList<>(
                 List.of(new String[]{
-                        "Михалёва",
                         "Яблочкин",
                         "Яшнова",
                         "Глоба",
@@ -181,6 +180,7 @@ class DemoIntegrationAT {
                         "Меркушев",
                         "Летова",
                         "Чечин",
+                        "Камкин",
                 })
         );
 
@@ -628,12 +628,12 @@ class DemoIntegrationAT {
         protoPage.getGenderCard().shouldBeChecked("Женский");
         protoPage.getVIPCard().shouldBeChecked();
 
-        protoPage.selectClient(5);
-        protoPage.tableCellShouldHaveText(5, 1, "Сергеева");
+        protoPage.selectClient(4);
+        protoPage.tableCellShouldHaveText(4, 1, "Вольваков");
         protoPage.contactsListShouldHaveText(0, "+7950267859");
-        protoPage.getSurnameCard().shouldHaveValue("Сергеева");
-        protoPage.getFirstnameCard().shouldHaveValue("Анастасия");
-        protoPage.getGenderCard().shouldBeChecked("Женский");
+        protoPage.getSurnameCard().shouldHaveValue("Вольваков");
+        protoPage.getFirstnameCard().shouldHaveValue("Вениамин");
+        protoPage.getGenderCard().shouldBeChecked("Мужской");
         protoPage.getVIPCard().shouldBeChecked();
     }
 
