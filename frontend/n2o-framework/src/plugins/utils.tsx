@@ -1,3 +1,4 @@
+import React, { ComponentType } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import merge from 'lodash/merge'
@@ -45,4 +46,12 @@ export const getFromSource = (
     }
 
     return props
+}
+
+export const WithComponentId = (defaultId: string) => {
+    return <P extends object>(Component: ComponentType<P>) => {
+        return (props: P & { id?: string }) => {
+            return <Component {...props} id={props.id || defaultId} />
+        }
+    }
 }
