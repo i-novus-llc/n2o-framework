@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "test1",
+    "checkbox": true,
+    "rating": 3,
+    "edit": "test1"
+  },
+  {
+    "id": 2,
+    "name": "test2",
+    "checkbox": false,
+    "rating": 4,
+    "edit": "test2"
+  },
+  {
+    "id": 3,
+    "name": "test3",
+    "checkbox": true,
+    "rating": 5,
+    "edit": "test3"
+  }
+]

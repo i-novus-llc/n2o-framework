@@ -629,6 +629,10 @@
           "name": "TableSelectionAT. testSelectionNoneElementResolved"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/table/selection/none_cell",
+          "name": "TableSelectionAT. testNoneSelectionCell"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/table/selection/none",
           "name": "TableSelectionAT. testNoneSelection"
         },
