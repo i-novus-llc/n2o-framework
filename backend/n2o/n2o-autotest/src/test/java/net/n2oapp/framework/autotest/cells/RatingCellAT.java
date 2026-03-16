@@ -55,7 +55,7 @@ class RatingCellAT extends AutoTestBase {
         //проверка не редактируемых ячеек
         rows.row(0).cell(0, RatingCell.class).shouldHaveMax(10);
         rows.row(0).cell(0, RatingCell.class).shouldHaveValue("8");
-        rows.row(0).cell(0, RatingCell.class).value("5");
+        rows.row(0).cell(0, RatingCell.class).setValue("5");
         rows.row(0).cell(0, RatingCell.class).shouldHaveValue("8");
 
         //проверка редактируемых ячеек
@@ -63,7 +63,7 @@ class RatingCellAT extends AutoTestBase {
         cell.shouldHaveMax(10);
         Alerts alerts = simplePage.alerts(Alert.PlacementEnum.TOP);
 
-        cell.value("5");
+        cell.setValue("5");
         cell.shouldExists();
         cell.shouldHaveValue("5");
         alerts.shouldHaveSize(1);

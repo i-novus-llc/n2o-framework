@@ -24,7 +24,7 @@ public class N2oRatingCell extends N2oCell implements RatingCell {
     }
 
     @Override
-    public void value(String value) {
+    public void setValue(String value) {
         element().$$(".rating__label")
                 .find(Condition.attributeMatching("for", String.format("rating-%s.*", value)))
                 .click();

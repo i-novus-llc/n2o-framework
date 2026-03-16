@@ -23,5 +23,5 @@ public interface RatingCell extends Cell {
      * Выбор значения рейтинга
      * @param value значение рейтинга
      */
-    void value(String value);
+    void setValue(String value);
 }

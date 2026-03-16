@@ -2,11 +2,9 @@ package net.n2oapp.framework.autotest.widget.table;
 
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
-import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
-import net.n2oapp.framework.autotest.api.component.cell.LinkCell;
-import net.n2oapp.framework.autotest.api.component.cell.RadioCell;
-import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
+import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -113,6 +111,53 @@ class TableSelectionAT extends AutoTestBase {
         alert.shouldExists();
     }
 
+    /**
+     * Клик по ячейкам не должен выделять строку
+     */
+    @Test
+    void testNoneSelectionCell() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/none_cell");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none_cell/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none_cell/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(0, TableWidget.class);
+
+        TableWidget.Rows rows = table.columns().rows();
+        rows.shouldHaveSize(3);
+        rows.shouldNotHaveSelectedRows();
+        Cells row = rows.row(1);
+
+        row.cell(0).element().click();
+        rows.shouldNotHaveSelectedRows();
+
+        CheckboxCell checkboxCell = row.cell(2, CheckboxCell.class);
+        checkboxCell.shouldBeUnchecked();
+        checkboxCell.setChecked(true);
+        checkboxCell.shouldBeChecked();
+        rows.shouldNotHaveSelectedRows();
+
+        RatingCell ratingCell = row.cell(3, RatingCell.class);
+        ratingCell.shouldHaveValue("4");
+        ratingCell.setValue("2");
+        ratingCell.shouldHaveValue("2");
+        rows.shouldNotHaveSelectedRows();
+
+        EditCell editCell = row.cell(4, EditCell.class);
+        editCell.control(InputText.class).shouldHaveValue("test2");
+        editCell.click();
+        editCell.control(InputText.class).setValue("test");
+        editCell.control(InputText.class).shouldHaveValue("test");
+        rows.shouldNotHaveSelectedRows();
+
+        row.cell(5, ToolbarCell.class).toolbar().button("Кнопка").click();
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP_LEFT).alert(0);
+        alert.shouldExists();
+        rows.shouldNotHaveSelectedRows();
+    }
+
     @Test
     void testRadioSelection() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/radio");
@@ -216,8 +261,8 @@ class TableSelectionAT extends AutoTestBase {
     void testSelectionNoneElementResolved() {
         setResourcePath("net/n2oapp/framework/autotest/widget/table/selection/elements_resolve");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/elements_resolve/index.page.xml"),
-                        new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/elements_resolve/modal.page.xml"),
-                        new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/elements_resolve/test.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/elements_resolve/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/elements_resolve/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
