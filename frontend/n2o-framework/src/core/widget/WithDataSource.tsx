@@ -4,11 +4,10 @@ import { Dispatch } from 'redux'
 
 import { WithDataSource as DataSourceHOC } from '../datasource/WithDataSource'
 import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../utils/emptyTypes'
-import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
+import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { updatePaging } from '../../ducks/datasource/store'
-import { ModelPrefix } from '../datasource/const'
+import { ModelPrefix } from '../models/types'
 import { State } from '../../ducks/State'
-import { type State as ModelsState } from '../../ducks/models/Models'
 
 import { FETCH_TYPE } from './const'
 import { DataSourceContext, METHODS } from './context'
@@ -113,7 +112,7 @@ export const WithDatasourceLifeCycle = <P extends object>(Component: ComponentTy
 }
 
 const mapStateToProps = (state: State, { datasource }: { datasource: string }) => {
-    const dataSourceModel = dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state) as ModelsState['datasource']
+    const dataSourceModel = getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)(state)
 
     return { datasourceModelLength: dataSourceModel?.length || 0 }
 }

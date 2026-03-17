@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import set from 'lodash/set'
 import cloneDeep from 'lodash/cloneDeep'
 
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { useDataSourceMethodsContext } from '../../../core/widget/context'
 
@@ -16,7 +16,7 @@ export const useChangeFilter = (onUpdateFilter: onFilterType, id: string) => {
 
     return useCallback((filterData) => {
         const state = store.getState()
-        const filterModel = dataSourceModelByPrefixSelector(id, ModelPrefix.filter)(state) as DataType || {}
+        const filterModel = getModelByPrefixAndNameSelector(ModelPrefix.filter, id)(state) || {}
         const newFilter = cloneDeep(filterModel)
 
         set(newFilter, filterData.id, filterData.value)

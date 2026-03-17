@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import defaultTo from 'lodash/defaultTo'
+import isEqual from 'lodash/isEqual'
 import { useSelector } from 'react-redux'
 import { createContext, useContext as useContextSelector } from 'use-context-selector'
 import isEmpty from 'lodash/isEmpty'
@@ -9,8 +10,8 @@ import { Scrollbar } from '@i-novus/n2o-components/lib/layouts/Scroll/Bar'
 import { N2OPagination } from '../Table/N2OPagination'
 import StandardWidget from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
+import { ModelPrefix } from '../../../core/models/types'
 import { ChildrenToggleState, TableActions, TableContainer } from '../../Table'
 import { Selection } from '../../../ducks/table/Table'
 import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../../utils/emptyTypes'
@@ -55,23 +56,21 @@ const Widget = ({
     const [filterErrors, setFilterErrors] = useState({})
 
     const datasourceModel = useSelector((state: State) => {
-        const model = dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state) || EMPTY_ARRAY
+        const model = getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)(state) || EMPTY_ARRAY
 
         return dataMapper(model)
     }) as Data
-    const filterModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.filter))
+    const activeModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, datasource))
+    const activeRef = useRef(activeModel)
+    const filterModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.filter, datasource))
     const selectedRows = useSelector((state: State) => {
-        const models = dataSourceModelByPrefixSelector(datasource, ModelPrefix.selected)(state) as Array<Record<string, unknown>> || EMPTY_ARRAY
+        const models = getModelByPrefixAndNameSelector(ModelPrefix.selected, datasource)(state) || EMPTY_ARRAY
 
         if (models.length) { return models.map(({ id }) => id) }
 
         return EMPTY_ARRAY
     }) as SelectedRows
-    const focusedRowValue = useSelector((state: State) => {
-        const model = dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)(state) as { id: string }
-
-        return model ? model.id : null
-    })
+    const focusedRowValue = (activeModel?.id as string) || null
 
     const validateFilterField = useCallback((id, model, reset = false) => {
         const validation = validations[id]
@@ -186,11 +185,24 @@ const Widget = ({
     const onClickToolbarActionButton = useCallback((model) => { setActiveModel(model) }, [setActiveModel])
     const isNeedSetResolveModel = table.rowSelection !== Selection.None && defaultTo(table.autoSelect, true)
 
-    useEffect(() => {
-        if (isNeedSetResolveModel && datasourceModel) {
-            setResolve(datasourceModel[0])
+    activeRef.current = activeModel
+
+    useEffect((): void => {
+        if (!isNeedSetResolveModel) { return }
+        if (!datasourceModel?.length) {
+            // eslint-disable-next-line consistent-return
+            return setResolve(null)
         }
-    }, [datasourceModel, setResolve, isNeedSetResolveModel])
+
+        const activeModel = activeRef.current
+
+        // eslint-disable-next-line consistent-return
+        if (!activeModel) { return setResolve(datasourceModel[0]) }
+
+        const containsActive = datasourceModel.some(model => ((model.id === activeModel.id) || isEqual(model, activeModel)))
+
+        if (!containsActive) { setResolve(datasourceModel[0]) }
+    }, [datasourceModel, setResolve, isNeedSetResolveModel, activeRef])
 
     useExpandAllRows(setExpandedRows, children as ChildrenToggleState, datasourceModel)
 

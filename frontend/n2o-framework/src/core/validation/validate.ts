@@ -1,14 +1,14 @@
 import { Dispatch } from 'redux'
 
 import {
-    dataSourceModelByPrefixSelector,
     dataSourceValidationSelector,
     dataSourcePageIdSelector,
 } from '../../ducks/datasource/selectors'
 import { makePageUrlByIdSelector } from '../../ducks/pages/selectors'
+import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { endValidation } from '../../ducks/datasource/store'
 import type { State as GlobalState } from '../../ducks/State'
-import { ModelPrefix } from '../datasource/const'
+import { ModelPrefix, FormModelPrefix } from '../models/types'
 
 import { hasError, validateModel } from './validateModel'
 import { ValidationsKey } from './types'
@@ -28,7 +28,7 @@ import { addFieldMessages } from './addFieldMessages'
 export const validate = async (
     state: GlobalState,
     datasourceId: string,
-    prefix = ModelPrefix.active,
+    prefix: FormModelPrefix = ModelPrefix.active,
     dispatch: Dispatch | ((arg: unknown) => void) = () => {},
     touched = false,
 ) => {
@@ -36,7 +36,7 @@ export const validate = async (
         datasourceId,
         prefix === ModelPrefix.filter ? ValidationsKey.FilterValidations : ValidationsKey.Validations,
     )(state)
-    const model = dataSourceModelByPrefixSelector(datasourceId, prefix)(state) as Record<string, unknown>
+    const model = getModelByPrefixAndNameSelector(prefix, datasourceId)(state)
 
     const pageId = dataSourcePageIdSelector(datasourceId)(state) || ''
     const pageUrl = makePageUrlByIdSelector(pageId)(state)

@@ -2,8 +2,8 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 import { withWidgetHandlers } from '../hocs/withWidgetHandlers'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
+import { ModelPrefix } from '../../../core/models/types'
 
 import { Cards } from './Cards'
 import { type CardsContainerProps } from './types'
@@ -18,7 +18,7 @@ const CardsContainerBody = ({
     height,
     datasource,
 }: CardsContainerProps) => {
-    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as Array<{ id: string }>
+    const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)) as Array<{ id: string }>
 
     return (
         <Cards

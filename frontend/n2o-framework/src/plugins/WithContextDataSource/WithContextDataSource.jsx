@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 import { addComponent, register, removeComponent } from '../../ducks/datasource/store'
 import { resolveExpression } from '../withItemsResolver/utils'
 import { DataSourceContext } from '../../core/widget/context'
-import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
-import { ModelPrefix } from '../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
+import { ModelPrefix } from '../../core/models/types'
 
 import { queryMappingResolver } from './utils'
 
@@ -32,7 +32,7 @@ export function WithContextDataSource(Component) {
 
         const hasSource = datasources && datasource
         const { key: queryKey, value } = resolveExpression(location, path)
-        const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source))
+        const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource))
 
         const dispatch = useDispatch()
         const { setResolve } = useContext(DataSourceContext)

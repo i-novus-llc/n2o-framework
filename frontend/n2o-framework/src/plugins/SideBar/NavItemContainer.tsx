@@ -9,8 +9,7 @@ import { ModelPrefix } from '../../core/datasource/const'
 import { FactoryContext } from '../../core/factory/context'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
 import { parseExpression } from '../../core/Expression/parse'
-import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
-import { type Model } from '../../ducks/models/selectors'
+import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 
 export interface SidebarItemContainer {
     className?: string
@@ -37,7 +36,7 @@ export function NavItemContainer({
     datasource,
     level = 1,
 }: SidebarItemContainer) {
-    const model = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)) as Model
+    const model = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, datasource))
     const item = getFromSource(itemProps, datasources, model, datasource)
     const { src, className: itemClassName, style } = item
 

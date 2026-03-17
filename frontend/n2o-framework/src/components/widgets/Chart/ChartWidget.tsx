@@ -5,7 +5,7 @@ import StandardWidget, { type Props as StandardWidgetProps } from '../StandardWi
 import { StandardFieldset } from '../Form/fieldsets'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { mapToNumeric } from '../../../tools/helpers'
 
@@ -38,7 +38,7 @@ function Widget({
 }: ChartWidgetProps) {
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps]) as StandardWidgetProps['filter']
-    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as DataItem[]
+    const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource))
 
     const { type } = chart
 
@@ -69,7 +69,7 @@ function Widget({
                     {...chart}
                     width={width}
                     height={height}
-                    data={datasourceModel}
+                    data={datasourceModel as unknown as DataItem[]}
                 />
             </div>
         </StandardWidget>

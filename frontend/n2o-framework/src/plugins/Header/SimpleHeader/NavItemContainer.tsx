@@ -6,12 +6,11 @@ import { ButtonDropdownProps } from 'reactstrap'
 import { WithDataSource, type WithDataSourceProps } from '../../../core/datasource/WithDataSource'
 import { getFromSource } from '../../utils'
 import { type metaPropsType } from '../../CommonMenuTypes'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { ModelPrefix } from '../../../core/models/types'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 import { Item, FactoryComponent } from '../../CommonMenuTypes'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
-import { Model } from '../../../ducks/models/selectors'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
 
 interface NavItemContainerProps extends WithDataSourceProps {
     itemProps: Item
@@ -22,7 +21,7 @@ interface NavItemContainerProps extends WithDataSourceProps {
 
 const NavItemContainer = ({ itemProps, active, datasources, direction }: NavItemContainerProps) => {
     const datasource = get(itemProps, 'datasource')
-    const model = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)) as Model
+    const model = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, datasource))
 
     const item = getFromSource(itemProps, datasources, model, datasource)
     const { src } = item
