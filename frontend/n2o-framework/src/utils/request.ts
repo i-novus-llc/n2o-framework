@@ -80,11 +80,17 @@ type ParseParam = {
     parseJson?: boolean
 }
 
-export default function request(url: string, options: RequestInit = {}, { parseJson }: ParseParam = {}) {
+function fetchWrapper(url: string, options: RequestInit = {}): Promise<Response> {
     const token = getCookie(CSRF_TOKEN_NAME)
 
     return fetchWithToken(url, options, token)
         .then(retryOnUpdateToken(url, options, token))
+}
+
+export { fetchWrapper as fetch }
+
+export default function request(url: string, options: RequestInit = {}, { parseJson = true }: ParseParam = {}) {
+    return fetchWrapper(url, options)
         .then(checkStatus)
         .then(parseResponse(parseJson))
 }
