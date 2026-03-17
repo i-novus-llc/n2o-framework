@@ -3,8 +3,8 @@ import isNil from 'lodash/isNil'
 import uniqueId from 'lodash/uniqueId'
 import classNames from 'classnames'
 
-import { TBaseInputProps, TBaseProps } from '../../types'
-import { HelpPopover } from '../../display/HelpPopover'
+import type { TBaseInputProps, TBaseProps } from '../../types'
+import { HelpPopover, type HelpPopoverProps } from '../../display/HelpPopover'
 import { Input } from '../Input'
 import { Text } from '../../Typography/Text'
 
@@ -21,16 +21,16 @@ import { Text } from '../../Typography/Text'
  * @reactProps {boolean} inline - в ряд
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Props = TBaseProps & TBaseInputProps<any> & {
-    checked?: boolean,
-    help?: string, // Подсказка в popover
-    inline?: boolean, // Флаг рендера label в одну строку с контролом
-    label?: string,
-    onClick?(event: MouseEvent<HTMLDivElement>): void,
-    tabIndex?: number,
-    forwardedRef?: RefObject<HTMLDivElement>,
-    inputRef?: LegacyRef<HTMLInputElement>,
+type Enhancer = HelpPopoverProps & TBaseProps & TBaseInputProps<unknown>
+
+export interface Props extends Enhancer {
+    checked?: boolean
+    inline?: boolean // Флаг рендера label в одну строку с контролом
+    label?: string
+    onClick?(event: MouseEvent<HTMLDivElement>): void
+    tabIndex?: number
+    forwardedRef?: RefObject<HTMLDivElement>
+    inputRef?: LegacyRef<HTMLInputElement>
     preventDefault?: boolean
 }
 
@@ -45,7 +45,8 @@ export class Checkbox extends Component<Props> {
         const { className, label, disabled, value,
             inline, checked, help, tabIndex,
             style, onClick, onFocus, onChange,
-            onBlur, forwardedRef, inputRef, preventDefault = false } = this.props
+            onBlur, forwardedRef, inputRef,
+            helpTrigger, helpPlacement, preventDefault = false } = this.props
 
         const { id } = this.state
 
@@ -86,7 +87,7 @@ export class Checkbox extends Component<Props> {
                     label={label}
                 />
                 <label className={classNames('custom-control-label', { disabled })} htmlFor={id}><Text>{label}</Text></label>
-                {help && <HelpPopover help={help} />}
+                {help && <HelpPopover help={help} helpTrigger={helpTrigger} helpPlacement={helpPlacement} />}
             </div>
         )
     }

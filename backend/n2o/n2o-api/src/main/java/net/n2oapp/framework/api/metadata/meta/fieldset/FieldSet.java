@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.FieldLabelAlignEnum;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.FieldLabelLocationEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.meta.badge.Badge;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
@@ -28,6 +29,8 @@ public abstract class FieldSet extends Component implements Compiled {
     private String description;
     @JsonProperty
     private String help;
+    @JsonProperty
+    private TriggerEnum helpTrigger;
     @JsonProperty
     private LabelPositionEnum labelPosition;
     @JsonProperty

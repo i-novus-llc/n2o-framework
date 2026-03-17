@@ -21,4 +21,11 @@ public interface Help extends Element {
     default void clickHelp() {
         element().$(".n2o-popover-btn").click();
     }
+
+    /**
+     * Наведение курсора для вызова подсказки
+     */
+    default void hoverHelp() {
+        element().$(".n2o-popover-btn").hover();
+    }
 }

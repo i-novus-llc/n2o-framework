@@ -1,13 +1,13 @@
 import React, { useContext, ReactNode } from 'react'
 import { Panel as BasePanel } from '@i-novus/n2o-components/lib/display/Panel/Panel'
-import { HelpPopover } from '@i-novus/n2o-components/lib/display/HelpPopover'
+import { HelpPopover, type HelpPopoverProps } from '@i-novus/n2o-components/lib/display/HelpPopover'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 import classNames from 'classnames'
 
 import Label from '../../widgets/Form/fields/StandardField/Label'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
-import { Props as BadgeProps } from '../Badge/Badge'
+import { type Props as BadgeProps } from '../Badge/Badge'
 
 /**
  * Панель Collapse
@@ -24,14 +24,13 @@ import { Props as BadgeProps } from '../Badge/Badge'
  * @constructor
  */
 
-interface PanelHeaderProps {
+interface PanelHeaderProps extends HelpPopoverProps {
     header?: string | ReactNode
-    help?: string
     description?: string
     badge?: BadgeProps
 }
 
-function PanelHeader({ header, help, description, badge }: PanelHeaderProps) {
+function PanelHeader({ header, help, helpTrigger, helpPlacement, description, badge }: PanelHeaderProps) {
     const { getComponent } = useContext(FactoryContext)
     const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
 
@@ -47,7 +46,7 @@ function PanelHeader({ header, help, description, badge }: PanelHeaderProps) {
                     </span>
                 </FactoryBadge>
             )}
-            <HelpPopover help={help || null} />
+            <HelpPopover help={help} helpTrigger={helpTrigger} helpPlacement={helpPlacement} />
             <Label className="n2o-fieldset__description" value={description} />
         </div>
     )
@@ -57,7 +56,6 @@ export type Props = {
     type?: string
     collapsible?: boolean
     badge?: BadgeProps
-    className?: string
     hasSeparator?: boolean
     headerClass?: string
     children?: ReactNode
@@ -73,6 +71,8 @@ export const Panel = ({
     children,
     description,
     help,
+    helpTrigger,
+    helpPlacement,
     badge,
     type = 'default',
     collapsible = true,
@@ -81,7 +81,16 @@ export const Panel = ({
 }: Props) => (
     <BasePanel
         hasSeparator={hasSeparator}
-        header={<PanelHeader header={header} help={help} description={description} badge={badge} />}
+        header={(
+            <PanelHeader
+                header={header}
+                help={help}
+                helpTrigger={helpTrigger}
+                helpPlacement={helpPlacement}
+                description={description}
+                badge={badge}
+            />
+        )}
         className={classNames('n2o-collapse-panel', type, className, {
             'with-description': description,
             'with-badge': badge,

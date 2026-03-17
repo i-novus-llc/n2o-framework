@@ -6,7 +6,7 @@
                        add-label="Добавить участника" remove-all-label="Удалить всех участников"
                        can-remove-first="true" can-add="false" can-remove="false"
                        can-remove-all="true" can-copy="true" description="description"
-                       primary-key="pk" generate-primary-key="true">
+                       primary-key="pk" generate-primary-key="true" help="This is {help}" help-trigger="hover">
             </multi-set>
             <multi-set src="test" children-label="{members[index].name}"/>
             <multi-set id="set1" can-add="false" label="set 1">

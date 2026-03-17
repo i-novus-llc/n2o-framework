@@ -1,22 +1,25 @@
 import React, { RefObject, createRef, MouseEvent } from 'react'
 import { UncontrolledPopover, PopoverBody, PopoverProps } from 'reactstrap'
 import DOMPurify from 'dompurify'
+import classNames from 'classnames'
 
 import { id } from '../utils/id'
 import { Text } from '../Typography/Text'
 
-type Props = {
-    help: string | null,
+export interface HelpPopoverProps {
+    help?: string | null | Node
     icon?: string,
-    placement?: PopoverProps['placement']
+    helpPlacement?: PopoverProps['placement']
+    helpTrigger?: 'hover' | 'focus' | 'click'
+    className?: string
 }
 
-export class HelpPopover extends React.Component<Props> {
+export class HelpPopover extends React.Component<HelpPopoverProps> {
     fieldId: string
 
     button: RefObject<HTMLButtonElement>
 
-    constructor(props: Props) {
+    constructor(props: HelpPopoverProps) {
         super(props)
 
         this.fieldId = id()
@@ -32,14 +35,16 @@ export class HelpPopover extends React.Component<Props> {
     render() {
         const {
             help,
-            placement = 'right',
+            className,
+            helpTrigger = 'focus',
+            helpPlacement = 'right',
             icon = 'fa fa-question-circle',
         } = this.props
 
         if (!help) { return null }
 
         return (
-            <div className="n2o-popover">
+            <div className={classNames('n2o-popover', className)}>
                 <button
                     onClick={this.focusOnClick}
                     className="n2o-popover-btn"
@@ -52,17 +57,14 @@ export class HelpPopover extends React.Component<Props> {
                 </button>
                 <UncontrolledPopover
                     className="n2o-popover-body"
-                    placement={placement}
+                    placement={helpPlacement}
+                    trigger={helpTrigger}
                     target={this.fieldId}
-                    trigger="focus"
                 >
                     <PopoverBody>
-                        {
-                            typeof help === 'string'
-                                ? <Text>{help}</Text>
-                                /* eslint-disable-next-line react/no-danger */
-                                : <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(help) }} />
-                        }
+                        {typeof help === 'string'
+                            ? <Text>{help}</Text>
+                            : <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(help) }} />}
                     </PopoverBody>
                 </UncontrolledPopover>
             </div>

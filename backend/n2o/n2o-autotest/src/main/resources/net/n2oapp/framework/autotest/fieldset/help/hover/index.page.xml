@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Филдсеты и поля с подсказками при наведении курсора на иконку с вопросом">
+    <form>
+        <fields>
+            <set label="SetFieldSet" help="Подсказка1" help-trigger="hover">
+                <input-text id="f1" label="InputText" help="Подсказка2" help-trigger="hover"/>
+                <date-time id="f2" label="DateTime" help="Подсказка3" help-trigger="hover"/>
+                <checkbox id="f3" label="Checkbox" help="Подсказка4" help-trigger="hover"/>
+            </set>
+            <line label="LineFieldSet" help="Подсказка5" help-trigger="hover">
+                <input-select id="f4" label="InputSelect" help="Подсказка6" help-trigger="hover"/>
+                <date-interval id="f5" label="DateInterval" help="Подсказка7" help-trigger="hover"/>
+            </line>
+             <multi-set label="MultiSet" help="Подсказка8" help-trigger="hover" id="ms">
+                 <output-text id="f6"/>
+             </multi-set>
+        </fields>
+    </form>
+</simple-page>

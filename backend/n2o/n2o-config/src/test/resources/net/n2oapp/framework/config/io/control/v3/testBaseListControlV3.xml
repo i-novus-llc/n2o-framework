@@ -17,7 +17,7 @@
               format="testFormat"
               cache="true"
               sort-field-id="sortFieldId"
-              size="10"
+              size="10" help="Подсказка" help-trigger="hover"
               status-field-id="testStatus">
     <default-value id="1" name="testName" isTest="true"/>
     <default-values>

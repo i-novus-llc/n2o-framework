@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode } from 'react'
 import { Props as BadgeProps } from '@i-novus/n2o-components/lib/display/Badge/Badge'
+import { type HelpPopoverProps } from '@i-novus/n2o-components/lib/display/HelpPopover'
 
 export type Rows = string[]
 export type Render = (rows: Rows, options?: {
@@ -8,16 +9,14 @@ export type Render = (rows: Rows, options?: {
 }) => ReactNode
 export type FieldsetModel = Record<string, unknown> | Array<Record<string, unknown>>
 
-export interface FieldsetProps {
+export interface FieldsetProps extends HelpPopoverProps {
     // INFO параметр classes для кастомизации стилей обертки withFieldsetHeader
     classes?: string
-    className?: string
     style?: CSSProperties
     needLabel?: boolean
     needDescription?: boolean
     description: string
     label: string
-    help: string
     type: string
     childrenLabel?: string
     enabled?: boolean

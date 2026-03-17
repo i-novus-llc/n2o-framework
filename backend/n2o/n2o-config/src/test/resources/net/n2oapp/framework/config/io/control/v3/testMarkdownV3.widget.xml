@@ -5,7 +5,7 @@
                   param="main_id"
                   visible="name != null"
                   ref-model="filter"
-                  ref-page="parent"
+                  ref-page="parent" help="Подсказка" help-trigger="hover"
                   ref-datasource="main" ref-field-id="field"
         >
             markdown text

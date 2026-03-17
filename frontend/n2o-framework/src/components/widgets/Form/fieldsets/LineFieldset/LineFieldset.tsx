@@ -7,7 +7,8 @@ import { type FieldsetProps } from '../types'
 
 export type Props = Pick<FieldsetProps,
     'rows' | 'render' | 'disabled' | 'type' | 'label' |
-    'expand' | 'className' | 'hasSeparator' | 'description' | 'help' | 'collapsible' | 'badge'
+    'expand' | 'className' | 'hasSeparator' | 'description' |
+    'help' | 'helpTrigger' | 'helpPlacement' | 'collapsible' | 'badge'
 >
 
 function LineFieldset({
@@ -20,6 +21,8 @@ function LineFieldset({
     hasSeparator = true,
     description,
     help,
+    helpTrigger,
+    helpPlacement,
     disabled = false,
     collapsible,
     badge,
@@ -32,6 +35,8 @@ function LineFieldset({
         hasSeparator,
         description,
         help,
+        helpTrigger,
+        helpPlacement,
         disabled,
         badge,
         type,

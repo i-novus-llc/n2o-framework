@@ -11,9 +11,10 @@ import { Label } from '../../fields/StandardField/Label'
 import { type FieldsetProps } from '../types'
 
 export type Props = Pick<FieldsetProps,
-    'rows' | 'render' | 'disabled' | 'label' |
-    'className' | 'subTitle' | 'help' | 'badge' |
-    'description' | 'type' | 'showLine'
+    'rows' | 'render' | 'disabled' |
+    'label' | 'subTitle' | 'className' |
+    'badge' | 'description' | 'type' |
+    'showLine' | 'help' | 'helpTrigger' | 'helpPlacement'
 >
 
 function TitleFieldsetBody({
@@ -23,6 +24,8 @@ function TitleFieldsetBody({
     className,
     subTitle,
     help,
+    helpTrigger,
+    helpPlacement,
     badge,
     description,
     type,
@@ -40,7 +43,7 @@ function TitleFieldsetBody({
                         {label && <span className="title-fieldset-text"><Text>{label}</Text></span>}
                     </FactoryBadge>
                 )}
-                <HelpPopover help={help} />
+                <HelpPopover help={help} helpTrigger={helpTrigger} helpPlacement={helpPlacement} />
                 <Label
                     className="n2o-fieldset__description line-description"
                     value={description}

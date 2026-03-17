@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeUtil;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
@@ -16,6 +17,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static net.n2oapp.framework.api.StringUtils.prepareSizeAttribute;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляции абстрактного филдсета
@@ -32,6 +35,8 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAndResolveAttributes(source));
         compiled.setHelp(p.resolveJS(source.getHelp()));
+        compiled.setHelpTrigger(castDefault(source.getHelpTrigger(), () -> p.resolve(property("n2o.api.fieldset.help_trigger"), TriggerEnum.class)));
+
         compiled.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
 
         if (source.getFieldLabelLocation() != null) {

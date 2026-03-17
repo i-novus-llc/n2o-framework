@@ -49,19 +49,19 @@ class SetFieldSetCompileTest extends SourceCompileTestBase {
         List<FieldSet> fieldsets = form.getComponent().getFieldsets();
         assertThat(fieldsets.size(), is(2));
 
-        assertThat(fieldsets.get(0).getRows().size(), is(2));
-        assertThat(fieldsets.get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id1"));
-        assertThat(fieldsets.get(0).getRows().get(1).getCols().get(0).getFields().get(0).getId(), is("id2"));
+        assertThat(fieldsets.getFirst().getRows().size(), is(2));
+        assertThat(fieldsets.getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst().getId(), is("id1"));
+        assertThat(fieldsets.getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst().getId(), is("id2"));
 
         assertThat(fieldsets.get(1), instanceOf(LineFieldSet.class));
         List<FieldSet.Row> fieldSetRows = fieldsets.get(1).getRows();
         assertThat(fieldSetRows.size(), is(3));
-        assertThat(fieldSetRows.get(0).getCols().get(0).getFields().get(0).getId(), is("id3"));
-        assertThat(fieldSetRows.get(1).getCols().get(0).getFields().get(0).getId(), is("id4"));
-        assertThat(fieldSetRows.get(2).getCols().get(0).getFieldsets().get(0), instanceOf(LineFieldSet.class));
-        assertThat(fieldSetRows.get(2).getCols().get(0).getFieldsets().get(0).getRows().size(), is(2));
-        assertThat(fieldSetRows.get(2).getCols().get(0).getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id5"));
-        assertThat(fieldSetRows.get(2).getCols().get(0).getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0).getId(), is("id6"));
+        assertThat(fieldSetRows.getFirst().getCols().getFirst().getFields().getFirst().getId(), is("id3"));
+        assertThat(fieldSetRows.get(1).getCols().getFirst().getFields().getFirst().getId(), is("id4"));
+        assertThat(fieldSetRows.get(2).getCols().getFirst().getFieldsets().getFirst(), instanceOf(LineFieldSet.class));
+        assertThat(fieldSetRows.get(2).getCols().getFirst().getFieldsets().getFirst().getRows().size(), is(2));
+        assertThat(fieldSetRows.get(2).getCols().getFirst().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst().getId(), is("id5"));
+        assertThat(fieldSetRows.get(2).getCols().getFirst().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst().getId(), is("id6"));
     }
 
     @Test
@@ -69,29 +69,29 @@ class SetFieldSetCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithRow.page.xml")
                 .get(new PageContext("testSetFieldsetCompileWithRow"));
         Form form = (Form) page.getWidget();
-        List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
+        List<FieldSet.Row> rows = form.getComponent().getFieldsets().getFirst().getRows();
         assertThat(rows.size(), is(2));
 
-        FieldSet.Row row = rows.get(0);
-        assertThat(row.getProperties().get("attr"), is("extAttr"));;
+        FieldSet.Row row = rows.getFirst();
+        assertThat(row.getProperties().get("attr"), is("extAttr"));
         assertThat(row.getCols().size(), is(2));
-        assertThat(row.getCols().get(0).getFields().size(), is(1));
-        assertThat(row.getCols().get(0).getFields().get(0).getId(), is("id1"));
+        assertThat(row.getCols().getFirst().getFields().size(), is(1));
+        assertThat(row.getCols().getFirst().getFields().getFirst().getId(), is("id1"));
         assertThat(row.getCols().get(1).getFields().size(), is(1));
-        assertThat(row.getCols().get(1).getFields().get(0).getId(), is("id2"));
+        assertThat(row.getCols().get(1).getFields().getFirst().getId(), is("id2"));
 
         row = rows.get(1);
         assertThat(row.getCols().size(), is(4));
-        assertThat(row.getCols().get(0).getFields().size(), is(1));
-        assertThat(row.getCols().get(0).getFields().get(0).getId(), is("id3"));
+        assertThat(row.getCols().getFirst().getFields().size(), is(1));
+        assertThat(row.getCols().getFirst().getFields().getFirst().getId(), is("id3"));
         assertThat(row.getCols().get(1).getFields().size(), is(1));
-        assertThat(row.getCols().get(1).getFields().get(0).getId(), is("id4"));
-        assertThat(row.getCols().get(2).getFieldsets().get(0), instanceOf(SetFieldSet.class));
-        assertThat(row.getCols().get(2).getFieldsets().get(0).getRows().get(0).getCols().size(), is(2));
-        assertThat(row.getCols().get(2).getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id5"));
-        assertThat(row.getCols().get(2).getFieldsets().get(0).getRows().get(0).getCols().get(1).getFields().get(0).getId(), is("id6"));
-        assertThat(row.getCols().get(3).getFieldsets().get(0), instanceOf(LineFieldSet.class));
-        assertThat(row.getCols().get(3).getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id7"));
+        assertThat(row.getCols().get(1).getFields().getFirst().getId(), is("id4"));
+        assertThat(row.getCols().get(2).getFieldsets().getFirst(), instanceOf(SetFieldSet.class));
+        assertThat(row.getCols().get(2).getFieldsets().getFirst().getRows().getFirst().getCols().size(), is(2));
+        assertThat(row.getCols().get(2).getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst().getId(), is("id5"));
+        assertThat(row.getCols().get(2).getFieldsets().getFirst().getRows().getFirst().getCols().get(1).getFields().getFirst().getId(), is("id6"));
+        assertThat(row.getCols().get(3).getFieldsets().getFirst(), instanceOf(LineFieldSet.class));
+        assertThat(row.getCols().get(3).getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst().getId(), is("id7"));
     }
 
     @Test
@@ -99,29 +99,29 @@ class SetFieldSetCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testSetFieldsetCompileWithCols.page.xml")
                 .get(new PageContext("testSetFieldsetCompileWithCols"));
         Form form = (Form) page.getWidget();
-        List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
+        List<FieldSet.Row> rows = form.getComponent().getFieldsets().getFirst().getRows();
         assertThat(rows.size(), is(2));
 
-        FieldSet.Row row = rows.get(0);
+        FieldSet.Row row = rows.getFirst();
         assertThat(row.getCols().size(), is(1));
-        assertThat(row.getCols().get(0).getVisible(), is("`a==b`"));
-        assertThat(row.getCols().get(0).getFields().size(), is(2));
-        assertThat(row.getCols().get(0).getFields().get(0).getId(), is("id1"));
-        assertThat(row.getCols().get(0).getFields().get(1).getId(), is("id2"));
+        assertThat(row.getCols().getFirst().getVisible(), is("`a==b`"));
+        assertThat(row.getCols().getFirst().getFields().size(), is(2));
+        assertThat(row.getCols().getFirst().getFields().getFirst().getId(), is("id1"));
+        assertThat(row.getCols().getFirst().getFields().get(1).getId(), is("id2"));
 
         row = rows.get(1);
         assertThat(row.getCols().size(), is(1));
-        assertThat(row.getCols().get(0).getFieldsets().size(), is(2));
-        List<FieldSet.Row> fieldSetRows = row.getCols().get(0).getFieldsets().get(0).getRows();
+        assertThat(row.getCols().getFirst().getFieldsets().size(), is(2));
+        List<FieldSet.Row> fieldSetRows = row.getCols().getFirst().getFieldsets().getFirst().getRows();
         assertThat(fieldSetRows.size(), is(4));
-        assertThat(fieldSetRows.get(0).getCols().get(0).getFields().get(0).getId(), is("id3"));
-        assertThat(fieldSetRows.get(1).getCols().get(0).getFields().get(0).getId(), is("id4"));
+        assertThat(fieldSetRows.getFirst().getCols().getFirst().getFields().getFirst().getId(), is("id3"));
+        assertThat(fieldSetRows.get(1).getCols().getFirst().getFields().getFirst().getId(), is("id4"));
         assertThat(fieldSetRows.get(2).getCols().size(), is(2));
-        assertThat(fieldSetRows.get(2).getCols().get(0).getFields().get(0).getId(), is("id5"));
-        assertThat(fieldSetRows.get(2).getCols().get(1).getFields().get(0).getId(), is("id6"));
-        assertThat(fieldSetRows.get(3).getCols().get(0).getFields().get(0).getId(), is("id7"));
+        assertThat(fieldSetRows.get(2).getCols().getFirst().getFields().getFirst().getId(), is("id5"));
+        assertThat(fieldSetRows.get(2).getCols().get(1).getFields().getFirst().getId(), is("id6"));
+        assertThat(fieldSetRows.get(3).getCols().getFirst().getFields().getFirst().getId(), is("id7"));
 
-        assertThat(row.getCols().get(0).getFieldsets().get(1), instanceOf(LineFieldSet.class));
+        assertThat(row.getCols().getFirst().getFieldsets().get(1), instanceOf(LineFieldSet.class));
     }
 
     @Test
@@ -133,7 +133,7 @@ class SetFieldSetCompileTest extends SourceCompileTestBase {
         List<FieldSet> fieldSets = form.getComponent().getFieldsets();
         assertThat(fieldSets.size(), is(4));
 
-        FieldSet fieldSet = fieldSets.get(0);
+        FieldSet fieldSet = fieldSets.getFirst();
         assertThat(fieldSet.getEnabled(), nullValue());
         assertThat(fieldSet.getVisible(), nullValue());
         assertThat(fieldSet.getDependency(), nullValue());
@@ -181,12 +181,12 @@ class SetFieldSetCompileTest extends SourceCompileTestBase {
         validation = validations.get(2);
         assertThat(validation.getId(), is("id2"));
         assertThat(validation.getEnablingConditions().size(), is(1));
-        assertThat(validation.getEnablingConditions().get(0), is("fieldset1Condition"));
+        assertThat(validation.getEnablingConditions().getFirst(), is("fieldset1Condition"));
 
         validation = validations.get(3);
         assertThat(validation.getId(), is("id3"));
         assertThat(validation.getEnablingConditions().size(), is(1));
-        assertThat(validation.getEnablingConditions().get(0), is("fieldset1Condition"));
+        assertThat(validation.getEnablingConditions().getFirst(), is("fieldset1Condition"));
 
         validation = validations.get(4);
         assertThat(validation.getId(), is("id4"));

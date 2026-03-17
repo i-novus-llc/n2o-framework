@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.fieldset;
 
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.fieldset.MultiFieldSet;
@@ -45,7 +46,7 @@ class MultiFieldSetCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidget();
         List<FieldSet> fieldsets = form.getComponent().getFieldsets();
 
-        MultiFieldSet multiFieldSet = (MultiFieldSet) fieldsets.get(0);
+        MultiFieldSet multiFieldSet = (MultiFieldSet) fieldsets.getFirst();
         assertThat(multiFieldSet, allOf(
                 hasProperty("src", is("MultiFieldset")),
                 hasProperty("label", is("Заголовок")),
@@ -61,7 +62,9 @@ class MultiFieldSetCompileTest extends SourceCompileTestBase {
                 hasProperty("needCopyButton", is(true)),
                 hasProperty("description", is("description")),
                 hasProperty("primaryKey", is("pk")),
-                hasProperty("generatePrimaryKey", is(true))
+                hasProperty("generatePrimaryKey", is(true)),
+                hasProperty("help", is("`'This is '+help`")),
+                hasProperty("helpTrigger", is(TriggerEnum.HOVER))
         ));
 
         MultiFieldSet multiFieldSet2 = (MultiFieldSet) fieldsets.get(1);
@@ -76,17 +79,19 @@ class MultiFieldSetCompileTest extends SourceCompileTestBase {
                 hasProperty("needCopyButton", is(false)),
                 hasProperty("description", nullValue()),
                 hasProperty("primaryKey", is("id")),
-                hasProperty("generatePrimaryKey", is(false))
+                hasProperty("generatePrimaryKey", is(false)),
+                hasProperty("help", nullValue()),
+                hasProperty("helpTrigger", is(TriggerEnum.CLICK))
         ));
 
         List<Validation> validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("set1[index].input_2");
         assertThat(validations.size(), is(1));
-        assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("(function(){return false}).call(this)"));
-        assertThat(validations.get(0).getMessage(), is("invalid"));
+        assertThat(((ConditionValidation) validations.getFirst()).getExpression(), is("(function(){return false}).call(this)"));
+        assertThat(validations.getFirst().getMessage(), is("invalid"));
         validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("set1[index].set2[$index_1].input_1");
         assertThat(validations.size(), is(1));
-        assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("(function(){return false}).call(this)"));
-        assertThat(validations.get(0).getMessage(), is("invalid"));
+        assertThat(((ConditionValidation) validations.getFirst()).getExpression(), is("(function(){return false}).call(this)"));
+        assertThat(validations.getFirst().getMessage(), is("invalid"));
 
         multiFieldSet = (MultiFieldSet) fieldsets.get(3);
         assertThat(multiFieldSet.getBadge(), allOf(

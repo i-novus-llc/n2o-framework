@@ -77,7 +77,6 @@
             <xs:element name="checkbox-group" type="controlOptionsListInlineDefinitionCheckboxGroup" minOccurs="0"/>
             <xs:element name="radio-group" type="controlOptionsListInlineDefinitionRadioGroup" minOccurs="0"/>
             <xs:element name="select" type="controlSelectDefinition" minOccurs="0"/>
-            <!--<xs:element name="select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>-->
             <xs:element name="input-select" type="controlInputSelectDefinition" minOccurs="0"/>
             <xs:element name="input-select-tree" type="inputSelectTreeDefinition" minOccurs="0"/>
             <xs:element name="search-buttons" type="controlSearchButtonsDefinition" minOccurs="0"/>
@@ -226,6 +225,11 @@
         <xs:attribute name="help" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Подсказка по полю. Поддерживаются плейсхолдеры условия</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="help-trigger" type="bs:triggerType" default="click">
+            <xs:annotation>
+                <xs:documentation>Способ активации подсказки</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="label" type="xs:string">
@@ -998,14 +1002,6 @@
             <xs:enumeration value="java"/>
         </xs:restriction>
     </xs:simpleType>
-
-    <!--<xs:complexType name="updateModelPreFilterDefinition">-->
-    <!--<xs:complexContent>-->
-    <!--<xs:extension base="controlPreFilterDefinition">-->
-    <!--<xs:attribute name="on-change" type="xs:boolean"  use="optional"/>-->
-    <!--</xs:extension>-->
-    <!--</xs:complexContent>-->
-    <!--</xs:complexType>-->
 
     <xs:complexType name="controlTextAreaDefinition">
         <xs:annotation>

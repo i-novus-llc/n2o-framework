@@ -19,6 +19,8 @@ export function withFieldsetHeader(Component: ComponentProps) {
         description,
         label,
         help,
+        helpTrigger,
+        helpPlacement,
         type,
         childrenLabel,
         enabled,
@@ -40,6 +42,8 @@ export function withFieldsetHeader(Component: ComponentProps) {
                     needDescription={needDescription}
                     badge={badge}
                     help={help}
+                    helpTrigger={helpTrigger}
+                    helpPlacement={helpPlacement}
                 />
                 <Component
                     childrenLabel={childrenLabel}
@@ -53,6 +57,8 @@ export function withFieldsetHeader(Component: ComponentProps) {
                     visible={visible}
                     render={render}
                     help={help}
+                    helpTrigger={helpTrigger}
+                    helpPlacement={helpPlacement}
                 />
             </div>
         )

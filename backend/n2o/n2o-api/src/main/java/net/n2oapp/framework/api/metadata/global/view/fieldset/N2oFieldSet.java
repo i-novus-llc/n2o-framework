@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.FieldsetItem;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 import net.n2oapp.framework.api.metadata.meta.badge.BadgeAware;
 import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
@@ -32,6 +33,7 @@ public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttrib
     private String visible;
     private String enabled;
     private String help;
+    private TriggerEnum helpTrigger;
     private String badge;
     private String badgeColor;
     private PositionEnum badgePosition;

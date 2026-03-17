@@ -9,6 +9,7 @@
            field-label-location="left"
            field-label-width="100px"
            help="help"
+           help-trigger="hover"
            label="child-label"
            src="test"
            add-label="addLabel"
