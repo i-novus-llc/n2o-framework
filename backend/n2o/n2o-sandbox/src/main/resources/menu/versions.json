@@ -55,7 +55,8 @@
         {
           "templateId": "versions/7.29/sticky_header_footer",
           "name": "Фиксация шапки и подвала таблицы"
-        },{
+        },
+        {
           "templateId": "versions/7.29/resize_table_settings",
           "name": "Настройка вариантов количества отображаемых записей таблицы"
         },
@@ -90,6 +91,10 @@
         {
           "templateId": "versions/7.29/text_area_max_length",
           "name": "Ограничение на количество вводимых символов в text-area"
+        },
+        {
+          "templateId": "versions/7.29/help_trigger_hover",
+          "name": "Филдсеты и поля с подсказками при наведении курсора"
         }
       ]
     },

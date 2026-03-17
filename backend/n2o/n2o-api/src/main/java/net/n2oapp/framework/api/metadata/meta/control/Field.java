@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class Field extends Component {
     private String description;
     @JsonProperty
     private String help;
+    @JsonProperty
+    private TriggerEnum helpTrigger;
     @JsonProperty
     private Group[] toolbar;
     @JsonProperty("dependency")

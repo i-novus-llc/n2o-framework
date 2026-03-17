@@ -1,7 +1,7 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <fields>
         <select id="select1" type="checkboxes" cleanable="false" description-field-id="descFieldId"
-                select-format="Объектов {size} шт" select-format-one="{size} объект"
+                select-format="Объектов {size} шт" select-format-one="{size} объект" help="Подсказка" help-trigger="hover"
                 select-format-few="{size} объекта" select-format-many="{size} объектов"
                 badge-shape="rounded" badge-position="right" badge-image-field-id="image"
                 badge-image-position="right" badge-image-shape="square" datasource="ds"/>

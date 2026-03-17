@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oFilterColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
@@ -72,8 +73,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         source.setNoLabelBlock(castDefault(source.getNoLabelBlock(),
                 () -> p.resolve(property("n2o.api.control.no_label_block"), String.class)));
         if (source.getRefDatasourceId() != null ||
-            source.getRefModel() != null ||
-            source.getRefFieldId() != null)
+                source.getRefModel() != null ||
+                source.getRefFieldId() != null)
             source.setUsingRef(true);
         source.setRefPage(castDefault(source.getRefPage(), PageRefEnum.THIS));
         source.setRefDatasourceId(castDefault(source.getRefDatasourceId(), () -> {
@@ -107,6 +108,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 : p.resolveJS(source.getNoLabelBlock()));
         field.setLabelClass(p.resolveJS(source.getLabelClass()));
         field.setHelp(p.resolveJS(source.getHelp()));
+        field.setHelpTrigger(castDefault(source.getHelpTrigger(), () -> p.resolve(property("n2o.api.control.help_trigger"), TriggerEnum.class)));
         field.setDescription(p.resolveJS(source.getDescription()));
         field.setClassName(p.resolveJS(source.getCssClass()));
         initCondition(source, source::getVisible, new N2oField.VisibilityDependency(), field::setVisible, !FALSE.equals(source.getVisible()));
@@ -138,7 +140,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         } catch (ScriptParserException e) {
             throw new N2oException(
                     String.format("Невозможно извлечь переменные из выражения '%s'. Попробуйте использовать зависимость полей " +
-                                  "с явным указанием переменных в атрибуте 'on'",
+                                    "с явным указанием переменных в атрибуте 'on'",
                             StringUtils.unwrapLink(expression)));
         }
     }
@@ -178,7 +180,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         if (source.getOn() != null)
             compiled.getOn().addAll(Set.of(source.getOn()));
         else if (Boolean.TRUE.equals(p.resolve(property("n2o.api.control.dependency.requiring.validate"), Boolean.class)) &&
-                 !hasContext(compiled.getExpression()))
+                !hasContext(compiled.getExpression()))
             compiled.getOn().addAll(extractOnVariables(compiled.getExpression()));
 
         field.addDependency(compiled);
@@ -198,7 +200,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             FetchValueDependency fetchValueDependency = new FetchValueDependency();
             fetchValueDependency.setType(ValidationTypeEnum.FETCH_VALUE);
             fetchValueDependency.setValueFieldId(fetchValue.getValueFieldId());
-            fetchValueDependency.setDataProvider(compileFetchDependencyDataProvider((N2oField.FetchValueDependency) source, context, p));
+            fetchValueDependency.setDataProvider(compileFetchDependencyDataProvider(fetchValue, context, p));
             return fetchValueDependency;
         } else if (source instanceof N2oField.EnablingDependency enabling) {
             EnablingDependency enablingDependency = new EnablingDependency();
@@ -363,101 +365,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return mandatory;
     }
 
-    private List<Validation> initInlineValidations(String fieldId, S source,
-                                                   CompileContext<?, ?> context, CompileProcessor p,
-                                                   Set<String> visibilityConditions) {
-
-        List<Validation> result = new ArrayList<>();
-        N2oField.Validations validations = source.getValidations();
-        if (validations == null) return result;
-        if (validations.getWhiteList() != null) {
-            for (String validation : validations.getWhiteList()) {
-                Validation compiledValidation = initWhiteListValidation(fieldId,
-                        validation,
-                        source, p,
-                        visibilityConditions);
-                if (compiledValidation != null)
-                    result.add(compiledValidation);
-            }
-        }
-        if (validations.getInlineValidations() != null) {
-            List<String> fieldVisibilityConditions = new ArrayList<>();
-            if (source.getDependencies() != null) {
-                for (N2oField.Dependency dependency : source.getDependencies()) {
-                    if (dependency.getClass().equals(N2oField.VisibilityDependency.class) ||
-                        dependency.getClass().equals(N2oField.EnablingDependency.class))
-                        fieldVisibilityConditions.add(dependency.getValue());
-                }
-            } else if (FALSE.equals(source.getVisible()) || FALSE.equals(source.getEnabled())) {
-                fieldVisibilityConditions.add(FALSE);
-            }
-
-            for (N2oValidation v : validations.getInlineValidations()) {
-                if (v.getFieldId() == null)
-                    v.setFieldId(fieldId);
-                Validation compiledValidation = p.compile(v, context);
-                MomentScope momentScope = p.getScope(MomentScope.class);
-                if (momentScope != null)
-                    compiledValidation.setMoment(momentScope.getMoment());
-                if (!fieldVisibilityConditions.isEmpty()) {
-                    compiledValidation.addEnablingConditions(fieldVisibilityConditions);
-                }
-                compiledValidation.addEnablingConditions(visibilityConditions);
-                result.add(compiledValidation);
-            }
-        }
-        return result;
-    }
-
-    private Validation initWhiteListValidation(String fieldId,
-                                               String refId,
-                                               S source,
-                                               CompileProcessor p,
-                                               Set<String> visibilityConditions) {
-        CompiledObject object = p.getScope(CompiledObject.class);
-        if (object == null)
-            return null;
-        Validation objectValidation = null;
-        if (object.getValidationsMap() != null && object.getValidationsMap().containsKey(refId)) {
-            objectValidation = object.getValidationsMap().get(refId);
-        } else {
-            if (object.getOperations() != null && !object.getOperations().isEmpty()) {
-                for (CompiledObject.Operation operation : object.getOperations().values()) {
-                    Optional<Validation> result = operation.getValidationList().stream().filter(v -> v.getId().equals(refId)).findFirst();
-                    if (result.isPresent()) {
-                        objectValidation = result.get();
-                        break;
-                    }
-                }
-            }
-        }
-        if (objectValidation == null) {
-            throw new N2oException(String.format("Поле '%s' содержит ссылку на несуществующую валидацию", fieldId));
-        }
-        Validation validation = null;
-        if (objectValidation instanceof ConstraintValidation constraint) {
-            validation = new ConstraintValidation(constraint);
-        } else if (objectValidation instanceof ConditionValidation condition) {
-            validation = new ConditionValidation(condition);
-        } else if (objectValidation instanceof MandatoryValidation mandatory) {
-            validation = new MandatoryValidation(mandatory);
-        }
-        if (validation == null)
-            return null;
-        List<String> enablingConditions = new ArrayList<>();
-        if (source.getDependencies() != null) {
-            for (N2oField.Dependency dependency : source.getDependencies()) {
-                if (dependency instanceof N2oField.VisibilityDependency) {
-                    enablingConditions.add(dependency.getValue());
-                }
-            }
-        }
-        validation.setFieldId(fieldId);
-        validation.addEnablingConditions(enablingConditions);
-        validation.addEnablingConditions(visibilityConditions);
-        return validation;
-    }
-
     private List<String> collectConditions(S source, Class... types) {
         List<String> result = new ArrayList<>();
         if (source.getDependencies() != null && types != null) {
@@ -482,6 +389,139 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
+    private List<Validation> initInlineValidations(String fieldId, S source,
+                                                   CompileContext<?, ?> context, CompileProcessor p,
+                                                   Set<String> visibilityConditions) {
+        List<Validation> result = new ArrayList<>();
+        N2oField.Validations validations = source.getValidations();
+        if (validations == null) return result;
+
+        // Обработка whiteList валидаций
+        if (validations.getWhiteList() != null) {
+            addWhiteListValidations(result, fieldId, source, p, visibilityConditions, validations);
+        }
+
+        // Обработка inline валидаций
+        if (validations.getInlineValidations() != null) {
+            addInlineValidations(result, fieldId, source, context, p, visibilityConditions, validations);
+        }
+
+        return result;
+    }
+
+    private void addWhiteListValidations(List<Validation> result, String fieldId, S source,
+                                         CompileProcessor p, Set<String> visibilityConditions,
+                                         N2oField.Validations validations) {
+        for (String validation : validations.getWhiteList()) {
+            Validation compiledValidation = initWhiteListValidation(fieldId, validation, source, p, visibilityConditions);
+            if (compiledValidation != null)
+                result.add(compiledValidation);
+        }
+    }
+
+    private void addInlineValidations(List<Validation> result, String fieldId, S source,
+                                      CompileContext<?, ?> context, CompileProcessor p,
+                                      Set<String> visibilityConditions,
+                                      N2oField.Validations validations) {
+        List<String> fieldVisibilityConditions = getFieldVisibilityConditions(source);
+
+        for (N2oValidation v : validations.getInlineValidations()) {
+            if (v.getFieldId() == null)
+                v.setFieldId(fieldId);
+            Validation compiledValidation = p.compile(v, context);
+            MomentScope momentScope = p.getScope(MomentScope.class);
+            if (momentScope != null)
+                compiledValidation.setMoment(momentScope.getMoment());
+            if (!fieldVisibilityConditions.isEmpty()) {
+                compiledValidation.addEnablingConditions(fieldVisibilityConditions);
+            }
+            compiledValidation.addEnablingConditions(visibilityConditions);
+            result.add(compiledValidation);
+        }
+    }
+
+    private List<String> getFieldVisibilityConditions(S source) {
+        List<String> fieldVisibilityConditions = new ArrayList<>();
+        if (source.getDependencies() != null) {
+            for (N2oField.Dependency dependency : source.getDependencies()) {
+                if (dependency.getClass().equals(N2oField.VisibilityDependency.class) ||
+                        dependency.getClass().equals(N2oField.EnablingDependency.class))
+                    fieldVisibilityConditions.add(dependency.getValue());
+            }
+        } else if (FALSE.equals(source.getVisible()) || FALSE.equals(source.getEnabled())) {
+            fieldVisibilityConditions.add(FALSE);
+        }
+        return fieldVisibilityConditions;
+    }
+
+    private Validation initWhiteListValidation(String fieldId,
+                                               String refId,
+                                               S source,
+                                               CompileProcessor p,
+                                               Set<String> visibilityConditions) {
+        CompiledObject object = p.getScope(CompiledObject.class);
+        if (object == null)
+            return null;
+
+        Validation objectValidation = findObjectValidation(refId, object);
+        if (objectValidation == null) {
+            throw new N2oException(String.format("Поле '%s' содержит ссылку на несуществующую валидацию", fieldId));
+        }
+
+        Validation validation = copyValidation(objectValidation);
+        if (validation == null)
+            return null;
+
+        List<String> enablingConditions = getVisibilityDependencyConditions(source);
+        validation.setFieldId(fieldId);
+        validation.addEnablingConditions(enablingConditions);
+        validation.addEnablingConditions(visibilityConditions);
+        return validation;
+    }
+
+    private Validation findObjectValidation(String refId, CompiledObject object) {
+        Validation objectValidation = null;
+        if (object.getValidationsMap() != null && object.getValidationsMap().containsKey(refId)) {
+            objectValidation = object.getValidationsMap().get(refId);
+        } else {
+            if (object.getOperations() != null && !object.getOperations().isEmpty()) {
+                for (CompiledObject.Operation operation : object.getOperations().values()) {
+                    Optional<Validation> result = operation.getValidationList().stream()
+                            .filter(v -> v.getId().equals(refId)).findFirst();
+                    if (result.isPresent()) {
+                        objectValidation = result.get();
+                        break;
+                    }
+                }
+            }
+        }
+        return objectValidation;
+    }
+
+    private Validation copyValidation(Validation objectValidation) {
+        Validation validation = null;
+        if (objectValidation instanceof ConstraintValidation constraint) {
+            validation = new ConstraintValidation(constraint);
+        } else if (objectValidation instanceof ConditionValidation condition) {
+            validation = new ConditionValidation(condition);
+        } else if (objectValidation instanceof MandatoryValidation mandatory) {
+            validation = new MandatoryValidation(mandatory);
+        }
+        return validation;
+    }
+
+    private List<String> getVisibilityDependencyConditions(S source) {
+        List<String> enablingConditions = new ArrayList<>();
+        if (source.getDependencies() != null) {
+            for (N2oField.Dependency dependency : source.getDependencies()) {
+                if (dependency instanceof N2oField.VisibilityDependency) {
+                    enablingConditions.add(dependency.getValue());
+                }
+            }
+        }
+        return enablingConditions;
+    }
+
     protected void compileDefaultValues(D control, S source, CompileContext<?, ?> context, CompileProcessor p) {
         WidgetParamScope paramScope = p.getScope(WidgetParamScope.class);
         if (paramScope != null) {
@@ -490,51 +530,88 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
         ModelsScope defaultValues = p.getScope(ModelsScope.class);
         if (defaultValues != null && defaultValues.hasModels()) {
-            Object defValue;
-            String controlId = getIdWithMultisetPrefix(control.getId(), p);
-            if (source.getDefaultValue() != null) {
-                defValue = p.resolve(source.getDefaultValue(), source.getDomain());
-            } else {
-                defValue = compileDefValues(source, p);
-            }
-            if (defValue != null) {
-                if (defValue instanceof String strDefValue) {
-                    defValue = ScriptProcessor.resolveExpression(strDefValue);
+            processDefaultValues(control, source, context, p, defaultValues);
+        }
+    }
+
+    private void processDefaultValues(D control, S source, CompileContext<?, ?> context,
+                                      CompileProcessor p, ModelsScope defaultValues) {
+        Object defValue;
+        String controlId = getIdWithMultisetPrefix(control.getId(), p);
+        if (source.getDefaultValue() != null) {
+            defValue = p.resolve(source.getDefaultValue(), source.getDomain());
+        } else {
+            defValue = compileDefValues(source, p);
+        }
+
+        if (defValue != null) {
+            processNonNullDefaultValue(control, source, context, p, defaultValues, defValue, controlId);
+        } else if (PageRefEnum.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
+            addParentRefDefaultValue(source, context, p, defaultValues, controlId);
+        }
+    }
+
+    private void processNonNullDefaultValue(D control, S source, CompileContext<?, ?> context,
+                                            CompileProcessor p, ModelsScope defaultValues,
+                                            Object defValue, String controlId) {
+        if (defValue instanceof String strDefValue) {
+            defValue = ScriptProcessor.resolveExpression(strDefValue);
+        }
+
+        if (StringUtils.isJs(defValue)) {
+            handleJsDefaultValue(source, context, p, defaultValues, defValue, controlId);
+        } else {
+            handleRegularDefaultValue(control, source, context, p, defaultValues, defValue, controlId);
+        }
+    }
+
+    private void handleJsDefaultValue(S source, CompileContext<?, ?> context,
+                                      CompileProcessor p, ModelsScope defaultValues,
+                                      Object defValue, String controlId) {
+        ModelLink defaultValue = getDefaultValueModelLink(source, context, p);
+        if (source.getRefFieldId() == null)
+            defaultValue.setValue(defValue);
+        if (!source.isUsingRef())
+            defaultValue.setObserve(false);
+        defaultValue.setParam(source.getParam());
+        defaultValues.add(controlId, defaultValue);
+    }
+
+    private void handleRegularDefaultValue(D control, S source, CompileContext<?, ?> context,
+                                           CompileProcessor p, ModelsScope defaultValues,
+                                           Object defValue, String controlId) {
+        SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
+        ModelLink modelLink = getDefaultValueModelLink(source, context, p);
+
+        if (defValue instanceof DefaultValues defVals) {
+            processDefaultValuesMap(defVals);
+        }
+
+        modelLink.setValue(defValue);
+        modelLink.setSubModelQuery(subModelQuery);
+        modelLink.setParam(source.getParam());
+        defaultValues.add(controlId, modelLink);
+    }
+
+    private void processDefaultValuesMap(DefaultValues defVals) {
+        Map<String, Object> values = defVals.getValues();
+        if (values != null) {
+            for (Map.Entry<String, Object> entry : values.entrySet()) {
+                if (entry.getValue() instanceof String strValue) {
+                    Object value = ScriptProcessor.resolveExpression(strValue);
+                    if (value != null)
+                        values.put(entry.getKey(), value);
                 }
-                if (StringUtils.isJs(defValue)) {
-                    ModelLink defaultValue = getDefaultValueModelLink(source, context, p);
-                    if (source.getRefFieldId() == null)
-                        defaultValue.setValue(defValue);
-                    if (!source.isUsingRef())
-                        defaultValue.setObserve(false);
-                    defaultValue.setParam(source.getParam());
-                    defaultValues.add(controlId, defaultValue);
-                } else {
-                    SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
-                    ModelLink modelLink = getDefaultValueModelLink(source, context, p);
-                    if (defValue instanceof DefaultValues defVals) {
-                        Map<String, Object> values = defVals.getValues();
-                        if (values != null) {
-                            for (Map.Entry<String, Object> entry : values.entrySet()) {
-                                if (entry.getValue() instanceof String strValue) {
-                                    Object value = ScriptProcessor.resolveExpression(strValue);
-                                    if (value != null)
-                                        values.put(entry.getKey(), value);
-                                }
-                            }
-                        }
-                    }
-                    modelLink.setValue(defValue);
-                    modelLink.setSubModelQuery(subModelQuery);
-                    modelLink.setParam(source.getParam());
-                    defaultValues.add(controlId, modelLink);
-                }
-            } else if (PageRefEnum.PARENT.equals(source.getRefPage()) || source.getRefFieldId() != null) {
-                ModelLink modelLink = getDefaultValueModelLink(source, context, p);
-                modelLink.setParam(source.getParam());
-                defaultValues.add(controlId, modelLink);
             }
         }
+    }
+
+    private void addParentRefDefaultValue(S source, CompileContext<?, ?> context,
+                                          CompileProcessor p, ModelsScope defaultValues,
+                                          String controlId) {
+        ModelLink modelLink = getDefaultValueModelLink(source, context, p);
+        modelLink.setParam(source.getParam());
+        defaultValues.add(controlId, modelLink);
     }
 
     /**

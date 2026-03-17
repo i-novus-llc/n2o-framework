@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.merge;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 class N2oFieldsetMergerTest extends SourceMergerTestBase {
 
@@ -52,6 +54,7 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getBadgeImagePosition(), is(PositionEnum.RIGHT));
         assertThat(fieldSet.getBadgeImageShape(), is(ShapeTypeEnum.ROUNDED));
         assertThat(fieldSet.getHelp(), is("help"));
+        assertThat(fieldSet.getHelpTrigger(), is(TriggerEnum.CLICK));
         assertThat(fieldSet.getSrc(), is("test"));
         assertThat(fieldSet.getItems().length, is(1));
         assertThat(((N2oField) fieldSet.getItems()[0]).getId(), is("parentField"));
@@ -73,6 +76,7 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
         assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocationEnum.LEFT));
         assertThat(fieldSet.getFieldLabelWidth(), is("100px"));
         assertThat(fieldSet.getHelp(), is("help"));
+        assertThat(fieldSet.getHelpTrigger(), is(TriggerEnum.HOVER));
         assertThat(fieldSet.getSrc(), is("test"));
         assertThat(fieldSet.getCollapsible(), is(false));
         assertThat(fieldSet.getHasSeparator(), is(false));
@@ -97,29 +101,32 @@ class N2oFieldsetMergerTest extends SourceMergerTestBase {
                 "net/n2oapp/framework/config/metadata/merge/fieldset/multi/childMultiFieldsetMerger.fieldset.xml")
                 .get("parentMultiFieldsetMerger", N2oMultiFieldSet.class);
 
-        assertThat(fieldSet.getVisible(), is("false"));
-        assertThat(fieldSet.getEnabled(), is("false"));
-        assertThat(fieldSet.getLabel(), is("parent-label"));
-        assertThat(fieldSet.getCssClass(), is("class"));
-        assertThat(fieldSet.getStyle(), is("color:red"));
-        assertThat(fieldSet.getDescription(), is("desc"));
-        assertThat(fieldSet.getFieldLabelAlign(), is(FieldLabelAlignEnum.LEFT));
-        assertThat(fieldSet.getFieldLabelLocation(), is(FieldLabelLocationEnum.LEFT));
-        assertThat(fieldSet.getFieldLabelWidth(), is("100px"));
-        assertThat(fieldSet.getHelp(), is("help"));
-        assertThat(fieldSet.getPrimaryKey(), is("testPK"));
-        assertThat(fieldSet.getGeneratePrimaryKey(), is(Boolean.TRUE));
-        assertThat(fieldSet.getSrc(), is("test"));
-        assertThat(fieldSet.getAddButtonLabel(), is("addLabel"));
-        assertThat(fieldSet.getChildrenLabel(), is("childrenLabel"));
-        assertThat(fieldSet.getFirstChildrenLabel(), is("firstChildrenLabel"));
-        assertThat(fieldSet.getRemoveAllButtonLabel(), is("removeAllLabel"));
-        assertThat(fieldSet.getCanAdd(), is("false"));
-        assertThat(fieldSet.getCanCopy(), is("false"));
-        assertThat(fieldSet.getCanRemove(), is("false"));
-        assertThat(fieldSet.getCanRemoveAll(), is("false"));
-        assertThat(fieldSet.getCanRemoveFirst(), is("false"));
-        assertThat(fieldSet.getItems().length, is(1));
+        assertThat(fieldSet, allOf(
+                hasProperty("visible", is("false")),
+                hasProperty("enabled", is("false")),
+                hasProperty("label", is("parent-label")),
+                hasProperty("cssClass", is("class")),
+                hasProperty("style", is("color:red")),
+                hasProperty("description", is("desc")),
+                hasProperty("fieldLabelAlign", is(FieldLabelAlignEnum.LEFT)),
+                hasProperty("fieldLabelLocation", is(FieldLabelLocationEnum.LEFT)),
+                hasProperty("fieldLabelWidth", is("100px")),
+                hasProperty("help", is("help")),
+                hasProperty("helpTrigger", is(TriggerEnum.HOVER)),
+                hasProperty("primaryKey", is("testPK")),
+                hasProperty("generatePrimaryKey", is(Boolean.TRUE)),
+                hasProperty("src", is("test")),
+                hasProperty("addButtonLabel", is("addLabel")),
+                hasProperty("childrenLabel", is("childrenLabel")),
+                hasProperty("firstChildrenLabel", is("firstChildrenLabel")),
+                hasProperty("removeAllButtonLabel", is("removeAllLabel")),
+                hasProperty("canAdd", is("false")),
+                hasProperty("canCopy", is("false")),
+                hasProperty("canRemove", is("false")),
+                hasProperty("canRemoveAll", is("false")),
+                hasProperty("canRemoveFirst", is("false")),
+                hasProperty("items", arrayWithSize(1))
+        ));
         assertThat(((N2oField) fieldSet.getItems()[0]).getId(), is("parentField"));
 
         fieldSet = merge("net/n2oapp/framework/config/metadata/merge/fieldset/multi/parentMultiFieldsetMerger2.fieldset.xml",

@@ -18,15 +18,18 @@ import { MultiFieldsetItem } from './MultiFieldsetItem'
 
 export type Props = Pick<FieldsetProps,
     'activeModel' | 'addButtonLabel' | 'canRemoveFirstItem' | 'childrenLabel' | 'enabled' |
-    'firstChildrenLabel' | 'generatePrimaryKey' | 'help' | 'label' | 'name' |
+    'firstChildrenLabel' | 'generatePrimaryKey' | 'label' | 'name' | 'help' | 'helpTrigger' | 'helpPlacement' |
     'needAddButton' | 'needRemoveAllButton' | 'primaryKey' | 'removeAllButtonLabel' | 'rows' | 'render'
 >
+
 function MultiFieldset({
     childrenLabel,
     enabled: enabledExpression,
     firstChildrenLabel,
     generatePrimaryKey,
     help,
+    helpTrigger,
+    helpPlacement,
     label,
     name = '',
     activeModel = EMPTY_OBJECT,
@@ -57,7 +60,7 @@ function MultiFieldset({
     return (
         <ArrayFieldProvider>
             <div className="n2o-multi-fieldset">
-                {help && !label && <HelpPopover help={help} />}
+                {help && !label && <HelpPopover help={help} helpTrigger={helpTrigger} helpPlacement={helpPlacement} />}
                 {fields.map((field, index) => {
                     if (!keysMap.has(field)) { keysMap.set(field, uuid()) }
 

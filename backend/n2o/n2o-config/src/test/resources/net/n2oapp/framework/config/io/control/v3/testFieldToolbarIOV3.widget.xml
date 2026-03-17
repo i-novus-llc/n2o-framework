@@ -5,7 +5,7 @@
         </action>
     </actions>
     <fields>
-        <input-text id="testInput">
+        <input-text id="testInput" help="Подсказка" help-trigger="hover">
             <toolbar>
                 <button>
                     <invoke operation-id="testInvoke"/>

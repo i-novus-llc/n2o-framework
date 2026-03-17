@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.fieldset;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.fieldset.LineFieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -18,6 +19,8 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasProperty;
 
 /**
  * Тестирование филдсета с горизонтальной линией
@@ -44,14 +47,18 @@ class LineFieldSetCompileTest extends SourceCompileTestBase {
         List<FieldSet> fields = form.getComponent().getFieldsets();
         assertThat(fields.size(), is(4));
 
-        LineFieldSet lineFieldSet = (LineFieldSet) fields.get(0);
-        assertThat(lineFieldSet.getSrc(), is("LineFieldset"));
-        assertThat(lineFieldSet.getType(), is("line"));
-        assertThat(lineFieldSet.getLabel(), is(nullValue()));
-        assertThat(lineFieldSet.getCollapsible(), is(true));
-        assertThat(lineFieldSet.getHasSeparator(), is(true));
-        assertThat(lineFieldSet.getExpand(), is(true));
-        assertThat(lineFieldSet.getDescription(), nullValue());
+        LineFieldSet lineFieldSet = (LineFieldSet) fields.getFirst();
+        assertThat(lineFieldSet, allOf(
+                hasProperty("src", is("LineFieldset")),
+                hasProperty("type", is("line")),
+                hasProperty("label", nullValue()),
+                hasProperty("collapsible", is(true)),
+                hasProperty("hasSeparator", is(true)),
+                hasProperty("expand", is(true)),
+                hasProperty("description", nullValue()),
+                hasProperty("help", nullValue()),
+                hasProperty("helpTrigger", is(TriggerEnum.CLICK))
+        ));
 
         LineFieldSet lineFieldSet2 = (LineFieldSet) fields.get(1);
         assertThat(lineFieldSet2.getSrc(), is("testLine"));
@@ -60,6 +67,8 @@ class LineFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(lineFieldSet2.getHasSeparator(), is(false));
         assertThat(lineFieldSet2.getExpand(), is(false));
         assertThat(lineFieldSet2.getDescription(), is("description"));
+        assertThat(lineFieldSet2.getHelp(), is("`'This is '+help`"));
+        assertThat(lineFieldSet2.getHelpTrigger(), is(TriggerEnum.HOVER));
 
         LineFieldSet lineFieldSetBadge = (LineFieldSet) fields.get(2);
         assertThat(lineFieldSetBadge.getBadge().getText(), is("`test`"));

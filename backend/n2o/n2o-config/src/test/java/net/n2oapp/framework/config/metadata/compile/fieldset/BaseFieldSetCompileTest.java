@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.fieldset;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -37,10 +38,11 @@ class BaseFieldSetCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testBaseFieldSetCompile.page.xml")
                 .get(new PageContext("testBaseFieldSetCompile"));
 
-        FieldSet fieldSet = ((Form) page.getWidget()).getComponent().getFieldsets().get(0);
+        FieldSet fieldSet = ((Form) page.getWidget()).getComponent().getFieldsets().getFirst();
 
         assertThat(fieldSet.getLabel(), is("`label`"));
         assertThat(fieldSet.getHelp(), is("`'This is '+help`"));
+        assertThat(fieldSet.getHelpTrigger(), is(TriggerEnum.HOVER));
         assertThat(fieldSet.getDescription(), is("description"));
         assertThat(fieldSet.getLabelPosition(), is(FieldSet.LabelPositionEnum.LEFT));
         assertThat(fieldSet.getLabelAlignment(), is(FieldSet.LabelAlignmentEnum.RIGHT));
@@ -62,6 +64,7 @@ class BaseFieldSetCompileTest extends SourceCompileTestBase {
                 hasProperty("visible", nullValue()),
                 hasProperty("enabled", nullValue())
         ));
+        assertThat(fieldSet.getHelpTrigger(), is(TriggerEnum.CLICK));
         assertThat(fieldSet.getJsonProperties(), nullValue());
 
         fieldSet = ((Form) page.getWidget()).getComponent().getFieldsets().get(2);
@@ -80,6 +83,5 @@ class BaseFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(fieldSet.getBadge().getImage(), is("test"));
         assertThat(fieldSet.getBadge().getImagePosition().getId(), is("right"));
         assertThat(fieldSet.getBadge().getImageShape().getId(), is("square"));
-
     }
 }

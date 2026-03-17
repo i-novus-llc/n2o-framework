@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Филдсеты и поля с подсказками при наведении курсора">
+    <form>
+        <datasource query-id="data"/>
+        <fields>
+            <set label="SetFieldSet" help="{setHelp}"
+                 help-trigger="hover">
+                <row>
+                    <input-text id="f1" label="InputText"
+                                help="{fieldHelp}" help-trigger="hover"/>
+                    <date-time id="f2" label="DateTime"
+                               help="{fieldHelp}" help-trigger="hover"/>
+                    <checkbox id="f3" label="Checkbox"
+                              help="{fieldHelp}" help-trigger="hover"/>
+                </row>
+            </set>
+            <line label="LineFieldSet"
+                  help="{lineHelp}" help-trigger="hover">
+                <row>
+                    <input-select id="f4" label="InputSelect"
+                                  help="{fieldHelp}" help-trigger="hover"/>
+                    <date-interval id="f5" label="DateInterval"
+                                   help="{fieldHelp}" help-trigger="hover"/>
+                </row>
+            </line>
+            <multi-set label="MultiSet" id="ms" can-add="false"
+                       help="{multisetHelp}" help-trigger="hover">
+                <hidden id="hidden"/>
+            </multi-set>
+        </fields>
+    </form>
+</simple-page>

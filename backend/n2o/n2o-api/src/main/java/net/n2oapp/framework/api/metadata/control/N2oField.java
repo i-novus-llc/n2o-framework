@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.PreFiltersAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
 import java.util.Arrays;
@@ -28,6 +29,7 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
     private String labelClass;
     private String description;
     private String help;
+    private TriggerEnum helpTrigger;
     private String domain;
     private String noLabel;
     private String noLabelBlock;

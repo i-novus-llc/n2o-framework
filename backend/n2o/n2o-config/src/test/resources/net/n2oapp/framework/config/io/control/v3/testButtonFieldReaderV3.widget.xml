@@ -6,7 +6,7 @@
                 visible="true" enabled="false" class="class" style="color: red" action-id="act1"
                 validate="true" datasource="ds1" validate-datasources="ds1,ds2"
                 badge-position="left" badge-shape="square" badge-image="/static/candidate.png"
-                badge-image-position="right" badge-image-shape="square">
+                badge-image-position="right" badge-image-shape="square" help="Подсказка" help-trigger="hover">
             <set-value to="field"/>
             <submit datasource="ds1"/>
             <a href="https://google.com?q={name}"/>

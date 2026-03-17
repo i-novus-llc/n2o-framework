@@ -35,17 +35,17 @@ class HelpMessageAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oApplicationPack(), new N2oWidgetsPack(),
                 new N2oFieldSetsPack(), new N2oControlsPack(), new N2oAllDataPack());
-        setResourcePath("net/n2oapp/framework/autotest/fieldset/help");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/fieldset/help/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/fieldset/help/test.query.xml"));
     }
 
     @Test
-    void testHelpMessage() {
+    void testHelpMessageClick() {
+        setResourcePath("net/n2oapp/framework/autotest/fieldset/help/click");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/fieldset/help/click/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/fieldset/help/click/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().crumb(0).shouldHaveLabel("Филдсеты и поля с подсказками");
+        page.breadcrumb().crumb(0).shouldHaveLabel("Филдсеты и поля с подсказками по клику на иконку с вопросом");
 
         SimpleFieldSet simpleFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class);
         simpleFieldSet.shouldHaveHelp();
@@ -73,5 +73,59 @@ class HelpMessageAT extends AutoTestBase {
         multiFieldSet.shouldHaveHelp();
         multiFieldSet.clickHelp();
         page.popover("Этот филдсет содержит поля: Имя и Возраст").shouldBeVisible();
+    }
+
+    @Test
+    void testHelpMessageHover() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/fieldset/help/hover/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Филдсеты и поля с подсказками при наведении курсора на иконку с вопросом");
+
+        SimpleFieldSet simpleFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class);
+        simpleFieldSet.shouldHaveHelp();
+        simpleFieldSet.hoverHelp();
+        page.popover("Подсказка1").shouldBeVisible();
+
+        StandardField field = simpleFieldSet.fields().field("InputText");
+        field.shouldExists();
+        field.shouldHaveHelp();
+        field.hoverHelp();
+        page.popover("Подсказка2").shouldBeVisible();
+
+        field = simpleFieldSet.fields().field("DateTime");
+        field.shouldExists();
+        field.shouldHaveHelp();
+        field.hoverHelp();
+        page.popover("Подсказка3").shouldBeVisible();
+
+        field = simpleFieldSet.fields().field("Checkbox");
+        field.shouldExists();
+        field.shouldHaveHelp();
+        field.hoverHelp();
+        page.popover("Подсказка4").shouldBeVisible();
+
+        LineFieldSet lineFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(1, LineFieldSet.class);
+        lineFieldSet.shouldHaveHelp();
+        lineFieldSet.hoverHelp();
+        page.popover("Подсказка5").shouldBeVisible();
+
+        field = lineFieldSet.fields().field("InputSelect");
+        field.shouldExists();
+        field.shouldHaveHelp();
+        field.hoverHelp();
+        page.popover("Подсказка6").shouldBeVisible();
+
+        field = lineFieldSet.fields().field("DateInterval");
+        field.shouldExists();
+        field.shouldHaveHelp();
+        field.hoverHelp();
+        page.popover("Подсказка7").shouldBeVisible();
+
+        MultiFieldSet multiFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(2, MultiFieldSet.class);
+        multiFieldSet.shouldHaveHelp();
+        multiFieldSet.hoverHelp();
+        page.popover("Подсказка8").shouldBeVisible();
     }
 }

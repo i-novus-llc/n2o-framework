@@ -4,6 +4,7 @@ import omit from 'lodash/omit'
 import get from 'lodash/get'
 import has from 'lodash/has'
 import { EventHandlersContext } from '@i-novus/n2o-components/lib/inputs/eventHandlersContext'
+import { type HelpPopoverProps } from '@i-novus/n2o-components/lib/display/HelpPopover'
 
 import { Spinner, SpinnerType } from '../../../../../factoryComponents/Spinner'
 import { Toolbar, type ToolbarProps } from '../../../../buttons/Toolbar'
@@ -24,7 +25,9 @@ export enum VALIDATION_CLASSES {
 
 export const getValidationClass = (validationClass?: VALIDATION_CLASSES) => get(VALIDATION_CLASSES, validationClass || '')
 
-export interface Props extends ControlProps {
+type Enhancer = ControlProps & HelpPopoverProps
+
+export interface Props extends Enhancer {
     id: string
     label?: string
     control?: Pick<ControlProps, 'component' | 'className' | 'value'>
@@ -73,6 +76,8 @@ export const StandardField = ({
     message,
     colLength,
     help,
+    helpTrigger,
+    helpPlacement,
     toolbar,
     form,
     noLabel: propsNoLabel,
@@ -141,6 +146,8 @@ export const StandardField = ({
                     )}
                     required={required}
                     help={help}
+                    helpTrigger={helpTrigger}
+                    helpPlacement={helpPlacement}
                     needStub
                 />
             )}

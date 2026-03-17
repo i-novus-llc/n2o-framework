@@ -771,8 +771,12 @@
           "name": "SimpleFieldSetAT. testEnabled"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/fieldset/help",
-          "name": "HelpMessageAT"
+          "templateId": "net/n2oapp/framework/autotest/fieldset/help/click",
+          "name": "HelpMessageAT. testHelpMessageClick"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/help/hover",
+          "name": "HelpMessageAT. testHelpMessageHover"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/fieldset/list/simple",

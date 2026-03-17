@@ -135,6 +135,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="help-trigger" type="bs:triggerType" default="click">
+                    <xs:annotation>
+                        <xs:documentation>Способ активации подсказки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="badge" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>

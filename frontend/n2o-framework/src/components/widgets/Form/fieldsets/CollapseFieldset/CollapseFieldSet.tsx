@@ -8,7 +8,8 @@ import { EMPTY_ARRAY } from '../../../../../utils/emptyTypes'
 
 export type Props = Pick<FieldsetProps,
     'rows' | 'render' | 'disabled' | 'label' |
-    'help' | 'badge' | 'description' | 'type' |
+    'help' | 'helpTrigger' | 'helpPlacement' |
+    'badge' | 'description' | 'type' |
     'expand' | 'hasArrow' | 'hasSeparator'
 >
 
@@ -19,6 +20,8 @@ function CollapseFieldSetBody({
     expand,
     description,
     help,
+    helpTrigger,
+    helpPlacement,
     badge,
     rows = EMPTY_ARRAY,
     hasArrow = true,
@@ -39,6 +42,8 @@ function CollapseFieldSetBody({
                 type={currentType}
                 showArrow={hasArrow}
                 help={help}
+                helpTrigger={helpTrigger}
+                helpPlacement={helpPlacement}
                 badge={badge}
                 hasSeparator={hasSeparator}
                 forceRender

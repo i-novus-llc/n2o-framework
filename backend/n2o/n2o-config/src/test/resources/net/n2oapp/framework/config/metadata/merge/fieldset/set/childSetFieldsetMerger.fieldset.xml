@@ -4,6 +4,7 @@
      field-label-location="left"
      field-label-width="100px"
      help="help"
+     help-trigger="click"
      label="child-label"
      src="test"
      badge="testBadge"

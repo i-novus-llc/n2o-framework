@@ -5,11 +5,13 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.plain.CheckboxDefaultValueEnum;
 import net.n2oapp.framework.api.metadata.control.plain.N2oCheckbox;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.meta.control.Checkbox;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция чекбокса
@@ -40,6 +42,7 @@ public class CheckboxCompiler extends StandardFieldCompiler<Checkbox, N2oCheckbo
         checkbox.setLabel(field.getLabel());
         field.setLabel(null);
         checkbox.setHelp(field.getHelp());
+        checkbox.setHelpTrigger(castDefault(source.getHelpTrigger(), () -> p.resolve(property("n2o.api.control.help_trigger"), TriggerEnum.class)));
         field.setHelp(null);
 
         return field;

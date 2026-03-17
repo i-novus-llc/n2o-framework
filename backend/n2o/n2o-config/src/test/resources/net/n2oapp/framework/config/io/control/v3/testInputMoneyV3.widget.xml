@@ -1,6 +1,6 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <fields>
-        <input-money id="money" suffix="^" prefix="*" thousands-separator=" " decimal-separator=","
+        <input-money id="money" suffix="^" prefix="*" thousands-separator=" " decimal-separator="," help="Подсказка" help-trigger="hover"
                      integer-limit="100" fraction-formatting="auto" autocomplete="on"/>
     </fields>
 </form>

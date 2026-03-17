@@ -3,7 +3,7 @@
              xmlns:test="http://n2oapp.net/framework/config/schema/testAttrs">
     <form>
         <fields>
-            <set label="{label}" help="This is {help}" description="description" field-label-location="left"
+            <set label="{label}" help="This is {help}" help-trigger="hover" description="description" field-label-location="left"
                  field-label-align="right" field-label-width="30" visible="true" enabled="false"
                  test:codeVerified="{emailSender.status=='send'}"/>
             <set/>

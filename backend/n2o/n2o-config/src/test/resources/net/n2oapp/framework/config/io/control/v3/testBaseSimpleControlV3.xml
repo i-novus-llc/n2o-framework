@@ -12,7 +12,7 @@
             default-value="testDefValue"
             ref-datasource="ds1"
             ref-model="resolve"
-            ref-page="parent"
+            ref-page="parent" help="Подсказка" help-trigger="hover"
             ref-field-id="field">
 
     <dependencies>
