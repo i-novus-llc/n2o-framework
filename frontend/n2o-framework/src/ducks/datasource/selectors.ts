@@ -1,11 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit'
 
-import { modelsSelector } from '../models/selectors'
 import { ModelPrefix } from '../../core/datasource/const'
 import type { State as GlobalState } from '../State'
-import type { State as ModelsState } from '../models/Models'
 import { ValidationsKey } from '../../core/validation/types'
-import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../utils/emptyTypes'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 export const dataSourcesSelector = (state: GlobalState) => state.datasource
 
@@ -13,23 +11,6 @@ export const dataSourceByIdSelector = (sourceId: string) => createSelector(
     dataSourcesSelector,
     sources => (sources[sourceId] || EMPTY_OBJECT),
 )
-
-/* eslint-disable indent */
-export const dataSourceModelsSelector = <
-    TModel extends object = object,
-    TFilter extends object = object,
->(sourceId: string) => createSelector(
-    // @ts-ignore Не понятно почему ругается, заглушил для быстрого фикса
-        modelsSelector,
-        (modelsList: ModelsState<TModel, TFilter>) => ({
-            [ModelPrefix.active]: modelsList[ModelPrefix.active][sourceId],
-            [ModelPrefix.edit]: modelsList[ModelPrefix.edit][sourceId],
-            [ModelPrefix.source]: modelsList[ModelPrefix.source][sourceId] || EMPTY_ARRAY,
-            [ModelPrefix.selected]: modelsList[ModelPrefix.selected][sourceId] || EMPTY_ARRAY,
-            [ModelPrefix.filter]: modelsList[ModelPrefix.filter][sourceId] || EMPTY_OBJECT,
-        }),
-    )
-/* eslint-enable indent */
 
 export const dataSourceLoadingSelector = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
@@ -121,9 +102,4 @@ export const dataSourceError = (sourceId: string) => createSelector(
 export const dataSourceAdditionalInfo = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
     state => state.additionalInfo,
-)
-
-export const dataSourceModelByPrefixSelector = (id: string, prefix: ModelPrefix) => createSelector(
-    [modelsSelector],
-    model => model[prefix][id],
 )

@@ -8,8 +8,8 @@ import StandardWidget from '../StandardWidget'
 import Fieldsets from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
 import { WithActiveModel } from '../Widget/WithActiveModel'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
+import { ModelPrefix } from '../../../core/models/types'
 import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
 import ListContainer from './ListContainer'
@@ -46,7 +46,7 @@ function Widget(props: ListWidgetProps) {
         fetchOnScroll = false,
     } = props
     const place = get(paging, 'place', 'bottomLeft')
-    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as Array<Record<string, unknown>>
+    const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource))
 
     const pagination = {
         [place]: (

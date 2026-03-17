@@ -56,7 +56,7 @@ export interface AdvancedTableWidgetProps extends Enhancer {
     sorting: TableWidgetContainerProps['sorting']
     hasNext: boolean
     isInit: boolean
-    setResolve(model: Record<string, unknown>): void
+    setResolve(model: Record<string, unknown> | null): void
     changeColumnParam: ChangeColumnParam
     resetSettings(): void
     columnsState: ColumnState

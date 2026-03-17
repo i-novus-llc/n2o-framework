@@ -3,11 +3,8 @@ import isEqual from 'lodash/isEqual'
 import { useSelector } from 'react-redux'
 
 import { usePrevious } from '../../../utils/usePrevious'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
-import { ModelPrefix } from '../../../core/datasource/const'
-
-export type Model = Record<string, unknown>
-export type DataSourceModel = Model[]
+import { getModelByPrefixAndNameSelector, Model } from '../../../ducks/models/selectors'
+import { ModelPrefix } from '../../../core/models/types'
 
 export interface WidgetProps {
     datasource: string
@@ -25,9 +22,9 @@ export function WithActiveModel<Props extends WidgetProps>(
     function WithActiveModel(props: Props) {
         const { datasource, setResolve } = props
 
-        const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as DataSourceModel
+        const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource))
         const prevDatasourceModel = usePrevious(datasourceModel)
-        const resolveModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)) as Model
+        const resolveModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, datasource))
 
         useEffect(() => {
             const shouldUpdateProps = shouldUpdate ? shouldUpdate(props) : true

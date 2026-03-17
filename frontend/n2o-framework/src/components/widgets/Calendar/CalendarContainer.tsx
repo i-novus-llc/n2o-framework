@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 
 import { withWidgetHandlers } from '../hocs/withWidgetHandlers'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
 import { ModelPrefix } from '../../../core/datasource/const'
 import { State } from '../../../ducks/State'
 
@@ -133,7 +133,7 @@ function CalendarContainer({
 }
 
 const mapStateToProps = (state: State, { datasource }: CalendarContainerProps) => ({
-    dataSourceModel: dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state),
+    dataSourceModel: getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)(state),
 })
 
 export default flowRight(

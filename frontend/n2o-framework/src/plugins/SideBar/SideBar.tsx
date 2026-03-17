@@ -9,8 +9,8 @@ import { withItemsResolver } from '../withItemsResolver/withItemResolver'
 import { withTitlesResolver } from '../withTitlesResolver/withTitlesResolver'
 import { WithDataSource } from '../../core/datasource/WithDataSource'
 import { WithContextDataSource } from '../WithContextDataSource/WithContextDataSource'
-import { dataSourceModelByPrefixSelector } from '../../ducks/datasource/selectors'
-import { ModelPrefix } from '../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
+import { ModelPrefix } from '../../core/models/types'
 import { State } from '../../ducks/State'
 import { WithComponentId } from '../utils'
 
@@ -119,10 +119,7 @@ export function SideBarBody({
 }
 
 const mapStateToProps = (state: State, { datasource }: SidebarProps) => {
-    const dataSource = dataSourceModelByPrefixSelector(
-        datasource,
-        ModelPrefix.source,
-    )(state) as Array<Record<string, unknown>>
+    const dataSource = getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)(state)
 
     return { datasourceModel: dataSource?.[0] || {} }
 }

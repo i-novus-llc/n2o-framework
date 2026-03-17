@@ -8,8 +8,8 @@ import StandardWidget from '../StandardWidget'
 import { StandardFieldset } from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
 import { WithActiveModel } from '../Widget/WithActiveModel'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
-import { DataSourceModels, ModelPrefix } from '../../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
+import { ModelPrefix } from '../../../core/models/types'
 
 import { CardsContainer } from './CardsContainer'
 import { type CardsWidgetProps } from './types'
@@ -25,7 +25,7 @@ function Widget(props: CardsWidgetProps) {
     const place = get(paging, 'place', 'bottomLeft')
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter as object, StandardFieldset) as CardsWidgetProps['filter'], [filter, resolveProps])
-    const dataSourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as DataSourceModels['datasource']
+    const dataSourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource))
 
     const pagination = {
         [place]: (

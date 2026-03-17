@@ -15,7 +15,7 @@ export const makeTableByIdSelector = (widgetId: string) => createSelector(
 
 export const makeTableByDatasourceSelector = (datasourceId: string) => createSelector(
     tablesSelector,
-    tables => Object.values(tables).find(({ datasource }) => (datasource === datasourceId)) || EMPTY_OBJECT,
+    tables => Object.values(tables).find(({ datasource }) => (datasource === datasourceId)),
 )
 
 export const getTableCells = (widgetId: string) => createSelector(

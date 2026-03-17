@@ -4,10 +4,10 @@ import pick from 'lodash/pick'
 
 import {
     dataSourceErrors,
-    dataSourceModelByPrefixSelector,
     dataSourcePageIdSelector,
     dataSourceValidationSelector,
 } from '../selectors'
+import { getModelByPrefixAndNameSelector, Model } from '../../models/selectors'
 import { endValidation } from '../store'
 import type { StartValidateAction } from '../Actions'
 import { validateFields, validateModel } from '../../../core/validation/validateModel'
@@ -59,8 +59,7 @@ export function* validate({ payload, meta }: StartValidateAction) {
         yield prevProcess.task.cancel()
     }
 
-    const model: Record<string, unknown> =
-            yield select(dataSourceModelByPrefixSelector(id, prefix))
+    const model: Model = yield select(getModelByPrefixAndNameSelector(prefix, id))
     const abortController = new AbortController()
     const pageId: string = yield select(dataSourcePageIdSelector(id))
     const pageUrl: string = yield select(makePageUrlByIdSelector(pageId))

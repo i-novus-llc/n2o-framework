@@ -8,11 +8,11 @@ import Fieldsets from '../Form/fieldsets'
 import { N2OPagination } from '../Table/N2OPagination'
 import { FactoryContext } from '../../../core/factory/context'
 import { WithActiveModel } from '../Widget/WithActiveModel'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
+import { ModelPrefix } from '../../../core/models/types'
 
 import { Tiles } from './Tiles'
-import { type TilesModel, type TilesWidgetProps, type StandardWidgetFilter } from './types'
+import { type TilesWidgetProps, type StandardWidgetFilter } from './types'
 
 function Widget(props: TilesWidgetProps) {
     const {
@@ -37,7 +37,7 @@ function Widget(props: TilesWidgetProps) {
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps]) as StandardWidgetFilter
     const place = get(paging, 'place', 'bottomLeft')
-    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as TilesModel[]
+    const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource))
     const pagination = {
         [place]: (
             <N2OPagination

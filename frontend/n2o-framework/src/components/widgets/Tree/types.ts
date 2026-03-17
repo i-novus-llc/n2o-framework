@@ -1,7 +1,7 @@
 import { BadgeType } from '@i-novus/n2o-components/lib/inputs/InputSelect/PopupList'
 import { Action, Dispatch } from 'redux'
 
-import { type Model } from '../Widget/WithActiveModel'
+import { type Model } from '../../../ducks/models/selectors'
 
 export interface FilterProps {
     onFilter(value: string): void

@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux'
 
 import StandardWidget from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
+import { ModelPrefix } from '../../../core/models/types'
 
 import { Html } from './Html'
 import { type HtmlWidgetProps } from './types'
@@ -18,7 +18,7 @@ function Widget({
     loading,
     datasource,
 }: HtmlWidgetProps) {
-    const datasourceModel = useSelector(dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)) as Array<Record<string, unknown>>
+    const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource))
     const data = Array.isArray(datasourceModel) ? datasourceModel[0] : {} as Record<string, unknown>
 
     return (

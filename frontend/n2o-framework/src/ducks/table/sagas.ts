@@ -183,7 +183,7 @@ function* onDatasourceUpdateEffect({ payload, type }: DatasourceAction) {
     yield delay(16)
 
     const { sorting, paging }: DataSourceState = yield select(dataSourceByIdSelector(datasourceId))
-    const { saveSettings, id }: Table = yield select(makeTableByDatasourceSelector(datasourceId))
+    const { saveSettings, id }: Table = (yield select(makeTableByDatasourceSelector(datasourceId))) || {} as Table
 
     if (saveSettings) {
         const cache = getData<TableStateCache>(id)

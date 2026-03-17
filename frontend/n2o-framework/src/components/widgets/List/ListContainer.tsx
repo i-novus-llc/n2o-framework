@@ -11,8 +11,8 @@ import { connect } from 'react-redux'
 import withColumn from '../Table/withColumn'
 import { TableCell } from '../Table/TableCell'
 import { withWidgetHandlers } from '../hocs/withWidgetHandlers'
-import { dataSourceModelByPrefixSelector } from '../../../ducks/datasource/selectors'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
+import { ModelPrefix } from '../../../core/models/types'
 import { State as GlobalState } from '../../../ducks/State'
 import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
@@ -179,8 +179,8 @@ class ListContainer extends React.Component<ListContainerProps, State> {
 }
 
 const mapStateToProps = (state: GlobalState, { datasource }: ListContainerProps) => ({
-    selectedId: (dataSourceModelByPrefixSelector(datasource, ModelPrefix.active)(state) as { id: string })?.id,
-    datasourceModel: dataSourceModelByPrefixSelector(datasource, ModelPrefix.source)(state),
+    selectedId: (getModelByPrefixAndNameSelector(ModelPrefix.active, datasource)(state) as { id: string })?.id,
+    datasourceModel: getModelByPrefixAndNameSelector(ModelPrefix.source, datasource)(state),
 })
 
 export default flowRight(

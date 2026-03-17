@@ -2,17 +2,19 @@
 import { useCallback } from 'react'
 import { useStore } from 'react-redux'
 
-import { dataSourceModelByPrefixSelector, dataSourceModelsSelector } from '../../../../ducks/datasource/selectors'
+import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
 import { getHashMapFromData } from '../../../Table/utils'
 import { setModel } from '../../../../ducks/models/store'
-import { ModelPrefix } from '../../../../core/datasource/const'
+import { ModelPrefix } from '../../../../core/models/types'
 import { reorderColumn as reorderColumnAction } from '../../../../ducks/table/store'
+import { EMPTY_ARRAY } from '../../../../utils/emptyTypes'
 
 export const useTableActionReactions = (datasourceId: string, widgetId: string) => {
     const store = useStore()
     const setMultiModelAfterChangeSelectedRows = useCallback((selectedRows: string[] | string) => {
         const state = store.getState()
-        const { multi, datasource } = dataSourceModelsSelector(datasourceId)(state)
+        const datasource = getModelByPrefixAndNameSelector(ModelPrefix.source, datasourceId)(state) || EMPTY_ARRAY
+        const multi = getModelByPrefixAndNameSelector(ModelPrefix.selected, datasourceId)(state) || EMPTY_ARRAY
         const datasourceAsMap = getHashMapFromData(datasource as any[], { keyAsHash: 'id', keyToIterate: 'children' })
 
         if (Array.isArray(selectedRows)) {
@@ -36,7 +38,7 @@ export const useTableActionReactions = (datasourceId: string, widgetId: string) 
 
     const unsetMultiModelAfterChangeSelectedRows = useCallback((rowValues: any[]) => {
         const state = store.getState()
-        const multi = (dataSourceModelByPrefixSelector(datasourceId, ModelPrefix.selected)(state) as any[]) || []
+        const multi = getModelByPrefixAndNameSelector(ModelPrefix.selected, datasourceId)(state) || []
 
         const newMulti = multi.filter((multiItem) => {
             const isMatchId = rowValues.some(deselectId => multiItem.id === deselectId)
@@ -55,12 +57,11 @@ export const useTableActionReactions = (datasourceId: string, widgetId: string) 
 
     const updateDatasource = useCallback((model: Record<string, any>, rowIndex: number) => {
         const state = store.getState()
-        const datasource = (dataSourceModelByPrefixSelector(datasourceId, ModelPrefix.source)(state) as any[]) || []
+        const datasource = getModelByPrefixAndNameSelector(ModelPrefix.source, datasourceId)(state) || []
         const newDatasource = datasource?.map((data, index) => (index === rowIndex ? model : data)) || []
 
-        setActiveModel(model)
         store.dispatch(setModel(ModelPrefix.source, datasourceId, newDatasource))
-    }, [datasourceId, store, setActiveModel])
+    }, [datasourceId, store])
 
     const reorderColumn = useCallback((id: string, draggingId: string, targetId: string) => {
         store.dispatch(reorderColumnAction(widgetId, id, draggingId, targetId))
