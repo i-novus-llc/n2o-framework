@@ -3,6 +3,8 @@ import { createAction, createSlice } from '@reduxjs/toolkit'
 import isEmpty from 'lodash/isEmpty'
 
 import { RESET_STATE } from '../widgets/constants'
+import { creator as sequence, finisher as sequenceEnd } from '../api/action/sequence'
+import { failOperation, startOperation, successOperation } from '../api/Operation'
 
 import ButtonResolver from './ButtonResolver'
 import { CALL_ACTION_IMPL } from './constants'
@@ -10,8 +12,26 @@ import { State } from './Toolbar'
 import {
     ChangeButtonClass, ChangeButtonColor, ChangeButtonCount, ChangeButtonDisabled,
     ChangeButtonHint, ChangeButtonIcon, ChangeButtonMessage, ChangeButtonSize,
-    ChangeButtonStyle, ChangeButtonTitle, ChangeButtonVisibility, RegisterButton, ToggleButtonParam,
+    ChangeButtonStyle, ChangeButtonTitle, ChangeButtonVisibility, EndButtonOperationAction, RegisterButton,
+    StartButtonOperationAction, ToggleButtonParam,
 } from './Actions'
+
+function addOperation(state: State, payload: StartButtonOperationAction['payload']) {
+    const { key, buttonId, ...operation } = payload
+
+    if (state[key]?.[buttonId]) {
+        state[key][buttonId].operations.push(operation)
+    }
+}
+
+function removeOperation(state: State, payload: EndButtonOperationAction['payload']) {
+    const { key, buttonId, operationId } = payload
+    const button = state[key]?.[buttonId]
+
+    if (button) {
+        button.operations = button.operations.filter(operation => (operation.operationId !== operationId))
+    }
+}
 
 export const initialState: State = {}
 
@@ -250,10 +270,10 @@ export const toolbarSlice = createSlice({
                 }
 
                 state[key][buttonId] = {
-                    buttonId,
-                    key,
                     ...ButtonResolver.defaultState,
                     ...initialState,
+                    buttonId,
+                    key,
                     isInit: true,
                 }
             },
@@ -280,15 +300,12 @@ export const toolbarSlice = createSlice({
             },
         },
 
-        updateButton(state, action) {
-            const { key, buttonId, state: button } = action.payload
+        startButtonOperation(state, action: StartButtonOperationAction) {
+            addOperation(state, action.payload)
+        },
 
-            if (state[key]?.[buttonId]) {
-                state[key][buttonId] = {
-                    ...state[key][buttonId],
-                    ...button,
-                }
-            }
+        endButtonOperation(state, action: EndButtonOperationAction) {
+            removeOperation(state, action.payload)
         },
 
         REMOVE_BUTTONS(state, action) {
@@ -306,6 +323,49 @@ export const toolbarSlice = createSlice({
                     state[widgetId][key].isInit = false
                 })
             }
+        },
+
+        /// Блокировка кнопок на время выполнения эффектов в ней
+        [sequence.type](state, { meta = {} }) {
+            const { buttonId, key, operationId } = meta
+
+            if (buttonId && !operationId) {
+                addOperation(state, {
+                    operationId: 'sequence',
+                    buttonId,
+                    key,
+                })
+            }
+        },
+        [sequenceEnd.type](state, { meta = {} }) {
+            const { buttonId, key, operationId } = meta
+
+            if (buttonId && !operationId) {
+                removeOperation(state, {
+                    operationId: 'sequence',
+                    buttonId,
+                    key,
+                })
+            }
+        },
+        [startOperation.type](state, { payload, meta = {} }) {
+            const { buttonId, key } = meta
+            const { operationId } = payload
+
+            addOperation(state, { operationId, buttonId, key })
+        },
+        [failOperation.type](state, { payload, meta = {} }) {
+            const { buttonId, key } = meta
+            const { operationId } = payload
+
+            removeOperation(state, { operationId, buttonId, key })
+            removeOperation(state, { operationId: 'sequence', buttonId, key })
+        },
+        [successOperation.type](state, { payload, meta = {} }) {
+            const { buttonId, key } = meta
+            const { operationId } = payload
+
+            removeOperation(state, { operationId, buttonId, key })
         },
     },
 })
@@ -333,5 +393,6 @@ export const {
     REMOVE_BUTTONS: removeAllButtons,
     TOGGLE_BUTTON_DISABLED: toggleButtonDisabled,
     TOGGLE_BUTTON_VISIBILITY: toggleButtonVisibility,
-    updateButton,
+    startButtonOperation,
+    endButtonOperation,
 } = toolbarSlice.actions

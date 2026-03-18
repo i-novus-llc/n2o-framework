@@ -1,6 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
 import { cancel, put, select, takeEvery } from 'redux-saga/effects'
-import pick from 'lodash/pick'
 
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { dataSourceByIdSelector } from '../datasource/selectors'
@@ -15,8 +14,7 @@ import { getAllValuesByKey } from '../../components/Table/utils'
 import { logger } from '../../utils/logger'
 import { fetch } from '../../utils/request'
 import { linkResolver, type LinkProps } from '../../utils/linkResolver'
-import { buttonSelector } from '../toolbar/selectors'
-import { updateButton } from '../toolbar/store'
+import { startButtonOperation, endButtonOperation } from '../toolbar/store'
 
 import { UTILS_PREFIX } from './constants'
 import { EffectWrapper } from './utils/effectWrapper'
@@ -200,17 +198,14 @@ export function* effect({ payload, meta = {} }: Action<string, Payload>) {
 
     const fields = getShowedColumnsWithLabels(columns, cells.body)
     const exportPayload = createExportPayload(resolvedURL, format, charset, fields, filename)
-    const { key, buttonId } = meta
-    const button = buttonSelector(state, key as string, buttonId as string)
+    const { key, buttonId } = meta as { key: string, buttonId: string }
 
-    yield put(updateButton({
+    yield put(startButtonOperation({
         key,
         buttonId,
-        state: {
-            loading: true,
-            message: 'Загрузка документа...',
-            disabled: true,
-        },
+        operationId: 'export',
+        loading: true,
+        message: 'Загрузка документа...',
     }))
 
     try {
@@ -242,10 +237,10 @@ export function* effect({ payload, meta = {} }: Action<string, Payload>) {
         logger.error(error)
     }
 
-    yield put(updateButton({
+    yield put(endButtonOperation({
         key,
         buttonId,
-        state: pick(button, ['loading', 'disabled', 'message']),
+        operationId: 'export',
     }))
 }
 

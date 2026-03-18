@@ -1,3 +1,5 @@
+import { ButtonState } from './Toolbar'
+
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 class ButtonResolver {
     /**
@@ -18,12 +20,15 @@ class ButtonResolver {
      *  isInit: boolean
      * }}
      */
-    static get defaultState() {
+    static get defaultState(): ButtonState {
         return ({
-            isInit: true,
+            isInit: false,
             visible: true,
             disabled: false,
             loading: false,
+            operations: [],
+            key: '',
+            buttonId: 'string',
         })
     }
 }

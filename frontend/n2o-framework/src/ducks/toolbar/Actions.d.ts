@@ -78,5 +78,11 @@ export type ChangeButtonClass = Action<string, ChangeButtonClassPayload>
 export type ChangeButtonStyle = Action<string, ChangeButtonStylePayload>
 export type ChangeButtonDisabled = Action<string, ChangeButtonStyleDisabledPayload>
 export type ToggleButtonParam = Action<string, ToolbarCommon>
+export type StartButtonOperationAction = Action<string, ToolbarCommon & {
+    operationId: string,
+    message?: string,
+    loading?: boolean
+}>
+export type EndButtonOperationAction = Action<string, ToolbarCommon & { operationId: string }>
 export type RegisterButton = Action<string, RegisterButtonProps>
 export type Print = Action<string, PrintPayload>

@@ -15,14 +15,14 @@ import { mergeMeta } from './mergeMeta'
 
 const WAIT_START_ACTION_TIMEOUT = 500
 
-const getPredicate = (type: string, uid: string) => (action: Action) => {
+const getPredicate = (type: string, operationId: string) => (action: Action) => {
     if (action.type !== type) {
         return false
     }
 
     const { payload } = action as OperationAction
 
-    return payload?.uid === uid
+    return payload?.operationId === operationId
 }
 
 /**
