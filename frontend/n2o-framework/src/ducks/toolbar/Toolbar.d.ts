@@ -14,7 +14,7 @@ export interface Conditions {
 export interface RegisterButtonProps {
     buttonId: string
     key: string
-    initialState: Omit<ButtonState, 'buttonId' | 'key'>
+    initialState: Omit<ButtonState, 'buttonId' | 'key' | 'operations'>
 }
 
 export type ButtonState = {
@@ -37,6 +37,15 @@ export type ButtonState = {
     className?: string
     hintPosition?: string
     style?: React.CSSProperties
+    /*
+     * Храним список выполняемых кнопкой операций в моменте, для её блокировки
+     * Нужно чтобы при завершении откатиться к состоянию, заданному в зависимостях
+     */
+    operations: Array<{
+        operationId: string
+        loading?: boolean
+        message?: string
+    }>
 }
 
 export type ButtonContainer = Record<string, ButtonState>

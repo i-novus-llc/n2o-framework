@@ -3,6 +3,8 @@ import { createSelector } from '@reduxjs/toolkit'
 import { State } from '../State'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
+import ButtonResolver from './ButtonResolver'
+
 /**
  * Получить slice toolbar'а
  */
@@ -36,9 +38,20 @@ export const buttonsContainerSelector = (
  * @param {string} buttonId - id кнопки
  * @return {Object.<string, any>}
  */
-export const buttonSelector = (state: State, containerId: string, buttonId: string) => (
-    buttonsContainerSelector(state, containerId)[buttonId] || EMPTY_OBJECT
-)
+export const buttonSelector = (state: State, containerId: string, buttonId: string) => {
+    const button = buttonsContainerSelector(state, containerId)[buttonId]
+
+    if (!button) { return { ...ButtonResolver.defaultState } }
+
+    const operation = button.operations.at(-1)
+
+    return {
+        ...button,
+        disabled: !!operation || button.disabled,
+        loading: operation?.loading || button.loading,
+        message: operation?.message ?? button.message,
+    }
+}
 
 /**
  * Селектор зарегистрирована ли кнопка

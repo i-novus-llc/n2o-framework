@@ -8,8 +8,6 @@ import { resolveConditions } from '../../sagas/conditions'
 import request from '../../utils/request'
 import { logger } from '../../utils/logger'
 import { State } from '../State'
-import { SequenceMeta, creator as sequence, finisher as sequenceEnd } from '../api/action/sequence'
-import { failOperation, startOperation, successOperation } from '../api/Operation'
 
 import {
     DEFAULT_PRINT_ERROR_MESSAGE,
@@ -48,6 +46,7 @@ export function* resolveButton({ buttonId, key }: Pick<ButtonState, 'buttonId' |
             const resolvedEnabled = resolveConditions(state, enabled)
 
             yield put(changeButtonDisabled(button.key, button.buttonId, !resolvedEnabled?.resolve))
+
             if (!resolvedEnabled?.resolve) {
                 yield put(
                     changeButtonMessage(
@@ -148,16 +147,6 @@ function* print(action: Print) {
     }
 }
 
-function* startOperationEffect({ key, buttonId }: SequenceMeta) {
-    if (buttonId) { yield put(changeButtonDisabled(key, buttonId, true)) }
-}
-
-function* endOperationEffect({ key, buttonId }: SequenceMeta) {
-    if (buttonId) { yield put(changeButtonDisabled(key, buttonId, false)) }
-}
-
 export default [
     takeEvery(PRINT_BUTTON, print),
-    takeEvery([startOperation, sequence], ({ meta }) => startOperationEffect(meta)),
-    takeEvery([failOperation, successOperation, sequenceEnd], ({ meta }) => endOperationEffect(meta)),
 ]
