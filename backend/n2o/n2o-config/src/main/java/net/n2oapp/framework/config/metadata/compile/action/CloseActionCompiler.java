@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.action.control.CloseTargetEnum;
 import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
@@ -39,12 +40,15 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
             throw new N2oException(String.format("В странице '%s', на которую ссылаются в регионе \"<sub-page>\", нельзя использовать действие \"<close>\"",
                     subPageContext.getPageName()));
         }
-        return context instanceof ModalPageContext
+        CloseTargetEnum closeTarget = castDefault(source.getTarget(),
+                () -> p.resolve(property("n2o.api.action.close.target"), CloseTargetEnum.class));
+
+        return context instanceof ModalPageContext || closeTarget == CloseTargetEnum.TAB
                 ? getCloseAction(source, context, p)
                 : getLinkAction(source, context, p);
     }
 
-    private static LinkActionImpl getLinkAction(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
+    private LinkActionImpl getLinkAction(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         N2oAnchor anchor = new N2oAnchor();
         if (source.getRedirectUrl() != null) {
             anchor.setHref(source.getRedirectUrl());
@@ -74,11 +78,14 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
         return closeAction;
     }
 
-    private static CloseActionPayload initPayload(N2oCloseAction source, CompileContext<?, ?> context) {
+    private CloseActionPayload initPayload(N2oCloseAction source, CompileContext<?, ?> context) {
         CloseActionPayload payload = new CloseActionPayload();
         if (context instanceof ModalPageContext modalPageContext) {
-            payload.setPageId(((PageContext) context).getClientPageId());
+            payload.setPageId(modalPageContext.getClientPageId());
             payload.setPrompt(castDefault(source.getPrompt(), modalPageContext::getUnsavedDataPromptOnClose, () -> true));
+        } else {
+            payload.setPageId("_");
+            payload.setPrompt(false);
         }
 
         return payload;

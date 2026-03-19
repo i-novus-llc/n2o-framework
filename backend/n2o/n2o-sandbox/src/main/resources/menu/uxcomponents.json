@@ -877,6 +877,10 @@
           "name": "Закрытие страницы"
         },
         {
+          "templateId": "uxcomponents/actions/close_tab",
+          "name": "Закрытие вкладки браузера"
+        },
+        {
           "templateId": "uxcomponents/actions/print",
           "name": "Печать документа"
         },

@@ -1,26 +1,17 @@
-import { takeEvery, select, put, call, fork, cancel } from 'redux-saga/effects'
+import { takeEvery, select, put, fork, cancel } from 'redux-saga/effects'
 import get from 'lodash/get'
 import { LOCATION_CHANGE } from 'connected-react-router'
-import { type Action } from 'redux'
 
-import { makePageRoutesByIdSelector } from '../pages/selectors'
-import { makeWidgetsByPageIdSelector } from '../widgets/selectors'
 import { dataRequest } from '../datasource/store'
-import { mapQueryToUrl } from '../pages/sagas/restoreFilters'
-import { makeFormByName } from '../form/selectors'
-import { type Routes } from '../pages/sagas/types'
-import { type State as WidgetsState } from '../widgets/Widgets'
-import { type Form } from '../form/types'
 import { EffectWrapper } from '../api/utils/effectWrapper'
 import { stopTheSequence } from '../api/utils/stopTheSequence'
 import { resetPage } from '../pages/store'
 import { type Reset } from '../pages/Actions'
-import { type N2OMeta } from '../Action'
+import { type N2OMeta, type Action } from '../Action'
+import { closePageCreator, type ClosePagePayload } from '../api/page'
 
 import { State as OverlaysState } from './Overlays'
-import { CLOSE } from './constants'
 import {
-    showPrompt,
     destroyOverlays,
     destroyAllOverlays,
     insertOverlay,
@@ -28,42 +19,6 @@ import {
     remove,
 } from './store'
 import { overlaysSelector } from './selectors'
-
-/**
- * Проверка на изменение данных в формах
- */
-export function* checkOnDirtyForm(name: string) {
-    let someOneDirtyForm = false
-
-    const widgets: WidgetsState = yield select(makeWidgetsByPageIdSelector(name))
-
-    for (const widgetName of Object.keys(widgets)) {
-        const form: Form = yield select(makeFormByName(widgetName))
-
-        someOneDirtyForm = someOneDirtyForm || form.dirty
-    }
-
-    return someOneDirtyForm
-}
-
-/**
- * Функция показа подтверждения закрытия
- */
-export function* checkPrompt(action: { payload: { name: string, prompt: boolean } }) {
-    const { name, prompt } = action.payload
-    let needToShowPrompt = false
-
-    if (prompt) {
-        needToShowPrompt = yield call(checkOnDirtyForm, name)
-    }
-
-    if (!needToShowPrompt) {
-        yield put(remove())
-        yield call(resetQuerySaga, name)
-    } else {
-        yield put(showPrompt(name))
-    }
-}
 
 export function* closeOverlays({ meta, type }: { meta: N2OMeta, type: Action['type'] }) {
     if (meta.modalsToClose) {
@@ -94,11 +49,11 @@ function* onCloseEffects() {
         }
     }
 
-    function* onClose({ payload }: { payload: { name: string, prompt: boolean } }) {
-        const { name } = payload
+    function* onClose(action: Action<string, ClosePagePayload>) {
+        const { pageId } = action.payload
 
-        if (onCloseHandlers[name]) {
-            const { refresh } = onCloseHandlers[name]
+        if (onCloseHandlers[pageId]) {
+            const { refresh } = onCloseHandlers[pageId]
 
             if (refresh) {
                 const { datasources } = refresh
@@ -108,28 +63,14 @@ function* onCloseEffects() {
                 }
             }
 
-            delete onCloseHandlers[name]
+            delete onCloseHandlers[pageId]
         }
     }
 
     // @ts-ignore проблемы с типизацией saga
     yield takeEvery([insertOverlay, insertDrawer], getClose)
-    // @ts-ignore проблемы с типизацией saga
-    yield takeEvery(CLOSE, onClose)
-}
 
-export function* resetQuerySaga(pageId: string) {
-    const routes: Routes = yield select(makePageRoutesByIdSelector(pageId))
-
-    if (routes) {
-        const resetQuery: Record<string, undefined> = {}
-
-        for (const key of Object.keys(routes.queryMapping)) {
-            resetQuery[key] = undefined
-        }
-
-        yield mapQueryToUrl(pageId, resetQuery)
-    }
+    yield takeEvery(closePageCreator.type, EffectWrapper(onClose))
 }
 
 export function* closePageOverlays({ payload: pageId }: Reset) {
@@ -147,8 +88,6 @@ export function* closePageOverlays({ payload: pageId }: Reset) {
 }
 
 export const overlaysSagas = [
-    // @ts-ignore проблемы с типизацией saga
-    takeEvery(CLOSE, checkPrompt),
     takeEvery([insertOverlay, insertDrawer], EffectWrapper(stopTheSequence)),
     takeEvery(
         // @ts-ignore проблемы с типизацией saga
@@ -157,7 +96,7 @@ export const overlaysSagas = [
             action.payload &&
             !action.payload.prompt &&
             action.meta.modalsToClose &&
-            action.type !== CLOSE
+            action.type !== closePageCreator.type
         ) || (
             action.type === LOCATION_CHANGE &&
             action.payload.action !== 'REPLACE'

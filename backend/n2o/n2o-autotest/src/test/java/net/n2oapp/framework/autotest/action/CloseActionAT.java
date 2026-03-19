@@ -1,5 +1,7 @@
 package net.n2oapp.framework.autotest.action;
 
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -18,6 +20,8 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Автотест закрытия модальных окон
@@ -45,7 +49,8 @@ class CloseActionAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/m1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/close/m2.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/close/m3.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/m3.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/pageWithCloseTab.page.xml"));
     }
 
     @Test
@@ -155,5 +160,28 @@ class CloseActionAT extends AutoTestBase {
         modal1.shouldNotExists();
         modal2.shouldNotExists();
         modal3.shouldNotExists();
+    }
+
+    @Test
+    void testCloseTab() {
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        StandardButton button = page.widget(FormWidget.class).toolbar().topLeft().button("openPageWithCloseTab");
+        button.shouldBeEnabled();
+        button.click();
+
+        SimplePage newTab = N2oSelenide.page(SimplePage.class);
+        browserShouldHaveTabsCount(2);
+        Selenide.switchTo().window(1);
+        newTab.shouldHaveUrlMatches(getBaseUrl() + "/#/test");
+        newTab.widget(FormWidget.class).fields().field("CloseTab", ButtonField.class).click();
+        newTab.shouldNotExists();
+        browserShouldHaveTabsCount(1);
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/");
+    }
+
+    private void browserShouldHaveTabsCount(int count) {
+        assertEquals(count, WebDriverRunner.getWebDriver().getWindowHandles().size());
     }
 }

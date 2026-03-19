@@ -7,7 +7,6 @@
                     <case value="test">
                         <invoke operation-id="load"/>
                         <close target="tab"/>
-                        <alert text="alert"/>
                     </case>
                 </switch>
             </button>

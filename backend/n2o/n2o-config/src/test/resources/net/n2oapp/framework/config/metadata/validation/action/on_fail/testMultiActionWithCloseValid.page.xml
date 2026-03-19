@@ -6,7 +6,7 @@
             <on-fail>
                 <alert text="alert1"/>
                 <close target="tab"/>
-                <alert text="alert2"/>
+                <on-fail><alert text="on-fail alert"/></on-fail>
             </on-fail>
         </action>
     </actions>

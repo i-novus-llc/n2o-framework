@@ -3,7 +3,6 @@
         <button>
             <invoke operation-id="load"/>
             <close target="tab"/>
-            <alert text="alert"/>
             <on-fail>
                 <alert text="on-fail alert"/>
             </on-fail>
