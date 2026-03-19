@@ -396,6 +396,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="target" type="closeTargetType" default="page">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Цель закрытия
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1797,6 +1804,30 @@
                 <xs:annotation>
                     <xs:documentation>
                         В текущей вкладке (относительный путь добавляется после #)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="closeTargetType">
+        <xs:annotation>
+            <xs:documentation>
+                Цель закрытия
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="tab">
+                <xs:annotation>
+                    <xs:documentation>
+                        Текущая вкладка браузера
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="page">
+                <xs:annotation>
+                    <xs:documentation>
+                        Текущая страница
                     </xs:documentation>
                 </xs:annotation>
             </xs:enumeration>

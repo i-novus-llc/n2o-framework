@@ -6,7 +6,7 @@
     <events>
         <on-change datasource="test" field-id="test">
             <invoke operation-id="load"/>
-            <close/>
+            <close target="tab"/>
             <alert text="alert"/>
             <on-fail>
                 <alert text="on-fail alert"/>

@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.compile.enums.ColorEnum;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.view.action.control.CloseTargetEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oDependency;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.datasource.ValidatorDataSourcesScope;
@@ -26,6 +27,7 @@ import javax.annotation.Nonnull;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.StringUtils.isLink;
@@ -262,12 +264,21 @@ public final class ValidationUtils {
         int actionsSize = actions.length;
         for (int i = 0; i < actionsSize; i++) {
             N2oAction action = actions[i];
-            if (action instanceof N2oCloseAction) {
+            if (action instanceof N2oCloseAction closeAction) {
+                Predicate<N2oAction> predicate;
+                String message;
+                if (closeAction.getTarget() == CloseTargetEnum.TAB) {
+                    predicate = N2oOnFailAction.class::isInstance;
+                    message = "После действия <close target=\"tab\"> не должно быть других действий кроме <on-fail>";
+                } else {
+                    predicate = a -> a instanceof N2oCloseAction || a instanceof N2oOnFailAction;
+                    message = "После действия <close> не должно быть других действий кроме <close> или <on-fail>";
+                }
                 Arrays.stream(actions, i + 1, actionsSize)
-                        .filter(a -> !(a instanceof N2oCloseAction || a instanceof N2oOnFailAction))
+                        .filter(a -> !predicate.test(a))
                         .findFirst()
                         .ifPresent(invalidAction -> {
-                            throw new N2oMetadataValidationException("После действия <close> не должно быть других действий кроме <close> или <on-fail>");
+                            throw new N2oMetadataValidationException(message);
                         });
             }
         }

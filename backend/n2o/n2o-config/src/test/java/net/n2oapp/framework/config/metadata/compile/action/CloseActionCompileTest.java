@@ -46,7 +46,7 @@ class CloseActionCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
                 .get(context);
         CloseAction testAction = (CloseAction) page.getWidget().getToolbar().getButton("test").getAction();
-        assertThat(testAction.getType(), is("n2o/overlays/CLOSE"));
+        assertThat(testAction.getType(), is("n2o/api/page/close"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPageId(), is("p_w_a"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPrompt(), is(true));
         assertThat((testAction.getMeta()).getRefresh(), nullValue());
@@ -79,5 +79,19 @@ class CloseActionCompileTest extends SourceCompileTestBase {
         N2oException e = assertThrows(N2oException.class,
                 () -> compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageCloseAction.page.xml").get(context));
         assertThat(e.getMessage(), is("В странице 'page1', на которую ссылаются в регионе \"<sub-page>\", нельзя использовать действие \"<close>\""));
+    }
+
+    @Test
+    void closeTab() {
+        PageContext context = new PageContext("testCloseTabAction", "/p/w/a");
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseTabAction.page.xml")
+                .get(context);
+
+        CloseAction testAction = (CloseAction) page.getWidget().getToolbar().getButton("test").getAction();
+        assertThat(testAction.getType(), is("n2o/api/page/close"));
+        assertThat(((CloseActionPayload) testAction.getPayload()).getPageId(), is("_"));
+        assertThat(((CloseActionPayload) testAction.getPayload()).getPrompt(), is(false));
+        assertThat(testAction.getMeta().getRefresh(), nullValue());
+        assertThat(testAction.getMeta().getModalsToClose(), nullValue());
     }
 }

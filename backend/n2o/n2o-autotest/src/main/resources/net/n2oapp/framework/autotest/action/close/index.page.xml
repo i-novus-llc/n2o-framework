@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Страница для автотеста действия закрытия">
     <form>
         <toolbar>
             <button label="openModal" model="edit">
@@ -10,6 +11,9 @@
             </button>
             <button label="openMultiModal" disable-on-empty-model="false">
                 <show-modal page-id="m1"/>
+            </button>
+            <button label="openPageWithCloseTab" disable-on-empty-model="false">
+                <open-page page-id="pageWithCloseTab" target="newWindow" route="/test"/>
             </button>
         </toolbar>
     </form>

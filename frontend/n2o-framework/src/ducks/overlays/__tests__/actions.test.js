@@ -2,7 +2,6 @@ import {
     insertOverlay,
     hideOverlay,
     showOverlay,
-    closeOverlay,
     showPrompt,
     hidePrompt,
 } from '../store'
@@ -45,17 +44,6 @@ describe('Тесты экшенов overlays', () => {
             const action = hideOverlay(name)
 
             expect(action.payload).toEqual(name)
-        })
-    })
-
-    describe('Проверка экшена closeOverlay', () => {
-        it('Возвращает правильный payload', () => {
-            const action = closeOverlay('test', true)
-
-            expect(action.payload).toEqual({
-                name: 'test',
-                prompt: true,
-            })
         })
     })
 

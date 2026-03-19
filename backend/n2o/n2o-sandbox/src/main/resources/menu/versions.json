@@ -95,6 +95,10 @@
         {
           "templateId": "versions/7.29/help_trigger_hover",
           "name": "Филдсеты и поля с подсказками при наведении курсора"
+        },
+        {
+          "templateId": "uxcomponents/actions/close_tab",
+          "name": "Закрытие вкладки браузера"
         }
       ]
     },

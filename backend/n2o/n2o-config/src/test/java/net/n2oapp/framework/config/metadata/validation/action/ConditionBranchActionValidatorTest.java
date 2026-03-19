@@ -43,4 +43,17 @@ class ConditionBranchActionValidatorTest extends SourceValidationTestBase {
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/if_branch/testMultiActionWithClose.page.xml"));
         assertEquals("После действия <close> не должно быть других действий кроме <close> или <on-fail>", exception.getMessage());
     }
+
+    @Test
+    void testMultiActionWithTabClose() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/if_branch/testMultiActionWithTabClose.page.xml"));
+        assertEquals("После действия <close target=\"tab\"> не должно быть других действий кроме <on-fail>", exception.getMessage());
+    }
+
+    @Test
+    void testMultiActionWithCloseValid() {
+        validate("net/n2oapp/framework/config/metadata/validation/action/if_branch/testMultiActionWithCloseValid.page.xml");
+    }
 }

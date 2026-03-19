@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-             name="Новая страница">
+             name="Новая вкладка">
     <form>
         <toolbar>
-            <button label="Закрыть" disable-on-empty-model="false">
-                <close/>
+            <button label="Закрыть вкладку" disable-on-empty-model="false">
+                <close target="tab"/>
             </button>
         </toolbar>
     </form>

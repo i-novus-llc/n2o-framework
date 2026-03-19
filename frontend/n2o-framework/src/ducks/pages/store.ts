@@ -173,6 +173,10 @@ export const pageSlice = createSlice({
             }
             state[action.payload].disabled = false
         },
+
+        SHOW_PAGE_PROMPT(state, action) {
+            // for saga only
+        },
     },
 })
 
@@ -187,4 +191,5 @@ export const {
     METADATA_SUCCESS: metadataSuccess,
     setLocation,
     SET_PAGE_SCROLLING: setPageScrolling,
+    SHOW_PAGE_PROMPT: showPagePrompt,
 } = pageSlice.actions

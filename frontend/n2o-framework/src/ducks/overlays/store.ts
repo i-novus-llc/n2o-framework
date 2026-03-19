@@ -1,7 +1,6 @@
-import { createSlice, createAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 import OverlayResolver from './OverlayResolver'
-import { CLOSE } from './constants'
 import { State } from './Overlays'
 import type { InsertOverlay, Insert, Remove } from './Actions'
 
@@ -187,14 +186,3 @@ export const {
     insert,
     remove,
 } = overlaysSlice.actions
-
-/**
- * События при попытке закрыть окно
- * @param {string} name
- * @param {boolean} prompt
- * @return {{payload: {name: string, prompt: boolean}}}
- */
-
-export const closeOverlay = createAction(CLOSE, (name: string, prompt: boolean) => ({
-    payload: { name, prompt },
-}))

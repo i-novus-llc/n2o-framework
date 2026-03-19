@@ -5,13 +5,14 @@ import defaultTo from 'lodash/defaultTo'
 import get from 'lodash/get'
 import { Dispatch } from 'redux'
 
-import { closeOverlay, hidePrompt } from '../../ducks/overlays/store'
+import { hidePrompt } from '../../ducks/overlays/store'
 import { overlaysSelector } from '../../ducks/overlays/selectors'
 import { FactoryContext } from '../../core/factory/context'
 import { FactoryLevels } from '../../core/factory/factoryLevels'
 import { type State } from '../../ducks/State'
 import { type State as OverlaysState, type Overlay } from '../../ducks/overlays/Overlays'
 import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../utils/emptyTypes'
+import { closePageCreator } from '../../ducks/api/page'
 
 export interface OverlayPagesProps {
     // eslint-disable-next-line react/no-unused-prop-types
@@ -68,7 +69,7 @@ function OverlayPages(props: OverlayPagesProps) {
 const mapStateToProps = (state: State) => ({ overlays: overlaysSelector(state) })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    close: (name: string, prompt: boolean) => { dispatch(closeOverlay(name, prompt)) },
+    close: (name: string, prompt: boolean) => { dispatch(closePageCreator({ pageId: name, prompt })) },
     hidePrompt: (name: string) => { dispatch(hidePrompt(name)) },
 })
 
