@@ -146,6 +146,13 @@
     <xs:complexType name="exportType">
         <xs:complexContent>
             <xs:extension base="tableSettingBaseType">
+                <xs:attribute name="url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            URL скачивания файла, если необходимо получать его с внешнего сервиса
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="format" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>

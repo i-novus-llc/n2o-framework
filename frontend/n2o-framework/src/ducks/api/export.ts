@@ -44,6 +44,7 @@ export interface Payload {
     widgetId: string
     allLimit: number
     filename?: string
+    externalUrl?: string
 }
 
 export const creator = createAction(
@@ -71,6 +72,7 @@ function createExportPayload(
     charset: string,
     fields: Array<{ id: string, title: string, format?: string }>,
     filename?: string,
+    externalUrl?: string,
 ) {
     return {
         format,
@@ -78,6 +80,7 @@ function createExportPayload(
         url: resolvedURL,
         fields,
         filename,
+        externalUrl,
     }
 }
 
@@ -130,7 +133,7 @@ function extractFilenameFromContentDisposition(contentDisposition: string | null
 }
 
 export function* effect({ payload, meta = {} }: Action<string, Payload>) {
-    const { exportDatasource, values, baseURL, widgetId, allLimit = 1000, filename } = payload
+    const { exportDatasource, values, baseURL, widgetId, allLimit = 1000, filename, externalUrl } = payload
 
     if (!exportDatasource || !values || !baseURL || !widgetId) {
         logger.error(ATTRIBUTES_ERROR)
@@ -197,7 +200,7 @@ export function* effect({ payload, meta = {} }: Action<string, Payload>) {
     const columns = getAllValuesByKey(cells.header, { keyToIterate: 'children' })?.filter(obj => !NON_EXPORTABLE_KEYS.some(key => key in obj))
 
     const fields = getShowedColumnsWithLabels(columns, cells.body)
-    const exportPayload = createExportPayload(resolvedURL, format, charset, fields, filename)
+    const exportPayload = createExportPayload(resolvedURL, format, charset, fields, filename, externalUrl)
     const { key, buttonId } = meta as { key: string, buttonId: string }
 
     yield put(startButtonOperation({

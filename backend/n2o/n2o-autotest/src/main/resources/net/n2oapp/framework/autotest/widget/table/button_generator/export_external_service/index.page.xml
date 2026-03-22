@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             xmlns:ts="http://n2oapp.net/framework/config/schema/table-settings-1.0"
+             name="Автотест для проверки экспорта данных через сторонний сервис">
+    <table selection="none">
+        <datasource query-id="data" size="5"/>
+        <filters>
+            <input-text id="name" label="Наименование"/>
+        </filters>
+        <columns>
+            <column text-field-id="id" label="Идентификатор"/>
+            <column text-field-id="id_ips" label="Идентификатор ИПС"/>
+            <column text-field-id="name" label="Наименование"/>
+            <column text-field-id="region" label="Регион"/>
+        </columns>
+        <toolbar place="topRight">
+            <ts:export default-format="csv" default-size="all" default-charset="utf-8" show-modal="false"
+                       url="${n2o.autotest.external.export.url}"/>
+        </toolbar>
+    </table>
+</simple-page>

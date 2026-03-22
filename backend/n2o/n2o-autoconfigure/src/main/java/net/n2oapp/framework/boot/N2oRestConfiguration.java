@@ -111,5 +111,4 @@ public class N2oRestConfiguration {
     public AlertMessagesConstructor messagesConstructor(AlertMessageBuilder messageBuilder) {
         return new N2oAlertMessagesConstructor(messageBuilder);
     }
-
 }

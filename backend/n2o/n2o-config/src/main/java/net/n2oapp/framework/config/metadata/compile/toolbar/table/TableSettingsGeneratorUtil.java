@@ -120,6 +120,9 @@ public class TableSettingsGeneratorUtil {
         payload.put("values-type-link", link.getLink());
         payload.put("values-type-value", "`type.id`");
         payload.put("values-type-required", "true");
+        if (source.getUrl() != null) {
+            payload.put("externalUrl", source.getUrl());
+        }
 
         downloadAction.setPayload(payload);
         downloadAction.setType("n2o/api/utils/export");
@@ -204,6 +207,9 @@ public class TableSettingsGeneratorUtil {
                 ? null
                 : source.getDefaultSize().getId(), p.resolve(property("n2o.api.generate.button.export.size"), String.class)));
         payload.put("values-type-required", "true");
+        if (source.getUrl() != null) {
+            payload.put("externalUrl", source.getUrl());
+        }
         downloadAction.setPayload(payload);
         downloadAction.setType("n2o/api/utils/export");
         fillButton(source, source.isGeneratedForSubMenu(), "export", p);

@@ -1,26 +1,31 @@
-package net.n2oapp.framework.api.rest;
+package net.n2oapp.framework.ui.controller.export;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
-public class ExportRequest {
+public class ExternalRequest {
     @JsonProperty
     private String format;
     @JsonProperty
     private String charset;
     @JsonProperty
-    private String url;
+    private String filename;
     @JsonProperty
     private List<ExportField> fields;
     @JsonProperty
-    private String filename;
+    private int page;
     @JsonProperty
-    private String externalUrl;
+    private int size;
+    @JsonProperty
+    private Map<String, String> sortings;
+    @JsonProperty
+    private List<ExportFilter> filters;
 
     @Getter
     @Setter
@@ -31,5 +36,14 @@ public class ExportRequest {
         private String title;
         @JsonProperty
         private String format;
+    }
+
+    @Getter
+    @Setter
+    public static class ExportFilter {
+        @JsonProperty
+        private String id;
+        @JsonProperty
+        private String value;
     }
 }

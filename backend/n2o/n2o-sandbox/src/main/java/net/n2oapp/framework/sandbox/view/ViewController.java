@@ -60,6 +60,7 @@ import net.n2oapp.framework.ui.controller.export.format.XlsxFileGenerator;
 import net.n2oapp.framework.ui.controller.query.MergeValuesController;
 import net.n2oapp.framework.ui.controller.query.QueryController;
 import net.n2oapp.framework.ui.servlet.AppConfigJsonWriter;
+import net.n2oapp.framework.ui.utils.UrlUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -72,6 +73,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -250,7 +252,9 @@ public class ViewController {
 
     @CrossOrigin(origins = "*")
     @PostMapping({"/view/{projectId}/n2o/export/**", "/view/{projectId}/n2o/export", "/view/{projectId}/n2o/export/"})
-    public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId, @RequestBody ExportRequest request) {
+    public ResponseEntity<byte[]> export(@PathVariable(value = "projectId") String projectId,
+                                         @RequestBody ExportRequest request,
+                                         HttpServletRequest httpRequest) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
             N2oApplicationBuilder builder = getBuilder(projectId);
@@ -259,29 +263,42 @@ public class ViewController {
 
             DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
             FileGeneratorFactory fileGeneratorFactory = new FileGeneratorFactory(List.of(new CsvFileGenerator(), new XlsxFileGenerator()));
-            ExportController exportController = new ExportController(builder.getEnvironment(), dataController, fileGeneratorFactory);
+            ExportController exportController = new ExportController(builder.getEnvironment(), dataController,
+                    fileGeneratorFactory);
 
-            String url = request.getUrl();
-            String format = request.getFormat();
-            String charset = request.getCharset();
-            String filename = request.getFilename();
+            if (request.getExternalUrl() == null || request.getExternalUrl().isEmpty()) {
+                String dataPrefix = DATA_REQUEST_PREFIX;
+                String path = RouteUtil.parsePath(request.getUrl().substring(request.getUrl().indexOf(dataPrefix) + dataPrefix.length()));
+                Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(request.getUrl()));
+                if (params == null)
+                    throw new N2oException("Query-параметр запроса пустой");
 
-            String dataPrefix = DATA_REQUEST_PREFIX;
-            String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
-            Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
-            if (params == null)
-                throw new N2oException("Query-параметр запроса пустой");
+                GetDataResponse dataResponse = exportController.getData(path, params, new UserContext(sandboxContext));
+                List<ExportRequest.ExportField> headers = request.getFields();
+                ExportResponse exportResponse = exportController.export(dataResponse.getList(), request.getFormat(), request.getCharset(),
+                        headers, request.getFilename());
 
-            GetDataResponse dataResponse = exportController.getData(path, params, new UserContext(sandboxContext));
-            List<ExportRequest.ExportField> headers = request.getFields();
-            ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers, filename);
+                return ResponseEntity.status(exportResponse.getStatus())
+                        .contentLength(exportResponse.getContentLength())
+                        .header(HttpHeaders.CONTENT_TYPE, exportResponse.getContentType())
+                        .header(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition())
+                        .header(HttpHeaders.CONTENT_ENCODING, exportResponse.getCharacterEncoding())
+                        .body(exportResponse.getFile());
+            } else {
+                try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+                    request.setExternalUrl(UrlUtil.resolveAbsoluteUrl(request.getExternalUrl(), httpRequest));
+                    ExportResponse exportResponse = exportController.exportByExternalService(request, outputStream);
 
-            return ResponseEntity.status(exportResponse.getStatus())
-                    .contentLength(exportResponse.getContentLength())
-                    .header(HttpHeaders.CONTENT_TYPE, exportResponse.getContentType())
-                    .header(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition())
-                    .header(HttpHeaders.CONTENT_ENCODING, exportResponse.getCharacterEncoding())
-                    .body(exportResponse.getFile());
+                    return ResponseEntity.status(exportResponse.getStatus())
+                            .contentLength(exportResponse.getContentLength() > 0 ? exportResponse.getContentLength() : outputStream.size())
+                            .header(HttpHeaders.CONTENT_TYPE, exportResponse.getContentType())
+                            .header(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition())
+                            .header(HttpHeaders.CONTENT_ENCODING, exportResponse.getCharacterEncoding())
+                            .body(outputStream.toByteArray());
+                } catch (Exception e) {
+                    throw new N2oException("Ошибка при экспорте данных: " + e.getMessage());
+                }
+            }
         } finally {
             sandboxContext.refresh();
             ThreadLocalProjectId.clear();
