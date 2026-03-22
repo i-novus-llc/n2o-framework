@@ -12,4 +12,5 @@ public class N2oExportTableSetting extends N2oAbstractTableSetting {
     private ExportSizeEnum defaultSize;
     private Boolean showModal;
     private String filename;
+    private String url;
 }

@@ -27,6 +27,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oApplicationPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -958,5 +959,129 @@ class TableButtonGeneratorAT extends AutoTestBase {
      */
     private void shouldNotBeChecked(StandardButton button) {
         button.element().$(".custom-control-input.n2o-input[type='checkbox']").shouldNot(Condition.checked);
+    }
+
+    @Test
+    void exportByExternalServiceTest() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/export_external_service");
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties())
+                .setProperty("n2o.autotest.external.export.url", getBaseUrl() + "/external/export");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/export_external_service/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/export_external_service/data.query.xml")
+        );
+
+        // Проверка доступности ExternalExportController
+        try {
+            java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+            java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(getBaseUrl() + "/external/export/health"))
+                    .GET()
+                    .build();
+            java.net.http.HttpResponse<String> response = client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
+            System.out.println("ExternalExportController health check: " + response.statusCode() + " - " + response.body());
+        } catch (Exception e) {
+            System.err.println("ExternalExportController is NOT available: " + e.getMessage());
+        }
+
+        openPage();
+        N2oButton exportBtn = toolbar.button(0, N2oStandardButton.class);
+        exportBtn.shouldExists();
+        exportBtn.shouldBeEnabled();
+        File file = exportBtn.element().download(
+                using(FOLDER).withFilter(withExtension("csv"))
+        );
+
+        try (FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
+            char[] chars = new char[(int) file.length() - 1];
+            fileReader.read(chars);
+
+            String actual = new String(chars);
+            String expected = """
+                    "Идентификатор";"Идентификатор ИПС";"Наименование";"Регион"
+                    "1";"ey88ee-rugh34-asd4";"РМИС Республика Адыгея(СТП)";"Республика Адыгея"
+                    "2";"ey88ee-ruqah34-54eqw";"РМИС Республика Татарстан(тестовая для ПСИ)";"Республика Татарстан"
+                    "3";"ey88ea-ruaah34-54eqw";"ТМК";""
+                    "4";"ey88ee-asd52a-54eqw";"МИС +МЕД";"Республика Адыгея"
+                    "5";"ey88fe-asd52a-54eqb";"РМИС Комстромской области";"Комстромская область"
+                    """;
+            assertTrue(actual.contains(expected), "Экспортированное значение таблицы через внешний сервис не соответствует ожидаемому");
+        } catch (IOException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void exportByExternalServiceWithFilterTest() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/export_external_service");
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties())
+                .setProperty("n2o.autotest.external.export.url", getBaseUrl() + "/external/export");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/export_external_service/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/export_external_service/data.query.xml")
+        );
+
+        openPage();
+
+        // Устанавливаем фильтр
+        InputText inputName = table.filters().fields().field("Наименование").control(InputText.class);
+        inputName.setValue("ТМК");
+        table.filters().toolbar().button(SEARCH_BUTTON_LABEL).click();
+        table.columns().rows().shouldHaveSize(1);
+
+        N2oButton exportBtn = toolbar.button(0, N2oStandardButton.class);
+        exportBtn.shouldExists();
+        File file = exportBtn.element().download(
+                using(FOLDER).withFilter(withExtension("csv"))
+        );
+
+        try (FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
+            char[] chars = new char[(int) file.length() - 1];
+            fileReader.read(chars);
+
+            String actual = new String(chars);
+            String expected = """
+                    "Идентификатор";"Идентификатор ИПС";"Наименование";"Регион"
+                    "3";"ey88ea-ruaah34-54eqw";"ТМК";""
+                    """;
+            assertTrue(actual.contains(expected), "Экспортированное значение таблицы с фильтром через внешний сервис не соответствует ожидаемому");
+        } catch (IOException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void exportByExternalServiceWithRelativeUrlTest() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/export_external_service_relative_url");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/export_external_service_relative_url/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/export_external_service_relative_url/data.query.xml")
+        );
+
+        openPage();
+        N2oButton exportBtn = toolbar.button(0, N2oStandardButton.class);
+        exportBtn.shouldExists();
+        exportBtn.shouldBeEnabled();
+        File file = exportBtn.element().download(
+                using(FOLDER).withFilter(withExtension("csv"))
+        );
+
+        try (FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8)) {
+            char[] chars = new char[(int) file.length() - 1];
+            fileReader.read(chars);
+
+            String actual = new String(chars);
+            String expected = """
+                    "Идентификатор";"Идентификатор ИПС";"Наименование";"Регион"
+                    "1";"ey88ee-rugh34-asd4";"РМИС Республика Адыгея(СТП)";"Республика Адыгея"
+                    "2";"ey88ee-ruqah34-54eqw";"РМИС Республика Татарстан(тестовая для ПСИ)";"Республика Татарстан"
+                    "3";"ey88ea-ruaah34-54eqw";"ТМК";""
+                    "4";"ey88ee-asd52a-54eqw";"МИС +МЕД";"Республика Адыгея"
+                    "5";"ey88fe-asd52a-54eqb";"РМИС Комстромской области";"Комстромская область"
+                    """;
+            assertTrue(actual.contains(expected), "Экспортированное значение таблицы через внешний сервис с относительным URL не соответствует ожидаемому");
+        } catch (IOException e) {
+            fail();
+        }
     }
 }

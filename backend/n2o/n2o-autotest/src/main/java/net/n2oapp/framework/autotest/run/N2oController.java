@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.register.SourceInfo;
+import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.rest.*;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
@@ -40,7 +41,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
 import java.util.*;
+
+import static net.n2oapp.framework.ui.utils.UrlUtil.resolveAbsoluteUrl;
 
 /**
  * Контроллер n2o запросов для автотестов
@@ -72,7 +76,7 @@ public class N2oController {
     public N2oController(DataProcessingStack dataProcessingStack, AlertMessageBuilder messageBuilder,
                          QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor,
                          DomainProcessor domainProcessor, AlertMessagesConstructor messagesConstructor,
-                         InvocationProcessor serviceProvider) {
+                         InvocationProcessor serviceProvider, MetadataRouter router) {
         this.queryProcessor = queryProcessor;
         this.dataProcessingStack = dataProcessingStack;
         this.messageBuilder = messageBuilder;
@@ -144,32 +148,41 @@ public class N2oController {
     }
 
     @PostMapping({"/n2o/export/**", "/n2o/export/", "/n2o/export"})
-    public ResponseEntity<byte[]> export(@RequestBody ExportRequest request) {
+    public ResponseEntity<byte[]> export(@RequestBody ExportRequest request, HttpServletRequest httpRequest) {
         FileGeneratorFactory fileGeneratorFactory = new FileGeneratorFactory(List.of(new CsvFileGenerator()));
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
-        ExportController exportController = new ExportController(builder.getEnvironment(), dataController, fileGeneratorFactory);
-
-        String url = request.getUrl();
-        String format = request.getFormat();
-        String charset = request.getCharset();
-        String filename = request.getFilename();
+        ExportController exportController = new ExportController(builder.getEnvironment(), dataController,
+                fileGeneratorFactory);
 
         String dataPrefix = DATA_REQUEST_PREFIX;
-        String path = RouteUtil.parsePath(url.substring(url.indexOf(dataPrefix) + dataPrefix.length()));
-        Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
+        String path = RouteUtil.parsePath(request.getUrl().substring(request.getUrl().indexOf(dataPrefix) + dataPrefix.length()));
+        Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(request.getUrl()));
         if (params == null)
             throw new N2oException("Query-параметр запроса пустой");
 
-        GetDataResponse dataResponse = exportController.getData(path, params, null);
-        List<ExportRequest.ExportField> headers = request.getFields();
-        ExportResponse exportResponse = exportController.export(dataResponse.getList(), format, charset, headers, filename);
+        if (request.getExternalUrl() == null || request.getExternalUrl().isEmpty()) {
+            GetDataResponse dataResponse = exportController.getData(path, params, null);
+            List<ExportRequest.ExportField> headers = request.getFields();
+            ExportResponse exportResponse = exportController.export(dataResponse.getList(), request.getFormat(),
+                    request.getCharset(), headers, request.getFilename());
 
-        return ResponseEntity.status(exportResponse.getStatus())
-                .contentLength(exportResponse.getContentLength())
-                .header(HttpHeaders.CONTENT_TYPE, exportResponse.getContentType())
-                .header(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition())
-                .header(HttpHeaders.CONTENT_ENCODING, exportResponse.getCharacterEncoding())
-                .body(exportResponse.getFile());
+            return ResponseEntity.status(exportResponse.getStatus())
+                    .contentLength(exportResponse.getContentLength())
+                    .header(HttpHeaders.CONTENT_TYPE, exportResponse.getContentType())
+                    .header(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition())
+                    .header(HttpHeaders.CONTENT_ENCODING, exportResponse.getCharacterEncoding())
+                    .body(exportResponse.getFile());
+        } else {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            request.setExternalUrl(resolveAbsoluteUrl(request.getExternalUrl(), httpRequest));
+            ExportResponse exportResponse = exportController.exportByExternalService(request, outputStream);
+
+            return ResponseEntity.status(exportResponse.getStatus())
+                    .contentLength(exportResponse.getContentLength() > 0 ? exportResponse.getContentLength() : outputStream.size())
+                    .header(HttpHeaders.CONTENT_TYPE, exportResponse.getContentType())
+                    .header(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition())
+                    .body(outputStream.toByteArray());
+        }
     }
 
     @ExceptionHandler(N2oException.class)

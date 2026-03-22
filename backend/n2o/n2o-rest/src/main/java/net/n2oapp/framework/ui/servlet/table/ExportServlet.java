@@ -14,8 +14,9 @@ import net.n2oapp.framework.ui.controller.export.ExportController;
 import org.springframework.http.HttpHeaders;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
+
+import static net.n2oapp.framework.ui.utils.UrlUtil.resolveAbsoluteUrl;
 
 public class ExportServlet extends N2oServlet {
 
@@ -29,28 +30,33 @@ public class ExportServlet extends N2oServlet {
     public void safeDoPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ExportRequest exportRequest = objectMapper.readValue(req.getInputStream(), ExportRequest.class);
 
-        String format = exportRequest.getFormat();
-        String charset = exportRequest.getCharset();
-        String url = exportRequest.getUrl();
-        String filename = exportRequest.getFilename();
-
-        String path = getPath(url, "/n2o/data");
-        Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(url));
+        String path = getPath(exportRequest.getUrl(), "/n2o/data");
+        Map<String, String[]> params = RouteUtil.parseQueryParams(RouteUtil.parseQuery(exportRequest.getUrl()));
         if (params == null)
             throw new N2oException("Query-параметр запроса пустой");
 
-        GetDataResponse dataResponse = controller.getData(path, params, (UserContext) req.getAttribute(USER));
-        List<ExportRequest.ExportField> headers = exportRequest.getFields();
-        ExportResponse exportResponse = controller.export(dataResponse.getList(), format, charset, headers, filename);
+        if (exportRequest.getExternalUrl() == null || exportRequest.getExternalUrl().isEmpty()) {
+            GetDataResponse dataResponse = controller.getData(path, params, (UserContext) req.getAttribute(USER));
+            ExportResponse exportResponse = controller.export(dataResponse.getList(), exportRequest.getFormat(),
+                    exportRequest.getCharset(), exportRequest.getFields(), exportRequest.getFilename());
+            resp.setStatus(exportResponse.getStatus());
+            resp.setContentType(exportResponse.getContentType());
+            resp.setCharacterEncoding(exportResponse.getCharacterEncoding());
+            resp.setHeader(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition());
+            resp.setContentLength(exportResponse.getFile().length);
 
-        resp.setStatus(exportResponse.getStatus());
-        resp.setContentType(exportResponse.getContentType());
-        resp.setCharacterEncoding(exportResponse.getCharacterEncoding());
-        resp.setHeader(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition());
-        resp.setContentLength(exportResponse.getFile().length);
-
-        ServletOutputStream outputStream = resp.getOutputStream();
-        outputStream.write(exportResponse.getFile());
+            ServletOutputStream outputStream = resp.getOutputStream();
+            outputStream.write(exportResponse.getFile());
+        } else {
+            exportRequest.setExternalUrl(resolveAbsoluteUrl(exportRequest.getExternalUrl(), req));
+            ExportResponse exportResponse = controller.exportByExternalService(exportRequest, resp.getOutputStream());
+            resp.setStatus(exportResponse.getStatus());
+            resp.setContentType(exportResponse.getContentType());
+            resp.setHeader(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition());
+            if (exportResponse.getContentLength() > 0) {
+                resp.setContentLength(exportResponse.getContentLength());
+            }
+        }
     }
 
     private String getPath(String url, String prefix) {

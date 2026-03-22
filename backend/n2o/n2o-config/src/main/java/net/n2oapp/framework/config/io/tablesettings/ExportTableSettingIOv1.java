@@ -24,6 +24,7 @@ public class ExportTableSettingIOv1 extends AbstractTableSettingsIOv1<N2oExportT
         p.attributeEnum(e, "default-size", m::getDefaultSize, m::setDefaultSize, ExportSizeEnum.class);
         p.attributeBoolean(e, "show-modal", m::getShowModal, m::setShowModal);
         p.attribute(e, "filename", m::getFilename, m::setFilename);
+        p.attribute(e, "url", m::getUrl, m::setUrl);
     }
 
     @Override

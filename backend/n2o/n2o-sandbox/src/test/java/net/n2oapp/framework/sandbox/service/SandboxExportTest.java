@@ -1,5 +1,6 @@
 package net.n2oapp.framework.sandbox.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import net.n2oapp.framework.api.rest.ExportRequest;
 import net.n2oapp.framework.sandbox.engine.SandboxTestDataProviderEngine;
@@ -29,6 +30,7 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = {SandboxTestApplication.class, ViewController.class, SandboxPropertyResolver.class,
@@ -79,7 +81,7 @@ class SandboxExportTest {
 
         mockFileStorage();
 
-        ResponseEntity<byte[]> response = viewController.export("myProjectId", request);
+        ResponseEntity<byte[]> response = viewController.export("myProjectId", request, mock(HttpServletRequest.class));
         assertThat(response.getStatusCode().value(), is(200));
         assertThat(response.getBody(), is(expectedBody.getBytes(StandardCharsets.UTF_8)));
         HttpHeaders headers = response.getHeaders();

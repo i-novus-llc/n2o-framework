@@ -31,8 +31,8 @@ import java.util.*;
 
 @Setter
 public abstract class AbstractController {
-    private MetadataRouter router;
-    private MetadataEnvironment environment;
+    protected MetadataRouter router;
+    protected MetadataEnvironment environment;
     @Getter
     private AlertMessageBuilder messageBuilder;
 
