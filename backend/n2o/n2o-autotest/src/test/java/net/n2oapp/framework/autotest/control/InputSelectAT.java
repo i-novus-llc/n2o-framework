@@ -181,9 +181,11 @@ class InputSelectAT extends AutoTestBase {
         input.backspace();
         input.shouldBeEmpty();
 
+        // Проверяем, что при выборе введенное в input значение сохраняется. При blur должно сброситься
         input.setValue("One");
         input.openPopup();
         input.dropdown().selectMulti(0);
+        input.shouldHaveValue("One");
         page.element().click();
         input.shouldHaveValue("");
 
@@ -240,9 +242,11 @@ class InputSelectAT extends AutoTestBase {
         input.clearItems("Two", "One");
         input.shouldBeEmpty();
 
+        // Проверяем, что при выборе введенное в input значение сохраняется. При blur должно сброситься
         input.setValue("One");
         input.openPopup();
         input.dropdown().selectMulti(0);
+        input.shouldHaveValue("One");
         page.element().click();
         input.shouldHaveValue("");
 

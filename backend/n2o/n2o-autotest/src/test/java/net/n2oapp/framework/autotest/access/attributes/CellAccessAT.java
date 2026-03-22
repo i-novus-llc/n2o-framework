@@ -41,7 +41,7 @@ class CellAccessAT extends AutoTestBase {
         super.setUp();
     }
 
-     @Override
+    @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack(), new AccessSchemaPack());
