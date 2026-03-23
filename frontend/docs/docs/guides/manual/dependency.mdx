@@ -5,7 +5,7 @@ description: ""
 import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 Между виджетами, филдсетами или полями можно установить зависимости.
-Зависимоcти задаются выражениями на языке JavaScript.
+Зависимоcти задаются [выражениями на языке JavaScript](./javascript).
 
 ### Блокировка
 
@@ -28,7 +28,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 Существует короткая запись условия блокировки поля с помощью атрибута `enabled`.
 Атрибут `enabled` принимает значение `true` или `false`,
-но его можно задать через javaScript выражение, записанное в фигурных скобках:
+но его можно задать через [javaScript выражение](./javascript):
 
 ```xml title="Короткая запись условия блокировки поля"
 <input-text id="maidenName"
@@ -75,7 +75,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 Существует короткая запись условия блокировки кнопки с помощью атрибута `enabled`.
 Атрибут `enabled` принимает значение `true` или `false`,
-но его можно задать через javaScript выражение, записанное в фигурных скобках:
+но его можно задать через [javaScript выражение](./javascript):
 
 ```xml title="Блокирование кнопки по условию в атрибуте"
 <button label="Изменить"
@@ -204,7 +204,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 ### Установка значений
 
-С помощью установки значений можно автоматически заполнять поля ввода по JavaScript выражениям.
+С помощью установки значений можно автоматически заполнять поля ввода по [JavaScript выражениям](./javascript).
 
 Установка значения задаётся с помощью элемента `<set-value>`:
 
@@ -221,10 +221,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 ```
 <Sandbox height={450} projectId="interactions_dependency_setvalue" showHeader />
 
-В теле `<set-value>` должно быть записано выражение на языке JavaScript, которое вернёт новое значение поля.
-
-Если в теле необходимо написать не одно, а несколько выражений,
-то необходимо использовать команду `return` для явного возврата значения:
+В теле `<set-value>` должно быть записано [выражение на языке JavaScript](./javascript), которое вернёт новое значение поля.
 
 ```xml title="Установка значения в списковом поле"
 <select id="gender" label="Пол">
@@ -258,10 +255,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
         <!-- Если адрес проживания совпадает с адресом регистрации,
              то чекбокс выделяется, иначе выделение снимается  -->
         <set-value on="addressReq, addressFact">
-              if (addressReq == addressFact)
-                return true;
-              else
-                return false;
+              addressReq == addressFact
         </set-value>
     </dependencies>
 </checkbox>
@@ -290,7 +284,7 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 Существует короткая запись условия обязательности поля с помощью атрибута `required`.
 Атрибут `required` принимает значение `true` или `false`,
-но его можно задать через javaScript выражение, записанное в фигурных скобках:
+но его можно задать через [javaScript выражение](./javascript):
 
 ```xml title="Условие обязательности заполнения поля через атрибут"
 <input-text id="maidenName"

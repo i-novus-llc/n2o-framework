@@ -1,0 +1,206 @@
+---
+title: JavaScript-выражения
+description: Вычисляемые JavaScript выражения в N2O
+---
+import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
+
+# JavaScript выражения
+
+В N2O можно использовать JavaScript выражения для вычисления значений на основе текущей модели данных.
+
+Такие выражения применяются для:
+- [значений по умолчанию](./defaultvalue)
+- [зависимости](./dependency)
+- [валидаций](./validation)
+- [динамических свойств компонентов](./dynamic)
+
+JavaScript выражение должно возвращать значение, которое будет использовано фреймворком.
+
+Описывать выражения можно двумя способами:
+
+1. В атрибутах элементов, обернув JavaScript код в фигурные скобки: `{/* javascript */}`
+```xml title="Значение по умолчанию в виде JavaScript выражения"
+<output-text id="randomNum" default-value="{Math.random()}"/>
+```
+<Sandbox height={300} projectId="interactions_defaultvalue_js" showHeader />
+
+2. В теле предназначенных для этого тэгов
+```xml title="Если используется однострочное выражение, его результат возвращается автоматически"
+<output-text id="randomNum">
+    <dependencies>
+        <set-value apply-on-init="true">
+            Math.random()
+        </set-value>
+    </dependencies>
+</output-text>
+```
+```xml title="Если используется многострочный JavaScript код, необходимо явно вернуть значение с помощью return"
+<output-text id="randomNum">
+    <dependencies>
+        <set-value apply-on-init="true">
+            const value = Math.random()
+
+            return "default-value=" + value
+        </set-value>
+    </dependencies>
+</output-text>
+```
+
+## Контекст выполнения и область видимости
+
+Контекст выполнения (`this`) указывает на модель данных, связанную с компонентом.
+
+```xml title="Доступ к полям модели через this"
+<output-text id="fullName" default-value="{this.firstName + ' ' + this.lastName}"/>
+```
+
+Область видимости выражения расширена дополнительными утилитами и данными,
+которые зависят от места использования выражения.
+
+Также для более короткой записи, поля модели данных доступны в области видимости выражения
+
+```xml title="Доступ к полям модели из области видимости"
+<output-text id="fullName" default-value="{firstName + ' ' + lastName}"/>
+```
+
+### Глобальная область видимости
+
+Утилиты, подключенные на уровне приложения и доступные в любом месте
+
+| Доступ  | Описание              |
+|---------|-----------------------|
+| $       | Утилиты N2O           |
+| _       | https://lodash.com/   |
+| moment  | https://momentjs.com/ |
+| numeral | http://numeraljs.com/ |
+
+```xml title="Значение по умолчанию, заданные разными утилитами"
+<output-text id="moment" default-value="{moment('06.02.2019').format('DD.MM.YYYY')}"/>  <!-- 02.06.2019 -->
+<output-text id="numeral" default-value="{numeral(1.5).format('0.000')}"/>              <!-- 1,500 -->
+<output-text id="lodash" default-value="{_.join(['a', 'b', 'c'], '~')}"/>               <!-- a~b~c -->
+```
+
+#### Утилиты N2O
+Набор вспомогательных и часто используемых функций
+
+| Функция        | Описание                    | Тип                           |
+|----------------|-----------------------------|-------------------------------|
+| $.uuid         | Генерация uuid              | `() => string`                |
+| $.isEmptyModel | Проверяет, пустая ли модель | `(model?: object) => boolean` |
+| $.now          | Текущая дата и время        | `(format?: string) => string` |
+| $.today        | Текущая дата                | `(format?: string) => string` |
+| $.beginWeek    | Начало недели               | `(format?: string) => string` |
+| $.endWeek      | Конец недели                | `(format?: string) => string` |
+| $.beginMonth   | Начало месяца               | `(format?: string) => string` |
+| $.endMonth     | Конец месяца                | `(format?: string) => string` |
+| $.beginQuarter | Начало квартала             | `(format?: string) => string` |
+| $.endQuarter   | Конец квартала              | `(format?: string) => string` |
+| $.beginYear    | Начало года                 | `(format?: string) => string` |
+| $.endYear      | Конец года                  | `(format?: string) => string` |
+
+
+```xml title="Значение по умолчанию в виде функции даты и времени"
+<date-time id="dt" default-value="{$.now()}"/>
+```
+<Sandbox height={500} projectId="interactions_defaultvalue_datetime" showHeader />
+
+### Виджеты
+
+В выражениях доступны дополнительные данные, возвращённые сервером с помощью атрибута `additional-mapping` элемента `<list>`.
+
+| Доступ          | Описание                  |
+|-----------------|---------------------------|
+| $additionalInfo | Дополнительная информация |
+
+```xml title="Получение с сервера дополнительный данных и сохранение их под ключом 'additionalInfo'"
+<list result-mapping="['messages.data']" additional-mapping="['messages.count']">
+    ...
+<list>
+```
+
+```json
+{
+    "meta": {},
+    "list": [...],
+    "paging": {},
+    "additionalInfo:" {
+        "all": 5,
+        "new": 2,
+        "archived": 3
+    }
+}
+```
+
+```xml title="Использование additional значений"
+<toolbar>
+    <button label="Все ({ $additional.all })"/>
+    <button label="Непрочитанные ({ $additional.new })"/>
+    <button label="В архиве ({ $additional.archived })"/>
+</toolbar>
+```
+
+#### Контекст `this`
+
+Зависит от используемой [модели](./datasources#models) виджета
+
+#### Мультисет
+
+| Доступ   | Описание                                                                                                    |
+|----------|-------------------------------------------------------------------------------------------------------------|
+| index    | Номер строки мультисета. Также можно использовать `$index_0`                                                |
+| $index_N | Номер строки при использовании вложенных друг в друга мультисетов, где N - уровень вложенности, начиная с 0 |
+
+
+```xml title="Значение по умолчанию в виде функции даты и времени"
+<multi-set id="items">
+    <output-text id="fullName" label="Участник №{index}" default-value="{items[index].firstName + ' ' + items[index].lastName}"/>
+    <multi-set id="results">
+        <output-text id="score" label="Результат забега №{$index_1}" />
+    </multi-set>
+</multi-set>
+```
+
+## Ограничения
+
+### Контекст выполнения
+
+Т.к. все выражения должны быть синхронными и возвращать значение, зависящее только от модели данных,
+из глобального контекста выполнения убраны доступы к api, позволяющим создавать сайд-эффекты.
+
+### Среда выполнения
+
+⚠ Ограничение серверной проверки
+
+Выражения, используемые в валидации, выполняются не только на клиенте, но и на сервере
+из-за заданного значения для атрибута `side="client,server"`.
+На сервере выражения обрабатывает библиотека Nashorn. Поэтому необходимо использовать синтаксис **ECMAScript 5**.
+
+Некоторые возможности современного JavaScript могут быть недоступны:
+- стрелочные функции
+- optional chaining
+- nullish coalescing
+
+```javascript title="Нельзя"
+return person?.items.filter(({ value }) => (value)) ?? []
+```
+```javascript title="Можно"
+return person && person.items.filter(function(item) { return item.value }) || []
+```
+
+### Спецсимволы в xml
+
+Из-за особенностей формата, символы вроде `&` `<` внутри javascript выражений могут привести к поломке синтаксиса документа,
+поэтому их необходимо заменять на HTML-сущности `&amp;` `&lt;`
+либо обернуть JavaScript код в блок CDATA: `<![CDATA[/* javascript */]]>`
+
+```xml title="JavaScript код с использованием спецсимволов"
+<output-text id="allow" class="{age &amp;&amp; (18 &lt;= age) ? 'success' : 'warn'}" >
+    <dependencies>
+        <set-value apply-on-init="true">
+            <![CDATA[
+                age && (18 <= age)
+            ]]>
+        </set-value>
+    </dependencies>
+</output-text>
+```
