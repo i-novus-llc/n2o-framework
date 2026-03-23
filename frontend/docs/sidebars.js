@@ -24,6 +24,7 @@ module.exports = {
                 'guides/manual/access',
                 'guides/manual/security',
                 'guides/manual/customization',
+                'guides/manual/javascript',
                 'guides/manual/conclusion',
             ],
         },

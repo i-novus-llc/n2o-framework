@@ -5,7 +5,7 @@ let context: object | undefined
 // Список допустимых переменных из глобального окружения
 const allowList: Array<string | symbol> = [
     'undefined', 'null', 'NaN', 'Infinity', 'console', 'JSON', 'Math',
-    // тут сомнительные пропсы, но пусть пока будут, будем убирать по мере разбора
+    // FIXME: тут сомнительные пропсы, но пусть пока будут, будем убирать по мере разбора
     'navigator', 'crypto',
 ]
 
@@ -27,12 +27,9 @@ export function createGlobalContext(): object {
         get(target, key: keyof typeof self) {
             const value = target[key]
 
-            if (typeof value === 'function' || allowList.includes(key)) {
-                return value
-            }
-            if (selfKeys.includes(key)) {
-                return context
-            }
+            // fixme: убрать typeof value === 'function', перенести необходимые функции в allowList
+            if (typeof value === 'function' || allowList.includes(key)) { return value }
+            if (selfKeys.includes(key)) { return context }
 
             return undefined
         },

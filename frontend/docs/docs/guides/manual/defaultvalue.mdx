@@ -72,45 +72,12 @@ import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
 
 ### Вычисляемые значения
 
-Можно задать значение по умолчанию с помощью JavaScript выражения:
+Можно задать значение по умолчанию с помощью [JavaScript выражения](./javascript):
 
 ```xml title="Значение по умолчанию в виде JavaScript выражения"
 <output-text id="randomNum" default-value="`Math.random()`"/>
 ```
 <Sandbox height={300} projectId="interactions_defaultvalue_js" showHeader />
-
-#### Функции работы с данными
-В контексте JavaScript выражения доступны функции и переменные для удобной работы с датами, числами, списками.
-
-|Доступ   |Описание              |
-|---------|----------------------|
-|$        |Библиотека функций N2O|
-|_        |https://lodash.com/   |
-|moment() |https://momentjs.com/ |
-|numeral()|http://numeraljs.com/ |
-
-#### Функции дат {#Date_functions}
-
-В библиотеке функций N2O имеются удобные функции для работы с датами:
-
-|Функция       |Описание            |
-|--------------|--------------------|
-|now()         |Текущая дата и время|
-|today()       |Текущая дата        |
-|beginWeek()   |Начало недели       |
-|endWeek()     |Конец недели        |
-|beginMonth()  |Начало месяца       |
-|endMonth()    |Конец месяца        |
-|beginQuarter()|Начало квартала     |
-|endQuarter()  |Конец квартала      |
-|beginYear()   |Начало года         |
-|endYear()     |Конец года          |
-
-Доступ к функциям дат осуществляется через `$.`:
-```xml title="Значение по умолчанию в виде функции даты и времени"
-<date-time id="dt" default-value="`$.now()`"/>
-```
-<Sandbox height={500} projectId="interactions_defaultvalue_datetime" showHeader />
 
 ### Ссылки на данные
 
