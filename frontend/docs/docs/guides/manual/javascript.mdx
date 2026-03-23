@@ -1,5 +1,5 @@
 ---
-title: JavaScript-выражения
+title: JavaScript выражения
 description: Вычисляемые JavaScript выражения в N2O
 ---
 import { Sandbox } from '../../../src/components/Sandbox/Sandbox'
@@ -22,7 +22,7 @@ JavaScript выражение должно возвращать значение
 ```xml title="Значение по умолчанию в виде JavaScript выражения"
 <output-text id="randomNum" default-value="{Math.random()}"/>
 ```
-<Sandbox height={300} projectId="interactions_defaultvalue_js" showHeader />
+<Sandbox height={200} projectId="interactions_defaultvalue_js"/>
 
 2. В теле предназначенных для этого тэгов
 ```xml title="Если используется однострочное выражение, его результат возвращается автоматически"
@@ -102,7 +102,7 @@ JavaScript выражение должно возвращать значение
 ```xml title="Значение по умолчанию в виде функции даты и времени"
 <date-time id="dt" default-value="{$.now()}"/>
 ```
-<Sandbox height={500} projectId="interactions_defaultvalue_datetime" showHeader />
+<Sandbox height={200} projectId="interactions_defaultvalue_datetime"/>
 
 ### Виджеты
 
