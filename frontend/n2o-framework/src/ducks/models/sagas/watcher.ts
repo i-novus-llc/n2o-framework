@@ -17,6 +17,7 @@ import {
     setModel,
     updateModel,
     removeAllModel,
+    combineModels,
 } from '../store'
 import { SetModelAction } from '../Actions'
 import { Model } from '../selectors'
@@ -58,7 +59,21 @@ export const sagas = [
             })
         }
     }),
-    // TODO: combine
+    takeEvery(combineModels, (action) => {
+        const { combine } = action.payload
+
+        if (isEmpty(combine)) { return }
+
+        addSubscriberToBuffer(action)
+
+        for (const [prefix, models] of Object.entries(combine)) {
+            for (const [id, model] of Object.entries(models)) {
+                for (const field of Object.keys(model)) {
+                    buffer.keys[getModelLink(prefix as ModelPrefix, id, field)] = true
+                }
+            }
+        }
+    }),
     takeEvery([
         clearModel,
         removeAllModel,
@@ -135,6 +150,7 @@ export const sagas = [
         appendToArray,
         clearModel,
         copyFieldArray,
+        combineModels,
         removeFromArray,
         setModel,
         updateModel,
