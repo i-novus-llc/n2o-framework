@@ -30,11 +30,11 @@ type BufferValue = {
 }
 
 const allModels = [ModelPrefix.active, ModelPrefix.edit, ModelPrefix.filter, ModelPrefix.selected, ModelPrefix.source]
-let validateBuffer: BufferValue = { keys: {}, handlers: new Set() }
+let buffer: BufferValue = { keys: {}, handlers: new Set() }
 
 const addSubscriberToBuffer = (action: unknown) => {
     getSubscribers().forEach(({ handler, predicate }) => {
-        if (!predicate || predicate(action)) { validateBuffer.handlers.add(handler) }
+        if (!predicate || predicate(action)) { buffer.handlers.add(handler) }
     })
 }
 
@@ -49,12 +49,12 @@ export const sagas = [
         if (isEmpty(model) && isEmpty(prevModel)) { return }
 
         addSubscriberToBuffer(action)
-        validateBuffer.keys[key] = true
+        buffer.keys[key] = true
 
         // TODO array diff
         if (!Array.isArray(model) && !Array.isArray(prevModel)) {
             diffKeys(model, prevModel as Model).forEach((field) => {
-                validateBuffer.keys[getModelLink(prefix, id, field)] = true
+                buffer.keys[getModelLink(prefix, id, field)] = true
             })
         }
     }),
@@ -69,7 +69,7 @@ export const sagas = [
         const prefixes: ModelPrefix[] = get(action.payload, 'prefixes', allModels)
 
         prefixes.forEach((prefix) => {
-            validateBuffer.keys[getModelLink(prefix, id)] = true
+            buffer.keys[getModelLink(prefix, id)] = true
         })
     }),
     takeEvery(updateModel, (action) => {
@@ -78,7 +78,7 @@ export const sagas = [
 
         if (!isEqual(value, get(action.meta?.prevState, key))) {
             addSubscriberToBuffer(action)
-            validateBuffer.keys[key] = true
+            buffer.keys[key] = true
         }
     }),
     takeEvery(copyFieldArray, (action) => {
@@ -87,7 +87,7 @@ export const sagas = [
         const { field, key: id, prefix } = action.payload
         const key = getModelLink(prefix, id, field)
 
-        validateBuffer.keys[key] = true
+        buffer.keys[key] = true
     }),
     takeEvery(appendToArray, (action) => {
         addSubscriberToBuffer(action)
@@ -95,10 +95,10 @@ export const sagas = [
         const { field, position, key: id, prefix } = action.payload
         const key = getModelLink(prefix, id, field)
 
-        validateBuffer.keys[key] = true
+        buffer.keys[key] = true
 
-        validateBuffer.keys = mapMultiFields(
-            validateBuffer.keys,
+        buffer.keys = mapMultiFields(
+            buffer.keys,
             key,
             getOnAppend<true>(field, position),
         )
@@ -109,10 +109,10 @@ export const sagas = [
         const { field, start, count = 1, key: id, prefix } = action.payload
         const key = getModelLink(prefix, id, field)
 
-        validateBuffer.keys[key] = true
+        buffer.keys[key] = true
 
-        validateBuffer.keys = mapMultiFields(
-            validateBuffer.keys,
+        buffer.keys = mapMultiFields(
+            buffer.keys,
             key,
             getOnRemove<true>(field, start, count),
         )
@@ -121,9 +121,9 @@ export const sagas = [
     /// garbage
     takeEvery(removeDatasource, ({ payload }) => {
         for (const prefix of allModels) {
-            validateBuffer.keys = Object.fromEntries(
+            buffer.keys = Object.fromEntries(
                 Object
-                    .entries(validateBuffer.keys)
+                    .entries(buffer.keys)
                     .filter(key => !key[0].startsWith(getModelLink(prefix, payload.id))),
             )
         }
@@ -140,12 +140,12 @@ export const sagas = [
         updateModel,
         removeAllModel,
     ], function* callHandlers() {
-        const buffer = validateBuffer
+        const currentBuffer = buffer
 
-        validateBuffer = { keys: {}, handlers: new Set() }
-        const keys = Object.keys(buffer.keys) as ModelLink[]
+        buffer = { keys: {}, handlers: new Set() }
+        const keys = Object.keys(currentBuffer.keys) as ModelLink[]
 
-        for (const handler of buffer.handlers) {
+        for (const handler of currentBuffer.handlers) {
             try {
                 yield fork(handler, keys)
             } catch (error) {

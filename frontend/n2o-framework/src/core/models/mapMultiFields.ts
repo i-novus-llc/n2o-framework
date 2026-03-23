@@ -11,7 +11,8 @@ export function mapMultiFields<
     F extends MapFn<T>,
 >(obj: O, field: string, mapFn: F) {
     const newObj: Record<string, T> = {}
-    const mask = new RegExp(`${field}\\[(\\d+)]\\.(.+)`)
+    const escaped = field.replaceAll(/([$[^])/g, '\\$1')
+    const mask = new RegExp(`${escaped}\\[(\\d+)]\\.(.+)`)
 
     for (const [fullName, item] of Object.entries(obj)) {
         const match = fullName.match(mask)
