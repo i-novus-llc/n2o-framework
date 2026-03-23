@@ -19,6 +19,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -37,6 +40,8 @@ public class ScriptProcessor {
     private static final ScriptEngineManager engineMgr = new ScriptEngineManager();
     private static volatile ScriptEngine scriptEngine;
     private static String momentJs;
+    private static final ExecutorService PLATFORM_EXECUTOR =
+            Executors.newCachedThreadPool(Thread.ofPlatform().factory());
 
     private static final Pattern FUNCTION_PATTERN = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
     private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*\\{.*\\?.*:.*}.*");
@@ -334,7 +339,7 @@ public class ScriptProcessor {
 
         if (!(value.contains("?") && value.contains(":")))
             return value.substring(0, spreadPos) + SPREAD_TO_MAP_TEMPLATE +
-                    value.substring(spreadPos + 2) + "})";
+                   value.substring(spreadPos + 2) + "})";
 
         // Если выражение содержит тернарный оператор
         StringBuilder result = new StringBuilder();
@@ -410,8 +415,8 @@ public class ScriptProcessor {
 
     public static String buildSwitchExpression(N2oSwitch n2oSwitch) {
         if (n2oSwitch == null
-                || (n2oSwitch.getCases() == null && n2oSwitch.getResolvedCases() == null && n2oSwitch.getDefaultCase() == null)
-                || (n2oSwitch.getValueFieldId() == null || n2oSwitch.getValueFieldId().length() == 0))
+            || (n2oSwitch.getCases() == null && n2oSwitch.getResolvedCases() == null && n2oSwitch.getDefaultCase() == null)
+            || (n2oSwitch.getValueFieldId() == null || n2oSwitch.getValueFieldId().length() == 0))
             return null;
         Map<Object, String> cases = resolveSwitchCases(n2oSwitch.getResolvedCases() != null ? n2oSwitch.getResolvedCases() : n2oSwitch.getCases());
         StringBuilder b = new StringBuilder("`");
@@ -677,6 +682,24 @@ public class ScriptProcessor {
 
     @SuppressWarnings("unchecked")
     public static <T> T eval(String script, DataSet dataSet) throws ScriptException {
+        if (Thread.currentThread().isVirtual()) {
+            try {
+                return (T) PLATFORM_EXECUTOR.submit(() -> doEval(script, dataSet)).get();
+            } catch (ExecutionException e) {
+                Throwable cause = e.getCause();
+                if (cause instanceof ScriptException se)
+                    throw se;
+                throw new N2oException(cause);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new N2oException(e);
+            }
+        }
+        return doEval(script, dataSet);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> T doEval(String script, DataSet dataSet) throws ScriptException {
         ScriptEngine scriptEngine = getScriptEngine();
         Bindings global = scriptEngine.getContext().getBindings(ScriptContext.GLOBAL_SCOPE);
         Bindings bindings = scriptEngine.createBindings();

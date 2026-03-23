@@ -73,8 +73,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         source.setNoLabelBlock(castDefault(source.getNoLabelBlock(),
                 () -> p.resolve(property("n2o.api.control.no_label_block"), String.class)));
         if (source.getRefDatasourceId() != null ||
-                source.getRefModel() != null ||
-                source.getRefFieldId() != null)
+            source.getRefModel() != null ||
+            source.getRefFieldId() != null)
             source.setUsingRef(true);
         source.setRefPage(castDefault(source.getRefPage(), PageRefEnum.THIS));
         source.setRefDatasourceId(castDefault(source.getRefDatasourceId(), () -> {
@@ -140,7 +140,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         } catch (ScriptParserException e) {
             throw new N2oException(
                     String.format("Невозможно извлечь переменные из выражения '%s'. Попробуйте использовать зависимость полей " +
-                                    "с явным указанием переменных в атрибуте 'on'",
+                                  "с явным указанием переменных в атрибуте 'on'",
                             StringUtils.unwrapLink(expression)));
         }
     }
@@ -179,8 +179,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
         if (source.getOn() != null)
             compiled.getOn().addAll(Set.of(source.getOn()));
-        else if (Boolean.TRUE.equals(p.resolve(property("n2o.api.control.dependency.requiring.validate"), Boolean.class)) &&
-                !hasContext(compiled.getExpression()))
+        else if (Boolean.TRUE.equals(p.resolve(property("n2o.api.control.dependency.on.auto"), Boolean.class)) &&
+                 !hasContext(compiled.getExpression()))
             compiled.getOn().addAll(extractOnVariables(compiled.getExpression()));
 
         field.addDependency(compiled);
@@ -445,7 +445,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         if (source.getDependencies() != null) {
             for (N2oField.Dependency dependency : source.getDependencies()) {
                 if (dependency.getClass().equals(N2oField.VisibilityDependency.class) ||
-                        dependency.getClass().equals(N2oField.EnablingDependency.class))
+                    dependency.getClass().equals(N2oField.EnablingDependency.class))
                     fieldVisibilityConditions.add(dependency.getValue());
             }
         } else if (FALSE.equals(source.getVisible()) || FALSE.equals(source.getEnabled())) {
