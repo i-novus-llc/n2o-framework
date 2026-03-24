@@ -5,7 +5,8 @@ import { metadataSuccess, resetPage } from '../pages/store'
 import { type ErrorContainerError } from '../../core/error/types'
 import { Locale } from '../../locales'
 
-import { State as Global } from './Global'
+import { type State as Global } from './Global'
+import { type RequestConfigAction } from './Actions'
 
 export const initialState: Global = {
     ready: false,
@@ -31,7 +32,7 @@ export const globalSlice = createSlice({
             state.loading = true
         },
 
-        REQUEST_CONFIG_SUCCESS(state, action) {
+        REQUEST_CONFIG_SUCCESS(state, action: RequestConfigAction) {
             state = Object.assign(state, action.payload)
             state.loading = false
         },

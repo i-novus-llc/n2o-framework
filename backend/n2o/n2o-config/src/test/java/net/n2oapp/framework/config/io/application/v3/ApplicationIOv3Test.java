@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.io.datasource.BrowserStorageDatasourceIO;
 import net.n2oapp.framework.config.io.datasource.InheritedDatasourceIO;
 import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
 import net.n2oapp.framework.config.io.datasource.StompDatasourceIO;
+import net.n2oapp.framework.config.io.event.OnChangeEventIO;
 import net.n2oapp.framework.config.io.event.StompEventIO;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import net.n2oapp.framework.config.test.N2oTestBase;
@@ -27,7 +28,8 @@ class ApplicationIOv3Test extends N2oTestBase {
     @Test
     void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester(builder.getEnvironment());
-        tester.ios(new ApplicationIOv3(), new AlertActionElementIOV2(), new SidebarIOv3(), new StompEventIO(),
+        tester.ios(new ApplicationIOv3(), new AlertActionElementIOV2(), new SidebarIOv3(),
+                 new StompEventIO(), new OnChangeEventIO(),
                  new StandardDatasourceIO(), new StompDatasourceIO(), new BrowserStorageDatasourceIO(),
                  new InheritedDatasourceIO());
         assert tester.check("net/n2oapp/framework/config/io/application/v3/applicationIOv3.application.xml");

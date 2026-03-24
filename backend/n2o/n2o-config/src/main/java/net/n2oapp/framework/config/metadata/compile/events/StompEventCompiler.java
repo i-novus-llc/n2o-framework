@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.event.N2oStompEvent;
 import net.n2oapp.framework.api.metadata.meta.event.StompEvent;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция  STOMP-события
  */
@@ -23,6 +25,7 @@ public class StompEventCompiler extends BaseEventCompiler<N2oStompEvent, StompEv
         StompEvent event = new StompEvent();
         initEvents(event, source, p);
         event.setDestination(source.getDestination());
+        event.setType(p.resolve(property("n2o.api.page.event.stomp.type"), String.class));
         return event;
     }
 }

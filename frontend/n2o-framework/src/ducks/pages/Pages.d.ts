@@ -1,11 +1,11 @@
 import { CSSProperties } from 'react'
 
-import { ModelPrefix } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/models/types'
 import { Crumb } from '../../components/core/Breadcrumb/const'
 import { DataSourceConfig } from '../datasource/DataSource'
 import { DefaultModels } from '../models/Models'
-import { Action } from '../Action'
 import { ToolbarProps } from '../../components/buttons/Toolbar'
+import { type EventType } from '../watchEvents/watchEvents'
 
 import { Routes } from './sagas/types'
 
@@ -16,13 +16,6 @@ export enum FIXED_PLACE {
 }
 
 export type Places = Record<FIXED_PLACE, CSSProperties & { fixed: boolean }>
-
-export interface Events {
-    datasource: string
-    model: ModelPrefix
-    field: string
-    action: Action
-}
 
 export interface Metadata {
     src?: string
@@ -56,7 +49,7 @@ export interface Metadata {
         htmlTitle: string
         title: string
     }
-    events?: Events[]
+    events?: EventType[]
     widget?: Record<string, unknown>
     models?: DefaultModels
     style?: CSSProperties

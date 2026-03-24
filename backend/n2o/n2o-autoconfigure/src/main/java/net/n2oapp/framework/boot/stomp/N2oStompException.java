@@ -10,4 +10,5 @@ public class N2oStompException extends N2oException {
     public N2oStompException(String message) {
         super(message);
     }
+
 }

@@ -358,6 +358,19 @@
       ]
     },
     {
+      "name": "Web Socket",
+      "templates": [
+        {
+          "templateId": "interactions/web_socket/badge",
+          "name": "Изменение счетчика в меню навигации по web-socket"
+        },
+        {
+          "templateId": "interactions/web_socket/notifications",
+          "name": "Отправка уведомлений по web-socket"
+        }
+      ]
+    },
+    {
       "name": "Доступ по атрибутам",
       "templates": [
         {

@@ -9,7 +9,7 @@ import { Block } from '@i-novus/n2o-components/lib/display/Block'
 
 import { ErrorContainer } from '../../core/error/Container'
 import { type ErrorContainerError } from '../../core/error/types'
-import { State } from '../../ducks/State'
+import { type State } from '../../ducks/State'
 import { requestConfig as requestConfigAction, registerLocales } from '../../ducks/global/store'
 import { globalSelector } from '../../ducks/global/selectors'
 import { Locale, type LocaleArray, type LocalesPreset } from '../../locales'
@@ -17,6 +17,7 @@ import { type SidebarProps } from '../../plugins/SideBar/types'
 import { type SimpleHeaderBodyProps } from '../../plugins/Header/SimpleHeader/SimpleHeader'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 import { Spinner, SpinnerType } from '../../factoryComponents/Spinner'
+import { type EventType } from '../../ducks/watchEvents/watchEvents'
 
 import { GlobalAlertsConnected } from './GlobalAlerts'
 
@@ -25,6 +26,8 @@ export interface Config {
     header: SimpleHeaderBodyProps
     layout: Record<string, unknown>
     sidebars: SidebarProps[]
+    // web socket events
+    events?: EventType[]
 }
 
 export interface ApplicationProps extends ReturnType<typeof mapDispatchToProps> {

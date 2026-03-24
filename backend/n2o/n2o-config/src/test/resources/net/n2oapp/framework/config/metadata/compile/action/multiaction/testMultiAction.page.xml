@@ -1,9 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds"/>
+    </datasources>
     <actions>
         <action id="ac1">
             <alert text="alert"/>
-            <set-value to="val"/>
+            <set-value to="val" target-datasource="ds"/>
             <a href="/test1" target="application"/>
         </action>
     </actions>

@@ -21,8 +21,6 @@ import { changeRootPage } from '../global/store'
 import fetchSaga from '../../sagas/fetch'
 import { DefaultModels } from '../models/Models'
 import { State } from '../State'
-import { mergeMeta } from '../api/utils/mergeMeta'
-import { DEFAULT_CONTEXT } from '../../utils/evalExpression'
 import { userSelector } from '../user/selectors'
 import { resolveMetadata } from '../../core/auth/resolveMetadata'
 import { AuthProvider } from '../../core/auth/Provider'
@@ -32,8 +30,8 @@ import { dataSourceByIdSelector } from '../datasource/selectors'
 import { DATASOURCE_PREFIX } from '../api/constants'
 import { logger } from '../../utils/logger'
 import { subscribe } from '../models/sagas/subscribe'
-import { getModelLink } from '../../core/models/getModelLink'
 import { ModelLink } from '../../core/models/types'
+import { watchOnChangeEvents, getOnChangeEvents } from '../watchEvents/watchEvents'
 
 import { makeIsRootChildByIdSelector, pagesSelector } from './selectors'
 import {
@@ -160,31 +158,16 @@ export function* getMetadata(
 }
 
 /**
- * Сага наблюдения за изменением моделей для отстреливания событий
- * Повторяет логику наблюдения зависимостей из датасурсов
- * FIXME вынести на общий механизм
- * @param action
+ * Сага, получающая страницы, извлекающая из них события и передающая их в watchEvents для обработки.
+ * @param keys - ключи моделей, по которым происходит отслеживание
  */
-export function* watchEvents(keys: ModelLink[]) {
+export function* watchPageEvents(keys: ModelLink[]) {
     const pagesMap: Page[] = yield select(pagesSelector)
     const pagesList: Page[] = Object.values(pagesMap)
 
-    for (const { metadata } of pagesList) {
-        const { events = [] } = metadata
+    const events = pagesList.flatMap(page => page.metadata?.events || [])
 
-        for (const { datasource, model: prefix, field, action } of events) {
-            const modelLink = getModelLink(prefix, datasource, field)
-
-            if (keys.some(link => (
-                modelLink === link ||
-                link.startsWith(`${modelLink}.`) ||
-                link.startsWith(`${modelLink}[`)
-            ))) {
-                // FIXME костыльный проброс контекста
-                yield put(mergeMeta(action, { evalContext: DEFAULT_CONTEXT }))
-            }
-        }
-    }
+    yield call(watchOnChangeEvents, getOnChangeEvents(events), keys)
 }
 
 function* pageScrolling(action: ValidateEndAction) {
@@ -201,7 +184,7 @@ function* pageScrolling(action: ValidateEndAction) {
     yield put(setPageScrolling(pageId, true))
 }
 
-subscribe(watchEvents)
+subscribe(watchPageEvents)
 
 /**
  * Сайд-эффекты для page редюсера

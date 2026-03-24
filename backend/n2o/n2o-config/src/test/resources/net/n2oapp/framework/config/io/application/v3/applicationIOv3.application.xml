@@ -57,6 +57,9 @@
         <stomp-event id="ev2" destination="/task">
             <alert color="primary" timeout="{timeout}" title="{title}" text="{text}" placement="topLeft" />
         </stomp-event>
+        <on-change datasource="ds2" model="edit" field-id="test" id="test1">
+            <alert/>
+        </on-change>
     </events>
 
     <header

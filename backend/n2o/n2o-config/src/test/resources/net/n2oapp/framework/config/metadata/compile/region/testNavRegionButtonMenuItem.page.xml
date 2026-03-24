@@ -37,7 +37,7 @@
         </action>
         <action id="act2">
             <alert text="alert2"/>
-            <set-value to="val"/>
+            <set-value to="val" target-datasource="ds"/>
             <a href="/test1" target="application"/>
         </action>
     </actions>

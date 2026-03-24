@@ -72,6 +72,11 @@ export const dataSourceProviderSelector = (sourceId: string) => createSelector(
     state => state.provider,
 )
 
+export const dataSourceComponentsSelector = (sourceId: string) => createSelector(
+    dataSourceByIdSelector(sourceId),
+    state => state.components || [],
+)
+
 export const dataSourceProviderSizeSelector = (sourceId: string) => createSelector(
     dataSourceProviderSelector(sourceId),
     state => state?.size || null,

@@ -22,6 +22,7 @@ import { requestConfigSuccess } from '../ducks/global/store'
 import { State } from '../ducks/State'
 import { Alert } from '../ducks/alerts/Alerts'
 import { logger } from '../utils/logger'
+import { type RequestConfigAction } from '../ducks/global/Actions'
 
 type MessagesType = Alert[]
 const mapMessage = (message: Alert) => ({ ...message, id: message?.id || id() })
@@ -163,7 +164,7 @@ interface DataSourcesRegister {
         }
     }
 }
-function* dataSourcesRegister(action: DataSourcesRegister) {
+function* dataSourcesRegister(action: RequestConfigAction) {
     const datasources = get(action, 'payload.menu.datasources')
 
     if (isEmpty(datasources)) {

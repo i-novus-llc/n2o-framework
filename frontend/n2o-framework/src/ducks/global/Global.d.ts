@@ -1,5 +1,5 @@
 import { type ErrorContainerError } from '../../core/error/types'
-import { Locale, LocaleArray, type Locales } from '../../locales'
+import { Locale, type LocaleArray } from '../../locales'
 import { type SimpleHeaderBodyProps } from '../../plugins/Header/SimpleHeader/SimpleHeader'
 import { type SidebarProps } from '../../plugins/SideBar/types'
 
@@ -9,6 +9,8 @@ export interface Config {
     layout?: Record<string, unknown>
     sidebars?: SidebarProps[]
     footer?: Record<string, unknown>
+    events?: Event[]
+    wsPrefix?: string
 }
 
 export type State = {

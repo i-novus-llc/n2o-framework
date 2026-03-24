@@ -7,5 +7,8 @@
         <stomp-event id="showTask" destination="/task">
             <alert title="{title}" text="{text}" color="primary" placement="topLeft" timeout="{timeout}"/>
         </stomp-event>
+        <on-change id="onChangeEvent" datasource="ds">
+            <alert title="{title}" text="{text}"/>
+        </on-change>
     </events>
 </application>

@@ -15,4 +15,6 @@ public abstract class Event implements Compiled, IdAware {
 
     @JsonProperty
     private String id;
+    @JsonProperty
+    private String type;
 }

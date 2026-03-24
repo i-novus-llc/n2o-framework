@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    name="Отправка уведомлений по web-socket">
+    <datasources>
+        <app-datasource id="ds" />
+    </datasources>
+    <regions>
+        <form datasource="ds">
+            <fields>
+                <input-text id="message" label="Для изменения значения отправьте GET запрос, заменив в нем projectId
+                на id вашего проекта /sandbox/websocket/:projectId/dest/notifications2/setvalue?message=Новое значение"
+                readonly="true" default-value="Значение по умолчанию"/>
+
+                <alert id="info" color="info"
+                       text="Для отображения всплывающего уведомления отправьте GET запрос, заменив в нем projectId на id вашего проекта
+                       /sandbox/websocket/:projectId/dest/notifications/alert?title=Новое сообщение&amp;text=Привет, мир!&amp;color=success&amp;placement=topRight"/>
+            </fields>
+        </form>
+    </regions>
+    <toolbar>
+        <button label="Открыть другую страницу">
+            <open-page page-id="second"/>
+        </button>
+    </toolbar>
+</page>

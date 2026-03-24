@@ -1,0 +1,49 @@
+[ {
+  "id" : 6,
+  "date" : "2026-03-16T13:27:06",
+  "registry" : "Злокачественные новообразования",
+  "sourceId" : "e7423eaf-3312-494a-acc8-59ef0101d5e1",
+  "status" : "В обработке",
+  "rowCount" : 100,
+  "processedRowCount" : 0
+}, {
+  "id" : 5,
+  "date" : "2026-03-05T12:47:02",
+  "registry" : "Ишемические болезни сердца",
+  "sourceId" : "4a9316a7-c46c-4152-b946-dae9d3107550",
+  "status" : "В обработке",
+  "rowCount" : 10000,
+  "processedRowCount" : 500
+}, {
+  "id" : 4,
+  "date" : "2026-03-05T12:22:46",
+  "registry" : "Кардиомиопатия",
+  "sourceId" : "a57c4bac-ba71-47d5-884e-208148ba98a5",
+  "status" : "В обработке",
+  "rowCount" : 100,
+  "processedRowCount" : 0
+}, {
+  "id" : 3,
+  "date" : "2026-03-05T12:01:57",
+  "registry" : "Ишемические болезни сердца",
+  "sourceId" : "7c5da666-5cbf-49f1-babd-758a11929b64",
+  "status" : "В обработке",
+  "rowCount" : 712,
+  "processedRowCount" : 378
+}, {
+  "id" : 2,
+  "date" : "2026-03-05T07:50:07",
+  "registry" : "Злокачественные новообразования",
+  "sourceId" : "9c426190-e82d-4e01-b680-f8adbb697d18",
+  "status" : "В обработке",
+  "rowCount" : 100,
+  "processedRowCount" : 10
+}, {
+  "id" : 1,
+  "date" : "2026-03-02T17:34:11",
+  "registry" : "Ишемические болезни сердца",
+  "sourceId" : "c1d30d7b-2f0f-4d3b-8d73-eda4f5683c8c",
+  "status" : "Обработан",
+  "rowCount" : 1000,
+  "processedRowCount" : 900
+} ]

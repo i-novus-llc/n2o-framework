@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author iryabov
- * @since 29.07.2016
  */
 class StringUtilsTest {
 

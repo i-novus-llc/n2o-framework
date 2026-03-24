@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.datasource.InheritedDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
 import net.n2oapp.framework.api.metadata.meta.event.Event;
+import net.n2oapp.framework.api.metadata.meta.event.OnChangeEvent;
 import net.n2oapp.framework.api.metadata.meta.event.StompEvent;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -103,7 +104,7 @@ class ApplicationCompileTest extends SourceCompileTestBase {
         Application application = compile("net/n2oapp/framework/config/metadata/application/events.application.xml")
                 .get(new ApplicationContext("events"));
 
-        assertThat(application.getEvents().size(), is(2));
+        assertThat(application.getEvents().size(), is(3));
 
         Event event = application.getEvents().get(0);
         assertThat(event.getId(), is("showNotif"));
@@ -112,6 +113,10 @@ class ApplicationCompileTest extends SourceCompileTestBase {
         event = application.getEvents().get(1);
         assertThat(event.getId(), is("showTask"));
         assertThat(((StompEvent) event).getDestination(), is("/task"));
+
+        event = application.getEvents().get(2);
+        assertThat(event.getId(), is("onChangeEvent"));
+        assertThat(((OnChangeEvent) event).getDatasource(), is("ds"));
     }
 
     @Test

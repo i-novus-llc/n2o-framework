@@ -45,14 +45,6 @@ export const menuSelector = createSelector(
 /**
  * Селектор данных пользователя из конфига
  */
-export const userSelector = createSelector(
-    globalSelector,
-    global => global.menu,
-)
-
-/**
- * Селектор данных пользователя из конфига
- */
 export const userConfigSelector = createSelector(
     globalSelector,
     global => global.user,
@@ -119,4 +111,12 @@ export const getLocales = createSelector(
 export const getAuthUrl = createSelector(
     globalSelector,
     global => global.redirectPath,
+)
+
+/**
+ * Селектор events
+ */
+export const applicationEventsSelector = createSelector(
+    globalSelector,
+    global => global?.menu?.events || [],
 )
