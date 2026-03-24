@@ -72,7 +72,7 @@ export function* fetchValue(
     field: string,
     { dataProvider, valueFieldId = '' }: FieldDependency,
     evalContext: Record<string, unknown>,
-    validate: boolean,
+    validate = false,
 ) {
     const fetchValueKey = `${formName}.${field}`
 
@@ -109,8 +109,8 @@ export function* fetchValue(
             yield put(updateModel(modelPrefix, datasource, field, nextFieldValue, validate))
         }
     } catch (error) {
-        if (values[field] !== null) {
-            yield put(updateModel(modelPrefix, datasource, field, null))
+        if (values?.[field]) {
+            yield put(updateModel(modelPrefix, datasource, field, null, validate))
         }
 
         const messages = get(error, ['json', 'error', 'meta', 'alert', 'message'])
