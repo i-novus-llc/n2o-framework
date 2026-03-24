@@ -66,4 +66,6 @@ public interface Cell extends Component {
      * Наведение мыши на ячейку
      */
     void hover();
+
+    void click();
 }

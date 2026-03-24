@@ -678,8 +678,12 @@
           "name": "BadgeCellAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/cells/checkbox",
-          "name": "CheckboxCellAT"
+          "templateId": "net/n2oapp/framework/autotest/cells/checkbox/simple",
+          "name": "CheckboxCellAT. test"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/checkbox/form_param",
+          "name": "CheckboxCellAT. testFormParam"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/cells/file_upload/simple",

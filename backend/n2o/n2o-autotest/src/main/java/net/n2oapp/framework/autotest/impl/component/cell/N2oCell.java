@@ -79,4 +79,9 @@ public class N2oCell extends N2oComponent implements Cell {
     public void hover() {
         element().hover();
     }
+
+    @Override
+    public void click() {
+        element().click();
+    }
 }
