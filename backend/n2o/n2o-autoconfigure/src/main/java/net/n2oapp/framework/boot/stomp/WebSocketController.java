@@ -5,8 +5,17 @@ package net.n2oapp.framework.boot.stomp;
  */
 public interface WebSocketController {
 
-    void convertAndSend(String destination, Object message);
+    default void convertAndSend(String destination, Object message) {
+        convertAndSend(destination, message, null);
+    }
 
-    void convertAndSendToUser(String user, String destination, Object message);
+    void convertAndSend(String destination, Object message, String pageRoute);
+
+    default void convertAndSendToUser(String user, String destination, Object message) {
+        convertAndSendToUser(user, destination, message, null);
+    }
+
+
+    void convertAndSendToUser(String user, String destination, Object message, String pageRoute);
 
 }

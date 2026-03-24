@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.MergeModeEnum;
@@ -44,6 +45,9 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
                 castDefault(source.getSourceModel(), model.getId()));
         String targetDatasourceId = source.getTargetDatasourceId() == null ? defaultDatasource :
                 getClientDatasourceId(source.getTargetDatasourceId(), p);
+        if (targetDatasourceId == null) {
+            throw new N2oException("В действии \"<set-value>\" не задан атрибут 'target-datasource'");
+        }
         SetValueActionPayload.ClientModel targetModel = new SetValueActionPayload.ClientModel(targetDatasourceId,
                 castDefault(source.getTargetModel(), model.getId()));
         targetModel.setField(source.getTo());

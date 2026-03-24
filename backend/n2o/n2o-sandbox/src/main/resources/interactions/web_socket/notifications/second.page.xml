@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    name="Отправка уведомлений по web-socket на странице">
+
+    <events>
+        <stomp-event id="notifOnPage" destination="/documents">
+            <set-value target-datasource="filesDs"
+                       target-model="datasource"
+                       source-datasource="filesDs"
+                       source-model="datasource">
+                return this.map(function(item) {
+                    if (item.id !== {id}) { return item }
+
+                    return {
+                        ...item,
+                        processedRowCount: {processedRowCount},
+                    }
+                })
+            </set-value>
+        </stomp-event>
+    </events>
+
+    <regions>
+        <form>
+            <fields>
+                <text>Чтобы проверить работу web-socket отправьте GET запрос, заменив в нем projectId на id вашего проекта 
+                    /sandbox/websocket/:projectId/dest/documents/setvalue?pageRoute=/mi0&amp;id=3&amp;processedRowCount=100</text>
+            </fields>
+        </form>
+        <table selection="none">
+            <datasource id="filesDs" query-id="files"/>
+            <columns>
+                <column label="ID" text-field-id="id"/>
+                <column label="Дата загрузки данных" text-field-id="date">
+                    <text format="date DD.MM.YYYY HH:mm:ss"/>
+                </column>
+                <column
+                    label="Заболевание (состояние)"
+                    text-field-id="registry"
+                />
+                <column label="Статус обработки источника" text-field-id="processedRowCount"/>
+            </columns>
+
+            <toolbar>
+                <button color="primary" enabled="true" label="Добавить строку">
+                    <show-modal page-id="fileUpload"/>
+                </button>
+            </toolbar>
+        </table>
+    </regions>
+</page>

@@ -14,8 +14,6 @@ import net.n2oapp.framework.api.metadata.meta.action.ActionAware;
 @Setter
 public class OnChangeEvent extends Event implements ActionAware {
     @JsonProperty
-    private String type;
-    @JsonProperty
     private String datasource;
     @JsonProperty
     private ReduxModelEnum model;

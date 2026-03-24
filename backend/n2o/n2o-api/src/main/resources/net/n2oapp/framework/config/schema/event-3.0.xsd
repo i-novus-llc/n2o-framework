@@ -31,6 +31,7 @@
             <xs:extension base="baseEventDefinition">
                 <xs:sequence>
                     <xs:element name="alert" type="ac:alertDefinition" minOccurs="0"/>
+                    <xs:element name="set-value" type="ac:setValueDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="destination" type="xs:string" use="required">
                     <xs:annotation>

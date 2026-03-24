@@ -1,6 +1,6 @@
-import type { ModelPrefix } from '../../core/datasource/const'
+import type { ModelPrefix } from '../../core/models/types'
 import type { Type as StorageType } from '../../utils/Storage'
-import { Meta } from '../Action'
+import { type Meta } from '../Action'
 import { type MappingParam } from '../models/Models'
 
 export enum ProviderType {
@@ -9,6 +9,7 @@ export enum ProviderType {
     inherited = 'inherited',
     cached = 'cached',
     autoSaveCache = 'autoSaveCache',
+    stomp = 'stomp',
 }
 
 export enum FilterType {
@@ -24,6 +25,7 @@ export interface Provider {
     sorting?: Record<string, unknown>
     queryMapping: Mapping
     size?: number
+    destination?: string
 }
 
 export interface Filter {

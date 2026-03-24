@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Загрузка файла">
+    <datasources>
+        <parent-datasource id="filesDs"/>
+    </datasources>
+
+    <regions>
+        <form>
+            <datasource id="fileUploadFormDs"/>
+
+            <fields>
+                <select id="registry" label="Заболевание (состояние)" 
+                        required="true">
+                    <options>
+                        <option id="1" name="Злокачественные новообразования"/>
+                        <option id="2" name="Ишемические болезни сердца"/>
+                        <option id="3" name="Кардиомиопатия"/>
+                        <option id="4" name="Психические расстройства"/>
+                    </options>
+                </select>
+            </fields>
+        </form>
+    </regions>
+
+    <toolbar>
+        <button label="Отправить" datasource="fileUploadFormDs"
+                enabled="{registry}">
+            <set-value to="date">
+                new Date().toISOString().slice(0, 19)
+            </set-value>
+
+            <invoke operation-id="send" object-id="files"/>
+
+            <refresh datasource="filesDs"/>
+            <close/>
+        </button>
+    </toolbar>
+</page>

@@ -125,7 +125,7 @@ public class N2oSandboxConfiguration {
     }
 
     @Bean
-    public PropertyResolver propertyResolver() {
+    public SandboxPropertyResolver propertyResolver() {
         return new SandboxPropertyResolver();
     }
 

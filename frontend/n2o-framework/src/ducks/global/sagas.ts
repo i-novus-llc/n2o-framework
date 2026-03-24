@@ -8,6 +8,9 @@ import { addAlert } from '../alerts/store'
 import { resolveMetadata } from '../../core/auth/resolveMetadata'
 import { AuthProvider } from '../../core/auth/Provider'
 import { logger } from '../../utils/logger'
+import { subscribe } from '../models/sagas/subscribe'
+import { watchOnChangeEvents, type EventType, getOnChangeEvents } from '../watchEvents/watchEvents'
+import { ModelLink } from '../../core/models/types'
 
 import {
     requestConfigSuccess,
@@ -16,8 +19,9 @@ import {
     changeLocale as changeLocaleGlobal,
     requestConfig,
 } from './store'
-import { localeSelector } from './selectors'
-import { State as Global } from './Global'
+import { applicationEventsSelector, localeSelector } from './selectors'
+import { type State as Global } from './Global'
+import { type RequestConfigAction } from './Actions'
 
 /**
  * Сага для вызова настроек приложения
@@ -41,9 +45,10 @@ export function* getConfig(
             yield put(userLogin(config.user))
         }
 
-        const metadata: object = yield resolveMetadata(config, config.user || {}, ['datasources'], authProvider)
+        const metadata: RequestConfigAction['payload'] = yield resolveMetadata(config, config.user || {}, ['datasources'], authProvider)
 
         yield put(requestConfigSuccess(metadata))
+
         yield put(setReady())
         // @ts-ignore import from js file
     } catch ({ json, stack }) {
@@ -84,6 +89,18 @@ export function* changeLocale(apiProvider: unknown, action: { payload: { locale:
         logger.error(err)
     }
 }
+
+/**
+ * Сага, получающая страницы, извлекающая из них события и передающая их в watchEvents для обработки.
+ * @param keys - ключи моделей, по которым происходит отслеживание
+ */
+export function* watchApplicationEvents(keys: ModelLink[]) {
+    const events: EventType[] = yield select(applicationEventsSelector)
+
+    yield call(watchOnChangeEvents, getOnChangeEvents(events), keys)
+}
+
+subscribe(watchApplicationEvents)
 
 /**
  * Сайд-эффекты для global редюсера

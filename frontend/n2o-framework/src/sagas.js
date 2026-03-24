@@ -2,7 +2,7 @@ import defaultTo from 'lodash/defaultTo'
 import { all } from 'redux-saga/effects'
 
 import { sagas as regionsSagas } from './ducks/regions/sagas'
-import { sagas as wsSaga } from './sagas/notifications/notifications'
+import { stompEventsSagas } from './sagas/stompEvents/sagas'
 import pagesSagas from './ducks/pages/sagas'
 import dataSourceSagas from './ducks/datasource/sagas'
 import actionsImplSagas from './sagas/actionsImpl'
@@ -17,18 +17,8 @@ import { conditionsSaga } from './sagas/conditions'
 import { widgetDependencySagas } from './sagas/widgetDependency'
 import { overlaysSagas } from './ducks/overlays/sagas'
 import toolbarSagas from './ducks/toolbar/sagas'
-import { addComponent, removeComponent } from './ducks/datasource/store'
-import { requestConfigSuccess } from './ducks/global/store'
-import { updateModel } from './ducks/models/store'
 import { sagas as apiSagas } from './ducks/api/sagas'
 import { sagas as tableSagas } from './ducks/table/sagas'
-
-const webSocketConfig = {
-    observables: [addComponent, removeComponent, requestConfigSuccess],
-    updater: updateModel,
-    source: 'datasource',
-    connected: 'components',
-}
 
 export default function generateSagas(dispatch, config) {
     return function* rootSaga() {
@@ -50,7 +40,7 @@ export default function generateSagas(dispatch, config) {
             ...toolbarSagas,
             ...tableSagas,
             ...defaultTo(config.customSagas, []),
-            ...wsSaga(webSocketConfig),
+            ...stompEventsSagas,
             ...apiSagas,
         ])
     }

@@ -296,6 +296,7 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element ref="ev:on-change" maxOccurs="unbounded"/>
+            <xs:element ref="ev:stomp-event" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

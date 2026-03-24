@@ -508,7 +508,7 @@
           "name": "Регион с автоматически прокручиваемым меню"
         },
         {
-          "templateId": "versions/7.22/websocket_notifications",
+          "templateId": "interactions/web_socket/notifications",
           "name": "Отправка уведомлений по web-socket"
         }
       ]
@@ -521,7 +521,7 @@
           "name": "Доступ к колонкам по sec атрибутам"
         },
         {
-          "templateId": "versions/7.21/websocket_badge",
+          "templateId": "interactions/web_socket/badge",
           "name": "Изменение счетчика в меню навигации по web-socket"
         },
         {
