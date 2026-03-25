@@ -105,19 +105,23 @@ class ChangeDataEventAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
+        Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
+        alert.shouldExists();
+        alert.shouldHaveText("3");
+
         RadioGroup radioGroup = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class)
                 .fields().field("target field").control(RadioGroup.class);
 
         radioGroup.check("check 2");
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("2");
+        alert.shouldExists();
+        alert.shouldHaveText("2");
 
         radioGroup.check("check 3");
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("3");
+        alert.shouldExists();
+        alert.shouldHaveText("3");
 
         radioGroup.check("check 1");
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldExists();
-        page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText("1");
+        alert.shouldExists();
+        alert.shouldHaveText("1");
     }
 }
