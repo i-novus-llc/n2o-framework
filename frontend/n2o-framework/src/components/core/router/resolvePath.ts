@@ -23,5 +23,11 @@ export function resolvePath(base: string, path: string) {
     if (path.startsWith('http://') || path.startsWith('https://')) { return path }
     if (path.startsWith('/')) { return normalize(path) }
 
-    return normalize(`${base}${base.endsWith('/') ? '' : '/'}${path}`)
+    const basePath = removeSearch(base)
+
+    return normalize(`${basePath}${basePath.endsWith('/') ? '' : '/'}${path}`)
+}
+
+export function removeSearch(path: string) {
+    return path.split('?')[0]
 }

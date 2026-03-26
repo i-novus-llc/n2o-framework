@@ -13,7 +13,7 @@ import { replace } from 'connected-react-router'
 import { getParams } from '../../../core/dataProviderResolver'
 import { getLocation } from '../../global/selectors'
 import { State } from '../../State'
-import { makePageByIdSelector, makePageRoutesByIdSelector } from '../selectors'
+import { makeIsRootChildByIdSelector, makePageByIdSelector, makePageRoutesByIdSelector } from '../selectors'
 import { Page } from '../Pages'
 
 export function* generateNewQuery(pageId: string, query?: object | null) {
@@ -53,14 +53,18 @@ export function* mapQueryToUrl(
 
     if (!page) { return }
 
-    const { rootPage } = page
+    const { rootPage, id } = page
+    const rootChild: boolean = rootPage || (yield select(makeIsRootChildByIdSelector(id)))
+
+    if (!rootChild) { return }
+
     const newQuery: object | false = yield call(
         generateNewQuery,
         pageId,
         query,
     )
 
-    if (newQuery && rootPage) {
+    if (newQuery) {
         yield put(replace({ search: queryString.stringify(newQuery), state: { silent: true } }))
     }
 }

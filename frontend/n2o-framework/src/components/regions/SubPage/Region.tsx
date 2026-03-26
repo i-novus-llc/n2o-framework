@@ -44,6 +44,7 @@ export function SubPage({
     const { pageId: currentPageId } = useContext(PageContext)
     const baseUrl = useSelector(makePageUrlByIdSelector(currentPageId))
     const defaultPage = defaultPageId && routes.find(({ id }) => id === defaultPageId)
+    const { search = '' } = location
 
     const pages = useMemo(() => {
         /**
@@ -91,7 +92,9 @@ export function SubPage({
                         ? (
                             <Route
                                 key="no-match"
-                                render={() => (<Redirect to={resolvePath(baseUrl, defaultPage.route)} />)}
+                                render={() => (
+                                    <Redirect to={`${resolvePath(baseUrl, defaultPage.route)}${search}`} />
+                                )}
                             />
                         )
                         : null

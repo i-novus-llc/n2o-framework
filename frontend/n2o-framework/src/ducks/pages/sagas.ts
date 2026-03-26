@@ -33,7 +33,7 @@ import { subscribe } from '../models/sagas/subscribe'
 import { ModelLink } from '../../core/models/types'
 import { watchOnChangeEvents, getOnChangeEvents } from '../watchEvents/watchEvents'
 
-import { makeIsRootChildByIdSelector, pagesSelector } from './selectors'
+import { makeAnchorLocationByIdSelector, makeIsRootChildByIdSelector, pagesSelector } from './selectors'
 import {
     metadataFail,
     metadataSuccess,
@@ -64,22 +64,24 @@ export function* getMetadata(
     action: MetadataRequest,
 ) {
     const { pageId, rootPage, pageUrl, mapping } = action.payload
+    const state: State = yield select()
     let url: string = pageUrl
 
     try {
-        const { search, pathname } = yield select(getLocation)
+        const { search } = makeAnchorLocationByIdSelector(pageId)(state) ||
+            // @ts-ignore fixme state type
+            getLocation(state)
 
         let resolveProvider: { url: string, headersParams: object } = { url: '', headersParams: {} }
 
         if (!isEmpty(mapping)) {
-            const state: State = yield select()
-            const extraQueryParams = rootPage && queryString.parse(search)
+            const extraQueryParams = queryString.parse(search)
 
             // @ts-ignore import from js file
             resolveProvider = dataProviderResolver(state, { url, ...mapping }, extraQueryParams)
 
             url = resolveProvider.url
-        } else if (rootPage) {
+        } else {
             url += search
         }
 
@@ -90,7 +92,7 @@ export function* getMetadata(
             { pageUrl: url, headers: resolveProvider.headersParams },
             apiProvider,
         )
-        const user: object = yield select(userSelector)
+        const user = userSelector(state)
         const metadata = (yield resolveMetadata(rawMetadata, user, [
             'action', 'models', 'routes', 'datasources',
         ], authProvider)) as Metadata
@@ -104,9 +106,9 @@ export function* getMetadata(
             yield put(destroyOverlay())
         }
 
-        const rootChild: boolean = rootPage || (yield select(makeIsRootChildByIdSelector(metadata.id as string)))
+        const rootChild = rootPage || makeIsRootChildByIdSelector(pageId)(state)
 
-        yield put(metadataSuccess(metadata.id, metadata, pageUrl, rootPage, rootChild))
+        yield put(metadataSuccess(metadata.id, metadata, url, rootPage, rootChild))
 
         const { queryMapping } = metadata?.routes || {}
 
