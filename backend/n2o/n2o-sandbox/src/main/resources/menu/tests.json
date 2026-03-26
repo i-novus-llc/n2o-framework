@@ -1885,8 +1885,12 @@
           "name": "FieldFetchDependencyAT"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/fetch_value",
-          "name": "FieldFetchValueDependencyAT"
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/simple",
+          "name": "FieldFetchValueDependencyAT. test"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/required",
+          "name": "FieldFetchValueDependencyAT. testRequired"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/validation/dialog",

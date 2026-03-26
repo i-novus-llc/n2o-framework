@@ -1,7 +1,9 @@
 package net.n2oapp.framework.autotest.condition.field.dependency.fetch_value;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -43,10 +45,10 @@ class FieldFetchValueDependencyAT extends AutoTestBase {
 
     @Test
     void test() {
-        setResourcePath("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value");
+        setResourcePath("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/simple");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/simple/test.query.xml")
         );
 
         SimplePage page = open(SimplePage.class);
@@ -68,5 +70,29 @@ class FieldFetchValueDependencyAT extends AutoTestBase {
         inputText1.clickPlusStepButton();
         inputText1.shouldHaveValue("3");
         inputText2.shouldBeEmpty();
+    }
+
+    @Test
+    void testRequired() {
+        setResourcePath("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/required");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/required/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/required/data.query.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Fields fields = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields();
+
+        InputText value = fields.field("value").control(InputText.class);
+        StandardField field1 = fields.field("Должно появиться имя (сразу)");
+        StandardField field2 = fields.field("Должно появиться имя (apply-on-init='false')");
+
+        value.shouldHaveValue("3");
+        field1.control(InputText.class).shouldBeEmpty();
+        field2.control(InputText.class).shouldBeEmpty();
+        field1.shouldHaveValidationMessage(Condition.empty);
+        field2.shouldHaveValidationMessage(Condition.empty);
     }
 }
