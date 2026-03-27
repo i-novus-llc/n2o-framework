@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+import { removeSearch } from '../../components/core/router/resolvePath'
+
 import PageResolver from './PageResolver'
 import { State } from './Pages'
 import {
@@ -62,16 +64,16 @@ export const pageSlice = createSlice({
                 state[pageId].loading = false
                 state[pageId].error = false
                 state[pageId].metadata = json
-                state[pageId].pageUrl = json.routes?.path || pageUrl
+                state[pageId].pageUrl = json.routes?.path || removeSearch(pageUrl)
                 state[pageId].rootPage = rootPage
 
                 if (!rootPage && !state[pageId].parentId) {
-                    const [pathname, search] = state[pageId].pageUrl.split('?')
+                    const search = pageUrl.split('?')[1] ?? ''
 
                     state[pageId].location = {
                         hash: '',
                         state: undefined,
-                        pathname,
+                        pathname: state[pageId].pageUrl,
                         search: search ? `?${search}` : '',
                     }
                 }
