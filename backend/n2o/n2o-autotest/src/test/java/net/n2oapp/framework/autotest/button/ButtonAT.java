@@ -4,7 +4,11 @@ import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -21,8 +25,6 @@ import org.junit.jupiter.api.Test;
  */
 class ButtonAT extends AutoTestBase {
 
-    private SimplePage page;
-
     @BeforeAll
     static void beforeClass() {
         configureSelenide();
@@ -32,22 +34,23 @@ class ButtonAT extends AutoTestBase {
     @Override
     public void setUp() {
         super.setUp();
-        page = open(SimplePage.class);
-        page.shouldExists();
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oApplicationPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        setResourcePath("net/n2oapp/framework/autotest/button/resolve_attributes");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/reports.query.xml"));
     }
 
     @Test
     void testResolveAttributes() {
+        setResourcePath("net/n2oapp/framework/autotest/button/resolve_attributes");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/reports.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
         ListWidget list = page.widget(ListWidget.class);
         DropdownButton subMenu = list.toolbar().topLeft().dropdown();
         subMenu.shouldExists();
@@ -106,6 +109,12 @@ class ButtonAT extends AutoTestBase {
 
     @Test
     void testRounded() {
+        setResourcePath("net/n2oapp/framework/autotest/button/resolve_attributes");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/reports.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
         ListWidget list = page.widget(ListWidget.class);
         StandardButton button = list.toolbar().topLeft().button("All");
         button.shouldExists();
@@ -113,5 +122,38 @@ class ButtonAT extends AutoTestBase {
         button = list.toolbar().topLeft().button("rounded");
         button.shouldExists();
         button.shouldBeRounded();
+    }
+
+
+    @Test
+    void testButtonDisabledDuringActionExecution() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/button/disabled/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/button/disabled/data.object.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
+        form.shouldExists();
+
+        ButtonField buttonField = form.fields().field("Сохранить (кнопка-поле)", ButtonField.class);
+        buttonField.shouldBeEnabled();
+        buttonField.click();
+        buttonField.shouldBeDisabled();
+
+        StandardButton fieldToolbarButton = form.fields().field("input").toolbar().button("Сохранить (тулбар поля)");
+        fieldToolbarButton.shouldBeEnabled();
+        fieldToolbarButton.click();
+        fieldToolbarButton.shouldBeDisabled();
+
+        StandardButton formToolbarButton = form.toolbar().bottomLeft().button("Сохранить (тулбар виджета)");
+        formToolbarButton.shouldBeEnabled();
+        formToolbarButton.click();
+        formToolbarButton.shouldBeDisabled();
+
+        StandardButton pageToolbarButton = page.toolbar().bottomLeft().button("Сохранить (тулбар страницы)");
+        pageToolbarButton.shouldBeEnabled();
+        pageToolbarButton.click();
+        pageToolbarButton.shouldBeDisabled();
     }
 }

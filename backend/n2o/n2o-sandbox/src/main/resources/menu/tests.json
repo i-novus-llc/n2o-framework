@@ -1757,7 +1757,11 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/button/resolve_attributes",
-          "name": "ButtonAT"
+          "name": "ButtonAT. testResolveAttributes"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/button/disabled",
+          "name": "ButtonAT. testButtonDisabledDuringActionExecution"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/button/clipboard",

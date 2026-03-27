@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    name="Проверка блокирования кнопки тулбара при выполнении цепочки действий">
+    <datasources>
+        <datasource id="ds"/>
+    </datasources>
+    <regions>
+        <form datasource="ds">
+            <fields>
+                <button id="buttonField"
+                    action-id="save"
+                    label="Сохранить (кнопка-поле)"
+                />
+                <input-text id="input">
+                    <toolbar>
+                        <button id="fieldToolbarButton"
+                            action-id="save"
+                            disable-on-empty-model="false"
+                            label="Сохранить (тулбар поля)"
+                        />
+                    </toolbar>
+                </input-text>
+            </fields>
+
+            <toolbar place="bottomLeft">
+                <button id="formToolbarButton"
+                    disable-on-empty-model="false"
+                    action-id="save"
+                    label="Сохранить (тулбар виджета)"
+                />
+            </toolbar>
+        </form>
+    </regions>
+    <toolbar place="bottomLeft">
+        <button id="pageToolbarButton" action-id="save" label="Сохранить (тулбар страницы)"/>
+    </toolbar>
+
+    <actions>
+        <action id="save">
+            <invoke object-id="data" operation-id="sleep" message-on-success="false"/>
+            <alert text="alert"/>
+        </action>
+    </actions>
+</page>
