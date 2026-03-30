@@ -177,8 +177,22 @@ class CloseActionAT extends AutoTestBase {
         newTab.shouldHaveUrlMatches(getBaseUrl() + "/#/test");
         newTab.widget(FormWidget.class).fields().field("CloseTab", ButtonField.class).click();
         newTab.shouldNotExists();
-        browserShouldHaveTabsCount(1);
+
+        Selenide.switchTo().window(0);
+        page.shouldExists();
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/");
+        browserShouldHaveTabsCount(1);
+
+        button = page.widget(FormWidget.class).toolbar().topLeft().button("openModalWithCloseTab");
+        button.shouldBeEnabled();
+        button.click();
+
+        Modal modal = N2oSelenide.modal();
+        modal.shouldExists();
+        modal.content(SimplePage.class).widget(FormWidget.class).fields().field("CloseTab", ButtonField.class).click();
+        modal.shouldNotExists();
+        browserShouldHaveTabsCount(1);
+        page.shouldExists();
     }
 
     private void browserShouldHaveTabsCount(int count) {

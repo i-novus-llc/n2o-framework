@@ -1,11 +1,14 @@
 package net.n2oapp.framework.autotest.action;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -22,6 +25,8 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Автотест закрытия overlay окон с подтверждением и без
@@ -66,10 +71,7 @@ class OverlayPromptAT extends AutoTestBase {
         // из-за сложности реализации регионов важно проверять именно в <page>, a не <simple-page>
         InputText nameControl = modalPage.content(StandardPage.class).regions().region(0, SimpleRegion.class)
                 .content().widget(FormWidget.class).fields().field("name").control(InputText.class);
-        nameControl.shouldHaveValue("test1");
-        nameControl.click();
-        nameControl.setValue("edited");
-        nameControl.shouldHaveValue("edited");
+        editNameControlValue(nameControl);
         modalPage.close();
         modalPage.shouldNotExists();
 
@@ -77,10 +79,7 @@ class OverlayPromptAT extends AutoTestBase {
         openBtn.click();
         modalPage = N2oSelenide.modal();
         modalPage.shouldHaveTitle("Overlay окно");
-        nameControl.shouldHaveValue("test1");
-        nameControl.click();
-        nameControl.setValue("edited");
-        nameControl.shouldHaveValue("edited");
+        editNameControlValue(nameControl);
         modalPage.close();
         Selenide.dismiss();
         modalPage.shouldExists();
@@ -97,10 +96,7 @@ class OverlayPromptAT extends AutoTestBase {
         drawerPage.shouldHaveTitle("Overlay окно");
         InputText nameControl = drawerPage.content(StandardPage.class).regions().region(0, SimpleRegion.class)
                 .content().widget(FormWidget.class).fields().field("name").control(InputText.class);
-        nameControl.shouldHaveValue("test1");
-        nameControl.click();
-        nameControl.setValue("edited");
-        nameControl.shouldHaveValue("edited");
+        editNameControlValue(nameControl);
         drawerPage.close();
         drawerPage.shouldNotExists();
 
@@ -108,10 +104,7 @@ class OverlayPromptAT extends AutoTestBase {
         openBtn.click();
         drawerPage = N2oSelenide.drawer();
         drawerPage.shouldHaveTitle("Overlay окно");
-        nameControl.shouldHaveValue("test1");
-        nameControl.click();
-        nameControl.setValue("edited");
-        nameControl.shouldHaveValue("edited");
+        editNameControlValue(nameControl);
         drawerPage.close();
         Selenide.dismiss();
         drawerPage.shouldExists();
@@ -128,12 +121,10 @@ class OverlayPromptAT extends AutoTestBase {
         StandardPage openPage = N2oSelenide.page(StandardPage.class);
         Page.Breadcrumb breadcrumb = openPage.breadcrumb();
         breadcrumb.crumb(1).shouldHaveLabel("Overlay окно");
-        InputText nameControl = openPage.regions().region(0, SimpleRegion.class)
-                .content().widget(FormWidget.class).fields().field("name").control(InputText.class);
-        nameControl.shouldHaveValue("test1");
-        nameControl.click();
-        nameControl.setValue("edited");
-        nameControl.shouldHaveValue("edited");
+        Fields fields = openPage.regions().region(0, SimpleRegion.class)
+                .content().widget(FormWidget.class).fields();
+        InputText nameControl = fields.field("name").control(InputText.class);
+        editNameControlValue(nameControl);
         breadcrumb.crumb(0).shouldHaveLabel("Тест overlay окон");
         breadcrumb.crumb(0).click();
         breadcrumb.shouldHaveSize(1);
@@ -141,18 +132,60 @@ class OverlayPromptAT extends AutoTestBase {
 
         openBtn = tableToolbar.button("OpenPage с подтверждением");
         openBtn.click();
-        breadcrumb.crumb(1).shouldHaveLabel("Overlay окно");
-        nameControl.shouldHaveValue("test1");
-        nameControl.click();
-        nameControl.setValue("edited");
-        nameControl.shouldHaveValue("edited");
+        breadcrumb.crumb(1).shouldHaveLabel("Overlay окно с подтверждением");
+        editNameControlValue(nameControl);
         breadcrumb.crumb(0).shouldHaveLabel("Тест overlay окон");
         breadcrumb.crumb(0).click();
         Selenide.dismiss();
-        breadcrumb.crumb(1).shouldHaveLabel("Overlay окно");
+        breadcrumb.crumb(1).shouldHaveLabel("Overlay окно с подтверждением");
         breadcrumb.crumb("Тест overlay окон").click();
         Selenide.confirm();
         breadcrumb.shouldHaveSize(1);
         breadcrumb.crumb(0).shouldHaveLabel("Тест overlay окон");
+
+        // в новой вкладке
+        browserShouldHaveTabsCount(1);
+        openBtn = tableToolbar.button("OpenPage без подтверждения в новой вкладке");
+        openBtn.click();
+        browserShouldHaveTabsCount(2);
+        Selenide.switchTo().window(1);
+        StandardPage newTab = N2oSelenide.page(StandardPage.class);
+        newTab.breadcrumb().crumb(1).shouldHaveLabel("Overlay окно");
+        fields = newTab.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
+        nameControl = fields.field("name").control(InputText.class);
+        editNameControlValue(nameControl);
+        fields.field("CloseTab", ButtonField.class).click();
+        newTab.shouldNotExists();
+        browserShouldHaveTabsCount(1);
+
+        Selenide.switchTo().window(0);
+        openBtn = tableToolbar.button("OpenPage с подтверждением в новой вкладке");
+        openBtn.click();
+        browserShouldHaveTabsCount(2);
+        Selenide.switchTo().window(1);
+        newTab = N2oSelenide.page(StandardPage.class);
+        newTab.breadcrumb().crumb(1).shouldHaveLabel("Overlay окно с подтверждением");
+        fields = newTab.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
+        nameControl = fields.field("name").control(InputText.class);
+        editNameControlValue(nameControl);
+        fields.field("CloseTab", ButtonField.class).click();
+        Selenide.dismiss();
+        newTab.shouldExists();
+        browserShouldHaveTabsCount(2);
+        fields.field("CloseTab", ButtonField.class).click();
+        Selenide.confirm();
+        newTab.shouldNotExists();
+        browserShouldHaveTabsCount(1);
+    }
+
+    private void editNameControlValue(InputText nameControl) {
+        nameControl.shouldHaveValue("test1");
+        nameControl.click();
+        nameControl.setValue("edited");
+        nameControl.shouldHaveValue("edited");
+    }
+
+    private void browserShouldHaveTabsCount(int count) {
+        assertEquals(count, WebDriverRunner.getWebDriver().getWindowHandles().size());
     }
 }

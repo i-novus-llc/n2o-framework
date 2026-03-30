@@ -20,6 +20,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.SubPageContext;
 import org.springframework.stereotype.Component;
 
+import java.util.function.Supplier;
+
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
@@ -27,7 +29,7 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
  * Сборка действия закрытия страницы
  */
 @Component
-public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, N2oCloseAction> {
+public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction<?, ?>, N2oCloseAction> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -35,7 +37,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
     }
 
     @Override
-    public AbstractAction compile(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
+    public AbstractAction<?, ?> compile(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         if (context instanceof SubPageContext subPageContext) {
             throw new N2oException(String.format("В странице '%s', на которую ссылаются в регионе \"<sub-page>\", нельзя использовать действие \"<close>\"",
                     subPageContext.getPageName()));
@@ -80,14 +82,14 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
 
     private CloseActionPayload initPayload(N2oCloseAction source, CompileContext<?, ?> context) {
         CloseActionPayload payload = new CloseActionPayload();
-        if (context instanceof ModalPageContext modalPageContext) {
-            payload.setPageId(modalPageContext.getClientPageId());
-            payload.setPrompt(castDefault(source.getPrompt(), modalPageContext::getUnsavedDataPromptOnClose, () -> true));
-        } else {
-            payload.setPageId("_");
-            payload.setPrompt(false);
+        if (context instanceof PageContext pageContext) {
+            Supplier<Boolean> getUnsavedDataPromptOnClose = pageContext::getUnsavedDataPromptOnClose;
+            payload.setPrompt(castDefault(source.getPrompt(), getUnsavedDataPromptOnClose, () -> true));
         }
-
+        if (context instanceof ModalPageContext modalPageContext)
+            payload.setPageId(modalPageContext.getClientPageId());
+        else
+            payload.setPageId("_");
         return payload;
     }
 
