@@ -45,6 +45,20 @@
                     </params>
                 </open-page>
             </button>
+            <button label="OpenPage с подтверждением в новой вкладке">
+                <open-page page-id="pageWithPrompt" route="/:id/open" target="newWindow">
+                    <params>
+                        <path-param name="id" value="{id}"/>
+                    </params>
+                </open-page>
+            </button>
+            <button label="OpenPage без подтверждения в новой вкладке">
+                <open-page page-id="page" route="/:id/open2" target="newWindow">
+                    <params>
+                        <path-param name="id" value="{id}"/>
+                    </params>
+                </open-page>
+            </button>
         </toolbar>
         <columns>
             <column text-field-id="id"/>

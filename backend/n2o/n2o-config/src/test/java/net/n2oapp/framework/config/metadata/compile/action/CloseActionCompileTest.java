@@ -90,7 +90,7 @@ class CloseActionCompileTest extends SourceCompileTestBase {
         CloseAction testAction = (CloseAction) page.getWidget().getToolbar().getButton("test").getAction();
         assertThat(testAction.getType(), is("n2o/api/page/close"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPageId(), is("_"));
-        assertThat(((CloseActionPayload) testAction.getPayload()).getPrompt(), is(false));
+        assertThat(((CloseActionPayload) testAction.getPayload()).getPrompt(), is(true));
         assertThat(testAction.getMeta().getRefresh(), nullValue());
         assertThat(testAction.getMeta().getModalsToClose(), nullValue());
     }

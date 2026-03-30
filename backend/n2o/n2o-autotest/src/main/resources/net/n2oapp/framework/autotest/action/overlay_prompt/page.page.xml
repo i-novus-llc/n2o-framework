@@ -6,6 +6,9 @@
             <fields>
                 <input-text id="id" enabled="false"/>
                 <input-text id="name"/>
+                <button label="CloseTab">
+                    <close target="tab"/>
+                </button>
             </fields>
         </form>
     </regions>

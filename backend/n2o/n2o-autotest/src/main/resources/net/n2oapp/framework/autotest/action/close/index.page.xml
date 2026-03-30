@@ -15,6 +15,9 @@
             <button label="openPageWithCloseTab" disable-on-empty-model="false">
                 <open-page page-id="pageWithCloseTab" target="newWindow" route="/test"/>
             </button>
+             <button label="openModalWithCloseTab" disable-on-empty-model="false">
+                <show-modal page-id="pageWithCloseTab"/>
+            </button>
         </toolbar>
     </form>
 </simple-page>

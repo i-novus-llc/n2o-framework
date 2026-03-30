@@ -237,6 +237,7 @@ class DatasourceAT extends AutoTestBase {
         source.clear();
         // Фиктивная проверка чтоб успел отработать тайминг у зависимости
         source.shouldBeEmpty();
+        copy.shouldExists();
         copy.shouldBeEmpty();
     }
 
@@ -376,7 +377,7 @@ class DatasourceAT extends AutoTestBase {
     @Test
     void testFetchOnInit() {
         setResourcePath("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init");
-        N2oApplicationBuilder sources = builder.sources(
+        builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_on_init/test.query.xml")
         );
