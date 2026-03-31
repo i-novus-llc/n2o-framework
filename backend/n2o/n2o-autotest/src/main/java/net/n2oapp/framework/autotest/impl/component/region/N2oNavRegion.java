@@ -142,5 +142,15 @@ public class N2oNavRegion extends N2oRegion implements NavRegion {
         public void click() {
             element().click();
         }
+
+        @Override
+        public void shouldBeOpened() {
+            element().$(".group-children").shouldBe(Condition.exist);
+        }
+
+        @Override
+        public void shouldBeClosed() {
+            element().$(".group-children").shouldNotBe(Condition.exist);
+        }
     }
 }

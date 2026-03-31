@@ -68,21 +68,24 @@ export function Dropdown({
             >
                 {label}
             </DropdownToggle>
-            <DropdownMenu
-                className="group-children"
-                style={{
-                    paddingLeft: currentLevel > 0 ? `${currentLevel * 16}px` : 0,
-                    position: currentLevel > 0 ? 'absolute' : undefined,
-                    left: currentLevel > 0 ? '100%' : undefined,
-                    top: currentLevel > 0 ? 0 : undefined,
-                    marginLeft: 0,
-                }}
-                modifiers={currentLevel > 0 ? [{ name: 'flip', enabled: currentLevel < 3 }] : undefined}
-            >
-                <LevelContext.Provider value={currentLevel + 1}>
-                    {mapWithClassName(children)}
-                </LevelContext.Provider>
-            </DropdownMenu>
+            {isOpen && (
+                <DropdownMenu
+                    onClick={(event) => { if (event.isDefaultPrevented()) { setIsOpen(false) } }}
+                    className="group-children"
+                    style={{
+                        paddingLeft: currentLevel > 0 ? `${currentLevel * 16}px` : 0,
+                        position: currentLevel > 0 ? 'absolute' : undefined,
+                        left: currentLevel > 0 ? '100%' : undefined,
+                        top: currentLevel > 0 ? 0 : undefined,
+                        marginLeft: 0,
+                    }}
+                    modifiers={currentLevel > 0 ? [{ name: 'flip', enabled: currentLevel < 3 }] : undefined}
+                >
+                    <LevelContext.Provider value={currentLevel + 1}>
+                        {mapWithClassName(children)}
+                    </LevelContext.Provider>
+                </DropdownMenu>
+            )}
         </ReactstrapDropdown>
     )
 }

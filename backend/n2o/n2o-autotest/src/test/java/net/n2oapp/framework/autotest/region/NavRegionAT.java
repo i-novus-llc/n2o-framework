@@ -112,13 +112,14 @@ class NavRegionAT extends AutoTestBase {
         page.shouldHaveUrlMatches(getBaseUrl() + "/faq");
         Selenide.back();
         page.shouldExists();
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/\\?test=export");
     }
 
     private void checkDropdown(NavRegion.DropdownItem dropdownItem, StandardPage page) {
         dropdownItem.shouldHaveLabel("Магазин");
-        dropdownItem.shouldHaveSize(5);
         dropdownItem.click();
+        dropdownItem.shouldBeOpened();
+        dropdownItem.shouldHaveSize(5);
         dropdownItem.item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Каталог");
         dropdownItem.item(1, NavRegion.AnchorItem.class).shouldHaveLabel("Акции");
         dropdownItem.item(2, NavRegion.NavRegionItem.class).shouldHaveLabel("Корзина");
@@ -133,12 +134,13 @@ class NavRegionAT extends AutoTestBase {
         NavRegion.DropdownItem dropdownGroupDropdownItem = dropdownGroupItem.item(3, NavRegion.DropdownItem.class);
         dropdownGroupDropdownItem.shouldHaveLabel("Бренды");
         dropdownGroupDropdownItem.click();
+        dropdownGroupDropdownItem.shouldBeOpened();
         dropdownGroupDropdownItem.item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Lime");
         dropdownGroupDropdownItem.item(0, NavRegion.NavRegionItem.class).click();
         page.shouldHaveUrlMatches(getBaseUrl() + "/brands/lime");
         Selenide.back();
         page.shouldExists();
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/\\?test=export");
 
         dropdownItem.click();
         dropdownGroupItem.item(4, NavRegion.GroupItem.class).shouldHaveLabel("Ценовые диапазоны");
@@ -159,13 +161,16 @@ class NavRegionAT extends AutoTestBase {
         NavRegion.DropdownItem groupDropdownItem = groupItem.item(3, NavRegion.DropdownItem.class);
         groupDropdownItem.shouldHaveLabel("Настройки");
         groupDropdownItem.click();
+        groupDropdownItem.shouldBeOpened();
         groupDropdownItem.shouldHaveSize(5);
         groupDropdownItem.item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Безопасность");
         groupDropdownItem.item(0, NavRegion.NavRegionItem.class).click();
+        groupDropdownItem.shouldBeClosed();
         Alert alert = page.alerts(Alert.PlacementEnum.TOP).alert(0);
         alert.shouldHaveText("security");
         alert.closeButton();
 
+        groupDropdownItem.click();
         groupDropdownItem.item(1, NavRegion.AnchorItem.class).shouldHaveLabel("Конфиденциальность");
         groupDropdownItem.item(2, NavRegion.NavRegionItem.class).shouldHaveLabel("Сброс");
 
@@ -176,8 +181,13 @@ class NavRegionAT extends AutoTestBase {
         NavRegion.DropdownItem groupDropdownDropdownItem = groupDropdownItem.item(4, NavRegion.DropdownItem.class);
         groupDropdownDropdownItem.shouldHaveLabel("Дополнительно");
         groupDropdownDropdownItem.click();
+        groupDropdownItem.shouldBeOpened();
+        groupDropdownDropdownItem.shouldBeOpened();
         groupDropdownDropdownItem.shouldHaveSize(1);
         groupDropdownDropdownItem.item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Экспорт данных");
+        groupDropdownDropdownItem.item(0, NavRegion.NavRegionItem.class).click();
+        groupDropdownDropdownItem.shouldBeClosed();
+        groupDropdownItem.shouldBeClosed();
 
         groupItem.item(4, NavRegion.GroupItem.class).shouldHaveLabel("Действия");
         groupItem.item(4, NavRegion.GroupItem.class).item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Выйти");

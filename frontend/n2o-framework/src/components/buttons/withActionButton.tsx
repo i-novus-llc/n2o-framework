@@ -85,10 +85,11 @@ function useAction({ validate, ...rest }: UseActionProps, onClick: EventHandler)
     }, [validate, store, dispatch])
 
     const onClickHandler = useCallback(async (event: MouseEvent) => {
+        event.preventDefault()
+
         const valid = await checkValid()
 
         if (!valid) {
-            event.preventDefault()
             event.stopPropagation()
 
             return

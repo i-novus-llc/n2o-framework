@@ -50,7 +50,6 @@ export function useLink({
         if (event.isDefaultPrevented()) { return }
 
         event.preventDefault()
-        event.stopPropagation()
 
         if (!href || disabled || !url) { return }
 
