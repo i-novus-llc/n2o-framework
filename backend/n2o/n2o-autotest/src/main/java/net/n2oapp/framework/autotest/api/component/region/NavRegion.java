@@ -114,6 +114,16 @@ public interface NavRegion extends Region {
         void shouldHaveSize(int size);
 
         /**
+         * Проверка того, что выпадающий список скрыт
+         */
+        void shouldBeOpened();
+
+        /**
+         * Проверка того, что выпадающий список скрыт
+         */
+        void shouldBeClosed();
+
+        /**
          * Получить элемент меню по индексу с приведением типа
          *
          * @param index Индекс элемента (начиная с 0)

@@ -42,7 +42,7 @@
 
                         <dropdown-menu label="Дополнительно">
                             <menu-item label="Экспорт данных">
-                                <a href="/export"/>
+                                <a href="./?test=export" target="application"/>
                             </menu-item>
                         </dropdown-menu>
                     </dropdown-menu>
