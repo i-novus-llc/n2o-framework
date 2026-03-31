@@ -14,7 +14,7 @@
             <column text-field-id="region" label="Регион"/>
         </columns>
         <toolbar place="topRight">
-            <ts:export default-format="csv" default-size="all" default-charset="utf-8" show-modal="false"
+            <ts:export default-format="csv" default-size="page" default-charset="utf-8" show-modal="false"
                        url="${n2o.autotest.external.export.url}"/>
         </toolbar>
     </table>
