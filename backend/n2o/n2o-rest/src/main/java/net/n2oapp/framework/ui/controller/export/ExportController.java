@@ -25,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -89,6 +90,7 @@ public class ExportController extends AbstractController {
             externalRequest.setSize(Integer.parseInt(params.get("size")[0]));
         }
         externalRequest.setFilters(buildFiltersFromQuery(request.getUrl(), params));
+        externalRequest.setSortings(buildSortingsFromQuery(params));
         ExportResponse responseMetadata = new ExportResponse();
         restTemplate.execute(
                 request.getExternalUrl(),
@@ -205,6 +207,19 @@ public class ExportController extends AbstractController {
                 .filename(fileName, StandardCharsets.UTF_8)
                 .build();
         return contentDisposition.toString();
+    }
+
+    private Map<String, String> buildSortingsFromQuery(Map<String, String[]> params) {
+        Map<String, String> sortings = new HashMap<>();
+        String sortingPrefix = "sorting.";
+        for (Map.Entry<String, String[]> entry : params.entrySet()) {
+            String key = entry.getKey();
+            if (key.startsWith(sortingPrefix) && entry.getValue() != null && entry.getValue().length > 0) {
+                String fieldId = key.substring(sortingPrefix.length());
+                sortings.put(fieldId, entry.getValue()[0]);
+            }
+        }
+        return sortings;
     }
 
     private List<ExternalRequest.ExportFilter> buildFiltersFromQuery(String url, Map<String, String[]> params) {

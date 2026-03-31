@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -71,13 +73,18 @@ public class ExternalExportController {
         }
 
         // Generate test data
-        String[][] testData = {
-                {"1", "ey88ee-rugh34-asd4", "РМИС Республика Адыгея(СТП)", "Республика Адыгея"},
-                {"2", "ey88ee-ruqah34-54eqw", "РМИС Республика Татарстан(тестовая для ПСИ)", "Республика Татарстан"},
-                {"3", "ey88ea-ruaah34-54eqw", "ТМК", ""},
-                {"4", "ey88ee-asd52a-54eqw", "МИС +МЕД", "Республика Адыгея"},
-                {"5", "ey88fe-asd52a-54eqb", "РМИС Комстромской области", "Комстромская область"}
-        };
+        List<String[]> testData = Arrays.asList(
+                new String[]{"1", "ey88ee-rugh34-asd4", "РМИС Республика Адыгея(СТП)", "Республика Адыгея"},
+                new String[]{"2", "ey88ee-ruqah34-54eqw", "РМИС Республика Татарстан(тестовая для ПСИ)", "Республика Татарстан"},
+                new String[]{"3", "ey88ea-ruaah34-54eqw", "ТМК", ""},
+                new String[]{"4", "ey88ee-asd52a-54eqw", "МИС +МЕД", "Республика Адыгея"},
+                new String[]{"5", "ey88fe-asd52a-54eqb", "РМИС Комстромской области", "Комстромская область"}
+        );
+
+        // Если sortings заполнены, данные отправляются в обратном порядке
+        if (request.getSortings() != null && !request.getSortings().isEmpty()) {
+            Collections.reverse(testData);
+        }
 
         for (String[] row : testData) {
             if (hasNameFilter && !row[2].toLowerCase().contains(nameFilterValue.toLowerCase())) {
