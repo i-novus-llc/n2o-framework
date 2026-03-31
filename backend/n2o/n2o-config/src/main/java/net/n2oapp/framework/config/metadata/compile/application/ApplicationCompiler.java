@@ -57,7 +57,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         application.setFooter(initFooter(source.getFooter(), p));
         application.setEvents(initEvents(source.getEvents(), context, p));
         application.setDatasources(initDatasources(dataSourcesScope, context, p));
-        application.setWsPrefix(initWsPrefix(application.getDatasources(), application.getEvents(), p));
+        application.setWsPrefix(p.resolve(property("n2o.config.ws.endpoint"), String.class));
         return application;
     }
 
@@ -185,13 +185,6 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
             events.add(p.compile(e, context));
 
         return events;
-    }
-
-    private String initWsPrefix(Map<String, AbstractDatasource> datasources, List<Event> events, CompileProcessor p) {
-        boolean containsStompDs = datasources != null && datasources.values().stream().anyMatch(StompDatasource.class::isInstance);
-        if (!containsStompDs && events == null)
-            return null;
-        return p.resolve(property("n2o.config.ws.endpoint"), String.class);
     }
 
     @Override

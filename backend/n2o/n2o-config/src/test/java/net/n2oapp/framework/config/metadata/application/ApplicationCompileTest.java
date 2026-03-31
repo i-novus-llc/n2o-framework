@@ -95,7 +95,7 @@ class ApplicationCompileTest extends SourceCompileTestBase {
         assertThat(datasource.getProvider().getType(), is("stomp"));
         assertThat(datasource.getProvider().getDestination(), is("/notif/count"));
         assertThat(datasource.getValues(), notNullValue());
-        assertThat(datasource.getValues().get(0), is(Map.of("count", 0)));
+        assertThat(datasource.getValues().getFirst(), is(Map.of("count", 0)));
         assertThat(datasource.getValues().get(1), is(Map.of("notifCount", "99+")));
     }
 
@@ -106,7 +106,7 @@ class ApplicationCompileTest extends SourceCompileTestBase {
 
         assertThat(application.getEvents().size(), is(3));
 
-        Event event = application.getEvents().get(0);
+        Event event = application.getEvents().getFirst();
         assertThat(event.getId(), is("showNotif"));
         assertThat(((StompEvent) event).getDestination(), is("/notifications"));
 
@@ -123,14 +123,14 @@ class ApplicationCompileTest extends SourceCompileTestBase {
     void sidebarWithDatasource() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/sidebarDatasource.application.xml")
                 .get(new ApplicationContext("sidebarDatasource"));
-        assertThat(application.getWsPrefix(), nullValue());
+        assertThat(application.getWsPrefix(), is("/n2o/ws"));
 
-        Sidebar sidebar = application.getSidebars().get(0);
+        Sidebar sidebar = application.getSidebars().getFirst();
         assertThat(sidebar.getSrc(), is("Sidebar"));
         assertThat(sidebar.getPath(), is("/person/:person_id/**"));
         assertThat(sidebar.getDatasource(), is("person"));
 
-        MenuItem menuItem = sidebar.getMenu().getItems().get(0);
+        MenuItem menuItem = sidebar.getMenu().getItems().getFirst();
         assertThat(menuItem.getId(), is("mi1"));
         assertThat(menuItem.getTitle(), is("Документы"));
         assertThat(menuItem.getHref(), is("/person/:person_id/docs"));
@@ -150,7 +150,7 @@ class ApplicationCompileTest extends SourceCompileTestBase {
     void inlineSidebarDatasource() {
         Application application = compile("net/n2oapp/framework/config/metadata/application/inlineSidebarDatasource.application.xml")
                 .get(new ApplicationContext("inlineSidebarDatasource"));
-        assertThat(application.getWsPrefix(), nullValue());
+        assertThat(application.getWsPrefix(), is("/n2o/ws"));
 
         StandardDatasource datasource = (StandardDatasource) application.getDatasources().get("person");
         assertThat(datasource.getId(), is("person"));
@@ -172,12 +172,12 @@ class ApplicationCompileTest extends SourceCompileTestBase {
 
         StandardDatasource ds2 = (StandardDatasource) application.getDatasources().get("ds2");
         assertThat(ds2.getId(), is("ds2"));
-        assertThat(ds2.getDependencies().get(0).getOn(), is("models.resolve['ds1'].out"));
+        assertThat(ds2.getDependencies().getFirst().getOn(), is("models.resolve['ds1'].out"));
 
         InheritedDatasource ds3 = (InheritedDatasource) application.getDatasources().get("ds3");
         assertThat(ds3.getId(), is("ds3"));
         assertThat(ds3.getProvider().getSourceDs(), is("ds1"));
-        assertThat(ds3.getDependencies().get(0).getOn(), is("models.resolve['ds1']"));
+        assertThat(ds3.getDependencies().getFirst().getOn(), is("models.resolve['ds1']"));
 
     }
 

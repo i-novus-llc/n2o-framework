@@ -366,7 +366,7 @@
         },
         {
           "templateId": "interactions/web_socket/notifications",
-          "name": "Отправка уведомлений по web-socket"
+          "name": "Stomp события на страницах и в приложении"
         }
       ]
     },

@@ -99,6 +99,10 @@
         {
           "templateId": "uxcomponents/actions/close_tab",
           "name": "Закрытие вкладки браузера"
+        },
+        {
+          "templateId": "interactions/web_socket/notifications",
+          "name": "Stomp события на страницах"
         }
       ]
     },
@@ -508,7 +512,7 @@
           "name": "Регион с автоматически прокручиваемым меню"
         },
         {
-          "templateId": "interactions/web_socket/notifications",
+          "templateId": "interactions/web_socket/in_application",
           "name": "Отправка уведомлений по web-socket"
         }
       ]
