@@ -94,10 +94,10 @@ export function* changeLocale(apiProvider: unknown, action: { payload: { locale:
  * Сага, получающая страницы, извлекающая из них события и передающая их в watchEvents для обработки.
  * @param keys - ключи моделей, по которым происходит отслеживание
  */
-export function* watchApplicationEvents(keys: ModelLink[]) {
+export function* watchApplicationEvents(isChanged: (link: ModelLink) => boolean) {
     const events: EventType[] = yield select(applicationEventsSelector)
 
-    yield call(watchOnChangeEvents, getOnChangeEvents(events), keys)
+    yield call(watchOnChangeEvents, getOnChangeEvents(events), isChanged)
 }
 
 subscribe(watchApplicationEvents)

@@ -41,18 +41,12 @@ export const getStompEvents = (events: EventType[]) => events.filter(isStompEven
  */
 export function* watchOnChangeEvents(
     events: OnChangeEvent[],
-    keys: ModelLink[],
+    isChanged: (link: ModelLink) => boolean,
 ) {
     for (const { datasource, model: prefix, field, action } of events) {
         const modelLink = getModelLink(prefix, datasource, field)
 
-        if (
-            keys.some(
-                link => modelLink === link ||
-                    link.startsWith(`${modelLink}.`) ||
-                    link.startsWith(`${modelLink}[`),
-            )
-        ) {
+        if (isChanged(modelLink)) {
             // FIXME костыльный проброс контекста
             yield put(mergeMeta(action, { evalContext: DEFAULT_CONTEXT }))
         }
