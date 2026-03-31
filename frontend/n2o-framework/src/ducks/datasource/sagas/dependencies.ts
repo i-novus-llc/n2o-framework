@@ -59,7 +59,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
  * Сага наблюдения за зависимостями
  * @param action
  */
-export function* watchDependencies(keys: ModelLink[]) {
+export function* watchDependencies(isChanged: (link: ModelLink) => boolean) {
     const state: GlobalState = yield select()
     const dataSources: DatasourceState = yield select(dataSourcesSelector)
     const entries = Object.entries(dataSources)
@@ -69,11 +69,7 @@ export function* watchDependencies(keys: ModelLink[]) {
             const { on } = dependency
             const model = get(state, on)
 
-            if (keys.some(link => (
-                on === link ||
-                link.startsWith(`${on}.`) ||
-                link.startsWith(`${on}[`)
-            ))) {
+            if (isChanged(on)) {
                 yield fork(resolveDependency, id, dependency, model)
             }
         }

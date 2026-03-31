@@ -1,4 +1,4 @@
-import { debounce, fork, takeEvery } from 'redux-saga/effects'
+import { debounce, fork, select, takeEvery } from 'redux-saga/effects'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
@@ -20,6 +20,7 @@ import {
     combineModels,
 } from '../store'
 import { SetModelAction } from '../Actions'
+import { State } from '../../State'
 import { Model } from '../selectors'
 
 import { Handler } from './types'
@@ -32,6 +33,7 @@ type BufferValue = {
 
 const allModels = [ModelPrefix.active, ModelPrefix.edit, ModelPrefix.filter, ModelPrefix.selected, ModelPrefix.source]
 let buffer: BufferValue = { keys: {}, handlers: new Set() }
+let bufferState = {}
 
 const addSubscriberToBuffer = (action: unknown) => {
     getSubscribers().forEach(({ handler, predicate }) => {
@@ -157,13 +159,31 @@ export const sagas = [
         removeAllModel,
     ], function* callHandlers() {
         const currentBuffer = buffer
+        const state: State = yield select()
+        const prevState = bufferState
+
+        bufferState = state
 
         buffer = { keys: {}, handlers: new Set() }
-        const keys = Object.keys(currentBuffer.keys) as ModelLink[]
+        const changedKeys = Object.keys(currentBuffer.keys) as ModelLink[]
+
+        const isChanged = (link: ModelLink): boolean => {
+            return changedKeys.some((changedLink) => {
+                if (link === changedLink) { return true }
+                // Изменилось внутреннее поле, подписывались на внешнее
+                if (changedLink.startsWith(`${link}.`) || changedLink.startsWith(`${link}[`)) { return true }
+                // Изменилось внешнее поле, подписывались на внутренее
+                if (link.startsWith(`${changedLink}.`) || link.startsWith(`${changedLink}[`)) {
+                    return !isEqual(get(state, link), get(prevState, link))
+                }
+
+                return false
+            })
+        }
 
         for (const handler of currentBuffer.handlers) {
             try {
-                yield fork(handler, keys)
+                yield fork(handler, isChanged)
             } catch (error) {
                 logger.warn(error)
             }

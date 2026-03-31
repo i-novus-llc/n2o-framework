@@ -161,15 +161,14 @@ export function* getMetadata(
 
 /**
  * Сага, получающая страницы, извлекающая из них события и передающая их в watchEvents для обработки.
- * @param keys - ключи моделей, по которым происходит отслеживание
  */
-export function* watchPageEvents(keys: ModelLink[]) {
+export function* watchPageEvents(isChanged: (link: ModelLink) => boolean) {
     const pagesMap: Page[] = yield select(pagesSelector)
     const pagesList: Page[] = Object.values(pagesMap)
 
     const events = pagesList.flatMap(page => page.metadata?.events || [])
 
-    yield call(watchOnChangeEvents, getOnChangeEvents(events), keys)
+    yield call(watchOnChangeEvents, getOnChangeEvents(events), isChanged)
 }
 
 function* pageScrolling(action: ValidateEndAction) {
