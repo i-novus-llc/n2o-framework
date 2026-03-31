@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <datasources>
+        <datasource id="ds"/>
+    </datasources>
+    <events>
+        <stomp-event id="notif" destination="/notifications">
+            <alert title="{title}" text="{text}" color="{color}" placement="{placement}" timeout="7000"/>
+        </stomp-event>
+        <stomp-event id="setvalue" destination="/notifications2">
+            <set-value id="message" target-datasource="ds" to="message">
+                 {message}
+            </set-value>
+        </stomp-event>
+    </events>
+</application>
