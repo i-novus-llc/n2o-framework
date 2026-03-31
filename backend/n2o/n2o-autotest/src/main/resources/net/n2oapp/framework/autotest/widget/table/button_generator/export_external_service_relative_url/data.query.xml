@@ -8,7 +8,7 @@
     </count>
 
     <filters>
-        <like field-id="name" filter-id="name"/>
+        <like field-id="name" filter-id="name">name :eq :name</like>
     </filters>
 
     <fields>

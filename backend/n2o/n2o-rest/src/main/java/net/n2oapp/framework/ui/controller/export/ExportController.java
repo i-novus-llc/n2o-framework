@@ -3,6 +3,7 @@ package net.n2oapp.framework.ui.controller.export;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.rest.ExportRequest;
 import net.n2oapp.framework.api.rest.ExportResponse;
@@ -28,10 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExportController extends AbstractController {
 
     private static final String FILES_DIRECTORY_NAME = System.getProperty("java.io.tmpdir");
+    private static final Pattern FIRST_WORD_PATTERN = Pattern.compile("^\\s*([\\w.]+)");
     private final DataController dataController;
     private final FileGeneratorFactory fileGeneratorFactory;
     private final RestTemplate restTemplate = new RestTemplate();
@@ -108,7 +112,7 @@ public class ExportController extends AbstractController {
 
                     String contentDisposition = response.getHeaders().getFirst(HttpHeaders.CONTENT_DISPOSITION);
                     responseMetadata.setContentDisposition(Objects.requireNonNullElseGet(contentDisposition,
-                            () -> encodeContentDisposition(getFileName(externalRequest.getFilename(), externalRequest.getFormat()).toLowerCase())));
+                            () -> encodeContentDisposition(getFileName(externalRequest.getFilename(), externalRequest.getFormat().toLowerCase()))));
 
                     long contentLength = response.getHeaders().getContentLength();
                     responseMetadata.setContentLength(contentLength > 0 ? (int) contentLength : -1);
@@ -221,6 +225,7 @@ public class ExportController extends AbstractController {
         if (paramToFilterIdMap == null || data == null) {
             return filters;
         }
+        Map<String, N2oQuery.Filter> filterFieldsMap = query.getFilterFieldsMap();
         for (Map.Entry<String, String> entry : paramToFilterIdMap.entrySet()) {
             String param = entry.getKey();
             String filterId = RouteUtil.normalizeParam(entry.getValue());
@@ -228,12 +233,23 @@ public class ExportController extends AbstractController {
                 Object value = data.get(param);
                 if (value != null) {
                     ExternalRequest.ExportFilter filter = new ExternalRequest.ExportFilter();
-                    filter.setId(filterId);
+                    filter.setId(extractFilterId(filterFieldsMap, filterId));
                     filter.setValue(value.toString());
                     filters.add(filter);
                 }
             }
         }
         return filters;
+    }
+
+    private String extractFilterId(Map<String, N2oQuery.Filter> filterFieldsMap, String filterId) {
+        N2oQuery.Filter queryFilter = filterFieldsMap.get(filterId);
+        if (queryFilter != null && queryFilter.getText() != null) {
+            Matcher matcher = FIRST_WORD_PATTERN.matcher(queryFilter.getText());
+            if (matcher.find()) {
+                return matcher.group(1);
+            }
+        }
+        return filterId;
     }
 }
