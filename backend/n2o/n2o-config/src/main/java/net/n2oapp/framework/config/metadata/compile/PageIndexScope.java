@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -9,6 +11,7 @@ public class PageIndexScope {
     private AtomicInteger index;
     private boolean first = true;
     private String pageId;
+    private Map<String, Integer> actionIdCounters = new HashMap<>();
 
     /**
      * Конструктор индекса со стартовым значением
@@ -16,8 +19,7 @@ public class PageIndexScope {
      * @param start Стартовое значение
      * @param pageId идентификатор страницы
      */
-    public PageIndexScope(String pageId, int start)
-    {
+    public PageIndexScope(String pageId, int start) {
         this.index = new AtomicInteger(start);
         this.pageId = pageId;
     }
@@ -53,5 +55,17 @@ public class PageIndexScope {
      */
     public boolean isFirst() {
         return first;
+    }
+
+    /**
+     * Генерирует уникальный идентификатор кнопки на основе actionId.
+     *
+     * @param actionId идентификатор действия, на основе которого генерируется ID кнопки
+     * @return уникальный идентификатор кнопки в формате actionId или actionId_counter
+     */
+    public String registerButtonActionId(String actionId) {
+        int counter = actionIdCounters.getOrDefault(actionId, 0);
+        actionIdCounters.put(actionId, counter + 1);
+        return counter == 0 ? actionId : actionId + "_" + counter;
     }
 }

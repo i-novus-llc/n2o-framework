@@ -9,9 +9,11 @@ import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.action.multi.MultiAction;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.control.EnablingDependency;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -146,5 +148,27 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
                         hasProperty("color", is(ColorEnum.PRIMARY.getId()))
                 ))
         ));
+    }
+
+    @Test
+    void testRegisterButtonActionId() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/control/testRegisterButtonActionId.page.xml")
+                .get(new PageContext("testRegisterButtonActionId"));
+        Form form = (Form) page.getRegions().get("single").getFirst().getContent().getFirst();
+        ButtonField field = (ButtonField) form.getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
+        assertThat(field.getId(), is("f0"));
+        // "Сохранить (тулбар поля)"
+        StandardField<?> field1 = (StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
+        AbstractButton b = field1.getToolbar()[0].getButtons().getFirst();
+        assertThat(b.getId(), is("save"));
+        // "Сохранить (тулбар виджета)"
+        AbstractButton b1 = form.getToolbar().getGroup(0).getButtons().getFirst();
+        assertThat(b1.getId(), is("save_1"));
+        // "Сохранить (тулбар виджета) 2"
+        AbstractButton b2 = form.getToolbar().getGroup(0).getButtons().get(1);
+        assertThat(b2.getId(), is("save_2"));
+        // "Сохранить (тулбар страницы)"
+        AbstractButton b3 = page.getToolbar().getGroups().getFirst().getButtons().getFirst();
+        assertThat(b3.getId(), is("save_3"));
     }
 }

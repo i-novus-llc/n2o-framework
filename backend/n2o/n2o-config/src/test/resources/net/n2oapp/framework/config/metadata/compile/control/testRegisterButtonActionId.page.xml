@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page
+    xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    name="Проверка генерации уникального идентификатора кнопки на основе actionId."
+>
+    <datasources>
+        <datasource id="ds"/>
+    </datasources>
+
+    <regions>
+        <form datasource="ds">
+            <fields>
+                <button
+                    action-id="save"
+                    label="Сохранить (кнопка-поле)"
+                />
+                <input-text id="input">
+                    <toolbar>
+                        <button
+                            action-id="save"
+                            disable-on-empty-model="false"
+                            label="Сохранить (тулбар поля)"
+                        />
+                    </toolbar>
+                </input-text>
+            </fields>
+
+            <toolbar place="bottomLeft">
+               <button
+                        action-id="save"
+                        disable-on-empty-model="false"
+                        label="Сохранить (тулбар виджета)"
+                    />
+                    <button
+                        action-id="save"
+                        disable-on-empty-model="false"
+                        label="Сохранить (тулбар виджета) 2"
+                    />
+            </toolbar>
+        </form>
+    </regions>
+    <toolbar place="bottomLeft">
+        <button action-id="save" label="Сохранить (тулбар страницы)"/>
+    </toolbar>
+</page>
