@@ -19,6 +19,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
@@ -84,7 +85,12 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
 
     @Override
     protected void initDefaults(S source, CompileProcessor p) {
-        source.setId(castDefault(source.getId(), source.getActionId()));
+        if (source.getId() != null)
+            source.setId(source.getId());
+        else if (source.getActionId() != null) {
+            PageIndexScope pageIndexScope = p.getScope(PageIndexScope.class);
+            source.setId(pageIndexScope.registerButtonActionId(source.getActionId()));
+        }
         super.initDefaults(source, p);
 
         source.setDatasourceId(initDatasource(source, p));
