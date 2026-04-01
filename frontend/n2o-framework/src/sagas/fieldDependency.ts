@@ -72,7 +72,7 @@ export function* fetchValue(
     field: string,
     { dataProvider, valueFieldId = '' }: FieldDependency,
     evalContext: Record<string, unknown>,
-    validate = false,
+    validate = true,
 ) {
     const fetchValueKey = `${formName}.${field}`
 
