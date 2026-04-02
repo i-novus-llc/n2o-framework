@@ -94,5 +94,17 @@ class FieldFetchValueDependencyAT extends AutoTestBase {
         field2.control(InputText.class).shouldBeEmpty();
         field1.shouldHaveValidationMessage(Condition.empty);
         field2.shouldHaveValidationMessage(Condition.empty);
+
+        field1.control(InputText.class).click();
+        field2.control(InputText.class).click();
+        page.element().click();
+        field1.shouldHaveValidationMessage(Condition.exist);
+        field2.shouldHaveValidationMessage(Condition.exist);
+
+        value.setValue("2");
+        field1.control(InputText.class).shouldHaveValue("test2");
+        field2.control(InputText.class).shouldHaveValue("test2");
+        field1.shouldHaveValidationMessage(Condition.empty);
+        field2.shouldHaveValidationMessage(Condition.empty);
     }
 }
