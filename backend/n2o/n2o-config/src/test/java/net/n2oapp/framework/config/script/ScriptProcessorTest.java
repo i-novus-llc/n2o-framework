@@ -58,6 +58,8 @@ class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveLinks("false"), is("false"));
         assertThat(ScriptProcessor.resolveLinks("Hello, {test == 1 ? 2 : test == 2 ? 3 : 4} . {test == 1 ? 2 : 3}"),
                 is("`'Hello, '+(test == 1 ? 2 : test == 2 ? 3 : 4)+' . '+(test == 1 ? 2 : 3)`"));
+        assertThat(ScriptProcessor.resolveLinks("{#{roles}.includes('frloz_admin') ? 1 : 2}"),
+                is("`#{roles}.includes('frloz_admin') ? 1 : 2`"));
     }
 
     @Test

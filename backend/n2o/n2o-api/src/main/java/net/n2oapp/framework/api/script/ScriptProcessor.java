@@ -44,7 +44,7 @@ public class ScriptProcessor {
             Executors.newCachedThreadPool(Thread.ofPlatform().factory());
 
     private static final Pattern FUNCTION_PATTERN = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
-    private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*\\{.*\\?.*:.*}.*");
+    private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*(?<!#)\\{(?!.*#\\{).*\\?.*:.*}.*");
     private static final Pattern FUNCTION_CONTENT_PATTERN = Pattern.compile("\\b(return|if|var|switch|const|let|for|while)\\b");
     private static final String EUROPEAN_DATE_TO_TIMESTAMP_TEMPLATE = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
     private static final String ISO_DATE_TO_TIMESTAMP_TEMPLATE = "new Date('%s').getTime()";
