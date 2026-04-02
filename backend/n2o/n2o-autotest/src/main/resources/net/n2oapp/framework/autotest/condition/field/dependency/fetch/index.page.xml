@@ -10,7 +10,7 @@
         <fields>
             <input-text id="values[0].type"
                         domain="integer"
-                        placeholder="Ввеси 1, затем 2"
+                        placeholder="Ввести 1, затем 2"
             />
 
             <radio-group id="values[0].test4"

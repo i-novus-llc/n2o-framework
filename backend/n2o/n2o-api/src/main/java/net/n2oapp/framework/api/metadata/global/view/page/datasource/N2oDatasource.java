@@ -29,6 +29,7 @@ public abstract class N2oDatasource extends N2oAbstractDatasource implements Nam
     @Setter
     public static class FetchDependency extends Dependency {
         private ReduxModelEnum model;
+        private String fieldId;
     }
 
     @Getter
