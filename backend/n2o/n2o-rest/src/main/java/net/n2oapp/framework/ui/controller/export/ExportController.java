@@ -25,11 +25,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,6 +65,11 @@ public class ExportController extends AbstractController {
     }
 
     public ExportResponse exportByExternalService(ExportRequest request, OutputStream outputStream) {
+        return exportByExternalService(request, outputStream, null);
+    }
+
+    public ExportResponse exportByExternalService(ExportRequest request, OutputStream outputStream,
+                                                  Consumer<ExportResponse> beforeWrite) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -119,6 +121,8 @@ public class ExportController extends AbstractController {
                     long contentLength = response.getHeaders().getContentLength();
                     responseMetadata.setContentLength(contentLength > 0 ? (int) contentLength : -1);
 
+                    if (beforeWrite != null)
+                        beforeWrite.accept(responseMetadata);
                     StreamUtils.copy(response.getBody(), outputStream);
                     return null;
                 });

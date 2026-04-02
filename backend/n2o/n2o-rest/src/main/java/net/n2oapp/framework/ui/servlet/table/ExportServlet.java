@@ -49,13 +49,14 @@ public class ExportServlet extends N2oServlet {
             outputStream.write(exportResponse.getFile());
         } else {
             exportRequest.setExternalUrl(resolveAbsoluteUrl(exportRequest.getExternalUrl(), req));
-            ExportResponse exportResponse = controller.exportByExternalService(exportRequest, resp.getOutputStream());
-            resp.setStatus(exportResponse.getStatus());
-            resp.setContentType(exportResponse.getContentType());
-            resp.setHeader(HttpHeaders.CONTENT_DISPOSITION, exportResponse.getContentDisposition());
-            if (exportResponse.getContentLength() > 0) {
-                resp.setContentLength(exportResponse.getContentLength());
-            }
+            controller.exportByExternalService(exportRequest, resp.getOutputStream(), metadata -> {
+                resp.setStatus(metadata.getStatus());
+                resp.setContentType(metadata.getContentType());
+                resp.setHeader(HttpHeaders.CONTENT_DISPOSITION, metadata.getContentDisposition());
+                if (metadata.getContentLength() > 0) {
+                    resp.setContentLength(metadata.getContentLength());
+                }
+            });
         }
     }
 
