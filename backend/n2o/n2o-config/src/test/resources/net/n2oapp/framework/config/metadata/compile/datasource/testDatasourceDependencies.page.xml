@@ -4,7 +4,7 @@
         <datasource id="master"/>
         <datasource id="detail">
             <dependencies>
-                <fetch on="master" model="filter"/>
+                <fetch on="master" model="filter" field-id="name"/>
                 <copy on="detail" target-model="datasource" source-model="filter"
                       target-field-id="target" source-field-id="source" submit="true" apply-on-init="true"/>
             </dependencies>

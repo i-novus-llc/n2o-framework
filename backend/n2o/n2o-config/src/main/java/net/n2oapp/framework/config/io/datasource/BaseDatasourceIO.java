@@ -40,6 +40,7 @@ public abstract class BaseDatasourceIO<T extends N2oDatasource> extends Abstract
     private void fetch(Element e, N2oDatasource.FetchDependency t, IOProcessor p) {
         dependency(e, t, p);
         p.attributeEnum(e, "model", t::getModel, t::setModel, ReduxModelEnum.class);
+        p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
     }
 
     private void copy(Element e, N2oDatasource.CopyDependency c, IOProcessor p) {

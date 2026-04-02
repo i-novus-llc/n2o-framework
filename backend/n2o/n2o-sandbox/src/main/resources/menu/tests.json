@@ -1325,6 +1325,10 @@
           "name": "DatasourceAT. testFetchOnInitUnique"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/datasources/datasource/fetch_by_field_id",
+          "name": "DatasourceAT. testFetchByFieldId"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/datasources/inherited_datasource/datasource",
           "name": "InheritedDatasourceAT. testModelDatasource"
         },

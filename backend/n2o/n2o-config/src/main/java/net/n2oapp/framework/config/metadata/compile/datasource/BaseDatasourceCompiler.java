@@ -54,7 +54,7 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
                 if (d instanceof N2oDatasource.FetchDependency dependency) {
                     Dependency fetchDependency = new Dependency();
                     ModelLink link = new ModelLink(castDefault(dependency.getModel(), ReduxModelEnum.RESOLVE),
-                            getClientDatasourceId(dependency.getOn(), p));
+                            getClientDatasourceId(dependency.getOn(), p), dependency.getFieldId());
                     fetchDependency.setOn(link.getLink());
                     fetchDependency.setType(DependencyTypeEnum.FETCH);
                     dependencies.add(fetchDependency);

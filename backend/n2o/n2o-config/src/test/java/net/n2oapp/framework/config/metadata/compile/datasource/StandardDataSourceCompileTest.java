@@ -128,8 +128,8 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
 
         StandardDatasource ds = (StandardDatasource) page.getDatasources().get("p_w_a_detail");
         assertThat(ds.getDependencies().size(), is(2));
-        Dependency dependency = ds.getDependencies().get(0);
-        assertThat(dependency.getOn(), is("models.filter['p_w_a_master']"));
+        Dependency dependency = ds.getDependencies().getFirst();
+        assertThat(dependency.getOn(), is("models.filter['p_w_a_master'].name"));
         assertThat(dependency.getType(), is(DependencyTypeEnum.FETCH));
 
         dependency = ds.getDependencies().get(1);

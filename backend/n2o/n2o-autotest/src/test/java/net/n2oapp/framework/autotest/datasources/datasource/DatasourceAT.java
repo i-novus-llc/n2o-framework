@@ -392,4 +392,59 @@ class DatasourceAT extends AutoTestBase {
         table.columns().rows().row(3).cell(0).shouldHaveText("test4");
         table.columns().rows().row(3).cell(1).shouldHaveText("2");
     }
+
+    @Test
+    void testFetchByFieldId() {
+        setResourcePath("net/n2oapp/framework/autotest/datasources/datasource/fetch_by_field_id");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_by_field_id/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/datasources/datasource/fetch_by_field_id/data.query.xml")
+        );
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(1, TableWidget.class);
+        TableWidget.Rows tableRows = table.columns().rows();
+        tableRows.shouldHaveSize(4);
+
+        Fields fields = form.fields();
+        InputText inputId = fields.field("id").control(InputText.class);
+        inputId.shouldBeEmpty();
+        InputText inputType = fields.field("type").control(InputText.class);
+        inputType.shouldBeEmpty();
+        inputId.setValue("3");
+        tableRows.shouldHaveSize(4);
+
+        inputType.setValue("2");
+        tableRows.shouldHaveSize(1);
+        tableRows.row(0).cell(2).shouldHaveText("test3");
+
+        inputId.clear();
+        tableRows.shouldHaveSize(1);
+        tableRows.row(0).cell(2).shouldHaveText("test3");
+
+        inputType.clear();
+        tableRows.shouldHaveSize(4);
+
+        inputType.setValue("1");
+        tableRows.shouldHaveSize(2);
+        tableRows.row(0).cell(2).shouldHaveText("test1");
+        tableRows.row(1).cell(2).shouldHaveText("test2");
+
+        inputId.setValue("5");
+        tableRows.shouldHaveSize(2);
+        tableRows.row(0).cell(2).shouldHaveText("test1");
+        tableRows.row(1).cell(2).shouldHaveText("test2");
+
+        inputType.clear();
+        tableRows.shouldHaveSize(0);
+
+        inputId.setValue("4");
+        tableRows.shouldHaveSize(0);
+
+        inputType.clear();
+        tableRows.shouldHaveSize(1);
+        tableRows.row(0).cell(2).shouldHaveText("test4");
+    }
 }

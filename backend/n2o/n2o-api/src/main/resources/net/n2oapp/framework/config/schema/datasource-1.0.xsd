@@ -599,6 +599,13 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Поле зависимого источника данных
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="datasourceFiltersDefinition">
