@@ -70,7 +70,7 @@
                             <alert text="electronics"/>
                         </menu-item>
 
-                        <link label="Одежда" href="/clothing"/>
+                        <link label="Одежда" href="./#" target="application"/>
 
                         <button label="Фильтры">
                             <refresh/>
@@ -102,8 +102,6 @@
                     </menu-item>
                 </group>
 
-                <!-- кнопка для сброса фокуса -->
-                <button/>
             </nav>
         </region>
     </regions>

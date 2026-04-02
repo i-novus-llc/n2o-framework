@@ -60,7 +60,7 @@ class NavRegionAT extends AutoTestBase {
     }
 
     private void checkNavRegion(NavRegion nav, StandardPage page) {
-        nav.content().shouldHaveSize(7);
+        nav.content().shouldHaveSize(6);
 
         // <menu-item label="Главная">
         NavRegion.NavRegionItem menuItem = nav.content().item(0, NavRegion.NavRegionItem.class);
@@ -92,16 +92,10 @@ class NavRegionAT extends AutoTestBase {
         groupItem.shouldExists();
         checkGroup(groupItem, page);
 
-        // сброс фокуса
-        nav.content().item(0, NavRegion.NavRegionItem.class).click();
-
         // <dropdown-menu label="Магазин">
         NavRegion.DropdownItem dropdownItem = nav.content().item(4, NavRegion.DropdownItem.class);
         dropdownItem.shouldExists();
         checkDropdown(dropdownItem, page);
-
-        // сброс фокуса
-        nav.content().item(6, NavRegion.NavRegionItem.class).click();
 
         // <group label="Справка">
         groupItem = nav.content().item(5, NavRegion.GroupItem.class);
@@ -112,7 +106,7 @@ class NavRegionAT extends AutoTestBase {
         page.shouldHaveUrlMatches(getBaseUrl() + "/faq");
         Selenide.back();
         page.shouldExists();
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/\\?test=export");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#//");
     }
 
     private void checkDropdown(NavRegion.DropdownItem dropdownItem, StandardPage page) {
@@ -123,12 +117,21 @@ class NavRegionAT extends AutoTestBase {
         dropdownItem.item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Каталог");
         dropdownItem.item(1, NavRegion.AnchorItem.class).shouldHaveLabel("Акции");
         dropdownItem.item(2, NavRegion.NavRegionItem.class).shouldHaveLabel("Корзина");
+        dropdownItem.item(2, NavRegion.NavRegionItem.class).click();
+        dropdownItem.shouldBeClosed();
+        dropdownItem.click();
+        dropdownItem.shouldBeOpened();
 
         NavRegion.GroupItem dropdownGroupItem = dropdownItem.item(3, NavRegion.GroupItem.class);
         dropdownGroupItem.shouldHaveLabel("Категории");
         dropdownGroupItem.shouldHaveSize(5);
         dropdownGroupItem.item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Электроника");
         dropdownGroupItem.item(1, NavRegion.AnchorItem.class).shouldHaveLabel("Одежда");
+        dropdownGroupItem.item(1, NavRegion.AnchorItem.class).click();
+        dropdownItem.shouldBeClosed();
+        dropdownItem.click();
+        dropdownItem.shouldBeOpened();
+
         dropdownGroupItem.item(2, NavRegion.NavRegionItem.class).shouldHaveLabel("Фильтры");
 
         NavRegion.DropdownItem dropdownGroupDropdownItem = dropdownGroupItem.item(3, NavRegion.DropdownItem.class);
@@ -140,7 +143,7 @@ class NavRegionAT extends AutoTestBase {
         page.shouldHaveUrlMatches(getBaseUrl() + "/brands/lime");
         Selenide.back();
         page.shouldExists();
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/\\?test=export");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#//");
 
         dropdownItem.click();
         dropdownGroupItem.item(4, NavRegion.GroupItem.class).shouldHaveLabel("Ценовые диапазоны");
@@ -150,6 +153,8 @@ class NavRegionAT extends AutoTestBase {
         dropdownDropdownItem.shouldHaveLabel("Администрирование");
         dropdownDropdownItem.click();
         dropdownDropdownItem.item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Статистика");
+        dropdownDropdownItem.item(0, NavRegion.NavRegionItem.class).click();
+        dropdownItem.shouldBeClosed();
     }
 
     private void checkGroup(NavRegion.GroupItem groupItem, StandardPage page) {
