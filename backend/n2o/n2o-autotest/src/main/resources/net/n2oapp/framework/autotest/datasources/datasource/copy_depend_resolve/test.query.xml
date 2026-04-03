@@ -9,5 +9,6 @@
     <fields>
         <field id="id"/>
         <field id="name"/>
+        <field id="org.name" mapping="['name']"/>
     </fields>
 </query>

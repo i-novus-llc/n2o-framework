@@ -4,23 +4,27 @@
     <regions>
         <form id="ds">
             <fields>
-                <input-text id="id"/>
-                <input-text id="type"/>
+                <input-text id="id" label="id (без fetch) — таблица НЕ обновится"/>
+                <input-text id="type" label="type (есть fetch) — таблица обновится"/>
+                <input-text id="org.type" label="org.type (есть fetch) — таблица обновится"/>
             </fields>
         </form>
         <table>
             <datasource query-id="data">
                 <dependencies>
                     <fetch on="ds" field-id="type"/>
+                    <fetch on="ds" field-id="org.type"/>
                 </dependencies>
                 <filters>
                     <eq field-id="id" value="{id}" datasource="ds"/>
                     <eq field-id="type" value="{type}" datasource="ds"/>
+                    <eq field-id="org.type" value="{org.type}" datasource="ds"/>
                 </filters>
             </datasource>
             <columns>
                 <column text-field-id="id"/>
                 <column text-field-id="type"/>
+                <column text-field-id="org.type"/>
                 <column text-field-id="name"/>
             </columns>
         </table>

@@ -6,10 +6,12 @@
     <filters>
         <eq filter-id="id" field-id="id"/>
         <eq filter-id="type" field-id="type"/>
+        <eq filter-id="org.type" field-id="org.type" mapping="['type']"/>
     </filters>
     <fields>
         <field id="id"/>
         <field id="type"/>
         <field id="name"/>
+        <field id="org.type" mapping="['type']"/>
     </fields>
 </query>

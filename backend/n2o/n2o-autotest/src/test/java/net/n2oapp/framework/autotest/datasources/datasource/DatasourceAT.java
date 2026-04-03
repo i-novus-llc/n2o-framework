@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.datasources.datasource;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
@@ -262,21 +263,28 @@ class DatasourceAT extends AutoTestBase {
                 .widget(1, FormWidget.class).fields().field("id").control(InputText.class);
         InputText name = page.regions().region(0, SimpleRegion.class).content()
                 .widget(1, FormWidget.class).fields().field("name").control(InputText.class);
+        InputText name1 = page.regions().region(0, SimpleRegion.class).content()
+                .widget(3, FormWidget.class).fields().field("Для вложенного поля через точку").control(InputText.class);
 
         id.shouldHaveValue("1");
         name.shouldHaveValue("test1");
+        name1.shouldHaveValue("test1");
         table.columns().rows().row(2).click();
         id.shouldHaveValue("3");
         name.shouldHaveValue("test3");
+        name1.shouldHaveValue("test3");
         table.columns().rows().row(1).click();
         id.shouldHaveValue("2");
         name.shouldHaveValue("test2");
+        name1.shouldHaveValue("test2");
         table.columns().rows().row(3).click();
         id.shouldHaveValue("4");
         name.shouldHaveValue("test4");
+        name1.shouldHaveValue("test4");
         table.columns().rows().row(0).click();
         id.shouldHaveValue("1");
         name.shouldHaveValue("test1");
+        name1.shouldHaveValue("test1");
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(2, FormWidget.class);
         String uuid = form.fields().field("id").control(InputText.class).getValue();
@@ -409,33 +417,41 @@ class DatasourceAT extends AutoTestBase {
         tableRows.shouldHaveSize(4);
 
         Fields fields = form.fields();
-        InputText inputId = fields.field("id").control(InputText.class);
+        InputText inputId = fields.field("id (без fetch) — таблица НЕ обновится").control(InputText.class);
         inputId.shouldBeEmpty();
-        InputText inputType = fields.field("type").control(InputText.class);
+        InputText inputType = fields.field("type (есть fetch) — таблица обновится").control(InputText.class);
+        checkFetchByFieldId(inputType, inputId, tableRows);
+
+        Selenide.refresh();
+        inputType = fields.field("org.type (есть fetch) — таблица обновится").control(InputText.class);
+        checkFetchByFieldId(inputType, inputId, tableRows);
+    }
+
+    private static void checkFetchByFieldId(InputText inputType, InputText inputId, TableWidget.Rows tableRows) {
         inputType.shouldBeEmpty();
         inputId.setValue("3");
         tableRows.shouldHaveSize(4);
 
         inputType.setValue("2");
         tableRows.shouldHaveSize(1);
-        tableRows.row(0).cell(2).shouldHaveText("test3");
+        tableRows.row(0).cell(3).shouldHaveText("test3");
 
         inputId.clear();
         tableRows.shouldHaveSize(1);
-        tableRows.row(0).cell(2).shouldHaveText("test3");
+        tableRows.row(0).cell(3).shouldHaveText("test3");
 
         inputType.clear();
         tableRows.shouldHaveSize(4);
 
         inputType.setValue("1");
         tableRows.shouldHaveSize(2);
-        tableRows.row(0).cell(2).shouldHaveText("test1");
-        tableRows.row(1).cell(2).shouldHaveText("test2");
+        tableRows.row(0).cell(3).shouldHaveText("test1");
+        tableRows.row(1).cell(3).shouldHaveText("test2");
 
         inputId.setValue("5");
         tableRows.shouldHaveSize(2);
-        tableRows.row(0).cell(2).shouldHaveText("test1");
-        tableRows.row(1).cell(2).shouldHaveText("test2");
+        tableRows.row(0).cell(3).shouldHaveText("test1");
+        tableRows.row(1).cell(3).shouldHaveText("test2");
 
         inputType.clear();
         tableRows.shouldHaveSize(0);
@@ -445,6 +461,6 @@ class DatasourceAT extends AutoTestBase {
 
         inputType.clear();
         tableRows.shouldHaveSize(1);
-        tableRows.row(0).cell(2).shouldHaveText("test4");
+        tableRows.row(0).cell(3).shouldHaveText("test4");
     }
 }
