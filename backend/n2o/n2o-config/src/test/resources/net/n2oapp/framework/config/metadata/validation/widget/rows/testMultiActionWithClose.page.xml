@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Тулбар в выделенной строке таблицы">
+    <table>
+        <columns>
+            <column text-field-id="id" label="№"/>
+            <column text-field-id="name" label="Фамилия И.О"/>
+            <column text-field-id="date" label="Дата рождения"/>
+        </columns>
+
+        <rows>
+            <overlay>
+                <toolbar>
+                    <button label="Кнопка">
+                        <close/>
+                        <alert text="alert"/>
+                    </button>
+                </toolbar>
+            </overlay>
+        </rows>
+    </table>
+</simple-page>

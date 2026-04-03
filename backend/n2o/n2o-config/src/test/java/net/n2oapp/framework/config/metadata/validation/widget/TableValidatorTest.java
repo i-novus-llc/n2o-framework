@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.validation.widget;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.ElementWrongLocation;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.TableValidator;
@@ -28,11 +29,9 @@ class TableValidatorTest extends SourceValidationTestBase {
                 new N2oRegionsPack(),
                 new N2oWidgetsPack(),
                 new N2oAllDataPack(),
-                new N2oControlsPack()
-        );
-        builder.validators(
-                new TableValidator(),
-                new FilterColumnValidator()
+                new N2oControlsPack(),
+                new N2oActionsPack(),
+                new N2oAllValidatorsPack()
         );
     }
 
@@ -85,7 +84,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testOverlayToolbar() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testOverlayToolbar.widget.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/rows/testOverlayToolbar.widget.xml")
         );
         assertEquals("Не заданы элементы или атрибут 'generate' в тулбаре в <overlay> таблицы 'testOverlayToolbar'", exception.getMessage());
     }
@@ -147,5 +146,13 @@ class TableValidatorTest extends SourceValidationTestBase {
         );
         assertEquals("В таблице 'testFixedOnlyOnFirstLevel' колонка 'Фамилия' не может иметь атрибут 'fixed', так как находится внутри <multi-column> 'ФИО'",
                 exception.getMessage());
+    }
+
+    @Test
+    void testMultiActionWithClose() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/rows/testMultiActionWithClose.page.xml"));
+        assertEquals("После действия <close> не должно быть других действий кроме <close> или <on-fail>", exception.getMessage());
     }
 }
