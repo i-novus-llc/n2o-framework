@@ -3,8 +3,20 @@
         color: #163851;
     }
 
-    .n2o-navigation-panel__children:hover {
+    .group.n2o-navigation-panel__children:hover {
+        color: #163851;
+    }
+
+    .btn.group-children__child:hover,
+    .dropdown.group-children__child:hover,
+    .dropdown.n2o-navigation-panel__children:hover,
+    .n2o-navigation-panel__children:hover,
+    .group-header:hover {
         cursor: pointer;
+        color: $pink;
+    }
+
+    .group:has(> .group-children > .group-children__child:hover) > .group-header {
         color: $pink;
     }
 }
