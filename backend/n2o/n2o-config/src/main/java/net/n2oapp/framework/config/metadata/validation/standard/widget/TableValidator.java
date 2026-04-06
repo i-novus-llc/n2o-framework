@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.validation.standard.widget;
 
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
@@ -10,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.N2oExportTableSetting;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oGroup;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
@@ -45,9 +47,10 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), source.getDatasource(), actions);
 
         if (source.getRows() != null && source.getRows().getRowClick() != null && source.getRows().getRowClick().getActions() != null) {
-            Arrays.stream(source.getRows().getRowClick().getActions()).forEach(item -> p.validate(item, widgetScope));
-            checkOnFailAction(source.getRows().getRowClick().getActions());
-            checkCloseInMultiAction(source.getRows().getRowClick().getActions());
+            N2oAction[] rowClickActions = source.getRows().getRowClick().getActions();
+            Arrays.stream(rowClickActions).forEach(item -> p.validate(item, widgetScope));
+            checkOnFailAction(rowClickActions);
+            checkCloseInMultiAction(rowClickActions);
         }
 
         if (source.getColumns() != null) {
@@ -66,7 +69,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
 
         validateFilters(source, widgetScope, p);
 
-        checkEmptyToolbar(source);
+        checkRowOverlayToolbar(source, p);
         checkUniqueTableSetting(source, N2oColumnsTableSetting.class, "ts:columns");
         checkUniqueTableSetting(source, N2oExportTableSetting.class, "ts:export");
         checkExportTableSettingDefaultFormat(source);
@@ -158,14 +161,18 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         }
     }
 
-    private static void checkEmptyToolbar(N2oTable source) {
-        if (source.getRows() != null && source.getRows().getRowOverlay() != null
-                && source.getRows().getRowOverlay().getToolbar() != null
-                && source.getRows().getRowOverlay().getToolbar().getGenerate() == null
-                && source.getRows().getRowOverlay().getToolbar().getItems() == null)
-            throw new N2oMetadataValidationException(
-                    String.format("Не заданы элементы или атрибут 'generate' в тулбаре в <overlay> таблицы %s",
-                            ValidationUtils.getIdOrEmptyString(source.getId())));
+    private static void checkRowOverlayToolbar(N2oTable source, SourceProcessor p) {
+        if (source.getRows() != null && source.getRows().getRowOverlay() != null) {
+            N2oToolbar toolbar = source.getRows().getRowOverlay().getToolbar();
+            if (toolbar != null) {
+                if (toolbar.getGenerate() == null && toolbar.getItems() == null)
+                    throw new N2oMetadataValidationException(
+                            String.format("Не заданы элементы или атрибут 'generate' в тулбаре в <overlay> таблицы %s",
+                                    ValidationUtils.getIdOrEmptyString(source.getId())));
+                if (toolbar.getItems() != null)
+                    p.safeStreamOf(toolbar.getItems()).forEach(p::validate);
+            }
+        }
     }
 
     /**
