@@ -11,6 +11,7 @@ import { appendToArray, removeFromArray } from '../models/store'
 import { AppendToArrayAction, RemoveFromArrayAction } from '../models/Actions'
 import { getOnAppend, getOnRemove, mapMultiFields } from '../../core/models/mapMultiFields'
 import { logger } from '../../utils/logger'
+import { DataProviderError } from '../../core/dataProviderResolver'
 
 import type {
     AddComponentAction,
@@ -25,7 +26,6 @@ import type {
     RemoveAction,
     RemoveComponentAction,
     ResolveRequestAction,
-    SetAdditionalInfoAction,
     SetFieldSubmitAction,
     SetSortDirectionAction,
     StartValidateAction,
@@ -197,6 +197,7 @@ export const datasource = createSlice({
                 const { id, query } = action.payload
 
                 state[id].loading = false
+                state[id].additionalInfo = query.additionalInfo
                 state[id].paging = {
                     ...state[id].paging,
                     ...query.paging,
@@ -218,6 +219,14 @@ export const datasource = createSlice({
 
                 state[id].loading = false
                 state[id].error = error
+
+                if (error && error instanceof DataProviderError) {
+                    state[id].paging = {
+                        ...state[id].paging,
+                        page: 1,
+                        count: 0,
+                    }
+                }
             },
         },
 
@@ -239,23 +248,6 @@ export const datasource = createSlice({
                 } else {
                     state[id].sorting = { [field]: direction }
                 }
-            },
-        },
-
-        setAdditionalInfo: {
-            prepare(id: string, additionalInfo: unknown) {
-                return ({
-                    payload: {
-                        id,
-                        additionalInfo,
-                    },
-                })
-            },
-
-            reducer(state, action: SetAdditionalInfoAction) {
-                const { id, additionalInfo } = action.payload
-
-                state[id].additionalInfo = additionalInfo
             },
         },
 
@@ -480,7 +472,6 @@ export const {
     resolveRequest,
     rejectRequest,
     setSorting,
-    setAdditionalInfo,
     startValidate,
     reset,
     endValidation,

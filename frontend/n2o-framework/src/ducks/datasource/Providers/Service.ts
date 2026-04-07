@@ -51,22 +51,12 @@ export function* query(id: string, provider: ServiceProvider, options: QueryOpti
 
     let resolvedProvider = null
 
-    try {
-        resolvedProvider = dataProviderResolver(
-            state,
-            provider,
-            query,
-            options,
-        )
-    } catch (error) {
-        /*
-         * Сброс списка при отсутствии обязательных полей датапровайдера
-         * нужно чтобы при чистки master-ds чистился и child-ds.
-         * В этом случае dataProviderResolver кинет error
-         */
-
-        return { list: [], paging: { count: 0, page: 1 } }
-    }
+    resolvedProvider = dataProviderResolver(
+        state,
+        provider,
+        query,
+        options,
+    )
 
     return (yield fetch(id, resolvedProvider, apiProvider)) as QueryResult
 }

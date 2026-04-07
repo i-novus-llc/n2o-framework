@@ -60,11 +60,6 @@ export type SetSortDirectionAction = DatasourceAction<{
     direction: SortDirection
 }>
 
-export type SetAdditionalInfoAction = DatasourceAction<{
-    id: string
-    additionalInfo: unknown
-}>
-
 export type UpdatePagingAction = DatasourceAction<{
     id: string
     paging: Partial<Paging>

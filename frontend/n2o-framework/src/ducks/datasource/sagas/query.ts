@@ -18,7 +18,6 @@ import {
     rejectRequest,
     resolveRequest,
     startValidate,
-    setAdditionalInfo,
     endValidation,
 } from '../store'
 import type { Provider, QueryResult, Query } from '../Provider'
@@ -30,6 +29,7 @@ import { query as cachedQuery } from '../Providers/Cached'
 import type { DataRequestAction } from '../Actions'
 import type { DataSourceState } from '../DataSource'
 import { logger } from '../../../utils/logger'
+import { DataProviderError } from '../../../core/dataProviderResolver'
 
 import { validate } from './validate'
 
@@ -59,7 +59,6 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
             throw new Error('Unnecessary request for datasource with empty components list ')
         }
 
-        // @ts-ignore поправить типы
         const validateByPrefix = (prefix: ModelPrefix) => startValidate(id, ValidationsKey.FilterValidations, prefix, undefined, { touched: true })
 
         const filtersIsValid: Record<string, ValidationResult[]> = yield call(validate, validateByPrefix(ModelPrefix.filter))
@@ -84,13 +83,11 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
         }
 
         yield put(setModel(ModelPrefix.source, id, response.list, true))
-        yield put(setAdditionalInfo(id, response.additionalInfo))
 
         if (response.active) {
             yield put(setModel(ModelPrefix.active, id, response.active, true))
         }
 
-        // @ts-ignore Проблема с типизацией
         yield put(resolveRequest(id, response))
     } catch (error) {
         const err = error as { message: string, stack: string, json?: { meta: Meta } }
@@ -113,13 +110,19 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
             }
         }
 
+        /*
+         * Сброс списка при отсутствии обязательных полей датапровайдера
+         * нужно чтобы при чистки master-ds чистился и child-ds.
+         */
+        if (error instanceof DataProviderError) {
+            yield put(setModel(ModelPrefix.source, id, [], true))
+        }
+
         logger.warn(`JS Error: DataSource(${id}) fetch saga. ${err.message}`)
 
         yield put(
             rejectRequest(
                 id,
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 error,
                 err.json?.meta ||
                 {
