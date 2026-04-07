@@ -252,7 +252,7 @@ public class ExportController extends AbstractController {
                 Object value = data.get(param);
                 if (value != null) {
                     ExternalRequest.ExportFilter filter = new ExternalRequest.ExportFilter();
-                    filter.setId(extractFilterId(filterFieldsMap, filterId));
+                    filter.setId(extractFilterId(filterFieldsMap, entry.getValue(), filterId));
                     filter.setValue(value.toString());
                     filters.add(filter);
                 }
@@ -261,8 +261,8 @@ public class ExportController extends AbstractController {
         return filters;
     }
 
-    private String extractFilterId(Map<String, N2oQuery.Filter> filterFieldsMap, String filterId) {
-        N2oQuery.Filter queryFilter = filterFieldsMap.get(filterId);
+    private String extractFilterId(Map<String, N2oQuery.Filter> filterFieldsMap, String filterFieldId, String filterId) {
+        N2oQuery.Filter queryFilter = filterFieldsMap.get(filterFieldId);
         if (queryFilter != null && queryFilter.getText() != null) {
             Matcher matcher = FIRST_WORD_PATTERN.matcher(queryFilter.getText());
             if (matcher.find()) {
