@@ -11,19 +11,21 @@ import { flatten } from 'flat'
 import linkResolver from '../utils/linkResolver'
 import { clearEmptyParams } from '../utils/clearEmptyParams'
 
-/**
- * Получение разрешенных параметров dataProvider
- * @param state
- * @param dataProvider
- * @param query
- * @param options
- * @returns
- */
+export class DataProviderError extends Error {
+    /**
+     * @param {string} message
+     * @param {ErrorOptions | undefined} options
+     */
+    constructor(message, options) {
+        super(`DataProvider error: ${message}`, options)
+    }
+}
 
 /* FIXME после типизации dataProviderResolver
     нужно поправить все файлы где он используется
     @ts-ignore import from js file */
 /**
+ * Получение разрешенных параметров dataProvider
  * @param {object} state
  * @param {object} dataProvider
  * @param {object} [query]
@@ -77,7 +79,7 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     } catch (error) {
         if (isEmpty(pathParams)) { throw error }
 
-        throw new Error(`Не удалось сформировать URL для запроса.
+        throw new DataProviderError(`Не удалось сформировать URL для запроса.
         Не переданы обязательные параметры:
         ${Object.entries(pathParams).filter(([, value]) => isNil(value)).map(([key, value]) => `${key}=${value}`).join(', ')}`)
     }
@@ -129,7 +131,7 @@ export function getParams(mapping, state, evalContext = {}) {
         if (!isNil(value)) { params[key] = value }
 
         if (required && isNil(value)) {
-            throw new Error(`DataProvider error: "${key}" is required`)
+            throw new DataProviderError(`"${key}" is required`)
         }
     })
 
