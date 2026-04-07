@@ -1,11 +1,8 @@
 package net.n2oapp.framework.config.metadata.validation.widget;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.ElementWrongLocation;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.TableValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.FilterColumnValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -93,7 +90,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testFilterFetchOnAttributes() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testFilterFetchOnAttributes.page.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testFilterFetchOnAttributes.widget.xml")
         );
         assertEquals("В фильтрах таблицы 'testFilterFetchOnAttributes' заданы несочетаемые атрибуты 'fetch-on-change=\"true\"' и 'fetch-on-clear=\"false\"'",
                 exception.getMessage());
@@ -103,7 +100,7 @@ class TableValidatorTest extends SourceValidationTestBase {
     void testFilterColumnFilterExistence() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/columns/testFilterColumnFilterExistence.page.xml")
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/columns/testFilterColumnFilterExistence.widget.xml")
         );
         assertEquals("В <filter-column text-field-id='test'> таблицы не задан <filter>", exception.getMessage());
     }
@@ -146,6 +143,31 @@ class TableValidatorTest extends SourceValidationTestBase {
         );
         assertEquals("В таблице 'testFixedOnlyOnFirstLevel' колонка 'Фамилия' не может иметь атрибут 'fixed', так как находится внутри <multi-column> 'ФИО'",
                 exception.getMessage());
+    }
+
+    @Test
+    void testColumnDependencyDatasourceExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/columns/testColumnDependencyDatasourceExistence.widget.xml"));
+        assertEquals("В таблице 'testColumnDependencyDatasourceExistence' в колонке 'type' зависимость <visibility> ссылается на несуществующий источник данных 'wrong'", exception.getMessage());
+    }
+
+
+    @Test
+    void testTableEnablingDependencyDatasourceExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testTableEnablingDependencyDatasourceExistence.widget.xml"));
+        assertEquals("В таблице 'testTableEnablingDependencyDatasourceExistence' зависимость <enabling> ссылается на несуществующий источник данных 'wrong'", exception.getMessage());
+    }
+
+    @Test
+    void testTableVisibilityDependencyDatasourceExistence() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/widget/testTableVisibilityDependencyDatasourceExistence.widget.xml"));
+        assertEquals("В таблице 'testTableVisibilityDependencyDatasourceExistence' зависимость <visibility> ссылается на несуществующий источник данных 'wrong'", exception.getMessage());
     }
 
     @Test

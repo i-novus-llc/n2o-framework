@@ -3,6 +3,8 @@ package net.n2oapp.framework.config.metadata.validation.standard.widget;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oEnablingDependency;
+import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.tablesettings.ExportFormatEnum;
@@ -54,12 +56,13 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         }
 
         if (source.getColumns() != null) {
-            N2oBaseColumn[] columns = Arrays.stream(source.getColumns())
+            N2oBaseColumn[] baseColumns = Arrays.stream(source.getColumns())
                     .filter(N2oBaseColumn.class::isInstance)
                     .map(N2oBaseColumn.class::cast)
                     .toArray(N2oBaseColumn[]::new);
-            checkUniqueIds(columns, N2oBaseColumn::getId, source.getId(), "id");
-            checkUniqueIds(columns, N2oBaseColumn::getTextFieldId, source.getId(), "text-field-id");
+            checkUniqueIds(baseColumns, N2oBaseColumn::getId, source.getId(), "id");
+            checkUniqueIds(baseColumns, N2oBaseColumn::getTextFieldId, source.getId(), "text-field-id");
+            checkColumnDependencyDatasourceExistence(baseColumns, source, p);
 
             Arrays.stream(source.getColumns())
                     .forEach(col -> p.validate(col, widgetScope));
@@ -68,6 +71,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         }
 
         validateFilters(source, widgetScope, p);
+        checkTableDependencyDatasourceExistence(source, p);
 
         checkRowOverlayToolbar(source, p);
         checkUniqueTableSetting(source, N2oColumnsTableSetting.class, "ts:columns");
@@ -161,7 +165,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         }
     }
 
-    private static void checkRowOverlayToolbar(N2oTable source, SourceProcessor p) {
+    private void checkRowOverlayToolbar(N2oTable source, SourceProcessor p) {
         if (source.getRows() != null && source.getRows().getRowOverlay() != null) {
             N2oToolbar toolbar = source.getRows().getRowOverlay().getToolbar();
             if (toolbar != null) {
@@ -235,6 +239,36 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                         uniques.add(id);
                     }
                 });
+    }
+
+    private void checkColumnDependencyDatasourceExistence(N2oBaseColumn[] columns, N2oTable source, SourceProcessor p) {
+        for (N2oBaseColumn column : columns) {
+            if (column.getColumnVisibilities() != null) {
+                for (N2oBaseColumn.ColumnVisibility visibility : column.getColumnVisibilities()) {
+                    String visibilityDatasourceId = visibility.getDatasourceId();
+                    if (visibilityDatasourceId != null) {
+                        checkDatasourceExistence(visibilityDatasourceId, p,
+                                String.format("В таблице %s в колонке '%s' зависимость <visibility> ссылается на несуществующий источник данных '%s'",
+                                        getIdOrEmptyString(source.getId()), getLabel(column), visibilityDatasourceId));
+                    }
+                }
+            }
+        }
+    }
+
+    private void checkTableDependencyDatasourceExistence(N2oTable source, SourceProcessor p) {
+        p.safeStreamOf(source.getDependencies()).forEach(dependency -> {
+                    String dependencyDatasource = dependency.getDatasource();
+                    if (dependencyDatasource != null) {
+                        checkDatasourceExistence(dependencyDatasource, p,
+                                String.format("В таблице %s зависимость %s ссылается на несуществующий источник данных '%s'",
+                                        getIdOrEmptyString(source.getId()),
+                                        (dependency instanceof N2oVisibilityDependency) ? "<visibility>" : "<enabling>",
+                                        dependencyDatasource));
+                    }
+                }
+
+        );
     }
 
     /**

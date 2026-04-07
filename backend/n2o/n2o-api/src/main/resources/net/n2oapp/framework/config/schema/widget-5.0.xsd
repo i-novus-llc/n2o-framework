@@ -572,7 +572,7 @@
         </xs:attribute>
         <xs:attribute name="model" type="act:clientModel">
             <xs:annotation>
-                <xs:documentation>Контекст вычисления условия видимости.</xs:documentation>
+                <xs:documentation>Модель источника данных, из которой будет взято значение для вычисления условия видимости.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
