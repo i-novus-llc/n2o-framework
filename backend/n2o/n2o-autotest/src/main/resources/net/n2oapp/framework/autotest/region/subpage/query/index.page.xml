@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Проверка проброса query параметров в subpage">
+    <toolbar place="topRight">
+        <button label="Открыть страницу">
+            <open-page page-id="page" route="/sub">
+                <params>
+                    <query-param name="w1_name" value="test2"/>
+                    <query-param name="param" value="page"/>
+                </params>
+            </open-page>
+        </button>
+        <button label="Открыть страницу через ссылку">
+            <a href="./#/sub/subpage" application="target">
+                <query-param name="w1_name" value="test3"/>
+                <query-param name="param" value="link"/>
+            </a>
+        </button>
+        <button label="Открыть drawer">
+            <open-drawer page-id="page" route="/drawer">
+                <params>
+                    <query-param name="w1_name" value="test4"/>
+                    <query-param name="param" value="drawer"/>
+                </params>
+            </open-drawer>
+        </button>
+        <button label="Открыть modal">
+            <show-modal page-id="page" route="/modal">
+                <params>
+                    <query-param name="w1_name" value="test5"/>
+                    <query-param name="param" value="modal"/>
+                </params>
+            </show-modal>
+        </button>
+    </toolbar>
+</page>

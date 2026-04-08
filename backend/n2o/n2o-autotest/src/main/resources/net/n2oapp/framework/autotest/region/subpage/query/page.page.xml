@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    name="Page with subpage">
+    <regions>
+        <form>
+            <fields>
+                <input-text id="output1" param="w1_name" label="Фильтр таблицы" enabled="false"/>
+                <input-text id="output2" param="param" label="Тестовый параметр" enabled="false"/>
+                <text>Значения не обновляются, а высчитываются только при инициализации страницы</text>
+            </fields>
+        </form>
+        <sub-page>
+            <page page-id="subpage" route="/subpage"/>
+        </sub-page>
+    </regions>
+</page>
