@@ -6,11 +6,18 @@ import classNames from 'classnames'
 import { id } from '../utils/id'
 import { Text } from '../Typography/Text'
 
+export enum HelpTrigger {
+    HOVER = 'hover',
+    FOCUS = 'focus',
+    CLICK = 'click',
+    LEGACY = 'legacy',
+}
+
 export interface HelpPopoverProps {
     help?: string | null | Node
     icon?: string,
     helpPlacement?: PopoverProps['placement']
-    helpTrigger?: 'hover' | 'focus' | 'click'
+    helpTrigger?: HelpTrigger
     className?: string
 }
 
@@ -58,7 +65,7 @@ export class HelpPopover extends React.Component<HelpPopoverProps> {
                 <UncontrolledPopover
                     className="n2o-popover-body"
                     placement={helpPlacement}
-                    trigger={helpTrigger}
+                    trigger={helpTrigger === HelpTrigger.CLICK ? HelpTrigger.LEGACY : helpTrigger}
                     target={this.fieldId}
                 >
                     <PopoverBody>
