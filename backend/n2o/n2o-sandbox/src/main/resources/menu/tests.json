@@ -352,6 +352,14 @@
           "name": "SubPageRegionAT. testSubPageWithoutButtons"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/region/subpage/routable",
+          "name": "SubPageRegionAT. testSubPageRoutableParameters"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/region/subpage/query",
+          "name": "SubPageRegionAT. testSubPageQueryParameters"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/region/subpage/modal",
           "name": "SubPageRegionAT. testSubPageInModal"
         },
