@@ -49,24 +49,29 @@ public class N2oCsrfAutoConfiguration {
     }
 
     /**
-     * Настройка CORS для междоменных запросов
+     * Конфигурация CORS для междоменных запросов
+     * Активируется только если n2o.security.cors.enabled=true
      */
-    @Bean
-    @ConditionalOnProperty(value = "n2o.security.cors.allowed-origins")
-    public Customizer<CorsConfigurer<HttpSecurity>> n2oCorsCustomizer() {
-        CorsConfiguration config = new CorsConfiguration();
+    @Configuration
+    @ConditionalOnProperty(prefix = "n2o.security.cors", name = "enabled", havingValue = "true")
+    public class CorsSecurityConfiguration {
 
-        config.setAllowedOrigins(properties.getCors().getAllowedOrigins());
-        config.setAllowedMethods(properties.getCors().getAllowedMethods());
-        config.setAllowedHeaders(properties.getCors().getAllowedHeaders());
-        config.setAllowCredentials(properties.getCors().getAllowCredentials());
-        config.setExposedHeaders(properties.getCors().getExposedHeaders());
-        config.setMaxAge(3600L);
+        @Bean
+        public Customizer<CorsConfigurer<HttpSecurity>> n2oCorsCustomizer() {
+            CorsConfiguration config = new CorsConfiguration();
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+            config.setAllowedOrigins(properties.getCors().getAllowedOrigins());
+            config.setAllowedMethods(properties.getCors().getAllowedMethods());
+            config.setAllowedHeaders(properties.getCors().getAllowedHeaders());
+            config.setAllowCredentials(properties.getCors().getAllowCredentials());
+            config.setExposedHeaders(properties.getCors().getExposedHeaders());
+            config.setMaxAge(3600L);
 
-        return cors -> cors.configurationSource(source);
+            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            source.registerCorsConfiguration("/**", config);
+
+            return cors -> cors.configurationSource(source);
+        }
     }
 
     /**

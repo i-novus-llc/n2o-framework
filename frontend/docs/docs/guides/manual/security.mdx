@@ -7,7 +7,7 @@ description: ""
 
 ### Подключение CSRF и CORS в приложении
 
-Для создания бина Customizer для CORS задайте настройку `n2o.security.cors.allowed-origins`.\
+Для создания бина Customizer для CORS задайте настройку `n2o.security.cors.enabled=true`.\
 Для создания бина Customizer для CSRF задайте настройку `n2o.security.csrf.enabled=true`.
 
 ```java title="Подключение в конфигурацию безопасности"
@@ -66,6 +66,7 @@ n2o:
 
 | Наименование | Тип | Описание | Значение по умолчанию |
 |--------------|-----|----------|-----------------------|
+| n2o.security.cors.enabled | boolean | Включить CORS | false |
 | n2o.security.cors.allowed-origins | Список строк | Разрешенные origins для CORS | null |
 | n2o.security.cors.allowed-methods | Список строк | Разрешенные методы для CORS | GET, OPTIONS |
 | n2o.security.cors.allowed-headers | Список строк | Разрешенные заголовки для CORS | * |
@@ -76,6 +77,7 @@ n2o:
 n2o:
   security:
     cors:
+      enabled: true
       allowed-origins:
         - https://example.com
         - https://app.example.com

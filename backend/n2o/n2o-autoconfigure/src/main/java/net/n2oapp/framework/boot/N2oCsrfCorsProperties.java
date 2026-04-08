@@ -81,6 +81,12 @@ public class N2oCsrfCorsProperties {
     @Setter
     public static class CorsProperties {
         /**
+         * Включить CORS
+         * По умолчанию: false
+         */
+        private boolean enabled = false;
+
+        /**
          * Разрешенные origins для CORS
          */
         private List<String> allowedOrigins = null;
