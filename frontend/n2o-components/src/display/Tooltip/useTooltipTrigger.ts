@@ -47,7 +47,6 @@ export function useTooltipTrigger({
             eventHandlers.push(
                 ['mouseenter', handleOpen],
                 ['mouseleave', handleClose],
-                ['focus', handleOpen],
                 ['blur', handleClose],
             )
         }
