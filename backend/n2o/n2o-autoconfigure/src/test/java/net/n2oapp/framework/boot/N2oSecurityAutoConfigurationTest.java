@@ -87,21 +87,21 @@ class N2oSecurityAutoConfigurationTest {
     void sameSiteCookieSupplierConfigured() {
         contextRunner
                 .withPropertyValues("n2o.security.cookie.same-site=Lax")
-                .run(context -> {
-                    assertThat(context).hasSingleBean(CookieSameSiteSupplier.class);
-                });
+                .run(context -> assertThat(context).hasSingleBean(CookieSameSiteSupplier.class));
     }
 
     @Test
     void corsOriginsConfigured() {
         contextRunner
                 .withPropertyValues(
+                        "n2o.security.cors.enabled=true",
                         "n2o.security.cors.allowed-origins[0]=https://trusted.com",
                         "n2o.security.cors.allowed-origins[1]=https://another.com"
                 )
                 .run(context -> {
                     N2oCsrfCorsProperties properties = context.getBean(N2oCsrfCorsProperties.class);
-                    
+
+                    assertThat(properties.getCors().isEnabled()).isTrue();
                     assertThat(properties.getCors().getAllowedOrigins())
                             .containsExactly("https://trusted.com", "https://another.com");
                 });
@@ -125,6 +125,7 @@ class N2oSecurityAutoConfigurationTest {
                     assertThat(properties.getCsrf().isSecure()).isTrue();
 
                     // CORS defaults
+                    assertThat(properties.getCors().isEnabled()).isFalse();
                     assertThat(properties.getCors().getAllowedOrigins()).isNullOrEmpty();
                 });
     }

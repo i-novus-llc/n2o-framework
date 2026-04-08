@@ -28,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 )
 @AutoConfigureMockMvc
 @TestPropertySource(properties = {
+    "n2o.security.cors.enabled=true",
     "n2o.security.csrf.enabled=true",
     "n2o.security.csrf.secure=false",
     "n2o.security.cors.allowed-origins=https://trusted-domain.com,https://another-trusted.com",
