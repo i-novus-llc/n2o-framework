@@ -42,7 +42,7 @@ public class N2oAlert extends N2oSnippet implements Alert {
 
     @Override
     public void shouldHaveText(String text, Duration... duration) {
-        should(Condition.text(text), element().$(".n2o-alert-segment__text"), duration);
+        should(Condition.ownText(text), element().$(".n2o-alert-segment__text"), duration);
     }
 
     @Override

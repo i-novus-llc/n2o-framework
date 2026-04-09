@@ -45,36 +45,45 @@ export function useLink({
 
     /** Учитывает роутинг sub-pages (прим. страницы в модальных окнах)*/
     const onClickHandler = useCallback((event: MouseEvent) => {
+        if (!href || !url) { return }
+
         onClick?.(event)
 
         if (event.isDefaultPrevented()) { return }
 
         event.preventDefault()
 
-        if (!href || disabled || !url) { return }
+        if (target === LinkTarget.application) {
+            const state: GlobalState = getState()
+            const anchorPageId = getAnchorPage(href, state, pageId)
 
-        const state: GlobalState = getState()
-        const anchorPageId = getAnchorPage(href, state, pageId)
+            if (anchorPageId) {
+                dispatch(setLocation(pageId, href))
 
-        if (anchorPageId) {
-            dispatch(setLocation(pageId, href))
-
-            return
+                return
+            }
         }
 
-        if (event.ctrlKey) {
+        if (event.ctrlKey || target === LinkTarget.blank) {
             window.open(url, LinkTarget.blank)
 
             return
         }
 
+        if (target === LinkTarget.self) {
+            // eslint-disable-next-line no-restricted-globals
+            location.href = url
+
+            return
+        }
+
         dispatch(push(url.replace(/^\.\/#/, '')))
-    }, [disabled, dispatch, href, pageId, getState, url, onClick])
+    }, [dispatch, href, pageId, getState, url, onClick, target])
 
     return {
         active: href ? pathname.includes(href) : false,
         target: target === LinkTarget.blank ? target : undefined,
         url,
-        onClick: target === LinkTarget.application ? onClickHandler : onClick,
+        onClick: onClickHandler,
     }
 }
