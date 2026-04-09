@@ -25,7 +25,7 @@
                         <alert text="search"/>
                     </button>
 
-                    <dropdown-menu label="Настройки" trigger="hover">
+                    <dropdown-menu label="Настройки">
                         <menu-item label="Безопасность" action-id="security"/>
 
                         <link label="Конфиденциальность" href="/privacy"/>
@@ -54,7 +54,7 @@
                     </group>
                 </group>
 
-                <dropdown-menu label="Магазин" trigger="hover">
+                <dropdown-menu label="Магазин">
                     <menu-item label="Каталог">
                         <a href="/catalog"/>
                     </menu-item>

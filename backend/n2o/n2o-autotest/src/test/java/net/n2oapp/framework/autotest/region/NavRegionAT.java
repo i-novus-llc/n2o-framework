@@ -117,11 +117,15 @@ class NavRegionAT extends AutoTestBase {
         dropdownItem.item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Каталог");
         dropdownItem.item(1, NavRegion.AnchorItem.class).shouldHaveLabel("Акции");
         dropdownItem.item(2, NavRegion.NavRegionItem.class).shouldHaveLabel("Корзина");
+
+        dropdownItem.item(1, NavRegion.NavRegionItem.class).click();
+        dropdownItem.shouldBeClosed();
+        
+        dropdownItem.click();
         dropdownItem.item(2, NavRegion.NavRegionItem.class).click();
         dropdownItem.shouldBeClosed();
-        dropdownItem.click();
-        dropdownItem.shouldBeOpened();
 
+        dropdownItem.click();
         NavRegion.GroupItem dropdownGroupItem = dropdownItem.item(3, NavRegion.GroupItem.class);
         dropdownGroupItem.shouldHaveLabel("Категории");
         dropdownGroupItem.shouldHaveSize(5);

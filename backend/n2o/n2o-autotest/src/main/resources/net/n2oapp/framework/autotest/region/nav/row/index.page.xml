@@ -54,7 +54,7 @@
                     </group>
                 </group>
 
-                <dropdown-menu label="Магазин" trigger="hover">
+                <dropdown-menu label="Магазин">
                     <menu-item label="Каталог">
                         <a href="/catalog"/>
                     </menu-item>
