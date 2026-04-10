@@ -94,4 +94,20 @@ class SwitchActionValidatorTest extends SourceValidationTestBase {
     void testMultiActionWithCloseValid() {
         validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testMultiActionWithCloseValid.page.xml");
     }
+
+    @Test
+    void testColor() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testBadgeColor.page.xml"));
+        assertEquals("В ячейке <badge> виджета  указано недопустимое значение атрибута color=\"wrong\"", exception.getMessage());
+    }
+
+    @Test
+    void testSwitchDefaultActionBadgeColor() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/switch_action/testSwitchDefaultActionBadgeColor.page.xml"));
+        assertEquals("В ячейке <badge> виджета  указано недопустимое значение атрибута color=\"wrong\"", exception.getMessage());
+    }
 }
