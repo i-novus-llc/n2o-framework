@@ -546,7 +546,9 @@ export class InputSelect extends React.Component<Props, State> {
     }
 
     onFocus = () => {
-        const { openOnFocus } = this.props
+        const { openOnFocus, onFocus: propsOnFocus } = this.props
+
+        propsOnFocus?.()
 
         if (openOnFocus) {
             this.setIsExpanded(true)
@@ -808,6 +810,7 @@ export class InputSelect extends React.Component<Props, State> {
         onChange() {},
         fetchData() {},
         onBlur() {},
+        onFocus() {},
         onDismiss() {},
         setFilter() {},
         getSearchMinLengthHint() { return null },

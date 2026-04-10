@@ -62,8 +62,9 @@ export interface Props {
     /**
      * Флаг загрузки
      */
-    loading: boolean,
+    loading: boolean
     onBlur(arg: Props['value']): void
+    onFocus(): void
     /**
      * Callback на изменение
      */
