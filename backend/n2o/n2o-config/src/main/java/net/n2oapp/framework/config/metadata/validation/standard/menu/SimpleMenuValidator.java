@@ -50,6 +50,7 @@ public class SimpleMenuValidator extends TypedMetadataValidator<N2oSimpleMenu> {
                             ValidationUtils.getIdOrEmptyString(menuItem.getName()),
                             menuItem.getBadgeColor()));
         }
+        p.validate(menuItem.getAction());
     }
 
     private void validateItems(N2oSimpleMenu.AbstractMenuItem[] items, SourceProcessor p) {
