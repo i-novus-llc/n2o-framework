@@ -443,6 +443,7 @@ class SelectComponent extends React.Component<Props, State> {
             count,
             popUpItemRef,
             popUpStyle,
+            onFocus,
         } = this.props
         const inputSelectStyle = { width: '100%', ...style }
 
@@ -472,6 +473,7 @@ class SelectComponent extends React.Component<Props, State> {
                         onClearClick={this.clearSelected}
                     >
                         <InputContent
+                            onFocus={onFocus}
                             value={inputValue}
                             options={options}
                             selected={selected}
@@ -555,6 +557,7 @@ class SelectComponent extends React.Component<Props, State> {
         onInput() {},
         onClose() {},
         onBlur() {},
+        onFocus() {},
         onKeyDown() {},
         popUpItemRef: null,
         popUpStyle: {},

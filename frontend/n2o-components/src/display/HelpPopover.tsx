@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 import { id } from '../utils/id'
 import { Text } from '../Typography/Text'
+import { containsHtml } from '../utils/containsHtml'
 
 export enum HelpTrigger {
     HOVER = 'hover',
@@ -69,9 +70,9 @@ export class HelpPopover extends React.Component<HelpPopoverProps> {
                     target={this.fieldId}
                 >
                     <PopoverBody>
-                        {typeof help === 'string'
-                            ? <Text>{help}</Text>
-                            : <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(help) }} />}
+                        {containsHtml(help)
+                            ? <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(help) }} />
+                            : <Text>{help}</Text>}
                     </PopoverBody>
                 </UncontrolledPopover>
             </div>

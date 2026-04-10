@@ -136,8 +136,9 @@ export interface Props {
     /**
      * Мульти выбор значений
      */
-    multiSelect: boolean,
+    multiSelect: boolean
     onBlur(arg: TOption | TOption[] | null): void
+    onFocus(): void
     /**
      * Callback на изменение
      */
