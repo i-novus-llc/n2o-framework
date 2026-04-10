@@ -57,6 +57,7 @@ class HelpMessageAT extends AutoTestBase {
         field.shouldHaveHelp();
         field.clickHelp();
         page.popover("Серия паспорта").shouldBeVisible();
+        page.popover("Этот филдсет содержит поля: Серия и Номер").shouldBeClosed();
 
         field = simpleFieldSet.fields().field("Номер");
         field.shouldExists();
@@ -68,11 +69,13 @@ class HelpMessageAT extends AutoTestBase {
         lineFieldSet.shouldHaveHelp();
         lineFieldSet.clickHelp();
         page.popover("Этот филдсет содержит поля: Выпадающий список и Множественный выбор").shouldBeVisible();
+        page.popover("Номер паспорта").shouldBeClosed();
 
         MultiFieldSet multiFieldSet = page.widget(FormWidget.class).fieldsets().fieldset(2, MultiFieldSet.class);
         multiFieldSet.shouldHaveHelp();
         multiFieldSet.clickHelp();
         page.popover("Этот филдсет содержит поля: Имя и Возраст").shouldBeVisible();
+        page.popover("Этот филдсет содержит поля: Выпадающий список и Множественный выбор").shouldBeClosed();
     }
 
     @Test
@@ -93,6 +96,7 @@ class HelpMessageAT extends AutoTestBase {
         field.shouldHaveHelp();
         field.hoverHelp();
         page.popover("Подсказка2").shouldBeVisible();
+        page.popover("Подсказка1").shouldBeClosed();
 
         field = simpleFieldSet.fields().field("DateTime");
         field.shouldExists();
@@ -110,6 +114,7 @@ class HelpMessageAT extends AutoTestBase {
         lineFieldSet.shouldHaveHelp();
         lineFieldSet.hoverHelp();
         page.popover("Подсказка5").shouldBeVisible();
+        page.popover("Подсказка4").shouldBeClosed();
 
         field = lineFieldSet.fields().field("InputSelect");
         field.shouldExists();
@@ -127,5 +132,6 @@ class HelpMessageAT extends AutoTestBase {
         multiFieldSet.shouldHaveHelp();
         multiFieldSet.hoverHelp();
         page.popover("Подсказка8").shouldBeVisible();
+        page.popover("Подсказка7").shouldBeClosed();
     }
 }
