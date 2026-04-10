@@ -155,5 +155,11 @@ class ButtonAT extends AutoTestBase {
         pageToolbarButton.shouldBeEnabled();
         pageToolbarButton.click();
         pageToolbarButton.shouldBeDisabled();
+
+        // повторная проверка, чтобы учесть задержки
+        buttonField.shouldBeDisabled();
+        fieldToolbarButton.shouldBeDisabled();
+        formToolbarButton.shouldBeDisabled();
+        pageToolbarButton.shouldBeDisabled();
     }
 }

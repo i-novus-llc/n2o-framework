@@ -132,6 +132,7 @@ class NavRegionAT extends AutoTestBase {
         dropdownGroupItem.item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Электроника");
         dropdownGroupItem.item(1, NavRegion.AnchorItem.class).shouldHaveLabel("Одежда");
         dropdownGroupItem.item(1, NavRegion.AnchorItem.class).click();
+        Selenide.switchTo().window(0);
         dropdownItem.shouldBeClosed();
         dropdownItem.click();
         dropdownItem.shouldBeOpened();
@@ -197,6 +198,7 @@ class NavRegionAT extends AutoTestBase {
         groupDropdownDropdownItem.item(0, NavRegion.NavRegionItem.class).click();
         groupDropdownDropdownItem.shouldBeClosed();
         groupDropdownItem.shouldBeClosed();
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/\\?test=export");
 
         groupItem.item(4, NavRegion.GroupItem.class).shouldHaveLabel("Действия");
         groupItem.item(4, NavRegion.GroupItem.class).item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Выйти");

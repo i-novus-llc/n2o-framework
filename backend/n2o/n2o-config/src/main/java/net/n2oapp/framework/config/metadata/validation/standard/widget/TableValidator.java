@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.validation.standard.widget;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oEnablingDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.dependency.N2oVisibilityDependency;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
@@ -18,7 +17,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
-import net.n2oapp.framework.config.metadata.validation.standard.ValidationUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -98,8 +96,9 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                 foundNonFixed = true;
             } else if (column.getFixed() == ColumnFixedPositionEnum.LEFT && foundNonFixed) {
                 throw new N2oMetadataValidationException(String.format(
-                        "В таблице %s колонка '%s' c 'fixed=\"left\"' не может находиться после нефиксированных слева колонок",
-                        ValidationUtils.getIdOrEmptyString(table.getId()), getLabel(column))
+                        "В таблице %s колонка %s c 'fixed=\"left\"' не может находиться после нефиксированных слева колонок",
+                        getIdOrEmptyString(table.getId()),
+                        getIdOrEmptyString(getLabel(column)))
                 );
             }
         }
@@ -116,8 +115,9 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                 foundNonFixed = true;
             } else if (columns[i].getFixed() == ColumnFixedPositionEnum.RIGHT && foundNonFixed) {
                 throw new N2oMetadataValidationException(String.format(
-                        "В таблице %s колонка '%s' c 'fixed=\"right\"' не может находиться перед нефиксированными справа колонками",
-                        ValidationUtils.getIdOrEmptyString(table.getId()), getLabel(columns[i]))
+                        "В таблице %s колонка %s c 'fixed=\"right\"' не может находиться перед нефиксированными справа колонками",
+                        getIdOrEmptyString(table.getId()),
+                        getIdOrEmptyString(getLabel(columns[i])))
                 );
             }
         }
@@ -128,9 +128,9 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
      */
     private String getLabel(N2oAbstractColumn column) {
         if (column instanceof N2oBaseColumn baseColumn) {
-            return castDefault(baseColumn.getLabel(), baseColumn.getTextFieldId(), getIdOrEmptyString(column.getId()));
+            return castDefault(baseColumn.getLabel(), baseColumn.getTextFieldId(), column.getId());
         } else
-            return getIdOrEmptyString(column.getId());
+            return column.getId();
     }
 
 
@@ -155,11 +155,11 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         for (N2oAbstractColumn child : children) {
             if (child.getFixed() != null) {
                 throw new N2oMetadataValidationException(String.format(
-                        "В таблице %s колонка '%s' не может иметь атрибут 'fixed', так как находится внутри %s '%s'",
-                        ValidationUtils.getIdOrEmptyString(tableId),
-                        getLabel(child),
+                        "В таблице %s колонка %s не может иметь атрибут 'fixed', так как находится внутри %s %s",
+                        getIdOrEmptyString(tableId),
+                        getIdOrEmptyString(getLabel(child)),
                         parentColumn,
-                        parentLabel));
+                        getIdOrEmptyString(parentLabel)));
             }
             validateFixedOnlyOnFirstLevelColumns(child, tableId);
         }
@@ -172,7 +172,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                 if (toolbar.getGenerate() == null && toolbar.getItems() == null)
                     throw new N2oMetadataValidationException(
                             String.format("Не заданы элементы или атрибут 'generate' в тулбаре в <overlay> таблицы %s",
-                                    ValidationUtils.getIdOrEmptyString(source.getId())));
+                                    getIdOrEmptyString(source.getId())));
                 if (toolbar.getItems() != null)
                     p.safeStreamOf(toolbar.getItems()).forEach(p::validate);
             }
@@ -194,7 +194,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         if (counter[0] > 1) {
             throw new N2oMetadataValidationException(
                     String.format("В таблице %s найдено несколько элементов <%s/>. Допускается только один элемент.",
-                            ValidationUtils.getIdOrEmptyString(source.getId()), elementName));
+                            getIdOrEmptyString(source.getId()), elementName));
         }
     }
 
@@ -235,7 +235,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                         if (uniques.contains(id))
                             throw new N2oMetadataValidationException(
                                     String.format("Таблица %s содержит повторяющиеся значения %s=\"%s\" в <column>",
-                                            ValidationUtils.getIdOrEmptyString(sourceId), attributeName, id));
+                                            getIdOrEmptyString(sourceId), attributeName, id));
                         uniques.add(id);
                     }
                 });
@@ -248,8 +248,10 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                     String visibilityDatasourceId = visibility.getDatasourceId();
                     if (visibilityDatasourceId != null) {
                         checkDatasourceExistence(visibilityDatasourceId, p,
-                                String.format("В таблице %s в колонке '%s' зависимость <visibility> ссылается на несуществующий источник данных '%s'",
-                                        getIdOrEmptyString(source.getId()), getLabel(column), visibilityDatasourceId));
+                                String.format("В таблице %s в колонке %s зависимость <visibility> ссылается на несуществующий источник данных %s",
+                                        getIdOrEmptyString(source.getId()),
+                                        getIdOrEmptyString(getLabel(column)),
+                                        getIdOrEmptyString(visibilityDatasourceId)));
                     }
                 }
             }
@@ -261,10 +263,10 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
                     String dependencyDatasource = dependency.getDatasource();
                     if (dependencyDatasource != null) {
                         checkDatasourceExistence(dependencyDatasource, p,
-                                String.format("В таблице %s зависимость %s ссылается на несуществующий источник данных '%s'",
+                                String.format("В таблице %s зависимость %s ссылается на несуществующий источник данных %s",
                                         getIdOrEmptyString(source.getId()),
                                         (dependency instanceof N2oVisibilityDependency) ? "<visibility>" : "<enabling>",
-                                        dependencyDatasource));
+                                        getIdOrEmptyString(dependencyDatasource)));
                     }
                 }
 
@@ -291,7 +293,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         if (!found) {
             throw new N2oMetadataValidationException(
                     String.format("В таблице %s в элементе <ts:export/> значение default-format=\"%s\" не содержится в списке format",
-                            ValidationUtils.getIdOrEmptyString(source.getId()),
+                            getIdOrEmptyString(source.getId()),
                             defaultFormat.getId()));
         }
     }
@@ -330,7 +332,7 @@ public class TableValidator extends AbstractListWidgetValidator<N2oTable> {
         if (filters.getFetchOnChange() == Boolean.TRUE && filters.getFetchOnClear() == Boolean.FALSE)
             throw new N2oMetadataValidationException(
                     String.format("В фильтрах таблицы %s заданы несочетаемые атрибуты 'fetch-on-change=\"true\"' и 'fetch-on-clear=\"false\"'",
-                            ValidationUtils.getIdOrEmptyString(source.getId()))
+                            getIdOrEmptyString(source.getId()))
             );
     }
 }

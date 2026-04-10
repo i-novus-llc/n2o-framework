@@ -567,12 +567,16 @@
     <xs:complexType name="visibilityDependencyDefinition">
         <xs:attribute name="datasource" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Источник данных вычисления условия видимости.</xs:documentation>
+                <xs:documentation>
+                    Идентификатор источника данных для вычисления условия видимости
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="model" type="act:clientModel">
+        <xs:attribute name="model" type="act:clientModel" default="filter">
             <xs:annotation>
-                <xs:documentation>Модель источника данных, из которой будет взято значение для вычисления условия видимости.</xs:documentation>
+                <xs:documentation>
+                    Модель источника данных для вычисления условия видимости
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
