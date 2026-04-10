@@ -20,4 +20,10 @@ public class N2oTooltip extends N2oComponent implements Tooltip {
         String value = String.join("\n", text);
         should(Condition.text(value), duration);
     }
+
+    @Override
+    public void shouldHaveText(String text, Duration... duration) {
+        element().should(Condition.exist);
+        should(Condition.text(text), duration);
+    }
 }

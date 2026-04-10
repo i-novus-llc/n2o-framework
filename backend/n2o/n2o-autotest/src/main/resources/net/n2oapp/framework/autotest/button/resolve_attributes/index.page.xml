@@ -42,6 +42,9 @@
                     color="{unreadOnly ? 'warning' : 'primary'}">
             </button>
             <button label="rounded" rounded="true"/>
+            <button label="Открыть" description="Подсказка должна пропасть после открытия и закрытия окна">
+                <show-modal page-id="page"/>
+            </button>
         </toolbar>
     </list>
 </simple-page>

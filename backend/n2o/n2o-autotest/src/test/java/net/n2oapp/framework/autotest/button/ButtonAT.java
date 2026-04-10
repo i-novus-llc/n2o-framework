@@ -1,10 +1,12 @@
 package net.n2oapp.framework.autotest.button;
 
 import net.n2oapp.framework.autotest.ColorsEnum;
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.Tooltip;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
@@ -47,7 +49,8 @@ class ButtonAT extends AutoTestBase {
         setResourcePath("net/n2oapp/framework/autotest/button/resolve_attributes");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/reports.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/reports.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/page.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -59,8 +62,7 @@ class ButtonAT extends AutoTestBase {
         subMenu.shouldHaveColor(ColorsEnum.SUCCESS);
         subMenu.hover();
         Tooltip tooltip = subMenu.tooltip();
-        tooltip.shouldExists();
-        tooltip.shouldHaveText(new String[]{"text1"});
+        tooltip.shouldHaveText("text1");
 
         StandardButton item1 = subMenu.menuItem("Непрочитанные");
         StandardButton item2 = subMenu.menuItem("Все");
@@ -69,8 +71,7 @@ class ButtonAT extends AutoTestBase {
         button.shouldHaveColor(ColorsEnum.PRIMARY);
         button.hover();
         tooltip = button.tooltip();
-        tooltip.shouldExists();
-        tooltip.shouldHaveText(new String[]{"value1"});
+        tooltip.shouldHaveText("value1");
 
         subMenu.click();
         item1.shouldExists();
@@ -79,15 +80,13 @@ class ButtonAT extends AutoTestBase {
         subMenu.shouldHaveColor(ColorsEnum.DANGER);
         subMenu.hover();
         tooltip = subMenu.tooltip();
-        tooltip.shouldExists();
-        tooltip.shouldHaveText(new String[]{"text2"});
+        tooltip.shouldHaveText("text2");
 
         button = list.toolbar().topLeft().button("Unread");
         button.shouldHaveColor(ColorsEnum.WARNING);
         button.hover();
         tooltip = button.tooltip();
-        tooltip.shouldExists();
-        tooltip.shouldHaveText(new String[]{"value2"});
+        tooltip.shouldHaveText("value2");
 
         subMenu.click();
         item2.shouldExists();
@@ -96,32 +95,39 @@ class ButtonAT extends AutoTestBase {
         subMenu.shouldHaveColor(ColorsEnum.SUCCESS);
         subMenu.hover();
         tooltip = subMenu.tooltip();
-        tooltip.shouldExists();
-        tooltip.shouldHaveText(new String[]{"text1"});
+        tooltip.shouldHaveText("text1");
 
         button = list.toolbar().topLeft().button("All");
         button.shouldHaveColor(ColorsEnum.PRIMARY);
         button.hover();
         tooltip = button.tooltip();
-        tooltip.shouldExists();
-        tooltip.shouldHaveText(new String[]{"value1"});
+        tooltip.shouldHaveText("value1");
+
+        testRounded(list);
+        testHoverExistence(list);
     }
 
-    @Test
-    void testRounded() {
-        setResourcePath("net/n2oapp/framework/autotest/button/resolve_attributes");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/button/resolve_attributes/reports.query.xml"));
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        ListWidget list = page.widget(ListWidget.class);
-        StandardButton button = list.toolbar().topLeft().button("All");
+    private void testRounded(ListWidget list) {
+        StandardButton button;
+        button = list.toolbar().topLeft().button("All");
         button.shouldExists();
         button.shouldNotBeRounded();
         button = list.toolbar().topLeft().button("rounded");
         button.shouldExists();
         button.shouldBeRounded();
+    }
+
+    private void testHoverExistence(ListWidget list) {
+        StandardButton button = list.toolbar().topLeft().button("Открыть");
+        button.shouldExists();
+        button.hover();
+        Tooltip tooltip = button.tooltip();
+        tooltip.shouldHaveText("Подсказка должна пропасть после открытия и закрытия окна");
+        button.click();
+        Modal modal = N2oSelenide.modal();
+        modal.shouldExists();
+        modal.close();
+        tooltip.shouldNotExists();
     }
 
 
