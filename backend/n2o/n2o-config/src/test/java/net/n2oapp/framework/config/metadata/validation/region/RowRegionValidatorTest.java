@@ -35,7 +35,7 @@ class RowRegionValidatorTest extends SourceValidationTestBase {
     void testTotalColSize() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/region/testRowRegionTotalColSize.page.xml"));
+                () -> validate("net/n2oapp/framework/config/metadata/validation/region/row/testRowRegionTotalColSize.page.xml"));
         assertEquals("Сумма размеров колонок (11) превышает количество колонок (10) в <row>", exception.getMessage());
     }
 
@@ -43,7 +43,7 @@ class RowRegionValidatorTest extends SourceValidationTestBase {
     void testColSize() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/region/testRowRegionColSize.page.xml"));
+                () -> validate("net/n2oapp/framework/config/metadata/validation/region/row/testRowRegionColSize.page.xml"));
         assertEquals("Размер колонки size=\"15\" превышает количество колонок (12) в <row>", exception.getMessage());
     }
 }
