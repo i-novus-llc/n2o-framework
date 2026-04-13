@@ -23,6 +23,7 @@ public class InputSelectIOv3 extends ListFieldIOv3<N2oInputSelect> implements Ba
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
         p.attributeInteger(e, "throttle-delay", m::getThrottleDelay, m::setThrottleDelay);
         p.attributeInteger(e, "search-min-length", m::getSearchMinLength, m::setSearchMinLength);
+        p.attribute(e, "input-label-field-id", m::getInputLabelFieldId, m::setInputLabelFieldId);
         refBadge(e, m , p);
     }
 

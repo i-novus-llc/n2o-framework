@@ -4,6 +4,8 @@
         <fields>
             <input-select id="select1" label="InputSelect1" query-id="test" label-field-id="name" description-field-id="desc"/>
             <input-select id="select2" label="InputSelect2" query-id="test" label-field-id="name" type="checkboxes" description-field-id="desc"/>
+            <input-select id="select3" label="InputSelect3" query-id="test" label-field-id="name" description-field-id="desc" input-label-field-id="desc"/>
+            <input-select id="select4" label="InputSelect4" query-id="test" label-field-id="name" type="checkboxes" description-field-id="desc" input-label-field-id="desc"/>
         </fields>
     </form>
 </simple-page>

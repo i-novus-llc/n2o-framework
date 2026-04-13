@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -44,40 +45,48 @@ class SelectCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/control/test.query.xml")
                 .get(new PageContext("testSelect"));
         Form form = (Form) page.getWidget();
-        Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
-        Select select = (Select) ((StandardField) field).getControl();
-        assertThat(select.getSrc(), is("N2OSelect"));
-        assertThat(select.getType(), is(ListTypeEnum.CHECKBOXES));
-        assertThat(select.getClosePopupOnSelect(), is(false));
-        assertThat(select.getCleanable(), is(false));
-        assertThat(select.getSelectFormatOne(), is("{size} объект"));
-        assertThat(select.getSelectFormatFew(), is("{size} объекта"));
-        assertThat(select.getSelectFormatMany(), is("{size} объектов"));
-        assertThat(select.getDescriptionFieldId(), is("descFieldId"));
-        assertThat(select.getPlaceholder(), is("Введите"));
+        Field field = form.getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
+        Select select = (Select) ((StandardField<?>) field).getControl();
+        assertThat(select, allOf(
+                hasProperty("src", is("N2OSelect")),
+                hasProperty("type", is(ListTypeEnum.CHECKBOXES)),
+                hasProperty("closePopupOnSelect", is(false)),
+                hasProperty("cleanable", is(false)),
+                hasProperty("selectFormatOne", is("{size} объект")),
+                hasProperty("selectFormatFew", is("{size} объекта")),
+                hasProperty("selectFormatMany", is("{size} объектов")),
+                hasProperty("descriptionFieldId", is("descFieldId")),
+                hasProperty("placeholder", is("Введите")),
+                hasProperty("labelFieldId", is("fullName")),
+                hasProperty("inputLabelFieldId", is("shortName"))
+        ));
 
-        field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
-        select = (Select) ((StandardField) field).getControl();
-        assertThat(select.getType(), is(ListTypeEnum.CHECKBOXES));
-        assertThat(select.getSelectFormat(), is("Логичных примеров {size} шт"));
+        field = form.getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
+        select = (Select) ((StandardField<?>) field).getControl();
+        assertThat(select, allOf(
+                hasProperty("selectFormat", is("Логичных примеров {size} шт")),
+                hasProperty("type", is(ListTypeEnum.CHECKBOXES)),
+                hasProperty("labelFieldId", is("name")),
+                hasProperty("inputLabelFieldId", is("name"))
+        ));
 
-        field = form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
-        select = (Select) ((StandardField) field).getControl();
+        field = form.getComponent().getFieldsets().getFirst().getRows().get(2).getCols().getFirst().getFields().getFirst();
+        select = (Select) ((StandardField<?>) field).getControl();
         assertThat(select.getType(), is(ListTypeEnum.SINGLE));
         assertThat(select.getClosePopupOnSelect(), is(true));
         assertThat(select.getCleanable(), is(true));
         assertThat(select.getData().size(), is(2));
-        assertThat(select.getData().get(0).get("id"), is("type1"));
-        assertThat(select.getData().get(0).get("name"), is("A"));
+        assertThat(select.getData().getFirst().get("id"), is("type1"));
+        assertThat(select.getData().getFirst().get("name"), is("A"));
         assertThat(select.getData().get(1).get("id"), is("type2"));
         assertThat(select.getData().get(1).get("name"), is("B"));
 
-        field = form.getComponent().getFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
-        select = (Select) ((StandardField) field).getControl();
+        field = form.getComponent().getFieldsets().getFirst().getRows().get(3).getCols().getFirst().getFields().getFirst();
+        select = (Select) ((StandardField<?>) field).getControl();
         assertThat(select.getCaching(), is(true));
 
-        field = form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
-        select = (Select) ((StandardField) field).getControl();
+        field = form.getComponent().getFieldsets().getFirst().getRows().get(4).getCols().getFirst().getFields().getFirst();
+        select = (Select) ((StandardField<?>) field).getControl();
         assertThat(select.getType(), is(ListTypeEnum.SINGLE));
         assertThat(select.getDatasource(), is("testSelect_test"));
         assertThat(select.getQuickSearchParam(), is("test_name"));

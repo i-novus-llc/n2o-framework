@@ -17,6 +17,7 @@ public class AutoCompleteIOv3 extends ListFieldIOv3<N2oAutoComplete> {
         super.io(e, m, p);
         p.attributeBoolean(e, "tags", m::getTags, m::setTags);
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
+        p.attribute(e, "input-label-field-id", m::getInputLabelFieldId, m::setInputLabelFieldId);
     }
 
     @Override

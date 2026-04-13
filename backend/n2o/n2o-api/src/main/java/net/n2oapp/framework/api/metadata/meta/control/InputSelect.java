@@ -26,4 +26,6 @@ public class InputSelect extends ListControl {
     private Integer throttleDelay;
     @JsonProperty
     private Integer searchMinLength;
+    @JsonProperty
+    private String inputLabelFieldId;
 }

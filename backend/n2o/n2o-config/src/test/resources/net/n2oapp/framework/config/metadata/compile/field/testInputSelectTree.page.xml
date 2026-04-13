@@ -3,7 +3,7 @@
     <form>
         <fields>
             <input-select-tree id="inputSelectTree" checking-strategy="child"
-                               max-tag-count="5"
+                               max-tag-count="5" label-field-id="fullName" input-label-field-id="shortName"
                                checkboxes="true" max-tag-text-length="20"
                                placeholder="{select}" parent-field-id="testParentFieldId"
                                has-children-field-id="testHasChildrenFieldId"

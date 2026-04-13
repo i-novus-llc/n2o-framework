@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Название страницы" route="/pageRoute">
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Автотест поля input-select-tree" route="/pageRoute">
     <form>
         <fields>
-            <input-select-tree id="inputSelectTree" label="InputSelectTree" placeholder="SelectOption" label-field-id="name" value-field-id="id" checkboxes="true" parent-field-id="parentCode">
+            <input-select-tree id="inputSelectTree" label="InputSelectTree" placeholder="SelectOption" label-field-id="name" value-field-id="id" checkboxes="true">
                 <options>
                     <option name="one" id="id1"/>
                     <option name="two" id="id2"/>
@@ -10,6 +10,10 @@
                     <option name="long message" id="id4"/>
                 </options>
             </input-select-tree>
+            <input-select-tree id="inputSelectTree1" label="InputSelectTree1" query-id="test"
+                label-field-id="name" input-label-field-id="desc" parent-field-id="parent"/>
+            <input-select-tree id="inputSelectTree2" label="InputSelectTree2" query-id="test"
+                 label-field-id="name" input-label-field-id="desc" parent-field-id="parent" checkboxes="true"/>
         </fields>
     </form>
 </simple-page>

@@ -9,7 +9,7 @@
                       badge-shape="rounded" badge-position="right" badge-image-field-id="image"
                       badge-image-position="right" badge-image-shape="square"
                       throttle-delay="600"
-                      search-min-length="1">
+                      search-min-length="1" input-label-field-id="shortName">
             <dependencies>
                 <fetch-value query-id="testQuery" on="test" value-field-id="name" size="5">
                     <filters>

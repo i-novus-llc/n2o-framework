@@ -44,7 +44,9 @@ class InputSelectTreeAT extends AutoTestBase {
 
     @Test
     void inputSelectTreeTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/simple/index.page.xml"));
+        setResourcePath("net/n2oapp/framework/autotest/control/select_tree/simple");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/simple/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/simple/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -76,6 +78,40 @@ class InputSelectTreeAT extends AutoTestBase {
 
         inputSelectTree.removeAllOptions();
         inputSelectTree.shouldBeUnselected();
+
+        // input-label-field-id
+        inputSelectTree = page.widget(FormWidget.class).fields().field("InputSelectTree1")
+                .control(InputSelectTree.class);
+        inputSelectTree.shouldBeUnselected();
+        inputSelectTree.click();
+        inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(2));
+        inputSelectTree.expandParentOptions(0);
+        inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(5));
+
+        inputSelectTree.selectOption(1);
+        inputSelectTree.shouldHaveValue("desc11");
+
+        inputSelectTree.click();
+        inputSelectTree.selectOption(4);
+        inputSelectTree.shouldHaveValue("desc2");
+
+
+        inputSelectTree = page.widget(FormWidget.class).fields().field("InputSelectTree2")
+                .control(InputSelectTree.class);
+        inputSelectTree.shouldBeUnselected();
+        inputSelectTree.click();
+        inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(2));
+        inputSelectTree.expandParentOptions(0);
+        inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(5));
+
+        inputSelectTree.selectOption(1);
+        inputSelectTree.shouldSelectedMulti(new String[]{"desc11"});
+        inputSelectTree.selectOption(2);
+        inputSelectTree.shouldSelectedMulti(new String[]{"desc11", "desc12"});
+        inputSelectTree.selectOption(3);
+        inputSelectTree.shouldSelectedMulti(new String[]{"desc1", "desc11", "desc12", "desc13"});
+        inputSelectTree.selectOption(4);
+        inputSelectTree.shouldSelectedMulti(new String[]{"desc1", "desc11", "desc12", "desc13", "desc2"});
     }
 
     @Test

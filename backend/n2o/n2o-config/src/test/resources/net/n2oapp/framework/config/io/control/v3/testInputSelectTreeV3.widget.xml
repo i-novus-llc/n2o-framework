@@ -6,7 +6,7 @@
                            enabled-field-id="testId" search-filter-id="testId" help="Подсказка" help-trigger="hover"
                            badge-shape="rounded" badge-position="right" badge-image-field-id="image"
                            badge-image-position="right" badge-image-shape="square"
-                           search-min-length="2" throttle-delay="100">
+                           search-min-length="2" throttle-delay="100" input-label-field-id="shortName">
             <filters>
                 <contains field-id="testId" value="value"/>
             </filters>

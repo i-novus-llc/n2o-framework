@@ -73,6 +73,28 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.clear();
         autoComplete.setValue("d");
         autoComplete.shouldNotHaveDropdownOptions();
+
+        autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete4")
+                .control(AutoComplete.class);
+        autoComplete.shouldExists();
+
+        autoComplete.click();
+        autoComplete.setValue("Иванов");
+        autoComplete.chooseDropdownOption("Иванов К.Л.");
+        autoComplete.shouldHaveValue("12");
+        autoComplete.setValue("А.А.");
+        autoComplete.chooseDropdownOption("Соколова А.А.");
+        autoComplete.shouldHaveValue("15");
+
+        autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete5")
+                .control(AutoComplete.class);
+        autoComplete.click();
+        autoComplete.setValue("Иванов");
+        autoComplete.chooseDropdownOption("Иванов К.Л.");
+        autoComplete.shouldHaveTags(new String[]{"12"});
+        autoComplete.setValue("А.А.");
+        autoComplete.chooseDropdownOption("Соколова А.А.");
+        autoComplete.shouldHaveTags(new String[]{"12", "15"});
     }
 
     @Test

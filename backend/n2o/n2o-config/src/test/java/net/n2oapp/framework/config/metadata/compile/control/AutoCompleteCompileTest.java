@@ -21,6 +21,8 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasProperty;
 
 /**
  * Тестирование компиляции компонента ввода текста с автоподбором
@@ -52,10 +54,13 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
         assertThat(autoComplete.getSrc(), is("AutoComplete"));
         assertThat(autoComplete.getDataProvider().getUrl(), is("n2o/data/test"));
         assertThat(autoComplete.getDataProvider().getQuickSearchParam(), is("search"));
-        assertThat(autoComplete.getPlaceholder(), is("`message`"));
-        assertThat(autoComplete.getValueFieldId(), is("id"));
-        assertThat(autoComplete.getLabelFieldId(), is("name"));
-        assertThat(autoComplete.getTags(), is(true));
+        assertThat(autoComplete, allOf(
+                hasProperty("placeholder", is("`message`")),
+                hasProperty("valueFieldId", is("id")),
+                hasProperty("tags", is(true)),
+                hasProperty("labelFieldId", is("fullName")),
+                hasProperty("inputLabelFieldId", is("shortName"))
+        ));
 
         Map<String, ModelLink> queryMapping = autoComplete.getDataProvider().getQueryMapping();
         assertThat(queryMapping.size(), is(2));
@@ -80,7 +85,10 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
         assertThat(autoComplete.getValueFieldId(), is("name"));
         assertThat(autoComplete.getTags(), is(false));
         assertThat(autoComplete.getMaxTagTextLength(), is(15));
-
+        assertThat(autoComplete, allOf(
+                hasProperty("labelFieldId", is("name")),
+                hasProperty("inputLabelFieldId", is("name"))
+        ));
 
         autoComplete = (AutoComplete) ((StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().get(2)
                 .getCols().getFirst().getFields().getFirst()).getControl();

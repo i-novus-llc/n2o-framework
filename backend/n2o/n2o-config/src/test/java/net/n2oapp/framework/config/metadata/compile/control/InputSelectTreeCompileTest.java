@@ -13,8 +13,9 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
 
 /**
  * Тестирование компиляции компонента ввода с выбором в выпадающем списке в виде дерева
@@ -40,8 +41,8 @@ class InputSelectTreeCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelectTree.page.xml")
                 .get(new PageContext("testInputSelectTree"));
         Form form = (Form) page.getWidget();
-        InputSelectTree ist = (InputSelectTree) ((StandardField) form.getComponent().getFieldsets()
-                .get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl();
+        InputSelectTree ist = (InputSelectTree) ((StandardField<?>) form.getComponent().getFieldsets()
+                .getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst()).getControl();
         assertThat(ist.getSrc(), is("InputSelectTree"));
         assertThat(ist.getParentFieldId(), is("testParentFieldId"));
         assertThat(ist.getHasChildrenFieldId(), is("testHasChildrenFieldId"));
@@ -53,9 +54,13 @@ class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.getPlaceholder(), is("`select`"));
         assertThat(ist.getSearchMinLength(), is(2));
         assertThat(ist.getThrottleDelay(), is(100));
+        assertThat(ist, allOf(
+                hasProperty("labelFieldId", is("fullName")),
+                hasProperty("inputLabelFieldId", is("shortName"))
+        ));
 
-        ist = (InputSelectTree) ((StandardField) form.getComponent().getFieldsets()
-                .get(0).getRows().get(1).getCols().get(0).getFields().get(0)).getControl();
+        ist = (InputSelectTree) ((StandardField<?>) form.getComponent().getFieldsets()
+                .getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst()).getControl();
         assertThat(ist.getId(), is("defaults"));
         assertThat(ist.getParentFieldId(), is("testId"));
         assertThat(ist.getSearchMinLength(), is(0));
@@ -63,5 +68,9 @@ class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.isAjax(), is(false));
         assertThat(ist.isHasCheckboxes(), is(false));
         assertThat(ist.getCheckingStrategy(), is(CheckingStrategyEnum.ALL));
+        assertThat(ist, allOf(
+                hasProperty("labelFieldId", is("name")),
+                hasProperty("inputLabelFieldId", is("name"))
+        ));
     }
 }

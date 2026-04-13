@@ -15,9 +15,15 @@
                     <option name="abc"/>
                 </options>
             </auto-complete>
-            <auto-complete id="autoComplete3"  tags="true" query-id="test"
-                           value-field-id="id"  label-field-id="fio" search-filter-id="fio"
+            <auto-complete id="autoComplete3" tags="true" query-id="test"
+                           value-field-id="id" label-field-id="fio" search-filter-id="fio"
                            placeholder="Введите имена"/>
+            <auto-complete id="autoComplete4" query-id="test"
+                           value-field-id="id" label-field-id="fio" search-filter-id="fio"
+                           placeholder="Введите имена" input-label-field-id="id"/>
+            <auto-complete id="autoComplete5" tags="true" query-id="test"
+                           value-field-id="id" label-field-id="fio" search-filter-id="fio"
+                           placeholder="Введите имена" input-label-field-id="id"/>
         </fields>
     </form>
 </simple-page>

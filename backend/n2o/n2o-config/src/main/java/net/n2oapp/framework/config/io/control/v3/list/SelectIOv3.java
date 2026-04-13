@@ -23,6 +23,7 @@ public class SelectIOv3 extends ListFieldIOv3<N2oSelect> implements BadgeAwareIO
         p.attribute(e, "select-format-few", m::getSelectFormatFew, m::setSelectFormatFew);
         p.attribute(e, "select-format-many", m::getSelectFormatMany, m::setSelectFormatMany);
         p.attribute(e, "description-field-id", m::getDescriptionFieldId, m::setDescriptionFieldId);
+        p.attribute(e, "input-label-field-id", m::getInputLabelFieldId, m::setInputLabelFieldId);
         refBadge(e, m, p);
     }
 

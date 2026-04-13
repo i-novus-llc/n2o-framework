@@ -95,6 +95,7 @@ function InputSelectTree({
     parentFieldId = 'parentId',
     valueFieldId = 'id',
     labelFieldId = 'name',
+    inputLabelFieldId = labelFieldId,
     enabledFieldId,
     iconFieldId = 'icon',
     imageFieldId = 'image',
@@ -142,6 +143,7 @@ function InputSelectTree({
             iconFieldId,
             imageFieldId,
             labelFieldId,
+            inputLabelFieldId,
             badge,
         }
 
@@ -197,7 +199,7 @@ function InputSelectTree({
             .reduce((acc, key) => [...acc, { ...itemsByID[key] }] as any, [])
     }, [
         ajax, badge, options, hasChildrenFieldId,
-        iconFieldId, imageFieldId, labelFieldId,
+        iconFieldId, imageFieldId, labelFieldId, inputLabelFieldId,
         parentFieldId, valueFieldId,
     ])
 
@@ -317,7 +319,7 @@ function InputSelectTree({
                 treeData={treeData}
                 filterTreeNode={handlerFilter}
                 treeNodeFilterProp={labelFieldId}
-                treeNodeLabelProp={labelFieldId}
+                treeNodeLabelProp={inputLabelFieldId}
                 maxTagTextLength={maxTagTextLength}
                 maxTagCount={maxTagCount}
                 maxTagPlaceholder={maxTagPlaceholder}
@@ -356,6 +358,7 @@ export interface Props {
     iconFieldId: string
     imageFieldId: string
     labelFieldId: string
+    inputLabelFieldId?: string
     enabledFieldId: string
     loading: boolean
     maxTagTextLength: number

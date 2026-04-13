@@ -92,7 +92,7 @@ type ItemWrapperProps = Pick<InputElementsProps, 'onRemoveItem' | 'maxTagTextLen
  */
 
 type InputElementsProps = Pick<InputContentProps,
-'selected' | 'labelFieldId' | 'onRemoveItem' | 'maxTagTextLength' | 'maxTagCount' | 'disabled'> & { close?: ReactNode | string }
+'selected' | 'labelFieldId' | 'inputLabelFieldId' | 'onRemoveItem' | 'maxTagTextLength' | 'maxTagCount' | 'disabled'> & { close?: ReactNode | string }
 
 const getTitle = (item: TOption, labelFieldId: InputElementsProps['labelFieldId']) => {
     if (typeof item === 'string') {
@@ -105,11 +105,12 @@ const getTitle = (item: TOption, labelFieldId: InputElementsProps['labelFieldId'
 export function InputElements({
     onRemoveItem,
     selected,
-    labelFieldId,
     disabled,
     maxTagTextLength,
     maxTagCount,
     close,
+    labelFieldId,
+    inputLabelFieldId = labelFieldId,
 }: InputElementsProps) {
     const { t } = useTranslation()
 
@@ -148,7 +149,7 @@ export function InputElements({
     }
 
     const tags = list.map((item, index) => {
-        const title = getTitle(item, labelFieldId)
+        const title = getTitle(item, inputLabelFieldId)
         const id = item.id || index
 
         return (

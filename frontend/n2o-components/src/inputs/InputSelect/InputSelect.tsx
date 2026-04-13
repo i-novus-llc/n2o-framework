@@ -1,6 +1,6 @@
 import React, { createRef } from 'react'
 import classNames from 'classnames'
-import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap'
+import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap'
 import onClickOutside from 'react-onclickoutside'
 import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
@@ -15,7 +15,7 @@ import { InputSelectGroup } from './InputSelectGroup'
 import { PopupList } from './PopupList'
 import { InputContent } from './InputContent'
 import { getValueArray } from './utils'
-import { Filter, Ref, TOption, Props, State } from './types'
+import { Filter, Props, Ref, State, TOption } from './types'
 
 const DEFAULT_DATA_SEARCH_DELAY = 400
 
@@ -68,10 +68,11 @@ export class InputSelect extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props)
-        const { value, options, labelFieldId, multiSelect } = this.props
+        const { value, options, multiSelect, labelFieldId, inputLabelFieldId = labelFieldId } = this.props
 
         const valueArray = getValueArray(value)
-        const input = value && !multiSelect ? value[labelFieldId] : ''
+
+        const input = value && !multiSelect ? value?.[inputLabelFieldId] : ''
 
         this.state = {
             inputFocus: props.autoFocus || false,
@@ -143,7 +144,7 @@ export class InputSelect extends React.Component<Props, State> {
     // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(nextProps: Props) {
         const state: Partial<State> = { }
-        const { multiSelect, value, labelFieldId, options } = nextProps
+        const { multiSelect, value, options, labelFieldId, inputLabelFieldId = labelFieldId } = nextProps
         const { value: propsValue } = this.props
         const { options: stateOptions } = this.props
 
@@ -159,7 +160,7 @@ export class InputSelect extends React.Component<Props, State> {
 
             if (value) {
                 if (!multiSelect) {
-                    input = value[labelFieldId]
+                    input = value[inputLabelFieldId]
                 } else {
                     input = stateInput || ''
                 }
@@ -196,11 +197,12 @@ export class InputSelect extends React.Component<Props, State> {
             onChange,
             multiSelect,
             resetOnBlur,
-            labelFieldId,
             options,
+            labelFieldId,
+            inputLabelFieldId = labelFieldId,
         } = this.props
 
-        const findValue = find(value, [labelFieldId, input])
+        const findValue = find(value, [inputLabelFieldId, input])
 
         const conditionForAddingAnObject = (resetOnBlur: Props['resetOnBlur'], input: State['input'], options: State['options'], value: State['value']) => (
             !resetOnBlur &&
@@ -212,7 +214,7 @@ export class InputSelect extends React.Component<Props, State> {
         if (input && isEmpty(findValue) && resetOnBlur && !isExpanded) {
             this.setState(
                 {
-                    input: multiSelect ? '' : (value?.[0] && value?.[0][labelFieldId as keyof TOption]) || '',
+                    input: multiSelect ? '' : (value?.[0] && value?.[0][inputLabelFieldId as keyof TOption]) || '',
                     value,
                 },
                 () => onChange(this.getValue()),
@@ -414,17 +416,18 @@ export class InputSelect extends React.Component<Props, State> {
         const {
             multiSelect,
             closePopupOnSelect,
-            labelFieldId,
             options,
             onSelect,
             onChange,
+            labelFieldId,
+            inputLabelFieldId = labelFieldId,
         } = this.props
         const { input: stateInput } = this.state
 
         this.setState(
             prevState => ({
                 value: multiSelect ? [...(prevState.value || []), item] : [item],
-                input: multiSelect ? stateInput : item[labelFieldId as keyof TOption],
+                input: multiSelect ? stateInput : item[inputLabelFieldId as keyof TOption],
                 options,
             }),
             () => {
@@ -583,6 +586,7 @@ export class InputSelect extends React.Component<Props, State> {
             className,
             valueFieldId,
             labelFieldId,
+            inputLabelFieldId,
             iconFieldId,
             descriptionFieldId,
             disabled,
@@ -683,6 +687,7 @@ export class InputSelect extends React.Component<Props, State> {
                                 disabled={disabled}
                                 disabledValues={disabledValues}
                                 valueFieldId={valueFieldId}
+                                inputLabelFieldId={inputLabelFieldId}
                                 placeholder={placeholder}
                                 options={options}
                                 openPopUp={this.setIsExpanded}

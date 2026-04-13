@@ -53,8 +53,11 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
             control.setMaxTagTextLength(castDefault(source.getMaxTagTextLength(),
                     () -> p.resolve(property("n2o.api.control.input_select_tree.max_tag_text_length"), Integer.class)));
         source.setQueryId(p.resolveJS(source.getQueryId()));
-        source.setLabelFieldId(castDefault(p.resolveJS(source.getLabelFieldId()), "name"));
         source.setIconFieldId(p.resolveJS(source.getIconFieldId()));
-        return compileListControl(control, source, context, p);
+
+        StandardField<InputSelectTree> inputSelectTreeStandardField = compileListControl(control, source, context, p);
+        control.setInputLabelFieldId(castDefault(source.getInputLabelFieldId(), control.getLabelFieldId()));
+
+        return inputSelectTreeStandardField;
     }
 }
