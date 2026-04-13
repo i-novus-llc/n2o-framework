@@ -44,6 +44,7 @@ export type Props = {
     disabledValues?: Array<Exclude<Props['value'], void>>,
     isExpanded?: boolean,
     labelFieldId: string,
+    inputLabelFieldId?: string,
     maxTagCount?: number,
     maxTagTextLength?: number,
     mode?: 'autocomplete',
@@ -82,6 +83,7 @@ export function InputContent({
     onSelect,
     selected,
     labelFieldId,
+    inputLabelFieldId,
     valueFieldId,
     multiSelect = false,
     onInputChange = NOOP_FUNCTION,
@@ -247,6 +249,7 @@ export function InputContent({
                     <SelectedItems
                         selected={selected}
                         labelFieldId={labelFieldId}
+                        inputLabelFieldId={inputLabelFieldId}
                         onRemoveItem={onRemoveItem}
                         disabled={disabled}
                         maxTagTextLength={maxTagTextLength}

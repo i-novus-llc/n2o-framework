@@ -16,6 +16,7 @@ public class N2oSelect extends N2oSingleListFieldAbstract {
     private String selectFormatFew;
     private String selectFormatMany;
     private String descriptionFieldId;
+    private String inputLabelFieldId;
 
     @Override
     public boolean isSingle() {

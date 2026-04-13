@@ -398,14 +398,14 @@ class SelectComponent extends React.Component<Props, State> {
     }
 
     getValue = () => {
-        const { labelFieldId, placeholder = '' } = this.props
+        const { labelFieldId, inputLabelFieldId = labelFieldId, placeholder = '' } = this.props
         const { selected } = this.state
 
         if (isEmpty(selected)) { return placeholder }
 
         const [selectedElement] = selected
 
-        return get(selectedElement, labelFieldId)
+        return get(selectedElement, inputLabelFieldId)
     }
 
     /**
@@ -413,9 +413,7 @@ class SelectComponent extends React.Component<Props, State> {
      * @param activeValueId
      * @private
      */
-    setActiveValueId = (activeValueId: State['activeValueId']) => {
-        this.setState({ activeValueId })
-    }
+    setActiveValueId = (activeValueId: State['activeValueId']) => { this.setState({ activeValueId }) }
 
     render() {
         const {

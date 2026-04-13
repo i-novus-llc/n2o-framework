@@ -309,6 +309,35 @@ class InputSelectAT extends AutoTestBase {
         input2.shouldSelectedMulti(new String[]{"name2", "name3"});
         input2.clearUsingIcon();
         input2.shouldBeEmpty();
+        input2.closePopup();
+
+        testInputLabelFieldId(page);
+    }
+
+    private void testInputLabelFieldId(SimplePage page) {
+        InputSelect input3 = page.widget(FormWidget.class).fields().field("InputSelect3").control(InputSelect.class);
+        input3.shouldExists();
+
+        input3.shouldBeEmpty();
+        input3.openPopup();
+        DropDown dropdown = input3.dropdown();
+        dropdown.selectItem(1);
+        input3.shouldHaveValue("desc2");
+        input3.clear();
+        input3.shouldBeEmpty();
+        input3.setValue("name3");
+        input3.pressEnter();
+        input3.shouldHaveValue("desc3");
+        input3.closePopup();
+
+        InputSelect input4 = page.widget(FormWidget.class).fields().field("InputSelect4").control(InputSelect.class);
+        input4.shouldExists();
+
+        input4.shouldBeEmpty();
+        input4.openPopup();
+        DropDown dropdown2 = input4.dropdown();
+        dropdown2.selectMulti(1, 2);
+        input4.shouldSelectedMulti(new String[]{"desc2", "desc3"});
     }
 
     @Test

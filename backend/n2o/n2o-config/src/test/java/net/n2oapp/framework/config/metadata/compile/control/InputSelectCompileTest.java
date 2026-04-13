@@ -55,23 +55,24 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         pageContext.setQueryRouteMapping(queryRouteMapping);
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelect.page.xml")
                 .get(pageContext);
-        Form form = (Form) page.getRegions().get("single").get(0).getContent().get(0);
+        Form form = (Form) page.getRegions().get("single").getFirst().getContent().getFirst();
 
         Models models = page.getModels();
-        Map<String, Object> values = ((DefaultValues) ((List<?>) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues();
+        Map<String, Object> values = ((DefaultValues) ((List<?>) models.get("resolve['testInputSelect_main'].testId").getValue()).getFirst()).getValues();
         assertThat(values.get("id"), is(1));
         assertThat(values.get("name"), is("test"));
         assertThat(values.get("isTest"), is(true));
 
-        List<FieldSet.Row> rowList = form.getComponent().getFieldsets().get(0).getRows();
-        StandardField<?> field = (StandardField<?>) rowList.get(0).getCols().get(0).getFields().get(0);
+        List<FieldSet.Row> rowList = form.getComponent().getFieldsets().getFirst().getRows();
+        StandardField<?> field = (StandardField<?>) rowList.getFirst().getCols().getFirst().getFields().getFirst();
         assertThat(field.getDependencies().size(), is(1));
-        assertThat(field.getDependencies().get(0), allOf(
+        assertThat(field.getDependencies().getFirst(), allOf(
                 hasProperty("type", is(ValidationTypeEnum.RESET)),
                 hasProperty("on", contains("someField")),
                 hasProperty("expression", is("true")),
                 hasProperty("applyOnInit", is(false))));
 
+        // первый input-select
         InputSelect inputSelect = (InputSelect) field.getControl();
         assertThat(inputSelect, allOf(
                 hasProperty("sortFieldId", is("sortName")),
@@ -81,19 +82,11 @@ class InputSelectCompileTest extends SourceCompileTestBase {
                 hasProperty("size", is(20)),
                 hasProperty("searchMinLength", is(2)),
                 hasProperty("throttleDelay", is(200)),
-                hasProperty("resetOnBlur", is(true))
+                hasProperty("resetOnBlur", is(true)),
+                hasProperty("labelFieldId", is("fullName")),
+                hasProperty("inputLabelFieldId", is("shortName"))
         ));
         ClientDataProvider cdp = inputSelect.getDataProvider();
-
-        inputSelect = (InputSelect) ((StandardField<?>) rowList.get(1).getCols().get(0).getFields().get(0)).getControl();
-        assertThat(inputSelect, allOf(
-                hasProperty("dataProvider", hasProperty("quickSearchParam", is("name"))),
-                hasProperty("statusFieldId", nullValue()),
-                hasProperty("maxTagCount", is(10)),
-                hasProperty("maxTagTextLength", is(5)),
-                hasProperty("searchMinLength", is(0)),
-                hasProperty("throttleDelay", is(300))));
-
         assertThat(cdp, allOf(
                 hasProperty("url", is("n2o/data/test")),
                 hasProperty("quickSearchParam", is("search"))));
@@ -102,18 +95,31 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(cdp.getQueryMapping().get("parent").getValue(), is("is:notnull"));
         assertThat(cdp.getQueryMapping().get("parent2").getValue(), is("is:null"));
 
+        // второй input-select
+        inputSelect = (InputSelect) ((StandardField<?>) rowList.get(1).getCols().getFirst().getFields().getFirst()).getControl();
+        assertThat(inputSelect, allOf(
+                hasProperty("dataProvider", hasProperty("quickSearchParam", is("name"))),
+                hasProperty("statusFieldId", nullValue()),
+                hasProperty("maxTagCount", is(10)),
+                hasProperty("maxTagTextLength", is(5)),
+                hasProperty("searchMinLength", is(0)),
+                hasProperty("throttleDelay", is(300)),
+                hasProperty("labelFieldId", is("name")),
+                hasProperty("inputLabelFieldId", is("name"))
+        ));
 
-        field = (StandardField<?>) rowList.get(2).getCols().get(0).getFields().get(0);
-        assertThat(field.getDependencies().get(0), instanceOf(FetchValueDependency.class));
-        assertThat(field.getDependencies().get(0).getOn(), is(List.of("testId2")));
-        FetchValueDependency fetchValueDependency = (FetchValueDependency) field.getDependencies().get(0);
+        // третий input-select
+        field = (StandardField<?>) rowList.get(2).getCols().getFirst().getFields().getFirst();
+        assertThat(field.getDependencies().getFirst(), instanceOf(FetchValueDependency.class));
+        assertThat(field.getDependencies().getFirst().getOn(), is(List.of("testId2")));
+        FetchValueDependency fetchValueDependency = (FetchValueDependency) field.getDependencies().getFirst();
         assertThat(fetchValueDependency.getDataProvider().getUrl(), is("n2o/data/selectFetch"));
         assertThat(fetchValueDependency.getDataProvider().getQueryMapping().get("ref").getLink(), is("models.resolve['testInputSelect_main']"));
         assertThat(fetchValueDependency.getDataProvider().getQueryMapping().get("ref").getValue(), is("`testId2`"));
         assertThat(fetchValueDependency.getDataProvider().getSize(), is(7));
         assertThat(fetchValueDependency.getValueFieldId(), nullValue());
-        assertThat(field.getDependencies().get(0).getApplyOnInit(), is(true));
-        assertThat(field.getDependencies().get(0).getType(), is(ValidationTypeEnum.FETCH_VALUE));
+        assertThat(field.getDependencies().getFirst().getApplyOnInit(), is(true));
+        assertThat(field.getDependencies().getFirst().getType(), is(ValidationTypeEnum.FETCH_VALUE));
 
         CompiledQuery compiledQuery = routeAndGet("/selectFetch", CompiledQuery.class);
         assertThat(compiledQuery.getId(), is("testSelectFetch"));
@@ -122,9 +128,14 @@ class InputSelectCompileTest extends SourceCompileTestBase {
     }
 
     private static void checkInputSelectInTableFilters(StandardPage page, Models models) {
-        Table<?> table = (Table<?>) page.getRegions().get("single").get(1).getContent().get(0);
-        ClientDataProvider cdp = ((InputSelect) ((StandardField<?>) table.getFilter().getFilterFieldsets().get(0).getRows()
-                .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
+        Table<?> table = (Table<?>) page.getRegions().get("single").get(1).getContent().getFirst();
+        InputSelect inputSelect = (InputSelect) ((StandardField<?>) table.getFilter().getFilterFieldsets().getFirst().getRows()
+                .getFirst().getCols().getFirst().getFields().getFirst()).getControl();
+        assertThat(inputSelect, allOf(
+                hasProperty("labelFieldId", is("fullName")),
+                hasProperty("inputLabelFieldId", is("fullName"))
+        ));
+        ClientDataProvider cdp = inputSelect.getDataProvider();
         assertThat(cdp.getUrl(), is("n2o/data/test"));
         assertThat(cdp.getQuickSearchParam(), is("search"));
         assertThat(cdp.getQueryMapping().get("noRef").getLink(), is("models.filter['testInputSelect_main']"));
@@ -134,7 +145,7 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(cdp.getQueryMapping().get("parent2").getValue(), is("test2"));
 
         List<?> value = (List<?>) models.get("filter['testInputSelect_second'].testId").getValue();
-        Map<String, Object> values = ((DefaultValues) value.get(0)).getValues();
+        Map<String, Object> values = ((DefaultValues) value.getFirst()).getValues();
         assertThat(values.get("id"), is(1));
         values = ((DefaultValues) value.get(1)).getValues();
         assertThat(values.get("id"), is(3));

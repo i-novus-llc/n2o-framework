@@ -122,6 +122,10 @@ export interface Props {
      */
     labelFieldId: string
     /**
+     * Ключ label для input в данных
+     */
+    inputLabelFieldId?: string
+    /**
      * Флаг загрузки
      */
     loading: boolean

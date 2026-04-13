@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.DropDown;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -214,6 +215,18 @@ class SelectAT extends AutoTestBase {
         input2.shouldSelected("Объектов 2 шт");
         input2.clear();
         input2.shouldBeEmpty();
+
+        Select input3 = page.widget(FormWidget.class).fields().field("Select3").control(Select.class);
+        input3.shouldExists();
+
+        input3.shouldBeEmpty();
+        input3.openPopup();
+        dropdown = input3.dropdown();
+        dropdown.selectItem(1);
+        input3.shouldHaveValue("desc2");
+        input3.openPopup();
+        dropdown.selectItem(2);
+        input3.shouldHaveValue("desc3");
     }
 
     @Test

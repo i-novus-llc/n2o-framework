@@ -15,4 +15,6 @@ public class AutoComplete extends ListControl {
     private Boolean tags;
     @JsonProperty
     private Integer maxTagTextLength;
+    @JsonProperty
+    private String inputLabelFieldId;
 }

@@ -222,12 +222,12 @@ class AutoComplete extends React.Component<Props, State> {
             return
         }
 
-        const { onChange, closePopupOnSelect, tags, labelFieldId } = this.props
+        const { onChange, closePopupOnSelect, tags, labelFieldId, inputLabelFieldId = labelFieldId } = this.props
 
         this.setState(
             prevState => ({
                 value: tags ? [...prevState.value, item] : [item],
-                input: !tags ? item[labelFieldId as keyof TOption] : '',
+                input: !tags ? item[inputLabelFieldId as keyof TOption] : '',
             }),
             () => {
                 const { value, input } = this.state
@@ -302,6 +302,7 @@ class AutoComplete extends React.Component<Props, State> {
             className,
             valueFieldId,
             labelFieldId,
+            inputLabelFieldId,
             iconFieldId,
             disabled,
             placeholder,
@@ -380,6 +381,7 @@ class AutoComplete extends React.Component<Props, State> {
                                     disabledValues={disabledValues as Array<string | number>}
                                     placeholder={placeholder}
                                     labelFieldId={labelFieldId}
+                                    inputLabelFieldId={inputLabelFieldId}
                                     autoFocus={autoFocus}
                                 />
                             </InputSelectGroup>
@@ -506,6 +508,10 @@ type Props = {
      * Ключ отображаемого значения
      */
     labelFieldId: string,
+    /**
+     * Ключ label для input в данных
+     */
+    inputLabelFieldId?: string,
     /**
      * Ключ icon в данных
      */

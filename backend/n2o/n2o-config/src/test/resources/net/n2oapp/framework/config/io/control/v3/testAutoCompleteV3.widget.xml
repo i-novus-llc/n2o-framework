@@ -1,6 +1,6 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0">
     <fields>
-        <auto-complete id="testId" query-id="labels" value-field-id="id"
+        <auto-complete id="testId" query-id="labels" value-field-id="id" input-label-field-id="shortName"
                        help="Подсказка" help-trigger="hover" label-field-id="name" tags="true" search-filter-id="nameLike"/>
         <auto-complete id="test2" max-tag-text-length="15">
             <options>

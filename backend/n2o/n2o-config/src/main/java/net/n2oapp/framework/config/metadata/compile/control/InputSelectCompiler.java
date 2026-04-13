@@ -52,7 +52,11 @@ public class InputSelectCompiler extends ListControlCompiler<InputSelect, N2oInp
                 inputSelect.setMultiSelect(false);
                 break;
         }
-        return compileListControl(inputSelect, source, context, p);
+
+        StandardField<InputSelect> standardField = compileListControl(inputSelect, source, context, p);
+        inputSelect.setInputLabelFieldId(castDefault(source.getInputLabelFieldId(), inputSelect.getLabelFieldId()));
+
+        return standardField;
     }
 
     @Override

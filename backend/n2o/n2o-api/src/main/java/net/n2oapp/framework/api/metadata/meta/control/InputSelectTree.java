@@ -33,4 +33,6 @@ public class InputSelectTree extends ListControl {
     private Integer throttleDelay;
     @JsonProperty
     private Integer searchMinLength;
+    @JsonProperty
+    private String inputLabelFieldId;
 }

@@ -429,9 +429,11 @@
                         <xs:documentation>Формат выводимого текста</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="label-field-id" type="xs:string">
+                <xs:attribute name="label-field-id" type="xs:string" default="name">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за отображение варианта выбора</xs:documentation>
+                        <xs:documentation>
+                            Идентификатор поля выборки, отвечающего за наименование варианта выбора
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="search-filter-id" type="xs:string">
@@ -1517,11 +1519,18 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="label-field-id" type="xs:string">
+                <xs:attribute name="label-field-id" type="xs:string" default="name">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор поля выборки, отвечающего за отображение варианта выбора.
-                            По умолчанию: значение `value-field-id`, иначе name
+                            Идентификатор поля выборки, отвечающего за наименование варианта выбора
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="input-label-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля выборки, отвечающего за наименование выбранного варианта.
+                            По умолчанию: значение `label-field-id`
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -1882,6 +1891,14 @@
                 <xs:sequence>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
+                <xs:attribute name="input-label-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля выборки, отвечающего за наименование выбранного варианта.
+                            По умолчанию: значение `label-field-id`
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1988,6 +2005,14 @@
                 <xs:sequence>
                     <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
                 </xs:sequence>
+                <xs:attribute name="input-label-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля выборки, отвечающего за наименование выбранного варианта.
+                            По умолчанию: значение `label-field-id`
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2055,6 +2080,14 @@
                 <xs:attribute name="value-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор узла дерева.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="input-label-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля выборки, отвечающего за наименование выбранного варианта.
+                            По умолчанию: значение `label-field-id`
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="ajax" type="xs:boolean" default="false">

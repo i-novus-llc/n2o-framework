@@ -12,4 +12,5 @@ import net.n2oapp.framework.api.metadata.control.list.N2oSingleListFieldAbstract
 public class N2oAutoComplete extends N2oSingleListFieldAbstract {
     private Boolean tags;
     private Integer maxTagTextLength;
+    private String inputLabelFieldId;
 }

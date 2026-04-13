@@ -12,4 +12,5 @@ public class N2oInputSelectTree extends N2oSelectTree {
     private Integer maxTagTextLength;
     private Integer throttleDelay;
     private Integer searchMinLength;
+    private String inputLabelFieldId;
 }

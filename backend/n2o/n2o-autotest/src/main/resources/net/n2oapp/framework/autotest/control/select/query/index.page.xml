@@ -3,7 +3,8 @@
     <form>
         <fields>
             <select id="select1" label="Select1" query-id="test" label-field-id="name" description-field-id="desc"/>
-            <select id="select2" label="Select2" query-id="test" label-field-id="name" type="checkboxes" description-field-id="desc"/>
+            <select id="select2" label="Select2" query-id="test" label-field-id="name" description-field-id="desc" type="checkboxes"/>
+            <select id="select3" label="Select3" query-id="test" label-field-id="name" input-label-field-id="desc"/>
         </fields>
     </form>
 </simple-page>
