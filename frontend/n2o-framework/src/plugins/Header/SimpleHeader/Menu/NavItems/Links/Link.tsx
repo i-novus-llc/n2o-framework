@@ -5,6 +5,7 @@ import { Link as LinkComponent } from '@i-novus/n2o-components/lib/navigation/Li
 
 import { Item } from '../../../../../CommonMenuTypes'
 import { useLink } from '../../../../../../components/core/router/useLink'
+import { useLinkPropsResolver } from '../../../../../../components/navigation/useLinkPropsResolver'
 
 import { LinkBody } from './LinkBody'
 
@@ -22,10 +23,10 @@ export function Link({
 }: LinkProps) {
     const {
         className: itemClassName,
-        href,
+        url: href,
         target,
         disabled,
-    } = item
+    } = useLinkPropsResolver({ ...item, url: item.href })
 
     const { active, ...linkProps } = useLink({ href, disabled, target, onClick })
 

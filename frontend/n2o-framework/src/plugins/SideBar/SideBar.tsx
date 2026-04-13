@@ -5,7 +5,6 @@ import map from 'lodash/map'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 
-import { withItemsResolver } from '../withItemsResolver/withItemResolver'
 import { withTitlesResolver } from '../withTitlesResolver/withTitlesResolver'
 import { WithDataSource } from '../../core/datasource/WithDataSource'
 import { WithContextDataSource } from '../WithContextDataSource/WithContextDataSource'
@@ -28,13 +27,12 @@ export function SideBarBody({
     onMouseEnter,
     onMouseLeave,
     isStaticView,
-    datasources,
     datasource,
     visible: propsVisible,
     side = 'left',
     controlled = false,
     menu = {} as never,
-    extraMenu = {} as never,
+    extraMenu = [],
     defaultState = SIDEBAR_VIEW.mini as SidebarView,
     toggledState = SIDEBAR_VIEW.maxi as SidebarView,
 }: SidebarProps) {
@@ -48,7 +46,6 @@ export function SideBarBody({
     }, [propsVisible])
 
     const { items = [] } = menu
-    const { items: extraItems = [] } = extraMenu
 
     const needShowContent = () => {
         if (isStaticView && defaultState !== 'micro') {
@@ -76,8 +73,6 @@ export function SideBarBody({
             showContent={showContent}
             isMiniView={isMiniView}
             isStaticView={isStaticView}
-            datasources={datasources}
-            datasource={item?.datasource || datasource}
         />
     ))
 
@@ -97,7 +92,7 @@ export function SideBarBody({
             <div className="n2o-sidebar__footer">
                 {showContent && (
                     <div className="n2o-sidebar__extra">
-                        <ul className="n2o-sidebar__nav-list">{renderItems(extraItems)}</ul>
+                        <ul className="n2o-sidebar__nav-list">{renderItems(extraMenu)}</ul>
                     </div>
                 )}
                 {!controlled && !isStaticView && (
@@ -139,11 +134,11 @@ const SideBar = flowRight(
     // @INFO нужно для WithContextDataSource, иначе не добавит в addComponents
     WithComponentId('n2o-sidebar'),
     WithContextDataSource,
-    withItemsResolver,
     connect(mapStateToProps),
     withTitlesResolver,
 )(SideBarBody)
 
+SideBarBody.displayName = 'SideBarBody'
 SideBar.displayName = 'Sidebar'
 
 export { SideBar }

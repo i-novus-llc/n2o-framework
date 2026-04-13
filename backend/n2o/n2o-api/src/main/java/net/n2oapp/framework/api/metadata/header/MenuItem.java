@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Component;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
@@ -36,6 +37,8 @@ public class MenuItem extends Component implements Compiled, PropertiesAware, Id
     private ShapeTypeEnum imageShape;
     @JsonProperty
     private String datasource;
+    @JsonProperty
+    private ReduxModelEnum model;
     @JsonProperty("items")
     private ArrayList<MenuItem> subItems;
     @JsonProperty

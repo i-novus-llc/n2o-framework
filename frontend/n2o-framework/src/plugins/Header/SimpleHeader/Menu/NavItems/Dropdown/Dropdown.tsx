@@ -1,5 +1,6 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import {
+    ButtonDropdownProps,
     Dropdown as DropdownParent,
     DropdownMenu,
     DropdownItem,
@@ -8,12 +9,18 @@ import {
 import classNames from 'classnames'
 
 import { LinkBody } from '../Links/LinkBody'
-import { Dropdown as DropdownProps } from '../../Item'
-import { FactoryComponent } from '../../../../../CommonMenuTypes'
+import { Common, Item as ItemProps } from '../../../../../CommonMenuTypes'
 import { ITEM_SRC } from '../../../../../constants'
-import { FactoryContext } from '../../../../../../core/factory/context'
-import { FactoryLevels } from '../../../../../../core/factory/factoryLevels'
 import { ICON_POSITIONS } from '../../../../../../components/snippets/IconContainer/IconContainer'
+import NavItemContainer from '../../../NavItemContainer'
+
+export type DropdownProps = Common & {
+    items: ItemProps[]
+    nested?: boolean
+    direction?: ButtonDropdownProps['direction']
+    level?: number
+    iconPosition?: ICON_POSITIONS
+}
 
 export function Dropdown({
     items,
@@ -25,7 +32,6 @@ export function Dropdown({
     imageSrc,
     imageShape = 'square',
     direction = 'down',
-    onItemClick,
     level = 0,
     iconPosition = ICON_POSITIONS.LEFT,
     disabled,
@@ -33,8 +39,6 @@ export function Dropdown({
     const [isOpen, setOpen] = useState(false)
 
     const toggle = useCallback(() => setOpen(!isOpen), [isOpen])
-    const close = useCallback(() => setOpen(false), [setOpen])
-    const { getComponent } = useContext(FactoryContext)
 
     if (!items.length) { return null }
 
@@ -57,17 +61,13 @@ export function Dropdown({
             </DropdownToggle>
             <DropdownMenu flip className={classNames(`menu-level-${level}`, { nested })}>
                 {items.map((item) => {
-                    const { items: nestedItems, title, src } = item
-
-                    if (nestedItems) {
+                    if (item.items) {
                         return (
-                            <Dropdown
-                                items={nestedItems}
+                            <NavItemContainer
+                                itemProps={item}
                                 active={active}
-                                title={title}
                                 className={classNames(className, 'dropdown-item')}
                                 level={level + 1}
-                                onItemClick={close}
                                 direction="right"
                                 iconPosition={iconPosition}
                                 nested
@@ -75,23 +75,15 @@ export function Dropdown({
                         )
                     }
 
-                    const FactoryComponent: FactoryComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
-
-                    if (!FactoryComponent) {
-                        return null
-                    }
-
                     return (
                         <DropdownItem
                             active={active}
-                            disabled={src === ITEM_SRC.STATIC || item.disabled}
+                            disabled={item.src === ITEM_SRC.STATIC || item.disabled}
                         >
-                            <FactoryComponent
-                                item={item}
-                                from="HEADER"
-                                className={classNames('dropdown-item', className)}
+                            <NavItemContainer
+                                itemProps={item}
+                                className={classNames(className, 'dropdown-item')}
                                 active={active}
-                                onClick={onItemClick || close}
                             />
                         </DropdownItem>
                     )

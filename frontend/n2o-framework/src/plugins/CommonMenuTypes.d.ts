@@ -5,7 +5,8 @@ import { ImageShape } from '@i-novus/n2o-components/lib/display/NavItemImage'
 import { Action } from '../ducks/Action'
 import { Props } from '../components/snippets/Badge/Badge'
 import { LinkTarget } from '../components/core/router/types'
-import { DataSourceModels } from '../core/datasource/const'
+import { DataSourceModels, ModelPrefix } from '../core/datasource/const'
+import { Mapping } from '../ducks/datasource/Provider'
 
 export type ActionMenuItemSrcType = 'ActionMenuItem'
 export type DropdownMenuItemSrcType = 'DropdownMenuItem'
@@ -34,11 +35,11 @@ export interface Item extends Common {
     src: SrcTypes
     href: string
     datasource: string
-    datasources: metaPropsType[]
+    model: ModelPrefix
     target: LinkTarget
     style?: React.CSSProperties
-    pathMapping?: metaPropsType[]
-    queryMapping?: metaPropsType[]
+    pathMapping?: Mapping
+    queryMapping?: Mapping
     action?: Action
     items: Item[]
     pathname: string
@@ -46,6 +47,7 @@ export interface Item extends Common {
     linkType: 'outer' | 'inner'
     direction?: string
     activeId?: string
+    className?: string
 }
 
 export type FactoryComponent = React.FunctionComponent<ContextItem> | void

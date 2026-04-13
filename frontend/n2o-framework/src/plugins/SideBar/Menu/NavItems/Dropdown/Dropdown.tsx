@@ -5,8 +5,7 @@ import classNames from 'classnames'
 
 import { id as generateId } from '../../../../../utils/id'
 import { NavItemContainer } from '../../../NavItemContainer'
-import { type Item, type metaPropsType } from '../../../../CommonMenuTypes'
-import { DataSourceModels } from '../../../../../core/datasource/const'
+import { type Item } from '../../../../CommonMenuTypes'
 import { useLocation } from '../../../../../components/core/router/useLocation'
 
 import { DropdownWrapper } from './DropdownWrapper'
@@ -16,9 +15,7 @@ interface DropdownProps {
     sidebarOpen: boolean
     showContent: boolean
     isMiniView: boolean
-    datasources: metaPropsType[]
     datasource: string
-    models: DataSourceModels
     activeId: string
     level: number
     isStaticView: boolean
@@ -38,9 +35,7 @@ export function Dropdown({
     sidebarOpen,
     showContent,
     isMiniView,
-    datasources,
     datasource,
-    models,
     activeId,
     level,
     isStaticView,
@@ -90,8 +85,6 @@ export function Dropdown({
                             sidebarOpen={sidebarOpen}
                             showContent={showContent}
                             isMiniView={isMiniView}
-                            datasources={datasources}
-                            datasource={datasource}
                             isStaticView={isStaticView}
                         />
                     </div>

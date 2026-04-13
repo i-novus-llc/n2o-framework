@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.menu;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
@@ -43,6 +44,7 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
         private String id;
         private String name;
         private String datasourceId;
+        private ReduxModelEnum model;
         private String icon;
         private PositionEnum iconPosition;
         private String image;

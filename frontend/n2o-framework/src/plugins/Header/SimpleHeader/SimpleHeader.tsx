@@ -9,16 +9,16 @@ import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap'
 
 import { WithComponentId } from '../../utils'
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer'
-import { withItemsResolver } from '../../withItemsResolver/withItemResolver'
 import { WithDataSource } from '../../../core/datasource/WithDataSource'
 import { withTitlesResolver } from '../../withTitlesResolver/withTitlesResolver'
 import { WithContextDataSource } from '../../WithContextDataSource/WithContextDataSource'
 import { WindowType } from '../../../components/core/WindowType'
 import { VISIBILITY_EVENT } from '../../constants'
+import { ModelPrefix } from '../../../core/models/types'
 
 import { Logo } from './Logo'
 import { SidebarSwitcher } from './SidebarSwitcher'
-import { Menu, Menu as ExtraMenu } from './Menu/Menu'
+import { Menu } from './Menu/Menu'
 
 interface MenuItem {
     id: string
@@ -31,6 +31,8 @@ interface MenuItem {
     badgeColor?: string
     target?: string
     disabled?: boolean
+    datasource: string
+    model: ModelPrefix
 }
 
 interface MenuProps {
@@ -50,12 +52,11 @@ export interface SimpleHeaderBodyProps {
     width: number
     logo?: object
     menu: MenuProps
-    extraMenu: MenuProps
+    extraMenu: MenuItem[]
     sidebarSwitcher?: {
         defaultIcon: string
         toggledIcon: string
     }
-    datasources?: Array<Record<string, unknown>>
     toggleSidebar(): void
     sidebarOpen: boolean
     datasource?: string
@@ -117,17 +118,15 @@ class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
             location,
             logo,
             menu = {},
-            extraMenu = {},
+            extraMenu = [],
             sidebarSwitcher,
             toggleSidebar,
             sidebarOpen,
             className,
             search = null,
-            datasources,
         } = this.props
 
-        const items = get(menu, 'items', {})
-        const extraItems = get(extraMenu, 'items', {})
+        const items = get(menu, 'items', [])
 
         const { style: propsStyle } = this.props
         const { isOpen, style } = this.state
@@ -170,10 +169,11 @@ class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
                         navbar
                     >
                         <Nav className="main-nav" navbar>
-                            {!isEmpty(items) && <Menu items={items} pathname={pathname} datasources={datasources} />}
+                            <Menu items={items} pathname={pathname} />
                         </Nav>
                         <Nav className="ml-auto main-nav-extra" navbar>
-                            <ExtraMenu items={extraItems} pathname={pathname} datasources={datasources} />
+                            {/* @ts-ignore FIXME items type */}
+                            <Menu items={extraMenu} pathname={pathname} />
                             {/* @ts-ignore import from js file */}
                             {search && <SearchBarContainer trigger={trigger} {...search} />}
                         </Nav>
@@ -182,6 +182,8 @@ class SimpleHeaderBody extends React.Component<SimpleHeaderBodyProps, State> {
             </div>
         )
     }
+
+    static displayName = 'SimpleHeaderBody'
 }
 
 export const SimpleHeader = flowRight(
@@ -189,7 +191,6 @@ export const SimpleHeader = flowRight(
     // @INFO нужно для WithContextDataSource, иначе не добавит в addComponents
     WithComponentId('n2o-simple-header'),
     WithContextDataSource,
-    withItemsResolver,
     withTitlesResolver,
 )(withResizeDetector(SimpleHeaderBody, {
     handleHeight: false,
@@ -198,3 +199,5 @@ export const SimpleHeader = flowRight(
 }))
 
 export default SimpleHeader
+
+SimpleHeader.displayName = 'SimpleHeader'

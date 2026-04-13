@@ -10,7 +10,7 @@
             title="N2O" home-page-url="/pageRoute" style="margin-left:10px" datasource="ds1">
         <nav>
             <dropdown-menu name="test">
-                <menu-item test:attr1="testAttribute" datasource="ds2">
+                <menu-item test:attr1="testAttribute" datasource="ds2" model="datasource">
                     <open-page page-id="pageWithoutLabel" route="/page1"/>
                 </menu-item>
                 <menu-item name="hrefLabel">
@@ -23,8 +23,8 @@
             <menu-item name="hrefLabel" datasource="ds2">
                 <a label="hrefLabel" href="http://test.com"/>
             </menu-item>
-            <dropdown-menu name="{test}" datasource="ds2">
-                <menu-item name="test" datasource="ds1"/>
+            <dropdown-menu name="{test}" datasource="ds2" model="multi">
+                <menu-item name="test" datasource="ds1" model="edit"/>
                 <menu-item name="{test}"/>
             </dropdown-menu>
         </nav>

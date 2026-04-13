@@ -1,8 +1,6 @@
 import { type LogoProps } from '../Header/SimpleHeader/Logo'
 import { Item } from '../CommonMenuTypes'
 
-import { type SidebarItemContainer } from './NavItemContainer'
-
 export const SIDEBAR_VIEW = {
     none: 'none',
     micro: 'micro',
@@ -28,12 +26,11 @@ export interface SidebarProps extends Pick<LogoSectionProps, 'logo' | 'subtitle'
     onMouseEnter: onMouseEvent
     onMouseLeave: onMouseEvent
     isStaticView: boolean
-    datasources: SidebarItemContainer['datasources']
     datasource: string
     visible: boolean
     side: 'left' | 'right'
     menu: { items: Item[] }
-    extraMenu: { items: Item[] }
+    extraMenu: Item[]
     controlled: boolean
     defaultState: SidebarView
     toggledState: SidebarView

@@ -6,8 +6,6 @@ import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { useResolved } from '../../core/Expression/useResolver'
 import { ModelPrefix } from '../../core/datasource/const'
 
-import { BaseNavigationItem } from './types'
-
 type Options = {
     url?: string,
     pathMapping?: Mapping
@@ -21,13 +19,14 @@ type Options = {
 type Result = {
     url?: string
     disabled: boolean
+    enabled: boolean
     visible: boolean
 }
 
 export function useLinkPropsResolver<
-    P extends BaseNavigationItem,
+    P,
     O extends Options & P,
-    R extends Result & P,
+    R extends Result & Omit<O, keyof Options>,
 >({
     url,
     pathMapping,
