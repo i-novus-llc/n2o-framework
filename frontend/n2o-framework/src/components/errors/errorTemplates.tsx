@@ -1,63 +1,22 @@
 import React, { ComponentType } from 'react'
 
 import translation from '../../locales/ru/translation'
-import { PageTitle as DocumentTitle } from '../core/PageTitle'
 
 import ErrorPage from './ErrorPage'
 
-const ForbiddenPage = () => (
-    <>
-        <DocumentTitle htmlTitle={translation.accessDenied} />
-        <ErrorPage status={403} error={translation.accessDenied} />
-    </>
-)
-
-const NotFoundPage = () => (
-    <>
-        <DocumentTitle htmlTitle={translation.pageNotFound} />
-        <ErrorPage status={404} error={translation.pageNotFound} />
-    </>
-)
-
-const ServerErrorPage = () => (
-    <>
-        <DocumentTitle htmlTitle={translation.innerAppError} />
-        <ErrorPage status={500} error={translation.innerAppError} />
-    </>
-)
-
-const BadGatewayPage = () => (
-    <>
-        <DocumentTitle htmlTitle={translation.badGateway} />
-        <ErrorPage status={502} error={translation.badGateway} />
-    </>
-)
-
-const ServiceUnavailablePage = () => (
-    <>
-        <DocumentTitle htmlTitle={translation.serviceUnavailable} />
-        <ErrorPage status={503} error={translation.serviceUnavailable} />
-    </>
-)
-
-const NetworkErrorPage = () => (
-    <>
-        <DocumentTitle htmlTitle={translation.networkError} />
-        <ErrorPage status={null} error={translation.networkError} />
-    </>
-)
+const ForbiddenPage = () => <ErrorPage status={403} error={translation.accessDenied} />
+const NotFoundPage = () => <ErrorPage status={404} error={translation.pageNotFound} />
+const ServerErrorPage = () => <ErrorPage status={500} error={translation.innerAppError} />
+const BadGatewayPage = () => <ErrorPage status={502} error={translation.badGateway} />
+const ServiceUnavailablePage = () => <ErrorPage status={503} error={translation.serviceUnavailable} />
+const NetworkErrorPage = () => <ErrorPage status={null} error={translation.networkError} />
 
 type Error = { error?: Error & { status?: number, text?: string } }
 
 const InternalErrorPage = ({ error }: Error) => {
     const { text, status } = error || {}
 
-    return (
-        <>
-            <DocumentTitle htmlTitle={text || String(error)} />
-            <ErrorPage status={status || 'Внутренняя ошибка приложения'} error={text || String(error)} />
-        </>
-    )
+    return <ErrorPage status={status || 'Внутренняя ошибка приложения'} error={text || String(error)} />
 }
 const defaultComponents: Record<number | string, ComponentType<Error>> = {
     403: ForbiddenPage,
