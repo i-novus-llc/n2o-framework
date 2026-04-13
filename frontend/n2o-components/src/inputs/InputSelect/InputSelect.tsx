@@ -190,8 +190,8 @@ export class InputSelect extends React.Component<Props, State> {
      * новое значение)
      * @private
      */
-    handleValueChangeOnBlur = () => {
-        const { value, input, isExpanded } = this.state
+    handleValueChangeOnBlur = (isExpanded?: boolean) => {
+        const { value, input } = this.state
         const {
             onChange,
             multiSelect,
@@ -485,7 +485,7 @@ export class InputSelect extends React.Component<Props, State> {
             this.hidePopUp()
 
             if (resetOnBlur) {
-                this.handleValueChangeOnBlur()
+                this.handleValueChangeOnBlur(false)
             }
 
             onBlur(this.getValue())
@@ -537,7 +537,7 @@ export class InputSelect extends React.Component<Props, State> {
             onBlur(this.getValue())
         }
 
-        this.handleValueChangeOnBlur()
+        this.handleValueChangeOnBlur(isExpanded)
         this.setInputFocus(false)
 
         if (isEmpty(value) && !isExpanded && resetOnBlur) {
