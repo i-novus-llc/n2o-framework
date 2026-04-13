@@ -31,8 +31,8 @@
                        model="datasource"
                        item-datasource="form"
                        item-model="resolve"/>
-            <close/>
             <submit datasource="table"/>
+            <close/>
         </button>
     </toolbar>
 </page>
