@@ -16,6 +16,7 @@ import org.jdom2.Element;
  */
 public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> implements ControlIOv3 {
     private static final String VALIDATE = "validate";
+    private static final String ENABLED = "enabled";
 
     @Override
     public void io(Element e, T m, IOProcessor p) {
@@ -23,7 +24,7 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.attribute(e, "id", m::getId, m::setId);
         p.attribute(e, "required", m::getRequired, m::setRequired);
         p.attribute(e, "visible", m::getVisible, m::setVisible);
-        p.attribute(e, "enabled", m::getEnabled, m::setEnabled);
+        p.attribute(e, ENABLED, m::getEnabled, m::setEnabled);
         p.attribute(e, "label", m::getLabel, m::setLabel);
         p.attribute(e, "label-class", m::getLabelClass, m::setLabelClass);
         p.attribute(e, "no-label", m::getNoLabel, m::setNoLabel);
@@ -40,7 +41,7 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
                 .add("requiring", N2oField.RequiringDependency.class, this::requiringDependency)
                 .add("set-value", N2oField.SetValueDependency.class, this::setValueDependency)
                 .add("reset", N2oField.ResetDependency.class, this::resetDependency)
-                .add("fetch", N2oField.FetchDependency.class, this::dependency)
+                .add("fetch", N2oField.FetchDependency.class, this::fetchDependency)
                 .add("fetch-value", N2oField.FetchValueDependency.class, this::fetchValueDependency));
         p.attributeEnum(e, "ref-model", m::getRefModel, m::setRefModel, ReduxModelEnum.class);
         p.attributeEnum(e, "ref-page", m::getRefPage, m::setRefPage, PageRefEnum.class);
@@ -79,6 +80,11 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.attributeBoolean(e, VALIDATE, t::getValidate, t::setValidate);
     }
 
+    private void fetchDependency(Element e, N2oField.FetchDependency t, IOProcessor p) {
+        dependency(e, t, p);
+        p.attribute(e, ENABLED, t::getEnabled, t::setEnabled);
+    }
+
     private void fetchValueDependency(Element e, N2oField.FetchValueDependency t, IOProcessor p) {
         dependency(e, t, p);
         p.attribute(e, "query-id", t::getQueryId, t::setQueryId);
@@ -86,6 +92,7 @@ public abstract class FieldIOv3<T extends N2oField> extends ComponentIO<T> imple
         p.attributeInteger(e, "size", t::getSize, t::setSize);
         p.childrenByEnum(e, "filters", t::getPreFilters, t::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterTypeEnum.class, this::prefilter);
+        p.attribute(e, ENABLED, t::getEnabled, t::setEnabled);
     }
 
     protected void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {

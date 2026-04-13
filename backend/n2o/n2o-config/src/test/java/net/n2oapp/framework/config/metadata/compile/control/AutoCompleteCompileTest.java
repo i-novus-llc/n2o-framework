@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.meta.control.AutoComplete;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
+import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -48,7 +49,9 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testAutoComplete"));
         Form form = (Form) page.getRegions().get("single").getFirst().getContent().get(1);
 
-        StandardField<?> field = (StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().getFirst()
+        List<FieldSet.Row> rowList = form.getComponent().getFieldsets().getFirst().getRows();
+
+        StandardField<?> field = (StandardField<?>) rowList.getFirst()
                 .getCols().getFirst().getFields().getFirst();
         AutoComplete autoComplete = (AutoComplete) field.getControl();
         assertThat(autoComplete.getSrc(), is("AutoComplete"));
@@ -71,14 +74,17 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
 
         List<ControlDependency> dependencies = field.getDependencies();
         assertThat(dependencies.size(), is(2));
-        assertThat(dependencies.getFirst().getType(), is(ValidationTypeEnum.FETCH));
-        assertThat(dependencies.getFirst().getOn(), is(List.of("auto2")));
+        assertThat(dependencies.getFirst(), allOf(
+                hasProperty("type", is(ValidationTypeEnum.FETCH)),
+                hasProperty("on", is(List.of("auto2"))),
+                hasProperty("enabled", is("`id==2 || id==3`"))
+        ));
         assertThat(dependencies.get(1).getType(), is(ValidationTypeEnum.RESET));
         assertThat(dependencies.get(1).getOn(), is(List.of("org_id")));
 
-
-        autoComplete = (AutoComplete) ((StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().get(1)
-                .getCols().getFirst().getFields().getFirst()).getControl();
+        field = (StandardField<?>) rowList.get(1)
+                .getCols().getFirst().getFields().getFirst();
+        autoComplete = (AutoComplete) field.getControl();
         assertThat(autoComplete.getSrc(), is("AutoComplete"));
         assertThat(autoComplete.getData().getFirst().get("name"), is("`test1`"));
         assertThat(autoComplete.getData().get(1).get("name"), is("test2"));
@@ -90,7 +96,14 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
                 hasProperty("inputLabelFieldId", is("name"))
         ));
 
-        autoComplete = (AutoComplete) ((StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().get(2)
+        dependencies = field.getDependencies();
+        assertThat(dependencies.getFirst(), allOf(
+                hasProperty("type", is(ValidationTypeEnum.FETCH)),
+                hasProperty("on", is(List.of("auto3"))),
+                hasProperty("enabled", is(true))
+        ));
+
+        autoComplete = (AutoComplete) ((StandardField<?>) rowList.get(2)
                 .getCols().getFirst().getFields().getFirst()).getControl();
         assertThat(autoComplete.getDatasource(), is("testAutoComplete_test"));
         assertThat(autoComplete.getData(), nullValue());

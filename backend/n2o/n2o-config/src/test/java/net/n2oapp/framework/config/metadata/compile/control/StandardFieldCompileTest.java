@@ -39,7 +39,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -74,10 +73,10 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardField"));
         Form form = (Form) page.getWidget();
-        Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        Field field = form.getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
         assertThat(field.getDependencies().size(), is(13));
 
-        assertThat(field.getDependencies().get(0),
+        assertThat(field.getDependencies().getFirst(),
                 allOf(
                         instanceOf(EnablingDependency.class),
                         hasProperty("expression", is("test1 == null")),
@@ -95,7 +94,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
 
         assertThat(field.getDependencies().get(2),
                 allOf(
-                        hasProperty("expression", is("test3 == null")),
+                        hasProperty("enabled", is("test3 == null")),
                         hasProperty("on", contains("test3")),
                         hasProperty("type", is(ValidationTypeEnum.RESET))));
 
@@ -122,14 +121,14 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 allOf(
                         instanceOf(ResetDependency.class),
                         hasProperty("on", contains("test6")),
-                        hasProperty("expression", is("test6 == null")),
+                        hasProperty("enabled", is("test6 == null")),
                         hasProperty("type", is(ValidationTypeEnum.RESET)),
                         hasProperty("validate", is(true))));
 
         assertThat(field.getDependencies().get(7),
                 allOf(
                         hasProperty("on", contains("test7")),
-                        hasProperty("expression", is("true")),
+                        hasProperty("enabled", is("true")),
                         hasProperty("type", is(ValidationTypeEnum.RESET))));
 
         assertThat(field.getDependencies().get(8),
@@ -144,6 +143,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 allOf(
                         hasProperty("on", contains("test9")),
                         hasProperty("expression", is("test9 == null")),
+                        hasProperty("enabled", is(true)),
                         hasProperty("type", is(ValidationTypeEnum.FETCH))));
 
         assertThat(field.getDependencies().get(10),
@@ -158,7 +158,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 allOf(
                         instanceOf(ResetDependency.class),
                         hasProperty("on", contains("test11")),
-                        hasProperty("expression", is("test11.id == 1")),
+                        hasProperty("enabled", is("test11.id == 1")),
                         hasProperty("type", is(ValidationTypeEnum.RESET)),
                         hasProperty("validate", is(false))));
 
@@ -177,11 +177,11 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardField"));
         Form form = (Form) page.getWidget();
-        Group[] toolbar = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(1).getFields().get(0)
+        Group[] toolbar = form.getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().get(1).getFields().getFirst()
                 .getToolbar();
 
         assertThat(toolbar.length, is(1));
-        PerformButton button = (PerformButton) toolbar[0].getButtons().get(0);
+        PerformButton button = (PerformButton) toolbar[0].getButtons().getFirst();
         assertThat(button.getClassName(), is("class"));
         assertThat(button.getIcon(), is("`icon`"));
         assertThat(button.getLabel(), is("Button"));
@@ -212,7 +212,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         List<Validation> clientValidations = page.getDatasources().get("testStandardField_form").getValidations().get("test3");
         assertThat(clientValidations.size(), is(2));
 
-        ConstraintValidation validation = (ConstraintValidation) clientValidations.get(0);
+        ConstraintValidation validation = (ConstraintValidation) clientValidations.getFirst();
         assertThat(validation.getId(), is("val1"));
         assertThat(validation.getMessage(), is("Message"));
         assertThat(validation.getSeverity(), is(SeverityTypeEnum.DANGER));
@@ -222,7 +222,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(validation.getInvocation(), instanceOf(N2oSqlDataProvider.class));
         assertThat(((N2oSqlDataProvider) validation.getInvocation()).getQuery(), is("select * from table"));
         assertThat(validation.getInParametersList().size(), is(1));
-        ObjectSimpleField parameter = ((ObjectSimpleField) validation.getInParametersList().get(0));
+        ObjectSimpleField parameter = ((ObjectSimpleField) validation.getInParametersList().getFirst());
         assertThat(parameter.getDomain(), is("boolean"));
         assertThat(parameter.getRequired(), is(true));
         assertThat(parameter.getMapping(), is("mapping"));
@@ -238,7 +238,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         ActionContext actionContext = (ActionContext) route("/testStandardField/submit", CompiledObject.class);
         List<Validation> serverValidations = actionContext.getValidations();
         assertThat(serverValidations.size(), is(4));
-        assertThat(serverValidations.get(0).getFieldId(), is("test1"));
+        assertThat(serverValidations.getFirst().getFieldId(), is("test1"));
         assertThat(serverValidations.get(1), is(validation));
         assertThat(serverValidations.get(2), is(validation2));
         MandatoryValidation validation3 = (MandatoryValidation) serverValidations.get(3);
@@ -265,18 +265,18 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         List<Validation> clientValidations = page.getDatasources().get("testStandardFieldInlineValidations_form").getValidations().get("city");
         assertThat(clientValidations.size(), is(1));
-        assertThat(clientValidations.get(0).getSeverity(), is(SeverityTypeEnum.DANGER));
-        assertThat(clientValidations.get(0).getMessage(), is("Только Казань"));
-        assertThat(clientValidations.get(0).getMoment(), is(N2oValidation.ServerMomentEnum.BEFORE_OPERATION));
-        assertThat(((ConditionValidation) clientValidations.get(0)).getExpression(), is("city=='Казань'"));
+        assertThat(clientValidations.getFirst().getSeverity(), is(SeverityTypeEnum.DANGER));
+        assertThat(clientValidations.getFirst().getMessage(), is("Только Казань"));
+        assertThat(clientValidations.getFirst().getMoment(), is(N2oValidation.ServerMomentEnum.BEFORE_OPERATION));
+        assertThat(((ConditionValidation) clientValidations.getFirst()).getExpression(), is("city=='Казань'"));
 
         ActionContext actionContext = (ActionContext) route("/testStandardFieldInlineValidations/submit", CompiledObject.class);
         List<Validation> serverValidations = actionContext.getValidations();
         assertThat(serverValidations.size(), is(1));
-        assertThat(serverValidations.get(0).getSeverity(), is(SeverityTypeEnum.DANGER));
-        assertThat(serverValidations.get(0).getMessage(), is("Только Казань"));
-        assertThat(serverValidations.get(0).getMoment(), is(N2oValidation.ServerMomentEnum.BEFORE_OPERATION));
-        assertThat(((ConditionValidation) serverValidations.get(0)).getExpression(), is("city=='Казань'"));
+        assertThat(serverValidations.getFirst().getSeverity(), is(SeverityTypeEnum.DANGER));
+        assertThat(serverValidations.getFirst().getMessage(), is("Только Казань"));
+        assertThat(serverValidations.getFirst().getMoment(), is(N2oValidation.ServerMomentEnum.BEFORE_OPERATION));
+        assertThat(((ConditionValidation) serverValidations.getFirst()).getExpression(), is("city=='Казань'"));
 
     }
 
@@ -285,7 +285,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmit.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardFieldSubmit"));
-        Field field = ((Form) page.getRegions().get("single").get(0).getContent().get(3)).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        Field field = ((Form) page.getRegions().get("single").getFirst().getContent().get(3)).getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
 
         ActionContext context = (ActionContext) route("/testStandardFieldSubmit/a/b/c", CompiledObject.class);
         assertThat(context, allOf(
@@ -336,15 +336,15 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testSubmitInDependentWidget"));
         //поле из первой формы
-        StandardField<?> field = (StandardField<?>) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
-                .getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        StandardField<?> field = (StandardField<?>) ((Form) page.getRegions().get("single").getFirst().getContent().getFirst())
+                .getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
         assertThat(field.getDataProvider(), notNullValue());
         assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/form_availability"));
         assertThat(field.getDataProvider().getPathMapping().size(), is(0));
         assertThat(field.getDataProvider().getQueryMapping().size(), is(0));
         // поле из второй формы
-        field = (StandardField<?>) ((Form) page.getRegions().get("single").get(0).getContent().get(2))
-                .getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        field = (StandardField<?>) ((Form) page.getRegions().get("single").getFirst().getContent().get(2))
+                .getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
         assertThat(field.getDataProvider(), notNullValue());
         assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/w1_availability"));
         assertThat(field.getDataProvider().getPathMapping().size(), is(0));
@@ -356,8 +356,8 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmitWithoutRoute.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(new PageContext("testStandardFieldSubmitWithoutRoute"));
-        Field field = ((Form) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getFieldsets()
-                .get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        Field field = ((Form) page.getRegions().get("single").getFirst().getContent().getFirst()).getComponent().getFieldsets()
+                .getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
 
         ActionContext context = (ActionContext) route("/testStandardFieldSubmitWithoutRoute/form_test", CompiledObject.class);
         assertThat(context, allOf(
@@ -405,7 +405,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
     void testExtraProperties() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldExtProps.page.xml")
                 .get(new PageContext("testStandardFieldExtProps"));
-        Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        Field field = ((Form) page.getWidget()).getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
         assertThat(field.getId(), is("dateTime"));
         assertThat(field.getSrc(), is("StandardField"));
         assertThat(field.getProperties(), nullValue());
@@ -417,7 +417,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(control.getProperties().size(), is(2));
         assertThat(control.getProperties().get("prefix"), is("extPrefix"));
 
-        field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        field = ((Form) page.getWidget()).getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
         assertThat(field.getId(), is("customField"));
         assertThat(field.getProperties(), notNullValue());
         assertThat(field.getProperties().size(), is(2));
@@ -437,9 +437,9 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldConditions.page.xml")
                 .get(new PageContext("testStandardFieldConditions"));
 
-        List<FieldSet.Row> rows = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows();
+        List<FieldSet.Row> rows = ((Form) page.getWidget()).getComponent().getFieldsets().getFirst().getRows();
 
-        Field field1 = rows.get(0).getCols().get(0).getFields().get(0);
+        Field field1 = rows.getFirst().getCols().getFirst().getFields().getFirst();
         assertThat(field1, allOf(
                 hasProperty("visible", is(true)),
                 hasProperty("enabled", is(true)),
@@ -447,7 +447,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 hasProperty("dependencies", empty())
         ));
 
-        Field field2 = rows.get(1).getCols().get(0).getFields().get(0);
+        Field field2 = rows.get(1).getCols().getFirst().getFields().getFirst();
         assertThat(field2, allOf(
                 hasProperty("visible", is(false)),
                 hasProperty("enabled", is(false)),
@@ -455,16 +455,16 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 hasProperty("dependencies", empty())
         ));
 
-        Field field3 = rows.get(2).getCols().get(0).getFields().get(0);
+        Field field3 = rows.get(2).getCols().getFirst().getFields().getFirst();
         assertThat(field3, allOf(
                 hasProperty("visible", is(false)),
                 hasProperty("enabled", is(false)),
                 hasProperty("required", is(false))
         ));
         assertThat(field3.getDependencies().size(), is(3));
-        assertThat(field3.getDependencies().get(0).getType(), is(ValidationTypeEnum.VISIBLE));
-        assertThat(field3.getDependencies().get(0).getOn(), is(List.of("f1")));
-        assertThat(field3.getDependencies().get(0).getExpression(), is("f1 == 'test'"));
+        assertThat(field3.getDependencies().getFirst().getType(), is(ValidationTypeEnum.VISIBLE));
+        assertThat(field3.getDependencies().getFirst().getOn(), is(List.of("f1")));
+        assertThat(field3.getDependencies().getFirst().getExpression(), is("f1 == 'test'"));
         assertThat(field3.getDependencies().get(1).getType(), is(ValidationTypeEnum.ENABLED));
         assertThat(field3.getDependencies().get(1).getOn(), is(List.of("f2")));
         assertThat(field3.getDependencies().get(1).getExpression(), is("f2 == 'test'"));
@@ -472,16 +472,16 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(field3.getDependencies().get(2).getOn(), is(List.of("f3")));
         assertThat(field3.getDependencies().get(2).getExpression(), is("f3 == 'test'"));
 
-        Field field4 = rows.get(3).getCols().get(0).getFields().get(0);
+        Field field4 = rows.get(3).getCols().getFirst().getFields().getFirst();
         assertThat(field4, allOf(
                 hasProperty("visible", is(false)),
                 hasProperty("enabled", is(false)),
                 hasProperty("required", is(false))
         ));
         assertThat(field4.getDependencies().size(), is(3));
-        assertThat(field4.getDependencies().get(0).getType(), is(ValidationTypeEnum.VISIBLE));
-        assertThat(field4.getDependencies().get(0).getOn(), is(containsInAnyOrder("f1", "f2", "f3")));
-        assertThat(field4.getDependencies().get(0).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
+        assertThat(field4.getDependencies().getFirst().getType(), is(ValidationTypeEnum.VISIBLE));
+        assertThat(field4.getDependencies().getFirst().getOn(), is(containsInAnyOrder("f1", "f2", "f3")));
+        assertThat(field4.getDependencies().getFirst().getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
         assertThat(field4.getDependencies().get(1).getType(), is(ValidationTypeEnum.ENABLED));
         assertThat(field4.getDependencies().get(1).getOn(), is(containsInAnyOrder("f1", "f2", "f3")));
         assertThat(field4.getDependencies().get(1).getExpression(), is("f1 == 'test' && f3 < 5 || typeof(f2) === 'undefined'"));
@@ -496,9 +496,9 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldEnablingConditionValidations.page.xml")
                 .get(new PageContext("testStandardFieldEnablingConditionValidations", "/p"));
         List<Validation> validations = page.getDatasources().get("p_form").getValidations().get("joe");
-        assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("foo==1"));
-        assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("bar==2"));
-        assertThat(validations.get(0).getEnablingConditions(), Matchers.hasItem("buz==3"));
+        assertThat(validations.getFirst().getEnablingConditions(), Matchers.hasItem("foo==1"));
+        assertThat(validations.getFirst().getEnablingConditions(), Matchers.hasItem("bar==2"));
+        assertThat(validations.getFirst().getEnablingConditions(), Matchers.hasItem("buz==3"));
     }
 
     @Test
@@ -506,18 +506,18 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldRequiring.page.xml")
                 .get(new PageContext("testStandardFieldRequiring"));
         Map<String, List<Validation>> validations = page.getDatasources().get("testStandardFieldRequiring_w1").getValidations();
-        List<FieldSet.Row> rows = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows();
-        Field field1 = rows.get(0).getCols().get(0).getFields().get(0);
+        List<FieldSet.Row> rows = ((Form) page.getWidget()).getComponent().getFieldsets().getFirst().getRows();
+        Field field1 = rows.getFirst().getCols().getFirst().getFields().getFirst();
         assertThat(field1.getRequired(), is(true));
-        assertThat(validations.get("f1").get(0).getMessage(), is("Поле обязательно для заполнения"));
+        assertThat(validations.get("f1").getFirst().getMessage(), is("Поле обязательно для заполнения"));
 
-        Field field2 = rows.get(1).getCols().get(0).getFields().get(0);
+        Field field2 = rows.get(1).getCols().getFirst().getFields().getFirst();
         assertThat(field2.getRequired(), is(true));
-        assertThat(validations.get("f2").get(0).getMessage(), is("Поле обязательно для заполнения"));
+        assertThat(validations.get("f2").getFirst().getMessage(), is("Поле обязательно для заполнения"));
 
         // если есть mandatory валидация, то она перекрывает стандартную проверку от required
-        Field field3 = rows.get(2).getCols().get(0).getFields().get(0);
+        Field field3 = rows.get(2).getCols().getFirst().getFields().getFirst();
         assertThat(field3.getRequired(), is(true));
-        assertThat(validations.get("f3").get(0).getMessage(), is("Mandatory validation"));
+        assertThat(validations.get("f3").getFirst().getMessage(), is("Mandatory validation"));
     }
 }

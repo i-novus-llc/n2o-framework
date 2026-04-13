@@ -9,6 +9,7 @@
         >
             <dependencies>
                 <visibility>testId2 === true</visibility>
+                <fetch on="type" enabled="{type==2}"/>
             </dependencies>
         </input-text>
     </fields>

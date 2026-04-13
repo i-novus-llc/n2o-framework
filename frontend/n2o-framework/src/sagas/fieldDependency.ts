@@ -15,6 +15,7 @@ import get from 'lodash/get'
 import set from 'lodash/set'
 
 import { executeExpression } from '../core/Expression/execute'
+import { parseExpression } from '../core/Expression/parse'
 import { makeFormByName, makeFormsByModel } from '../ducks/form/selectors'
 import {
     setFieldDisabled,
@@ -27,7 +28,6 @@ import {
 } from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
-import { evalResultCheck } from '../utils/evalResultCheck'
 import {
     appendToArray,
     combineModels,
@@ -129,6 +129,21 @@ export function* fetchValue(
     }
 }
 
+function checkCondition(
+    condition: string | boolean | void,
+    values: Record<string, unknown>,
+    ctx?: Record<string, unknown>,
+): boolean {
+    if (condition === undefined) { return true }
+    if (typeof condition === 'string') {
+        const exp = parseExpression(condition) || condition
+
+        return !!executeExpression<boolean>(exp, values, ctx)
+    }
+
+    return condition
+}
+
 const ResolveDependencyAction = createAction('n2o/form/resolveDependency')
 let defModels: Partial<State> = {}
 
@@ -142,7 +157,9 @@ export function* resolveDependency(
     isInit: boolean,
 ) {
     const { formName, datasource, modelPrefix, fields } = form
-    const { type, expression, validate } = dependency
+    const { type, expression, validate, enabled: condition } = dependency
+
+    if (!checkCondition(condition, values, field.ctx)) { return }
 
     const evalResult = expression && executeExpression<boolean | string>(expression, values, field.ctx)
 
@@ -187,7 +204,7 @@ export function* resolveDependency(
             break
         }
         case 'reset': {
-            if (values?.[fieldName] !== null && evalResultCheck(evalResult)) {
+            if (values?.[fieldName] !== null) {
                 yield put(updateModel(modelPrefix, datasource, fieldName, null, validate))
             }
 

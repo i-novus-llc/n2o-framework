@@ -69,7 +69,7 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().getFirst(), allOf(
                 hasProperty("type", is(ValidationTypeEnum.RESET)),
                 hasProperty("on", contains("someField")),
-                hasProperty("expression", is("true")),
+                hasProperty("enabled", is("true")),
                 hasProperty("applyOnInit", is(false))));
 
         // первый input-select
@@ -87,6 +87,17 @@ class InputSelectCompileTest extends SourceCompileTestBase {
                 hasProperty("inputLabelFieldId", is("shortName"))
         ));
         ClientDataProvider cdp = inputSelect.getDataProvider();
+
+        field = (StandardField<?>) rowList.get(1).getCols().getFirst().getFields().getFirst();
+        inputSelect = (InputSelect) field.getControl();
+        assertThat(inputSelect, allOf(
+                hasProperty("dataProvider", hasProperty("quickSearchParam", is("name"))),
+                hasProperty("statusFieldId", nullValue()),
+                hasProperty("maxTagCount", is(10)),
+                hasProperty("maxTagTextLength", is(5)),
+                hasProperty("searchMinLength", is(0)),
+                hasProperty("throttleDelay", is(300))));
+
         assertThat(cdp, allOf(
                 hasProperty("url", is("n2o/data/test")),
                 hasProperty("quickSearchParam", is("search"))));
@@ -94,6 +105,8 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
         assertThat(cdp.getQueryMapping().get("parent").getValue(), is("is:notnull"));
         assertThat(cdp.getQueryMapping().get("parent2").getValue(), is("is:null"));
+        assertThat(field.getDependencies().getFirst(), instanceOf(FetchValueDependency.class));
+        assertThat(field.getDependencies().getFirst().getEnabled(), is(true));
 
         // второй input-select
         inputSelect = (InputSelect) ((StandardField<?>) rowList.get(1).getCols().getFirst().getFields().getFirst()).getControl();
@@ -113,13 +126,17 @@ class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().getFirst(), instanceOf(FetchValueDependency.class));
         assertThat(field.getDependencies().getFirst().getOn(), is(List.of("testId2")));
         FetchValueDependency fetchValueDependency = (FetchValueDependency) field.getDependencies().getFirst();
+        assertThat(fetchValueDependency, allOf(
+                hasProperty("on", is(List.of("testId2"))),
+                hasProperty("valueFieldId", nullValue()),
+                hasProperty("applyOnInit", is(true)),
+                hasProperty("type", is(ValidationTypeEnum.FETCH_VALUE)),
+                hasProperty("enabled", is("`id==2 || id==3`"))
+        ));
         assertThat(fetchValueDependency.getDataProvider().getUrl(), is("n2o/data/selectFetch"));
         assertThat(fetchValueDependency.getDataProvider().getQueryMapping().get("ref").getLink(), is("models.resolve['testInputSelect_main']"));
         assertThat(fetchValueDependency.getDataProvider().getQueryMapping().get("ref").getValue(), is("`testId2`"));
         assertThat(fetchValueDependency.getDataProvider().getSize(), is(7));
-        assertThat(fetchValueDependency.getValueFieldId(), nullValue());
-        assertThat(field.getDependencies().getFirst().getApplyOnInit(), is(true));
-        assertThat(field.getDependencies().getFirst().getType(), is(ValidationTypeEnum.FETCH_VALUE));
 
         CompiledQuery compiledQuery = routeAndGet("/selectFetch", CompiledQuery.class);
         assertThat(compiledQuery.getId(), is("testSelectFetch"));

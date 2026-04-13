@@ -24,10 +24,18 @@
                         </filters>
                     </input-select>
                     <input-select id="testId2" query-id="testSelect"
-                                  max-tag-count="10" max-tag-text-length="5"/>
+                                  max-tag-count="10" max-tag-text-length="5">
+                          <dependencies>
+                              <fetch-value on="testId" query-id="testSelectFetch" size="7">
+                                  <filters>
+                                      <eq field-id="ref" value="{testId}"/>
+                                  </filters>
+                              </fetch-value>
+                          </dependencies>
+                    </input-select>
                     <input-select id="testFetch">
                         <dependencies>
-                            <fetch-value on="testId2" query-id="testSelectFetch" size="7">
+                            <fetch-value on="testId2" query-id="testSelectFetch" size="7" enabled="{id==2 || id==3}">
                                 <filters>
                                     <eq field-id="ref" value="{testId2}"/>
                                 </filters>

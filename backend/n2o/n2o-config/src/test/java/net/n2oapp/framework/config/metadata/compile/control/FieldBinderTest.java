@@ -44,7 +44,7 @@ class FieldBinderTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) bind("net/n2oapp/framework/config/metadata/compile/control/testFieldBinder.page.xml")
                 .get(new PageContext("testFieldBinder"), new DataSet());
         Form form = (Form) page.getWidget();
-        Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        Field field = form.getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
         assertThat(field.getDependencies().get(0).getExpression(), is("(function(){if (testField == 1)\nreturn 'Test';}).call(this)"));
         assertThat(field.getDependencies().get(1).getExpression(), is("(function(){if (testField == 'Test')\nreturn true;}).call(this)"));
         assertThat(field.getDependencies().get(2).getExpression(), is("(function(){if (testField == 'Test')\nreturn true;}).call(this)"));

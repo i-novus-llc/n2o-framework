@@ -58,18 +58,32 @@ class FieldFetchValueDependencyAT extends AutoTestBase {
 
         InputText inputText1 = fields.field("Введите id").control(InputText.class);
         InputText inputText2 = fields.field("Должно появиться имя").control(InputText.class);
+        InputText inputText3 = fields.field("Должно появиться имя при id больше 1").control(InputText.class);
 
         inputText1.clickPlusStepButton();
         inputText1.shouldHaveValue("1");
         inputText2.shouldHaveValue("test1");
+        inputText3.shouldBeEmpty();
 
         inputText1.clickPlusStepButton();
         inputText1.shouldHaveValue("2");
         inputText2.shouldHaveValue("test2");
+        inputText3.shouldHaveValue("test2");
 
         inputText1.clickPlusStepButton();
         inputText1.shouldHaveValue("3");
         inputText2.shouldBeEmpty();
+        inputText3.shouldBeEmpty();
+
+        inputText1.clickMinusStepButton();
+        inputText1.shouldHaveValue("2");
+        inputText2.shouldHaveValue("test2");
+        inputText3.shouldHaveValue("test2");
+
+        inputText1.clickMinusStepButton();
+        inputText1.shouldHaveValue("1");
+        inputText2.shouldHaveValue("test1");
+        inputText3.shouldHaveValue("test2");
     }
 
     @Test

@@ -156,7 +156,10 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
         private Boolean validate;
     }
 
+    @Getter
+    @Setter
     public static class FetchDependency extends Dependency {
+        private String enabled;
     }
 
     @Getter
@@ -166,6 +169,7 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
         private String valueFieldId;
         private N2oPreFilter[] preFilters;
         private Integer size;
+        private String enabled;
     }
 
     @Override
