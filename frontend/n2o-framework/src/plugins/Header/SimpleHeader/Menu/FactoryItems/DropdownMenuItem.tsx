@@ -1,16 +1,17 @@
 import React from 'react'
 
-import { Dropdown } from '../NavItems/Dropdown/Dropdown'
-import { DropdownContextItem } from '../Item'
+import { Dropdown, DropdownProps } from '../NavItems/Dropdown/Dropdown'
+import { ContextItemCommon } from '../../../../CommonMenuTypes'
 
-export function DropdownMenuItem({ item, active, from, className, direction }: DropdownContextItem) {
+export interface DropdownContextItem extends ContextItemCommon {
+    item: DropdownProps
+}
+
+export function DropdownMenuItem({ item, ...props }: DropdownContextItem) {
     return (
         <Dropdown
             {...item}
-            active={active}
-            from={from}
-            className={className}
-            direction={direction}
+            {...props}
         />
     )
 }

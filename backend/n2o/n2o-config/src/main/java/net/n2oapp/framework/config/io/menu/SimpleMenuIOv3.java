@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.menu;
 
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -40,6 +41,7 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, Badg
         p.attribute(e, "id", m::getId, m::setId);
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
+        p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModelEnum.class);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attributeEnum(e, "icon-position", m::getIconPosition, m::setIconPosition, PositionEnum.class);
         p.attribute(e, "image", m::getImage, m::setImage);
@@ -57,6 +59,7 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, Badg
         p.attribute(e, "id", m::getId, m::setId);
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
+        p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModelEnum.class);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attributeEnum(e, "icon-position", m::getIconPosition, m::setIconPosition, PositionEnum.class);
         p.attribute(e, "image", m::getImage, m::setImage);

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.application;
 
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
@@ -49,10 +50,10 @@ class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(header.getMenu().getItems().size(), is(4));
         List<MenuItem> menuItems = header.getMenu().getItems();
         // sub-menu non ds
-        assertThat(menuItems.get(0).getTitle(), is("test"));
-        assertThat(menuItems.get(0).getDatasource(), is("ds1"));
-        assertThat(menuItems.get(0).getSubItems().size(), is(2));
-        assertThat(menuItems.get(0).getSrc(), is("DropdownMenuItem"));
+        assertThat(menuItems.getFirst().getTitle(), is("test"));
+        assertThat(menuItems.getFirst().getDatasource(), is("ds1"));
+        assertThat(menuItems.getFirst().getSubItems().size(), is(2));
+        assertThat(menuItems.getFirst().getSrc(), is("DropdownMenuItem"));
         // page
         assertThat(menuItems.get(1).getTitle(), is("headerLabel"));
         assertThat(menuItems.get(1).getDatasource(), is("ds1"));
@@ -72,28 +73,32 @@ class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(menuItems.get(3).getTitle(), is("`test`"));
         assertThat(menuItems.get(3).getDatasource(), is("ds2"));
         assertThat(menuItems.get(3).getSubItems().size(), is(2));
+        assertThat(menuItems.get(3).getModel(), is(ReduxModelEnum.MULTI));
 
         checkSubItems(header, menuItems);
     }
 
     private void checkSubItems(Header header, List<MenuItem> menuItems) {
         ArrayList<MenuItem> subItems = menuItems.get(3).getSubItems();
-        assertThat(subItems.get(0).getTitle(), is("test"));
-        assertThat(subItems.get(0).getDatasource(), is("ds1"));
+        assertThat(subItems.getFirst().getTitle(), is("test"));
+        assertThat(subItems.getFirst().getDatasource(), is("ds1"));
+        assertThat(subItems.getFirst().getModel(), is(ReduxModelEnum.EDIT));
         assertThat(subItems.get(1).getTitle(), is("`test`"));
         assertThat(subItems.get(1).getDatasource(), is("ds2"));
+        assertThat(subItems.get(1).getModel(), is(ReduxModelEnum.MULTI));
 
-        subItems = menuItems.get(0).getSubItems();
+        subItems = menuItems.getFirst().getSubItems();
         // sub-menu page
-        assertThat(subItems.get(0).getTitle(), is("test2"));
-        assertThat(subItems.get(0).getDatasource(), is("ds2"));
-        assertThat(subItems.get(0).getHref(), is("/page1"));
-        assertThat(subItems.get(0).getPageId(), is("pageWithoutLabel"));
-        assertThat(subItems.get(0).getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
-        assertThat(subItems.get(0).getSubItems(), nullValue());
-        assertThat(subItems.get(0).getSrc(), is("LinkMenuItem"));
-        assertThat(subItems.get(0).getProperties().size(), is(1));
-        assertThat(subItems.get(0).getProperties().get("attr1"), is("testAttribute"));
+        assertThat(subItems.getFirst().getTitle(), is("test2"));
+        assertThat(subItems.getFirst().getDatasource(), is("ds2"));
+        assertThat(subItems.getFirst().getModel(), is(ReduxModelEnum.DATASOURCE));
+        assertThat(subItems.getFirst().getHref(), is("/page1"));
+        assertThat(subItems.getFirst().getPageId(), is("pageWithoutLabel"));
+        assertThat(subItems.getFirst().getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
+        assertThat(subItems.getFirst().getSubItems(), nullValue());
+        assertThat(subItems.getFirst().getSrc(), is("LinkMenuItem"));
+        assertThat(subItems.getFirst().getProperties().size(), is(1));
+        assertThat(subItems.getFirst().getProperties().get("attr1"), is("testAttribute"));
         // sub-menu a
         assertThat(subItems.get(1).getTitle(), is("hrefLabel"));
         assertThat(subItems.get(1).getDatasource(), is("ds1"));
@@ -102,19 +107,19 @@ class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(subItems.get(1).getSubItems(), nullValue());
         assertThat(subItems.get(1).getSrc(), is("LinkMenuItem"));
         assertThat(header.getExtraMenu().getItems().size(), is(1));
-        MenuItem extraItem = header.getExtraMenu().getItems().get(0);
+        MenuItem extraItem = header.getExtraMenu().getItems().getFirst();
         // sub-menu
         assertThat(extraItem.getTitle(), is("#{username}"));
         assertThat(extraItem.getSubItems().size(), is(1));
         assertThat(extraItem.getSrc(), is("DropdownMenuItem"));
         subItems = extraItem.getSubItems();
         // sub-menu a
-        assertThat(subItems.get(0).getTitle(), is("Test"));
-        assertThat(subItems.get(0).getHref(), is("https://ya.ru/"));
-        assertThat(subItems.get(0).getLinkType(), is(MenuItem.LinkTypeEnum.OUTER));
-        assertThat(subItems.get(0).getIcon(), is("test-icon"));
-        assertThat(subItems.get(0).getSubItems(), nullValue());
-        assertThat(subItems.get(0).getSrc(), is("LinkMenuItem"));
+        assertThat(subItems.getFirst().getTitle(), is("Test"));
+        assertThat(subItems.getFirst().getHref(), is("https://ya.ru/"));
+        assertThat(subItems.getFirst().getLinkType(), is(MenuItem.LinkTypeEnum.OUTER));
+        assertThat(subItems.getFirst().getIcon(), is("test-icon"));
+        assertThat(subItems.getFirst().getSubItems(), nullValue());
+        assertThat(subItems.getFirst().getSrc(), is("LinkMenuItem"));
     }
 
     @Test

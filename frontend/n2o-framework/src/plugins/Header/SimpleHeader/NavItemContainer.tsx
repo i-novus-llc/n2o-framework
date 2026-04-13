@@ -1,29 +1,34 @@
 import React, { useContext } from 'react'
 import { useSelector } from 'react-redux'
-import get from 'lodash/get'
 import { ButtonDropdownProps } from 'reactstrap'
+import classNames from 'classnames'
 
-import { WithDataSource, type WithDataSourceProps } from '../../../core/datasource/WithDataSource'
-import { getFromSource } from '../../utils'
-import { type metaPropsType } from '../../CommonMenuTypes'
-import { ModelPrefix } from '../../../core/models/types'
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
 import { Item, FactoryComponent } from '../../CommonMenuTypes'
 import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
+import { ModelPrefix } from '../../../core/models/types'
+import { propsResolver } from '../../../core/Expression/propsResolver'
 
-interface NavItemContainerProps extends WithDataSourceProps {
+interface NavItemContainerProps {
     itemProps: Item
     active: boolean
-    datasources: metaPropsType[]
     direction?: ButtonDropdownProps['direction']
+    className?: string
+    level?: number
+    iconPosition?: unknown
+    nested?: boolean
 }
 
-const NavItemContainer = ({ itemProps, active, datasources, direction }: NavItemContainerProps) => {
-    const datasource = get(itemProps, 'datasource')
-    const model = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, datasource))
+const NavItemContainer = ({
+    itemProps,
+    className,
+    ...props
+}: NavItemContainerProps) => {
+    const { datasource, model: prefix = ModelPrefix.active } = itemProps
+    const model = useSelector(getModelByPrefixAndNameSelector(prefix, datasource))
+    const item = propsResolver(itemProps, model, model as Record<string, unknown>, ['items'])
 
-    const item = getFromSource(itemProps, datasources, model, datasource)
     const { src } = item
 
     const { getComponent } = useContext(FactoryContext)
@@ -37,13 +42,14 @@ const NavItemContainer = ({ itemProps, active, datasources, direction }: NavItem
         <FactoryComponent
             item={item}
             from="HEADER"
-            className="nav-item"
-            direction={direction}
-            active={active}
+            className={classNames('nav-item', className)}
+            {...props}
         />
     )
 }
 
-export default WithDataSource(NavItemContainer)
+export default NavItemContainer
+
+NavItemContainer.displayName = 'NavItemContainer'
 
 export { NavItemContainer }

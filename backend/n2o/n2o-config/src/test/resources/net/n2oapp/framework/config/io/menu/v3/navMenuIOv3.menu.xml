@@ -6,6 +6,7 @@
                class="class"
                style="background-color: blue"
                datasource="ds1"
+               model="datasource"
                icon="fa fa-bell"
                icon-position="right"
                badge="2"
