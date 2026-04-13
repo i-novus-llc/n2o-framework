@@ -126,7 +126,16 @@ class AutoComplete extends React.Component<Props, State> {
             onToggle(isExpanded)
 
             if (isExpanded) {
-                fetchData({ page: 1 })
+                const extraParams: { page: number; [key: string]: unknown } = { page: 1 }
+
+                const { input } = this.state
+                const { quickSearchParam } = this.props
+
+                if (input && quickSearchParam) {
+                    extraParams[quickSearchParam] = input
+                }
+
+                fetchData(extraParams)
             } else {
                 onClose()
             }
