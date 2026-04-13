@@ -2,7 +2,6 @@ package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.DropDown;
-import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;

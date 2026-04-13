@@ -56,28 +56,39 @@ class FieldFetchDependencyAT extends AutoTestBase {
 
         Fields fields = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields();
 
-        InputText inputText = fields.field("values[0].type").control(InputText.class);
+        InputText inputText = fields.field("status").control(InputText.class);
         RadioGroup radioGroup = fields.field("Фильтр по радио кнопкам").control(RadioGroup.class);
         CheckboxGroup checkboxGroup = fields.field("Фильтр по чекбоксам").control(CheckboxGroup.class);
+        CheckboxGroup checkboxGroup1 = fields.field("Фильтр по чекбоксам с условием доступности fetch").control(CheckboxGroup.class);
 
         inputText.clickPlusStepButton();
         inputText.shouldHaveValue("1");
         radioGroup.shouldHaveOptions(new String[]{"test1", "test2"});
         checkboxGroup.shouldHaveOptions(new String[]{"test1", "test2"});
+        checkboxGroup1.shouldHaveOptions(new String[]{"test1", "test2", "test3", "test4"});
 
         inputText.clickPlusStepButton();
         inputText.shouldHaveValue("2");
         radioGroup.shouldHaveOptions(new String[]{"test3", "test4"});
         checkboxGroup.shouldHaveOptions(new String[]{"test3", "test4"});
+        checkboxGroup1.shouldHaveOptions(new String[]{"test3", "test4"});
 
         inputText.clickMinusStepButton();
         inputText.shouldHaveValue("1");
         radioGroup.shouldHaveOptions(new String[]{"test1", "test2"});
         checkboxGroup.shouldHaveOptions(new String[]{"test1", "test2"});
+        checkboxGroup1.shouldHaveOptions(new String[]{"test3", "test4"});
 
         inputText.clickMinusStepButton();
         inputText.shouldHaveValue("0");
         radioGroup.shouldNotHaveOptions();
         checkboxGroup.shouldNotHaveOptions();
+        checkboxGroup1.shouldHaveOptions(new String[]{"test3", "test4"});
+
+        inputText.clear();
+        inputText.shouldBeEmpty();
+        radioGroup.shouldHaveOptions(new String[]{"test1", "test2", "test3", "test4"});
+        checkboxGroup.shouldHaveOptions(new String[]{"test1", "test2", "test3", "test4"});
+        checkboxGroup1.shouldHaveOptions(new String[]{"test3", "test4"});
     }
 }

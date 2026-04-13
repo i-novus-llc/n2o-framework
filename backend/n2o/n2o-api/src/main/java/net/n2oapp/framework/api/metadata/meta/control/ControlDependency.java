@@ -21,6 +21,8 @@ public class ControlDependency implements Compiled {
     @JsonProperty
     private String expression;
     @JsonProperty
+    private Object enabled;
+    @JsonProperty
     private Boolean applyOnInit;
 
 }

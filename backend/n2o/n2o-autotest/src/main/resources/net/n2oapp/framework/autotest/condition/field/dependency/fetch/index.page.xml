@@ -8,30 +8,39 @@
             </filters>
         </datasource>
         <fields>
-            <input-text id="values[0].type"
+            <input-text id="status"
                         domain="integer"
                         placeholder="Ввести 1, затем 2"
             />
 
-            <radio-group id="values[0].test4"
+            <radio-group id="radio"
                          label="Фильтр по радио кнопкам"
                          query-id="test"
-                         description="При values[0].type=1 должно быть 2 значения"
+                         description="При status=1 должно быть 2 значения"
             >
                 <filters>
-                    <eq field-id="type" value="{values[0].type}"/>
+                    <eq field-id="type" value="{status}"/>
                 </filters>
                 <dependencies>
-                    <fetch on="values[0].type"/>
+                    <fetch on="status"/>
                 </dependencies>
             </radio-group>
-            <checkbox-group id="values[0].test5" label="Фильтр по чекбоксам" cache="true" query-id="test"
-                            description="При values[0].type=1 должно быть 2 значения">
+            <checkbox-group id="checkbox" label="Фильтр по чекбоксам"  cache="true" query-id="test"
+                            description="При status=1 должно быть 2 значения">
                 <filters>
-                    <eq field-id="type" value="{values[0].type}"/>
+                    <eq field-id="type" value="{status}"/>
                 </filters>
                 <dependencies>
-                    <fetch on="values[0].type"/>
+                    <fetch on="status"/>
+                </dependencies>
+            </checkbox-group>
+            <checkbox-group id="checkbox1" label="Фильтр по чекбоксам с условием доступности fetch"  cache="true" query-id="test"
+                            description="При status=1 не должно быть значений, при status=2 должно быть 2 значения">
+                <filters>
+                    <eq field-id="type" value="{status}"/>
+                </filters>
+                <dependencies>
+                    <fetch on="status" enabled="{status &gt; 1}"/>
                 </dependencies>
             </checkbox-group>
         </fields>

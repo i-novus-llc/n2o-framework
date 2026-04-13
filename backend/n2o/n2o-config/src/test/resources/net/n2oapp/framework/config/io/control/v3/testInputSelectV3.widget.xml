@@ -11,7 +11,7 @@
                       throttle-delay="600"
                       search-min-length="1" input-label-field-id="shortName">
             <dependencies>
-                <fetch-value query-id="testQuery" on="test" value-field-id="name" size="5">
+                <fetch-value query-id="testQuery" on="test" value-field-id="name" size="5" enabled="{id==2 || id==3}">
                     <filters>
                         <eq field-id="testField" reset-on-change="true" param="test"/>
                     </filters>

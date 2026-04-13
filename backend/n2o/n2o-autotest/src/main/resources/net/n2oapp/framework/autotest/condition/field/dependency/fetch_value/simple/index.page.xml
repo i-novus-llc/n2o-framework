@@ -3,12 +3,22 @@
              name="Тестирование fetch-value на форме">
     <form>
         <fields>
-            <input-text id="value" label="Введите id" domain="integer"/>
+            <input-text id="status" label="Введите id" domain="integer"/>
             <input-text id="name" label="Должно появиться имя">
                 <dependencies>
-                    <fetch-value query-id="test" on="value" value-field-id="name" apply-on-init="false">
+                    <fetch-value query-id="test" on="status" value-field-id="name" apply-on-init="false">
                         <filters>
-                            <eq field-id="id" value="{value}"/>
+                            <eq field-id="id" value="{status}"/>
+                        </filters>
+                    </fetch-value>
+                </dependencies>
+            </input-text>
+            <input-text id="sn" label="Должно появиться имя при id больше 1">
+                <dependencies>
+                    <fetch-value on="status" apply-on-init="false" query-id="test"
+                     value-field-id="name" enabled="{status &gt; 1}">
+                        <filters>
+                            <eq field-id="id" value="{status}"/>
                         </filters>
                     </fetch-value>
                 </dependencies>

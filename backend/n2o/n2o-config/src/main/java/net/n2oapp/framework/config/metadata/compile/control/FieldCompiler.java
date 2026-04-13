@@ -201,6 +201,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             fetchValueDependency.setType(ValidationTypeEnum.FETCH_VALUE);
             fetchValueDependency.setValueFieldId(fetchValue.getValueFieldId());
             fetchValueDependency.setDataProvider(compileFetchDependencyDataProvider(fetchValue, context, p));
+            fetchValueDependency.setEnabled(castDefault(
+                    p.resolveJS(fetchValue.getEnabled(), Boolean.class),
+                    () -> p.resolve(property("n2o.api.control.dependency.fetch_value.enabled"), Boolean.class)));
             return fetchValueDependency;
         } else if (source instanceof N2oField.EnablingDependency enabling) {
             EnablingDependency enablingDependency = new EnablingDependency();
@@ -220,7 +223,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             if (Boolean.TRUE.equals(isResettable)) {
                 ControlDependency reset = new ControlDependency();
                 reset.setType(ValidationTypeEnum.RESET);
-                reset.setExpression(ScriptProcessor.resolveFunction(source.getValue()));
+                reset.setEnabled(ScriptProcessor.resolveFunction(source.getValue()));
                 addToField(reset, field, source, p);
             }
         } else if (source instanceof N2oField.SetValueDependency setValue) {
@@ -229,8 +232,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             setValueDependency.setValidate(castDefault(setValue.getValidate(),
                     () -> p.resolve(property("n2o.api.control.dependency.set_value.validate"), Boolean.class)));
             dependency = setValueDependency;
-        } else if (source instanceof N2oField.FetchDependency)
+        } else if (source instanceof N2oField.FetchDependency fetch) {
             dependency.setType(ValidationTypeEnum.FETCH);
+            dependency.setEnabled(castDefault(p.resolveJS(fetch.getEnabled(), Boolean.class),
+                    () -> p.resolve(property("n2o.api.control.dependency.fetch.enabled"), Boolean.class)));
+        }
         else if (source instanceof N2oField.ResetDependency reset) {
             ResetDependency resetDependency = new ResetDependency();
             resetDependency.setType(ValidationTypeEnum.RESET);
@@ -239,7 +245,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             if (source.getValue() == null) {
                 source.setValue(String.valueOf(Boolean.TRUE));
             }
-            dependency = resetDependency;
+            resetDependency.setEnabled(ScriptProcessor.resolveFunction(source.getValue()));
+            return resetDependency;
         }
         dependency.setExpression(ScriptProcessor.resolveFunction(source.getValue()));
         return dependency;

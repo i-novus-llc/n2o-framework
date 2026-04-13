@@ -103,6 +103,10 @@
         {
           "templateId": "interactions/web_socket/notifications",
           "name": "Stomp события на страницах"
+        },
+        {
+          "templateId": "versions/7.29/field_fetch_fetch_value_dependency_enabled",
+          "name": "Срабатывание по условию fetch и fetch-value зависимостей поля"
         }
       ]
     },

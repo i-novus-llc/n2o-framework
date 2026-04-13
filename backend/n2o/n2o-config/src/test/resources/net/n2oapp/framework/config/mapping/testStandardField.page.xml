@@ -14,7 +14,7 @@
                         <reset on="test6">test6 == null</reset>
                         <reset on="test7"/>
                         <set-value on="test8">if (test8 == 1) return "Test";</set-value>
-                        <fetch on="test9" apply-on-init="false">test9 == null</fetch>
+                        <fetch on="test9" enabled="true" apply-on-init="false">test9 == null</fetch>
                         <set-value on="test10" validate="false">'without validation'</set-value>
                         <reset on="test11" validate="false">test11.id == 1</reset>
                         <requiring on="test12" validate="false">test12.id == 3</requiring>

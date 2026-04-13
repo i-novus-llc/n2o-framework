@@ -15,7 +15,7 @@
                         <contains field-id="name" param="org_name"/>
                     </filters>
                     <dependencies>
-                        <fetch on="auto2"/>
+                        <fetch on="auto2" enabled="{id==2 || id==3}"/>
                     </dependencies>
                 </auto-complete>
                 <auto-complete id="auto2" label="Auto complete" max-tag-text-length="15">
@@ -23,6 +23,9 @@
                         <option name="{test1}"/>
                         <option name="test2"/>
                     </options>
+                    <dependencies>
+                        <fetch on="auto3"/>
+                    </dependencies>
                 </auto-complete>
                 <auto-complete id="auto3" datasource="test"/>
             </fields>

@@ -12,13 +12,14 @@ export enum FieldDependencyTypes {
 }
 
 export type FieldDependency = {
-    type: FieldDependencyTypes
-    expression?: string
     applyOnInit?: boolean
-    on?: string[]
     dataProvider?: unknown
-    valueFieldId?: string
+    enabled?: string | boolean
+    expression?: string
     message?: string
+    on?: string[]
+    type: FieldDependencyTypes
+    valueFieldId?: string
     validate: boolean
 }
 
