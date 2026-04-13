@@ -91,7 +91,9 @@ export function SubPage({
                     defaultPage
                         ? (
                             <Route
-                                key="no-match"
+                                exact
+                                path={baseUrl}
+                                key="default-page"
                                 render={() => (
                                     <Redirect to={`${resolvePath(baseUrl, defaultPage.route)}${search}`} />
                                 )}
@@ -99,6 +101,12 @@ export function SubPage({
                         )
                         : null
                 }
+                {/*
+                 <Route TODO 404
+                    key="no-match"
+                    render={() => <ErrorPage /> }
+                />
+                */}
             </Switch>
         </section>
     )
