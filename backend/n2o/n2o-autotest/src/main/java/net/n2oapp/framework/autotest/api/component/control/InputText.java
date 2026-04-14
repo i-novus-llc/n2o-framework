@@ -63,4 +63,15 @@ public interface InputText extends Control {
      * @param text ожидаемая единица измерения
      */
     void shouldHaveMeasureText(String text, Duration... duration);
+
+    /**
+     * Проверка заголовка на соответствие
+     * @param label ожидаемый текст заголовка
+     */
+    void shouldHaveLabel(String label);
+
+    /**
+     * Проверка не существования заголовка
+     */
+    void shouldNotHaveLabel();
 }

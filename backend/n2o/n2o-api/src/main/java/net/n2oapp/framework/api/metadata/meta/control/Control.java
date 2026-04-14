@@ -19,6 +19,8 @@ public abstract class Control extends Component implements IdAware {
     private String id;
     @JsonProperty
     private String placeholder;
+    @JsonProperty
+    private String label;
 
     public boolean containsHimself(DataSet dataSet) {
         Object value = dataSet.get(getId());

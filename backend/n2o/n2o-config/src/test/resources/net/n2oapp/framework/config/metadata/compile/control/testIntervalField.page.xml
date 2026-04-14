@@ -11,6 +11,14 @@
                     <input-text id="endTest" domain="integer" default-value="7" max="10"/>
                 </end>
             </interval-field>
+            <interval-field id="range1">
+                <begin>
+                    <input-text id="beginTest" domain="integer" label="от"/>
+                </begin>
+                <end>
+                    <input-text id="endTest" domain="integer" label="до"/>
+                </end>
+            </interval-field>
         </fields>
     </form>
 </simple-page>

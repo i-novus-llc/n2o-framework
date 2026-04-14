@@ -26,10 +26,10 @@
                     <date-interval id="dateInterval" enabled="false"/>
                     <interval-field id="range" label="intervalField" enabled="false">
                         <begin>
-                            <input-text id="start-range"/>
+                            <input-text id="startRange"/>
                         </begin>
                         <end>
-                            <input-text id="end-range"/>
+                            <input-text id="endRange"/>
                         </end>
                     </interval-field>
                     <checkbox-group id="checkboxGroup" enabled="false">

@@ -9,6 +9,7 @@ export type RangeValue = { begin: string | number | null, end: string | number |
 export interface ControlCommonProps {
     component: string | ComponentType<{ className?: string }>
     className?: string
+    label?: string
 }
 
 export interface Props extends ControlCommonProps {

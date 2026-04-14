@@ -119,4 +119,15 @@ public interface DateInput extends Control, PopupControl {
      * Клик по кнопке для перехода к следующему месяцу в календаре
      */
     void clickNextMonthButton();
+
+    /**
+     * Проверка заголовка на соответствие
+     * @param label ожидаемый текст заголовка
+     */
+    void shouldHaveLabel(String label);
+
+    /**
+     * Проверка не существования заголовка
+     */
+    void shouldNotHaveLabel();
 }

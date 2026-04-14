@@ -99,6 +99,16 @@ public class N2oInputText extends N2oControl implements InputText {
         should(Condition.text(text), inputMeasure(), duration);
     }
 
+    @Override
+    public void shouldHaveLabel(String label) {
+        element().parent().parent().parent().$(".n2o-field-label").shouldHave(Condition.text(label));
+    }
+
+    @Override
+    public void shouldNotHaveLabel() {
+        element().parent().parent().parent().$(".n2o-field-label").shouldNot(Condition.exist);
+    }
+
     protected ElementsCollection stepButton() {
         return element().parent().$$(".n2o-input-number-buttons button");
     }

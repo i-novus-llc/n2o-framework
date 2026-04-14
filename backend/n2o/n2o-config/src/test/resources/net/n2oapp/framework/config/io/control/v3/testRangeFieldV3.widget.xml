@@ -2,10 +2,10 @@
     <fields>
         <interval-field id="range" help="Подсказка" help-trigger="hover">
             <begin>
-                <input-text id="begin" domain="integer" min="0"/>
+                <input-text id="begin" domain="integer" min="0" label="от"/>
             </begin>
             <end>
-                <input-text id="end" domain="integer" max="10"/>
+                <input-text id="end" domain="integer" max="10" label="до"/>
             </end>
         </interval-field>
     </fields>

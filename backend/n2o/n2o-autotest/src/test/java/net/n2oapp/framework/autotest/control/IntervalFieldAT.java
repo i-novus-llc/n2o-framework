@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 class IntervalFieldAT extends AutoTestBase {
 
     @BeforeAll
-    public static void BeforeAll() {
+    static void BeforeAll() {
         configureSelenide();
     }
 
@@ -45,6 +45,9 @@ class IntervalFieldAT extends AutoTestBase {
         InputText inputBegin = interval.begin(InputText.class);
         InputText inputEnd = interval.end(InputText.class);
 
+        inputBegin.shouldNotHaveLabel();
+        inputEnd.shouldNotHaveLabel();
+
         inputBegin.shouldHaveValue("5");
         inputBegin.clickPlusStepButton();
         inputBegin.shouldHaveValue("6");
@@ -60,6 +63,9 @@ class IntervalFieldAT extends AutoTestBase {
         inputEnd.clear();
         inputEnd.shouldHavePlaceholder("До");
 
+        interval = page.widget(FormWidget.class).fields().field("Интервал с заголовками для внутренних полей", IntervalField.class);
+        interval.begin(InputText.class).shouldHaveLabel("От");
+        interval.end(InputText.class).shouldHaveLabel("До");
     }
 
     @Test
@@ -69,6 +75,9 @@ class IntervalFieldAT extends AutoTestBase {
         IntervalField interval = page.widget(FormWidget.class).fields().field("Дата", IntervalField.class);
         DateInput beginDate = interval.begin(DateInput.class);
         DateInput endDate = interval.end(DateInput.class);
+
+        beginDate.shouldNotHaveLabel();
+        endDate.shouldNotHaveLabel();
 
         beginDate.shouldHaveValue("21.11.1999");
         beginDate.shouldBeClosed();
@@ -88,5 +97,9 @@ class IntervalFieldAT extends AutoTestBase {
         endDate.clickDay("15");
         endDate.shouldBeClosed();
         endDate.shouldHaveValue("15.05.2020");
+
+        interval = page.widget(FormWidget.class).fields().field("Дата с заголовками для внутренних полей", IntervalField.class);
+        interval.begin(DateInput.class).shouldHaveLabel("С");
+        interval.end(DateInput.class).shouldHaveLabel("По");
     }
 }

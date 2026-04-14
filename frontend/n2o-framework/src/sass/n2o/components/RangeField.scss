@@ -23,6 +23,12 @@
     }
 }
 
+.n2o-range-field-body--divider.lower-divider {
+    &::after {
+        top: 70%;
+    }
+}
+
 .n2o-range-field-item {
     flex-grow: 1;
 }

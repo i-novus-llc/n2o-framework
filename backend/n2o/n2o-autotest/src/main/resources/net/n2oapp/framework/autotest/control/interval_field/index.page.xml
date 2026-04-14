@@ -18,6 +18,22 @@
                     <date-time id="dataEnd" date-format="DD.MM.YYYY"/>
                 </end>
             </interval-field>
+            <interval-field id="inputTextWithLabels" label="Интервал с заголовками для внутренних полей">
+                <begin>
+                    <input-text id="beginInputText" label="От"/>
+                </begin>
+                <end>
+                    <input-text id="endInputText" label="До"/>
+                </end>
+            </interval-field>
+            <interval-field id="dataTimeWithLabels" label="Дата с заголовками для внутренних полей">
+                <begin>
+                    <date-time id="dataBegin" label="С"/>
+                </begin>
+                <end>
+                    <date-time id="dataEnd" label="По"/>
+                </end>
+            </interval-field>
         </fields>
     </form>
 </simple-page>

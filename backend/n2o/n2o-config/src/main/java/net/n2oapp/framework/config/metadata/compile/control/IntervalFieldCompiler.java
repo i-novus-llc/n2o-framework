@@ -43,6 +43,7 @@ public class IntervalFieldCompiler<C extends Control, S extends N2oIntervalField
         subField.setId(owner.getId() + postId);
         StandardField<C> standardField = p.compile(subField, context);
         standardField.getControl().setId(fieldId);
+        standardField.getControl().setLabel(subField.getLabel());
         if (standardField.getDependencies() != null)
             standardField.getDependencies().forEach(owner::addDependency);
         return standardField.getControl();

@@ -15,13 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class IntervalFieldIOv3 extends StandardFieldIOv3<N2oIntervalField> {
 
-    private Namespace controlNamespace = ControlIOv3.NAMESPACE;
+    private static final Namespace controlNamespace = ControlIOv3.NAMESPACE;
 
     @Override
     public void io(Element e, N2oIntervalField m, IOProcessor p) {
         super.io(e, m, p);
-        p.anyChild(e, "begin", m::getBegin, m::setBegin, p.anyOf(N2oField.class),
-                controlNamespace);
+        p.anyChild(e, "begin", m::getBegin, m::setBegin, p.anyOf(N2oField.class), controlNamespace);
         p.anyChild(e, "end", m::getEnd, m::setEnd, p.anyOf(N2oField.class), controlNamespace);
     }
 

@@ -25,10 +25,10 @@
                     </date-interval>
                     <interval-field id="range" label="range">
                         <begin>
-                            <input-text id="start-range" domain="integer" default-value="3" max="5" min="0"/>
+                            <input-text id="startRange" domain="integer" default-value="3" max="5" min="0"/>
                         </begin>
                         <end>
-                            <input-text id="end-range" domain="integer" default-value="5" max="5" min="0"/>
+                            <input-text id="endRange" domain="integer" default-value="5" max="5" min="0"/>
                         </end>
                     </interval-field>
                     <checkbox-group id="checkboxGroup">
