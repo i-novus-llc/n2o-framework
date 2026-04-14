@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 class IntervalFieldCompileTest extends SourceCompileTestBase {
@@ -57,22 +58,34 @@ class IntervalFieldCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
                 .get(pageContext);
         Form form = (Form) page.getWidget();
-        Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        Field field = form.getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
         IntervalField<InputText> intervalField = (IntervalField<InputText>) field;
         InputText beginControl = intervalField.getBeginControl();
         InputText endControl = intervalField.getEndControl();
         assertThat(beginControl.getId(), is("beginTest"));
         assertThat(beginControl.getMin(), is(0));
+        assertThat(beginControl.getLabel(), is(nullValue()));
 
         assertThat(endControl.getId(), is("endTest"));
         assertThat(endControl.getMax(), is(10));
+        assertThat(endControl.getLabel(), is(nullValue()));
 
         ActionContext actionContext = (ActionContext)route("/testIntervalField/submit", CompiledObject.class);
         List<Validation> serverValidations = actionContext.getValidations();
-        assertThat(serverValidations.get(0).getSeverity(), is(SeverityTypeEnum.DANGER));
-        assertThat(serverValidations.get(0).getFieldId(), is("range"));
+        assertThat(serverValidations.getFirst().getSeverity(), is(SeverityTypeEnum.DANGER));
+        assertThat(serverValidations.getFirst().getFieldId(), is("range"));
 
         assertThat(page.getModels().get("resolve['testIntervalField_w1'].range.begin").getValue(), is(5));
         assertThat(page.getModels().get("resolve['testIntervalField_w1'].range.end").getValue(), is(7));
+
+        field = form.getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
+        intervalField = (IntervalField<InputText>) field;
+        beginControl = intervalField.getBeginControl();
+        endControl = intervalField.getEndControl();
+        assertThat(beginControl.getId(), is("beginTest"));
+        assertThat(beginControl.getLabel(), is("от"));
+        assertThat(endControl.getId(), is("endTest"));
+        assertThat(endControl.getLabel(), is("до"));
+
     }
 }

@@ -13,8 +13,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Trigger
 @Setter
 public class Checkbox extends Control {
     @JsonProperty
-    private String label;
-    @JsonProperty
     private Boolean readOnly;
     @JsonProperty
     private String defaultUnchecked;

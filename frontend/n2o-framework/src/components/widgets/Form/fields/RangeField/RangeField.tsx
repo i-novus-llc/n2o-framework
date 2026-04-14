@@ -72,6 +72,11 @@ export const RangeField = ({
 
     const extendedLabelStyle = { width: labelWidthPixels, flex: labelWidthPixels ? 'none' : undefined, ...labelStyle }
 
+    const { label: beginLabel } = beginControl
+    const { label: endLabel } = endControl
+
+    const hasSubLabels = beginLabel || endLabel
+
     return (
         <div
             className={classNames(
@@ -101,10 +106,12 @@ export const RangeField = ({
                         'align-items-center',
                         {
                             'n2o-range-field-body--divider': !divider,
+                            'lower-divider': !divider && (beginLabel || endLabel),
                         },
                     )}
                 >
                     <div className="n2o-range-field-start n2o-range-field-item mr-3">
+                        { hasSubLabels && <Label value={beginLabel || ' '} />}
                         <div className="d-flex align-items-center">
                             <Control
                                 value={begin}
@@ -127,8 +134,13 @@ export const RangeField = ({
                             <Measure value={measure} />
                         </div>
                     </div>
-                    {divider && <div className="n2o-range-field-divider">{divider}</div>}
+                    {divider && (
+                        <div className={classNames('n2o-range-field-divider', { 'lower-divider': beginLabel || endLabel })}>
+                            {divider}
+                        </div>
+                    )}
                     <div className="n2o-range-field-end n2o-range-field-item ml-3">
+                        { hasSubLabels && <Label value={endLabel || ' '} />}
                         <div className="d-flex align-items-center">
                             <Control
                                 value={end}

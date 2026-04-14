@@ -57,7 +57,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new LinkCellValidator(), new BadgeCellValidator(), new IconCellValidator(), new EditCellValidator(),
                 new ActionCellValidator(),
                 new ToolbarCellValidator(), new ListCellValidator(), new MultiColumnValidator(), new SimpleColumnValidator(),
-                new FilterColumnValidator(), new BlockValidator(), new DateIntervalValidator(),
+                new FilterColumnValidator(), new BlockValidator(), new DateIntervalValidator(), new IntervalFieldValidator(),
                 new MenuItemValidator(),
                 new NavRegionValidator(), new PanelRegionValidator(), new CustomRegionValidator(), new LineRegionValidator(),
                 new RowRegionValidator(), new FlexRowRegionValidator(), new ColRegionValidator(),

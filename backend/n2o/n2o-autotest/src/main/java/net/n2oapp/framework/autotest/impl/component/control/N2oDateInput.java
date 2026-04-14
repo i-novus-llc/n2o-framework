@@ -145,6 +145,16 @@ public class N2oDateInput extends N2oControl implements DateInput {
     }
 
     @Override
+    public void shouldHaveLabel(String label) {
+        element().parent().parent().parent().$(".n2o-field-label").shouldHave(Condition.text(label));
+    }
+
+    @Override
+    public void shouldNotHaveLabel() {
+        element().parent().parent().parent().$(".n2o-field-label").shouldNot(Condition.exist);
+    }
+
+    @Override
     public void shouldHavePlaceholder(String value) {
         WebElementCondition condition = Condition.attribute("placeholder", value);
 
