@@ -17,4 +17,10 @@ public interface Tooltip extends Component {
      * @param text ожидаемый текст
      */
     void shouldHaveText(String[] text, Duration... duration);
+
+    /**
+     * Проверка того, что тултип содержит текст
+     * @param text ожидаемый текст
+     */
+    void shouldHaveText(String text, Duration... duration);
 }
