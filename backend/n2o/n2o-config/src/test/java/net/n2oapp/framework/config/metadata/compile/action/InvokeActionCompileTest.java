@@ -97,6 +97,8 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         InvokeAction testAction;
         testAction = (InvokeAction) table.getToolbar().getButton("testDefault_0").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.DATASOURCE));
+        assertThat(testAction.getPayload().getDatasource(), is("w_ds1"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethodEnum.POST));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDefault"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
