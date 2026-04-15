@@ -131,11 +131,11 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
     private static void checkToolbar(Toolbar toolbar) {
         List<AbstractButton> buttons = toolbar.get("topLeft").getFirst().getButtons();
         assertThat(buttons.size(), is(3));
-        assertThat(buttons.getFirst().getId(), is("testAction"));
+        assertThat(buttons.getFirst().getId(), is("testAction_0"));
         assertThat(buttons.getFirst().getStyle().get("paddingTop"), is("0"));
-        assertThat(buttons.get(1).getId(), is("testTable5Compile_mi1"));
+        assertThat(buttons.get(1).getId(), is("testTable5Compile_mi2"));
         assertThat(((Submenu) buttons.get(1)).getShowToggleIcon(), is(true));
-        assertThat(((Submenu) buttons.get(1)).getContent().getFirst().getId(), is("testAction2"));
+        assertThat(((Submenu) buttons.get(1)).getContent().getFirst().getId(), is("testAction2_3"));
         assertThat(((Submenu) buttons.get(1)).getContent().getFirst().getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(((Submenu) buttons.get(1)).getContent().getFirst().getStyle().get("paddingTop"), is("0"));
         assertThat(toolbar.getButton("but"), notNullValue());

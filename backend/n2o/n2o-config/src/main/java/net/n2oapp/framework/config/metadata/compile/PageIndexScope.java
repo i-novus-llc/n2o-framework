@@ -11,7 +11,6 @@ public class PageIndexScope {
     private AtomicInteger index;
     private boolean first = true;
     private String pageId;
-    private Map<String, Integer> actionIdCounters = new HashMap<>();
 
     /**
      * Конструктор индекса со стартовым значением
@@ -57,15 +56,4 @@ public class PageIndexScope {
         return first;
     }
 
-    /**
-     * Генерирует уникальный идентификатор кнопки на основе actionId.
-     *
-     * @param actionId идентификатор действия, на основе которого генерируется ID кнопки
-     * @return уникальный идентификатор кнопки в формате actionId или actionId_counter
-     */
-    public String registerButtonActionId(String actionId) {
-        int counter = actionIdCounters.getOrDefault(actionId, 0);
-        actionIdCounters.put(actionId, counter + 1);
-        return counter == 0 ? actionId : actionId + "_" + counter;
-    }
 }

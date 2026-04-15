@@ -160,15 +160,15 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
         // "Сохранить (тулбар поля)"
         StandardField<?> field1 = (StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
         AbstractButton b = field1.getToolbar()[0].getButtons().getFirst();
-        assertThat(b.getId(), is("save"));
+        assertThat(b.getId(), is("save_0"));
         // "Сохранить (тулбар виджета)"
         AbstractButton b1 = form.getToolbar().getGroup(0).getButtons().getFirst();
-        assertThat(b1.getId(), is("save_1"));
+        assertThat(b1.getId(), is("save_2"));
         // "Сохранить (тулбар виджета) 2"
         AbstractButton b2 = form.getToolbar().getGroup(0).getButtons().get(1);
-        assertThat(b2.getId(), is("save_2"));
+        assertThat(b2.getId(), is("save_4"));
         // "Сохранить (тулбар страницы)"
         AbstractButton b3 = page.getToolbar().getGroups().getFirst().getButtons().getFirst();
-        assertThat(b3.getId(), is("save_3"));
+        assertThat(b3.getId(), is("save_6"));
     }
 }

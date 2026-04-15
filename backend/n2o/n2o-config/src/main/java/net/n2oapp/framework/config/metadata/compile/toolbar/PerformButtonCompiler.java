@@ -89,7 +89,7 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
             source.setId(source.getId());
         else if (source.getActionId() != null) {
             PageIndexScope pageIndexScope = p.getScope(PageIndexScope.class);
-            source.setId(pageIndexScope.registerButtonActionId(source.getActionId()));
+            source.setId(source.getActionId() + "_" + pageIndexScope.get());
         }
         super.initDefaults(source, p);
 
