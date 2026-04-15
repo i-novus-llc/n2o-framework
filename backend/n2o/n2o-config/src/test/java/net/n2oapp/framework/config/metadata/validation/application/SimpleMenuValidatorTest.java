@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.io.action.v2.OpenPageElementIOV2;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;
+import net.n2oapp.framework.config.metadata.validation.standard.action.AnchorActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.application.ApplicationValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.menu.SimpleMenuValidator;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
@@ -30,7 +31,7 @@ class SimpleMenuValidatorTest extends SourceValidationTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.ios(new ApplicationIOv3(), new StandardDatasourceIO(),  new NavMenuIOv3(), new AnchorElementIOV2(), new OpenPageElementIOV2());
-        builder.validators(new ApplicationValidator(), new SimpleMenuValidator());
+        builder.validators(new ApplicationValidator(), new SimpleMenuValidator(), new AnchorActionValidator());
     }
 
     @Test
@@ -81,5 +82,13 @@ class SimpleMenuValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testDatasourceExistenceFailDropdown.application.xml"));
         assertEquals("<dropdown-menu name='test'> ссылается на несуществующий источник данных 'test'", exception.getMessage());
+    }
+
+    @Test
+    void testAnchorHref() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/application/menu/testAnchorHref.menu.xml"));
+        assertEquals("Для действия <a> не задан `href`", exception.getMessage());
     }
 }
