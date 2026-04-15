@@ -94,6 +94,15 @@ public interface CompileProcessor {
      */
     <D extends Compiled> void addRoute(String route, CompileContext<D, ?> context);
 
+    /**
+     * Получить контекст по маршруту
+     *
+     * @param route         Шаблон URL
+     * @param compiledClass Класс собранной метаданной
+     * @return Контекст сборки или null, если не найден
+     */
+    <D extends Compiled> CompileContext<D, ?> getRoute(String route, Class<D> compiledClass);
+
 
     /**
      * Заменить плейсхолдер на значение и конвертировать в класс

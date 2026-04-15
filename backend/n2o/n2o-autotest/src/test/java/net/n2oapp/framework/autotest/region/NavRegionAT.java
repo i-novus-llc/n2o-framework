@@ -106,7 +106,7 @@ class NavRegionAT extends AutoTestBase {
         page.shouldHaveUrlMatches(getBaseUrl() + "/faq");
         Selenide.back();
         page.shouldExists();
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#//");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/");
     }
 
     private void checkDropdown(NavRegion.DropdownItem dropdownItem, StandardPage page) {
@@ -148,7 +148,7 @@ class NavRegionAT extends AutoTestBase {
         page.shouldHaveUrlMatches(getBaseUrl() + "/brands/lime");
         Selenide.back();
         page.shouldExists();
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#//");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/");
 
         dropdownItem.click();
         dropdownGroupItem.item(4, NavRegion.GroupItem.class).shouldHaveLabel("Ценовые диапазоны");

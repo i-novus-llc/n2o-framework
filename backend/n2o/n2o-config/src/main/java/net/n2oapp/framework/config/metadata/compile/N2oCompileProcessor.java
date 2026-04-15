@@ -251,6 +251,12 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Sou
 
     @SuppressWarnings("unchecked")
     @Override
+    public <D extends Compiled> CompileContext<D, ?> getRoute(String route, Class<D> compiledClass) {
+        return (CompileContext<D, ?>) env.getRouteRegister().get(route, compiledClass);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public <T> T resolve(String placeholder, Class<T> clazz) {
         Object value = resolveProperty(placeholder, true);
         value = resolveContext(value);
