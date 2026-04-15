@@ -93,7 +93,11 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Список маршрутов подстраниц в Ant стиле
      */
-    private List<String> subRoutes;
+    private Map<String, String> subRoutes;
+    /**
+     * Маршрут до первого sub-page
+     */
+    private String routeBeforeSubPages;
 
 
     public PageContext(String sourcePageId) {
@@ -156,6 +160,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
                 Objects.equals(parentTabIds, that.parentTabIds) &&
                 Objects.equals(parentRoutes, that.parentRoutes) &&
                 Objects.equals(toolbars, that.toolbars) &&
-                Objects.equals(subRoutes, that.subRoutes);
+                Objects.equals(subRoutes, that.subRoutes) &&
+                Objects.equals(routeBeforeSubPages, that.routeBeforeSubPages);
     }
 }

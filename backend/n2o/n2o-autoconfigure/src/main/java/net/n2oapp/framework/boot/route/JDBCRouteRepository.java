@@ -52,6 +52,7 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
     public void clearAll() {
         final String deleteSQL = "DELETE FROM " + tableName;
         jdbcTemplate.update(deleteSQL);
+        log.info("Deleted all routes");
     }
 
     @Override

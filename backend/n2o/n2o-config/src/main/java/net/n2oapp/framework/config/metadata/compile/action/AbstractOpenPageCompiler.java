@@ -180,6 +180,12 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (context instanceof PageContext ctx) {
             pageContext.addParentRoute(pageContext.getParentRoute(), ctx);
             pageContext.setParentDatasourceIdsMap(initParentDatasourceIdsMap(ctx, p));
+            String ctxRoute = ctx.getRoute((N2oCompileProcessor) p);
+            if (ctx.getRouteBeforeSubPages() != null && !ctx.getRouteBeforeSubPages().equals(ctxRoute)) {
+                pageContext.setRouteBeforeSubPages(ctx.getRouteBeforeSubPages());
+            } else {
+                pageContext.setRouteBeforeSubPages(route);
+            }
         }
         pageContext.setRefreshOnClose(castDefault(source.getRefreshOnClose(), false));
         if ((!Boolean.FALSE.equals(source.getRefreshAfterSubmit()) || pageContext.getRefreshOnClose())

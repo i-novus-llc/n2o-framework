@@ -58,6 +58,12 @@ public class N2oRouteRegister implements RouteRegister, N2oEventListener<Metadat
     }
 
     @Override
+    public CompileContext get(String urlPattern, Class<? extends Compiled> compiledClass) {
+        RouteInfoKey key = new RouteInfoKey(urlPattern, compiledClass);
+        return register.get(key);
+    }
+
+    @Override
     public void clearAll() {
         register.clear();
         repository.clearAll();

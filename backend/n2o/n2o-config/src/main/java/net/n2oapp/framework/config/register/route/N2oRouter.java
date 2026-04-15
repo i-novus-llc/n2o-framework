@@ -80,7 +80,7 @@ public class N2oRouter implements MetadataRouter {
                 continue;
 
             if (routeEntry.getValue() instanceof PageContext pageContext && pageContext.getSubRoutes() != null)
-                for (String subRoute : pageContext.getSubRoutes())
+                for (String subRoute : pageContext.getSubRoutes().keySet())
                     if (pathMatcher.match(subRoute, url))
                         return routeEntry.getValue();
 
@@ -125,7 +125,12 @@ public class N2oRouter implements MetadataRouter {
                 result = findRoute(subUrl, Page.class);
             }
             if (result != null) {
-                pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params))); //warm up
+                if (result instanceof  PageContext pageContext && pageContext.getSubRoutes() != null && ((PageContext) result).getSubRoutes().containsKey(subUrl)) {
+                    CompileContext<Page, ?> subPageMetadataContext = findRoute(((PageContext) result).getSubRoutes().get(subUrl), Page.class);
+                    pipeline.get(subPageMetadataContext, new N2oCompileProcessor(environment, subPageMetadataContext, subPageMetadataContext.getParams(url, params))); //warm up subPage
+                } else {
+                    pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params))); //warm up
+                }
             }
         } else {
             warmUpRootRoutes();

@@ -8,9 +8,12 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.NavRegion;
+import net.n2oapp.framework.autotest.api.component.region.NavRegion.AnchorItem;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.region.SubPageRegion;
@@ -189,6 +192,93 @@ class SubPageRegionAT extends AutoTestBase {
         toolbar.button("Видеозаписи").click();
         form.fields().field("video").control(OutputText.class).shouldHaveValue("VIDEO");
     }
+
+    @Test
+    void testSubPageInSubPage() {
+        setResourcePath("net/n2oapp/framework/autotest/region/subpage/subpage_in_subpage");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/subpage_in_subpage/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/subpage_in_subpage/open.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/subpage_in_subpage/user.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/subpage_in_subpage/info.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/subpage_in_subpage/friends.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/subpage_in_subpage/audio.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/subpage_in_subpage/video.page.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        // Переходим на страницу с вложенными sub-page
+        page.toolbar().topLeft().button("Открыть страницу").click();
+
+        StandardPage openPage = N2oSelenide.page(StandardPage.class);
+        openPage.shouldExists();
+        openPage.breadcrumb().crumb(1).shouldHaveLabel("Регион, обновляемый при частичной перезагрузке");
+
+        // Проверяем, что текст формы присутствует
+        FormWidget topForm = openPage.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
+        topForm.shouldExists();
+
+        // Получаем первый уровень sub-page (user)
+        StandardPage userPage = openPage.regions().region(1, SubPageRegion.class).content(StandardPage.class);
+        userPage.shouldExists();
+        userPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/info");
+        openPage.breadcrumb().crumb(2).shouldHaveLabel("Страница пользователя");
+
+        // Проверяем навигацию на странице user
+        NavRegion userNav = userPage.regions().region(0, NavRegion.class);
+        userNav.shouldExists();
+
+        // Получаем вложенный sub-page (второй уровень) - по умолчанию должен открыться info
+        SimplePage nestedSubPage = userPage.regions().region(2, SubPageRegion.class).content(SimplePage.class);
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/info");
+        openPage.breadcrumb().crumb(3).shouldHaveLabel("Информация");
+        FormWidget infoForm = nestedSubPage.widget(FormWidget.class);
+        infoForm.fields().field("field").control(OutputText.class).shouldHaveValue("INFO");
+
+        // Переходим на friends через ссылку на странице info
+        StandardPage infoPage = userPage.regions().region(2, SubPageRegion.class).content(StandardPage.class);
+        NavRegion infoNav = infoPage.regions().region(0, NavRegion.class);
+        infoNav.content().item(0, AnchorItem.class).click();
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/friends");
+        openPage.breadcrumb().crumb(3).shouldHaveLabel("Друзья");
+        infoForm.fields().field("field").control(OutputText.class).shouldHaveValue("FRIENDS");
+
+        // Переходим на friends через навигацию user (индекс 1)
+        userNav.content().item(1, AnchorItem.class).click();
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/friends");
+        openPage.breadcrumb().crumb(3).shouldHaveLabel("Друзья");
+        FormWidget friendsForm = nestedSubPage.widget(FormWidget.class);
+        friendsForm.fields().field("field").control(OutputText.class).shouldHaveValue("FRIENDS");
+
+        // Переходим на audio через навигацию user (индекс 2)
+        userNav.content().item(2, AnchorItem.class).click();
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/audio");
+        openPage.breadcrumb().crumb(3).shouldHaveLabel("Аудиозаписи");
+        FormWidget audioForm = nestedSubPage.widget(FormWidget.class);
+        audioForm.fields().field("field").control(OutputText.class).shouldHaveValue("AUDIO");
+
+        // Переходим на video через навигацию user (индекс 3)
+        userNav.content().item(3, AnchorItem.class).click();
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/video");
+        openPage.breadcrumb().crumb(3).shouldHaveLabel("Видеозаписи");
+        FormWidget videoForm = nestedSubPage.widget(FormWidget.class);
+        videoForm.fields().field("field").control(OutputText.class).shouldHaveValue("VIDEO");
+
+        // Проверяем переход по кнопке с open.page на video
+        topForm.fields().field("=> видеозаписи", ButtonField.class).click();
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/video");
+
+        // Проверяем переход на user2/video
+        topForm.fields().field("=> видеозаписи2", ButtonField.class).click();
+        userPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user2/video");
+
+        // Проверяем, что после обновления страницы открывается страница с VIDEO
+        Selenide.refresh();
+        nestedSubPage = userPage.regions().region(2, SubPageRegion.class).content(SimplePage.class);
+        nestedSubPage.widget(FormWidget.class).fields().field("field").control(OutputText.class).shouldHaveValue("VIDEO");
+    }
+
 
     /**
      * Проверяет попадание routable-параметров виджетов (фильтры, сортировки, пагинация),

@@ -58,5 +58,6 @@ public class RedisRouteRepository implements ConfigRepository<RouteInfoKey, Comp
     @Override
     public void clearAll() {
         redisTemplate.delete(hashKey);
+        log.info("Deleted all routes");
     }
 }

@@ -163,6 +163,7 @@ public class ApplicationCompiler implements BaseSourceCompiler<Application, N2oA
         String welcomePageId = castDefault(source.getWelcomePageId(),
                 () -> p.resolve(property("n2o.homepage.id"), String.class));
         PageContext context = new PageContext(welcomePageId, "/");
+        context.setRouteBeforeSubPages("/");
         p.addRoute(context);
     }
 

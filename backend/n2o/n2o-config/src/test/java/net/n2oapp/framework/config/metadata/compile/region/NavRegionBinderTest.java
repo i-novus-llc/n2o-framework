@@ -46,13 +46,13 @@ class NavRegionBinderTest extends SourceCompileTestBase {
 
         List<CompiledRegionItem> items = region.getContent();
         assertThat(((LinkAction) ((ButtonMenuItem) items.getFirst()).getAction()).getUrl(), is("/user/2/route1"));
-        assertThat(((LinkMenuItem) items.get(1)).getUrl(), is("/user/2/route2"));
+        assertThat(((LinkMenuItem) items.get(1)).getUrl(), is("./route2"));
         assertThat(((LinkAction) ((MenuItem) items.get(2)).getAction()).getUrl(), is("/user/2/route3"));
 
         ArrayList<BaseMenuItem> subItems = ((DropdownMenuItem) items.get(3)).getContent();
         assertThat(((LinkAction) ((ButtonMenuItem) subItems.getFirst()).getAction()).getUrl(), is("/user/2/route4"));
         subItems = ((GroupMenuItem) subItems.get(1)).getContent();
-        assertThat(((LinkMenuItem) subItems.getFirst()).getUrl(), is("/user/2/route5"));
+        assertThat(((LinkMenuItem) subItems.getFirst()).getUrl(), is("./route5"));
         assertThat(((LinkAction) ((MenuItem) subItems.get(1)).getAction()).getUrl(), is("/user/2/route6"));
     }
 }
