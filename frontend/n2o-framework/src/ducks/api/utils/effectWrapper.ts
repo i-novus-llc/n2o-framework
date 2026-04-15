@@ -3,6 +3,7 @@ import { put } from 'redux-saga/effects'
 import { Action } from '../../Action'
 import { failOperation, startOperation, successOperation } from '../Operation'
 import { logger } from '../../../utils/logger'
+import { endButtonOperation, startButtonOperation } from '../../toolbar/store'
 
 const getErrorMessage = (error: unknown): string => {
     if (!error) { return 'Unknown error' }
@@ -24,8 +25,11 @@ export function AsyncEffectWrapper<
     // eslint-disable-next-line consistent-return
     return function* wrappedEffect(...args: Parameters<typeof effect>) {
         const action = args[args.length - 1] as TAction
-        const { meta, type } = action
-        const operationId = meta?.operationId
+        const { meta = {}, type } = action
+        const { key, buttonId, operationId } = meta
+
+        // @ts-ignore fix buttonId type
+        if (key) { yield put(startButtonOperation({ key, buttonId, operationId: operationId || type })) }
 
         try {
             if (!operationId) {
@@ -48,6 +52,9 @@ export function AsyncEffectWrapper<
             } else {
                 logger.warn(`Saga effect<${action.type}> error: ${message}`)
             }
+        } finally {
+            // @ts-ignore fix buttonId type
+            if (key) { yield put(endButtonOperation({ key, buttonId, operationId: operationId || type })) }
         }
     }
 }
