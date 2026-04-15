@@ -12,7 +12,7 @@ import { executeExpression } from '../../core/Expression/execute'
 import { parseExpression } from '../../core/Expression/parse'
 import { setLocation, showPagePrompt } from '../pages/store'
 
-import { EffectWrapper } from './utils/effectWrapper'
+import { AsyncEffectWrapper } from './utils/effectWrapper'
 import { PAGE_PREFIX, INVALID_URL_MESSAGE } from './constants'
 import { stopTheSequence } from './utils/stopTheSequence'
 import { getAnchorPage } from './page/getAnchorPage'
@@ -139,7 +139,7 @@ export function* pagePromptEffect(action: Action<string, ClosePagePayload>) {
 }
 
 export const sagas = [
-    takeEvery(openPageCreator.type, EffectWrapper(openPageEffect)),
-    takeEvery(closePageCreator.type, EffectWrapper(closePageEffect)),
-    takeEvery(showPagePrompt, EffectWrapper(pagePromptEffect)),
+    takeEvery(openPageCreator.type, AsyncEffectWrapper(openPageEffect)),
+    takeEvery(closePageCreator.type, AsyncEffectWrapper(closePageEffect)),
+    takeEvery(showPagePrompt, AsyncEffectWrapper(pagePromptEffect)),
 ]

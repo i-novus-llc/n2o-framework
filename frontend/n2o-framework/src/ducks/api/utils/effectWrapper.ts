@@ -17,7 +17,7 @@ const getErrorMessage = (error: unknown): string => {
  * Обёртка над сагами, проверяющая наличие operationId в экшене
  * и запускающая экшены начала/конца работы операции
  */
-export function EffectWrapper<
+export function AsyncEffectWrapper<
     TAction extends Action,
     TAgs extends [...rest: unknown[], action: TAction],
 >(effect: (...args: TAgs) => unknown) {
@@ -51,3 +51,6 @@ export function EffectWrapper<
         }
     }
 }
+
+// TODO remove
+export const EffectWrapper = AsyncEffectWrapper

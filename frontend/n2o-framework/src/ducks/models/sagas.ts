@@ -3,7 +3,7 @@ import get from 'lodash/get'
 import isObject from 'lodash/isObject'
 import isEqual from 'lodash/isEqual'
 
-import { EffectWrapper } from '../api/utils/effectWrapper'
+import { AsyncEffectWrapper } from '../api/utils/effectWrapper'
 import { executeExpression } from '../../core/Expression/execute'
 import { logger } from '../../utils/logger'
 import { FormModelPrefix } from '../../core/models/types'
@@ -124,6 +124,6 @@ export function* copyAction({ payload, meta = {}, validate = true }: CopyAction)
 }
 
 export const modelSagas = [
-    takeEvery(copyModel, EffectWrapper(copyAction)),
+    takeEvery(copyModel, AsyncEffectWrapper(copyAction)),
     ...sagas,
 ]

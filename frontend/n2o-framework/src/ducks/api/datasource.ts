@@ -16,7 +16,7 @@ import { N2OAction } from '../Action'
 import { ContextType } from '../../core/datasource/ArrayField/Context'
 
 import { DATASOURCE_PREFIX } from './constants'
-import { EffectWrapper } from './utils/effectWrapper'
+import { AsyncEffectWrapper } from './utils/effectWrapper'
 
 export type Payload = {
     id: string
@@ -87,5 +87,5 @@ export function* effect({ payload, meta }: N2OAction<string, Payload>) {
 
 export const sagas = [
     // @ts-ignore проблема с типизацией saga
-    takeEvery(validateCreator.type, EffectWrapper(effect)),
+    takeEvery(validateCreator.type, AsyncEffectWrapper(effect)),
 ]

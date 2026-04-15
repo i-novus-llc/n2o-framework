@@ -18,7 +18,7 @@ import { setModel } from '../ducks/models/store'
 import { failInvoke, successInvoke } from '../actions/actionImpl'
 import { ModelPrefix } from '../core/datasource/const'
 import { endValidation, startValidate, submit } from '../ducks/datasource/store'
-import { EffectWrapper } from '../ducks/api/utils/effectWrapper'
+import { AsyncEffectWrapper } from '../ducks/api/utils/effectWrapper'
 import { type State } from '../ducks/State'
 import { type metaPropsType } from '../plugins/CommonMenuTypes'
 import { type DataSourceState } from '../ducks/datasource/DataSource'
@@ -195,7 +195,7 @@ export function* handleInvoke(
 
 export default (apiProvider: unknown) => [
     // @ts-ignore проблема с типизацией saga
-    takeEvery(START_INVOKE, EffectWrapper(handleInvoke), apiProvider),
+    takeEvery(START_INVOKE, AsyncEffectWrapper(handleInvoke), apiProvider),
     // @ts-ignore проблема с типизацией saga
     takeEvery(SUBMIT, function* submitSaga({ meta = {}, payload = {} }) {
         const { datasource } = payload
