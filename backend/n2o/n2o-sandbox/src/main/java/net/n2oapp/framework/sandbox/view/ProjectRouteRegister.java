@@ -26,6 +26,11 @@ public class ProjectRouteRegister implements RouteRegister {
     }
 
     @Override
+    public CompileContext<? extends Compiled, ?> get(String urlPattern, Class<? extends Compiled> compiledClass) {
+        return getProjectRegister().get(urlPattern, compiledClass);
+    }
+
+    @Override
     public void clearAll() {
         getProjectRegister().clearAll();
     }

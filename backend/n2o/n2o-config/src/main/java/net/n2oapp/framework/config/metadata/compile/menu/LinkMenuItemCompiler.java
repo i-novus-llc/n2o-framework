@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.menu.N2oLinkMenuItem;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.menu.LinkMenuItem;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -47,14 +46,7 @@ public class LinkMenuItemCompiler extends AbstractMenuItemCompiler<N2oLinkMenuIt
 
     private void compileHref(LinkMenuItem compiled, N2oLinkMenuItem source, CompileProcessor p) {
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-        String path = source.getHref();
-        if (!StringUtils.isLink(source.getHref())) {
-            if (TargetEnum.APPLICATION.equals(compiled.getTarget())) {
-                path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null);
-            }
-            path = RouteUtil.normalize(path);
-        }
-        String resolvedPath = p.resolveJS(path);
+        String resolvedPath = p.resolveJS(source.getHref());
         compiled.setUrl(resolvedPath);
         if (StringUtils.isJs(resolvedPath)) {
             if (compiled.getDatasource() == null) {

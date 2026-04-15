@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Регион, обновляемый при частичной перезагрузке">
+    <regions>
+        <form>
+            <fields>
+                <row>
+                    <text>Текст должен оставаться всегда видимым и не моргать при переходах</text>
+                    <button label="=> видеозаписи">
+                        <a href="./user/video" target="application"/>
+                    </button>
+                    <button label="=> видеозаписи2">
+                        <a href="./user2/video" target="application"/>
+                    </button>
+                </row>
+            </fields>
+        </form>
+        <sub-page default-page-id="user">
+            <page page-id="user" route="/user"/>
+            <page page-id="user" route="/user2"/>
+        </sub-page>
+    </regions>
+</page>

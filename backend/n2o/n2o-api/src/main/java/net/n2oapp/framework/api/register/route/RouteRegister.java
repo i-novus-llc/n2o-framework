@@ -19,6 +19,15 @@ public interface RouteRegister extends Iterable<Map.Entry<RouteInfoKey, CompileC
     void addRoute(String urlPattern, CompileContext<? extends Compiled, ?> context);
 
     /**
+     * Получение контекста по URL адресу
+     *
+     * @param urlPattern    Шаблон URL адреса метаданной
+     * @param compiledClass Класс собранной метаданной
+     * @return Контекст сборки метаданной или null, если не найден
+     */
+    CompileContext<? extends Compiled, ?> get(String urlPattern, Class<? extends Compiled> compiledClass);
+
+    /**
      * Удаление информации об адресах метаданных
      */
     void clearAll();

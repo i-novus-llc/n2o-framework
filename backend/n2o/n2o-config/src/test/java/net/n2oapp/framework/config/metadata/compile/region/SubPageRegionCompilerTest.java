@@ -60,45 +60,45 @@ class SubPageRegionCompilerTest extends SourceCompileTestBase {
 
         SubPageRegion region = (SubPageRegion) page.getRegions().get("single").getFirst();
         assertThat(region.getSrc(), is("SubPage"));
-        assertThat(region.getDefaultPageId(), is("user_subpage2"));
+        assertThat(region.getDefaultPageId(), is("user_sp_route22"));
         assertThat(region.getClassName(), is("test"));
         assertThat(region.getStyle(), is(Map.of("color", "red")));
 
         checkPage(region);
         // Проверка построения контекста первой подстраницы
         checkPageContext();
-        assertThat(parentPageContext.getSubRoutes(), is(List.of(
-                "/user/*/route1", "/user/*/route2",
-                "/user/*/route3/subroute", "/user/*/route4"))
-        );
+        assertThat(parentPageContext.getSubRoutes().get("/user/*/route1"), is("/user/:parentId/sp_route11"));
+        assertThat(parentPageContext.getSubRoutes().get("/user/*/route2"), is("/user/:parentId/sp_route22"));
+        assertThat(parentPageContext.getSubRoutes().get("/user/*/route4"), is("/user/:parentId/sp_route44"));
+        assertThat(parentPageContext.getSubRoutes().get("/user/*/route3/subroute"), is("/user/:parentId/sp_subroute3"));
     }
 
     private static void checkPage(SubPageRegion region) {
         List<SubPageRegion.Page> pages = region.getPages();
         assertThat(pages.size(), is(4));
-        assertThat(pages.get(0).getId(), is("user_subpage1"));
-        assertThat(pages.get(0).getRoute(), is("./route1"));
-        assertThat(pages.get(0).getUrl(), is("/user/:parentId/subpage1"));
+        assertThat(pages.getFirst().getId(), is("user_sp_route11"));
+        assertThat(pages.getFirst().getRoute(), is("./route1"));
+        assertThat(pages.getFirst().getUrl(), is("/user/:parentId/sp_route11"));
 
-        assertThat(pages.get(1).getId(), is("user_subpage2"));
+        assertThat(pages.get(1).getId(), is("user_sp_route22"));
         assertThat(pages.get(1).getRoute(), is("./route2"));
-        assertThat(pages.get(1).getUrl(), is("/user/:parentId/subpage2"));
+        assertThat(pages.get(1).getUrl(), is("/user/:parentId/sp_route22"));
 
-        assertThat(pages.get(2).getId(), is("user_subpage3"));
+        assertThat(pages.get(2).getId(), is("user_sp_subroute3"));
         assertThat(pages.get(2).getRoute(), is("./route3/subroute"));
-        assertThat(pages.get(2).getUrl(), is("/user/:parentId/subpage3"));
+        assertThat(pages.get(2).getUrl(), is("/user/:parentId/sp_subroute3"));
 
-        assertThat(pages.get(3).getId(), is("user_subpage4"));
+        assertThat(pages.get(3).getId(), is("user_sp_route44"));
         assertThat(pages.get(3).getRoute(), is("./route4"));
-        assertThat(pages.get(3).getUrl(), is("/user/:parentId/subpage4"));
+        assertThat(pages.get(3).getUrl(), is("/user/:parentId/sp_route44"));
     }
 
     private void checkPageContext() {
-        PageContext pageContext = (SubPageContext) route("/user/:parentId/subpage1", Page.class);
+        PageContext pageContext = (SubPageContext) route("/user/:parentId/sp_route11", Page.class);
         assertThat(pageContext.getParentRoute(), is("/user/:parentId"));
         assertThat(pageContext.getParentClientPageId(), is("user"));
         assertThat(pageContext.getParentRoutes().size(), is(1));
-        assertThat(pageContext.getParentRoutes().get(0), is("/user/:parentId"));
+        assertThat(pageContext.getParentRoutes().getFirst(), is("/user/:parentId"));
 
         Map<String, ModelLink> pathMappings = pageContext.getPathRouteMapping();
         assertThat(pathMappings.size(), is(1));
@@ -112,13 +112,13 @@ class SubPageRegionCompilerTest extends SourceCompileTestBase {
         assertThat(parentDatasourceIdsMap.get("ds1"), is("user_ds1"));
         List<N2oAbstractDatasource> datasources = pageContext.getDatasources();
         assertThat(datasources.size(), is(1));
-        assertThat(datasources.get(0), instanceOf(N2oInheritedDatasource.class));
+        assertThat(datasources.getFirst(), instanceOf(N2oInheritedDatasource.class));
 
         List<Breadcrumb> breadcrumbs = pageContext.getBreadcrumbs();
         assertThat(pageContext.getBreadcrumbFromParent(), is(true));
         assertThat(breadcrumbs.size(), is(2));
-        assertThat(breadcrumbs.get(0).getLabel(), is("Первая страница"));
-        assertThat(breadcrumbs.get(0).getPath(), is("../"));
+        assertThat(breadcrumbs.getFirst().getLabel(), is("Первая страница"));
+        assertThat(breadcrumbs.getFirst().getPath(), is("../"));
         assertThat(breadcrumbs.get(1).getLabel(), is("Вторая страница"));
         assertThat(breadcrumbs.get(1).getPath(), is("#"));
 
@@ -128,8 +128,8 @@ class SubPageRegionCompilerTest extends SourceCompileTestBase {
 
         List<N2oToolbar> toolbars = pageContext.getToolbars();
         assertThat(toolbars.size(), is(1));
-        assertThat(toolbars.get(0).getPlace(), is("bottomRight"));
-        assertThat(((N2oButton) toolbars.get(0).getItems()[0]).getLabel(), is("Сохранить"));
-        assertThat(((N2oButton) toolbars.get(0).getItems()[0]).getActionId(), is("saveAction"));
+        assertThat(toolbars.getFirst().getPlace(), is("bottomRight"));
+        assertThat(((N2oButton) toolbars.getFirst().getItems()[0]).getLabel(), is("Сохранить"));
+        assertThat(((N2oButton) toolbars.getFirst().getItems()[0]).getActionId(), is("saveAction"));
     }
 }

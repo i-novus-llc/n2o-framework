@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Страница пользователя">
+    <regions>
+        <nav>
+            <link href="./info" label="Инфо" target="application"/>
+            <link href="./friends" label="Друзья" target="application"/>
+            <link href="./audio" label="Аудиозаписи" target="application"/>
+            <link href="./video" label="Видеозаписи" target="application"/>
+        </nav>
+        <form>
+            <fields>
+                <hidden id="field" default-value="1"/>
+                <alert color="info" text="Кнопки навигации меняют урл, обновляя при этом лишь часть страницы и хлебные крошки"/>
+            </fields>
+        </form>
+        <sub-page>
+            <page page-id="info" route="./info"/>
+            <page page-id="friends" route="./friends"/>
+            <page page-id="audio" route="./audio"/>
+            <page page-id="video" route="./video"/>
+        </sub-page>
+    </regions>
+</page>

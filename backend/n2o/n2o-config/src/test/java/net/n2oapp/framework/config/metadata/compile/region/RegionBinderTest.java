@@ -41,11 +41,11 @@ class RegionBinderTest extends SourceCompileTestBase {
                 bind("net/n2oapp/framework/config/metadata/compile/region/testSubPageRegionBinder.page.xml");
         PageContext context = new PageContext("testSubPageRegionBinder", "/user/:parentId");
         Region region = (((StandardPage) pipeline.get(context, new DataSet("parentId", 2)))
-                .getRegions().get("single").get(0));
-        assertThat(((SubPageRegion) region).getPages().get(0).getUrl(), is("/user/2/subpage1"));
+                .getRegions().get("single").getFirst());
+        assertThat(((SubPageRegion) region).getPages().getFirst().getUrl(), is("/user/2/sp_route11"));
         region = (((StandardPage) pipeline.get(context, new DataSet("parentId", 2)))
                 .getRegions().get("single").get(1));
-        assertThat(((SubPageRegion) region.getContent().get(0)).getPages().get(0).getUrl(), is("/user/2/subpage1"));
+        assertThat(((SubPageRegion) region.getContent().getFirst()).getPages().getFirst().getUrl(), is("/user/2/sp_route11"));
     }
 
     @Test
@@ -55,8 +55,8 @@ class RegionBinderTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testScrollspyBinder", "/user/:parentId");
 
         ScrollspyRegion region = (ScrollspyRegion) ((StandardPage) pipeline.get(context, new DataSet("parentId", 2)))
-                .getRegions().get("single").get(0);
-        SingleScrollspyElement element = (SingleScrollspyElement) ((MenuScrollspyElement)((GroupScrollspyElement) region.getMenu().get(0)).getGroup().get(0)).getMenu().get(0);
-        assertThat(((SubPageRegion) element.getContent().get(0)).getPages().get(0).getUrl(), is("/user/2/subpage1"));
+                .getRegions().get("single").getFirst();
+        SingleScrollspyElement element = (SingleScrollspyElement) ((MenuScrollspyElement)((GroupScrollspyElement) region.getMenu().getFirst()).getGroup().getFirst()).getMenu().getFirst();
+        assertThat(((SubPageRegion) element.getContent().getFirst()).getPages().getFirst().getUrl(), is("/user/2/sp_route11"));
     }
 }
