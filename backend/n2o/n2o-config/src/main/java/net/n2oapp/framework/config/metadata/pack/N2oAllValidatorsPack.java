@@ -23,10 +23,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.page.*;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.regions.*;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.*;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.BlockValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.FilterColumnValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.MultiColumnValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.SimpleColumnValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.widget.columns.*;
 
 /**
  * Набор стандартных валидаторов метаданных
@@ -55,9 +52,9 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
                 new MarkdownValidator(), new TilesValidator(), new ListWidgetValidator(),
                 new CardsValidator(), new TabsValidator(), new ScrollspyValidator(), new SwitchCellValidator(),
                 new LinkCellValidator(), new BadgeCellValidator(), new IconCellValidator(), new EditCellValidator(),
-                new ActionCellValidator(),
-                new ToolbarCellValidator(), new ListCellValidator(), new MultiColumnValidator(), new SimpleColumnValidator(),
-                new FilterColumnValidator(), new BlockValidator(), new DateIntervalValidator(), new IntervalFieldValidator(),
+                new ActionCellValidator(), new ToolbarCellValidator(), new ListCellValidator(),
+                new MultiColumnValidator(), new SimpleColumnValidator(), new FilterColumnValidator(), new DndColumnValidator(),
+                new BlockValidator(), new DateIntervalValidator(),new IntervalFieldValidator(),
                 new MenuItemValidator(),
                 new NavRegionValidator(), new PanelRegionValidator(), new CustomRegionValidator(), new LineRegionValidator(),
                 new RowRegionValidator(), new FlexRowRegionValidator(), new ColRegionValidator(),
