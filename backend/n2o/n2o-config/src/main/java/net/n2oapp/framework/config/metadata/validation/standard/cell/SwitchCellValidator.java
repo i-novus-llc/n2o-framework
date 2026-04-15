@@ -37,5 +37,7 @@ public class SwitchCellValidator implements SourceValidator<N2oSwitchCell>, Sour
                 p.validate(c.getItem(), widgetScope);
         });
 
+        if (source.getDefaultCase() != null)
+            p.validate(source.getDefaultCase(), widgetScope);
     }
 }
