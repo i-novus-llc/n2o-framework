@@ -3,6 +3,7 @@ import { put } from 'redux-saga/effects'
 import { Action } from '../../Action'
 import { failOperation, startOperation, successOperation } from '../Operation'
 import { logger } from '../../../utils/logger'
+import { endButtonOperation, startButtonOperation } from '../../toolbar/store'
 
 const getErrorMessage = (error: unknown): string => {
     if (!error) { return 'Unknown error' }
@@ -17,15 +18,18 @@ const getErrorMessage = (error: unknown): string => {
  * Обёртка над сагами, проверяющая наличие operationId в экшене
  * и запускающая экшены начала/конца работы операции
  */
-export function EffectWrapper<
+export function AsyncEffectWrapper<
     TAction extends Action,
     TAgs extends [...rest: unknown[], action: TAction],
 >(effect: (...args: TAgs) => unknown) {
     // eslint-disable-next-line consistent-return
     return function* wrappedEffect(...args: Parameters<typeof effect>) {
         const action = args[args.length - 1] as TAction
-        const { meta, type } = action
-        const operationId = meta?.operationId
+        const { meta = {}, type } = action
+        const { key, buttonId, operationId } = meta
+
+        // @ts-ignore fix buttonId type
+        if (key) { yield put(startButtonOperation({ key, buttonId, operationId: operationId || type })) }
 
         try {
             if (!operationId) {
@@ -48,6 +52,12 @@ export function EffectWrapper<
             } else {
                 logger.warn(`Saga effect<${action.type}> error: ${message}`)
             }
+        } finally {
+            // @ts-ignore fix buttonId type
+            if (key) { yield put(endButtonOperation({ key, buttonId, operationId: operationId || type })) }
         }
     }
 }
+
+// TODO remove
+export const EffectWrapper = AsyncEffectWrapper

@@ -11,7 +11,7 @@ import {
     clearModel,
     removeAllModel,
 } from '../models/store'
-import { EffectWrapper } from '../api/utils/effectWrapper'
+import { AsyncEffectWrapper } from '../api/utils/effectWrapper'
 import { ModelPrefix } from '../../core/datasource/const'
 import { subscribe } from '../models/sagas/subscribe'
 
@@ -68,7 +68,7 @@ export function* removeSaga({ payload }: RemoveAction) {
     yield put(removeAllModel(id))
 }
 
-const queryWrapper = EffectWrapper((apiProvider: unknown, action: DataRequestAction) => query(action, apiProvider))
+const queryWrapper = AsyncEffectWrapper((apiProvider: unknown, action: DataRequestAction) => query(action, apiProvider))
 
 // Обёртка над dataRequestSaga для сохранения сылк на задачу, которую надо будет отменить в случае дестроя DS
 export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAction) {
@@ -98,7 +98,7 @@ export default (apiProvider: unknown) => [
     }),
     takeEvery(startValidate, validateSaga),
     // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
-    takeEvery(submit, EffectWrapper(submitSaga), apiProvider),
+    takeEvery(submit, AsyncEffectWrapper(submitSaga), apiProvider),
     takeEvery(remove, removeSaga),
     takeEvery(register, function* fetchOnInit({ payload }: RegisterAction) {
         const { id, initProps } = payload

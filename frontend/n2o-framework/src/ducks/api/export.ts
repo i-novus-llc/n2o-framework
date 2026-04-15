@@ -17,7 +17,7 @@ import { linkResolver, type LinkProps } from '../../utils/linkResolver'
 import { startButtonOperation, endButtonOperation } from '../toolbar/store'
 
 import { UTILS_PREFIX } from './constants'
-import { EffectWrapper } from './utils/effectWrapper'
+import { AsyncEffectWrapper } from './utils/effectWrapper'
 
 const ATTRIBUTES_ERROR = 'Ошибка экспорта, payload содержит не все параметры'
 const PARAMS_ERROR = 'Ошибка экспорта, не передан формат или кодировка'
@@ -247,4 +247,4 @@ export function* effect({ payload, meta = {} }: Action<string, Payload>) {
     }))
 }
 
-export const sagas = [takeEvery(creator.type, EffectWrapper(effect))]
+export const sagas = [takeEvery(creator.type, AsyncEffectWrapper(effect))]

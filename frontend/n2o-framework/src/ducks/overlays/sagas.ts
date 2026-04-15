@@ -3,7 +3,7 @@ import get from 'lodash/get'
 import { LOCATION_CHANGE } from 'connected-react-router'
 
 import { dataRequest } from '../datasource/store'
-import { EffectWrapper } from '../api/utils/effectWrapper'
+import { AsyncEffectWrapper } from '../api/utils/effectWrapper'
 import { stopTheSequence } from '../api/utils/stopTheSequence'
 import { resetPage } from '../pages/store'
 import { type Reset } from '../pages/Actions'
@@ -70,7 +70,7 @@ function* onCloseEffects() {
     // @ts-ignore проблемы с типизацией saga
     yield takeEvery([insertOverlay, insertDrawer], getClose)
 
-    yield takeEvery(closePageCreator.type, EffectWrapper(onClose))
+    yield takeEvery(closePageCreator.type, AsyncEffectWrapper(onClose))
 }
 
 export function* closePageOverlays({ payload: pageId }: Reset) {
@@ -88,7 +88,7 @@ export function* closePageOverlays({ payload: pageId }: Reset) {
 }
 
 export const overlaysSagas = [
-    takeEvery([insertOverlay, insertDrawer], EffectWrapper(stopTheSequence)),
+    takeEvery([insertOverlay, insertDrawer], AsyncEffectWrapper(stopTheSequence)),
     takeEvery(
         // @ts-ignore проблемы с типизацией saga
         action => (

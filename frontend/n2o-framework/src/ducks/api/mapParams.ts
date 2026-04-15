@@ -9,7 +9,7 @@ import { DataSourceState } from '../datasource/DataSource'
 import { SortDirection } from '../../core/datasource/const'
 
 import { DATASOURCE_PREFIX } from './constants'
-import { EffectWrapper } from './utils/effectWrapper'
+import { AsyncEffectWrapper } from './utils/effectWrapper'
 
 function getValue(key: string, hash: string) {
     const cleanKey = key.slice(1)
@@ -51,4 +51,4 @@ export function* mapParams({ payload }: MapParamAction) {
     }
 }
 
-export const sagas = [takeEvery(creator.type, EffectWrapper(mapParams))]
+export const sagas = [takeEvery(creator.type, AsyncEffectWrapper(mapParams))]
