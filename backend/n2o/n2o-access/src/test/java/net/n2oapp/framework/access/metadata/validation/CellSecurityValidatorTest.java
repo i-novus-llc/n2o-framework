@@ -51,6 +51,15 @@ class CellSecurityValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
+    void testDndColumnCellSecurityWithoutBehavior() {
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/access/metadata/validation/dndColumnCellSecurityInvalidNoBehavior.page.xml"));
+        assertEquals("Для ячейки с security атрибутами необходимо указать sec:behavior=\"disable\" " +
+                "или поведение disable должно быть задано по умолчанию настройкой n2o.access.behavior", exception.getMessage());
+    }
+
+    @Test
     void testCellSecurityWithBehaviorHide() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,
