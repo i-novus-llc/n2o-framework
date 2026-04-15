@@ -31,6 +31,8 @@ public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oIn
         p.attributeBoolean(e, "use-fail-out", ia::getUseFailOut, ia::setUseFailOut);
         p.attributeEnum(e, "message-position", ia::getMessagePosition, ia::setMessagePosition, MessagePositionEnum.class);
         p.attributeEnum(e, "message-placement", ia::getMessagePlacement, ia::setMessagePlacement, MessagePlacementEnum.class);
+        p.attribute(e, "datasource", ia::getDatasourceId, ia::setDatasourceId);
+        p.attributeEnum(e, "model", ia::getModel, ia::setModel, ReduxModelEnum.class);
 
         p.children(e, null, "form-param", ia::getFormParams, ia::setFormParams, N2oFormParam::new, this::formParam);
         p.children(e, null, "path-param", ia::getPathParams, ia::setPathParams, N2oParam::new, this::param);

@@ -9,7 +9,7 @@
         </toolbar>
         <actions>
             <action id="testDefault">
-                <invoke operation-id="create"/>
+                <invoke operation-id="create" datasource="ds1" model="datasource"/>
             </action>
             <action id="testPut">
                 <invoke operation-id="update" route="/:id" method="PUT">

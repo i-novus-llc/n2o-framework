@@ -54,8 +54,8 @@ public class InvokeActionCompiler extends AbstractMetaActionCompiler<InvokeActio
         invokeAction.setOperationId(source.getOperationId());
         invokeAction.setType(getType(p));
 
-        invokeAction.getPayload().setModel(ActionCompileStaticProcessor.getModelFromComponentScope(p));
-        invokeAction.getPayload().setDatasource(getClientDatasourceId(getLocalDatasourceId(p), p));
+        invokeAction.getPayload().setModel(castDefault(source.getModel(), ActionCompileStaticProcessor.getModelFromComponentScope(p)));
+        invokeAction.getPayload().setDatasource(getClientDatasourceId(castDefault(source.getDatasourceId(), getLocalDatasourceId(p)), p));
         invokeAction.getPayload().setWidgetId(getClientDatasourceId(getWidgetIdByComponentScope(p), p));
         invokeAction.getPayload().setPageId(getPageId(p));
 
