@@ -95,14 +95,14 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testInvokeActionMethod", "/w"));
         Table table = (Table) page.getWidget();
         InvokeAction testAction;
-        testAction = (InvokeAction) table.getToolbar().getButton("testDefault").getAction();
+        testAction = (InvokeAction) table.getToolbar().getButton("testDefault_0").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethodEnum.POST));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDefault"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getPayload().getDataProvider().getPathMapping().size(), is(0));
 
-        testAction = (InvokeAction) table.getToolbar().getButton("testPut").getAction();
+        testAction = (InvokeAction) table.getToolbar().getButton("testPut_2").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(testAction.getPayload().getDatasource(), is("w_w1"));
@@ -114,7 +114,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(pathMapping.get("id").getLink(), is("models.resolve['w_w1']"));
         assertThat(pathMapping.get("id").getValue(), is("`id`"));
 
-        testAction = (InvokeAction) table.getToolbar().getButton("testDelete").getAction();
+        testAction = (InvokeAction) table.getToolbar().getButton("testDelete_4").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(testAction.getPayload().getDatasource(), is("w_w1"));
@@ -131,7 +131,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         context.setRefreshClientDataSourceIds(dataSources);
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.page.xml")
                 .get(context);
-        InvokeAction testAction = (InvokeAction) page.getWidget().getToolbar().getButton("save").getAction();
+        InvokeAction testAction = (InvokeAction) page.getWidget().getToolbar().getButton("save_0").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getMeta().getSuccess().getRefresh().getDatasources(), is(dataSources));
     }
@@ -193,7 +193,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
     void pageAction() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testPageInvokeAction.page.xml")
                 .get(new PageContext("testPageInvokeAction", "/p"));
-        InvokeAction testAction = (InvokeAction) page.getToolbar().getButton("test").getAction();
+        InvokeAction testAction = (InvokeAction) page.getToolbar().getButton("test_0").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
     }
@@ -211,7 +211,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(actionContext2.getOperationMapping().containsKey("fpGender.id"), is(false));
 
         //filter model
-        InvokeAction testAction = (InvokeAction) table.getToolbar().getButton("test").getAction();
+        InvokeAction testAction = (InvokeAction) table.getToolbar().getButton("test_0").getAction();
         ClientDataProvider provider1 = testAction.getPayload().getDataProvider();
         assertThat(provider1.getSubmitForm(), is(true));
         assertThat(provider1.getFormMapping().size(), is(1));

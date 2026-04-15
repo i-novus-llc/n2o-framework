@@ -45,7 +45,7 @@ class SetValueActionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testSetValueAction", "/w"));
 
         Form table = (Form) page.getRegions().get("single").get(0).getContent().get(0);
-        SetValueAction testAction = (SetValueAction) table.getToolbar().getButton("test").getAction();
+        SetValueAction testAction = (SetValueAction) table.getToolbar().getButton("test_0").getAction();
         assertThat(testAction.getType(), is("n2o/models/COPY"));
         assertThat(testAction.getValidate(), is(true));
         assertThat(testAction.getPayload().getSource().getKey(), is("w_list"));
