@@ -2,27 +2,12 @@ import React, { ReactNode, useCallback, MouseEvent, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { Spinner, SpinnerType } from '../../layouts/Spinner/Spinner'
-import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../utils/emptyTypes'
+import { EMPTY_ARRAY, EMPTY_OBJECT, NOOP_FUNCTION } from '../../utils/emptyTypes'
+import { Icon } from '../../display/Icon'
+import { type InputElementsProps, ShowClearTrigger, DefaultIcons, getShowClearTriggerClass } from '../inputElements/inputElements'
 
 import { InputAddon } from './InputAddon'
-import { TOption } from './types'
-
-// TODO временное решение для изменения ui элементов внутри input
-export interface InputElementsProps {
-    spinner?: ReactNode | {
-        color?: string
-    }
-    buttons?: {
-        // иконки управление инпутом
-        up?: string | ReactNode
-        down?: string | ReactNode
-        clear?: string | ReactNode
-    }
-    item?: {
-        // иконка удаления элемента
-        close?: ReactNode | string
-    }
-}
+import { type TOption } from './types'
 
 interface Props {
     children: ReactNode
@@ -42,6 +27,7 @@ interface Props {
     onClick?(): void
     selected?: TOption[]
     setSelectedItemsRef?(): void
+    showClearTrigger?: ShowClearTrigger
     withoutButtons?: boolean
 }
 
@@ -49,11 +35,7 @@ interface RenderButtonProps {
     loading: boolean
     hidePopUp(): void
     spinner?: ReactNode | { color?: string }
-    buttons?: {
-        up?: string | ReactNode
-        down?: string | ReactNode
-        clear?: string | ReactNode
-    }
+    buttons?: InputElementsProps['buttons']
     isExpanded?: boolean
 }
 
@@ -132,9 +114,10 @@ export function InputSelectGroup({
     hidePopUp = NOOP_FUNCTION,
     disabled = false,
     setSelectedItemsRef,
+    showClearTrigger = ShowClearTrigger.HOVER,
     withoutButtons = false,
     onClick = NOOP_FUNCTION,
-    inputElements = {},
+    inputElements = EMPTY_OBJECT,
 }: Props) {
     const clearClickHandler = useCallback((evt: MouseEvent<HTMLElement>) => {
         evt.stopPropagation()
@@ -143,21 +126,8 @@ export function InputSelectGroup({
 
     const displayAddon = !multiSelect && !!selected?.length && (iconFieldId || imageFieldId)
 
-    const { spinner, buttons } = inputElements
-
-    const renderClearButton = (): ReactElement => {
-        const clearButton = buttons?.clear
-
-        if (typeof clearButton === 'string') {
-            return <i className={clearButton} aria-hidden="true" />
-        }
-
-        if (clearButton && React.isValidElement(clearButton)) {
-            return clearButton as ReactElement
-        }
-
-        return <i className="fa fa-times" aria-hidden="true" />
-    }
+    const { spinner, buttons = {} } = inputElements
+    const { clear = DefaultIcons.CLEAR } = buttons
 
     return (
         <div
@@ -180,9 +150,12 @@ export function InputSelectGroup({
                     {!loading && (selected?.length || input) && cleanable && (
                         <div
                             className={classNames('n2o-input-clear', { 'input-in-focus': inputFocus })}
-                            onClick={clearClickHandler}
                         >
-                            {renderClearButton()}
+                            <Icon
+                                name={clear}
+                                className={getShowClearTriggerClass(showClearTrigger)}
+                                onClick={clearClickHandler}
+                            />
                         </div>
                     )}
                     <div className={classNames('n2o-popup-control', { isExpanded })}>

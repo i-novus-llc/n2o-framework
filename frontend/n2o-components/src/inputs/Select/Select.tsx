@@ -6,12 +6,15 @@ import first from 'lodash/first'
 import isEmpty from 'lodash/isEmpty'
 import find from 'lodash/find'
 import { Button } from 'reactstrap'
+import classNames from 'classnames'
 
 import { InputSelectGroup } from '../InputSelect/InputSelectGroup'
 import { TOption } from '../InputSelect/types'
 import { PopupList } from '../InputSelect/PopupList'
 import { WithPopUpHeight } from '../WithPopUpHeight'
 import { InputContent } from '../InputSelect/InputContent'
+import { ShowClearTrigger } from '../inputElements/inputElements'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { getNoun } from './utils'
 import { Popup } from './Popup'
@@ -442,6 +445,8 @@ class SelectComponent extends React.Component<Props, State> {
             popUpItemRef,
             popUpStyle,
             onFocus,
+            showClearTrigger = ShowClearTrigger.HOVER,
+            inputElements = EMPTY_OBJECT,
         } = this.props
         const inputSelectStyle = { width: '100%', ...style }
 
@@ -460,7 +465,7 @@ class SelectComponent extends React.Component<Props, State> {
             >
                 <Button innerRef={this.setControlRef} onClick={this.handleButtonClick} onKeyDown={onKeyDown}>
                     <InputSelectGroup
-                        className={className}
+                        className={classNames(className, { focus: isExpanded })}
                         isExpanded={isExpanded}
                         loading={loading}
                         disabled={disabled}
@@ -469,6 +474,9 @@ class SelectComponent extends React.Component<Props, State> {
                         cleanable={cleanable}
                         selected={selected}
                         onClearClick={this.clearSelected}
+                        showClearTrigger={showClearTrigger}
+                        inputFocus={isExpanded}
+                        inputElements={inputElements}
                     >
                         <InputContent
                             onFocus={onFocus}

@@ -64,3 +64,20 @@
         font-size: 14px;
     }
 }
+
+.n2o-select-tree:hover {
+    .show-clear-trigger-hover {
+        display: block;
+    }
+}
+
+.n2o-select-tree-focused {
+    .show-clear-trigger-focus {
+        display: block;
+    }
+}
+
+// @INFO если нужно будет отключить показ clear trigger-hover при наведении на popup
+//.n2o-select-tree:has(.n2o-select-tree-dropdown:hover) .n2o-select-tree-clear .show-clear-trigger-hover {
+//    display: none;
+//}

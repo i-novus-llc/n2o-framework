@@ -12,18 +12,17 @@ import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
 import onClickOutsideHOC from 'react-onclickoutside'
 
-import { TOption, getSearchMinLengthHintType } from '../InputSelect/types'
+import { type TOption, getSearchMinLengthHintType } from '../InputSelect/types'
 import { Icon } from '../../display/Icon'
 import { InlineSpinner } from '../../layouts/Spinner/InlineSpinner'
 import { Checkbox } from '../Checkbox/Checkbox'
-import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../utils/emptyTypes'
+import { EMPTY_ARRAY, EMPTY_OBJECT, NOOP_FUNCTION } from '../../utils/emptyTypes'
+import { getShowClearTriggerClass, type InputElementsProps, ShowClearTrigger, DefaultIcons } from '../inputElements/inputElements'
 
 import { type Options, TreeNode } from './TreeSelectNode'
 import { visiblePartPopup, getCheckedStrategy } from './helpers'
 
-const renderSwitcherIcon = ({ isLeaf }: { isLeaf: boolean }) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getPopupContainer = (container: any) => container
+const getPopupContainer = (container: HTMLElement) => container
 /**
  * Взять данные по ids.
  * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
@@ -99,6 +98,7 @@ function InputSelectTree({
     enabledFieldId,
     iconFieldId = 'icon',
     imageFieldId = 'image',
+    inputElements = EMPTY_OBJECT,
     badge = {
         fieldId: 'badge',
         colorFieldId: 'color',
@@ -119,6 +119,7 @@ function InputSelectTree({
     maxTagTextLength = 10,
     maxTagCount,
     searchMinLength,
+    showClearTrigger = ShowClearTrigger.HOVER,
     getSearchMinLengthHint,
     disabled = false,
 }: Props) {
@@ -274,13 +275,6 @@ function InputSelectTree({
         treeExpandedKeys.current = keys
     }, [ajax, fetchData])
 
-    const clearIcon = (
-        <Icon
-            onClick={clearSearch}
-            name="fa fa-times n2o-input-select-tree__clear-icon"
-        />
-    )
-
     const maxTagPlaceholder = useCallback((options = []) => {
         if (maxTagCount) { return `+ ${options.length}...` }
 
@@ -299,6 +293,19 @@ function InputSelectTree({
         return notFoundContent
     }
 
+    const { buttons = {}, item = {} } = inputElements
+
+    const {
+        clear = `${DefaultIcons.CLEAR} n2o-input-select-tree__clear-icon`,
+        down = DefaultIcons.SUFFIX,
+        switcher = DefaultIcons.SWITCHER,
+    } = buttons
+
+    const { close = DefaultIcons.CLEAR } = item
+
+    const renderSwitcherIcon = ({ isLeaf }: { isLeaf: boolean }) => <Icon name={isLeaf ? null : switcher} />
+
+    // TODO добавить возможность отображения clear при фокусе для Pks. + i select
     return (
         <div className={classNames(
             'n2o-select-tree-container',
@@ -312,8 +319,16 @@ function InputSelectTree({
                 allowClear={!isEmpty(value)}
                 value={rcValue}
                 onDropdownVisibleChange={handleDropdownVisibleChange}
-                switcherIcon={renderSwitcherIcon}
-                suffixIcon={!disabled && <Icon name="fa fa-chevron-down" />}
+                clearIcon={(
+                    <Icon
+                        className={getShowClearTriggerClass(showClearTrigger)}
+                        name={clear}
+                        onClick={clearSearch}
+                    />
+                )} // иконка очищения инпута
+                removeIcon={<Icon name={close} />} // иконка удаления элемента в инпуте
+                suffixIcon={<Icon name={disabled ? null : down} />} // иконка справа
+                switcherIcon={renderSwitcherIcon} // иконка разворачивания/сворачивания элементов в списке
                 multiple={multiSelect}
                 treeCheckable={hasCheckboxes && <Checkbox preventDefault inline />}
                 treeData={treeData}
@@ -323,8 +338,6 @@ function InputSelectTree({
                 maxTagTextLength={maxTagTextLength}
                 maxTagCount={maxTagCount}
                 maxTagPlaceholder={maxTagPlaceholder}
-                clearIcon={clearIcon} // иконка очищения всего инпута
-                removeIcon={isEmpty(value) ? null : clearIcon} // иконка очищения итема
                 onChange={handleChange}
                 onSearch={handleSearch}
                 onKeyDown={onKeyDown}
@@ -359,6 +372,7 @@ export interface Props {
     imageFieldId: string
     labelFieldId: string
     inputLabelFieldId?: string
+    inputElements?: InputElementsProps
     enabledFieldId: string
     loading: boolean
     maxTagTextLength: number
@@ -377,6 +391,7 @@ export interface Props {
     parentFieldId: string
     placeholder: string
     showCheckedStrategy: string
+    showClearTrigger: ShowClearTrigger
     t(arg: string): void
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value?: any

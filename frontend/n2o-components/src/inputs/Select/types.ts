@@ -2,6 +2,7 @@ import { KeyboardEvent } from 'react'
 
 import { BadgeType } from '../InputSelect/PopupList'
 import { Filter, TOption, PopUpProps } from '../InputSelect/types'
+import {InputElementsProps, ShowClearTrigger} from '../inputElements/inputElements'
 
 export interface State {
     input?: string
@@ -14,6 +15,8 @@ export interface State {
 }
 
 export interface Props {
+    showClearTrigger?: ShowClearTrigger
+    inputElements?: InputElementsProps
     popUpItemRef: PopUpProps['popUpItemRef']
     popUpStyle: PopUpProps['popUpStyle']
     /**

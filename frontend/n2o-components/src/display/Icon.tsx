@@ -1,4 +1,4 @@
-import React, { ComponentProps, isValidElement, ReactNode } from 'react'
+import React, { ComponentProps, isValidElement, ReactNode, cloneElement, ReactElement } from 'react'
 import classNames from 'classnames'
 
 type Props = ComponentProps<'i'> & {
@@ -6,19 +6,26 @@ type Props = ComponentProps<'i'> & {
     disabled?: boolean
 }
 
-export function Icon({
-    name,
-    className,
-    disabled = false,
-    ...props
-}: Props) {
+export function Icon({ name, className, disabled = false, ...props }: Props) {
     if (!name) { return null }
 
-    if (isValidElement(name)) { return name }
+    if (isValidElement(name)) {
+        const element = name as ReactElement
 
-    const iconClass = classNames('n2o-icon', name, className, {
-        disabled,
-    })
+        return cloneElement(element, {
+            className: classNames(element.props.className, className, { disabled }),
+        })
+    }
 
-    return <i className={iconClass} {...props} />
+    return (
+        <i
+            className={classNames(
+                'n2o-icon',
+                name,
+                className,
+                { disabled },
+            )}
+            {...props}
+        />
+    )
 }

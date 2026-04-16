@@ -1,8 +1,9 @@
 import React, { CSSProperties, KeyboardEvent, RefObject } from 'react'
 import { DropdownMenuProps } from 'reactstrap'
 
-import { BadgeType } from './PopupList'
-import { InputElementsProps } from './InputSelectGroup'
+import { type InputElementsProps, ShowClearTrigger } from '../inputElements/inputElements'
+
+import { type BadgeType } from './PopupList'
 
 export interface PopUpProps { popUpStyle?: CSSProperties, popUpItemRef?: Ref | null }
 
@@ -57,6 +58,7 @@ export interface Props {
     popUpFullSize?: boolean
     popUpItemRef?: PopUpProps['popUpItemRef']
     popUpStyle?: PopUpProps['popUpStyle']
+    showClearTrigger?: ShowClearTrigger
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     alerts?: any[]
     /**

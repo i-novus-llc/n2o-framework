@@ -10,6 +10,8 @@ import omit from 'lodash/omit'
 import { Alert } from '../../display/Alerts/Alert'
 import { isEmptyModel } from '../../utils/isEmptyModel'
 import { WithPopUpHeight } from '../WithPopUpHeight'
+import { ShowClearTrigger } from '../inputElements/inputElements'
+import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
 import { InputSelectGroup } from './InputSelectGroup'
 import { PopupList } from './PopupList'
@@ -622,7 +624,8 @@ export class InputSelect extends React.Component<Props, State> {
             popUpFullSize = false,
             fixed = true,
             flip = true,
-            modifiers = {},
+            modifiers = EMPTY_OBJECT,
+            showClearTrigger = ShowClearTrigger.HOVER,
             container,
         } = this.props
         const {
@@ -673,9 +676,10 @@ export class InputSelect extends React.Component<Props, State> {
                             inputFocus={inputFocus}
                             onClearClick={this.handleElementClear}
                             disabled={disabled}
-                            className={`${className} ${(isExpanded || inputFocus) ? 'focus' : ''}`}
+                            className={classNames(className, { focus: isExpanded || inputFocus })}
                             onClick={this.onInputSelectGroupClick}
                             inputElements={inputElements}
+                            showClearTrigger={showClearTrigger}
                         >
                             <InputContent
                                 elementAttributes={inputElements?.item}
