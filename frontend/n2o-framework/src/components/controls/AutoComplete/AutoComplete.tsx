@@ -2,8 +2,6 @@ import React from 'react'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import isFunction from 'lodash/isFunction'
-import filter from 'lodash/filter'
-import includes from 'lodash/includes'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import isArray from 'lodash/isArray'
@@ -335,9 +333,12 @@ class AutoComplete extends React.Component<Props, State> {
             quickSearchParam,
         } = this.props
         const needAddFilter = !find(value, item => item[labelFieldId] === input)
-        const filteredOptions = filter(
-            options,
-            item => includes(item[labelFieldId as keyof TOption], input) || isEmpty(input),
+
+        const filteredOptions = options.filter(
+            item => isEmpty(input) ||
+                (String(item[labelFieldId as keyof TOption])).toLowerCase()
+                    // TODO не совпадает типизация input, заявлено string по факту может быть string[]
+                    .includes(Array.isArray(input) ? input[0].toLowerCase() : input.toLowerCase()),
         )
 
         const filterValue = isEmpty(input) ? {} : { [quickSearchParam || labelFieldId]: input }
