@@ -1,5 +1,21 @@
-.btn-group > .btn {
+.btn-group > .btn,
+.btn.btn-rounded__with-content {
     max-width: fit-content;
+}
+
+.btn-group > .btn.btn-rounded.btn-sm {
+    max-width: 31px;
+    min-width: 31px;
+}
+
+.btn-group > .btn.btn-rounded.btn-md {
+    max-width: 38px;
+    min-width: 38px;
+}
+
+.btn-group > .btn.btn-rounded.btn-lg {
+    max-width: 48px;
+    min-width: 48px;
 }
 
 .btn.btn-disabled {
