@@ -2,7 +2,7 @@ import React from 'react'
 import { InputSelectComponent as InputSelect } from '@i-novus/n2o-components/lib/inputs/InputSelect/InputSelect'
 import { type TOption, Filter } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'
 import { type BadgeType } from '@i-novus/n2o-components/lib/inputs/InputSelect/PopupList'
-import { InputElementsProps } from '@i-novus/n2o-components/lib/inputs/InputSelect/InputSelectGroup'
+import { type InputElementsProps } from '@i-novus/n2o-components/lib/inputs/inputElements/inputElements'
 import { DropdownMenuProps } from 'reactstrap'
 
 import propsResolver from '../../../utils/propsResolver'

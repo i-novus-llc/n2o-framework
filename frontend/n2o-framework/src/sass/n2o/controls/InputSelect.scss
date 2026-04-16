@@ -1,3 +1,19 @@
+.show-clear-trigger-hover,
+.show-clear-trigger-focus {
+    display: none;
+}
+
+.show-clear-trigger-always {
+    display: block;
+    opacity: 1;
+}
+
+.n2o-input-container.form-control.focus {
+    .show-clear-trigger-focus {
+        display: block;
+    }
+}
+
 .n2o-input-select {
     display: inline-block;
     position: relative;
@@ -363,7 +379,6 @@
         }
 
         > .n2o-input-clear {
-            visibility: hidden;
             margin: 0;
             display: flex;
             justify-content: center;
@@ -384,6 +399,10 @@
     &:hover {
         .n2o-input-clear {
             visibility: visible !important;
+        }
+
+        .show-clear-trigger-hover {
+            display: block;
         }
     }
 
