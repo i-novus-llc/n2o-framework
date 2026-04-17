@@ -28,8 +28,8 @@ export function AsyncEffectWrapper<
         const { meta = {}, type } = action
         const { key, buttonId, operationId } = meta
 
-        // @ts-ignore fix buttonId type
-        if (key) { yield put(startButtonOperation({ key, buttonId, operationId: operationId || type })) }
+        // @ts-ignore fix key type
+        if (buttonId) { yield put(startButtonOperation({ key, buttonId, operationId: operationId || type })) }
 
         try {
             if (!operationId) {
@@ -53,8 +53,8 @@ export function AsyncEffectWrapper<
                 logger.warn(`Saga effect<${action.type}> error: ${message}`)
             }
         } finally {
-            // @ts-ignore fix buttonId type
-            if (key) { yield put(endButtonOperation({ key, buttonId, operationId: operationId || type })) }
+            // @ts-ignore fix key type
+            if (buttonId) { yield put(endButtonOperation({ key, buttonId, operationId: operationId || type })) }
         }
     }
 }
