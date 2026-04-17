@@ -1,7 +1,6 @@
 import React, { Component, KeyboardEvent, MouseEventHandler, RefObject, ComponentType } from 'react'
 import { findDOMNode } from 'react-dom'
 import dayjs, { Dayjs } from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
 import includes from 'lodash/includes'
 import pick from 'lodash/pick'
 import keys from 'lodash/keys'
@@ -20,8 +19,6 @@ import { TBaseInputProps, TBaseProps } from '../types'
 import { InputIcon } from '../display/InputIcon'
 
 import { InputText } from './InputText'
-
-dayjs.extend(customParseFormat)
 
 const HOUR = 'hour'
 const MINUTE = 'minute'

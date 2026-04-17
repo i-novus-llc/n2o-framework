@@ -262,3 +262,6 @@ public class MyCriteriaConstructor implements CriteriaConstructor<MyCriteria> {
 
 - Добавлена фильтрация логов в консоль по уровню: сообщения выводятся в соответствии со значением cookie logLevel: error, warn, log, info.<br/>
 По умолчанию используется уровень error (выводятся только ошибки).
+- В пакетах `n2o-framework` и `n2o-components` версия `dayjs` указана как peer-dependency,
+то есть она устанавливается в dependencies проекта, который их использует.
+Поддерживаемая версия от "^1.11.13"

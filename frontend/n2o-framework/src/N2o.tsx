@@ -11,6 +11,8 @@ import pick from 'lodash/pick'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { type Store } from 'redux'
 
+import '@i-novus/n2o-components/lib/globalExtensions/globalExtensions'
+
 import './i18n'
 
 // @ts-ignore TODO если включить разрешающее правило, сломается build

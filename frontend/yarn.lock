@@ -3216,7 +3216,6 @@ __metadata:
     concurrently: ^8.2.2
     copyfiles: ^2.4.1
     cross-env: ^7.0.3
-    dayjs: ^1.11.13
     dompurify: ^3.3.1
     draft-js: 0.11.7
     draftjs-to-html: 0.8.4
@@ -3254,6 +3253,7 @@ __metadata:
     ts-jest: ^28.0.5
     typescript: 4.7.3
   peerDependencies:
+    dayjs: "*"
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
   languageName: unknown
@@ -14397,7 +14397,6 @@ __metadata:
     copyfiles: ^2.4.1
     core-js: ^3.15.1
     css-loader: ^0.28.9
-    dayjs: ^1.11.13
     deepmerge: 4.3.1
     dompurify: ^3.3.1
     enzyme: ^3.9.0
@@ -14464,6 +14463,7 @@ __metadata:
     use-context-selector: ^1.4.1
   peerDependencies:
     css-animation: "*"
+    dayjs: "*"
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
     redux-thunk: "*"
@@ -14490,6 +14490,7 @@ __metadata:
   resolution: "n2o-simple-project@workspace:n2o-simple-project"
   dependencies:
     "@vitejs/plugin-react": ^4.0.0
+    dayjs: ^1.11.13
     dotenv: 8.2.0
     n2o-framework: "*"
     react: 18.3.1
