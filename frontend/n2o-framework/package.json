@@ -69,7 +69,6 @@
     "bootstrap": "~4.3.1",
     "classnames": "^2.5.1",
     "connected-react-router": "6.9.3",
-    "dayjs": "^1.11.13",
     "deepmerge": "4.3.1",
     "dompurify": "^3.3.1",
     "flat": "6.0.1",
@@ -157,6 +156,7 @@
   },
   "peerDependencies": {
     "css-animation": "*",
+    "dayjs": "*",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",
     "redux-thunk": "*",
