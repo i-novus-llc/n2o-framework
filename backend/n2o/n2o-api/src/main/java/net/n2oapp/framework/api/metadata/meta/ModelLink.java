@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 
+import java.util.Objects;
+
 /**
  * Ссылка на модель виджета
  */
@@ -69,6 +71,13 @@ public class ModelLink extends BindLink {
         setSubModelQuery(link.getSubModelQuery());
         setParam(link.getParam());
         setObserve(link.isObserve());
+    }
+
+    public ModelLink(String datasource, String suffix) {
+        super(Objects.toString(createBindLink(ReduxModelEnum.DATASOURCE, datasource, null), "")
+                .concat(Objects.toString(suffix, "")));
+        this.model = ReduxModelEnum.DATASOURCE;
+        this.datasource = datasource;
     }
 
     public ModelLink(ReduxModelEnum model, String datasource) {

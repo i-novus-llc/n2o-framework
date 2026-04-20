@@ -2,11 +2,13 @@ package net.n2oapp.framework.autotest.condition.button.visibility;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -41,15 +43,15 @@ class ButtonVisibilityAT extends AutoTestBase {
                 new N2oAllPagesPack(),
                 new N2oAllDataPack()
         );
-        setResourcePath("net/n2oapp/framework/autotest/condition/button/visibility");
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/test.query.xml")
-        );
     }
 
     @Test
     void visibilityDependencyTest() {
+        setResourcePath("net/n2oapp/framework/autotest/condition/button/visibility/in_page");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/in_page/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/in_page/test.query.xml")
+        );
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -79,5 +81,27 @@ class ButtonVisibilityAT extends AutoTestBase {
         inputTwo.clear();
         button.shouldBeVisible();
         button.shouldHaveDescription("text");
+    }
+
+    @Test
+    void visibilityDependencyTestInCell() {
+        setResourcePath("net/n2oapp/framework/autotest/condition/button/visibility/in_cell");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/in_cell/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/in_cell/test.query.xml")
+        );
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(0, TableWidget.class);
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(4);
+        table.columns().rows().row(0)
+                .cell(1, ToolbarCell.class).toolbar().button("Button").shouldBeVisible();
+        table.columns().rows().row(2)
+                .cell(1, ToolbarCell.class).toolbar().button("Button").shouldBeHidden();
     }
 }

@@ -1,9 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.dependency;
 
+import net.n2oapp.framework.api.metadata.meta.cell.CheckboxCell;
+import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
@@ -183,5 +187,16 @@ class ButtonDependencyCompileTest extends SourceCompileTestBase {
         condition = submenu.get(2).getConditions().get(ValidationTypeEnum.ENABLED).get(1);
         checkCondition(condition, "models.resolve['testButtonDependencyWithDatasource_table']", "c==d");
         assertThat(condition.getMessage(), is("Не указана дата"));
+    }
+
+    @Test
+    void testCellButtonDependency() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/dependency/testCellButtonDependency.page.xml")
+                .get(new PageContext("testCellButtonDependency"));
+        Table<?> table = (Table<?>) page.getWidget();
+        ToolbarCell toolbarCell = (ToolbarCell) table.getComponent().getBody().getCells().getFirst();
+        AbstractButton button = toolbarCell.getToolbar().getFirst().getButtons().getFirst();
+        Condition condition = button.getConditions().get(ValidationTypeEnum.VISIBLE).getFirst();
+        assertThat(condition.getModelLink(), is("models.datasource['testCellButtonDependency_ds'][index]"));
     }
 }
