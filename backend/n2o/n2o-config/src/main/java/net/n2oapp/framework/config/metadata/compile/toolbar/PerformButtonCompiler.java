@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelTypeEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -175,20 +176,20 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
         return null;
     }
 
-    private void compileDependencies(N2oButton.Dependency[] dependencies, D button, String clientDatasource,
+    private void compileDependencies(N2oAbstractButton.Dependency[] dependencies, D button, String clientDatasource,
                                      ReduxModelEnum buttonModel, CompileProcessor p) {
-        for (N2oButton.Dependency d : dependencies) {
+        for (N2oAbstractButton.Dependency d : dependencies) {
             ValidationTypeEnum validationType = null;
-            if (d instanceof N2oButton.EnablingDependency)
+            if (d instanceof N2oAbstractButton.EnablingDependency)
                 validationType = ValidationTypeEnum.ENABLED;
-            else if (d instanceof N2oButton.VisibilityDependency)
+            else if (d instanceof N2oAbstractButton.VisibilityDependency)
                 validationType = ValidationTypeEnum.VISIBLE;
 
             compileDependencyCondition(d, button, validationType, clientDatasource, buttonModel, p);
         }
     }
 
-    private void compileDependencyCondition(N2oButton.Dependency dependency, D button, ValidationTypeEnum validationType,
+    private void compileDependencyCondition(N2oAbstractButton.Dependency dependency, D button, ValidationTypeEnum validationType,
                                             String buttonDatasource, ReduxModelEnum buttonModel, CompileProcessor p) {
         ReduxModelEnum refModel = castDefault(dependency.getModel(), buttonModel, ReduxModelEnum.RESOLVE);
         Condition condition = new Condition();
@@ -196,8 +197,18 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
         String datasource = (dependency.getDatasource() != null) ?
                 getClientDatasourceId(dependency.getDatasource(), p) :
                 buttonDatasource;
-        condition.setModelLink(new ModelLink(refModel, datasource, null).getLink());
-        if (dependency instanceof N2oButton.EnablingDependency enablingDependency)
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        ModelLink modelLink;
+        if (componentScope != null && componentScope.unwrap(N2oCell.class) != null
+                && dependency.getDatasource() == null
+                && dependency.getModel() == null) {
+            modelLink = new ModelLink(buttonDatasource, "[index]");
+        } else {
+            modelLink = new ModelLink(refModel, datasource, null);
+        }
+        condition.setModelLink(modelLink.getLink());
+
+        if (dependency instanceof N2oAbstractButton.EnablingDependency enablingDependency)
             condition.setMessage(enablingDependency.getMessage());
 
         if (!button.getConditions().containsKey(validationType))

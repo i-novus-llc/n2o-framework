@@ -1797,8 +1797,12 @@
       "name": "Условия и валидации",
       "templates": [
         {
-          "templateId": "net/n2oapp/framework/autotest/condition/button/visibility",
-          "name": "ButtonVisibilityAT"
+          "templateId": "net/n2oapp/framework/autotest/condition/button/visibility/in_page",
+          "name": "ButtonVisibilityAT. visibilityDependencyTest"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/button/visibility/in_cell",
+          "name": "ButtonVisibilityAT. visibilityDependencyTestInCell"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/condition/column/dependency/visibility",

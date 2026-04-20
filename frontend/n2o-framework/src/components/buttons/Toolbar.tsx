@@ -19,6 +19,11 @@ interface Button {
     enabled?: boolean
     visible?: boolean
     subMenu?: Button[]
+    conditions?: Record<string, Array<{
+        expression: string
+        modelLink: string
+        message?: string
+    }>>
 }
 
 export type ToolbarProps = Array<{

@@ -1,6 +1,8 @@
-import React, { Fragment, VFC } from 'react'
+import React, { VFC } from 'react'
 
 import { RowsProps } from '../types/props'
+import { ArrayFieldProvider } from '../../../core/datasource/ArrayField/ArrayFieldProvider'
+import { RowProvider } from '../../../core/datasource/ArrayField/RowProvider'
 
 import { RowContainer } from './RowContainer'
 
@@ -18,7 +20,7 @@ export const Rows: VFC<RowsProps> = (props) => {
     } = props
 
     return (
-        <>
+        <ArrayFieldProvider>
             {data.map((dataItem, index) => {
                 const treeData = dataItem?.[treeDataKey] || []
                 const isSelectedRow = selectedRows.some(selectedRowItem => selectedRowItem === dataItem[selectedKey])
@@ -28,7 +30,7 @@ export const Rows: VFC<RowsProps> = (props) => {
                 const hasTreeData = Boolean(treeData.length)
 
                 return (
-                    <Fragment key={rowRenderFieldKey ? dataItem[rowRenderFieldKey] : index}>
+                    <RowProvider index={index} key={rowRenderFieldKey ? dataItem[rowRenderFieldKey] : index}>
                         <RowContainer
                             rowIndex={index}
                             data={dataItem}
@@ -47,10 +49,10 @@ export const Rows: VFC<RowsProps> = (props) => {
                                 treeDeepLevel={treeDeepLevel + 1}
                             />
                         )}
-                    </Fragment>
+                    </RowProvider>
                 )
             })}
-        </>
+        </ArrayFieldProvider>
     )
 }
 
