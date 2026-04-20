@@ -16,7 +16,7 @@ public class SnilsFieldCompiler extends MaskedFieldCompiler<SnilsField, N2oSnils
 
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.snils.src";
+        return "n2o.api.control.masked.snils.src";
     }
 
     @Override

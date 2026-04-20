@@ -17,7 +17,6 @@ public class MaskedInputIOv3 extends MaskedFieldIOv3<N2oMaskedInput> {
         super.io(e, m, p);
         p.attribute(e, "mask", m::getMask, m::setMask);
         p.attribute(e, "measure", m::getMeasure, m::setMeasure);
-        p.attributeBoolean(e, "clear-on-blur", m::getClearOnBlur, m::setClearOnBlur);
         p.attribute(e, "autocomplete", m::getAutocomplete, m::setAutocomplete);
     }
 

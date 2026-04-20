@@ -39,11 +39,18 @@ class EmailFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/masked/testEmailField.page.xml")
                 .get(new PageContext("testEmailField"));
         Form form = (Form) page.getWidget();
-        StandardField<?> email = (StandardField<?>) form.getComponent().getFieldsets().get(0).getRows().get(0)
-                .getCols().get(0).getFields().get(0);
+        StandardField<?> email = (StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().getFirst()
+                .getCols().getFirst().getFields().getFirst();
 
         assertThat(email.getControl().getId(), is("testId"));
         assertThat(email.getControl().getSrc(), is("Inputs/Email"));
         assertThat(((EmailField) email.getControl()).getInvalidText(), is("Email не соответствует формату"));
+        assertThat(((EmailField) email.getControl()).getClearOnBlur(), is(false));
+
+        email = (StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().get(1)
+                .getCols().getFirst().getFields().getFirst();
+
+        assertThat(email.getControl().getId(), is("testId2"));
+        assertThat(((EmailField) email.getControl()).getClearOnBlur(), is(true));
     }
 }

@@ -3,7 +3,8 @@
     <form>
         <fields>
             <phone id="phone" default-value="+79991234567" country="RU, KZ"
-                   invalid-text="Невалидный номер телефона"/>
+                   invalid-text="Невалидный номер телефона" clear-on-blur="false"/>
+            <phone id="phone2"/>
         </fields>
 
         <toolbar place="bottomLeft">

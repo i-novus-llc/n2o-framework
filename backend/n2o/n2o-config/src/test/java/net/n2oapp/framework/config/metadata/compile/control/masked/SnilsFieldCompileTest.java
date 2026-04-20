@@ -39,12 +39,19 @@ class SnilsFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/masked/testSnilsField.page.xml")
                 .get(new PageContext("testSnilsField"));
         Form form = (Form) page.getWidget();
-        StandardField<?> snils = (StandardField<?>) form.getComponent().getFieldsets().get(0).getRows().get(0)
-                .getCols().get(0).getFields().get(0);
+        StandardField<?> snils = (StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().getFirst()
+                .getCols().getFirst().getFields().getFirst();
 
         assertThat(snils.getControl().getId(), is("testId"));
         assertThat(snils.getLabel(), is("test"));
         assertThat(snils.getControl().getSrc(), is("Inputs/SNILS"));
         assertThat(((SnilsField) snils.getControl()).getInvalidText(), is("СНИЛС не соответствует формату"));
+        assertThat(((SnilsField) snils.getControl()).getClearOnBlur(), is(false));
+
+        snils = (StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().get(1)
+                .getCols().getFirst().getFields().getFirst();
+
+        assertThat(snils.getControl().getId(), is("testId2"));
+        assertThat(((SnilsField) snils.getControl()).getClearOnBlur(), is(true));
     }
 }

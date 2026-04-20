@@ -13,4 +13,6 @@ import net.n2oapp.framework.api.metadata.meta.control.Control;
 public abstract class MaskedControl extends Control {
     @JsonProperty
     private String invalidText;
+    @JsonProperty
+    private Boolean clearOnBlur;
 }

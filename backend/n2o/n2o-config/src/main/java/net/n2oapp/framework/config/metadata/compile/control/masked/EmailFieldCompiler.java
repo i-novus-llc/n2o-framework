@@ -16,7 +16,7 @@ public class EmailFieldCompiler extends MaskedFieldCompiler<EmailField, N2oEmail
 
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.email.src";
+        return "n2o.api.control.masked.email.src";
     }
 
     @Override

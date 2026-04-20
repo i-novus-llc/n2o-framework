@@ -11,6 +11,5 @@ import lombok.Setter;
 public class N2oMaskedInput extends N2oMaskedField {
     private String mask;
     private String measure;
-    private Boolean clearOnBlur;
     private String autocomplete;
 }

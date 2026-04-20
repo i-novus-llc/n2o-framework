@@ -18,7 +18,7 @@ public class PhoneFieldCompiler extends MaskedFieldCompiler<PhoneField, N2oPhone
 
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.phone.src";
+        return "n2o.api.control.masked.phone.src";
     }
 
     @Override
@@ -29,7 +29,8 @@ public class PhoneFieldCompiler extends MaskedFieldCompiler<PhoneField, N2oPhone
     @Override
     public StandardField<PhoneField> compile(N2oPhoneField source, CompileContext<?, ?> context, CompileProcessor p) {
         PhoneField field = new PhoneField();
-        field.setCountries(List.of(source.getCountry()));
+        if (source.getCountry() != null)
+            field.setCountries(List.of(source.getCountry()));
         return compileMaskedField(field, source, context, p);
     }
 }

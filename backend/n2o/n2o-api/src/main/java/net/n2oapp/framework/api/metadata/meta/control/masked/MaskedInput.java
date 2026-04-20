@@ -15,7 +15,5 @@ public class MaskedInput extends MaskedControl {
     @JsonProperty
     private String measure;
     @JsonProperty
-    private Boolean clearOnBlur;
-    @JsonProperty
     private String autocomplete;
 }

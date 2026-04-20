@@ -2,7 +2,8 @@
              name="Тестирование поля snils">
     <form>
         <fields>
-            <snils id="snils" invalid-text="Невалидный формат данных СНИЛС"/>
+            <snils id="snils" invalid-text="Невалидный формат данных СНИЛС" clear-on-blur="false"/>
+            <snils id="snils2"/>
         </fields>
 
         <toolbar place="bottomLeft">

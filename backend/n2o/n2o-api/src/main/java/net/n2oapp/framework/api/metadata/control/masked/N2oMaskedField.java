@@ -11,4 +11,5 @@ import net.n2oapp.framework.api.metadata.control.plain.N2oPlainField;
 @Setter
 public class N2oMaskedField extends N2oPlainField {
     private String invalidText;
+    private Boolean clearOnBlur;
 }

@@ -20,7 +20,7 @@ public class MaskedInputCompiler extends MaskedFieldCompiler<MaskedInput, N2oMas
 
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.masked_input.src";
+        return "n2o.api.control.masked.masked_input.src";
     }
 
     @Override
@@ -35,10 +35,8 @@ public class MaskedInputCompiler extends MaskedFieldCompiler<MaskedInput, N2oMas
         maskedInput.setMask(p.resolveJS(source.getMask()));
         maskedInput.setMeasure(source.getMeasure());
         maskedInput.setClassName(source.getCssClass());
-        maskedInput.setClearOnBlur(castDefault(source.getClearOnBlur(),
-                () -> p.resolve(property("n2o.api.control.masked_input.clear_on_blur"), Boolean.class)));
         maskedInput.setAutocomplete(castDefault(source.getAutocomplete(),
-                () -> p.resolve(property("n2o.api.control.masked_input.autocomplete"), String.class)));
+                () -> p.resolve(property("n2o.api.control.masked.masked_input.autocomplete"), String.class)));
         return compileMaskedField(maskedInput, source, context, p);
     }
 }
