@@ -286,11 +286,18 @@ Body: `<path-param>`, `<query-param>`
 ## Conditional / Composite Actions
 
 ### `<if-else>` — Conditional action
+
+`<if>` attributes:
 | Attribute | Type | Description | Default |
 |---|---|---|---|
 | test | String | JS condition expression (required) | |
 | datasource | Reference | Datasource for condition context | parent's datasource |
 | model | resolve/edit/filter/multi/datasource | Model for condition context | parent's model |
+
+`<else-if>` attributes:
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| test | String | JS condition expression (required) | |
 
 ```xml
 <if test="status.id == 1" datasource="ds1" model="resolve">

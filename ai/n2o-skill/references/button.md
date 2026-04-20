@@ -18,8 +18,8 @@ Buttons are placed inside `<toolbar>` of widgets or pages. They trigger actions.
 | badge-image-position | left/right | Badge image position | left |
 | badge-image-shape | square/circle/rounded | Badge image shape | circle |
 | action-id | Reference | Reference to named action | |
-| visible | boolean / String | Visibility (JS expression) | true |
-| enabled | boolean / String | Enabled state (JS expression) | |
+| visible | String | Visibility condition (boolean or JS expression) | true |
+| enabled | String | Enabled condition (boolean or JS expression) | |
 | disable-on-empty-model | true/false/auto | Disable when no data | |
 | model | resolve/edit/filter/multi/datasource | Source model | |
 | datasource | Reference | Source datasource | |
@@ -28,7 +28,8 @@ Buttons are placed inside `<toolbar>` of widgets or pages. They trigger actions.
 | validate | boolean | Validate before action | true |
 | validate-datasources | String (comma-sep) | Datasources to validate | |
 | generate | crud/create/update/delete/close/submit | Auto-generate standard button | |
-| class / style | String | CSS | |
+| class | String | CSS class | |
+| style | String | CSS style | |
 | rounded | boolean | Rounded corners | false |
 | src | String | Custom React component | |
 

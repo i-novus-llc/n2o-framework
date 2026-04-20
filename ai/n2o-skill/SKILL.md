@@ -8,7 +8,7 @@ updating and modifying existing configurations; finding and fixing errors; migra
 and answering questions about the framework. 
 Triggers include: any mention of "n2o", ".page.xml", ".object.xml", ".query.xml", "n2o framework", "n2oapp", or requests to create UI with XML in Java projects.
 
-**Version**: 7.29+ | **Current schemas**: page-4.0, query-5.0, object-4.0, application-3.0, widget-5.0, region-3.0, fieldset-5.0, control-3.0, action-2.0
+**Version**: 7.29+ | **Current schemas**: page-4.0, query-5.0, object-4.0, application-3.0, widget-5.0, region-3.0, fieldset-5.0, control-3.0, action-2.0, menu-3.0, table-settings-1.0
 **Documentation**: https://n2o.i-novus.ru/docs/
 
 ## Trigger Conditions
@@ -28,6 +28,8 @@ Read the relevant `references/*.md` file(s) based on what the user needs:
 | User Task | Read These References |
 |---|---|
 | Create/edit application.xml, header, sidebar, footer | `references/application.md` |
+| Create/edit *.menu.xml, nav/extra-menu, menu-item, group, dropdown | `references/menu.md` |
+| Table settings buttons: columns, export, resize, refresh, word-wrap, reset | `references/table-settings.md` |
 | Create/edit *.page.xml, page layout, datasources on page | `references/page.md` |
 | Layout with tabs, panels, collapsible sections, grids | `references/region.md` |
 | Tables, forms, lists, cards, trees, calendars, charts | `references/widget.md` |
@@ -88,6 +90,8 @@ http://n2oapp.net/framework/config/schema/region-3.0
 http://n2oapp.net/framework/config/schema/fieldset-5.0
 http://n2oapp.net/framework/config/schema/control-3.0
 http://n2oapp.net/framework/config/schema/action-2.0
+http://n2oapp.net/framework/config/schema/menu-3.0
+http://n2oapp.net/framework/config/schema/table-settings-1.0
 ```
 
 ### Placeholder Syntax by Provider

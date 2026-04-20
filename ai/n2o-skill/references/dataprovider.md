@@ -11,10 +11,21 @@ Data providers define how N2O communicates with backend services. Used inside `<
 | `<test>` | — | Mock/test JSON data |
 | `<java>` | — | Spring Bean method calls |
 | `<mongodb>` | `#name` | MongoDB operations |
+| `<camunda>` | — | Camunda BPM task operations |
 
 ---
 
 ## `<sql>` — SQL Provider
+
+| Attribute | Type | Description |
+|---|---|---|
+| file | String | Path to a `.sql` file in project resources |
+| row-mapper | map/index | Method for reading values from JDBC |
+| connection-url | String | Database connection URL |
+| username | String | Database username |
+| password | String | Database password |
+| driver-class-name | String | JDBC driver class name |
+
 Placeholder syntax: `:paramName`
 Special placeholders (query only): `:select`, `:filters`, `:sorting`, `:limit`, `:offset`
 
@@ -70,7 +81,14 @@ Use `&amp;&amp;` for `&&`, `&lt;` for `<`, `&gt;` for `>` in XML.
 | query | String | URL path (for queries) |
 | mapping | String | Result field mapping |
 | content-type | String | Request content type |
-| proxy-host / proxy-port | String | Proxy settings |
+| proxy-host | String | Proxy host |
+| proxy-port | String | Proxy port |
+| filters-separator | String | Separator between filter parameters |
+| sorting-separator | String | Separator between sorting parameters |
+| select-separator | String | Separator between select fields |
+| join-separator | String | Separator between join parts |
+| forwarded-headers | String | Headers to forward from the request |
+| forwarded-cookies | String | Cookies to forward from the request |
 
 Placeholder syntax: `{paramName}`
 Special placeholders (query only): `{limit}`, `{offset}`, `{page}`, `{filters}`, `{sorting}`
@@ -159,10 +177,12 @@ Special placeholders (query only): `$$select`, `$$size`, `$$offset`, `$$page`
 ## `<test>` — Test Data Provider
 Reads mock data from JSON files. Great for prototyping.
 
-| Attribute | Type | Description |
-|---|---|---|
-| file | String | Path to JSON file |
-| operation | create / update / delete / echo | Test operation |
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| file | String | Path to JSON file | |
+| operation | create/findAll/findOne/update/updateMany/updateField/delete/deleteMany/count/echo | Test operation | |
+| primary-key | String | Unique key field | id |
+| primary-key-type | integer/string | Primary key data type | integer |
 
 ```xml
 <list><test file="data/employees.json"/></list>
@@ -213,7 +233,9 @@ Argument types: `primitive`, `entity`, `criteria`, `class`
 | Attribute | Type | Description |
 |---|---|---|
 | collection-name | String | MongoDB collection |
-| operation | find / insertOne / updateOne / deleteOne / countDocuments | |
+| operation | find/insertOne/updateOne/deleteOne/deleteMany/countDocuments | |
+| connection-url | String | MongoDB connection URL |
+| database-name | String | MongoDB database name |
 
 ```xml
 <list>
@@ -227,6 +249,22 @@ Argument types: `primitive`, `entity`, `criteria`, `class`
 Settings:
 ```
 spring.data.mongodb.uri=mongodb://localhost:27017/mydb
+```
+
+---
+
+## `<camunda>` — Camunda BPM Provider
+| Attribute | Type | Description |
+|---|---|---|
+| operation | countTasks/findTasks/getTask/setTaskVariables/completeTask/startProcess | Camunda operation |
+
+```xml
+<list>
+    <camunda operation="findTasks"/>
+</list>
+<invocation>
+    <camunda operation="completeTask"/>
+</invocation>
 ```
 
 ## See Also

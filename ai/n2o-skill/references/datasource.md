@@ -45,6 +45,7 @@ Body: `<path-param>`, `<header-param>`, `<form-param>`
 |---|---|---|
 | on | String | Source datasource id (required) |
 | model | resolve/edit/filter/multi/datasource | Source model |
+| field-id | String | Field of the source datasource to watch |
 
 #### `<copy>` — Copy Data from Another Datasource
 | Attribute | Type | Description | Default |
@@ -203,6 +204,23 @@ Combines datasource and browser-storage behavior with cache expiration.
 | fetch-on-init | boolean | Fetch data on page initialization | false |
 
 Body: `<submit>`, `<filters>`, `<dependencies>`
+
+### `<submit>` for cached-datasource
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| operation-id | Reference | Operation to invoke (required) | |
+| route | String | URL route for submit | |
+| refresh-on-success | boolean | Refresh data after success | false |
+| refresh-datasources | String (comma-sep) | Datasources to refresh | |
+| message-on-success | boolean | Show message on success | false |
+| message-on-fail | boolean | Show message on fail | false |
+| message-position | fixed / relative | Message position | |
+| message-placement | top / bottom / topLeft / topRight / bottomLeft / bottomRight | Message placement | |
+| message-widget-id | String | Widget ID for relative message | |
+| submit-all | boolean | Submit entire form or only form-param fields | true |
+| clear-cache-after-submit | boolean | Clear cache after submit | false |
+
+Body: `<path-param>`, `<header-param>`, `<form-param>`
 
 ```xml
 <cached-datasource id="dictionaries" query-id="dictionaries"

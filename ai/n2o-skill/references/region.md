@@ -18,12 +18,12 @@ No extra attributes. Just groups widgets.
 ```
 
 ## `<line>` — Collapsible section with separator
-| Attribute | Type | Default |
-|---|---|---|
-| label | String | |
-| collapsible | boolean | true |
-| has-separator | boolean | true |
-| expand | boolean | true |
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| label | String | Region heading | |
+| collapsible | boolean | Whether the region can be expanded and collapsed | true |
+| has-separator | boolean | Display of a horizontal separator | true |
+| expand | boolean | Initial expanded state | true |
 
 Settings: `n2o.api.region.line.collapsible=true`, `n2o.api.region.line.has_separator=true`, `n2o.api.region.line.expand=true`
 ```xml
@@ -31,17 +31,17 @@ Settings: `n2o.api.region.line.collapsible=true`, `n2o.api.region.line.has_separ
 ```
 
 ## `<panel>` — Panel with header
-| Attribute | Type | Default |
-|---|---|---|
-| title | String | |
-| header | boolean | true |
-| collapsible | boolean | true |
-| open | boolean | true |
-| icon | String (FontAwesome) | |
-| color | primary/secondary/success/danger/warning/info/light/dark | |
-| footer-title | String | |
-| routable | boolean | true |
-| active-param | String | value of `id` |
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| title | String | Panel heading | |
+| header | boolean | Whether the header is shown | true |
+| collapsible | boolean | Whether the region can be expanded and collapsed | true |
+| open | boolean | Initial expanded state of the panel | true |
+| icon | String (FontAwesome) | Icon class | |
+| color | primary/secondary/success/danger/warning/info/light/dark | Panel color | |
+| footer-title | String | Title for the region footer | |
+| routable | boolean | Restore active panels from URL | true |
+| active-param | String | URL parameter name for the active panel | value of `id` |
 
 Settings: `n2o.api.region.panel.collapsible=true`, `n2o.api.region.panel.open=true`, `n2o.api.region.panel.routable=true`
 ```xml
@@ -49,28 +49,28 @@ Settings: `n2o.api.region.panel.collapsible=true`, `n2o.api.region.panel.open=tr
 ```
 
 ## `<tabs>` — Tabbed container
-| Attribute | Type | Default |
-|---|---|---|
-| always-refresh | boolean | false |
-| lazy | boolean | true |
-| hide-single-tab | boolean | false |
-| max-height | String (px/em/rem) | |
-| scrollbar | boolean | false |
-| routable | boolean | true |
-| active-param | String | value of `id` |
-| datasource | Reference | |
-| active-tab-field-id | String | |
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| always-refresh | boolean | Refresh data when switching between tabs | false |
+| lazy | boolean | Lazy loading of tabs | true |
+| hide-single-tab | boolean | Hide the only available tab and show only its content | false |
+| max-height | String (px/em/rem) | Maximum height of tab content | |
+| scrollbar | boolean | Show scrollbar | false |
+| routable | boolean | Restore active tabs from URL | true |
+| active-param | String | URL parameter name for the active tab | value of `id` |
+| datasource | Reference | Datasource identifier for the value of `active-tab-field-id` | |
+| active-tab-field-id | String | Field identifier whose value sets the active tab id | |
 
 Settings: `n2o.api.region.tabs.always_refresh=false`, `n2o.api.region.tabs.lazy=true`, `n2o.api.region.tabs.routable=true`, `n2o.api.region.tabs.scrollbar=false`
 
 ### `<tab>` Attributes
-| Attribute | Type | Description |
-|---|---|---|
-| id | String | Tab identifier |
-| name | String | Tab label |
-| datasource | Reference | Tab datasource |
-| visible | String | Visibility condition (supports placeholders) |
-| enabled | String | Enabled condition (supports placeholders) |
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| id | String | Tab identifier | |
+| name | String | Tab label | |
+| datasource | Reference | Tab datasource | |
+| visible | String | Visibility condition (supports placeholders) | true |
+| enabled | String | Enabled condition (supports placeholders) | true |
 
 ```xml
 <tabs always-refresh="false" lazy="true">
@@ -81,24 +81,24 @@ Settings: `n2o.api.region.tabs.always_refresh=false`, `n2o.api.region.tabs.lazy=
 ```
 
 ## `<scrollspy>` — Scroll-tracking side navigation
-| Attribute | Type | Default |
-|---|---|---|
-| active | String | |
-| title | String | |
-| placement | left / right | left |
-| headlines | boolean | false |
-| max-height | String (px) | |
-| routable | boolean | true |
-| active-param | String | value of `id` |
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| active | String | Default active item | |
+| title | String | Menu heading | |
+| placement | left / right | Side on which the menu is placed | left |
+| headlines | boolean | Whether to show a separator line between blocks | false |
+| max-height | String (px) | Maximum height of region content | |
+| routable | boolean | Restore active items from URL | true |
+| active-param | String | URL parameter name for the active menu item | value of `id` |
 
 Body: `<menu-item>`, `<sub-menu>`, and `<group>` elements, each containing widgets.
 
 ### `<group>` Attributes (scrollspy)
-| Attribute | Type | Default |
-|---|---|---|
-| id | String | |
-| title | String | |
-| headline | boolean | false |
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| id | String | Group identifier | |
+| title | String | Group heading | |
+| headline | boolean | Whether to show a separator line | false |
 
 ```xml
 <scrollspy title="Navigation" placement="left">
@@ -132,11 +132,11 @@ Body: `<datasources>`, `<breadcrumbs>`, `<toolbars>`, `<actions>` to override su
 ```
 
 ## `<nav>` — Navigation menu region
-| Attribute | Type | Default |
-|---|---|---|
-| datasource | Reference | |
-| direction | row / column | row |
-| model | resolve / filter / multi / datasource | resolve |
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| datasource | Reference | Datasource identifier | |
+| direction | row / column | Display direction of elements | row |
+| model | resolve / filter / multi / datasource | Data model | resolve |
 Body: `<menu-item>`, `<dropdown-menu>`, `<link>`, `<divider>`, `<button>`, `<group>`
 
 ## `<row>` — Bootstrap grid row
