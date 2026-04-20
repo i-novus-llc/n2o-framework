@@ -63,5 +63,12 @@ class UuidFieldAT extends AutoTestBase {
         saveButton.click();
         page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
         uuidField.shouldHaveInvalidText(Condition.text("Невалидный формат UUID"));
+        uuidField.shouldHaveValue("123");
+
+        uuidField = page.widget(FormWidget.class).fields().field("uuid2").control(UuidField.class);
+        uuidField.shouldBeVisible();
+        uuidField.setValue("123");
+        page.element().click();
+        uuidField.shouldBeEmpty();
     }
 }

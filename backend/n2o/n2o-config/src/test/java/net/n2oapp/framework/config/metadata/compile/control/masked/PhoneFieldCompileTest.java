@@ -40,12 +40,19 @@ class PhoneFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/masked/testPhoneField.page.xml")
                 .get(new PageContext("testPhoneField"));
         Form form = (Form) page.getWidget();
-        Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        Field field = form.getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
         PhoneField phone = (PhoneField) ((StandardField<?>) field).getControl();
 
         assertThat(phone.getId(), is("testId"));
         assertThat(phone.getCountries().get(0), is("RU"));
         assertThat(phone.getCountries().get(1), is("KZ"));
         assertThat(phone.getInvalidText(), is("Телефон не соответствует формату"));
+        assertThat(phone.getClearOnBlur(), is(false));
+
+        field = form.getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
+        phone = (PhoneField) ((StandardField<?>) field).getControl();
+
+        assertThat(phone.getId(), is("testId2"));
+        assertThat(phone.getClearOnBlur(), is(true));
     }
 }

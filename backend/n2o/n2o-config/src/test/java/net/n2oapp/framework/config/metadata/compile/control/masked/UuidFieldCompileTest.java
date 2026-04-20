@@ -39,11 +39,18 @@ class UuidFieldCompileTest extends SourceCompileTestBase {
         SimplePage page =(SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/masked/testUuidField.page.xml")
                 .get(new PageContext("testUuidField"));
         Form form = (Form) page.getWidget();
-        StandardField<?> field = (StandardField<?>) form.getComponent().getFieldsets().get(0).getRows().get(0)
-                .getCols().get(0).getFields().get(0);
+        StandardField<?> field = (StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().getFirst()
+                .getCols().getFirst().getFields().getFirst();
 
         assertThat(field.getControl().getId(), is("test"));
         assertThat(field.getControl().getSrc(), is("Inputs/UUID"));
         assertThat(((UuidField) field.getControl()).getInvalidText(), is("UUID не соответствует формату"));
+        assertThat(((UuidField) field.getControl()).getClearOnBlur(), is(false));
+
+        field = (StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().get(1)
+                .getCols().getFirst().getFields().getFirst();
+
+        assertThat(field.getControl().getId(), is("test2"));
+        assertThat(((UuidField) field.getControl()).getClearOnBlur(), is(true));
     }
 }

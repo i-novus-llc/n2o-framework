@@ -62,5 +62,13 @@ class PhoneFieldAT extends AutoTestBase {
         saveButton.click();
         page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
         phoneField.shouldHaveInvalidText(Condition.text("Невалидный номер телефона"));
+        phoneField.shouldHaveValue("123");
+
+        phoneField = page.widget(FormWidget.class).fields().field("phone2").control(PhoneField.class);
+        phoneField.shouldBeVisible();
+        phoneField.setValue("123");
+        page.element().click();
+        phoneField.shouldBeEmpty();
+
     }
 }

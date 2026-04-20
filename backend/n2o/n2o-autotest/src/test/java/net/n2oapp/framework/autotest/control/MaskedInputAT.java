@@ -65,8 +65,7 @@ class MaskedInputAT extends AutoTestBase {
         maskedInput.setValue("123");
         maskedInputWithoutClear.setValue("983");
         maskedInput.shouldHaveValue("");
-        //вводим значение в первое поле, чтобы покинуть второе
-        maskedInput.setValue("123");
+        simplePage.element().click();
         maskedInputWithoutClear.shouldHaveValue("+7 (983");
     }
 
@@ -87,6 +86,7 @@ class MaskedInputAT extends AutoTestBase {
         saveButton.click();
         simplePage.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
         mask.shouldHaveInvalidText(Condition.text("Невалидный формат данных"));
+        mask.shouldHaveValue("00");
     }
 
     private Fields getFields() {

@@ -16,7 +16,7 @@ public class UuidFieldCompiler extends MaskedFieldCompiler<UuidField, N2oUuidFie
 
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.uuid.src";
+        return "n2o.api.control.masked.uuid.src";
     }
 
     @Override

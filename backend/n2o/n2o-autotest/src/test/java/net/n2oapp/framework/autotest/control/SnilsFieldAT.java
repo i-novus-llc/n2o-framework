@@ -62,5 +62,12 @@ class SnilsFieldAT extends AutoTestBase {
         saveButton.click();
         page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldNotExists();
         snilsField.shouldHaveInvalidText(Condition.text("Невалидный формат данных СНИЛС"));
+        snilsField.shouldHaveValue("123");
+
+        snilsField = page.widget(FormWidget.class).fields().field("snils2").control(SnilsField.class);
+        snilsField.shouldBeVisible();
+        snilsField.setValue("123");
+        page.element().click();
+        snilsField.shouldBeEmpty();
     }
 }

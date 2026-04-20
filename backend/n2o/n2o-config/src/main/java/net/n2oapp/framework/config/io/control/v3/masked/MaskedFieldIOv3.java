@@ -14,5 +14,6 @@ public abstract class MaskedFieldIOv3<T extends N2oMaskedField> extends PlainFie
     public void io(Element e, T m, IOProcessor p) {
         super.io(e, m, p);
         p.attribute(e, "invalid-text", m::getInvalidText, m::setInvalidText);
+        p.attributeBoolean(e, "clear-on-blur", m::getClearOnBlur, m::setClearOnBlur);
     }
 }

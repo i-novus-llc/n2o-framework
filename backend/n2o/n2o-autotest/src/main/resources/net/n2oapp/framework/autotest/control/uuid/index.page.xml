@@ -3,7 +3,8 @@
              name="Тестирование поля uuid">
     <form>
         <fields>
-            <uuid id="uuid" invalid-text="Невалидный формат UUID"/>
+            <uuid id="uuid" invalid-text="Невалидный формат UUID" clear-on-blur="false"/>
+            <uuid id="uuid2"/>
         </fields>
 
         <toolbar place="bottomLeft">

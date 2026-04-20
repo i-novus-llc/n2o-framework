@@ -3,7 +3,8 @@
              name="Тестирование поля email">
     <form>
         <fields>
-            <email id="mail" invalid-text="Невалидный почтовый адрес"/>
+            <email id="mail" invalid-text="Невалидный почтовый адрес" clear-on-blur="false"/>
+            <email id="mail2"/>
         </fields>
 
         <toolbar place="bottomLeft">

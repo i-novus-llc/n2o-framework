@@ -2,7 +2,8 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
     <form>
         <fields>
-            <snils id="testId" label="test" invalid-text="СНИЛС не соответствует формату"/>
+            <snils id="testId" label="test" invalid-text="СНИЛС не соответствует формату" clear-on-blur="false"/>
+            <snils id="testId2"/>
         </fields>
     </form>
 </simple-page>
