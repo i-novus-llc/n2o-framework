@@ -204,7 +204,7 @@ Types: `<condition>`, `<constraint>`, `<mandatory>`
 | field-id | String | Field to display message under | |
 | enabled | String | Enable/disable validation | true |
 | side | client/server/client,server | Execution side | client,server |
-| server-moment | String | Server execution moment | |
+| server-moment | before-operation/before-query/after-success-query/after-fail-query/after-fail-operation/after-success-operation | Server execution moment | |
 
 Server moments: `before-operation`, `before-query`, `after-success-query`, `after-fail-query`, `after-fail-operation`, `after-success-operation`
 

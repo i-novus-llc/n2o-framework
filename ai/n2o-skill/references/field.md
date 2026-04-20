@@ -8,24 +8,25 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 |---|---|---|---|
 | id | String | Field identifier (required) | |
 | label | String | Field label | From query field name |
+| label-class | String | CSS class for field label | |
 | help | String | Help tooltip text | |
 | help-trigger | hover/click | Help tooltip trigger | click |
 | placeholder | String | Input placeholder | |
 | required | boolean | Required field | false |
-| visible | boolean / String | Visibility (can be JS) | true |
-| enabled | boolean / String | Enabled (can be JS) | true |
-| no-label | boolean | Hide label text | false |
-| no-label-block | boolean | Hide label block entirely | false |
+| visible | boolean / String | Visibility (can be JS expression) | true |
+| enabled | boolean / String | Enabled (can be JS expression) | true |
+| no-label | boolean / String | Hide label text (supports JS) | false |
+| no-label-block | boolean / String | Hide label block entirely (supports JS) | false |
 | description | String | Description under field | |
 | default-value | String | Default value | |
-| param | String | URL parameter for default | |
-| ref-model | resolve/edit/filter/multi/datasource | Model for init | resolve |
-| ref-datasource | Reference | Datasource for init | current widget |
-| ref-field-id | String | Field for initialization | |
+| param | String | URL parameter for default value | |
+| ref-model | resolve/edit/filter/selected/datasource | Model for value initialization | resolve |
+| ref-datasource | String | Datasource for value initialization | current widget |
+| ref-field-id | String | Field for value initialization | |
 | copied | boolean | Copy on merge defaults | true |
-| domain | String | Data type | |
 | src | String | Custom React component | |
-| class / style | String | CSS | |
+| class | String | CSS class for field component | |
+| style | String | CSS style for field component | |
 
 ---
 
@@ -34,12 +35,13 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 ### `<input-text>` — Text/Number Input
 | Attribute | Type | Default |
 |---|---|---|
-| length | Number (max chars) | |
-| precision | Number (decimal) | 8 for numeric |
+| domain | String | |
+| length | Number | |
+| precision | Number | |
 | max / min | Number | |
-| step | String | 1 (int), 0.01 (numeric) |
-| measure | String (unit suffix) | |
-| autocomplete | on / off | off |
+| step | Number | |
+| measure | String | |
+| autocomplete | String | off |
 ```xml
 <input-text id="name" label="Name" required="true" length="100"/>
 <input-text id="age" label="Age" domain="integer" min="0" max="150"/>
@@ -47,16 +49,18 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 ```
 
 ### `<text-area>` — Multi-line Text
-| Attribute | Type |
-|---|---|
-| min-rows / max-rows | Number |
-| max-length | Number |
+| Attribute | Type | Default |
+|---|---|---|
+| min-rows | Number | 3 |
+| max-rows | Number | 3 |
+| max-length | Number | |
 
 ### `<password>` — Password Input
-| Attribute | Type |
-|---|---|
-| eye | boolean (show/hide toggle) |
-| length | Number |
+| Attribute | Type | Default |
+|---|---|---|
+| eye | boolean | true |
+| length | Number | |
+| autocomplete | String | off |
 
 ### `<date-time>` — Date/Time Picker
 | Attribute | Type | Default |
@@ -65,12 +69,21 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 | time-format | HH:mm / HH:mm:ss | |
 | min / max | String (ISO 8601) | |
 | utc | boolean | false |
+| autocomplete | String | off |
 ```xml
 <date-time id="birthday" label="Birthday" date-format="DD.MM.YYYY"/>
 <date-time id="createdAt" label="Created" date-format="DD.MM.YYYY" time-format="HH:mm"/>
 ```
 
 ### `<date-interval>` — Date Range
+| Attribute | Type | Default |
+|---|---|---|
+| date-format | DD.MM.YYYY / DD/MM/YYYY | |
+| time-format | HH:mm / HH:mm:ss | |
+| min / max | String (ISO 8601) | |
+| utc | boolean | false |
+| begin-param | String | |
+| end-param | String | |
 ```xml
 <date-interval id="period" label="Period" date-format="DD.MM.YYYY">
     <default-value begin="2024-01-01" end="2024-12-31"/>
@@ -83,47 +96,154 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 | unchecked | null / false | null |
 
 ### `<masked-input>` — Input with Mask
-| Attribute | Type |
-|---|---|
-| mask | String (e.g. `+7 (999) 999-99-99`) |
+| Attribute | Type | Default |
+|---|---|---|
+| mask | String (e.g. `+7 (999) 999-99-99`) | |
+| measure | String | |
+| clear-on-blur | boolean | true |
+| autocomplete | String | off |
+| invalid-text | String | Data does not match the field format |
 
 ### `<email>` — Email Input (preset mask)
 ### `<phone>` — Phone Input (`country="RU, KZ"`)
 ### `<snils>` — SNILS Input (Russian social number)
 
 ### `<input-money>` — Money Input
-| Attribute | Type |
-|---|---|
-| prefix / suffix | String (currency symbol) |
-| thousands-separator | String |
-| decimal-separator | String |
-| integer-limit | Number |
+| Attribute | Type | Default |
+|---|---|---|
+| prefix | String | |
+| suffix | String | |
+| thousands-separator | String | |
+| decimal-separator | String | |
+| integer-limit | Number | |
+| fraction-formatting | off / manual / auto | off |
+| autocomplete | String | off |
 
 ### `<slider>` — Range Slider
-| Attribute | Type |
-|---|---|
-| min / max | Number |
-| step | Number |
-| measure | String |
-| vertical | boolean |
+| Attribute | Type | Default |
+|---|---|---|
+| mode | single / range | single |
+| min / max | Number | |
+| step | Number | 1 |
+| measure | String | |
+| vertical | boolean | false |
 
 ### `<number-picker>` — +/- Number Selector
-### `<rating>` — Star Rating (`max`, `half`)
-### `<time-picker>` — Time Selector (`mode="hour,minute"`, `time-format="HH:mm"`)
-### `<code-editor>` — Code Editor (`language`, `min-lines`, `max-lines`)
+| Attribute | Type | Default |
+|---|---|---|
+| min | Number | 0 |
+| max | Number | 100 |
+| step | Number | 1 |
+
+### `<rating>` — Star Rating
+| Attribute | Type | Default |
+|---|---|---|
+| max | Number | 5 |
+| half | boolean | false |
+| show-tooltip | boolean | |
+
+### `<time-picker>` — Time Selector
+| Attribute | Type | Default |
+|---|---|---|
+| prefix | String | |
+| mode | hour,minute,second / hour,minute / hour / minute | hour,minute,second |
+| time-format | String | HH:mm:ss |
+| format | symbols / digit | symbols |
+
+### `<code-editor>` — Code Editor
+| Attribute | Type | Default |
+|---|---|---|
+| language | sql / xml / html / javascript / groovy / java | |
+| min-lines | Number | 5 |
+| max-lines | Number | |
+
 ### `<text-editor>` — Rich Text Editor (WYSIWYG)
-### `<progress>` — Progress Bar (`max`, `color`, `animated`, `striped`)
-### `<status>` — Status Indicator (`color`, `text`)
-### `<file-upload>` — File Upload (`multi`, `ajax`, `upload-url`, `delete-url`, `value-field-id`, `label-field-id`, `url-field-id`, `accept`, `show-size`)
-### `<image-upload>` — Image Upload (`shape`, `width`, `height`, `can-lightbox`)
-### `<output-text>` — Read-Only Text (`icon`)
-### `<output-list>` — Read-Only List (`label-field-id`, `direction`, `separator`)
+| Attribute | Type | Default |
+|---|---|---|
+| toolbar-url | String | |
+
+### `<progress>` — Progress Bar
+| Attribute | Type | Default |
+|---|---|---|
+| max | Number | |
+| bar-text | String | |
+| animated | boolean | false |
+| striped | boolean | false |
+| color | String | |
+| bar-class | String | |
+
+### `<status>` — Status Indicator
+| Attribute | Type | Default |
+|---|---|---|
+| color | String | |
+| text | String (required) | |
+| text-position | left / right | right |
+
+### `<file-upload>` — File Upload
+| Attribute | Type | Default |
+|---|---|---|
+| multi | boolean | false |
+| ajax | boolean | true |
+| upload-url | String | |
+| delete-url | String | |
+| value-field-id | String | |
+| label-field-id | String | |
+| url-field-id | String | |
+| message-field-id | String | message |
+| request-param | String | |
+| accept | String | |
+| show-size | boolean | true |
+| show-name | boolean | false |
+
+### `<image-upload>` — Image Upload
+| Attribute | Type | Default |
+|---|---|---|
+| list-type | image / card | image |
+| shape | square / circle / rounded | rounded |
+| width | String | |
+| height | String | |
+| icon | String | |
+| icon-size | String | |
+| can-lightbox | boolean | false |
+| can-delete | boolean | true |
+| show-tooltip | boolean | true |
+
+### `<output-text>` — Read-Only Text
+| Attribute | Type | Default |
+|---|---|---|
+| icon | String | |
+| icon-position | left / right | left |
+| format | String | |
+
+### `<output-list>` — Read-Only List
+| Attribute | Type | Default |
+|---|---|---|
+| label-field-id | String | name |
+| href-field-id | String | href |
+| target | String | newWindow |
+| separator | String | (space) |
+| direction | String | column |
+
 ### `<markdown>` — Markdown Display (supports `{field}` placeholders in body)
 ### `<html>` — Inline HTML (supports `{field}` placeholders, use CDATA)
-### `<image>` — Image Display (`url`/`data`, `shape`, `width`, `height`, `text-position`)
-### `<alert>` — Alert/Notification (`title`, `text`, `color`, `close-button`)
+### `<image>` — Image Display (`url`/`data`, `shape`, `width`, `text-position`, `title`, `action-id`)
+### `<alert>` — Alert/Notification
+| Attribute | Type | Default |
+|---|---|---|
+| title | String | |
+| text | String | |
+| color | String | secondary |
+| href | String | |
+| close-button | boolean | false |
+
 ### `<hidden>` — Hidden Field (for computed values, with dependencies)
 ### `<search-buttons>` — Search + Reset buttons for filters
+| Attribute | Type | Default |
+|---|---|---|
+| search-label | String | |
+| reset-label | String | |
+| clear-ignore | String | |
+
 ### `<search-button>` / `<clear-button>` — Individual filter buttons
 
 ---
@@ -134,26 +254,40 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 | Attribute | Type | Description | Default |
 |---|---|---|---|
 | query-id | Reference | Query for loading options | |
-| label-field-id | String | Display field | |
+| label-field-id | String | Display field | name |
 | value-field-id | String | ID field | id |
-| search-filter-id | String | Filter for search | label-field-id |
-| sort-filter-id | String | Sort by field | label-field-id |
+| format | String | Display text format | |
+| search-filter-id | String | Filter for search | |
+| sort-filter-id | String | Sort by field | |
 | group-field-id | String | Group options by field | |
 | image-field-id | String | Image field | |
 | icon-field-id | String | Icon field | |
-| badge-field-id / badge-color-field-id | String | Badge fields | |
+| badge-field-id | String | Badge text field | |
+| badge-color-field-id | String | Badge color field | |
+| badge-shape | square / circle / rounded | Badge shape | square |
+| badge-position | left / right | Badge position | right |
+| badge-image-field-id | String | Image field inside badge | |
+| badge-image-position | left / right | Position of image in badge | left |
+| badge-image-shape | square / circle / rounded | Shape of image in badge | circle |
+| status-field-id | String | Status field | |
 | enabled-field-id | String | Enabled flag field | |
 | cache | boolean | Cache results | false |
 | size | Number | Options per page | 10 |
-| search | boolean | Enable search | auto |
+| search | boolean | Enable search | |
 | datasource | Reference | Datasource for options | |
 | cleanable | boolean | Show clear button | |
 
 ### `<select>` — Simple Dropdown
-| Attribute | Type |
-|---|---|
-| type | single / checkboxes |
-| select-format | String (e.g. `{count} selected`) |
+| Attribute | Type | Default |
+|---|---|---|
+| type | single / checkboxes | single |
+| cleanable | boolean | true |
+| select-format | String (e.g. `{count} selected`) | |
+| select-format-one | String | |
+| select-format-few | String | |
+| select-format-many | String | |
+| description-field-id | String | |
+| input-label-field-id | String | |
 ```xml
 <select id="gender" label="Gender" query-id="genders" cleanable="true"/>
 <select id="status" type="checkboxes">
@@ -162,24 +296,36 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 ```
 
 ### `<input-select>` — Searchable Dropdown
-| Attribute | Type |
-|---|---|
-| type | single / multi / checkboxes |
-| max-tag-count | Number (for multi) |
-| throttle-delay | Number (ms) |
-| description-field-id | String |
+| Attribute | Type | Default |
+|---|---|---|
+| type | single / multi / checkboxes | |
+| reset-on-blur | boolean | true |
+| max-tag-count | Number | |
+| max-tag-text-length | Number | 10 |
+| throttle-delay | Number (ms) | 300 |
+| search-min-length | Number | 0 |
+| description-field-id | String | |
+| input-label-field-id | String | |
 ```xml
 <input-select id="dept" label="Dept" query-id="departments" label-field-id="name" type="single"/>
 <input-select id="skills" label="Skills" query-id="skills" type="multi" max-tag-count="3"/>
 ```
 
 ### `<input-select-tree>` — Tree Dropdown
-| Attribute | Type |
-|---|---|
-| parent-field-id | String |
-| has-children-field-id | String |
-| checkboxes | boolean |
-| checking-strategy | child / parent / all |
+| Attribute | Type | Default |
+|---|---|---|
+| parent-field-id | String (required) | |
+| has-children-field-id | String | |
+| value-field-id | String | |
+| input-label-field-id | String | |
+| ajax | boolean | false |
+| checkboxes | boolean | false |
+| checking-strategy | all / parent / child | all |
+| max-tag-count | Number | |
+| max-tag-text-length | Number | 10 |
+| size | Number | 200 |
+| throttle-delay | Number (ms) | 300 |
+| search-min-length | Number | 0 |
 
 ### `<radio-group>` — Radio Buttons (`type="default/btn/tabs"`, `inline`)
 ```xml
@@ -188,8 +334,18 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 </radio-group>
 ```
 
-### `<checkbox-group>` — Checkbox Group (`inline`)
-### `<auto-complete>` — Autocomplete (`tags` for free text)
+### `<checkbox-group>` — Checkbox Group (`type="default/btn"`, `inline`)
+### `<auto-complete>` — Autocomplete
+| Attribute | Type | Default |
+|---|---|---|
+| query-id | String | |
+| datasource | String | |
+| value-field-id | String | name |
+| label-field-id | String | name |
+| input-label-field-id | String | |
+| search-filter-id | String | |
+| tags | boolean | false |
+| max-tag-text-length | Number | 10 |
 
 ### Inline `<options>` (instead of query-id)
 ```xml
@@ -224,6 +380,9 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 ---
 
 ## Field Dependencies
+
+Зависимости описываются внутри элемента `<dependencies>`. Каждый тип зависимости может быть указан не более одного раза.
+
 ```xml
 <input-text id="total">
     <dependencies>
@@ -231,6 +390,7 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
         <visibility on="type">type.id == 1</visibility>
         <enabling on="status">status == 'active'</enabling>
         <requiring on="type">type.id == 2</requiring>
+        <fetch on="category" enabled="category != null"/>
         <fetch-value on="org" query-id="orgDetails" value-field-id="code">
             <filters><eq field-id="orgId" value="{org.id}"/></filters>
         </fetch-value>
@@ -238,14 +398,116 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
     </dependencies>
 </input-text>
 ```
-| Element | Description |
-|---|---|
-| `<set-value on="fields">` | JS expression to compute value |
-| `<visibility on="fields">` | JS condition for visibility |
-| `<enabling on="fields">` | JS condition for enabled state |
-| `<requiring on="fields">` | JS condition for required state |
-| `<fetch-value on="field" query-id="..." value-field-id="...">` | Fetch data from query when field changes |
-| `<reset on="fields"/>` | Clear field when dependencies change |
+
+### Общие атрибуты (все типы зависимостей)
+
+| Атрибут | Тип | По умолчанию | Описание |
+|---|---|---|---|
+| `on` | string | — | Поля через запятую, изменение которых вызывает зависимость |
+| `apply-on-init` | boolean | `true` | Срабатывает ли при инициализации виджета |
+
+---
+
+### `<visibility>` — Видимость поля
+
+JS-выражение (boolean). Поле отображается, когда выражение возвращает `true`.
+
+| Атрибут | Тип | По умолчанию | Описание |
+|---|---|---|---|
+| `on` | string | — | Поля-источники зависимости |
+| `apply-on-init` | boolean | `true` | Срабатывает ли при инициализации |
+| `reset` | boolean | `false` | Сбросить значение поля при срабатывании зависимости |
+
+---
+
+### `<enabling>` — Доступность поля
+
+JS-выражение (boolean). Поле активно, когда выражение возвращает `true`.
+
+| Атрибут | Тип | По умолчанию | Описание |
+|---|---|---|---|
+| `on` | string | — | Поля-источники зависимости |
+| `apply-on-init` | boolean | `true` | Срабатывает ли при инициализации |
+| `message` | string | — | Сообщение о причине недоступности поля |
+
+---
+
+### `<set-value>` — Вычисление значения
+
+JS-выражение, результат которого устанавливается как значение поля при изменении зависимых полей.
+
+| Атрибут | Тип | По умолчанию | Описание |
+|---|---|---|---|
+| `on` | string | — | Поля-источники зависимости |
+| `apply-on-init` | boolean | `true` | Срабатывает ли при инициализации |
+| `validate` | boolean | `true` | Запускать валидацию полей при срабатывании |
+
+---
+
+### `<requiring>` — Обязательность поля
+
+JS-выражение (boolean). Поле становится обязательным, когда выражение возвращает `true`.
+
+| Атрибут | Тип | По умолчанию | Описание |
+|---|---|---|---|
+| `on` | string | — | Поля-источники зависимости |
+| `apply-on-init` | boolean | `true` | Срабатывает ли при инициализации |
+| `validate` | boolean | `true` | Запускать валидацию полей при срабатывании |
+
+---
+
+### `<reset>` — Сброс значения
+
+Очищает значение поля при изменении зависимых полей. Тело элемента не используется.
+
+| Атрибут | Тип | По умолчанию | Описание |
+|---|---|---|---|
+| `on` | string | — | Поля-источники зависимости |
+| `apply-on-init` | boolean | `true` | Срабатывает ли при инициализации |
+| `validate` | boolean | `true` | Запускать валидацию полей при срабатывании |
+
+---
+
+### `<fetch>` — Обновление вариантов списка
+
+Перезагружает варианты выбора из источника данных при изменении зависимых полей. Предназначен для списковых компонентов с открытым списком (`radio-group`, `checkbox-group`), у которых есть фильтры от других полей.
+
+| Атрибут | Тип | По умолчанию | Описание |
+|---|---|---|---|
+| `on` | string | — | Поля-источники зависимости |
+| `apply-on-init` | boolean | `true` | Срабатывает ли при инициализации |
+| `enabled` | string | `true` | Условие срабатывания (JS-выражение или плейсхолдер) |
+
+---
+
+### `<fetch-value>` — Получение значения из выборки
+
+Выполняет запрос к выборке при изменении зависимых полей и устанавливает результат как значение поля.
+
+| Атрибут | Тип | По умолчанию | Описание |
+|---|---|---|---|
+| `on` | string | — | Поля-источники зависимости |
+| `apply-on-init` | boolean | `true` | Срабатывает ли при инициализации |
+| `query-id` | string | **обязательный** | Идентификатор выборки |
+| `value-field-id` | string | — | Поле выборки, значение которого устанавливается в модель (по умолчанию — вся модель) |
+| `size` | integer | — | Размер выборки |
+| `enabled` | string | `true` | Условие срабатывания (JS-выражение или плейсхолдер) |
+
+Дочерний элемент `<filters>` задаёт предустановленные фильтры запроса.
+
+**Типы фильтров:** `<eq>`, `<in>`, `<like>`, `<likeStart>`, `<isNull>`, `<isNotNull>`, `<more>`, `<less>`, `<notEq>`, `<notIn>`, `<contains>`
+
+**Атрибуты фильтров:**
+
+| Атрибут | Тип | Описание |
+|---|---|---|
+| `field-id` | string | **обязательный** — поле виджета, по которому выполняется фильтрация |
+| `value` | string | Значение фильтра (поддерживает плейсхолдеры, например `{org.id}`) |
+| `datasource` | string | Идентификатор источника данных для фильтрации |
+| `model` | clientModel | Модель виджета для фильтрации |
+| `param` | string | Параметр фильтра |
+| `reset-on-change` | boolean | Сбрасывать значение при изменении модели (по умолчанию `false`) |
+| `required` | boolean | Обязательность предустановленного фильтра |
 
 ## Inline Validations
 ```xml

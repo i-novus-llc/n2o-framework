@@ -78,7 +78,7 @@ Each element contains exactly one provider invocation (`<sql>`, `<rest>`, `<grap
 |---|---|---|---|
 | id | String | Field identifier (required) | |
 | name | String | Display label | |
-| domain | String | Data type | string |
+| domain | integer/string/boolean/date/localdate/localdatetime/object/numeric/long/short/byte/integer[]/string[]/boolean[]/date[]/object[] | Data type | |
 | default-value | String | Default value if not provided | |
 | mapping | String | SpEL mapping from provider | `[id]` |
 | select | boolean | Include in SELECT | true |
@@ -86,7 +86,7 @@ Each element contains exactly one provider invocation (`<sql>`, `<rest>`, `<grap
 | normalize | String | SpEL post-processing | |
 | sorting | boolean | Field is sortable | false (true if sorting-expression set) |
 | sorting-expression | String | Expression for ORDER BY | |
-| sorting-mapping | String | Mapping of sort direction | `{id}Direction` |
+| sorting-mapping | String | Mapping of sort direction | `[id]Direction` |
 
 **CRITICAL**: Every query MUST have `<field id="id">` — the framework requires an `id` field.
 
@@ -177,12 +177,12 @@ Filter type is specified by element name: `<eq>`, `<notEq>`, `<like>`, `<likeSta
 
 | Attribute | Type | Description | Default |
 |---|---|---|---|
-| field-id | Reference | Field being filtered (required) | |
+| field-id | String | Field being filtered (required) | |
 | filter-id | String | Filter identifier (for UI) | `{field-id}` |
 | default-value | String | Default filter value | |
-| domain | String | Override field domain | |
-| mapping | String | Provider mapping | |
-| normalize | String | SpEL pre-processing | |
+| domain | integer/string/boolean/date/localdate/localdatetime/object/numeric/long/short/byte/integer[]/string[]/boolean[]/date[]/object[] | Override field domain. Defaults to the `domain` of the referenced `<field>` | |
+| mapping | String | SpEL expression for mapping the filter value to the provider field | `['filter-id']` |
+| normalize | String | SpEL expression for pre-processing the filter value | |
 | required | boolean | Mandatory filter | false |
 
 ```xml

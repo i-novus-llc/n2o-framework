@@ -23,7 +23,13 @@ File: `application.xml`
 | class | String | CSS class |
 | style | String | CSS style |
 
-**Body**: `<nav>` (main menu), `<extra-menu>` (e.g. user menu), `<search>` (search panel). Nav and extra-menu support `ref-id` to reference external `*.menu.xml` files.
+**Body**: `<nav>` (main menu), `<extra-menu>` (e.g. user menu), `<search>` (search panel).
+
+### `<nav>` / `<extra-menu>` Attributes
+| Attribute | Type | Description |
+|---|---|---|
+| src | String | React component for the menu |
+| ref-id | String | Reference to an external menu file (`*.menu.xml`) |
 
 ### `<search>` — Search panel in header
 | Attribute | Type | Description | Default |
@@ -45,7 +51,7 @@ Contains `<sidebar>` elements. The sidebar whose `path` matches current page URL
 | title | String | Sidebar title (supports placeholders) | |
 | subtitle | String | Subtitle (supports placeholders) | |
 | path | String | URL pattern match | |
-| ref-id | Reference | External sidebar file | |
+| ref-id | String | External sidebar file id | |
 | datasource | String | Datasource ID for placeholders | |
 | logo-src | String | Logo image | |
 | logo-class | String | CSS class for logo | |
@@ -70,7 +76,7 @@ Contains `<sidebar>` elements. The sidebar whose `path` matches current page URL
 **Body**: `<datasource>` (inline datasource), `<nav>`, `<extra-menu>`
 
 ## `<events>` — Application-level events
-Contains `<stomp-event>` elements for WebSocket/STOMP event handling at application level.
+Contains `<stomp-event>` and `<on-change>` elements for WebSocket/STOMP event handling at application level.
 
 ## `<footer>` Attributes
 | Attribute | Type | Description |

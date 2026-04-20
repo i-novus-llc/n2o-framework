@@ -86,6 +86,7 @@ Files: `[id].page.xml`
 |---|---|---|
 | on | String | Dependent datasource id (required) |
 | model | filter / resolve / edit / datasource / multi | Model to watch |
+| field-id | String | Field of the dependent datasource to watch |
 
 ### `<copy>` — Copy data from another datasource
 | Attribute | Type | Description | Default |
@@ -132,6 +133,7 @@ Files: `[id].page.xml`
 ### `<on-change>` Attributes
 | Attribute | Type | Description | Default |
 |---|---|---|---|
+| id | String | Event identifier | |
 | datasource | String | Datasource to watch (required) | |
 | model | filter / resolve / edit / datasource / multi | Model to watch | resolve |
 | field-id | String | Field to watch (omit for whole model) | |

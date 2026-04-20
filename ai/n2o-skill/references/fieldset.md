@@ -7,7 +7,7 @@ Fieldsets organize fields inside forms into visual groups.
 | Attribute | Type | Description | Default |
 |---|---|---|---|
 | id | String | Fieldset identifier | |
-| ref-id | Reference | Parent fieldset file | |
+| ref-id | String | Parent fieldset file id | |
 | src | String | React component for fieldset | |
 | label | String | Group label (placeholders supported) | |
 | description | String | Description text | |
@@ -15,13 +15,13 @@ Fieldsets organize fields inside forms into visual groups.
 | help-trigger | hover/click | Help tooltip trigger | click |
 | visible | boolean / String | Visibility (JS) | true |
 | enabled | boolean / String | Enabled (JS) | true |
-| class / style | String | CSS | |
-| depends-on | String (comma-sep) | Dependency fields | |
+| class | String | CSS class | |
+| style | String | CSS style | |
 | field-label-location | left / top | Label position | top |
 | field-label-align | left / right | Label alignment | left |
 | field-label-width | String (px/em/%) | Label width (for left) | |
 | badge | String | Badge text (placeholders supported) | |
-| badge-color | String | Badge color | |
+| badge-color | primary/secondary/success/danger/warning/info/light/dark | Badge color | |
 | badge-shape | square / circle / rounded | Badge shape | square |
 | badge-position | left / right | Badge position | right |
 | badge-image | String | Badge image URL | |
@@ -41,11 +41,11 @@ Wraps fields in a bordered/labeled group.
 ```
 
 ## `<line>` — Line Fieldset (Collapsible)
-| Attribute | Type | Default |
-|---|---|---|
-| collapsible | boolean | true |
-| has-separator | boolean | true |
-| expand | boolean | true |
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| collapsible | boolean | Whether the fieldset can be expanded and collapsed | true |
+| has-separator | boolean | Display of a horizontal separator | true |
+| expand | boolean | Initial expanded state | true |
 
 ```xml
 <line label="Address" collapsible="true" expand="false">

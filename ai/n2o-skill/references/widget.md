@@ -24,10 +24,10 @@ Setting: `n2o.api.widget.auto_focus=true`
 ---
 
 ## `<form>` — Form Widget
-| Attribute | Type | Default |
-|---|---|---|
-| mode | one-model / two-models | one-model |
-| unsaved-data-prompt | boolean | false |
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| mode | one-model/two-models | Form mode (number of models on the client) | one-model |
+| unsaved-data-prompt | boolean | Show a warning about unsaved data | false |
 
 Settings: `n2o.api.widget.form.unsaved_data_prompt=false`, `n2o.api.widget.form.size=1`
 Body: `<fields>`, `<dependencies>`, `<datasource>`, `<toolbar>`, `<actions>`
@@ -81,14 +81,14 @@ Body: `<columns>`, `<rows>`, `<filters>`, `<pagination>`, `<dependencies>`, `<da
 |---|---|---|
 | id | String | text-field-id value |
 | src | String | React component |
-| text-field-id | Reference | Query field for display |
-| tooltip-field-id | Reference | Tooltip field |
+| text-field-id | String | Query field for display |
+| tooltip-field-id | String | Tooltip field |
 | visible | boolean | true |
 | width | String (px/em/rem/%) | |
 | resizable | boolean | false |
 | label | String | From query field name |
 | icon | String (FontAwesome) | |
-| sorting-field-id | Reference | Sort field (default=text-field-id) |
+| sorting-field-id | String | Sort field |
 | sorting-direction | asc / desc | |
 | fixed | left / right | |
 | class | String | CSS class |
@@ -122,7 +122,8 @@ Same attributes as `<column>`. Body: `<filter>` (contains a field control) + cel
 | style | String | CSS style |
 | alignment | left/right/center | center |
 | content-alignment | left/right/center | |
-| width / fixed | String | |
+| width | String | Column width |
+| fixed | left/right | Fixed column position |
 
 ### `<dnd-column>` — Drag-n-drop reorderable column
 | Attribute | Type | Default |
@@ -142,7 +143,7 @@ Body: `<switch>`, `<click>` (action), `<overlay>` (toolbar on hover)
 **`<click>` attributes:**
 | Attribute | Type | Description |
 |---|---|---|
-| action-id | Reference | Widget action to invoke |
+| action-id | String | Widget action to invoke |
 | enabled | String | JS condition for availability |
 
 ```xml
@@ -159,7 +160,7 @@ Body: `<switch>`, `<click>` (action), `<overlay>` (toolbar on hover)
 | fetch-on-change | boolean | false |
 | fetch-on-clear | boolean | true |
 | fetch-on-enter | boolean | true |
-| datasource | Reference | |
+| datasource | String | |
 
 Body: Field controls and fieldsets
 ```xml
@@ -175,7 +176,7 @@ Body: Field controls and fieldsets
 |---|---|---|
 | src | String | React component |
 | place | topLeft/topRight/bottomLeft/bottomRight/topCenter/bottomCenter | bottomLeft |
-| show-count | always/never/by-request | always |
+| show-count | always/by-request/never | always |
 | show-last | boolean | true |
 | prev | boolean | false |
 | next | boolean | false |
@@ -299,10 +300,53 @@ Body: `<resources>`, `<action-on-select-slot>`, `<action-on-select-event>`, `<fo
 ---
 
 ## `<chart>` — Chart Widget
-| Attribute | Type |
-|---|---|
-| width / height | String (px) |
+| Attribute | Type | Description |
+|---|---|---|
+| width | String (px) | Chart width |
+| height | String (px) | Chart height |
+
 Body: `<areas>`, `<bars>`, `<lines>`, `<pie>`
+
+### Shared Axes Attributes (`<areas>`, `<bars>`, `<lines>`)
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| x-field-id | String | Field for X axis | |
+| x-position | top/bottom | X axis position | bottom |
+| x-has-label | boolean | Show X axis label | false |
+| y-field-id | String | Field for Y axis | |
+| y-position | left/right | Y axis position | left |
+| y-has-label | boolean | Show Y axis label | false |
+| y-min | Number | Y axis minimum value | |
+| y-max | Number | Y axis maximum value | |
+| grid-horizontal | boolean | Show horizontal grid lines | true |
+| grid-vertical | boolean | Show vertical grid lines | true |
+| grid-stroke-dasharray | String | Grid line dash pattern | |
+| tooltip-separator | String | Separator in tooltip | |
+| legend-icon-type | line/square/rect/circle/cross/diamond/star/triangle/wye | Legend icon type | line |
+
+### `<area>` / `<bar>` / `<line>` Attributes
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| field-id | String | Data field (required) | |
+| label | String | Series label | |
+| color | String | Series color | |
+| has-label | boolean | Show data labels | false |
+| line-type | basis/basisClosed/basisOpen/linear/linearClosed/natural/monotoneX/monotoneY/monotone/step/stepBefore/stepAfter | Line type (`<area>`, `<line>`) | linear |
+
+### `<pie>` Attributes
+| Attribute | Type | Description | Default |
+|---|---|---|---|
+| name-field-id | String | Field for slice label | |
+| value-field-id | String | Field for slice value | value |
+| tooltip-field-id | String | Field for tooltip | |
+| color | String | Slice colors | |
+| has-label | boolean | Show data labels | false |
+| inner-radius | Number | Inner radius (donut chart) | 0 |
+| outer-radius | Number | Outer radius | |
+| start-angle | Number | Start angle in degrees | 0 |
+| end-angle | Number | End angle in degrees | 360 |
+| center-x | Number | Center X coordinate | |
+| center-y | Number | Center Y coordinate | |
 
 ## `<html>` — HTML Content Widget
 ```xml
