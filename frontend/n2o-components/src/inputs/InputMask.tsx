@@ -58,6 +58,7 @@ function Component({
         clearOnBlur,
         validate: isMaskFilled,
         className,
+        placeholder: options.placeholder,
     })
 
     return (

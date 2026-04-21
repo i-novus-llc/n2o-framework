@@ -67,6 +67,7 @@ export function InputUUID({
         clearOnBlur,
         validate: isValidUUID,
         className,
+        placeholder: DEFAULT_PLACEHOLDER,
     })
 
     return (
