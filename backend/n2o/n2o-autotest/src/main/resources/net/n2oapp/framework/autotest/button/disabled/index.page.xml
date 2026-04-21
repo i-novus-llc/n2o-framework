@@ -7,38 +7,38 @@
     <regions>
         <form datasource="ds">
             <fields>
-                <button id="buttonField"
-                    action-id="save"
-                    label="Сохранить (кнопка-поле)"
-                />
+                <button id="buttonField" action-id="save" label="Сохранить (кнопка-поле)"/>
+                <button id="buttonField1" action-id="sleep" label="Sleep (кнопка-поле)"/>
                 <input-text id="input">
                     <toolbar>
-                        <button id="fieldToolbarButton"
-                            action-id="save"
-                            disable-on-empty-model="false"
-                            label="Сохранить (тулбар поля)"
-                        />
+                        <button id="fieldToolbarButton" action-id="save"
+                            disable-on-empty-model="false" label="Сохранить (тулбар поля)"/>
+                        <button id="fieldToolbarButton1" action-id="sleep"
+                            disable-on-empty-model="false" label="Sleep (тулбар поля)"/>
                     </toolbar>
                 </input-text>
             </fields>
 
             <toolbar place="bottomLeft">
-                <button id="formToolbarButton"
-                    disable-on-empty-model="false"
-                    action-id="save"
-                    label="Сохранить (тулбар виджета)"
-                />
+                <button id="formToolbarButton" action-id="save"
+                    disable-on-empty-model="false" label="Сохранить (тулбар виджета)"/>
+                <button id="formToolbarButton1" action-id="sleep"
+                    disable-on-empty-model="false" label="Sleep (тулбар виджета)"/>
             </toolbar>
         </form>
     </regions>
     <toolbar place="bottomLeft">
         <button id="pageToolbarButton" action-id="save" label="Сохранить (тулбар страницы)"/>
+        <button id="pageToolbarButton1" action-id="sleep" label="Sleep (тулбар страницы)"/>
     </toolbar>
 
     <actions>
         <action id="save">
             <invoke object-id="data" operation-id="sleep" message-on-success="false"/>
             <alert text="alert"/>
+        </action>
+        <action id="sleep">
+            <invoke object-id="data" operation-id="sleep" message-on-success="false"/>
         </action>
     </actions>
 </page>
