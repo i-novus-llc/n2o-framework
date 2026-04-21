@@ -65,7 +65,7 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldHaveValue("ccc");
         autoComplete.click();
         autoComplete.clear();
-        autoComplete.setValue("ab");
+        autoComplete.setValue("AB");
         autoComplete.shouldHaveDropdownOptions(new String[]{"abc"});
         autoComplete.chooseDropdownOption("abc");
         autoComplete.shouldHaveValue("abc");
@@ -79,7 +79,7 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldExists();
 
         autoComplete.click();
-        autoComplete.setValue("Иванов");
+        autoComplete.setValue("ИВАНОВ");
         autoComplete.chooseDropdownOption("Иванов К.Л.");
         autoComplete.shouldHaveValue("12");
         autoComplete.setValue("А.А.");
@@ -95,6 +95,18 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.setValue("А.А.");
         autoComplete.chooseDropdownOption("Соколова А.А.");
         autoComplete.shouldHaveTags(new String[]{"12", "15"});
+
+        autoComplete.click();
+        autoComplete.removeTag("12");
+        autoComplete.removeTag("15");
+        autoComplete.setValue("ВАС");
+        autoComplete.shouldHaveDropdownOptions(new String[]{"Васильев Г.П.", "Васильев Г.П.", "Васильев К.Л."});
+
+        autoComplete.click();
+        autoComplete.clear();
+        autoComplete.setValue("вас");
+        autoComplete.shouldHaveDropdownOptions(new String[]{"Васильев Г.П.", "Васильев Г.П.", "Васильев К.Л."});
+
     }
 
     @Test
@@ -113,7 +125,7 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldExists();
 
         autoComplete.click();
-        autoComplete.setValue("item1");
+        autoComplete.setValue("Item1");
         autoComplete.enter();
         autoComplete.shouldHaveTags(new String[]{"item1"});
 
@@ -124,7 +136,7 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldHaveTags(new String[]{"item1", "abc"});
 
         autoComplete.click();
-        autoComplete.setValue("item2");
+        autoComplete.setValue("Item2");
         autoComplete.enter();
         autoComplete.shouldHaveTags(new String[]{"item1", "abc", "item2"});
 
