@@ -140,7 +140,6 @@ class ButtonAT extends AutoTestBase {
         page.shouldExists();
 
         FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class);
-        form.shouldExists();
 
         ButtonField buttonField = form.fields().field("Сохранить (кнопка-поле)", ButtonField.class);
         buttonField.shouldBeEnabled();
@@ -158,6 +157,34 @@ class ButtonAT extends AutoTestBase {
         formToolbarButton.shouldBeDisabled();
 
         StandardButton pageToolbarButton = page.toolbar().bottomLeft().button("Сохранить (тулбар страницы)");
+        pageToolbarButton.shouldBeEnabled();
+        pageToolbarButton.click();
+        pageToolbarButton.shouldBeDisabled();
+
+        // повторная проверка, чтобы учесть задержки
+        buttonField.shouldBeDisabled();
+        fieldToolbarButton.shouldBeDisabled();
+        formToolbarButton.shouldBeDisabled();
+        pageToolbarButton.shouldBeDisabled();
+
+        // блокирование кнопки при выполнении одиночного действия
+
+        buttonField = form.fields().field("Sleep (кнопка-поле)", ButtonField.class);
+        buttonField.shouldBeEnabled();
+        buttonField.click();
+        buttonField.shouldBeDisabled();
+
+        fieldToolbarButton = form.fields().field("input").toolbar().button("Sleep (тулбар поля)");
+        fieldToolbarButton.shouldBeEnabled();
+        fieldToolbarButton.click();
+        fieldToolbarButton.shouldBeDisabled();
+
+        formToolbarButton = form.toolbar().bottomLeft().button("Sleep (тулбар виджета)");
+        formToolbarButton.shouldBeEnabled();
+        formToolbarButton.click();
+        formToolbarButton.shouldBeDisabled();
+
+        pageToolbarButton = page.toolbar().bottomLeft().button("Sleep (тулбар страницы)");
         pageToolbarButton.shouldBeEnabled();
         pageToolbarButton.click();
         pageToolbarButton.shouldBeDisabled();
