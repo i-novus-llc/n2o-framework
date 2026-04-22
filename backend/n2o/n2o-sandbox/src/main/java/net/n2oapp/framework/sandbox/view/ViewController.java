@@ -20,7 +20,6 @@ import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.route.RouteInfo;
-import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.rest.*;
 import net.n2oapp.framework.api.ui.AlertMessageBuilder;
 import net.n2oapp.framework.api.ui.AlertMessagesConstructor;
@@ -33,6 +32,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ApplicationContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllIOPack;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
+import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
@@ -97,16 +97,14 @@ public class ViewController {
     private final N2oOperationProcessor operationProcessor;
     private final Environment environment;
     private final AlertMessagesConstructor messagesConstructor;
-    private final RouteRegister projectRouteRegister;
     private final ContextEngine sandboxContext;
-    private final SandboxPropertyResolver propertyResolver;
     private final FileStorage fileStorage;
     private final XsdSchemaParser schemaParser;
     private final ProjectTemplateHolder templatesHolder;
     private final ExternalFilesLoader externalFilesLoader;
     private final InvocationProcessor serviceProvider;
     private final MessageSourceAccessor messageSourceAccessor;
-    private final N2oDynamicMetadataProviderFactory dynamicMetadataProviderFactory;
+    private final Map<String, DynamicMetadataProvider> dynamicProviders;
     private final ObjectMapper objectMapper;
     private final DomainProcessor domainProcessor;
     private final List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers;
@@ -118,9 +116,7 @@ public class ViewController {
                           N2oOperationProcessor operationProcessor,
                           Environment environment,
                           AlertMessagesConstructor messagesConstructor,
-                          RouteRegister projectRouteRegister,
                           ContextEngine sandboxContext,
-                          SandboxPropertyResolver propertyResolver,
                           FileStorage fileStorage,
                           XsdSchemaParser schemaParser,
                           ProjectTemplateHolder templatesHolder,
@@ -136,15 +132,13 @@ public class ViewController {
         this.operationProcessor = operationProcessor;
         this.environment = environment;
         this.messagesConstructor = messagesConstructor;
-        this.projectRouteRegister = projectRouteRegister;
         this.sandboxContext = sandboxContext;
-        this.propertyResolver = propertyResolver;
         this.fileStorage = fileStorage;
         this.schemaParser = schemaParser;
         this.templatesHolder = templatesHolder;
         this.externalFilesLoader = externalFilesLoader;
         this.serviceProvider = serviceProvider;
-        this.dynamicMetadataProviderFactory = new N2oDynamicMetadataProviderFactory(providers.orElse(Collections.emptyMap()));
+        this.dynamicProviders = providers.orElse(Collections.emptyMap());
         this.objectMapper = objectMapper;
         this.domainProcessor = new DomainProcessor(objectMapper);
         this.messageSourceAccessor = messageSourceAccessor;
@@ -186,7 +180,6 @@ public class ViewController {
         N2oApplicationBuilder builder;
         try {
             ThreadLocalProjectId.setProjectId(projectId);
-            projectRouteRegister.clearAll();
             builder = getBuilder(projectId);
             addedValues.put("menu", getMenu(builder));
 
@@ -208,7 +201,6 @@ public class ViewController {
                         HttpServletRequest request) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
-            projectRouteRegister.clearAll();
             N2oApplicationBuilder builder = getBuilder(projectId);
             getIndex(builder);
             getMenu(builder);
@@ -470,7 +462,8 @@ public class ViewController {
     }
 
     private void getIndex(N2oApplicationBuilder builder) {
-        PageContext index = new PageContext(propertyResolver.getProperty("n2o.homepage.id"), "/");
+        PageContext index = new PageContext(
+                builder.getEnvironment().getSystemProperties().getProperty("n2o.homepage.id"), "/");
         builder.routes(new RouteInfo("/", index));
     }
 
@@ -530,9 +523,11 @@ public class ViewController {
         TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
         Map<String, String> runtimeProperties = new HashMap<>();
         runtimeProperties.put("n2o.access.schema.id", getAccessFilename(projectId, templateModel));
-        configurePropertyResolver(runtimeProperties, getApplicationProperties(projectId, templateModel));
 
-        env.setSystemProperties(propertyResolver);
+        SandboxPropertyResolver resolver = new SandboxPropertyResolver();
+        resolver.configure(environment, runtimeProperties, getApplicationProperties(projectId, templateModel));
+
+        env.setSystemProperties(resolver);
         env.setMessageSource(getMessageSourceAccessor(projectId, templateModel));
         env.setContextProcessor(new ContextProcessor(sandboxContext));
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(env);
@@ -544,8 +539,8 @@ public class ViewController {
         env.setReadPipelineFunction(p -> p.read().transform().validate());
         env.setReadCompilePipelineFunction(p -> p.read().transform().validate().compile().transform());
         env.setReadCompileBindTerminalPipelineFunction(p -> p.read().transform().validate().compile().transform().bind());
-        env.setDynamicMetadataProviderFactory(dynamicMetadataProviderFactory);
-        env.setRouteRegister(projectRouteRegister);
+        env.setDynamicMetadataProviderFactory(new N2oDynamicMetadataProviderFactory(dynamicProviders));
+        env.setRouteRegister(new N2oRouteRegister());
         env.setExternalFilesLoader(externalFilesLoader);
 
         return env;
@@ -554,10 +549,6 @@ public class ViewController {
     private void validateProjectId(String projectId) {
         if (projectId == null || !PROJECT_ID_PATTERN.matcher(projectId).matches())
             throw new IllegalArgumentException("Некорректный идентификатор проекта");
-    }
-
-    private void configurePropertyResolver(Map<String, String> runtimeProperties, String applicationPropertyFile) {
-        propertyResolver.configure(environment, runtimeProperties, applicationPropertyFile);
     }
 
     private ControllerFactory createControllerFactory(MetadataEnvironment environment) {

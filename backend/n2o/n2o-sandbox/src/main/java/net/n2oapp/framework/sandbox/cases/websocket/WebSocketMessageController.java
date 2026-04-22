@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.application.Application;
 import net.n2oapp.framework.api.metadata.application.N2oApplication;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.route.RouteInfo;
-import net.n2oapp.framework.api.register.route.RouteRegister;
+import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.boot.stomp.N2oWebSocketController;
 import net.n2oapp.framework.boot.stomp.WebSocketController;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -50,9 +50,7 @@ public class WebSocketMessageController {
     private final Random random = new Random();
     private final SimpMessagingTemplate messagingTemplate;
     private final WebSocketController wsController;
-    private final RouteRegister projectRouteRegister;
     private final ContextEngine sandboxContext;
-    private final SandboxPropertyResolver propertyResolver;
     private final FileStorage fileStorage;
     private final ProjectTemplateHolder templatesHolder;
     private final List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers;
@@ -60,18 +58,14 @@ public class WebSocketMessageController {
 
     public WebSocketMessageController(SimpMessagingTemplate messagingTemplate,
                                       WebSocketController wsController,
-                                      RouteRegister projectRouteRegister,
                                       ContextEngine sandboxContext,
-                                      SandboxPropertyResolver propertyResolver,
                                       FileStorage fileStorage,
                                       ProjectTemplateHolder templatesHolder,
                                       List<SandboxApplicationBuilderConfigurer> applicationBuilderConfigurers,
                                       Environment environment) {
         this.messagingTemplate = messagingTemplate;
         this.wsController = wsController;
-        this.projectRouteRegister = projectRouteRegister;
         this.sandboxContext = sandboxContext;
-        this.propertyResolver = propertyResolver;
         this.fileStorage = fileStorage;
         this.templatesHolder = templatesHolder;
         this.applicationBuilderConfigurers = applicationBuilderConfigurers;
@@ -82,7 +76,6 @@ public class WebSocketMessageController {
     public String sendCount(@PathVariable String projectId, @PathVariable String destination, HttpSession session) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
-            projectRouteRegister.clearAll();
             getBuilder(projectId);
 
             BadgeMessage message = new BadgeMessage();
@@ -100,7 +93,6 @@ public class WebSocketMessageController {
     public String sendColor(@PathVariable String projectId, @PathVariable String destination, HttpSession session) {
         try {
             ThreadLocalProjectId.setProjectId(projectId);
-            projectRouteRegister.clearAll();
             getBuilder(projectId);
 
             BadgeMessage message = new BadgeMessage();
@@ -133,7 +125,6 @@ public class WebSocketMessageController {
         }
         try {
             ThreadLocalProjectId.setProjectId(projectId);
-            projectRouteRegister.clearAll();
             N2oApplicationBuilder builder = getBuilder(projectId);
             getIndex(builder);
             getApplication(builder);
@@ -161,7 +152,8 @@ public class WebSocketMessageController {
     }
 
     private void getIndex(N2oApplicationBuilder builder) {
-        PageContext index = new PageContext(propertyResolver.getProperty("n2o.homepage.id"), "/");
+        PageContext index = new PageContext(
+                builder.getEnvironment().getSystemProperties().getProperty("n2o.homepage.id"), "/");
         builder.routes(new RouteInfo("/", index));
     }
 
@@ -182,9 +174,11 @@ public class WebSocketMessageController {
         N2oEnvironment env = new N2oEnvironment();
 
         TemplateModel templateModel = templatesHolder.getTemplateModel(projectId);
-        propertyResolver.configure(environment, null, getApplicationProperties(projectId, templateModel));
 
-        env.setSystemProperties(propertyResolver);
+        SandboxPropertyResolver resolver = new SandboxPropertyResolver();
+        resolver.configure(environment, null, getApplicationProperties(projectId, templateModel));
+
+        env.setSystemProperties(resolver);
         env.setContextProcessor(new ContextProcessor(sandboxContext));
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap(env);
         env.setNamespaceReaderFactory(readerFactory);
@@ -195,7 +189,7 @@ public class WebSocketMessageController {
         env.setReadPipelineFunction(p -> p.read().transform().validate());
         env.setReadCompilePipelineFunction(p -> p.read().transform().validate().compile().transform());
         env.setReadCompileBindTerminalPipelineFunction(p -> p.read().transform().validate().compile().transform().bind());
-        env.setRouteRegister(projectRouteRegister);
+        env.setRouteRegister(new N2oRouteRegister());
 
         return env;
     }
