@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
+import static net.n2oapp.framework.api.PlaceHoldersResolver.*;
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -324,6 +325,31 @@ class PlaceHoldersResolverTest {
 
         assertThat(root.get(0).equals(root.get(1)), is(true));
         assertThat(root.get(1).equals(root.get(2)), is(true));
+    }
+
+    @Test
+    void replaceNullByEmptyWithQuotesTest() {
+        assertEquals("'hello'", replaceNullByEmptyWithQuotes(k -> "hello").apply("key"));
+        assertEquals("", replaceNullByEmptyWithQuotes(k -> null).apply("key"));
+        assertEquals("['text1','text2']",
+                replaceNullByEmptyWithQuotes(k -> List.of("text1", "text2")).apply("key"));
+        assertEquals("['only']",
+                replaceNullByEmptyWithQuotes(k -> List.of("only")).apply("key"));
+        assertEquals("[]",
+                replaceNullByEmptyWithQuotes(k -> List.of()).apply("key"));
+    }
+
+    @Test
+    void replaceListByJsStringTest() {
+        assertEquals("['text1', 'text2']",
+                replaceListByJsString(k -> List.of("text1", "text2")).apply("key"));
+        assertEquals("['only']",
+                replaceListByJsString(k -> List.of("only")).apply("key"));
+        assertEquals("[]",
+                replaceListByJsString(k -> List.of()).apply("key"));
+        assertEquals("hello", replaceListByJsString(k -> "hello").apply("key"));
+        assertNull(replaceListByJsString(k -> null).apply("key"));
+        assertEquals(42, replaceListByJsString(k -> 42).apply("key"));
     }
 
     @AllArgsConstructor
