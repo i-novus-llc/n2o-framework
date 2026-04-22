@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.PropertySource;
 
 import java.util.ArrayList;
@@ -38,13 +38,13 @@ import static org.mockito.Mockito.doReturn;
 @EnableAutoConfiguration
 class SandboxPropertySettingTest {
 
-    @MockBean
+    @MockitoBean
     private HttpServletRequest request;
 
     @Autowired
     private ViewController viewController;
 
-    @MockBean
+    @MockitoBean
     private FileStorage fileStorage;
 
     @SneakyThrows
@@ -125,6 +125,6 @@ class SandboxPropertySettingTest {
 
         Page page = viewController.getPage("myProjectId", request);
         assertThat(page.getModels().get("resolve['_w1'].email").getValue(), is("test@example.com"));
-        assertThat((page.getModels().get("resolve['_w1'].roles").getValue()), is("[USER, ADMIN]"));
+        assertThat((page.getModels().get("resolve['_w1'].roles").getValue()), is("['USER', 'ADMIN']"));
     }
 }
