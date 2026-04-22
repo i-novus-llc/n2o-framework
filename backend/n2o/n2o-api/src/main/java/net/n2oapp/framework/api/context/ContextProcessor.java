@@ -42,7 +42,7 @@ public class ContextProcessor {
      */
     public String resolveText(String text) {
         try {
-            return contextResolver.resolve(text, replaceNullByEmpty(replaceOptional(context::get)));
+            return contextResolver.resolve(text, replaceListByJsString(replaceNullByEmpty(replaceOptional(context::get))));
         } catch (NotFoundPlaceholderException e) {
             throw new NotFoundContextPlaceholderException(e.getPlaceholder());
         }

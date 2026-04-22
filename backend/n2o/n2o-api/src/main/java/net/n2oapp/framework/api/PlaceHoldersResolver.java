@@ -18,6 +18,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Шаблонизатор текста.
@@ -329,14 +330,35 @@ public class PlaceHoldersResolver {
     public static Function<String, Object> replaceNullByEmpty(Function<String, Object> callback) {
         return key -> {
             Object result = callback.apply(key);
-            return result != null ? result.toString() : "";
+            return result != null ? result : "";
         };
     }
 
     public static Function<String, Object> replaceNullByEmptyWithQuotes(Function<String, Object> callback) {
         return key -> {
             Object result = callback.apply(key);
+            if (result instanceof List<?> list) {
+                return list.stream()
+                        .map(item -> "'" + item + "'")
+                        .collect(Collectors.joining(",", "[", "]"));
+            }
             return result != null ? "'" + result + "'" : "";
+        };
+    }
+
+    /**
+     * Оборачивает список строк в JS-совместимое представление вида ['text1', 'text2'].
+     * Для остальных типов значение передаётся без изменений.
+     */
+    public static Function<String, Object> replaceListByJsString(Function<String, Object> callback) {
+        return key -> {
+            Object result = callback.apply(key);
+            if (result instanceof List<?> list) {
+                return list.stream()
+                        .map(item -> "'" + item + "'")
+                        .collect(Collectors.joining(", ", "[", "]"));
+            }
+            return result;
         };
     }
 
