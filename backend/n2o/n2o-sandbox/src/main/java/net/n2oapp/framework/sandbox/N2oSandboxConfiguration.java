@@ -14,7 +14,6 @@ import net.n2oapp.framework.sandbox.file_storage.FileStorageOnDisk;
 import net.n2oapp.framework.sandbox.file_storage.S3FileStorage;
 import net.n2oapp.framework.sandbox.view.SandboxApplicationBuilderConfigurer;
 import net.n2oapp.framework.sandbox.view.SandboxContext;
-import net.n2oapp.framework.sandbox.view.SandboxPropertyResolver;
 import net.n2oapp.framework.ui.controller.N2oControllerFactory;
 import net.n2oapp.framework.ui.controller.action.SetController;
 import net.n2oapp.framework.ui.controller.query.GetController;
@@ -122,11 +121,6 @@ public class N2oSandboxConfiguration {
         controllers.putAll(setControllers);
         controllers.putAll(getControllers);
         return new N2oControllerFactory(controllers);
-    }
-
-    @Bean
-    public SandboxPropertyResolver propertyResolver() {
-        return new SandboxPropertyResolver();
     }
 
     @Bean
