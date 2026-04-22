@@ -61,6 +61,7 @@ export function InputPhone({
         prepareToStore,
         validate: config.validate,
         className,
+        placeholder: config.placeholder,
     })
 
     return (
