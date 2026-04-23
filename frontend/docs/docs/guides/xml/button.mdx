@@ -208,9 +208,10 @@ n2o.api.clipboard_button.type = text
 
 ### &lt;dependencies&gt;
 
-Зависимости компонента.
+Зависимости компонента
 
-**Тело**<br/>
+**Тело**
+
 &lt;enabling&gt; - [Условие доступности кнопки](#enabling)<br/>
 &lt;visibility&gt; - [Условие видимости кнопки](#visibility)
 
@@ -236,11 +237,17 @@ n2o.api.clipboard_button.type = text
 |model        |resolve edit filter multi datasource                    |Модель виджета, по полю которой будет фильтрация  |                                |
 |message      |Строка                                                  |Сообщение о причине недоступности                 |                                |
 
-**Тело**<br/>
-Java Script выражение.
+**Тело**
+
+Java Script выражение
 
 :::note
-Будет проигнорировано при заданном `disable-on-empty-model=true`
+Зависимость будет проигнорирована при заданном `disable-on-empty-model=true`
+:::
+
+:::note
+Для кнопки внутри таблицы, если не задать атрибуты `datasource`/`model`,
+то выражение будет считаться относительно текущей строки, а не resolve модели
 :::
 
 **Пример**
@@ -262,8 +269,14 @@ Java Script выражение.
 |datasource   |Ссылка на [источник данных](../xml/datasource#datasources) |Идентификатор источника данных вычисления условия       |Источник данных текущего виджета|
 |model        |resolve edit filter multi datasource                       |Модель виджета, по полю которого будет фильтрация       |                                |
 
-**Тело**<br/>
-Java Script выражение.
+**Тело**
+
+Java Script выражение
+
+:::note
+Для кнопки внутри таблицы, если не задать атрибуты `datasource`/`model`,
+то выражение будет считаться относительно текущей строки, а не resolve модели
+:::
 
 **Пример**
 
