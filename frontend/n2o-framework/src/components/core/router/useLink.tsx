@@ -81,7 +81,7 @@ export function useLink({
     }, [dispatch, href, pageId, getState, url, onClick, target])
 
     return {
-        active: href ? pathname.includes(href) : false,
+        active: href ? pathname.includes(href.replace(/^\.\//, '')) : false,
         target: target === LinkTarget.blank ? target : undefined,
         url,
         onClick: onClickHandler,
