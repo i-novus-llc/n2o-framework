@@ -30,6 +30,7 @@ export function useInputController(
         clearOnBlur,
         prepareToStore,
         className = '',
+        placeholder,
     }: useInputControllerProps,
 ) {
     const [stateValue, setStateValue] = useState<string>(defaultValue || '')
@@ -63,6 +64,10 @@ export function useInputController(
             }
 
             onChange?.(value)
+        }
+
+        if (placeholder && (value === placeholder)) {
+            onMessage?.(null)
         }
     }
 
