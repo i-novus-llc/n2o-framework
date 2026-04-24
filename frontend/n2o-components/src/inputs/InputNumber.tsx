@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
+import React, { ChangeEvent, KeyboardEvent, useRef, useState } from 'react'
 import { useMaskito } from '@maskito/react'
 import { maskitoNumberOptionsGenerator } from '@maskito/kit'
 import classNames from 'classnames'
@@ -6,6 +6,7 @@ import { type MaskitoOptions, maskitoTransform } from '@maskito/core'
 
 import { withRightPlaceholder } from '../helpers/withRightPlaceholder'
 
+import { combineRefs } from './utils'
 import { type CommonMaskedInputProps } from './types'
 
 export interface InputNumberProps extends Omit<CommonMaskedInputProps, 'onChange' | 'onBlur'> {
@@ -77,6 +78,7 @@ function Component({
         maximumFractionDigits,
     })
     const maskRef = useMaskito({ options })
+    const inputRef = useRef<HTMLInputElement | null>(null)
 
     const value = getValue(defaultValue, viewFloatValue, options)
 
@@ -106,6 +108,10 @@ function Component({
         const inputValue = keepWithinRange(numberValue)
 
         onChange?.(inputValue)
+
+        if (!disabled && inputRef.current) {
+            inputRef.current?.focus()
+        }
     }
 
     const increase = () => handleStepChange(DIRECTION_STEP.INCREASE)
@@ -151,7 +157,7 @@ function Component({
             <input
                 placeholder={placeholder}
                 value={value}
-                ref={maskRef}
+                ref={combineRefs(maskRef, inputRef)}
                 className={classNames('n2o-input', 'form-control', className)}
                 onKeyDown={handleKeyDown}
                 onInput={handleChange}
@@ -169,6 +175,7 @@ function Component({
                         type="button"
                         onClick={increase}
                         tabIndex={-1}
+                        onMouseDown={e => e.preventDefault()}
                     >
                         <i className="fa fa-angle-up" aria-hidden="true" />
                     </button>
@@ -177,6 +184,7 @@ function Component({
                         type="button"
                         onClick={decrease}
                         tabIndex={-1}
+                        onMouseDown={e => e.preventDefault()}
                     >
                         <i className="fa fa-angle-down" aria-hidden="true" />
                     </button>
