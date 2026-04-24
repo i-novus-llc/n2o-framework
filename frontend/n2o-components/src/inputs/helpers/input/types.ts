@@ -13,6 +13,7 @@ export interface useInputControllerProps extends useInputControllerOptions {
     className?: string
     prepareToStore?(value: string): string
     validate: Validate
+    placeholder?: string
 }
 
 export interface InputProps extends useInputControllerOptions {

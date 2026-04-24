@@ -47,6 +47,7 @@ export function InputSNILS({
         validate: isValidSNILS,
         className,
         prepareToStore,
+        placeholder: DEFAULT_PLACEHOLDER,
     })
 
     return (
