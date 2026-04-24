@@ -19,4 +19,8 @@
     .group:has(> .group-children > .group-children__child:hover) > .group-header {
         color: $pink;
     }
+
+    .n2o-navigation-panel__children.active {
+        color: #78909c;
+    }
 }
