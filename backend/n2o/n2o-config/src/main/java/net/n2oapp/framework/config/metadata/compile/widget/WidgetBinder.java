@@ -23,6 +23,14 @@ public class WidgetBinder implements BaseMetadataBinder<Widget<?>> {
                 });
             }
         }
+        if (widget.getDependency() != null) {
+            if (widget.getDependency().getEnabled() != null)
+                widget.getDependency().getEnabled().stream().filter(c -> c.getCondition() instanceof String)
+                        .forEach(c -> c.setCondition(p.resolveTextWithQuotes((String) c.getCondition())));
+            if (widget.getDependency().getVisible() != null)
+                widget.getDependency().getVisible().stream().filter(c -> c.getCondition() instanceof String)
+                        .forEach(c -> c.setCondition(p.resolveTextWithQuotes((String) c.getCondition())));
+        }
         return widget;
     }
 

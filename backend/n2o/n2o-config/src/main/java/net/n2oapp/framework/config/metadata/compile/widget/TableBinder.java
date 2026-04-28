@@ -26,6 +26,9 @@ public class TableBinder extends BaseListWidgetBinder<Table> {
         }
         if (compiled.getComponent().getBody().getCells() != null)
             compiled.getComponent().getBody().getCells().forEach(p::bind);
+        if (compiled.getComponent().getHeader() != null && compiled.getComponent().getHeader().getCells() != null) {
+            compiled.getComponent().getHeader().getCells().forEach(p::bind);
+        }
         return compiled;
     }
 }

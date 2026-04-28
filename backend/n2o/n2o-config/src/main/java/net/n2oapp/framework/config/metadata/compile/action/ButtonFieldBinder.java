@@ -20,6 +20,7 @@ public class ButtonFieldBinder implements BaseMetadataBinder<ButtonField> {
     @Override
     public ButtonField bind(ButtonField compiled, BindProcessor p) {
         BadgeUtil.bindSimpleBadge(compiled.getBadge(), p);
+        compiled.getDependencies().forEach(d -> d.setExpression(p.resolveTextWithQuotes(d.getExpression())));
         return compiled;
     }
 }
