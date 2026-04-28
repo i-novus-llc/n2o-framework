@@ -376,6 +376,10 @@
           "name": "NavRegionAT.testRow"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/region/nav/tabs",
+          "name": "NavRegionAT.testTabs"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/region/row/simple",
           "name": "RowRegionAT. testSimple"
         },
@@ -764,6 +768,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/cells/edit/offline",
           "name": "EditCellAT. testOffline"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/cells/edit/input_number",
+          "name": "EditCellAT. testInputNumber"
         }
       ]
     },

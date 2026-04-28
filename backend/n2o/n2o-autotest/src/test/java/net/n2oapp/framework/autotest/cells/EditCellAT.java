@@ -49,6 +49,33 @@ class EditCellAT extends AutoTestBase {
     }
 
     @Test
+    void testInputNumber() {
+        setResourcePath("net/n2oapp/framework/autotest/cells/edit/input_number");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/cells/edit/input_number/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/edit/input_number/data.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/edit/input_number/data.object.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        TableWidget table = page.widget(TableWidget.class);
+        TableWidget.Rows rows = table.columns().rows();
+        rows.shouldHaveSize(3);
+
+        EditCell cell = rows.row(0).cell(1, EditCell.class);
+        InputText input = cell.control(InputText.class);
+
+        input.shouldHaveValue("6");
+        cell.click();
+        input.clickPlusStepButton();
+        input.shouldHaveValue("7");
+        page.element().click();
+        input.shouldHaveValue("7");
+        cell.hover();
+        input.shouldHaveValue("7");
+    }
+
+    @Test
     void testSimple() {
         setResourcePath("net/n2oapp/framework/autotest/cells/edit/simple");
         builder.sources(

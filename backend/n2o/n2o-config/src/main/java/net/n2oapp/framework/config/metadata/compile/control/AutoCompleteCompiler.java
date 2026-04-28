@@ -33,7 +33,7 @@ public class AutoCompleteCompiler extends ListControlCompiler<AutoComplete, N2oA
         AutoComplete autoComplete = new AutoComplete();
         autoComplete.setValueFieldId(castDefault(source.getValueFieldId(),
                 () -> p.resolve(property("n2o.api.control.auto_complete.value_field_id"), String.class)));
-        autoComplete.setLabelFieldId(castDefault(source.getLabelFieldId(), "name"));
+        autoComplete.setLabelFieldId(castDefault(source.getLabelFieldId(), autoComplete.getValueFieldId(), "name"));
         autoComplete.setInputLabelFieldId(castDefault(source.getInputLabelFieldId(), autoComplete.getLabelFieldId()));
         autoComplete.setTags(castDefault(source.getTags(),
                 () -> p.resolve(property("n2o.api.control.auto_complete.tags"), Boolean.class)));
