@@ -376,6 +376,10 @@
           "name": "NavRegionAT.testRow"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/region/nav/tabs",
+          "name": "NavRegionAT.testTabs"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/region/row/simple",
           "name": "RowRegionAT. testSimple"
         },

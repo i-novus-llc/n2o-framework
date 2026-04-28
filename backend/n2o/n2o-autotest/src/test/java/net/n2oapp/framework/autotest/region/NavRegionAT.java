@@ -4,6 +4,7 @@ import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.NavRegion;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
+import net.n2oapp.framework.autotest.impl.component.region.N2oNavRegion;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -35,6 +36,30 @@ class NavRegionAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oApplicationPack(), new N2oAllDataPack());
 
+    }
+
+    @Test
+    void testTabs() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/region/nav/tabs/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/nav/tabs/test1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/nav/tabs/test2.page.xml")
+                );
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        NavRegion nav = page.regions().region(0, NavRegion.class);
+        nav.shouldExists();
+        nav.content().shouldHaveSize(2);
+        N2oNavRegion.N2oAnchorItem item0 = nav.content().item(0, N2oNavRegion.N2oAnchorItem.class);
+        item0.shouldHaveLabel("Страница 1");
+        item0.shouldBeActive();
+        N2oNavRegion.N2oAnchorItem item1 = nav.content().item(1, N2oNavRegion.N2oAnchorItem.class);
+        item1.shouldHaveLabel("Страница 2");
+        item1.shouldNotBeActive();
+        item1.click();
+        item1.shouldBeActive();
+        item0.shouldNotBeActive();
     }
 
     @Test
