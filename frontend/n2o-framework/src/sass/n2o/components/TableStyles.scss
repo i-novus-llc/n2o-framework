@@ -128,41 +128,9 @@
         }
     }
 
-    tbody {
-        tr {
-            &[data-focused="true"] {
-                background-color: #ececec;
-
-                &:not(.table-success, .table-warning, .table-danger, .table-info, .table-secondary, .table-primary) .sticky-cell {
-                    background-color: inherit;
-                }
-            }
-
-            &[data-overlay-hovered="true"],
-            &:hover {
-                background-color: #dfdfdf;
-
-                &:not(.table-success, .table-warning, .table-danger, .table-info, .table-secondary, .table-primary) .sticky-cell {
-                    background-color: inherit;
-                }
-            }
-
-            &[data-has-click="true"] {
-                cursor: pointer;
-            }
-        }
-    }
-
     table {
         // из bootstrap тянется collapse, который ломает бордеры у position:sticky элементов таблицы
         border-collapse: separate !important;
-    }
-
-    .cell-selection {
-        width: 34px;
-        // Если не указывать min/max, то таблица может игнорировать width и тянуть/сжимать колонку как хочет
-        min-width: 34px;
-        max-width: 34px;
     }
 
     &[data-text-wrap="false"] {
@@ -211,6 +179,48 @@
         .cell-content .tooltip .tooltip-inner {
             white-space: break-spaces;
         }
+    }
+
+    tbody {
+        tr {
+            &[data-focused="true"] {
+                background-color: #ececec;
+
+                &:not(.table-success, .table-warning, .table-danger, .table-info, .table-secondary, .table-primary) .sticky-cell {
+                    background-color: inherit;
+                }
+
+                td {
+                    background-color: #ececec;
+                    border-color: #ececec;
+                }
+            }
+
+            &[data-overlay-hovered="true"],
+            &:hover {
+                background-color: #dfdfdf;
+
+                &:not(.table-success, .table-warning, .table-danger, .table-info, .table-secondary, .table-primary) .sticky-cell {
+                    background-color: inherit;
+                }
+
+                td {
+                    background-color: #dfdfdf;
+                    border-color: #dfdfdf;
+                }
+            }
+
+            &[data-has-click="true"] {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .cell-selection {
+        width: 34px;
+        // Если не указывать min/max, то таблица может игнорировать width и тянуть/сжимать колонку как хочет
+        min-width: 34px;
+        max-width: 34px;
     }
 
     &.sticky-header {
