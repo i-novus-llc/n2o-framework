@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form>
+        <fields>
+            <button id="btn">
+                <close/>
+                <dependencies>
+                    <enabling>status == #{ctxParam}</enabling>
+                </dependencies>
+            </button>
+        </fields>
+    </form>
+</simple-page>

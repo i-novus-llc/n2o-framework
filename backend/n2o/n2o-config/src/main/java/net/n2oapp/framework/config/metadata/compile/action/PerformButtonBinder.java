@@ -21,6 +21,8 @@ public class PerformButtonBinder implements BaseMetadataBinder<PerformButton> {
     @Override
     public PerformButton bind(PerformButton compiled, BindProcessor p) {
         BadgeUtil.bindSimpleBadge(compiled.getBadge(), p);
+        compiled.getConditions().values().forEach(conditions ->
+                conditions.forEach(c -> c.setExpression(p.resolveTextWithQuotes(c.getExpression()))));
         return compiled;
     }
 }
