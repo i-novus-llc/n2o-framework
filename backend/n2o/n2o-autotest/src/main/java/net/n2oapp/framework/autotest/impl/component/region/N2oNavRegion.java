@@ -8,6 +8,7 @@ import net.n2oapp.framework.autotest.api.component.region.NavRegion;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 public class N2oNavRegion extends N2oRegion implements NavRegion {
+    private static final String ACTIVE = "active";
 
     @Override
     public RegionItems content() {
@@ -79,6 +80,16 @@ public class N2oNavRegion extends N2oRegion implements NavRegion {
         @Override
         public void click() {
             element().click();
+        }
+
+        @Override
+        public void shouldBeActive() {
+            element().shouldHave(Condition.cssClass(ACTIVE));
+        }
+
+        @Override
+        public void shouldNotBeActive() {
+            element().shouldNotHave(Condition.cssClass(ACTIVE));
         }
     }
 

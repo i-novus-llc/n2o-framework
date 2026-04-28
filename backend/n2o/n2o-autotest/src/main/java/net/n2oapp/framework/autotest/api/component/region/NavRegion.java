@@ -64,6 +64,16 @@ public interface NavRegion extends Region {
          * @param url Ожидаемый URL
          */
         void shouldHaveUrl(String url);
+
+        /**
+         * Проверка того, что вкладка выбрана/открыта
+         */
+        void shouldBeActive();
+
+        /**
+         * Проверка того, что вкладка не выбрана/открыта
+         */
+        void shouldNotBeActive();
     }
 
     /**

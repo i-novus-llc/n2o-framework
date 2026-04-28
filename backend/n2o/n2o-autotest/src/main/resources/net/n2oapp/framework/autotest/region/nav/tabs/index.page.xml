@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Проверка выделения вкладки в регионе nav">
+      <regions>
+            <region>
+                  <nav direction="row" >
+                        <link href="./test1" target="application"
+                              label="Страница 1"/>
+
+                        <link href="./test2" target="application"
+                              label="Страница 2"/>
+
+                  </nav>
+                  <sub-page default-page-id="test1">
+                        <page page-id="test1" route="/test1"/>
+                        <page page-id="test2" route="/test2"/>
+                  </sub-page>
+            </region>
+      </regions>
+</page>
