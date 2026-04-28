@@ -1,4 +1,4 @@
-import type { ModelPrefix } from '../../core/datasource/const'
+import type { ModelPrefix } from '../../core/models/types'
 
 export interface MappingParam {
     link: string
