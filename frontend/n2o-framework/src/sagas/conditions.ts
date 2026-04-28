@@ -5,6 +5,7 @@ import {
     select,
 } from 'redux-saga/effects'
 import get from 'lodash/get'
+import escapeRegExp from 'lodash/escapeRegExp'
 
 import evalExpression from '../utils/evalExpression'
 import {
@@ -20,10 +21,11 @@ import { MergeModelAction } from '../ducks/models/Actions'
 import { registerButton } from '../ducks/toolbar/store'
 import { RegisterButton } from '../ducks/toolbar/Actions'
 import { toolbarSelector } from '../ducks/toolbar/selectors'
-import { State as ToolbarState, Condition } from '../ducks/toolbar/Toolbar'
+import { type State as ToolbarState, type Condition, type ButtonState } from '../ducks/toolbar/Toolbar'
 // eslint-disable-next-line import/no-cycle
 import { resolveButton } from '../ducks/toolbar/sagas'
 import { State as GlobalState } from '../ducks/State'
+import { type ModelLink, ModelPrefix } from '../core/models/types'
 
 /**
  * резолв кондишена, резолв message из expression
@@ -52,11 +54,33 @@ export const resolveConditions = (
     return { resolve, message: undefined }
 }
 
-function* callConditionHandlers(
-    prefix: string,
-    key: string,
-) {
-    const modelLink = `models.${prefix}['${key}']`
+function isMatchingLink(baseModelLink: string, conditionLink: string, prefix: ModelPrefix): boolean {
+    if (prefix === ModelPrefix.source) {
+        // @INFO исключение для source
+        // Проверка начинается с baseLink, затем либо конец строки, либо '['
+        // Необходимо для ссылок с индексом models.datasource['_ds2'][1] или models.datasource['_ds2']
+        const regex = new RegExp(`^${escapeRegExp(baseModelLink)}(\\[|$)`)
+
+        return regex.test(conditionLink)
+    }
+
+    return conditionLink === baseModelLink
+}
+
+function hasMatchingCondition(button: ButtonState, baseModelLink: ModelLink, prefix: ModelPrefix): boolean {
+    const { conditions } = button
+
+    if (!conditions) { return false }
+
+    const check = (
+        list?: Array<{ modelLink: string }>,
+    ) => list?.some(c => isMatchingLink(baseModelLink, c.modelLink, prefix)) ?? false
+
+    return check(conditions.enabled) || check(conditions.visible)
+}
+
+function* callConditionHandlers(prefix: ModelPrefix, key: string) {
+    const baseModelLink: ModelLink = `models.${prefix}['${key}']`
     const toolbar: ToolbarState = yield select(toolbarSelector)
 
     for (const buttons of Object.values(toolbar)) {
@@ -64,13 +88,10 @@ function* callConditionHandlers(
 
         for (const [buttonId, button] of Object.entries(buttons)) {
             if (
-                (button.conditions?.enabled?.some(c => c.modelLink === modelLink)) ||
-                (button.conditions?.visible?.some(c => c.modelLink === modelLink))
+                !temp.has(buttonId) &&
+                hasMatchingCondition(button, baseModelLink, prefix)
             ) {
-                if (!temp.has(buttonId)) {
-                    yield fork(resolveButton, button)
-                }
-
+                yield fork(resolveButton, button)
                 temp.add(buttonId)
             }
         }
@@ -78,8 +99,8 @@ function* callConditionHandlers(
 }
 
 interface WatchModelPayload {
-    prefix: string
-    prefixes: string
+    prefix: ModelPrefix
+    prefixes: ModelPrefix[]
     key: string
 }
 
@@ -101,7 +122,8 @@ function* watchModel(action: { payload: WatchModelPayload }) {
 function* watchCombineModels({ payload: { combine } }: MergeModelAction) {
     for (const [prefix, models] of Object.entries(combine)) {
         for (const key of Object.keys(models)) {
-            yield call(callConditionHandlers, prefix, key)
+            // TODO посмотреть типизацию MergeModelAction, тут должно работать без 'as' присваивания
+            yield call(callConditionHandlers, prefix as ModelPrefix, key)
         }
     }
 }
