@@ -15,6 +15,21 @@
                         </button>
                     </toolbar>
                 </column>
+                <column text-field-id="status"/>
+                <column>
+                    <toolbar>
+                        <button label="Завершить"
+                                refresh-datasources="ds1"
+                                color="success">
+                            <invoke operation-id="update" object-id="test">
+                                <form-param id="status" value="9"/>
+                            </invoke>
+                            <dependencies>
+                                <visibility>status == 1</visibility>
+                            </dependencies>
+                        </button>
+                    </toolbar>
+                </column>
             </columns>
         </table>
     </regions>

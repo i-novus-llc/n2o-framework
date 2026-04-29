@@ -2,21 +2,25 @@
   {
     "id": 1,
     "name": "test1",
-    "type": "1"
+    "type": "1",
+    "status" : 1
   },
   {
     "id": 2,
     "name": "test2",
-    "type": "1"
+    "type": "1",
+    "status" : 1
   },
   {
     "id": 3,
     "name": "test3",
-    "type": "2"
+    "type": "2",
+    "status" : 1
   },
   {
     "id": 4,
     "name": "test4",
-    "type": "2"
+    "type": "2",
+    "status" : 1
   }
 ]
