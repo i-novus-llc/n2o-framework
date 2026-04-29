@@ -269,9 +269,9 @@
                 <xs:annotation>
                     <xs:documentation>Чекбокс.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="enabled" type="xs:boolean" use="optional">
+                <xs:attribute name="enabled" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Доступность чекбокса.</xs:documentation>
+                        <xs:documentation>Условие доступности чекбокса.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
