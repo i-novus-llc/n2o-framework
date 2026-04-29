@@ -88,7 +88,8 @@ class ButtonVisibilityAT extends AutoTestBase {
         setResourcePath("net/n2oapp/framework/autotest/condition/button/visibility/in_cell");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/in_cell/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/in_cell/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/in_cell/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/button/visibility/in_cell/test.object.xml")
         );
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
@@ -103,5 +104,14 @@ class ButtonVisibilityAT extends AutoTestBase {
                 .cell(1, ToolbarCell.class).toolbar().button("Button").shouldBeVisible();
         table.columns().rows().row(2)
                 .cell(1, ToolbarCell.class).toolbar().button("Button").shouldBeHidden();
+
+        StandardButton button = table.columns().rows().row(0)
+                .cell(3, ToolbarCell.class).toolbar().button("Завершить");
+        button.shouldBeVisible();
+        button.click();
+        button.shouldBeHidden();
+
+        table.columns().rows().row(1)
+                .cell(3, ToolbarCell.class).toolbar().button("Завершить").shouldBeVisible();
     }
 }
