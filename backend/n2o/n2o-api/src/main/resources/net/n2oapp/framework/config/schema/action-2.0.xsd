@@ -802,6 +802,7 @@
             <xs:element name="refresh" type="refreshDefinition" minOccurs="0"/>
             <xs:element name="alert" type="alertDefinition" minOccurs="0"/>
             <xs:element name="set-value" type="setValueDefinition" minOccurs="0"/>
+            <xs:element name="edit-list" type="editListDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
