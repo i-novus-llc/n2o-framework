@@ -49,6 +49,22 @@
         .form-control .form-control {
             padding-top: 0;
         }
+
+        .n2o-input-number {
+            position: relative;
+
+            .n2o-input-number-buttons {
+                top: 0;
+                bottom: 0;
+
+                button {
+                    i {
+                        max-height: min-content;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
     }
 
     &.editable {
