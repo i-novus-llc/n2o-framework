@@ -4,6 +4,7 @@ import React, {
     ReactNode,
     LegacyRef,
     useContext,
+    createContext,
     forwardRef,
 } from 'react'
 import { Provider } from 'react-redux'
@@ -40,6 +41,7 @@ import { TemplateProps } from './components/core/templates/types'
 import { WindowType } from './components/core/WindowType'
 import { ErrorContainerProviderProps } from './core/error/types'
 import { EMPTY_OBJECT } from './utils/emptyTypes'
+import { ShowDelayMsContext, useSpinnerContextProps } from './factoryComponents/useSpinnerContextProps'
 
 const { version } = packageJson
 
@@ -71,6 +73,8 @@ export interface N2OProps extends WithTranslation {
     defaultTemplate?: ComponentType<TemplateProps>
     forwardedRef?: LegacyRef<HTMLDivElement>
     // eslint-disable-next-line react/no-unused-prop-types
+    spinnerShowDelayMs?: number
+    // eslint-disable-next-line react/no-unused-prop-types
     markdownFieldMappers?: MarkdownFieldMappers
 }
 
@@ -83,13 +87,15 @@ export interface N2OContextProps {
     extraDefaultErrorPages?: object
     markdownFieldMappers?: MarkdownFieldMappers
     version: string
+    spinnerShowDelayMs?: number
 }
 
-export const N2OContext = React.createContext<N2OContextProps>({
+export const N2OContext = createContext<N2OContextProps>({
     markdownFieldMappers: {},
     defaultTemplate: Template,
     extraDefaultErrorPages: {},
     version,
+    spinnerShowDelayMs: 250,
 })
 
 class N2oBody extends Component<N2OProps, N2OState> {
@@ -202,16 +208,21 @@ export const withN2OContext = <P extends object>(WrappedComponent: React.Compone
 
 const EnhancedN2O = withTranslation()(
     forwardRef<HTMLDivElement, N2OProps>((props: N2OProps, ref?: LegacyRef<HTMLDivElement>) => {
+        const spinnerContext = useSpinnerContextProps(props.spinnerShowDelayMs)
+
         return (
             <N2OContext.Provider
                 value={{
                     defaultTemplate: props.defaultTemplate,
                     extraDefaultErrorPages: props.extraDefaultErrorPages,
                     markdownFieldMappers: props.markdownFieldMappers,
+                    spinnerShowDelayMs: spinnerContext.showDelayMs,
                     version,
                 }}
             >
-                <N2oBody {...props} forwardedRef={ref} />
+                <ShowDelayMsContext.Provider value={spinnerContext}>
+                    <N2oBody {...props} forwardedRef={ref} />
+                </ShowDelayMsContext.Provider>
             </N2OContext.Provider>
         )
     }),

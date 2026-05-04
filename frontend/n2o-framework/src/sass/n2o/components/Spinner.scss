@@ -27,3 +27,8 @@
         transform: translate(-50%, -50%);
     }
 }
+
+/* Если есть верхний враппер с активным спиннером, то скрываем спиннеры внутри любых других врапперов, которые находятся внутри него */
+.n2o-spinner-wrapper:has(> .n2o-spinner-container .spinner-border) .n2o-spinner-wrapper .n2o-spinner-container .spinner-border {
+    display: none;
+}

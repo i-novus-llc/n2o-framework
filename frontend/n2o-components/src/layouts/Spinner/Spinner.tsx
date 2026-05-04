@@ -14,6 +14,7 @@ export interface Props extends TBaseProps {
     color?: string
     loading: boolean
     minSpinnerTimeToShow?: number
+    showDelayMs?: number
     text?: string
     title?: string
     transparent?: boolean
@@ -28,56 +29,68 @@ export const Spinner = ({
     className,
     color = 'primary',
     minSpinnerTimeToShow = 250,
+    showDelayMs = 0,
     text = '',
     title = '',
     transparent = false,
     type = SpinnerType.inline,
     ...rest
-}: Props): JSX.Element | null => {
+}: Props) => {
     const [showSpinner, setShowSpinner] = useState(false)
     const [loadingStartTime, setLoadingStartTime] = useState<number | null>(null)
-    const timeoutId = useRef<NodeJS.Timeout | null>(null)
+
+    const showTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+    const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
     useEffect(() => {
         return () => {
-            if (timeoutId.current) {
-                clearTimeout(timeoutId.current)
-            }
+            if (showTimeoutRef.current) { clearTimeout(showTimeoutRef.current) }
+            if (hideTimeoutRef.current) { clearTimeout(hideTimeoutRef.current) }
         }
     }, [])
 
     useEffect(() => {
-        if (!loading) { return }
+        if (!loading || showSpinner) { return undefined }
 
-        setShowSpinner(true)
-        setLoadingStartTime(Date.now())
-    }, [loading])
+        if (showTimeoutRef.current) { clearTimeout(showTimeoutRef.current) }
 
-    useEffect(() => {
-        if (loading || loadingStartTime === null) { return }
+        showTimeoutRef.current = setTimeout(() => {
+            setShowSpinner(true)
+            setLoadingStartTime(Date.now())
+            showTimeoutRef.current = null
+        }, showDelayMs)
 
-        const elapsedTime = Date.now() - loadingStartTime
-        const remainingTime = minSpinnerTimeToShow - elapsedTime
-
-        if (remainingTime <= 0) {
-            setShowSpinner(false)
-            setLoadingStartTime(null)
-
-            return
-        }
-
-        timeoutId.current = setTimeout(() => {
-            setShowSpinner(false)
-            setLoadingStartTime(null)
-        }, remainingTime)
-
-        // eslint-disable-next-line consistent-return
         return () => {
-            if (timeoutId.current) {
-                clearTimeout(timeoutId.current)
+            if (showTimeoutRef.current) {
+                clearTimeout(showTimeoutRef.current)
             }
         }
-    }, [loading, loadingStartTime, minSpinnerTimeToShow])
+    }, [loading, showDelayMs, showSpinner])
+
+    useEffect(() => {
+        if (loading || !showSpinner || loadingStartTime === null) { return undefined }
+
+        const elapsed = Date.now() - loadingStartTime
+        const remaining = minSpinnerTimeToShow - elapsed
+
+        if (remaining <= 0) {
+            setShowSpinner(false)
+            setLoadingStartTime(null)
+
+            return undefined
+        }
+
+        if (hideTimeoutRef.current) { clearTimeout(hideTimeoutRef.current) }
+
+        hideTimeoutRef.current = setTimeout(() => {
+            setShowSpinner(false)
+            setLoadingStartTime(null)
+        }, remaining)
+
+        return () => {
+            if (hideTimeoutRef.current) { clearTimeout(hideTimeoutRef.current) }
+        }
+    }, [loading, showSpinner, loadingStartTime, minSpinnerTimeToShow])
 
     const renderCoverSpinner = () => (
         <div className={classNames('n2o-spinner-wrapper', className, { 'n2o-disabled-page': loading })}>

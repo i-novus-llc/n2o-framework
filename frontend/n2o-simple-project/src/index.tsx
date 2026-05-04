@@ -19,7 +19,8 @@ const config = {
       warning: 0,
       info: 0,
     }
-  }
+  },
+    spinnerShowDelayMs: 500,
 }
 
 const container = document.getElementById('n2o')
