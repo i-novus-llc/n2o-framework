@@ -5,9 +5,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import org.springframework.stereotype.Component;
 
@@ -18,17 +15,9 @@ public class ToolbarCellAccessTransformer extends BaseAccessTransformer<ToolbarC
     public ToolbarCell transform(ToolbarCell compiled, CompileContext<?, ?> context, CompileProcessor p) {
         MetaActions actions = p.getScope(MetaActions.class);
         if (actions != null && compiled.getToolbar() != null) {
-            for (Group group : compiled.getToolbar()) {
-                for (AbstractButton b : group.getButtons()) {
-                    if (b.getAction() != null) {
-                        transfer(b.getAction(), b);
-                    } else if (b instanceof Submenu submenu && submenu.getContent() != null) {
-                        for (PerformButton menuItem : submenu.getContent()) {
-                            if (menuItem.getAction() != null) {
-                                transfer(menuItem.getAction(), menuItem);
-                            }
-                        }
-                    }
+            for (AbstractButton b : flattenButtons(compiled.getToolbar())) {
+                if (b.getAction() != null) {
+                    transfer(b.getAction(), b);
                 }
             }
         }
