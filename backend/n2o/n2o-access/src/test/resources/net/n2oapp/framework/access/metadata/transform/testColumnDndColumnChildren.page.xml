@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
+    <regions>
+        <panel id="regionId" place="single">
+            <table id="testTable" query-id="testQuery">
+                <columns>
+                    <dnd-column>
+                        <column text-field-id="actionA">
+                            <toolbar>
+                                <button label="a1" sec:roles="admin"/>
+                            </toolbar>
+                        </column>
+                        <column text-field-id="actionB">
+                            <toolbar>
+                                <button label="b1" sec:permissions="edit"/>
+                            </toolbar>
+                        </column>
+                    </dnd-column>
+                </columns>
+            </table>
+        </panel>
+    </regions>
+</page>

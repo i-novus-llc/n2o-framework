@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
+    <regions>
+        <panel id="regionId" place="single">
+            <table id="testTable" query-id="testQuery">
+                <columns>
+                    <column text-field-id="action">
+                        <toolbar>
+                            <sub-menu label="more">
+                                <menu-item label="m1" sec:roles="admin"/>
+                                <menu-item label="m2"/>
+                            </sub-menu>
+                        </toolbar>
+                    </column>
+                </columns>
+            </table>
+        </panel>
+    </regions>
+</page>

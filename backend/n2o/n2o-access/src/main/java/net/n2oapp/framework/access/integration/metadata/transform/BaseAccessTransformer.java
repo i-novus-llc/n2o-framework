@@ -19,6 +19,9 @@ import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileTransformer;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 
@@ -50,8 +53,8 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         Security security = getSecurity(compiled);
         SecurityObject securityObject = new SecurityObject();
         if (CollectionUtils.isNotEmpty(security) &&
-                (nonNull(security.get(0).get("object"))
-                        || nonNull(security.get(0).get(CUSTOM)))) return;
+                (nonNull(security.getFirst().get("object"))
+                        || nonNull(security.getFirst().get(CUSTOM)))) return;
 
         if (nonNull(schema.getPermitAllPoints())) {
             schema.getPermitAllPoints().stream()
@@ -133,7 +136,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
         if (security.isEmpty())
             security.add(new HashMap<>());
-        security.get(0).put("object", securityObject);
+        security.getFirst().put("object", securityObject);
     }
 
     protected void collectPageAccess(PropertiesAware compiled, String pageId, SimpleCompiledAccessSchema schema,
@@ -143,8 +146,8 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         final String originPageId = pageId.split("\\?")[0];
         Security security = getSecurity(compiled);
         if (CollectionUtils.isNotEmpty(security) &&
-                (nonNull(security.get(0).get("page"))
-                        || nonNull(security.get(0).get(CUSTOM)))) return;
+                (nonNull(security.getFirst().get("page"))
+                        || nonNull(security.getFirst().get(CUSTOM)))) return;
 
         SecurityObject securityObject = new SecurityObject();
 
@@ -233,7 +236,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
         if (security.isEmpty())
             security.add(new HashMap<>());
-        security.get(0).put("page", securityObject);
+        security.getFirst().put("page", securityObject);
     }
 
     protected void collectUrlAccess(PropertiesAware compiled, String url, SimpleCompiledAccessSchema schema,
@@ -242,8 +245,8 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             return;
         Security security = getSecurity(compiled);
         if (CollectionUtils.isNotEmpty(security) &&
-                (nonNull(security.get(0).get("url"))
-                        || nonNull(security.get(0).get(CUSTOM)))) return;
+                (nonNull(security.getFirst().get("url"))
+                        || nonNull(security.getFirst().get(CUSTOM)))) return;
 
         SecurityObject securityObject = new SecurityObject();
 
@@ -332,7 +335,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
         if (security.isEmpty())
             security.add(new HashMap<>());
-        security.get(0).put("url", securityObject);
+        security.getFirst().put("url", securityObject);
     }
 
     private Security getSecurity(PropertiesAware compiled) {
@@ -343,6 +346,25 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             compiled.getProperties().put(SECURITY_PROP_NAME, new Security());
         }
         return (Security) compiled.getProperties().get(SECURITY_PROP_NAME);
+    }
+
+    /**
+     * Возвращает плоский список всех кнопок тулбара: верхнеуровневые кнопки и элементы вложенных submenu.
+     * Используется для единообразного обхода тулбара во всех access-трансформерах.
+     */
+    protected static List<AbstractButton> flattenButtons(List<Group> toolbar) {
+        List<AbstractButton> result = new ArrayList<>();
+        if (isNull(toolbar)) return result;
+        for (Group group : toolbar) {
+            if (isNull(group.getButtons())) continue;
+            for (AbstractButton b : group.getButtons()) {
+                result.add(b);
+                if (b instanceof Submenu submenu && nonNull(submenu.getContent())) {
+                    result.addAll(submenu.getContent());
+                }
+            }
+        }
+        return result;
     }
 
     protected void transfer(PropertiesAware from, PropertiesAware to) {
