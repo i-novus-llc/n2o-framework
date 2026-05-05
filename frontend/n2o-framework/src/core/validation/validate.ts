@@ -44,7 +44,7 @@ export const validate = async (
     const modelMessages = await validateModel(model, validation, { datasourceId, pageUrl })
     const messages = addFieldMessages(datasourceId, modelMessages, state)
 
-    dispatch(endValidation({ id: datasourceId, messages, prefix }, { touched }))
+    dispatch(endValidation({ id: datasourceId, messages: modelMessages, prefix }, { touched }))
 
     return !hasError(messages)
 }
