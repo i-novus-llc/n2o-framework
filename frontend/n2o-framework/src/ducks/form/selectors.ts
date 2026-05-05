@@ -83,8 +83,8 @@ export const isDirtyForm = (formName: string) => createSelector(
     form => Boolean(form.dirty),
 )
 
-export const messageSelector = (datasourceId: string, fieldName: string, modelPrefix: ModelPrefix) => createSelector(
-    makeFieldByName(datasourceId, fieldName),
+export const messageSelector = (datasourceId: string, fieldName: string, modelPrefix: ModelPrefix, formId = datasourceId) => createSelector(
+    makeFieldByName(formId, fieldName),
     dataSourceFieldError(datasourceId, modelPrefix, fieldName),
     (field: Field, errors: ValidationResult[] | undefined) => (field.message || errors?.[0]),
 )
