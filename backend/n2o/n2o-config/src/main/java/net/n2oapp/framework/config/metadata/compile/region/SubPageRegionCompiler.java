@@ -147,7 +147,7 @@ public class SubPageRegionCompiler extends ComponentCompiler<SubPageRegion, N2oS
 
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null && pageScope.getTabIds() != null)
-            pageContext.setParentTabIds(pageScope.getTabIds());
+            pageContext.setParentTabIds(new HashSet<>(pageScope.getTabIds()));
 
         pageContext.setBreadcrumbs(initBreadcrumb(sourcePage, pageContext, p));
         if (sourcePage.getDatasources() != null) {
