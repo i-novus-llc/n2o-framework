@@ -80,14 +80,14 @@ export function* validate({ payload, meta }: StartValidateAction) {
     asyncValidations[id] = currentProcess
 
     const modelMessages: Awaited<ReturnType<typeof validateModel>> = yield currentProcess.task.toPromise()
-    const newMessages = addFieldMessages(id, modelMessages, yield select())
     const keys = fields2Validate ? Object.keys(fields2Validate) : undefined
 
-    yield put(endValidation({ id, messages: newMessages, prefix, fields: keys }, meta))
+    yield put(endValidation({ id, messages: modelMessages, prefix, fields: keys }, meta))
 
     asyncValidations[id] = null
 
     const messages: Record<string, ValidationResult[]> = yield select(dataSourceErrors(id, prefix))
+    const newMessages = addFieldMessages(id, messages, yield select())
 
-    return keys ? pick(messages, keys) : messages
+    return keys ? pick(newMessages, keys) : newMessages
 }
