@@ -41,8 +41,8 @@ const useReduxField = ({ name: fieldName, ...fieldProps }, formName, dispatch) =
     }
 }
 
-const useValidation = (datasource, prefix, fieldName) => {
-    const message = useSelector(messageSelector(datasource, fieldName, prefix))
+const useValidation = (datasource, prefix, fieldName, form) => {
+    const message = useSelector(messageSelector(datasource, fieldName, prefix, form))
 
     return {
         message,
@@ -122,10 +122,7 @@ export default (Field) => {
         const dispatch = useDispatch()
         const { datasource, prefix, formName } = useFormContext()
         const model = useSelector(getModelByPrefixAndNameSelector(prefix, datasource)) || {}
-        const withIndex = useParentIndex({
-            ...props,
-            model,
-        })
+        const withIndex = useParentIndex({ ...props, model })
         const {
             visible, disabled, enabled, multiSetDisabled,
             validation, required, dependency,
@@ -145,7 +142,10 @@ export default (Field) => {
             required,
             validation,
         }, formName, dispatch)
-        const message = useValidation(datasource, prefix, name)
+
+        const { form } = props
+
+        const message = useValidation(datasource, prefix, name, form)
         const scrollRef = useRef(null)
         const resolved = useResolvedProps({
             ...withIndex,
