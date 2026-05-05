@@ -157,7 +157,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         route = normalize(route + actionRoute);
         PageContext pageContext = constructContext(source, route, p);
         if (pageScope != null && pageScope.getTabIds() != null)
-            pageContext.setParentTabIds(pageScope.getTabIds());
+            pageContext.setParentTabIds(new HashSet<>(pageScope.getTabIds()));
 
         pageContext.setPageName(source.getPageName());
         pageContext.setBreadcrumbs(initBreadcrumb(source, pageContext, p));
