@@ -92,7 +92,11 @@ export const WithMetadata = <P extends WithMetadataProps>(Component: ComponentTy
             if (typeof path === 'string') {
                 if (path.replace(/\/$/i, '') === pathname.replace(/\/$/i, '')) { return false }
 
-                const isSubPage = subRoutes?.some(route => pathname.startsWith(resolvePath(path, route)))
+                const isSubPage = subRoutes?.some((route) => {
+                    const subpath = resolvePath(path, route)
+
+                    return (pathname === subpath) || pathname.startsWith(subpath.endsWith('/') ? subpath : `${subpath}/`)
+                })
 
                 if (isSubPage) { return false }
             }
