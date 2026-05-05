@@ -15,9 +15,9 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean   //Костыль т.к. фронт падает из за - в id
+    @Bean
     public IdGenerator getIdGenerator() {
-        return () -> UUID.randomUUID().toString().replaceAll("-", "_");
+        return () -> UUID.randomUUID().toString();
     }
 
 }
