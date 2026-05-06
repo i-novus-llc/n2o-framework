@@ -307,8 +307,6 @@ export function* resolveOnUpdateModel({ meta = {}, payload }: UpdateModelAction,
 }
 
 export function* resolveOnInit({ payload }: RegisterFieldAction) {
-    yield delay(16)
-
     const { formName, fieldName } = payload
 
     const form: Form = yield select(makeFormByName(formName))
