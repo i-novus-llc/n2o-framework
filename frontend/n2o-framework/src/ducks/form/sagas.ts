@@ -131,12 +131,11 @@ export const formPluginSagas = [
         setFieldRequired,
     ], function* addFieldToBuffer({ payload, meta = {} }: FieldAction) {
         const { validate } = meta
+        const { formName, fieldName } = payload
 
         if (validate === false) {
-            const { formName, fieldName } = payload
-
             // Сброс required валидации, даже если в зависимости стоит validate=false
-            if (get(payload, 'required') !== false) {
+            if (get(payload, 'required') === false) {
                 const { modelPrefix: prefix, datasource: id } = yield select(makeFormByName(formName))
 
                 yield put(endValidation({ id, prefix, fields: [fieldName], messages: {} }))
@@ -145,7 +144,6 @@ export const formPluginSagas = [
             return
         }
 
-        const { formName, fieldName } = payload
         const { datasource }: Form = yield select(makeFormByName(formName))
 
         if (!validateBuffer[datasource]) { validateBuffer[datasource] = {} }
