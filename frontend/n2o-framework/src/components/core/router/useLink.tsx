@@ -80,8 +80,10 @@ export function useLink({
         dispatch(push(url.replace(/^\.\/#/, '')))
     }, [dispatch, href, pageId, getState, url, onClick, target])
 
+    const path = url?.replace(/^\.\/#/, '') || ''
+
     return {
-        active: href ? pathname.includes(href.replace(/^\.\//, '')) : false,
+        active: path && (pathname === path || pathname.startsWith(`${path}/`)),
         target: target === LinkTarget.blank ? target : undefined,
         url,
         onClick: onClickHandler,
