@@ -6,12 +6,7 @@ import net.n2oapp.framework.config.metadata.compile.N2oButtonGeneratorFactory;
 import net.n2oapp.framework.config.metadata.compile.tablesettings.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.*;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
-import net.n2oapp.framework.config.metadata.compile.widget.table.AbstractColumnBinder;
-import net.n2oapp.framework.config.metadata.compile.widget.table.DndColumnBinder;
-import net.n2oapp.framework.config.metadata.compile.widget.table.DndColumnCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.table.FilterColumnCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.table.MultiColumnCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.table.SimpleColumnCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.table.*;
 import net.n2oapp.framework.config.metadata.merge.widget.*;
 
 public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {

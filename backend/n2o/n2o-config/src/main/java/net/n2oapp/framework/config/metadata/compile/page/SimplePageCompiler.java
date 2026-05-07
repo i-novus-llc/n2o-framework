@@ -1,10 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -25,7 +22,6 @@ import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -68,10 +64,11 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         SubModelsScope subModelsScope = new SubModelsScope();
         MetaActions metaActions = new MetaActions();
 
+        initContextDatasources(datasourcesScope, clientDatasourceIdsScope, pageScope, context);
         Widget<?> compiledWidget = p.compile(widget, context, routes, pageScope, pageRouteScope, breadcrumbs,
                 validationScope, page.getModels(), pageRoutesScope, datasourcesScope, clientDatasourceIdsScope, filtersScope, copiedFieldScope, subModelsScope, pageIndexScope, metaActions);
-        initContextDatasources(datasourcesScope, clientDatasourceIdsScope, pageScope, context, p);
-        page.setDatasources(initDatasources(datasourcesScope, context, p,
+        initContextDatasources(datasourcesScope, clientDatasourceIdsScope, pageScope, context);
+        page.setDatasources(compileDatasources(datasourcesScope, context, p,
                 clientDatasourceIdsScope, pageScope, validationScope, routes,
                 pageRouteScope, pageScope, filtersScope, copiedFieldScope, subModelsScope));
 
@@ -118,21 +115,6 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         pageScope.getWidgetIdSourceDatasourceMap().put(widget.getId(),
                 widget.getDatasourceId() == null ? widget.getId() : widget.getDatasourceId());
         return pageScope;
-    }
-
-    private Map<String, AbstractDatasource> initDatasources(DataSourcesScope dataSourcesScope,
-                                                            PageContext context,
-                                                            CompileProcessor p, Object... scopes) {
-        Map<String, AbstractDatasource> compiledDatasources = new HashMap<>();
-        if (!dataSourcesScope.isEmpty()) {
-            dataSourcesScope.values().stream()
-                    .filter(ds -> !(ds instanceof N2oApplicationDatasource || ds instanceof N2oParentDatasource))
-                    .forEach(ds -> {
-                        AbstractDatasource compiled = p.compile(ds, context, dataSourcesScope, scopes);
-                        compiledDatasources.put(compiled.getId(), compiled);
-                    });
-        }
-        return compiledDatasources;
     }
 
     @Override

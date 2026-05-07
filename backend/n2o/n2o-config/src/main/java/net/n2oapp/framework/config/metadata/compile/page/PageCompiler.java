@@ -4,11 +4,11 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.N2oAbstractDatasource;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBreadcrumb;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oApplicationDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oParentDatasource;
-import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -29,7 +29,9 @@ import net.n2oapp.framework.config.metadata.compile.datasource.ClientDatasourceI
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.requireNonNullElseGet;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -186,25 +188,37 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
     }
 
     protected void initContextDatasources(DataSourcesScope dataSourcesScope, ClientDatasourceIdsScope clientDatasourceIdsScope,
-                                          PageScope pageScope, PageContext context, CompileProcessor p) {
+                                          PageScope pageScope, PageContext context) {
         if (context.getDatasources() != null) {
             for (N2oAbstractDatasource ctxDs : context.getDatasources()) {
                 String dsId = ctxDs.getId() != null ? ctxDs.getId() : pageScope.getResultWidgetId();
                 ctxDs.setId(dsId);
-                if (dataSourcesScope.containsKey(dsId) && ctxDs instanceof N2oStandardDatasource)
-                    dataSourcesScope.put(dsId, p.merge(dataSourcesScope.get(dsId), ctxDs));
-                else {
-                    if (ctxDs instanceof N2oApplicationDatasource applicationDatasource) {
-                        clientDatasourceIdsScope.put(ctxDs.getId(), castDefault(applicationDatasource.getSourceDatasource(), ctxDs.getId()));
-                    } else if (ctxDs instanceof N2oParentDatasource parentDatasource) {
-                        String sourceDatasourceId = castDefault(parentDatasource.getSourceDatasource(), ctxDs.getId());
-                        if (context.getParentDatasourceIdsMap().containsKey(sourceDatasourceId))
-                            clientDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(sourceDatasourceId));
-                    }
-                    dataSourcesScope.put(dsId, ctxDs);
+                if (ctxDs instanceof N2oApplicationDatasource applicationDatasource) {
+                    clientDatasourceIdsScope.put(applicationDatasource.getId(),
+                            castDefault(applicationDatasource.getSourceDatasource(), applicationDatasource.getId()));
+                } else if (ctxDs instanceof N2oParentDatasource parentDatasource) {
+                    String sourceDatasourceId = castDefault(parentDatasource.getSourceDatasource(), parentDatasource.getId());
+                    if (context.getParentDatasourceIdsMap().containsKey(sourceDatasourceId))
+                        clientDatasourceIdsScope.put(dsId, context.getParentDatasourceIdsMap().get(sourceDatasourceId));
                 }
+                dataSourcesScope.put(dsId, ctxDs);
             }
         }
+    }
+
+    protected Map<String, AbstractDatasource> compileDatasources(DataSourcesScope dataSourcesScope,
+                                                                 PageContext context,
+                                                                 CompileProcessor p, Object... scopes) {
+        Map<String, AbstractDatasource> compiledDatasources = new HashMap<>();
+        if (!dataSourcesScope.isEmpty()) {
+            dataSourcesScope.values().stream()
+                    .filter(ds -> !(ds instanceof N2oApplicationDatasource || ds instanceof N2oParentDatasource))
+                    .forEach(ds -> {
+                        AbstractDatasource compiled = p.compile(ds, context, dataSourcesScope, scopes);
+                        compiledDatasources.put(compiled.getId(), compiled);
+                    });
+        }
+        return compiledDatasources;
     }
 
     /**

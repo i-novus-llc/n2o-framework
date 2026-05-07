@@ -18,13 +18,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 

@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.dependency;
 
-import net.n2oapp.framework.api.metadata.meta.cell.CheckboxCell;
 import net.n2oapp.framework.api.metadata.meta.cell.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;

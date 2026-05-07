@@ -1,6 +1,9 @@
 package net.n2oapp.framework.tutorial.crud_java.specification;
 
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import net.n2oapp.framework.tutorial.crud_java.entity.CarEntity;
 import net.n2oapp.framework.tutorial.crud_java.model.CarCriteria;
 import org.springframework.data.jpa.domain.Specification;

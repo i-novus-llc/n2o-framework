@@ -2,8 +2,8 @@ package net.n2oapp.framework.api.metadata.global.dao.query;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;

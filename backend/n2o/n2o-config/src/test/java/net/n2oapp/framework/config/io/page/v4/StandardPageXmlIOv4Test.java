@@ -1,13 +1,9 @@
 package net.n2oapp.framework.config.io.page.v4;
 
-import net.n2oapp.framework.config.io.action.v2.AlertActionElementIOV2;
-import net.n2oapp.framework.config.io.action.v2.CloseActionElementIOV2;
-import net.n2oapp.framework.config.io.action.v2.InvokeActionElementIOV2;
-import net.n2oapp.framework.config.io.action.v2.SetValueElementIOV2;
-import net.n2oapp.framework.config.io.action.v2.ShowModalElementIOV2;
-import net.n2oapp.framework.config.io.event.StompEventIO;
+import net.n2oapp.framework.config.io.action.v2.*;
 import net.n2oapp.framework.config.io.datasource.*;
 import net.n2oapp.framework.config.io.event.OnChangeEventIO;
+import net.n2oapp.framework.config.io.event.StompEventIO;
 import net.n2oapp.framework.config.io.toolbar.v2.ButtonIOv2;
 import net.n2oapp.framework.config.io.toolbar.v2.SubmenuIOv2;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsV3IOPack;
