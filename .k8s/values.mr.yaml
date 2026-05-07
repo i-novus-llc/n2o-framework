@@ -7,8 +7,8 @@ springServices:
     imageName: n2o/demo
     resources:
       limits:
-        memory: 300M
-        cpu: 300m
+        memory: 400M
+        cpu: 400m
       requests:
         memory: 100M
         cpu: 10m

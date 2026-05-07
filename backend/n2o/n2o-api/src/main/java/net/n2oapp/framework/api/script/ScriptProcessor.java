@@ -1,17 +1,16 @@
 package net.n2oapp.framework.api.script;
 
+import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import org.apache.commons.io.IOUtils;
-import org.mozilla.javascript.EvaluatorException;
-import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.ast.AstNode;
-import org.mozilla.javascript.ast.Name;
-import org.mozilla.javascript.ast.NodeVisitor;
-import org.mozilla.javascript.ast.PropertyGet;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Engine;
+import org.graalvm.polyglot.HostAccess;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.script.*;
 import java.io.IOException;
@@ -19,9 +18,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -37,11 +37,19 @@ public class ScriptProcessor {
     private static final String SPREAD_OPERATOR = "*.";
     private static final String SPREAD_TO_MAP_TEMPLATE = ".map(function(t){return t.";
 
-    private static final ScriptEngineManager engineMgr = new ScriptEngineManager();
-    private static volatile ScriptEngine scriptEngine;
-    private static String momentJs;
-    private static final ExecutorService PLATFORM_EXECUTOR =
-            Executors.newCachedThreadPool(Thread.ofPlatform().factory());
+    private static final HostAccess HOST_ACCESS = HostAccess.newBuilder()
+            .allowArrayAccess(true)
+            .allowListAccess(true)
+            .allowMapAccess(true)
+            .build();
+    private static final Engine GRAAL_ENGINE = Engine.newBuilder()
+            .option("engine.WarnInterpreterOnly", "false")
+            .build();
+    private static final int POOL_SIZE = Math.max(3, Runtime.getRuntime().availableProcessors() * 2);
+    private static final BlockingQueue<ScriptEngine> ENGINE_POOL = new ArrayBlockingQueue<>(POOL_SIZE);
+    private static final AtomicBoolean POOL_INITIALIZED = new AtomicBoolean(false);
+    private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+    private static volatile String momentJs;
 
     private static final Pattern FUNCTION_PATTERN = Pattern.compile("function\\s*\\(\\)[\\s\\S]*");
     private static final Pattern TERNARY_IN_LINK_PATTERN = Pattern.compile(".*(?<!#)\\{(?!.*#\\{).*\\?.*:.*}.*");
@@ -49,6 +57,7 @@ public class ScriptProcessor {
     private static final String EUROPEAN_DATE_TO_TIMESTAMP_TEMPLATE = "new Date(%s.replace(/(\\d{2})\\.(\\d{2})\\.(\\d{4})/,'$3-$2-$1')).getTime()";
     private static final String ISO_DATE_TO_TIMESTAMP_TEMPLATE = "new Date('%s').getTime()";
     private static final String TIMESTAMP_FORMAT = "MM.dd.yyyy HH:mm:SS";
+    private static final String N2O_SCRIPT_VAR = "__n2oScript";
 
     public static String resolveLinks(String text) {
         if (text == null)
@@ -416,7 +425,7 @@ public class ScriptProcessor {
     public static String buildSwitchExpression(N2oSwitch n2oSwitch) {
         if (n2oSwitch == null
             || (n2oSwitch.getCases() == null && n2oSwitch.getResolvedCases() == null && n2oSwitch.getDefaultCase() == null)
-            || (n2oSwitch.getValueFieldId() == null || n2oSwitch.getValueFieldId().length() == 0))
+            || (n2oSwitch.getValueFieldId() == null || n2oSwitch.getValueFieldId().isEmpty()))
             return null;
         Map<Object, String> cases = resolveSwitchCases(n2oSwitch.getResolvedCases() != null ? n2oSwitch.getResolvedCases() : n2oSwitch.getCases());
         StringBuilder b = new StringBuilder("`");
@@ -576,31 +585,41 @@ public class ScriptProcessor {
     }
 
     public static Set<String> extractVars(String script) {
-        final Set<String> names = new HashSet<>();
-        if (script == null)
-            return names;
-
-        class Visitor implements NodeVisitor {
-            @Override
-            public boolean visit(AstNode node) {
-                if (node instanceof PropertyGet) {
-                    names.add(node.toSource());
-                    return false;
-                }
-                if (node instanceof Name) {
-                    names.add(node.toSource());
-                }
-                return true;
-            }
-        }
-        AstNode node = null;
+        if (script == null) return new HashSet<>();
+        ScriptEngine engine = getScriptEngine();
         try {
-            node = new Parser().parse(script, null, 1);
-        } catch (EvaluatorException e) {
+            Bindings b = engine.createBindings();
+            b.put(N2O_SCRIPT_VAR, script);
+            String json = (String) engine.eval("JSON.stringify(n2oExtractVars(" + N2O_SCRIPT_VAR + "))", b);
+            if (json == null || json.equals("null") || json.equals("[]")) return new HashSet<>();
+            String[] arr = JSON_MAPPER.readValue(json, String[].class);
+            return new HashSet<>(Arrays.asList(arr));
+        } catch (ScriptException e) {
             throw new ScriptParserException(script, e);
+        } catch (Exception e) {
+            throw new N2oException(e);
+        } finally {
+            releaseScriptEngine(engine);
         }
-        node.visit(new Visitor());
-        return names;
+    }
+
+    private static Set<String> extractRootIdentifiers(String script) {
+        if (script == null) return Set.of();
+        ScriptEngine engine = getScriptEngine();
+        try {
+            Bindings b = engine.createBindings();
+            b.put(N2O_SCRIPT_VAR, script);
+            String json = (String) engine.eval("JSON.stringify(n2oExtractRootVars(" + N2O_SCRIPT_VAR + "))", b);
+            if (json == null || json.equals("null") || json.equals("[]")) return Set.of();
+            String[] arr = JSON_MAPPER.readValue(json, String[].class);
+            return new HashSet<>(Arrays.asList(arr));
+        } catch (ScriptException e) {
+            throw new ScriptParserException(script, e);
+        } catch (Exception e) {
+            throw new N2oException(e);
+        } finally {
+            releaseScriptEngine(engine);
+        }
     }
 
     public static Map<String, Set<String>> extractPropertiesOf(String script, final Collection<String> vars) {
@@ -623,34 +642,27 @@ public class ScriptProcessor {
 
 
     public static String addContextFor(String script, final String context, Predicate<String> predicate) {
-        class Visitor implements NodeVisitor {
-            @Override
-            public boolean visit(AstNode node) {
-                if (node instanceof PropertyGet left) {
-                    while (left.getLeft() instanceof PropertyGet propertyGet) {
-                        left = propertyGet;
-                    }
-                    if (!predicate.test(left.getTarget().getString())) return false;
-                    left.setLeft(new PropertyGet(new Name(1, context), (Name) left.getLeft()));
-                    return false;
-                }
-
-                if (node instanceof Name name) {
-                    if (predicate.test(node.getString())) {
-                        name.setIdentifier(context + '.' + name.getIdentifier());
-                    }
-                    return false;
-                }
-                return true;
-            }
-        }
-        AstNode node = new Parser().parse(script, null, 1);
-        node.visit(new Visitor());
-        return node.toSource();
+        Set<String> allRoots = extractRootIdentifiers(script);
+        List<String> filtered = allRoots.stream().filter(predicate).toList();
+        if (filtered.isEmpty()) return script;
+        return addContextFor(script, context, filtered);
     }
 
     public static String addContextFor(String script, final String context, final Collection<String> vars) {
-        return addContextFor(script, context, vars::contains);
+        if (vars == null || vars.isEmpty()) return script;
+        ScriptEngine engine = getScriptEngine();
+        try {
+            String varsJson = JSON_MAPPER.writeValueAsString(vars);
+            Bindings b = engine.createBindings();
+            b.put(N2O_SCRIPT_VAR, script);
+            b.put("__n2oContext", context);
+            b.put("__n2oVarsJson", varsJson);
+            return (String) engine.eval("n2oAddContextFor(" + N2O_SCRIPT_VAR + ", __n2oContext, JSON.parse(__n2oVarsJson))", b);
+        } catch (Exception e) {
+            throw new N2oException(e);
+        } finally {
+            releaseScriptEngine(engine);
+        }
     }
 
     public static String addContextForAll(String script, final String context) {
@@ -682,39 +694,69 @@ public class ScriptProcessor {
 
     @SuppressWarnings("unchecked")
     public static <T> T eval(String script, DataSet dataSet) throws ScriptException {
-        if (Thread.currentThread().isVirtual()) {
-            try {
-                return (T) PLATFORM_EXECUTOR.submit(() -> doEval(script, dataSet)).get();
-            } catch (ExecutionException e) {
-                Throwable cause = e.getCause();
-                if (cause instanceof ScriptException se)
-                    throw se;
-                throw new N2oException(cause);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new N2oException(e);
-            }
+        ScriptEngine engine = getScriptEngine();
+        try {
+            return doEval(script, dataSet, engine);
+        } finally {
+            releaseScriptEngine(engine);
         }
-        return doEval(script, dataSet);
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> T doEval(String script, DataSet dataSet) throws ScriptException {
-        ScriptEngine scriptEngine = getScriptEngine();
-        Bindings global = scriptEngine.getContext().getBindings(ScriptContext.GLOBAL_SCOPE);
-        Bindings bindings = scriptEngine.createBindings();
+    private static <T> T doEval(String script, DataSet dataSet, ScriptEngine engine) throws ScriptException {
+        Bindings global = engine.getContext().getBindings(ScriptContext.GLOBAL_SCOPE);
+        Bindings bindings = engine.createBindings();
         bindings.putAll(global);
+        // Intermediate map to collect nested structures before binding
+        Map<String, Object> nestedAccumulator = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : dataSet.entrySet()) {
             Object value = entry.getValue();
-            bindings.put(entry.getKey(),
-                    value instanceof Collection collection ?
-                            collection.toArray() :
-                            value);
+            Object normalizedValue = value instanceof Collection collection ? collection.toArray() : value;
+            String key = entry.getKey();
+            if (key.contains(".")) {
+                putNestedInto(nestedAccumulator, key, normalizedValue);
+            } else {
+                bindings.put(key, normalizedValue);
+                nestedAccumulator.put(key, normalizedValue);
+            }
+        }
+        // Inject nested structures as native JS objects via JSON eval
+        for (Map.Entry<String, Object> entry : nestedAccumulator.entrySet()) {
+            Object val = entry.getValue();
+            boolean needsJsonInjection = val instanceof Map
+                    || (val != null && val.getClass().isArray() && val.getClass().getComponentType().isPrimitive());
+            if (needsJsonInjection) {
+                try {
+                    String json = JSON_MAPPER.writeValueAsString(val);
+                    engine.eval("var " + entry.getKey() + " = " + json + ";", bindings);
+                } catch (Exception e) {
+                    bindings.put(entry.getKey(), val);
+                }
+            }
         }
         if (isNeedMoment(script)) {
-            scriptEngine.eval(momentJs, bindings);
+            engine.eval(momentJs, bindings);
         }
-        return (T) scriptEngine.eval(script, bindings);
+        return (T) engine.eval(script, bindings);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void putNestedInto(Map<String, Object> map, String key, Object value) {
+        String[] parts = key.split("\\.", 2);
+        String root = parts[0];
+        if (parts.length == 1) {
+            map.put(root, value);
+        } else {
+            Object existing = map.get(root);
+            Map<String, Object> nested;
+            if (existing instanceof Map) {
+                nested = (Map<String, Object>) existing;
+            } else {
+                nested = new LinkedHashMap<>();
+                map.put(root, nested);
+            }
+            putNestedInto(nested, parts[1], value);
+        }
     }
 
     public static boolean evalForBoolean(String script, DataSet dataSet) {
@@ -774,32 +816,61 @@ public class ScriptProcessor {
     }
 
     public static ScriptEngine getScriptEngine() {
-        if (scriptEngine == null) {
-            createScriptEngine();
+        ensurePoolInitialized();
+        try {
+            ScriptEngine engine = ENGINE_POOL.poll(30, TimeUnit.SECONDS);
+            if (engine == null) {
+                throw new N2oException("Script engine pool exhausted: no engine available after 30 seconds");
+            }
+            return engine;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new N2oException(e);
         }
-        return scriptEngine;
     }
 
-    private static synchronized void createScriptEngine() {
-        if (scriptEngine == null) {
-            scriptEngine = engineMgr.getEngineByName("JavaScript");
-            if (scriptEngine == null)
-                throw new N2oException("ScriptEngine 'JavaScript' not found in classpath");
-            Bindings bindings = scriptEngine.createBindings();
-            URL momentUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/moment.js");
-            URL lodashUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/lodash.js");
-            URL numeralUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/numeral.js");
-            URL n2oUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/n2o.js");
-            try {
-                momentJs = IOUtils.toString(momentUrl, StandardCharsets.UTF_8);
-                scriptEngine.eval(IOUtils.toString(lodashUrl, StandardCharsets.UTF_8), bindings);
-                scriptEngine.eval(IOUtils.toString(numeralUrl, StandardCharsets.UTF_8), bindings);
-                scriptEngine.eval(IOUtils.toString(n2oUrl, StandardCharsets.UTF_8), bindings);
-            } catch (IOException | ScriptException e) {
-                throw new N2oException(e);
-            }
-            scriptEngine.getContext().setBindings(bindings, ScriptContext.GLOBAL_SCOPE);
+    public static void releaseScriptEngine(ScriptEngine engine) {
+        ENGINE_POOL.offer(engine);
+    }
+
+    private static void ensurePoolInitialized() {
+        if (!POOL_INITIALIZED.get()) {
+            initializePool();
         }
+    }
+
+    private static synchronized void initializePool() {
+        if (POOL_INITIALIZED.get()) return;
+        for (int i = 0; i < POOL_SIZE; i++) {
+            ENGINE_POOL.offer(createNewEngine());
+        }
+        POOL_INITIALIZED.set(true);
+    }
+
+    private static ScriptEngine createNewEngine() {
+        ScriptEngine engine = GraalJSScriptEngine.create(GRAAL_ENGINE,
+                Context.newBuilder("js").allowHostAccess(HOST_ACCESS));
+        Bindings bindings = engine.createBindings();
+        URL momentUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/moment.js");
+        URL lodashUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/lodash.js");
+        URL numeralUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/numeral.js");
+        URL n2oUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/n2o.js");
+        URL acornUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/acorn.js");
+        URL astUtilsUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/n2o-ast-utils.js");
+        try {
+            if (momentJs == null) {
+                momentJs = IOUtils.toString(momentUrl, StandardCharsets.UTF_8);
+            }
+            engine.eval(IOUtils.toString(lodashUrl, StandardCharsets.UTF_8), bindings);
+            engine.eval(IOUtils.toString(numeralUrl, StandardCharsets.UTF_8), bindings);
+            engine.eval(IOUtils.toString(n2oUrl, StandardCharsets.UTF_8), bindings);
+            engine.eval(IOUtils.toString(acornUrl, StandardCharsets.UTF_8), bindings);
+            engine.eval(IOUtils.toString(astUtilsUrl, StandardCharsets.UTF_8), bindings);
+        } catch (IOException | ScriptException e) {
+            throw new N2oException(e);
+        }
+        engine.getContext().setBindings(bindings, ScriptContext.GLOBAL_SCOPE);
+        return engine;
     }
 
     private String getString(Object value) {
