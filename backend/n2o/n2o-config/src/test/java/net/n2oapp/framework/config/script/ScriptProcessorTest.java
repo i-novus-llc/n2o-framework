@@ -6,6 +6,8 @@ import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.api.util.async.MultiThreadRunner;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.script.ScriptEngine;
@@ -24,8 +26,20 @@ class ScriptProcessorTest {
 
     private final ScriptProcessor scriptProcessor = new ScriptProcessor();
 
+    private ScriptEngine borrowedEngine;
+
     private ScriptEngine getScriptEngine() {
-        return ScriptProcessor.getScriptEngine();
+        return borrowedEngine;
+    }
+
+    @BeforeEach
+    void setUp() {
+        borrowedEngine = ScriptProcessor.getScriptEngine();
+    }
+
+    @AfterEach
+    void tearDown() {
+        ScriptProcessor.releaseScriptEngine(borrowedEngine);
     }
 
     @Test
@@ -150,6 +164,12 @@ class ScriptProcessorTest {
                 is("(function(){for(let i = 0; i<10; i++) {} alert(i)}).call(this)"));
         assertThat(ScriptProcessor.resolveFunction("while(i < 10) {} alert(i)"),
                 is("(function(){while(i < 10) {} alert(i)}).call(this)"));
+        assertThat(ScriptProcessor.resolveFunction("switch(status) { case 1: return 'active'; default: return 'unknown'; }"),
+                is("(function(){switch(status) { case 1: return 'active'; default: return 'unknown'; }}).call(this)"));
+        assertThat(ScriptProcessor.resolveFunction("items.map(function(item) { return item.id; })"),
+                is("items.map(function(item) { return item.id; })"));
+        assertThat(ScriptProcessor.resolveFunction("arr.reduce(function(acc, n) { return acc + n; }, 0)"),
+                is("arr.reduce(function(acc, n) { return acc + n; }, 0)"));
     }
 
     @Test
@@ -406,6 +426,11 @@ class ScriptProcessorTest {
 
         names = ScriptProcessor.extractVars(null);
         assertEquals(0, names.size());
+
+        // arrow function parameter (p) must not be extracted, only free variable (roles)
+        names = ScriptProcessor.extractVars("['USER','ADMIN'].some(p => roles.includes(p))");
+        assertEquals(1, names.size());
+        assertTrue(names.contains("roles"));
     }
 
     @Test
@@ -518,11 +543,10 @@ class ScriptProcessorTest {
             }
             DataSet dataSet = new DataSet();
             dataSet.put("arr", temp);
-            Double result = ScriptProcessor.eval(js, dataSet);
-            Double sum = (double) summ;
-            if (!result.equals(sum))
-                System.out.println("temp=" + List.of(temp) + ", summ = " + sum + ", result=" + result);
-            return result.equals(sum);
+            Integer result = ScriptProcessor.eval(js, dataSet);
+            if (!result.equals(summ))
+                System.out.println("temp=" + List.of(temp) + ", summ = " + summ + ", result=" + result);
+            return result.equals(summ);
         });
         assertThat(errorCount, is(0));
     }
@@ -535,5 +559,106 @@ class ScriptProcessorTest {
         assertThat(ScriptProcessor.eval("numeral(1.5).format('0.00')", new DataSet()), is("1.50"));
         //lodash
         assertThat(ScriptProcessor.eval("_.join(['a', 'b', 'c'], '~')", new DataSet()), is("a~b~c"));
+    }
+
+    @Test
+    void testEvalEs5() throws ScriptException {
+        // String methods
+        assertThat(ScriptProcessor.eval("'Hello World'.toLowerCase()", new DataSet()), is("hello world"));
+        assertThat(ScriptProcessor.eval("'hello'.toUpperCase()", new DataSet()), is("HELLO"));
+        assertThat(ScriptProcessor.eval("'  hello  '.trim()", new DataSet()), is("hello"));
+        assertThat(ScriptProcessor.eval("'a,b,c'.split(',').join('-')", new DataSet()), is("a-b-c"));
+        assertThat(ScriptProcessor.eval("'hello world'.replace('world', 'JS')", new DataSet()), is("hello JS"));
+        assertThat(ScriptProcessor.eval("'hello'.indexOf('ll')", new DataSet()), is(2));
+        // Number parsing
+        assertThat(ScriptProcessor.eval("parseInt('42px', 10)", new DataSet()), is(42));
+        assertThat(ScriptProcessor.eval("parseFloat('3.14')", new DataSet()), is(3.14));
+        // Math methods
+        assertThat(ScriptProcessor.eval("Math.max(1, 5, 3)", new DataSet()), is(5));
+        assertThat(ScriptProcessor.eval("Math.min(1, 5, 3)", new DataSet()), is(1));
+        assertThat(ScriptProcessor.eval("Math.abs(-7)", new DataSet()), is(7));
+        // Array.prototype.map
+        assertThat(ScriptProcessor.eval("[1,2,3].map(function(n) { return n * 2; }).join(',')", new DataSet()), is("2,4,6"));
+        // Array.prototype.filter
+        assertThat(ScriptProcessor.eval("[1,2,3,4,5].filter(function(n) { return n > 3; }).length", new DataSet()), is(2));
+        // Array.prototype.reduce
+        assertThat(ScriptProcessor.eval("[1,2,3,4].reduce(function(acc, n) { return acc + n; }, 0)", new DataSet()), is(10));
+        // Array.prototype.some / every
+        assertThat(ScriptProcessor.eval("[1,2,3].some(function(n) { return n === 2; })", new DataSet()), is(true));
+        assertThat(ScriptProcessor.eval("[1,3,5].every(function(n) { return n % 2 !== 0; })", new DataSet()), is(true));
+        // typeof
+        assertThat(ScriptProcessor.eval("typeof undefined", new DataSet()), is("undefined"));
+        assertThat(ScriptProcessor.eval("typeof 'hello'", new DataSet()), is("string"));
+        assertThat(ScriptProcessor.eval("typeof 42", new DataSet()), is("number"));
+        // Object.keys
+        assertThat(ScriptProcessor.eval("Object.keys({a:1, b:2, c:3}).length", new DataSet()), is(3));
+        assertThat(ScriptProcessor.eval("Object.keys({a:1, b:2, c:3}).join(',')", new DataSet()), is("a,b,c"));
+        // Array.isArray
+        assertThat(ScriptProcessor.eval("Array.isArray([1,2,3])", new DataSet()), is(true));
+        assertThat(ScriptProcessor.eval("Array.isArray('not array')", new DataSet()), is(false));
+        // JSON
+        assertThat(ScriptProcessor.eval("JSON.parse('{\"name\":\"Alice\"}').name", new DataSet()), is("Alice"));
+        assertThat(ScriptProcessor.eval("JSON.stringify({a:1})", new DataSet()), is("{\"a\":1}"));
+        // var declaration with DataSet variable
+        assertThat(ScriptProcessor.eval("var x = val * 2; x", new DataSet("val", 5)), is(10));
+    }
+
+    @Test
+    void testEvalGuardAndOptionalChaining() throws ScriptException {
+        Map<String, Object> item1 = new HashMap<>();
+        item1.put("field", Map.of("value", "a"));
+        Map<String, Object> item2 = new HashMap<>();
+        item2.put("field", null);
+        Map<String, Object> item3 = new HashMap<>();
+        item3.put("field", Map.of("value", "b"));
+
+        DataSet ds = new DataSet();
+        ds.put("list", Arrays.asList(item1, item2, item3));
+        DataSet dsNull = new DataSet();
+        dsNull.put("list", null);
+
+        // ES5 && guard: filters items where field && field.value is truthy
+        assertThat(ScriptProcessor.eval(
+                "(list && list.filter(function(item) { return item.field && item.field.value; })).length",
+                ds), is(2));
+        // ES5 && guard: null list → null (falsy)
+        assertFalse(ScriptProcessor.evalForBoolean(
+                "list && list.filter(function(item) { return item.field && item.field.value; })",
+                dsNull));
+
+        // optional chaining ?.filter with function expression
+        assertThat(ScriptProcessor.eval(
+                "list?.filter(function(item) { return item.field?.value; }).length",
+                ds), is(2));
+        // optional chaining: null list?.filter → undefined (falsy)
+        assertFalse(ScriptProcessor.evalForBoolean(
+                "list?.filter(function(item) { return item.field?.value; })",
+                dsNull));
+
+        // optional chaining with arrow function (item => item.field?.value)
+        assertThat(ScriptProcessor.eval(
+                "list?.filter(item => item.field?.value).length",
+                ds), is(2));
+        // null list with arrow function → undefined (falsy)
+        assertFalse(ScriptProcessor.evalForBoolean(
+                "list?.filter(item => item.field?.value)",
+                dsNull));
+    }
+
+    @Test
+    void evalWorksOnVirtualThreads() throws Exception {
+        List<Thread> threads = new ArrayList<>();
+        List<Boolean> results = Collections.synchronizedList(new ArrayList<>());
+        for (int i = 0; i < 20; i++) {
+            int val = i;
+            Thread t = Thread.ofVirtual().start(() -> {
+                DataSet ds = new DataSet("x", val);
+                results.add(ScriptProcessor.evalForBoolean("x > 5", ds));
+            });
+            threads.add(t);
+        }
+        for (Thread t : threads) t.join();
+        assertEquals(20, results.size());
+        assertEquals(14, results.stream().filter(Boolean::booleanValue).count());
     }
 }
