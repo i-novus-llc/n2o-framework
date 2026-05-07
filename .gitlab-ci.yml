@@ -41,8 +41,6 @@ autotesting mr stand:
     AUTOTEST_PARAMS: '-Pautotests -o'
     AUTOTEST_MODULE_DIR: './backend/n2o/n2o-autotest'
     AUTOTEST_IMAGE: 'harbor.i-novus.ru/pipeline/maven-build:jdk21-node22-v6'
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   dependencies:
     - build and verify
     - deploy mr stand
