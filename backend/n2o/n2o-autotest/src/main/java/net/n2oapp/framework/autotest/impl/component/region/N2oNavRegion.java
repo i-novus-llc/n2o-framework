@@ -9,6 +9,7 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 public class N2oNavRegion extends N2oRegion implements NavRegion {
     private static final String ACTIVE = "active";
+    private static final String GROUP_CHILDREN = ".group-children";
 
     @Override
     public RegionItems content() {
@@ -100,7 +101,7 @@ public class N2oNavRegion extends N2oRegion implements NavRegion {
 
         @Override
         public RegionItems items() {
-            return new N2oRegionItems(element().$(".group-children").$$(":scope > .group-children__child"));
+            return new N2oRegionItems(element().$(GROUP_CHILDREN).$$(":scope > .group-children__child"));
         }
 
         @Override
@@ -156,12 +157,12 @@ public class N2oNavRegion extends N2oRegion implements NavRegion {
 
         @Override
         public void shouldBeOpened() {
-            element().$(".group-children").shouldBe(Condition.exist);
+            element().$(GROUP_CHILDREN).shouldBe(Condition.exist);
         }
 
         @Override
         public void shouldBeClosed() {
-            element().$(".group-children").shouldNotBe(Condition.exist);
+            element().$(GROUP_CHILDREN).shouldNotBe(Condition.exist);
         }
     }
 }

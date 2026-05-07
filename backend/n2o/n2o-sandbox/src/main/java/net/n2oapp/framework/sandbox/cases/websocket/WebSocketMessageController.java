@@ -46,6 +46,7 @@ public class WebSocketMessageController {
 
     private static final Pattern PROJECT_ID_PATTERN = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]*+(?:[._][a-zA-Z0-9]++)*+$");
     private static final String PAGE_ROUTE = "pageRoute";
+    private static final String DEFAULT = "default";
 
     private final Random random = new Random();
     private final SimpMessagingTemplate messagingTemplate;
@@ -159,12 +160,12 @@ public class WebSocketMessageController {
 
     private Application getApplication(N2oApplicationBuilder builder) {
         String applicationId = builder.getEnvironment().getSystemProperties().getProperty("n2o.application.id");
-        if ("default".equals(applicationId)) {
+        if (DEFAULT.equals(applicationId)) {
             Optional<SourceInfo> applicationInfo = builder.getEnvironment().getMetadataRegister()
                     .find(N2oApplication.class).stream()
-                    .filter(a -> !a.getId().equals("default"))
+                    .filter(a -> !a.getId().equals(DEFAULT))
                     .findFirst();
-            applicationId = applicationInfo.isPresent() ? applicationInfo.get().getId() : "default";
+            applicationId = applicationInfo.isPresent() ? applicationInfo.get().getId() : DEFAULT;
         }
         return builder.read().transform().validate().compile().transform().bind()
                 .get(new ApplicationContext(applicationId), new DataSet());

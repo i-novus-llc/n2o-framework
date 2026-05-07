@@ -98,11 +98,15 @@ public class MetadataPersister {
         if (path == null)
             throw new IllegalStateException();
         watchDir.skipOn(path);
-        try {
-            saveContentToFile(new ByteArrayInputStream(outputStream.toByteArray()), new File(path));
+
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        try (inputStream) {
+            saveContentToFile(inputStream, new File(path));
             metadataRegister.update(info);//if exists
             metadataRegister.add(info);
             eventBus.publish(new ConfigPersistEvent(this, info, isCreate));
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
         } finally {
             watchDir.takeOn(path);
         }
