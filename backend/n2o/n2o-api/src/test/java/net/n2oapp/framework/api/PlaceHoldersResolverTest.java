@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.util.*;
 
 import static net.n2oapp.framework.api.PlaceHoldersResolver.*;
-import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;

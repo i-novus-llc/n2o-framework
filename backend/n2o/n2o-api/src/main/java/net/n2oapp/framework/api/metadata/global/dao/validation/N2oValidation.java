@@ -1,6 +1,5 @@
 package net.n2oapp.framework.api.metadata.global.dao.validation;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

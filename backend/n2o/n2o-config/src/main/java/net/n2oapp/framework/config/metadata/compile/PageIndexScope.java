@@ -1,7 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**

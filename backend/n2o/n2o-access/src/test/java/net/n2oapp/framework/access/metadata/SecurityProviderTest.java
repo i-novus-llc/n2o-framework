@@ -1,13 +1,13 @@
 package net.n2oapp.framework.access.metadata;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.access.data.SecurityProvider;
 import net.n2oapp.framework.access.exception.AccessDeniedException;
 import net.n2oapp.framework.access.exception.UnauthorizedException;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 import net.n2oapp.framework.access.simple.PermissionApi;
 import net.n2oapp.framework.api.criteria.Restriction;
+import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.test.TestContextEngine;
 import net.n2oapp.framework.api.user.UserContext;

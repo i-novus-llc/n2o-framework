@@ -102,7 +102,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             source.setDatasourceId(datasource.getId());
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
             if (nonNull(dataSourcesScope)) {
-                dataSourcesScope.put(datasource.getId(), datasource);
+                if (dataSourcesScope.containsKey(datasource.getId()) && dataSourcesScope.get(datasource.getId()) instanceof N2oStandardDatasource)
+                    dataSourcesScope.put(datasource.getId(), p.merge(datasource, dataSourcesScope.get(datasource.getId())));
+                else
+                    dataSourcesScope.put(datasource.getId(), datasource);
             }
         } else {
             DataSourcesScope dataSourcesScope = p.getScope(DataSourcesScope.class);
