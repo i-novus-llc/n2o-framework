@@ -44,7 +44,7 @@ import static net.n2oapp.framework.sandbox.utils.FileUtil.findResources;
 @RequestMapping("/websocket")
 public class WebSocketMessageController {
 
-    private static final Pattern PROJECT_ID_PATTERN = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]*+(?:[._][a-zA-Z0-9]++)*+$");
+    private static final Pattern PROJECT_ID_PATTERN = Pattern.compile("^[a-zA-Z0-9]++(?:[._][a-zA-Z0-9]++)*+$");
     private static final String PAGE_ROUTE = "pageRoute";
 
     private final Random random = new Random();

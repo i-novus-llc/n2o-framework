@@ -89,7 +89,7 @@ public class ViewController {
     private String[] messageBundleBasename;
     private static final String DEFAULT_APP_ID = "default";
     private static final String DATA_REQUEST_PREFIX = "/n2o/data";
-    private static final Pattern PROJECT_ID_PATTERN = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]*+(?:[._][a-zA-Z0-9]++)*+$");
+    private static final Pattern PROJECT_ID_PATTERN = Pattern.compile("^[a-zA-Z0-9]++(?:[._][a-zA-Z0-9]++)*+$");
 
     private final DataProcessingStack dataProcessingStack;
     private final AlertMessageBuilder messageBuilder;
