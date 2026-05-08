@@ -53,6 +53,8 @@ export function useInputController(
         if (!value) {
             onChange?.(value)
 
+            onMessage?.(null)
+
             return
         }
 
