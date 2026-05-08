@@ -4,8 +4,10 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
@@ -207,5 +209,44 @@ class FieldRequiredAT extends AutoTestBase {
         fieldD.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
         fieldE.shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
         fieldF.shouldHaveValidationMessage(Condition.text("Не может быть больше чем E"));
+    }
+
+    @Test
+    void notRequired() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/required/notRequired/index.page.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FormWidget form = page.widget(FormWidget.class);
+        form.fields().shouldHaveSize(7);
+        Checkbox checkbox = form.fields().field("required").control(Checkbox.class);
+        checkbox.shouldExists();
+        checkbox.shouldBeChecked();
+
+        ButtonField buttonField = form.fields().field("validate", ButtonField.class);
+        buttonField.shouldExists();
+        buttonField.click();
+
+        StandardField inputText = form.fields().field("input-text");
+        inputText.shouldHaveValidationMessage(Condition.exist);
+        StandardField inputSelect = form.fields().field("input-select");
+        inputSelect.shouldHaveValidationMessage(Condition.exist);
+        StandardField multi = form.fields().field("input-select multi");
+        multi.shouldHaveValidationMessage(Condition.exist);
+        StandardField field = form.fields().field("field");
+        field.shouldHaveValidationMessage(Condition.exist);
+        StandardField dateInterval = form.fields().field("date-interval");
+        dateInterval.shouldHaveValidationMessage(Condition.exist);
+
+        checkbox.setChecked(false);
+        checkbox.shouldNotBeChecked();
+
+        inputText.shouldHaveValidationMessage(Condition.empty);
+        inputSelect.shouldHaveValidationMessage(Condition.empty);
+        multi.shouldHaveValidationMessage(Condition.empty);
+        field.shouldHaveValidationMessage(Condition.empty);
+        dateInterval.shouldHaveValidationMessage(Condition.empty);
     }
 }
