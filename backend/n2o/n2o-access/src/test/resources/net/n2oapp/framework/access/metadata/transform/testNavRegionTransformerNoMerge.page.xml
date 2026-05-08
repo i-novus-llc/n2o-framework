@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
+      name="Регион навигации без скрытия">
+    <regions>
+        <nav direction="column">
+
+            <group label="Смешанная группа">
+                <menu-item label="Всегда видимый"/>
+                <menu-item label="Только для admin" sec:roles="admin"/>
+            </group>
+
+            <dropdown-menu label="Смешанное меню">
+                <menu-item label="Всегда видимый"/>
+                <menu-item label="Только для edit" sec:permissions="edit"/>
+            </dropdown-menu>
+
+        </nav>
+    </regions>
+</page>
