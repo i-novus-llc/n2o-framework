@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
+      name="Регион навигации">
+    <regions>
+        <nav direction="column">
+
+            <group label="Основная информация">
+                <menu-item label="Личные данные" sec:roles="admin"/>
+                <menu-item label="Документы" sec:permissions="edit"/>
+            </group>
+
+            <divider sec:roles="admin"/>
+
+            <group label="Медицинская информация">
+                <dropdown-menu label="Медицинское страхование">
+                    <menu-item label="Обязательное" sec:roles="admin"/>
+                    <group label="Добровольное">
+                        <menu-item label="Оплата от физ лица" sec:roles="fl"/>
+                        <menu-item label="Оплата от организации" sec:roles="org"/>
+                    </group>
+                </dropdown-menu>
+            </group>
+
+            <button label="Прикрепить к мед. организации"
+                    sec:roles="admin"/>
+            <link label="О компании" href="http://example.com"
+                  sec:permissions="edit"/>
+
+            <group label="Основная информация">
+                <menu-item label="Личные данные" sec:roles="admin"/>
+                <menu-item label="Документы" sec:permissions="edit"/>
+                <group label="Регистрация">
+                    <menu-item label="Адреса" sec:roles="admin2"/>
+                </group>
+            </group>
+
+            <dropdown-menu label="Внешнее меню">
+                <menu-item label="Пункт 1" sec:roles="admin"/>
+                <dropdown-menu label="Внутреннее меню">
+                    <menu-item label="Подпункт 1" sec:roles="fl"/>
+                    <menu-item label="Подпункт 2" sec:roles="org"/>
+                </dropdown-menu>
+            </dropdown-menu>
+
+        </nav>
+    </regions>
+</page>
