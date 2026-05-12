@@ -9,6 +9,7 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
+import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -415,6 +416,62 @@ class SubPageRegionAT extends AutoTestBase {
         modalPage.shouldExists();
         regions = modalPage.content(StandardPage.class).regions();
         checkSubPageQueryParameters(regions, "test5", "modal");
+    }
+
+    @Test
+    void testUrls() {
+        setResourcePath("net/n2oapp/framework/autotest/region/subpage/urls");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/urls/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/urls/open.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/urls/open1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/urls/open11.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/subpage/urls/open2.page.xml")
+        );
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        NavRegion nav = page.regions().region(0, NavRegion.class);
+        nav.shouldExists();
+        nav.content().shouldHaveSize(4);
+        nav.content().item(0, AnchorItem.class).shouldHaveLabel("./open (subpage)");
+        nav.content().item(1, AnchorItem.class).shouldHaveLabel("./open1 (subpage)");
+        nav.content().item(2, AnchorItem.class).shouldHaveLabel("./open11 (not subpage)");
+        nav.content().item(3, AnchorItem.class).shouldHaveLabel("./open2 (not subpage)");
+
+        RegionItems subPageContent = page.regions().region(1, SubPageRegion.class).content(StandardPage.class)
+                .regions().region(0, SimpleRegion.class).content();
+        StandardField subPageField = subPageContent.widget(FormWidget.class).fields().field("test");
+
+        page.breadcrumb().crumb(0).shouldHaveLabel("Базовая");
+        page.breadcrumb().crumb(1).shouldHaveLabel("open");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open");
+        subPageField.control(OutputText.class).shouldHaveValue("open");
+        nav.content().item(1, AnchorItem.class).click();
+
+        page.breadcrumb().crumb(1).shouldHaveLabel("open1");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open1");
+        subPageField.control(OutputText.class).shouldHaveValue("open1");
+        nav.content().item(2, AnchorItem.class).click();
+
+        RegionItems pageContent = page.regions().region(0, SimpleRegion.class).content();
+        StandardField pageField = pageContent.widget(FormWidget.class).fields().field("test");
+
+        page.breadcrumb().crumb(1).shouldHaveLabel("open11");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open11");
+        pageField.control(OutputText.class).shouldHaveValue("open11");
+        page.breadcrumb().crumb(0).click();
+        nav.content().item(3, AnchorItem.class).click();
+
+        page.breadcrumb().crumb(1).shouldHaveLabel("open2");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open2");
+        pageField.control(OutputText.class).shouldHaveValue("open2");
+        page.breadcrumb().crumb(0).click();
+        nav.content().item(0, AnchorItem.class).click();
+
+        page.breadcrumb().crumb(1).shouldHaveLabel("open");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open");
+        subPageField.control(OutputText.class).shouldHaveValue("open");
     }
 
     private static void checkSubPageQueryParameters(Regions regions, String filterValue, String paramValue) {
