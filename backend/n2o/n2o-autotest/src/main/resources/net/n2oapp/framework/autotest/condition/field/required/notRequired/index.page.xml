@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      xmlns:ext="http://n2oapp.net/framework/config/schema/ext"
+             name="Проверка того, что удаляются сообщения о валидации">
+    <form>
+        <fields>
+            <row>
+                <checkbox id="required" default-value="true"></checkbox>
+                <button label="validate" validate="true"></button>
+            </row>
+            <row>
+                <input-text id="i1" label="input-text" required="{required}" placeholder="rus text only">
+                    <validations>
+                        <condition message="Текст должен быть на русском языке">
+                            return !i1 || !i1.match(/[a-z]/i)
+                        </condition>
+                    </validations>
+                </input-text>
+                <input-select id="i2" label="input-select" required="{required}">
+                    <options>
+                        <option id="1" name="test_1"/>
+                        <option id="2" name="test_3"/>
+                        <option id="3" name="test_2"/>
+                    </options>
+                </input-select>
+                <input-select id="i3" label="input-select multi" type="multi" required="{required}">
+                    <options>
+                        <option id="1" name="test_1"/>
+                        <option id="2" name="test_3"/>
+                        <option id="3" name="test_2"/>
+                    </options>
+                </input-select>
+                <input-text id="i4" label="field" required="{required}">
+                    <validations>
+                        <mandatory
+                            message="длинный текст ошибки поля на две строки \n тексст текст текст"
+                            severity="warning"
+                        ></mandatory>
+                    </validations>
+                </input-text>
+            </row>
+            <row>
+                <date-interval id="i6" label="date-interval" required="{required}"/>
+            </row>
+        </fields>
+    </form>
+</simple-page>
