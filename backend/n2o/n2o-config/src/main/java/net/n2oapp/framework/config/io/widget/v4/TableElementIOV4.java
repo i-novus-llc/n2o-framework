@@ -112,6 +112,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attribute(e, "class", c::getCssClass, c::setCssClass);
         p.attribute(e, "style", c::getStyle, c::setStyle);
         p.attribute(e, WIDTH, c::getWidth, c::setWidth);
+        p.anyAttributes(e, c::getExtAttributes, c::setExtAttributes);
         p.anyChildren(e, null, c::getChildren, c::setChildren, columns(p));
     }
 }
