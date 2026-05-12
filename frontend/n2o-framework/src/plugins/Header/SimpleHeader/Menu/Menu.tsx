@@ -15,13 +15,19 @@ export function Menu({ pathname, items = [] }: Props) {
 
     return (
         <>
-            {items.map((item, index) => (
-                <ItemComponent
-                    key={item.id || index}
-                    {...item}
-                    pathname={pathname}
-                />
-            ))}
+            {items.map((item, index) => {
+                const { visible = true, enabled = true } = item
+
+                return (
+                    <ItemComponent
+                        key={item.id || index}
+                        {...item}
+                        pathname={pathname}
+                        visible={visible}
+                        enabled={enabled}
+                    />
+                )
+            })}
         </>
     )
 }

@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react'
+import React, { CSSProperties, MouseEventHandler } from 'react'
 import { ButtonDropdownProps } from 'reactstrap'
 import { ImageShape } from '@i-novus/n2o-components/lib/display/NavItemImage'
 
@@ -29,6 +29,8 @@ export interface Common {
     showContent?: boolean
     isMiniView?: boolean
     disabled?: boolean
+    enabled?: boolean
+    style?: CSSProperties
 }
 export interface Item extends Common {
     id: string
@@ -48,6 +50,7 @@ export interface Item extends Common {
     direction?: string
     activeId?: string
     className?: string
+    visible?: boolean | string
 }
 
 export type FactoryComponent = React.FunctionComponent<ContextItem> | void

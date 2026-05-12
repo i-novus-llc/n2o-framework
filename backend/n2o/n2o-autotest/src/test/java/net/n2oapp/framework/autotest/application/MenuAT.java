@@ -356,6 +356,67 @@ class MenuAT extends AutoTestBase {
         testMenu(menu);
     }
 
+    @Test
+    void menuVisible() {
+        setResourcePath("net/n2oapp/framework/autotest/condition/menu/visible");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/menu/visible/app.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/menu/visible/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/menu/visible/page1.page.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        SimpleHeader header = page.header();
+        header.shouldExists();
+        header.shouldHaveBrandName("Проверка атрибута visible в элементах меню");
+
+        Menu menu = header.nav();
+        menu.shouldHaveSize(2);
+        menu.anchor(0).shouldHaveLabel("menu-item0 visible");
+        menu.anchor(0).shouldBeVisible();
+
+        menu.item(1, DropdownMenuItem.class).shouldHaveLabel("dropdown-menu visible");
+        menu.item(1, DropdownMenuItem.class).shouldBeVisible();
+        menu.item(1, DropdownMenuItem.class).click();
+        menu.item(1, DropdownMenuItem.class).item(0).shouldHaveLabel("menu-item1 visible");
+        menu.item(1, DropdownMenuItem.class).item(0).shouldBeVisible();
+        menu.item(1, DropdownMenuItem.class).item(1).shouldNotExists();
+        menu.item(2, DropdownMenuItem.class).shouldNotExists();
+    }
+
+    @Test
+    void menuEnabled() {
+        setResourcePath("net/n2oapp/framework/autotest/condition/menu/enabled");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/menu/enabled/app.application.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/menu/enabled/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/menu/enabled/page1.page.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        SimpleHeader header = page.header();
+        header.shouldExists();
+        header.shouldHaveBrandName("Проверка атрибута enabled в элементах меню");
+
+        Menu menu = header.nav();
+        menu.shouldHaveSize(4);
+        menu.anchor(0).shouldHaveLabel("menu-item0 enabled");
+        menu.anchor(0).shouldBeEnabled();
+        menu.anchor(1).shouldHaveLabel("menu-item0 disabled");
+        menu.anchor(1).shouldBeDisabled();
+
+        menu.item(2, DropdownMenuItem.class).shouldHaveLabel("dropdown-menu enabled");
+        menu.item(2, DropdownMenuItem.class).shouldBeEnabled();
+        menu.item(2, DropdownMenuItem.class).click();
+        menu.item(2, DropdownMenuItem.class).item(0).shouldHaveLabel("menu-item1 enabled");
+        menu.item(2, DropdownMenuItem.class).item(0).shouldBeEnabled();
+        menu.item(2, DropdownMenuItem.class).item(1).shouldHaveLabel("menu-item1 disabled");
+        menu.item(2, DropdownMenuItem.class).item(1).shouldBeDisabled();
+
+        menu.item(3, DropdownMenuItem.class).shouldHaveLabel("dropdown-menu disabled");
+        menu.item(3, DropdownMenuItem.class).shouldBeDisabled();
+    }
+
     private void testMenu(Menu menu) {
         menu.anchor(0).shouldHaveLabel("test1");
         menu.anchor(1).shouldHaveLabel("test2");

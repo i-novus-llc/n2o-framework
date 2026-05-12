@@ -44,10 +44,12 @@ const setDefaultLink = (item: Item) => {
 }
 
 export function Link({ item, sidebarOpen, isMiniView, isStaticView, showContent }: LinkProps) {
-    const { url: href, title, disabled, target } = useLinkPropsResolver({ ...setDefaultLink(item), url: item.href })
+    const { url: href, title, disabled, target, visible } = useLinkPropsResolver({ ...setDefaultLink(item), url: item.href })
 
     const hint = isMiniView ? title : null
     const { active, ...linkProps } = useLink({ href, disabled, target })
+
+    if (!visible) { return null }
 
     return (
         <Tooltip placement="right" hint={hint}>

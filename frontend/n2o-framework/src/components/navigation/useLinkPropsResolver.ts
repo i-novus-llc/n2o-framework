@@ -4,14 +4,14 @@ import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { type Mapping } from '../../ducks/datasource/Provider'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { useResolved } from '../../core/Expression/useResolver'
-import { ModelPrefix } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/models/types'
 
 type Options = {
-    url?: string,
+    url?: string
     pathMapping?: Mapping
     queryMapping?: Mapping
-    model: ModelPrefix,
-    datasource: string,
+    model: ModelPrefix
+    datasource: string
     enabled?: boolean | string
     visible?: boolean | string
 }
