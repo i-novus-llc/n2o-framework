@@ -16,6 +16,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oInvokeAction> {
+
+    private static final String DATASOURCE = "datasource";
+    private static final String MODEL = "model";
+
     @Override
     public void io(Element e, N2oInvokeAction ia, IOProcessor p) {
         super.io(e, ia, p);
@@ -31,8 +35,8 @@ public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oIn
         p.attributeBoolean(e, "use-fail-out", ia::getUseFailOut, ia::setUseFailOut);
         p.attributeEnum(e, "message-position", ia::getMessagePosition, ia::setMessagePosition, MessagePositionEnum.class);
         p.attributeEnum(e, "message-placement", ia::getMessagePlacement, ia::setMessagePlacement, MessagePlacementEnum.class);
-        p.attribute(e, "datasource", ia::getDatasourceId, ia::setDatasourceId);
-        p.attributeEnum(e, "model", ia::getModel, ia::setModel, ReduxModelEnum.class);
+        p.attribute(e, DATASOURCE, ia::getDatasourceId, ia::setDatasourceId);
+        p.attributeEnum(e, MODEL, ia::getModel, ia::setModel, ReduxModelEnum.class);
 
         p.children(e, null, "form-param", ia::getFormParams, ia::setFormParams, N2oFormParam::new, this::formParam);
         p.children(e, null, "path-param", ia::getPathParams, ia::setPathParams, N2oParam::new, this::param);
@@ -52,14 +56,14 @@ public class InvokeActionElementIOV2 extends AbstractMetaActionElementIOV2<N2oIn
     private void param(Element e, N2oParam param, IOProcessor p) {
         p.attribute(e, "name", param::getName, param::setName);
         p.attribute(e, "value", param::getValue, param::setValue);
-        p.attribute(e, "datasource", param::getDatasourceId, param::setDatasourceId);
-        p.attributeEnum(e, "model", param::getModel, param::setModel, ReduxModelEnum.class);
+        p.attribute(e, DATASOURCE, param::getDatasourceId, param::setDatasourceId);
+        p.attributeEnum(e, MODEL, param::getModel, param::setModel, ReduxModelEnum.class);
     }
 
     private void formParam(Element e, N2oFormParam fp, IOProcessor p) {
         p.attribute(e, "id", fp::getName, fp::setName);
         p.attribute(e, "value", fp::getValue, fp::setValue);
-        p.attribute(e, "datasource", fp::getDatasourceId, fp::setDatasourceId);
-        p.attributeEnum(e, "model", fp::getModel, fp::setModel, ReduxModelEnum.class);
+        p.attribute(e, DATASOURCE, fp::getDatasourceId, fp::setDatasourceId);
+        p.attributeEnum(e, MODEL, fp::getModel, fp::setModel, ReduxModelEnum.class);
     }
 }

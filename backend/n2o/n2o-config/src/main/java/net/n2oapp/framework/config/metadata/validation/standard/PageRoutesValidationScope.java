@@ -8,5 +8,6 @@ import java.util.HashSet;
 public class PageRoutesValidationScope extends HashSet<String> {
 
     public PageRoutesValidationScope() {
+        // Empty constructor
     }
 }
