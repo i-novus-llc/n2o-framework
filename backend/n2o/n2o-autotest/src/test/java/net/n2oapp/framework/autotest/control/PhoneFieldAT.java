@@ -53,6 +53,11 @@ class PhoneFieldAT extends AutoTestBase {
         PhoneField phoneField = page.widget(FormWidget.class).fields().field("phone").control(PhoneField.class);
         phoneField.shouldBeVisible();
         phoneField.shouldHaveValue("+7 (999) 123-45-67");
+        phoneField.setValue("123");
+        page.element().click();
+        phoneField.shouldHaveInvalidText(Condition.text("Невалидный номер телефона"));
+        phoneField.setValue("");
+        phoneField.shouldHaveInvalidText(Condition.empty);
         phoneField.setValue("+7 (999) 123-45-00");
         saveButton.click();
         page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
