@@ -48,6 +48,7 @@ class PageBinderTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.getEnvironment().getContextProcessor().set("test", "Test");
+        builder.getEnvironment().getContextProcessor().set("intTest", 42);
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oPagesPack(),
                 new N2oWidgetsPack(), new N2oRegionsPack(), new N2oCellsPack(), new N2oActionsPack());
         systemProperties = (SimplePropertyResolver) builder.getEnvironment().getSystemProperties();
@@ -185,7 +186,7 @@ class PageBinderTest extends SourceCompileTestBase {
             List<SubModelQuery> subModelQueries = invocation.getArgument(0);
             DataSet data = invocation.getArgument(1);
             if (!subModelQueries.isEmpty()
-                    && "query1".equals(subModelQueries.get(0).getQueryId())
+                    && "query1".equals(subModelQueries.getFirst().getQueryId())
                     && data.get("id").equals(123)) {
                 data.put("name", "Joe");
             }
@@ -230,13 +231,13 @@ class PageBinderTest extends SourceCompileTestBase {
         doAnswer(invocation -> {
             List<SubModelQuery> subModelQueries = invocation.getArgument(0);
             DataSet data = invocation.getArgument(1);
-            if (subModelQueries.get(0).isMulti()) {
-                List<DataSet> list = (List<DataSet>) data.get(subModelQueries.get(0).getFullName());
+            if (subModelQueries.getFirst().isMulti()) {
+                List<DataSet> list = (List<DataSet>) data.get(subModelQueries.getFirst().getFullName());
                 for (DataSet item : list) {
                     item.put("name", "test" + item.get("id"));
                 }
             } else {
-                data.put(subModelQueries.get(0).getFullName() + ".name", "test" + data.get(subModelQueries.get(0).getSubModel() + ".id"));
+                data.put(subModelQueries.getFirst().getFullName() + ".name", "test" + data.get(subModelQueries.getFirst().getSubModel() + ".id"));
             }
             return null;
         }).when(subModelsProcessor).executeSubModels(anyList(), any());
@@ -258,18 +259,18 @@ class PageBinderTest extends SourceCompileTestBase {
         //single фильтр по умолчанию
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test1"));
         //multi фильтр по умолчанию
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).getFirst()).getValues().get("name"), is("test1"));
         //single фильтр c options(значение test1 из Mock)
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w1'].testSingleOptions").getValue()).getValues().get("name"), is("test1"));
         //single фильтр по URL
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w1'].testSingleUrl").getValue()).getValues().get("name"), is("test1"));
         //multi фильтр по URL
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).get(0)).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).getFirst()).getValues().get("name"), is("test1"));
         assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).get(1)).getValues().get("name"), is("test2"));
         //single поле по умолчанию
         assertThat(((DefaultValues) page.getModels().get("resolve['testSubModels_w2'].testSingle").getValue()).getValues().get("name"), is("test1"));
         //multi поле по умолчанию
-        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w2'].testMulti").getValue()).get(0)).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w2'].testMulti").getValue()).getFirst()).getValues().get("name"), is("test1"));
         data.put("w0_testSingleDefault_id", "2");
         data.put("w0_testMultiDefault_id", Arrays.asList("2"));
         //single поле из параметров
@@ -277,7 +278,7 @@ class PageBinderTest extends SourceCompileTestBase {
         //single поле с options из параметров
         assertThat(((DefaultValues) page.getModels().get("resolve['testSubModels_w3'].testSingleUrlForm").getValue()).getValues().get("name"), is("test1"));
         //multi поле из параметров
-        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w3'].testMultiUrlForm").getValue()).get(0)).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w3'].testMultiUrlForm").getValue()).getFirst()).getValues().get("name"), is("test1"));
         assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w3'].testMultiUrlForm").getValue()).get(1)).getValues().get("name"), is("test2"));
 
 
@@ -290,7 +291,7 @@ class PageBinderTest extends SourceCompileTestBase {
 
         //Фильтры из URL перекрывают дефолтные значения
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test2"));
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test2"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).getFirst()).getValues().get("name"), is("test2"));
         assertThat(((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).size(), is(1));
     }
 
@@ -377,12 +378,34 @@ class PageBinderTest extends SourceCompileTestBase {
         assertThat(((StandardDatasource) page.getDatasources().get("p_w_form_w1")).getProvider().getUrl(), containsString("/p/w/1/form"));
     }
 
+    /**
+     * Контекстное значение нестрокового типа в default-value резолвится как Object, сохраняя исходный тип
+     */
+    @Test
+    void contextPlaceholderInModelValueResolvedAsObject() {
+        Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testContextModelResolveAsObject.page.xml")
+                .get(new PageContext("testContextModelResolveAsObject"), new DataSet());
+
+        assertThat(page.getModels().get("resolve['testContextModelResolveAsObject_main'].count").getValue(), is(42));
+    }
+
+    /**
+     * Контекстное значение нестрокового типа в DefaultValues резолвится как Object, сохраняя исходный тип
+     */
+    @Test
+    void contextPlaceholderInDefaultValuesResolvedAsObject() {
+        Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testContextModelResolveAsObject.page.xml")
+                .get(new PageContext("testContextModelResolveAsObject"), new DataSet());
+
+        assertThat(((DefaultValues) page.getModels().get("resolve['testContextModelResolveAsObject_main'].category").getValue()).getValues().get("id"), is(42));
+    }
+
     @Test
     void eventsBinder() {
         ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/page/testEventActionBinder.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml");
         PageContext context = new PageContext("testEventActionBinder", "/p/w/:id/view");
         StandardPage page = (StandardPage) pipeline.get(context, new DataSet().add("id", "3"));
-        assertThat(((ShowModal) ((OnChangeEvent) page.getEvents().get(0)).getAction()).getPayload().getPageUrl(), is("/p/w/3/view/modal"));
+        assertThat(((ShowModal) ((OnChangeEvent) page.getEvents().getFirst()).getAction()).getPayload().getPageUrl(), is("/p/w/3/view/modal"));
     }
 }
