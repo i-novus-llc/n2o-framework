@@ -26,9 +26,12 @@ export function Link({
         url: href,
         target,
         disabled,
+        visible,
     } = useLinkPropsResolver({ ...item, url: item.href })
 
     const { active, ...linkProps } = useLink({ href, disabled, target, onClick })
+
+    if (!visible) { return null }
 
     return (
         <NavItem>

@@ -4,6 +4,10 @@
     color: rgba(0, 0, 0, 0.5);
 }
 
+@mixin disabledColor {
+    color: rgba(0, 0, 0, 0.3);
+}
+
 @mixin hoverColor {
     color: rgba(0, 0, 0, 0.7);
 }
@@ -171,6 +175,10 @@
                         background-color: white;
                     }
                 }
+            }
+
+            .nav-link.dropdown-item.disabled {
+                @include disabledColor;
             }
 
             .dropdown-item.dropdown-toggle {

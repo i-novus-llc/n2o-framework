@@ -29,14 +29,12 @@ const NavItemContainer = ({
     const model = useSelector(getModelByPrefixAndNameSelector(prefix, datasource))
     const item = propsResolver(itemProps, model, model as Record<string, unknown>, ['items'])
 
-    const { src } = item
+    const { src, visible } = item
 
     const { getComponent } = useContext(FactoryContext)
     const FactoryComponent: FactoryComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
 
-    if (!FactoryComponent) {
-        return null
-    }
+    if (!FactoryComponent || !visible) { return null }
 
     return (
         <FactoryComponent

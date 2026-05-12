@@ -24,10 +24,8 @@ export function Link({
         </>
     )
 
-    const classes = classNames(className, { disabled })
-
     const props = {
-        className: classes,
+        className: classNames(className, { disabled }),
         style,
         rel: target === '_blank' ? 'noopener noreferrer' : undefined,
         target,

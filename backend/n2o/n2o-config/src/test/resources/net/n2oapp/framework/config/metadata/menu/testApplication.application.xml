@@ -7,7 +7,8 @@
                        icon="fa fa-bell" icon-position="right"
                        badge="2"
                        badge-color="warning"
-                       datasource="ds1">
+                       datasource="ds1"
+                       visible="{a == b}" enabled="{type == 1}">
                 <open-page page-id="testMenu" route="/login"/>
             </menu-item>
             <menu-item image="/static/users/ivan90.png"
@@ -21,7 +22,9 @@
             <dropdown-menu id="user"
                            name="Виктория"
                            image="/static/users/vika91.png"
-                           image-shape="circle">
+                           image-shape="circle"
+                           visible="{type == 1}" enabled="{a == b}"
+                           class="font-weight-bold" style="font-size:large">
                 <dropdown-menu name="Отделы"
                                src="AnySrc"
                 >

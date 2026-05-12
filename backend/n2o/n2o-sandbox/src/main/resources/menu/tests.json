@@ -138,6 +138,14 @@
           "name": "MenuAT. resolveName"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/condition/menu/visible",
+          "name": "MenuAT. menuVisible"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/condition/menu/enabled",
+          "name": "MenuAT. menuEnabled"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/application/sidebar/simple",
           "name": "SidebarAT. testSidebar"
         },
