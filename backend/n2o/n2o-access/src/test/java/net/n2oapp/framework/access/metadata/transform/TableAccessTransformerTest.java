@@ -181,9 +181,15 @@ class TableAccessTransformerTest extends SourceCompileTestBase {
         Table table = (Table) page.getRegions().get("single").getFirst().getContent().getFirst();
         MultiColumn multi = (MultiColumn) table.getComponent().getHeader().getCells().getFirst();
 
-        // На самом MultiColumn security не ставится
-        Map<String, Object> multiProps = multi.getProperties();
-        assertThat(multiProps == null || multiProps.get(SECURITY_PROP_NAME) == null, is(true));
+        // MultiColumn скрывается, так как все дочерние колонки скрыты
+        Security multiSecurity = (Security) multi.getProperties().get(SECURITY_PROP_NAME);
+        assertThat(multiSecurity, notNullValue());
+        SecurityObject multiSoA = multiSecurity.get(0).get("custom");
+        assertThat(multiSoA.getRoles().contains("admin"), is(true));
+        assertThat(multiSoA.getRoles().contains("user"), is(true));
+        SecurityObject multiSoB = multiSecurity.get(1).get("custom");
+        assertThat(multiSoB.getPermissions().contains("edit"), is(true));
+        assertThat(multiSoB.getPermissions().contains("view"), is(true));
 
         // На каждом ребёнке — свой security
         BaseColumn childA = multi.getChildren().getFirst();
@@ -236,6 +242,22 @@ class TableAccessTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
+    void testMultiColumnNotHiddenWhenSomeChildrenOpen() {
+        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/default.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testColumnMultiColumnPartialSecurity.page.xml");
+
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new PageContext("testColumnMultiColumnPartialSecurity"));
+
+        Table table = (Table) page.getRegions().get("single").getFirst().getContent().getFirst();
+        MultiColumn multi = (MultiColumn) table.getComponent().getHeader().getCells().getFirst();
+
+        // Один ребёнок открыт → мультиколонка не скрывается
+        Map<String, Object> multiProps = multi.getProperties();
+        assertThat(multiProps == null || multiProps.get(SECURITY_PROP_NAME) == null, is(true));
+    }
+
+    @Test
     void testDndColumnChildrenProcessed() {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/default.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testColumnDndColumnChildren.page.xml");
@@ -246,6 +268,15 @@ class TableAccessTransformerTest extends SourceCompileTestBase {
         Table table = (Table) page.getRegions().get("single").getFirst().getContent().getFirst();
         DndColumn dnd = (DndColumn) table.getComponent().getHeader().getCells().getFirst();
 
+        // DndColumn скрывается, так как все дочерние колонки скрыты
+        Security dndSecurity = (Security) dnd.getProperties().get(SECURITY_PROP_NAME);
+        assertThat(dndSecurity, notNullValue());
+        SecurityObject dndSoA = dndSecurity.get(0).get("custom");
+        assertThat(dndSoA.getRoles().contains("admin"), is(true));
+        SecurityObject dndSoB = dndSecurity.get(1).get("custom");
+        assertThat(dndSoB.getPermissions().contains("edit"), is(true));
+
+        // На каждом ребёнке — свой security
         SimpleColumn childA = dnd.getChildren().getFirst();
         Security secA = (Security) childA.getProperties().get(SECURITY_PROP_NAME);
         assertThat(secA, notNullValue());
@@ -257,5 +288,21 @@ class TableAccessTransformerTest extends SourceCompileTestBase {
         assertThat(secB, notNullValue());
         SecurityObject soB = secB.getFirst().get("custom");
         assertThat(soB.getPermissions().contains("edit"), is(true));
+    }
+
+    @Test
+    void testDndColumnNotHiddenWhenSomeChildrenOpen() {
+        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/default.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testColumnDndColumnPartialSecurity.page.xml");
+
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new PageContext("testColumnDndColumnPartialSecurity"));
+
+        Table table = (Table) page.getRegions().get("single").getFirst().getContent().getFirst();
+        DndColumn dnd = (DndColumn) table.getComponent().getHeader().getCells().getFirst();
+
+        // Один ребёнок открыт → dnd-колонка не скрывается
+        Map<String, Object> dndProps = dnd.getProperties();
+        assertThat(dndProps == null || dndProps.get(SECURITY_PROP_NAME) == null, is(true));
     }
 }
