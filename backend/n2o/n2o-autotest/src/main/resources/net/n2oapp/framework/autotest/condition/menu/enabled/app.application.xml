@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://n2oapp.net/framework/config/schema/application-3.0">
+    <header title="Проверка атрибута enabled в элементах меню">
+        <nav>
+            <menu-item enabled="true" name="menu-item0 enabled">
+                <open-page page-id="page1"/>
+            </menu-item>
+            <menu-item enabled="false" name="menu-item0 disabled">
+                <open-page page-id="page1"/>
+            </menu-item>
+            <dropdown-menu enabled="true" name="dropdown-menu enabled">
+                <menu-item enabled="{${my.props} == 123}" name="menu-item1 enabled">
+                    <open-page page-id="page1"/>
+                </menu-item>
+                <menu-item enabled="{${my.props} == 2}" name="menu-item1 disabled">
+                    <open-page page-id="page1"/>
+                </menu-item>
+            </dropdown-menu>
+            <dropdown-menu enabled="{${my.props} == 2}" name="dropdown-menu disabled">
+                <menu-item enabled="true" name="menu-item2 enabled">
+                    <open-page page-id="page1"/>
+                </menu-item>
+                <menu-item enabled="false" name="menu-item2 disabled">
+                    <open-page page-id="page1"/>
+                </menu-item>
+            </dropdown-menu>
+        </nav>
+    </header>
+</application>

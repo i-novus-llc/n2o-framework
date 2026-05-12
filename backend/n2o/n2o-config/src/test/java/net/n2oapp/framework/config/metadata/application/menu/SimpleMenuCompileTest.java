@@ -68,6 +68,8 @@ class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getBadge().getColor(), is("warning"));
         assertThat(menuItem.getDatasource(), is("ds1"));
         assertThat(menuItem.getHref(), is("/login"));
+        assertThat(menuItem.getVisible(), is("`a == b`"));
+        assertThat(menuItem.getEnabled(), is("`type == 1`"));
         Page page = routeAndGet("/login", Page.class);
         assertThat(page, notNullValue());
 
@@ -91,6 +93,10 @@ class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(dropdownMenu.getImageSrc(), is("/static/users/vika91.png"));
         assertThat(dropdownMenu.getImageShape(), is(ShapeTypeEnum.CIRCLE));
         assertThat(dropdownMenu.getSubItems().size(), is(2));
+        assertThat(dropdownMenu.getVisible(), is("`type == 1`"));
+        assertThat(dropdownMenu.getEnabled(), is("`a == b`"));
+        assertThat(dropdownMenu.getClassName(), is("font-weight-bold"));
+        assertThat(dropdownMenu.getStyle().get("fontSize"), is("large"));
 
         // dropdown 1 -> dropdown
         MenuItem subDropdownItem = dropdownMenu.getSubItems().get(0);

@@ -3,23 +3,55 @@ import {
     ButtonDropdownProps,
     Dropdown as DropdownParent,
     DropdownMenu,
-    DropdownItem,
+    DropdownItem as DropdownChildren,
     DropdownToggle,
 } from 'reactstrap'
 import classNames from 'classnames'
 
 import { LinkBody } from '../Links/LinkBody'
-import { Common, Item as ItemProps } from '../../../../../CommonMenuTypes'
+import { type Common, type Item as ItemProps } from '../../../../../CommonMenuTypes'
 import { ITEM_SRC } from '../../../../../constants'
 import { ICON_POSITIONS } from '../../../../../../components/snippets/IconContainer/IconContainer'
 import NavItemContainer from '../../../NavItemContainer'
+import { useLinkPropsResolver } from '../../../../../../components/navigation/useLinkPropsResolver'
 
-export type DropdownProps = Common & {
+export interface DropdownProps extends Common {
     items: ItemProps[]
     nested?: boolean
     direction?: ButtonDropdownProps['direction']
     level?: number
     iconPosition?: ICON_POSITIONS
+}
+
+export interface DropdownItemProps {
+    active: boolean
+    item: ItemProps
+    className?: string
+}
+
+function DropdownItem({ active, item, className }: DropdownItemProps) {
+    const {
+        className: itemClassName,
+        disabled,
+        visible,
+    } = useLinkPropsResolver({ ...item, url: item.href })
+
+    if (!visible) { return null }
+
+    const itemProps = { ...item, visible, enabled: !disabled }
+
+    return (
+        <DropdownChildren
+            active={active}
+            disabled={item.src === ITEM_SRC.STATIC || item.disabled || disabled}
+        >
+            <NavItemContainer
+                itemProps={itemProps}
+                className={classNames(className, itemClassName, 'dropdown-item')}
+                active={active}
+            />
+        </DropdownChildren>
+    )
 }
 
 export function Dropdown({
@@ -35,6 +67,8 @@ export function Dropdown({
     level = 0,
     iconPosition = ICON_POSITIONS.LEFT,
     disabled,
+    enabled,
+    style,
 }: DropdownProps) {
     const [isOpen, setOpen] = useState(false)
 
@@ -49,8 +83,10 @@ export function Dropdown({
             toggle={toggle}
             direction={direction}
             tag="li"
+            style={style}
+            disabled={disabled || !enabled}
         >
-            <DropdownToggle className={classNames({ 'dropdown-item': level > 0 })} disabled={disabled} caret>
+            <DropdownToggle className={classNames({ 'dropdown-item': level > 0 })} disabled={disabled || !enabled} caret>
                 <LinkBody
                     imageSrc={imageSrc}
                     icon={icon}
@@ -62,9 +98,12 @@ export function Dropdown({
             <DropdownMenu flip className={classNames(`menu-level-${level}`, { nested })}>
                 {items.map((item) => {
                     if (item.items) {
+                        const { visible = true, enabled = true } = item
+                        const itemProps = { ...item, enabled, visible }
+
                         return (
                             <NavItemContainer
-                                itemProps={item}
+                                itemProps={itemProps}
                                 active={active}
                                 className={classNames(className, 'dropdown-item')}
                                 level={level + 1}
@@ -75,20 +114,8 @@ export function Dropdown({
                         )
                     }
 
-                    return (
-                        <DropdownItem
-                            active={active}
-                            disabled={item.src === ITEM_SRC.STATIC || item.disabled}
-                        >
-                            <NavItemContainer
-                                itemProps={item}
-                                className={classNames(className, 'dropdown-item')}
-                                active={active}
-                            />
-                        </DropdownItem>
-                    )
-                })
-                }
+                    return <DropdownItem active={active} item={item} className={className} />
+                })}
             </DropdownMenu>
         </DropdownParent>
     )

@@ -10,7 +10,7 @@ export enum Position {
     RIGHT = 'right',
 }
 
-export type LinkTarget = '_blank' |  '_self' | '_parent' | '_top'
+export type LinkTarget = '_blank' | '_self' | '_parent' | '_top'
 
 export enum GroupView {
     EXPANDED = 'expanded',

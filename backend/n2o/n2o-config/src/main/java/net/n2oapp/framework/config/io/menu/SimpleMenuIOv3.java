@@ -47,6 +47,8 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, Badg
         p.attribute(e, "image", m::getImage, m::setImage);
         p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ShapeTypeEnum.class);
         p.attribute(e, "src", m::getSrc, m::setSrc);
+        p.attribute(e, "visible", m::getVisible, m::setVisible);
+        p.attribute(e, "enabled", m::getEnabled, m::setEnabled);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "style", m::getStyle, m::setStyle);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
@@ -65,6 +67,10 @@ public abstract class SimpleMenuIOv3 implements NamespaceIO<N2oSimpleMenu>, Badg
         p.attribute(e, "image", m::getImage, m::setImage);
         p.attributeEnum(e, "image-shape", m::getImageShape, m::setImageShape, ShapeTypeEnum.class);
         p.attribute(e, "src", m::getSrc, m::setSrc);
+        p.attribute(e, "visible", m::getVisible, m::setVisible);
+        p.attribute(e, "enabled", m::getEnabled, m::setEnabled);
+        p.attribute(e, "class", m::getCssClass, m::setCssClass);
+        p.attribute(e, "style", m::getStyle, m::setStyle);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChildren(e, null, m::getMenuItems, m::setMenuItems, p.oneOf(N2oSimpleMenu.AbstractMenuItem.class)
                 .add("menu-item", N2oSimpleMenu.MenuItem.class, this::menuItem)

@@ -10,7 +10,9 @@
                        icon="fa fa-bell" icon-position="right"
                        badge="2"
                        badge-color="warning"
-                       datasource="ds1">
+                       datasource="ds1"
+                       class="class"
+                       style="background-color: blue">
                 <open-page page-id="testMenu" route="/login"/>
             </menu-item>
             <menu-item image="/static/users/ivan90.png"
