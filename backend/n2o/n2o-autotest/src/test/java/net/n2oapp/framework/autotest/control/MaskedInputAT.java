@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.MaskedInput;
+import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -67,6 +68,10 @@ class MaskedInputAT extends AutoTestBase {
         maskedInput.shouldHaveValue("");
         simplePage.element().click();
         maskedInputWithoutClear.shouldHaveValue("+7 (983");
+        maskedInputWithoutClear.shouldHaveInvalidText(Condition.text("Данные не соответствуют формату"));
+        maskedInputWithoutClear.setValue("");
+        maskedInputWithoutClear.shouldHaveInvalidText(Condition.empty);
+
     }
 
     @Test
