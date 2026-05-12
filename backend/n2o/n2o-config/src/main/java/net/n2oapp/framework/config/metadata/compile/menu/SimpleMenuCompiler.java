@@ -98,6 +98,10 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         }
 
         compiled.setProperties(p.mapAttributes(source));
+        compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        compiled.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+        compiled.setClassName(source.getCssClass());
+        compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
 
         return compiled;
     }
@@ -105,8 +109,6 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     private void menuItem(N2oSimpleMenu.MenuItem source, MenuItem compiled, CompileProcessor p, ApplicationContext context) {
         compiled.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
         compiled.setSrc(initSrc(source.getSrc(), source.getAction(), p));
-        compiled.setClassName(source.getCssClass());
-        compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setPageId(initPageId(source.getAction()));
         if (source.getName() == null)
             compiled.setTitle(p.resolveJS(initDefaultName(source.getAction(), p)));

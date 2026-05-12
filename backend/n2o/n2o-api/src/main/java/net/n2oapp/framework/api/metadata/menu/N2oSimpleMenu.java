@@ -50,6 +50,10 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
         private String image;
         private ShapeTypeEnum imageShape;
         private String src;
+        private String visible;
+        private String enabled;
+        private String cssClass;
+        private String style;
         @ExtAttributesSerializer
         private Map<N2oNamespace, Map<String, String>> extAttributes;
     }
@@ -67,9 +71,6 @@ public class N2oSimpleMenu extends N2oMenu implements ExtensionAttributesAware {
         private String badgeImage;
         private PositionEnum badgeImagePosition;
         private ShapeTypeEnum badgeImageShape;
-        private String cssClass;
-        private String style;
-
         private N2oAction action;
     }
 

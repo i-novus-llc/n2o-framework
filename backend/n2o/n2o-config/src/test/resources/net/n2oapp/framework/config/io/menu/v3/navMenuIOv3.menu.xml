@@ -15,7 +15,9 @@
                badge-shape="square"
                badge-image="/static/candidate.png"
                badge-image-position="right"
-               badge-image-shape="square">
+               badge-image-shape="square"
+               visible="false"
+               enabled="false">
         <open-page page-id="index" route="/login"/>
     </menu-item>
     <menu-item image="/static/users/ivan90.png"
@@ -31,7 +33,9 @@
     <dropdown-menu id="user"
                    name="Виктория"
                    image="/static/users/vika91.png"
-                   image-shape="circle">
+                   image-shape="circle"
+                   visible="false"
+                   enabled="false">
         <dropdown-menu name="Отделы">
             <menu-item name="Отдел разработки">
                 <a href="/developers" target="application"/>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, CSSProperties } from 'react'
 import classNames from 'classnames'
 import { ImageShape, NavItemImage } from '@i-novus/n2o-components/lib/display/NavItemImage'
 
@@ -17,6 +17,7 @@ interface DropdownWrapperProps {
     imageSrc?: string
     imageShape?: ImageShape
     open?: boolean
+    style?: CSSProperties
 }
 
 export function DropdownWrapper({
@@ -30,6 +31,7 @@ export function DropdownWrapper({
     id,
     imageSrc,
     imageShape,
+    style,
     open = false,
 }: DropdownWrapperProps) {
     const ref = useRef(null)
@@ -54,7 +56,7 @@ export function DropdownWrapper({
     return (
         <>
             <Tooltip hint={title} placement="right">
-                <div className="n2o-sidebar__item-dropdown" ref={ref}>
+                <div className="n2o-sidebar__item-dropdown" ref={ref} style={style}>
                     <div
                         onClick={toggle}
                         className={itemDropdownClass}

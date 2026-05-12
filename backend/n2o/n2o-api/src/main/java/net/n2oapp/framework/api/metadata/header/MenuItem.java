@@ -50,6 +50,10 @@ public class MenuItem extends Component implements Compiled, PropertiesAware, Id
     @JsonProperty
     private Badge badge;
     @JsonProperty
+    private Object visible;
+    @JsonProperty
+    private Object enabled;
+    @JsonProperty
     private Map<String, ModelLink> pathMapping;
     @JsonProperty
     private Map<String, ModelLink> queryMapping;

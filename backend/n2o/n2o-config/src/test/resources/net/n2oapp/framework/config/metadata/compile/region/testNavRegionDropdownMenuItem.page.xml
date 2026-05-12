@@ -10,7 +10,9 @@
                            trigger="hover"
                            position="right"
                            image="/static/users/vika91.png"
-                           image-shape="circle">
+                           image-shape="circle"
+                           class="class"
+                           style="background-color: blue">
                 <dropdown-menu label="Отделы"
                                src="AnySrc"
                                trigger="hover"
