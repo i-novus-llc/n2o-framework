@@ -49,14 +49,12 @@ public abstract class RuntimeRoutingDataSource<T> extends AbstractDataSource {
     }
 
     protected DataSource resolveSpecifiedDataSource(Object dataSource) throws IllegalArgumentException {
-        if (dataSource instanceof DataSource ds) {
-            return ds;
-        } else if (dataSource instanceof String ds) {
-            return this.dataSourceLookup.getDataSource(ds);
-        } else {
-            throw new IllegalArgumentException(
+        return switch (dataSource) {
+            case DataSource ds -> ds;
+            case String ds -> this.dataSourceLookup.getDataSource(ds);
+            default -> throw new IllegalArgumentException(
                     "Illegal data source value - only [javax.sql.DataSource] and String supported: " + dataSource);
-        }
+        };
     }
 
 

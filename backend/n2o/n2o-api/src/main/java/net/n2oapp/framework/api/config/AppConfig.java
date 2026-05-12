@@ -35,13 +35,16 @@ public class AppConfig {
             this.properties.put(key, value);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private void setProperty(Map<String, Object> source, String key, Object value) {
         Object obj = source.get(key);
-        if (value instanceof List valueList && obj instanceof List objList)
-            objList.addAll(valueList);
-        else if (value instanceof Map valueMap && obj instanceof Map innerSource) {
-            valueMap.keySet().stream().forEach(k -> setProperty(innerSource, (String) k, valueMap.get(k)));
-        } else
-            source.put(key, value);
+        switch (value) {
+            case List valueList when obj instanceof List objList-> objList.addAll(valueList);
+            case Map valueMap when obj instanceof Map -> {
+                Map<String, Object> innerSource = (Map) obj;
+                valueMap.forEach((k, v) -> setProperty(innerSource, (String) k, v));
+            }
+            case null, default -> source.put(key, value);
+        }
     }
 }

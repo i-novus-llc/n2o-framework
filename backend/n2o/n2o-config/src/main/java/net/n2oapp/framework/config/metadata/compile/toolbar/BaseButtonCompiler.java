@@ -197,14 +197,17 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
     private Condition enabledByEmptyModelCondition(N2oAbstractButton source, String clientDatasource, ComponentScope componentScope, CompileProcessor p) {
         DisableOnEmptyModelTypeEnum disableOnEmptyModel;
 
-        if (source instanceof N2oButton n2oButton)
-            disableOnEmptyModel = castDefault(n2oButton.getDisableOnEmptyModel(),
-                    () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelTypeEnum.class));
-
-        else if (source instanceof N2oClipboardButton n2oClipboardButton)
-            disableOnEmptyModel = castDefault(n2oClipboardButton.getDisableOnEmptyModel(),
-                    () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelTypeEnum.class));
-        else return null;
+        switch (source) {
+            case N2oButton n2oButton ->
+                disableOnEmptyModel = castDefault(n2oButton.getDisableOnEmptyModel(),
+                        () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelTypeEnum.class));
+            case N2oClipboardButton n2oClipboardButton ->
+                disableOnEmptyModel = castDefault(n2oClipboardButton.getDisableOnEmptyModel(),
+                        () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelTypeEnum.class));
+            default -> {
+                return null;
+            }
+        }
 
         if (DisableOnEmptyModelTypeEnum.FALSE.equals(disableOnEmptyModel)) return null;
 

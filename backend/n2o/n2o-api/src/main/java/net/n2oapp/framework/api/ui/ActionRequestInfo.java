@@ -56,14 +56,12 @@ public class ActionRequestInfo<D> extends RequestInfo {
         for (Map.Entry<String, AbstractParameter> entry : source.entrySet()) {
             AbstractParameter sourceParam = entry.getValue();
             AbstractParameter param;
-            if (sourceParam instanceof ObjectSimpleField o)
-                param = new ObjectSimpleField(o);
-            else if (sourceParam instanceof ObjectListField o)
-                param = new ObjectListField(o);
-            else if (sourceParam instanceof ObjectSetField o)
-                param = new ObjectSetField(o);
-            else
-                param = new ObjectReferenceField((ObjectReferenceField) sourceParam);
+            switch (sourceParam) {
+                case ObjectSimpleField o -> param = new ObjectSimpleField(o);
+                case ObjectListField o -> param = new ObjectListField(o);
+                case ObjectSetField o -> param = new ObjectSetField(o);
+                default -> param = new ObjectReferenceField((ObjectReferenceField) sourceParam);
+            }
             result.put(entry.getKey(), param);
         }
     }

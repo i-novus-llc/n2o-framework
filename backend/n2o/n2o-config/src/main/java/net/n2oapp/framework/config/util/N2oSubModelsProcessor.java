@@ -120,26 +120,31 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
         else
             subModelValue = dataSet;
 
-        List<Map<String, Object>> subModels;
-        if (subModelValue instanceof Collection collection) {
-            if (collection.isEmpty()) return null;
-            if (!(collection.iterator().next() instanceof Map))
-                return null;
-            subModels = (List<Map<String, Object>>) subModelValue;
-            if (subModels.get(0) == null) {
-                subModels.clear();
-                return null;
-            }
-            if (subModels.get(0).get(labelFieldId) == null && subModels.get(0).get(valueFieldId) == null) {
-                subModels.clear();
-                return null;
-            }
-        } else if (subModelValue instanceof Map subModelValueMap)
-            subModels = Collections.singletonList(subModelValueMap);
-        else
-            return null;
+        return switch (subModelValue) {
+            case Collection<?> collection -> {
+                if (collection.isEmpty()) yield null;
+                if (!(collection.iterator().next() instanceof Map)) yield null;
 
-        return subModels;
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> subModels = (List<Map<String, Object>>) subModelValue;
+
+                if (subModels.getFirst() == null) {
+                    subModels.clear();
+                    yield null;
+                }
+                if (subModels.getFirst().get(labelFieldId) == null && subModels.getFirst().get(valueFieldId) == null) {
+                    subModels.clear();
+                    yield null;
+                }
+                yield subModels;
+            }
+            case Map<?, ?> subModelValueMap -> {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> stringMap = (Map<String, Object>) subModelValueMap;
+                yield Collections.singletonList(stringMap);
+            }
+            case null, default -> null;
+        };
     }
 
     @Override
