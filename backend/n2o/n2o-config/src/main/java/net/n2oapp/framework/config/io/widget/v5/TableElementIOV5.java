@@ -110,12 +110,14 @@ public class TableElementIOV5<T extends N2oTable> extends AbstractListWidgetElem
     private void multiColumn(Element e, N2oMultiColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
         baseProperties(e, c, p);
+        p.anyAttributes(e, c::getExtAttributes, c::setExtAttributes);
         p.anyChildren(e, null, c::getChildren, c::setChildren, columns(p));
     }
 
     private void dndColumn(Element e, N2oDndColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
         p.attributeEnum(e, "move-mode", c::getMoveMode, c::setMoveMode, MoveModeEnum.class);
+        p.anyAttributes(e, c::getExtAttributes, c::setExtAttributes);
         p.anyChildren(e, null, c::getChildren, c::setChildren, columns(p));
     }
 

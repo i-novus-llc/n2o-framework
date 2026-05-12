@@ -46,8 +46,9 @@ public class TableAccessTransformer extends BaseAccessTransformer<Table, Compile
                     compiled.getComponent().getBody().getRow());
         }
         Map<String, Cell> cellsById = indexCellsById(compiled);
-        transferColumnSecurityToCells(compiled, cellsById);
         transferToolbarButtonsSecurityToColumn(compiled, cellsById);
+        hideMultiColumnIfAllChildrenHidden(compiled);
+        transferColumnSecurityToCells(compiled, cellsById);
         return compiled;
     }
 
@@ -98,6 +99,27 @@ public class TableAccessTransformer extends BaseAccessTransformer<Table, Compile
             }
         }
         return result;
+    }
+
+    private void hideMultiColumnIfAllChildrenHidden(Table compiled) {
+        if (compiled.getComponent() == null) return;
+        List<AbstractColumn> columns = compiled.getComponent().getHeader().getCells();
+        if (columns == null) return;
+        applySecurityToMultiColumns(columns);
+    }
+
+    private void applySecurityToMultiColumns(List<AbstractColumn> columns) {
+        for (AbstractColumn column : columns) {
+            if (column instanceof MultiColumn multi && multi.getChildren() != null && !multi.getChildren().isEmpty()) {
+                applySecurityToMultiColumns(new ArrayList<>(multi.getChildren()));
+                if (multi.getChildren().stream().allMatch(c -> hasSecurity(c))) {
+                    merge(multi, multi.getChildren());
+                }
+            } else if (column instanceof DndColumn dnd && dnd.getChildren() != null && !dnd.getChildren().isEmpty()
+                    && dnd.getChildren().stream().allMatch(c -> hasSecurity(c))) {
+                merge(dnd, dnd.getChildren());
+            }
+        }
     }
 
     private void applyButtonsSecurityToColumn(PropertiesAware column, ToolbarCell toolbarCell) {

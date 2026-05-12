@@ -38,6 +38,7 @@ public class MultiColumnCompiler extends BaseColumnCompiler<N2oMultiColumn> {
             ((N2oBaseColumn) subColumn).setContentAlignment(castDefault(((N2oBaseColumn) subColumn).getContentAlignment(), source.getContentAlignment()));
             compiled.getChildren().add(p.compile(subColumn, context, p));
         }
+        compiled.setProperties(p.mapAttributes(source));
         return compiled;
     }
 }
