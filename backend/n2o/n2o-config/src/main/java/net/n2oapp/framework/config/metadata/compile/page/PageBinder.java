@@ -64,11 +64,11 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             //разрешение контекстных значений в моделях
             page.getModels().values().forEach(bl -> {
                 if (bl.getValue() instanceof String blStr) {
-                    bl.setValue(p.resolveText(blStr));
+                    bl.setValue(resolveContextOrText(blStr, p));
                 } else if (bl.getValue() instanceof DefaultValues dv) {
                     for (String key : dv.getValues().keySet()) {
                         if (dv.getValues().get(key) instanceof String str) {
-                            dv.getValues().put(key, p.resolveText(str));
+                            dv.getValues().put(key, resolveContextOrText(str, p));
                         }
                     }
                 }
@@ -85,6 +85,10 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
 
         }
         return page;
+    }
+
+    private static Object resolveContextOrText(String value, BindProcessor p) {
+        return StringUtils.isContext(value) ? p.resolve(value) : p.resolveText(value);
     }
 
     private void removeDuplicateModels(D page, ModelLink modelLink) {
