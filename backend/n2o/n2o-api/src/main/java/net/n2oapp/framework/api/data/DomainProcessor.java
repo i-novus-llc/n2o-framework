@@ -226,17 +226,20 @@ public class DomainProcessor {
                 throw new IllegalStateException(e);
             }
         }
-        if (value instanceof Collection collectionValue) {
-            //array
-            Iterator iterator = collectionValue.iterator();
-            begin = iterator.hasNext() ? iterator.next() : null;
-            end = iterator.hasNext() ? iterator.next() : null;
-        } else if (value instanceof Map mapValue) {
-            //map
-            begin = mapValue.getOrDefault("begin", mapValue.get("from"));
-            end = mapValue.getOrDefault("end", mapValue.get("to"));
-        } else {
-            throw new IllegalStateException("Value " + value + " is not an interval");
+        switch (value) {
+            case Collection<?> collectionValue -> {
+                //array
+                Iterator<?> iterator = collectionValue.iterator();
+                begin = iterator.hasNext() ? iterator.next() : null;
+                end = iterator.hasNext() ? iterator.next() : null;
+            }
+            case Map mapValue -> {
+                //map
+                begin = mapValue.getOrDefault("begin", mapValue.get("from"));
+                end = mapValue.getOrDefault("end", mapValue.get("to"));
+            }
+            default -> throw new IllegalStateException("Value " + value + " is not an interval");
+
         }
         res.setBegin(deserialize(begin, domainElement));
         res.setEnd(deserialize(end, domainElement));
@@ -263,18 +266,22 @@ public class DomainProcessor {
                 throw new IllegalStateException(e);
             }
         }
-        if (value instanceof String strValue) {
-            //string list
-            String[] elements = strValue.split(",");
-            for (String element : elements) {
-                resultList.add(deserialize(element, domainElement));
+        switch (value) {
+            case String strValue -> {
+                //string list
+                String[] elements = strValue.split(",");
+                for (String element : elements) {
+                    resultList.add(deserialize(element, domainElement));
+                }
             }
-        } else if (value instanceof Collection collectionValue) {
-            for (Object element : collectionValue) {
-                resultList.add(deserialize(element, domainElement));
+            case Collection<?> collectionValue -> {
+                for (Object element : collectionValue) {
+                    resultList.add(deserialize(element, domainElement));
+                }
             }
-        } else {
-            throw new IllegalStateException("Value " + value + " is not a collection");
+            default ->
+                throw new IllegalStateException("Value " + value + " is not a collection");
+
         }
         return resultList;
     }
