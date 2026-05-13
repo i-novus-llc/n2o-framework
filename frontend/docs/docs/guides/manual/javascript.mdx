@@ -169,22 +169,20 @@ JavaScript выражение должно возвращать значение
 
 ### Среда выполнения
 
-⚠ Ограничение серверной проверки
-
 Выражения, используемые в валидации, выполняются не только на клиенте, но и на сервере
 из-за заданного значения для атрибута `side="client,server"`.
-На сервере выражения обрабатывает библиотека Nashorn. Поэтому необходимо использовать синтаксис **ECMAScript 5**.
+На сервере выражения обрабатывает библиотека **GraalJS**, которая поддерживает синтаксис **ECMAScript 2020**.
 
-Некоторые возможности современного JavaScript могут быть недоступны:
+Доступны все современные возможности JavaScript:
 - стрелочные функции
-- optional chaining
-- nullish coalescing
+- optional chaining (`?.`)
+- nullish coalescing (`??`)
+- деструктуризация
+- шаблонные строки
+- `const` / `let`
 
-```javascript title="Нельзя"
-return person?.items.filter(({ value }) => (value)) ?? []
-```
-```javascript title="Можно"
-return person && person.items.filter(function(item) { return item.value }) || []
+```javascript title="Пример"
+return person?.items.filter(({ value }) => value) ?? []
 ```
 
 ### Спецсимволы в xml
