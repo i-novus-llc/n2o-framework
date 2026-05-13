@@ -1,0 +1,19 @@
+---
+title: Миграция с 7.29 на 7.30
+description: ""
+---
+
+## 7.30.0 {#7_30_0}
+
+### Изменения в сборке {#changes-build}
+
+- Движок выполнения JS выражений заменён с Rhino + Nashorn на **GraalJS** (GraalVM 23.0.5).
+
+  Зависимости `org.mozilla:rhino` и `org.openjdk.nashorn:nashorn-core` удалены из classpath фреймворка.
+  Если в вашем проекте они использовались напрямую, их необходимо добавить в `pom.xml` явно.
+
+### Расширенная поддержка JS в XML {#changes-js-expressions}
+
+Ранее JS выражения в XML файлах исполнялись движком Nashorn, который поддерживал только стандарт ES5.
+Начиная с версии 7.30 используется GraalJS с поддержкой **ECMAScript 2020**. О том, какие возможности доступны
+можете прочитать в [официальной документации](https://www.graalvm.org/latest/reference-manual/js/JavaScriptCompatibility/).
