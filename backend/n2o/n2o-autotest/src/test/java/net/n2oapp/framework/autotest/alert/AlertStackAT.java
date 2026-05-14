@@ -65,8 +65,8 @@ class AlertStackAT extends AutoTestBase {
         page.alerts(Alert.PlacementEnum.TOP).alert(2).shouldHaveText("Алерт 2");
 
         page.alerts(Alert.PlacementEnum.BOTTOM).shouldBeEmpty();
-        Button alert3 = page.widget(FormWidget.class).toolbar().topLeft().button("Алерт 3");
-        Button alert4 = page.widget(FormWidget.class).toolbar().topLeft().button("Алерт 4");
+        Button alert3 = page.widget(FormWidget.class).toolbar().bottomLeft().button("Алерт 3");
+        Button alert4 = page.widget(FormWidget.class).toolbar().bottomLeft().button("Алерт 4");
 
         alert3.click();
         alert4.click();
