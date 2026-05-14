@@ -128,18 +128,6 @@
             align-items: center;
             font-size: 16px;
         }
-
-        .n2o-select-tree-tree-treenode.filter-node {
-            background-color: $primary;
-            color: white;
-        }
-
-        .n2o-select-tree-tree-treenode.filter-node:hover {
-            .n2o-select-tree-content-wrapper {
-                background-color: $primary;
-                color: white;
-            }
-        }
     }
 
     .n2o-select-tree-image-tree-wrapper {
