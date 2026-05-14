@@ -14,9 +14,7 @@ public class N2oPagesPack implements MetadataPack<N2oApplicationBuilder> {
         b.packs(new N2oPagesIOv3Pack(), new N2oPagesIOv4Pack(), new N2oAllDatasourcesPack(),
                 new N2oAllEventsPack());
         b.compilers(new SimplePageCompiler(),
-                new StandardPageCompiler(),
-                new LeftRightPageCompiler(),
-                new TopLeftRightPageCompiler());
+                new StandardPageCompiler());
         b.binders(new SimplePageBinder(), new StandardPageBinder());
     }
 }

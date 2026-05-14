@@ -1,81 +1,85 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
                      name="Страница с формой статуса, трекером и 3х колоночной формой" scroll-top-button="true">
-    <top>
-        <region>
-            <form>
-                <fields>
-                    <row>
-                        <col size="9">
-                            <set>
-                                <row>
-                                    <output-text id="field1" label="Номер заявления" default-value="123-456"/>
-                                    <output-text id="field2" label="Статус заявления" default-value="Черновик"/>
-                                    <output-text id="field3" label="Автор" default-value="Иванов И.И."/>
-                                </row>
-                            </set>
-                        </col>
-                        <col>
-                            <set>
-                                <row>
-                                    <button rounded="true" icon="fa fa-floppy-o"/>
-                                    <button rounded="true" icon="fa fa-print"/>
-                                    <button rounded="true" icon="fa fa-trash"/>
-                                </row>
-                            </set>
-                        </col>
-                    </row>
-                </fields>
-            </form>
-        </region>
-    </top>
-    <left width="35%">
-        <region>
-            <list>
-                <datasource query-id="list"/>
-                <content>
-                    <left-top text-field-id="title">
-                        <text style="color:#999"/>
-                    </left-top>
-                    <left-bottom text-field-id="stage">
-                        <badge src="StatusCell">
-                            <switch value-field-id="status">
-                                <case value="not started">danger</case>
-                                <case value="in progress">info</case>
-                                <case value="complete">success</case>
-                            </switch>
-                        </badge>
-                    </left-bottom>
-                </content>
-            </list>
-        </region>
-    </left>
-    <right width="65%">
-        <region>
-            <form>
-                <fields>
-                    <row>
-                        <text style="font-weight:bold" id="field4">Показатель</text>
-                        <text style="font-weight:bold" id="field5">По проекту</text>
-                        <text style="font-weight:bold" id="field6">Фактически</text>
-                    </row>
-                    <row>
-                        <text id="field7">Показатель1</text>
-                        <input-text id="field8" no-label="true"/>
-                        <input-text id="field9" no-label="true"/>
-                    </row>
-                    <row>
-                        <text id="field10">Показатель2</text>
-                        <input-text id="field11" no-label="true"/>
-                        <input-text id="field12" no-label="true"/>
-                    </row>
-                    <row>
-                        <text id="field13">Показатель3</text>
-                        <text-area id="field14" no-label="true"/>
-                        <text-area id="field15" no-label="true"/>
-                    </row>
-                </fields>
-            </form>
-        </region>
-    </right>
-</top-left-right-page>
+    <regions>
+        <flex-row>
+            <region>
+                <form>
+                    <fields>
+                        <row>
+                            <col size="9">
+                                <set>
+                                    <row>
+                                        <output-text id="field1" label="Номер заявления" default-value="123-456"/>
+                                        <output-text id="field2" label="Статус заявления" default-value="Черновик"/>
+                                        <output-text id="field3" label="Автор" default-value="Иванов И.И."/>
+                                    </row>
+                                </set>
+                            </col>
+                            <col>
+                                <set>
+                                    <row>
+                                        <button rounded="true" icon="fa fa-floppy-o"/>
+                                        <button rounded="true" icon="fa fa-print"/>
+                                        <button rounded="true" icon="fa fa-trash"/>
+                                    </row>
+                                </set>
+                            </col>
+                        </row>
+                    </fields>
+                </form>
+            </region>
+        </flex-row>
+        <row>
+            <col size="4">
+                <region>
+                    <list>
+                        <datasource query-id="list"/>
+                        <content>
+                            <left-top text-field-id="title">
+                                <text style="color:#999"/>
+                            </left-top>
+                            <left-bottom text-field-id="stage">
+                                <badge src="StatusCell">
+                                    <switch value-field-id="status">
+                                        <case value="not started">danger</case>
+                                        <case value="in progress">info</case>
+                                        <case value="complete">success</case>
+                                    </switch>
+                                </badge>
+                            </left-bottom>
+                        </content>
+                    </list>
+                </region>
+            </col>
+            <col size="8">
+                <region>
+                    <form>
+                        <fields>
+                            <row>
+                                <text style="font-weight:bold" id="field4">Показатель</text>
+                                <text style="font-weight:bold" id="field5">По проекту</text>
+                                <text style="font-weight:bold" id="field6">Фактически</text>
+                            </row>
+                            <row>
+                                <text id="field7">Показатель1</text>
+                                <input-text id="field8" no-label="true"/>
+                                <input-text id="field9" no-label="true"/>
+                            </row>
+                            <row>
+                                <text id="field10">Показатель2</text>
+                                <input-text id="field11" no-label="true"/>
+                                <input-text id="field12" no-label="true"/>
+                            </row>
+                            <row>
+                                <text id="field13">Показатель3</text>
+                                <text-area id="field14" no-label="true"/>
+                                <text-area id="field15" no-label="true"/>
+                            </row>
+                        </fields>
+                    </form>
+                </region>
+            </col>
+        </row>
+    </regions>
+</page>

@@ -1,36 +1,40 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
-                 name="Связь Master Detail">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+    name="Связь Master Detail">
     <datasources>
         <datasource id="ds1" query-id="test"/>
         <datasource id="ds2" query-id="test">
             <dependencies>
-                <fetch on="ds1"
-                       model="resolve"/>
+                <fetch model="resolve" on="ds1"/>
             </dependencies>
             <filters>
-                <eq field-id="id"
-                    value="{id}"
+                <eq
                     datasource="ds1"
-                    required="true"/>
+                    field-id="id"
+                    required="true"
+                    value="{id}"
+                />
             </filters>
         </datasource>
     </datasources>
-    <left>
-        <table datasource="ds1">
-            <columns>
-                <column text-field-id="id"/>
-                <column text-field-id="name"/>
-            </columns>
-        </table>
-    </left>
-    <right>
-        <form datasource="ds2">
-            <fields>
-                <input-text id="id" enabled="false"/>
-                <input-text id="name" enabled="false"/>
-            </fields>
-        </form>
-    </right>
-</left-right-page>
+    <regions>
+        <row>
+            <col size="6">
+                <table datasource="ds1">
+                    <columns>
+                        <column text-field-id="id"/>
+                        <column text-field-id="name"/>
+                    </columns>
+                </table>
+            </col>
+            <col size="6">
+                <form datasource="ds2">
+                    <fields>
+                        <input-text enabled="false" id="id"/>
+                        <input-text enabled="false" id="name"/>
+                    </fields>
+                </form>
+            </col>
+        </row>
+    </regions>
+</page>

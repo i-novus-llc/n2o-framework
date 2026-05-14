@@ -24,8 +24,6 @@ Files: `[id].page.xml`
 ```
 
 ### `<search-page>` — Page with built-in search
-### `<left-right-page>` — Two-column layout (left + right regions)
-### `<top-left-right-page>` — Three-region layout (top + left + right)
 
 ## Base Page Attributes
 | Attribute | Type | Description | Default |

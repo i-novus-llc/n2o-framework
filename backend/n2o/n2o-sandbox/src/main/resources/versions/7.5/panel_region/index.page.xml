@@ -1,14 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
                  name="Настройки региона Панель">
-    <left>
-        <panel footer-title="Left Panel Footer" color="info">
-            <form/>
-        </panel>
-    </left>
-    <right>
-        <panel footer-title="Right Panel Footer" open="false" color="danger">
-            <form/>
-        </panel>
-    </right>
-</left-right-page>
+    <regions>
+        <row>
+            <col size="6">
+                <panel footer-title="Left Panel Footer" color="info">
+                    <form/>
+                </panel>
+            </col>
+            <col size="6">
+                <panel footer-title="Right Panel Footer" open="false" color="danger">
+                    <form/>
+                </panel>
+            </col>
+        </row>
+    </regions>
+</page>
