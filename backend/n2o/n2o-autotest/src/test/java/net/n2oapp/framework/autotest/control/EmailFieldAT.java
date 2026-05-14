@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.EmailField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -51,6 +52,15 @@ class EmailFieldAT extends AutoTestBase {
         saveButton.shouldBeEnabled();
 
         EmailField emailField = page.widget(FormWidget.class).fields().field("mail").control(EmailField.class);
+        emailField.shouldBeVisible();
+
+        emailField.setValue("123");
+        saveButton.click();
+        emailField.shouldHaveInvalidText(Condition.text("Невалидный почтовый адрес"));
+        emailField.setValue("");
+        emailField.shouldHaveInvalidText(Condition.empty);
+
+        Selenide.refresh();
         emailField.shouldBeVisible();
         emailField.setValue("123");
         page.element().click();

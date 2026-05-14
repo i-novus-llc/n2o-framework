@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.MaskedInput;
@@ -72,6 +73,18 @@ class MaskedInputAT extends AutoTestBase {
         maskedInputWithoutClear.setValue("");
         maskedInputWithoutClear.shouldHaveInvalidText(Condition.empty);
 
+        Selenide.refresh();
+        StandardButton saveButton = simplePage.toolbar().bottomLeft().button(SAVE_BUTTON_LABEL);
+        saveButton.shouldBeEnabled();
+
+        maskedInputWithoutClear.shouldBeEnabled();
+        maskedInputWithoutClear.shouldHaveValue("");
+        maskedInputWithoutClear.setValue("123");
+        saveButton.click();
+        maskedInputWithoutClear.shouldHaveValue("+7 (123");
+        maskedInputWithoutClear.shouldHaveInvalidText(Condition.text("Данные не соответствуют формату"));
+        maskedInputWithoutClear.setValue("");
+        maskedInputWithoutClear.shouldHaveInvalidText(Condition.empty);
     }
 
     @Test

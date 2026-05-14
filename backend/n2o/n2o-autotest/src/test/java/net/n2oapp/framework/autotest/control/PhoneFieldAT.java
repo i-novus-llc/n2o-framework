@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.PhoneField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -58,6 +59,15 @@ class PhoneFieldAT extends AutoTestBase {
         phoneField.shouldHaveInvalidText(Condition.text("Невалидный номер телефона"));
         phoneField.setValue("");
         phoneField.shouldHaveInvalidText(Condition.empty);
+
+        Selenide.refresh();
+        phoneField.shouldBeVisible();
+        phoneField.setValue("123");
+        saveButton.click();
+        phoneField.shouldHaveInvalidText(Condition.text("Невалидный номер телефона"));
+        phoneField.setValue("");
+        phoneField.shouldHaveInvalidText(Condition.empty);
+
         phoneField.setValue("+7 (999) 123-45-00");
         saveButton.click();
         page.alerts(Alert.PlacementEnum.TOP).alert(0).shouldHaveText(SUCCESS_ALERT_MESSAGE);
