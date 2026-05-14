@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.SnilsField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -54,6 +55,14 @@ class SnilsFieldAT extends AutoTestBase {
         snilsField.shouldBeVisible();
         snilsField.setValue("123");
         page.element().click();
+        snilsField.shouldHaveInvalidText(Condition.text("Невалидный формат данных СНИЛС"));
+        snilsField.setValue("");
+        snilsField.shouldHaveInvalidText(Condition.empty);
+
+        Selenide.refresh();
+        snilsField.shouldBeVisible();
+        snilsField.setValue("123");
+        saveButton.click();
         snilsField.shouldHaveInvalidText(Condition.text("Невалидный формат данных СНИЛС"));
         snilsField.setValue("");
         snilsField.shouldHaveInvalidText(Condition.empty);

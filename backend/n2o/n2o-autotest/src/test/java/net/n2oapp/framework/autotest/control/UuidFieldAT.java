@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.UuidField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -55,6 +56,14 @@ class UuidFieldAT extends AutoTestBase {
         uuidField.shouldBeVisible();
         uuidField.setValue("123");
         page.element().click();
+        uuidField.shouldHaveInvalidText(Condition.text("Невалидный формат UUID"));
+        uuidField.setValue("");
+        uuidField.shouldHaveInvalidText(Condition.empty);
+
+        Selenide.refresh();
+        uuidField.shouldBeVisible();
+        uuidField.setValue("123");
+        saveButton.click();
         uuidField.shouldHaveInvalidText(Condition.text("Невалидный формат UUID"));
         uuidField.setValue("");
         uuidField.shouldHaveInvalidText(Condition.empty);
