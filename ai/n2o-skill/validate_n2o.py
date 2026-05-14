@@ -61,7 +61,6 @@ def validate_file(filepath):
         ns = ns_match.group(1)
         schema_map = {
             'page': 'page-4.0', 'simple-page': 'page-4.0', 'search-page': 'page-4.0',
-            'left-right-page': 'page-4.0', 'top-left-right-page': 'page-4.0',
             'query': 'query-5.0',
             'object': 'object-4.0',
             'application': 'application-3.0',
@@ -75,8 +74,7 @@ def validate_file(filepath):
         issues.append(Issue("WARN", "No xmlns namespace found on root element"))
 
     # 3. File naming check
-    if fname.endswith('.page.xml') and tag not in ('page', 'simple-page', 'search-page',
-                                                     'left-right-page', 'top-left-right-page'):
+    if fname.endswith('.page.xml') and tag not in ('page', 'simple-page', 'search-page'):
         issues.append(Issue("WARN", f"File named *.page.xml but root element is <{tag}>"))
     if fname.endswith('.query.xml') and tag != 'query':
         issues.append(Issue("WARN", f"File named *.query.xml but root element is <{tag}>"))
@@ -149,7 +147,7 @@ def validate_file(filepath):
                         find_line(content, f'mapping="{mapping}"')))
 
     # 6. Page-specific checks
-    if tag in ('page', 'simple-page', 'search-page', 'left-right-page', 'top-left-right-page'):
+    if tag in ('page', 'simple-page', 'search-page'):
         # Datasource references
         ds_ids = set()
         for ds in root.findall('.//datasources/datasource'):

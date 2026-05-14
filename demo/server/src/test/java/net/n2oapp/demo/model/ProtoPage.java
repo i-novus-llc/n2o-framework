@@ -280,11 +280,11 @@ public class ProtoPage {
     }
 
     public void alertTextShouldBe(String text) {
-//        leftRightPage.alerts().alert(0).shouldHaveText(text); todo
+//        page.alerts().alert(0).shouldHaveText(text); todo
     }
 
     public void alertColorShouldBe(ColorsEnum colors) {
-//        leftRightPage.alerts().alert(0).shouldHaveColor(colors); todo
+//        page.alerts().alert(0).shouldHaveColor(colors); todo
     }
 
     public void contactsAlertTextShouldBe(String text) {

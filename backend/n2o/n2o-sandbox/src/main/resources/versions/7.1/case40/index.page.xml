@@ -1,58 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
                  name="Скрытие виджета по условию">
-    <left>
-        <panel title="Форма справа скроется, если выбрать запись с идентификатором 3 или 4" collapsible="false">
-            <table id="table">
-                <datasource query-id="ref" default-values-mode="query"/>
-                <columns>
-                    <column label="Идентификатор" text-field-id="id"/>
-                    <column label="Имя" text-field-id="name"/>
-                </columns>
-            </table>
-        </panel>
-    </left>
-    <right>
-        <form visible="{id == 1 || id == 2}">
-            <datasource query-id="ref">
-                <dependencies>
-                    <fetch on="table" model="resolve"/>
-                </dependencies>
-                <filters>
-                    <eq field-id="id" value="{id}" datasource="table" model="resolve" required="true"/>
-                </filters>
-            </datasource>
-            <dependencies>
-                <visibility datasource="table" model="resolve">id == 1 || id == 2</visibility>
-            </dependencies>
-            <fields>
-                <row>
-                    <input-text id="name" label="Имя"/>
-                </row>
-            </fields>
-        </form>
-        <panel>
-            <form visible="{id == 1 || id == 2}">
-                <datasource query-id="ref">
-                    <dependencies>
-                        <fetch on="table" model="resolve"/>
-                    </dependencies>
-                    <filters>
-                        <eq field-id="id" value="{id}" datasource="table" model="resolve" required="true"/>
-                    </filters>
-                </datasource>
-                <dependencies>
-                    <visibility datasource="table" model="resolve">id == 1 || id == 2</visibility>
-                </dependencies>
-                <fields>
-                    <row>
-                        <input-text id="name" label="Имя"/>
-                    </row>
-                </fields>
-            </form>
-        </panel>
-        <tabs>
-            <tab name="Вкладка">
+    <regions>
+        <row>
+            <col size="6">
+                <panel title="Форма справа скроется, если выбрать запись с идентификатором 3 или 4" collapsible="false">
+                    <table id="table">
+                        <datasource query-id="ref" default-values-mode="query"/>
+                        <columns>
+                            <column label="Идентификатор" text-field-id="id"/>
+                            <column label="Имя" text-field-id="name"/>
+                        </columns>
+                    </table>
+                </panel>
+            </col>
+            <col size="6">
                 <form visible="{id == 1 || id == 2}">
                     <datasource query-id="ref">
                         <dependencies>
@@ -71,27 +33,69 @@
                         </row>
                     </fields>
                 </form>
-            </tab>
-        </tabs>
-        <line>
-            <form visible="{id == 1 || id == 2}">
-                <datasource query-id="ref">
-                    <dependencies>
-                        <fetch on="table" model="resolve"/>
-                    </dependencies>
-                    <filters>
-                        <eq field-id="id" value="{id}" datasource="table" model="resolve" required="true"/>
-                    </filters>
-                </datasource>
-                <dependencies>
-                    <visibility datasource="table" model="resolve">id == 1 || id == 2</visibility>
-                </dependencies>
-                <fields>
-                    <row>
-                        <input-text id="name" label="Имя"/>
-                    </row>
-                </fields>
-            </form>
-        </line>
-    </right>
-</left-right-page>
+                <panel>
+                    <form visible="{id == 1 || id == 2}">
+                        <datasource query-id="ref">
+                            <dependencies>
+                                <fetch on="table" model="resolve"/>
+                            </dependencies>
+                            <filters>
+                                <eq field-id="id" value="{id}" datasource="table" model="resolve" required="true"/>
+                            </filters>
+                        </datasource>
+                        <dependencies>
+                            <visibility datasource="table" model="resolve">id == 1 || id == 2</visibility>
+                        </dependencies>
+                        <fields>
+                            <row>
+                                <input-text id="name" label="Имя"/>
+                            </row>
+                        </fields>
+                    </form>
+                </panel>
+                <tabs>
+                    <tab name="Вкладка">
+                        <form visible="{id == 1 || id == 2}">
+                            <datasource query-id="ref">
+                                <dependencies>
+                                    <fetch on="table" model="resolve"/>
+                                </dependencies>
+                                <filters>
+                                    <eq field-id="id" value="{id}" datasource="table" model="resolve" required="true"/>
+                                </filters>
+                            </datasource>
+                            <dependencies>
+                                <visibility datasource="table" model="resolve">id == 1 || id == 2</visibility>
+                            </dependencies>
+                            <fields>
+                                <row>
+                                    <input-text id="name" label="Имя"/>
+                                </row>
+                            </fields>
+                        </form>
+                    </tab>
+                </tabs>
+                <line>
+                    <form visible="{id == 1 || id == 2}">
+                        <datasource query-id="ref">
+                            <dependencies>
+                                <fetch on="table" model="resolve"/>
+                            </dependencies>
+                            <filters>
+                                <eq field-id="id" value="{id}" datasource="table" model="resolve" required="true"/>
+                            </filters>
+                        </datasource>
+                        <dependencies>
+                            <visibility datasource="table" model="resolve">id == 1 || id == 2</visibility>
+                        </dependencies>
+                        <fields>
+                            <row>
+                                <input-text id="name" label="Имя"/>
+                            </row>
+                        </fields>
+                    </form>
+                </line>
+            </col>
+        </row>
+    </regions>
+</page>

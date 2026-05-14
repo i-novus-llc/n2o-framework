@@ -1,45 +1,49 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
                  name="Виджет Дерево">
-    <left>
-        <tree id="tree" parent-field-id="parent" label-field-id="name">
-            <toolbar>
-                <button id="create" label="Создать">
-                    <show-modal page-id="modal" submit-operation-id="create">
-                        <datasources>
-                            <datasource default-values-mode="defaults"/>
-                        </datasources>
-                    </show-modal>
-                </button>
-                <button id="update" label="Изменить">
-                    <show-modal page-id="modal" submit-operation-id="update" route="/:id/update">
-                        <params>
-                            <path-param name="id" value="{id}"/>
-                        </params>
-                    </show-modal>
-                </button>
-                <button id="delete" label="Удалить">
-                    <invoke operation-id="delete"/>
-                </button>
-            </toolbar>
-            <datasource query-id="tree"/>
-        </tree>
-    </left>
-    <right>
-        <form>
-            <datasource query-id="tree">
-                <dependencies>
-                    <fetch on="tree" model="resolve"/>
-                </dependencies>
-                <filters>
-                    <eq field-id="id" value="{id}" datasource="tree" model="resolve" required="true"/>
-                </filters>
-            </datasource>
-            <fields>
-                <input-text id="id"/>
-                <input-text id="name"/>
-                <input-text id="parent"/>
-            </fields>
-        </form>
-    </right>
-</left-right-page>
+    <regions>
+        <row>
+            <col size="6">
+                <tree id="tree" parent-field-id="parent" label-field-id="name">
+                    <toolbar>
+                        <button id="create" label="Создать">
+                            <show-modal page-id="modal" submit-operation-id="create">
+                                <datasources>
+                                    <datasource default-values-mode="defaults"/>
+                                </datasources>
+                            </show-modal>
+                        </button>
+                        <button id="update" label="Изменить">
+                            <show-modal page-id="modal" submit-operation-id="update" route="/:id/update">
+                                <params>
+                                    <path-param name="id" value="{id}"/>
+                                </params>
+                            </show-modal>
+                        </button>
+                        <button id="delete" label="Удалить">
+                            <invoke operation-id="delete"/>
+                        </button>
+                    </toolbar>
+                    <datasource query-id="tree"/>
+                </tree>
+            </col>
+            <col size="6">
+                <form>
+                    <datasource query-id="tree">
+                        <dependencies>
+                            <fetch on="tree" model="resolve"/>
+                        </dependencies>
+                        <filters>
+                            <eq field-id="id" value="{id}" datasource="tree" model="resolve" required="true"/>
+                        </filters>
+                    </datasource>
+                    <fields>
+                        <input-text id="id"/>
+                        <input-text id="name"/>
+                        <input-text id="parent"/>
+                    </fields>
+                </form>
+            </col>
+        </row>
+    </regions>
+</page>
