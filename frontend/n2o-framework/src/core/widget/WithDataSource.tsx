@@ -8,9 +8,11 @@ import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { updatePaging } from '../../ducks/datasource/store'
 import { ModelPrefix } from '../models/types'
 import { State } from '../../ducks/State'
+import { TableStateCache } from '../../components/widgets/AdvancedTable/types'
 
 import { FETCH_TYPE } from './const'
 import { DataSourceContext, METHODS } from './context'
+import { getData } from './useData'
 
 export type PropsFromComponent<P> = P extends ComponentType<infer U> ? U : never
 
@@ -20,6 +22,7 @@ export interface BaseProps {
     paging?: { showLast?: boolean }
     datasource: string
     updatePaging(datasource: string, options: { withCount: boolean }): void
+    id: string
 }
 
 export interface LifecycleProps {
@@ -54,6 +57,12 @@ export const WithDatasourceLifeCycle = <P extends object>(Component: ComponentTy
                 this.switchRegistration(visible)
 
                 if (fetchOnInit) {
+                    const { id } = this.props
+
+                    const cache = getData<TableStateCache>(id)
+
+                    if (cache?.datasourceFeatures?.paging) { return }
+
                     this.fetchData()
                 }
             } else if (visible !== prevVisible) {
