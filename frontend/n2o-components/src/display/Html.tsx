@@ -1,13 +1,74 @@
 import React from 'react'
 import classNames from 'classnames'
-import DOMPurify from 'dompurify'
+import DOMPurify, { type Config } from 'dompurify'
 
-import { TBaseProps } from '../types'
+import { type TBaseProps } from '../types'
+import { EMPTY_ARRAY } from '../utils/emptyTypes'
+
+export type AllowedDomains = string[]
+
+export type Csp = Config & { ALLOWED_DOMAINS: AllowedDomains }
 
 export type Props = TBaseProps & {
-    html: string,
+    html: string
     id: string
+    csp?: Csp
 }
 
-// eslint-disable-next-line react/no-danger
-export const Html = ({ id, html, className }: Props) => <div id={id} className={classNames('n2o-html-snippet n2o-snippet', className)} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }} />
+const isAllowedDomain = (src: string, allowedDomains: AllowedDomains): boolean => {
+    try {
+        const url = new URL(src, window.location.href)
+
+        if (url.protocol !== 'https:') { return false }
+
+        const { hostname } = url
+
+        return allowedDomains.some(domain => hostname === domain ||
+            hostname.endsWith(`.${domain}`) ||
+            // Дополнительная проверка для поддоменов
+            (hostname.length > domain.length + 1 &&
+                hostname.endsWith(`.${domain}`)))
+    } catch {
+        return false
+    }
+}
+
+const createPurifyWithIframeHook = ({ allowedDomains }: { allowedDomains: AllowedDomains }) => {
+    const purify = DOMPurify(window)
+
+    purify.addHook('afterSanitizeAttributes', (node) => {
+        if (node.tagName === 'IFRAME') {
+            // Безопасность: удаляем srcdoc
+            if (node.hasAttribute('srcdoc')) {
+                console.warn('srcdoc removed for security')
+                node.removeAttribute('srcdoc')
+            }
+
+            const src = node.getAttribute('src')
+
+            if (!src || !isAllowedDomain(src, allowedDomains)) {
+                node.removeAttribute('src')
+            }
+        }
+    })
+
+    return purify
+}
+
+export const Html = ({ id, html, className, csp }: Props) => {
+    const { ALLOWED_DOMAINS = EMPTY_ARRAY, ...cfg } = csp || {}
+    const purify = createPurifyWithIframeHook({ allowedDomains: ALLOWED_DOMAINS })
+
+    const cleanedHtml = purify.sanitize(html, cfg)
+
+    return (
+        <div
+            id={id}
+            className={classNames('n2o-html-snippet n2o-snippet', className)}
+            /* eslint-disable-next-line react/no-danger */
+            dangerouslySetInnerHTML={{ __html: cleanedHtml }}
+        />
+    )
+}
+
+export default Html

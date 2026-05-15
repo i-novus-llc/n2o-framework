@@ -2,6 +2,7 @@ import { MarkdownFieldMappers } from '../helpers'
 
 import { N2oButton } from './N2oButton'
 
+// @INFO кастомные тэги в MarkdownField
 export const N2O_BUTTON_TAG = 'n2o-button'
 export const N2O_BUTTON_ATTR = ['label', 'visible', 'enable', 'disable-on-empty-model']
 

@@ -1,8 +1,10 @@
 import React from 'react'
+import { useStore } from 'react-redux'
 import { Html as HtmlSnippet } from '@i-novus/n2o-components/lib/display/Html'
 
 import { parseExpression } from '../../../utils/evalExpression'
 import { useHtmlResolver } from '../../../utils/useHtmlResolver'
+import { userCspSelector } from '../../../ducks/user/selectors'
 
 export type Props = {
     id: string
@@ -28,7 +30,11 @@ export const Html = ({
     className,
     loading = false,
 }: Props) => {
-    const resolvedHtml = useHtmlResolver(html, data)
+    const { getState } = useStore()
+
+    const csp = userCspSelector(getState())
+
+    const resolvedHtml = useHtmlResolver(html, data, csp)
 
     if (!resolvedHtml) { return null }
 
@@ -37,7 +43,7 @@ export const Html = ({
 
     if (loading) { return null }
 
-    return <HtmlSnippet html={resolvedHtml} id={id} className={className} />
+    return <HtmlSnippet html={resolvedHtml} id={id} className={className} csp={csp} />
 }
 
 export default Html
