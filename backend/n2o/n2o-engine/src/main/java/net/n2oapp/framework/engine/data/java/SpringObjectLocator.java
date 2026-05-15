@@ -16,15 +16,14 @@ class SpringObjectLocator implements ObjectLocator<SpringProvider>, ApplicationC
 
     @Override
     public Object locate(Class<?> targetClass, SpringProvider provider) {
-        Object bean;
-        if (provider.getSpringBean() != null && targetClass != null) {
-            bean = context.getBean(provider.getSpringBean(), targetClass);
-        } else if (provider.getSpringBean() != null) {
-            bean = context.getBean(provider.getSpringBean());
-        } else {
-            bean = context.getBean(targetClass);
-        }
-        return bean;
+        String beanName = provider.getSpringBean();
+        if (beanName != null && targetClass != null)
+            return context.getBean(beanName, targetClass);
+        if (beanName != null)
+            return context.getBean(beanName);
+        if (targetClass != null)
+            return context.getBean(targetClass);
+        return null;
     }
 
     @Override

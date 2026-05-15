@@ -8,6 +8,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -38,7 +39,7 @@ public class ConditionValidation extends Validation {
 
     public void setExpression(String expression) {
         if (expression != null)
-            this.expression = expression.replaceAll("\n|\r", "").trim();
+            this.expression = expression.replaceAll("[\n\r]", "").trim();
     }
 
     private Set<String> getExpressionsOn() {
@@ -67,7 +68,7 @@ public class ConditionValidation extends Validation {
         } catch (ScriptException e) {
             if (e.getLocalizedMessage().contains("ReferenceError:") && e.getLocalizedMessage().contains("is not defined in <eval>")) {
                 String message = e.getLocalizedMessage().split("\"")[1];
-                throw new RuntimeException(String.format(
+                throw new N2oException(String.format(
                         "Ошибка серверной валидации. Поле \"%s\"  используется в выражении, но при этом отсутствует в атрибуте 'on' \"<condition>\" валидации.",
                         message));
             } else
@@ -78,5 +79,15 @@ public class ConditionValidation extends Validation {
     @Override
     public String getType() {
         return "condition";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

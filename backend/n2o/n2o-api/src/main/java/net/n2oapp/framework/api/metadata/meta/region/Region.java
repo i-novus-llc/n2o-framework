@@ -25,6 +25,6 @@ public abstract class Region extends Component implements CompiledRegionItem, Sr
 
     @Override
     public void collectWidgets(List<Widget<?>> compiledWidgets) {
-        collectWidgets(content, compiledWidgets);
+        CompiledRegionItem.super.collectWidgets(content, compiledWidgets);
     }
 }

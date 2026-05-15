@@ -55,16 +55,21 @@ public class StylesResolver {
      */
     private static String kebabToCamelCase(String s) {
         StringBuilder builder = new StringBuilder();
-
+        boolean capitalizeNext = false;
         for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '-' && i + 1 < s.length()) {
-                builder.append(Character.toUpperCase(s.charAt(++i)));
-            } else
-                builder.append(s.charAt(i));
+            char c = s.charAt(i);
+            if (c == '-') {
+                capitalizeNext = true;
+            } else if (capitalizeNext) {
+                builder.append(Character.toUpperCase(c));
+                capitalizeNext = false;
+            } else {
+                builder.append(c);
+            }
         }
-
         return builder.toString();
     }
+
 
     /**
      * Преобразовать строку из camelCase в UPPER_SNAKE_CASE

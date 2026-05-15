@@ -109,11 +109,7 @@ public class CsvFileGenerator implements FileGenerator {
                 String fieldId = header.getId();
                 String format = header.getFormat();
                 if (format != null && fieldId != null) {
-                    Object value = dataSet.get(fieldId);
-                    if (value != null) {
-                        String formattedValue = applyFormat(value, format);
-                        dataSet.put(fieldId, formattedValue);
-                    }
+                    dataSet.computeIfPresent(fieldId, (key, value) -> applyFormat(value, format));
                 }
             }
         }

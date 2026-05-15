@@ -57,16 +57,7 @@ public class XlsxFileGenerator implements FileGenerator {
                 int c = 0;
                 for (ExportRequest.ExportField entry : headers) {
                     Cell cell = row.createCell(c);
-                    if (entry.getFormat() != null) {
-                        String formatLower = entry.getFormat().toLowerCase().trim();
-                        if (formatLower.startsWith("date") || formatLower.startsWith("number")) {
-                            setCellWithStyle(cell, datum.get(entry.getId()), columnStyles.get(c));
-                        } else {
-                            setCellValue(cell, applyFormat(datum.get(entry.getId()), entry.getFormat()));
-                        }
-                    } else {
-                        setCellValue(cell, datum.get(entry.getId()));
-                    }
+                    setCellFormattedValue(datum, entry, cell, columnStyles, c);
                     c++;
                 }
             }
@@ -82,6 +73,19 @@ public class XlsxFileGenerator implements FileGenerator {
         }
 
         return fileBytes;
+    }
+
+    private void setCellFormattedValue(DataSet datum, ExportRequest.ExportField entry, Cell cell, Map<Integer, ColumnStyle> columnStyles, int c) {
+        if (entry.getFormat() != null) {
+            String formatLower = entry.getFormat().toLowerCase().trim();
+            if (formatLower.startsWith("date") || formatLower.startsWith("number")) {
+                setCellWithStyle(cell, datum.get(entry.getId()), columnStyles.get(c));
+            } else {
+                setCellValue(cell, applyFormat(datum.get(entry.getId()), entry.getFormat()));
+            }
+        } else {
+            setCellValue(cell, datum.get(entry.getId()));
+        }
     }
 
     @Override
@@ -121,10 +125,10 @@ public class XlsxFileGenerator implements FileGenerator {
                 CellStyle style = workbook.createCellStyle();
                 if (formatLower.startsWith("date ")) {
                     style.setDataFormat(createHelper.createDataFormat().getFormat(getExcelDateFormat(format.substring(5).trim())));
-                    styles.put(colIndex, new ColumnStyle(ColumnType.DATE, style));
+                    styles.put(colIndex, new ColumnStyle(ColumnTypeEnum.DATE, style));
                 } else if (formatLower.startsWith("number ")) {
                     style.setDataFormat(createHelper.createDataFormat().getFormat(convertToExcelNumberFormat(format.substring(7).trim())));
-                    styles.put(colIndex, new ColumnStyle(ColumnType.NUMBER, style));
+                    styles.put(colIndex, new ColumnStyle(ColumnTypeEnum.NUMBER, style));
                 }
             }
             colIndex++;
@@ -281,10 +285,10 @@ public class XlsxFileGenerator implements FileGenerator {
         }
     }
 
-    private enum ColumnType {
+    private enum ColumnTypeEnum {
         DATE,
         NUMBER
     }
 
-    private record ColumnStyle(ColumnType type, CellStyle style) {}
+    private record ColumnStyle(ColumnTypeEnum type, CellStyle style) {}
 }
