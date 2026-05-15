@@ -31,6 +31,8 @@ File: `application.xml`
 | src | String | React component for the menu |
 | ref-id | String | Reference to an external menu file (`*.menu.xml`) |
 
+**Body**: `<menu-item>`, `<dropdown-menu>`. See `menu.md`.
+
 ### `<search>` — Search panel in header
 | Attribute | Type | Description | Default |
 |---|---|---|---|
@@ -137,4 +139,5 @@ In page:
 - `page.md` — pages referenced by welcome-page-id
 - `datasource.md` — app-level datasources
 - `settings.md` — application.properties defaults
+- `menu.md` — menu items schemas
 - `access.md` — access control schemas
