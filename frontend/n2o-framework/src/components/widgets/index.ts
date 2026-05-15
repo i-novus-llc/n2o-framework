@@ -16,8 +16,6 @@ export default {
         .then(({ TreeWidget }) => TreeWidget)),
     ChartWidget: defineAsync(() => import('./Chart/ChartWidget')
         .then(({ ChartWidget }) => ChartWidget)),
-    CalendarWidget: defineAsync(() => import('./Calendar/CalendarWidget')
-        .then(({ CalendarWidget }) => CalendarWidget)),
     TilesWidget: defineAsync(() => import('./Tiles/TilesWidget')
         .then(({ TilesWidget }) => TilesWidget)),
     CardsWidget: defineAsync(() => import('./Cards/CardsWidget')

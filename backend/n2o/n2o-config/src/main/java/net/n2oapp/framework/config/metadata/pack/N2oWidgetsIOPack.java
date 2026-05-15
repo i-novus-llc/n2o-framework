@@ -16,7 +16,6 @@ public class N2oWidgetsIOPack implements MetadataPack<XmlIOBuilder<?>> {
                 new CustomWidgetIOv4(),
                 new TreeElementIOv4(),
                 new ChartWidgetIOv4(),
-                new CalendarWidgetIOv4(),
                 new ButtonIO(),
                 new SubmenuIO(),
                 new TilesWidgetIOV4(),

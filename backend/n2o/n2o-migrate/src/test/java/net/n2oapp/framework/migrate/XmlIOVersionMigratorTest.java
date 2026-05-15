@@ -139,15 +139,6 @@ class XmlIOVersionMigratorTest extends N2oTestBase {
     }
 
     /**
-     * Тест на миграцию calendar.widget.xml с версии 4.0 на 5.0
-     */
-    @Test
-    void testCalendarWidgetMigration() {
-        check("net/n2oapp/framework/migrate/widget/calendar/testXmlIOVersionTestMigratorIOv4.widget.xml",
-                "net/n2oapp/framework/migrate/widget/calendar/testXmlIOVersionTestMigratorIOv5.widget.xml");
-    }
-
-    /**
      * Тест на миграцию cards.widget.xml с версии 4.0 на 5.0
      */
     @Test

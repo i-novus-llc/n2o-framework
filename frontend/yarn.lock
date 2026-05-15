@@ -2452,15 +2452,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.13.8":
-  version: 7.25.6
-  resolution: "@babel/runtime@npm:7.25.6"
-  dependencies:
-    regenerator-runtime: ^0.14.0
-  checksum: ee1a69d3ac7802803f5ee6a96e652b78b8addc28c6a38c725a4ad7d61a059d9e6cb9f6550ed2f63cce67a1bd82e0b1ef66a1079d895be6bfb536a5cfbd9ccc32
-  languageName: node
-  linkType: hard
-
 "@babel/runtime@npm:^7.18.3":
   version: 7.19.0
   resolution: "@babel/runtime@npm:7.19.0"
@@ -3771,13 +3762,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@popperjs/core@npm:^2.11.6":
-  version: 2.11.8
-  resolution: "@popperjs/core@npm:2.11.8"
-  checksum: e5c69fdebf52a4012f6a1f14817ca8e9599cb1be73dd1387e1785e2ed5e5f0862ff817f420a87c7fc532add1f88a12e25aeb010ffcbdc98eace3d55ce2139cf0
-  languageName: node
-  linkType: hard
-
 "@popperjs/core@npm:^2.2.1":
   version: 2.5.4
   resolution: "@popperjs/core@npm:2.5.4"
@@ -3895,17 +3879,6 @@ __metadata:
     react-redux:
       optional: true
   checksum: 895e30518dd1552c115c8a06091856f1f60394a971d214eba5c6d7fc2053c5bc2730bc172ba88aead25d240e99a25c94c3621159823bbc0d0109dc9365db456d
-  languageName: node
-  linkType: hard
-
-"@restart/hooks@npm:^0.4.7":
-  version: 0.4.16
-  resolution: "@restart/hooks@npm:0.4.16"
-  dependencies:
-    dequal: ^2.0.3
-  peerDependencies:
-    react: ">=16.8.0"
-  checksum: d8097878baa1226c02a697a893a25e6fd0df73baef4ee1329f40ce3f94ed36e0623252d16095bc963379d73e03b31855894c5d20d462e0cdea0b994cb12bbc7f
   languageName: node
   linkType: hard
 
@@ -4916,16 +4889,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:>=16.9.11":
-  version: 18.3.3
-  resolution: "@types/react@npm:18.3.3"
-  dependencies:
-    "@types/prop-types": "*"
-    csstype: ^3.0.2
-  checksum: c63d6a78163244e2022b01ef79b0baec4fe4da3475dc4a90bb8accefad35ef0c43560fd0312e5974f92a0f1108aa4d669ac72d73d66396aa060ea03b5d2e3873
-  languageName: node
-  linkType: hard
-
 "@types/redux-actions@npm:2.6.5":
   version: 2.6.5
   resolution: "@types/redux-actions@npm:2.6.5"
@@ -4993,13 +4956,6 @@ __metadata:
   version: 3.0.3
   resolution: "@types/unist@npm:3.0.3"
   checksum: 96e6453da9e075aaef1dc22482463898198acdc1eeb99b465e65e34303e2ec1e3b1ed4469a9118275ec284dc98019f63c3f5d49422f0e4ac707e5ab90fb3b71a
-  languageName: node
-  linkType: hard
-
-"@types/warning@npm:^3.0.0":
-  version: 3.0.3
-  resolution: "@types/warning@npm:3.0.3"
-  checksum: 862b71c918283d2ace5cab4e9f0167507a15ee9cf4d46035c858bdd4bf1ee83cbfb42bcfd4da6e7e254a2efa32200b6521f3719c729e39e88e336309d53bb4c4
   languageName: node
   linkType: hard
 
@@ -6922,13 +6878,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "clsx@npm:1.2.1"
-  checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
-  languageName: node
-  linkType: hard
-
 "clsx@npm:^2.0.0":
   version: 2.0.0
   resolution: "clsx@npm:2.0.0"
@@ -7727,13 +7676,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-arithmetic@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "date-arithmetic@npm:4.1.0"
-  checksum: 656c099864d09dd7f6246e6ff1ce23870615fda80b21d302abb6c4223969a3ff32a8a5e7791b1021ca3bb596e1ced7e9924fabde1eacd50a0903424ad09df876
-  languageName: node
-  linkType: hard
-
 "date-fns@npm:^2.30.0":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
@@ -7743,7 +7685,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.11.13, dayjs@npm:^1.11.7":
+"dayjs@npm:^1.11.13":
   version: 1.11.13
   resolution: "dayjs@npm:1.11.13"
   checksum: f388db88a6aa93956c1f6121644e783391c7b738b73dbc54485578736565c8931bdfba4bb94e9b1535c6e509c97d5deb918bbe1ae6b34358d994de735055cca9
@@ -8044,7 +7986,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dequal@npm:^2.0.0, dequal@npm:^2.0.3":
+"dequal@npm:^2.0.0":
   version: 2.0.3
   resolution: "dequal@npm:2.0.3"
   checksum: 8679b850e1a3d0ebbc46ee780d5df7b478c23f335887464023a631d1b9af051ad4a6595a44220f9ff8ff95a8ddccf019b5ad778a976fd7bbf77383d36f412f90
@@ -8138,7 +8080,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dom-helpers@npm:^5.0.1, dom-helpers@npm:^5.2.0, dom-helpers@npm:^5.2.1":
+"dom-helpers@npm:^5.0.1":
   version: 5.2.1
   resolution: "dom-helpers@npm:5.2.1"
   dependencies:
@@ -10345,13 +10287,6 @@ __metadata:
     min-document: ^2.19.0
     process: ^0.11.10
   checksum: 9c057557c8f5a5bcfbeb9378ba4fe2255d04679452be504608dd5f13b54edf79f7be1db1031ea06a4ec6edd3b9f5f17d2d172fb47e6c69dae57fd84b7e72b77f
-  languageName: node
-  linkType: hard
-
-"globalize@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "globalize@npm:0.1.1"
-  checksum: bc69e81c5ff258821585baae4cb281d196d63339a945104aa5da27f1721ed572f286213126434e287a28f36ac5f6f518e03cec32616ab4eb13a24c5a15443ab6
   languageName: node
   linkType: hard
 
@@ -12988,13 +12923,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash-es@npm:^4.17.21":
-  version: 4.17.21
-  resolution: "lodash-es@npm:4.17.21"
-  checksum: 05cbffad6e2adbb331a4e16fbd826e7faee403a1a04873b82b42c0f22090f280839f85b95393f487c1303c8a3d2a010048bf06151a6cbe03eee4d388fb0a12d2
-  languageName: node
-  linkType: hard
-
 "lodash.camelcase@npm:^4.3.0":
   version: 4.3.0
   resolution: "lodash.camelcase@npm:4.3.0"
@@ -13243,13 +13171,6 @@ __metadata:
   version: 7.18.3
   resolution: "lru-cache@npm:7.18.3"
   checksum: e550d772384709deea3f141af34b6d4fa392e2e418c1498c078de0ee63670f1f46f5eee746e8ef7e69e1c895af0d4224e62ee33e66a543a14763b0f2e74c1356
-  languageName: node
-  linkType: hard
-
-"luxon@npm:^3.2.1":
-  version: 3.5.0
-  resolution: "luxon@npm:3.5.0"
-  checksum: f290fe5788c8e51e748744f05092160d4be12150dca70f9fadc0d233e53d60ce86acd82e7d909a114730a136a77e56f0d3ebac6141bbb82fd310969a4704825b
   languageName: node
   linkType: hard
 
@@ -13607,13 +13528,6 @@ __metadata:
   version: 2.0.30
   resolution: "mdn-data@npm:2.0.30"
   checksum: d6ac5ac7439a1607df44b22738ecf83f48e66a0874e4482d6424a61c52da5cde5750f1d1229b6f5fa1b80a492be89465390da685b11f97d62b8adcc6e88189aa
-  languageName: node
-  linkType: hard
-
-"memoize-one@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "memoize-one@npm:6.0.0"
-  checksum: f185ea69f7cceae5d1cb596266dcffccf545e8e7b4106ec6aa93b71ab9d16460dd118ac8b12982c55f6d6322fcc1485de139df07eacffaae94888b9b3ad7675f
   languageName: node
   linkType: hard
 
@@ -14312,16 +14226,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment-timezone@npm:^0.5.40":
-  version: 0.5.45
-  resolution: "moment-timezone@npm:0.5.45"
-  dependencies:
-    moment: ^2.29.4
-  checksum: a22e9f983fbe1a01757ce30685bce92e3f6efa692eb682afd47b82da3ff960b3c8c2c3883ec6715c124bc985a342b57cba1f6ba25a1c8b4c7ad766db3cd5e1d0
-  languageName: node
-  linkType: hard
-
-"moment@npm:^2.29.2, moment@npm:^2.29.4":
+"moment@npm:^2.29.2":
   version: 2.30.1
   resolution: "moment@npm:2.30.1"
   checksum: 859236bab1e88c3e5802afcf797fc801acdbd0ee509d34ea3df6eea21eb6bcc2abd4ae4e4e64aa7c986aa6cba563c6e62806218e6412a765010712e5fa121ba6
@@ -14424,7 +14329,6 @@ __metadata:
     prop-types: 15.8.1
     query-string: 9.2.1
     rc-tree: 5.13.1
-    react-big-calendar: 1.8.7
     react-helmet: 6.1.0
     react-hotkeys: 1.0.3
     react-i18next: 14.1.2
@@ -16563,33 +16467,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-big-calendar@npm:1.8.7":
-  version: 1.8.7
-  resolution: "react-big-calendar@npm:1.8.7"
-  dependencies:
-    "@babel/runtime": ^7.20.7
-    clsx: ^1.2.1
-    date-arithmetic: ^4.1.0
-    dayjs: ^1.11.7
-    dom-helpers: ^5.2.1
-    globalize: ^0.1.1
-    invariant: ^2.2.4
-    lodash: ^4.17.21
-    lodash-es: ^4.17.21
-    luxon: ^3.2.1
-    memoize-one: ^6.0.0
-    moment: ^2.29.4
-    moment-timezone: ^0.5.40
-    prop-types: ^15.8.1
-    react-overlays: ^5.2.1
-    uncontrollable: ^7.2.1
-  peerDependencies:
-    react: ^16.14.0 || ^17 || ^18
-    react-dom: ^16.14.0 || ^17 || ^18
-  checksum: 39b924b70038ac01fa8e635468c2a948a5ede21f7ba3cab868b1e9389b42d6d90d46948cac84536f00e38d60c165df043f032ae29312fa5666f0e68948a4a306
-  languageName: node
-  linkType: hard
-
 "react-copy-to-clipboard@npm:^5.0.1":
   version: 5.0.2
   resolution: "react-copy-to-clipboard@npm:5.0.2"
@@ -16762,25 +16639,6 @@ __metadata:
     react: ^15.5.x || ^16.x
     react-dom: ^15.5.x || ^16.x
   checksum: 297d2a25889a579d55740a59c309f000063a523cba2fbb7f6503d6b26a242bff5bdbfd4bb5cbf4d0964ff03539104f99ba16648689c2350ad3d3278ce27e87a8
-  languageName: node
-  linkType: hard
-
-"react-overlays@npm:^5.2.1":
-  version: 5.2.1
-  resolution: "react-overlays@npm:5.2.1"
-  dependencies:
-    "@babel/runtime": ^7.13.8
-    "@popperjs/core": ^2.11.6
-    "@restart/hooks": ^0.4.7
-    "@types/warning": ^3.0.0
-    dom-helpers: ^5.2.0
-    prop-types: ^15.7.2
-    uncontrollable: ^7.2.1
-    warning: ^4.0.3
-  peerDependencies:
-    react: ">=16.3.0"
-    react-dom: ">=16.3.0"
-  checksum: ac43b3876829081c6912f083b53016384fe1357c2c819cf80ffa961dcc650b0d504da0c87d1e6139775976d514321061f39f6b69ab128d619c6917b70cb179d6
   languageName: node
   linkType: hard
 
@@ -20219,20 +20077,6 @@ __metadata:
     has-symbols: ^1.0.3
     which-boxed-primitive: ^1.0.2
   checksum: b7a1cf5862b5e4b5deb091672ffa579aa274f648410009c81cca63fed3b62b610c4f3b773f912ce545bb4e31edc3138975b5bc777fc6e4817dca51affb6380e9
-  languageName: node
-  linkType: hard
-
-"uncontrollable@npm:^7.2.1":
-  version: 7.2.1
-  resolution: "uncontrollable@npm:7.2.1"
-  dependencies:
-    "@babel/runtime": ^7.6.3
-    "@types/react": ">=16.9.11"
-    invariant: ^2.2.4
-    react-lifecycles-compat: ^3.0.4
-  peerDependencies:
-    react: ">=15.0.0"
-  checksum: 3345c0c1916193ddb9cc6f2b78711dc9f22b919d780485e15b95690722e9d1797fc702c4ebb30c0acaae6a772b865d0a9ddc83fa1da44958f089aee78f2f5eab
   languageName: node
   linkType: hard
 

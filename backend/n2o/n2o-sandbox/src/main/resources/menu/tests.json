@@ -413,14 +413,6 @@
       "name": "Виджеты",
       "templates": [
         {
-          "templateId": "net/n2oapp/framework/autotest/widget/calendar/without_resources",
-          "name": "CalendarWithoutResourcesAT"
-        },
-        {
-          "templateId": "net/n2oapp/framework/autotest/widget/calendar/simple",
-          "name": "CalendarAT"
-        },
-        {
           "templateId": "net/n2oapp/framework/autotest/widget/cards/page1",
           "name": "CardsAT. testCardsOne"
         },

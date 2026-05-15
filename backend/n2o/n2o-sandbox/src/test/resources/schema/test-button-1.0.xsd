@@ -14,8 +14,7 @@
                         <xs:complexType>
                             <xs:annotation>
                                 <xs:documentation>
-                                    Форматы дат и времени. Список всех возможных форматов
-                                    (http://jquense.github.io/react-big-calendar/examples/index.html#prop-formats).
+                                    Форматы дат и времени.
                                 </xs:documentation>
                             </xs:annotation>
                             <xs:sequence>

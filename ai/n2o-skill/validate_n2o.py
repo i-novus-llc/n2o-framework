@@ -165,7 +165,7 @@ def validate_file(filepath):
 
         # Check widget datasource references (only for <page>, not simple-page)
         if tag == 'page' and ds_ids:
-            for widget_tag in ('table', 'form', 'list', 'cards', 'tiles', 'tree', 'calendar', 'chart', 'html', 'widget'):
+            for widget_tag in ('table', 'form', 'list', 'cards', 'tiles', 'tree', 'chart', 'html', 'widget'):
                 for w in root.findall(f'.//{widget_tag}'):
                     ds_ref = w.get('datasource')
                     if ds_ref and ds_ref not in ds_ids:
