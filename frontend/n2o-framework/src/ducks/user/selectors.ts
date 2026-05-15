@@ -15,3 +15,8 @@ export const userSelector = createSelector(
     authSelector,
     user => omit(user, ['isLoggedIn']),
 )
+
+export const userCspSelector = createSelector(
+    authSelector,
+    user => user.csp,
+)
