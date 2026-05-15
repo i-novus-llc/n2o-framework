@@ -276,29 +276,6 @@ Note: Records must self-reference via `parent-field-id`.
 
 ---
 
-## `<calendar>` — Calendar Widget
-| Attribute | Type | Default | Required |
-|---|---|---|---|
-| height | String | | |
-| default-date | String | current | |
-| default-view | day/week/workWeek/month/agenda | month | |
-| views | String (comma-sep) | | ! |
-| min-time / max-time | String (HH:mm:ss) | | |
-| mark-days-off | boolean | true | |
-| selectable | boolean | true | |
-| step | Number (minutes) | 30 | |
-| timeslot-count | Number | 2 | |
-| title-field-id | String | | ! |
-| tooltip-field-id | String | | ! |
-| start-field-id | String | | ! |
-| end-field-id | String | | ! |
-| cell-color-field-id | String | | ! |
-| disabled-field-id | String | | ! |
-
-Body: `<resources>`, `<action-on-select-slot>`, `<action-on-select-event>`, `<formats>`
-
----
-
 ## `<chart>` — Chart Widget
 | Attribute | Type | Description |
 |---|---|---|

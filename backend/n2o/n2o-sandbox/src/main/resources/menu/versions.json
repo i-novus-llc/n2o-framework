@@ -918,10 +918,6 @@
           "name": "Автоматическое сохранение формы"
         },
         {
-          "templateId": "versions/7.8/calendar",
-          "name": "Виджет Календарь"
-        },
-        {
           "templateId": "versions/7.8/one_to_many",
           "name": "Один ко многим"
         },

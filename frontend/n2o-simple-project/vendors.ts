@@ -96,7 +96,6 @@ export const VENDORS = {
         'refractor',
     ],
     'recharts': ['recharts'],
-    // 'calendar': ['react-big-calendar'],
     'stompjs': [
         'stompjs',
         'sockjs-client',
