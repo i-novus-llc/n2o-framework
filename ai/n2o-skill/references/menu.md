@@ -14,7 +14,7 @@ Both `<nav>` and `<extra-menu>` have the same structure:
 | ref-id | Reference | Reference to parent menu file (for inheritance/override) |
 | src | String | Custom React component |
 
-**Body**: `<menu-item>`, `<button>`, `<divider>`, `<link>`, `<group>`, `<dropdown-menu>`
+**Body**: `<menu-item>`, `<dropdown-menu>`
 
 ```xml
 <!-- myMenu.menu.xml -->
@@ -101,97 +101,6 @@ Body: An action element (`<open-page>`, `<invoke>`, `<show-modal>`, `<a>`, etc.)
 
 ---
 
-## `<button>` — Action Button in Menu
-A button that triggers an action. Like `<menu-item>` but styled as a button.
-
-All common attributes plus:
-| Attribute | Type | Default | Description |
-|---|---|---|---|
-| id | String | | Element identifier |
-| color | primary/secondary/success/danger/warning/info/link/light/dark | | Button color (supports placeholders) |
-| description | String | | Tooltip text on hover |
-| tooltip-position | top / bottom / left / right | bottom | Tooltip position |
-| image | String | | Image URL (supports placeholders) |
-| image-shape | square / circle / rounded | square | Image shape |
-| badge | String | | Badge text (supports placeholders) |
-| badge-color | primary/secondary/success/danger/warning/info/light/dark | | Badge color (supports placeholders) |
-| badge-position | left / right | right | Badge position |
-| badge-shape | square / circle / rounded | circle | Badge shape |
-| badge-image | String | | Badge image URL |
-| badge-image-position | left / right | left | Badge image position |
-| badge-image-shape | square / circle / rounded | circle | Badge image shape |
-
-Body: An action element.
-
-```xml
-<button label="Logout" icon="fa fa-sign-out" color="danger">
-    <invoke operation-id="logout"/>
-</button>
-```
-
----
-
-## `<link>` — External Link
-A hyperlink to an external URL.
-
-| Attribute | Type | Default | Description |
-|---|---|---|---|
-| label | String | | Link text (supports placeholders) |
-| icon | String | | FontAwesome icon |
-| icon-position | left / right | left | Icon position |
-| target | application / newWindow / self | newWindow | How to open the link |
-| visible | boolean / String | true | Visibility condition |
-| enabled | boolean / String | true | Availability condition |
-| class | String | | CSS class |
-| style | String | | CSS style |
-
-Body: `<a href="..."/>` action element.
-
-```xml
-<link label="Documentation" icon="fa fa-book" target="newWindow">
-    <a href="https://n2o.i-novus.ru/docs/"/>
-</link>
-```
-
----
-
-## `<divider>` — Visual Separator
-A horizontal rule to separate menu sections.
-
-| Attribute | Type | Description |
-|---|---|---|
-| class | String | CSS class |
-| style | String | CSS style |
-
-```xml
-<divider/>
-```
-
----
-
-## `<group>` — Collapsible Group
-Groups menu items under a collapsible header.
-
-All common attributes plus:
-| Attribute | Type | Default | Description |
-|---|---|---|---|
-| label | String | | Group header label (supports placeholders) |
-| collapsible | boolean | true | Allow expanding/collapsing |
-| default-state | expanded / collapsed | expanded | Initial state |
-| icon | String | | Group header icon |
-| icon-position | left / right | left | Icon position |
-
-Body: `<menu-item>`, `<button>`, `<divider>`, `<link>`, `<group>`, `<dropdown-menu>`
-
-```xml
-<group label="References" collapsible="true" default-state="collapsed">
-    <menu-item name="Departments"><open-page page-id="departments"/></menu-item>
-    <menu-item name="Positions"><open-page page-id="positions"/></menu-item>
-</group>
-```
-
----
-
 ## `<dropdown-menu>` — Dropdown Menu
 A nested menu that opens on click (or hover).
 
@@ -211,7 +120,7 @@ A nested menu that opens on click (or hover).
 | class | String | | CSS class |
 | style | String | | CSS style |
 
-Body: `<menu-item>`, `<button>`, `<divider>`, `<link>`, `<group>`, `<dropdown-menu>` (nested)
+Body: `<menu-item>`, `<dropdown-menu>` (nested)
 
 ```xml
 <dropdown-menu name="More" icon="fa fa-ellipsis-v">
@@ -235,10 +144,6 @@ Body: `<menu-item>`, `<button>`, `<divider>`, `<link>`, `<group>`, `<dropdown-me
     <menu-item name="Employees" icon="fa fa-users">
         <open-page page-id="employees"/>
     </menu-item>
-    <group label="References" collapsible="true" default-state="collapsed" icon="fa fa-book">
-        <menu-item name="Departments"><open-page page-id="departments"/></menu-item>
-        <menu-item name="Positions"><open-page page-id="positions"/></menu-item>
-    </group>
     <dropdown-menu name="Reports" icon="fa fa-chart-bar">
         <menu-item name="Monthly"><open-page page-id="reportMonthly"/></menu-item>
         <menu-item name="Annual"><open-page page-id="reportAnnual"/></menu-item>
@@ -253,13 +158,6 @@ Body: `<menu-item>`, `<button>`, `<divider>`, `<link>`, `<group>`, `<dropdown-me
     <menu-item name="{username}" icon="fa fa-user" datasource="currentUser" model="resolve">
         <open-page page-id="profile"/>
     </menu-item>
-    <divider/>
-    <link label="Documentation" icon="fa fa-book" target="newWindow">
-        <a href="https://n2o.i-novus.ru/docs/"/>
-    </link>
-    <button label="Logout" icon="fa fa-sign-out">
-        <invoke operation-id="logout"/>
-    </button>
 </extra-menu>
 ```
 
@@ -274,4 +172,3 @@ Body: `<menu-item>`, `<button>`, `<divider>`, `<link>`, `<group>`, `<dropdown-me
 ## See Also
 - `application.md` — `<header>`, `<sidebars>` that reference menu files
 - `action.md` — action elements used inside menu items (`<open-page>`, `<invoke>`, `<a>`, etc.)
-- `button.md` — regular toolbar buttons (different context, but similar action syntax)
