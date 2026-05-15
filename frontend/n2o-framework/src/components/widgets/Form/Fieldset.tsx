@@ -57,6 +57,32 @@ export interface State {
     enabled: boolean
 }
 
+function calculateAllFields(rows: RowProps[]) {
+    const info = { fields: [], fieldsVisibility: [] } as { fields: string[], fieldsVisibility: boolean[] }
+
+    each(rows, (row) => {
+        each(row.cols, (col) => {
+            if (col.fieldsets) {
+                each(col.fieldsets, (fieldset) => {
+                    const subInfo = calculateAllFields(fieldset.rows)
+
+                    info.fields = concat(info.fields, subInfo.fields)
+                    info.fieldsVisibility = concat(info.fieldsVisibility, subInfo.fieldsVisibility)
+                })
+            } else if (col.fields) {
+                each(col.fields, (field) => {
+                    info.fields.push(field.id)
+                    info.fieldsVisibility.push(Boolean(field.visible))
+                })
+            }
+        })
+    })
+
+    return info
+}
+
+function checkGlobalFieldVisibility(fieldsVisibility: boolean[]) { return fieldsVisibility.some(visible => visible) }
+
 class Fieldset extends React.Component<FieldsetComponentProps, State> {
     fields: string[]
 
@@ -90,7 +116,15 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
         }
     }
 
-    componentDidUpdate() { this.resolveAvailability() }
+    componentDidUpdate({ activeModel: prevModel }: FieldsetComponentProps) {
+        const { activeModel } = this.props
+
+        if (!isEqual(activeModel, prevModel)) {
+            this.resolveAvailability()
+        }
+    }
+
+    componentDidMount() { this.resolveAvailability() }
 
     setVisible = (nextVisibleField: boolean) => {
         const { setMultiFieldVisible } = this.props
@@ -115,32 +149,6 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
             enabled: nextEnabledField,
         })
     }
-
-    calculateAllFields(rows: RowProps[]) {
-        const info = { fields: [], fieldsVisibility: [] } as { fields: string[], fieldsVisibility: boolean[] }
-
-        each(rows, (row) => {
-            each(row.cols, (col) => {
-                if (col.fieldsets) {
-                    each(col.fieldsets, (fieldset) => {
-                        const subInfo = this.calculateAllFields(fieldset.rows)
-
-                        info.fields = concat(info.fields, subInfo.fields)
-                        info.fieldsVisibility = concat(info.fieldsVisibility, subInfo.fieldsVisibility)
-                    })
-                } else if (col.fields) {
-                    each(col.fields, (field) => {
-                        info.fields.push(field.id)
-                        info.fieldsVisibility.push(Boolean(field.visible))
-                    })
-                }
-            })
-        })
-
-        return info
-    }
-
-    checkGlobalFieldVisibility = (fieldsVisibility: boolean[]) => fieldsVisibility.some(visible => visible)
 
     renderRow = (rowId: number, row: RowProps, props: Record<string, unknown>) => {
         const {
@@ -208,7 +216,7 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
             resolvedClassName,
             {
                 'd-none': !visible,
-                empty: !isEmpty(this.fieldsVisibility) && !this.checkGlobalFieldVisibility(this.fieldsVisibility),
+                empty: !isEmpty(this.fieldsVisibility) && !checkGlobalFieldVisibility(this.fieldsVisibility),
             },
         )
 
@@ -229,7 +237,7 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
                 description={description}
                 {...rest}
                 render={(rows, props = { parentName }) => {
-                    const { fields, fieldsVisibility } = this.calculateAllFields(rows)
+                    const { fields, fieldsVisibility } = calculateAllFields(rows)
 
                     this.fields = fields
                     this.fieldsVisibility = fieldsVisibility

@@ -13,7 +13,7 @@ import { mapMultiFields } from '../../core/models/mapMultiFields'
 import { logger } from '../../utils/logger'
 
 import { getDefaultField, getDefaultState } from './FormPlugin'
-import { Form, FormsState } from './types'
+import { Field, Form, FormsState } from './types'
 import {
     BlurFieldAction,
     DangerouslySetFieldValue,
@@ -112,16 +112,16 @@ export const formSlice = createSlice({
 
             reducer(state, { payload, meta = {} }: RegisterFieldAction) {
                 const { formName, fieldName, initialState = {} } = payload
+                const fieldPath = createFieldPath(formName, fieldName)
                 const field = {
                     ...getDefaultField(),
                     ...initialState,
+                    ...get(state, fieldPath, {}),
                     isInit: true,
                     ctx: meta.evalContext,
                 }
-                const fieldPath = createFieldPath(formName, fieldName)
-                const registeredInfo = get(state, fieldPath, {})
 
-                set(state, fieldPath, Object.assign(registeredInfo, field))
+                set(state, fieldPath, field)
             },
         },
 
@@ -242,9 +242,20 @@ export const formSlice = createSlice({
                 const { formName, fields, visible } = action.payload
 
                 fields.forEach((fieldName) => {
-                    const field = get(state, createFieldPath(formName, fieldName))
+                    const fieldPath = createFieldPath(formName, fieldName)
+                    const field = get(state, fieldPath)
 
-                    if (!field) { return warnNonExistent(fieldName, 'visible') }
+                    if (!field) {
+                        const fieldInfo: Partial<Pick<Field, 'visible_set' | 'visible'>> = {
+                            visible_set: visible,
+                        }
+
+                        if (!visible) { fieldInfo.visible = false }
+
+                        set(state, fieldPath, fieldInfo)
+
+                        return
+                    }
 
                     field.visible_set = visible
                     field.visible = field.visible_field && field.visible_set
@@ -263,9 +274,20 @@ export const formSlice = createSlice({
                 const { formName, fields, disabled } = action.payload
 
                 fields.forEach((fieldName) => {
-                    const field = get(state, createFieldPath(formName, fieldName))
+                    const fieldPath = createFieldPath(formName, fieldName)
+                    const field = get(state, fieldPath)
 
-                    if (!field) { return warnNonExistent(fieldName, 'disabled') }
+                    if (!field) {
+                        const fieldInfo: Partial<Pick<Field, 'disabled_set' | 'disabled'>> = {
+                            disabled_set: disabled,
+                        }
+
+                        if (disabled) { fieldInfo.disabled = true }
+
+                        set(state, fieldPath, fieldInfo)
+
+                        return
+                    }
 
                     field.disabled_set = disabled
                     field.disabled = field.disabled_field || field.disabled_set
