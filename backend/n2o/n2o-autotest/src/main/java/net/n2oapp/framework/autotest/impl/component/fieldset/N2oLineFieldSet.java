@@ -86,10 +86,6 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
         return element().$(".collapse-panel-content-box");
     }
 
-    private WebElementCondition expandedContentCondition() {
-        return Condition.cssClass("collapse-panel-content-active");
-    }
-
     protected SelenideElement fieldsetTitleText() {
         return element().$(".title-fieldset-text");
     }

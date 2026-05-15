@@ -217,20 +217,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         return nonNull(source.getObjectId()) ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
     }
 
-    private Map<String, AbstractDatasource> compileDatasources(PageContext context,
-                                                               CompileProcessor p,
-                                                               DataSourcesScope dataSourcesScope,
-                                                               PageScope pageScope,
-                                                               Object... scopes) {
-        Map<String, AbstractDatasource> compiledDataSources = new HashMap<>();
-        for (N2oAbstractDatasource ds : dataSourcesScope.values())
-            if (!(ds instanceof N2oApplicationDatasource || ds instanceof N2oParentDatasource)) {
-                AbstractDatasource compiled = p.compile(ds, context, pageScope, dataSourcesScope, scopes);
-                compiledDataSources.put(compiled.getId(), compiled);
-            }
-        return compiledDataSources;
-    }
-
     /**
      * Инициализация всех регионов страницы и добавление их в контейнер со всеми регионами страницы
      *

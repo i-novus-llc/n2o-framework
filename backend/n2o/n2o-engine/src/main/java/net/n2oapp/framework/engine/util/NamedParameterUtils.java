@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.*;
 
+import static java.util.Comparator.comparingInt;
+
 /**
  *
  */
@@ -84,14 +86,7 @@ public class NamedParameterUtils {
 
     public static List<String> sortByLength(List<String> parameterList) {
         ArrayList<String> res = new ArrayList<>(parameterList);
-        Collections.sort(res, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                if (o1.length() < o2.length()) return 1;
-                else if (o1.length() > o2.length()) return -1;
-                else return 0;
-            }
-        });
+        res.sort(comparingInt(String::length).reversed());
         return res;
     }
 
