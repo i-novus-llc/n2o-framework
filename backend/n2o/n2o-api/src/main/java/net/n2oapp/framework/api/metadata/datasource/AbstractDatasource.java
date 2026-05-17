@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.meta.Dependency;
 import net.n2oapp.framework.api.rest.Paging;
 
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class AbstractDatasource implements Compiled, IdAware {
+public abstract class AbstractDatasource implements Compiled, IdAware, JsonPropertiesAware {
 
     @JsonProperty
     private String id;
@@ -31,4 +32,5 @@ public abstract class AbstractDatasource implements Compiled, IdAware {
     private Paging paging;
     @JsonProperty
     private Map<String, String> sorting;
+    private Map<String, Object> properties;
 }
