@@ -5,7 +5,8 @@
              navigation-layout-fixed="true"
              welcome-page-id="test">
     <datasources>
-        <datasource id="ds1" query-id="test" size="5" route="/:id/data">
+        <datasource id="ds1" query-id="test" size="5" route="/:id/data"
+                    ext:attr="test">
             <dependencies>
                 <fetch on="ds1" model="filter" field-id="name"/>
                 <copy on="ds2" source-field-id="a" target-field-id="b" source-model="filter" target-model="edit"

@@ -29,6 +29,7 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
 
     public void compileDatasource(S source, D compiled, CompileProcessor p) {
         initDatasource(source, compiled, p);
+        compiled.setProperties(p.mapAndResolveAttributes(source));
         compiled.setPaging(new Paging(castDefault(source.getSize(),
                 () -> p.resolve(property("n2o.api.datasource.size"), Integer.class))));
         compiled.setDependencies(initDependencies(source, p));
