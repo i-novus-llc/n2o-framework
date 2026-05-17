@@ -19,6 +19,7 @@ public abstract class BaseDatasourceIO<T extends N2oDatasource> extends Abstract
                 p.oneOf(N2oDatasource.Dependency.class)
                         .add("fetch", N2oDatasource.FetchDependency.class, this::fetch)
                         .add("copy", N2oDatasource.CopyDependency.class, this::copy));
+        p.anyAttributes(e, ds::getExtAttributes, ds::setExtAttributes);
     }
 
     protected void filters(Element e, N2oPreFilter pf, IOProcessor p) {

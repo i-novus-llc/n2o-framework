@@ -33,6 +33,7 @@ import static java.util.Collections.emptyMap;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Тестирование компиляции стандартного источника данных
@@ -64,6 +65,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesModeEnum.DEFAULTS));
         assertThat(ds.getProvider(), nullValue());
         assertThat(ds.getFetchOnInit(), is(false));
+        assertThat(ds.getJsonProperties().get("attr"), is("test"));
 
         ds = (StandardDatasource) page.getDatasources().get("testDSStandardPage_ds2");
         assertThat(ds.getFetchOnInit(), is(true));
