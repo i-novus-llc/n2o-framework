@@ -18,13 +18,13 @@
             <nav>
                 <menu-item name="Documents">
                     <a href="/person/:id/docs" target="application">
-                        <path-param name="id" value=":id" datasource="doc"/>
+                        <path-param name="id" value="{id}" datasource="doc"/>
                         <query-param name="name" value="{name}" datasource="doc"/>
                     </a>
                 </menu-item>
                 <menu-item name="Profile">
                     <a href="/person/:id/profile" target="application">
-                        <path-param name="id" value=":id"/>
+                        <path-param name="id" value="{id}"/>
                         <query-param name="name" value="{name}"/>
                     </a>
                 </menu-item>
