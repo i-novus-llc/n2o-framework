@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ class PageActionValidatorTest extends SourceValidationTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/action/page/blankObject.object.xml"));
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/action/page/blankWidget.widget.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/action/page/formRef.widget.xml"));
     }
 
     @Test
@@ -80,6 +81,32 @@ class PageActionValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationRefreshDatasourcesNonExistent.page.xml")
         );
+    }
+
+    //
+    @Test
+    void testRefreshDatasourceNonExistentModeOn() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.validation.mode", "on");
+        assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationRefreshDatasourcesNonExistentInRef.page.xml")
+        );
+    }
+
+    @Test
+    void testRefreshDatasourceNonExistentModeOff() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.validation.mode", "off");
+        validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationRefreshDatasourcesNonExistentInRef.page.xml");
+    }
+
+    @Test
+    void testRefreshDatasourceNonExistentModeIgnoreRefs() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.validation.mode", "ignore-refs");
+        N2oMetadataValidationException exception = assertThrows(
+                N2oMetadataValidationException.class,
+                () -> validate("net/n2oapp/framework/config/metadata/validation/action/page/testPageActionValidationRefreshDatasourcesNonExistentInRef.page.xml")
+        );
+        assertEquals("Атрибут \"refresh-datasources\" ссылается на несуществующий источник данных 'ds4'", exception.getMessage());
     }
 
     @Test

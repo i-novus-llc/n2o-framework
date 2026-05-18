@@ -32,7 +32,6 @@ class InvokeActionValidatorTest extends SourceValidationTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack());
         builder.validators(new BasePageValidator(), new InvokeActionValidator());
-        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/action/page/blankWidget.widget.xml"));
     }
 
     @Test

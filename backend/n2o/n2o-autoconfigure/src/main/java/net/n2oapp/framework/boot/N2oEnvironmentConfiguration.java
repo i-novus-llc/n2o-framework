@@ -71,6 +71,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 
@@ -266,7 +267,15 @@ public class N2oEnvironmentConfiguration {
         }
 
         @Bean
-        SourceValidatorFactory sourceValidatorFactory(Optional<Map<String, SourceValidator>> validators) {
+        SourceValidatorFactory sourceValidatorFactory(Optional<Map<String, SourceValidator>> validators,
+                                                      ConfigurableEnvironment environment) {
+            String mode = environment.getProperty("n2o.validation.mode", "on");
+            if (!Set.of("on", "ignore-refs", "off").contains(mode)) {
+                throw new IllegalStateException(
+                        String.format("Недопустимое значение настройки 'n2o.validation.mode=%s'. " +
+                                "Допустимые значения: on, ignore-refs, off", mode)
+                );
+            }
             return new N2oSourceValidatorFactory(validators.orElse(Collections.emptyMap()));
         }
 
