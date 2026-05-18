@@ -24,8 +24,8 @@ export const useHtmlResolver = (html: string, model: Model, csp?: State['csp']) 
     const finalConfig: Config = csp
         ? {
             ...csp,
-            ADD_TAGS: [...BASE_CONFIG.ADD_TAGS, ...csp.ADD_TAGS as string[]],
-            ADD_ATTR: [...BASE_CONFIG.ADD_ATTR, ...csp.ADD_ATTR as string[]],
+            ADD_TAGS: [...BASE_CONFIG.ADD_TAGS, ...csp.ADD_TAGS as string[] || []],
+            ADD_ATTR: [...BASE_CONFIG.ADD_ATTR, ...csp.ADD_ATTR as string[] || []],
         }
         : BASE_CONFIG
 
