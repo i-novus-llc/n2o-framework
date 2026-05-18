@@ -76,10 +76,8 @@ export const VENDORS = {
     ],
 
     // lazy load
-    'code-editor': [
-        'react-ace',
-        'brace',
-    ],
+    // 'code-editor-ace': ['react-ace'],
+    // 'code-editor-brace': ['brace'],
     'text-editor': [
         'react-draft-wysiwyg',
         'draft-js',
@@ -101,16 +99,6 @@ export const VENDORS = {
         'sockjs-client',
     ],
 };
-
-// List of modules that rollup sometimes bundles with manual chunks, causing those chunks to be eager-loaded
-export const ROLLUP_COMMON_MODULES = [
-    'vite/preload-helper',
-    'vite/modulepreload-polyfill',
-    'vite/dynamic-import-helper',
-    'commonjsHelpers',
-    'commonjs-dynamic-modules',
-    '__vite-browser-external'
-];
 
 export function getModuleName(id: string) {
     return id.split('\/node_modules\/')[1] || ''

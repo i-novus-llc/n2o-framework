@@ -16,9 +16,6 @@ import '@i-novus/n2o-components/lib/globalExtensions/globalExtensions'
 
 import './i18n'
 
-// @ts-ignore TODO если включить разрешающее правило, сломается build
-import packageJson from '../package.json'
-
 import history from './history'
 import configureStore from './store'
 import { FactoryProvider } from './core/factory/FactoryProvider'
@@ -42,8 +39,6 @@ import { WindowType } from './components/core/WindowType'
 import { ErrorContainerProviderProps } from './core/error/types'
 import { EMPTY_OBJECT } from './utils/emptyTypes'
 import { ShowDelayMsContext, useSpinnerContextProps } from './factoryComponents/useSpinnerContextProps'
-
-const { version } = packageJson
 
 export interface N2OProps extends WithTranslation {
     formats?: {
@@ -86,7 +81,6 @@ export interface N2OContextProps {
     defaultTemplate?: ComponentType<TemplateProps>
     extraDefaultErrorPages?: object
     markdownFieldMappers?: MarkdownFieldMappers
-    version: string
     spinnerShowDelayMs?: number
 }
 
@@ -94,7 +88,6 @@ export const N2OContext = createContext<N2OContextProps>({
     markdownFieldMappers: {},
     defaultTemplate: Template,
     extraDefaultErrorPages: {},
-    version,
     spinnerShowDelayMs: 250,
 })
 
@@ -217,7 +210,6 @@ const EnhancedN2O = withTranslation()(
                     extraDefaultErrorPages: props.extraDefaultErrorPages,
                     markdownFieldMappers: props.markdownFieldMappers,
                     spinnerShowDelayMs: spinnerContext.showDelayMs,
-                    version,
                 }}
             >
                 <ShowDelayMsContext.Provider value={spinnerContext}>

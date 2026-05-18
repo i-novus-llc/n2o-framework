@@ -21,13 +21,13 @@
     "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.0.0",
+    "@vitejs/plugin-react": "^6.0.1",
     "dotenv": "8.2.0",
     "rimraf": "5.0.7",
     "typescript": "*",
-    "vite": "7.1.11",
+    "vite": "8.0.10",
     "vite-bundle-visualizer": "1.2.1",
-    "vite-plugin-svgr": "^3.2.0"
+    "vite-plugin-svgr": "^5.2.0"
   },
   "browserslist": [
     ">0.2%",
