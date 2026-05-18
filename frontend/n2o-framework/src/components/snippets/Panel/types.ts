@@ -62,12 +62,13 @@ export type PanelProps = CardProps & CommonPanelProps
 export interface PanelTab extends CommonProps {
     disabled: boolean
     header: boolean
-    content: ReactNode
+    content: PanelTab[]
     id: string
     src?: string
     fetchOnInit?: boolean
     widgetId: string
     label: boolean
+    tabs?: PanelTab[]
 }
 
 interface PanelToolbar extends PanelTab {
