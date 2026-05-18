@@ -23,11 +23,13 @@ const isAllowedDomain = (src: string, allowedDomains: AllowedDomains): boolean =
 
         const { hostname } = url
 
-        return allowedDomains.some(domain => hostname === domain ||
-            hostname.endsWith(`.${domain}`) ||
-            // Дополнительная проверка для поддоменов
-            (hostname.length > domain.length + 1 &&
-                hostname.endsWith(`.${domain}`)))
+        return allowedDomains.some((domain) => {
+            const cleanDomain = domain.replace(/^https?:\/\//, '')
+
+            // точное совпадение или поддомен
+            return hostname === cleanDomain ||
+                hostname.endsWith(`.${cleanDomain}`)
+        })
     } catch {
         return false
     }
