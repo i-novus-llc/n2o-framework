@@ -22,6 +22,20 @@ export type PanelRegionProps = PanelContainerProps & WithGetWidgetProps & {
     getWidgetProps(id: PanelTab['id']): { visible?: boolean }
 }
 
+function hasVisibleItem(
+    items: PanelTab[] | undefined,
+    getWidgetProps: (id: string) => { visible?: boolean },
+): boolean {
+    if (!Array.isArray(items)) { return false }
+
+    return items.some((item) => {
+        if (item.id && getWidgetProps(item.id).visible === true) { return true }
+        if (item.content && hasVisibleItem(item.content, getWidgetProps)) { return true }
+
+        return !!(item.tabs && hasVisibleItem(item.tabs, getWidgetProps))
+    })
+}
+
 /**
  * Регион Панель
  * @reactProps containers {array} - массив из объектов, которые описывают виджет {id, name, opened, pageId, widget}
@@ -44,6 +58,7 @@ export type PanelRegionProps = PanelContainerProps & WithGetWidgetProps & {
  * @reactProps {object} dependency - зависимость видимости панели
  */
 
+// TODO необходим рефакторинг компонента и типизации
 class PanelRegionBody extends Component<PanelRegionProps, State> {
     constructor(props: PanelRegionProps) {
         super(props)
@@ -64,7 +79,7 @@ class PanelRegionBody extends Component<PanelRegionProps, State> {
         return <RegionContent content={content as ContentMeta[]} pageId={pageId} />
     }
 
-    getTab(panel: PanelTab): PanelTab {
+    getTab(panel: PanelTab) {
         const { getWidget, pageId } = this.props
 
         return {
@@ -73,13 +88,15 @@ class PanelRegionBody extends Component<PanelRegionProps, State> {
             content: this.getContent(panel, pageId),
             header: panel.label,
             ...getWidget(pageId, panel.widgetId),
-        }
+        } as unknown as PanelTab
     }
 
     checkPanel(panel: PanelTab) {
         const { tabs } = this.state
 
-        this.setState({ tabs: tabs.concat(this.getTab(panel)) })
+        this.setState({
+            tabs: tabs.concat(this.getTab(panel)),
+        })
     }
 
     getPanelsWithAccess() {
@@ -106,7 +123,7 @@ class PanelRegionBody extends Component<PanelRegionProps, State> {
             content = [],
         } = this.props
         const { tabs } = this.state
-        const visible = content.some(item => getWidgetProps(item.id).visible === true)
+        const visible = hasVisibleItem(content, getWidgetProps)
         const style = !visible ? { display: 'none', ...propsStyle } : propsStyle
 
         return (
