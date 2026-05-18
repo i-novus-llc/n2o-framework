@@ -16,7 +16,7 @@
                     <open-page page-id="docs"
                                route="/person/:id/docs">
                         <params>
-                            <path-param name="id" value=":id"/>
+                            <path-param name="id" value="{id}"/>
                             <query-param name="name" value="{name}"/>
                         </params>
                     </open-page>
