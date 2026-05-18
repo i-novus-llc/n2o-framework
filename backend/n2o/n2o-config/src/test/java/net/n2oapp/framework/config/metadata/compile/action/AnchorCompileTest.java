@@ -129,7 +129,7 @@ class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getHref(), is("/person/:id/docs"));
         assertThat(menuItem.getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
         assertThat(menuItem.getPathMapping().size(), is(1));
-        assertThat(menuItem.getPathMapping().get("id").getValue(), is(":id"));
+        assertThat(menuItem.getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(menuItem.getQueryMapping().size(), is(1));
         assertThat(menuItem.getQueryMapping().get("name").getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(menuItem.getQueryMapping().get("name").getDatasource(), is("doc"));
@@ -141,7 +141,7 @@ class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getHref(), is("/person/:id/profile"));
         assertThat(menuItem.getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
         assertThat(menuItem.getPathMapping().size(), is(1));
-        assertThat(menuItem.getPathMapping().get("id").getValue(), is(":id"));
+        assertThat(menuItem.getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(menuItem.getQueryMapping().size(), is(1));
         assertThat(menuItem.getQueryMapping().get("name").getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(menuItem.getQueryMapping().get("name").getDatasource(), is("person"));
