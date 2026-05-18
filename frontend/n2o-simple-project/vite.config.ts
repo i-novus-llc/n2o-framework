@@ -1,14 +1,13 @@
 import { createRequire } from 'module'
-import { defineConfig } from 'vite'
+import { defineConfig, UserConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { config as dotenv } from 'dotenv'
 import viteSvgr from 'vite-plugin-svgr'
-import path from 'path'
 
 import { proxy } from './setupProxy'
-import { CHUNK_PREFIX, ROLLUP_COMMON_MODULES, VENDORS, getModuleName } from "./vendors";
+import { CHUNK_PREFIX, VENDORS, getModuleName } from "./vendors";
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode }: UserConfig) => {
     const { parsed = {} } = dotenv();
     const isProduction = mode === 'production';
 
@@ -21,7 +20,7 @@ export default defineConfig(({ mode }) => {
             sourcemap: true,
             outDir: 'build',
             emptyOutDir: true,
-            rollupOptions: {
+            rolldownOptions: {
                 // backward compatibility for Windows users
                 input: {
                     main: 'index.html',
@@ -31,10 +30,7 @@ export default defineConfig(({ mode }) => {
                     entryFileNames: isProduction ? 'index-[hash].js' : 'index.js',
                     chunkFileNames: 'assets/[name]-[hash].js',
                     assetFileNames: 'assets/[name]-[hash][extname]',
-                    manualChunks: (id) => {
-                        if(ROLLUP_COMMON_MODULES.some((commonModule) => id.includes(commonModule))) {
-                            return 'rollup'
-                        }
+                    manualChunks: (id: string) => {
                         if (id.includes('node_modules')) {
                             const moduleName = getModuleName(id)
 
@@ -51,34 +47,14 @@ export default defineConfig(({ mode }) => {
                     }
                 },
             },
-            // transpile all dependencies to es modules as vite can't handle commonjs module types
-            commonjsOptions: {
-                transformMixedEsModules: true,
-                include: [/node_modules/],
-                defaultIsModuleExports: (moduleId) => {
-                    try {
-                        const require = createRequire(import.meta.url)
-                        // eslint-disable-next-line import/no-dynamic-require
-                        const module = require(moduleId)
-
-                        if (module?.default) {
-                            return false
-                        }
-
-                        return 'auto'
-                    } catch {
-                        return 'auto'
-                    }
-                },
-            },
+        },
+        define: {
+            global: 'globalThis',
         },
         plugins: [
             htmlPlugin(parsed),
-            reactVirtualized(),
-            react({
-                include: '**/*.{js,jsx,ts,tsx}',
-            }),
-            viteSvgr({ exportAsDefault: true }),
+            react(),
+            viteSvgr(),
         ],
         resolve: {
             // resolve tilde syntax import from node_modules
@@ -94,31 +70,8 @@ export default defineConfig(({ mode }) => {
         optimizeDeps: {
             include: [
                 'moment/dist/locale/ru',
-                // C обновлением vite ло 7.1.5 Падает start demo [ERROR] Could not resolve require("./locale/**/*")
-                // 'moment/min/moment.min.js',
-                'lodash-es/debounce',
-                'lodash-es/isEqual',
-                'lodash-es/isEmpty',
-                'lodash-es/get',
-                'lodash-es/set',
-                'lodash-es/map',
-                'lodash-es/reduce',
-                'lodash-es/isNil',
-                'lodash-es/merge'
+                'moment/dist/moment.js',
             ],
-            exclude: [
-                'moment-timzone',
-                'enzyme',
-                'jest',
-                '@testing-library'
-            ],
-            esbuildOptions: {
-                // some libraries are not browser friendly and require node.js workspace
-                define: {
-                    global: 'globalThis',
-                    module: 'globalThis.module',
-                },
-            },
         },
         server: {
             proxy,
@@ -152,33 +105,5 @@ function htmlPlugin(env: Record<string, string>) {
             return result
         },
     }
-}
-
-/* Фикс бага импорта в react-virtualized на котором падает vite */
-import type { Plugin } from "vite";
-import fs from "fs";
-
-const WRONG_CODE = `import { bpfrpt_proptype_WindowScroller } from "../WindowScroller.js";`;
-export function reactVirtualized(): Plugin {
-    return {
-        name: "flat:react-virtualized",
-        // Note: we cannot use the `transform` hook here
-        //       because libraries are pre-bundled in vite directly,
-        //       plugins aren't able to hack that step currently.
-        //       so instead we manually edit the file in node_modules.
-        //       all we need is to find the timing before pre-bundling.
-        configResolved() {
-            const file = require
-                .resolve("react-virtualized")
-                .replace(
-                    path.join("dist", "commonjs", "index.js"),
-                    path.join("dist", "es", "WindowScroller", "utils", "onScroll.js"),
-                );
-
-            const code = fs.readFileSync(file, "utf-8");
-            const modified = code.replace(WRONG_CODE, "");
-            fs.writeFileSync(file, modified);
-        },
-    };
 }
 

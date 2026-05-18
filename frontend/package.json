@@ -38,7 +38,7 @@
     "postinstall": "license-checker --exclude axe-core"
   },
   "devDependencies": {
-    "@i-novus/license-checker": "0.0.7",
+    "@i-novus/license-checker": "^1.0.8",
     "@jsdevtools/npm-publish": "3.0.1",
     "@types/react-dom": "18.3.0",
     "concurrently": "^8.2.2",
