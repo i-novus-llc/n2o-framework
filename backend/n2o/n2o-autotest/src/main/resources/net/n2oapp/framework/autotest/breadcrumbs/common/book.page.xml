@@ -1,16 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
-    <table>
-        <datasource query-id="readers"/>
-        <toolbar>
-            <button label="Open">
-                <a href="/:reader_id/reader" target="application">
-                    <path-param name="reader_id" value="{id}"/>
-                </a>
-            </button>
-        </toolbar>
-        <columns>
-            <column text-field-id="name"/>
-        </columns>
-    </table>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="books" query-id="books">
+            <filters>
+                <eq field-id="id" param="id"/>
+            </filters>
+        </datasource>
+    </datasources>
+    <regions>
+        <table>
+            <datasource query-id="readers"/>
+            <toolbar>
+                <button label="Open">
+                    <a href="/:reader_id/reader" target="application">
+                        <path-param name="reader_id" value="{id}"/>
+                    </a>
+                </button>
+            </toolbar>
+            <columns>
+                <column text-field-id="name"/>
+            </columns>
+        </table>
+    </regions>
+</page>
