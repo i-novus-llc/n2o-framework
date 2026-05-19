@@ -53,7 +53,6 @@ class EmailFieldAT extends AutoTestBase {
 
         EmailField emailField = page.widget(FormWidget.class).fields().field("mail").control(EmailField.class);
         emailField.shouldBeVisible();
-
         emailField.setValue("123");
         saveButton.click();
         emailField.shouldHaveInvalidText(Condition.text("Невалидный почтовый адрес"));
