@@ -455,7 +455,7 @@ export const formSlice = createSlice({
                         name: newName,
                         value: {
                             ...field,
-                            dependency: field.dependency.map(dep => ({
+                            dependency: field.dependency?.map(dep => ({
                                 ...dep,
                                 on: dep.on?.map(on => on.replace(
                                     `${listName}[${index}]`,
