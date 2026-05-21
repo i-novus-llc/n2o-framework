@@ -297,6 +297,7 @@ export function* resolveOnUpdateModel({ meta = {}, payload }: UpdateModelAction,
 
     for (const form of forms) {
         for (const [fieldId, field] of Object.entries(form.fields)) {
+            if (!field.dependency) { continue }
             for (const dep of field.dependency) {
                 if (shouldBeResolved(dep, fieldName, model, prevModel, checkInner)) {
                     yield fork(resolveDependency, form, model, fieldId, field, dep, false)
@@ -316,13 +317,12 @@ export function* resolveOnInit({ payload }: RegisterFieldAction) {
     if (isEmpty(form.fields)) { return }
 
     for (const [fieldId, field] of Object.entries(form.fields)) {
-        if (field.dependency) {
-            for (const dependency of field.dependency) {
-                const { applyOnInit } = dependency
+        if (!field.dependency) { continue }
+        for (const dependency of field.dependency) {
+            const { applyOnInit } = dependency
 
-                if ((fieldName === fieldId) && applyOnInit) {
-                    yield fork(resolveDependency, form, model, fieldId, field, dependency, true)
-                }
+            if ((fieldName === fieldId) && applyOnInit) {
+                yield fork(resolveDependency, form, model, fieldId, field, dependency, true)
             }
         }
     }
