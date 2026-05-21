@@ -34,7 +34,7 @@ export type Field = {
     disabled_set: boolean
     message: ValidationResult | null
     filter: unknown // TODO: добавить тип
-    dependency: FieldDependency[]
+    dependency?: FieldDependency[]
     required: boolean
     loading: boolean
     // TODO @touched удалить
