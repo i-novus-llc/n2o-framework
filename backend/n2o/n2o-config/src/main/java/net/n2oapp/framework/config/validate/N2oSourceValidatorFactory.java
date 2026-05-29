@@ -23,10 +23,10 @@ public class N2oSourceValidatorFactory extends BaseMetadataFactory<SourceValidat
 
     @Override
     public <S> void validate(S source, SourceProcessor p) {
-
-        String mode = p.resolve(property("n2o.validation.mode"), String.class);
-        if ("off".equals(mode) || "ignore-refs".equals(mode) &&
-                source instanceof RefIdAware s && s.getRefId() != null) {
+        ValidationModeEnum mode = ValidationModeEnum.of(p.resolve(property("n2o.validation.mode"), String.class));
+        if (mode == ValidationModeEnum.OFF
+                || (mode == ValidationModeEnum.IGNORE_REFS
+                        && source instanceof RefIdAware s && s.getRefId() != null)) {
             return;
         }
 
