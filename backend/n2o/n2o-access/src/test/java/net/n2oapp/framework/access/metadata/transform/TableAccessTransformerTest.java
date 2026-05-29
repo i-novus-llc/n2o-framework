@@ -18,6 +18,8 @@ import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Map;
 
@@ -105,19 +107,23 @@ class TableAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getBehavior(), is(BehaviorEnum.HIDE));
     }
 
-    @Test
-    void testColumnNotComputedWhenAnyButtonOpen() {
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "testColumnAnyButtonOpen",
+            "testColumnSubmenuOpen",
+            "testColumnEmptyToolbar",
+            "testColumnMultiColumnPartialSecurity",
+            "testColumnDndColumnPartialSecurity"
+    })
+    void testColumnSecurityIsNull(String pageId) {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/default.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testColumnAnyButtonOpen.page.xml");
+                "net/n2oapp/framework/access/metadata/transform/" + pageId + ".page.xml");
 
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testColumnAnyButtonOpen"));
+                .get(new PageContext(pageId));
 
         Table table = (Table) page.getRegions().get("single").getFirst().getContent().getFirst();
-        AbstractColumn column = table.getComponent().getHeader().getCells().getFirst();
-
-        Map<String, Object> props = ((PropertiesAware) column).getProperties();
-        assertThat(props == null || props.get(SECURITY_PROP_NAME) == null, is(true));
+        securityIsNull(table.getComponent().getHeader().getCells().getFirst());
     }
 
     @Test
@@ -153,21 +159,6 @@ class TableAccessTransformerTest extends SourceCompileTestBase {
         Security security = (Security) ((PropertiesAware) column).getProperties().get(SECURITY_PROP_NAME);
         SecurityObject securityObject = security.getFirst().get("custom");
         assertThat(securityObject.getBehavior(), is(BehaviorEnum.DISABLE));
-    }
-
-    @Test
-    void testSubmenuButtonsCounted() {
-        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/default.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testColumnSubmenuOpen.page.xml");
-
-        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testColumnSubmenuOpen"));
-
-        Table table = (Table) page.getRegions().get("single").getFirst().getContent().getFirst();
-        AbstractColumn column = table.getComponent().getHeader().getCells().getFirst();
-
-        Map<String, Object> props = ((PropertiesAware) column).getProperties();
-        assertThat(props == null || props.get(SECURITY_PROP_NAME) == null, is(true));
     }
 
     @Test
@@ -227,37 +218,6 @@ class TableAccessTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
-    void testEmptyToolbarLeavesColumnUntouched() {
-        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/default.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testColumnEmptyToolbar.page.xml");
-
-        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testColumnEmptyToolbar"));
-
-        Table table = (Table) page.getRegions().get("single").getFirst().getContent().getFirst();
-        AbstractColumn column = table.getComponent().getHeader().getCells().getFirst();
-
-        Map<String, Object> props = ((PropertiesAware) column).getProperties();
-        assertThat(props == null || props.get(SECURITY_PROP_NAME) == null, is(true));
-    }
-
-    @Test
-    void testMultiColumnNotHiddenWhenSomeChildrenOpen() {
-        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/default.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testColumnMultiColumnPartialSecurity.page.xml");
-
-        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testColumnMultiColumnPartialSecurity"));
-
-        Table table = (Table) page.getRegions().get("single").getFirst().getContent().getFirst();
-        MultiColumn multi = (MultiColumn) table.getComponent().getHeader().getCells().getFirst();
-
-        // Один ребёнок открыт → мультиколонка не скрывается
-        Map<String, Object> multiProps = multi.getProperties();
-        assertThat(multiProps == null || multiProps.get(SECURITY_PROP_NAME) == null, is(true));
-    }
-
-    @Test
     void testDndColumnChildrenProcessed() {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/default.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testColumnDndColumnChildren.page.xml");
@@ -291,18 +251,28 @@ class TableAccessTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
-    void testDndColumnNotHiddenWhenSomeChildrenOpen() {
-        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/default.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testColumnDndColumnPartialSecurity.page.xml");
+    void testColumnNotHiddenWhenLinkButtonIsPermitAll() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties())
+                .setProperty("n2o.access.schema.id", "testColumnPermitAllUrl");
+
+        ReadCompileTerminalPipeline pipeline = compile(
+                "net/n2oapp/framework/access/metadata/schema/testColumnPermitAllUrl.access.xml",
+                "net/n2oapp/framework/access/metadata/atBlank.page.xml",
+                "net/n2oapp/framework/access/metadata/atBlank.object.xml",
+                "net/n2oapp/framework/access/metadata/transform/testColumnPermitAllUrlButton.page.xml");
 
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testColumnDndColumnPartialSecurity"));
+                .get(new PageContext("testColumnPermitAllUrlButton"));
 
         Table table = (Table) page.getRegions().get("single").getFirst().getContent().getFirst();
-        DndColumn dnd = (DndColumn) table.getComponent().getHeader().getCells().getFirst();
 
-        // Один ребёнок открыт → dnd-колонка не скрывается
-        Map<String, Object> dndProps = dnd.getProperties();
-        assertThat(dndProps == null || dndProps.get(SECURITY_PROP_NAME) == null, is(true));
+        securityIsNull(table.getComponent().getHeader().getCells().get(0));
+        securityIsNull(table.getComponent().getHeader().getCells().get(1));
+        securityIsNull(table.getComponent().getHeader().getCells().get(2));
+    }
+
+    private static void securityIsNull(AbstractColumn column) {
+        Map<String, Object> props = ((PropertiesAware) column).getProperties();
+        assertThat(props == null || props.get(SECURITY_PROP_NAME) == null, is(true));
     }
 }
