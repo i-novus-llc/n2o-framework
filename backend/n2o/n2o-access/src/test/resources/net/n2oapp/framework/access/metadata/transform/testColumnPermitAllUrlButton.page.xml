@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <regions>
+        <panel id="regionId" place="single">
+            <table id="testTable" query-id="testQuery">
+                <columns>
+                    <column text-field-id="action">
+                        <toolbar>
+                            <button label="link">
+                                <a href="/permit/link"/>
+                            </button>
+                        </toolbar>
+                    </column>
+                    <column text-field-id="action">
+                        <toolbar>
+                            <button label="link">
+                                <show-modal page-id="atBlank"/>
+                            </button>
+                        </toolbar>
+                    </column>
+                    <column text-field-id="action">
+                        <toolbar>
+                            <button label="link">
+                                <invoke operation-id="create" object-id="atBlank"/>
+                            </button>
+                        </toolbar>
+                    </column>
+                </columns>
+            </table>
+        </panel>
+    </regions>
+</page>

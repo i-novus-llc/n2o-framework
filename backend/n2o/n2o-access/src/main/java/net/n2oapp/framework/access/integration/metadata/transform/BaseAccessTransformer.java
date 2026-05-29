@@ -134,6 +134,10 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             securityObject.setPermitAll(!defaultObjectAccessDenied);
             securityObject.setDenied(defaultObjectAccessDenied);
         }
+        if (Boolean.TRUE.equals(securityObject.getPermitAll())) {
+            if (security.isEmpty()) compiled.getProperties().remove(SECURITY_PROP_NAME);
+            return;
+        }
         if (security.isEmpty())
             security.add(new HashMap<>());
         security.getFirst().put("object", securityObject);
@@ -234,6 +238,10 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             securityObject.setPermitAll(!defaultPageAccessDenied);
             securityObject.setDenied(defaultPageAccessDenied);
         }
+        if (Boolean.TRUE.equals(securityObject.getPermitAll())) {
+            if (security.isEmpty()) compiled.getProperties().remove(SECURITY_PROP_NAME);
+            return;
+        }
         if (security.isEmpty())
             security.add(new HashMap<>());
         security.getFirst().put("page", securityObject);
@@ -332,6 +340,10 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             Boolean defaultUrlAccessDenied = p.resolve(property(DEFAULT_URL_ACCESS_DENIED), Boolean.class);
             securityObject.setPermitAll(!defaultUrlAccessDenied);
             securityObject.setDenied(defaultUrlAccessDenied);
+        }
+        if (Boolean.TRUE.equals(securityObject.getPermitAll())) {
+            if (security.isEmpty()) compiled.getProperties().remove(SECURITY_PROP_NAME);
+            return;
         }
         if (security.isEmpty())
             security.add(new HashMap<>());
