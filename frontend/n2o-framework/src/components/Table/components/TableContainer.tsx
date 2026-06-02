@@ -110,7 +110,7 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
                         />
 
                         {errorComponent ? (
-                            <td colSpan={fixedCells.body.length}>{errorComponent}</td>
+                            <td colSpan={colSpan}>{errorComponent}</td>
                         ) : (
                             <TableBody
                                 focusedRowValue={focusedRowValue}
@@ -129,7 +129,7 @@ export const TableContainer: VFC<TableWidgetContainerProps<HTMLDivElement>> = ({
                         )}
 
                         {(!errorComponent && EmptyContent && data.length === 0) && (
-                            <td className="empty_content" colSpan={fixedCells.body.length}>{EmptyContent}</td>
+                            <td className="empty_content" colSpan={colSpan}>{EmptyContent}</td>
                         )}
                     </table>
                 </div>
