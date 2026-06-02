@@ -5,10 +5,27 @@
 |---|---|---|
 | Datasource extraction | Inline in widget | In `<datasources>` at page level |
 | Widget references data | `query-id`, `object-id` on widget | `datasource="dsId"` on widget |
-| Filter syntax | `<pre-filters>` in widget | `<filters>` in `<datasource>` |
+| Widget filter syntax | `<pre-filters>` in widget | `<filters>` in `<datasource>` |
 | Submit | On widget | In `<datasource>` via `<submit>` |
 | Actions | In widget `<toolbar>` | Can be in page-level `<actions>` + `action-id` |
 | Events | Not available | `<events>` with `<on-change>` |
+| Controls: filter syntax | `<pre-filters>` inside control | `<filters>` inside control (control-3.0) |
+| Dependency: `<fetch-value>` | `<pre-filters>` inside dependency | `<filters>` inside dependency (control-3.0) |
+
+> **`<pre-filters>` → `<filters>` applies everywhere. The internal XSD type is still named preFiltersDefinition, but the XML element is <filters> in control-3.0.
+
+**Complete list of controls and dependencies with <filters> (formerly <pre-filters>):**
+
+| XML Element | Type | Note |
+|---|---|---|
+| `<select>` | control | `query-id` + `<filters>` |
+| `<input-select>` | control | `query-id` + `<filters>` |
+| `<input-select-tree>` | control | `query-id` + `<filters>` |
+| `<radio-group>` | control | `query-id` + `<filters>` |
+| `<checkbox-group>` | control | `query-id` + `<filters>` |
+| `<slider>` | control | `query-id` + `<filters>` |
+| `<auto-complete>` | control | `query-id` + `<filters>` |
+| `<fetch-value>` | dependency | `query-id` (обязателен) + `<filters>` |
 
 ### Example Migration
 **Before (page-3.0):**
@@ -33,6 +50,38 @@
     </datasources>
     <regions><table datasource="ds1"><columns>...</columns></table></regions>
 </page>
+```
+
+**Control filters before (page-3.0 / control-2.x):**
+```xml
+<input-select id="diagnosis" query-id="diagnosis">
+    <pre-filters>
+        <eq field-id="disease" value="{disease.id}" required="true"/>
+    </pre-filters>
+    <dependencies>
+        <fetch-value query-id="diagnosis" on="disease" value-field-id="oneElement">
+            <pre-filters>
+                <eq field-id="onlyOne" value="true" required="true"/>
+            </pre-filters>
+        </fetch-value>
+    </dependencies>
+</input-select>
+```
+
+**Control filters after (page-4.0 / control-3.0):**
+```xml
+<input-select id="diagnosis" query-id="diagnosis">
+    <filters>
+        <eq field-id="disease" value="{disease.id}" required="true"/>
+    </filters>
+    <dependencies>
+        <fetch-value query-id="diagnosis" on="disease" value-field-id="oneElement">
+            <filters>
+                <eq field-id="onlyOne" value="true" required="true"/>
+            </filters>
+        </fetch-value>
+    </dependencies>
+</input-select>
 ```
 
 ---
@@ -70,7 +119,7 @@
 **After (query-5.0):**
 ```xml
 <field id="name" domain="string" expression="e.name" sorting-expression="e.name" search-expression="e.name"/>
-<!-- Plus in <filters> section: -->
+        <!-- Plus in <filters> section: -->
 <filter field-id="name" type="like" filter-id="nameLike"/>
 ```
 
