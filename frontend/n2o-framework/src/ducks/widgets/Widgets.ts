@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Dispatch } from 'redux'
 
-import { ModelPrefix } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/models/types'
 import type { Props as N2OPaginationProps } from '../../components/widgets/Table/N2OPagination'
 
 export type Widget = {

@@ -8,9 +8,7 @@ import {
     showWidget,
 } from '../ducks/widgets/store'
 
-import { sortDependency } from './widgetDependency/sortDependency'
 import { reduceFunction, resolveDependency } from './widgetDependency/resolve'
-import { getWidgetDependency } from './widgetDependency/getWidgetDependency'
 
 const getConfig = (model, config) => ({
     model,
@@ -39,34 +37,6 @@ describe('Проверка саги widgetDependency', () => {
             }
 
             expect(reduceFunction(true, getConfig(model, config))).toEqual(true)
-        })
-    })
-
-    describe('getWidgetDependency', () => {
-        it('вернет новое значение виджетов', () => {
-            expect(
-                getWidgetDependency({}, 'test1', {
-                    fetch: [
-                        {
-                            on: 'link',
-                            condition: 'condition',
-                        },
-                    ],
-                }),
-            ).toEqual({
-                test1: {
-                    widgetId: 'test1',
-                    dependency: {
-                        fetch: [
-                            {
-                                on: 'link',
-                                condition: 'condition',
-                            },
-                        ],
-                    },
-                    parents: ['link'],
-                },
-            })
         })
     })
 
@@ -202,31 +172,6 @@ describe('Проверка саги widgetDependency', () => {
                     widgetId: 'test1',
                 })
             })
-        })
-    })
-    describe('sortDependency', () => {
-        it('проверка правильности сортировки', () => {
-            expect(
-                sortDependency({
-                    fetch: [],
-                    visible: [],
-                    enabled: [],
-                }),
-            ).toEqual({ visible: [], enabled: [], fetch: [] })
-            expect(
-                sortDependency({
-                    enabled: [],
-                    fetch: [],
-                    visible: [],
-                }),
-            ).toEqual({ enabled: [], visible: [], fetch: [] })
-            expect(
-                sortDependency({
-                    enabled: [],
-                    visible: [],
-                    fetch: [],
-                }),
-            ).toEqual({ enabled: [], visible: [], fetch: [] })
         })
     })
 })

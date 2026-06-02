@@ -18,7 +18,10 @@ export function Widget(props: Props) {
                 ? false
                 : visible,
         }, true))
-        dispatch(registerDependency(id, dependency))
+
+        if (id) {
+            dispatch(registerDependency(id, dependency))
+        }
     }, [])
 
     return (null)

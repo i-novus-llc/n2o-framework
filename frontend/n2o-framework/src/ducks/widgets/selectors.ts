@@ -8,10 +8,23 @@ import {
 } from '../datasource/selectors'
 import { State } from '../State'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
+import { type WidgetsDependencies } from '../../sagas/widgetDependency/WidgetTypes'
 
 import { State as WidgetsState } from './Widgets'
 
 export const widgetsSelector = (state: State): WidgetsState => state.widgets || EMPTY_OBJECT
+
+export const makeWidgetsDependenciesSelector = () => createSelector(
+    widgetsSelector,
+    widgets => Object.entries(widgets)
+        .reduce((acc: WidgetsDependencies, [widgetId, { dependency }]) => {
+            if (dependency) {
+                acc[widgetId] = { dependency, widgetId }
+            }
+
+            return acc
+        }, {}),
+)
 
 /**
  * Селектор-генератор для получения виджета по ID
