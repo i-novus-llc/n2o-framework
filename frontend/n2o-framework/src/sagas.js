@@ -14,7 +14,7 @@ import { fieldDependencySagas } from './sagas/fieldDependency'
 import { metaSagas } from './sagas/meta'
 import globalSagas from './ducks/global/sagas'
 import { conditionsSaga } from './sagas/conditions'
-import { widgetDependencySagas } from './sagas/widgetDependency'
+import { sagas as widgetsSagas } from './ducks/widgets/sagas'
 import { overlaysSagas } from './ducks/overlays/sagas'
 import toolbarSagas from './ducks/toolbar/sagas'
 import { sagas as apiSagas } from './ducks/api/sagas'
@@ -34,7 +34,7 @@ export default function generateSagas(dispatch, config) {
             ...metaSagas,
             ...globalSagas(config.apiProvider, config.security),
             ...conditionsSaga,
-            ...widgetDependencySagas,
+            ...widgetsSagas,
             ...overlaysSagas,
             ...regionsSagas,
             ...toolbarSagas,

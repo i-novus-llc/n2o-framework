@@ -1,8 +1,8 @@
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
-import { Model } from '../../ducks/models/selectors'
+import { type Model } from '../../ducks/models/selectors'
+import { type ModelLink } from '../../core/models/types'
 
-export type ModelLinkType = string
-export type Dependency = { condition: string, on: ModelLinkType }
+export type Dependency = { condition: string, on: ModelLink }
 
 export interface ResolveOption {
     model: Model
@@ -13,7 +13,6 @@ export type Dependencies = Partial<Record<DEPENDENCY_TYPES, Dependency[]>>
 
 export interface WidgetDependencies {
     dependency?: Dependencies
-    parents?: string[]
     widgetId: string
 }
 
