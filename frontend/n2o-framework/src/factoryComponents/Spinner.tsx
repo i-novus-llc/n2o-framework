@@ -9,7 +9,7 @@ import { useSpinnerContextProps } from './useSpinnerContextProps'
 export type { SpinnerProps }
 export { SpinnerType }
 
-export function Spinner({ children, ...rest }: SpinnerProps) {
+export function Spinner({ children, showDelayMs: propsShowDelayMs, ...rest }: SpinnerProps) {
     const { getComponent } = useContext(FactoryContext)
     const FactorySpinner = getComponent('Spinner', FactoryLevels.SNIPPETS)
 
@@ -17,5 +17,5 @@ export function Spinner({ children, ...rest }: SpinnerProps) {
 
     if (!FactorySpinner) { return null }
 
-    return <FactorySpinner {...rest} showDelayMs={showDelayMs}>{children}</FactorySpinner>
+    return <FactorySpinner {...rest} showDelayMs={propsShowDelayMs ?? showDelayMs}>{children}</FactorySpinner>
 }

@@ -54,16 +54,19 @@ export const Spinner = ({
 
         if (showTimeoutRef.current) { clearTimeout(showTimeoutRef.current) }
 
-        showTimeoutRef.current = setTimeout(() => {
+        if (showDelayMs === 0) {
             setShowSpinner(true)
             setLoadingStartTime(Date.now())
-            showTimeoutRef.current = null
-        }, showDelayMs)
+        } else {
+            showTimeoutRef.current = setTimeout(() => {
+                setShowSpinner(true)
+                setLoadingStartTime(Date.now())
+                showTimeoutRef.current = null
+            }, showDelayMs)
+        }
 
         return () => {
-            if (showTimeoutRef.current) {
-                clearTimeout(showTimeoutRef.current)
-            }
+            if (showTimeoutRef.current) { clearTimeout(showTimeoutRef.current) }
         }
     }, [loading, showDelayMs, showSpinner])
 
