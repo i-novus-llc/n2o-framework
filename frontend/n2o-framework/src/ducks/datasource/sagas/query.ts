@@ -9,7 +9,7 @@ import isEmpty from 'lodash/isEmpty'
 import { setModel } from '../../models/store'
 import { generateErrorMeta } from '../../../utils/generateErrorMeta'
 import { id as generateId } from '../../../utils/id'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { ModelPrefix } from '../../../core/models/types'
 import { Meta } from '../../../sagas/types'
 import { ValidationResult, ValidationsKey } from '../../../core/validation/types'
 import { hasError } from '../../../core/validation/validateModel'
@@ -49,15 +49,11 @@ function getQuery<
 
 export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvider: unknown) {
     const { id, options = {} } = payload
-    const { initAction } = meta
 
     try {
-        const { provider, components, fetchOnInit }: DataSourceState = yield select(dataSourceByIdSelector(id))
+        const { provider }: DataSourceState = yield select(dataSourceByIdSelector(id))
 
         if (!provider) { throw new Error('Can\'t request data with empty provider') }
-        if (!components.length && !(initAction && fetchOnInit)) {
-            throw new Error('Unnecessary request for datasource with empty components list ')
-        }
 
         const validateByPrefix = (prefix: ModelPrefix) => startValidate(id, ValidationsKey.FilterValidations, prefix, undefined, { touched: true })
 

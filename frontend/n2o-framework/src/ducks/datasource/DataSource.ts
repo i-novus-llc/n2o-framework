@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-extraneous-class */
-import type { DataSourceDependency, SortDirection } from '../../core/datasource/const'
-import { ModelPrefix } from '../../core/datasource/const'
+import { type DataSourceDependency, SortDirection } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/models/types'
 import { ValidationsKey, Validation, ValidationResult } from '../../core/validation/types'
 import { type ErrorContainerError } from '../../core/error/types'
 
@@ -21,7 +20,6 @@ export type DataSourceState = {
     provider?: Provider
     [ValidationsKey.Validations]: Record<string, Validation[]>
     [ValidationsKey.FilterValidations]: Record<string, Validation[]>
-    components: string[]
     dependencies: DataSourceDependency[]
     defaultDatasourceProps?: DefaultDataSourceProps
     paging: Paging
@@ -48,12 +46,12 @@ export type DataSourceConfig = Prettify<Omit<DataSourceState, ValidationsKey> & 
     [k in ValidationsKey]?: Record<string, ValidationConfig[]>
 }>
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class DataSource {
     static get defaultState(): DataSourceState {
         return ({
             [ValidationsKey.Validations]: {},
             [ValidationsKey.FilterValidations]: {},
-            components: [],
             dependencies: [],
             paging: {
                 page: 1,

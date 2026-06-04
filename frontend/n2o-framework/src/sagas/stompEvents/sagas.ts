@@ -3,15 +3,14 @@ import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 import { type AnyAction } from 'redux'
 
-import { addComponent, removeComponent } from '../../ducks/datasource/store'
 import { metadataSuccess, resetPage } from '../../ducks/pages/store'
 import { requestConfigSuccess } from '../../ducks/global/store'
 import { logger } from '../../utils/logger'
+import { register, remove } from '../../ducks/datasource/store'
+import { type RegisterAction, type RemoveAction } from '../../ducks/datasource/Actions'
 import { type Provider, ProviderType } from '../../ducks/datasource/Provider'
 import { EventTypes, getStompEvents, type StompEvent } from '../../ducks/watchEvents/watchEvents'
-import { dataSourceComponentsSelector, dataSourceProviderSelector } from '../../ducks/datasource/selectors'
-import type { AddComponentAction, RemoveComponentAction } from '../../ducks/datasource/Actions'
-import { type DataSourceState } from '../../ducks/datasource/DataSource'
+import { dataSourceProviderSelector } from '../../ducks/datasource/selectors'
 import type { MetadataSuccess, Reset } from '../../ducks/pages/Actions'
 import { type RequestConfigAction } from '../../ducks/global/Actions'
 
@@ -136,7 +135,7 @@ function* applicationConnection({ payload }: RequestConfigAction) {
  * Устанавливает STOMP-подключение через datasource provider type Stomp
  * в ответе ожидает данные для обнновления модели.
  */
-function* datasourceConnection({ payload }: AddComponentAction) {
+function* datasourceConnection({ payload }: RegisterAction) {
     const { id } = payload
     const dataSourceProvider: Provider = yield select(dataSourceProviderSelector(id))
 
@@ -150,7 +149,7 @@ function* datasourceConnection({ payload }: AddComponentAction) {
 /**
  * Отписывает подключения провайдера типа Stomp, если к нему не подключены компоненты.
  */
-function* datasourceDisconnection({ payload }: RemoveComponentAction) {
+function* datasourceDisconnection({ payload }: RemoveAction) {
     const { id } = payload
 
     if (!subscriptionManager.get(id)) { return }
@@ -159,9 +158,7 @@ function* datasourceDisconnection({ payload }: RemoveComponentAction) {
 
     if (dataSourceProvider?.type !== ProviderType.stomp) { return }
 
-    const components: DataSourceState['components'] = yield select(dataSourceComponentsSelector(id))
-
-    if (components.length === 0) { subscriptionManager.remove(id) }
+    subscriptionManager.remove(id)
 }
 
 /**
@@ -192,8 +189,8 @@ function pagesDisconnection({ payload: pageId }: Reset) {
 
 export function* stompEventsWorker() {
     yield takeEvery([requestConfigSuccess], applicationConnection)
-    yield takeEvery([addComponent], datasourceConnection)
-    yield takeEvery([removeComponent], datasourceDisconnection)
+    yield takeEvery([register], datasourceConnection)
+    yield takeEvery([remove], datasourceDisconnection)
     yield takeEvery([metadataSuccess], pagesConnection)
     yield takeEvery([resetPage], pagesDisconnection)
 }

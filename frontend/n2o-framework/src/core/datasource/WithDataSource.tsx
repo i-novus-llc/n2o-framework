@@ -2,11 +2,9 @@ import React, { useMemo, ComponentType, FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
-    addComponent,
     changePage,
     changeSize,
     dataRequest,
-    removeComponent,
     setSorting as setDataSourceSorting,
 } from '../../ducks/datasource/store'
 import { setModel } from '../../ducks/models/store'
@@ -43,12 +41,6 @@ export const useDatasourceMethods = (id: string, datasource: string) => {
         const set = (prefix: ModelPrefix, model: Model) => dispatch(setModel(prefix, datasource, model))
 
         return {
-            register() {
-                dispatch(addComponent(datasource, id))
-            },
-            unregister() {
-                dispatch(removeComponent(datasource, id))
-            },
             fetchData(options: Partial<{ size: number, page: number }>) {
                 dispatch(dataRequest(datasource, options))
             },
