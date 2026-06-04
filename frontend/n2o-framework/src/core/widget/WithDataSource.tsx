@@ -29,8 +29,6 @@ export interface LifecycleProps {
     isInit: boolean
     fetchOnInit: boolean
     fetchOnVisibility: boolean
-    register(): void
-    unregister(): void
     fetchData(options?: Record<string, unknown>, force?: boolean): void
     datasourceModelLength: number
     fetch: 'always' | 'lazy' | 'never'
@@ -41,9 +39,7 @@ export type CombinedProps<P extends object> = PropsFromComponent<P> & BaseProps 
 export const WithDatasourceLifeCycle = <P extends object>(Component: ComponentType<P>) => {
     class WithDatasourceLifeCycle extends React.Component<CombinedProps<P>> {
         componentDidMount() {
-            const { visible, dispatch, paging = {}, datasource } = this.props
-
-            this.switchRegistration(visible)
+            const { dispatch, paging = {}, datasource } = this.props
 
             if (paging.showLast === false) {
                 dispatch(updatePaging(datasource, {}))
@@ -53,30 +49,20 @@ export const WithDatasourceLifeCycle = <P extends object>(Component: ComponentTy
         componentDidUpdate({ visible: prevVisible, isInit: prevInit }: { visible: boolean, isInit: boolean }) {
             const { visible, isInit, fetchOnInit, fetchOnVisibility } = this.props
 
-            if (isInit !== prevInit) {
-                this.switchRegistration(visible)
+            if (isInit !== prevInit && fetchOnInit) {
+                const { id } = this.props
+                const cache = getData<TableStateCache>(id)
 
-                if (fetchOnInit) {
-                    const { id } = this.props
+                if (cache?.datasourceFeatures?.paging) { return }
 
-                    const cache = getData<TableStateCache>(id)
-
-                    if (cache?.datasourceFeatures?.paging) { return }
-
-                    this.fetchData()
-                }
-            } else if (visible !== prevVisible) {
-                this.switchRegistration(visible)
-                if (fetchOnVisibility) {
-                    // TableAT.fetchOnVisibilityTest
-                    // https://sandbox-dev.i-novus.ru/editor/3tghM/?stand=https://next-n2o.i-novus.ru/tests/
-                    // не выполняется fetch из за указанного fetchOnVisibility = false
-                    this.fetchData()
-                }
+                this.fetchData()
+            } else if (visible !== prevVisible && fetchOnVisibility) {
+                // TableAT.fetchOnVisibilityTest
+                // https://sandbox-dev.i-novus.ru/editor/3tghM/?stand=https://next-n2o.i-novus.ru/tests/
+                // не выполняется fetch из за указанного fetchOnVisibility = false
+                this.fetchData()
             }
         }
-
-        componentWillUnmount() { this.switchRegistration(false) }
 
         render() {
             const methods = this.context
@@ -87,16 +73,6 @@ export const WithDatasourceLifeCycle = <P extends object>(Component: ComponentTy
                     <Component {...this.props} {...patchedMethods} />
                 </DataSourceContext.Provider>
             )
-        }
-
-        switchRegistration = (connected: boolean) => {
-            const { register, unregister } = this.props
-
-            if (connected) {
-                register()
-            } else {
-                unregister()
-            }
         }
 
         fetchData = (options?: Record<string, unknown>, force?: boolean) => {

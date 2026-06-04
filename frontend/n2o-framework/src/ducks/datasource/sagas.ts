@@ -104,9 +104,7 @@ export default (apiProvider: unknown) => [
         const { id, initProps } = payload
         const { fetchOnInit } = initProps
 
-        if (fetchOnInit) {
-            yield put(dataRequest(id, {}, { initAction: true }))
-        }
+        if (fetchOnInit) { yield put(dataRequest(id, {})) }
     }),
     takeEvery(register, applyOnInitDependencies),
     // @ts-ignore FIXME: проставить тип action
