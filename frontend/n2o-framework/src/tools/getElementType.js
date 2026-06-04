@@ -4,19 +4,12 @@
  *
  * @param {function} Component компонент React.
  * @param {object} props атрибуты компонента
- * @param {function} [getDefault] функция для определения дефолтного значения.
  * @returns {string|function} ReactElement
  */
-export function getElementType(Component, props, getDefault) {
+export function getElementType(Component, props) {
     const { defaultProps = {} } = Component
 
-    if (props.as && props.as !== defaultProps.as) { return props.as }
-
-    if (getDefault) {
-        const computedDefault = getDefault()
-
-        if (computedDefault) { return computedDefault }
-    }
+    if (props.as) { return props.as }
 
     return defaultProps.as || 'div'
 }

@@ -10,7 +10,7 @@ export const NumberPickerButton = ({ onClick, disabled, children }: NumberPicker
     const [pressed, setPressed] = useState(false)
 
     useEffect(() => {
-        let timerId: NodeJS.Timeout
+        let timerId: ReturnType<typeof setTimeout>
 
         if (pressed) {
             timerId = setInterval(onClick, 200)

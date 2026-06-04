@@ -39,8 +39,8 @@ export const Spinner = ({
     const [showSpinner, setShowSpinner] = useState(false)
     const [loadingStartTime, setLoadingStartTime] = useState<number | null>(null)
 
-    const showTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-    const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+    const showTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
     useEffect(() => {
         return () => {
