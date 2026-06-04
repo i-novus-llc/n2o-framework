@@ -19,10 +19,10 @@
     "version:patch": "yarn workspace @i-novus/n2o-components version patch && yarn workspace n2o-framework version patch",
     "version:minor": "yarn workspace @i-novus/n2o-components version minor && yarn workspace n2o-framework version minor",
     "version:major": "yarn workspace @i-novus/n2o-components version major && yarn workspace n2o-framework version major",
-    "compile:watch": "concurrently --kill-others \"yarn run compile:lib:watch\" \"yarn run compile:dist:watch\" \"yarn run compile:n2o-components-lib:watch\"",
+    "compile:watch": "concurrently --kill-others \"yarn run compile:lib:watch\" \"yarn run compile:dist:watch\" \"yarn run compile:n2o-components:watch\"",
     "compile:dist:watch": "yarn workspace n2o-framework run compile:dist:watch",
     "compile:lib:watch": "yarn workspace n2o-framework run compile:lib:watch",
-    "compile:n2o-components-lib:watch": "yarn workspace @i-novus/n2o-components compile:lib:watch",
+    "compile:n2o-components:watch": "yarn workspace @i-novus/n2o-components dev",
     "start:demo": "yarn workspace n2o-simple-project run start",
     "compile-and-start:demo": "concurrently \"yarn run compile:watch\" \"yarn run start:demo\"",
     "start:preview": "yarn workspace n2o-simple-project run preview",
@@ -35,7 +35,7 @@
     "docs:install": "cd docs && yarn install",
     "docs:start": "cd docs && yarn run start",
     "docs:build": "cd docs && yarn run build",
-    "postinstall": "license-checker --exclude axe-core"
+    "postinstall": "license-checker --exclude \"axe-core;map-stream\""
   },
   "devDependencies": {
     "@i-novus/license-checker": "^1.0.8",
@@ -46,5 +46,9 @@
     "rimraf": "5.0.7",
     "sass": "^1.77.5"
   },
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@3.6.4",
+  "resolutions": {
+    "minimist": "^1.2.8",
+    "global-prefix/ini": "^1.3.6"
+  }
 }
