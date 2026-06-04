@@ -7,7 +7,6 @@ export interface N2OMeta {
     buttonId?: string
     evalContext?: Record<string, unknown>
     operationId?: string
-    initAction?: boolean
     isTriggeredByFieldChange?: boolean
     key?: string
     pageId?: string

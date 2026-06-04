@@ -5,7 +5,7 @@ import omit from 'lodash/omit'
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import { Meta } from '../../sagas/types'
 import { INDEX_MASK, INDEX_REGEXP } from '../../core/validation/const'
-import { Validation, ValidationResult, ValidationsKey } from '../../core/validation/types'
+import { Validation, ValidationsKey } from '../../core/validation/types'
 import { Meta as N2OMeta } from '../Action'
 import { appendToArray, removeFromArray } from '../models/store'
 import { AppendToArrayAction, RemoveFromArrayAction } from '../models/Actions'
@@ -14,7 +14,6 @@ import { logger } from '../../utils/logger'
 import { DataProviderError } from '../../core/dataProviderResolver'
 
 import type {
-    AddComponentAction,
     ChangePageAction,
     ChangeSizeAction,
     DataRequestAction,
@@ -24,7 +23,6 @@ import type {
     ResetDatasourceAction,
     RegisterAction,
     RemoveAction,
-    RemoveComponentAction,
     ResolveRequestAction,
     SetFieldSubmitAction,
     SetSortDirectionAction,
@@ -117,50 +115,6 @@ export const datasource = createSlice({
             },
             reducer(state, action: RemoveAction) {
                 delete state[action.payload.id]
-            },
-        },
-
-        addComponent: {
-            prepare(id: string, componentId: string) {
-                return ({
-                    payload: { id, componentId },
-                })
-            },
-
-            reducer(state, action: AddComponentAction) {
-                const { id, componentId } = action.payload
-
-                const datasource = state[id] || DataSource.defaultState // fixme добавление виджета не должно быть до его регистрации
-
-                if (datasource.components.includes(componentId)) { return }
-
-                state[id] = {
-                    ...datasource,
-                    components: [...datasource.components, componentId],
-                }
-            },
-        },
-
-        removeComponent: {
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(id: string, componentId: string) {
-                return ({
-                    payload: { id, componentId },
-                })
-            },
-
-            reducer(state, action: RemoveComponentAction) {
-                const { id, componentId } = action.payload
-
-                const datasource = state[id]
-
-                // После закрытия оверлея удаление компонента из ds может прилететь позже удаления самого ds
-                if (datasource) {
-                    state[id] = {
-                        ...datasource,
-                        components: datasource.components.filter(idFromDataSource => idFromDataSource !== componentId),
-                    }
-                }
             },
         },
 
@@ -477,8 +431,6 @@ export const {
     endValidation,
     changePage,
     changeSize,
-    addComponent,
-    removeComponent,
     setFieldSubmit,
     DATA_REQUEST,
     submit,

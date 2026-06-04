@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit'
 
-import { ModelPrefix } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/models/types'
 import type { State as GlobalState } from '../State'
 import { ValidationsKey } from '../../core/validation/types'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
@@ -70,11 +70,6 @@ export const getDataSourceFieldValidation = (sourceId: string, fieldId: string) 
 export const dataSourceProviderSelector = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
     state => state.provider,
-)
-
-export const dataSourceComponentsSelector = (sourceId: string) => createSelector(
-    dataSourceByIdSelector(sourceId),
-    state => state.components || [],
 )
 
 export const dataSourceProviderSizeSelector = (sourceId: string) => createSelector(
