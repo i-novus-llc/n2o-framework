@@ -55,7 +55,7 @@ export const PageScrollProvider = ({
     scroll: boolean
 }) => {
     const [refs, setRef] = useState<Record<string, Ref>>({})
-    const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null)
+    const [scrollTimeout, setScrollTimeout] = useState<ReturnType<typeof setTimeout> | null>(null)
 
     const collect = (id: string, ref: Ref) => { setRef(prevRefs => ({ ...prevRefs, [id]: ref })) }
     const remove = (id: string) => { setRef(prevRefs => omit(prevRefs, id)) }

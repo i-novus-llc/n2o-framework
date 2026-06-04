@@ -6,7 +6,6 @@ import isEmpty from 'lodash/isEmpty'
 
 import { destroyOverlays } from '../ducks/overlays/store'
 import { id } from '../utils/id'
-import { CALL_ALERT_META } from '../constants/meta'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { addAlert, addMultiAlerts } from '../ducks/alerts/store'
 import {
@@ -181,7 +180,7 @@ function* dataSourcesRegister(action: RequestConfigAction) {
 
 export const metaSagas = [
     // @ts-ignore проблемы с типизацией saga
-    takeEvery([action => action?.meta && action.meta.alert, CALL_ALERT_META], alertEffect),
+    takeEvery([action => action?.meta && action.meta.alert], alertEffect),
     // @ts-ignore проблемы с типизацией saga
     takeEvery((action: { meta: { redirect: IRedirect } }) => action?.meta && action.meta.redirect, redirectEffect),
     takeEvery(requestConfigSuccess, dataSourcesRegister),

@@ -14,7 +14,7 @@ import { SearchBarPopUp } from './SearchBarPopUp'
 import { SearchBarEmptyMenu } from './SearchBarEmptyMenu'
 import { SEARCH_TRIGGER, type SearchBarProps } from './types'
 
-let timeoutId: NodeJS.Timeout | null = null
+let timeoutId: ReturnType<typeof setTimeout> | null = null
 const ENTER_KEY_CODE = 13
 
 function SearchBar({
@@ -58,7 +58,7 @@ function SearchBar({
         }
 
         if (trigger === SEARCH_TRIGGER.CHANGE) {
-            clearTimeout(timeoutId as NodeJS.Timeout)
+            clearTimeout(timeoutId as ReturnType<typeof setTimeout>)
             timeoutId = setTimeout(() => onSearch(value), throttleDelay)
         }
     }, [onSearch, throttleDelay, trigger])
