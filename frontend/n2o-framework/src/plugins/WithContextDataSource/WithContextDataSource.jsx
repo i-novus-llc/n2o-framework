@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
 
-import { addComponent, register, removeComponent } from '../../ducks/datasource/store'
+import { register } from '../../ducks/datasource/store'
 import { resolveExpression } from '../withItemsResolver/utils'
 import { DataSourceContext } from '../../core/widget/context'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
@@ -49,7 +49,6 @@ export function WithContextDataSource(Component) {
 
             if (metaQueryMapping === undefined) {
                 dispatch(register(datasource, metaConfig))
-                dispatch(addComponent(datasource, id))
             } else {
                 const dsQueryKey = `${datasource}_${queryKey}`
                 const dsQueryMapping = { [dsQueryKey]: { ...metaQueryMapping[dsQueryKey], value } }
@@ -59,15 +58,8 @@ export function WithContextDataSource(Component) {
                 const config = { ...metaConfig, provider: { ...metaConfig.provider, queryMapping } }
 
                 dispatch(register(datasource, config))
-                dispatch(addComponent(datasource, id))
                 fetchData({}, force)
             }
-
-            // eslint-disable-next-line consistent-return
-            return () => {
-                dispatch(removeComponent(datasource, id))
-            }
-            // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [value, queryKey])
 
         /* the current resolve ds model received by custom mapping */

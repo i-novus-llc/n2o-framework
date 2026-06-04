@@ -23,16 +23,6 @@ export type RegisterAction = DatasourceAction<{
 
 export type RemoveAction = DatasourceAction<DatasourcePayload>
 
-export type AddComponentAction = DatasourceAction<{
-    id: string
-    componentId: string
-}>
-
-export type RemoveComponentAction = DatasourceAction<{
-    id: string
-    componentId: string
-}>
-
 export type ResetDatasourceAction = DatasourceAction<{
     id: string
 }>
