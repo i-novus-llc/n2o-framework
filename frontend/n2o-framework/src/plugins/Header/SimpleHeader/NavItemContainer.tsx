@@ -20,19 +20,9 @@ interface NavItemContainerProps {
     nested?: boolean
 }
 
-const hasVisibleChildrenRecursive = (items: Item['items']) => {
-    for (const item of items) {
-        const { visible = true } = item
-
-        if (visible) { return true }
-
-        if (item.items && hasVisibleChildrenRecursive(item.items)) {
-            return true
-        }
-    }
-
-    return false
-}
+const hasVisibleChildrenRecursive = (items: Item['items']): boolean => items?.some(item => (item.items
+    ? hasVisibleChildrenRecursive(item.items)
+    : (item.visible ?? true))) ?? false
 
 const NavItemContainer = ({ itemProps, className, ...rest }: NavItemContainerProps) => {
     const { datasource, model: prefix = ModelPrefix.active } = itemProps
