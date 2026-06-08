@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
+    <operations>
+        <operation id="update">
+            <in>
+                <reference id="ref1">
+                    <field id="name" sec:roles="hr"/>
+                    <list id="list">
+                        <field id="name" sec:roles="admin"/>
+                    </list>
+                </reference>
+                <reference id="ref2">
+                    <field id="name" sec:roles="manager"/>
+                </reference>
+            </in>
+        </operation>
+    </operations>
+</object>

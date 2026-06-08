@@ -3,6 +3,7 @@ package net.n2oapp.framework.access.metadata.transform;
 import net.n2oapp.framework.access.integration.metadata.transform.QueryAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityFilters;
+import net.n2oapp.framework.access.metadata.SecurityObject;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -17,8 +18,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import static net.n2oapp.framework.access.metadata.Security.FIELD_SECURITY_PROP_NAME;
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -49,9 +52,9 @@ class QueryAccessTransformerTest extends SourceCompileTestBase {
 
         CompiledQuery query = (CompiledQuery) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new QueryContext("testQueryAccessTransformer"));
-        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getRoles().contains("role"), is(true));
-        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getUsernames().contains("user"), is(true));
-        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).get(0).get("object").getPermissions(), nullValue());
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getFirst().get("object").getRoles().contains("role"), is(true));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getFirst().get("object").getUsernames().contains("user"), is(true));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getFirst().get("object").getPermissions(), nullValue());
     }
 
     @Test
@@ -107,7 +110,7 @@ class QueryAccessTransformerTest extends SourceCompileTestBase {
 
     private static void checkSecurityFiltersList(List<N2oObjectFilter> securityFilters, String authIdFilter, String authNameFilter) {
         assertThat(securityFilters.size(), is(2));
-        assertThat(securityFilters.get(0).getId(), is(authIdFilter));
+        assertThat(securityFilters.getFirst().getId(), is(authIdFilter));
         assertThat(securityFilters.get(1).getId(), is(authNameFilter));
     }
 
@@ -115,5 +118,37 @@ class QueryAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityFilters.size(), is(2));
         assertThat(securityFilters.contains(authIdFilter), is(true));
         assertThat(securityFilters.contains(authNameFilter), is(true));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void transformerSetsBothObjectAndFieldSecurity() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties())
+                .setProperty("n2o.access.schema.id", "testQuery");
+
+        ReadCompileTerminalPipeline pipeline = compile(
+                "net/n2oapp/framework/access/metadata/schema/testQuery.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testFieldSecurityWithObject.query.xml"
+        );
+
+        CompiledQuery query = (CompiledQuery) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new QueryContext("testFieldSecurityWithObject"));
+
+        assertThat("query-level security must be set by QueryAccessTransformer",
+                query.getProperties().get(SECURITY_PROP_NAME), notNullValue());
+
+        Map<String, Security> fieldSecurity =
+                (Map<String, Security>) query.getProperties().get(FIELD_SECURITY_PROP_NAME);
+        assertThat("fieldSecurity must be set by QueryAccessTransformer from field extAttributes",
+                fieldSecurity, notNullValue());
+
+        SecurityObject salarySecObj = fieldSecurity.get("salary").getFirst().get("custom");
+        assertThat(salarySecObj.getRoles(), containsInAnyOrder("hr", "admin"));
+
+        SecurityObject orgsSecObj = fieldSecurity.get("orgs").getFirst().get("custom");
+        assertThat(orgsSecObj.getRoles(), containsInAnyOrder("admin"));
+
+        SecurityObject depsSecObj = fieldSecurity.get("deps").getFirst().get("custom");
+        assertThat(depsSecObj.getRoles(), containsInAnyOrder("admin"));
     }
 }

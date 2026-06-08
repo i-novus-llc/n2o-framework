@@ -116,6 +116,13 @@
                 <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>
+                    Возможность подключать любые атрибуты
+                </xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="referenceDefinition">
@@ -160,6 +167,13 @@
                 <xs:documentation>SpEL выражение, применяемое к значению перед маппингом.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>
+                    Возможность подключать любые атрибуты
+                </xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="operationListDefinition">
@@ -345,6 +359,13 @@
                 <xs:documentation>Маппинг значения в сущность или провайдер данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>
+                    Возможность подключать любые атрибуты
+                </xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="operationOutParameterReferenceDefinition">

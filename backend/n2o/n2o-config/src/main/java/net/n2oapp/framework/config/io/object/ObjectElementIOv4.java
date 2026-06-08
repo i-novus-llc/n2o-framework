@@ -104,6 +104,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         abstractParameter(e, t, p);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
+        p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
     }
 
     private void outField(Element e, ObjectSimpleField t, IOProcessor p) {
@@ -113,6 +114,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
         p.child(e, null, "switch", t::getN2oSwitch, t::setN2oSwitch, new SwitchIO());
+        p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
     }
 
     private void inField(Element e, ObjectSimpleField t, IOProcessor p) {
@@ -133,6 +135,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
                 .add("list", ObjectListField.class, this::inReference)
                 .add("set", ObjectSetField.class, this::inReference));
         p.attribute(e, ENABLED, t::getEnabled, t::setEnabled);
+        p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
     }
 
     private void outReference(Element e, ObjectReferenceField t, IOProcessor p) {

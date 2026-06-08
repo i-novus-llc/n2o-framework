@@ -24,4 +24,19 @@ public class Security extends ArrayList<Map<String, SecurityObject>> implements 
      * Ключ объекта Security в properties
      */
     public static final String SECURITY_PROP_NAME = "security";
+
+    /**
+     * Ключ объекта Field Security в properties
+     */
+    public static final String FIELD_SECURITY_PROP_NAME = "fieldSecurity";
+
+    /**
+     * Ключ мапы Security для in-полей операции в properties
+     */
+    public static final String IN_FIELD_SECURITY_PROP_NAME = "inFieldSecurity";
+
+    /**
+     * Ключ мапы Security для out-полей операции в properties
+     */
+    public static final String OUT_FIELD_SECURITY_PROP_NAME = "outFieldSecurity";
 }
