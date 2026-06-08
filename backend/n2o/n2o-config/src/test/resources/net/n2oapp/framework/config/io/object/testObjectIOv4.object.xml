@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
+        xmlns:ext="http://example.com/n2o/ext-2.0"
         name="name"
         app-name="app-name" entity-class="entity-class"
         module-name="module-name" service-class="service-class"
@@ -39,14 +40,14 @@
                 <sql>select 1</sql>
             </invocation>
             <in>
-                <field id="id" mapping="mapping" default-value="val1" normalize="norm" domain="string"/>
+                <field id="id" mapping="mapping" default-value="val1" normalize="norm" domain="string" ext:extAttr="extAttr"/>
                 <field id="testSet" param="param" validation-fail-key="update.person.id" enabled="type=='type1'"/>
                 <reference id="ref" object-id="utBlank" mapping="ref2" normalize="norm"
-                           entity-class="ref" required="true" enabled="type=='type1'">
+                           entity-class="ref" required="true" enabled="type=='type1'" ext:extAttr="extAttr">
                     <field id="id"/>
                     <reference id="subRef" entity-class="ref2" object-id="testObj" mapping="ref3"/>
                     <set id="phones" mapping="['phones']" object-id="phone" required="true" entity-class="Phone"/>
-                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address"/>
+                    <list id="addresses" mapping="['addresses']" object-id="address" entity-class="Address" ext:extAttr="extAttr"/>
                 </reference>
                 <set id="testSet" object-id="utBlank" mapping="birth_date" entity-class="set"
                      required="true" normalize="norm">

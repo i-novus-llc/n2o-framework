@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
+       xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0"
+       object-id="testObjectAccessTransformer">
+    <fields>
+        <field id="name"   domain="string"/>
+        <field id="salary" domain="integer" sec:roles="hr,admin"/>
+        <list id="orgs" sec:roles="admin">
+            <field id="name" domain="string"/>
+        </list>
+        <reference id="deps" sec:roles="admin">
+            <field id="name" domain="string"/>
+        </reference>
+    </fields>
+</query>

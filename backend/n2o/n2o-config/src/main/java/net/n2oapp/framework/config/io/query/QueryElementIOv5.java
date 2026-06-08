@@ -58,6 +58,7 @@ public class QueryElementIOv5 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "normalize", f::getNormalize, f::setNormalize);
         p.attribute(e, "select-expression", f::getSelectExpression, f::setSelectExpression);
         p.attributeBoolean(e, "select", () -> (Boolean.FALSE.equals(f.getIsSelected())) ?  f.getIsSelected() : null, f::setIsSelected);
+        p.anyAttributes(e, f::getExtAttributes, f::setExtAttributes);
     }
 
     private void selection(Element e, N2oQuery.Selection t, IOProcessor p) {

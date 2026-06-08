@@ -50,6 +50,22 @@ public class SecurityProvider {
     }
 
     /**
+     * Проверяет наличие доступа без выброса исключения. Используется для фильтрации полей.
+     *
+     * @param security    права доступа
+     * @param userContext контекст пользователя
+     * @return true если доступ разрешён
+     */
+    public boolean hasFieldAccess(Security security, UserContext userContext) {
+        try {
+            checkAccess(security, userContext);
+            return true;
+        } catch (AccessDeniedException | UnauthorizedException e) {
+            return false;
+        }
+    }
+
+    /**
      * Сборка ограничений прав доступа актуальных для пользователя из userContext из общего списка фильтров
      *
      * @param securityFilters фильтрация объекта

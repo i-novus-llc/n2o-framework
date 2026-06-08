@@ -20,6 +20,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -893,5 +895,39 @@ class SecurityProviderTest {
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith(expectedField));
         }
+    }
+
+    @Test
+    void hasFieldAccessReturnsFalseWhenUserLacksRequiredRole() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
+        when(permissionApi.hasAuthentication(any())).thenReturn(true);
+        when(permissionApi.hasRole(any(), eq("hr"))).thenReturn(false);
+
+        SecurityObject secObj = new SecurityObject();
+        secObj.setRoles(Set.of("hr"));
+        Security security = new Security();
+        Map<String, SecurityObject> secMap = new HashMap<>();
+        secMap.put("custom", secObj);
+        security.add(secMap);
+
+        UserContext user = new UserContext(new TestContextEngine());
+        assertThat(securityProvider.hasFieldAccess(security, user), is(false));
+    }
+
+    @Test
+    void hasFieldAccessReturnsTrueWhenUserHasRequiredRole() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
+        when(permissionApi.hasAuthentication(any())).thenReturn(true);
+        when(permissionApi.hasRole(any(), eq("hr"))).thenReturn(true);
+
+        SecurityObject secObj = new SecurityObject();
+        secObj.setRoles(Set.of("hr"));
+        Security security = new Security();
+        Map<String, SecurityObject> secMap = new HashMap<>();
+        secMap.put("custom", secObj);
+        security.add(secMap);
+
+        UserContext user = new UserContext(new TestContextEngine());
+        assertThat(securityProvider.hasFieldAccess(security, user), is(true));
     }
 }
