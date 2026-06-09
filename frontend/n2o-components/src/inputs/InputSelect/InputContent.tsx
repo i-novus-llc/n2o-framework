@@ -262,7 +262,7 @@ export function InputContent({
                         placeholder={getPlaceholder}
                         disabled={disabled}
                         value={value}
-                        title={String(value)}
+                        title={value ? String(value) : ''}
                         onChange={handleInputChange}
                         onClick={handleClick}
                         onFocus={onFocus}
@@ -279,7 +279,7 @@ export function InputContent({
                     ref={setRef}
                     placeholder={getPlaceholder}
                     disabled={disabled}
-                    title={String(value)}
+                    title={value ? String(value) : ''}
                     value={value}
                     onChange={handleInputChange}
                     onClick={handleClick}
