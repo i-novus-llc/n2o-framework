@@ -40,7 +40,9 @@ autotesting mr stand:
   variables:
     AUTOTEST_PARAMS: '-Pautotests -o'
     AUTOTEST_MODULE_DIR: './backend/n2o/n2o-autotest'
-    AUTOTEST_IMAGE: 'harbor.i-novus.ru/pipeline/maven-build:jdk21-node22-v6'
+    JDK_VERSION: 'jdk21'
+    NODE_VERSION: 'node22'
+    MAVEN_IMAGE_VERSION: 'v6'
   dependencies:
     - build and verify
     - deploy mr stand

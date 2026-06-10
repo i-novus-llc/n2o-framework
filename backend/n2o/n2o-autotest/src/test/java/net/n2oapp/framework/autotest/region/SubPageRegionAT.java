@@ -461,12 +461,14 @@ class SubPageRegionAT extends AutoTestBase {
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/open11");
         pageField.control(OutputText.class).shouldHaveValue("open11");
         page.breadcrumb().crumb(0).click();
+        nav.shouldExists();
         nav.content().item(3, AnchorItem.class).click();
 
         page.breadcrumb().crumb(1).shouldHaveLabel("open2");
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/open2");
         pageField.control(OutputText.class).shouldHaveValue("open2");
         page.breadcrumb().crumb(0).click();
+        nav.shouldExists();
         nav.content().item(0, AnchorItem.class).click();
 
         page.breadcrumb().crumb(1).shouldHaveLabel("open");
