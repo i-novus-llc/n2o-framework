@@ -284,6 +284,10 @@
           "name": "PanelRegionAT. testPanelRegion"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/region/panel/only_regions",
+          "name": "PanelRegionAT. testPanelWithOnlyRegions"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/region/scrollspy/active",
           "name": "ScrollspyRegionAT. testDefaultActiveElement"
         },
