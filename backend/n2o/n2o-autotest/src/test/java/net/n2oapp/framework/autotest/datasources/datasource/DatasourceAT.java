@@ -5,10 +5,13 @@ import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
+import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
+import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
@@ -379,7 +382,42 @@ class DatasourceAT extends AutoTestBase {
 
         InputText test = page.regions().region(0, SimpleRegion.class).content()
                 .widget(0, FormWidget.class).fields().field("name").control(InputText.class);
-        test.shouldHaveValue("test1");
+        test.shouldHaveValue("Иванов И.И.");
+
+        FormWidget form = page.regions().region(0, SimpleRegion.class).content().widget(1, FormWidget.class);
+        MultiFieldSet multiSet = form.fieldsets().fieldset(MultiFieldSet.class);
+
+        multiSet.shouldHaveItems(3);
+        Fields fields0 = multiSet.item(0).fields();
+        Fields fields1 = multiSet.item(1).fields();
+        Fields fields2 = multiSet.item(2).fields();
+        chechFields(fields0, fields1, fields2);
+
+        fields1.field("name").control(InputText.class).setValue("Измененный Петров");
+        fields2.field("id").control(InputText.class).setValue("8");
+        fields1.field("name").control(InputText.class).shouldHaveValue("Измененный Петров");
+        fields2.field("id").control(InputText.class).shouldHaveValue("8");
+        multiSet.clickAddButton();
+        multiSet.shouldHaveItems(4);
+        MultiFieldSetItem newItem = multiSet.item(3);
+        newItem.fields().field("id").control(InputText.class).setValue("4");
+        newItem.fields().field("name").control(InputText.class).setValue("Новый");
+        newItem.fields().field("id").control(InputText.class).shouldHaveValue("4");
+        newItem.fields().field("name").control(InputText.class).shouldHaveValue("Новый");
+
+        StandardButton refreshButton = form.toolbar().topLeft().button("Refresh");
+        refreshButton.click();
+        multiSet.shouldHaveItems(3);
+        chechFields(fields0, fields1, fields2);
+    }
+
+    private static void chechFields(Fields fields0, Fields fields1, Fields fields2) {
+        fields0.field("id").control(InputText.class).shouldHaveValue("1");
+        fields0.field("name").control(InputText.class).shouldHaveValue("Иванов И.И.");
+        fields1.field("id").control(InputText.class).shouldHaveValue("2");
+        fields1.field("name").control(InputText.class).shouldHaveValue("Петров П.П.");
+        fields2.field("id").control(InputText.class).shouldHaveValue("3");
+        fields2.field("name").control(InputText.class).shouldHaveValue("Кузнецов А.И.");
     }
 
     @Test
