@@ -156,7 +156,7 @@ export function* resolveDependency(
     dependency: FieldDependency,
     isInit: boolean,
 ) {
-    const { formName, datasource, modelPrefix, fields } = form
+    const { formName, datasource, modelPrefix } = form
     const { type, expression, validate, enabled: condition } = dependency
 
     if (!checkCondition(condition, values, field.ctx)) { return }
@@ -221,9 +221,11 @@ export function* resolveDependency(
             break
         }
         case 'fetchValue': {
-            const { ctx = {} } = fields[fieldName]
+            const { ctx = {}, visible } = field
 
-            yield fetchValue(values, form, fieldName, dependency, ctx, !isInit && validate)
+            if (visible) {
+                yield fetchValue(values, form, fieldName, dependency, ctx, !isInit && validate)
+            }
 
             break
         }
@@ -232,12 +234,14 @@ export function* resolveDependency(
              fetchTrigger используется в withObserveDependency
         **/
         case 'fetch': {
-            yield put(dangerouslySetFieldValue(
-                formName,
-                fieldName,
-                FETCH_TRIGGER,
-                Math.random(),
-            ))
+            if (field.visible) {
+                yield put(dangerouslySetFieldValue(
+                    formName,
+                    fieldName,
+                    FETCH_TRIGGER,
+                    Math.random(),
+                ))
+            }
 
             break
         }
@@ -313,17 +317,15 @@ export function* resolveOnInit({ payload }: RegisterFieldAction) {
     const form: Form = yield select(makeFormByName(formName))
     const model: Record<string, unknown> =
         yield select(getModelByPrefixAndNameSelector(form.modelPrefix, form.datasource))
+    const field = form.fields?.[fieldName]
 
-    if (isEmpty(form.fields)) { return }
+    if (!field?.dependency) { return }
 
-    for (const [fieldId, field] of Object.entries(form.fields)) {
-        if (!field.dependency) { continue }
-        for (const dependency of field.dependency) {
-            const { applyOnInit } = dependency
+    for (const dependency of field.dependency) {
+        const { applyOnInit } = dependency
 
-            if ((fieldName === fieldId) && applyOnInit) {
-                yield fork(resolveDependency, form, model, fieldId, field, dependency, true)
-            }
+        if (applyOnInit) {
+            yield fork(resolveDependency, form, model, fieldName, field, dependency, true)
         }
     }
 }
