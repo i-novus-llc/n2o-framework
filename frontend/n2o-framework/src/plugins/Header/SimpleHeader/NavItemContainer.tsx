@@ -9,6 +9,7 @@ import { type Item, type FactoryComponent } from '../../CommonMenuTypes'
 import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
 import { ModelPrefix } from '../../../core/models/types'
 import { useResolved } from '../../../core/Expression/useResolver'
+import { hasVisibleChildrenRecursive } from '../../../core/utils/hasVisibleChildrenRecursive'
 
 interface NavItemContainerProps {
     itemProps: Item
@@ -20,10 +21,6 @@ interface NavItemContainerProps {
     nested?: boolean
 }
 
-const hasVisibleChildrenRecursive = (items: Item['items']): boolean => items?.some(item => (item.items
-    ? hasVisibleChildrenRecursive(item.items)
-    : (item.visible ?? true))) ?? false
-
 const NavItemContainer = ({ itemProps, className, ...rest }: NavItemContainerProps) => {
     const { datasource, model: prefix = ModelPrefix.active } = itemProps
     const model = useSelector(getModelByPrefixAndNameSelector(prefix, datasource))
@@ -31,7 +28,7 @@ const NavItemContainer = ({ itemProps, className, ...rest }: NavItemContainerPro
 
     const { src, visible, items } = item
 
-    const hasVisibleChildren = items ? hasVisibleChildrenRecursive(items) : true
+    const hasVisibleChildren = items ? hasVisibleChildrenRecursive(items, item => item.items) : true
 
     const { getComponent } = useContext(FactoryContext)
     const FactoryComponent: FactoryComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)

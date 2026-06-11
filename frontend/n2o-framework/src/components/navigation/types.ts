@@ -16,6 +16,8 @@ export type Content = Array<{
     src: string
     id: string
     className?: string
+    content?: Content
+    visible?: boolean
 }>
 
 export interface BaseNavigationItem {
