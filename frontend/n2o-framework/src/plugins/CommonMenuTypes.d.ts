@@ -50,7 +50,7 @@ export interface Item extends Common {
     direction?: string
     activeId?: string
     className?: string
-    visible?: boolean | string
+    visible?: boolean
 }
 
 export type FactoryComponent = React.FunctionComponent<ContextItem> | void
