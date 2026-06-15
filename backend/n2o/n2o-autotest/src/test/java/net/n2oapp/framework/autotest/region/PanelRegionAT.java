@@ -113,4 +113,27 @@ class PanelRegionAT extends AutoTestBase {
         line.shouldBeCollapsed();
         tabs.tab(1).shouldBeActive();
     }
+
+    @Test
+    void testPanelWithOnlyRegions() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/panel/only_regions/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        PanelRegion panel = page.regions().region(0, PanelRegion.class);
+        panel.shouldExists();
+        panel.shouldBeVisible();
+        panel.shouldHaveTitle("С несколькими регионами");
+        RegionItems content = panel.content();
+        PanelRegion innerPanel = content.region(0, PanelRegion.class);
+        innerPanel.shouldExists();
+        innerPanel.shouldBeVisible();
+        innerPanel.shouldHaveTitle("Панель");
+        TabsRegion tabsRegion = content.region(1, TabsRegion.class);
+        tabsRegion.shouldExists();
+        tabsRegion.shouldBeVisible();
+        tabsRegion.shouldHaveSize(2);
+        tabsRegion.tab(0).shouldHaveName("Вкладка1");
+        tabsRegion.tab(1).shouldHaveName("Вкладка2");
+    }
 }
