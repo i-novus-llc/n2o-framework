@@ -44,7 +44,6 @@ export const VENDORS = {
     // Зависимости, от которых нужно со временем избавиться
     'deprecated': [
         'moment',
-        'axios',
         'flat',
     ],
 

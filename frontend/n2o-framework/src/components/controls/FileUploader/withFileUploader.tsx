@@ -1,5 +1,4 @@
 import React, { Component, ComponentType } from 'react'
-import axios, { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import isArray from 'lodash/isArray'
@@ -16,13 +15,15 @@ import { parseExpression } from '../../../core/Expression/parse'
 import { id } from '../../../utils/id'
 import { logger } from '../../../utils/logger'
 
-import { deleteFile, everyIsValid, post } from './utils'
+import { deleteFile, everyIsValid, getField, post } from './utils'
 import {
     type FileUploaderControlProps,
     type FileUploaderControlState,
     type Files,
     type FileItem,
     type FileItemKeys,
+    type UploadResponse,
+    type FileUploadResponseData,
 } from './types'
 
 export type UploaderError = { message: string, status?: string | number }
@@ -64,15 +65,13 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
             const { mapper, value, model, fieldKey } = this.props
             const { files } = this.state
 
-            this.setState({ files: mapper ? mapper(value) : this.mapFiles(!isEmpty(value) ? value : files) as Files })
+            this.setState({ files: mapper ? mapper(value) : this.mapFiles(!isEmpty(value) ? value : files) })
 
             if (isEmpty(value) && model) {
-                const files = model[fieldKey] || []
+                const files = model[fieldKey] as FileItem[] || [] as FileItem[]
 
                 this.setState({
-                    files: Array.isArray(files)
-                        ? this.mapFiles(files) as Files
-                        : this.mapFiles([files] as Files) as Files,
+                    files: Array.isArray(files) ? this.mapFiles(files) : this.mapFiles([files]),
                 })
             }
         }
@@ -84,7 +83,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
             if (!isEqual(prevProps.value, value)) {
                 if (!value) { this.setState({ files: [] }) }
 
-                const newFiles = mapper ? mapper(value || []) : this.mapFiles(value || []) as Files
+                const newFiles = mapper ? mapper(value || []) : this.mapFiles(value || [])
 
                 const hasUpdate = !every(newFiles, file => some(stateFiles, file))
 
@@ -93,22 +92,20 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
                 }
             } else if (!isEqual(prevProps.files, files)) {
                 this.setState({
-                    files: mapper ? mapper(files || []) : this.mapFiles(files || []) as Files,
+                    files: mapper ? mapper(files || []) : this.mapFiles(files || []),
                 })
             }
         }
 
         mapFiles = (files?: Files) => {
-            if (!files) {
-                return []
-            }
+            if (!files) { return [] }
 
             const currentFiles = isArray(files) ? files : [files]
 
             return currentFiles.map(file => this.fileAdapter(file))
         }
 
-        fileAdapter = (file: FileItem) => {
+        fileAdapter = (file: FileItem | FileUploadResponseData) => {
             const {
                 valueFieldId,
                 labelFieldId,
@@ -119,13 +116,13 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
             } = this.props as FileItemKeys
 
             return {
-                id: file[valueFieldId],
-                name: file[labelFieldId] || file.fileName,
-                status: file[statusFieldId],
-                size: file[sizeFieldId],
-                response: file[responseFieldId],
-                link: file[urlFieldId],
-            }
+                id: getField<string>(file, valueFieldId),
+                name: getField<string>(file, labelFieldId) || file.fileName,
+                status: getField<number>(file, statusFieldId),
+                size: getField<number>(file, sizeFieldId),
+                response: getField<string>(file, responseFieldId),
+                link: getField<string>(file, urlFieldId),
+            } as FileItem
         }
 
         resolveUrl = (url: string) => {
@@ -255,7 +252,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
             try {
                 const fileDeletionExecutor = async () => {
                     if (isUploading) {
-                        fileToBeDeleted?.cancelSource?.cancel()
+                        fileToBeDeleted?.cancelSource?.abort()
                     }
 
                     const file = files.find(({ id: fileId }) => fileId === id)
@@ -306,7 +303,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
         handleChange = (newFile: FileItem) => {
             const { value, multi, onChange } = this.props
 
-            const model: FileItem[] = value || [] as FileItem[]
+            const model: FileItem[] = value || []
 
             onChange(multi ? [...model, newFile] : newFile)
         }
@@ -350,7 +347,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
                     const onUpload = this.onUpload.bind(this, file.id)
                     const onError = this.onError.bind(this, file.id)
 
-                    file.cancelSource = axios.CancelToken.source()
+                    file.cancelSource = new AbortController()
 
                     if (labelFieldId !== 'name') {
                         // @ts-ignore необходим рефакторинг
@@ -363,7 +360,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
 
                     const formData = new FormData()
 
-                    formData.append(requestParam as string, file as never)
+                    formData.append(requestParam, file as never)
                     formData.append(`${sizeFieldId}`, String(file.size))
                     onStart(file)
 
@@ -379,7 +376,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
                             onProgress,
                             onUpload,
                             onError,
-                            file.cancelSource,
+                            { signal: file.cancelSource.signal },
                             responseFieldId,
                         )
                     }
@@ -415,7 +412,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
             this.startUpload(files)
         }
 
-        onUpload = (id: string, response: AxiosResponse) => {
+        onUpload = (id: string, response: UploadResponse) => {
             const { onSuccess, responseFieldId } = this.props
 
             if (response.status < 200 || response.status >= 300) {
@@ -423,7 +420,7 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
             } else {
                 const file = response.data
                 const { files, uploading } = this.state
-                const successMessage = file[responseFieldId]
+                const successMessage = getField<string>(file, responseFieldId)
 
                 this.setState({
                     files: [
@@ -434,13 +431,13 @@ export function FileUploaderControl<P>(WrappedComponent: ComponentType<P>) {
 
                             return item
                         }),
-                    ] as Files,
+                    ],
                     uploading: { ...uploading, [id]: false },
                 })
 
                 this.requests[id] = undefined
                 onSuccess(successMessage)
-                this.handleChange(file)
+                this.handleChange(file as unknown as FileItem)
             }
         }
 

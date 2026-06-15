@@ -4,9 +4,9 @@ import React, { LegacyRef } from 'react'
 export interface Props {
     forwardedRef?: LegacyRef<HTMLSpanElement>
     name: string
-    link: string
+    link?: string
     id: string
-    error: string
+    error?: string
 }
 
 export function File({ forwardedRef, name, link, id, error }: Props) {
