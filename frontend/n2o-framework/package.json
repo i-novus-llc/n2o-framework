@@ -59,7 +59,6 @@
     "@i-novus/n2o-components": "7.29.18",
     "@popperjs/core": "^2.2.1",
     "@reduxjs/toolkit": "1.6.2",
-    "axios": "^1.10.0",
     "bootstrap": "~4.3.1",
     "classnames": "^2.5.1",
     "connected-react-router": "6.9.3",

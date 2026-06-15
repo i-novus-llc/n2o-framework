@@ -1,18 +1,37 @@
 import { CSSProperties, ReactNode } from 'react'
-import { CancelTokenSource, AxiosResponse } from 'axios'
+
+export interface FileUploadResponseData {
+    id: string
+    fileName: string
+    url: string
+    size: number
+    date: string
+}
+
+export interface UploadResponse<T = FileUploadResponseData> {
+    data: T
+    status: number
+    statusText: string
+}
+
+// Замена CancelTokenSource
+export interface CancelSource {
+    signal: AbortSignal
+    abort(): void
+}
 
 export interface FileItem {
     id: string
     name: string
-    fileName: string
-    type: string
-    size: number
-    percentage: number
-    response: string
-    error: string
-    status: string
-    link: string
-    cancelSource?: CancelTokenSource
+    fileName?: string
+    type?: string
+    size?: number
+    percentage?: number
+    response?: string
+    error?: string
+    status?: string
+    link?: string
+    cancelSource?: AbortController
 }
 
 interface CommonProps {
@@ -73,14 +92,14 @@ export interface FileUploaderControlProps {
     accept?: string
     multi?: boolean
     autoUpload?: boolean
-    onChange(files?: FileUploaderListProps['files'] | FileItem | null): void
+    onChange(files?: FileUploadResponseData | FileItem | FileItem[] | null): void
     onBlur(files?: FileUploaderListProps['files'] | null): void
     onStart(file: FileItem): void
-    onSuccess(response: AxiosResponse): void
+    onSuccess(message?: string): void
     onDelete(index: number, id: string): void
     deleteUrl?: string
     deleteRequest?(id: string): void
-    requestParam?: string
+    requestParam: string
     uploadUrl: string
     valueFieldId: string
     labelFieldId: string
@@ -98,25 +117,25 @@ export interface FileUploaderControlProps {
     onError(error: { message: string, status?: string | number }): void
     uploadRequest(
         formData: FormData,
-        onProgress: (event: ProgressEvent<EventTarget>) => void,
-        onUpload: (response: AxiosResponse<unknown, unknown>) => void,
-        onError: (error: { message: string, status: string | number }) => void
+        onProgress: (event: ProgressEvent) => void,
+        onUpload: (response: UploadResponse) => void,
+        onError: (error: { message: string, status?: string | number }) => void
     ): void
 }
 
 export type FileItemKeys = {
-    valueFieldId: keyof FileItem;
-    labelFieldId: keyof FileItem;
-    statusFieldId: keyof FileItem;
-    sizeFieldId: keyof FileItem;
-    responseFieldId: keyof FileItem;
-    urlFieldId: keyof FileItem;
+    valueFieldId: keyof FileItem
+    labelFieldId: keyof FileItem
+    statusFieldId: keyof FileItem
+    sizeFieldId: keyof FileItem
+    responseFieldId: keyof FileItem
+    urlFieldId: keyof FileItem
 }
 
 export interface FileUploaderControlState {
-    files: Files;
-    imgFiles: Files;
-    imgError: Record<string, unknown>;
-    uploading?: FileUploaderListProps['uploading'];
-    uploaderClass?: string | null;
+    files: Files
+    imgFiles: Files
+    imgError: Record<string, unknown>
+    uploading?: FileUploaderListProps['uploading']
+    uploaderClass?: string | null
 }
