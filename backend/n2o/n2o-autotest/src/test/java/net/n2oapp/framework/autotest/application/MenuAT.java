@@ -417,6 +417,19 @@ class MenuAT extends AutoTestBase {
         menu.item(3, DropdownMenuItem.class).shouldBeDisabled();
     }
 
+    @Test
+    void hiddenDropdown() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/hidden/testMenu.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/hidden/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/application/menu/header/hidden/app.application.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.breadcrumb().crumb(0).shouldHaveLabel("Главная страница");
+        page.header().shouldHaveBrandName("Хедер");
+        page.header().nav().shouldBeEmpty();
+    }
+
     private void testMenu(Menu menu) {
         menu.anchor(0).shouldHaveLabel("test1");
         menu.anchor(1).shouldHaveLabel("test2");

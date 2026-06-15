@@ -138,6 +138,10 @@
           "name": "MenuAT. resolveName"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/application/menu/header/hidden",
+          "name": "MenuAT. hiddenDropdown"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/condition/menu/visible",
           "name": "MenuAT. menuVisible"
         },
