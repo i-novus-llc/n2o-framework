@@ -17,7 +17,7 @@ public class N2oRowRegion extends N2oRegion implements RowRegion {
 
     @Override
     public void shouldHaveAlignment(String alignment) {
-        element().shouldHave(Condition.cssClass(String.format("layout-row--align-%s", alignment)));
+        element().shouldHave(Condition.attributeMatching("data-align-items", alignment));
     }
 
     @Override
@@ -27,16 +27,16 @@ public class N2oRowRegion extends N2oRegion implements RowRegion {
 
     @Override
     public void shouldBeWrapped() {
-        element().shouldHave(Condition.cssClass("layout-row--wrap"));
+        element().shouldNotHave(Condition.cssClass("nowrap"));
     }
 
     @Override
     public void shouldNotBeWrapped() {
-        element().shouldHave(Condition.cssClass("layout-row--nowrap"));
+        element().shouldHave(Condition.cssClass("nowrap"));
     }
 
     @Override
     public void shouldHaveJustify(String justify) {
-        element().shouldHave(Condition.cssClass(String.format("layout-row--justify-%s", justify)));
+        element().shouldHave(Condition.attributeMatching("data-justify-content", justify));
     }
 }
