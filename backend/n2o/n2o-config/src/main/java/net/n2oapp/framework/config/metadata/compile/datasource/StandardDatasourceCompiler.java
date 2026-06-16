@@ -87,7 +87,11 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
                     .forEach(f -> dataProvider.getPathMapping().put(f.getParam(), f.getLink()));
             filters.stream()
                     .filter(f -> !dataProvider.getPathMapping().containsKey(f.getParam()))
-                    .forEach(f -> dataProvider.getQueryMapping().put(f.getParam(), f.getLink()));
+                    .forEach(f -> {
+                        if (Boolean.TRUE.equals(f.getRoutable()))
+                            f.getLink().setObserve(true);
+                        dataProvider.getQueryMapping().put(f.getParam(), f.getLink());
+                    });
         }
         if (source.getAdditionalQueryMapping() != null) {
             dataProvider.getQueryMapping().putAll(source.getAdditionalQueryMapping());
