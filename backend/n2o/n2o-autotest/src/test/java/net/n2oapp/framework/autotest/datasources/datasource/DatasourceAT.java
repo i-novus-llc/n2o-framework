@@ -391,7 +391,7 @@ class DatasourceAT extends AutoTestBase {
         Fields fields0 = multiSet.item(0).fields();
         Fields fields1 = multiSet.item(1).fields();
         Fields fields2 = multiSet.item(2).fields();
-        chechFields(fields0, fields1, fields2);
+        checkFields(fields0, fields1, fields2);
 
         fields1.field("name").control(InputText.class).setValue("Измененный Петров");
         fields2.field("id").control(InputText.class).setValue("8");
@@ -408,16 +408,7 @@ class DatasourceAT extends AutoTestBase {
         StandardButton refreshButton = form.toolbar().topLeft().button("Refresh");
         refreshButton.click();
         multiSet.shouldHaveItems(3);
-        chechFields(fields0, fields1, fields2);
-    }
-
-    private static void chechFields(Fields fields0, Fields fields1, Fields fields2) {
-        fields0.field("id").control(InputText.class).shouldHaveValue("1");
-        fields0.field("name").control(InputText.class).shouldHaveValue("Иванов И.И.");
-        fields1.field("id").control(InputText.class).shouldHaveValue("2");
-        fields1.field("name").control(InputText.class).shouldHaveValue("Петров П.П.");
-        fields2.field("id").control(InputText.class).shouldHaveValue("3");
-        fields2.field("name").control(InputText.class).shouldHaveValue("Кузнецов А.И.");
+        checkFields(fields0, fields1, fields2);
     }
 
     @Test
@@ -463,6 +454,15 @@ class DatasourceAT extends AutoTestBase {
         Selenide.refresh();
         inputType = fields.field("org.type (есть fetch) — таблица обновится").control(InputText.class);
         checkFetchByFieldId(inputType, inputId, tableRows);
+    }
+
+    private static void checkFields(Fields first, Fields second, Fields third) {
+        first.field("id").control(InputText.class).shouldHaveValue("1");
+        first.field("name").control(InputText.class).shouldHaveValue("Иванов И.И.");
+        second.field("id").control(InputText.class).shouldHaveValue("2");
+        second.field("name").control(InputText.class).shouldHaveValue("Петров П.П.");
+        third.field("id").control(InputText.class).shouldHaveValue("3");
+        third.field("name").control(InputText.class).shouldHaveValue("Кузнецов А.И.");
     }
 
     private static void checkFetchByFieldId(InputText inputType, InputText inputId, TableWidget.Rows tableRows) {

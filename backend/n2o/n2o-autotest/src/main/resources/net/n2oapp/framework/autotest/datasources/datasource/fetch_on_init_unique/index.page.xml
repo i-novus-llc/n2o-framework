@@ -11,10 +11,7 @@
             </dependencies>
         </inherited-datasource>
         <datasource id="clientsDs" query-id="test" fetch-on-init="true"/>
-        <datasource id="clientsDsCopy"
-                    source-datasource="ds1"
-                    source-model="resolve"
-                    source-field-id="clients">
+        <datasource id="clientsDsCopy">
             <dependencies>
                 <copy on="clientsDs"
                       source-model="datasource"
