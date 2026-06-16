@@ -8,7 +8,7 @@ import { type SidebarProps } from '../SideBar/types'
 
 import { getMatchingSidebar } from './helpers'
 
-type EnhancedProps = RouteComponentProps & Config
+type EnhancedProps = Config & { location: Location }
 
 export interface ConfigContainerProps extends EnhancedProps {
     headerItems: Config['header']['menu']
@@ -71,6 +71,7 @@ export const MenuContainer = (props: ConfigContainerProps): ReactElement | null 
 
 interface ConfigContainerInnerProps extends RouteComponentProps {
     render(props: ConfigContainerProps): ReactElement | null
+    location: Location
 }
 
 const ConfigContainerInner: React.FC<ConfigContainerInnerProps> = ({ location, render, ...rest }) => {

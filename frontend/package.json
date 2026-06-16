@@ -36,7 +36,7 @@
     "@i-novus/license-checker": "^1.0.8",
     "@jsdevtools/npm-publish": "3.0.1",
     "@types/react-dom": "18.3.0",
-    "concurrently": "^8.2.2",
+    "concurrently": "10.0.3",
     "cross-env": "^5.2.0",
     "rimraf": "5.0.7",
     "sass": "^1.77.5"
