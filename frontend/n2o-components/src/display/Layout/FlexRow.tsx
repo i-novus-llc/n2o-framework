@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { type RowProps, Align, Justify } from './types'
+import { type RowProps } from './types'
 import { Row } from './Row'
 
 export function FlexRow({
@@ -8,9 +8,8 @@ export function FlexRow({
     className,
     style,
     wrap = true,
-    align =
-    Align.TOP,
-    justify = Justify.START,
+    align,
+    justify,
 }: RowProps) {
     return (
         <Row
