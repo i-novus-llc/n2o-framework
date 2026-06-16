@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1" query-id="testDSRoutableFilter">
+            <filters>
+                <eq field-id="id" value="{id}" routable="true"/> <!-- routable фильтр -->
+                <eq field-id="name" value="{name}"/> <!-- обычный фильтр -->
+            </filters>
+        </datasource>
+    </datasources>
+</page>
