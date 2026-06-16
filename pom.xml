@@ -58,7 +58,7 @@
         <allure-junit5.version>2.30.0</allure-junit5.version>
         <selenium.version>4.21.0</selenium.version>
         <h2.version>2.2.220</h2.version>
-        <webdrivermanager.version>5.8.0</webdrivermanager.version>
+        <webdrivermanager.version>6.3.3</webdrivermanager.version>
 
         <docker.image.tag>${project.version}-${maven.build.timestamp}</docker.image.tag>
 
