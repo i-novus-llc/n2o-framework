@@ -226,13 +226,25 @@ class SelectComponent extends React.Component<Props, State> {
         e.stopPropagation()
         e.preventDefault()
 
-        const { disabled, onChange, onBlur } = this.props
+        const { disabled, onChange, onBlur, enabledFieldId } = this.props
 
         if (disabled) { return }
 
-        this.setState({
-            selected: [],
-        })
+        if (enabledFieldId) {
+            const { selected } = this.state
+
+            // @INFO readonly elements
+            // TODO рефакторинг state value типизирпован как any[]
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const newValue = selected?.filter(item => !item[enabledFieldId]) as any[]
+
+            this.setState({ selected: newValue })
+
+            return
+        }
+
+        this.setState({ selected: [] })
+
         onChange(null)
         onBlur(null)
     }
@@ -490,6 +502,7 @@ class SelectComponent extends React.Component<Props, State> {
                             placeholder={placeholder}
                             onSelect={this.handleItemSelect}
                             labelFieldId={labelFieldId}
+                            enabledFieldId={enabledFieldId}
                             isExpanded={isExpanded}
                             className="valueText"
                             readOnly
