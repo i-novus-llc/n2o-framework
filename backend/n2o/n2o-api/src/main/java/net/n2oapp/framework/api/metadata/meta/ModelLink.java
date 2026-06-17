@@ -131,7 +131,7 @@ public class ModelLink extends BindLink {
                 return js.substring(0, js.indexOf("."));
             else {
                 Set<String> extractedVars = ScriptProcessor.extractVars(js);
-                if (extractedVars.size() == 1)
+                if (!extractedVars.isEmpty())
                     return extractedVars.iterator().next();
             }
         }
