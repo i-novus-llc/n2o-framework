@@ -7,8 +7,12 @@ import lombok.Setter;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.util.Objects;
+import java.util.Set;
+
+import static net.n2oapp.framework.api.script.ScriptProcessor.SPREAD_TO_MAP_TEMPLATE;
 
 /**
  * Ссылка на модель виджета
@@ -122,11 +126,14 @@ public class ModelLink extends BindLink {
      */
     public String getFieldValue() {
         if (StringUtils.isJs(getValue())) {
-            String js = getValue().toString().substring(1, getValue().toString().length() - 1);
-            if (js.contains(".map(function(t){return t."))
+            String js = StringUtils.unwrapJs(getValue().toString());
+            if (js.contains(SPREAD_TO_MAP_TEMPLATE))
                 return js.substring(0, js.indexOf("."));
-            else
-                return js;
+            else {
+                Set<String> extractedVars = ScriptProcessor.extractVars(js);
+                if (extractedVars.size() == 1)
+                    return extractedVars.iterator().next();
+            }
         }
         return null;
     }
