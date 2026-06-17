@@ -141,7 +141,8 @@ class RestoreFiltersAT extends AutoTestBase {
         Selenide.refresh();
 
         page.shouldExists();
-        table.paging().shouldHaveTotalElements(3);
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/\\?w1_kind_id=1&w1_kind_id=3");
         kindInpSelect.shouldSelectedMultiSize(2);
+        table.paging().shouldHaveTotalElements(3);
     }
 }
