@@ -6,6 +6,7 @@ import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
+import get from 'lodash/get'
 
 import { Alert } from '../../display/Alerts/Alert'
 import { isEmptyModel } from '../../utils/isEmptyModel'
@@ -16,7 +17,7 @@ import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 import { InputSelectGroup } from './InputSelectGroup'
 import { PopupList } from './PopupList'
 import { InputContent } from './InputContent'
-import { getValueArray } from './utils'
+import { getValueArray, sortByAvailability } from './utils'
 import { Filter, Props, Ref, State, TOption } from './types'
 
 const DEFAULT_DATA_SEARCH_DELAY = 400
@@ -70,9 +71,9 @@ export class InputSelect extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props)
-        const { value, options, multiSelect, labelFieldId, inputLabelFieldId = labelFieldId } = this.props
+        const { value, options, multiSelect, labelFieldId, enabledFieldId, inputLabelFieldId = labelFieldId } = this.props
 
-        const valueArray = getValueArray(value)
+        const valueArray = sortByAvailability(getValueArray(value), enabledFieldId as keyof TOption)
 
         const input = value && !multiSelect ? value?.[inputLabelFieldId] : ''
 
@@ -266,10 +267,13 @@ export class InputSelect extends React.Component<Props, State> {
      * @private
      */
     removeSelectedItem = (item: TOption) => {
-        const { onChange } = this.props
+        const { onChange, enabledFieldId } = this.props
         const { value: stateValue } = this.state
         /** @INFO преобразование из за особенности селектов, id могут приходить id = 1 || id = '1' */
         const value = stateValue?.filter(i => String(i.id) !== String(item.id))
+
+        // @INFO readonly element
+        if (enabledFieldId && !get(item, enabledFieldId, true)) { return }
 
         // @ts-ignore TODO type Ref типизировано как any требуется рефакторинг
         this.textAreaRef.focus()
@@ -290,10 +294,21 @@ export class InputSelect extends React.Component<Props, State> {
      * Очищает выбранный элемент
      * @private
      */
-    clearSelected = () => {
+    clearSelected = (enabledFieldId?: string) => {
         const { onChange, onBlur } = this.props
 
-        this.setState({ value: [], input: '' }, () => {
+        let newValue = []
+
+        if (enabledFieldId) {
+            const { value } = this.state
+
+            // @INFO readonly elements
+            // TODO рефакторинг state value типизирпован как any[]
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            newValue = value?.filter(item => !item[enabledFieldId]) as any[]
+        }
+
+        this.setState({ value: newValue, input: '' }, () => {
             onChange(this.getValue())
             onBlur(this.getValue())
         })
@@ -464,14 +479,15 @@ export class InputSelect extends React.Component<Props, State> {
      * @private
      */
     handleElementClear = () => {
-        const { disabled } = this.props
+        const { disabled, enabledFieldId } = this.props
         const { isExpanded } = this.state
 
         if (!disabled) {
             if (isExpanded) {
                 this.clearSearchField()
             }
-            this.clearSelected();
+
+            this.clearSelected(enabledFieldId);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (this.textAreaRef as any).focus()
             this.setInputFocus(true)
@@ -692,6 +708,7 @@ export class InputSelect extends React.Component<Props, State> {
                                 disabledValues={disabledValues}
                                 valueFieldId={valueFieldId}
                                 inputLabelFieldId={inputLabelFieldId}
+                                enabledFieldId={enabledFieldId}
                                 placeholder={placeholder}
                                 options={options}
                                 openPopUp={this.setIsExpanded}

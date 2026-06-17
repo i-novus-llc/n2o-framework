@@ -45,6 +45,7 @@ export type Props = {
     isExpanded?: boolean,
     labelFieldId: string,
     inputLabelFieldId?: string,
+    enabledFieldId?: string,
     maxTagCount?: number,
     maxTagTextLength?: number,
     mode?: 'autocomplete',
@@ -84,6 +85,7 @@ export function InputContent({
     selected,
     labelFieldId,
     inputLabelFieldId,
+    enabledFieldId,
     valueFieldId,
     multiSelect = false,
     onInputChange = NOOP_FUNCTION,
@@ -250,6 +252,7 @@ export function InputContent({
                         selected={selected}
                         labelFieldId={labelFieldId}
                         inputLabelFieldId={inputLabelFieldId}
+                        enabledFieldId={enabledFieldId}
                         onRemoveItem={onRemoveItem}
                         disabled={disabled}
                         maxTagTextLength={maxTagTextLength}
