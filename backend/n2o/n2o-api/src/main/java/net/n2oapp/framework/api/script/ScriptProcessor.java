@@ -32,10 +32,10 @@ import static net.n2oapp.framework.api.StringUtils.isJs;
  * Утилитный класс для генерации js скриптов
  */
 public class ScriptProcessor {
+    public static final String SPREAD_TO_MAP_TEMPLATE = ".map(function(t){return t.";
     private static final List<String> momentFuncs = Arrays.asList("moment", "now", "today", "yesterday", "tomorrow",
             "beginWeek", "endWeek", "beginMonth", "endMonth", "beginQuarter", "endQuarter", "beginYear", "endYear");
     private static final String SPREAD_OPERATOR = "*.";
-    private static final String SPREAD_TO_MAP_TEMPLATE = ".map(function(t){return t.";
 
     private static final HostAccess HOST_ACCESS = HostAccess.newBuilder()
             .allowArrayAccess(true)

@@ -12,6 +12,8 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import java.util.Objects;
 import java.util.Set;
 
+import static net.n2oapp.framework.api.script.ScriptProcessor.SPREAD_TO_MAP_TEMPLATE;
+
 /**
  * Ссылка на модель виджета
  */
@@ -124,9 +126,14 @@ public class ModelLink extends BindLink {
      */
     public String getFieldValue() {
         if (StringUtils.isJs(getValue())) {
-            Set<String> extractedVars = ScriptProcessor.extractVars(StringUtils.unwrapJs(getValue().toString()));
-            if (extractedVars.size() == 1)
-                return  extractedVars.iterator().next();
+            String js = StringUtils.unwrapJs(getValue().toString());
+            if (js.contains(SPREAD_TO_MAP_TEMPLATE))
+                return js.substring(0, js.indexOf("."));
+            else {
+                Set<String> extractedVars = ScriptProcessor.extractVars(js);
+                if (extractedVars.size() == 1)
+                    return extractedVars.iterator().next();
+            }
         }
         return null;
     }
