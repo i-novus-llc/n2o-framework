@@ -1,6 +1,7 @@
 import React, { ReactElement, ReactNode, useCallback, useMemo } from 'react'
 import classNames from 'classnames'
 import split from 'lodash/split'
+import get from 'lodash/get'
 import { useTranslation } from 'react-i18next'
 
 import { Props as InputContentProps } from './InputContent'
@@ -25,6 +26,7 @@ const SelectedItem = ({ id, title, callback, maxTagTextLength, disabled, icon = 
     const tagTitle = maxTagTextLength && title.length > maxTagTextLength
         ? truncatedTitle
         : title
+
     const button = callback ? (
         <button
             aria-label="button-close"
@@ -60,7 +62,7 @@ type SelectedItemProps = {
     icon?: string | ReactNode
 }
 
-const ItemWrapper = ({ onRemoveItem, item, index, ...props }: ItemWrapperProps) => {
+const ItemWrapper = ({ onRemoveItem, disabled, item, index, ...props }: ItemWrapperProps) => {
     const onRemove = useMemo(
         () => () => onRemoveItem.call(null, item, index),
         [item, index, onRemoveItem],
@@ -69,7 +71,7 @@ const ItemWrapper = ({ onRemoveItem, item, index, ...props }: ItemWrapperProps) 
     return (
         <SelectedItem
             {...props}
-            callback={onRemove}
+            callback={disabled ? undefined : onRemove}
         />
     )
 }
@@ -92,7 +94,7 @@ type ItemWrapperProps = Pick<InputElementsProps, 'onRemoveItem' | 'maxTagTextLen
  */
 
 type InputElementsProps = Pick<InputContentProps,
-'selected' | 'labelFieldId' | 'inputLabelFieldId' | 'onRemoveItem' | 'maxTagTextLength' | 'maxTagCount' | 'disabled'> & { close?: ReactNode | string }
+'selected' | 'labelFieldId' | 'inputLabelFieldId' | 'onRemoveItem' | 'maxTagTextLength' | 'maxTagCount' | 'disabled' | 'enabledFieldId'> & { close?: ReactNode | string }
 
 const getTitle = (item: TOption, labelFieldId: InputElementsProps['labelFieldId']) => {
     if (typeof item === 'string') {
@@ -111,6 +113,7 @@ export function InputElements({
     close,
     labelFieldId,
     inputLabelFieldId = labelFieldId,
+    enabledFieldId = '',
 }: InputElementsProps) {
     const { t } = useTranslation()
 
@@ -150,6 +153,7 @@ export function InputElements({
 
     const tags = list.map((item, index) => {
         const title = getTitle(item, inputLabelFieldId)
+        const enabled = get(item, enabledFieldId, true)
         const id = item.id || index
 
         return (
@@ -157,7 +161,7 @@ export function InputElements({
                 id={id}
                 title={title}
                 maxTagTextLength={maxTagTextLength}
-                disabled={disabled}
+                disabled={!enabled}
                 item={item}
                 index={index}
                 onRemoveItem={onRemoveItem}

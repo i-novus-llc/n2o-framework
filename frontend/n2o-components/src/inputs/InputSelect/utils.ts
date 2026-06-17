@@ -140,3 +140,9 @@ export const getValueArray = <TValue>(value: TValue | TValue[]): TValue[] => {
 
     return []
 }
+
+export const sortByAvailability = (value: TOption[], enableFieldId?: keyof TOption) => {
+    if (!enableFieldId) { return value }
+
+    return [...value].sort((a, b) => a[enableFieldId] - b[enableFieldId])
+}
