@@ -4,6 +4,16 @@
 
     @include border-radius($popover-border-radius);
     @include box-shadow($popover-box-shadow);
+
+    .n2o-eclipse-content.disabled {
+        .custom-control-label::before {
+            background-color: $disabled-color;
+        }
+    }
+
+    .no-available {
+        opacity: 0.9;
+    }
 }
 
 .n2o-pop-up > .n2o-dropdown-control {

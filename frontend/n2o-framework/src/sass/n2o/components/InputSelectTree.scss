@@ -77,6 +77,40 @@
     }
 }
 
+.n2o-select-tree-tree-checkbox-disabled {
+    cursor: default;
+
+    .n2o-checkbox {
+        cursor: default;
+    }
+
+    .n2o-input.custom-control-input {
+        cursor: default;
+    }
+
+    .custom-control-label,
+    .custom-control-label:hover {
+        cursor: default;
+    }
+
+    .custom-control-label::before,
+    .custom-control-label::after {
+        cursor: default;
+    }
+
+    .custom-control-label::before {
+        background-color: $disabled-color !important;
+    }
+}
+
+.n2o-select-tree-selection-item {
+    align-items: center;
+
+    .n2o-select-tree-selection-item-content {
+        margin-bottom: 3.5px;
+    }
+}
+
 // @INFO если нужно будет отключить показ clear trigger-hover при наведении на popup
 //.n2o-select-tree:has(.n2o-select-tree-dropdown:hover) .n2o-select-tree-clear .show-clear-trigger-hover {
 //    display: none;
