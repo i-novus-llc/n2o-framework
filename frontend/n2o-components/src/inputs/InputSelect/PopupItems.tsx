@@ -160,6 +160,8 @@ export function PopupItems({
         const withDescription = !isNil(description)
         const icon = get(item, iconFieldId)
 
+        const enabled = get(item, enabledFieldId, true)
+
         return (
             <div ref={popUpItemRef}>
                 <DropdownItem
@@ -167,6 +169,7 @@ export function PopupItems({
                     className={classNames('n2o-eclipse-content', {
                         active: activeValueId === get(item, valueFieldId) && !disabled,
                         selected: isSelected && !hasCheckboxes,
+                        'no-available': !enabled,
                         'with-status': withStatus(item),
                         'with-description': withDescription,
                     })}

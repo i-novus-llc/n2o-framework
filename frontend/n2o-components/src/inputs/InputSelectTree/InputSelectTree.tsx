@@ -18,6 +18,7 @@ import { InlineSpinner } from '../../layouts/Spinner/InlineSpinner'
 import { Checkbox } from '../Checkbox/Checkbox'
 import { EMPTY_ARRAY, EMPTY_OBJECT, NOOP_FUNCTION } from '../../utils/emptyTypes'
 import { getShowClearTriggerClass, type InputElementsProps, ShowClearTrigger, DefaultIcons } from '../inputElements/inputElements'
+import { sortByAvailability } from '../InputSelect/utils'
 
 import { type Options, TreeNode } from './TreeSelectNode'
 import { visiblePartPopup, getCheckedStrategy } from './helpers'
@@ -73,10 +74,10 @@ function getId<
 function mapValue2RC<
     TValue extends Record<string, unknown>,
     FieldId extends keyof TValue,
->(value: void | TValue | TValue[], valueFieldId: FieldId) {
+>(value: void | TValue | TValue[], valueFieldId: FieldId, enabledFieldId: string) {
     if (!value) { return [] }
     if (isArray(value)) {
-        return value.map(v => getId(v, valueFieldId))
+        return sortByAvailability(value, enabledFieldId).map(v => getId(v, valueFieldId))
     }
 
     return getId(value, valueFieldId)
@@ -215,7 +216,7 @@ function InputSelectTree({
         )
     }, [labelFieldId])
 
-    const rcValue = useMemo(() => mapValue2RC(value, valueFieldId), [value, valueFieldId])
+    const rcValue = useMemo(() => mapValue2RC(value, valueFieldId, enabledFieldId), [value, valueFieldId, enabledFieldId])
 
     /**
      * Функция для переопределения onChange
