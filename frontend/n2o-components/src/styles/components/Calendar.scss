@@ -6,7 +6,7 @@
         color: white;
     }
 
-    &:hover:not(.active):not(.other-decade) {
+    &:hover:not(.active, .other-decade) {
         background-color: $gray-200;
     }
 

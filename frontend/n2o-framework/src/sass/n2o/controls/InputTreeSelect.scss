@@ -60,6 +60,7 @@
 }
 
 .n2o-select-tree-selection-wrap:has(.n2o-select-tree-selection-overflow) {
+    /* stylelint-disable-next-line no-descending-specificity */
     .n2o-select-tree-selection-placeholder {
         top: 7px;
     }
@@ -456,7 +457,7 @@
 }
 
 input[type="search"]::-webkit-search-cancel-button {
-    -webkit-appearance: none;
+    appearance: none;
 }
 
 .n2o-select-tree-empty {

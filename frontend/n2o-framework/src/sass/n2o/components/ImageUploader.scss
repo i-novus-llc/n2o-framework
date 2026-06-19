@@ -2,8 +2,7 @@
     max-width: max-content;
     min-height: max-content;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
 }
 
 .n2o-image-uploader-link {

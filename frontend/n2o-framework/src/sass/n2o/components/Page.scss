@@ -73,6 +73,7 @@
     pointer-events: none;
 }
 
+/* stylelint-disable-next-line media-query-no-invalid */
 @media screen and (max-width: $desktops-max-width) {
     .n2o-page__left-right-layout {
         flex-wrap: wrap;

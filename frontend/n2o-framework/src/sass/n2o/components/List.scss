@@ -18,15 +18,11 @@
             }
 
             span {
-                -moz-transform: rotate(0deg);
-                -ms-transform: rotate(0deg);
-                -webkit-transform: rotate(0deg);
-                -o-transform: rotate(0deg);
                 transform: rotate(0deg);
-                -webkit-transition: -webkit-transform 0.2s ease-in 0s;
-                -ms-transition: -ms-transform 0.2s ease-in 0s;
-                -moz-transition: -moz-transform 0.2s ease-in 0s;
-                -o-transition: -o-transform 0.2s ease-in 0s;
+                transition: -webkit-transform 0.2s ease-in 0s;
+                transition: -ms-transform 0.2s ease-in 0s;
+                transition: -moz-transform 0.2s ease-in 0s;
+                transition: -o-transform 0.2s ease-in 0s;
                 transition: transform 0.2s ease-in 0s;
                 position: absolute;
                 left: 0;
@@ -35,10 +31,6 @@
 
         &.active h6 {
             span {
-                -moz-transform: rotate(90deg);
-                -ms-transform: rotate(90deg);
-                -webkit-transform: rotate(90deg);
-                -o-transform: rotate(90deg);
                 transform: rotate(90deg);
             }
         }

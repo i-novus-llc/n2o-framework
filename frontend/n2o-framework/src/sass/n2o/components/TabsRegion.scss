@@ -9,8 +9,7 @@
     }
 
     .tabs__content.scrollable {
-        overflow-y: auto;
-        overflow-x: hidden;
+        overflow: hidden auto;
     }
 
     .tabs__content.scrollable.scroll-hidden {

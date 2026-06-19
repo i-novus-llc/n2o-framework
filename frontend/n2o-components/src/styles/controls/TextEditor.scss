@@ -3,7 +3,7 @@
 .n2o-text-editor-wrapper {
     border: $text-editor-border;
     word-break: break-all;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     max-width: 100%;
 
     .rdw-editor-toolbar {

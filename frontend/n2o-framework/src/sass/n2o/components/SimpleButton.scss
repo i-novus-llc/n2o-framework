@@ -6,9 +6,8 @@
     border-radius: 50%;
     padding: 0;
     display: inline-flex;
-    justify-content: center;
+    place-content: center center;
     align-items: center;
-    align-content: center;
 
     >i {
         padding: 0;
@@ -53,7 +52,7 @@
 .btn-rounded__with-content {
     height: 38px;
     min-height: 31px;
-    padding: 0 25px 0 25px;
+    padding: 0 25px;
     border-radius: 100px;
     text-align: center;
 

@@ -3,7 +3,7 @@
     padding: $datepicker-day-padding;
 }
 
-.n2o-calendar-day:hover:not(.disabled):not(.selected) {
+.n2o-calendar-day:hover:not(.disabled, .selected) {
     color: $datepicker-day-color-hover;
     background: $datepicker-day-background-color-hover;
 }
