@@ -23,6 +23,7 @@ public class N2oStandardDatasource extends N2oDatasource implements Submittable 
     private Submit submit;
     private Boolean fetchOnInit;
     private DefaultValuesModeEnum defaultValuesMode;
+    private SaveSettingsEnum[] saveSettings;
     private N2oPreFilter[] filters;
 
     /**
@@ -35,6 +36,6 @@ public class N2oStandardDatasource extends N2oDatasource implements Submittable 
         if (this.filters != null)
             list.addAll(Arrays.asList(this.filters));
         list.addAll(filters);
-        this.filters = list.toArray(new N2oPreFilter[list.size()]);
+        this.filters = list.toArray(new N2oPreFilter[0]);
     }
 }

@@ -38,7 +38,7 @@ export interface WithTableType {
     page: number
     size?: number
     saveSettings?: boolean
-    sorting?: Record<string, SortDirection>
+    sorting?: Record<string, SortDirection> | null
     setPage: N2OPaginationProps['setPage']
 }
 
@@ -80,10 +80,6 @@ export type TableStateCache = {
     header: CellStateCache[]
     body: CellStateCache[]
     textWrap: boolean
-    datasourceFeatures: Partial<{ // TODO rename: datasource
-        paging: Partial<Pick<Paging, 'size' | 'page'>>
-        sorting: Record<string, SortDirection>
-    }>
 }
 
 export interface CellStateCache {

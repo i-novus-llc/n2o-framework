@@ -3,19 +3,19 @@ import isEqual from 'lodash/isEqual'
 
 import { local as localStorage } from '../../utils/Storage'
 
-export const LOCAL_WIDGET_CONFIG_KEY = 'n2oLocalWidgetConfig'
+export const LOCAL_CONFIG_KEY = 'n2oLocalConfig'
 
 export const getData = <
     T extends Record<string, unknown>,
     R extends Partial<T> = Partial<T>,
 >(key: string): R => {
-    const storageFullKey = `${LOCAL_WIDGET_CONFIG_KEY}_${key}`
+    const storageFullKey = `${LOCAL_CONFIG_KEY}_${key}`
 
     return localStorage.getItem<R>(storageFullKey) || {} as R
 }
 
 export const setData = <T extends Record<string, unknown>>(key: string, value: T | null): void => {
-    const storageFullKey = `${LOCAL_WIDGET_CONFIG_KEY}_${key}`
+    const storageFullKey = `${LOCAL_CONFIG_KEY}_${key}`
 
     localStorage.setItem(storageFullKey, value)
 }
@@ -24,7 +24,7 @@ export const setData = <T extends Record<string, unknown>>(key: string, value: T
  * ХУК позволяет сохранять и впоследствии получать сохранённые данные
  */
 export const useData = <T extends Record<string, unknown>>(key: string) => {
-    const storageFullKey = `${LOCAL_WIDGET_CONFIG_KEY}_${key}`
+    const storageFullKey = `${LOCAL_CONFIG_KEY}_${key}`
     const [value, setStateValue] = useState<Partial<T>>(() => getData<T>(key))
 
     // synchronization between tabs

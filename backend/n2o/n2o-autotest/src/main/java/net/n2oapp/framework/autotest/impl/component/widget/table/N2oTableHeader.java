@@ -28,7 +28,7 @@ public abstract class N2oTableHeader extends N2oComponent implements TableHeader
         if (elm.exists())
             elm.click();
         else
-            element().$("button").should(Condition.exist).click();
+            element().$("button i,span").should(Condition.exist).click();
     }
 
     @Override

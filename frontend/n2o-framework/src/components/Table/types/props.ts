@@ -30,7 +30,7 @@ export type TableWidgetContainerProps<T extends HTMLElement = HTMLElement> = {
     id: string
     className?: string
     filterValue?: Record<string, any>
-    sorting: Record<string, SortDirection>
+    sorting: Record<string, SortDirection> | null
     data: Data
     isTextWrap: boolean
     focusedRowValue: string | null
