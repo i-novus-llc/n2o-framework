@@ -11,6 +11,7 @@ import isNaN from 'lodash/isNaN'
 import classNames from 'classnames'
 import { withTranslation } from 'react-i18next'
 import onClickOutsideHOC from 'react-onclickoutside'
+import { type ChangeEventExtra } from 'rc-tree-select/lib/interface'
 
 import { type TOption, getSearchMinLengthHintType } from '../InputSelect/types'
 import { Icon } from '../../display/Icon'
@@ -218,11 +219,37 @@ function InputSelectTree({
 
     const rcValue = useMemo(() => mapValue2RC(value, valueFieldId, enabledFieldId), [value, valueFieldId, enabledFieldId])
 
+    type ISelectTreeValue = {
+        value: string | number
+    }
+
+    interface ISelectTreeChangeMeta {
+        triggerValue: number | string
+        preValue: ISelectTreeValue[]
+    }
+
     /**
      * Функция для переопределения onChange
      * @param value
      */
-    const handleChange = useCallback((value: Props['value']) => {
+    const handleChange = useCallback((value: Props['value'], _restElements, { triggerValue, preValue }: ChangeEventExtra) => {
+        // Логика работы allowClear при наличии readonly-элементов.
+        // Если triggerValue === undefined, очистка инициирована извне (не через поле ввода).
+        // В противном случае triggerValue содержит идентификатор удаляемого элемента.
+        if (enabledFieldId && isEmpty(value) && triggerValue === undefined) {
+            const selectedOptions = preValue.map(({ value }) => options.find(option => option[valueFieldId] === value))
+            const newValue = selectedOptions.filter((item) => {
+                const enabled = item?.[enabledFieldId as 'enabled']
+
+                return enabled === false
+            })
+
+            onChange(newValue)
+            onBlur(newValue)
+
+            return
+        }
+
         onChange(getItemByValue(options, value, multiSelect, valueFieldId))
         onBlur(getItemByValue(options, value, multiSelect, valueFieldId))
     }, [options, multiSelect, onChange, valueFieldId])
@@ -317,16 +344,15 @@ function InputSelectTree({
         )}
         >
             <TreeSelect
-                allowClear={!isEmpty(value)}
-                value={rcValue}
-                onDropdownVisibleChange={handleDropdownVisibleChange}
-                clearIcon={(
-                    <Icon
+                allowClear={isEmpty(value) ? false : {
+                    clearIcon: <Icon
                         className={getShowClearTriggerClass(showClearTrigger)}
                         name={clear}
                         onClick={clearSearch}
-                    />
-                )} // иконка очищения инпута
+                    />,
+                }}
+                value={rcValue}
+                onDropdownVisibleChange={handleDropdownVisibleChange}
                 removeIcon={<Icon name={close} />} // иконка удаления элемента в инпуте
                 suffixIcon={<Icon name={disabled ? null : down} />} // иконка справа
                 switcherIcon={renderSwitcherIcon} // иконка разворачивания/сворачивания элементов в списке
