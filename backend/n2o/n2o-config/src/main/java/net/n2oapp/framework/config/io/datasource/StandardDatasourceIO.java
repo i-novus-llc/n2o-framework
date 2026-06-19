@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.SaveSettingsEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
@@ -41,6 +42,7 @@ public class StandardDatasourceIO extends BaseDatasourceIO<N2oStandardDatasource
         p.attributeEnum(e, "default-values-mode", ds::getDefaultValuesMode, ds::setDefaultValuesMode, DefaultValuesModeEnum.class);
         p.attribute(e, "route", ds::getRoute, ds::setRoute);
         p.attributeBoolean(e, "fetch-on-init", ds::getFetchOnInit, ds::setFetchOnInit);
+        p.attributeEnumArray(e, "save-settings", ",", ds::getSaveSettings, ds::setSaveSettings, SaveSettingsEnum.class);
         p.child(e, null, "submit", ds::getSubmit, ds::setSubmit, Submit::new, this::submit);
         p.childrenByEnum(e, "filters", ds::getFilters, ds::setFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterTypeEnum.class, this::filters);

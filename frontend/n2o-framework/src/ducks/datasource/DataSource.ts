@@ -16,6 +16,19 @@ export interface DefaultDataSourceProps {
     paging?: Paging
 }
 
+export enum DataSourceCacheKeys {
+    SIZE = 'size',
+    PAGE = 'page',
+    SORTING = 'sorting',
+}
+
+export type DataSourceCache = {
+    paging: Partial<Pick<Paging, DataSourceCacheKeys.SIZE | DataSourceCacheKeys.PAGE>>
+    sorting: Record<string, SortDirection>
+}
+
+export type DataSourceSaveSettings = DataSourceCacheKeys[]
+
 export type DataSourceState = {
     provider?: Provider
     [ValidationsKey.Validations]: Record<string, Validation[]>
@@ -27,6 +40,7 @@ export type DataSourceState = {
     loading: boolean
     sorting: Record<string, SortDirection>
     submit?: SubmitProvider
+    saveSettings?: DataSourceSaveSettings
     fieldsSubmit: Record<string, ServiceSubmit>
     pageId?: string
     // TODO: rename to "messages"

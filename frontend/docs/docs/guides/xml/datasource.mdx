@@ -22,8 +22,10 @@ import {Sandbox} from '../../../src/components/Sandbox/Sandbox'
 |size                |Число                            |Размер выборки                                                        |10                    |
 |route               |Строка                           |URL получения данных                                                  |                      |
 |fetch-on-init       |true false                       |Получить данные при инициализации страницы                            |false                 |
+|save-settings       |page size sorting                |Сохраняемые параметры (через запятую) источника данных таблицы в локальное хранилище браузера. Срабатывает при заданном `n2o.api.widget.table.save_settings=true` |  |  |
 
 **Настройки**
+
 ```yaml
 #Количество записей в запросе за данными (для всех видов источников)
 n2o.api.datasource.size = 10
@@ -33,6 +35,8 @@ n2o.api.datasource.submit.message_on_success = true
 n2o.api.datasource.submit.message_on_fail = true
 #Получить данные при инициализации страницы
 n2o.api.datasource.fetch_on_init = false
+#Сохраняемые параметры (через запятую) источника данных таблицы в локальное хранилище браузера. Срабатывает при заданном `n2o.api.widget.table.save_settings=true`
+n2o.api.datasource.save_settings =
 ```
 
 **Тело**

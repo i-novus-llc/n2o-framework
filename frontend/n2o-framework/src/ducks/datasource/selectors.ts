@@ -103,3 +103,8 @@ export const dataSourceAdditionalInfo = (sourceId: string) => createSelector(
     dataSourceByIdSelector(sourceId),
     state => state.additionalInfo,
 )
+
+export const dataSourceSaveSettings = (sourceId: string) => createSelector(
+    dataSourceByIdSelector(sourceId),
+    state => state.saveSettings,
+)
