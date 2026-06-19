@@ -1,8 +1,7 @@
 .layout-row {
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
     box-sizing: border-box;
-    flex-wrap: wrap;
 
     &.nowrap {
         flex-wrap: nowrap;
@@ -12,11 +11,9 @@
 // Стилизация дочерних элементов (колонок)
 .layout-row > * {
     box-sizing: border-box;
-    flex-grow: 0;
-    flex-shrink: 0;
+    flex: 0 0 calc(100% / var(--columns) * var(--col-span, var(--columns)));
 
     // Основная ширина колонки
-    flex-basis: calc(100% / var(--columns) * var(--col-span, var(--columns)));
     max-width: calc(100% / var(--columns) * var(--col-span, var(--columns)));
 
     // Отступ слева (offset)

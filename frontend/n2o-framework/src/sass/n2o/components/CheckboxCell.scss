@@ -11,11 +11,11 @@
         }
     }
 
-    .bs-tooltip-auto[x-placement^=bottom] {
+    .bs-tooltip-auto[x-placement^="bottom"] {
         left: -5px !important;
     }
 
-    .bs-tooltip-auto[x-placement^=bottom] .arrow {
+    .bs-tooltip-auto[x-placement^="bottom"] .arrow {
         left: -5px !important;
     }
 }

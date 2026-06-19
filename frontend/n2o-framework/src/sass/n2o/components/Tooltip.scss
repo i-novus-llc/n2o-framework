@@ -12,7 +12,7 @@
 
 .tooltip-container[data-popper-placement*='top'] .tooltip-arrow.dark::before {
     top: 0;
-    border-color: black transparent transparent transparent !important;
+    border-color: black transparent transparent !important;
 }
 
 .tooltip-container[data-popper-placement*='top'] .tooltip-arrow.dark::after {
@@ -29,7 +29,7 @@
 
 .tooltip-container[data-popper-placement*='bottom'] .tooltip-arrow.dark::before {
     bottom: 9px;
-    border-color: transparent transparent black transparent !important;
+    border-color: transparent transparent black !important;
 }
 
 .tooltip-container[data-popper-placement*='bottom'] .tooltip-arrow.dark::after {

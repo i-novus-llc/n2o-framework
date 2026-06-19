@@ -1,6 +1,7 @@
-@import "@fontsource/exo-2/400";
+@import url("@fontsource/exo-2/400");
 
 // Верстка разделителя пустой таблицы для FF, почему то при collapsed ячейках перестает рисовать border
+/* stylelint-disable-next-line at-rule-no-vendor-prefix, at-rule-prelude-no-invalid */
 @-moz-document url-prefix() {
     .cell.empty_content {
         padding: 0 !important;
@@ -45,7 +46,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2px 3px 2px 3px !important;
+    padding: 2px 3px !important;
 }
 
 .modal-header .close {

@@ -1,5 +1,6 @@
 .n2o-radio-input-wrapper {
     input.alt-radio {
+        /* stylelint-disable-next-line property-no-deprecated */
         clip: rect(0 0 0 0);
         clip-path: inset(50%);
         height: 1px;
@@ -69,8 +70,8 @@
             color: $gray-700;
         }
 
-        &:hover:not(.checked):not(.disabled),
-        &:focus:not(.checked):not(.disabled) {
+        &:hover:not(.checked, .disabled),
+        &:focus:not(.checked, .disabled) {
             border-color: $n2o-radio-input-hover-border-color;
             color: black;
         }
@@ -124,10 +125,7 @@
             z-index: -1;
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            top: 0;
+            inset: 0;
         }
 
         &.n2o-radio-group-inline {
@@ -182,7 +180,7 @@
     /// type = btn
     // Просто наследуемся от бутстрап классов, чтобы самим не переопределять ничего
     &.n2o-radio-group-btn {
-        @extend .btn-group-toggle;
+        @extend .btn-group-toggle !optional;
 
         &.n2o-radio-group-inline {
             @extend .btn-group;

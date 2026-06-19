@@ -6,9 +6,8 @@
 
 .collapse-cell-content {
     display: flex;
-    flex-direction: column;
+    flex-flow: column wrap;
     align-items: flex-start;
-    flex-wrap: wrap;
 
     .n2o-link-cell {
         min-height: auto;

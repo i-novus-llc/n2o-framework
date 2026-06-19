@@ -82,6 +82,7 @@ body {
     background: white;
 }
 
+/* stylelint-disable-next-line media-query-no-invalid */
 @media screen and (max-width: $mobile-max-width) {
     .navbar-text {
         position: relative;
@@ -91,6 +92,7 @@ body {
     }
 }
 
+/* stylelint-disable-next-line media-query-no-invalid */
 @media (max-width: $tablet-max-width) {
     .navbar-expand-md .navbar-nav .nav-link {
         padding-right: 0.5rem !important;

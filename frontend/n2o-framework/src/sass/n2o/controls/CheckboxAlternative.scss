@@ -11,10 +11,7 @@
 
         &::before {
             position: relative;
-            top: $checkbox-position-top;
-            left: $checkbox-position-left;
-            right: $checkbox-position-right;
-            bottom: $checkbox-position-bottom;
+            inset: $checkbox-position-top $checkbox-position-right $checkbox-position-bottom $checkbox-position-left;
             width: $checkbox-width;
             min-width: $checkbox-width;
             height: $checkbox-height;
@@ -31,10 +28,7 @@
     .custom-control-input {
         ~ .custom-control-label {
             &::after {
-                top: $checkbox-position-top;
-                left: $checkbox-position-left;
-                right: $checkbox-position-right;
-                bottom: $checkbox-position-bottom;
+                inset: $checkbox-position-top $checkbox-position-right $checkbox-position-bottom $checkbox-position-left;
                 width: $checkbox-width;
                 min-width: $checkbox-width;
                 height: $checkbox-height;

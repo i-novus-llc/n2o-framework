@@ -44,8 +44,7 @@
 
     .n2o-header-logo.visible {
         display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
+        flex-flow: column wrap;
         align-items: center;
         opacity: 1;
         transition: opacity 0.6s ease-in-out;
@@ -78,7 +77,7 @@
     }
 
     &:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgb(255 255 255 / 10%);
         color: $sidebar-color;
     }
 
@@ -129,7 +128,7 @@
     align-items: center;
 
     &:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgb(255 255 255 / 10%);
     }
 
     > span:not(.n2o-sidebar__item-content-icon) {
@@ -152,7 +151,7 @@
 .n2o-sidebar__subitems {
     opacity: 0;
     font-size: 16px;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgb(0 0 0 / 25%);
 }
 
 .n2o-sidebar__toggler {
@@ -164,7 +163,7 @@
     cursor: pointer;
 
     &:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgb(255 255 255 / 10%);
     }
 }
 
