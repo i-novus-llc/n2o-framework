@@ -14,6 +14,7 @@ import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.FlexRowRegion;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -684,6 +685,71 @@ class TableButtonGeneratorAT extends AutoTestBase {
         resizeButton.click();
         resizeButton.menuItem("5").shouldNotHaveIcon();
         resizeButton.menuItem("10").shouldHaveIcon("fa fa-check");
+    }
+
+    @Test
+    void testTabSyncDatasource() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/table/button_generator/tab_sync_datasource");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/tab_sync_datasource/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/tab_sync_datasource/table.widget.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/button_generator/tab_sync_datasource/test.query.xml")
+        );
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table1 = page.regions().region(0, FlexRowRegion.class).content().widget(0, TableWidget.class);
+        TableWidget table2 = page.regions().region(0, FlexRowRegion.class).content().widget(1, TableWidget.class);
+        TableWidget table3 = page.regions().region(0, FlexRowRegion.class).content().widget(2, TableWidget.class);
+        N2oDropdownButton table1ResizeButton = table1.toolbar().topRight().button(0, N2oDropdownButton.class);
+        N2oDropdownButton table2ResizeButton = table2.toolbar().topRight().button(0, N2oDropdownButton.class);
+        N2oDropdownButton table3ResizeButton = table3.toolbar().topRight().button(0, N2oDropdownButton.class);
+
+        setTableState(table1, table1ResizeButton);
+        setTableState(table2, table2ResizeButton);
+        setTableState(table3, table3ResizeButton);
+
+        // Перейти на дубль-вкладку браузера
+        Selenide.switchTo().newWindow(WindowType.TAB);
+        Selenide.open(getBaseUrl());
+
+        // Таблица1 - Синхронизировались page, size, sorting
+        table1.columns().rows().shouldHaveSize(5);
+        table1ResizeButton.click();
+        table1ResizeButton.menuItem("5").shouldHaveIcon("fa fa-check");
+        table1.paging().shouldHaveActivePage("2");
+        table1.columns().headers().header(0).shouldBeSortedByAsc();
+
+        // Таблица2 - Синхронизировался только page
+        table2.columns().rows().shouldHaveSize(3);
+        table2ResizeButton.click();
+        table2ResizeButton.menuItem("3").shouldHaveIcon("fa fa-check");
+        table2.paging().shouldHaveActivePage("2");
+        table2.columns().headers().header(0).shouldNotBeSorted();
+
+        // Таблица3 - Ничего не синхронизировалось
+        table3.columns().rows().shouldHaveSize(3);
+        table3ResizeButton.click();
+        table3ResizeButton.menuItem("3").shouldHaveIcon("fa fa-check");
+        table3.paging().shouldHaveActivePage("1");
+        table3.columns().headers().header(0).shouldNotBeSorted();
+
+        Selenide.clearBrowserLocalStorage();
+    }
+
+    private static void setTableState(TableWidget table, N2oDropdownButton tableResizeButton) {
+        table.shouldExists();
+        table.columns().rows().shouldHaveSize(3);
+        tableResizeButton.click();
+        tableResizeButton.menuItem("3").shouldHaveIcon("fa fa-check");
+        tableResizeButton.menuItem("5").click();
+        tableResizeButton.menuItem("5").shouldHaveIcon("fa fa-check");
+
+        table.columns().headers().header(0).click();
+        table.columns().headers().header(0).shouldBeSortedByAsc();
+
+        table.paging().selectPage("2");
+        table.paging().shouldHaveActivePage("2");
     }
 
     @Test

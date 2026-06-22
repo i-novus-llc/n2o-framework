@@ -2,12 +2,16 @@ import { useLayoutEffect } from 'react'
 import { useStore } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 import { Dispatch } from 'redux'
+import set from 'lodash/set'
+import get from 'lodash/get'
+import has from 'lodash/has'
 
 import { register, remove } from '../../ducks/datasource/store'
-import { type DataSourceConfig } from '../../ducks/datasource/DataSource'
+import { type DataSourceCache, type DataSourceConfig } from '../../ducks/datasource/DataSource'
 import { type Paging } from '../../ducks/datasource/Provider'
 import { getData } from '../../core/widget/useData'
-import { dataSourceSortingSelector, getDataSourceFieldValidation } from '../../ducks/datasource/selectors'
+import { dataSourceSortingSelector } from '../../ducks/datasource/selectors'
+import { dataSourceSaveSettings } from '../../ducks/datasource/sagas/saveSettings'
 
 export const usePageRegister = (dispatch: Dispatch, datasources?: Record<string, DataSourceConfig>, pageId?: string) => {
     const { getState } = useStore()
@@ -16,24 +20,34 @@ export const usePageRegister = (dispatch: Dispatch, datasources?: Record<string,
     useLayoutEffect(() => {
         if (!datasources || isEmpty(datasources)) { return }
         Object.entries(datasources).forEach(([id, config]) => {
-            const { paging: configPaging = {} as Paging, ...rest } = config
+            const { paging = {} as Paging, saveSettings, ...rest } = config
             const reduxSorting = dataSourceSortingSelector(id)(state) || {}
-            // @INFO сохраненный paging (прим. local storage)
-            const data = getData<{ datasourceFeatures: { paging: Paging } }>(id)
-            const initialPaging = data?.datasourceFeatures?.paging || {} as Paging
 
-            const paging = (isEmpty(initialPaging) || initialPaging.size < 5) ? configPaging : initialPaging
+            const cached = {} as DataSourceCache
+
+            if (saveSettings) {
+                const currentCache = getData<DataSourceCache>(id) || {}
+
+                for (const key of saveSettings) {
+                    const mapping = dataSourceSaveSettings[key]
+
+                    const value = get(currentCache, mapping.path)
+
+                    if (value === undefined) { continue }
+
+                    set(cached, mapping.path, value)
+                }
+            }
 
             dispatch(register(id, {
                 pageId,
-                paging,
                 // @INFO изначальные настройки полученные от сервера
-                defaultDatasourceProps: {
-                    paging: configPaging,
-                    sorting: rest.sorting,
-                },
+                defaultDatasourceProps: { paging, sorting: rest.sorting },
                 ...rest,
-                sorting: { ...rest.sorting, ...reduxSorting },
+                paging: { ...paging, ...cached?.paging || {} },
+                // @INFO null указывает на пользовательский (save-settings) сброс сортировки
+                sorting: has(cached, 'sorting') ? cached.sorting : { ...rest.sorting, ...reduxSorting },
+                saveSettings,
             }))
         })
 

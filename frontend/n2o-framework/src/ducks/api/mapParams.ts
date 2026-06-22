@@ -1,12 +1,14 @@
 import isNaN from 'lodash/isNaN'
 import set from 'lodash/set'
-import { put, takeEvery } from 'redux-saga/effects'
+import { put, select, takeEvery } from 'redux-saga/effects'
 import { createAction } from '@reduxjs/toolkit'
 
 import { MapParamAction, MapParamPayload } from '../datasource/Actions'
 import { updatePaging, setSorting } from '../datasource/store'
-import { DataSourceState } from '../datasource/DataSource'
+import { DataSourceState, DataSourceCache } from '../datasource/DataSource'
 import { SortDirection } from '../../core/datasource/const'
+import { getData } from '../../core/widget/useData'
+import { dataSourceByIdSelector } from '../datasource/selectors'
 
 import { DATASOURCE_PREFIX } from './constants'
 import { AsyncEffectWrapper } from './utils/effectWrapper'
@@ -41,10 +43,18 @@ export function* mapParams({ payload }: MapParamAction) {
             set(ds, key, isNaN(Number(value)) ? value : Number(value))
         }
     }
-    if (ds.paging) {
+
+    const dataSourceState: DataSourceState = yield select(dataSourceByIdSelector(id))
+    const { saveSettings } = dataSourceState
+
+    const dsCache = saveSettings ? getData<DataSourceCache>(id) : {}
+
+    if (!dsCache.paging && ds.paging) {
         yield put(updatePaging(id, ds.paging))
     }
-    if (ds.sorting) {
+
+    // null указывает на пользовательский (save-settings) сброс сортировки
+    if ((dsCache.sorting === undefined) && ds.sorting) {
         const [field, direction] = Object.entries(ds.sorting)[0] as [string, SortDirection]
 
         yield put(setSorting(id, field, direction))

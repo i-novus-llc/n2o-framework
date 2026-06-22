@@ -36,6 +36,7 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.SaveSettingsDatasourcesScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.table.SortingsScope;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -109,7 +110,11 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
         table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p, widgetScope));
         table.setChildren(castDefault(source.getChildren(),
                 () -> p.resolve(property("n2o.api.widget.table.children.toggle"), ChildrenToggleEnum.class)));
-        table.setSaveSettings(shouldSaveSettings(source, p));
+
+        boolean saveSettings = shouldSaveSettings(source, p);
+        table.setSaveSettings(saveSettings);
+        fillSaveSettingsDatasourcesScope(saveSettings, source.getDatasourceId(), p);
+
         component.setAutoSelect(castDefault(source.getAutoSelect(),
                 () -> p.resolve(property("n2o.api.widget.table.auto_select"), Boolean.class)));
         table.setLayout(initLayout(source, p));
@@ -315,11 +320,21 @@ public class TableCompiler<D extends Table<?>, S extends N2oTable> extends BaseL
                 Arrays.stream(source.getColumns()).anyMatch(N2oDndColumn.class::isInstance))
             return true;
 
-        if (source.getToolbars() == null) return false;
+        if (source.getToolbars() == null)
+            return false;
 
         return Arrays.stream(source.getToolbars())
                 .flatMap(toolbar -> Arrays.stream(toolbar.getItems()))
                 .anyMatch(this::containsSettingToSave);
+    }
+
+    private void fillSaveSettingsDatasourcesScope(boolean isSaveSettings, String datasourceId, CompileProcessor p) {
+        if (isSaveSettings && datasourceId != null) {
+            SaveSettingsDatasourcesScope saveSettingsScope = p.getScope(SaveSettingsDatasourcesScope.class);
+            if (saveSettingsScope != null) {
+                saveSettingsScope.markAsSaveSettingsEnabled(datasourceId);
+            }
+        }
     }
 
     private boolean containsSettingToSave(ToolbarItem item) {

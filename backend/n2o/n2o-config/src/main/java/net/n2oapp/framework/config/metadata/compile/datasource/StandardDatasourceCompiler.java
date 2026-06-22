@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.SaveSettingsEnum;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -15,6 +16,7 @@ import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,8 +53,27 @@ public class StandardDatasourceCompiler extends BaseDatasourceCompiler<N2oStanda
         compiled.setSubmit(initSubmit(source, compiled, object, context, p));
         compiled.setQueryId(source.getQueryId());
         compiled.setFetchOnInit(castDefault(source.getFetchOnInit(), () -> p.resolve(property("n2o.api.datasource.fetch_on_init"), Boolean.class)));
+        compiled.setSaveSettings(initSaveSettings(source, p));
 
         return compiled;
+    }
+
+    private String[] initSaveSettings(N2oStandardDatasource source, CompileProcessor p) {
+        SaveSettingsDatasourcesScope saveSettingsScope = p.getScope(SaveSettingsDatasourcesScope.class);
+        if (saveSettingsScope == null || !saveSettingsScope.isSaveSettingsEnabled(source.getId())) {
+            return new String[0];
+        }
+
+        if (source.getSaveSettings() != null && source.getSaveSettings().length > 0) {
+            return Arrays.stream(source.getSaveSettings())
+                    .map(SaveSettingsEnum::getId)
+                    .toArray(String[]::new);
+        }
+        String globalSettings = p.resolve(property("n2o.api.datasource.save_settings"), String.class);
+        if (globalSettings != null && !globalSettings.isEmpty()) {
+            return globalSettings.split(",");
+        }
+        return new String[0];
     }
 
     private ClientDataProvider initDataProvider(StandardDatasource compiled, N2oStandardDatasource source, CompileContext<?, ?> context,

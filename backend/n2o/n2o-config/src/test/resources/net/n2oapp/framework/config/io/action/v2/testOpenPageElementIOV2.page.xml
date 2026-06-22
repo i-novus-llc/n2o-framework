@@ -23,7 +23,7 @@
                     <crumb label="Первая страница" path="/"/>
                 </breadcrumbs>
                 <datasources>
-                    <datasource id="ds1" default-values-mode="query" object-id="o1" query-id="q1"/>
+                    <datasource id="ds1" default-values-mode="query" object-id="o1" query-id="q1" save-settings="page,size"/>
                 </datasources>
             </open-page>
         </action>

@@ -21,4 +21,6 @@ public class StandardDatasource extends AbstractDatasource {
     private ClientDataProvider submit;
     @JsonProperty
     private Boolean fetchOnInit;
+    @JsonProperty
+    private String[] saveSettings;
 }

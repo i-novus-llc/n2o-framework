@@ -8,7 +8,7 @@ import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { updatePaging } from '../../ducks/datasource/store'
 import { ModelPrefix } from '../models/types'
 import { State } from '../../ducks/State'
-import { TableStateCache } from '../../components/widgets/AdvancedTable/types'
+import { DataSourceCache } from '../../ducks/datasource/DataSource'
 
 import { FETCH_TYPE } from './const'
 import { DataSourceContext, METHODS } from './context'
@@ -51,9 +51,10 @@ export const WithDatasourceLifeCycle = <P extends object>(Component: ComponentTy
 
             if (isInit !== prevInit && fetchOnInit) {
                 const { id } = this.props
-                const cache = getData<TableStateCache>(id)
 
-                if (cache?.datasourceFeatures?.paging) { return }
+                const cache = getData<DataSourceCache>(id)
+
+                if (cache?.paging || cache?.sorting !== undefined) { return }
 
                 this.fetchData()
             } else if (visible !== prevVisible && fetchOnVisibility) {
