@@ -17,6 +17,7 @@ export enum Filter {
 export interface TOption {
     className?: string
     disabled?: boolean
+    enabled?: boolean
     formattedTitle?: string
     id: string | number
     parentId: string | number
