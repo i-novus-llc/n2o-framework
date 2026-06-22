@@ -18,6 +18,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.ClientDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.SaveSettingsDatasourcesScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CopiedFieldScope;
 import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
@@ -60,6 +61,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
 
         DataSourcesScope datasourcesScope = new DataSourcesScope();
+        SaveSettingsDatasourcesScope saveSettingsDatasourcesScope = new SaveSettingsDatasourcesScope();
         ClientDatasourceIdsScope clientDatasourceIdsScope = new ClientDatasourceIdsScope();
 
         PageScope pageScope = initPageScope(page.getId(), widget);
@@ -69,11 +71,12 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         MetaActions metaActions = new MetaActions();
 
         Widget<?> compiledWidget = p.compile(widget, context, routes, pageScope, pageRouteScope, breadcrumbs,
-                validationScope, page.getModels(), pageRoutesScope, datasourcesScope, clientDatasourceIdsScope, filtersScope, copiedFieldScope, subModelsScope, pageIndexScope, metaActions);
+                validationScope, page.getModels(), pageRoutesScope, datasourcesScope, saveSettingsDatasourcesScope,
+                clientDatasourceIdsScope, filtersScope, copiedFieldScope, subModelsScope, pageIndexScope, metaActions);
         initContextDatasources(datasourcesScope, clientDatasourceIdsScope, pageScope, context, p);
         page.setDatasources(initDatasources(datasourcesScope, context, p,
                 clientDatasourceIdsScope, pageScope, validationScope, routes,
-                pageRouteScope, pageScope, filtersScope, copiedFieldScope, subModelsScope));
+                pageRouteScope, pageScope, filtersScope, copiedFieldScope, subModelsScope, saveSettingsDatasourcesScope));
 
         page.setWidget(compiledWidget);
         page.getPageProperty().setDatasource(compiledWidget.getDatasource());

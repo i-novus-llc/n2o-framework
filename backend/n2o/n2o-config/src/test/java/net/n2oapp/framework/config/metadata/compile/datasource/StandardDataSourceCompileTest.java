@@ -24,6 +24,7 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +50,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oAllDataPack()).ios( new InputTextIOv3())
+        builder.packs(new N2oAllPagesPack(), new N2oAllDataPack()).ios(new InputTextIOv3())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/datasource/testDatasourceCompile.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/datasource/testDataSourceCompile.object.xml"));
     }
@@ -94,7 +95,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getDefaultValuesMode(), is(DefaultValuesModeEnum.QUERY));
         assertThat(ds.getProvider(), notNullValue());
         assertThat(ds.getProvider().getUrl(), is("n2o/data/_ds1"));
-        QueryContext queryCtx = ((QueryContext)route("/_ds1", CompiledQuery.class));
+        QueryContext queryCtx = ((QueryContext) route("/_ds1", CompiledQuery.class));
         assertThat(queryCtx, notNullValue());
     }
 
@@ -155,7 +156,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         assertThat(ds.getSubmit().getUrl(), is("n2o/data/p/w/a/ds1"));
         assertThat(ds.getSubmit().getSubmitForm(), is(true));
         assertThat(ds.getSubmit().getMethod(), is(RequestMethodEnum.POST));
-        ActionContext opCtx = ((ActionContext)route("/p/w/a/ds1", CompiledObject.class));
+        ActionContext opCtx = ((ActionContext) route("/p/w/a/ds1", CompiledObject.class));
         assertThat(opCtx.getOperationId(), is("update"));
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(true));
@@ -173,7 +174,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         //        with messages
         ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds3");
         assertThat(ds.getSubmit(), Matchers.notNullValue());
-        opCtx = ((ActionContext)route("/p/w/a/ds3", CompiledObject.class));
+        opCtx = ((ActionContext) route("/p/w/a/ds3", CompiledObject.class));
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(true));
         assertThat(opCtx.getMessagePosition(), is(MessagePositionEnum.FIXED));
@@ -186,7 +187,7 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         link = new ModelLink(ReduxModelEnum.RESOLVE, "p_w_a_ds4");
         link.setValue("`id`");
         assertThat(ds.getSubmit().getPathMapping(), hasEntry("_id", link));
-        opCtx = ((ActionContext)route("/p/w/a/123/update", CompiledObject.class));
+        opCtx = ((ActionContext) route("/p/w/a/123/update", CompiledObject.class));
         assertThat(opCtx, Matchers.notNullValue());
         assertThat(opCtx.getParams("/p/w/a/123/update", emptyMap()), hasEntry("_id", "123"));
     }
@@ -202,22 +203,22 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         // validations
         assertThat(ds.getValidations().get("id"), notNullValue());
         assertThat(ds.getValidations().get("id").size(), is(1));
-        assertThat(ds.getValidations().get("id").get(0), instanceOf(MandatoryValidation.class));
+        assertThat(ds.getValidations().get("id").getFirst(), instanceOf(MandatoryValidation.class));
 
         assertThat(ds.getValidations().get("name"), notNullValue());
         assertThat(ds.getValidations().get("name").size(), is(1));
-        assertThat(ds.getValidations().get("name").get(0), instanceOf(ConditionValidation.class));
-        assertThat(((ConditionValidation) ds.getValidations().get("name").get(0)).getExpression(), is("name.length>1"));
+        assertThat(ds.getValidations().get("name").getFirst(), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getValidations().get("name").getFirst()).getExpression(), is("name.length>1"));
 
         // filter validations
         assertThat(ds.getFilterValidations().get("id2"), notNullValue());
         assertThat(ds.getFilterValidations().get("id2").size(), is(1));
-        assertThat(ds.getFilterValidations().get("id2").get(0), instanceOf(MandatoryValidation.class));
+        assertThat(ds.getFilterValidations().get("id2").getFirst(), instanceOf(MandatoryValidation.class));
 
         assertThat(ds.getFilterValidations().get("name2"), notNullValue());
         assertThat(ds.getFilterValidations().get("name2").size(), is(1));
-        assertThat(ds.getFilterValidations().get("name2").get(0), instanceOf(ConditionValidation.class));
-        assertThat(((ConditionValidation) ds.getFilterValidations().get("name2").get(0)).getExpression(), is("name2.length>1"));
+        assertThat(ds.getFilterValidations().get("name2").getFirst(), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getFilterValidations().get("name2").getFirst()).getExpression(), is("name2.length>1"));
     }
 
     @Test
@@ -231,21 +232,43 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         //multi-set validations
         assertThat(ds.getValidations().get("members[index].id"), notNullValue());
         assertThat(ds.getValidations().get("members[index].id").size(), is(1));
-        assertThat(ds.getValidations().get("members[index].id").get(0), instanceOf(MandatoryValidation.class));
+        assertThat(ds.getValidations().get("members[index].id").getFirst(), instanceOf(MandatoryValidation.class));
 
         assertThat(ds.getValidations().get("members[index].name"), notNullValue());
         assertThat(ds.getValidations().get("members[index].name").size(), is(1));
-        assertThat(ds.getValidations().get("members[index].name").get(0), instanceOf(ConditionValidation.class));
-        assertThat(((ConditionValidation) ds.getValidations().get("members[index].name").get(0)).getExpression(), is("name.length>3"));
+        assertThat(ds.getValidations().get("members[index].name").getFirst(), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getValidations().get("members[index].name").getFirst()).getExpression(), is("name.length>3"));
 
         //multi-set filter validations
         assertThat(ds.getFilterValidations().get("members2[index].id2"), notNullValue());
         assertThat(ds.getFilterValidations().get("members2[index].id2").size(), is(1));
-        assertThat(ds.getFilterValidations().get("members2[index].id2").get(0), instanceOf(MandatoryValidation.class));
+        assertThat(ds.getFilterValidations().get("members2[index].id2").getFirst(), instanceOf(MandatoryValidation.class));
 
         assertThat(ds.getFilterValidations().get("members2[index].name2"), notNullValue());
         assertThat(ds.getFilterValidations().get("members2[index].name2").size(), is(1));
-        assertThat(ds.getFilterValidations().get("members2[index].name2").get(0), instanceOf(ConditionValidation.class));
-        assertThat(((ConditionValidation) ds.getFilterValidations().get("members2[index].name2").get(0)).getExpression(), is("name2.length>3"));
+        assertThat(ds.getFilterValidations().get("members2[index].name2").getFirst(), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getFilterValidations().get("members2[index].name2").getFirst()).getExpression(), is("name2.length>3"));
+    }
+
+    @Test
+    void testSaveSettings() {
+        SimplePropertyResolver systemProperties = (SimplePropertyResolver) builder.getEnvironment().getSystemProperties();
+        systemProperties.setProperty("n2o.api.widget.table.save_settings", "true");
+        systemProperties.setProperty("n2o.api.datasource.save_settings", "size");
+
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/datasource/testSaveSettingsCompile.page.xml")
+                .get(new PageContext("testSaveSettingsCompile"));
+
+        StandardDatasource ds1 = (StandardDatasource) page.getDatasources().get("testSaveSettingsCompile_ds1");
+        assertThat(ds1.getSaveSettings(), is(new String[]{"page", "sorting"}));
+
+        StandardDatasource ds2 = (StandardDatasource) page.getDatasources().get("testSaveSettingsCompile_ds2");
+        assertThat(ds2.getSaveSettings(), is(new String[]{}));
+
+        StandardDatasource ds3 = (StandardDatasource) page.getDatasources().get("testSaveSettingsCompile_ds3");
+        assertThat(ds3.getSaveSettings(), is(new String[]{"size"}));
+
+        StandardDatasource ds4 = (StandardDatasource) page.getDatasources().get("testSaveSettingsCompile_ds4");
+        assertThat(ds4.getSaveSettings(), is(new String[]{"size"}));
     }
 }

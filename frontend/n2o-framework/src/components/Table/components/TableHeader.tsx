@@ -55,7 +55,7 @@ export const TableHeader = forwardRef<HTMLTableSectionElement, TableHeaderProps>
                         return (
                             <TableHeaderCell
                                 key={cell.id}
-                                sortingDirection={cell.sortingParam ? sorting[cell.sortingParam] : undefined}
+                                sortingDirection={cell.sortingParam && sorting ? sorting[cell.sortingParam] : undefined}
                                 validateFilterField={validateFilterField}
                                 filterError={filterErrors?.[cell.id]}
                                 {...cell}

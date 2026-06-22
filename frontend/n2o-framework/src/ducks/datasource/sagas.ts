@@ -7,12 +7,9 @@ import {
 } from 'redux-saga/effects'
 import type { Task } from 'redux-saga'
 
-import {
-    clearModel,
-    removeAllModel,
-} from '../models/store'
+import { clearModel, removeAllModel } from '../models/store'
 import { AsyncEffectWrapper } from '../api/utils/effectWrapper'
-import { ModelPrefix } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/models/types'
 import { subscribe } from '../models/sagas/subscribe'
 
 import { dataRequest as query } from './sagas/query'
@@ -30,11 +27,12 @@ import {
     submit,
 } from './store'
 import { applyOnInitDependencies, watchDependencies } from './sagas/dependencies'
-import type { ChangePageAction, DataRequestAction, RegisterAction, RemoveAction } from './Actions'
+import type { ChangePageAction, DataRequestAction, RegisterAction, RemoveAction, DatasourceAction } from './Actions'
 import { submitSaga } from './sagas/submit'
 import { clear } from './Providers/Storage'
 import { ResetDatasourceAction } from './Actions'
 import { autoSubmit } from './sagas/autoSubmit'
+import { saveSettings } from './sagas/saveSettings'
 
 // Запуск запроса за данными при изменении мета-данных (фильтр, сортировка, страница)
 export function* runDataRequest({ payload }: ChangePageAction) {
@@ -56,7 +54,7 @@ export function* removeSaga({ payload }: RemoveAction) {
     }
 
     /**
-     * При переходе со страницы, у которой есть несколько datsource, они удаляются поочерёдо
+     * При переходе со страницы, у которой есть несколько datasource, они удаляются поочерёдо
      * И, если делать удаление модели без задержки,
      * то может стригериться зависимость на удаляемую модуль у другого удаляемого в этот же момент datasource,
      * что в свою очередь может дёрнуть нежелаемый сабмит с пустой моделью
@@ -70,7 +68,7 @@ export function* removeSaga({ payload }: RemoveAction) {
 
 const queryWrapper = AsyncEffectWrapper((apiProvider: unknown, action: DataRequestAction) => query(action, apiProvider))
 
-// Обёртка над dataRequestSaga для сохранения сылк на задачу, которую надо будет отменить в случае дестроя DS
+// Обёртка над dataRequestSaga для сохранения ссылки на задачу, которую надо будет отменить в случае дестроя DS
 export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAction) {
     const { id } = action.payload
     const task: Task = yield fork(queryWrapper, apiProvider, action)
@@ -86,6 +84,7 @@ export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAct
 subscribe(watchDependencies)
 
 export default (apiProvider: unknown) => [
+    ...saveSettings,
     // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery([setSorting, changePage, changeSize], runDataRequest),
     // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
@@ -100,7 +99,7 @@ export default (apiProvider: unknown) => [
     // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery(submit, AsyncEffectWrapper(submitSaga), apiProvider),
     takeEvery(remove, removeSaga),
-    takeEvery(register, function* fetchOnInit({ payload }: RegisterAction) {
+    takeEvery(register, function* fetchOnInitWorker({ payload }: RegisterAction) {
         const { id, initProps } = payload
         const { fetchOnInit } = initProps
 

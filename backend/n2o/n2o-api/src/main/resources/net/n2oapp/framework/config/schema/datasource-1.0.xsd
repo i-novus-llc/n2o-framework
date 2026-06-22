@@ -205,6 +205,14 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="save-settings" type="saveSettingsType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Сохраняемые параметры (через запятую) источника данных таблицы в локальное хранилище браузера.
+                            Срабатывает при заданном `n2o.api.widget.table.save_settings=true`
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -793,4 +801,14 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:simpleType name="saveSettingsType">
+        <xs:annotation>
+            <xs:documentation>
+                Сохраняемые параметры источника данных таблиц
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(page|size|sorting)(,(page|size|sorting))*"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

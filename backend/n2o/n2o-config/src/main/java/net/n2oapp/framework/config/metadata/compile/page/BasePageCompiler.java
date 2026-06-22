@@ -29,6 +29,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.datasource.ClientDatasourceIdsScope;
 import net.n2oapp.framework.config.metadata.compile.datasource.DataSourcesScope;
+import net.n2oapp.framework.config.metadata.compile.datasource.SaveSettingsDatasourcesScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.util.CollectionUtils;
@@ -78,6 +79,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
 
         ClientDatasourceIdsScope clientDatasourceIdsScope = new ClientDatasourceIdsScope();
         DataSourcesScope datasourcesScope = initDataSourcesScope(source, sourceWidgets, clientDatasourceIdsScope, context);
+        SaveSettingsDatasourcesScope saveSettingsDatasourcesScope = new SaveSettingsDatasourcesScope();
         PageScope pageScope = initPageScope(source, page.getId(), sourceWidgets, resultWidget,
                 context);
         initContextDatasources(datasourcesScope, clientDatasourceIdsScope, pageScope, context, p);
@@ -95,14 +97,14 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         PageIndexScope pageIndexScope = new PageIndexScope(page.getId());
         page.setRegions(initRegions(source, page, p, context, pageScope, pageRoutes, routeScope,
                 breadcrumb, validationScope, page.getModels(), pageRoutesScope, searchBarScope, subModelsScope,
-                copiedFieldScope, datasourcesScope, clientDatasourceIdsScope, metaActions,
+                copiedFieldScope, datasourcesScope, saveSettingsDatasourcesScope, clientDatasourceIdsScope, metaActions,
                 filtersScope, new IndexScope(), pageIndexScope));
 
         //datasources
         Map<String, AbstractDatasource> compiledDatasources = compileDatasources(context, p,
                 datasourcesScope, pageScope,
                 validationScope, subModelsScope, copiedFieldScope, pageRoutes, routeScope,
-                searchBarScope, filtersScope, clientDatasourceIdsScope);
+                searchBarScope, filtersScope, clientDatasourceIdsScope, saveSettingsDatasourcesScope);
         page.setDatasources(compiledDatasources);
 
         //routes

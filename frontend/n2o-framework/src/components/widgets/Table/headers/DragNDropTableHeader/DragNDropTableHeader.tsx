@@ -65,7 +65,7 @@ export function DragNDropTableHeader(props: ChildrenTableHeaderProps) {
         <TableHeaderCell
             key={child.id}
             id={child.id}
-            sortingDirection={child.sortingParam ? sorting[child.sortingParam] : undefined}
+            sortingDirection={child.sortingParam && sorting ? sorting[child.sortingParam] : undefined}
             validateFilterField={validateFilterField}
             filterError={filterErrors?.[child.id]}
             elementAttributes={{
