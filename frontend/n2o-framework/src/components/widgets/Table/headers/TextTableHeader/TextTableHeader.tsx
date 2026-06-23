@@ -36,15 +36,21 @@ export const TextTableHeader = ({
         if (!visible) { toggleVisibility(visible) }
     }, [])
 
-    const Wrapper = sortingParam ? Sorter : Fragment
-
-    return (
-        <Wrapper sorting={sorting} sortingParam={sortingParam} onSort={setSorting} className='n2o-advanced-table-header-sorter'>
-            <span className={classNames('n2o-advanced-table-header-title', className)} style={style}>
-                <Text>{label}</Text>
-            </span>
-        </Wrapper>
+    const content = (
+        <span className={classNames('n2o-advanced-table-header-title', className)} style={style}>
+            <Text>{label}</Text>
+        </span>
     )
+
+    if (sortingParam) {
+        return (
+            <Sorter sorting={sorting} sortingParam={sortingParam} onSort={setSorting} className="n2o-advanced-table-header-sorter">
+                {content}
+            </Sorter>
+        )
+    }
+
+    return content
 }
 
 export default TextTableHeader
