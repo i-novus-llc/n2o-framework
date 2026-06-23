@@ -62,8 +62,12 @@ function Component({
         return result.sort((a, b) => a - b)
     }, [size, defaultSize])
 
+    const toggle = () => {
+        // Костыль-заглушка, иначе падает ошибка в reactstrap Uncaught TypeError: this.props.toggle is not a function
+    }
+
     return (
-        <ButtonDropdown isOpen={isOpen} onClick={onClick} direction={nested ? 'right' : 'down'}>
+        <ButtonDropdown toggle={toggle} isOpen={isOpen} onClick={onClick} direction={nested ? 'right' : 'down'}>
             <div className="n2o-dropdown n2o-toggle-column n2o-change-size visible" ref={combineRefs(clickOutsideRef, forwardedRef)}>
                 <DropdownToggle tag="div">
                     <FactoryStandardButton
