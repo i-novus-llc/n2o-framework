@@ -31,8 +31,9 @@ export const dataSourceSaveSettings: Record<string, {
     },
     [DataSourceCacheKeys.PAGE]: {
         path: 'paging.page',
-        // При сортировке page сбрасывается до = 1
-        transform: (value, actionType) => (actionType === setSorting.type ? 1 : value),
+        // page сбрасывается до = 1 (при sorting и resize )
+        transform: (value, actionType) => (
+            (actionType === setSorting.type || actionType === changeSize.type) ? 1 : value),
     },
 }
 
