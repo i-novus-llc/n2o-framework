@@ -81,9 +81,15 @@ export function useLink({
     }, [dispatch, href, pageId, getState, url, onClick, target])
 
     const path = url?.replace(/^\.\/#/, '') || ''
+    const normalize = (path: string) => path.replace(/\/$/, '')
+
+    const normPath = normalize(path)
+    const normPathname = normalize(pathname)
+
+    const active = normPath && (normPathname === normPath || normPathname.startsWith(`${normPath}/`))
 
     return {
-        active: path && (pathname === path || pathname.startsWith(`${path}/`)),
+        active,
         target: target === LinkTarget.blank ? target : undefined,
         url,
         onClick: onClickHandler,
