@@ -30,6 +30,7 @@ function FieldsetColComponent({
     onBlur,
     multiSetDisabled,
     evalContext,
+    rowId,
 }: FieldSetColComponentProps) {
     const resolveVisible = () => {
         const visible = get(col, 'visible')
@@ -74,13 +75,13 @@ function FieldsetColComponent({
                             multiSetDisabled={multiSetDisabled}
                             {...field}
                             id={name}
+                            rowId={rowId}
                         />
                     )
                 })}
             {
                 fieldsets?.map((fieldset, i) => {
                     const { name: fieldsetName, ...rest } = fieldset
-
                     const key = `set${i}`
                     const name = parentName ? `${parentName}.${fieldsetName}` : fieldsetName
 
@@ -97,6 +98,7 @@ function FieldsetColComponent({
                             onChange={onChange}
                             onBlur={onBlur}
                             multiSetDisabled={multiSetDisabled}
+                            rowId={rowId}
                             {...rest}
                         />
                     )

@@ -42,6 +42,7 @@ export type Field = {
     fetchTrigger?: number
     // FIXME костыль для прокидыания контекста из компонента для саг, придумать способ лучше
     ctx?: Record<string, unknown>
+    rowId?: string | null
 }
 
 export type Form = {
