@@ -125,6 +125,26 @@ export const formSlice = createSlice({
             },
         },
 
+        unRegisterExtraFields: {
+            prepare(formName: string, rowId: string | null) {
+                return ({
+                    payload: { formName, rowId },
+                })
+            },
+
+            reducer(state, action: UnregisterFieldAction) {
+                const { formName, rowId } = action.payload
+
+                if (!rowId) { return }
+
+                Object.entries(state[formName]?.fields)
+                    .filter(([_, field]) => (field.rowId === rowId || field.rowId?.startsWith(`${rowId}/`)))
+                    .forEach(([fieldName]) => {
+                        delete state[formName]?.fields[fieldName]
+                    })
+            },
+        },
+
         setFieldDisabled: {
             prepare(formName: string, fieldName: string, disabled: boolean) {
                 return ({
@@ -495,5 +515,6 @@ export const {
     FOCUS: handleFocus,
     // TODO @touched удалить
     TOUCH: handleTouch,
+    unRegisterExtraFields,
     setDirty,
 } = formSlice.actions

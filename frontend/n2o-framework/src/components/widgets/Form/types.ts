@@ -73,6 +73,7 @@ export interface FieldSetColComponentProps {
     col: ColProps
     activeModel: ActiveModel
     colId: string
+    rowId: string | null
     autoFocusId?: string
     labelPosition: string
     labelWidth: string
@@ -104,7 +105,7 @@ interface CommonRowProps {
 }
 
 export interface FieldSetRowComponentProps extends CommonRowProps {
-    rowId: string | number
+    rowId?: string | null
     row: RowProps
 }
 
@@ -122,6 +123,7 @@ export interface FieldsetComponentProps extends FieldsetComponentPropsEnhancer {
     propsResolver?(expression?: string | boolean, model?: ActiveModel): string | boolean
     setMultiFieldDisabled?(formName: string, fields: string[], nextEnabledField: boolean): void
     setMultiFieldVisible?(formName: string, fields: string[], nextVisibleField: boolean): void
+    rowId?: string | null
 }
 
 export interface ReduxFormProps {

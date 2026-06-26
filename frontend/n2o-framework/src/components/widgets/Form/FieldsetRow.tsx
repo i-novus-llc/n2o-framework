@@ -16,6 +16,7 @@ function FieldsetRow({ rowId, row, activeModel, ...rest }: FieldSetRowComponentP
                         key={colId}
                         col={col}
                         colId={colId}
+                        rowId={rowId}
                         activeModel={activeModel}
                         {...rest}
                     />

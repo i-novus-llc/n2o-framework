@@ -36,7 +36,11 @@ export type RegisterFieldAction = FieldAction<{
     initialState: Partial<Field>
 }>
 
-export type UnregisterFieldAction = FieldAction
+export type UnregisterFieldAction = FormAction<T & {
+    formName: string
+    rowId: string | null
+}, FormMeta>
+
 export type FocusFieldAction = FieldAction
 export type BlurFieldAction = FieldAction
 

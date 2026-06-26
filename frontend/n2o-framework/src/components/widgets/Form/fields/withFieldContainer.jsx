@@ -132,6 +132,7 @@ export default (Field) => {
         const disabledToRegister = isBoolean(enabled) && !disabled
             ? !enabled
             : disabled
+        const { rowId } = props
         const field = useReduxField({
             name,
             visible,
@@ -141,6 +142,7 @@ export default (Field) => {
             dependency,
             required,
             validation,
+            rowId,
         }, formName, dispatch)
 
         const { form } = props

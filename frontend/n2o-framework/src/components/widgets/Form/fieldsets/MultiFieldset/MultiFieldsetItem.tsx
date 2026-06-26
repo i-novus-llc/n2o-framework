@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import classNames from 'classnames'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
+import { useDispatch } from 'react-redux'
 
+import { useFormContext } from '../../../../core/FormProvider'
 import { useResolved } from '../../../../../core/Expression/useResolver'
 import { FieldsetProps, FieldsetModel } from '../types'
 import { EMPTY_ARRAY } from '../../../../../utils/emptyTypes'
+import { unRegisterExtraFields } from '../../../../../ducks/form/store'
 
 import { MultiFieldsetItemToolbar } from './MultiFieldsetItemToolbar'
 
@@ -22,6 +25,7 @@ interface Props {
     parentName: string
     render: FieldsetProps['render']
     rows: FieldsetProps['rows']
+    rowId: string | null
 }
 
 export function MultiFieldsetItem({
@@ -36,12 +40,17 @@ export function MultiFieldsetItem({
     // eslint-disable-next-line react/jsx-no-useless-fragment
     render = () => <></>,
     rows = EMPTY_ARRAY,
+    rowId,
     needRemoveButton: needToRemoveButtonExpression = true,
     canRemoveFirstItem = false,
     needCopyButton: needToCopyButtonExpression = false,
 }: Props) {
     const disabled = propsDisabled || !enabled
     const label = useResolved(propsLabel, model)
+    const dispatch = useDispatch()
+    const { formName } = useFormContext()
+
+    useEffect(() => () => { dispatch(unRegisterExtraFields(formName, rowId)) }, [])
 
     const isNeedToCopyButton = useResolved(needToCopyButtonExpression, model)
     const isNeedToRemoveButton = useResolved(needToRemoveButtonExpression, model)
@@ -63,7 +72,7 @@ export function MultiFieldsetItem({
                         onCopyField={onCopyField}
                     />
                 </section>
-                {render(rows, { parentName: `${parentName}[${index}]`, multiSetDisabled: disabled })}
+                {render(rows, { parentName: `${parentName}[${index}]`, multiSetDisabled: disabled, rowId })}
             </div>
         </div>
     )
