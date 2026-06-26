@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Button } from 'reactstrap'
 import isEmpty from 'lodash/isEmpty'
 import isNil from 'lodash/isNil'
@@ -8,7 +8,7 @@ import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 import { withFieldsetHeader } from '../withFieldsetHeader'
 import { useFieldArray } from '../../../../core/FormProvider'
 import { useResolved } from '../../../../../core/Expression/useResolver'
-import { guid as uuid } from '../../../../../utils/id'
+import { getKey } from '../../../../../utils/uniqueKey'
 import { ArrayFieldProvider } from '../../../../../core/datasource/ArrayField/ArrayFieldProvider'
 import { RowProvider } from '../../../../../core/datasource/ArrayField/RowProvider'
 import { FieldsetProps } from '../types'
@@ -19,7 +19,7 @@ import { MultiFieldsetItem } from './MultiFieldsetItem'
 export type Props = Pick<FieldsetProps,
     'activeModel' | 'addButtonLabel' | 'canRemoveFirstItem' | 'childrenLabel' | 'enabled' |
     'firstChildrenLabel' | 'generatePrimaryKey' | 'label' | 'name' | 'help' | 'helpTrigger' | 'helpPlacement' |
-    'needAddButton' | 'needRemoveAllButton' | 'primaryKey' | 'removeAllButtonLabel' | 'rows' | 'render'
+    'needAddButton' | 'needRemoveAllButton' | 'primaryKey' | 'removeAllButtonLabel' | 'rows' | 'render' | 'rowId'
 >
 
 function MultiFieldset({
@@ -39,9 +39,9 @@ function MultiFieldset({
     canRemoveFirstItem: canRemoveFirstItemExpression = false,
     needAddButton: needToAddButtonExpression = true,
     needRemoveAllButton: needToRemoveAllButtonsExpression = false,
+    rowId,
     ...props
 }: Props) {
-    const [keysMap] = useState(() => new WeakMap<Record<string, unknown>, string>())
     const isEnabled = useResolved(isNil(enabledExpression) ? true : enabledExpression, activeModel)
 
     const labelAddButton = useResolved(addButtonLabelExpression, activeModel)
@@ -62,10 +62,11 @@ function MultiFieldset({
             <div className="n2o-multi-fieldset">
                 {help && !label && <HelpPopover help={help} helpTrigger={helpTrigger} helpPlacement={helpPlacement} />}
                 {fields.map((field, index) => {
-                    if (!keysMap.has(field)) { keysMap.set(field, uuid()) }
+                    const key = getKey(field)
+                    const id = rowId ? `${rowId}/${key}` : key
 
                     return (
-                        <RowProvider index={index} key={keysMap.get(field)}>
+                        <RowProvider index={index} key={id}>
                             <MultiFieldsetItem
                                 {...props}
                                 index={index}
@@ -76,6 +77,7 @@ function MultiFieldset({
                                 parentName={name}
                                 enabled={isEnabled}
                                 canRemoveFirstItem={isFirstItemCanBeRemoved}
+                                rowId={id}
                             />
                         </RowProvider>
                     )

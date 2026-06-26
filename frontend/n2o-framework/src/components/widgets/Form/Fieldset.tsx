@@ -16,6 +16,7 @@ import { FormContext } from '../../core/FormProvider/provider'
 // eslint-disable-next-line import/no-cycle
 import FieldsetRow from './FieldsetRow'
 import { type FieldsetComponentProps, type RowProps } from './types'
+import { RenderOptions } from './fieldsets/types'
 
 /**
  * Компонент - филдсет формы
@@ -150,7 +151,7 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
         })
     }
 
-    renderRow = (rowId: number, row: RowProps, props: Record<string, unknown>) => {
+    renderRow = (rowId: number, row: RowProps, props: RenderOptions) => {
         const {
             labelPosition = 'top-left',
             labelWidth,
@@ -161,16 +162,19 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
             activeModel,
             onChange,
             onBlur,
+            rowId: propsRowId,
         } = this.props
         const { formName } = this.context
         const { enabled } = this.state
+        const { rowId: renderPropsRowId } = props
+        const id = renderPropsRowId || propsRowId
 
         return (
             <FieldsetRow
                 activeModel={activeModel}
                 key={rowId}
                 row={row}
-                rowId={rowId}
+                rowId={id}
                 labelPosition={labelPosition}
                 labelWidth={labelWidth}
                 labelAlignment={labelAlignment}
@@ -236,7 +240,7 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
                 activeModel={activeModel}
                 description={description}
                 {...rest}
-                render={(rows, props = { parentName }) => {
+                render={(rows, props: RenderOptions = { parentName }) => {
                     const { fields, fieldsVisibility } = calculateAllFields(rows)
 
                     this.fields = fields
