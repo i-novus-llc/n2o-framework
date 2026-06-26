@@ -6,6 +6,7 @@ import get from 'lodash/get'
 
 import { ModelPrefix, FormModelPrefix } from '../../core/models/types'
 import { id } from '../../utils/id'
+import { setKey } from '../../utils/uniqueKey'
 import { N2OMeta } from '../Action'
 
 import type { State } from './Models'
@@ -50,7 +51,7 @@ export const modelsSlice = createSlice({
             reducer(state, action: SetModelAction) {
                 const { key, model, prefix } = action.payload
 
-                set(state, [prefix, key], model)
+                set(state, [prefix, key], setKey(model))
             },
         },
 
@@ -82,7 +83,7 @@ export const modelsSlice = createSlice({
             reducer(state, action: UpdateModelAction) {
                 const { prefix, key, field, value } = action.payload
 
-                set(state, `${prefix}.${key}.${field}`, value)
+                set(state, `${prefix}.${key}.${field}`, setKey(value))
             },
         },
 
@@ -171,7 +172,7 @@ export const modelsSlice = createSlice({
                 const { prefix, key, field, value = {}, primaryKey, position } = action.payload
                 const path = field ? `${prefix}.${key}.${field}` : `${prefix}.${key}`
                 const arrayValue = get(state, path)
-                const item = primaryKey ? { [primaryKey]: id(), ...value } : { ...value }
+                const item = setKey(primaryKey ? { [primaryKey]: id(), ...value } : { ...value })
 
                 if (arrayValue) {
                     arrayValue.splice(position ?? arrayValue.length, 0, item)
@@ -209,7 +210,7 @@ export const modelsSlice = createSlice({
             reducer(state, action: CopyFieldArrayAction) {
                 const { prefix, key, field, index, primaryKey } = action.payload
                 const arrayValue = get(state, `${prefix}.${key}.${field}`, [])
-                const item = { ...arrayValue[index] }
+                const item = setKey({ ...arrayValue[index] })
 
                 if (primaryKey) { item[primaryKey] = id() }
 

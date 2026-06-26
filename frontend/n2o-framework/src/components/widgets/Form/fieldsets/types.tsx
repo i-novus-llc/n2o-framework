@@ -3,10 +3,12 @@ import { Props as BadgeProps } from '@i-novus/n2o-components/lib/display/Badge/B
 import { type HelpPopoverProps } from '@i-novus/n2o-components/lib/display/HelpPopover'
 
 export type Rows = string[]
-export type Render = (rows: Rows, options?: {
-    parentName: string,
-    multiSetDisabled: boolean,
-}) => ReactNode
+export type RenderOptions = {
+    parentName?: string,
+    multiSetDisabled?: boolean,
+    rowId?: string | null
+}
+export type Render = (rows: Rows, options?: RenderOptions) => ReactNode
 export type FieldsetModel = Record<string, unknown> | Array<Record<string, unknown>>
 
 export interface FieldsetProps extends HelpPopoverProps {
@@ -25,6 +27,7 @@ export interface FieldsetProps extends HelpPopoverProps {
     visible?: boolean
     badge: BadgeProps
     rows: Rows
+    rowId?: string | null
     disabled: boolean
     showLine?: boolean
     subTitle?: string
