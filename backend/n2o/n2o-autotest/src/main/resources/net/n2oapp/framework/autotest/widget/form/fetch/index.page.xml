@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <form fetch-on-init="false">
+        <fields>
+            <html id="firstName1" visible="{!visibility}">
+                <![CDATA[<div>Html 1 при ините должно быть видно, после нажатия кнопки не видно</div>]]>
+            </html>
+
+            <html id="firstName2" visible="{visibility}">
+                <![CDATA[<div>Html 2 при ините не должно быть видно, после нажатия кнопки видно</div>]]>
+            </html>
+
+            <set label="При ините не должно быть видно" visible="{visibility}">
+                <text id="textNotFound" visible="{visibility}">
+                    Видно после нажатия кнопки
+                </text>
+            </set>
+
+            <button label="Кнопка" validate="false">
+                <set-value to="visibility">[{}]</set-value>
+            </button>
+        </fields>
+    </form>
+</simple-page>

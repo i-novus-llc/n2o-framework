@@ -449,6 +449,10 @@
           "name": "FormAT. testMode"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/widget/form/fetch",
+          "name": "FormAT. testFetchOnInitWithSetVisibility"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/widget/form/save_with_one_button",
           "name": "FormsSaveWithOneButtonAT"
         },
