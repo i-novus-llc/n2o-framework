@@ -1,13 +1,18 @@
 package net.n2oapp.framework.autotest.widget.form;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.OutputText;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.snippet.Html;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -117,7 +122,7 @@ class FormAT extends AutoTestBase {
         // у кнопки2 не должно быть подсказки, т.к. не указан description
         button2.tooltip().shouldNotExists();
     }
-    
+
     @Test
     void testMode() {
         setResourcePath("net/n2oapp/framework/autotest/widget/form/mode");
@@ -160,5 +165,34 @@ class FormAT extends AutoTestBase {
         childName.shouldHaveValue("test");
         // two-models (запроса не будет -> значение поля не изменится)
         child2Name.shouldHaveValue("123");
+    }
+
+    @Test
+    void testFetchOnInitWithSetVisibility() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/fetch/index.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        FormWidget form = page.widget(FormWidget.class);
+        form.fields().shouldHaveSize(2);
+        form.fields().field(Html.class).shouldBeVisible();
+        form.fields().field(Html.class).shouldHaveText("Html 1 при ините должно быть видно, после нажатия кнопки не видно");
+
+        FieldSets fieldsets = form.fieldsets();
+        SimpleFieldSet fieldset = fieldsets.fieldset(1, SimpleFieldSet.class);
+        fieldset.shouldBeHidden();
+        StandardField field = form.fields().field("Видно после нажатия кнопки");
+        field.shouldBeHidden();
+
+        form.fields().field("Кнопка", ButtonField.class).click();
+
+        form.fields().field(Html.class).shouldBeVisible();
+        form.fields().field(Html.class).shouldHaveText("Html 2 при ините не должно быть видно, после нажатия кнопки видно");
+
+        fieldset.shouldBeVisible();
+        fieldset.shouldHaveLabel("При ините не должно быть видно");
+        field.shouldBeVisible();
+        field.shouldBeVisible();
     }
 }
