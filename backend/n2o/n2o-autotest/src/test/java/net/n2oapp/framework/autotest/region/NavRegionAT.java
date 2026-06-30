@@ -43,14 +43,16 @@ class NavRegionAT extends AutoTestBase {
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/region/nav/tabs/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/region/nav/tabs/test1.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/region/nav/tabs/test2.page.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/region/nav/tabs/test2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/nav/tabs/open11.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/region/nav/tabs/open2.page.xml")
                 );
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
         NavRegion nav = page.regions().region(0, NavRegion.class);
         nav.shouldExists();
-        nav.content().shouldHaveSize(2);
+        nav.content().shouldHaveSize(4);
         N2oNavRegion.N2oAnchorItem item0 = nav.content().item(0, N2oNavRegion.N2oAnchorItem.class);
         item0.shouldHaveLabel("Страница 1");
         item0.shouldBeActive();
@@ -60,6 +62,18 @@ class NavRegionAT extends AutoTestBase {
         item1.click();
         item1.shouldBeActive();
         item0.shouldNotBeActive();
+
+        N2oNavRegion.N2oAnchorItem item2 = nav.content().item(2, N2oNavRegion.N2oAnchorItem.class);
+        item2.shouldHaveLabel("./open11 (not subpage)");
+        item2.click();
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open11/");
+        page.breadcrumb().crumb(0).click();
+        nav.content().shouldHaveSize(4);
+
+        N2oNavRegion.N2oAnchorItem item3 = nav.content().item(3, N2oNavRegion.N2oAnchorItem.class);
+        item3.shouldHaveLabel("./open2 (not subpage)");
+        item3.click();
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open2/");
     }
 
     @Test
