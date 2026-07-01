@@ -84,6 +84,7 @@ public class N2oDropDown extends N2oComponent implements DropDown {
     public void shouldHaveOptions(int size) {
         items().shouldHave(CollectionCondition.size(size));
     }
+
     @Override
     public void scrollDown() {
         Selenide.executeJavaScript("arguments[0].scrollTop = arguments[0].scrollHeight", element().getWrappedElement());
@@ -140,6 +141,16 @@ public class N2oDropDown extends N2oComponent implements DropDown {
         @Override
         public void shouldBeDisabled() {
             element().shouldBe(Condition.disabled);
+        }
+
+        @Override
+        public void shouldBeChecked() {
+            element().$("input[type='checkbox']").shouldBe(Condition.checked);
+        }
+
+        @Override
+        public void shouldNotBeChecked() {
+            element().$("input[type='checkbox']").shouldNotBe(Condition.checked);
         }
     }
 }

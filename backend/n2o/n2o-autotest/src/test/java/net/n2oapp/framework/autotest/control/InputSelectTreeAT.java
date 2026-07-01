@@ -337,7 +337,7 @@ class InputSelectTreeAT extends AutoTestBase {
                 .fieldsets()
                 .fieldset(0, SimpleFieldSet.class)
                 .fields()
-                .field("мульти")
+                .field("Мульти")
                 .control(InputSelectTree.class);
 
         singleTree.click();
@@ -363,5 +363,45 @@ class InputSelectTreeAT extends AutoTestBase {
         multiTree.dropdown().item(3).shouldBeEnabled();
         multiTree.dropdown().item(3).click();
         multiTree.shouldSelectedMulti(new String[]{"child1", "child2"});
+        multiTree.click();
+
+        multiTree = page.regions()
+                .region(0, SimpleRegion.class)
+                .content()
+                .widget(0, FormWidget.class)
+                .fieldsets()
+                .fieldset(0, SimpleFieldSet.class)
+                .fields()
+                .field("Пункты недоступны и выбраны по умолчанию")
+                .control(InputSelectTree.class);
+        multiTree.shouldExists();
+        multiTree.shouldSelectedMulti(new String[]{"leaf1", "leaf2", "leaf3"});
+        multiTree.shouldHaveDisabledOption(0);
+        multiTree.shouldHaveDisabledOption(1);
+        multiTree.click();
+        multiTree.backspace();
+        multiTree.backspace();
+        multiTree.backspace();
+        multiTree.shouldSelectedMulti(new String[]{"leaf1", "leaf2"});
+
+        multiTree.removeAllOptions();
+        multiTree.shouldSelectedMulti(new String[]{"leaf1", "leaf2"});
+        multiTree.shouldBeOpened();
+        multiTree.dropdown().item(1).shouldBeEnabled();
+        multiTree.dropdown().item(1).shouldNotBeSelected();
+        multiTree.dropdown().item(1).click();
+        multiTree.dropdown().item(1).shouldBeSelected();
+        multiTree.shouldSelectedMulti(new String[]{"leaf1", "leaf2", "leaf3"});
+        multiTree.dropdown().item(1).click();
+        multiTree.dropdown().item(1).shouldNotBeSelected();
+        multiTree.shouldSelectedMulti(new String[]{"leaf1", "leaf2"});
+        multiTree.dropdown().item(1).expand();
+        multiTree.dropdown().item(2).expand();
+        multiTree.dropdown().item(3).shouldBeDisabled();
+        multiTree.dropdown().item(3).shouldBeSelected();
+        multiTree.dropdown().item(4).shouldBeDisabled();
+        multiTree.dropdown().item(4).shouldBeSelected();
+        multiTree.dropdown().item(5).shouldBeEnabled();
+        multiTree.dropdown().item(5).shouldNotBeSelected();
     }
 }

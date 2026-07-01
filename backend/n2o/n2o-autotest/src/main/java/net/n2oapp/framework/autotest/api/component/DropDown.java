@@ -114,5 +114,12 @@ public interface DropDown extends Component {
          * Проверка недоступности для выбора
          */
         void shouldBeDisabled();
+
+        /**
+         * Проверка того, что чекбокс выбран
+         */
+        void shouldBeChecked();
+
+        void shouldNotBeChecked();
     }
 }

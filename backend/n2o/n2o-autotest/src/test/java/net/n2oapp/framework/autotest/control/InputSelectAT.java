@@ -250,7 +250,18 @@ class InputSelectAT extends AutoTestBase {
         page.element().click();
         input.shouldHaveValue("");
 
+        // Недоступные значения и невозможность их удалить
         input = fields.field("InputSelect3").control(InputSelect.class);
+        input.shouldSelectedMulti(new String[]{"Three", "Four"});
+        input.shouldHaveDisabledItems("Three");
+
+        input.click();
+        input.backspace();
+        input.backspace();
+        input.shouldSelectedMulti(new String[]{"Three"});
+
+        input.clearUsingIcon();
+        input.shouldSelectedMulti(new String[]{"Three"});
         input.click();
         input.dropdown().item("One").shouldBeEnabled();
         input.dropdown().item("Two").shouldBeEnabled();

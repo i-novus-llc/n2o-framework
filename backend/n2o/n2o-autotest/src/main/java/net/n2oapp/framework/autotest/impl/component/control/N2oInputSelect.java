@@ -93,6 +93,16 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
+    public void shouldHaveDisabledItems(String... items) {
+        ElementsCollection selectedItems = selectedItems();
+        Arrays.stream(items)
+                .filter(s -> selectedItems.find(Condition.text(s)).exists())
+                .forEach(s -> selectedItems.find(Condition.text(s))
+                        .$("button")
+                        .shouldNotBe(Condition.exist));
+    }
+
+    @Override
     public void shouldBeDisabled() {
         element().shouldHave(Condition.cssClass("disabled"));
     }

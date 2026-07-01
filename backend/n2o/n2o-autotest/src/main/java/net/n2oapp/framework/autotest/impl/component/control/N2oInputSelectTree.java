@@ -4,6 +4,7 @@ import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.DropDownTree;
 import net.n2oapp.framework.autotest.api.component.control.InputSelectTree;
+import org.openqa.selenium.Keys;
 
 import java.time.Duration;
 
@@ -86,6 +87,13 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     }
 
     @Override
+    public void shouldHaveDisabledOption(int index) {
+        element().$$(".n2o-select-tree-selection-overflow-item")
+                .get(index).$(".n2o-select-tree-selection-item-disabled")
+                .shouldBe(Condition.exist);
+    }
+
+    @Override
     public void removeAllOptions() {
         element().$(".n2o-select-tree-clear")
                 .hover().shouldBe(Condition.visible).click();
@@ -155,5 +163,10 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     @Override
     public void shouldHaveDropdownMessage(String value, Duration... duration) {
         should(Condition.exactText(value), element().$(".n2o-select-tree-empty"), duration);
+    }
+
+    @Override
+    public void backspace() {
+        inputElement().sendKeys(Keys.BACK_SPACE);
     }
 }
