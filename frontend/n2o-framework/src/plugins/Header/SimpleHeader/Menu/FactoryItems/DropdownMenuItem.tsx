@@ -8,10 +8,5 @@ export interface DropdownContextItem extends ContextItemCommon {
 }
 
 export function DropdownMenuItem({ item, ...props }: DropdownContextItem) {
-    return (
-        <Dropdown
-            {...item}
-            {...props}
-        />
-    )
+    return <Dropdown {...item} {...props} />
 }
