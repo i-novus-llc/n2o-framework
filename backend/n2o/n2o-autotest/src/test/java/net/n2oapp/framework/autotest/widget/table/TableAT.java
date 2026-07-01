@@ -97,6 +97,12 @@ class TableAT extends AutoTestBase {
         table.toolbar().topRight().button(0, StandardButton.class).click();
         table.filters().shouldBeHidden();
         table.toolbar().topRight().button(0, StandardButton.class).click();
+        table.columns().rows().shouldHaveSize(0);
+
+        table.columns().headers().header(0).shouldHaveTitle("id");
+        table.filters().fields().field("Имя").control(InputText.class).clear();
+        table.filters().toolbar().button("searchLabel").click();
+        table.columns().rows().shouldHaveSize(3);
 
         ColorsEnum[] colors = new ColorsEnum[]{ColorsEnum.DANGER, ColorsEnum.INFO, ColorsEnum.SUCCESS};
 
@@ -104,13 +110,9 @@ class TableAT extends AutoTestBase {
             table.columns().rows().row(i).shouldHaveColor(colors[i]);
             table.columns().rows().row(i).cell(0).shouldBeVisible();
             table.columns().rows().row(i).cell(1).shouldBeVisible();
+            table.columns().rows().row(i).cell(1).shouldHaveIcon("fa-plus");
             table.columns().rows().row(i).cell(2).shouldBeVisible();
-            table.columns().rows().row(i).cell(2).shouldHaveIcon("fa-plus");
-            table.columns().rows().row(i).cell(3).shouldBeVisible();
         }
-        table.columns().headers().header(0).shouldHaveTitle("id");
-        table.filters().fields().field("Имя").control(InputText.class).clear();
-        table.filters().toolbar().button("searchLabel").click();
 
         table.columns().headers().header(0).shouldHaveTitle("Имя");
         table.columns().headers().header(0).shouldHaveStyle("color: red");

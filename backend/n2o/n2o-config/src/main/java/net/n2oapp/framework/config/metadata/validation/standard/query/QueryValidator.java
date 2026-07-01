@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Валидатор выборки
@@ -92,7 +93,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      * @param query Выборка
      */
     private void checkForExistsFiltersInSelections(N2oQuery query) {
-        Set<String> filterFields = Arrays.stream(query.getFilters()).map(N2oQuery.Filter::getFilterId).collect(Collectors.toSet());
+        Set<String> filterFields = Arrays.stream(query.getFilters()).map(filter -> castDefault(filter.getFilterId(), filter.getFieldId())).collect(Collectors.toSet());
         checkFiltersExistInSelectionType(query.getLists(), filterFields, "list", query.getId());
         checkFiltersExistInSelectionType(query.getUniques(), filterFields, "unique", query.getId());
         checkFiltersExistInSelectionType(query.getCounts(), filterFields, "count", query.getId());

@@ -40,6 +40,6 @@ class TestInvocationTransformTest extends SourceTransformTestBase {
         assertThat(query.getFilters()[0].getText(), is("id :eq :id"));
         assertThat(query.getFilters()[1].getText(), is("personName :like :personName"));
         assertThat(query.getFilters()[2].getFieldId(), is("test"));
-        assertThat(query.getFilters()[2].getText(), is("test :eq :test_eq"));
+        assertThat(query.getFilters()[2].getText(), is("test :eq :test"));
     }
 }
