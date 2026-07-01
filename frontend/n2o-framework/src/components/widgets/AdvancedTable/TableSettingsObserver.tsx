@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 
@@ -17,12 +17,27 @@ export function TableSettingsObserver<P extends WithTableType>(Component: React.
         const dispatch = useDispatch()
 
         const { id, saveSettings } = props
-        const { value: cachedSettings, setValue: updateCache } = useData<TableStateCache>(id)
 
-        const resetSettings = () => updateCache(null)
+        const { value: cachedSettings, setValue: updateCache } = useData<TableStateCache>(id)
+        const prevCachedSettingsRef = useRef(cachedSettings)
 
         // TODO таблица приходит из widget, нужно что бы приходила из redux table
         const table = useSelector(makeTableByIdSelector(id))
+
+        const registerDefaultTableProps = () => {
+            const { defaultProps } = table || {}
+
+            if (defaultProps) {
+                // overwrite true иначе редюсер смержит параметры в header/body.cells
+                dispatch(registerTable(id, defaultProps, true))
+            }
+        }
+
+        const resetSettings = () => {
+            updateCache(null)
+            registerDefaultTableProps()
+        }
+
         const { header = EMPTY_CELLS, body = EMPTY_CELLS } = table
 
         const { cells: headerCells = [] } = header || {}
@@ -32,14 +47,13 @@ export function TableSettingsObserver<P extends WithTableType>(Component: React.
         useEffect(() => {
             if (!saveSettings) { return }
 
-            // регистрация таблицы default props при сбросе локальных данных
-            if (isEmpty(cachedSettings)) {
-                const { defaultProps } = table || {}
+            const prevCached = prevCachedSettingsRef.current
+            const shouldReset = !isEmpty(prevCached) && isEmpty(cachedSettings)
 
-                if (defaultProps) {
-                    // overwrite true иначе редюсер смержит параметры в header/body.cells
-                    dispatch(registerTable(id, defaultProps, true))
-                }
+            // регистрация таблицы default props при сбросе локальных данных
+            if (shouldReset) {
+                registerDefaultTableProps()
+                prevCachedSettingsRef.current = cachedSettings
 
                 return
             }
@@ -55,6 +69,7 @@ export function TableSettingsObserver<P extends WithTableType>(Component: React.
             }
 
             dispatch(updateTableParams(id, updatedParams))
+            prevCachedSettingsRef.current = cachedSettings
         }, [cachedSettings])
 
         const computedTable = { ...table, header, body }
