@@ -400,6 +400,10 @@
           "name": "NavRegionAT.testTabs"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/region/nav/visibility",
+          "name": "NavRegionAT.testVisibility"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/region/row/simple",
           "name": "RowRegionAT. testSimple"
         },

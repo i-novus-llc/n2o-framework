@@ -228,4 +228,16 @@ class NavRegionAT extends AutoTestBase {
         groupItem.item(4, NavRegion.GroupItem.class).shouldHaveLabel("Действия");
         groupItem.item(4, NavRegion.GroupItem.class).item(0, NavRegion.NavRegionItem.class).shouldHaveLabel("Выйти");
     }
+
+    @Test
+    void testVisibility() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/nav/visibility/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        NavRegion nav = page.regions().region(0, NavRegion.class);
+        nav.shouldExists();
+        nav.shouldBeHidden();
+        nav.content().shouldHaveSize(0);
+    }
 }

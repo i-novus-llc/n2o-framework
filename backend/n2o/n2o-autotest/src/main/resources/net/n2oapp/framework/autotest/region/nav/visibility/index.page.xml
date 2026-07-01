@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Проверка скрытия group и dropdown-menu, если скрыты (visible=false) внутренние элементы">
+    <regions>
+        <nav direction="column">
+            <!-- Группа должна быть полностью скрыта -->
+            <group label="Основная информация">
+                <menu-item label="Личные данные" visible="false"/>
+                <dropdown-menu label="Вложенное меню">
+                    <menu-item label="Вложенный элемент" visible="false"/>
+                </dropdown-menu>
+            </group>
+
+            <!-- Группа должна быть полностью скрыта -->
+            <group label="Медицинская информация">
+                <dropdown-menu label="Медицинское страхование">
+                    <menu-item label="Обязательное" visible="false"/>
+                    <dropdown-menu label="Вложенное меню">
+                        <menu-item label="Вложенный элемент" visible="false"/>
+                    </dropdown-menu>
+                </dropdown-menu>
+            </group>
+
+            <dropdown-menu label="Медицинское страхование">
+                <menu-item label="Обязательное" visible="false"/>
+                <dropdown-menu label="Вложенное меню">
+                    <menu-item label="Вложенный элемент" visible="false"/>
+                </dropdown-menu>
+            </dropdown-menu>
+        </nav>
+    </regions>
+</page>
