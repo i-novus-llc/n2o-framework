@@ -8,8 +8,7 @@ import net.n2oapp.framework.config.test.SourceValidationTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Тестирование валидации выборок
@@ -59,6 +58,11 @@ class QueryValidatorTest extends SourceValidationTestBase {
                 N2oMetadataValidationException.class,
                 () -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsFiltersInSelections.query.xml"));
         assertEquals( "<unique> ссылается на несуществующий фильтр 'codeEq2' в выборке 'checkForExistsFiltersInSelections'", exception.getMessage());
+    }
+
+    @Test
+    void testCheckForExistsFiltersInSelectionsWithNoFilterId() {
+        assertDoesNotThrow(() -> validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsFiltersInSelectionsWithNoFilterId.query.xml"));
     }
 
     @Test

@@ -83,10 +83,10 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         );
 
         compilePreFilters(source, p, context.getFilters());
-        query.setDisplayFields(unmodifiableList(initDisplayFields(fields)));
+        query.setDisplayFields(initDisplayFields(fields));
         List<QuerySimpleField> simpleFields = source.getSimpleFields();
         query.setSortingFields(unmodifiableList(initSortingFields(simpleFields)));
-        query.setFieldsMap(unmodifiableMap(initFieldsMap(fields, query.getId())));
+        query.setFieldsMap(unmodifiableMap(initFieldsMap(fields)));
         query.setSimpleFieldsMap(unmodifiableMap(initSimpleFieldsMap(simpleFields)));
         query.setFiltersMap(unmodifiableMap(initFiltersMap(source, query, p)));
         query.setInvertFiltersMap(unmodifiableMap(initInvertFiltersMap(source, query.getFieldsMap())));
@@ -107,12 +107,12 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                 .toList();
     }
 
-    private static Map<String, AbstractField> initFieldsMap(List<AbstractField> fields, String id) {
+    private static Map<String, AbstractField> initFieldsMap(List<AbstractField> fields) {
         Map<String, AbstractField> result = new HashMap<>();
         for (AbstractField field : fields) {
             result.put(field.getAbsoluteId(), field);
             if (field instanceof QueryReferenceField referenceField)
-                result.putAll(initFieldsMap(Arrays.asList(referenceField.getFields()), id));
+                result.putAll(initFieldsMap(Arrays.asList(referenceField.getFields())));
         }
 
         return result;
@@ -276,7 +276,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             filter.setFilterId(
                     castDefault(
                             filter.getFilterId(),
-                            () -> normalizeParam(filter.getFieldId()) + "_" + filter.getType()
+                            () -> normalizeParam(filter.getFieldId())
                     )
             );
             filter.setParam(

@@ -442,7 +442,7 @@ class QueryProcessorTest {
         CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testNestedFieldsFiltering"));
 
         assertThat(query.getInvertFiltersMap().size(), is(2));
-        assertThat(query.getInvertFiltersMap().get("organization_code_eq").getKey(), is("organization.code"));
+        assertThat(query.getInvertFiltersMap().get("organization_code").getKey(), is("organization.code"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         Filter filter = new Filter(31, FilterTypeEnum.EQ);

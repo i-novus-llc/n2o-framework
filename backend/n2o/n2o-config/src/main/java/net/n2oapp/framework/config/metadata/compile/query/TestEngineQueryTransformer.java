@@ -40,10 +40,11 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
                 if (filter.getMapping() != null) {
                     if (isBlank(filter.getText())) {
                         String mapping = unwrapSpel(filter.getMapping());
-                        filter.setText(mapping + " " + colon(filter.getType().getId()) + " " + colon(mapping));}
+                        filter.setText(mapping + " " + colon(filter.getType().getId()) + " " + colon(mapping));
+                    }
                 } else {
                     if (filter.getFilterId() == null)
-                        filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()) + "_" + filter.getType().getId());
+                        filter.setFilterId(RouteUtil.normalizeParam(filter.getFieldId()));
                     if (isBlank(filter.getText()))
                         filter.setText(filter.getFieldId() + " " + colon(filter.getType().getId()) + " " + colon(filter.getFilterId()));
                 }
@@ -70,6 +71,6 @@ public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, 
 
     private boolean checkTest(N2oQuery.Selection[] selection) {
         if (selection == null) return true;
-        return Arrays.stream(selection).noneMatch(elem -> !(elem.getInvocation() instanceof N2oTestDataProvider));
+        return Arrays.stream(selection).allMatch(elem -> elem.getInvocation() instanceof N2oTestDataProvider);
     }
 }
