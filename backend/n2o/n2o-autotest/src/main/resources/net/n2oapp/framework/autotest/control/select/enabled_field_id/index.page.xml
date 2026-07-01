@@ -7,6 +7,12 @@
                     label-field-id="name" description-field-id="desc" enabled-field-id="enabled" type="single"/>
             <select id="select2" label="checkboxes" query-id="test" type="checkboxes" enabled-field-id="enabled"
                     label-field-id="name" description-field-id="desc"/>
+            <select id="select3" label="checkboxesWithDefault" query-id="test" type="checkboxes" enabled-field-id="enabled">
+                <default-values>
+                    <value id="1"/>
+                    <value id="2"/>
+                </default-values>
+            </select>
         </fields>
     </form>
 </simple-page>

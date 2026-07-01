@@ -44,9 +44,15 @@ public interface InputSelect extends Control, PopupControl {
 
     /**
      * Удаление выбранных опций по номеру
-     * @param items номера удаляемых опций
+     * @param items заголовки опций
      */
     void clearItems(String... items);
+
+    /**
+     * Проверка того, что выбранные опции недоступны для удаления
+     * @param items заголовки опций
+     */
+    void shouldHaveDisabledItems(String... items);
 
     /**
      * Проверка наличия выбранных опций с ожидаемыми значениями

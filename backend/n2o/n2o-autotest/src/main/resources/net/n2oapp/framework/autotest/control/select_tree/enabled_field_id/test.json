@@ -24,5 +24,31 @@
     "id": 113,
     "jsonNodeName": "child3",
     "parentKey": 11
+  },
+  {
+    "id": 2,
+    "jsonNodeName": "tree1"
+  },
+  {
+    "id": 21,
+    "jsonNodeName": "branch2",
+    "parentKey": 2
+  },
+  {
+    "id": 211,
+    "jsonNodeName": "leaf1",
+    "parentKey": 21,
+    "enabled": false
+  },
+  {
+    "id": 212,
+    "jsonNodeName": "leaf2",
+    "parentKey": 21,
+    "enabled": false
+  },
+  {
+    "id": 213,
+    "jsonNodeName": "leaf3",
+    "parentKey": 21
   }
 ]

@@ -76,6 +76,12 @@ public interface InputSelectTree extends Control, PopupControl {
     void removeOption(int index);
 
     /**
+     * Проверка того, что выбранная опция недоступна для удаления
+     * @param index номер опции
+     */
+    void shouldHaveDisabledOption(int index);
+
+    /**
      * Удаление всех выбранных опций
      */
     void removeAllOptions();
@@ -95,4 +101,10 @@ public interface InputSelectTree extends Control, PopupControl {
      * @param value ожидаемое значение подсказки
      */
     void shouldHaveDropdownMessage(String value, Duration... duration);
+
+    /**
+     * Ручная очистка поля ввода
+     * через клавишу backspace
+     */
+    void backspace();
 }

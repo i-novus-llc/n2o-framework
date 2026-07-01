@@ -16,6 +16,10 @@
                     <option name="Three" id="three" isDisabled="false"/>
                     <option name="Four" id="four" isDisabled="true"/>
                 </options>
+                <default-values>
+                    <value id="three"/>
+                    <value id="four"/>
+                </default-values>
             </input-select>
         </fields>
     </form>

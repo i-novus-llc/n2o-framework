@@ -82,16 +82,29 @@ public class N2oDropDownTree extends N2oComponent implements DropDownTree {
             element().click();
         }
 
+        @Override
         public void shouldHaveValue(String value, Duration... duration) {
             should(Condition.text(value), duration);
         }
 
+        @Override
         public void shouldBeSelected() {
             element().shouldHave(Condition.cssClass(SELECTED_NODE));
         }
 
+        @Override
         public void shouldNotBeSelected() {
             element().shouldNotHave(Condition.cssClass(SELECTED_NODE));
+        }
+
+        @Override
+        public void shouldBeChecked() {
+            shouldBeSelected();
+        }
+
+        @Override
+        public void shouldNotBeChecked() {
+            shouldNotBeSelected();
         }
 
         private WebElementCondition isExpanded() {

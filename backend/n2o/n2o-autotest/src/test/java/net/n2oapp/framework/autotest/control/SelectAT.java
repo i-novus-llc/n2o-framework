@@ -81,8 +81,8 @@ class SelectAT extends AutoTestBase {
         dropdown2.selectItem(1);
         input2.shouldNotBeCleanable();
         // Выбранная строка в выпадающем списке не должна быть кликабельной
-        input2.dropdown().item(1).shouldBeSelected();
-        input2.dropdown().item(1).shouldBeDisabled();
+        dropdown2.item(1).shouldBeSelected();
+        dropdown2.item(1).shouldBeDisabled();
 
         // close popup by click on outside area
         input2.click();
@@ -243,6 +243,28 @@ class SelectAT extends AutoTestBase {
         single.shouldSelected("name1");
         checkEnabledFieldID(checkboxes);
         checkboxes.shouldSelected(1);
+
+        Select select = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("checkboxesWithDefault").control(Select.class);
+        select.shouldSelected("Объектов 2 шт");
+        select.openPopup();
+        select.dropdown().item(0).shouldBeEnabled();
+        select.dropdown().item(0).shouldBeChecked();
+        select.dropdown().item(1).shouldBeDisabled();
+        select.dropdown().item(1).shouldBeChecked();
+        select.dropdown().item(2).shouldBeDisabled();
+        select.dropdown().item(2).shouldNotBeChecked();
+        select.shouldBeCleanable();
+        select.clear();
+        select.shouldSelected("Объектов 1 шт");
+        select.shouldBeOpened();
+        select.dropdown().shouldBeVisible();
+        select.dropdown().item(0).shouldBeEnabled();
+        select.dropdown().item(0).shouldNotBeChecked();
+        select.dropdown().item(1).shouldBeDisabled();
+        select.dropdown().item(1).shouldBeChecked();
+        select.dropdown().item(2).shouldBeDisabled();
+        select.dropdown().item(2).shouldNotBeChecked();
+
     }
 
     private void checkEnabledFieldID(Select select) {

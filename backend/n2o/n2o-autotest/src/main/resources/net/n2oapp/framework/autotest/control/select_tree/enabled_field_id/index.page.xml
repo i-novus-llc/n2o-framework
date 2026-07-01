@@ -10,7 +10,7 @@
     <regions>
         <form>
             <fields>
-                <input-select-tree id="addAttribute"
+                <input-select-tree id="tree1"
                                    parent-field-id="parentKey"
                                    datasource="attributes"
                                    label-field-id="jsonNodeName"
@@ -21,7 +21,7 @@
                                    required="true"
                                    search-filter-id="jsonNodeName"
                 />
-                <input-select-tree id="addAttribute2"
+                <input-select-tree id="tree2"
                                    parent-field-id="parentKey"
                                    datasource="attributes"
                                    label-field-id="jsonNodeName"
@@ -33,6 +33,22 @@
                                    search-filter-id="jsonNodeName"
                                    checkboxes="true"
                 />
+                <input-select-tree id="tree3"
+                                   label="Пункты недоступны и выбраны по умолчанию"
+                                   datasource="attributes"
+                                   parent-field-id="parentKey"
+                                   checking-strategy="child"
+                                   checkboxes="true"
+                                   max-tag-text-length="30"
+                                   enabled-field-id="enabled"
+                                   label-field-id="jsonNodeName"
+                                   search-filter-id="jsonNodeName">
+                    <default-values>
+                        <value id="211"/>
+                        <value id="212"/>
+                        <value id="213"/>
+                    </default-values>
+                </input-select-tree>
             </fields>
         </form>
     </regions>
