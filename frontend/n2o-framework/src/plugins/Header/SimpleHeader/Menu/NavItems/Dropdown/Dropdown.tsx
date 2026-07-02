@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, MouseEvent } from 'react'
 import {
     ButtonDropdownProps,
     Dropdown as DropdownParent,
@@ -40,10 +40,16 @@ function DropdownItem({ active, item, className }: DropdownItemProps) {
 
     const itemProps = { ...item, visible, enabled: !disabled }
 
+    const handleClick = (e: MouseEvent) => {
+        /* @INFO HACK для закрытия вложенных DropdownMenu */
+        e.preventDefault()
+    }
+
     return (
         <DropdownChildren
             active={active}
             disabled={item.src === ITEM_SRC.STATIC || item.disabled || disabled}
+            onClick={handleClick}
         >
             <NavItemContainer
                 itemProps={itemProps}
@@ -95,7 +101,15 @@ export function Dropdown({
                     iconPosition={iconPosition}
                 />
             </DropdownToggle>
-            <DropdownMenu flip className={classNames(`menu-level-${level}`, { nested })}>
+            <DropdownMenu
+                onClick={(event) => {
+                    // HACK для закрытия вложенных DropdownMenu
+                    if (event.isDefaultPrevented()) { setOpen(false) }
+                }
+            }
+                flip
+                className={classNames(`menu-level-${level}`, { nested })}
+            >
                 {items.map((item) => {
                     if (item.items) {
                         const { visible = true, enabled = true } = item
