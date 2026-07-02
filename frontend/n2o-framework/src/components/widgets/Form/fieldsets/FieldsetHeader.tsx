@@ -31,7 +31,7 @@ export function FieldsetHeader({
 
     if (!visible) { return null }
 
-    const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
+    const FactoryBadge = getComponent<BadgeProps & { visible?: boolean }>('Badge', FactoryLevels.SNIPPETS)
 
     return (
         <div className={classNames('n2o-fieldset__label-container', { 'with-badge': !!badge })}>

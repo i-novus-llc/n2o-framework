@@ -5,10 +5,10 @@ import isEmpty from 'lodash/isEmpty'
 
 import { logger } from '../../../utils/logger'
 import { getOnAppend, getOnRemove, mapMultiFields } from '../../../core/models/mapMultiFields'
-import { ModelLink, ModelPrefix } from '../../../core/models/types'
+import { FullModelPath, ModelLink, ModelPrefix } from '../../../core/models/types'
 import { remove as removeDatasource } from '../../datasource/store'
 import { diffKeys } from '../../form/helpers'
-import { getModelLink } from '../../../core/models/getModelLink'
+import { getFullModelPath } from '../../../core/models/getModelPath'
 import {
     appendToArray,
     clearModel,
@@ -19,7 +19,7 @@ import {
     removeAllModel,
     combineModels,
 } from '../store'
-import { SetModelAction } from '../Actions'
+import { AppendToArrayAction, RemoveFromArrayAction, SetModelAction } from '../Actions'
 import { State } from '../../State'
 import { Model } from '../selectors'
 
@@ -27,7 +27,7 @@ import { Handler } from './types'
 import { getSubscribers } from './subscribe'
 
 type BufferValue = {
-    keys: Record<ModelLink, true>
+    keys: Record<FullModelPath, true>
     handlers: Set<Handler>
 }
 
@@ -44,9 +44,10 @@ const addSubscriberToBuffer = (action: unknown) => {
 export const sagas = [
     /// accumulate changes to buffer
     takeEvery(setModel.type, (action: SetModelAction) => {
-        const { prefix, key: id, model } = action.payload
+        const { modelLink, model } = action.payload
+        const { prefix, id } = modelLink
         const { prevState } = action.meta || {}
-        const key = getModelLink(prefix, id)
+        const key = getFullModelPath({ prefix, id })
         const prevModel = prevState?.models[prefix][id]
 
         if (isEmpty(model) && isEmpty(prevModel)) { return }
@@ -57,7 +58,7 @@ export const sagas = [
         // TODO array diff
         if (!Array.isArray(model) && !Array.isArray(prevModel)) {
             diffKeys(model, prevModel as Model).forEach((field) => {
-                buffer.keys[getModelLink(prefix, id, field)] = true
+                buffer.keys[getFullModelPath({ prefix, id, field })] = true
             })
         }
     }),
@@ -71,7 +72,7 @@ export const sagas = [
         for (const [prefix, models] of Object.entries(combine)) {
             for (const [id, model] of Object.entries(models)) {
                 for (const field of Object.keys(model)) {
-                    buffer.keys[getModelLink(prefix as ModelPrefix, id, field)] = true
+                    buffer.keys[getFullModelPath({ prefix, id, field } as ModelLink)] = true
                 }
             }
         }
@@ -86,12 +87,12 @@ export const sagas = [
         const prefixes: ModelPrefix[] = get(action.payload, 'prefixes', allModels)
 
         prefixes.forEach((prefix) => {
-            buffer.keys[getModelLink(prefix, id)] = true
+            buffer.keys[getFullModelPath({ prefix, id })] = true
         })
     }),
     takeEvery(updateModel, (action) => {
-        const { field, key: id, prefix, value } = action.payload
-        const key = getModelLink(prefix, id, field)
+        const { fieldName, modelLink, value } = action.payload
+        const key = getFullModelPath({ ...modelLink, field: fieldName })
 
         if (!isEqual(value, get(action.meta?.prevState, key))) {
             addSubscriberToBuffer(action)
@@ -101,37 +102,39 @@ export const sagas = [
     takeEvery(copyFieldArray, (action) => {
         addSubscriberToBuffer(action)
 
-        const { field, key: id, prefix } = action.payload
-        const key = getModelLink(prefix, id, field)
+        const { fieldName, modelLink } = action.payload
+        const key = getFullModelPath({ ...modelLink, field: fieldName })
 
         buffer.keys[key] = true
     }),
-    takeEvery(appendToArray, (action) => {
+    takeEvery(appendToArray, (action: AppendToArrayAction) => {
         addSubscriberToBuffer(action)
 
-        const { field, position, key: id, prefix } = action.payload
-        const key = getModelLink(prefix, id, field)
+        const { fieldName, modelLink, position } = action.payload
+        const key = getFullModelPath({ ...modelLink, field: fieldName })
+
+        buffer.keys[key] = true
+
+        if (typeof position === 'number') {
+            buffer.keys = mapMultiFields(
+                buffer.keys,
+                key,
+                getOnAppend(fieldName, position),
+            )
+        }
+    }),
+    takeEvery(removeFromArray, (action: RemoveFromArrayAction) => {
+        addSubscriberToBuffer(action)
+
+        const { fieldName, modelLink, start, count = 1 } = action.payload
+        const key = getFullModelPath({ ...modelLink, field: fieldName })
 
         buffer.keys[key] = true
 
         buffer.keys = mapMultiFields(
             buffer.keys,
             key,
-            getOnAppend<true>(field, position),
-        )
-    }),
-    takeEvery(removeFromArray, (action) => {
-        addSubscriberToBuffer(action)
-
-        const { field, start, count = 1, key: id, prefix } = action.payload
-        const key = getModelLink(prefix, id, field)
-
-        buffer.keys[key] = true
-
-        buffer.keys = mapMultiFields(
-            buffer.keys,
-            key,
-            getOnRemove<true>(field, start, count),
+            getOnRemove(fieldName, start, count),
         )
     }),
 
@@ -141,7 +144,7 @@ export const sagas = [
             buffer.keys = Object.fromEntries(
                 Object
                     .entries(buffer.keys)
-                    .filter(key => !key[0].startsWith(getModelLink(prefix, payload.id))),
+                    .filter(key => !key[0].startsWith(getFullModelPath({ prefix, id: payload.id }))),
             )
         }
     }),
@@ -165,9 +168,9 @@ export const sagas = [
         bufferState = state
 
         buffer = { keys: {}, handlers: new Set() }
-        const changedKeys = Object.keys(currentBuffer.keys) as ModelLink[]
+        const changedKeys = Object.keys(currentBuffer.keys) as FullModelPath[]
 
-        const isChanged = (link: ModelLink): boolean => {
+        const isChanged = (link: FullModelPath): boolean => {
             return changedKeys.some((changedLink) => {
                 if (link === changedLink) { return true }
                 // Изменилось внутреннее поле, подписывались на внешнее

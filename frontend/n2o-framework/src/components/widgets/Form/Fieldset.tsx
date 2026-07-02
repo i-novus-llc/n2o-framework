@@ -157,7 +157,6 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
             labelWidth,
             labelAlignment,
             autoFocusId,
-            modelPrefix,
             autoSubmit,
             activeModel,
             onChange,
@@ -180,7 +179,6 @@ class Fieldset extends React.Component<FieldsetComponentProps, State> {
                 labelAlignment={labelAlignment}
                 autoFocusId={autoFocusId}
                 form={formName}
-                modelPrefix={modelPrefix}
                 disabled={!enabled}
                 autoSubmit={autoSubmit}
                 onChange={onChange}

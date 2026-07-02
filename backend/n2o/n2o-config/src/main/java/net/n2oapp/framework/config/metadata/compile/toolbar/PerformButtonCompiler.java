@@ -21,6 +21,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +30,7 @@ import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileAction;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initActions;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 import static net.n2oapp.framework.config.metadata.compile.datasource.DatasourceCompileStaticProcessor.initObject;
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.*;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
@@ -42,6 +42,7 @@ import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourc
 public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton> extends BaseButtonCompiler<S, D>
         implements MetadataEnvironmentAware {
 
+    public static final String INDEX = "[index]";
     protected ButtonGeneratorFactory buttonGeneratorFactory;
 
     @Override
@@ -162,13 +163,15 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
 
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
         boolean autoDisableCondition = DisableOnEmptyModelTypeEnum.AUTO.equals(disableOnEmptyModel) &&
-                (ReduxModelEnum.RESOLVE.equals(source.getModel()) || ReduxModelEnum.MULTI.equals(source.getModel())) &&
+                (ReduxModelEnum.RESOLVE.equals(source.getModel()) || ReduxModelEnum.MULTI.equals(source.getModel())
+                        || (ModelLinkUtil.isInMultiForm(p) && ReduxModelEnum.DATASOURCE.equals(source.getModel()))) &&
                 parentIsNotCell;
 
         if (DisableOnEmptyModelTypeEnum.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
             Condition condition = new Condition();
             condition.setExpression("!$.isEmptyModel(this)");
-            condition.setModelLink(new ModelLink(source.getModel(), clientDatasource).getLink());
+
+            condition.setModelLink(ModelLinkUtil.createModelLink(p, source.getModel(), clientDatasource, getLocalModel(p)).getLink());
 
             return condition;
         }
@@ -189,7 +192,7 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
         }
     }
 
-    private void compileDependencyCondition(N2oAbstractButton.Dependency dependency, D button, ValidationTypeEnum validationType,
+    private void compileDependencyCondition(N2oAbstractButton.Dependency dependency, PerformButton button, ValidationTypeEnum validationType,
                                             String buttonDatasource, ReduxModelEnum buttonModel, CompileProcessor p) {
         ReduxModelEnum refModel = castDefault(dependency.getModel(), buttonModel, ReduxModelEnum.RESOLVE);
         Condition condition = new Condition();
@@ -199,10 +202,13 @@ public class PerformButtonCompiler<S extends N2oButton, D extends PerformButton>
                 buttonDatasource;
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         ModelLink modelLink;
-        if (componentScope != null && componentScope.unwrap(N2oCell.class) != null
+
+        if (ModelLinkUtil.isInMultiForm(p) && refModel == ReduxModelEnum.DATASOURCE) {
+            modelLink = new ModelLink(datasource, INDEX);
+        } else if (componentScope != null && componentScope.unwrap(N2oCell.class) != null
                 && dependency.getDatasource() == null
                 && dependency.getModel() == null) {
-            modelLink = new ModelLink(buttonDatasource, "[index]");
+            modelLink = new ModelLink(buttonDatasource, INDEX);
         } else {
             modelLink = new ModelLink(refModel, datasource, null);
         }

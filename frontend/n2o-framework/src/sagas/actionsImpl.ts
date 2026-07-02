@@ -11,7 +11,7 @@ import isEmpty from 'lodash/isEmpty'
 import merge from 'deepmerge'
 
 import { START_INVOKE, SUBMIT } from '../constants/actionImpls'
-import { getModelByPrefixAndNameSelector } from '../ducks/models/selectors'
+import { getModelSelector } from '../ducks/models/selectors'
 import { dataProviderResolver } from '../core/dataProviderResolver'
 import { FETCH_INVOKE_DATA } from '../core/api'
 import { setModel } from '../ducks/models/store'
@@ -25,7 +25,7 @@ import { type DataSourceState } from '../ducks/datasource/DataSource'
 import { dataSourceByIdSelector } from '../ducks/datasource/selectors'
 import { validate as validateSaga } from '../ducks/datasource/sagas/validate'
 import { type N2OMeta } from '../ducks/Action'
-import { type ValidationResult, ValidationsKey } from '../core/validation/types'
+import { type ValidationResult } from '../core/validation/types'
 import { hasError } from '../core/validation/validateModel'
 import { logger } from '../utils/logger'
 
@@ -99,6 +99,7 @@ export interface HandleInvokePayload {
     dataProvider: { submitForm?: boolean, optimistic?: boolean }
     pageId: string
     widgetId?: string
+    field?: `[${number}]`
 }
 
 export interface HandleInvokeMeta extends N2OMeta {
@@ -116,14 +117,16 @@ export function* handleInvoke(
     { payload, meta = {} }: { payload: HandleInvokePayload, meta?: HandleInvokeMeta },
 ) {
     const {
-        datasource,
-        model: modelPrefix,
+        datasource: id,
+        model: prefix,
         dataProvider,
+        field,
     } = payload
 
     const optimistic = get(dataProvider, 'optimistic')
-    const model: FetchInvokeModel = datasource
-        ? yield select(getModelByPrefixAndNameSelector(modelPrefix, datasource))
+    const index = (field && parseInt(field?.replace('[', ''), 10)) ?? undefined
+    const model: FetchInvokeModel = id
+        ? yield select(getModelSelector({ prefix, id, index }))
         : {}
 
     let errorFields: ErrorFields = {}
@@ -133,11 +136,9 @@ export function* handleInvoke(
 
         const { validate } = meta
 
-        if (datasource && (validate !== false) && (modelPrefix === ModelPrefix.active)) {
+        if (id && (validate !== false)) {
             const messages: Record<string, ValidationResult[]> = yield validateSaga(startValidate(
-                datasource,
-                ValidationsKey.Validations,
-                modelPrefix,
+                { prefix, id, index },
                 undefined,
                 { touched: true },
             ))
@@ -154,15 +155,15 @@ export function* handleInvoke(
         const successMeta = merge(meta.success || {}, response.meta || {})
 
         if (optimistic === false) {
-            const newModel = modelPrefix === ModelPrefix.selected ? response.data?.$list : response.data
+            const newModel = (prefix === ModelPrefix.selected || prefix === ModelPrefix.source) && (typeof index !== 'number')
+                ? response.data?.$list
+                : response.data
 
-            if (datasource && !isEqual(model, newModel)) {
-                yield put(
-                    setModel(modelPrefix, datasource, newModel),
-                )
+            if (id && !isEqual(model, newModel)) {
+                yield put(setModel({ id, prefix, index }, newModel, true))
             }
         }
-        yield put(successInvoke(datasource, modelPrefix, successMeta))
+        yield put(successInvoke(id, prefix, successMeta))
     } catch (err) {
         logger.error(err)
 
@@ -170,11 +171,11 @@ export function* handleInvoke(
 
         errorFields = get(errorMeta, 'messages.fields', {})
 
-        yield put(failInvoke(datasource, merge(meta.fail || {}, errorMeta)))
+        yield put(failInvoke(id, merge(meta.fail || {}, errorMeta)))
 
         throw err
     } finally {
-        if (datasource) {
+        if (id) {
             const messages: Record<string, ValidationResult[]> = {}
 
             for (const [fieldName, error] of Object.entries(errorFields)) {
@@ -183,9 +184,8 @@ export function* handleInvoke(
 
             if (!isEmpty(messages)) {
                 yield put(endValidation({
-                    id: datasource,
+                    modelLink: { prefix, id, index },
                     messages,
-                    prefix: modelPrefix,
                     fields: Object.keys(messages),
                 }, { touched: true }))
             }

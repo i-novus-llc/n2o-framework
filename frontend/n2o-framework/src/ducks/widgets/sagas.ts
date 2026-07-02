@@ -4,7 +4,7 @@ import { REGISTER_DEPENDENCY } from '../../constants/dependency'
 import { getModelsByDependency } from '../models/selectors'
 import { type State } from '../State'
 import { resolveDependency } from '../../sagas/widgetDependency/resolve'
-import { type ModelLink } from '../../core/models/types'
+import { FullModelPath } from '../../core/models/types'
 import { subscribe } from '../models/sagas/subscribe'
 import { type WidgetsDependencies } from '../../sagas/widgetDependency/WidgetTypes'
 import { type RegisterDependency } from '../../actions/dependency'
@@ -16,7 +16,7 @@ import { makeWidgetsDependenciesSelector } from './selectors'
  * Если передан колбэк isChanged, то резолвит только те зависимости,
  * у которых изменилась модель (используется в саге watcher).
  */
-export function* resolveDependencies(isChanged: (link: ModelLink) => boolean) {
+export function* resolveDependencies(isChanged: (path: FullModelPath) => boolean) {
     const state: State = yield select()
     const widgetsDependencies: WidgetsDependencies = yield select(makeWidgetsDependenciesSelector())
 

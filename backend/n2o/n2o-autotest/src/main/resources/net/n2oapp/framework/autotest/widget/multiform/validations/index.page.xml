@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Тестирование unsaved-data-prompt для multi-form" route="/">
+    <multi-form unsaved-data-prompt="false">
+        <datasource id="ds" query-id="test" size="2"/>
+        <fields>
+            <row>
+                <input-text id="name" label="Имя" required="true"/>
+                <input-text id="surname" label="Фамилия">
+                    <validations>
+                        <condition id="test" message="Сработала валидация">
+                           return surname.length &gt; 3
+                        </condition>
+                    </validations>
+                </input-text>>
+            </row>
+            <row>
+                <col>
+                    <button label="Сохранить" color="primary"/>
+                    <button label="Удалить" color="danger">
+                        <set-value source-model="datasource" target-model="datasource">
+                            const result = this.slice()
+                            result.splice(index, 1)
+                            return result
+                        </set-value>
+                    </button>
+                </col>
+            </row>
+        </fields>
+        <toolbar place="topLeft">
+            <button label="Добавить" color="primary" disable-on-empty-model="false">
+                <set-value source-model="datasource" target-model="datasource">
+                    this ? [{}, ...this] : [{}]
+                </set-value>
+            </button>
+        </toolbar>
+    </multi-form>
+</simple-page>

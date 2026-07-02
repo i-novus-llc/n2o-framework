@@ -7,11 +7,11 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAlertAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
 import net.n2oapp.framework.api.ui.ResponseMessage;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
@@ -82,7 +82,7 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
             if (datasourceId == null) {
                 throw new N2oException("Источник данных не найден для действия \"<alert>\" со связанными атрибутами");
             }
-            message.setModelLink(new ModelLink(reduxModel, getClientDatasourceId(datasourceId, p)).getLink());
+            message.setModelLink(ModelLinkUtil.createModelLink(p, source.getModel(), getClientDatasourceId(datasourceId, p), reduxModel).getLink());
         }
 
         return Collections.singletonList(message);

@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.criteria.filters.FilterTypeEnum;
 import net.n2oapp.framework.api.data.validation.Validation;
+import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -102,7 +103,7 @@ public abstract class AbstractController {
             throw new IllegalArgumentException("For validation you should set datasourceId and validationId");
         if (page.getDatasources() == null || page.getDatasources().get(datasourceId) == null)
             throw new IllegalArgumentException(String.format("Datasource by id=%s not found", datasourceId));
-        requestInfo.setValidation(getValidationById(page.getDatasources().get(datasourceId).getValidations(), validationId));
+        requestInfo.setValidation(getValidationById(page.getDatasources().get(datasourceId), validationId));
         requestInfo.setData(data.getDataSet("data"));
         return requestInfo;
     }
@@ -224,8 +225,11 @@ public abstract class AbstractController {
         return requestInfo;
     }
 
-    private Validation getValidationById(Map<String, List<Validation>> validations, String validationId) {
-        Optional<Validation> validation = validations.values().stream().flatMap(List::stream)
+    private Validation getValidationById(AbstractDatasource datasource, String validationId) {
+        if (datasource.getValidations() == null) return null;
+        Optional<Validation> validation = datasource.getValidations().values().stream()
+                .flatMap(v -> v.values().stream())
+                .flatMap(Collection::stream)
                 .filter(v -> v.getId().equals(validationId)).findFirst();
         return validation.orElse(null);
     }

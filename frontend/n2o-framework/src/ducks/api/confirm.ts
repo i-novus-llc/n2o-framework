@@ -1,6 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
 import { takeEvery, put, select } from 'redux-saga/effects'
-import get from 'lodash/get'
 import isObject from 'lodash/isObject'
 import isEmpty from 'lodash/isEmpty'
 
@@ -8,8 +7,9 @@ import { insert } from '../overlays/store'
 import { Meta } from '../Action'
 import { executeExpression } from '../../core/Expression/execute'
 import { parseExpression } from '../../core/Expression/parse'
-import { linkResolver } from '../../utils/linkResolver'
-import { State } from '../State'
+import { propsResolver } from '../../core/Expression/propsResolver'
+import { ModelPrefix } from '../../core/models/types'
+import { getByLinkSelector } from '../models/selectors'
 
 import { ACTIONS_PREFIX } from './constants'
 import { startOperation } from './Operation'
@@ -19,7 +19,9 @@ export type Payload = {
     visible: boolean
     mode: string
     type: string
-    modelLink?: string
+    datasource: string
+    model: ModelPrefix
+    field?: string
     condition?: string | boolean
     text?: string
 }
@@ -34,15 +36,9 @@ const resolveConditions = (
     condition?: string | boolean,
     ctx?: Record<string, unknown>,
 ) => {
-    if (!condition) {
-        return true
-    }
-    if (isObject(condition) && isEmpty(condition)) {
-        return true
-    }
-    if (typeof condition === 'boolean') {
-        return condition
-    }
+    if (!condition) { return true }
+    if (isObject(condition) && isEmpty(condition)) { return true }
+    if (typeof condition === 'boolean') { return condition }
 
     const expression = parseExpression(condition)
 
@@ -52,23 +48,15 @@ const resolveConditions = (
 }
 
 function* resolve(
-    props: Pick<Payload, 'modelLink' | 'condition' | 'text'>,
+    props: Omit<Payload, 'name' | 'mode' | 'visible' | 'type'>,
     ctx?: Record<string, unknown>,
 ) {
-    const { modelLink } = props
-
-    if (!modelLink) { return props }
-
-    const state: State = yield select()
-    const model: Record<string, unknown> = get(state, modelLink)
-    const { condition } = props
+    const { datasource: id, model: prefix, field, condition, ...rest } = props
+    const model: Record<string, unknown> = yield select(getByLinkSelector({ id, prefix, field }))
 
     if (!resolveConditions(model, condition, ctx)) { return {} }
 
-    const { text } = props
-    const resolvedText: string = linkResolver(state, { link: modelLink, value: text })
-
-    return { ...props, text: resolvedText }
+    return propsResolver(rest, model, ctx)
 }
 
 /* TODO OverlaysRefactoring убрать передаваемый type */

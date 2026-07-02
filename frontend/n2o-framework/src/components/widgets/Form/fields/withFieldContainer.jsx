@@ -8,7 +8,6 @@ import isEmpty from 'lodash/isEmpty'
 
 import { makeFieldByName, messageSelector } from '../../../../ducks/form/selectors'
 import { registerFieldExtra } from '../../../../ducks/form/store'
-import { getModelByPrefixAndNameSelector } from '../../../../ducks/models/selectors'
 import { useFormContext } from '../../../core/FormProvider'
 import { setFieldSubmit } from '../../../../ducks/datasource/store'
 import { getValidationClass } from '../../../../core/utils/getValidationClass'
@@ -18,7 +17,7 @@ import { ArrayFieldContext } from '../../../../core/datasource/ArrayField/Contex
 import { getDefaultField } from '../../../../ducks/form/FormPlugin'
 import { useScrollToFirstInvalid } from '../../../pages/PageScroll'
 
-import { modifyDependencies, replaceIndex, resolveControlIndexes } from './utils'
+import { modifyDependencies, resolveControlIndexes } from './utils'
 
 const useReduxField = ({ name: fieldName, ...fieldProps }, formName, dispatch) => {
     const field = useSelector(makeFieldByName(formName, fieldName))
@@ -41,8 +40,8 @@ const useReduxField = ({ name: fieldName, ...fieldProps }, formName, dispatch) =
     }
 }
 
-const useValidation = (datasource, prefix, fieldName, form) => {
-    const message = useSelector(messageSelector(datasource, fieldName, prefix, form))
+const useValidation = (fieldLink, formName) => {
+    const message = useSelector(messageSelector(fieldLink, formName))
 
     return {
         message,
@@ -51,7 +50,7 @@ const useValidation = (datasource, prefix, fieldName, form) => {
 }
 
 const useParentIndex = (props) => {
-    const { parentName, model, subMenu, control, action, dependency } = props
+    const { parentName, model, control, dependency } = props
     const multiContext = useContext(ArrayFieldContext)
 
     const resolvedModel = useMemo(() => {
@@ -73,19 +72,9 @@ const useParentIndex = (props) => {
         return {
             ...props,
             control: control && resolveControlIndexes(control, multiContext),
-            action: action && replaceIndex(action, multiContext),
-            subMenu: subMenu?.map((option) => {
-                const { action } = option
-
-                if (action) {
-                    option.action = replaceIndex(action, multiContext)
-                }
-
-                return option
-            }),
             dependency: modifyDependencies(dependency, multiContext),
         }
-    }, [action, control, dependency, multiContext, props, subMenu])
+    }, [control, dependency, multiContext, props])
 
     return {
         ...resolvedProps,
@@ -120,8 +109,9 @@ const useAutosave = (datasource, fieldName, dataProvider, dispatch) => {
 export default (Field) => {
     const FieldContainer = (props) => {
         const dispatch = useDispatch()
-        const { datasource, prefix, formName } = useFormContext()
-        const model = useSelector(getModelByPrefixAndNameSelector(prefix, datasource)) || {}
+        const { modelLink, formName, getValues } = useFormContext()
+        const { id: datasource } = modelLink
+        const model = getValues()
         const withIndex = useParentIndex({ ...props, model })
         const {
             visible, disabled, enabled, multiSetDisabled,
@@ -145,9 +135,7 @@ export default (Field) => {
             rowId,
         }, formName, dispatch)
 
-        const { form } = props
-
-        const message = useValidation(datasource, prefix, name, form)
+        const message = useValidation({ ...modelLink, field: name }, formName)
         const scrollRef = useRef(null)
         const resolved = useResolvedProps({
             ...withIndex,

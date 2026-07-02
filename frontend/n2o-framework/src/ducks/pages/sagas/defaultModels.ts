@@ -22,6 +22,7 @@ import {
 // @ts-ignore import from js file
 import linkResolver from '../../../utils/linkResolver'
 import { INDEX_REGEXP } from '../../../core/validation/const'
+import { getFieldPath, getFullModelPath } from '../../../core/models/getModelPath'
 
 const createContext = (fieldName: string) => {
     const match = fieldName.match(/\b\d+\b/g)
@@ -123,15 +124,15 @@ export function* flowDefaultModels(config: DefaultModels) {
     if (!isEmpty(arrayFields)) {
         yield takeEvery([appendToArray], function* watcher({ payload }) {
             const state: State = yield select()
-            const { prefix, key, field, position } = payload
+            const { modelLink, fieldName, position } = payload
 
-            if (!field) { return }
+            if (!fieldName) { return }
 
-            const fieldPath = `${prefix}['${key}'].${field}`
+            const fieldPath = getFieldPath({ ...modelLink, field: fieldName })
             const arrSymbol = '[*]'
             const fieldMask = `${fieldPath.replaceAll(/\[\d+]/g, arrSymbol)}${arrSymbol}`
             const combine: Partial<ModelsState> = {}
-            const index = position ?? get(state, `models.${fieldPath}`).length - 1
+            const index = position ?? get(state, getFullModelPath({ ...modelLink, field: fieldName })).length - 1
             const itemPath = `${fieldPath}[${index}]`
             const ctx = createContext(itemPath)
 

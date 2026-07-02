@@ -10,11 +10,13 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueActionPayload;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalDatasourceId;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalModel;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -37,7 +39,7 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
                 () -> p.resolve(property("n2o.api.action.set_value.validate"), Boolean.class)));
 
         String defaultDatasource = getClientDatasourceId(getLocalDatasourceId(p), p);
-        ReduxModelEnum model = getModelFromComponentScope(p);
+        ReduxModelEnum model = getLocalModel(p);
 
         String sourceDatasourceId = source.getSourceDatasourceId() == null ? defaultDatasource :
                 getClientDatasourceId(source.getSourceDatasourceId(), p);
@@ -50,7 +52,11 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         }
         SetValueActionPayload.ClientModel targetModel = new SetValueActionPayload.ClientModel(targetDatasourceId,
                 castDefault(source.getTargetModel(), model.getId()));
-        targetModel.setField(source.getTo());
+        String field = ModelLinkUtil.getField(p);
+        if (source.getTo() != null)
+            targetModel.setField(field != null
+                    ? field.concat(".").concat(source.getTo())
+                    : source.getTo());
         setValueAction.getPayload().setSource(sourceModel);
         setValueAction.getPayload().setTarget(targetModel);
 

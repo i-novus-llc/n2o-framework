@@ -71,7 +71,7 @@ export function* effect({ payload, type }: ReturnType<typeof creator>) {
             newModel = newList
         }
 
-        yield put(setModel(list.model, list.datasource, newModel))
+        yield put(setModel({ prefix: list.model, id: list.datasource }, newModel))
     } catch (error) {
         const message = error instanceof Error ? error.message : error
 

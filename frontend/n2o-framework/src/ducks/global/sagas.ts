@@ -10,7 +10,7 @@ import { AuthProvider } from '../../core/auth/Provider'
 import { logger } from '../../utils/logger'
 import { subscribe } from '../models/sagas/subscribe'
 import { watchOnChangeEvents, type EventType, getOnChangeEvents } from '../watchEvents/watchEvents'
-import { ModelLink } from '../../core/models/types'
+import { FullModelPath } from '../../core/models/types'
 
 import {
     requestConfigSuccess,
@@ -94,7 +94,7 @@ export function* changeLocale(apiProvider: unknown, action: { payload: { locale:
  * Сага, получающая страницы, извлекающая из них события и передающая их в watchEvents для обработки.
  * @param keys - ключи моделей, по которым происходит отслеживание
  */
-export function* watchApplicationEvents(isChanged: (link: ModelLink) => boolean) {
+export function* watchApplicationEvents(isChanged: (link: FullModelPath) => boolean) {
     const events: EventType[] = yield select(applicationEventsSelector)
 
     yield call(watchOnChangeEvents, getOnChangeEvents(events), isChanged)

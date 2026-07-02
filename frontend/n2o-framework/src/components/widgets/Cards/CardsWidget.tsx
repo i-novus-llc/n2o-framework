@@ -24,7 +24,7 @@ function Widget(props: CardsWidgetProps) {
 
     const place = get(paging, 'place', 'bottomLeft')
     const { resolveProps } = useContext(FactoryContext)
-    const resolvedFilter = useMemo(() => resolveProps(filter as object, StandardFieldset) as CardsWidgetProps['filter'], [filter, resolveProps])
+    const resolvedFilter = useMemo(() => filter && resolveProps<CardsWidgetProps['filter']>(filter, StandardFieldset), [filter, resolveProps])
     const dataSourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource))
 
     const pagination = {

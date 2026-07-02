@@ -1,6 +1,6 @@
-import { ModelLink } from '../../../core/models/types'
+import { FullModelPath } from '../../../core/models/types'
 
-export type Handler = (isChanged: (link: ModelLink) => boolean) => void
+export type Handler = (isChanged: (link: FullModelPath) => boolean) => void
 
 export type Predicate = (action: unknown) => boolean
 

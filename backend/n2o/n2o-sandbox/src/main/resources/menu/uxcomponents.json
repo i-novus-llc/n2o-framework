@@ -199,6 +199,10 @@
         {
           "templateId": "uxcomponents/form/form_horizontal_fields",
           "name": "Горизонтальные поля"
+        },
+        {
+          "templateId": "uxcomponents/form/multi_form",
+          "name": "Мульти-форма"
         }
       ]
     },

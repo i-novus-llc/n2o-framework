@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.action.v2;
 
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmTypeEnum;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -15,6 +16,8 @@ public class ConfirmActionElementIOV2 extends AbstractActionElementIOV2<N2oConfi
     @Override
     public void io(Element e, N2oConfirmAction m, IOProcessor p) {
         super.io(e, m, p);
+        p.attribute(e, "datasource", m::getDatasourceId, m::setDatasourceId);
+        p.attributeEnum(e, "model", m::getModel, m::setModel, ReduxModelEnum.class);
         p.attribute(e,"title", m::getTitle, m::setTitle);
         p.attribute(e,"text", m::getText, m::setText);
         p.attributeEnum(e,"type", m::getType, m::setType, ConfirmTypeEnum.class);

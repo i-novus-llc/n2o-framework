@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.meta.Dependency;
@@ -25,12 +26,20 @@ public abstract class AbstractDatasource implements Compiled, IdAware, JsonPrope
     @JsonProperty
     private List<Dependency> dependencies;
     @JsonProperty
-    private Map<String, List<Validation>> validations;
-    @JsonProperty
-    private Map<String, List<Validation>> filterValidations;
+    private Map<ReduxModelEnum, Map<String, List<Validation>>> validations;
     @JsonProperty
     private Paging paging;
     @JsonProperty
     private Map<String, String> sorting;
     private Map<String, Object> properties;
+
+    /**
+     * Получить валидации для указанной модели
+     * @param model модель (RESOLVE, FILTER, DATASOURCE)
+     * @return карта валидаций по полям
+     */
+    public Map<String, List<Validation>> getValidations(ReduxModelEnum model) {
+        if (validations == null) return Map.of();
+        return validations.getOrDefault(model, Map.of());
+    }
 }

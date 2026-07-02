@@ -3,7 +3,7 @@ import get from 'lodash/get'
 
 import { State } from '../State'
 import { dataSourceFieldError } from '../datasource/selectors'
-import { ModelPrefix } from '../../core/datasource/const'
+import { FieldLink, ModelLink, ModelPrefix } from '../../core/models/types'
 import { ValidationResult } from '../../core/validation/types'
 
 import { getDefaultField } from './FormPlugin'
@@ -20,15 +20,25 @@ export const formsSelector = (state: State) => state.form || {}
  */
 export const makeFormByName = (name: string) => createSelector(
     formsSelector,
-    formsState => get(formsState, name) || {},
+    formsState => get(formsState, name, null),
 )
 
-export const makeFormsByModel = (datasource: string, modelPrefix: ModelPrefix) => createSelector(
+export const makeFormsByModelLink = (modelLink: ModelLink) => createSelector(
     formsSelector,
-    forms => Object.values(forms).filter(form => (
-        form.datasource === datasource &&
-        form.modelPrefix === modelPrefix
+    forms => Object.values(forms).filter(({ modelLink: { id, prefix, index } }) => (
+        // может прийти объект с index:undefined, от чего _.isEqual возвращает не то что ожидаем
+        (id === modelLink.id) && (prefix === modelLink.prefix) && (index === modelLink.index)
     )),
+)
+
+// @deprecated
+export const makeFormsByModel = (id: string, prefix: ModelPrefix) => (
+    makeFormsByModelLink({ id, prefix })
+)
+
+export const getFormsFields = (modelLink: ModelLink) => createSelector(
+    makeFormsByModelLink(modelLink),
+    forms => forms.map(form => get(form, 'fields', {})).reduce((acc, fields) => ({ ...acc, ...fields }), {}),
 )
 
 export const getFormFieldsByName = (name: string) => createSelector(
@@ -42,8 +52,8 @@ export const getFormFieldsByName = (name: string) => createSelector(
 const defaultField = Object.freeze(getDefaultField())
 
 export const makeFieldByName = (formName: string, fieldName: string) => createSelector(
-    makeFormByName(formName),
-    form => get(form.fields, fieldName, defaultField),
+    getFormFieldsByName(formName),
+    fields => get(fields, fieldName, defaultField),
 )
 
 export const makeFieldParam = (formName: string, fieldName: string, key: keyof Field) => createSelector(
@@ -80,12 +90,12 @@ export const isInitSelector = (formName: string, fieldName: string) => createSel
  */
 export const isDirtyForm = (formName: string) => createSelector(
     makeFormByName(formName),
-    form => Boolean(form.dirty),
+    form => Boolean(form?.dirty),
 )
 
-export const messageSelector = (datasourceId: string, fieldName: string, modelPrefix: ModelPrefix, formId = datasourceId) => createSelector(
-    makeFieldByName(formId, fieldName),
-    dataSourceFieldError(datasourceId, modelPrefix, fieldName),
+export const messageSelector = (fieldLink: FieldLink, formId = fieldLink.id) => createSelector(
+    makeFieldByName(formId, fieldLink.field),
+    dataSourceFieldError(fieldLink),
     (field: Field, errors: ValidationResult[] | undefined) => (field.message || errors?.[0]),
 )
 

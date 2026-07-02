@@ -1,8 +1,8 @@
 import { put } from 'redux-saga/effects'
 
 import { mergeMeta } from '../../core/Redux/utils/mergeMeta'
-import { type ModelLink, ModelPrefix } from '../../core/models/types'
-import { getModelLink } from '../../core/models/getModelLink'
+import { type FullModelPath, ModelPrefix } from '../../core/models/types'
+import { getFullModelPath } from '../../core/models/getModelPath'
 import { type N2OAction } from '../Action'
 import { DEFAULT_CONTEXT } from '../../utils/evalExpression'
 
@@ -41,12 +41,12 @@ export const getStompEvents = (events: EventType[]) => events.filter(isStompEven
  */
 export function* watchOnChangeEvents(
     events: OnChangeEvent[],
-    isChanged: (link: ModelLink) => boolean,
+    isChanged: (modelPath: FullModelPath) => boolean,
 ) {
     for (const { datasource, model: prefix, field, action } of events) {
-        const modelLink = getModelLink(prefix, datasource, field)
+        const modelPath = getFullModelPath({ prefix, id: datasource, field })
 
-        if (isChanged(modelLink)) {
+        if (isChanged(modelPath)) {
             // FIXME костыльный проброс контекста
             yield put(mergeMeta(action, { evalContext: DEFAULT_CONTEXT }))
         }

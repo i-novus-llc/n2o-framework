@@ -39,10 +39,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
-import net.n2oapp.framework.config.metadata.compile.widget.CopiedFieldScope;
-import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
-import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
-import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
+import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.QueryContextUtil;
 
@@ -152,9 +149,9 @@ public class DatasourceCompileStaticProcessor {
         String clientDatasourceId = source.getClientDatasourceId();
         ReduxModelEnum targetModel = initTargetWidgetModel(p, source.getTargetModel());
 
-        Map<String, ModelLink> pathMapping = new HashMap<>(compileParams(source.getPathParams(), context, targetModel, clientDatasourceId));
-        submit.setFormMapping(compileParams(source.getFormParams(), context, targetModel, clientDatasourceId));
-        submit.setHeadersMapping(compileParams(source.getHeaderParams(), context, targetModel, clientDatasourceId));
+        Map<String, ModelLink> pathMapping = new HashMap<>(compileParams(source.getPathParams(), context, targetModel, clientDatasourceId, p));
+        submit.setFormMapping(compileParams(source.getFormParams(), context, targetModel, clientDatasourceId, p));
+        submit.setHeadersMapping(compileParams(source.getHeaderParams(), context, targetModel, clientDatasourceId, p));
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         String path = castDefault(routeScope != null ? routeScope.getUrl() : null, () -> context.getRoute((N2oCompileProcessor) p), () -> "");
         if (context.getPathRouteMapping() != null) {
@@ -168,7 +165,7 @@ public class DatasourceCompileStaticProcessor {
 
         ClientDataProviderUtil.initActionContext(source, pathMapping, path, p);
         submit.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + castDefault(path, ""));
-        submit.setQueryMapping(compileParams(source.getQueryParams(), context, targetModel, clientDatasourceId));
+        submit.setQueryMapping(compileParams(source.getQueryParams(), context, targetModel, clientDatasourceId, p));
         submit.setQuickSearchParam(source.getQuickSearchParam());
         submit.setSize(source.getSize());
         submit.setAutoSubmitOn(source.getAutoSubmitOn());
@@ -427,11 +424,8 @@ public class DatasourceCompileStaticProcessor {
             String clientDatasourceId = preFilter.getRefPageId() != null
                     ? getClientDatasourceId(preFilter.getDatasourceId(), preFilter.getRefPageId(), p)
                     : getClientDatasourceId(preFilter.getDatasourceId(), p);
-            ReduxModelEnum model = castDefault(preFilter.getModel(), ReduxModelEnum.RESOLVE);
-            ModelLink link = new ModelLink(
-                    model,
-                    clientDatasourceId != null ? clientDatasourceId : getClientDatasourceId(datasourceId, p)
-            );
+            String linkDatasourceId = clientDatasourceId != null ? clientDatasourceId : getClientDatasourceId(datasourceId, p);
+            ModelLink link = ModelLinkUtil.createModelLink(p, preFilter.getModel(), linkDatasourceId, ReduxModelEnum.RESOLVE);
             link.setValue(prefilterValue);
             link.setParam(filterParam);
 
@@ -465,7 +459,8 @@ public class DatasourceCompileStaticProcessor {
     }
 
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
-                                                        ReduxModelEnum model, String clientDatasourceId) {
+                                                        ReduxModelEnum model, String clientDatasourceId,
+                                                        CompileProcessor p) {
         if (params == null) {
             return Collections.emptyMap();
         }
@@ -473,21 +468,23 @@ public class DatasourceCompileStaticProcessor {
         for (N2oParam param : params) {
             ModelLink link;
             link = param.getValueParam() == null
-                    ? getModelLink(model, clientDatasourceId, param)
+                    ? getModelLink(model, clientDatasourceId, param, p)
                     : getModelLinkByParam(context, param);
             result.put(param.getName(), link);
         }
         return result;
     }
 
-    private static ModelLink getModelLink(ReduxModelEnum model, String clientDatasourceId, N2oParam param) {
+    private static ModelLink getModelLink(ReduxModelEnum model, String clientDatasourceId, N2oParam param,
+                                          CompileProcessor p) {
         Object value = param.getValueList() != null
                 ? param.getValueList()
                 : ScriptProcessor.resolveExpression(param.getValue());
         if (value != null && !StringUtils.isJs(value)) {
             return new ModelLink(value);
         }
-        ModelLink link = new ModelLink(castDefault(param.getModel(), model), clientDatasourceId);
+
+        ModelLink link = ModelLinkUtil.createModelLink(p, param.getModel(), clientDatasourceId, model);
         link.setValue(value);
         return link;
     }

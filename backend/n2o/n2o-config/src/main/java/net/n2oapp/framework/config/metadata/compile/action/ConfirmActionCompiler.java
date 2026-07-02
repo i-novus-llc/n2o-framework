@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Component;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalDatasourceId;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalModel;
+import static net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil.getField;
+import static net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil.isInMultiForm;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.StylesResolver.resolveStyles;
 
@@ -42,8 +44,9 @@ public class ConfirmActionCompiler extends AbstractActionCompiler<ConfirmAction,
                 p.resolve(property("n2o.api.action.confirm.mode"), ConfirmTypeEnum.class)));
         compiled.getPayload().setCloseButton(castDefault(source.getCloseButton(),
                 p.resolve(property("n2o.api.action.confirm.close_button"), Boolean.class)));
-        compiled.getPayload().setModel(getLocalModel(p));
-        compiled.getPayload().setDatasource(getClientDatasourceId(getLocalDatasourceId(p), p));
+        compiled.getPayload().setModel(castDefault(source.getModel(), isInMultiForm(p) ? ReduxModelEnum.DATASOURCE : ReduxModelEnum.RESOLVE));
+        compiled.getPayload().setDatasource(getClientDatasourceId(castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p)), p));
+        compiled.getPayload().setField(getField(p));
         if (source.getConfirmButtons() != null && source.getConfirmButtons().length == 2) {
             if (source.getConfirmButtons()[0] instanceof N2oConfirmAction.OkButton) {
                 compiled.getPayload().setReverseButtons(false);

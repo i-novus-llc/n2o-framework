@@ -107,6 +107,10 @@
         {
           "templateId": "versions/7.29/field_fetch_fetch_value_dependency_enabled",
           "name": "Срабатывание по условию fetch и fetch-value зависимостей поля"
+        },
+        {
+          "templateId": "uxcomponents/form/multi_form",
+          "name": "Мульти форма"
         }
       ]
     },

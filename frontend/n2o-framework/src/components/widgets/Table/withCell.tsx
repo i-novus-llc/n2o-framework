@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useRef, ComponentType } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import { Action } from 'redux'
 
 import { useDispatch } from '../../../core/Redux/useDispatch'
 import { DataSourceContext } from '../../../core/widget/context'
@@ -9,7 +8,7 @@ import { useTableActions } from '../../Table'
 import { N2OAction } from '../../../ducks/Action'
 
 export interface Props {
-    action?: Action
+    action?: N2OAction
     datasource?: string
     rowIndex: number
     model?: Record<string, unknown>
@@ -18,7 +17,7 @@ export interface Props {
 export interface WrappedComponentProps {
     resolveWidget?(model: Record<string, unknown>): void
     callAction?(actionModel: Record<string, unknown>): void
-    action?: Action
+    action?: N2OAction
     dispatch?(action: never): N2OAction
     model?: Record<string, unknown>
 }
@@ -55,7 +54,7 @@ export function WithCell<P extends WrappedComponentProps>(
                 setResolve(actionModel)
 
                 if (!isEqual(actionModel, modelRef.current)) { onUpdateModel(actionModel, rowIndex) }
-                if (!isEmpty(action)) { dispatch(action) }
+                if (action && !isEmpty(action)) { dispatch(action) }
             },
             [setResolve, action, onUpdateModel, rowIndex, dispatch],
         )

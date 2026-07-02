@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oCopyAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -11,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -18,6 +18,7 @@ import java.util.Map;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalDatasourceId;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalModel;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -59,9 +60,14 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         super.initDefaults(source, p);
         source.setMode(castDefault(source.getMode(), CopyModeEnum.MERGE));
         source.setSourceDatasourceId(castDefault(source.getSourceDatasourceId(), () -> getLocalDatasourceId(p)));
-        source.setSourceModel(castDefault(source.getSourceModel(), ReduxModelEnum.RESOLVE));
         source.setTargetDatasourceId(castDefault(source.getTargetDatasourceId(), source.getSourceDatasourceId()));
-        source.setTargetModel(castDefault(source.getTargetModel(), ReduxModelEnum.RESOLVE));
+        source.setSourceModel(castDefault(source.getSourceModel(), getLocalModel(p)));
+        source.setTargetModel(castDefault(source.getTargetModel(), getLocalModel(p)));
+        String field = ModelLinkUtil.getField(p);
+        if (field != null && source.getSourceFieldId() != null)
+            source.setSourceFieldId(field.concat(".").concat(source.getSourceFieldId()));
+        if (field != null && source.getTargetFieldId() != null)
+            source.setTargetFieldId(field.concat(".").concat(source.getTargetFieldId()));
     }
 
     private MetaSaga compileMeta(N2oCopyAction source, CompileProcessor p) {

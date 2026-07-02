@@ -18,6 +18,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.DatasourceUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -30,7 +31,9 @@ import static net.n2oapp.framework.api.StringUtils.isLink;
 import static net.n2oapp.framework.api.StringUtils.unwrapLink;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalModel;
 import static net.n2oapp.framework.config.metadata.compile.toolbar.ButtonCompileUtil.initDatasource;
+import static net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil.getField;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -51,6 +54,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         button.setColor(p.resolveJS(source.getColor()));
         button.setModel(source.getModel());
+        button.setField(getField(p));
         button.setBadge(BadgeUtil.compileSimpleBadge(source, PROPERTY_PREFIX, p));
         initHint(source, button, p);
     }
@@ -102,7 +106,7 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         source.setColor(initColor(source, p));
 
         source.setDatasourceId(initDatasource(source, p));
-        source.setModel(castDefault(source.getModel(), ReduxModelEnum.RESOLVE));
+        source.setModel(castDefault(source.getModel(), ModelLinkUtil.isInMultiForm(p) ? ReduxModelEnum.DATASOURCE : ReduxModelEnum.RESOLVE));
     }
 
     private String initTooltipPosition(S source, CompileProcessor p) {
@@ -129,12 +133,12 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
     private void compileLinkConditions(N2oAbstractButton source, AbstractButton button, CompileProcessor p) {
         String clientDatasource = getClientDatasourceId(source.getDatasourceId(), p);
         if (isLink(source.getVisible()))
-            compileLink(button, clientDatasource, ValidationTypeEnum.VISIBLE, source.getVisible(), source.getModel());
+            compileLink(button, clientDatasource, ValidationTypeEnum.VISIBLE, source.getVisible(), source.getModel(), p);
         else
             button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
 
         if (isLink(source.getEnabled()))
-            compileLink(button, clientDatasource, ValidationTypeEnum.ENABLED, source.getEnabled(), source.getModel());
+            compileLink(button, clientDatasource, ValidationTypeEnum.ENABLED, source.getEnabled(), source.getModel(), p);
         else
             button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
     }
@@ -145,10 +149,10 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
     }
 
     private void compileLink(AbstractButton button, String clientDatasource, ValidationTypeEnum type,
-                             String linkCondition, ReduxModelEnum model) {
+                             String linkCondition, ReduxModelEnum model, CompileProcessor p) {
         Condition condition = new Condition();
         condition.setExpression(unwrapLink(linkCondition));
-        condition.setModelLink(new ModelLink(model, clientDatasource).getLink());
+        condition.setModelLink(ModelLinkUtil.createModelLink(p, model, clientDatasource, getLocalModel(p)).getLink());
         if (!button.getConditions().containsKey(type))
             button.getConditions().put(type, new ArrayList<>());
         button.getConditions().get(type).add(condition);
@@ -198,12 +202,11 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
         DisableOnEmptyModelTypeEnum disableOnEmptyModel;
 
         switch (source) {
-            case N2oButton n2oButton ->
-                disableOnEmptyModel = castDefault(n2oButton.getDisableOnEmptyModel(),
-                        () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelTypeEnum.class));
+            case N2oButton n2oButton -> disableOnEmptyModel = castDefault(n2oButton.getDisableOnEmptyModel(),
+                    () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelTypeEnum.class));
             case N2oClipboardButton n2oClipboardButton ->
-                disableOnEmptyModel = castDefault(n2oClipboardButton.getDisableOnEmptyModel(),
-                        () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelTypeEnum.class));
+                    disableOnEmptyModel = castDefault(n2oClipboardButton.getDisableOnEmptyModel(),
+                            () -> p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelTypeEnum.class));
             default -> {
                 return null;
             }
@@ -213,13 +216,15 @@ public abstract class BaseButtonCompiler<S extends N2oAbstractButton, B extends 
 
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
         boolean autoDisableCondition = DisableOnEmptyModelTypeEnum.AUTO.equals(disableOnEmptyModel) &&
-                (ReduxModelEnum.RESOLVE.equals(source.getModel()) || ReduxModelEnum.MULTI.equals(source.getModel())) &&
+                (ReduxModelEnum.RESOLVE.equals(source.getModel()) || ReduxModelEnum.MULTI.equals(source.getModel())
+                        || (ModelLinkUtil.isInMultiForm(p) && ReduxModelEnum.DATASOURCE.equals(source.getModel()))) &&
                 parentIsNotCell;
 
         if (DisableOnEmptyModelTypeEnum.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
             Condition condition = new Condition();
             condition.setExpression("!$.isEmptyModel(this)");
-            condition.setModelLink(new ModelLink(source.getModel(), clientDatasource).getLink());
+
+            condition.setModelLink(ModelLinkUtil.createModelLink(p, source.getModel(), clientDatasource, getLocalModel(p)).getLink());
 
             return condition;
         }

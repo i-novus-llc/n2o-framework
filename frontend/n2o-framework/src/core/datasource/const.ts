@@ -1,4 +1,4 @@
-import { ModelLink, ModelPrefix } from '../models/types'
+import { FullModelPath, ModelPrefix } from '../models/types'
 
 /**
  * @enum SortDirection Направление сортировки
@@ -16,13 +16,12 @@ export { ModelPrefix }
  */
 export enum DependencyTypes {
     fetch = 'fetch',
-    validate = 'validate',
     copy = 'copy',
 }
 
 export interface DataSourceDependencyBase {
     type: DependencyTypes
-    on: ModelLink
+    on: FullModelPath
     applyOnInit: boolean
 }
 
@@ -37,14 +36,9 @@ export interface DataSourceDependencyFetch extends DataSourceDependencyBase {
     type: DependencyTypes.fetch
 }
 
-export interface DataSourceDependencyValidate extends DataSourceDependencyBase {
-    type: DependencyTypes.validate
-}
-
 export type DataSourceDependency = (
     DataSourceDependencyFetch
     | DataSourceDependencyCopy
-    | DataSourceDependencyValidate
 )
 
 export interface DataSourceModels {

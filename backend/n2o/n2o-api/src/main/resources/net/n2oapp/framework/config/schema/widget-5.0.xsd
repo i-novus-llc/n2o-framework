@@ -19,6 +19,7 @@
     <xs:element name="html" type="htmlReferenceDefinition"/>
     <xs:element name="tiles" type="tilesReferenceDefinition"/>
     <xs:element name="cards" type="cardsReferenceDefinition"/>
+    <xs:element name="multi-form" type="multiFormReferenceDefinition"/>
 
     <xs:complexType name="widgets" abstract="true">
         <xs:sequence>
@@ -31,7 +32,7 @@
             <xs:element name="html" type="htmlReferenceDefinition" minOccurs="0"/>
             <xs:element name="tiles" type="tilesReferenceDefinition" minOccurs="0"/>
             <xs:element name="cards" type="cardsReferenceDefinition" minOccurs="0"/>
-
+            <xs:element name="multi-form" type="multiFormReferenceDefinition" minOccurs="0"/>
             <xs:any namespace="##other">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку виджет.</xs:documentation>
@@ -1189,6 +1190,41 @@
                     <xs:annotation>
                         <xs:documentation>
                             Запуск фильтрации при нажатии на Enter
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="multiFormReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>
+                        Виджет Мульти-форма - списковый виджет со строками в виде форм
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="fields" type="fieldsDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Поля формы для каждой строки
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="pagination" type="paginationDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Пагинация списка
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="unsaved-data-prompt" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Показать предупреждение о наличии несохраненных данных
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

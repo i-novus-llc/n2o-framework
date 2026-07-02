@@ -1,16 +1,9 @@
-import { ModelPrefix } from '../../core/datasource/const'
-import { ValidationsKey } from '../../core/validation/types'
-
 import { Field } from './types'
 
 export const getDefaultState = () => ({
-    datasource: null,
     dirty: false,
     fields: {},
     formName: null,
-    modelPrefix: ModelPrefix.active,
-    // Костыль для валидации фильтров
-    validationKey: ValidationsKey.Validations,
 } as const)
 
 export const getDefaultField = (): Field => ({

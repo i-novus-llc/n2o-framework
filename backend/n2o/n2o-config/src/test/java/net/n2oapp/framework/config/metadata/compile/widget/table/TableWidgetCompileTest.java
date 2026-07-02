@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.table;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityTypeEnum;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.datasource.AbstractDatasource;
 import net.n2oapp.framework.api.metadata.datasource.StandardDatasource;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -368,7 +369,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testFilterColumns"));
 
         StandardDatasource ds = (StandardDatasource) page.getDatasources().get("testFilterColumns_w1");
-        assertThat(ds.getFilterValidations().get("name").getFirst().getEnablingConditions().getFirst(), is("name || name === 0"));
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("name").getFirst().getEnablingConditions().getFirst(), is("name || name === 0"));
 
         List<AbstractColumn> columns = ((Table<?>) page.getWidget()).getComponent().getHeader().getCells();
         assertThat(columns.getFirst(), instanceOf(AbstractColumn.class));
