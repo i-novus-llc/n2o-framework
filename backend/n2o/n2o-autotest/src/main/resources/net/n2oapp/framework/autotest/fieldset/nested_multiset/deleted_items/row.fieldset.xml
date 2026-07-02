@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-5.0">
+    <row>
+        <input-text id="uuid" default-value="{$.uuid()}" enabled="false"/>
+        <input-text id="onInit" enabled="{list[index].isEdit}">
+            <dependencies>
+                <set-value apply-on-init="true">'on init value'</set-value>
+            </dependencies>
+        </input-text>
+        <input-text id="input2" enabled="{list[index].isEdit}">
+            <dependencies>
+                <set-value on="onInit">'on="onInit" value'</set-value>
+            </dependencies>
+        </input-text>
+    </row>
+</set>
