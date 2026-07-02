@@ -933,6 +933,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/fieldset/nested_multiset/validations",
           "name": "NestedMultiFieldSetAT. checkValidations"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/fieldset/nested_multiset/deleted_items",
+          "name": "NestedMultiFieldSetAT. testDeletedItems"
         }
       ]
     },
