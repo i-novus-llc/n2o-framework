@@ -2,8 +2,8 @@ import { put, select, fork } from 'redux-saga/effects'
 import get from 'lodash/get'
 
 import { DataSourceDependency, DependencyTypes } from '../../../core/datasource/const'
-import { FormModelPrefix, ModelLink } from '../../../core/models/types'
-import { dataRequest, startValidate, submit as submitAction } from '../store'
+import { FullModelPath } from '../../../core/models/types'
+import { dataRequest, submit as submitAction } from '../store'
 import { dataSourcesSelector, dataSourceByIdSelector } from '../selectors'
 import { updateModel, setModel } from '../../models/store'
 import { State as DatasourceState } from '../DataSource'
@@ -26,18 +26,13 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
 
             break
         }
-        case DependencyTypes.validate: {
-            yield put(startValidate(id))
-
-            break
-        }
         case DependencyTypes.copy: {
-            const { model: targetPrefix, field: targetField, submit: submitAfterCopy } = dependency
+            const { model: prefix, field: targetField, submit: submitAfterCopy } = dependency
 
             if (targetField) {
-                yield put(updateModel(targetPrefix as FormModelPrefix, id, targetField, model))
+                yield put(updateModel({ prefix, id }, targetField, model))
             } else {
-                yield put(setModel(targetPrefix, id, model as Record<string, unknown>))
+                yield put(setModel({ prefix, id }, model as Record<string, unknown>))
             }
 
             if (submitAfterCopy) {
@@ -59,7 +54,7 @@ export function* resolveDependency(id: string, dependency: DataSourceDependency,
  * Сага наблюдения за зависимостями
  * @param action
  */
-export function* watchDependencies(isChanged: (link: ModelLink) => boolean) {
+export function* watchDependencies(isChanged: (link: FullModelPath) => boolean) {
     const state: GlobalState = yield select()
     const dataSources: DatasourceState = yield select(dataSourcesSelector)
     const entries = Object.entries(dataSources)

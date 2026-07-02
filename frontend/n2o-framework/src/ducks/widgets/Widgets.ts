@@ -26,7 +26,7 @@ export type Widget = {
     toolbar?: Record<string, unknown>
     paging?: { showCount: boolean, place: string } & N2OPaginationProps
     // TODO разобраться, filter в Tree (требуется рефакторинг) из TreeWidget type = string
-    filter?: Record<string, unknown> | string
+    filter?: Record<string, unknown>
     table?: { textWrap: boolean, columns: Record<string, { visible: boolean }> }
     form?: {
         modelPrefix: ModelPrefix

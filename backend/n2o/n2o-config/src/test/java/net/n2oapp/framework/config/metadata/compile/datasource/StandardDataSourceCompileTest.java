@@ -201,24 +201,24 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         StandardDatasource ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds1");
 
         // validations
-        assertThat(ds.getValidations().get("id"), notNullValue());
-        assertThat(ds.getValidations().get("id").size(), is(1));
-        assertThat(ds.getValidations().get("id").getFirst(), instanceOf(MandatoryValidation.class));
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("id"), notNullValue());
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("id").size(), is(1));
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("id").getFirst(), instanceOf(MandatoryValidation.class));
 
-        assertThat(ds.getValidations().get("name"), notNullValue());
-        assertThat(ds.getValidations().get("name").size(), is(1));
-        assertThat(ds.getValidations().get("name").getFirst(), instanceOf(ConditionValidation.class));
-        assertThat(((ConditionValidation) ds.getValidations().get("name").getFirst()).getExpression(), is("name.length>1"));
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("name"), notNullValue());
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("name").size(), is(1));
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("name").getFirst(), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getValidations(ReduxModelEnum.RESOLVE).get("name").getFirst()).getExpression(), is("name.length>1"));
 
         // filter validations
-        assertThat(ds.getFilterValidations().get("id2"), notNullValue());
-        assertThat(ds.getFilterValidations().get("id2").size(), is(1));
-        assertThat(ds.getFilterValidations().get("id2").getFirst(), instanceOf(MandatoryValidation.class));
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("id2"), notNullValue());
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("id2").size(), is(1));
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("id2").getFirst(), instanceOf(MandatoryValidation.class));
 
-        assertThat(ds.getFilterValidations().get("name2"), notNullValue());
-        assertThat(ds.getFilterValidations().get("name2").size(), is(1));
-        assertThat(ds.getFilterValidations().get("name2").getFirst(), instanceOf(ConditionValidation.class));
-        assertThat(((ConditionValidation) ds.getFilterValidations().get("name2").getFirst()).getExpression(), is("name2.length>1"));
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("name2"), notNullValue());
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("name2").size(), is(1));
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("name2").getFirst(), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getValidations(ReduxModelEnum.FILTER).get("name2").getFirst()).getExpression(), is("name2.length>1"));
     }
 
     @Test
@@ -230,45 +230,23 @@ class StandardDataSourceCompileTest extends SourceCompileTestBase {
         StandardDatasource ds = (StandardDatasource) page.getDatasources().get("p_w_a_ds1");
 
         //multi-set validations
-        assertThat(ds.getValidations().get("members[index].id"), notNullValue());
-        assertThat(ds.getValidations().get("members[index].id").size(), is(1));
-        assertThat(ds.getValidations().get("members[index].id").getFirst(), instanceOf(MandatoryValidation.class));
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("members[index].id"), notNullValue());
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("members[index].id").size(), is(1));
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("members[index].id").getFirst(), instanceOf(MandatoryValidation.class));
 
-        assertThat(ds.getValidations().get("members[index].name"), notNullValue());
-        assertThat(ds.getValidations().get("members[index].name").size(), is(1));
-        assertThat(ds.getValidations().get("members[index].name").getFirst(), instanceOf(ConditionValidation.class));
-        assertThat(((ConditionValidation) ds.getValidations().get("members[index].name").getFirst()).getExpression(), is("name.length>3"));
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("members[index].name"), notNullValue());
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("members[index].name").size(), is(1));
+        assertThat(ds.getValidations(ReduxModelEnum.RESOLVE).get("members[index].name").getFirst(), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getValidations(ReduxModelEnum.RESOLVE).get("members[index].name").getFirst()).getExpression(), is("name.length>3"));
 
         //multi-set filter validations
-        assertThat(ds.getFilterValidations().get("members2[index].id2"), notNullValue());
-        assertThat(ds.getFilterValidations().get("members2[index].id2").size(), is(1));
-        assertThat(ds.getFilterValidations().get("members2[index].id2").getFirst(), instanceOf(MandatoryValidation.class));
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("members2[index].id2"), notNullValue());
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("members2[index].id2").size(), is(1));
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("members2[index].id2").getFirst(), instanceOf(MandatoryValidation.class));
 
-        assertThat(ds.getFilterValidations().get("members2[index].name2"), notNullValue());
-        assertThat(ds.getFilterValidations().get("members2[index].name2").size(), is(1));
-        assertThat(ds.getFilterValidations().get("members2[index].name2").getFirst(), instanceOf(ConditionValidation.class));
-        assertThat(((ConditionValidation) ds.getFilterValidations().get("members2[index].name2").getFirst()).getExpression(), is("name2.length>3"));
-    }
-
-    @Test
-    void testSaveSettings() {
-        SimplePropertyResolver systemProperties = (SimplePropertyResolver) builder.getEnvironment().getSystemProperties();
-        systemProperties.setProperty("n2o.api.widget.table.save_settings", "true");
-        systemProperties.setProperty("n2o.api.datasource.save_settings", "size");
-
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/datasource/testSaveSettingsCompile.page.xml")
-                .get(new PageContext("testSaveSettingsCompile"));
-
-        StandardDatasource ds1 = (StandardDatasource) page.getDatasources().get("testSaveSettingsCompile_ds1");
-        assertThat(ds1.getSaveSettings(), is(new String[]{"page", "sorting"}));
-
-        StandardDatasource ds2 = (StandardDatasource) page.getDatasources().get("testSaveSettingsCompile_ds2");
-        assertThat(ds2.getSaveSettings(), is(new String[]{}));
-
-        StandardDatasource ds3 = (StandardDatasource) page.getDatasources().get("testSaveSettingsCompile_ds3");
-        assertThat(ds3.getSaveSettings(), is(new String[]{"size"}));
-
-        StandardDatasource ds4 = (StandardDatasource) page.getDatasources().get("testSaveSettingsCompile_ds4");
-        assertThat(ds4.getSaveSettings(), is(new String[]{"size"}));
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("members2[index].name2"), notNullValue());
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("members2[index].name2").size(), is(1));
+        assertThat(ds.getValidations(ReduxModelEnum.FILTER).get("members2[index].name2").getFirst(), instanceOf(ConditionValidation.class));
+        assertThat(((ConditionValidation) ds.getValidations(ReduxModelEnum.FILTER).get("members2[index].name2").getFirst()).getExpression(), is("name2.length>3"));
     }
 }

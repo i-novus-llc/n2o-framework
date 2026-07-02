@@ -34,7 +34,7 @@ import java.util.Map;
 @Setter
 public abstract class N2oWidget extends N2oMetadata
         implements SourceComponent, ExtensionAttributesAware, PreFiltersAware, RegionItem,
-        DatasourceIdAware, ActionBarAware, ToolbarsAware {
+        DatasourceIdAware, ActionBarAware, ToolbarsAware, ModelAware {
 
     private String src;
     @Deprecated
@@ -162,5 +162,15 @@ public abstract class N2oWidget extends N2oMetadata
         if (getId() == null)
             setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
         result.add(this);
+    }
+
+    @Override
+    public ReduxModelEnum getModel() {
+        return ReduxModelEnum.RESOLVE;
+    }
+
+    @Override
+    public void setModel(ReduxModelEnum model) {
+        throw new UnsupportedOperationException();
     }
 }

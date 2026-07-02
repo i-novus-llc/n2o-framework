@@ -34,15 +34,15 @@ export const useDatasourceProps = (datasource: string) => {
 /**
  * Методы взаимодействия с DataSource
  */
-export const useDatasourceMethods = (id: string, datasource: string) => {
+export const useDatasourceMethods = (id: string) => {
     const dispatch = useDispatch()
 
     return useMemo(() => {
-        const set = (prefix: ModelPrefix, model: Model) => dispatch(setModel(prefix, datasource, model))
+        const set = (prefix: ModelPrefix, model: Model) => dispatch(setModel({ prefix, id }, model))
 
         return {
             fetchData(options: Partial<{ size: number, page: number }>) {
-                dispatch(dataRequest(datasource, options))
+                dispatch(dataRequest(id, options))
             },
             setFilter(filterModel: Model) {
                 set(ModelPrefix.filter, filterModel)
@@ -57,17 +57,17 @@ export const useDatasourceMethods = (id: string, datasource: string) => {
                 set(ModelPrefix.selected, models)
             },
             setSorting(field: string, sorting: SortDirection) {
-                dispatch(setDataSourceSorting(datasource, field, sorting))
+                dispatch(setDataSourceSorting(id, field, sorting))
             },
             // eslint-disable-next-line @typescript-eslint/default-param-last
             setPage(page = 1, options: Record<string, unknown>) {
-                dispatch(changePage(datasource, page, options))
+                dispatch(changePage(id, page, options))
             },
             setSize(size: number) {
-                dispatch(changeSize(datasource, size))
+                dispatch(changeSize(id, size))
             },
         }
-    }, [dispatch, datasource, id])
+    }, [dispatch, id])
 }
 
 export interface WithDataSourceProps {
@@ -82,9 +82,9 @@ export const WithDataSource = <P extends WithDataSourceProps>(
     Component: ComponentType<P & WithDataSourceProps>,
 ) => {
     const WithDataSourceWrapper: FC<P> = (props: WithDataSourceProps & P) => {
-        const { id, datasource } = props
+        const { datasource } = props
 
-        const methods = useDatasourceMethods(id, datasource)
+        const methods = useDatasourceMethods(datasource)
         const { additionalInfo, ...datasourceProps } = useDatasourceProps(datasource)
 
         return (

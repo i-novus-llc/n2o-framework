@@ -15,6 +15,7 @@ import { logger } from '../../utils/logger'
 import { fetch } from '../../utils/request'
 import { linkResolver, type LinkProps } from '../../utils/linkResolver'
 import { startButtonOperation, endButtonOperation } from '../toolbar/store'
+import { ModelPrefix } from '../../core/models/types'
 
 import { UTILS_PREFIX } from './constants'
 import { AsyncEffectWrapper } from './utils/effectWrapper'
@@ -177,7 +178,7 @@ export function* effect({ payload, meta = {} }: Action<string, Payload>) {
 
             extraParams[INHERITED_SOURCE_FIELD_ID] = sourceField
 
-            const { id }: { id: string | number } = yield select(getModelSelector(`models.${sourceModel}.${sourceDs}`))
+            const { id }: { id: string | number } = yield select(getModelSelector({ prefix: sourceModel as ModelPrefix, id: sourceDs }))
 
             extraParams[PARENT_ROW_ID] = id
             extraParams[SORTING] = sorting

@@ -11,7 +11,7 @@ export { SpinnerType }
 
 export function Spinner({ children, showDelayMs: propsShowDelayMs, ...rest }: SpinnerProps) {
     const { getComponent } = useContext(FactoryContext)
-    const FactorySpinner = getComponent('Spinner', FactoryLevels.SNIPPETS)
+    const FactorySpinner = getComponent<SpinnerProps & { showDelayMs?: number }>('Spinner', FactoryLevels.SNIPPETS)
 
     const { showDelayMs } = useSpinnerContextProps()
 

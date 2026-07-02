@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Тест multi-form CRUD" route="/">
+    <multi-form unsaved-data-prompt="true">
+        <datasource id="ds" query-id="test" object-id="test" size="2"/>
+        <fields>
+            <row>
+                <input-text id="name" label="Имя" required="true"/>
+            </row>
+            <row>
+                <col>
+                    <button label="Сохранить" color="primary">
+                        <if test="id">
+                            <invoke operation-id="update" refresh-datasources="ds"/>
+                        </if>
+                        <else>
+                            <invoke operation-id="create"/>
+                        </else>
+                    </button>
+                    <button label="Удалить" color="danger">
+                        <invoke operation-id="delete"/>
+                    </button>
+                </col>
+            </row>
+        </fields>
+        <toolbar place="topLeft">
+            <button label="Добавить" color="primary" disable-on-empty-model="false">
+                <set-value source-model="datasource" target-model="datasource">
+                    this ? [{}, ...this] : [{}]
+                </set-value>
+            </button>
+        </toolbar>
+    </multi-form>
+</simple-page>

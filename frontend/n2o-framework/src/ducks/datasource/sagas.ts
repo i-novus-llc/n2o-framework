@@ -84,11 +84,9 @@ export function* dataRequestWrapper(apiProvider: unknown, action: DataRequestAct
 subscribe(watchDependencies)
 
 export default (apiProvider: unknown) => [
+    takeEvery([setSorting.type, changePage.type, changeSize.type], runDataRequest),
+    takeEvery(dataRequest.type, dataRequestWrapper, apiProvider),
     ...saveSettings,
-    // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
-    takeEvery([setSorting, changePage, changeSize], runDataRequest),
-    // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
-    takeEvery(dataRequest, dataRequestWrapper, apiProvider),
     // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
     takeEvery(DATA_REQUEST, function* remapRequest({ payload, meta }) {
         const { datasource, options } = payload
@@ -96,8 +94,7 @@ export default (apiProvider: unknown) => [
         yield put(dataRequest(datasource, options, meta))
     }),
     takeEvery(startValidate, validateSaga),
-    // @ts-ignore FIXME: ругается на тип экшена, надо будет разобраться
-    takeEvery(submit, AsyncEffectWrapper(submitSaga), apiProvider),
+    takeEvery(submit.type, AsyncEffectWrapper(submitSaga), apiProvider),
     takeEvery(remove, removeSaga),
     takeEvery(register, function* fetchOnInitWorker({ payload }: RegisterAction) {
         const { id, initProps } = payload

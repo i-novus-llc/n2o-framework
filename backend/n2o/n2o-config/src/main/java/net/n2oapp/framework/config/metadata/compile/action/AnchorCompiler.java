@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -13,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
@@ -66,11 +66,10 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         linkAction.setUrl(resolvedPath);
         if (StringUtils.isJs(resolvedPath)) {
             String datasourceId = castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p));
-            ReduxModelEnum reduxModel = castDefault(source.getModel(), () -> getLocalModel(p));
             if (datasourceId == null) {
                 throw new N2oException("Источник данных не найден для действия \"<a>\" со связанным 'href' " + source.getHref());
             }
-            linkAction.getPayload().setModelLink(new ModelLink(reduxModel, getClientDatasourceId(datasourceId, p)).getLink());
+            linkAction.getPayload().setModelLink(ModelLinkUtil.createModelLink(p, source.getModel(), getClientDatasourceId(datasourceId, p), getLocalModel(p)).getLink());
         } else
             compileMappings(linkAction, source, p, routeScope);
     }

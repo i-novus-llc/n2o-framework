@@ -10,6 +10,8 @@ export default {
     FormWidget,
     AdvancedTableWidget,
     WidgetLayout,
+    MultiFormWidget: defineAsync(() => import('./MultiForm/Widget')
+        .then(({ MultiFormWidget }) => MultiFormWidget)),
     ListWidget: defineAsync(() => import('./List/ListWidget')
         .then(({ ListWidget }) => ListWidget)),
     TreeWidget: defineAsync(() => import('./Tree/TreeWidget')

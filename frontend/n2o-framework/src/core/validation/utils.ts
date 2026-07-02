@@ -50,13 +50,13 @@ export const createRegexpWithContext = (
     return new RegExp(`^${mask.replaceAll(REPLACER, INDEX_MASK)}$`)
 }
 
-type FieldContext = [string, ContextType]
+type FieldContext = [fieldName: string, context: ContextType]
 
 /**
  * Получения массива строк и контекста мультисетов для выполняемых выражений по ключу валидации и  текущей модели
  */
 export const getCtxByModel = (validationKey: string, model: object) => {
-    // split с регуляркой криво режет, закидывая в реультат часть строки, которую проверяет регулярка
+    // split с регуляркой криво режет, закидывая в результат часть строки, которую проверяет регулярка
     // поэтому сначала заменяем на что-то более удобное, потом split'уем
     const path = validationKey.replaceAll(INDEX_REGEXP, REPLACER).split(`${REPLACER}.`)
 

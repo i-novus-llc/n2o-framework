@@ -103,10 +103,10 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
 
 
-        List<Validation> validations = page.getDatasources().get("testFormValidations_w1").getValidations().get("testField");
+        List<Validation> validations = page.getDatasources().get("testFormValidations_w1").getValidations(ReduxModelEnum.RESOLVE).get("testField");
 
-        assertThat(validations.get(0).getId(), is("Mandatory1"));
-        assertThat(validations.get(0).getSide().contains("client"), is(true));
+        assertThat(validations.getFirst().getId(), is("Mandatory1"));
+        assertThat(validations.getFirst().getSide().contains("client"), is(true));
 
         assertThat(validations.get(1).getId(), is("Mandatory2"));
         assertThat(validations.get(1).getSide().contains("client"), is(true));
@@ -149,7 +149,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         QueryContext queryContext = (QueryContext) route("/testFormPreFilterValidation/form", CompiledQuery.class);
         List<Validation> validations = queryContext.getValidations();
         assertThat(validations.size(), is(1));
-        MandatoryValidation validation = (MandatoryValidation) validations.get(0);
+        MandatoryValidation validation = (MandatoryValidation) validations.getFirst();
         assertThat(validation.getId(), is("testField"));
         assertThat(validation.getMessage(), is("Поле обязательно для заполнения"));
     }
@@ -162,13 +162,13 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(form.getStyle().get("width"), is("300px"));
         assertThat(form.getStyle().get("marginLeft"), is("10px"));
 
-        FieldSet fieldSet = form.getComponent().getFieldsets().get(0);
+        FieldSet fieldSet = form.getComponent().getFieldsets().getFirst();
         assertThat(fieldSet.getStyle().get("width"), is("300px"));
         assertThat(fieldSet.getStyle().get("marginLeft"), is("10px"));
-        assertThat(fieldSet.getRows().get(0).getStyle().get("width"), is("300px"));
-        assertThat(fieldSet.getRows().get(0).getStyle().get("marginLeft"), is("10px"));
-        assertThat(fieldSet.getRows().get(0).getCols().get(0).getStyle().get("width"), is("300px"));
-        assertThat(fieldSet.getRows().get(0).getCols().get(0).getStyle().get("marginLeft"), is("10px"));
+        assertThat(fieldSet.getRows().getFirst().getStyle().get("width"), is("300px"));
+        assertThat(fieldSet.getRows().getFirst().getStyle().get("marginLeft"), is("10px"));
+        assertThat(fieldSet.getRows().getFirst().getCols().getFirst().getStyle().get("width"), is("300px"));
+        assertThat(fieldSet.getRows().getFirst().getCols().getFirst().getStyle().get("marginLeft"), is("10px"));
     }
 
     @Test
@@ -233,7 +233,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         Form form = (Form) detailPage.getWidget();
         assertThat(((StandardDatasource) detailPage.getDatasources().get(form.getDatasource())).getSubmit().getPathMapping().size(), is(1));
         assertThat(((StandardDatasource) detailPage.getDatasources().get(form.getDatasource())).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/w1"));
-        AbstractButton closeBtn = detailPage.getWidget().getToolbar().get("bottomRight").get(0).getButtons().get(0);
+        AbstractButton closeBtn = detailPage.getWidget().getToolbar().get("bottomRight").getFirst().getButtons().getFirst();
         assertThat(closeBtn, notNullValue());
         assertThat(closeBtn.getAction(), instanceOf(CloseAction.class));
         assertThat(closeBtn.getValidate(), nullValue());
@@ -263,9 +263,9 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
          .get(new PageContext("testFormInlineDatasourceInPage"));
 
         assertThat(page.getDatasources().size(), is(2));
-        Form formWithoutId = (Form) page.getRegions().get("single").get(0).getContent().get(0);
+        Form formWithoutId = (Form) page.getRegions().get("single").getFirst().getContent().getFirst();
         assertThat(formWithoutId.getDatasource(), is("testFormInlineDatasourceInPage_ds"));
-        Form formWithId = (Form) page.getRegions().get("single").get(0).getContent().get(1);
+        Form formWithId = (Form) page.getRegions().get("single").getFirst().getContent().get(1);
         assertThat(formWithId.getDatasource(), is("testFormInlineDatasourceInPage_ds_w"));
     }
 

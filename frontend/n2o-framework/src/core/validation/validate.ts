@@ -11,7 +11,6 @@ import type { State as GlobalState } from '../../ducks/State'
 import { ModelPrefix, FormModelPrefix } from '../models/types'
 
 import { hasError, validateModel } from './validateModel'
-import { ValidationsKey } from './types'
 import { addFieldMessages } from './addFieldMessages'
 
 /**
@@ -32,19 +31,16 @@ export const validate = async (
     dispatch: Dispatch | ((arg: unknown) => void) = () => {},
     touched = false,
 ) => {
-    const validation = dataSourceValidationSelector(
-        datasourceId,
-        prefix === ModelPrefix.filter ? ValidationsKey.FilterValidations : ValidationsKey.Validations,
-    )(state)
+    const validation = dataSourceValidationSelector(datasourceId, prefix)(state)
     const model = getModelByPrefixAndNameSelector(prefix, datasourceId)(state)
 
     const pageId = dataSourcePageIdSelector(datasourceId)(state) || ''
     const pageUrl = makePageUrlByIdSelector(pageId)(state)
 
-    const modelMessages = await validateModel(model, validation, { datasourceId, pageUrl })
-    const messages = addFieldMessages(datasourceId, modelMessages, state)
+    const modelMessages = await validateModel(model, validation || {}, { datasourceId, pageUrl })
+    const messages = addFieldMessages({ id: datasourceId, prefix }, modelMessages, state)
 
-    dispatch(endValidation({ id: datasourceId, messages: modelMessages, prefix }, { touched }))
+    dispatch(endValidation({ modelLink: { id: datasourceId, prefix }, messages: modelMessages }, { touched }))
 
     return !hasError(messages)
 }

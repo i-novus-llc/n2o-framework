@@ -517,15 +517,16 @@ __*Виды регионов*__
 
 __*Виды основных виджетов*__
 
-|Вид          |React компонент|Описание                                                          |
-|-------------|---------------|------------------------------------------------------------------|
-|&lt;form&gt; |FormWidget     |[Форма](../xml/widget#form)    |
-|&lt;table&gt;|TableWidget    |[Таблица](../xml/widget#table) |
-|&lt;list&gt; |ListWidget     |[Список](../xml/widget#list)   |
-|&lt;tree&gt; |TreeWidget     |[Дерево](../xml/widget#tree)   |
-|&lt;html&gt; |HtmlWidget     |[Html](../xml/widget#html)   |
-|&lt;cards&gt;|CardsWidget    |[Карточки](../xml/widget#cards)|
-|&lt;tiles&gt;|TilesWidget    |[Плитки](../xml/widget#tiles)  |
+|Вид               |React компонент  |Описание                                  |
+|------------------|-----------------|------------------------------------------|
+|&lt;form&gt;      |FormWidget       |[Форма](../xml/widget#form)               |
+|&lt;table&gt;     |TableWidget      |[Таблица](../xml/widget#table)            |
+|&lt;list&gt;      |ListWidget       |[Список](../xml/widget#list)              |
+|&lt;tree&gt;      |TreeWidget       |[Дерево](../xml/widget#tree)              |
+|&lt;html&gt;      |HtmlWidget       |[Html](../xml/widget#html)                |
+|&lt;cards&gt;     |CardsWidget      |[Карточки](../xml/widget#cards)           |
+|&lt;tiles&gt;     |TilesWidget      |[Плитки](../xml/widget#tiles)             |
+|&lt;multi-form&gt;|MultiFormWidget  |[Мульти-форма](../xml/widget#multi-form)  |
 
 Описание других виджетов можно посмотреть [здесь](../xml/widget).
 
@@ -633,6 +634,89 @@ n2o.api.widget.table.save_settings = true
 <Sandbox height={350} projectId="uxcomponents_widget_form" showHeader />
 
 Поля формы задаются внутри элемента `<fields>`.
+
+#### Мульти-форма
+
+Мульти-форма - списковый виджет N2O с расширенными строками. Каждая строка отображается в виде формы (набора полей).
+
+```xml title="Виджет мульти-форма"
+<?xml version='1.0' encoding='UTF-8'?>
+<multi-form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+            datasource="ds1">
+    <fields>
+        <input-text id="name" label="Имя" text-field-id="name"/>
+        <select id="status" label="Статус" text-field-id="status">
+            <option value="active" label="Активен"/>
+            <option value="inactive" label="Неактивен"/>
+        </select>
+        <date id="createdDate" label="Дата создания" text-field-id="createdDate"/>
+    </fields>
+    <datasource>...</datasource>
+    <toolbar>...</toolbar>
+    <pagination>...</pagination>
+</multi-form>
+```
+
+Мульти-форма, как и все списковые виджеты, хранит свои данные в модели `datasource`.
+Однако отличием является отсутствие активной строки (записи), а значит и модели `resolve`.
+
+Для работы с данными мульти-формы используется только `datasource` модель!
+Если же требуется обратиться к полю конкретной записи, то необходимо использовать префикс `[index].` в имени поля.
+Например: `[index].name` для обращения к текущей или `[2].name` для обращения к конкретной строке.
+
+Важно отметить, что во внутренних компонентах мульти-формы нигде не требуется явно указывать `[index]`.
+Он автоматически подставится во всех компонентах внутри тега `<fields>`.
+Поэтому перейти от обычной формы к мульти-форме в XML можно "бесшовно".
+
+В следующем примере кнопка "Посмотреть описание организации" будет использовать данные из текущей строки (формы).
+Кнопка "Добавить" по умолчанию смотрит на модель `datasource`, она создает новый пустой объект в списке.
+
+```xml
+<form>
+    <multi-form fetch-on-init="true" fetch-on-visibility="true"
+                        unsaved-data-prompt="true" auto-focus="true" datasource="ds">
+        <fields>
+            <row>
+                <input-text id="firstName"
+                            label="Имя"
+                            text-field-id="firstName"/>
+                <input-text id="lastName"
+                            label="Фамилия"
+                            text-field-id="lastName"/>
+                <text id="fullName" label="Полное имя">
+                    <dependencies>
+                        <set-value on="firstName,lastName">
+                            if (firstName &amp;&amp; lastName)
+                                return firstName + ' ' + lastName
+                        </set-value>
+                    </dependencies>
+                </text>
+                <input-text id="organization"
+                            label="Организация"
+                            text-field-id="organization.name"/>
+            </row>
+            <button label="Посмотреть описание организации" enabled="{organization.id != null}">
+                <open-page page-id="organization" route="/organization/:organizationId/view">
+                    <params>
+                        <path-param name="organizationId" value="{organization.id}"/>
+                    </params>
+                </open-page>
+            </button>
+        </fields>
+        <toolbar>
+            <button label="Добавить"
+                    color="primary"
+                    disable-on-empty-model="false">
+                <set-value>
+                    this ? [{}, ...this] : [{}]
+                </set-value>
+            </button>
+        </toolbar>
+    </fields>
+</form>
+```
+
+
 
 ### Кнопки {#Buttons}
 

@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionActionPa
 import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
 import net.n2oapp.framework.config.metadata.compile.action.AbstractActionCompiler;
 import net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -36,6 +37,7 @@ public abstract class BaseConditionActionCompiler<S extends N2oConditionBranch>
     protected void compilePayload(N2oConditionBranch source, ConditionActionPayload payload,
                                   ConditionBranchesScope failBranchesScope, CompileContext<?, ?> context,
                                   CompileProcessor p, PageIndexScope indexScope) {
+        payload.setField(ModelLinkUtil.getField(p));
         payload.setCondition(source.getTest());
         payload.setSuccess(compileSuccess(source, context, p, indexScope));
         payload.setFail(compileFail(payload, failBranchesScope, context, p, indexScope));

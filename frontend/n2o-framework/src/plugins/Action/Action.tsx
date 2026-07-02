@@ -29,7 +29,7 @@ export function Action({
     const { id, title, action, style } = item
 
     const dispatch = useDispatch()
-    const onClick = useCallback(() => dispatch(action), [action, dispatch])
+    const onClick = useCallback(() => action && dispatch(action), [action, dispatch])
 
     const hint = isMiniView ? title : null
 

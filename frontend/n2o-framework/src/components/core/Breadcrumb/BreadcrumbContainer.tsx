@@ -32,7 +32,7 @@ const useBreadCrumbs = () => {
 export function BreadcrumbContainer(): JSX.Element | null {
     const breadcrumb = useBreadCrumbs()
     const { getComponent } = useContext(FactoryContext)
-    const FactoryBreadcrumb = getComponent('DefaultBreadcrumb', FactoryLevels.BREADCRUMBS)
+    const FactoryBreadcrumb = getComponent<{ items: Breadcrumb }>('DefaultBreadcrumb', FactoryLevels.BREADCRUMBS)
 
     if (!breadcrumb.length || !FactoryBreadcrumb) { return null }
 

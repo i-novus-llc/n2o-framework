@@ -1,25 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit'
 import set from 'lodash/set'
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 
 import { appendToArray, removeFromArray, updateModel } from '../models/store'
 import { AppendToArrayAction, RemoveFromArrayAction } from '../models/Actions'
 import { submitSuccess } from '../datasource/store'
-import { ModelPrefix } from '../../core/datasource/const'
 import { successInvoke } from '../../actions/actionImpl'
 import { ValidationResult } from '../../core/validation/types'
 import { getCtxFromField } from '../../core/validation/utils'
 import { mapMultiFields } from '../../core/models/mapMultiFields'
 import { logger } from '../../utils/logger'
+import { ModelLink } from '../../core/models/types'
 
 import { getDefaultField, getDefaultState } from './FormPlugin'
-import { Field, Form, FormsState } from './types'
+import { Field, FormsState } from './types'
 import {
     BlurFieldAction,
     DangerouslySetFieldValue,
     FocusFieldAction,
     RegisterAction,
     RegisterFieldAction,
+    UnregisterFieldAction,
     RemoveAction,
     SetDirtyPayload,
     SetFieldDisabledAction,
@@ -31,7 +33,6 @@ import {
     SetMultiFieldDisabledAction,
     SetMultiFieldVisibleAction,
     TouchFieldsAction,
-    UnregisterFieldAction,
 } from './Actions'
 
 const warnNonExistent = (field: string, property: string) => logger.warn(`Attempt to change "${property}" a non-existent field "${field}"`)
@@ -45,13 +46,12 @@ const warnNonExistent = (field: string, property: string) => logger.warn(`Attemp
 const createFieldPath = (formName: string, fieldName: string) => ([formName, 'fields', fieldName])
 
 const updateDirty = (
-    id: string,
-    prefix: ModelPrefix,
+    modelLink: ModelLink,
     dirty: boolean,
     state: FormsState,
 ) => {
     Object.values(state).forEach((form) => {
-        if (form.datasource === id && form.modelPrefix === prefix) {
+        if (isEqual(form.modelLink, modelLink)) {
             form.dirty = dirty
         }
     })
@@ -65,7 +65,7 @@ export const formSlice = createSlice({
     initialState,
     reducers: {
         register: {
-            prepare(formName: string, initState: Partial<Form>) {
+            prepare(formName, initState) {
                 return ({
                     payload: {
                         formName,
@@ -80,7 +80,6 @@ export const formSlice = createSlice({
                     ...getDefaultState(),
                     ...initState,
                     isInit: true,
-                    datasource: initState.datasource || formName,
                     formName,
                 }
             },
@@ -416,25 +415,37 @@ export const formSlice = createSlice({
             const { id, provider } = action.payload
             const { model } = provider
 
-            updateDirty(id, model, false, state)
+            updateDirty({ prefix: model, id }, false, state)
         },
         [successInvoke.type](state, action) {
             const { datasource, model } = action.payload
 
-            if (datasource) { updateDirty(datasource, model, false, state) }
+            if (datasource) { updateDirty({ prefix: model, id: datasource }, false, state) }
         },
         [updateModel.type](state, action) {
-            const { key: id, prefix } = action.payload
+            const { modelLink } = action.payload
 
-            updateDirty(id, prefix, true, state)
+            updateDirty(modelLink, true, state)
         },
         [removeFromArray.type](state, action: RemoveFromArrayAction) {
-            const { field: listName, start, count = 1, key: datasource, prefix } = action.payload
+            const { modelLink, fieldName: listName, start, count = 1 } = action.payload
+            const forms = Object.values(state)
 
-            if (!listName) { return }
+            if (!listName) {
+                forms.forEach((form) => {
+                    const { index, id, prefix } = form.modelLink
 
-            for (const form of Object.values(state)) {
-                if (form.datasource !== datasource || form.modelPrefix !== prefix) { continue }
+                    if (
+                        (id === modelLink.id) && (prefix === modelLink.prefix) &&
+                        (typeof index === 'number') && (index > start + count)
+                    ) { form.modelLink.index = index - count }
+                })
+
+                return
+            }
+
+            for (const form of forms) {
+                if (!isEqual(form.modelLink, modelLink)) { continue }
 
                 form.fields = mapMultiFields(form.fields, listName, ({ item: field, fullName, subName, index }) => {
                     // index before removed elements
@@ -457,13 +468,25 @@ export const formSlice = createSlice({
             }
         },
         [appendToArray.type](state, action: AppendToArrayAction) {
-            const { field: listName, position, key: datasource, prefix } = action.payload
+            const { modelLink, fieldName: listName, position } = action.payload
+            const forms = Object.values(state)
 
             if (typeof position === 'undefined') { return }
-            if (!listName) { return }
+            if (!listName) {
+                forms.forEach((form) => {
+                    const { index, id, prefix } = form.modelLink
 
-            for (const form of Object.values(state)) {
-                if (form.datasource !== datasource || form.modelPrefix !== prefix) { continue }
+                    if (
+                        (id === modelLink.id) && (prefix === modelLink.prefix) &&
+                        (typeof index === 'number') && (index >= position)
+                    ) { form.modelLink.index = index + 1 }
+                })
+
+                return
+            }
+
+            for (const form of forms) {
+                if (!isEqual(form.modelLink, modelLink)) { continue }
 
                 form.fields = mapMultiFields(form.fields, listName, ({ item: field, fullName, subName, index }) => {
                     // index before new element

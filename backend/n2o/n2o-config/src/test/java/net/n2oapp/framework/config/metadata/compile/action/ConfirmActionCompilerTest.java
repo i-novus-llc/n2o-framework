@@ -61,6 +61,8 @@ class ConfirmActionCompilerTest extends SourceCompileTestBase {
         testAction2(page);
 
         testAction3(page);
+
+        testAction4(page);
     }
 
     private void testAction2(StandardPage page) {
@@ -69,6 +71,12 @@ class ConfirmActionCompilerTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getCloseButton(), is(true));
         assertThat(testAction.getPayload().getMode(), is(ConfirmTypeEnum.POPOVER));
         assertThat(testAction.getPayload().getReverseButtons(), is(true));
+    }
+
+    private void testAction4(StandardPage page) {
+        ConfirmAction testAction = (ConfirmAction) page.getToolbar().getButton("b4").getAction();
+        assertThat(testAction.getPayload().getDatasource(), is("testConfirmAction_myDs"));
+        assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.FILTER));
     }
 
     private void testAction3(StandardPage page) {

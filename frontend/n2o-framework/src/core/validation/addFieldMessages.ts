@@ -1,5 +1,6 @@
-import { getFormFieldsByName } from '../../ducks/form/selectors'
+import { getFormsFields } from '../../ducks/form/selectors'
 import type { State as GlobalState } from '../../ducks/State'
+import { ModelLink } from '../models/types'
 
 import { ValidationResult } from './types'
 
@@ -9,13 +10,13 @@ import { ValidationResult } from './types'
  * FIXME: Вынести сообщения об ошибках из формы в датасурс и не смешавать вот так
  */
 export function addFieldMessages(
-    datasourceId: string,
+    modelLink: ModelLink,
     messages: Record<string, ValidationResult[]>,
     state: GlobalState,
 ): Record<string, ValidationResult[]> {
     const withFieldMessages = { ...messages }
 
-    Object.entries(getFormFieldsByName(datasourceId)(state))
+    Object.entries(getFormsFields(modelLink)(state))
         .forEach(([fieldName, field]) => {
             const mess = field.message
 

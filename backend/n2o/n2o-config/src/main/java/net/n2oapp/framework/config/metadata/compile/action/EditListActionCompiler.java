@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalDatasourceId;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalModel;
+import static net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil.getField;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -49,12 +51,15 @@ public class EditListActionCompiler extends AbstractActionCompiler<EditListActio
             throw new N2oException("Источник данных 'item-datasource' не определен для действия \"<edit-list>\"");
         }
 
-        source.setItemModel(castDefault(source.getItemModel(), () -> getModelFromComponentScope(p)));
+        source.setItemModel(castDefault(source.getItemModel(), () -> getLocalModel(p)));
         source.setDatasourceId(castDefault(source.getDatasourceId(), source.getItemDatasourceId()));
         source.setModel(castDefault(source.getModel(), source.getItemModel()));
     }
 
     private EditListActionPayload.EditInfo constructEditInfo(String datasourceId, ReduxModelEnum model, String fieldId, CompileProcessor p) {
+        String field = getField(p);
+        if (fieldId != null && field != null)
+            fieldId = field.concat(".").concat(fieldId);
         return new EditListActionPayload.EditInfo(getClientDatasourceId(datasourceId, p), model, fieldId);
     }
 }

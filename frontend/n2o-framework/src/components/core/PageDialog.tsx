@@ -6,8 +6,9 @@ import classNames from 'classnames'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
 
 import Toolbar, { ToolbarProps } from '../buttons/Toolbar'
-import { getGlobalFieldByPath } from '../../ducks/models/selectors'
+import { getModelByFullPathSelector } from '../../ducks/models/selectors'
 import propsResolver from '../../utils/propsResolver'
+import { FullModelPath } from '../../core/models/types'
 
 import { WithOverlayMethods, type WithOverlayMethodsProps } from './withOverlayMethods'
 
@@ -28,7 +29,7 @@ export interface Props extends WithOverlayMethodsProps {
 }
 
 const usePageDialog = ({ modelLink, ...props }: Props['props']) => {
-    const model = useSelector(getGlobalFieldByPath(modelLink))
+    const model = useSelector(getModelByFullPathSelector(modelLink as FullModelPath))
 
     return model ? propsResolver(props, model) : props
 }

@@ -1,9 +1,11 @@
-type MapFn<T> = (arg: {
+type MapFnArg<T> = {
     item: T,
     subName: string,
     index: number,
     fullName: string
-}) => void | { name: string, value: T }
+}
+
+type MapFn<T> = (arg: MapFnArg<T>) => void | { name: string, value: T }
 
 export function mapMultiFields<
     T,
@@ -34,8 +36,8 @@ export function mapMultiFields<
     return newObj
 }
 
-export function getOnAppend<T>(field: string, position: number): MapFn<T> {
-    return ({ item: value, fullName: name, subName, index }) => {
+export function getOnAppend<T>(field: string, position: number) {
+    return function mapOnAppend<P = T>({ item: value, fullName: name, subName, index }: MapFnArg<P>) {
         // index before removed elements
         if (index < position) { return { name, value } }
 
@@ -43,8 +45,8 @@ export function getOnAppend<T>(field: string, position: number): MapFn<T> {
     }
 }
 
-export function getOnRemove<T>(field: string, start: number, count: number): MapFn<T> {
-    return ({ item: value, fullName: name, subName, index }) => {
+export function getOnRemove<T>(field: string, start: number, count: number) {
+    return function mapOnRemove<P = T>({ item: value, fullName: name, subName, index }: MapFnArg<P>) {
         // index before removed elements
         if (index < start) { return { name, value } }
         // removed elements: ignore it

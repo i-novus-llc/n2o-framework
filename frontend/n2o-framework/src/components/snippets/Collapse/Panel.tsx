@@ -32,7 +32,7 @@ interface PanelHeaderProps extends HelpPopoverProps {
 
 function PanelHeader({ header, help, helpTrigger, helpPlacement, description, badge }: PanelHeaderProps) {
     const { getComponent } = useContext(FactoryContext)
-    const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
+    const FactoryBadge = getComponent<BadgeProps & { visible?: boolean }>('Badge', FactoryLevels.SNIPPETS)
 
     return (
         <div className="n2o-panel-header-container">

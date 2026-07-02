@@ -9,11 +9,10 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 
 import { makeWidgetFilterVisibilitySelector } from '../../ducks/widgets/selectors'
-import { ModelPrefix } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/models/types'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { setModel } from '../../ducks/models/store'
 import { endValidation, reset as dataSourceReset } from '../../ducks/datasource/store'
-import { ValidationsKey } from '../../core/validation/types'
 import { dataSourceErrors } from '../../ducks/datasource/selectors'
 import { EMPTY_OBJECT } from '../../utils/emptyTypes'
 
@@ -60,6 +59,7 @@ export const WidgetFilters = ({
      * хак не имеет смысла, когда включено авто обновление по мере ввода
      */
     const modelPrefix = fetchOnChange ? ModelPrefix.filter : ModelPrefix.edit
+    const modelLink = useMemo(() => ({ id: datasource, prefix: modelPrefix } as const), [datasource, modelPrefix])
     /*
      * филды с подмененными links в DataProvider (c filter на edit)
      */
@@ -68,7 +68,7 @@ export const WidgetFilters = ({
     const fieldsKeys = useMemo(() => getFieldsKeys(fieldsets), [fieldsets])
     const visible = useSelector(makeWidgetFilterVisibilitySelector(widgetId))
     const reduxFormFilter = useSelector(getModelByPrefixAndNameSelector(modelPrefix, datasource))
-    const filterMessages = useSelector(dataSourceErrors(datasource, ModelPrefix.filter))
+    const filterMessages = useSelector(dataSourceErrors(modelLink))
     const reduxFilterModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.filter, datasource, EMPTY_OBJECT))
 
     // update default-values on init for edit-model
@@ -79,7 +79,7 @@ export const WidgetFilters = ({
 
         if (isEqual(reduxEditModel, reduxFilterModel)) { return }
 
-        dispatch(setModel(modelPrefix, datasource, reduxFilterModel, true))
+        dispatch(setModel({ id: datasource, prefix: modelPrefix }, reduxFilterModel, true))
     }, [datasource, dispatch, getState, modelPrefix, reduxFilterModel])
 
     const clearDatasourceModel = useCallback(() => {
@@ -88,7 +88,7 @@ export const WidgetFilters = ({
 
     const search = useCallback((forceUpdate?: boolean) => {
         if (modelPrefix === ModelPrefix.edit) {
-            dispatch(setModel(ModelPrefix.filter, datasource, reduxFormFilter))
+            dispatch(setModel({ id: datasource, prefix: ModelPrefix.filter }, reduxFormFilter))
         }
 
         if (fetchData) {
@@ -103,9 +103,9 @@ export const WidgetFilters = ({
 
         resetList.forEach((field) => { unset(newReduxForm, field) })
 
-        dispatch(setModel(modelPrefix, datasource, newReduxForm))
+        dispatch(setModel({ id: datasource, prefix: modelPrefix }, newReduxForm))
         if (modelPrefix === ModelPrefix.edit) {
-            dispatch(setModel(ModelPrefix.filter, datasource, newReduxForm))
+            dispatch(setModel({ id: datasource, prefix: ModelPrefix.filter }, newReduxForm))
         }
 
         if (fetchOnClear && fetchData) {
@@ -130,18 +130,17 @@ export const WidgetFilters = ({
      */
     useEffect(() => {
         if (modelPrefix === ModelPrefix.edit) {
-            const filterModel = getModelByPrefixAndNameSelector(ModelPrefix.filter, datasource)(getState())
-            const model = getModelByPrefixAndNameSelector(ModelPrefix.edit, datasource)(getState())
+            const filterModel = getModelByPrefixAndNameSelector(ModelPrefix.filter, modelLink.id)(getState())
+            const model = getModelByPrefixAndNameSelector(ModelPrefix.edit, modelLink.id)(getState())
 
             if (isEqual(filterModel, model) && !isEmpty(filterMessages)) {
                 dispatch(endValidation({
-                    id: datasource,
+                    modelLink,
                     messages: filterMessages,
-                    prefix: ModelPrefix.edit,
                 }, { touched: true }))
             }
         }
-    }, [datasource, dispatch, filterMessages, getState, modelPrefix])
+    }, [dispatch, filterMessages, getState, modelPrefix, modelLink])
 
     const onKeyDown = useCallback((e) => {
         if (!fetchOnEnter) {
@@ -161,11 +160,9 @@ export const WidgetFilters = ({
             <div onKeyDown={onKeyDown} className={classNames('n2o-filter', { 'd-none': !visible })} style={style}>
                 <ReduxForm
                     name={widgetId}
-                    datasource={datasource}
-                    modelPrefix={modelPrefix}
+                    modelLink={modelLink}
                     fieldsets={filterFieldsets}
                     fields={fieldsKeys}
-                    validationKey={ValidationsKey.FilterValidations}
                 />
             </div>
         </WidgetFilterContext.Provider>

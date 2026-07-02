@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { State } from '../../../../ducks/State'
-import { getFormDataSelector } from '../../../../ducks/models/form/selectors'
+import { getByLinkSelector } from '../../../../ducks/models/selectors'
 import { appendToArray, copyFieldArray, removeFromArray } from '../../../../ducks/models/store'
 
 import { useFormContext } from './useFormContext'
@@ -17,37 +17,37 @@ const isEqualArrayLength = <T extends unknown[]>(current: T, prev: T) => current
 
 // TODO: добавить уникальный id на каждый эллемент
 export const useFieldArray = <T extends Record<string, unknown>>({ defaultValue = [], name: fieldName, primaryKey }: UseFieldArray<T>) => {
-    const { datasource, prefix } = useFormContext()
+    const { modelLink } = useFormContext()
     const dispatch = useDispatch()
     /**
      * Список элементов, обновляется только если изменилась длина списка
      */
-    const fields = useSelector<State, T[]>((state: State) => {
-        const value = getFormDataSelector(state, `${prefix}.${datasource}.${fieldName}`)
+    const fields = useSelector((state: State) => {
+        const value = getByLinkSelector({ ...modelLink, field: fieldName })(state)
 
-        return (value === undefined || value === null) ? defaultValue : value
+        return value as T[] ?? defaultValue
     }, isEqualArrayLength)
 
     /**
      * Добавление пустого элемента в массив
      */
     const append = useCallback((position?: number) => {
-        dispatch(appendToArray({ prefix, key: datasource, field: fieldName, primaryKey, position }))
-    }, [dispatch, fieldName, datasource, prefix, primaryKey])
+        dispatch(appendToArray({ modelLink, fieldName, primaryKey, position }))
+    }, [dispatch, fieldName, modelLink, primaryKey])
 
     /**
      * Удаление элемента по индексу или диапазон элементов
      */
-    const remove = useCallback((start: number, count?: number) => {
-        dispatch(removeFromArray({ prefix, key: datasource, field: fieldName, start, count }))
-    }, [dispatch, fieldName, datasource, prefix])
+    const remove = useCallback((start: number, count = 1) => {
+        dispatch(removeFromArray({ modelLink, fieldName, start, count }))
+    }, [dispatch, fieldName, modelLink])
 
     /**
      * Копирование элемента по индексу. Вставляется в конец массива
      */
     const copy = useCallback((index: number) => {
-        dispatch(copyFieldArray(prefix, datasource, fieldName, index, primaryKey))
-    }, [dispatch, fieldName, datasource, prefix, primaryKey])
+        dispatch(copyFieldArray(modelLink, fieldName, index, primaryKey))
+    }, [dispatch, fieldName, modelLink, primaryKey])
 
     return ({
         fields,

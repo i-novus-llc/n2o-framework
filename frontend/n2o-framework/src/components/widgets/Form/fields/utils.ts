@@ -1,5 +1,5 @@
 import { FieldDependency } from '../../../../ducks/form/types'
-import { replaceIndexKey, replaceIndex } from '../../../../core/datasource/ArrayField/replaceIndex'
+import { replaceIndexKey } from '../../../../core/datasource/ArrayField/replaceIndex'
 
 export const modifyDependencies = (
     dependencies: FieldDependency[] | void,
@@ -14,14 +14,12 @@ export const modifyDependencies = (
     return newDep
 })
 
-export { replaceIndex }
-
 export const resolveControlIndexes = (
     control: { dataProvider?: object },
     ctx: Record<string, number>,
 ) => {
     if (control.dataProvider) {
-        const dataProvider = replaceIndex(control.dataProvider, ctx)
+        const dataProvider = replaceIndexKey(control.dataProvider, ctx)
 
         return {
             ...control,

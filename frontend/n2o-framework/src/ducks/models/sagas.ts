@@ -6,11 +6,10 @@ import isEqual from 'lodash/isEqual'
 import { AsyncEffectWrapper } from '../api/utils/effectWrapper'
 import { executeExpression } from '../../core/Expression/execute'
 import { logger } from '../../utils/logger'
-import { FormModelPrefix } from '../../core/models/types'
 
 import { appendToArray, copyModel, removeFromArray, setModel, updateModel } from './store'
 import { getModelByPrefixAndNameSelector, Model } from './selectors'
-import { CopyAction, FieldPath } from './Actions'
+import { CopyAction, FieldPathOld } from './Actions'
 import { sagas } from './sagas/watcher'
 
 function getAction<T extends Model | Model[]>({
@@ -22,26 +21,44 @@ function getAction<T extends Model | Model[]>({
     model: T
     newModel: T
     validate?: boolean
-    target: FieldPath
+    target: FieldPathOld
 }) {
     /*
      * Проверка, что в список был добавлен/удалён один элемент для изменения модели через removeFromArray/appendToArray
      * На которые дальше тригерятся механизмы сдвига метаданных валидаций и полей
      */
     if (Array.isArray(newModel) && newModel.length === 1 && !model) {
-        return appendToArray({ ...target, value: newModel[0] })
+        return appendToArray({
+            modelLink: { prefix: target.prefix, id: target.key },
+            fieldName: target.field,
+            value: newModel[0],
+        })
     }
     if (Array.isArray(model) && model.length && !newModel?.length) {
-        return removeFromArray({ ...target, start: 0, count: model.length })
+        return removeFromArray({
+            modelLink: { prefix: target.prefix, id: target.key },
+            fieldName: target.field,
+            start: 0,
+            count: model.length,
+        })
     }
     if (Array.isArray(newModel) && Array.isArray(model)) {
         if ((newModel.length - model.length === 1)) {
             if (isEqual(newModel.slice(0, -1), model)) {
                 // не нужно для сдвига метаданных, но нужно для срабатывания default-value
-                return appendToArray({ ...target, value: newModel.at(-1) })
+                return appendToArray({
+                    modelLink: { prefix: target.prefix, id: target.key },
+                    fieldName: target.field,
+                    value: newModel.at(-1),
+                })
             }
             if (isEqual(newModel.slice(1), model)) {
-                return appendToArray({ ...target, value: newModel[0], position: 0 })
+                return appendToArray({
+                    modelLink: { prefix: target.prefix, id: target.key },
+                    fieldName: target.field,
+                    value: newModel[0],
+                    position: 0,
+                })
             }
         }
         if (newModel.length - model.length === -1) {
@@ -61,16 +78,20 @@ function getAction<T extends Model | Model[]>({
 
             // if left & right cursors same => removed item, else => list has many changes
             if (left === model.length - right) {
-                return removeFromArray({ ...target, start: left })
+                return removeFromArray({
+                    modelLink: { prefix: target.prefix, id: target.key },
+                    fieldName: target.field,
+                    start: left,
+                })
             }
         }
     }
 
     if (target.field) {
-        return updateModel(target.prefix as FormModelPrefix, target.key, target.field, newModel, validate)
+        return updateModel({ prefix: target.prefix, id: target.key }, target.field, newModel, validate)
     }
 
-    return setModel(target.prefix, target.key, newModel, undefined, validate)
+    return setModel({ prefix: target.prefix, id: target.key }, newModel, undefined, validate)
 }
 
 // @ts-ignore FIXME validate должен быть в payload? а не на верхнем уровне

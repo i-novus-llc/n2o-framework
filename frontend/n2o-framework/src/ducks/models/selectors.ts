@@ -1,15 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit'
 import get from 'lodash/get'
 
-import { ModelPrefix } from '../../core/datasource/const'
+import { ModelPrefix, Model, ModelTypeByPrefix, FullModelPath, ModelLink, FieldLink } from '../../core/models/types'
 import type { State as GlobalState } from '../State'
-
-/**
- * Базовый селектор всех моделей
- * @param state
- * @return GlobalState
- */
-const getGlobalState = (state: GlobalState) => state
 
 /**
  * Базовый селектор всех моделей
@@ -22,30 +15,46 @@ const modelsSelector = (state: GlobalState) => state.models || {}
  * Селектор получения модели по линку
  * @param modelLink
  */
-const getModelSelector = (modelLink: string) => (state: GlobalState) => get(state, modelLink)
+const getModelSelector = <T extends Model | Model[]>(modelLink: ModelLink) => createSelector(
+    modelsSelector,
+    (modelsState) => {
+        const model = modelsState[modelLink.prefix]?.[modelLink.id]
 
-/**
- * Селектор получения данных из глобал стора по линкуy
- */
-const getGlobalFieldByPath = (path: string) => createSelector(
-    [
-        getGlobalState,
-    ],
-    state => get(state, path, null),
+        if (modelLink.index !== undefined && Array.isArray(model)) {
+            return model[modelLink.index] as T ?? null
+        }
+
+        return model as T ?? null
+    },
 )
+
+function isFieldLink(link: ModelLink | FieldLink): link is FieldLink {
+    return ('field' in link) && (typeof link.field === 'string')
+}
+
+export const getByLinkSelector = (link: ModelLink | FieldLink) => createSelector(
+    getModelSelector(link),
+    model => (
+        isFieldLink(link)
+            ? get(model, link.field, null)
+            : model
+    ),
+)
+
+export const getModelByFullPathSelector = (modelLink: FullModelPath) => (state: GlobalState) => get(state, modelLink, null)
+
 /**
  * Селектор получения данных из модели по линку
  */
 const getModelFieldByPath = (path: string) => createSelector(
-    [
-        modelsSelector,
-    ],
+    modelsSelector,
     modelsState => get(modelsState, path, null),
 )
 
+// @deprecated
 const getModelsByDependency = <T extends { on: string }>(dependency: T[]) => (state: GlobalState) => (
     dependency.map(config => ({
-        model: getModelSelector(config.on)(state),
+        model: getModelByFullPathSelector(config.on as FullModelPath)(state),
         config,
     }))
 )
@@ -53,14 +62,14 @@ const getModelsByDependency = <T extends { on: string }>(dependency: T[]) => (st
 /**
  * Селектор-генератор для получения списка моделей по префиксу
  * @param prefix
+ * @deprecated
  */
 const makeModelsByPrefixSelector = (prefix: ModelPrefix) => createSelector(
     modelsSelector,
     modelsState => modelsState[prefix] || {},
 )
 
-export type Model = Record<string, unknown>
-export type ModelTypeByPrefix<P extends ModelPrefix> = P extends ModelPrefix.source | ModelPrefix.selected ? Model[] : Model
+export type { Model, ModelTypeByPrefix }
 
 /**
  * Селектор-генератор для получения конкретной модели
@@ -70,14 +79,12 @@ function getModelByPrefixAndNameSelector<
     R extends ModelTypeByPrefix<Prefix> = ModelTypeByPrefix<Prefix>,
 >(
     prefix: Prefix,
-    fieldKey: string,
+    id: string,
     defaultValue?: R,
 ) {
     return createSelector(
-        [
-            makeModelsByPrefixSelector(prefix),
-        ],
-        prefixModelsState => (prefixModelsState[fieldKey] || defaultValue) as R,
+        getModelSelector<R>({ prefix, id }),
+        model => model ?? defaultValue,
     )
 }
 
@@ -85,7 +92,6 @@ export {
     modelsSelector,
     makeModelsByPrefixSelector,
     getModelByPrefixAndNameSelector,
-    getGlobalFieldByPath,
     getModelsByDependency,
     getModelFieldByPath,
     getModelSelector,

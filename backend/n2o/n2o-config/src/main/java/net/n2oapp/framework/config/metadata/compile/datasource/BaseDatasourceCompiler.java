@@ -12,10 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.rest.Paging;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -33,19 +30,22 @@ public abstract class BaseDatasourceCompiler<S extends N2oDatasource, D extends 
         compiled.setPaging(new Paging(castDefault(source.getSize(),
                 () -> p.resolve(property("n2o.api.datasource.size"), Integer.class))));
         compiled.setDependencies(initDependencies(source, p));
-        compiled.setValidations(initValidations(source, p, ReduxModelEnum.RESOLVE));
-        compiled.setFilterValidations(initValidations(source, p, ReduxModelEnum.FILTER));
         compiled.setSorting(source.getSorting());
+        compiled.setValidations(initValidations(source, p));
     }
 
-    protected Map<String, List<Validation>> initValidations(S source, CompileProcessor p, ReduxModelEnum model) {
+    private Map<ReduxModelEnum, Map<String, List<Validation>>> initValidations(S source, CompileProcessor p) {
         ValidationScope validationScope = p.getScope(ValidationScope.class);
-        if (validationScope != null) {
-            return validationScope.get(source.getId(), model).stream()
+        if (validationScope == null) return Map.of();
+        Map<ReduxModelEnum, Map<String, List<Validation>>> allValidations = new EnumMap<>(ReduxModelEnum.class);
+        for (ReduxModelEnum model : new ReduxModelEnum[]{ReduxModelEnum.RESOLVE, ReduxModelEnum.FILTER, ReduxModelEnum.DATASOURCE}) {
+            Map<String, List<Validation>> validations = validationScope.get(source.getId(), model).stream()
                     .filter(v -> v.getSide() == null || v.getSide().contains("client"))
                     .collect(Collectors.groupingBy(Validation::getFieldId));
-        } else
-            return Collections.emptyMap();
+            if (!validations.isEmpty())
+                allValidations.put(model, validations);
+        }
+        return allValidations;
     }
 
     protected List<Dependency> initDependencies(N2oDatasource source, CompileProcessor p) {

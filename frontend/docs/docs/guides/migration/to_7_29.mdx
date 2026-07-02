@@ -268,3 +268,10 @@ public class MyCriteriaConstructor implements CriteriaConstructor<MyCriteria> {
 - В пакетах `n2o-framework` и `n2o-components` версия `dayjs` указана как peer-dependency,
 то есть она устанавливается в dependencies проекта, который их использует.
 Поддерживаемая версия от "^1.11.13"
+
+## 7.29.22 {#7_29_22}
+
+### Изменения в XML API {#changes-xml-api}
+
+- Изменено значение по умолчанию для атрибутов `source-model` и `target-model` в элементе `<copy>`.
+Теперь по умолчанию будет использоваться модель данных родительского компонента, а не resolve, как было ранее.

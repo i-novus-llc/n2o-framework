@@ -15,4 +15,6 @@ public class ClearActionPayload implements ActionPayload {
     private String[] prefixes;
     @JsonProperty
     private String key;
+    @JsonProperty
+    private String field;
 }

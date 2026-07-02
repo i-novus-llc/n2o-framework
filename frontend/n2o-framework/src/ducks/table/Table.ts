@@ -32,7 +32,7 @@ type ElementAttributes = {
     style?: CSSProperties
 }
 
-export interface BodyCell {
+export type BodyCell = {
     id: string
     label: string
     src: string

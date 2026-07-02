@@ -32,6 +32,7 @@ import net.n2oapp.framework.autotest.impl.component.region.*;
 import net.n2oapp.framework.autotest.impl.component.snippet.*;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oListWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.N2oMultiFormWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oTreeWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.cards.N2oCard;
 import net.n2oapp.framework.autotest.impl.component.widget.cards.N2oCardsWidget;
@@ -63,7 +64,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oTabsRegion.class, N2oScrollspyRegion.class, N2oSubPageRegion.class,
                 N2oFlexRowRegion.class, N2oRowRegion.class, N2oColRegion.class,
                 // widgets
-                N2oListWidget.class, N2oFormWidget.class,
+                N2oListWidget.class, N2oFormWidget.class, N2oMultiFormWidget.class,
                 N2oTilesWidget.class, N2oTile.class,
                 N2oTableWidget.class, N2oTableSimpleHeader.class, N2oTableFilterHeader.class, N2oTableMultiHeader.class,
                 N2oCardsWidget.class, N2oCard.class, N2oHtmlWidget.class,

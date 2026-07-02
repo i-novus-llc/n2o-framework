@@ -18,6 +18,8 @@ public class ConditionActionPayload implements ActionPayload {
     @JsonProperty
     private ReduxModelEnum model;
     @JsonProperty
+    private String field;
+    @JsonProperty
     private String condition;
     @JsonProperty
     private Action success;

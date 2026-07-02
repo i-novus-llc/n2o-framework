@@ -30,7 +30,7 @@ import { dataSourceByIdSelector } from '../datasource/selectors'
 import { DATASOURCE_PREFIX } from '../api/constants'
 import { logger } from '../../utils/logger'
 import { subscribe } from '../models/sagas/subscribe'
-import { ModelLink } from '../../core/models/types'
+import { FullModelPath } from '../../core/models/types'
 import { watchOnChangeEvents, getOnChangeEvents } from '../watchEvents/watchEvents'
 
 import { makeAnchorLocationByIdSelector, makeIsRootChildByIdSelector, pagesSelector } from './selectors'
@@ -162,7 +162,7 @@ export function* getMetadata(
 /**
  * Сага, получающая страницы, извлекающая из них события и передающая их в watchEvents для обработки.
  */
-export function* watchPageEvents(isChanged: (link: ModelLink) => boolean) {
+export function* watchPageEvents(isChanged: (link: FullModelPath) => boolean) {
     const pagesMap: Page[] = yield select(pagesSelector)
     const pagesList: Page[] = Object.values(pagesMap)
 

@@ -2,14 +2,17 @@ import { useCallback, useContext, useRef } from 'react'
 import { useDispatch as useReduxDispatch } from 'react-redux'
 
 import { ExpressionContext } from '../Expression/Context'
+import { Action } from '../../ducks/Action'
 
 import { mergeMeta } from './utils/mergeMeta'
+
+export type Dispatch = (action: Action) => void
 
 /**
  * Обёртка над dispatch, добавляющая контекст выполнения экспрешена в метаданные вызываемого action
  * Нужен для вызова action, которые тригерят саги, использующие резолв данных из модели
  */
-export function useDispatch() {
+export function useDispatch(): Dispatch {
     const dispatch = useReduxDispatch()
     const expressionContext = useContext(ExpressionContext)
     const contextRef = useRef(expressionContext)

@@ -11,10 +11,12 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.*;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 
 import java.util.HashMap;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalModel;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -163,7 +165,7 @@ public abstract class Redux {
     public static ModelLink linkParam(N2oParam param, CompileProcessor p) {
         Object value = ScriptProcessor.resolveExpression(param.getValue());
         if (value == null || StringUtils.isJs(value)) {
-            ModelLink link = new ModelLink(param.getModel(), getClientDatasourceId(param.getDatasourceId(), p));
+            ModelLink link = ModelLinkUtil.createModelLink(p, param.getModel(), getClientDatasourceId(param.getDatasourceId(), p), getLocalModel(p));
             link.setValue(value);
             return link;
         } else {
