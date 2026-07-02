@@ -1,7 +1,6 @@
 import { CSSProperties, ReactNode } from 'react'
 
 import { Props as StandardWidgetProps } from '../StandardWidget'
-import { type Props as N2OPaginationProps } from '../Table/N2OPagination'
 import { Widget } from '../../../ducks/widgets/Widgets'
 
 export interface ListMoreButtonProps {

@@ -17,8 +17,7 @@ export function subscribeMetadata(emitter: Emitter, dataSourceId: string) {
 
             if (responseKeys.length) {
                 for (const fieldKey of responseKeys) {
-                    // @ts-ignore TODO почему то обновляется ds model, нужно понять для чего и поменять
-                    emitter(updateModel(ModelPrefix.source, dataSourceId, fieldKey, metadata[fieldKey]))
+                    emitter(updateModel({ prefix: ModelPrefix.source, id: dataSourceId }, fieldKey, metadata[fieldKey]))
                 }
             }
         } else {

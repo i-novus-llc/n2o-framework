@@ -431,6 +431,22 @@
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
+                <xs:attribute name="datasource" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор источника данных, из которого будет взято значение для плейсхолдеров атрибутов.
+                            По умолчанию: идентификатор источника данных родительского компонента
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="model" type="clientModel">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель, из которой будет взято значение для плейсхолдеров атрибутов.
+                            По умолчанию: модель родительского компонента
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="title" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
@@ -538,10 +554,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="source-model" type="clientModel" default="resolve">
+                <xs:attribute name="source-model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>
-                            Модель, которая будет скопирована
+                            Модель, которая будет скопирована.
+                            По умолчанию: модель данных родительского компонента.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -561,10 +578,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target-model" type="clientModel" default="resolve">
+                <xs:attribute name="target-model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>
-                            Модель, в которую производится копирование
+                            Модель, в которую производится копирование.
+                            По умолчанию: модель данных родительского компонента.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

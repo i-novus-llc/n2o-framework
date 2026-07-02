@@ -1,9 +1,11 @@
-import { createContext } from 'react'
+import { createContext, ComponentType } from 'react'
 
 import { FactoryLevels } from './factoryLevels'
 
+type Prop = Record<string, unknown>
+type Props = Prop | Prop[]
+
 export const FactoryContext = createContext({
-    resolveProps(props?: object | Record<string, unknown>, options?: unknown) { return props },
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    getComponent<TComponent extends Function>(componentName: string, level?: FactoryLevels): TComponent | void {},
+    resolveProps<U, T extends Props = Props>(props: T, options?: unknown): U { return props as unknown as U },
+    getComponent<P>(componentName: string, level?: FactoryLevels): ComponentType<P> | void {},
 })

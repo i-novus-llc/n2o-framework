@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <multi-form>
+        <datasource id="ds" object-id="testFormValidations"/>
+        <datasource id="ds2"/>
+        <fields>
+            <input-text id="name" text-field-id="name">
+                <toolbar>
+                    <button id="invokeBtn">
+                        <invoke operation-id="test"/>
+                    </button>
+                    <button id="confirmBtn">
+                        <confirm/>
+                    </button>
+                    <button id="ifBtn">
+                        <if test="name == 'a'">
+                            <alert/>
+                        </if>
+                    </button>
+                    <button id="switchBtn">
+                        <switch value-field-id="type">
+                            <case value="1">
+                                <alert/>
+                            </case>
+                        </switch>
+                    </button>
+                    <button id="editBtn">
+                        <edit-list operation="create" list-field-id="groups"
+                                   item-datasource="ds2" item-field-id="test2" primary-key="name"/>
+                    </button>
+                </toolbar>
+            </input-text>
+        </fields>
+    </multi-form>
+</simple-page>

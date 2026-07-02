@@ -161,12 +161,12 @@ Body: `<payload>` with any attributes (supports placeholders)
 
 ### `<copy>` — Copy data between datasources
 | Attribute | Type | Description | Default |
-|---|---|---|---|
+|---|---|---|-|
 | source-datasource | Reference | Source datasource | parent's datasource |
-| source-model | resolve/edit/filter/multi/datasource | Source model | resolve |
+| source-model | resolve/edit/filter/multi/datasource | Source model | |
 | source-field-id | String | Source field (omit for whole model) | |
 | target-datasource | Reference | Target datasource | source-datasource |
-| target-model | resolve/edit/filter/multi/datasource | Target model | resolve |
+| target-model | resolve/edit/filter/multi/datasource | Target model | |
 | target-field-id | String | Target field (omit for whole model) | |
 | mode | merge / replace / add | Merge mode | merge |
 | close-on-success | boolean | Close window after copy | false |
@@ -210,6 +210,8 @@ Body: JS expression (fields referenced by name)
 ### `<confirm>` — Show confirmation dialog
 | Attribute | Type | Description | Default |
 |---|---|---|---|
+| datasource | Reference | Datasource for placeholder values | parent's datasource |
+| model | resolve/edit/filter/multi/datasource | Model for placeholder values | parent's model |
 | title | String | Dialog title (supports placeholders) | |
 | text | String | Confirmation text (supports placeholders) | |
 | type | popover / modal | Dialog type | modal |

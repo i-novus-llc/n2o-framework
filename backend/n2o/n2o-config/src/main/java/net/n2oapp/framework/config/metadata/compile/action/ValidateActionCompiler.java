@@ -15,6 +15,7 @@ import java.util.Objects;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalDatasourceId;
+import static net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil.getField;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 @Component
@@ -32,7 +33,8 @@ public class ValidateActionCompiler extends AbstractActionCompiler<ValidateActio
 
         ValidateActionPayload payload = compiled.getPayload();
         payload.setId(getClientDatasourceId(getLocalDatasourceId(p), p));
-        payload.setModel(ActionCompileStaticProcessor.getModelFromComponentScope(p));
+        payload.setModel(ActionCompileStaticProcessor.getLocalModel(p));
+        payload.setField(getField(p));
         payload.setBreakOn(castDefault(source.getBreakOn(), () -> p.resolve(property("n2o.api.action.validate.break_on"), ValidateBreakOnEnum.class)));
         if (source.getFields() != null && source.getFields().length > 0) {
             payload.setFields(Arrays.stream(source.getFields())

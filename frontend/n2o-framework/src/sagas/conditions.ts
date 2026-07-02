@@ -25,7 +25,9 @@ import { type State as ToolbarState, type Condition, type ButtonState } from '..
 // eslint-disable-next-line import/no-cycle
 import { resolveButton } from '../ducks/toolbar/sagas'
 import { State as GlobalState } from '../ducks/State'
-import { type ModelLink, ModelPrefix } from '../core/models/types'
+import { type FullModelPath, ModelLink, ModelPrefix } from '../core/models/types'
+import { getFullModelPath } from '../core/models/getModelPath'
+import { parseModelPath } from '../core/models/parseModelPath'
 
 /**
  * резолв кондишена, резолв message из expression
@@ -67,10 +69,12 @@ function isMatchingLink(baseModelLink: string, conditionLink: string, prefix: Mo
     return conditionLink === baseModelLink
 }
 
-function hasMatchingCondition(button: ButtonState, baseModelLink: ModelLink, prefix: ModelPrefix): boolean {
+function hasMatchingCondition(button: ButtonState, baseModelLink: FullModelPath): boolean {
     const { conditions } = button
 
     if (!conditions) { return false }
+
+    const { prefix } = parseModelPath(baseModelLink)
 
     const check = (
         list?: Array<{ modelLink: string }>,
@@ -79,8 +83,7 @@ function hasMatchingCondition(button: ButtonState, baseModelLink: ModelLink, pre
     return check(conditions.enabled) || check(conditions.visible)
 }
 
-function* callConditionHandlers(prefix: ModelPrefix, key: string) {
-    const baseModelLink: ModelLink = `models.${prefix}['${key}']`
+function* callConditionHandlers(baseModelLink: FullModelPath) {
     const toolbar: ToolbarState = yield select(toolbarSelector)
 
     for (const buttons of Object.values(toolbar)) {
@@ -89,7 +92,7 @@ function* callConditionHandlers(prefix: ModelPrefix, key: string) {
         for (const [buttonId, button] of Object.entries(buttons)) {
             if (
                 !temp.has(buttonId) &&
-                hasMatchingCondition(button, baseModelLink, prefix)
+                hasMatchingCondition(button, baseModelLink)
             ) {
                 yield fork(resolveButton, button)
                 temp.add(buttonId)
@@ -102,19 +105,19 @@ interface WatchModelPayload {
     prefix: ModelPrefix
     prefixes: ModelPrefix[]
     key: string
+    modelLink: ModelLink
 }
 
 function* watchModel(action: { payload: WatchModelPayload }) {
-    const { prefix, prefixes, key } = action.payload
+    const { prefix, prefixes, key, modelLink } = action.payload
 
-    // setModel пришлет prefix
-    if (prefix) {
-        yield call(callConditionHandlers, prefix, key)
-
-        // clearModel пришлет prefixes
-    } else if (prefixes) {
+    if (modelLink) { // updateModel/appendToArray/removeFromArray пришлют modelLink
+        yield call(callConditionHandlers, getFullModelPath(modelLink))
+    } else if (prefix) { // setModel пришлет prefix
+        yield call(callConditionHandlers, getFullModelPath({ prefix, id: key }))
+    } else if (prefixes) { // clearModel пришлет prefixes
         for (const prefix of prefixes) {
-            yield call(callConditionHandlers, prefix, key)
+            yield call(callConditionHandlers, getFullModelPath({ prefix, id: key }))
         }
     }
 }
@@ -123,7 +126,7 @@ function* watchCombineModels({ payload: { combine } }: MergeModelAction) {
     for (const [prefix, models] of Object.entries(combine)) {
         for (const key of Object.keys(models)) {
             // TODO посмотреть типизацию MergeModelAction, тут должно работать без 'as' присваивания
-            yield call(callConditionHandlers, prefix as ModelPrefix, key)
+            yield call(callConditionHandlers, getFullModelPath({ prefix, id: key } as ModelLink))
         }
     }
 }

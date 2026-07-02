@@ -36,6 +36,9 @@ public class ConfirmActionPayload implements ActionPayload {
     private ReduxModelEnum model;
 
     @JsonProperty
+    private String field;
+
+    @JsonProperty
     private Boolean closeButton;
 
     @JsonProperty

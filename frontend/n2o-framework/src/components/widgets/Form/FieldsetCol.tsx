@@ -21,7 +21,6 @@ function FieldsetColComponent({
     labelPosition,
     labelWidth,
     labelAlignment,
-    modelPrefix,
     form,
     parentName,
     disabled,
@@ -65,7 +64,6 @@ function FieldsetColComponent({
                             key={key}
                             autoFocus={autoFocus}
                             form={form}
-                            modelPrefix={modelPrefix}
                             name={name}
                             parentName={parentName}
                             disabled={disabled}
@@ -87,7 +85,6 @@ function FieldsetColComponent({
 
                     return (
                         <FieldsetContainer
-                            modelPrefix={modelPrefix}
                             key={key}
                             name={name}
                             form={form}

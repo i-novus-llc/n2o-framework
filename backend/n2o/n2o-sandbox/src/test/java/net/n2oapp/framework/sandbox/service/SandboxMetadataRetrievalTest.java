@@ -2,6 +2,7 @@ package net.n2oapp.framework.sandbox.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.control.Text;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -98,12 +99,12 @@ class SandboxMetadataRetrievalTest {
         assertThat(page.getModels().size(), is(0));
         assertThat(page.getSrc(), is("SimplePage"));
 
-        assertThat(page.getBreadcrumb().get(0).getLabel(), is("Моя первая страница"));
+        assertThat(page.getBreadcrumb().getFirst().getLabel(), is("Моя первая страница"));
 
         assertThat(page.getDatasources().get("_w1").getDependencies().size(), is(0));
         assertThat(page.getDatasources().get("_w1").getId(), is("_w1"));
         assertThat(page.getDatasources().get("_w1").getPaging().getSize(), is(1));
-        assertThat(page.getDatasources().get("_w1").getValidations().size(), is(0));
+        assertThat(page.getDatasources().get("_w1").getValidations(ReduxModelEnum.RESOLVE).size(), is(0));
 
         assertThat(page.getPageProperty().getHtmlTitle(), is("Моя первая страница"));
 
@@ -117,14 +118,14 @@ class SandboxMetadataRetrievalTest {
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getModelPrefix(), is("resolve"));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getPrompt(), is(false));
         assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getAutoFocus(), is(false));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getSrc(), is("StandardFieldset"));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("hello"));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getDependencies().size(), is(0));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getEnabled(), is(true));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getNoLabelBlock(), is(false));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getRequired(), is(false));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getSrc(), is("TextField"));
-        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getVisible(), is(true));
-        assertThat(((Text) ((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getContent(), is("Привет Мир!"));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().getFirst().getSrc(), is("StandardFieldset"));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst().getId(), is("hello"));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst().getDependencies().size(), is(0));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst().getEnabled(), is(true));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst().getNoLabelBlock(), is(false));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst().getRequired(), is(false));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst().getSrc(), is("TextField"));
+        assertThat(((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst().getVisible(), is(true));
+        assertThat(((Text) ((Form) ((SimplePage) page).getWidget()).getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst()).getContent(), is("Привет Мир!"));
     }
 }

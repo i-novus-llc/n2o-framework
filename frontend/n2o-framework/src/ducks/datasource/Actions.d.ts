@@ -1,7 +1,7 @@
-import type { ModelPrefix, SortDirection } from '../../core/datasource/const'
+import { ModelLink, ModelPrefix } from '../../core/models/types'
+import type { SortDirection } from '../../core/datasource/const'
 import type { Validation, ValidationResult } from '../../core/validation/types'
 import { ActionMeta } from '../../sagas/types'
-import { ValidationsKey } from '../../core/validation/types'
 import { Action, Meta } from '../Action'
 
 import type { DataSourceConfig } from './DataSource'
@@ -18,7 +18,7 @@ export type DatasourceAction<
 
 export type RegisterAction = DatasourceAction<{
     id: string
-    initProps: Partial<DataSourceConfig>
+    initProps: DataSourceConfig
 }>
 
 export type RemoveAction = DatasourceAction<DatasourcePayload>
@@ -66,20 +66,18 @@ export type ChangeSizeAction = DatasourceAction<{
     size: number
 }>
 
-export type StartValidateAction = DatasourceAction<{
-    id: string
-    validationsKey?: ValidationsKey
-    prefix: ModelPrefix.active | ModelPrefix.edit | ModelPrefix.filter
+export type StartValidateAction = Action<string, {
+    modelLink: ModelLink
     fields?: Record<string, Validation[]>
-}, { touched: boolean }>
+}, Meta & { touched: boolean }>
 
-export type ValidateEndPayload = DatasourcePayload & {
-    prefix: ModelPrefix
+export type ValidateEndPayload = {
+    modelLink: ModelLink
     messages: Record<string, ValidationResult[]>
     fields?: string[]
 }
 
-export type ValidateEndAction = DatasourceAction<ValidateEndPayload, {}>
+export type ValidateEndAction = DatasourceAction<string, ValidateEndPayload, Meta>
 
 export type SetFieldSubmitAction = DatasourceAction<{
     id: string

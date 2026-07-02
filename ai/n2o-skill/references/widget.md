@@ -47,6 +47,29 @@ Body: `<fields>`, `<dependencies>`, `<datasource>`, `<toolbar>`, `<actions>`
 
 ---
 
+## `<multi-form>` — Multi-form Widget (list widget with form-per-row)
+| Attribute | Type | Default |
+|---|---|---|
+| unsaved-data-prompt | boolean | false |
+
+Settings: `n2o.api.widget.multi_form.size=10`, `n2o.api.widget.multi_form.unsaved_data_prompt=false`
+Body: `<fields>`, `<pagination>`, `<dependencies>`, `<datasource>`, `<toolbar>`, `<actions>`
+```xml
+<multi-form datasource="ds1">
+    <fields>
+        <input-text id="name" label="Name" text-field-id="name"/>
+        <select id="status" label="Status" text-field-id="status">
+            <option value="active" label="Active"/>
+            <option value="inactive" label="Inactive"/>
+        </select>
+    </fields>
+    <toolbar place="bottomRight" generate="crud"/>
+    <pagination/>
+</multi-form>
+```
+
+---
+
 ## `<table>` — Table Widget
 | Attribute | Type | Default |
 |---|---|---|

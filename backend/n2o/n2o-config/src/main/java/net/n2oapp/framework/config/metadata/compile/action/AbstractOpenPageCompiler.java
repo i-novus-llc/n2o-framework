@@ -27,6 +27,7 @@ import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.apache.commons.lang3.ArrayUtils;
@@ -74,7 +75,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     }
 
     private void initDefaultsParam(N2oParam param, CompileProcessor p, S source) {
-        param.setModel(castDefault(param.getModel(), () -> getModelFromComponentScope(p)));
         param.setDatasourceId(castDefault(param.getDatasourceId(), () -> getLocalDatasourceId(p)));
         if (param.getDatasourceId() == null && param.getValue() == null) {
             throw new N2oException(String.format("Источник данных не определен для параметра %s действия %s", param.getName(), source.getId()));
@@ -269,6 +269,10 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         } else {
             datasource = clientWidgetId;
         }
+        if (ModelLinkUtil.isInMultiForm(p)) {
+            return new ModelLink(datasource, "[index]");
+        }
+
         return new ModelLink(actionDataModel, datasource, isLink(pageId) ? unwrapLink(pageId) : QuerySimpleField.PK);
     }
 
@@ -312,7 +316,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (routeParams == null)
             throw new N2oException(String.format("Параметр пути '%s' не используется в маршруте", pathParams[0].getName()));
         if (pathParams == null)
-            throw new N2oException(String.format("Параметр пути '%s' для маршрута '%s' не установлен", routeParams.get(0), route));
+            throw new N2oException(String.format("Параметр пути '%s' для маршрута '%s' не установлен", routeParams.getFirst(), route));
 
         for (N2oParam pathParam : pathParams) {
             if (!routeParams.contains(pathParam.getName()))
@@ -341,7 +345,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             saveButton.setId(GenerateTypeEnum.SUBMIT.getId());
             saveButton.setColor("primary");
             N2oAction[] actions = null;
-            ReduxModelEnum saveButtonModel = null;
             SubmitActionTypeEnum submitActionType = castDefault(source.getSubmitActionType(), SubmitActionTypeEnum.INVOKE);
             Boolean closeOnSuccess = castDefault(source.getCloseAfterSubmit(), true);
             Boolean refreshOnSuccessSubmit = castDefault(source.getRefreshAfterSubmit(), true);
@@ -362,7 +365,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 copyAction.setMode(source.getCopyMode());
                 copyAction.setCloseOnSuccess(closeOnSuccess);
                 actions = new N2oAction[]{copyAction};
-                saveButtonModel = source.getCopyModel();
             } else if (submitActionType == SubmitActionTypeEnum.INVOKE) {
                 List<N2oAction> actionList = new ArrayList<>();
                 N2oInvokeAction invokeAction = new N2oInvokeAction();
@@ -403,12 +405,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 }
 
                 invokeAction.setOperationId(source.getSubmitOperationId());
+                invokeAction.setModel(source.getSubmitModel());
                 actions = actionList.toArray(new N2oAction[0]);
-                saveButtonModel = source.getSubmitModel();
             }
             saveButton.setLabel(castDefault(source.getSubmitLabel(), () -> p.getMessage("n2o.api.action.toolbar.button.submit.label")));
             saveButton.setActions(actions);
-            saveButton.setModel(castDefault(saveButtonModel, ReduxModelEnum.RESOLVE));
             saveButton.setValidate(true);
             items[0] = saveButton;
 

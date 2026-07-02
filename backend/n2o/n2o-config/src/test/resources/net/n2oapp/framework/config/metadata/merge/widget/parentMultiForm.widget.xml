@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<multi-form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+            ref-id="childMultiForm"
+            fetch-on-init="true"
+            auto-focus="false">
+     <datasource query-id="parentQuery" object-id="parentObject"/>
+     <fields>
+        <set>
+            <input-text id="name2"/>
+        </set>
+    </fields>
+    <toolbar place="topRight">
+        <button label="Сохранить" action-id="save"/>
+    </toolbar>
+</multi-form>

@@ -13,6 +13,7 @@ public class N2oWidgetsV5IOPack implements MetadataPack<XmlIOBuilder<?>> {
         b.ios(new FormElementIOV5(),
                 new TableElementIOV5(),
                 new ListWidgetElementIOv5(),
+                new MultiFormElementIOv5(),
                 new HtmlWidgetElementIOv5(),
                 new CustomWidgetIOv5(),
                 new TreeElementIOv5(),

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Мульти-форма">
+    <datasources>
+        <datasource id="ds" query-id="data" object-id="data"
+                    size="4"/>
+    </datasources>
+
+    <regions>
+        <multi-form datasource="ds">
+            <fields>
+                <row>
+                    <col style="display: flex; justify-content: flex-end">
+                        <button icon="fa fa-edit" color="link">
+                            <if test="id">
+                                <invoke operation-id="update"/>
+                            </if>
+                            <else>
+                                <invoke operation-id="create"/>
+                            </else>
+                        </button>
+                        <button icon="fa fa-trash" color="link">
+                            <invoke operation-id="delete"/>
+                        </button>
+                    </col>
+                </row>
+                <row>
+                    <input-text id="firstname" label="Имя" required="true"/>
+                    <input-text id="lastname" label="Фамилия" required="true"/>
+                </row>
+                <row>
+                    <select id="gender" label="Пол">
+                        <options>
+                            <option id="1" name="Мужской"/>
+                            <option id="2" name="Женский"/>
+                        </options>
+                    </select>
+                    <date-time id="birthday" label="Дата рождения"/>
+                </row>
+                <text-area id="address" label="Адрес"/>
+
+            </fields>
+
+            <toolbar place="topLeft">
+                <button label="Добавить"
+                        color="primary"
+                        disable-on-empty-model="false">
+                    <set-value source-model="datasource"
+                               target-model="datasource">
+                        this ? [{}, ...this] : [{}]
+                    </set-value>
+                </button>
+            </toolbar>
+        </multi-form>
+    </regions>
+</page>

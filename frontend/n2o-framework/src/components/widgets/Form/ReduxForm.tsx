@@ -3,8 +3,9 @@ import { Prompt } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 
-import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
+import { getModelSelector, Model } from '../../../ducks/models/selectors'
 import { FormProvider } from '../../core/FormProvider'
+import { EMPTY_OBJECT } from '../../../utils/emptyTypes'
 
 import { flatFields, getAutoFocusId } from './utils'
 import { FieldsetContainer as Fieldset } from './Fieldset'
@@ -19,45 +20,42 @@ import { type ReduxFormProps } from './types'
 
 export const ReduxForm: FC<ReduxFormProps> = ({
     name: formName,
-    datasource,
     fieldsets,
     autoFocus,
-    modelPrefix,
+    modelLink,
     autoSubmit,
     className,
     style,
     prompt = false,
     dirty,
     children,
-    validationKey,
+    needActiveModel,
 }) => {
     const { t } = useTranslation()
 
-    const activeModel = useSelector(getModelByPrefixAndNameSelector(modelPrefix, datasource))
+    const activeModel = useSelector(getModelSelector<Model>(modelLink))
 
     const renderFieldSets = useCallback(() => {
         const autoFocusId = autoFocus && getAutoFocusId(flatFields(fieldsets))
 
         return fieldsets.map((fieldset, i) => (
             <Fieldset
-                activeModel={activeModel}
+                activeModel={activeModel || EMPTY_OBJECT}
                 /* eslint-disable-next-line react/no-array-index-key */
                 key={i.toString()}
                 autoFocusId={autoFocusId}
-                modelPrefix={modelPrefix}
                 {...fieldset}
                 autoSubmit={autoSubmit}
             />
         ))
-    }, [activeModel, autoFocus, autoSubmit, fieldsets, modelPrefix])
+    }, [activeModel, autoFocus, autoSubmit, fieldsets])
     const hasChildren = Children.count(children)
 
     return (
         <FormProvider
-            prefix={modelPrefix}
             formName={formName}
-            datasource={datasource}
-            validationKey={validationKey}
+            modelLink={modelLink}
+            needActiveModel={needActiveModel}
         >
             {prompt && (
                 <Prompt when={dirty} message={t('defaultPromptMessage')} />

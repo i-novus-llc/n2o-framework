@@ -28,11 +28,11 @@ export const useTableActionReactions = (datasourceId: string, widgetId: string) 
 
             const newMulti = [...multi, ...selectedData]
 
-            store.dispatch(setModel(ModelPrefix.selected, datasourceId, newMulti))
+            store.dispatch(setModel({ id: datasourceId, prefix: ModelPrefix.selected }, newMulti))
         } else {
             const newMulti = [datasourceAsMap.get(selectedRows)]
 
-            store.dispatch(setModel(ModelPrefix.selected, datasourceId, newMulti))
+            store.dispatch(setModel({ id: datasourceId, prefix: ModelPrefix.selected }, newMulti))
         }
     }, [datasourceId, store])
 
@@ -46,12 +46,12 @@ export const useTableActionReactions = (datasourceId: string, widgetId: string) 
             return !isMatchId
         })
 
-        store.dispatch(setModel(ModelPrefix.selected, datasourceId, newMulti))
+        store.dispatch(setModel({ id: datasourceId, prefix: ModelPrefix.selected }, newMulti))
     }, [datasourceId, store])
 
     const setActiveModel = useCallback((model) => {
         if (model) {
-            store.dispatch(setModel(ModelPrefix.active, datasourceId, model))
+            store.dispatch(setModel({ id: datasourceId, prefix: ModelPrefix.active }, model))
         }
     }, [datasourceId, store])
 
@@ -60,7 +60,7 @@ export const useTableActionReactions = (datasourceId: string, widgetId: string) 
         const datasource = getModelByPrefixAndNameSelector(ModelPrefix.source, datasourceId)(state) || []
         const newDatasource = datasource?.map((data, index) => (index === rowIndex ? model : data)) || []
 
-        store.dispatch(setModel(ModelPrefix.source, datasourceId, newDatasource))
+        store.dispatch(setModel({ id: datasourceId, prefix: ModelPrefix.source }, newDatasource))
     }, [datasourceId, store])
 
     const reorderColumn = useCallback((id: string, draggingId: string, targetId: string) => {

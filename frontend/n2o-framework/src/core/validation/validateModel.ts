@@ -1,3 +1,5 @@
+import { Model } from '../models/types'
+
 import { Severity } from './types'
 import type { ExtraValidationConfig, Validation, ValidationResult } from './types'
 import { getCtxByModel, getCtxFromField, isMulti } from './utils'
@@ -6,7 +8,7 @@ import { validateField, hasError as checkErrors } from './validateField'
 // Валидация простого поля
 const validateSimple = async (
     fieldId: string,
-    model: Record<string, unknown>,
+    model: Model | Model[],
     validations: Validation[],
     options: ExtraValidationConfig,
     buffer: Record<string, ValidationResult[]>,
@@ -21,7 +23,7 @@ const validateSimple = async (
 // Валидация всех строк мультисета
 const validateMulti = async (
     validationKey: string,
-    model: Record<string, unknown>,
+    model: Model | Model[],
     validations: Validation[],
     options: ExtraValidationConfig,
     buffer: Record<string, ValidationResult[]>,
@@ -35,7 +37,7 @@ const validateMulti = async (
 
 export const validateFields = async (
     fields: Record<string, Validation[]>,
-    model: Record<string, unknown>,
+    model: Model | Model[],
     options: ExtraValidationConfig,
 ) => {
     const messages: Record<string, ValidationResult[]> = {}
@@ -50,7 +52,7 @@ export const validateFields = async (
 }
 
 export const validateModel = async (
-    model: Record<string, unknown>,
+    model: Model | Model[],
     validations: Record<string, Validation[]>,
     options: ExtraValidationConfig,
 ): Promise<Record<string, ValidationResult[]>> => {

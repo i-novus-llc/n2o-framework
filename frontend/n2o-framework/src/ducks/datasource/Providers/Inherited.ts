@@ -45,7 +45,7 @@ export function* submit(id: string, {
     }
 
     if (resultModel) {
-        yield put(setModel(targetPrefix, targetId, resultModel))
+        yield put(setModel({ prefix: targetPrefix, id: targetId }, resultModel))
     } else {
         yield put(removeModel(targetPrefix, targetId))
     }

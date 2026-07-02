@@ -193,20 +193,17 @@ function* validateTabs() {
                 ? widgets.some((widget) => {
                     const form = forms[widget]
 
-                    if (!form) {
-                        return false
-                    }
+                    if (!form) { return false }
 
-                    const { datasource = null } = form
+                    const { modelLink: { id: datasourceId } } = form
+                    const datasource = dataSources[datasourceId]
 
-                    if (!datasource) {
-                        return false
-                    }
+                    if (!datasource) { return false }
 
                     const { fields } = forms[widget]
-                    const { errors } = dataSources[datasource]
+                    const { errors } = datasource
 
-                    const { resolve, edit } = errors
+                    const { resolve = {}, edit = {} } = errors
                     const fieldKeys = Object.keys(fields)
                     const availableFields = fieldKeys.filter(key => fields[key].visible &&
                         !fields[key].disabled)

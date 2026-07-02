@@ -1,8 +1,8 @@
 import { DEPENDENCY_TYPES } from '../../core/dependencyTypes'
-import { Model } from '../../ducks/models/selectors'
+import { type Model } from '../../ducks/models/selectors'
+import { FullModelPath } from '../../core/models/types'
 
-export type ModelLinkType = string
-export type Dependency = { condition: string, on: ModelLinkType }
+export type Dependency = { condition: string, on: FullModelPath }
 
 export interface ResolveOption {
     model: Model

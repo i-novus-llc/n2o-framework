@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { CSSProperties, ReactNode, useContext } from 'react'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import { FormattedText } from '@i-novus/n2o-components/lib/Typography/FormattedText'
@@ -46,7 +46,9 @@ function BadgeCellBody({
     visible = true,
 }: Props) {
     const { getComponent } = useContext(FactoryContext)
-    const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
+    const FactoryBadge = getComponent<
+       ReturnType<typeof resolveBadgeProps> & { text: ReactNode, style: CSSProperties, shape: Shape }
+    >('Badge', FactoryLevels.SNIPPETS)
 
     if (!visible) { return null }
 

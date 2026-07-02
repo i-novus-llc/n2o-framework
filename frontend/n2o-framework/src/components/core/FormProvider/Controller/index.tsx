@@ -1,7 +1,6 @@
 import { ChangeEvent, useCallback, VFC } from 'react'
 
 import { useFormContext } from '../hooks/useFormContext'
-import { useWatch } from '../hooks/useWatch'
 import { Severity, ValidationResult } from '../../../../core/validation/types'
 
 type HTMLOnEvent = (event: ChangeEvent<HTMLFormElement>) => void
@@ -20,8 +19,8 @@ type ControllerType = {
 }
 
 export const Controller: VFC<ControllerType> = ({ render, name }) => {
-    const { setValue, setFocus, setBlur, setMessage } = useFormContext()
-    const fieldValue = useWatch({ name })
+    const { setValue, setFocus, setBlur, setMessage, getValues } = useFormContext()
+    const fieldValue = getValues(name)
 
     const onChange = useCallback<HTMLOnEvent>((event: ChangeEvent<HTMLFormElement>) => {
         let value

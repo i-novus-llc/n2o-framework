@@ -1,3 +1,5 @@
+import { Model } from '../models/types'
+
 export enum Severity {
     danger = 'danger',
     warning = 'warning',
@@ -12,11 +14,6 @@ export enum ValidationTypes {
     integer = 'integer',
     minLength = 'minLength',
     maxLength = 'maxLength',
-}
-
-export enum ValidationsKey {
-    Validations = 'validations',
-    FilterValidations = 'filterValidations',
 }
 
 export type ExtraValidationConfig = Partial<{
@@ -45,5 +42,5 @@ export interface ValidationResult {
 
 export type ValidateFunction = (
     key: string,
-    values: Record<string, unknown>,
+    values: Model | Model[],
     config: Validation & ExtraValidationConfig) => boolean | Promise<boolean | ValidationResult>

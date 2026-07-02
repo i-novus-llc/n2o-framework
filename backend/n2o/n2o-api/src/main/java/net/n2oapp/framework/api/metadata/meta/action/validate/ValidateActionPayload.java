@@ -24,6 +24,9 @@ public class ValidateActionPayload implements ActionPayload {
     @JsonProperty
     private ReduxModelEnum model;
 
+    @JsonProperty
+    private String field;
+
     /**
      * Порог прерывания по уровню сообщения (например: danger, warning)
      */

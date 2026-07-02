@@ -2,7 +2,9 @@ const keySymbol = Symbol('uniq')
 let iterator = 0
 const map = new WeakMap<object, string>()
 
-function hasKey(item: unknown): item is { [keySymbol]: string } {
+type Unique = { [keySymbol]: string }
+
+function hasKey(item: unknown): item is Unique {
     return typeof item === 'object' && item !== null && (keySymbol in item)
 }
 
@@ -24,9 +26,9 @@ export function setKey<T>(item: T): T {
         ? item.map(setKey)
         : Object.fromEntries(Object.entries(item).map(([k, v]) => [k, setKey(v)]))
 
-    return Object.assign(newItem, {
-        [keySymbol]: hasKey(item) ? item[keySymbol] : generateKey(),
-    }, item)
+    return Object.defineProperty(newItem, keySymbol, {
+        value: hasKey(item) ? item[keySymbol] : generateKey(),
+    }) as T & Unique
 }
 
 export function getKey(item: unknown): string | null {
