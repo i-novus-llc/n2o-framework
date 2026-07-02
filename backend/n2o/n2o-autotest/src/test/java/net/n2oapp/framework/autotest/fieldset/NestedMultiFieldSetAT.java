@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.DateInterval;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
+import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -335,5 +336,71 @@ class NestedMultiFieldSetAT extends AutoTestBase {
         nestedFieldsetSecond.item(1).fields().field("field1").shouldHaveValidationMessage(Condition.text("Заполните поле"));
         nestedFieldsetSecond.item(1).fields().field("field2").shouldHaveValidationMessage(Condition.text("Заполните поле"));
         nestedFieldsetSecond.item(1).fields().field("field3").shouldHaveValidationMessage(Condition.text("Заполните поле"));
+    }
+
+    @Test
+    void testDeletedItems() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/nested_multiset/deleted_items/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/fieldset/nested_multiset/deleted_items/row.fieldset.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/fieldset/nested_multiset/deleted_items/test.object.xml"));
+
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        FormWidget form = page.regions()
+                .region(0, SimpleRegion.class)
+                .content().widget(FormWidget.class);
+        form.shouldExists();
+
+        MultiFieldSet parentMultiFieldset = form.fieldsets().fieldset(1, MultiFieldSet.class);
+        parentMultiFieldset.shouldExists();
+        parentMultiFieldset.shouldHaveItems(0);
+
+        // Добавить элемент в верхний мультисет
+        ButtonField parentAdd = form.fields().field("Parent add", ButtonField.class);
+        parentAdd.shouldExists();
+        parentAdd.click();
+        parentMultiFieldset.shouldHaveItems(1);
+
+        // Добавить 1й элемент во вложенный мультисет
+        MultiFieldSet childSet = parentMultiFieldset.item(0).fieldsets().fieldset(1, MultiFieldSet.class);
+        childSet.shouldExists();
+        childSet.shouldHaveItems(0);
+        ButtonField childAddButton = parentMultiFieldset.item(0).fields().field("add", ButtonField.class);
+        childAddButton.shouldExists();
+        childAddButton.click();
+        childSet.shouldHaveItems(1);
+
+        // Сохранить
+        ButtonField saveButton = parentMultiFieldset.item(0).fields().field("save", ButtonField.class);
+        saveButton.shouldExists();
+        saveButton.click();
+        // Редактировать
+        ButtonField editButton = parentMultiFieldset.item(0).fields().field("edit", ButtonField.class);
+        editButton.shouldExists();
+        editButton.click();
+
+        // Добавить 2й элемент во вложенный мультисет и изменить поля в нем
+        childAddButton.click();
+        childSet.shouldHaveItems(2);
+        InputText childInput1 = childSet.item(1).fields().field("onInit").control(InputText.class);
+        childInput1.shouldHaveValue("on init value");
+        childInput1.setValue("test1");
+        InputText childInput2 = childSet.item(1).fields().field("input2").control(InputText.class);
+        childInput2.shouldHaveValue("on=\"onInit\" value");
+        childInput2.setValue("test2");
+        // Отмена
+        ButtonField cancelButton = parentMultiFieldset.item(0).fields().field("cancel", ButtonField.class);
+        cancelButton.shouldExists();
+        cancelButton.click();
+        // Редактировать
+        editButton.click();
+
+        // Добавить 2й элемент во вложенный мультисет и проверить поля
+        childAddButton.click();
+        childInput1 = childSet.item(1).fields().field("onInit").control(InputText.class);
+        childInput1.shouldHaveValue("on init value");
+        childInput2 = childSet.item(1).fields().field("input2").control(InputText.class);
+        childInput2.shouldHaveValue("on=\"onInit\" value");
     }
 }
