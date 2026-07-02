@@ -4,7 +4,6 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
-import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
@@ -192,7 +191,6 @@ class FormAT extends AutoTestBase {
 
         fieldset.shouldBeVisible();
         fieldset.shouldHaveLabel("При ините не должно быть видно");
-        field.shouldBeVisible();
         field.shouldBeVisible();
     }
 }

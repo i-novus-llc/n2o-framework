@@ -69,6 +69,7 @@ class NavRegionAT extends AutoTestBase {
         page.shouldHaveUrlMatches(getBaseUrl() + "/#/open11/");
         page.breadcrumb().crumb(0).click();
         nav.content().shouldHaveSize(4);
+        item0.shouldBeActive();
 
         N2oNavRegion.N2oAnchorItem item3 = nav.content().item(3, N2oNavRegion.N2oAnchorItem.class);
         item3.shouldHaveLabel("./open2 (not subpage)");
