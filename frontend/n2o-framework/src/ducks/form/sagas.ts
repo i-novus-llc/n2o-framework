@@ -3,8 +3,8 @@ import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 
 import { State } from '../State'
-import { ModelPrefix } from '../../core/datasource/const'
-import { Validation, ValidationsKey } from '../../core/validation/types'
+import { ModelPath, ModelPrefix } from '../../core/models/types'
+import { Validation } from '../../core/validation/types'
 import {
     updateModel,
     appendToArray,
@@ -13,38 +13,37 @@ import {
     setModel,
 } from '../models/store'
 import { startValidate, remove as removeDatasource, endValidation } from '../datasource/store'
-import { dataSourceValidationSelector } from '../datasource/selectors'
 import { getModelByPrefixAndNameSelector } from '../models/selectors'
 import { getCtxFromField, isMulti, createRegexpWithContext } from '../../core/validation/utils'
 import { getOnAppend, getOnRemove, mapMultiFields } from '../../core/models/mapMultiFields'
-import { SetModelAction } from '../models/Actions'
+import { getModelPath } from '../../core/models/getModelPath'
+import { SetModelAction, UpdateModelAction } from '../models/Actions'
+import { dataSourceValidationSelector } from '../datasource/selectors'
 
-import { makeFormByName, makeFormsByModel } from './selectors'
+import { makeFormByName, makeFormsByModel, makeFormsByModelLink } from './selectors'
 import {
     setFieldRequired,
     handleBlur,
 } from './store'
-import { Form } from './types'
 import { FieldAction } from './Actions'
-import { diffKeys, getDependentSet, getValidationFields, pickValidations, unionSets, mapFields } from './helpers'
+import { diffKeys, getDependentSet, pickValidations, unionSets, mapFields } from './helpers'
 
-type DataSourceId = string
 type FieldId = string
 type ValidationKey = string
 type BufferValue = Set<Validation> | null
 
-const validateBuffer: Record<
-    DataSourceId,
+let validateBuffer: Record<
+    ModelPath,
     Record<FieldId, BufferValue>
 > = {}
 
 const addToBuffer = (
-    datasource: DataSourceId,
+    modelLink: ModelPath,
     field: FieldId,
     allValidations: Record<ValidationKey, Validation[]>,
     fields: string[],
 ) => {
-    const buffer = validateBuffer[datasource] || {}
+    const buffer = validateBuffer[modelLink] || {}
     const ctx = getCtxFromField(field)
 
     buffer[field] = buffer[field] || pickValidations(allValidations, field)
@@ -66,65 +65,64 @@ const addToBuffer = (
         })
     }
 
-    validateBuffer[datasource] = buffer
+    validateBuffer[modelLink] = buffer
 }
 
 export const formPluginSagas = [
     takeEvery(setModel, function* addFieldToBuffer({ payload, meta }) {
-        const { prefix, key: datasource, model, isDefault } = payload
+        const { modelLink, model, isDefault } = payload
+        const { prefix, id: datasource } = modelLink
         const { validate } = meta
+        const state: State = yield select()
 
-        //  FIXME: разобраться что не так с типами meta И почему он "validate?: boolean" принимает за "validate: boolean"
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
         if (isDefault || validate === false) { return }
-        if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected) { return }
 
-        const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
-        const form: Form = forms?.[0]
+        const forms = makeFormsByModel(datasource, prefix)(state)
 
-        if (isEmpty(form)) { return }
+        if (isEmpty(forms)) { return }
 
-        const validations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
-            state => getValidationFields(state, datasource),
-        )
+        const validations = dataSourceValidationSelector(datasource, prefix)(state) || {}
 
         if (isEmpty(validations)) { return }
 
         const prevModel = getModelByPrefixAndNameSelector(prefix, datasource)(
             // @ts-ignore разобраться с типами
             meta.prevState,
-        ) as Record<string, unknown> | null
-        // @ts-ignore разобраться с типами
+        )
         const changedFields = diffKeys(model, prevModel)
         const allFields = Object.keys(forms.map(form => form.fields).reduce((a, b) => ({ ...a, ...b }), {}))
 
-        changedFields.forEach(field => addToBuffer(datasource, field, validations, allFields))
+        changedFields.forEach(field => addToBuffer(
+            getModelPath({ prefix, id: datasource }),
+            field,
+            validations,
+            allFields,
+        ))
     }),
     takeEvery([
-        updateModel,
-        appendToArray,
-        removeFromArray,
-        copyFieldArray,
-    ], function* addFieldToBuffer({ payload, meta }) {
-        //  FIXME: разобраться что не так с типами meta
+        updateModel.type,
+        appendToArray.type,
+        removeFromArray.type,
+        copyFieldArray.type,
+    ], function* addFieldToBuffer({ payload, meta = {} }: UpdateModelAction) {
         const { validate } = meta
 
         if (validate === false) { return }
 
-        const { key: datasource, field, prefix } = payload
+        const { modelLink, fieldName } = payload
+        const { id: datasource, prefix } = modelLink
 
-        if (!field || prefix === ModelPrefix.source || prefix === ModelPrefix.selected) { return }
+        if (!fieldName) { return }
 
-        const validations: ReturnType<ReturnType<typeof dataSourceValidationSelector>> = yield select(
-            state => getValidationFields(state, datasource),
-        )
+        const state: State = yield select()
+        const validations = dataSourceValidationSelector(datasource, prefix)(state) || {}
 
         if (isEmpty(validations)) { return }
 
-        const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
+        const forms = makeFormsByModelLink(modelLink)(state)
         const allFields = Object.keys(forms.map(form => form.fields).reduce((a, b) => ({ ...a, ...b }), {}))
 
-        addToBuffer(datasource, field, validations, allFields)
+        addToBuffer(getModelPath(modelLink), fieldName, validations, allFields)
     }),
     takeEvery([
         handleBlur,
@@ -132,28 +130,48 @@ export const formPluginSagas = [
     ], function* addFieldToBuffer({ payload, meta = {} }: FieldAction) {
         const { validate } = meta
         const { formName, fieldName } = payload
+        const state: State = yield select()
+        const form = makeFormByName(formName)(state)
+
+        if (!form) { return }
+
+        const { modelLink } = form
+        const { id: datasource, prefix } = modelLink
 
         if (validate === false) {
             // Сброс required валидации, даже если в зависимости стоит validate=false
             if (get(payload, 'required') === false) {
-                const { modelPrefix: prefix, datasource: id } = yield select(makeFormByName(formName))
-
-                yield put(endValidation({ id, prefix, fields: [fieldName], messages: {} }))
+                yield put(endValidation({ modelLink, fields: [fieldName], messages: {} }))
             }
 
             return
         }
 
-        const { datasource }: Form = yield select(makeFormByName(formName))
+        const modelPath = getModelPath(modelLink)
 
-        if (!validateBuffer[datasource]) { validateBuffer[datasource] = {} }
+        if (!validateBuffer[modelPath]) { validateBuffer[modelPath] = {} }
 
-        if (!validateBuffer[datasource][fieldName]) {
-            const validations: Record<ValidationKey, Validation[]> = yield select(
-                state => getValidationFields(state, datasource),
-            )
+        if (!validateBuffer[modelPath][fieldName]) {
+            const validations = dataSourceValidationSelector(datasource, prefix)(state) || {}
 
-            validateBuffer[datasource][fieldName] = pickValidations(validations, fieldName)
+            validateBuffer[modelPath][fieldName] = pickValidations(validations, fieldName)
+        }
+    }),
+    debounce(200, setModel, function* startValidateSaga({ payload }) {
+        const { modelLink } = payload
+        const state: State = yield select()
+
+        const [form] = makeFormsByModelLink(modelLink)(state)
+
+        if (!form) { return }
+
+        const modelPath = getModelPath(modelLink)
+        const fields = mapFields(validateBuffer[modelPath])
+
+        delete validateBuffer[modelPath]
+
+        if (!isEmpty(fields)) {
+            yield put(startValidate(modelLink, fields, { isTriggeredByFieldChange: true }))
         }
     }),
     debounce(200, [
@@ -161,21 +179,21 @@ export const formPluginSagas = [
         appendToArray,
         removeFromArray,
         copyFieldArray,
-        setModel,
     ], function* startValidateSaga({ payload }) {
-        const { prefix, key: datasource } = payload
+        const { modelLink } = payload
 
-        const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
-        const form: Form = forms?.[0]
+        const state: State = yield select()
+        const [form] = makeFormsByModelLink(modelLink)(state)
 
-        if (isEmpty(form)) { return }
+        if (!form) { return }
 
-        const fields = mapFields(validateBuffer[datasource])
+        const modelPath = getModelPath(modelLink)
+        const fields = mapFields(validateBuffer[modelPath])
 
-        delete validateBuffer[datasource]
+        delete validateBuffer[modelPath]
 
         if (!isEmpty(fields)) {
-            yield put(startValidate(datasource, form.validationKey, prefix, fields, { isTriggeredByFieldChange: true }))
+            yield put(startValidate(modelLink, fields, { isTriggeredByFieldChange: true }))
         }
     }),
     debounce(200, [
@@ -183,62 +201,91 @@ export const formPluginSagas = [
         setFieldRequired,
     ], function* startValidateSaga({ payload }) {
         const { formName } = payload
-        const { datasource, modelPrefix, validationKey } = yield select(makeFormByName(formName))
+        const state: State = yield select()
+        const form = makeFormByName(formName)(state)
 
-        const fields = mapFields(validateBuffer[datasource])
+        if (!form) { return }
 
-        delete validateBuffer[datasource]
+        const { modelLink } = form
+        const modelPath = getModelPath(modelLink)
+        const fields = mapFields(validateBuffer[modelPath])
+
+        delete validateBuffer[modelPath]
 
         if (!isEmpty(fields)) {
-            yield put(startValidate(datasource, validationKey, modelPrefix, fields, { isTriggeredByFieldChange: true }))
+            yield put(startValidate(modelLink, fields, { isTriggeredByFieldChange: true }))
         }
     }),
-    takeEvery(removeDatasource, ({ payload }) => { delete validateBuffer[payload.id] }),
+    takeEvery(removeDatasource, ({ payload }) => {
+        delete validateBuffer[getModelPath({ prefix: ModelPrefix.active, id: payload.id })]
+        delete validateBuffer[getModelPath({ prefix: ModelPrefix.source, id: payload.id })]
+        delete validateBuffer[getModelPath({ prefix: ModelPrefix.edit, id: payload.id })]
+        delete validateBuffer[getModelPath({ prefix: ModelPrefix.filter, id: payload.id })]
+    }),
     takeEvery(appendToArray, ({ payload }) => {
-        const { field, position, key: datasource } = payload
-        const buffer = validateBuffer[datasource]
+        const { fieldName, position, modelLink } = payload
+        const modelPath = getModelPath(modelLink)
 
-        if (typeof position === 'undefined' || !field || isEmpty(buffer)) { return }
+        if (typeof position === 'undefined') { return }
 
-        validateBuffer[datasource] = mapMultiFields(
-            buffer,
-            field,
-            getOnAppend<BufferValue>(field, position),
+        if (!fieldName) {
+            validateBuffer = mapMultiFields(
+                validateBuffer,
+                modelPath,
+                getOnAppend(modelPath, position),
+            )
+
+            return
+        }
+
+        validateBuffer[modelPath] = mapMultiFields(
+            validateBuffer[modelPath] ?? {},
+            fieldName,
+            getOnAppend(fieldName, position),
         )
     }),
     takeEvery(removeFromArray, ({ payload }) => {
-        const { field, start, count = 1, key: datasource } = payload
-        const buffer = validateBuffer[datasource]
+        const { fieldName, start, count = 1, modelLink } = payload
+        const modelPath = getModelPath(modelLink)
 
-        if (!field || isEmpty(buffer)) { return }
+        if (!fieldName) {
+            validateBuffer = mapMultiFields(
+                validateBuffer,
+                modelPath,
+                getOnRemove(modelPath, start, count),
+            )
 
-        validateBuffer[datasource] = mapMultiFields(
-            buffer,
-            field,
-            getOnRemove<BufferValue>(field, start, count),
+            return
+        }
+
+        validateBuffer[modelPath] = mapMultiFields(
+            validateBuffer[modelPath] ?? {},
+            fieldName,
+            getOnRemove(fieldName, start, count),
         )
     }),
     takeEvery(setModel.type, function* setActiveModel({ payload }: SetModelAction<ModelPrefix.source>) {
-        const { prefix, key, model } = payload
+        const { modelLink, model } = payload
+        const { id: key, prefix } = modelLink
 
         if (prefix !== ModelPrefix.source) { return }
 
         const state: State = yield select()
-        const form = [
-            ...makeFormsByModel(key, ModelPrefix.active)(state),
-            ...makeFormsByModel(key, ModelPrefix.edit)(state),
-        ][0]
+        const [form] = [
+            ...makeFormsByModelLink({ id: key, prefix: ModelPrefix.active })(state),
+            ...makeFormsByModelLink({ id: key, prefix: ModelPrefix.edit })(state),
+        ]
 
         // Костыль, чтобы убрать формы фильтров
-        if (!form || form.validationKey === ValidationsKey.FilterValidations) { return }
+        if (!form?.needActiveModel) { return }
 
         const datasourceModel = model?.[0] || {}
         const resolveModel = getModelByPrefixAndNameSelector(ModelPrefix.active, key)(state)
         const editModel = getModelByPrefixAndNameSelector(ModelPrefix.edit, key)(state)
-        const { modelPrefix } = form
+        const { modelLink: { prefix: formPrefix } } = form
 
         // FIXME: Удалить костыль с добалением resolveModel если нет editModel, после удаления edit из редюсера models
-        const activeModel = modelPrefix === ModelPrefix.edit
+        const activeModel = formPrefix === ModelPrefix.edit
             ? (editModel || resolveModel)
             : resolveModel
 
@@ -247,10 +294,10 @@ export const formPluginSagas = [
             ? null
             : { ...activeModel, ...datasourceModel }
 
-        if (modelPrefix === ModelPrefix.edit) {
-            yield put(setModel(ModelPrefix.edit, key, initialValues, true))
+        if (formPrefix === ModelPrefix.edit) {
+            yield put(setModel({ prefix: ModelPrefix.edit, id: key }, initialValues, true))
         }
 
-        yield put(setModel(ModelPrefix.active, key, initialValues, true))
+        yield put(setModel({ prefix: ModelPrefix.active, id: key }, initialValues, true))
     }),
 ]

@@ -32,6 +32,7 @@
 
             <xs:element name="table" type="wgt:tableReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="form" type="wgt:formReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="multi-form" type="wgt:multiFormReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="tree" type="wgt:treeReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="list" type="wgt:listWidgetReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="chart" type="wgt:chartReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>

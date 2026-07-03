@@ -1060,6 +1060,65 @@ n2o.api.widget.tree.checkboxes=false
 <Sandbox height={300} projectId="uxcomponents_tree_tree" />
 
 
+
+### &lt;multi-form&gt;
+
+Виджет Мульти-форма.
+
+**Атрибуты**
+
+|Наименование       |Тип         |Описание                                                 |Значение по умолчанию|
+|-------------------|------------|---------------------------------------------------------|---------------------|
+|unsaved-data-prompt|true false  |Показать предупреждение о наличии несохраненных данных   |false                |
+
+**Настройки**
+
+```yaml
+#Количество записей в мульти форме форме (число)
+n2o.api.widget.multi_form.size=10
+#Показать предупреждение о наличии несохраненных данных в форме
+n2o.api.widget.multi_form.unsaved_data_prompt=false
+```
+
+**Тело**
+
+&lt;fields&gt; - [Поля формы для каждой строки](#multi_form_fields)<br/>
+&lt;pagination&gt; - [Пагинация списка](#pagination)<br/>
+&lt;dependencies&gt; - [Зависимости виджета](#widget_dependencies)<br/>
+&lt;datasource&gt; - [Встроенный источник данных](#widget_datasource)<br/>
+&lt;toolbar&gt; - [Меню управляющих кнопок виджета](#widget_toolbar)<br/>
+&lt;actions&gt; - [Встроенные действия](#widget_actions)
+
+**Пример**
+
+```xml
+<?xml version='1.0' encoding='UTF-8'?>
+<multi-form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+            datasource="ds1">
+    <fields>
+        <input-text id="name" label="Имя" text-field-id="name"/>
+        <select id="status" label="Статус" text-field-id="status">
+            <option value="active" label="Активен"/>
+            <option value="inactive" label="Неактивен"/>
+        </select>
+        <date id="createdDate" label="Дата создания" text-field-id="createdDate"/>
+    </fields>
+    <datasource>...</datasource>
+    <toolbar>...</toolbar>
+    <pagination>...</pagination>
+</multi-form>
+```
+
+#### &lt;fields&gt; {#multi_form_fields}
+
+Поля формы
+
+**Тело**
+
+[Поля](../xml/field)
+
+<Sandbox height={500} projectId="uxcomponents_multi_form"/>
+
 ## Зависимости виджета {#widget_dependencies}
 
 ### &lt;dependencies&gt;

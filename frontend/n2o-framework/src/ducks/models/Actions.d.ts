@@ -1,25 +1,33 @@
 import { Action } from '../Action'
-import type { FormModelPrefix, ModelPrefix } from '../../core/models/types'
+import type { FormModelPrefix, Model, ModelLink, ModelPrefix } from '../../core/models/types'
 
 import { State } from './Models'
 
-export interface ModelsPayload<T extends ModelPrefix = ModelPrefix> {
+export interface ModelsPayloadOld<T extends ModelPrefix = ModelPrefix> {
     prefix: T
     key: string
 }
 
-export type FieldPath = ModelsPayload & {
+export type FieldPathOld = ModelsPayloadOld & {
     field?: string
 }
 
-export type SetModelAction<Prefix extends ModelPrefix = ModelPrefix> = Action<string, ModelsPayload & {
+export interface ModelsPayload<Prefix extends ModelPrefix = ModelPrefix> {
+    modelLink: ModelLink<Prefix>
+}
+
+export type FieldPath = ModelsPayload & {
+    fieldName: string
+}
+
+export type SetModelAction<Prefix extends ModelPrefix = ModelPrefix> = Action<string, ModelsPayload<Prefix> & {
     model: (Prefix extends (ModelPrefix.source | ModelPrefix.selected)
-        ? Array<Record<string, unknown>>
-        : Record<string, unknown>) | null
+        ? Model[]
+        : Model) | null
     isDefault?: boolean
 }>
 
-export type RemoveModelAction = Action<string, ModelsPayload>
+export type RemoveModelAction = Action<string, ModelsPayloadOld>
 
 export type SyncModelAction = Action<string, {
     prefix: ModelPrefix
@@ -29,8 +37,7 @@ export type SyncModelAction = Action<string, {
 
 export type UpdateModelAction = Action<
     string,
-    ModelsPayload<FormModelPrefix> & {
-        field: string
+    FieldPath & {
         value: unknown
     }>
 
@@ -48,8 +55,8 @@ export type MergeModelAction = Action<string, {
 }>
 
 export type CopyAction = Action<string, {
-    source: FieldPath
-    target: FieldPath
+    source: FieldPathOld
+    target: FieldPathOld
     mode: 'replace' | 'merge' | 'add'
     sourceMapper?: string
 }>

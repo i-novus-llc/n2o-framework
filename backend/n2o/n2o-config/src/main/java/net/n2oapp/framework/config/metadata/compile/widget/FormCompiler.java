@@ -45,18 +45,15 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         CompiledObject object = getObject(source, datasource, p);
         WidgetScope widgetScope = new WidgetScope(source.getId(), source.getDatasourceId(), ReduxModelEnum.RESOLVE, p);
         MetaActions widgetActions = initMetaActions(source, p);
-        Models models = p.getScope(Models.class);
-        SubModelsScope subModelsScope = castDefault(p.getScope(SubModelsScope.class), SubModelsScope::new);
-        CopiedFieldScope copiedFieldScope = castDefault(p.getScope(CopiedFieldScope.class), CopiedFieldScope::new);
         WidgetParamScope paramScope = new WidgetParamScope();
-        ValidationScope validationScope = p.getScope(ValidationScope.class) == null ? new ValidationScope() : p.getScope(ValidationScope.class);
+        ValidationScope validationScope = castDefault(p.getScope(ValidationScope.class), ValidationScope::new);
         form.getComponent().setPrompt(initPrompt(source, p));
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p,
                 widgetScope, query, object, widgetActions,
-                new ModelsScope(ReduxModelEnum.RESOLVE, widgetScope.getClientDatasourceId(), models),
-                subModelsScope,
+                new ModelsScope(ReduxModelEnum.RESOLVE, widgetScope.getClientDatasourceId(), p.getScope(Models.class)),
+                castDefault(p.getScope(SubModelsScope.class), SubModelsScope::new),
                 new MomentScope(N2oValidation.ServerMomentEnum.BEFORE_OPERATION),
-                copiedFieldScope,
+                castDefault(p.getScope(CopiedFieldScope.class), CopiedFieldScope::new),
                 paramScope,
                 new ComponentScope(source),
                 validationScope));

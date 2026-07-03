@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<multi-form xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+            id="multiFormTest"
+            datasource="ds_test"
+            fetch-on-init="true"
+            fetch-on-visibility="true"
+            auto-focus="true"
+            unsaved-data-prompt="true"
+            visible="true">
+    <datasource/>
+    <fields>
+        <input-text id="name"
+                    label="Имя"
+                    placeholder="Введите имя"/>
+        <input-text id="email"
+                    label="Email"
+                    placeholder="Введите email"/>
+    </fields>
+    <toolbar place="topRight">
+        <button label="Сохранить все" action-id="saveAll"/>
+    </toolbar>
+    <pagination next="true"
+                prev="true"
+                show-last="true"
+                show-count="always"/>
+</multi-form>

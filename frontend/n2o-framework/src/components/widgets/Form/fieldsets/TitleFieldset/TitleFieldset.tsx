@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import classNames from 'classnames'
 import { HelpPopover } from '@i-novus/n2o-components/lib/display/HelpPopover'
 import { Text } from '@i-novus/n2o-components/lib/Typography/Text'
+import { Props as BadgeProps } from '@i-novus/n2o-components/lib/display/Badge/Badge'
 
 import { withFieldsetHeader } from '../withFieldsetHeader'
 import { DefaultFieldset } from '../DefaultFieldset'
@@ -33,7 +34,7 @@ function TitleFieldsetBody({
     disabled = false,
 }: Props) {
     const { getComponent } = useContext(FactoryContext)
-    const FactoryBadge = getComponent('Badge', FactoryLevels.SNIPPETS)
+    const FactoryBadge = getComponent<BadgeProps & { visible?: boolean }>('Badge', FactoryLevels.SNIPPETS)
 
     return (
         <DefaultFieldset disabled={disabled} className="title-fieldset">

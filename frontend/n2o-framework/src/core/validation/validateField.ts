@@ -2,6 +2,7 @@ import get from 'lodash/get'
 
 import evalExpression, { parseExpression } from '../../utils/evalExpression'
 import { logger } from '../../utils/logger'
+import { Model } from '../models/types'
 
 import { presets } from './presets'
 import { VALIDATION_SEVERITY_PRIORITY as SEVERITY_PRIORITY } from './const'
@@ -10,7 +11,7 @@ import { Severity } from './types'
 
 export async function validateField(
     fieldId: string,
-    model: Record<string, unknown>,
+    model: Model | Model[],
     validations: Validation[],
     options: ExtraValidationConfig,
 ): Promise<ValidationResult[]> {

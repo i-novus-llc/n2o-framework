@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.fieldset;
 
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
@@ -84,11 +85,11 @@ class MultiFieldSetCompileTest extends SourceCompileTestBase {
                 hasProperty("helpTrigger", is(TriggerEnum.CLICK))
         ));
 
-        List<Validation> validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("set1[index].input_2");
+        List<Validation> validations = page.getDatasources().get(page.getWidget().getId()).getValidations(ReduxModelEnum.RESOLVE).get("set1[index].input_2");
         assertThat(validations.size(), is(1));
         assertThat(((ConditionValidation) validations.getFirst()).getExpression(), is("(function(){return false}).call(this)"));
         assertThat(validations.getFirst().getMessage(), is("invalid"));
-        validations = page.getDatasources().get(page.getWidget().getId()).getValidations().get("set1[index].set2[$index_1].input_1");
+        validations = page.getDatasources().get(page.getWidget().getId()).getValidations(ReduxModelEnum.RESOLVE).get("set1[index].set2[$index_1].input_1");
         assertThat(validations.size(), is(1));
         assertThat(((ConditionValidation) validations.getFirst()).getExpression(), is("(function(){return false}).call(this)"));
         assertThat(validations.getFirst().getMessage(), is("invalid"));

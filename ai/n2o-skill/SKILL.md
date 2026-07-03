@@ -32,8 +32,8 @@ Read the relevant `references/*.md` file(s) based on what the user needs:
 | Table settings buttons: columns, export, resize, refresh, word-wrap, reset | `references/table-settings.md` |
 | Create/edit *.page.xml, page layout, datasources on page | `references/page.md` |
 | Layout with tabs, panels, collapsible sections, grids | `references/region.md` |
-| Tables, forms, lists, cards, trees, calendars, charts | `references/widget.md` |
-| Input fields, selects, date pickers, checkboxes, file upload | `references/field.md` |
+| Tables, forms, multi-forms, lists, cards, trees, charts | `references/widget.md` |
+| Input fields, selects, date pickers, calendars, checkboxes, file upload | `references/field.md` |
 | Buttons, toolbars, confirmation dialogs | `references/button.md` |
 | Actions: invoke, open-page, show-modal, close, set-value, if/else | `references/action.md` |
 | Table cell rendering (badges, icons, images, links) | `references/cell.md` |

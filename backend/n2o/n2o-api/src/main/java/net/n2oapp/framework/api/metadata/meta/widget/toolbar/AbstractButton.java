@@ -51,6 +51,8 @@ public abstract class AbstractButton extends Component implements IdAware {
     private String datasource;
     @JsonProperty
     private ReduxModelEnum model;
+    @JsonProperty
+    private String field;
     /**
      * Список источников данных, которые нужно валидировать
      */

@@ -1,4 +1,4 @@
-import React, { CSSProperties, FunctionComponent, ReactNode, useContext } from 'react'
+import React, { CSSProperties, ReactNode, useContext } from 'react'
 
 import { type ModelPrefix } from '../../core/datasource/const'
 import { FactoryContext } from '../../core/factory/context'
@@ -40,7 +40,7 @@ export function FactoryStandardButton({
     ...rest
 }: Props) {
     const { getComponent } = useContext(FactoryContext)
-    const Button: FunctionComponent<object> | void = getComponent('StandardButton', FactoryLevels.BUTTONS)
+    const Button = getComponent<Props>('StandardButton', FactoryLevels.BUTTONS)
 
     if (!Button) { return null }
 

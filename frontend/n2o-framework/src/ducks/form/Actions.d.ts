@@ -20,7 +20,7 @@ export type FormAction<
 
 export type RegisterAction = FormAction<{
     formName: string
-    initState: Partial<Form>
+    initState: Pick<Form, 'modelLink' | 'formName'> & Partial<Form>
 }>
 
 export type RemoveAction = FormAction<{

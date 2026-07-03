@@ -1,4 +1,4 @@
-import React, { ComponentType, useContext, useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import classNames from 'classnames'
 
 import { FactoryContext } from '../../core/factory/context'
@@ -16,8 +16,7 @@ export function useFactoryChildren({
     const { getComponent } = useContext(FactoryContext)
 
     return useMemo(() => content?.map(({ src, id, className: contentClass, ...rest }) => {
-        const Component = getComponent<
-            ComponentType<FactoryComponentProps & { id: string }>>(src, FactoryLevels.REGIONS)
+        const Component = getComponent<FactoryComponentProps & { id: string }>(src, FactoryLevels.REGIONS)
 
         return Component
             ? React.createElement(Component, {

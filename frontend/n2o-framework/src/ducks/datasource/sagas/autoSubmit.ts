@@ -25,10 +25,11 @@ let buffer: Record<string, {
 
 function* collectFormUpdates({ payload }: ModelAction) {
     const {
-        key,
-        field,
-        prefix,
+        modelLink,
+        fieldName,
     } = payload
+
+    const { prefix, id: key } = modelLink
 
     if (prefix === ModelPrefix.filter) { return }
 
@@ -50,9 +51,9 @@ function* collectFormUpdates({ payload }: ModelAction) {
             storage,
             model: prefix || ModelPrefix.active,
         } as CachedAutoSubmit
-    } else if (field) {
-        provider = datasource.fieldsSubmit[field]
-        bufferKey = `${key}:${field}`
+    } else if (fieldName) {
+        provider = datasource.fieldsSubmit[fieldName]
+        bufferKey = `${key}:${fieldName}`
     }
 
     if (provider && !isEmpty(provider)) {
@@ -62,10 +63,10 @@ function* collectFormUpdates({ payload }: ModelAction) {
 
 function* collectSetModel({ payload }: SetModelAction) {
     const {
-        key,
-        prefix,
+        modelLink,
         isDefault,
     } = payload
+    const { prefix, id: key } = modelLink
 
     if (
         isDefault ||

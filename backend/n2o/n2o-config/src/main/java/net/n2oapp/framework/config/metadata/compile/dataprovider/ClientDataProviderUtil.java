@@ -23,6 +23,7 @@ import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 
 import java.util.*;
 
@@ -121,7 +122,7 @@ public class ClientDataProviderUtil {
                         getClientDatasourceId(param.getDatasourceId(), param.getRefPageId(), p) :
                         getClientDatasourceId(param.getDatasourceId(), p);
             }
-            link = new ModelLink(castDefault(param.getModel(), model), clientDatasourceId);
+            link = ModelLinkUtil.createModelLink(p, param.getModel(), clientDatasourceId, model);
             link.setValue(value);
         } else {
             link = new ModelLink(value);

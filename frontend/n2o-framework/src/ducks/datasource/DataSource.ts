@@ -1,13 +1,14 @@
-import { type DataSourceDependency, SortDirection } from '../../core/datasource/const'
+/* eslint-disable @typescript-eslint/no-extraneous-class */
+import type { DataSourceDependency, SortDirection } from '../../core/datasource/const'
 import { ModelPrefix } from '../../core/models/types'
-import { ValidationsKey, Validation, ValidationResult } from '../../core/validation/types'
+import { Validation, ValidationResult } from '../../core/validation/types'
 import { type ErrorContainerError } from '../../core/error/types'
 
 import type { Provider, SubmitProvider, Paging, ServiceSubmit } from './Provider'
 
 export type State = Record<string, DataSourceState>
 
-type ValidationConfig = Omit<Validation, 'on'> & {
+export type ValidationConfig = Omit<Validation, 'on'> & {
     on?: Array<string | RegExp>
 }
 
@@ -15,6 +16,8 @@ export interface DefaultDataSourceProps {
     sorting?: Record<string, SortDirection>,
     paging?: Paging
 }
+
+export type Errors = Record<string, ValidationResult[]>
 
 export enum DataSourceCacheKeys {
     SIZE = 'size',
@@ -31,8 +34,7 @@ export type DataSourceSaveSettings = DataSourceCacheKeys[]
 
 export type DataSourceState = {
     provider?: Provider
-    [ValidationsKey.Validations]: Record<string, Validation[]>
-    [ValidationsKey.FilterValidations]: Record<string, Validation[]>
+    validations: Partial<Record<ModelPrefix, Record<string, Validation[]>>>
     dependencies: DataSourceDependency[]
     defaultDatasourceProps?: DefaultDataSourceProps
     paging: Paging
@@ -44,10 +46,13 @@ export type DataSourceState = {
     fieldsSubmit: Record<string, ServiceSubmit>
     pageId?: string
     // TODO: rename to "messages"
-    errors: Record<
-    ModelPrefix,
-    Record<string, ValidationResult[]>
-    >
+    errors: {
+        [ModelPrefix.active]?: Errors
+        [ModelPrefix.filter]?: Errors
+        [ModelPrefix.source]?: Errors[]
+        [ModelPrefix.selected]?: Errors[]
+        [ModelPrefix.edit]?: Errors
+    }
     error?: ErrorContainerError
     fetchOnInit?: boolean
 }
@@ -56,16 +61,16 @@ type Prettify<T> = {
     [K in keyof T]: T[K];
 }
 
-export type DataSourceConfig = Prettify<Omit<DataSourceState, ValidationsKey> & {
-    [k in ValidationsKey]?: Record<string, ValidationConfig[]>
-}>
+export type DataSourceConfig = Prettify<
+    Omit<DataSourceState, 'errors' | 'error' | 'validations' | 'additionalInfo' | 'loading' | 'fieldsSubmit'> &
+    { validations: Partial<Record<ModelPrefix, Record<string, ValidationConfig[]>>> }
+>
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class DataSource {
     static get defaultState(): DataSourceState {
         return ({
-            [ValidationsKey.Validations]: {},
-            [ValidationsKey.FilterValidations]: {},
+            validations: {},
             dependencies: [],
             paging: {
                 page: 1,
@@ -75,13 +80,7 @@ export class DataSource {
             additionalInfo: undefined,
             loading: false,
             sorting: {},
-            errors: {
-                [ModelPrefix.active]: {},
-                [ModelPrefix.edit]: {},
-                [ModelPrefix.filter]: {},
-                [ModelPrefix.selected]: {},
-                [ModelPrefix.source]: {},
-            },
+            errors: {},
             fieldsSubmit: {},
         })
     }

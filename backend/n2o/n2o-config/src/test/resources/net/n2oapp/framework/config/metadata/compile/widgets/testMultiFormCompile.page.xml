@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <datasources>
+        <datasource id="ds1"/>
+    </datasources>
+    <regions>
+        <form datasource="ds1">
+            <fields>
+                <input-text id="firstName" label="Имя" text-field-id="firstName"/>
+                <input-text id="lastName" label="Фамилия" text-field-id="lastName"/>
+            </fields>
+        </form>
+        <multi-form fetch-on-init="true" fetch-on-visibility="true"
+                    unsaved-data-prompt="true" auto-focus="true">
+            <datasource id="ds" object-id="testFormValidations"/>
+            <fields>
+                <input-text id="firstName"
+                            label="Имя"
+                            text-field-id="firstName"/>
+                <input-text id="lastName"
+                            label="Фамилия"
+                            text-field-id="lastName"/>
+                <input-text id="testField">
+                    <validations white-list="Mandatory1">
+                        <condition id="Condition1" severity="danger" side="client">test</condition>
+                    </validations>
+                </input-text>
+                <button label="Confirm">
+                    <confirm title="testTitle" text="testText"/>
+                </button>
+                <button label="Open page" enabled="{lastName != null}">
+                    <open-page page-id="testPage" route="/:lastName/open">
+                        <params>
+                            <path-param name="lastName" value="{lastName}"/>
+                        </params>
+                    </open-page>
+                </button>
+                <button label="anchor">
+                    <a href="/{firstName}/" />
+                </button>
+                <button label="Alert">
+                    <alert title="testTitle" text="testText {firstName}"/>
+                </button>
+                <button label="Clear">
+                    <clear/>
+                </button>
+                <button label="Copy">
+                    <copy source-field-id="firstName" target-field-id="lastName"/>
+                </button>
+                <button label="EditList">
+                    <edit-list operation="create" list-field-id="groups" item-field-id="items" primary-key="id"/>
+                </button>
+                <button label="Invoke">
+                    <invoke operation-id="test"/>
+                </button>
+                <button label="SetValue">
+                    <set-value to="lastName" expression="firstName"/>
+                </button>
+                <button label="Switch">
+                    <switch value-field-id="status">
+                        <case value="A"><clear/></case>
+                    </switch>
+                </button>
+                <button label="IfElse">
+                    <if test="status == 'A'"><clear/></if>
+                    <else><clear/></else>
+                </button>
+                <button label="Validate">
+                    <validate/>
+                </button>
+            </fields>
+            <toolbar place="bottomRight">
+                <group>
+                    <button label="Открыть" enabled="{firstName != null}">
+                        <open-page page-id="testPage" route="/open"/>
+                    </button>
+                    <button label="Кнопка с action" icon="fa fa-plus" action-id="action1"/>
+                    <button label="Кнопка с confirm">
+                        <confirm>
+                            <ok/>
+                            <cancel/>
+                        </confirm>
+                    </button>
+                    <button enabled="{firstName != null}" model="filter">
+                        <open-page page-id="testPage" route="/open2"/>
+                    </button>
+                    <button label="Кнопка с anchor">
+                        <a href="/{firstName}/" />
+                    </button>
+                    <button label="Кнопка с alert">
+                        <alert title="testTitle" text="testText {firstName}"/>
+                    </button>
+                    <button label="Кнопка с clear">
+                        <clear/>
+                    </button>
+                    <button label="Кнопка с copy">
+                        <copy source-field-id="firstName" target-field-id="lastName"/>
+                    </button>
+                    <button label="Кнопка с edit-list">
+                        <edit-list operation="create" list-field-id="groups" item-field-id="items" primary-key="id"/>
+                    </button>
+                    <button label="Кнопка с invoke">
+                        <invoke operation-id="test"/>
+                    </button>
+                    <button label="Кнопка с set-value">
+                        <set-value to="lastName" expression="firstName"/>
+                    </button>
+                    <button label="Кнопка с switch">
+                        <switch value-field-id="status">
+                            <case value="A"><clear/></case>
+                        </switch>
+                    </button>
+                    <button label="Кнопка с if-else">
+                        <if test="status == 'A'"><clear/></if>
+                        <else><clear/></else>
+                    </button>
+                    <button label="Кнопка с validate">
+                        <validate/>
+                    </button>
+                </group>
+            </toolbar>
+            <pagination next="true" prev="true"/>
+            <actions>
+                <action id="action1">
+                    <a href="http://example.com"/>
+                </action>
+            </actions>
+        </multi-form>
+    </regions>
+</page>

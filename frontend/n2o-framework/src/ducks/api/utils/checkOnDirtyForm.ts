@@ -1,9 +1,8 @@
 import { select } from 'redux-saga/effects'
 
 import { widgetsSelector, makeWidgetsByPageIdSelector } from '../../widgets/selectors'
-import { makeFormByName } from '../../form/selectors'
+import { isDirtyForm } from '../../form/selectors'
 import { type State as WidgetsState } from '../../widgets/Widgets'
-import { type Form } from '../../form/types'
 
 /**
  * Проверка на изменение данных в формах
@@ -16,9 +15,9 @@ export function* checkOnDirtyForm(pageId?: string) {
         const widgets: WidgetsState = yield select(widgetsSelector)
 
         for (const widgetName of Object.keys(widgets)) {
-            const form: Form = yield select(makeFormByName(widgetName))
+            const dirty: boolean = yield select(isDirtyForm(widgetName))
 
-            someOneDirtyForm = someOneDirtyForm || form.dirty
+            someOneDirtyForm = someOneDirtyForm || dirty
         }
 
         return someOneDirtyForm
@@ -27,9 +26,9 @@ export function* checkOnDirtyForm(pageId?: string) {
     const widgets: WidgetsState = yield select(makeWidgetsByPageIdSelector(pageId))
 
     for (const widgetName of Object.keys(widgets)) {
-        const form: Form = yield select(makeFormByName(widgetName))
+        const dirty: boolean = yield select(isDirtyForm(widgetName))
 
-        someOneDirtyForm = someOneDirtyForm || form.dirty
+        someOneDirtyForm = someOneDirtyForm || dirty
     }
 
     return someOneDirtyForm

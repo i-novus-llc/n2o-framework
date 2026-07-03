@@ -686,11 +686,23 @@
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/table/fetch_dependency",
-          "name": "FetchDependencyAT .paginationTest()"
+          "name": "FetchDependencyAT .paginationTest"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/widget/tiles",
           "name": "TilesAT"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/multiform",
+          "name": "MultiFormAT .testCreateUpdateDelete .testUnsavedPromptDataTrue"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/multiform/unsaved_data_prompt",
+          "name": "MultiFormAT .testUnsavedPromptDataFalse"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/multiform/validations",
+          "name": "MultiFormAT .testValidations"
         }
       ]
     },

@@ -21,6 +21,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
         b.packs(new N2oWidgetsIOPack(), new N2oWidgetsV5IOPack(), new N2oTableSettingsIOPack());
         b.compilers(new FormCompiler(),
                 new ListWidgetCompiler(),
+                new MultiFormCompiler(),
                 new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler(),
                 new ClipboardButtonCompiler(),
                 new ColumnsTableSettingCompiler(),
@@ -39,6 +40,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new TilesCompiler(),
                 new CardsCompiler());
         b.mergers(new N2oWidgetMerger(), new N2oFormMerger(), new N2oTableMerger(),
+                new N2oMultiFormMerger(),
                 new N2oTilesMerger(), new N2oListMerger(), new N2oCardsMerger());
 
         CrudGenerator crudGenerator = new CrudGenerator();
@@ -59,6 +61,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new DndColumnBinder(),
                 new ListWidgetBinder(),
                 new FormBinder(),
+                new MultiFormBinder(),
                 new TilesBinder(),
                 new CardsBinder());
     }

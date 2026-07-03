@@ -1,17 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
+import set from 'lodash/set'
+import get from 'lodash/get'
 
 import { ModelPrefix, SortDirection } from '../../core/datasource/const'
 import { Meta } from '../../sagas/types'
 import { INDEX_MASK, INDEX_REGEXP } from '../../core/validation/const'
-import { Validation, ValidationsKey } from '../../core/validation/types'
+import { Validation } from '../../core/validation/types'
 import { Meta as N2OMeta } from '../Action'
 import { appendToArray, removeFromArray } from '../models/store'
 import { AppendToArrayAction, RemoveFromArrayAction } from '../models/Actions'
 import { getOnAppend, getOnRemove, mapMultiFields } from '../../core/models/mapMultiFields'
 import { logger } from '../../utils/logger'
 import { DataProviderError } from '../../core/dataProviderResolver'
+import { ModelLink } from '../../core/models/types'
 
 import type {
     ChangePageAction,
@@ -42,10 +45,10 @@ import {
 
 export const initialState: Record<string, DataSourceState> = {}
 
-const prepareValidations = <T extends ValidationsKey>(
-    record?: DataSourceConfig[T],
-): DataSourceState[T] => {
-    if (!record) { return {} }
+const prepareValidations = (
+    record: DataSourceConfig['validations'][ModelPrefix],
+): DataSourceState['validations'][ModelPrefix] => {
+    if (!record) { return record }
 
     return Object.fromEntries(Object.entries(record).map(([key, validations]) => [key, validations.map(v => ({
         ...v,
@@ -61,11 +64,13 @@ const prepareValidations = <T extends ValidationsKey>(
     }))]))
 }
 
-const mapProps = (initProps: Partial<DataSourceConfig>): Partial<DataSourceState> => {
+const mapProps = <T extends Partial<DataSourceConfig>>(initProps: T): T & Pick<DataSourceState, 'validations'> => {
     return {
         ...initProps,
-        [ValidationsKey.Validations]: prepareValidations(initProps[ValidationsKey.Validations]),
-        [ValidationsKey.FilterValidations]: prepareValidations(initProps[ValidationsKey.FilterValidations]),
+        validations: Object.fromEntries(
+            Object.entries(initProps.validations || {})
+                .map(([modelPrefix, validations]) => [modelPrefix, prepareValidations(validations)]),
+        ),
     }
 }
 
@@ -235,6 +240,7 @@ export const datasource = createSlice({
                 const { id, page } = action.payload
 
                 state[id].paging.page = page
+                delete state[id].errors[ModelPrefix.source]
             },
         },
 
@@ -253,14 +259,12 @@ export const datasource = createSlice({
 
         startValidate: {
             prepare(
-                id: string,
-                validationsKey = ValidationsKey.Validations,
-                prefix = ModelPrefix.active,
+                modelLink: ModelLink,
                 fields?: Record<string, Validation[]>,
                 meta = {},
             ) {
                 return ({
-                    payload: { id, validationsKey, prefix, fields },
+                    payload: { modelLink, fields },
                     meta,
                 })
             },
@@ -286,35 +290,43 @@ export const datasource = createSlice({
                 datasource.paging.count = 0
 
                 // reset all errors
-                Object.values(ModelPrefix).forEach((prefix) => {
-                    const model = datasource.errors[prefix]
-
-                    if (model) {
-                        datasource.errors[prefix] = {}
-                    }
-                })
+                datasource.errors = {}
             },
         },
 
         endValidation: {
             prepare(payload: ValidateEndPayload, meta = {}) { return ({ payload, meta }) },
             reducer(state, action: ValidateEndAction) {
-                const { id, fields, prefix, messages } = action.payload
+                const { modelLink, fields, messages } = action.payload
+                const { id, prefix, index } = modelLink
                 const datasource = state[id]
 
                 if (!datasource) { return }
+                if (prefix === ModelPrefix.selected) { return }
+
+                // Хак, чтобы не дублировать валидацию для форм с двумя моделями
+                // eslint-disable-next-line no-nested-ternary
+                const modelPrefix = prefix === ModelPrefix.edit
+                    ? datasource.validations[ModelPrefix.filter]
+                        ? ModelPrefix.filter
+                        : ModelPrefix.active
+                    : prefix
+
+                const path = modelPrefix === ModelPrefix.source
+                    ? `${modelPrefix}[${index}]`
+                    : modelPrefix
 
                 if (!fields || isEmpty(fields)) {
-                    datasource.errors[prefix] = messages
+                    set(datasource.errors, path, messages)
 
                     return
                 }
 
                 // TODO merge arrays
-                datasource.errors[prefix] = {
-                    ...omit(datasource.errors[prefix], fields),
+                set(datasource.errors, path, {
+                    ...omit(get(datasource.errors, path), fields),
                     ...messages,
-                }
+                })
             },
         },
 
@@ -387,31 +399,67 @@ export const datasource = createSlice({
     },
     extraReducers: {
         [removeFromArray.type](state, action: RemoveFromArrayAction) {
-            const { key, field, start, count = 1, prefix } = action.payload
-            const datasource = state[key]
+            const { modelLink, fieldName, start, count = 1 } = action.payload
+            const { id, prefix, index } = modelLink
+            const datasource = state[id]
 
-            if (!datasource || !field || prefix === ModelPrefix.source || prefix === ModelPrefix.selected) { return }
+            if (!datasource) { return }
+            if (prefix === ModelPrefix.selected) { return }
 
-            datasource.errors[prefix] = mapMultiFields(
-                datasource.errors[prefix] || {},
-                field,
-                getOnRemove<typeof datasource.errors[ModelPrefix][string]>(field, start, count),
-            )
+            const isMulti = prefix === ModelPrefix.source
+
+            // Если удалили строку в datasource, просто удаляем соотвественно из массива ошибок
+            if (isMulti && typeof index !== 'number') {
+                const errors = datasource.errors[prefix] || []
+
+                errors.splice(start, count)
+
+                return
+            }
+
+            // Если удалили строку из модели внутри datasource, то fieldName в нём обязателен
+            if (!fieldName) { return }
+
+            const path = isMulti
+                ? `${prefix}[${index}]`
+                : prefix
+
+            set(datasource.errors, path, mapMultiFields(
+                get(datasource.errors, path, {}),
+                fieldName,
+                getOnRemove(fieldName, start, count),
+            ))
         },
         [appendToArray.type](state, action: AppendToArrayAction) {
-            const { field, key, prefix, position } = action.payload
-            const datasource = state[key]
+            const { modelLink, fieldName, position } = action.payload
+            const { id, prefix, index } = modelLink
+            const datasource = state[id]
 
-            if (
-                !datasource || !field || (typeof position === 'undefined') ||
-                prefix === ModelPrefix.source || prefix === ModelPrefix.selected
-            ) { return }
+            if (!datasource) { return }
+            if (prefix === ModelPrefix.selected) { return }
+            if (typeof position === 'undefined') { return }
 
-            datasource.errors[prefix] = mapMultiFields(
-                datasource.errors[prefix] || {},
-                field,
-                getOnAppend<typeof datasource.errors[ModelPrefix][string]>(field, position),
-            )
+            const isMulti = prefix === ModelPrefix.source
+
+            if (isMulti && typeof index !== 'number') {
+                const errors = datasource.errors[prefix] || []
+
+                errors.splice(position, 0, {})
+
+                return
+            }
+
+            if (!fieldName) { return }
+
+            const path = isMulti
+                ? `${prefix}[${index}]`
+                : prefix
+
+            set(datasource.errors, path, mapMultiFields(
+                get(datasource.errors, path, {}),
+                fieldName,
+                getOnAppend(fieldName, position),
+            ))
         },
     },
 })

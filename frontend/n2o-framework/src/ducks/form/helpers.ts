@@ -1,21 +1,14 @@
 import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 
-import { State } from '../State'
-import { Validation, ValidationsKey } from '../../core/validation/types'
-import { dataSourceValidationSelector } from '../datasource/selectors'
+import { Validation } from '../../core/validation/types'
+import { Model } from '../models/selectors'
 
 type FieldId = string
 type ValidationKey = string
 
-export const getValidationFields = (state: State, id: string) => {
-    const filterValidation = dataSourceValidationSelector(id, ValidationsKey.FilterValidations)(state) || {}
-    const validation = dataSourceValidationSelector(id, ValidationsKey.Validations)(state) || {}
-
-    return Object.keys(filterValidation).length ? filterValidation : validation
-}
-
 export function diffKeys <
-    TValue extends Record<string, unknown> | undefined | null,
+    TValue extends Model | Model[] | null,
 >(first: TValue, second: TValue) {
     if (!first || !second) {
         if (first) { return Object.keys(first) }
@@ -27,7 +20,7 @@ export function diffKeys <
     return [...new Set([
         ...Object.keys(first),
         ...Object.keys(second),
-    ])].filter(key => !isEqual(first[key], second[key]))
+    ])].filter(key => !isEqual(get(first, key), get(second, key)))
 }
 
 export const getDependentSet = (validations: Validation[], actionField: string) => new Set(validations.filter(
@@ -60,7 +53,7 @@ export const mapFields = (fields: Record<FieldId, Set<Validation> | null> = {}) 
 
 export const unionSets = <T, S extends Set<T>>(first: S, second?: S | null) => {
     if (second) {
-        // FIXME разобраться почему сборка падает на first.union
+        // FIXME разобраться почему сборка падает на Set.prototype.union
         return new Set([
             ...first,
             ...second,

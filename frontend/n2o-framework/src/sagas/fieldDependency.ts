@@ -16,7 +16,7 @@ import set from 'lodash/set'
 
 import { executeExpression } from '../core/Expression/execute'
 import { parseExpression } from '../core/Expression/parse'
-import { makeFormByName, makeFormsByModel } from '../ducks/form/selectors'
+import { makeFormByName, makeFormsByModel, makeFormsByModelLink } from '../ducks/form/selectors'
 import {
     setFieldDisabled,
     setFieldVisible,
@@ -36,11 +36,11 @@ import {
     setModel,
     updateModel,
 } from '../ducks/models/store'
-import { getModelByPrefixAndNameSelector, Model } from '../ducks/models/selectors'
+import { getModelByPrefixAndNameSelector, getModelSelector, Model } from '../ducks/models/selectors'
 import { addAlert } from '../ducks/alerts/store'
 import { GLOBAL_KEY } from '../ducks/alerts/constants'
-import { FormModelPrefix, ModelPrefix } from '../core/models/types'
-import { getModelLink } from '../core/models/getModelLink'
+import { ModelPrefix } from '../core/models/types'
+import { getFieldPath } from '../core/models/getModelPath'
 import { FETCH_TRIGGER } from '../core/dependencies/constants'
 import { State as GlobalState } from '../ducks/State'
 import { Form, Field, FieldDependency } from '../ducks/form/types'
@@ -67,8 +67,8 @@ function encodeTemplateUrl(url: string): string {
 }
 
 export function* fetchValue(
-    values: Record<string, unknown>,
-    { formName, datasource, modelPrefix }: Form,
+    model: Model | Model[],
+    { formName, modelLink }: Form,
     field: string,
     { dataProvider, valueFieldId = '' }: FieldDependency,
     evalContext: Record<string, unknown>,
@@ -87,7 +87,7 @@ export function* fetchValue(
 
         FetchValueCache.set(fetchValueKey, baseQuery)
 
-        const response: { list: Array<Record<string, unknown>> } =
+        const response: { list: Model[] } =
             yield call(fetchSaga, FETCH_VALUE, {
                 url: encodeTemplateUrl(url),
                 headers: headersParams,
@@ -97,20 +97,20 @@ export function* fetchValue(
 
         const isMultiModel = get(response, 'list', []).length > 1
 
-        const model = isMultiModel
-            ? get(response, 'list', null)
-            : get(response, 'list[0]', null)
+        const responseModel = isMultiModel
+            ? get(response, 'list', null) as Model[] | null
+            : get(response, 'list[0]', null) as Model | null
 
-        const currentModel = isMultiModel ? model : get(model, valueFieldId, null)
-        const prevFieldValue = get(values, field)
-        const nextFieldValue = valueFieldId ? currentModel : model
+        const currentModel = isMultiModel ? responseModel : get(responseModel, valueFieldId, null)
+        const prevFieldValue = get(model, field)
+        const nextFieldValue = valueFieldId ? currentModel : responseModel
 
         if (!isEqual(prevFieldValue, nextFieldValue)) {
-            yield put(updateModel(modelPrefix, datasource, field, nextFieldValue, validate))
+            yield put(updateModel(modelLink, field, nextFieldValue, validate))
         }
     } catch (error) {
-        if (values?.[field]) {
-            yield put(updateModel(modelPrefix, datasource, field, null, validate))
+        if (get(model, field)) {
+            yield put(updateModel(modelLink, field, null, validate))
         }
 
         const messages = get(error, ['json', 'error', 'meta', 'alert', 'message'])
@@ -131,7 +131,7 @@ export function* fetchValue(
 
 function checkCondition(
     condition: string | boolean | void,
-    values: Record<string, unknown>,
+    values: Model | Model[],
     ctx?: Record<string, unknown>,
 ): boolean {
     if (condition === undefined) { return true }
@@ -150,18 +150,18 @@ let defModels: Partial<State> = {}
 // eslint-disable-next-line complexity
 export function* resolveDependency(
     form: Form,
-    values: Record<string, unknown>,
+    model: Model | Model[],
     fieldName: string,
     field: Field,
     dependency: FieldDependency,
     isInit: boolean,
 ) {
-    const { formName, datasource, modelPrefix, fields } = form
+    const { formName, modelLink } = form
     const { type, expression, validate, enabled: condition } = dependency
 
-    if (!checkCondition(condition, values, field.ctx)) { return }
+    if (!checkCondition(condition, model, field.ctx)) { return }
 
-    const evalResult = expression && executeExpression<boolean | string>(expression, values, field.ctx)
+    const evalResult = expression && executeExpression<boolean | string>(expression, model, field.ctx)
 
     switch (type) {
         case 'enabled': {
@@ -189,23 +189,23 @@ export function* resolveDependency(
             break
         }
         case 'setValue': {
-            if (evalResult === undefined || isEqual(evalResult, get(values, fieldName))) {
+            if (evalResult === undefined || isEqual(evalResult, get(model, fieldName))) {
                 break
             }
 
             if (isInit) {
-                set(defModels, `${modelPrefix}.${datasource}.${fieldName}`, evalResult)
+                set(defModels, getFieldPath({ ...modelLink, field: fieldName }), evalResult)
 
                 yield put(ResolveDependencyAction())
             } else {
-                yield put(updateModel(modelPrefix, datasource, fieldName, evalResult, validate))
+                yield put(updateModel(modelLink, fieldName, evalResult, validate))
             }
 
             break
         }
         case 'reset': {
-            if (values?.[fieldName] !== null) {
-                yield put(updateModel(modelPrefix, datasource, fieldName, null, validate))
+            if (get(model, fieldName, null) !== null) {
+                yield put(updateModel(modelLink, fieldName, null, validate))
             }
 
             break
@@ -221,9 +221,9 @@ export function* resolveDependency(
             break
         }
         case 'fetchValue': {
-            const { ctx = {} } = fields[fieldName]
+            const { ctx = {} } = field
 
-            yield fetchValue(values, form, fieldName, dependency, ctx, !isInit && validate)
+            yield fetchValue(model, form, fieldName, dependency, ctx, !isInit && validate)
 
             break
         }
@@ -250,11 +250,11 @@ const isParentFieldOf = (field: string, path: string) => (
     path.startsWith(`${field}.`) || // path: "field.inner", field: "field"
     path.startsWith(`${field}[`) // path: "field[index]", field: "field"
 )
-const shouldBeResolved = (
+const shouldBeResolved = <T extends Model | Model[]>(
     dependency: FieldDependency,
     actionField: string,
-    model: Model,
-    prevModel: Model,
+    model: T,
+    prevModel: T,
     checkInner = true,
 ) => {
     const { on } = dependency
@@ -275,25 +275,24 @@ const shouldBeResolved = (
 
 function* resolveOnUpdateList(action: AppendToArrayAction | RemoveFromArrayAction | CopyFieldArrayAction) {
     const { meta, payload } = action
-    const { field, prefix } = payload
+    const { fieldName } = payload
 
-    if (!field || prefix === ModelPrefix.selected || prefix === ModelPrefix.source) {
-        return
-    }
+    if (!fieldName) { return }
 
     yield resolveOnUpdateModel({ meta, payload } as UpdateModelAction, false)
 }
 
 export function* resolveOnUpdateModel({ meta = {}, payload }: UpdateModelAction, checkInner = true) {
     const { prevState } = meta
-    const { value, key: datasource, field: fieldName, prefix } = payload
-    const prevValue = get(prevState, getModelLink(prefix, datasource, fieldName))
+    const { modelLink, fieldName } = payload
+    const state: GlobalState = yield select()
+    const selector = getModelSelector(modelLink)
+    const prevModel = prevState ? selector(prevState) || ({} as Model) : {}
+    const model = selector(state) || ({} as Model)
 
-    if (isEqual(value, prevValue)) { return }
+    if (isEqual(get(model, fieldName), get(prevModel, fieldName))) { return }
 
-    const model: Model = yield select(getModelByPrefixAndNameSelector(prefix, datasource))
-    const prevModel = prevState ? getModelByPrefixAndNameSelector(prefix, datasource)(prevState) : {}
-    const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
+    const forms: Form[] = yield select(makeFormsByModelLink(modelLink))
 
     for (const form of forms) {
         for (const [fieldId, field] of Object.entries(form.fields)) {
@@ -309,30 +308,29 @@ export function* resolveOnUpdateModel({ meta = {}, payload }: UpdateModelAction,
 
 export function* resolveOnInit({ payload }: RegisterFieldAction) {
     const { formName, fieldName } = payload
+    const state: GlobalState = yield select()
+    const form = makeFormByName(formName)(state)
 
-    const form: Form = yield select(makeFormByName(formName))
-    const model: Record<string, unknown> =
-        yield select(getModelByPrefixAndNameSelector(form.modelPrefix, form.datasource))
+    if (!form || isEmpty(form.fields)) { return }
+    const model = getModelSelector(form.modelLink)(state) || ({} as Model)
+    const field = form.fields?.[fieldName]
 
-    if (isEmpty(form.fields)) { return }
+    if (!field?.dependency) { return }
 
-    for (const [fieldId, field] of Object.entries(form.fields)) {
-        if (!field.dependency) { continue }
-        for (const dependency of field.dependency) {
-            const { applyOnInit } = dependency
+    for (const dependency of field.dependency) {
+        const { applyOnInit } = dependency
 
-            if ((fieldName === fieldId) && applyOnInit) {
-                yield fork(resolveDependency, form, model, fieldId, field, dependency, true)
-            }
+        if (applyOnInit) {
+            yield fork(resolveDependency, form, model, fieldName, field, dependency, true)
         }
     }
 }
 
-function* compareAndResolve(
+function* compareAndResolve<T extends Model | Model[]>(
     datasource: string,
     prefix: ModelPrefix,
-    model: Model,
-    prevModel: Model,
+    model: T,
+    prevModel: T,
     isDefault: boolean,
 ) {
     const forms: Form[] = yield select(makeFormsByModel(datasource, prefix))
@@ -362,12 +360,11 @@ function* compareAndResolve(
     }
 }
 
-function* resolveOnSetModel({ payload, meta = {} }: SetModelAction<FormModelPrefix>) {
-    const { prefix, key: datasource, model, isDefault } = payload
+function* resolveOnSetModel({ payload, meta = {} }: SetModelAction) {
+    const { modelLink, model, isDefault } = payload
+    const { prefix, id: datasource } = modelLink
 
-    if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected || !model) {
-        return
-    }
+    if (!model) { return }
 
     /*
      * Костыль-задержка.
@@ -387,20 +384,16 @@ function* resolveOnDefault({ payload, meta = {} }: MergeModelAction) {
     const { prevState = {} } = meta
 
     for (const [prefix, models] of Object.entries(combine)) {
-        if (prefix === ModelPrefix.source || prefix === ModelPrefix.selected) {
-            continue
-        }
-
         for (const id of Object.keys(models)) {
-            const model: Model = yield select(getModelByPrefixAndNameSelector(prefix as ModelPrefix, id))
+            const model: Model | Model[] = yield select(getModelByPrefixAndNameSelector(prefix as ModelPrefix, id))
             // @ts-ignore FIXME: Поправить типы
             const prevModel = getModelByPrefixAndNameSelector(prefix, id)(prevState)
 
             yield compareAndResolve(
                 id,
                 prefix as ModelPrefix,
-                model as Model,
-                prevModel as Model,
+                model as Model | Model[],
+                prevModel as Model | Model[],
                 true,
             )
         }
@@ -423,7 +416,8 @@ export const fieldDependencySagas = [
      * то надо сбросить буфер, чтобы он несработал позже на неактуальных данных
      */
     takeEvery(setModel.type, ({ payload }: SetModelAction<ModelPrefix.source>) => {
-        const { prefix, key, model } = payload
+        const { modelLink, model } = payload
+        const { prefix, id: key } = modelLink
 
         if (!model) {
             delete defModels[prefix]?.[key]

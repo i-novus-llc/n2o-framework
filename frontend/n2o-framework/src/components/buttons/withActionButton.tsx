@@ -8,6 +8,7 @@ import { ExpressionContext } from '../../core/Expression/Context'
 import { useResolved } from '../../core/Expression/useResolver'
 import { id as getID } from '../../utils/id'
 import { ModelPrefix } from '../../core/models/types'
+import { replaceIndexKey } from '../../core/datasource/ArrayField/replaceIndex'
 import { mergeMeta } from '../../ducks/api/utils/mergeMeta'
 import { State as GlobalState } from '../../ducks/State'
 import { Action } from '../../ducks/Action'
@@ -98,7 +99,7 @@ function useAction({ validate, ...rest }: UseActionProps, onClick: EventHandler)
         /* необходимо для позиционирования popover */
         const { action, buttonId, key } = props.current
 
-        const extendedAction = action ? mergeMeta(action, {
+        const extendedAction = action ? mergeMeta(replaceIndexKey(action, evalContext.current), {
             target: elementId,
             key,
             buttonId,

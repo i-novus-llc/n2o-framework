@@ -5,7 +5,7 @@ import { useSelector, useStore } from 'react-redux'
 import { FactoryContext } from '../../../core/factory/context'
 import { StandardFieldset } from '../Form/fieldsets'
 import { dataSourceValidationSelector } from '../../../ducks/datasource/selectors'
-import { ValidationsKey } from '../../../core/validation/types'
+import { ModelPrefix } from '../../../core/models/types'
 import { State } from '../../../ducks/State'
 import { getTableParam } from '../../../ducks/table/selectors'
 import { getAllValuesByKey } from '../../Table/utils'
@@ -25,8 +25,8 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
         const { header, body } = table
 
         const cells = useMemo(() => ({
-            header: header.cells.map(cell => resolveProps(cell)) as HeaderCells['cells'],
-            body: body.cells.map(cell => resolveProps(cell)) as BodyCells['cells'],
+            header: resolveProps<HeaderCells['cells']>(header.cells),
+            body: resolveProps<BodyCells['cells']>(body.cells),
         }), [header.cells, body.cells, resolveProps])
 
         const resolvedFilter = useMemo(() => resolveProps(filter, StandardFieldset), [filter, resolveProps])
@@ -63,7 +63,7 @@ export function WithTableProps<P extends WithTableType>(Component: React.Compone
             [columnsState, datasourceModelLength, page],
         )
 
-        const validations = dataSourceValidationSelector(datasource, ValidationsKey.FilterValidations)(state) || {}
+        const validations = dataSourceValidationSelector(datasource, ModelPrefix.filter)(state) || {}
 
         const textWrap = useSelector(getTableParam(id, 'textWrap'))
 

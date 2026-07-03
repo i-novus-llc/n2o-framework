@@ -35,7 +35,7 @@ function Widget(props: TilesWidgetProps) {
         count,
     } = props
     const { resolveProps } = useContext(FactoryContext)
-    const resolvedFilter = useMemo(() => resolveProps(filter, Fieldsets.StandardFieldset), [filter, resolveProps]) as StandardWidgetFilter
+    const resolvedFilter = useMemo(() => filter && resolveProps<StandardWidgetFilter>(filter, Fieldsets.StandardFieldset), [filter, resolveProps])
     const place = get(paging, 'place', 'bottomLeft')
     const datasourceModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource))
     const pagination = {

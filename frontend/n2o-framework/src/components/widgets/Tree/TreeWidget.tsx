@@ -7,7 +7,7 @@ import { WithActiveModel } from '../Widget/WithActiveModel'
 import TreeContainer from './container/TreeContainer'
 import { type TreeProps, type WithWidgetHandlersProps } from './types'
 
-type TreeWidgetProps = Omit<StandardWidgetProps, 'filter'> & TreeProps & WithWidgetHandlersProps
+type TreeWidgetProps = Omit<TreeProps, 'filter'> & StandardWidgetProps & WithWidgetHandlersProps
 
 function Widget(props: TreeWidgetProps) {
     const {

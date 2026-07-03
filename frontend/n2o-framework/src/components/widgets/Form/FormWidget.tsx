@@ -1,18 +1,17 @@
 import React, { useContext, useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import values from 'lodash/values'
 
 import StandardWidget from '../StandardWidget'
 import { WidgetHOC } from '../../../core/widget/WidgetHOC'
 import { FactoryContext } from '../../../core/factory/context'
 import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
-import { ModelPrefix } from '../../../core/datasource/const'
+import { ModelPrefix } from '../../../core/models/types'
 import { isDirtyForm } from '../../../ducks/form/selectors'
 
 import { getFieldsKeys } from './utils'
 import Fieldsets from './fieldsets'
 import { ReduxForm } from './ReduxForm'
-import { type FormWidgetProps } from './types'
+import { FieldSetsProps, type FormWidgetProps } from './types'
 
 const Widget = ({
     id: formName,
@@ -25,13 +24,8 @@ const Widget = ({
     loading,
 }: FormWidgetProps) => {
     const { resolveProps } = useContext(FactoryContext)
-    const resolvedForm = useMemo(() => ({
-        ...form,
-        fieldsets: values(
-            resolveProps(form.fieldsets, Fieldsets.StandardFieldset),
-        ),
-    }), [form, resolveProps])
-    const { modelPrefix, fieldsets } = resolvedForm
+    const fieldsets = useMemo(() => (resolveProps<FieldSetsProps>(form.fieldsets, Fieldsets.StandardFieldset)), [form, resolveProps])
+    const { modelPrefix, prompt } = form
     const resolveModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.active, datasource))
     const editModel = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.edit, datasource))
     // FIXME: Удалить костыль с добалением resolveModel если нет editModel, после удаления edit из редюсера models
@@ -40,6 +34,7 @@ const Widget = ({
     ), [editModel, modelPrefix, resolveModel])
     const fields = useMemo(() => getFieldsKeys(fieldsets), [fieldsets])
     const dirty = useSelector(isDirtyForm(formName))
+    const modelLink = useMemo(() => ({ id: datasource, prefix: modelPrefix }), [datasource, modelPrefix])
 
     return (
         <StandardWidget
@@ -54,11 +49,12 @@ const Widget = ({
         >
             <ReduxForm
                 name={formName}
-                datasource={datasource}
+                modelLink={modelLink}
                 dirty={dirty}
                 fields={fields}
-                {...resolvedForm}
-                modelPrefix={modelPrefix}
+                fieldsets={fieldsets}
+                prompt={prompt}
+                needActiveModel
             />
         </StandardWidget>
     )

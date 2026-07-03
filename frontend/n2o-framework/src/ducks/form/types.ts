@@ -1,5 +1,5 @@
-import { ValidationResult, ValidationsKey } from '../../core/validation/types'
-import { FormModelPrefix } from '../../core/models/types'
+import { ValidationResult } from '../../core/validation/types'
+import { ModelLink } from '../../core/models/types'
 
 export enum FieldDependencyTypes {
     visible = 'visible',
@@ -48,11 +48,10 @@ export type Field = {
 export type Form = {
     isInit: boolean
     formName: string
-    datasource: string
-    modelPrefix: FormModelPrefix
-    validationKey: ValidationsKey
+    modelLink: ModelLink
     dirty: boolean
     fields: Record<string, Field>
+    needActiveModel?: boolean
 }
 
 export type FormsState = Record<string, Form>

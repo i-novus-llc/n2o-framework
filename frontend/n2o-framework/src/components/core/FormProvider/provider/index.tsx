@@ -1,13 +1,11 @@
-import React, { FC, useCallback, useEffect, useMemo, createContext } from 'react'
-import get from 'lodash/get'
+import React, { FC, useCallback, useEffect, useMemo, createContext, useRef } from 'react'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 
-import { FormModelPrefix } from '../../../../core/models/types'
+import { ModelLink } from '../../../../core/models/types'
 import { updateModel } from '../../../../ducks/models/store'
 import { handleBlur, handleFocus, register, remove, setMessage } from '../../../../ducks/form/store'
 import { GetValues, SetBlur, SetFocus, SetValue, SetMessage } from '../types'
-import { getModelFieldByPath } from '../../../../ducks/models/selectors'
-import { ValidationsKey } from '../../../../core/validation/types'
+import { getByLinkSelector } from '../../../../ducks/models/selectors'
 import { makeFormByName } from '../../../../ducks/form/selectors'
 import { State } from '../../../../ducks/State'
 
@@ -21,38 +19,34 @@ type Methods = {
 type FormContextType = {
     getValues: GetValues
     formName: string
-    prefix: FormModelPrefix
-    datasource: string
+    modelLink: ModelLink,
 } & Methods
 
 type FormProviderType = {
-    formName: string,
-    datasource: string,
-    prefix: FormModelPrefix,
-    validationKey?: ValidationsKey,
+    formName: string
+    modelLink: ModelLink
+    needActiveModel?: boolean
 }
 
 const FormContext = createContext<FormContextType | null>(null)
 
-const FormProvider: FC<FormProviderType> = ({ children, formName, datasource, prefix, validationKey }) => {
+const FormProvider: FC<FormProviderType> = ({ children, formName, modelLink, needActiveModel }) => {
+    const linkRef = useRef(modelLink)
     const dispatch = useDispatch()
-    const isInitForm = useSelector((state: State) => Boolean(makeFormByName(formName)(state).isInit))
+    const isInitForm = useSelector((state: State) => Boolean(makeFormByName(formName)(state)?.isInit))
     const { getState } = useStore()
 
-    const getValues = useCallback<GetValues>((fieldName) => {
+    linkRef.current = modelLink
+
+    const getValues = useCallback<GetValues>((fieldName?) => {
         const state = getState()
-        const models = getModelFieldByPath(`${prefix}.${datasource}`)(state)
 
-        if (Array.isArray(fieldName)) {
-            return get(models, fieldName.map(name => name))
-        }
-
-        return get(models, fieldName)
-    }, [getState, datasource, prefix])
+        return getByLinkSelector({ ...linkRef.current, field: fieldName })(state)
+    }, [getState])
 
     const methods = useMemo<Methods>(() => ({
         setValue: (fieldName, value) => {
-            dispatch(updateModel(prefix, datasource, fieldName, value))
+            dispatch(updateModel(linkRef.current, fieldName, value))
         },
         setFocus: (fieldName) => {
             dispatch(handleFocus(formName, fieldName))
@@ -63,19 +57,18 @@ const FormProvider: FC<FormProviderType> = ({ children, formName, datasource, pr
         setMessage: (fieldName, message) => {
             dispatch(setMessage(formName, fieldName, message))
         },
-    }), [dispatch, prefix, formName, datasource])
+    }), [dispatch, formName])
 
     useEffect(() => {
         dispatch(register(formName, {
-            datasource,
-            modelPrefix: prefix,
-            validationKey: validationKey || ValidationsKey.Validations,
+            modelLink: linkRef.current,
+            needActiveModel,
         }))
 
         return () => {
             dispatch(remove(formName))
         }
-    }, [datasource, dispatch, formName, prefix, validationKey])
+    }, [dispatch, formName, needActiveModel])
 
     return (
         isInitForm ? (
@@ -83,8 +76,7 @@ const FormProvider: FC<FormProviderType> = ({ children, formName, datasource, pr
                 ...methods,
                 getValues,
                 formName,
-                prefix,
-                datasource,
+                modelLink,
             }}
             >
                 {children}

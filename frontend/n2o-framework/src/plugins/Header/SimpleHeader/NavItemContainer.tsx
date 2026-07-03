@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import { FactoryContext } from '../../../core/factory/context'
 import { FactoryLevels } from '../../../core/factory/factoryLevels'
-import { type Item, type FactoryComponent } from '../../CommonMenuTypes'
+import { ContextItem, Item } from '../../CommonMenuTypes'
 import { getModelByPrefixAndNameSelector } from '../../../ducks/models/selectors'
 import { ModelPrefix } from '../../../core/models/types'
 import { useResolved } from '../../../core/Expression/useResolver'
@@ -34,7 +34,7 @@ const NavItemContainer = ({ itemProps, className, ...rest }: NavItemContainerPro
     const hasVisibleChildren = items ? hasVisibleChildrenRecursive(items) : true
 
     const { getComponent } = useContext(FactoryContext)
-    const FactoryComponent: FactoryComponent = getComponent(src, FactoryLevels.HEADER_ITEMS)
+    const FactoryComponent = getComponent<ContextItem>(src, FactoryLevels.HEADER_ITEMS)
 
     if (!FactoryComponent || !visible || !hasVisibleChildren) { return null }
 

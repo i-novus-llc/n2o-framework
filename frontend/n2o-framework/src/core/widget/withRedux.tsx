@@ -5,7 +5,7 @@ import { Dispatch } from 'redux'
 import { registerWidget, removeWidget, setActive } from '../../ducks/widgets/store'
 import { makeWidgetByIdSelector } from '../../ducks/widgets/selectors'
 import { removeAllAlerts } from '../../ducks/alerts/store'
-import { getModelSelector } from '../../ducks/models/selectors'
+import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { ModelPrefix } from '../datasource/const'
 import { type Widget } from '../../ducks/widgets/Widgets'
 import { State } from '../../ducks/State'
@@ -55,7 +55,7 @@ export const withRedux = (WidgetComponent: ComponentType<Widget & { onFocus?(): 
         (state: State, props: Widget) => {
             const { datasource, fetch, visible, parent, dependency } = props
             const reduxProps = makeWidgetByIdSelector(props.id || '')(state)
-            const model = getModelSelector(`models.${ModelPrefix.source}.${datasource}`)(state) || []
+            const model = getModelByPrefixAndNameSelector(ModelPrefix.source, datasource as string, [])(state)
             const datasourceModelLength = model.length
 
             /* FIXME костыль fetch и visible табов */

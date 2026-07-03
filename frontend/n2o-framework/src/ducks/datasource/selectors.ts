@@ -2,14 +2,15 @@ import { createSelector } from '@reduxjs/toolkit'
 
 import { ModelPrefix } from '../../core/models/types'
 import type { State as GlobalState } from '../State'
-import { ValidationsKey } from '../../core/validation/types'
-import { EMPTY_OBJECT } from '../../utils/emptyTypes'
+import { FieldLink, ModelLink } from '../../core/models/types'
+
+import { DataSource, Errors } from './DataSource'
 
 export const dataSourcesSelector = (state: GlobalState) => state.datasource
 
 export const dataSourceByIdSelector = (sourceId: string) => createSelector(
     dataSourcesSelector,
-    sources => (sources[sourceId] || EMPTY_OBJECT),
+    sources => (sources[sourceId] || DataSource.defaultState),
 )
 
 export const dataSourceLoadingSelector = (sourceId: string) => createSelector(
@@ -56,15 +57,17 @@ export const dataSourceCountSelector = (sourceId: string) => createSelector(
 
 export const dataSourceValidationSelector = (
     sourceId: string,
-    validationsKey: ValidationsKey = ValidationsKey.Validations,
+    prefix: ModelPrefix = ModelPrefix.active,
 ) => createSelector(
     dataSourceByIdSelector(sourceId),
-    state => state[validationsKey],
-)
+    (state) => {
+        // Хак, чтобы не дублировать валидацию для форм с двумя моделями
+        if (prefix === ModelPrefix.edit) {
+            return state.validations[ModelPrefix.filter] ?? state.validations[ModelPrefix.active]
+        }
 
-export const getDataSourceFieldValidation = (sourceId: string, fieldId: string) => createSelector(
-    dataSourceValidationSelector(sourceId),
-    validations => validations[fieldId],
+        return state.validations[prefix]
+    },
 )
 
 export const dataSourceProviderSelector = (sourceId: string) => createSelector(
@@ -77,21 +80,34 @@ export const dataSourceProviderSizeSelector = (sourceId: string) => createSelect
     state => state?.size || null,
 )
 
-export const dataSourceErrors = (
-    sourceId: string,
-    prefix: ModelPrefix = ModelPrefix.active,
-) => createSelector(
-    dataSourceByIdSelector(sourceId),
-    state => (state.errors?.[prefix] || EMPTY_OBJECT),
-)
+export const dataSourceErrors = <
+    T extends ModelLink,
+    R extends T extends { prefix: ModelPrefix.source | ModelPrefix.selected }
+        ? T extends { index: number }
+            ? Errors
+            : Errors[]
+        : Errors,
+>({ id, prefix, index }: T) => createSelector(
+        dataSourceByIdSelector(id),
+        (state): R => {
+        // Хак, чтобы не дублировать валидацию для форм с двумя моделями
+            if (prefix === ModelPrefix.edit) {
+                return (state.errors[ModelPrefix.filter] ?? state.errors[ModelPrefix.active]) as R
+            }
 
-export const dataSourceFieldError = (
-    sourceId: string,
-    prefix: ModelPrefix,
-    field: string,
-) => createSelector(
-    dataSourceErrors(sourceId, prefix),
-    errors => errors[field],
+            const isMulti = prefix === ModelPrefix.source || prefix === ModelPrefix.selected
+
+            if (isMulti && typeof index === 'number') {
+                return state.errors[prefix]?.[index] as R
+            }
+
+            return state.errors[prefix] as R
+        },
+    )
+
+export const dataSourceFieldError = (fieldLink: FieldLink) => createSelector(
+    dataSourceErrors(fieldLink),
+    errors => errors?.[fieldLink.field],
 )
 
 export const dataSourceError = (sourceId: string) => createSelector(

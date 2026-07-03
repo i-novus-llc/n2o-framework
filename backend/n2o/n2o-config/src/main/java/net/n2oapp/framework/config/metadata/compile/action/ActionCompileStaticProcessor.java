@@ -25,6 +25,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.apache.commons.lang3.ArrayUtils;
@@ -285,7 +286,7 @@ public class ActionCompileStaticProcessor {
                     param.getDatasourceId() != null ? param.getDatasourceId() : getLocalDatasourceId(p), p);
         }
 
-        ModelLink link = new ModelLink(castDefault(param.getModel(), defaultModel), clientDatasourceId);
+        ModelLink link = ModelLinkUtil.createModelLink(p, param.getModel(), clientDatasourceId, defaultModel);
         link.setValue(p.resolveJS(param.getValue()));
         return link;
     }

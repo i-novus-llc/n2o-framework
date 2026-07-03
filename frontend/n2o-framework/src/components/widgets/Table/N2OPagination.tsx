@@ -24,6 +24,9 @@ export interface Props extends PaginationSnippetProps {
     countDataProvider?: Paging['countDataProvider']
     setPage: PaginationSnippetProps['onSelect']
 }
+
+type PaginationProps = Omit<Props, 'count'> & { count: number | null }
+
 /**
  * Компонент табличной пейджинации
  */
@@ -72,7 +75,7 @@ export const N2OPagination = (props: Props) => {
         if (!isNil(propsCount)) { setCount(propsCount) }
     }, [propsCount])
 
-    const Pagination = getComponent('Pagination', FactoryLevels.SNIPPETS)
+    const Pagination = getComponent<PaginationProps>('Pagination', FactoryLevels.SNIPPETS)
 
     if (!Pagination) { return null }
 

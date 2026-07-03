@@ -16,5 +16,8 @@
         <button id="b3">
             <confirm/>
         </button>
+        <button id="b4" datasource="ds">
+            <confirm datasource="myDs" model="filter" title="testTitle" text="testText"/>
+        </button>
     </toolbar>
 </page>

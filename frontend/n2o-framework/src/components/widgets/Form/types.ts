@@ -2,12 +2,11 @@ import { ComponentType, CSSProperties } from 'react'
 import { ColumnProps } from 'reactstrap/es/Col'
 
 import { Mapping } from '../../../ducks/datasource/Provider'
-import { FormModelPrefix } from '../../../core/models/types'
+import { FormModelPrefix, ModelLink } from '../../../core/models/types'
 import { Model } from '../../../ducks/models/selectors'
 import { type Props as StandardWidgetProps } from '../StandardWidget'
-import { ValidationsKey } from '../../../core/validation/types'
 
-export type ActiveModel = Model | Model[]
+export type ActiveModel = Exclude<Model, null>
 
 interface Availability {
     visible?: boolean
@@ -56,14 +55,13 @@ export interface ColProps extends Styling {
 
 export type RowProps = { cols: ColProps[], props: Record<string, unknown> } & Styling
 
-export interface FieldsetProps {
+export type FieldsetProps = {
     rows: RowProps[]
     name?: string | null
     type?: string
     component: FieldComponent
     activeModel?: ActiveModel
     autoFocusId?: string
-    modelPrefix?: FormModelPrefix
     autoSubmit?: boolean
 }
 
@@ -78,7 +76,6 @@ export interface FieldSetColComponentProps {
     labelPosition: string
     labelWidth: string
     labelAlignment: string
-    modelPrefix: FormModelPrefix
     form?: string
     parentName: string
     disabled: boolean
@@ -96,7 +93,6 @@ interface CommonRowProps {
     labelWidth?: string
     labelAlignment?: string
     autoFocusId?: string
-    modelPrefix: FormModelPrefix
     disabled?: boolean
     autoSubmit?: boolean
     activeModel: ActiveModel
@@ -128,8 +124,7 @@ export interface FieldsetComponentProps extends FieldsetComponentPropsEnhancer {
 
 export interface ReduxFormProps {
     name: string
-    datasource: string
-    modelPrefix: FormModelPrefix
+    modelLink: ModelLink
     fieldsets: FieldSetsProps
     autoFocus?(): void
     autoSubmit?: boolean
@@ -137,8 +132,8 @@ export interface ReduxFormProps {
     style?: CSSProperties
     dirty?: boolean
     className?: string
-    validationKey?: ValidationsKey
     fields?: string[]
+    needActiveModel?: boolean
 }
 
 type FormWidgetPropsEnhancer = Styling & StandardWidgetProps
@@ -147,6 +142,6 @@ export interface FormWidgetProps extends FormWidgetPropsEnhancer {
     id: string
     disabled: boolean
     datasource: string
-    form: { fieldsets: FieldSetsProps, modelPrefix: FormModelPrefix }
+    form: { fieldsets: FieldSetsProps, modelPrefix: FormModelPrefix, prompt?: boolean }
     loading: boolean
 }

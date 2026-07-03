@@ -3,8 +3,6 @@ package net.n2oapp.framework.config.metadata.validation;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
-import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.ListWidgetValidator;
@@ -39,9 +37,7 @@ class WidgetValidatorTest extends SourceValidationTestBase {
                 new N2oActionsPack()
         );
         builder.validators(
-                new PageValidator(),
                 new StandardPageValidator(),
-                new BasePageValidator(),
                 new FormValidator(),
                 new TableValidator(),
                 new ListWidgetValidator()

@@ -19,6 +19,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalDatasourceId;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalModel;
+import static net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil.getField;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -42,7 +43,11 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
     }
 
     private void compilePayload(N2oSwitchAction source, SwitchActionPayload payload, CompileContext<?, ?> context, CompileProcessor p) {
-        payload.setValueFieldId(source.getValueFieldId());
+        String field = getField(p);
+        if (source.getValueFieldId() != null)
+            payload.setValueFieldId(field != null
+                    ? field.concat(".").concat(source.getValueFieldId())
+                    : source.getValueFieldId());
         initDatasource(payload, source.getDatasourceId(), p);
         payload.setModel(castDefault(source.getModel(), () -> getLocalModel(p)));
 

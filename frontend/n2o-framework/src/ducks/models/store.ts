@@ -3,8 +3,10 @@ import merge from 'lodash/merge'
 import omit from 'lodash/omit'
 import set from 'lodash/set'
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 
-import { ModelPrefix, FormModelPrefix } from '../../core/models/types'
+import { ModelPrefix, ModelLink, Model } from '../../core/models/types'
+import { getFieldPath, getModelPath } from '../../core/models/getModelPath'
 import { id } from '../../utils/id'
 import { setKey } from '../../utils/uniqueKey'
 import { N2OMeta } from '../Action'
@@ -31,17 +33,18 @@ export const modelsSlice = createSlice({
     reducers: {
         SET: {
             prepare<Prefix extends ModelPrefix>(
-                prefix: Prefix,
-                key: string,
-                model: (Prefix extends (ModelPrefix.source | ModelPrefix.selected)
-                    ? Array<Record<string, unknown>>
-                    : Record<string, unknown>) | null,
+                modelLink: ModelLink<Prefix>,
+                model: (
+                    Prefix extends (ModelPrefix.source | ModelPrefix.selected)
+                        ? Model[]
+                        : Model
+                ) | null,
                 isDefault?: boolean,
                 validate?: boolean,
             ) {
                 return ({
-                    payload: { prefix, key, model, isDefault },
-                    meta: { prefix, key, model, validate: typeof validate === 'boolean' ? validate : !isDefault },
+                    payload: { modelLink, model, isDefault },
+                    meta: { validate: typeof validate === 'boolean' ? validate : !isDefault } as N2OMeta,
                 })
             },
 
@@ -49,9 +52,12 @@ export const modelsSlice = createSlice({
              * Установка значений модели по префиксу и ключу
              */
             reducer(state, action: SetModelAction) {
-                const { key, model, prefix } = action.payload
+                const { model, modelLink } = action.payload
+                const path = getModelPath(modelLink)
 
-                set(state, [prefix, key], setKey(model))
+                if (isEqual(get(state, path), model)) { return }
+
+                set(state, path, setKey(model))
             },
         },
 
@@ -72,18 +78,18 @@ export const modelsSlice = createSlice({
             },
         },
 
-        UPDATE: {
-            prepare(prefix: FormModelPrefix, key: string, field: string, value: unknown, validate?: boolean) {
+        updateModel: {
+            prepare(modelLink: ModelLink, fieldName: string, value: unknown, validate?: boolean) {
                 return ({
-                    payload: { prefix, key, field, value },
+                    payload: { modelLink, fieldName, value },
                     meta: { validate: typeof validate === 'boolean' ? validate : true } as N2OMeta,
                 })
             },
 
             reducer(state, action: UpdateModelAction) {
-                const { prefix, key, field, value } = action.payload
+                const { modelLink, fieldName, value } = action.payload
 
-                set(state, `${prefix}.${key}.${field}`, setKey(value))
+                set(state, getFieldPath({ ...modelLink, field: fieldName }), setKey(value))
             },
         },
 
@@ -161,16 +167,16 @@ export const modelsSlice = createSlice({
         },
 
         appendToArray: {
-            prepare({ key, field, position, ...options }) {
+            prepare({ modelLink, fieldName, position, ...options }) {
                 return ({
-                    meta: { key, field, ...options },
-                    payload: { key, field, position, ...options },
+                    meta: { ...options },
+                    payload: { modelLink, fieldName, position, ...options },
                 })
             },
 
             reducer(state, action: AppendToArrayAction) {
-                const { prefix, key, field, value = {}, primaryKey, position } = action.payload
-                const path = field ? `${prefix}.${key}.${field}` : `${prefix}.${key}`
+                const { modelLink, fieldName, value = {}, primaryKey, position } = action.payload
+                const path = fieldName ? getFieldPath({ ...modelLink, field: fieldName }) : getModelPath(modelLink)
                 const arrayValue = get(state, path)
                 const item = setKey(primaryKey ? { [primaryKey]: id(), ...value } : { ...value })
 
@@ -183,16 +189,15 @@ export const modelsSlice = createSlice({
         },
 
         removeFromArray: {
-            prepare({ prefix, key, field, start, count }) {
+            prepare({ modelLink, fieldName, start, count = 1 }) {
                 return ({
-                    meta: { prefix, key, field },
-                    payload: { prefix, key, field, start, count },
+                    payload: { modelLink, fieldName, start, count },
                 })
             },
 
             reducer(state, action: RemoveFromArrayAction) {
-                const { prefix, key, field, start, count } = action.payload
-                const path = field ? `${prefix}.${key}.${field}` : `${prefix}.${key}`
+                const { modelLink, fieldName, start, count } = action.payload
+                const path = fieldName ? getFieldPath({ ...modelLink, field: fieldName }) : getModelPath(modelLink)
                 const arrayValue: unknown[] = get(state, path, [])
 
                 arrayValue.splice(start, count ?? 1)
@@ -200,16 +205,15 @@ export const modelsSlice = createSlice({
         },
 
         copyFieldArray: {
-            prepare(prefix: ModelPrefix, key: string, field: string, index: number, primaryKey?: string) {
+            prepare(modelLink: ModelLink, fieldName: string, index: number, primaryKey?: string) {
                 return ({
-                    meta: { prefix, key, field, primaryKey },
-                    payload: { prefix, key, field, index, primaryKey },
+                    payload: { modelLink, fieldName, index, primaryKey },
                 })
             },
 
             reducer(state, action: CopyFieldArrayAction) {
-                const { prefix, key, field, index, primaryKey } = action.payload
-                const arrayValue = get(state, `${prefix}.${key}.${field}`, [])
+                const { modelLink, fieldName, index, primaryKey } = action.payload
+                const arrayValue = get(state, getFieldPath({ ...modelLink, field: fieldName }), [])
                 const item = setKey({ ...arrayValue[index] })
 
                 if (primaryKey) { item[primaryKey] = id() }
@@ -225,7 +229,7 @@ export default modelsSlice.reducer
 export const {
     SET: setModel,
     REMOVE: removeModel,
-    UPDATE: updateModel,
+    updateModel,
     CLEAR: clearModel,
     MERGE: combineModels,
     COPY: copyModel,

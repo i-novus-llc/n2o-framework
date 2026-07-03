@@ -39,7 +39,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -210,7 +209,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(pageContext);
 
-        List<Validation> clientValidations = page.getDatasources().get("testStandardField_form").getValidations().get("test3");
+        List<Validation> clientValidations = page.getDatasources().get("testStandardField_form").getValidations(ReduxModelEnum.RESOLVE).get("test3");
         assertThat(clientValidations.size(), is(2));
 
         ConstraintValidation validation = (ConstraintValidation) clientValidations.getFirst();
@@ -264,7 +263,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldInlineValidations.page.xml",
                 "net/n2oapp/framework/config/mapping/testCell.object.xml")
                 .get(pageContext);
-        List<Validation> clientValidations = page.getDatasources().get("testStandardFieldInlineValidations_form").getValidations().get("city");
+        List<Validation> clientValidations = page.getDatasources().get("testStandardFieldInlineValidations_form").getValidations(ReduxModelEnum.RESOLVE).get("city");
         assertThat(clientValidations.size(), is(1));
         assertThat(clientValidations.getFirst().getSeverity(), is(SeverityTypeEnum.DANGER));
         assertThat(clientValidations.getFirst().getMessage(), is("Только Казань"));
@@ -496,7 +495,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
     void testEnablingConditionValidations() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldEnablingConditionValidations.page.xml")
                 .get(new PageContext("testStandardFieldEnablingConditionValidations", "/p"));
-        List<Validation> validations = page.getDatasources().get("p_form").getValidations().get("joe");
+        List<Validation> validations = page.getDatasources().get("p_form").getValidations(ReduxModelEnum.RESOLVE).get("joe");
         assertThat(validations.getFirst().getEnablingConditions(), Matchers.hasItem("foo==1"));
         assertThat(validations.getFirst().getEnablingConditions(), Matchers.hasItem("bar==2"));
         assertThat(validations.getFirst().getEnablingConditions(), Matchers.hasItem("buz==3"));
@@ -506,7 +505,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
     void testFieldRequiring() {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldRequiring.page.xml")
                 .get(new PageContext("testStandardFieldRequiring"));
-        Map<String, List<Validation>> validations = page.getDatasources().get("testStandardFieldRequiring_w1").getValidations();
+        Map<String, List<Validation>> validations = page.getDatasources().get("testStandardFieldRequiring_w1").getValidations(ReduxModelEnum.RESOLVE);
         List<FieldSet.Row> rows = ((Form) page.getWidget()).getComponent().getFieldsets().getFirst().getRows();
         Field field1 = rows.getFirst().getCols().getFirst().getFields().getFirst();
         assertThat(field1.getRequired(), is(true));

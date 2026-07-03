@@ -4,7 +4,7 @@ import flowRight from 'lodash/flowRight'
 import classNames from 'classnames'
 
 import { useResolved } from '../../../../../core/Expression/useResolver'
-import { replaceIndex } from '../../../../../core/datasource/ArrayField/replaceIndex'
+import { replaceIndexKey } from '../../../../../core/datasource/ArrayField/replaceIndex'
 import { ArrayFieldContext } from '../../../../../core/datasource/ArrayField/Context'
 import { Toolbar } from '../../../../buttons/Toolbar'
 import { WithCell } from '../../withCell'
@@ -31,7 +31,7 @@ function ButtonsCellBody({
         ...toolbar,
         buttons: toolbar.buttons.map(button => ({
             ...button,
-            conditions: button.conditions && replaceIndex(button.conditions, context),
+            conditions: button.conditions && replaceIndexKey(button.conditions, context),
         })),
     }))), [resolvedToolbar, context])
 

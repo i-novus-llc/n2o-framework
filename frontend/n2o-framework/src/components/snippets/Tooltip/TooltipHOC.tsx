@@ -10,6 +10,7 @@ export interface TooltipHocProps {
     tooltipDelay?: number
     className?: string
     trigger?: string
+    delay?: number
     children?: { props?: { visible?: boolean } }
     container?: 'target' | 'body'
 }
@@ -17,7 +18,7 @@ export interface TooltipHocProps {
 export function TooltipHOC<TProps extends TooltipHocProps>(Component: Function): ComponentType<TProps> {
     return function WithTooltip(props: TProps) {
         const { getComponent } = useContext(FactoryContext)
-        const FactoryTooltip = getComponent('Tooltip', FactoryLevels.SNIPPETS)
+        const FactoryTooltip = getComponent<TooltipHocProps>('Tooltip', FactoryLevels.SNIPPETS)
 
         const { hint, className, placement = 'bottom', tooltipDelay = 0, trigger = 'hover', container } = props
 

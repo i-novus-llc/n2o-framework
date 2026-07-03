@@ -1,4 +1,4 @@
-import React, { ComponentType, useContext } from 'react'
+import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 import { Spinner } from 'reactstrap'
@@ -46,7 +46,7 @@ export const SimpleButton = ({
     ...rest
 }: Props) => {
     const { getComponent } = useContext(FactoryContext)
-    const FactoryBadge = getComponent<ComponentType<Props['badge']>>(
+    const FactoryBadge = getComponent<Props['badge']>(
         'Badge',
         FactoryLevels.SNIPPETS,
     )

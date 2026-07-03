@@ -11,7 +11,7 @@ import { generateErrorMeta } from '../../../utils/generateErrorMeta'
 import { id as generateId } from '../../../utils/id'
 import { ModelPrefix } from '../../../core/models/types'
 import { Meta } from '../../../sagas/types'
-import { ValidationResult, ValidationsKey } from '../../../core/validation/types'
+import { ValidationResult } from '../../../core/validation/types'
 import { hasError } from '../../../core/validation/validateModel'
 import { dataSourceByIdSelector } from '../selectors'
 import {
@@ -55,13 +55,13 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
 
         if (!provider) { throw new Error('Can\'t request data with empty provider') }
 
-        const validateByPrefix = (prefix: ModelPrefix) => startValidate(id, ValidationsKey.FilterValidations, prefix, undefined, { touched: true })
+        const filtersIsValid: Record<string, ValidationResult[]> = yield call(validate, startValidate(
+            { prefix: ModelPrefix.filter, id },
+            undefined,
+            { touched: true },
+        ))
 
-        const filtersIsValid: Record<string, ValidationResult[]> = yield call(validate, validateByPrefix(ModelPrefix.filter))
-        // Хак в WidgetFilters, пока явно не нажата кнопка «Найти», данные будут храниться в ModelPrefix.edit
-        const editFiltersIsValid: Record<string, ValidationResult[]> = yield call(validate, validateByPrefix(ModelPrefix.edit))
-
-        if (hasError(filtersIsValid) || hasError(editFiltersIsValid)) { throw new Error('Invalid filters, request canceled') }
+        if (hasError(filtersIsValid)) { throw new Error('Invalid filters, request canceled') }
 
         const query = getQuery(provider.type)
 
@@ -78,10 +78,10 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
             yield delay(100)
         }
 
-        yield put(setModel(ModelPrefix.source, id, response.list, true))
+        yield put(setModel({ prefix: ModelPrefix.source, id }, response.list, true))
 
         if (response.active) {
-            yield put(setModel(ModelPrefix.active, id, response.active, true))
+            yield put(setModel({ prefix: ModelPrefix.active, id }, response.active, true))
         }
 
         yield put(resolveRequest(id, response))
@@ -98,8 +98,7 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
 
             if (!isEmpty(messages)) {
                 yield put(endValidation({
-                    id,
-                    prefix: ModelPrefix.filter,
+                    modelLink: { prefix: ModelPrefix.filter, id },
                     messages,
                     fields: Object.keys(messages),
                 }, { touched: true }))
@@ -111,7 +110,7 @@ export function* dataRequest({ payload, meta = {} }: DataRequestAction, apiProvi
          * нужно чтобы при чистки master-ds чистился и child-ds.
          */
         if (error instanceof DataProviderError) {
-            yield put(setModel(ModelPrefix.source, id, [], true))
+            yield put(setModel({ prefix: ModelPrefix.source, id }, [], true))
         }
 
         logger.warn(`JS Error: DataSource(${id}) fetch saga. ${err.message}`)

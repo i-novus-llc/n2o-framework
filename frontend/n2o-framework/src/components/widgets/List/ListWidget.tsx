@@ -64,7 +64,7 @@ function Widget(props: ListWidgetProps) {
     }
     const { resolveProps } = useContext(FactoryContext)
     const resolvedFilter = useMemo(
-        () => resolveProps(filter as object, Fieldsets.StandardFieldset) as ListWidgetProps['filter'],
+        () => filter && resolveProps<ListWidgetProps['filter']>(filter, Fieldsets.StandardFieldset),
         [filter, resolveProps],
     )
     const resolvedList = useMemo(() => resolveProps(list), [list, resolveProps])
