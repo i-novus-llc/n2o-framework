@@ -99,6 +99,11 @@ function* validateMulti(
     return messages
 }
 
+/**
+ * Валидация datasource по стейту
+ * !!! Дублирует функционал модуля core\validation\validate
+ * !!! Все изменения должны быть зеркальными до удаления зашитого в кнопки вызова валидации
+ */
 export function* validate({ payload, meta }: StartValidateAction) {
     const { modelLink, fields } = payload
     const state: State = yield select()
