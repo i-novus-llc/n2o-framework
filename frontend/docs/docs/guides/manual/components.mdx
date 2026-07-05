@@ -706,7 +706,8 @@ n2o.api.widget.table.save_settings = true
         <toolbar>
             <button label="Добавить"
                     color="primary"
-                    disable-on-empty-model="false">
+                    disable-on-empty-model="false"
+                    validate="false">
                 <set-value>
                     this ? [{}, ...this] : [{}]
                 </set-value>

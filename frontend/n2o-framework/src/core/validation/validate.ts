@@ -5,42 +5,88 @@ import {
     dataSourcePageIdSelector,
 } from '../../ducks/datasource/selectors'
 import { makePageUrlByIdSelector } from '../../ducks/pages/selectors'
-import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
+import { getModelSelector } from '../../ducks/models/selectors'
 import { endValidation } from '../../ducks/datasource/store'
 import type { State as GlobalState } from '../../ducks/State'
-import { ModelPrefix, FormModelPrefix } from '../models/types'
+import { Model, ModelLink, ModelPrefix } from '../models/types'
 
 import { hasError, validateModel } from './validateModel'
 import { addFieldMessages } from './addFieldMessages'
+import { ExtraValidationConfig, Validation, ValidationResult } from './types'
+
+async function validateSingle(
+    state: GlobalState,
+    model: Model,
+    modelLink: ModelLink,
+    validation: Record<string, Validation[]>,
+    options: ExtraValidationConfig,
+    dispatch: Dispatch | ((arg: unknown) => void),
+) {
+    const modelMessages = await validateModel(model, validation, options)
+    const messages = addFieldMessages(modelLink, modelMessages, state)
+
+    dispatch(endValidation({ modelLink, messages: modelMessages }, { touched: true }))
+
+    return messages
+}
+
+async function validateMulti(
+    state: GlobalState,
+    model: Model[],
+    modelLink: ModelLink,
+    validation: Record<string, Validation[]>,
+    options: ExtraValidationConfig,
+    dispatch: Dispatch | ((arg: unknown) => void),
+) {
+    let messages: Record<string, ValidationResult[]> = {}
+
+    for (let i = 0; i < model.length; i++) {
+        const modelMessages = await validateSingle(
+            state,
+            model[i],
+            { ...modelLink, index: i },
+            validation,
+            options,
+            dispatch,
+        )
+
+        messages = {
+            ...messages,
+            ...Object.fromEntries(Object.entries(modelMessages).map(([key, value]) => [`[${i}]${key}`, value])),
+        }
+    }
+
+    return messages
+}
 
 /**
  * Валидация datasource по стейту
- * @param {object} state
- * @param {string} datasourceId
- * @param {ModelPrefix} prefix
- * @param {Function} dispatch
- * @param {boolean} touched
- * @returns {boolean}
- * TODO переместить из ядра. Получается ядро зависит от редакса, а редакс от ядра
+ * !!! Дублирует функционал модуля ducks\datasource\sagas\validate но без использования redux-saga
+ * !!! Все изменения должны быть зеркальными до удаления зашитого в кнопки вызова валидации и текущего файла
  */
-
-export const validate = async (
+export const validate = async <Prefix extends ModelPrefix>(
     state: GlobalState,
-    datasourceId: string,
-    prefix: FormModelPrefix = ModelPrefix.active,
+    modelLink: ModelLink<Prefix>,
     dispatch: Dispatch | ((arg: unknown) => void) = () => {},
-    touched = false,
 ) => {
-    const validation = dataSourceValidationSelector(datasourceId, prefix)(state)
-    const model = getModelByPrefixAndNameSelector(prefix, datasourceId)(state)
+    const { id, prefix, index } = modelLink
+    const validation = dataSourceValidationSelector(id, prefix)(state) || {}
+    const isMulti = prefix === ModelPrefix.selected || (prefix === ModelPrefix.source && typeof index === 'undefined')
+    const model = getModelSelector(modelLink)(state)
 
-    const pageId = dataSourcePageIdSelector(datasourceId)(state) || ''
+    const pageId = dataSourcePageIdSelector(id)(state) || ''
     const pageUrl = makePageUrlByIdSelector(pageId)(state)
+    const validateMethod = isMulti ? validateMulti : validateSingle
 
-    const modelMessages = await validateModel(model, validation || {}, { datasourceId, pageUrl })
-    const messages = addFieldMessages({ id: datasourceId, prefix }, modelMessages, state)
-
-    dispatch(endValidation({ modelLink: { id: datasourceId, prefix }, messages: modelMessages }, { touched }))
+    const messages = await validateMethod(
+        state,
+        // @ts-ignore тип model не подхватывается автоматом из isMulti
+        model,
+        modelLink,
+        validation,
+        { datasourceId: id, pageUrl },
+        dispatch,
+    )
 
     return !hasError(messages)
 }

@@ -16,6 +16,7 @@ import { ButtonState } from '../../ducks/toolbar/Toolbar'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
 import { PageContext } from '../core/router/context'
 import { Mapping } from '../../ducks/datasource/Provider'
+import { FormContext } from '../core/FormProvider/provider'
 
 import { ActionButton } from './ActionButton'
 import { useReduxButton, ReduxButtonProps } from './useReduxButton'
@@ -67,6 +68,9 @@ function useAction({ validate, ...rest }: UseActionProps, onClick: EventHandler)
     const elementId = useMemo(() => (getID()), [])
     const evalContext = useRef({})
     const { pageId } = useContext(PageContext)
+    const formContext = useContext(FormContext)
+    const modelLink = formContext?.modelLink
+    const { datasource, model: prefix = ModelPrefix.active } = rest
 
     evalContext.current = useContext(ExpressionContext)
     props.current = rest
@@ -74,16 +78,23 @@ function useAction({ validate, ...rest }: UseActionProps, onClick: EventHandler)
     const checkValid = useCallback(async () => {
         if (!validate?.length) { return true }
 
+        const getLink = (id: string) => {
+            if (id === modelLink?.id) { return modelLink }
+            if (id === datasource) { return { id, prefix } }
+
+            return { id, prefix: ModelPrefix.active }
+        }
+
         let valid = true
 
-        for (const dataSource of validate) {
-            const isDataSourceValid = await validateDatasource(store.getState(), dataSource, ModelPrefix.active, dispatch, true)
+        for (const id of validate) {
+            const isDataSourceValid = await validateDatasource(store.getState(), getLink(id), dispatch)
 
             valid = valid && isDataSourceValid
         }
 
         return valid
-    }, [validate, store, dispatch])
+    }, [validate, datasource, modelLink, prefix, store, dispatch])
 
     const onClickHandler = useCallback(async (event: MouseEvent) => {
         event.preventDefault()
