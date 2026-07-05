@@ -17,7 +17,7 @@
             <row>
                 <col>
                     <button label="Сохранить" color="primary"/>
-                    <button label="Удалить" color="danger">
+                    <button label="Удалить" color="danger" validate="false">
                         <set-value source-model="datasource" target-model="datasource">
                             const result = this.slice()
                             result.splice(index, 1)
@@ -28,7 +28,7 @@
             </row>
         </fields>
         <toolbar place="topLeft">
-            <button label="Добавить" color="primary" disable-on-empty-model="false">
+            <button label="Добавить" color="primary" disable-on-empty-model="false" validate="false">
                 <set-value source-model="datasource" target-model="datasource">
                     this ? [{}, ...this] : [{}]
                 </set-value>

@@ -19,7 +19,7 @@
                                 <invoke operation-id="create"/>
                             </else>
                         </button>
-                        <button icon="fa fa-trash" color="link">
+                        <button icon="fa fa-trash" color="link" validate="false">
                             <invoke operation-id="delete"/>
                         </button>
                     </col>
@@ -46,7 +46,8 @@
                         color="primary"
                         disable-on-empty-model="false">
                     <set-value source-model="datasource"
-                               target-model="datasource">
+                               target-model="datasource"
+                               validate="false">
                         this ? [{}, ...this] : [{}]
                     </set-value>
                 </button>
