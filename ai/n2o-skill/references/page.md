@@ -59,6 +59,7 @@ Files: `[id].page.xml`
 | default-values-mode | query / defaults / merge | How initial values are loaded | query |
 | route | String | URL route for filters | |
 | fetch-on-init | boolean | Fetch data on page init | false |
+| save-settings | page / size / sorting (comma-sep) | Table datasource parameters saved to browser local storage. Requires `n2o.api.widget.table.save_settings=true` | |
 
 **Body**: `<dependencies>`, `<filters>`, `<submit>`
 
