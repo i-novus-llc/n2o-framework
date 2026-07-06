@@ -82,18 +82,27 @@ class  SimpleHeaderAT extends AutoTestBase {
 
         DropdownMenuItem dropdown = page.header().nav().dropdown(1);
         dropdown.shouldHaveLabel("список");
+        dropdown.shouldBeClosed();
         dropdown.click();
         DropdownMenuItem dropdownLevelTwo = dropdown.item(2, DropdownMenuItem.class);
         dropdownLevelTwo.shouldHaveLabel("Многоуровневый список");
         dropdownLevelTwo.click();
+        dropdownLevelTwo.shouldBeVisible();
+        dropdown.shouldBeOpened();
         dropdown.item(2, DropdownMenuItem.class).shouldHaveSize(2);
         page.breadcrumb().crumb(0).shouldHaveLabel("Название страницы");
 
         dropdownLevelTwo.item(0).shouldHaveLabel("Название страницы");
         dropdownLevelTwo.item(0).shouldHaveUrl(rootUrl + "/#/pageRoute");
+        dropdownLevelTwo.item(0).click();
+        dropdown.shouldBeClosed();
+
+        dropdown.click();
+        dropdownLevelTwo.click();
         dropdownLevelTwo.item(1).shouldHaveLabel("элемент многоуровнегосписка №2");
         dropdownLevelTwo.item(1).shouldHaveUrl(rootUrl + "/#/pageRoute1");
         dropdownLevelTwo.item(1).click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Вторая страница");
+        dropdown.shouldBeClosed();
     }
 }
