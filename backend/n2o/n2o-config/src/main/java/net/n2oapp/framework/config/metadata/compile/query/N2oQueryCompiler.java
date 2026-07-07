@@ -83,7 +83,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         );
 
         compilePreFilters(source, p, context.getFilters());
-        query.setDisplayFields(initDisplayFields(fields));
+        query.setDisplayFields(unmodifiableList(initDisplayFields(fields)));
         List<QuerySimpleField> simpleFields = source.getSimpleFields();
         query.setSortingFields(unmodifiableList(initSortingFields(simpleFields)));
         query.setFieldsMap(unmodifiableMap(initFieldsMap(fields)));

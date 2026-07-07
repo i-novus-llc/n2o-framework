@@ -130,6 +130,6 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
 
     private boolean checkMondodb(N2oQuery.Selection[] selection) {
         if (selection == null) return true;
-        return Arrays.stream(selection).noneMatch(elem -> !(elem.getInvocation() instanceof N2oMongoDbDataProvider));
+        return Arrays.stream(selection).allMatch(elem -> elem.getInvocation() instanceof N2oMongoDbDataProvider);
     }
 }

@@ -12,6 +12,7 @@ Datasources connect widgets to data. Defined in `<datasources>` of a page or inl
 | default-values-mode | query / defaults / merge | Value initialization mode | query |
 | route | String | URL route for filters | |
 | fetch-on-init | boolean | Fetch data on page initialization | false |
+| save-settings | page / size / sorting (comma-sep) | Table datasource parameters saved to browser local storage. Requires `n2o.api.widget.table.save_settings=true` | |
 
 Body: `<filters>`, `<submit>`, `<dependencies>`
 
