@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.config.register.ConfigRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.TransientDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.SerializationUtils;
 
@@ -28,24 +30,64 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
     private String tableName;
     @Value("${n2o.config.register.jdbc.create-table:false}")
     private Boolean createTable;
+    @Value("${n2o.config.register.jdbc.retry-count:5}")
+    private int retryCount;
+    @Value("${n2o.config.register.jdbc.retry-delay-ms:100}")
+    private long retryDelayMs;
 
     @Override
     public CompileContext save(RouteInfoKey key, CompileContext value) {
-        final String insertSQL = "INSERT INTO " + tableName + " VALUES (?, ?, ?, ?)";
-        final String updateSQL = "UPDATE " + tableName + " SET context=? WHERE url=? AND class=?";
-
         final byte[] serialValue = SerializationUtils.serialize(value);
-        int cnt = jdbcTemplate.update(updateSQL, serialValue, key.getUrlMatching(), key.getCompiledClass().getName());
 
-        if (cnt < 1) {
-            jdbcTemplate.update(insertSQL, UUID.randomUUID(), key.getUrlMatching(),
-                    key.getCompiledClass().getName(), serialValue);
-            log.info(String.format("Inserted route: '%s' to [%s]", value, key.getUrlMatching()));
-        } else {
-            log.info(String.format("Updated route: '%s' to [%s]", value, key.getUrlMatching()));
+        // При одновременной регистрации маршрутов несколькими экземплярами приложения,
+        // конкурентные транзакции могут привести к взаимной блокировке (deadlock).
+        // При ошибке блокировки повторяем её несколько раз с нарастающей задержкой.
+        final int attempts = Math.max(1, retryCount);
+        TransientDataAccessException lastException = null;
+        for (int attempt = 1; attempt <= attempts; attempt++) {
+            try {
+                write(key, value, serialValue);
+                return value;
+            } catch (TransientDataAccessException e) {
+                lastException = e;
+                log.warn(String.format("Failed to save route '%s' due to a lock conflict (attempt %d/%d): %s",
+                        key.getUrlMatching(), attempt, attempts, e.getMessage()));
+                if (attempt < attempts)
+                    sleep(retryDelayMs * attempt);
+            }
         }
+        throw lastException;
+    }
 
-        return value;
+    private void write(RouteInfoKey key, CompileContext value, byte[] serialValue) {
+        final String updateSQL = "UPDATE " + tableName + " SET context=? WHERE url=? AND class=?";
+        final String url = key.getUrlMatching();
+        final String className = key.getCompiledClass().getName();
+
+        // Сначала обновляем существующую строку по уникальному ключу (url, class) — это блокировка
+        // одной строки по индексу, что минимизирует контенцию. Вставляем, только если строки ещё нет.
+        if (jdbcTemplate.update(updateSQL, serialValue, url, className) >= 1) {
+            log.info(String.format("Updated route: '%s' to [%s]", value, url));
+            return;
+        }
+        try {
+            final String insertSQL = "INSERT INTO " + tableName + " VALUES (?, ?, ?, ?)";
+            jdbcTemplate.update(insertSQL, UUID.randomUUID(), url, className, serialValue);
+            log.info(String.format("Inserted route: '%s' to [%s]", value, url));
+        } catch (DuplicateKeyException e) {
+            // Конкурентная транзакция успела вставить строку с тем же (url, class) — обновляем существующую
+            jdbcTemplate.update(updateSQL, serialValue, url, className);
+            log.info(String.format("Updated route: '%s' to [%s]", value, url));
+        }
+    }
+
+    private void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Interrupted while retrying to save a route", e);
+        }
     }
 
     @Override
@@ -74,7 +116,7 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
     public void createTable() {
         if (createTable) {
             final String createTableSQL = "CREATE TABLE IF NOT EXISTS " + tableName +
-                    " (id uuid PRIMARY KEY, url varchar(255), class varchar(255), context bytea)";
+                    " (id uuid PRIMARY KEY, url varchar(255), class varchar(255), context bytea, UNIQUE (url, class))";
 
             jdbcTemplate.execute(createTableSQL);
             log.info(String.format("Created table %s.", tableName));
