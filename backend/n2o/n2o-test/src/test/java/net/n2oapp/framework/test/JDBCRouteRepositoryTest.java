@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.boot.N2oSqlAutoConfiguration;
 import net.n2oapp.framework.boot.route.JDBCRouteRepository;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -12,7 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -96,6 +103,46 @@ class JDBCRouteRepositoryTest {
         routeRegister.synchronize(); //добавление из repository
         assertThat(getRecordCount(), equalTo(1));
         assertThat(getRouterSize(), equalTo(1));
+    }
+
+    /**
+     * Параллельное сохранение одного и того же маршрута из множества потоков не должно приводить
+     * ни к исключениям, ни к дублированию строк: уникальный ключ (url, class) + обработка гонки
+     * вставки гарантируют ровно одну строку.
+     */
+    @Test
+    void testConcurrentSaveOfSameRoute() throws InterruptedException {
+        repository.clearAll();
+        assertThat(getRecordCount(), equalTo(0));
+
+        final String url = "/concurrent/route";
+        final int threads = 16;
+        final ExecutorService pool = Executors.newFixedThreadPool(threads);
+        final CountDownLatch start = new CountDownLatch(1);
+        final CountDownLatch done = new CountDownLatch(threads);
+        final List<Throwable> errors = new CopyOnWriteArrayList<>();
+
+        for (int i = 0; i < threads; i++) {
+            pool.submit(() -> {
+                try {
+                    start.await();
+                    CompileContext<?, ?> ctx = new PageContext("page");
+                    repository.save(new RouteInfoKey(url, ctx.getCompiledClass()), ctx);
+                } catch (Throwable t) {
+                    errors.add(t);
+                } finally {
+                    done.countDown();
+                }
+            });
+        }
+        start.countDown();
+        assertThat(done.await(30, TimeUnit.SECONDS), is(true));
+        pool.shutdownNow();
+
+        assertThat(errors, is(empty()));
+        assertThat(getRecordCount(), equalTo(1));
+
+        repository.clearAll();
     }
 
     private Integer getRecordCount() {

@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.config.register.ConfigRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.TransientDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.SerializationUtils;
@@ -60,15 +61,23 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
 
     private void write(RouteInfoKey key, CompileContext value, byte[] serialValue) {
         final String updateSQL = "UPDATE " + tableName + " SET context=? WHERE url=? AND class=?";
-        int cnt = jdbcTemplate.update(updateSQL, serialValue, key.getUrlMatching(), key.getCompiledClass().getName());
+        final String url = key.getUrlMatching();
+        final String className = key.getCompiledClass().getName();
 
-        if (cnt < 1) {
+        // Сначала обновляем существующую строку по уникальному ключу (url, class) — это блокировка
+        // одной строки по индексу, что минимизирует контенцию. Вставляем, только если строки ещё нет.
+        if (jdbcTemplate.update(updateSQL, serialValue, url, className) >= 1) {
+            log.info(String.format("Updated route: '%s' to [%s]", value, url));
+            return;
+        }
+        try {
             final String insertSQL = "INSERT INTO " + tableName + " VALUES (?, ?, ?, ?)";
-            jdbcTemplate.update(insertSQL, UUID.randomUUID(), key.getUrlMatching(),
-                    key.getCompiledClass().getName(), serialValue);
-            log.info(String.format("Inserted route: '%s' to [%s]", value, key.getUrlMatching()));
-        } else {
-            log.info(String.format("Updated route: '%s' to [%s]", value, key.getUrlMatching()));
+            jdbcTemplate.update(insertSQL, UUID.randomUUID(), url, className, serialValue);
+            log.info(String.format("Inserted route: '%s' to [%s]", value, url));
+        } catch (DuplicateKeyException e) {
+            // Конкурентная транзакция успела вставить строку с тем же (url, class) — обновляем существующую
+            jdbcTemplate.update(updateSQL, serialValue, url, className);
+            log.info(String.format("Updated route: '%s' to [%s]", value, url));
         }
     }
 
@@ -107,7 +116,7 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
     public void createTable() {
         if (createTable) {
             final String createTableSQL = "CREATE TABLE IF NOT EXISTS " + tableName +
-                    " (id uuid PRIMARY KEY, url varchar(255), class varchar(255), context bytea)";
+                    " (id uuid PRIMARY KEY, url varchar(255), class varchar(255), context bytea, UNIQUE (url, class))";
 
             jdbcTemplate.execute(createTableSQL);
             log.info(String.format("Created table %s.", tableName));
