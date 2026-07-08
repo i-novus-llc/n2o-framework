@@ -1,0 +1,10 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0">
+    <multi-form id="main">
+        <datasource query-id="testMerge" default-values-mode="merge" size="4"/>
+        <fields>
+            <input-text id="id"/>
+            <input-text id="name" copied="false"/>
+            <input-text id="surname" copied="true"/>
+        </fields>
+    </multi-form>
+</simple-page>
