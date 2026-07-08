@@ -64,6 +64,12 @@ class AutoComplete extends React.Component<Props, State> {
         const compareListProps = ['options', 'value']
         const compareListState = ['input']
 
+        const { value: stateValue } = this.state
+
+        if (value && Array.isArray(value) && !isEqual(stateValue, value)) {
+            this.setState({ value })
+        }
+
         if (
             !isEqual(
                 pick(prevProps, compareListProps),
