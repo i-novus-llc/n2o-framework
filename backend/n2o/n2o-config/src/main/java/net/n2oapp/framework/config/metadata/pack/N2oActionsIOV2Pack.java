@@ -2,10 +2,10 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.io.action.v2.*;
-import net.n2oapp.framework.config.io.action.v2.ifelse.ElseBranchActionElementIOV2;
-import net.n2oapp.framework.config.io.action.v2.ifelse.ElseIfBranchActionElementIOV2;
-import net.n2oapp.framework.config.io.action.v2.ifelse.IfBranchActionElementIOV2;
+import net.n2oapp.framework.config.io.action.*;
+import net.n2oapp.framework.config.io.action.ifelse.ElseBranchActionElementIOV2;
+import net.n2oapp.framework.config.io.action.ifelse.ElseIfBranchActionElementIOV2;
+import net.n2oapp.framework.config.io.action.ifelse.IfBranchActionElementIOV2;
 
 /**
  * Набор считывателей действий версии 2.0

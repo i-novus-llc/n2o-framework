@@ -10,7 +10,8 @@
         <table datasource="user">
             <toolbar>
                 <!-- кейс 1 кнопка не должна быть видима, если нет привилегии на "update1" И "update2" -->
-                <button label="Удалить" icon="fa fa-trash" confirm="true">
+                <button label="Удалить" icon="fa fa-trash">
+                    <confirm/>
                     <invoke operation-id="delete" object-id="test1"/>
                     <invoke operation-id="delete" object-id="test2"/>
                 </button>

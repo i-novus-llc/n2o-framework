@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chart xmlns="http://n2oapp.net/framework/config/schema/widget-5.0"
+       width="600" height="400">
+    <pie center-x="200" center-y="200" inner-radius="50" outer-radius="60" start-angle="10"
+         end-angle="100" name-field-id="name" value-field-id="value" tooltip-field-id="tooltip"
+         color="#8884d8" has-label="true"/>
+</chart>

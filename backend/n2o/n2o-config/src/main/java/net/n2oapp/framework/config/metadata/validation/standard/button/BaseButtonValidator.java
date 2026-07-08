@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.validation.standard.button;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.action.N2oConfirmAction;
 import net.n2oapp.framework.api.metadata.aware.GenerateAware;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.SourceProcessor;
@@ -46,9 +45,7 @@ public class BaseButtonValidator implements SourceValidator<Button>, SourceClass
             checkBadgeColor(source);
 
         if (isNotEmpty(source.getActions())) {
-            if (source.getConfirm() != null && (Arrays.stream(source.getActions()).filter(N2oConfirmAction.class::isInstance).count() >= 2))
-                throw new N2oMetadataValidationException(String.format("Кнопка %s одновременно имеет атрибут 'confirm' и действие <confirm>", getLabelOrId(source)));
-            Arrays.stream(source.getActions()).forEach(a -> p.validate(a, new ComponentScope(source, p.getScope(ComponentScope.class))));
+           Arrays.stream(source.getActions()).forEach(a -> p.validate(a, new ComponentScope(source, p.getScope(ComponentScope.class))));
         }
 
         if (source instanceof GenerateAware generateAware && generateAware.getGenerate() != null) {

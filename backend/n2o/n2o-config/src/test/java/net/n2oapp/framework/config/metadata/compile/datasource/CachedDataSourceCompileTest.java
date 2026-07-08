@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.MessagePlacementEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.MessagePositionEnum;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethodEnum;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
+import net.n2oapp.framework.config.io.control.plain.InputTextIOv3;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;

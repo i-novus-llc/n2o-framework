@@ -41,7 +41,7 @@ class ButtonFieldCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(),
-                new N2oFieldSetsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack(), new N2oControlsPack());
+                new N2oFieldSetsPack(), new N2oAllDataPack(), new N2oControlsV3IOPack(), new N2oControlsPack());
     }
 
     @Test

@@ -26,14 +26,4 @@ public class Submit implements Source {
     private SubmitOnEnum submitOn;
     private Boolean submitAll;
     private Boolean clearCacheAfterSubmit;
-
-    @Deprecated
-    public String getRefreshWidgetId() {
-        return refreshDatasourceIds == null ? null : refreshDatasourceIds[0];
-    }
-
-    @Deprecated
-    public void setRefreshWidgetId(String refreshWidgetId) {
-        this.refreshDatasourceIds = new String[]{refreshWidgetId};
-    }
 }

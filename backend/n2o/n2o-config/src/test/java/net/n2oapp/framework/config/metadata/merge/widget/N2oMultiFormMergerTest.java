@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.merge.widget;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oMultiForm;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.v5.MultiFormElementIOv5;
+import net.n2oapp.framework.config.io.widget.MultiFormElementIOv5;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsIOV2Pack;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsV3IOPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsV5IOPack;

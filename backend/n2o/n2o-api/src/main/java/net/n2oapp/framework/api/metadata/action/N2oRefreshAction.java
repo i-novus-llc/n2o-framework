@@ -11,14 +11,4 @@ import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 @Setter
 public class N2oRefreshAction extends N2oAbstractAction implements N2oAction, DatasourceIdAware {
     private String datasourceId;
-
-    @Deprecated
-    public String getWidgetId() {
-        return datasourceId;
-    }
-
-    @Deprecated
-    public void setWidgetId(String widgetId) {
-        this.datasourceId = widgetId;
-    }
 }

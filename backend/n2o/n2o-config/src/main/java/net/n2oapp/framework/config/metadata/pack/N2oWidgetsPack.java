@@ -13,7 +13,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
 
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.packs(new N2oWidgetsIOPack(), new N2oWidgetsV5IOPack(), new N2oTableSettingsIOPack());
+        b.packs(new N2oWidgetsV5IOPack(), new N2oTableSettingsIOPack());
         b.compilers(new FormCompiler(),
                 new ListWidgetCompiler(),
                 new MultiFormCompiler(),

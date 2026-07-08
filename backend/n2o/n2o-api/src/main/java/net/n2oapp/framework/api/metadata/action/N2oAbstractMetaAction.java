@@ -19,14 +19,4 @@ public abstract class N2oAbstractMetaAction extends N2oAbstractAction {
     private Boolean refreshOnSuccess;
     @JsonProperty("refreshDatasources")
     private String[] refreshDatasourceIds;
-
-    @Deprecated
-    public String getRefreshWidgetId() {
-        return refreshDatasourceIds != null && refreshDatasourceIds.length > 0 ? refreshDatasourceIds[0] : null;
-    }
-
-    @Deprecated
-    public void setRefreshWidgetId(String refreshWidgetId) {
-        this.refreshDatasourceIds = new String[] {refreshWidgetId};
-    }
 }

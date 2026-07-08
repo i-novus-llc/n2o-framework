@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
-import net.n2oapp.framework.config.io.action.v2.ActionIOv2;
+import net.n2oapp.framework.config.io.action.ActionIOv2;
 import net.n2oapp.framework.config.io.common.BadgeAwareIO;
 import org.jdom2.Element;
 

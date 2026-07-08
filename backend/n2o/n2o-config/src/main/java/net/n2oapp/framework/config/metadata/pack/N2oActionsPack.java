@@ -13,7 +13,7 @@ import net.n2oapp.framework.config.metadata.compile.control.CustomFieldBinder;
 public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.packs(new N2oActionsIOV1Pack(), new N2oActionsIOV2Pack());
+        b.packs(new N2oActionsIOV2Pack());
         b.compilers(new ShowModalCompiler(),
                 new OpenDrawerCompiler(),
                 new InvokeActionCompiler(),

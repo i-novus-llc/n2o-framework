@@ -20,24 +20,4 @@ public class N2oSetValueAction extends N2oAbstractAction {
 
     private MergeModeEnum mergeMode;
     private Boolean validate;
-
-    @Deprecated
-    public String getSourceWidget() {
-        return sourceDatasourceId;
-    }
-
-    @Deprecated
-    public void setSourceWidget(String sourceWidget) {
-        this.sourceDatasourceId = sourceWidget;
-    }
-
-    @Deprecated
-    public String getTargetWidget() {
-        return targetDatasourceId;
-    }
-
-    @Deprecated
-    public void setTargetWidget(String targetWidget) {
-        this.targetDatasourceId = targetWidget;
-    }
 }

@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oBase
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.v5.TableElementIOV5;
+import net.n2oapp.framework.config.io.widget.TableElementIOV5;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsIOV2Pack;
 import net.n2oapp.framework.config.metadata.pack.N2oCellsV3IOPack;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsV3IOPack;

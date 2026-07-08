@@ -76,7 +76,7 @@ class SandboxMetadataRetrievalTest {
         FileModel fileModel = new FileModel();
         fileModel.setFile("index.page.xml");
         fileModel.setSource("<?xml version='1.0' encoding='UTF-8'?>\n" +
-                "<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\"\n" +
+                "<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-4.0\"\n" +
                 "             name=\"Моя первая страница\">\n" +
                 "    <form>\n" +
                 "        <fields>\n" +

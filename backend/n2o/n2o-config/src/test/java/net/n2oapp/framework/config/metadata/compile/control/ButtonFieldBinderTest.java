@@ -37,7 +37,7 @@ class ButtonFieldBinderTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.getEnvironment().getContextProcessor().set("ctxParam", "testValue");
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(), new N2oCellsPack(),
-                new N2oFieldSetsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack(), new N2oControlsPack());
+                new N2oFieldSetsPack(), new N2oAllDataPack(), new N2oControlsV3IOPack(), new N2oControlsPack());
     }
 
     @Test
@@ -71,7 +71,7 @@ class ButtonFieldBinderTest extends SourceCompileTestBase {
         InvokeAction invokeAction = (InvokeAction) form.getComponent().getFieldsets().getFirst().getRows().get(3).getCols().getFirst()
                 .getFields().getFirst().getToolbar()[0].getButtons().getFirst().getAction();
         assertThat(invokeAction.getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
-        Table table = (Table) page.getRegions().get("single").getFirst().getContent().get(1);
+        Table<?> table = (Table<?>) page.getRegions().get("single").getFirst().getContent().get(1);
         assertThat(((InvokeAction) ((ToolbarCell) table.getComponent().getBody().getCells().getFirst()).getToolbar().getFirst().getButtons().getFirst().getAction())
                 .getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
     }

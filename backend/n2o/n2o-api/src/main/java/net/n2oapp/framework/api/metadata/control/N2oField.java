@@ -47,16 +47,6 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
 
     private boolean usingRef;
 
-    @Deprecated
-    public String getRefWidgetId() {
-        return refDatasourceId;
-    }
-
-    @Deprecated
-    public void setRefWidgetId(String refWidgetId) {
-        this.refDatasourceId = refWidgetId;
-    }
-
     @Override
     public FieldsetItem[] getItems() {
         return null;
@@ -87,7 +77,6 @@ public abstract class N2oField extends N2oComponent implements IdAware, Fieldset
         if (d == null || d.length == 0) return;
 
         if (dependencies == null) {
-            dependencies = new Dependency[d.length];
             dependencies = Arrays.copyOfRange(d, 0, d.length);
         } else {
             dependencies = Arrays.copyOf(dependencies, dependencies.length + d.length);

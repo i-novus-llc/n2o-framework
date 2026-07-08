@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.cell.TextCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.cell.v2.SwitchCellElementIOv2;
+import net.n2oapp.framework.config.io.cell.SwitchCellElementIOv3;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oCellsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
@@ -44,7 +44,7 @@ class SwitchCellCompileTest extends SourceCompileTestBase {
                         new N2oWidgetsPack(),
                         new N2oCellsPack()
                 )
-                .ios(new SwitchCellElementIOv2());
+                .ios(new SwitchCellElementIOv3());
     }
 
     @Test

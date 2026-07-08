@@ -31,7 +31,7 @@ class CardsCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
-                new N2oCellsPack(), new N2oCellsIOPack());
+                new N2oCellsPack(), new N2oCellsV3IOPack());
     }
 
     @Test

@@ -24,24 +24,4 @@ public class N2oCopyAction extends N2oAbstractAction implements N2oAction {
     private Boolean closeOnSuccess;
     private CopyModeEnum mode;
     private Boolean validate;
-
-    @Deprecated
-    public String getSourceWidgetId() {
-        return sourceDatasourceId;
-    }
-
-    @Deprecated
-    public void setSourceWidgetId(String sourceWidgetId) {
-        this.sourceDatasourceId = sourceWidgetId;
-    }
-
-    @Deprecated
-    public String getTargetWidgetId() {
-        return targetDatasourceId;
-    }
-
-    @Deprecated
-    public void setTargetWidgetId(String targetWidgetId) {
-        this.targetDatasourceId = targetWidgetId;
-    }
 }

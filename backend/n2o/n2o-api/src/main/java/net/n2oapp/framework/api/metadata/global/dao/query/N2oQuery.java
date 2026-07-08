@@ -19,7 +19,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
@@ -210,21 +209,6 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
             LIST,
             UNIQUE,
             COUNT
-        }
-    }
-
-    public void adapterV4() {
-        if (nonNull(fields)) {
-            List<Filter> filterList = new ArrayList<>();
-            for (AbstractField field : fields) {
-                if (nonNull(((QuerySimpleField) field).getFilterList())) {
-                    for (Filter filter : ((QuerySimpleField) field).getFilterList()) {
-                        filter.setFieldId(field.getId());
-                        filterList.add(filter);
-                    }
-                }
-            }
-            setFilters(filterList.toArray(new Filter[0]));
         }
     }
 }

@@ -30,9 +30,7 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 /**
  * Тест получения и установки значений провайдером данных
@@ -87,7 +85,7 @@ class SandboxDataProviderTest {
         List<FileModel> fileModels = new ArrayList<>();
         FileModel fileModel = new FileModel();
         fileModel.setFile("index.page.xml");
-        fileModel.setSource("<?xml version='1.0' encoding='UTF-8'?>\r\n<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\"\r\n             name=\"CRUD Операции\">\r\n    <table query-id=\"test\" auto-focus=\"true\">\r\n        <columns>\r\n            <column text-field-id=\"id\"/>\r\n            <column text-field-id=\"name\"/>\r\n        </columns>\r\n        <toolbar generate=\"crud\"/>\r\n    </table>\r\n</simple-page>\r\n");
+        fileModel.setSource("<?xml version='1.0' encoding='UTF-8'?>\r\n<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-4.0\"\r\n             name=\"CRUD Операции\">\r\n    <table auto-focus=\"true\">\r\n        <datasource query-id=\"test\"/>\r\n        <columns>\r\n            <column text-field-id=\"id\"/>\r\n            <column text-field-id=\"name\"/>\r\n        </columns>\r\n        <toolbar generate=\"crud\"/>\r\n    </table>\r\n</simple-page>\r\n");
         fileModels.add(fileModel);
         FileModel testJson = new FileModel();
         testJson.setFile("test.json");
@@ -99,11 +97,11 @@ class SandboxDataProviderTest {
         fileModels.add(testObject);
         FileModel testPage = new FileModel();
         testPage.setFile("test.page.xml");
-        testPage.setSource("<?xml version='1.0' encoding='UTF-8'?>\r\n<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\">\r\n    <form query-id=\"test\">\r\n        <fields>\r\n            <input-text id=\"name\"/>\r\n        </fields>\r\n    </form>\r\n</simple-page>\r\n");
+        testPage.setSource("<?xml version='1.0' encoding='UTF-8'?>\r\n<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-4.0\">\r\n    <form>\r\n        <datasource query-id=\"test\"/>\r\n        <fields>\r\n            <input-text id=\"name\"/>\r\n        </fields>\r\n    </form>\r\n</simple-page>\r\n");
         fileModels.add(testPage);
         FileModel testQuery = new FileModel();
         testQuery.setFile("test.query.xml");
-        testQuery.setSource("<?xml version='1.0' encoding='UTF-8'?>\r\n<query xmlns=\"http://n2oapp.net/framework/config/schema/query-4.0\"\r\n       object-id=\"test\">\r\n    <list>\r\n        <test file=\"test.json\" operation=\"findAll\"/>\r\n    </list>\r\n\r\n    <fields>\r\n        <field id=\"id\" domain=\"integer\">\r\n            <select/>\r\n            <filters>\r\n                <eq filter-id=\"id\"/>\r\n            </filters>\r\n        </field>\r\n        <field id=\"name\">\r\n            <select/>\r\n        </field>\r\n    </fields>\r\n</query>\r\n");
+        testQuery.setSource("<?xml version='1.0' encoding='UTF-8'?>\r\n<query xmlns=\"http://n2oapp.net/framework/config/schema/query-5.0\"\r\n       object-id=\"test\">\r\n    <list>\r\n        <test file=\"test.json\" operation=\"findAll\"/>\r\n    </list>\r\n    <filters>\r\n        <eq field-id=\"id\" filter-id=\"id\"/>\r\n    </filters>\r\n    <fields>\r\n        <field id=\"id\"/>\r\n        <field id=\"name\"/>\r\n    </fields>\r\n</query>\r\n");
         fileModels.add(testQuery);
         String myProjectId = "myProjectId";
         doReturn(fileModels).when(fileStorage).getProjectFiles(myProjectId);
@@ -125,17 +123,6 @@ class SandboxDataProviderTest {
         assertThat(response.getBody().getData().get("id"), is(3));
         assertThat(response.getBody().getData().get("name"), is("name3"));
         assertThat(response.getBody().getMeta().getAlert().getMessages().get(0).getText(), is("Данные сохранены"));
-    }
-
-    @Test
-    void testMigration() {
-        String oldXml = "<?xml version='1.0' encoding='UTF-8'?>" +
-                "<query xmlns=\"http://n2oapp.net/framework/config/schema/query-4.0\"/>";
-        String newXml = "<?xml version='1.0' encoding='UTF-8'?>\r\n" +
-                "<query xmlns=\"http://n2oapp.net/framework/config/schema/query-5.0\"/>";
-        when(migrator.migrate(oldXml)).thenReturn(newXml);
-        String result = viewController.migrate(oldXml);
-        assertEquals(newXml, result);
     }
 
     @SneakyThrows

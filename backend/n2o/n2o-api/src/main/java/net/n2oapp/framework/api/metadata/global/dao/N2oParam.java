@@ -62,14 +62,4 @@ public class N2oParam implements Source {
         this.datasourceId = param.datasourceId;
         this.required = param.required;
     }
-
-    @Deprecated
-    public String getRefWidgetId() {
-        return datasourceId;
-    }
-
-    @Deprecated
-    public void setRefWidgetId(String refWidgetId) {
-        this.datasourceId = refWidgetId;
-    }
 }

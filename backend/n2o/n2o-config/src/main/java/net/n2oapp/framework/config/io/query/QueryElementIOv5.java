@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.global.dao.query.field.QueryReferenceFi
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
+import net.n2oapp.framework.config.io.cell.SwitchIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
