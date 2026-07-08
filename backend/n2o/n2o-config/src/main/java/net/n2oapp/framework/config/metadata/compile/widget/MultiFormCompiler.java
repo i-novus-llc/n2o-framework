@@ -54,7 +54,7 @@ public class MultiFormCompiler extends BaseListWidgetCompiler<MultiForm, N2oMult
                     () -> p.resolve(property("n2o.api.widget.multi_form.unsaved_data_prompt"), Boolean.class)));
             List<FieldSet> fieldSets = initFieldSets(source.getForm().getItems(), context, p,
                     widgetScope, query, object, widgetActions,
-                    new ModelsScope(ReduxModelEnum.DATASOURCE, widgetScope.getClientDatasourceId(), p.getScope(Models.class)),
+                    new ModelsScope(ReduxModelEnum.DATASOURCE, widgetScope.getClientDatasourceId(), p.getScope(Models.class), "[index]"),
                     castDefault(p.getScope(SubModelsScope.class), SubModelsScope::new),
                     new MomentScope(N2oValidation.ServerMomentEnum.BEFORE_OPERATION),
                     castDefault(p.getScope(CopiedFieldScope.class), CopiedFieldScope::new),

@@ -28,6 +28,10 @@ public class ModelLink extends BindLink {
      */
     private String datasource;
     /**
+     * Суффикс к источнику данных (используется для указания [index])
+     */
+    private String suffix;
+    /**
      * Идентификатор поля
      */
     private String fieldId;
@@ -67,9 +71,10 @@ public class ModelLink extends BindLink {
     }
 
     public ModelLink(ModelLink link) {
-        super(createBindLink(link.model, link.datasource, link.fieldId));
+        super(createBindLink(link.model, link.datasource, link.suffix, link.fieldId));
         this.model = link.model;
         this.datasource = link.datasource;
+        this.suffix = link.suffix;
         this.fieldId = link.fieldId;
         setValue(link.getValue());
         setSubModelQuery(link.getSubModelQuery());
@@ -78,23 +83,31 @@ public class ModelLink extends BindLink {
     }
 
     public ModelLink(String datasource, String suffix) {
-        super(Objects.toString(createBindLink(ReduxModelEnum.DATASOURCE, datasource, null), "")
-                .concat(Objects.toString(suffix, "")));
+        super(createBindLink(ReduxModelEnum.DATASOURCE, datasource, suffix, null));
         this.model = ReduxModelEnum.DATASOURCE;
         this.datasource = datasource;
+        this.suffix = suffix;
     }
 
     public ModelLink(ReduxModelEnum model, String datasource) {
-        super(createBindLink(model, datasource, null));
+        super(createBindLink(model, datasource, null, null));
         this.model = model;
         this.datasource = datasource;
     }
 
     public ModelLink(ReduxModelEnum model, String datasource, String fieldId) {
-        super(createBindLink(model, datasource, fieldId));
+        super(createBindLink(model, datasource, null, fieldId));
         this.model = model;
         this.datasource = datasource;
         this.fieldId = fieldId;
+    }
+
+    public ModelLink(ReduxModelEnum model, String datasource, String fieldId, String suffix) {
+        super(createBindLink(model, datasource, suffix, fieldId));
+        this.model = model;
+        this.datasource = datasource;
+        this.fieldId = fieldId;
+        this.suffix = suffix;
     }
 
     public String getFieldId() {
@@ -185,12 +198,12 @@ public class ModelLink extends BindLink {
         String thisFieldId = this.getFieldId();
         if (this.getSubModelQuery() != null)
             thisFieldId = this.getSubModelQuery().getFullName();
-        thisSubModelQueryLink = createBindLink(this.getModel(), this.getDatasource(), thisFieldId);
+        thisSubModelQueryLink = createBindLink(this.getModel(), this.getDatasource(), this.getSuffix(), thisFieldId);
 
         String thatFieldId = that.getFieldId();
         if (that.getSubModelQuery() != null)
             thatFieldId = that.getSubModelQuery().getFullName();
-        thatSubModelQueryLink = createBindLink(that.getModel(), that.getDatasource(), thatFieldId);
+        thatSubModelQueryLink = createBindLink(that.getModel(), that.getDatasource(), that.getSuffix(), thatFieldId);
 
         if (thisSubModelQueryLink.length() > thatSubModelQueryLink.length())
             return compareLinks(this, that, thisSubModelQueryLink, thatSubModelQueryLink);
@@ -208,12 +221,11 @@ public class ModelLink extends BindLink {
         return first.getLink().equals(second.getLink());
     }
 
-    private static String createBindLink(ReduxModelEnum model, String widgetId, String fieldId) {
+    private static String createBindLink(ReduxModelEnum model, String widgetId, String suffix, String fieldId) {
         if (model == null)
             return null;
-        return fieldId == null
-                ? String.format("models.%s['%s']", model.getId(), widgetId)
-                : String.format("models.%s['%s'].%s", model.getId(), widgetId, fieldId);
+        String link = String.format("models.%s['%s']%s", model.getId(), widgetId, Objects.toString(suffix, ""));
+        return fieldId == null ? link : link + "." + fieldId;
     }
 
     @Override

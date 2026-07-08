@@ -15,6 +15,7 @@ public class ModelsScope {
     private ReduxModelEnum model;
     private String globalDatasource;
     private Models models;
+    private String suffix;
 
     public ModelsScope(ReduxModelEnum model, String globalDatasource, Models models) {
         this.model = model;
@@ -22,12 +23,19 @@ public class ModelsScope {
         this.models = models;
     }
 
+    public ModelsScope(ReduxModelEnum model, String globalDatasource, Models models, String suffix) {
+        this.model = model;
+        this.globalDatasource = globalDatasource;
+        this.models = models;
+        this.suffix = suffix;
+    }
+
     public void add(String field, ModelLink link) {
-        models.add(model, globalDatasource, field, link);
+        models.add(model, globalDatasource, suffix, field, link);
     }
 
     public void addAll(Map<String, ModelLink> modelLinks) {
-        modelLinks.forEach((k, v) -> models.add(model, globalDatasource, k, v));
+        modelLinks.forEach((k, v) -> models.add(model, globalDatasource, suffix, k, v));
     }
 
     public boolean hasModels() {
