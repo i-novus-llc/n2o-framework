@@ -82,11 +82,15 @@ class MergeValuesControllerTest {
     }
 
     private ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> createPipelineForQuery() {
+        return createPipelineForQuery("testMerge");
+    }
+
+    private ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> createPipelineForQuery(String pageId) {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/ui/controller/testMerge.query.xml",
-                "net/n2oapp/framework/ui/controller/testMerge.page.xml"
+                "net/n2oapp/framework/ui/controller/" + pageId + ".page.xml"
         );
-        pipeline.get(new PageContext("testMerge"));
+        pipeline.get(new PageContext(pageId));
         return pipeline;
     }
 
@@ -97,12 +101,33 @@ class MergeValuesControllerTest {
         params.put("id", new String[]{"1"});
         GetDataResponse response = testQuery(pipeline, params);
         assertThat(response.getList().size(), is(1));
-        assertThat(response.getList().get(0).get("id"), is(1L));
-        assertNull(response.getList().get(0).get("name"));
-        assertThat(response.getList().get(0).get("surname"), is("testSurname1"));
+        assertThat(response.getList().getFirst().get("id"), is(1L));
+        assertNull(response.getList().getFirst().get("name"));
+        assertThat(response.getList().getFirst().get("surname"), is("testSurname1"));
+    }
+
+    @Test
+    void testMergeValuesForSeveralRecords() {
+        ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipelineForQuery("testMergeSeveral");
+        GetDataResponse response = testQuery(pipeline, "/testMergeSeveral/main", new HashMap<>());
+        assertThat(response.getList().size(), is(2));
+
+        assertThat(response.getList().getFirst().get("id"), is(1L));
+        assertNull(response.getList().getFirst().get("name"));
+        assertThat(response.getList().getFirst().get("surname"), is("testSurname1"));
+
+        assertThat(response.getList().get(1).get("id"), is(2L));
+        assertNull(response.getList().get(1).get("name"));
+        assertThat(response.getList().get(1).get("surname"), is("testSurname2"));
     }
 
     private GetDataResponse testQuery(ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline,
+                                      Map<String, String[]> params) {
+        return testQuery(pipeline, "/testMerge/main", params);
+    }
+
+    private GetDataResponse testQuery(ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline,
+                                      String route,
                                       Map<String, String[]> params) {
         N2oInvocationFactory invocationFactory = Mockito.mock(N2oInvocationFactory.class);
         TestDataProviderEngine testDataProviderEngine = new TestDataProviderEngine();
@@ -127,6 +152,6 @@ class MergeValuesControllerTest {
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
-        return controller.getData("/testMerge/main", params, userContext);
+        return controller.getData(route, params, userContext);
     }
 }

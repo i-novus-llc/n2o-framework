@@ -13,6 +13,8 @@ import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,25 +30,30 @@ public class MergeValuesController extends GetController {
 
     @Override
     public GetDataResponse execute(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        DataSet defaultModel = extractCopyModel(requestInfo, responseInfo);
-        return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getMessagesForm());
-    }
-
-    protected DataSet extractCopyModel(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         DataSet defaultModel = requestInfo.getData() == null ? new DataSet() : new DataSet(requestInfo.getData());
         if (requestInfo.getQuery() != null) {
-            CollectionPage<DataSet> queryDefaultPage;
             try {
-                queryDefaultPage = executeQuery(requestInfo, responseInfo);
-                DataSet queryDefaultModel = queryDefaultPage.getCollection().iterator().next();
+                CollectionPage<DataSet> queryDefaultPage = executeQuery(requestInfo, responseInfo);
+                List<DataSet> queryModels = queryDefaultPage.getCollection();
+                if (queryModels != null && queryModels.size() > 1) {
+                    List<DataSet> mergedModels = new ArrayList<>(queryModels.size());
+                    for (DataSet queryModel : queryModels) {
+                        DataSet mergedModel = new DataSet(defaultModel);
+                        merge(mergedModel, queryModel, requestInfo.getQuery().getCopiedFields());
+                        mergedModels.add(mergedModel);
+                    }
+                    queryDefaultPage.setCollection(mergedModels);
+                    return new GetDataResponse(queryDefaultPage, responseInfo, requestInfo.getMessagesForm());
+                }
+                DataSet queryDefaultModel = queryDefaultPage.getCollection().getFirst();
                 merge(defaultModel, queryDefaultModel, requestInfo.getQuery().getCopiedFields());
-                return defaultModel;
+                return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getMessagesForm());
             } catch (N2oException e) {
                 responseInfo.addMessage(getMessageBuilder().build(e, requestInfo));
             }
         }
         defaultModel.remove(QuerySimpleField.PK);//при копировании идентификатор должен быть null, иначе будет изменение
-        return defaultModel;
+        return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getMessagesForm());
     }
 
 
