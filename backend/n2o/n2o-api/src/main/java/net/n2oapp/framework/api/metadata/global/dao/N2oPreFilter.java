@@ -102,16 +102,6 @@ public class N2oPreFilter implements Source {
         return getRef() != null;
     }
 
-    @Deprecated
-    public String getRefWidgetId() {
-        return datasourceId;
-    }
-
-    @Deprecated
-    public void setRefWidgetId(String refWidgetId) {
-        this.datasourceId = refWidgetId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

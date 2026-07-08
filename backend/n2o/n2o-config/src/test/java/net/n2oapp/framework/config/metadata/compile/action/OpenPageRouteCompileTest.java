@@ -288,7 +288,7 @@ class OpenPageRouteCompileTest extends SourceCompileTestBase {
         LinkActionImpl actionWithFilterModel = (LinkActionImpl) toolbar.getButton("btn8").getAction();
         assertThat(actionWithFilterModel.getUrl(), is("/test/btn8"));
         assertThat(actionWithFilterModel.getPathMapping().isEmpty(), is(true));
-//        assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(true)); todo этот кейс не работает, т.к. в adaptV1 невозможно получить model из кнопки
+        assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(false));
     }
 
     /**

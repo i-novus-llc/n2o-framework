@@ -150,7 +150,7 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         PageContext drawerContext = (PageContext) route("/p/123/update", Page.class);
         assertThat(drawerContext.getSourceId(null), is("testOpenDrawerPageSecondFlow"));
         assertThat(drawerContext.getPreFilters().size(), is(1));
-        assertThat(drawerContext.getPreFilters().get(0).getRefWidgetId(), is("main"));
+        assertThat(drawerContext.getPreFilters().get(0).getDatasourceId(), is("main"));
         assertThat(drawerContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(QuerySimpleField.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterTypeEnum.EQ));
@@ -266,7 +266,7 @@ class OpenDrawerCompileTest extends SourceCompileTestBase {
         PageContext drawerContext = (PageContext) route("/p/123/updateWithPrefilters", Page.class);
         assertThat(drawerContext.getSourceId(null), is("testShowModalPage"));
         assertThat(drawerContext.getPreFilters().size(), is(1));
-        assertThat(drawerContext.getPreFilters().get(0).getRefWidgetId(), is("main"));
+        assertThat(drawerContext.getPreFilters().get(0).getDatasourceId(), is("main"));
         assertThat(drawerContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(QuerySimpleField.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterTypeEnum.EQ));

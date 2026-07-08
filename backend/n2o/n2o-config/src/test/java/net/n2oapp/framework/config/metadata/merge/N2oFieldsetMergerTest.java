@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.meta.badge.PositionEnum;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.control.v3.plain.InputTextIOv3;
+import net.n2oapp.framework.config.io.control.plain.InputTextIOv3;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;
 import org.junit.jupiter.api.BeforeEach;

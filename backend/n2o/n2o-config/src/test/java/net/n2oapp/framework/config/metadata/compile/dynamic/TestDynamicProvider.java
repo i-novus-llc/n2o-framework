@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.query.field.QuerySimpleField;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
+import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oAbstractColumn;
@@ -39,8 +40,8 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         N2oInputText inputText = new N2oInputText();
         inputText.setId("id");
         form.setItems(new SourceComponent[]{inputText});
-        form.setQueryId("testDynamic?Dummy");
-        form.adapterV4();
+        form.setDatasource(new N2oStandardDatasource());
+        form.getDatasource().setQueryId("testDynamic?Dummy");
         page.setWidget(form);
 
 
@@ -59,7 +60,8 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         query.setObjectId("testDynamic?Dummy");
 
         N2oTable table = new N2oTable();
-        table.setQueryId("testDynamic?Dummy");
+        table.setDatasource(new N2oStandardDatasource());
+        table.getDatasource().setQueryId("testDynamic?Dummy");
         N2oSimpleColumn idColumn = new N2oSimpleColumn();
         idColumn.setId("id");
         idColumn.setTextFieldId("id");
@@ -81,11 +83,8 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
         updShowModal.setPageId("testDynamic?Dummy");
         update.setModel(ReduxModelEnum.RESOLVE);
         update.setActions(new N2oShowModal[]{updShowModal});
-
-
         toolbar.setItems(new ToolbarItem[]{create, update});
         table.setToolbars(new N2oToolbar[]{toolbar});
-        table.adapterV4();
 
         return Arrays.asList(n2oObject, query, table, page);
     }

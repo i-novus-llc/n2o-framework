@@ -28,7 +28,7 @@ class HiddenFieldCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(),
-                new N2oFieldSetsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack(), new N2oControlsPack());
+                new N2oFieldSetsPack(), new N2oAllDataPack(), new N2oControlsV3IOPack(), new N2oControlsPack());
     }
 
     @Test
@@ -36,7 +36,7 @@ class HiddenFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testHiddenFieldCompile.page.xml")
                 .get(new PageContext("testHiddenFieldCompile"));
         Form form = (Form) page.getWidget();
-        StandardField hidden = (StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        StandardField<?> hidden = (StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
 
         assertThat(hidden.getControl().getId(), is("testId"));
         assertThat(hidden.getControl().getSrc(), is("InputHidden"));

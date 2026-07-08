@@ -35,7 +35,7 @@ import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getWidgetIdByComponentScope;
+import static net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil.getDatasourceIdByComponentScope;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 
@@ -274,7 +274,7 @@ public class ActionCompileStaticProcessor {
      */
     public static ModelLink initParamModelLink(N2oParam param, String defaultClientWidgetId, ReduxModelEnum defaultModel, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        String widgetId = castDefault(getClientDatasourceId(param.getRefWidgetId(), p), defaultClientWidgetId);
+        String widgetId = castDefault(getClientDatasourceId(param.getDatasourceId(), p), defaultClientWidgetId);
 
         String clientDatasourceId;
         if (pageScope == null) {
@@ -299,7 +299,7 @@ public class ActionCompileStaticProcessor {
      */
     public static String getDefaultClientWidgetId(CompileProcessor p) {
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String widgetIdByComponentScope = getClientDatasourceId(getWidgetIdByComponentScope(p), p);
+        String widgetIdByComponentScope = getClientDatasourceId(getDatasourceIdByComponentScope(p), p);
         return widgetIdByComponentScope != null ? widgetIdByComponentScope : widgetScope.getClientWidgetId();
     }
 

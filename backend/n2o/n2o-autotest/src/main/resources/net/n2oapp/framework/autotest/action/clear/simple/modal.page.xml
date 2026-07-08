@@ -12,7 +12,7 @@
                 <input-text id="name" enabled="false"/>
             </fields>
             <toolbar>
-                <button widget-id="form" label="Очистить поля">
+                <button label="Очистить поля">
                     <clear model="resolve"/>
                 </button>
             </toolbar>

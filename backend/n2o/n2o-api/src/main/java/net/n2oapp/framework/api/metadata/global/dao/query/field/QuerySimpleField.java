@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.dao.query.AbstractField;
-import net.n2oapp.framework.api.metadata.global.dao.query.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 
 /**
@@ -21,8 +20,6 @@ public class QuerySimpleField extends AbstractField implements NameAware {
     private String sortingExpression;
     private String sortingMapping;
     private Boolean isSorted;
-    @Deprecated
-    private N2oQuery.Filter[] filterList;
     private N2oSwitch n2oSwitch;
 
     public QuerySimpleField(QuerySimpleField field) {
@@ -30,7 +27,6 @@ public class QuerySimpleField extends AbstractField implements NameAware {
         this.name = field.getName();
         this.domain = field.getDomain();
         this.defaultValue = field.getDefaultValue();
-        this.filterList = field.getFilterList();
         this.sortingExpression = field.getSortingExpression();
         this.sortingMapping = field.getSortingMapping();
         this.isSorted = field.getIsSorted();

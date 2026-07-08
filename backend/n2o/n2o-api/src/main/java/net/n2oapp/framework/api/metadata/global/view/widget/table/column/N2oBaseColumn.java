@@ -41,21 +41,5 @@ public abstract class N2oBaseColumn extends N2oAbstractColumn implements Extensi
         private String value;
         private String datasourceId;
         private ReduxModelEnum model;
-
-        /**
-         * @deprecated use {@link #getDatasourceId()} instead.
-         */
-        @Deprecated(since = "7.21")
-        public String getRefWidgetId() {
-            return datasourceId;
-        }
-
-        /**
-         * @deprecated use {@link #setDatasourceId(String)} instead.
-         */
-        @Deprecated(since = "7.21")
-        public void setRefWidgetId(String refWidgetId) {
-            this.datasourceId = refWidgetId;
-        }
     }
 }

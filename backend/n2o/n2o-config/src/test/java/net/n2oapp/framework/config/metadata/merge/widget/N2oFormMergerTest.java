@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 import net.n2oapp.framework.api.metadata.global.view.widget.FormModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.v5.FormElementIOV5;
+import net.n2oapp.framework.config.io.widget.FormElementIOV5;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsIOV2Pack;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsV3IOPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsV5IOPack;

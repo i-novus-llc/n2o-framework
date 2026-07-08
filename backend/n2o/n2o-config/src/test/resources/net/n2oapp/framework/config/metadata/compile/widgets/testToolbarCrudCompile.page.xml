@@ -6,7 +6,7 @@
             <button icon="fa fa-plus" action-id="action1"/>
         </toolbar>
         <toolbar place="bottomLeft">
-            <button icon="fa fa-plus" action-id="action2" confirm="true">
+            <button icon="fa fa-plus" action-id="action2">
                 <confirm>
                     <ok/>
                     <cancel/>

@@ -160,24 +160,20 @@ class SandboxExportTest {
     private static FileModel getTestQuery() {
         FileModel testQuery = new FileModel();
         testQuery.setFile("test.query.xml");
+
         testQuery.setSource("""
                 <?xml version='1.0' encoding='UTF-8'?>
-                <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+                <query xmlns="http://n2oapp.net/framework/config/schema/query-5.0"
                        object-id="test">
                     <list>
                         <test file="test.json" operation="findAll"/>
                     </list>
-                
+                    <filters>
+                        <eq field-id="id" filter-id="id"/>
+                    </filters>
                     <fields>
-                        <field id="id" domain="integer">
-                            <select/>
-                            <filters>
-                                <eq filter-id="id"/>
-                            </filters>
-                        </field>
-                        <field id="name">
-                            <select/>
-                        </field>
+                        <field id="id" domain="integer"/>
+                        <field id="name"/>
                     </fields>
                 </query>
                 """);
@@ -189,9 +185,10 @@ class SandboxExportTest {
         fileModel.setFile("index.page.xml");
         fileModel.setSource("""
                 <?xml version='1.0' encoding='UTF-8'?>
-                <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+                <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
                              name="CRUD Операции">
-                    <table query-id="test" auto-focus="true">
+                    <table auto-focus="true">
+                        <datasource query-id="test"/>
                         <columns>
                             <column text-field-id="id"/>
                             <column text-field-id="name"/>

@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.metadata.compile.dataprovider;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
-import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
@@ -74,12 +74,12 @@ public class ClientDataProviderUtil {
         return dataProvider;
     }
 
-    public static String getWidgetIdByComponentScope(CompileProcessor p) {
+    public static String getDatasourceIdByComponentScope(CompileProcessor p) {
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
-            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
-                return widgetIdAware.getWidgetId();
+            DatasourceIdAware datasourceIdAware = componentScope.unwrap(DatasourceIdAware.class);
+            if (datasourceIdAware != null && datasourceIdAware.getDatasourceId() != null) {
+                return datasourceIdAware.getDatasourceId();
             }
         }
         return null;

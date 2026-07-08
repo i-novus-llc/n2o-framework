@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.io.cell.v3.*;
+import net.n2oapp.framework.config.io.cell.*;
 
 /**
  * Набор считывателей ячеек версии 3.0

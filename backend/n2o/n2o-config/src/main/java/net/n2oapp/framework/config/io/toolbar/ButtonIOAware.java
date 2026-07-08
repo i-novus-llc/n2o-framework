@@ -1,0 +1,28 @@
+package net.n2oapp.framework.config.io.toolbar;
+
+import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.action.N2oAction;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Button;
+import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.config.io.common.ActionsAwareIO;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
+
+public interface ButtonIOAware<T extends Button> {
+
+    default void button(Element e, T b, IOProcessor p, Namespace namespace) {
+        p.attribute(e, "action-id",  b::getActionId, b::setActionId);
+        p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
+        p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModelEnum.class);
+
+        p.anyChildren(e, null, b::getActions, b::setActions, p.anyOf(N2oAction.class).ignore("dependencies"), namespace);
+    }
+
+    default void button(Element e, T b, IOProcessor p, ActionsAwareIO<T> action) {
+        action.action(e, b, p, "dependencies");
+
+        p.attributeBoolean(e, "validate", b::getValidate, b::setValidate);
+        p.attributeArray(e, "validate-datasources", ",", b::getValidateDatasourceIds, b::setValidateDatasourceIds);
+        p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
+    }
+}

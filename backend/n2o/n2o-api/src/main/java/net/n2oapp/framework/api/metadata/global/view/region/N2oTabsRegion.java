@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.jackson.ExtAttributesSerializer;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -53,26 +52,6 @@ public class N2oTabsRegion extends N2oRegion implements RoutableRegion {
                 }
             }
         }
-    }
-
-    @Deprecated
-    public void setWidgets(N2oWidget[] widgets) {
-        if (widgets != null) {
-            Tab[] tabArray = new Tab[widgets.length];
-            for (int i = 0; i < widgets.length; i++) {
-                Tab tab = new Tab();
-                tab.setContent(new SourceComponent[]{widgets[i]});
-                tabArray[i] = tab;
-            }
-            this.tabs = tabArray;
-        }
-    }
-
-    @Deprecated
-    public N2oWidget[] getWidgets() {
-        if (tabs != null)
-            return Arrays.stream(tabs).map(t -> t.getContent()[0]).toArray(N2oWidget[]::new);
-        return null;
     }
 
     @Override

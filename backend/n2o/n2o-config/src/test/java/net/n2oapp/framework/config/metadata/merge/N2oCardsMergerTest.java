@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.merge;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.v5.CardsWidgetIOV5;
+import net.n2oapp.framework.config.io.widget.CardsWidgetIOV5;
 import net.n2oapp.framework.config.metadata.merge.widget.N2oCardsMerger;
 import net.n2oapp.framework.config.metadata.pack.N2oCellsPack;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;

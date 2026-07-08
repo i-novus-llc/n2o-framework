@@ -54,7 +54,7 @@ class SandboxPropertySettingTest {
         FileModel fileModel1 = new FileModel();
         fileModel1.setFile("index.page.xml");
         fileModel1.setSource("<?xml version='1.0' encoding='UTF-8'?>\n" +
-                "<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\"\n" +
+                "<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-4.0\"\n" +
                 "             name=\"Placeholder context\">\n" +
                 "    <form>\n" +
                 "        <fields>\n" +
@@ -94,7 +94,7 @@ class SandboxPropertySettingTest {
         FileModel fileModel1 = new FileModel();
         fileModel1.setFile("index.page.xml");
         fileModel1.setSource("<?xml version='1.0' encoding='UTF-8'?>\n" +
-                "<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-3.0\"\n" +
+                "<simple-page xmlns=\"http://n2oapp.net/framework/config/schema/page-4.0\"\n" +
                 "             name=\"Placeholder context\">\n" +
                 "    <form>\n" +
                 "        <fields>\n" +
@@ -125,7 +125,7 @@ class SandboxPropertySettingTest {
 
         Page page = viewController.getPage("myProjectId", request);
         assertThat(page.getModels().get("resolve['_w1'].email").getValue(), is("test@example.com"));
-        List roles = (List) page.getModels().get("resolve['_w1'].roles").getValue();
+        List<?> roles = (List<?>) page.getModels().get("resolve['_w1'].roles").getValue();
         assertThat(roles.size(), is(2));
     }
 }

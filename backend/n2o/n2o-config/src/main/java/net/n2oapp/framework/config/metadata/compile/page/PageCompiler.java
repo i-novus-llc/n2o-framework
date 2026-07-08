@@ -223,8 +223,6 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
 
     /**
      * Клонирование тулбара для проставления значений по умолчанию
-     *
-     * @return
      */
     protected N2oToolbar cloneToolbar(N2oToolbar t, N2oWidget resultWidget, CompileProcessor p) {
         N2oToolbar toolbar = new N2oToolbar();

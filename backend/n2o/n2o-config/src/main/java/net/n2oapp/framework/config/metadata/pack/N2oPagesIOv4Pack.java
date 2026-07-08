@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.io.page.v4.SimplePageElementIOv4;
-import net.n2oapp.framework.config.io.page.v4.StandardPageElementIOv4;
+import net.n2oapp.framework.config.io.page.SimplePageElementIOv4;
+import net.n2oapp.framework.config.io.page.StandardPageElementIOv4;
 
 /**
  * Набор считывателей страниц версии 4.0

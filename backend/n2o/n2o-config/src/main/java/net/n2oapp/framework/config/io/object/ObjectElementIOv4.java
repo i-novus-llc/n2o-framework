@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleFie
 import net.n2oapp.framework.api.metadata.global.dao.validation.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import net.n2oapp.framework.config.io.cell.v2.SwitchIO;
+import net.n2oapp.framework.config.io.cell.SwitchIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
 import org.jdom2.Element;
 import org.jdom2.Namespace;

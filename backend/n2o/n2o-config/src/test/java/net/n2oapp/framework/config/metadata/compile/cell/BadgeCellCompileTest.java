@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.meta.cell.BadgeCell;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.cell.v3.BadgeCellElementIOv3;
+import net.n2oapp.framework.config.io.cell.BadgeCellElementIOv3;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;

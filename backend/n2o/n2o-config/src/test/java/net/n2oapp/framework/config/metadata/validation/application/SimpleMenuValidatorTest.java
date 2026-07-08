@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.metadata.validation.application;
 
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.action.v2.AnchorElementIOV2;
-import net.n2oapp.framework.config.io.action.v2.OpenPageElementIOV2;
+import net.n2oapp.framework.config.io.action.AnchorElementIOV2;
+import net.n2oapp.framework.config.io.action.OpenPageElementIOV2;
 import net.n2oapp.framework.config.io.application.ApplicationIOv3;
 import net.n2oapp.framework.config.io.datasource.StandardDatasourceIO;
 import net.n2oapp.framework.config.io.menu.NavMenuIOv3;

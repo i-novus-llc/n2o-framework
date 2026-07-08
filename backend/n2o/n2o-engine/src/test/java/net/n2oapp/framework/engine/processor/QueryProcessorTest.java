@@ -23,7 +23,6 @@ import net.n2oapp.framework.config.compile.pipeline.operation.ReadOperation;
 import net.n2oapp.framework.config.compile.pipeline.operation.SourceTransformOperation;
 import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
 import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
-import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.io.query.QueryElementIOv5;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.object.N2oObjectCompiler;
@@ -78,12 +77,11 @@ class QueryProcessorTest {
         builder = new N2oApplicationBuilder(environment)
                 .types(new MetaType("query", N2oQuery.class))
                 .loaders(new SelectiveMetadataLoader(environment)
-                        .add(new QueryElementIOv4())
                         .add(new QueryElementIOv5())
                         .add(new TestDataProviderIOv1())
                         .add(new JavaDataProviderIOv1()))
                 .operations(new ReadOperation<>(), new CompileOperation<>(), new BindOperation<>(), new SourceTransformOperation<>())
-                .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
+                .compilers(new N2oQueryCompiler(), new N2oObjectCompiler<>())
                 .properties("n2o.api.query.field.is_selected=true", "n2o.api.query.field.is_sorted=false")
                 .sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorV4Java.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/query/testQueryProcessorV4JavaMapping.query.xml"),
@@ -101,7 +99,7 @@ class QueryProcessorTest {
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(10));
-        DataSet dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
+        DataSet dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).getFirst();
         assertThat(dataSet.get("id"), is(0));
 
         //case with primitive
@@ -110,7 +108,7 @@ class QueryProcessorTest {
         criteria.addRestriction(new Restriction("value", "test"));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(10));
-        dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
+        dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).getFirst();
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("value"), is("test"));
 
@@ -119,7 +117,7 @@ class QueryProcessorTest {
         criteria.addRestriction(new Restriction("name", "test"));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(1));
-        dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
+        dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).getFirst();
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
     }
@@ -141,7 +139,7 @@ class QueryProcessorTest {
         CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(1));
         // Result
-        DataSet result = ((List<DataSet>) collectionPage.getCollection()).get(0);
+        DataSet result = (collectionPage.getCollection()).getFirst();
         assertThat(result.get("firstArg"), is(123));
         assertThat(result.get("nameArg"), is("test"));
         assertThat(result.get("thirdArg"), is(true));
@@ -174,7 +172,7 @@ class QueryProcessorTest {
         criteria.addRestriction(new Restriction("name", "test", FilterTypeEnum.EQ));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(1));
-        DataSet dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).get(0);
+        DataSet dataSet = (DataSet) ((List<?>) collectionPage.getCollection()).getFirst();
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
     }
@@ -191,7 +189,7 @@ class QueryProcessorTest {
         criteria.addRestriction(new Restriction("id", 1));
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(1));
-        DataSet first = result.getCollection().iterator().next();
+        DataSet first = result.getCollection().getFirst();
         assertThat(first.get("id"), is(1L));
 
         //case list filter by code selection
@@ -200,7 +198,7 @@ class QueryProcessorTest {
         criteria.addRestriction(new Restriction("code", "test1"));
         result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(1));
-        first = result.getCollection().iterator().next();
+        first = result.getCollection().getFirst();
         assertThat(first.get("code"), is("test1"));
 
         //case list any filters selection
@@ -209,7 +207,7 @@ class QueryProcessorTest {
         criteria.addRestriction(new Restriction("type", 10));
         result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(1));
-        first = result.getCollection().iterator().next();
+        first = result.getCollection().getFirst();
         assertThat(first.get("type"), is(10));
     }
 
@@ -235,11 +233,12 @@ class QueryProcessorTest {
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
-        DataSet first = result.getCollection().iterator().next();
+        DataSet first = result.getCollection().getFirst();
         assertThat(first.get("normTest"), is(Integer.MAX_VALUE));
         assertThat(query.getSimpleFieldsMap().get("normTest").getDefaultValue(), is("defaultValue"));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void testNestedFields() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
@@ -250,7 +249,7 @@ class QueryProcessorTest {
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(4));
 
-        DataSet first = result.getCollection().iterator().next();
+        DataSet first = result.getCollection().getFirst();
         assertThat(first.getLong("id"), is(1L));
         assertThat(first.getString("name"), is("TEST1"));
 
@@ -260,30 +259,30 @@ class QueryProcessorTest {
 
         List<DataSet> organizationEmployees = (List<DataSet>) organization.getList("employees");
         assertThat(organizationEmployees.size(), is(2));
-        assertThat(organizationEmployees.get(0).getInteger("id"), is(73));
-        assertThat(organizationEmployees.get(0).getString("name"), is("employee73"));
+        assertThat(organizationEmployees.getFirst().getInteger("id"), is(73));
+        assertThat(organizationEmployees.getFirst().getString("name"), is("employee73"));
         assertThat(organizationEmployees.get(1).getInteger("id"), is(75));
         assertThat(organizationEmployees.get(1).getString("name"), is("employee75"));
 
-
         List<DataSet> departments = (List<DataSet>) first.getList("departments");
         assertThat(departments.size(), is(2));
-        assertThat(departments.get(0).getInteger("id"), is(3));
-        assertThat(departments.get(0).getString("name"), is("department3"));
+        assertThat(departments.getFirst().getInteger("id"), is(3));
+        assertThat(departments.getFirst().getString("name"), is("department3"));
         assertThat(departments.get(1).getInteger("id"), is(4));
         assertThat(departments.get(1).getString("name"), is("department4"));
 
-        List<DataSet> departments0Groups = (List<DataSet>) departments.get(0).getList("groups");
-        assertThat(departments0Groups.get(0).getInteger("id"), is(9));
-        assertThat(departments0Groups.get(0).getString("name"), is("group9"));
+        List<DataSet> departments0Groups = (List<DataSet>) departments.getFirst().getList("groups");
+        assertThat(departments0Groups.getFirst().getInteger("id"), is(9));
+        assertThat(departments0Groups.getFirst().getString("name"), is("group9"));
         assertThat(departments0Groups.get(1).getInteger("id"), is(10));
         assertThat(departments0Groups.get(1).getString("name"), is("group10"));
 
-        DataSet departments0Manager = departments.get(0).getDataSet("manager");
+        DataSet departments0Manager = departments.getFirst().getDataSet("manager");
         assertThat(departments0Manager.getInteger("id"), is(322));
         assertThat(departments0Manager.getString("name"), is("manager322"));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void testNestedFieldsMapping() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
@@ -294,7 +293,7 @@ class QueryProcessorTest {
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(4));
 
-        DataSet first = result.getCollection().iterator().next();
+        DataSet first = result.getCollection().getFirst();
         assertThat(first.getLong("myId"), is(1L));
         assertThat(first.getString("myName"), is("TEST1"));
 
@@ -305,32 +304,32 @@ class QueryProcessorTest {
 
         List<DataSet> organizationEmployees = (List<DataSet>) organization.getList("myEmployees");
         assertThat(organizationEmployees.size(), is(2));
-        assertThat(organizationEmployees.get(0).getInteger("myId"), is(73));
-        assertThat(organizationEmployees.get(0).getString("myName"), is("employee73"));
+        assertThat(organizationEmployees.getFirst().getInteger("myId"), is(73));
+        assertThat(organizationEmployees.getFirst().getString("myName"), is("employee73"));
         assertThat(organizationEmployees.get(1).getInteger("myId"), is(75));
         assertThat(organizationEmployees.get(1).getString("myName"), is("employee75"));
 
-
         List<DataSet> departments = (List<DataSet>) first.getList("myDepartments");
         assertThat(departments.size(), is(2));
-        assertThat(departments.get(0).getInteger("myId"), is(3));
-        assertThat(departments.get(0).getString("myName"), is("department3"));
+        assertThat(departments.getFirst().getInteger("myId"), is(3));
+        assertThat(departments.getFirst().getString("myName"), is("department3"));
         assertThat(departments.get(1).getInteger("myId"), is(4));
         assertThat(departments.get(1).getString("myName"), is("department4"));
 
-        List<DataSet> departments0Groups = (List<DataSet>) departments.get(0).getList("myGroups");
+        List<DataSet> departments0Groups = (List<DataSet>) departments.getFirst().getList("myGroups");
         assertThat(departments0Groups.size(), is(2));
-        assertThat(departments0Groups.get(0).getInteger("myId"), is(9));
-        assertThat(departments0Groups.get(0).getString("myName"), is("group9"));
+        assertThat(departments0Groups.getFirst().getInteger("myId"), is(9));
+        assertThat(departments0Groups.getFirst().getString("myName"), is("group9"));
         assertThat(departments0Groups.get(1).getInteger("myId"), is(10));
         assertThat(departments0Groups.get(1).getString("myName"), is("group10"));
 
-        DataSet departments0Manager = departments.get(0).getDataSet("myManager");
+        DataSet departments0Manager = departments.getFirst().getDataSet("myManager");
         assertThat(departments0Manager.size(), is(2));
         assertThat(departments0Manager.getInteger("myId"), is(322));
         assertThat(departments0Manager.getString("myName"), is("manager322"));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void testNestedFieldsSameMapping() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
@@ -341,18 +340,18 @@ class QueryProcessorTest {
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(1));
 
-        List<DataSet> department = (List<DataSet>) result.getCollection().iterator().next().getList("departmentsA");
+        List<DataSet> department = (List<DataSet>) result.getCollection().getFirst().getList("departmentsA");
         assertThat(department.size(), is(2));
-        assertThat(department.get(0).getString("depName"), is("department3"));
+        assertThat(department.getFirst().getString("depName"), is("department3"));
         assertThat(department.get(1).getString("depName"), is("department4"));
 
-        department = (List<DataSet>) result.getCollection().iterator().next().getList("departmentsB");
+        department = (List<DataSet>) result.getCollection().getFirst().getList("departmentsB");
         assertThat(department.size(), is(2));
-        assertThat(department.get(0).getString("depName"), is("DEPARTMENT3"));
+        assertThat(department.getFirst().getString("depName"), is("DEPARTMENT3"));
         assertThat(department.get(1).getString("depName"), is("DEPARTMENT4"));
 
-        assertThat(result.getCollection().iterator().next().getDataSet("organizationA").getString("orgManager"), is("manager1"));
-        assertThat(result.getCollection().iterator().next().getDataSet("organizationB").getString("orgManager"), is("MANAGER1"));
+        assertThat(result.getCollection().getFirst().getDataSet("organizationA").getString("orgManager"), is("manager1"));
+        assertThat(result.getCollection().getFirst().getDataSet("organizationB").getString("orgManager"), is("MANAGER1"));
     }
 
     @Test
@@ -364,7 +363,7 @@ class QueryProcessorTest {
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(1));
-        DataSet first = result.getCollection().iterator().next();
+        DataSet first = result.getCollection().getFirst();
 
         assertThat(first.getString("myName"), is("defaultName fieldNormalize"));
 
@@ -372,12 +371,14 @@ class QueryProcessorTest {
         assertThat(organization.size(), is(2));
         assertThat(organization.getString("myTitle"), is("defaultTitle fieldNormalize"));
 
+        @SuppressWarnings("unchecked")
         List<DataSet> organizationEmployees = (List<DataSet>) organization.getList("myEmployees");
         assertThat(organizationEmployees.size(), is(2));
-        assertThat(organizationEmployees.get(0).getString("myName"), is("defaultName fieldNormalize"));
+        assertThat(organizationEmployees.getFirst().getString("myName"), is("defaultName fieldNormalize"));
         assertThat(organizationEmployees.get(1).getString("myName"), is("nameFromReferenceNormalize fieldNormalize"));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void testListFieldNormalize() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
@@ -387,23 +388,23 @@ class QueryProcessorTest {
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(1));
-        DataSet first = result.getCollection().iterator().next();
+        DataSet first = result.getCollection().getFirst();
 
         List<DataSet> departments = (List<DataSet>) first.getList("myDepartments");
         assertThat(departments.size(), is(2));
-        assertThat(departments.get(0).getInteger("myId"), is(103));
-        assertThat(departments.get(0).getString("myName"), is("department103"));
+        assertThat(departments.getFirst().getInteger("myId"), is(103));
+        assertThat(departments.getFirst().getString("myName"), is("department103"));
         assertThat(departments.get(1).getInteger("myId"), is(104));
         assertThat(departments.get(1).getString("myName"), is("department104"));
 
-        List<DataSet> departments0Groups = (List<DataSet>) departments.get(0).getList("myGroups");
+        List<DataSet> departments0Groups = (List<DataSet>) departments.getFirst().getList("myGroups");
         assertThat(departments0Groups.size(), is(2));
-        assertThat(departments0Groups.get(0).getInteger("myId"), is(109));
-        assertThat(departments0Groups.get(0).getString("myName"), is("group109"));
+        assertThat(departments0Groups.getFirst().getInteger("myId"), is(109));
+        assertThat(departments0Groups.getFirst().getString("myName"), is("group109"));
         assertThat(departments0Groups.get(1).getInteger("myId"), is(110));
         assertThat(departments0Groups.get(1).getString("myName"), is("group110"));
 
-        DataSet departments0Manager = departments.get(0).getDataSet("myManager");
+        DataSet departments0Manager = departments.getFirst().getDataSet("myManager");
         assertThat(departments0Manager.size(), is(2));
         assertThat(departments0Manager.getInteger("myId"), is(422));
         assertThat(departments0Manager.getString("myName"), is("manager422"));
@@ -419,7 +420,7 @@ class QueryProcessorTest {
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(1));
 
-        DataSet first = result.getCollection().iterator().next();
+        DataSet first = result.getCollection().getFirst();
         assertThat(first.getLong("myId"), is(1001L));
         assertThat(first.getString("myName"), is("TEST1"));
 
@@ -428,10 +429,11 @@ class QueryProcessorTest {
         assertThat(organization.getString("myCode"), is("102refNormalize1100"));
         assertThat(organization.getString("myTitle"), is("refNormalize fieldNormalize"));
 
+        @SuppressWarnings("unchecked")
         List<DataSet> organizationEmployees = (List<DataSet>) organization.getList("myEmployees");
         assertThat(organizationEmployees.size(), is(1));
-        assertThat(organizationEmployees.get(0).getString("myId"), is("273employee273_102refNormalize1100"));
-        assertThat(organizationEmployees.get(0).getString("myName"), is("employee273 fieldNormalize"));
+        assertThat(organizationEmployees.getFirst().getString("myId"), is("273employee273_102refNormalize1100"));
+        assertThat(organizationEmployees.getFirst().getString("myName"), is("employee273 fieldNormalize"));
     }
 
     @Test
@@ -449,14 +451,14 @@ class QueryProcessorTest {
         criteria.addRestriction(new Restriction("organization.code", filter));
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCollection().size(), is(1));
-        assertThat(result.getCollection().iterator().next().getDataSet("organization").getInteger("code"), is(31));
+        assertThat(result.getCollection().getFirst().getDataSet("organization").getInteger("code"), is(31));
 
         criteria = new N2oPreparedCriteria();
         filter = new Filter(null, FilterTypeEnum.IS_NULL);
         criteria.addRestriction(new Restriction("organization", filter));
         result = queryProcessor.execute(query, criteria);
         assertThat(result.getCollection().size(), is(1));
-        assertThat(result.getCollection().iterator().next().getDataSet("organization"), nullValue());
+        assertThat(result.getCollection().getFirst().getDataSet("organization"), nullValue());
     }
 
     @Test
@@ -470,22 +472,23 @@ class QueryProcessorTest {
         Filter filter = new Filter("org", FilterTypeEnum.LIKE);
         criteria.addRestriction(new Restriction("myOrganization.myTitle", filter));
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
-        List<DataSet> collection = (List<DataSet>) result.getCollection();
+        List<DataSet> collection = result.getCollection();
         assertThat(collection.size(), is(2));
-        assertThat(collection.get(0).getDataSet("myOrganization").getString("myTitle"), is("org21"));
+        assertThat(collection.getFirst().getDataSet("myOrganization").getString("myTitle"), is("org21"));
         assertThat(collection.get(1).getDataSet("myOrganization").getString("myTitle"), is("4orgTitle"));
 
         criteria = new N2oPreparedCriteria();
         filter = new Filter(null, FilterTypeEnum.IS_NOT_NULL);
         criteria.addRestriction(new Restriction("myOrganization", filter));
         result = queryProcessor.execute(query, criteria);
-        collection = (List<DataSet>) result.getCollection();
+        collection = result.getCollection();
         assertThat(collection.size(), is(3));
-        assertThat(collection.get(0).getDataSet("myOrganization"), notNullValue());
+        assertThat(collection.getFirst().getDataSet("myOrganization"), notNullValue());
         assertThat(collection.get(1).getDataSet("myOrganization"), notNullValue());
         assertThat(collection.get(2).getDataSet("myOrganization"), notNullValue());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void testHierarchicalSelect() {
         builder.sources(new CompileInfo("net/n2oapp/framework/engine/processor/query/nested_fields/testHierarchicalSelect.query.xml"));
@@ -498,22 +501,23 @@ class QueryProcessorTest {
 
         List<String> value = (List<String>) map.get("select");
         assertThat(value.size(), is(3));
-        assertThat(value.get(0), is("id"));
+        assertThat(value.getFirst(), is("id"));
         assertThat(value.get(1), is("price"));
         assertThat(value.get(2), is("showrooms { $$showroomsSelect }"));
 
         value = ((List<String>) map.get("showroomsSelect"));
         assertThat(value.size(), is(3));
-        assertThat(value.get(0), is("id"));
+        assertThat(value.getFirst(), is("id"));
         assertThat(value.get(1), is("name"));
         assertThat(value.get(2), is("owner { $$ownerSelect }"));
 
         value = (List<String>) map.get("ownerSelect");
         assertThat(value.size(), is(2));
-        assertThat(value.get(0), is("name"));
+        assertThat(value.getFirst(), is("name"));
         assertThat(value.get(1), is("inn"));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void testResultNormalize() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
@@ -523,19 +527,19 @@ class QueryProcessorTest {
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(1));
-        DataSet first = result.getCollection().iterator().next();
+        DataSet first = result.getCollection().getFirst();
 
         List<DataSet> ids = (List<DataSet>) first.getList("ids");
         assertThat(ids.size(), is(2));
-        assertThat(ids.get(0).size(), is(1));
-        assertThat(ids.get(0).getLong("id"), is(1L));
+        assertThat(ids.getFirst().size(), is(1));
+        assertThat(ids.getFirst().getLong("id"), is(1L));
         assertThat(ids.get(1).size(), is(1));
         assertThat(ids.get(1).getLong("id"), is(2L));
 
         List<DataSet> names = (List<DataSet>) first.getList("names");
         assertThat(names.size(), is(2));
-        assertThat(names.get(0).size(), is(1));
-        assertThat(names.get(0).getString("name"), is("test1"));
+        assertThat(names.getFirst().size(), is(1));
+        assertThat(names.getFirst().getString("name"), is("test1"));
         assertThat(names.get(1).size(), is(1));
         assertThat(names.get(1).getString("name"), is("test2"));
     }
@@ -551,7 +555,7 @@ class QueryProcessorTest {
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
         assertThat(result.getCount(), is(1));
 
-        DataSet unique = result.getCollection().iterator().next();
+        DataSet unique = result.getCollection().getFirst();
         assertThat(unique.getLong("id"), is(1L));
         assertThat(unique.getDataSet("info").size(), is(2));
         assertThat(unique.getDataSet("info").getString("name"), is("test1"));

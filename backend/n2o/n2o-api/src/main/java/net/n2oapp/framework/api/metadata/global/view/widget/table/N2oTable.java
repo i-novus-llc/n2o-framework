@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
-import net.n2oapp.framework.api.metadata.global.view.page.DefaultValuesModeEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.datasource.N2oStandardDatasource;
 
 
@@ -26,19 +25,5 @@ public class N2oTable extends N2oAbstractTable {
         private String datasourceId;
         @JsonIgnore
         private N2oStandardDatasource datasource;
-        @Deprecated
-        private String defaultValuesQueryId;
-    }
-
-    @Override
-    @Deprecated
-    public void adapterV4() {
-        super.adapterV4();
-        if (getFilters() != null && getFilters().getDefaultValuesQueryId() != null) {
-            N2oStandardDatasource datasource = new N2oStandardDatasource();
-            getFilters().setDatasource(datasource);
-            datasource.setQueryId(getFilters().getDefaultValuesQueryId());
-            datasource.setDefaultValuesMode(DefaultValuesModeEnum.MERGE);
-        }
     }
 }

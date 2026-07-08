@@ -88,7 +88,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (param.getName() != null && param.getName().contains(WIDGET_ID)) {
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
             String clientWidgetId = widgetScope != null ? widgetScope.getClientWidgetId() : "";
-            param.setName(param.getName().replace(WIDGET_ID, clientWidgetId));//todo убрать после удаления adaptV1
+            param.setName(param.getName().replace(WIDGET_ID, clientWidgetId));
         }
     }
 
@@ -113,7 +113,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             filter.setDatasourceId(castDefault(filter.getDatasourceId(), localDatasourceId));
             filter.setRefPageId(castDefault(filter.getRefPageId(), pageId));
             if (filter.getParam() != null && filter.getParam().contains(WIDGET_ID)) {
-                //todo убрать после удаления adaptV1
                 filter.setParam(filter.getParam().replace(WIDGET_ID, clientWidgetId));
             }
         }

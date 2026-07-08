@@ -267,7 +267,7 @@ class N2oPipelineTest {
         doReturn("N2oSimplePage").when(componentTypeRegister).getByClass(N2oSimplePage.class);
 
         //deserialize
-        String json = "{\"componentType\":\"N2oSimplePage\",\"namespaceUri\":\"http://n2oapp.net/framework/config/schema/page-3.0\",\"id\":\"index\",\"name\":\"Форма\"}";
+        String json = "{\"componentType\":\"N2oSimplePage\",\"namespaceUri\":\"http://n2oapp.net/framework/config/schema/page-4.0\",\"id\":\"index\",\"name\":\"Форма\"}";
         N2oSimplePage page = N2oPipelineSupport.deserializePipeline(env).deserialize()
                 .get(new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8)), N2oSimplePage.class);
         assertThat(page.getId(), is("index"));

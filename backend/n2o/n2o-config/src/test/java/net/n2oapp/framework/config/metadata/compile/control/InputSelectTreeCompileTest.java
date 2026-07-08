@@ -33,7 +33,7 @@ class InputSelectTreeCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/field/testSelect.query.xml"));
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oActionsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack(), new N2oControlsV3IOPack());
+                new N2oActionsPack(), new N2oAllDataPack(), new N2oControlsV3IOPack());
         builder.compilers(new InputSelectTreeCompiler());
     }
 

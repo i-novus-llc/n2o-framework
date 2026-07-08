@@ -6,10 +6,10 @@ import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
-import net.n2oapp.framework.config.io.page.v3.SimplePageElementIOv3;
-import net.n2oapp.framework.config.io.region.v2.CustomRegionIOv2;
-import net.n2oapp.framework.config.io.toolbar.ButtonIO;
-import net.n2oapp.framework.config.io.widget.v4.HtmlWidgetElementIOv4;
+import net.n2oapp.framework.config.io.page.SimplePageElementIOv4;
+import net.n2oapp.framework.config.io.region.CustomRegionIOv3;
+import net.n2oapp.framework.config.io.toolbar.ButtonIOv2;
+import net.n2oapp.framework.config.io.widget.HtmlWidgetElementIOv5;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -37,8 +37,8 @@ class SimplePageCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.ios(new SimplePageElementIOv3(), new CustomRegionIOv2(), new HtmlWidgetElementIOv4(),
-                        new ButtonIO(), new JavaDataProviderIOv1())
+        builder.ios(new SimplePageElementIOv4(), new CustomRegionIOv3(), new HtmlWidgetElementIOv5(),
+                        new ButtonIOv2(), new JavaDataProviderIOv1())
                 .packs(new N2oObjectsPack(), new N2oAllPagesPack())
                 .propertySources("application-test.properties");
     }

@@ -107,14 +107,6 @@ class ButtonValidatorTest extends SourceValidationTestBase {
     }
 
     @Test
-    void testConfirmAttrAndAction() {
-        N2oMetadataValidationException exception = assertThrows(
-                N2oMetadataValidationException.class,
-                () -> validate("net/n2oapp/framework/config/metadata/validation/button/testConfirmAttrAndAction.page.xml"));
-        assertEquals("Кнопка 'btn' одновременно имеет атрибут 'confirm' и действие <confirm>", exception.getMessage());
-    }
-
-    @Test
     void testOnFailAction() {
         N2oMetadataValidationException exception = assertThrows(
                 N2oMetadataValidationException.class,

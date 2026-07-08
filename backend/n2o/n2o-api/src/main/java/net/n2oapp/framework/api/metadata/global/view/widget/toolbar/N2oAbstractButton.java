@@ -38,32 +38,12 @@ public abstract class N2oAbstractButton extends N2oComponent implements GroupIte
     private String enabled;
     private String[] generate;
 
-    @Deprecated
-    public String getWidgetId() {
-        return datasourceId;
-    }
-
-    @Deprecated
-    public void setWidgetId(String widgetId) {
-        this.datasourceId = widgetId;
-    }
-
     @Getter
     @Setter
     public static class Dependency implements Source {
         private String value;
         private String datasource;
         private ReduxModelEnum model;
-
-        @Deprecated
-        public String getRefWidgetId() {
-            return datasource;
-        }
-
-        @Deprecated
-        public void setRefWidgetId(String refWidgetId) {
-            this.datasource = refWidgetId;
-        }
     }
 
     @Getter

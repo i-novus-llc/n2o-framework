@@ -70,9 +70,9 @@ public class N2oClientDataProviderUtil {
                     queryParam.setValueList(getPrefilterValue(preFilter, p));
                     queryParam.setModel(preFilter.getModel());
                     queryParam.setDatasourceId(preFilter.getDatasourceId());
-                    if (queryParam.getDatasourceId() == null && preFilter.getRefWidgetId() != null) {
+                    if (queryParam.getDatasourceId() == null && preFilter.getDatasourceId() != null) {
                         PageScope pageScope = p.getScope(PageScope.class);
-                        queryParam.setDatasourceId(pageScope.getWidgetIdSourceDatasourceMap().get(preFilter.getRefWidgetId()));
+                        queryParam.setDatasourceId(pageScope.getWidgetIdSourceDatasourceMap().get(preFilter.getDatasourceId()));
                     }
                 } else {
                     queryParam.setValueParam(preFilter.getParam());

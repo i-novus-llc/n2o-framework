@@ -37,7 +37,7 @@
         </region>
     </regions>
     <toolbar>
-        <button label="Сохранить" widget-id="first">
+        <button label="Сохранить">
             <invoke operation-id="create" route="/create" object-id="test">
                 <form-param id="form_value" value="{value}" datasource="first"/>
                 <form-param id="second_form" datasource="second"/>
