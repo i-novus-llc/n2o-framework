@@ -136,8 +136,12 @@ export const formSlice = createSlice({
 
                 if (!rowId) { return }
 
-                Object.entries(state[formName]?.fields)
-                    .filter(([_, field]) => (field.rowId === rowId || field.rowId?.startsWith(`${rowId}/`)))
+                const formState = state[formName]
+
+                if (!formState || !formState.fields) { return }
+
+                Object.entries(formState.fields)
+                    .filter(([_, field]) => field.rowId === rowId || field.rowId?.startsWith(`${rowId}/`))
                     .forEach(([fieldName]) => {
                         delete state[formName]?.fields[fieldName]
                     })
