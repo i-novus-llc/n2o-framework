@@ -2,14 +2,13 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
              name="Проверка визуального удаления загружаемых файлов при очистки модели">
     <form name="Форма c валидацией">
-        <datasource object-id="test"/>
         <fields>
             <row>
                 <input-text id="field1" label="Обязательное поле" required="true"/>
                 <file-upload label="Загрузка файлов"
                              required="true"
                              accept=".json"
-                             id="fileUpload3" multi="true"
+                             id="fileUpload3"
                              label-field-id="fileName" value-field-id="id" url-field-id="url"
                              upload-url="/files"
                              delete-url="/files"

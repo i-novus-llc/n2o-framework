@@ -11,7 +11,6 @@ import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.autotest.run.FileStoreController;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
@@ -52,10 +51,7 @@ class FileUploadAT extends AutoTestBase {
                 new N2oWidgetsPack(),
                 new N2oFieldSetsPack(),
                 new N2oControlsPack(),
-                new N2oControlsV2IOPack(),
-                new N2oActionsPack(),
-                new N2oAllDataPack());
-        builder.ios(new TestDataProviderIOv1());
+                new N2oActionsPack());
     }
 
     @Test
@@ -69,7 +65,6 @@ class FileUploadAT extends AutoTestBase {
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
         fileUpload.shouldHaveUploadFiles(1);
         fileUpload.uploadFileShouldHaveName(0, "test1.json");
-//        fileUpload.uploadFileSizeShouldBe(0, "91 Б");//работает по разному на разных ОС, windows "105 Б", linux "91 Б"
         fileUpload.deleteFile(0);
         fileUpload.shouldHaveUploadFiles(0);
     }
@@ -89,7 +84,6 @@ class FileUploadAT extends AutoTestBase {
 
         fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
         fileUpload.uploadFileShouldHaveName(0, "test1.json");
-//        fileUpload.uploadFileSizeShouldBe(0, "91 Б");//работает по разному на разных ОС, windows "105 Б", linux "91 Б"
 
         assertThat(fileStoreController.getFileStore().size(), is(1));
         fileUpload.deleteFile(0);
@@ -125,7 +119,6 @@ class FileUploadAT extends AutoTestBase {
         fileUpload.uploadFileShouldHaveSize(0, "105");
         fileUpload.uploadFileShouldHaveLink(1, "http://localhost:" + port + "/files/test2.json");
         fileUpload.uploadFileShouldHaveName(1, "test2.json");
-//        fileUpload.uploadFileSizeShouldBe(1, "91 Б");//работает по разному на разных ОС, windows "105 Б", linux "91 Б"
 
         assertThat(fileStoreController.getFileStore().size(), is(2));
         fileUpload.deleteFile(1);
@@ -136,10 +129,7 @@ class FileUploadAT extends AutoTestBase {
 
     @Test
     void fileUploaderCleanable() {
-        builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/file_upload/cleanable/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/file_upload/cleanable/test.object.xml")
-        );
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/file_upload/cleanable/index.page.xml"));
 
         simplePage = open(SimplePage.class);
         simplePage.shouldExists();
@@ -158,7 +148,8 @@ class FileUploadAT extends AutoTestBase {
         toolbar.button("Очистить").click();
         fileUpload.shouldHaveUploadFiles(0);
 
-        InputText inputText = simplePage.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields().field("Обязательное поле").control(InputText.class);
+        InputText inputText = simplePage.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields()
+                .field("Обязательное поле").control(InputText.class);
         inputText.setValue("Любой текст");
         inputText.shouldHaveValue("Любой текст");
         toolbar.button("Отправить").click();
