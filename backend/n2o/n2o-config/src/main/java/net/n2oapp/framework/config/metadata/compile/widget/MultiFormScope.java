@@ -11,4 +11,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MultiFormScope {
     private boolean inner;
+    private String datasourceId;
 }
