@@ -61,38 +61,38 @@ class DynamicMetadataCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml")
                 .get(new PageContext("testDynamicObject", "/test/route"));
 
-        Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
+        Table table = (Table) page.getRegions().get("single").getFirst().getContent().getFirst();
         assertThat(table, instanceOf(Table.class));
         assertThat(table.getComponent().getBody().getCells().size(), is(1));
-        assertThat(table.getComponent().getBody().getCells().get(0).getId(), is("id"));
-        CompiledQuery query = routeAndGet("/test/route/main", CompiledQuery.class);
+        assertThat(table.getComponent().getBody().getCells().getFirst().getId(), is("id"));
+        CompiledQuery query = routeAndGet("/test/route/main/", CompiledQuery.class);
         assertThat(query.getId(), is("testDynamic?Dummy"));
         assertThat(((N2oSqlDataProvider) query.getLists()[0].getInvocation()).getQuery(), is("test select"));
         // динамическая страница в контекстно-независимой кнопке
-        SimplePage dynamicCreatePage = (SimplePage) routeAndGet("/test/route/create", Page.class);
+        SimplePage dynamicCreatePage = (SimplePage) routeAndGet("/test/route/create/", Page.class);
         assertThat(dynamicCreatePage.getId(), is("test_route_create"));
         assertThat(dynamicCreatePage.getWidget(), instanceOf(Form.class));
-        assertThat((((Form) dynamicCreatePage.getWidget()).getComponent().getFieldsets().get(0)
-                .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
-        assertThat(((StandardField) ((Form) dynamicCreatePage.getWidget()).getComponent().getFieldsets().get(0)
-                .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
+        assertThat((((Form) dynamicCreatePage.getWidget()).getComponent().getFieldsets().getFirst()
+                .getRows().getFirst().getCols().getFirst().getFields().getFirst()).getId(), is("id"));
+        assertThat(((StandardField) ((Form) dynamicCreatePage.getWidget()).getComponent().getFieldsets().getFirst()
+                .getRows().getFirst().getCols().getFirst().getFields().getFirst()).getControl().getId(), is("id"));
         // динамическая страница в контекстной кнопке
-        SimplePage dynamicPage = (SimplePage) routeAndGet("/test/route/123/update", Page.class);
+        SimplePage dynamicPage = (SimplePage) routeAndGet("/test/route/123/update/", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_update"));
         assertThat(dynamicPage.getWidget(), instanceOf(Form.class));
-        assertThat((((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
-                .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
-        assertThat(((StandardField) ((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
-                .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
+        assertThat((((Form) dynamicPage.getWidget()).getComponent().getFieldsets().getFirst()
+                .getRows().getFirst().getCols().getFirst().getFields().getFirst()).getId(), is("id"));
+        assertThat(((StandardField) ((Form) dynamicPage.getWidget()).getComponent().getFieldsets().getFirst()
+                .getRows().getFirst().getCols().getFirst().getFields().getFirst()).getControl().getId(), is("id"));
 
 
-        dynamicPage = (SimplePage) routeAndGet("/test/route/second/123/update", Page.class);
+        dynamicPage = (SimplePage) routeAndGet("/test/route/second/123/update/", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_second_123_update"));
         assertThat(dynamicPage.getWidget(), instanceOf(Form.class));
-        assertThat((((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
-                .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
-        assertThat(((StandardField) ((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
-                .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
+        assertThat((((Form) dynamicPage.getWidget()).getComponent().getFieldsets().getFirst()
+                .getRows().getFirst().getCols().getFirst().getFields().getFirst()).getId(), is("id"));
+        assertThat(((StandardField) ((Form) dynamicPage.getWidget()).getComponent().getFieldsets().getFirst()
+                .getRows().getFirst().getCols().getFirst().getFields().getFirst()).getControl().getId(), is("id"));
     }
 
     @Test
@@ -101,16 +101,16 @@ class DynamicMetadataCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicQuery.query.xml")
                 .get(new PageContext("testDynamicQuery"));
 
-        List<FieldSet.Row> rows = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows();
-        Select select1 = (Select) ((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getControl();
-        assertThat(select1.getDataProvider().getUrl(), is("n2o/data/testDynamicQuery_version_1"));
-        CompiledQuery query = routeAndGet("/testDynamicQuery_version_1", CompiledQuery.class);
+        List<FieldSet.Row> rows = ((Form) page.getWidget()).getComponent().getFieldsets().getFirst().getRows();
+        Select select1 = (Select) ((StandardField) rows.getFirst().getCols().getFirst().getFields().getFirst()).getControl();
+        assertThat(select1.getDataProvider().getUrl(), is("n2o/data/testDynamicQuery_version_1/"));
+        CompiledQuery query = routeAndGet("/testDynamicQuery_version_1/", CompiledQuery.class);
         assertThat(((QuerySimpleField) query.getFieldsMap().get("versionId")).getDefaultValue(), is("1"));
         assertThat(((QuerySimpleField) query.getFieldsMap().get("name")).getDefaultValue(), is("name"));
 
-        Select select2 = (Select) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
-        assertThat(select2.getDataProvider().getUrl(), is("n2o/data/testDynamicQuery_version_2_name_test"));
-        query = routeAndGet("/testDynamicQuery_version_2_name_test", CompiledQuery.class);
+        Select select2 = (Select) ((StandardField) rows.get(1).getCols().getFirst().getFields().getFirst()).getControl();
+        assertThat(select2.getDataProvider().getUrl(), is("n2o/data/testDynamicQuery_version_2_name_test/"));
+        query = routeAndGet("/testDynamicQuery_version_2_name_test/", CompiledQuery.class);
         assertThat(((QuerySimpleField) query.getFieldsMap().get("versionId")).getDefaultValue(), is("2"));
         assertThat(((QuerySimpleField) query.getFieldsMap().get("name")).getDefaultValue(), is("test"));
     }

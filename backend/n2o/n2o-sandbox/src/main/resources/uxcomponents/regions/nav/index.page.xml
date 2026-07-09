@@ -18,7 +18,7 @@
             </group>
 
             <button label="Прикрепить к мед. организации"/>
-            <link label="О компании" href="http://example.com"/>
+            <link label="О компании" href="http://example.com" new-window="true" target="self"/>
         </nav>
     </regions>
 </page>

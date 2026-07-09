@@ -45,6 +45,8 @@ public class RouteInfoKey implements Comparable<RouteInfoKey> {
         } else {
             url = new StringBuilder(urlPattern);
         }
+        if (urlPattern.endsWith("/") && !url.toString().endsWith("/"))
+            url.append("/");
         this.urlMatching = url.toString();
     }
 

@@ -14,7 +14,7 @@
                     <open-page page-id="pageWithoutLabel" route="/page1"/>
                 </menu-item>
                 <menu-item name="hrefLabel">
-                    <a href="http://test.com"/>
+                    <a href="http://test.com" new-window="true"/>
                 </menu-item>
             </dropdown-menu>
             <menu-item name="headerLabel">
@@ -32,7 +32,7 @@
         <extra-menu>
             <dropdown-menu name="#{username}">
                 <menu-item name="Test" icon="test-icon">
-                    <a href="https://ya.ru/" target="newWindow"/>
+                    <a href="https://ya.ru/" target="self" new-window="true"/>
                 </menu-item>
             </dropdown-menu>
         </extra-menu>

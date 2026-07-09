@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.widget.chart;
 
-import net.n2oapp.framework.config.io.widget.charts.PieChartIOv5;
 import net.n2oapp.framework.config.io.widget.ChartWidgetIOv5;
+import net.n2oapp.framework.config.io.widget.charts.PieChartIOv5;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.jupiter.api.Test;
 

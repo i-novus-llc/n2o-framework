@@ -82,26 +82,26 @@ class SubPageRegionAT extends AutoTestBase {
 
         SimplePage subPage = userPage.regions().region(1, SubPageRegion.class).content(SimplePage.class);
         // При открытии должен быть редирект на default-page
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2/info");
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2/info/");
         form = subPage.widget(FormWidget.class);
         form.fields().field("userInfo").control(OutputText.class).shouldHaveValue("USER INFO");
         userPage.breadcrumb().crumb(2).shouldHaveLabel("userInfo sub-page");
 
         toolbar.button("Друзья").click();
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2/friends");
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2/friends/");
         form.fields().field("friends").control(OutputText.class).shouldHaveValue("FRIENDS");
         userPage.breadcrumb().crumb(2).shouldHaveLabel("friends sub-page");
 
         toolbar.button("Инфо").click();
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2/info");
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2/info/");
         userPage.breadcrumb().crumb(2).shouldHaveLabel("info sub-page");
 
         toolbar.button("Аудиозаписи").click();
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2/audio");
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2/audio/");
         userPage.breadcrumb().crumb(2).shouldHaveLabel("audio sub-page");
 
         toolbar.button("Видеозаписи").click();
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2/video");
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/2/video/");
         userPage.breadcrumb().crumb(2).shouldHaveLabel("video sub-page");
 
         userPage.breadcrumb().crumb(1).click();
@@ -131,24 +131,24 @@ class SubPageRegionAT extends AutoTestBase {
         userPage.breadcrumb().crumb(1).shouldHaveLabel("Страница пользователя");
 
         SimplePage subPage = userPage.regions().region(0, SubPageRegion.class).content(SimplePage.class);
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3/info");
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3/info/");
         FormWidget form = subPage.widget(FormWidget.class);
         form.fields().field("userInfo").control(OutputText.class).shouldHaveValue("USER INFO");
 
         Toolbar toolbar = form.toolbar().bottomLeft();
         toolbar.button("Вперед").click();
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3/friends");
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3/friends/");
         form.fields().field("friends").control(OutputText.class).shouldHaveValue("FRIENDS");
 
         toolbar.button("Назад").click();
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3/info");
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3/info/");
 
         toolbar.button("Вперед").click();
         toolbar.button("Вперед").click();
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3/audio");
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3/audio/");
 
         toolbar.button("Вперед").click();
-        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3/video");
+        subPage.shouldHaveUrlMatches(getBaseUrl() + "/#/user/3/video/");
     }
 
     @Test
@@ -223,7 +223,7 @@ class SubPageRegionAT extends AutoTestBase {
         // Получаем первый уровень sub-page (user)
         StandardPage userPage = openPage.regions().region(1, SubPageRegion.class).content(StandardPage.class);
         userPage.shouldExists();
-        userPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/info");
+        userPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/info/");
         openPage.breadcrumb().crumb(2).shouldHaveLabel("Страница пользователя");
 
         // Проверяем навигацию на странице user
@@ -232,7 +232,7 @@ class SubPageRegionAT extends AutoTestBase {
 
         // Получаем вложенный sub-page (второй уровень) - по умолчанию должен открыться info
         SimplePage nestedSubPage = userPage.regions().region(2, SubPageRegion.class).content(SimplePage.class);
-        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/info");
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/info/");
         openPage.breadcrumb().crumb(3).shouldHaveLabel("Информация");
         FormWidget infoForm = nestedSubPage.widget(FormWidget.class);
         infoForm.fields().field("field").control(OutputText.class).shouldHaveValue("INFO");
@@ -241,38 +241,38 @@ class SubPageRegionAT extends AutoTestBase {
         StandardPage infoPage = userPage.regions().region(2, SubPageRegion.class).content(StandardPage.class);
         NavRegion infoNav = infoPage.regions().region(0, NavRegion.class);
         infoNav.content().item(0, AnchorItem.class).click();
-        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/friends");
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/friends/");
         openPage.breadcrumb().crumb(3).shouldHaveLabel("Друзья");
         infoForm.fields().field("field").control(OutputText.class).shouldHaveValue("FRIENDS");
 
         // Переходим на friends через навигацию user (индекс 1)
         userNav.content().item(1, AnchorItem.class).click();
-        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/friends");
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/friends/");
         openPage.breadcrumb().crumb(3).shouldHaveLabel("Друзья");
         FormWidget friendsForm = nestedSubPage.widget(FormWidget.class);
         friendsForm.fields().field("field").control(OutputText.class).shouldHaveValue("FRIENDS");
 
         // Переходим на audio через навигацию user (индекс 2)
         userNav.content().item(2, AnchorItem.class).click();
-        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/audio");
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/audio/");
         openPage.breadcrumb().crumb(3).shouldHaveLabel("Аудиозаписи");
         FormWidget audioForm = nestedSubPage.widget(FormWidget.class);
         audioForm.fields().field("field").control(OutputText.class).shouldHaveValue("AUDIO");
 
         // Переходим на video через навигацию user (индекс 3)
         userNav.content().item(3, AnchorItem.class).click();
-        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/video");
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/video/");
         openPage.breadcrumb().crumb(3).shouldHaveLabel("Видеозаписи");
         FormWidget videoForm = nestedSubPage.widget(FormWidget.class);
         videoForm.fields().field("field").control(OutputText.class).shouldHaveValue("VIDEO");
 
         // Проверяем переход по кнопке с open.page на video
         topForm.fields().field("=> видеозаписи", ButtonField.class).click();
-        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/video");
+        nestedSubPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user/video/");
 
         // Проверяем переход на user2/video
         topForm.fields().field("=> видеозаписи2", ButtonField.class).click();
-        userPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user2/video");
+        userPage.shouldHaveUrlMatches(getBaseUrl() + "/#/open/user2/video/");
 
         // Проверяем, что после обновления страницы открывается страница с VIDEO
         Selenide.refresh();
@@ -445,12 +445,12 @@ class SubPageRegionAT extends AutoTestBase {
 
         page.breadcrumb().crumb(0).shouldHaveLabel("Базовая");
         page.breadcrumb().crumb(1).shouldHaveLabel("open");
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open/");
         subPageField.control(OutputText.class).shouldHaveValue("open");
         nav.content().item(1, AnchorItem.class).click();
 
         page.breadcrumb().crumb(1).shouldHaveLabel("open1");
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open1");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open1/");
         subPageField.control(OutputText.class).shouldHaveValue("open1");
         nav.content().item(2, AnchorItem.class).click();
 
@@ -458,21 +458,21 @@ class SubPageRegionAT extends AutoTestBase {
         StandardField pageField = pageContent.widget(FormWidget.class).fields().field("test");
 
         page.breadcrumb().crumb(1).shouldHaveLabel("open11");
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open11");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open11/");
         pageField.control(OutputText.class).shouldHaveValue("open11");
         page.breadcrumb().crumb(0).click();
         nav.shouldExists();
         nav.content().item(3, AnchorItem.class).click();
 
         page.breadcrumb().crumb(1).shouldHaveLabel("open2");
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open2");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open2/");
         pageField.control(OutputText.class).shouldHaveValue("open2");
         page.breadcrumb().crumb(0).click();
         nav.shouldExists();
         nav.content().item(0, AnchorItem.class).click();
 
         page.breadcrumb().crumb(1).shouldHaveLabel("open");
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open/");
         subPageField.control(OutputText.class).shouldHaveValue("open");
     }
 

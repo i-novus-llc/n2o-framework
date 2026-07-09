@@ -6,16 +6,17 @@ All settings use `n2o.` prefix in `application.properties`.
 ```properties
 # Config source directories
 n2o.config.path=classpath*:META-INF/conf/              # XML config root
-n2o.config.monitoring.enabled=true                       # Hot-reload on change
+n2o.config.monitoring.enabled=false                    # Hot-reload on change
+n2o.config.routing_mode=new                            # `old` = legacy relative-url resolution (will be removed in 7.31)
 
 # Homepage
 n2o.homepage.id=index                                    # Welcome page id
 
 # Access
 n2o.access.schema-id=                                   # Access schema file id
-n2o.access.deny-objects=false
-n2o.access.deny-pages=false
-n2o.access.deny-urls=false
+n2o.access.deny_objects=true
+n2o.access.deny_pages=false
+n2o.access.deny_urls=false
 
 # Localization
 n2o.i18n.default-locale=ru
@@ -67,7 +68,9 @@ n2o.api.page.show_title=true
 ## API Defaults — Actions
 ```properties
 n2o.api.action.close.with_prompt=true
-n2o.api.action.open_page.target=application
+n2o.api.action.link.target=application
+n2o.api.action.link.new_window=false
+n2o.api.action.open_page.new_window=false
 n2o.api.action.show_modal.modal_size=lg
 n2o.api.action.show_modal.has_header=true
 n2o.api.action.show_modal.scrollbar=false
@@ -75,6 +78,16 @@ n2o.api.action.show_modal.overlay=true
 n2o.api.action.open_drawer.width=
 n2o.api.action.open_drawer.placement=right
 n2o.api.action.open_drawer.closable=true
+```
+
+## API Defaults — Cells & Menu links
+```properties
+n2o.api.cell.link.target=application
+n2o.api.cell.link.new_window=false
+n2o.api.menu.link.target=application
+n2o.api.menu.link.new_window=false
+n2o.api.control.output_list.target=application
+n2o.api.control.output_list.new_window=false
 ```
 
 ## API Defaults — Fields

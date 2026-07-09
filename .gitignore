@@ -69,3 +69,7 @@ firebase-debug.log
 
 
 *@tmp/
+
+#Claude code files
+.claude/
+CLAUDE.md

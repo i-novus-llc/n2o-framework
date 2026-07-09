@@ -52,7 +52,7 @@ class ParentDatasourceTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/datasource/parent/testCopyActionFromParentModal.page.xml")
                 .get(pageContext);
 
-        StandardPage page = (StandardPage) routeAndGet("/p/modal1", Page.class);
+        StandardPage page = (StandardPage) routeAndGet("/p/modal1/", Page.class);
         CopyAction submit = (CopyAction) page.getToolbar().getButton("submit").getAction();
         assertThat(submit.getPayload().getSource().getKey(), is("p_modal1_ds2"));
         assertThat(submit.getPayload().getTarget().getKey(), is("p_ds3"));
@@ -63,7 +63,7 @@ class ParentDatasourceTest extends SourceCompileTestBase {
         assertThat(datasources.get("p_modal1_ds2"), instanceOf(BrowserStorageDatasource.class));
 
 
-        page = (StandardPage) routeAndGet("/p/modal2", Page.class);
+        page = (StandardPage) routeAndGet("/p/modal2/", Page.class);
         submit = (CopyAction) page.getToolbar().getButton("submit").getAction();
         assertThat(submit.getPayload().getSource().getKey(), is("p_ds3"));
         assertThat(submit.getPayload().getTarget().getKey(), is("p_ds2"));
@@ -76,7 +76,7 @@ class ParentDatasourceTest extends SourceCompileTestBase {
                 .get(pageContext);
 
         // route page
-        StandardPage routePage = (StandardPage) routeAndGet("/p", Page.class);
+        StandardPage routePage = (StandardPage) routeAndGet("/p/", Page.class);
 
         Map<String, AbstractDatasource> datasources = routePage.getDatasources();
         assertThat(datasources.size(), is(2));
@@ -84,7 +84,7 @@ class ParentDatasourceTest extends SourceCompileTestBase {
         assertThat(datasources.get("p_ds2"), instanceOf(StandardDatasource.class));
 
         // modal page
-        PageContext modalPageContext = (PageContext) route("/p/modal", Page.class);
+        PageContext modalPageContext = (PageContext) route("/p/modal/", Page.class);
         Map<String, String> parentDatasourceIdsMap = modalPageContext.getParentDatasourceIdsMap();
         assertThat(parentDatasourceIdsMap.size(), is(3));
         assertThat(parentDatasourceIdsMap.get("ds1"), is("p_ds1"));
@@ -98,7 +98,7 @@ class ParentDatasourceTest extends SourceCompileTestBase {
         assertThat(datasources.size(), is(1));
 
         // modal2 page
-        PageContext modal2PageContext = (PageContext) route("/p/modal/modal2", Page.class);
+        PageContext modal2PageContext = (PageContext) route("/p/modal/modal2/", Page.class);
         parentDatasourceIdsMap = modal2PageContext.getParentDatasourceIdsMap();
         assertThat(parentDatasourceIdsMap.size(), is(3));
         assertThat(parentDatasourceIdsMap.get("ds1"), is("p_ds1"));
@@ -114,7 +114,7 @@ class ParentDatasourceTest extends SourceCompileTestBase {
         assertThat(((Table) modal2Page.getRegions().get("single").get(0).getContent().get(0)).getDatasource(), is("p_ds1"));
 
         // throwing app-datasource from parent page
-        modal2PageContext = (PageContext) route("/p/modal/modal2_app", Page.class);
+        modal2PageContext = (PageContext) route("/p/modal/modal2_app/", Page.class);
         modal2Page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/datasource/parent/testParentDatasourceModal2.page.xml")
                 .get(modal2PageContext);
 
@@ -125,7 +125,7 @@ class ParentDatasourceTest extends SourceCompileTestBase {
         assertThat(((Table) modal2Page.getRegions().get("single").get(0).getContent().get(0)).getDatasource(), is("ds1"));
 
         // throwing parent-datasource from parent page
-        modal2PageContext = (PageContext) route("/p/modal/modal2_parent", Page.class);
+        modal2PageContext = (PageContext) route("/p/modal/modal2_parent/", Page.class);
         modal2Page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/datasource/parent/testParentDatasourceModal2.page.xml")
                 .get(modal2PageContext);
 
@@ -142,7 +142,7 @@ class ParentDatasourceTest extends SourceCompileTestBase {
                 .get(pageContext);
 
         // route page
-        StandardPage routePage = (StandardPage) routeAndGet("/p", Page.class);
+        StandardPage routePage = (StandardPage) routeAndGet("/p/", Page.class);
 
         Map<String, AbstractDatasource> datasources = routePage.getDatasources();
         assertThat(datasources.size(), is(2));
@@ -150,7 +150,7 @@ class ParentDatasourceTest extends SourceCompileTestBase {
         assertThat(datasources.get("p_ds3"), instanceOf(StandardDatasource.class));
 
         // modal page
-        PageContext modalPageContext = (PageContext) route("/p/modal", Page.class);
+        PageContext modalPageContext = (PageContext) route("/p/modal/", Page.class);
         Map<String, String> parentDatasourceIdsMap = modalPageContext.getParentDatasourceIdsMap();
         assertThat(parentDatasourceIdsMap.size(), is(2));
         assertThat(parentDatasourceIdsMap.get("ds2"), is("p_ds2"));
@@ -165,7 +165,7 @@ class ParentDatasourceTest extends SourceCompileTestBase {
         assertThat(((EditListAction) ((MultiAction) modalPage.getToolbar().get("bottomRight").get(0).getButtons().get(0).getAction())
                 .getPayload().getActions().get(0)).getPayload().getList().getDatasource(), is("p_ds2"));
 
-        modalPageContext = (PageContext) route("/p/modal2", Page.class);
+        modalPageContext = (PageContext) route("/p/modal2/", Page.class);
         parentDatasourceIdsMap = modalPageContext.getParentDatasourceIdsMap();
         assertThat(parentDatasourceIdsMap.size(), is(2));
         assertThat(parentDatasourceIdsMap.get("ds2"), is("p_ds2"));

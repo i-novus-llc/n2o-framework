@@ -21,7 +21,7 @@
             </body>
             <right-top text-field-id="rightTopId">
                 <link>
-                    <a href="test"/>
+                    <a href="test" target="self"/>
                 </link>
             </right-top>
             <right-bottom>

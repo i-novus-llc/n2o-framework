@@ -8,14 +8,14 @@
         <form>
             <toolbar>
                 <button id="b1">
-                    <a href="{url}" datasource="ds1" model="filter"/>
+                    <a href="{url}" datasource="ds1" model="filter" target="self"/>
                 </button>
             </toolbar>
         </form>
     </regions>
     <toolbar place="topLeft">
         <button id="b2" datasource="ds1">
-            <a href="{url}"/>
+            <a href="{url}" target="self"/>
         </button>
     </toolbar>
 </page>

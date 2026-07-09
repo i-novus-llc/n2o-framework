@@ -20,7 +20,7 @@
         </actions>
         <toolbar place="bottomRight">
             <button label="Найти" color="primary" validate="true">
-                <a href=":url" target="application">
+                <a href=":url">
                     <path-param name="url" value="{level.url}"/>
                     <query-param name="type" value="{type.id}"/>
                 </a>

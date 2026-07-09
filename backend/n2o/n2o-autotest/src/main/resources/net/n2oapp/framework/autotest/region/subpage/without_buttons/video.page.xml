@@ -3,7 +3,7 @@
     <form>
         <toolbar place="bottomLeft">
             <button label="Назад">
-                <a href="../audio" target="application"/>
+                <a href="../audio"/>
             </button>
         </toolbar>
         <fields>

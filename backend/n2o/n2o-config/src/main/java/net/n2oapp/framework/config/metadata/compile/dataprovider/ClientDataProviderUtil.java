@@ -29,7 +29,7 @@ import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeRoute;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -57,7 +57,7 @@ public class ClientDataProviderUtil {
             path = castDefault(routeScope != null ? routeScope.getUrl() : null, () -> context.getRoute((N2oCompileProcessor) p), () -> "");
             if (context.getPathRouteMapping() != null)
                 pathMapping.putAll(context.getPathRouteMapping());
-            path = normalize(path + normalize(castDefault(source.getUrl(), source.getId(), "")));
+            path = normalizeRoute(path + normalizeRoute(castDefault(source.getUrl(), source.getId(), "")));
             dataProvider.setPathMapping(pathMapping);
             dataProvider.setMethod(source.getMethod());
             dataProvider.setOptimistic(source.getOptimistic());

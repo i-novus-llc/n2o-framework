@@ -20,7 +20,7 @@
 
     <toolbar>
         <button datasource="ds" label="Ссылка">
-            <a href="/link/:id/">
+            <a href="/link/:id/" target="self">
                 <path-param name="id" value="{id}"/>
             </a>
         </button>

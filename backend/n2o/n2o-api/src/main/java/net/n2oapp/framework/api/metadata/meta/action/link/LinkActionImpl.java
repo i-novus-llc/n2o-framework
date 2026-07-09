@@ -46,6 +46,16 @@ public class LinkActionImpl extends AbstractAction<LinkActionPayload, MetaSaga> 
     }
 
     @Override
+    public void setNewWindow(Boolean newWindow) {
+        getPayload().setNewWindow(newWindow);
+    }
+
+    @Override
+    public Boolean getNewWindow() {
+        return getPayload().getNewWindow();
+    }
+
+    @Override
     public Map<String, ModelLink> getPathMapping() {
         return getPayload().getPathMapping();
     }

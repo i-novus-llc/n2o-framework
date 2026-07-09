@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.util.StreamUtils;
 
 import java.nio.charset.Charset;
@@ -36,7 +36,7 @@ class SandboxResourceRetrievalTest {
     private ViewController viewController;
     @Autowired
     private XsdSchemaParser schemaParser;
-    @MockBean
+    @MockitoBean
     private FileStorage fileStorage;
 
     @SneakyThrows

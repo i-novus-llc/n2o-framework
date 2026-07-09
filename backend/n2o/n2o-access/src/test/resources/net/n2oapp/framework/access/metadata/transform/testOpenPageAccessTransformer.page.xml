@@ -59,7 +59,7 @@
                         </open-page>
                     </button>
                     <button>
-                        <a href="/test/access"/>
+                        <a href="/test/access" target="self"/>
                     </button>
                 </toolbar>
             </table>

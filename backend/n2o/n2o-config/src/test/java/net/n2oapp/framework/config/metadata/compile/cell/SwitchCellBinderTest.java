@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.is;
  * Тестирование связывания с данными переключателя ячейки таблицы
  */
 class SwitchCellBinderTest extends SourceCompileTestBase {
-    
+
     @Override
     @BeforeEach
     public void setUp() {
@@ -44,6 +44,6 @@ class SwitchCellBinderTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("id", "2"));
         SwitchCell switchCell = (SwitchCell) ((Table) page.getWidget()).getComponent().getBody().getCells().get(0);
         ClientDataProvider dataProvider = ((InvokeAction)((ToolbarCell) switchCell.getSwitchList().get("2")).getToolbar().get(0).getButtons().get(0).getAction()).getPayload().getDataProvider();
-        assertThat(dataProvider.getUrl(), is("n2o/data/p/w/2/modal/p_w_modal_mi0"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/p/w/2/modal/p_w_modal_mi0/"));
     }
 }

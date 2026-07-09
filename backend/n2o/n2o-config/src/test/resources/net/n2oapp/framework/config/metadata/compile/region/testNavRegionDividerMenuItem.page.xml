@@ -5,7 +5,7 @@
     </datasources>
     <regions>
         <nav datasource="ds" model="datasource">
-            <link href="http://test.com"/>
+            <link href="http://test.com" new-window="true" target="self"/>
             <divider class="class1" style="color: red"/>
             <group>
                 <divider class="class2" style="background-color: blue"/>

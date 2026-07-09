@@ -7,7 +7,7 @@
                 <toolbar>
                     <button class="class" label="label" icon="icon" visible="{test==1}" color="danger">
                         <confirm type="popover"/>
-                        <a href="https://www.google.com/">
+                        <a href="https://www.google.com/" target="self">
                             <query-param name="q" value="{test}"/>
                         </a>
                     </button>
@@ -23,7 +23,7 @@
         </columns>
         <actions>
             <action id="linkAction">
-                <a href="https://www.google.com/"/>
+                <a href="https://www.google.com/" target="self"/>
             </action>
         </actions>
     </table>

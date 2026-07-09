@@ -13,7 +13,7 @@
                 <show-modal page-id="m1"/>
             </button>
             <button label="openPageWithCloseTab" disable-on-empty-model="false">
-                <open-page page-id="pageWithCloseTab" target="newWindow" route="/test"/>
+                <open-page page-id="pageWithCloseTab" new-window="true" route="/test"/>
             </button>
              <button label="openModalWithCloseTab" disable-on-empty-model="false">
                 <show-modal page-id="pageWithCloseTab"/>

@@ -85,7 +85,7 @@ class QueryCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/testSubModel.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml");
         pipeline.get(new PageContext("testSubModel"));
-        CompileContext<?,?> compile = builder.route("/testSubModel/w", CompiledQuery.class, null);
+        CompileContext<?,?> compile = builder.route("/testSubModel/w/", CompiledQuery.class, null);
         CompiledQuery query = pipeline.get((QueryContext) compile);
         assertThat(query.getSubModelQueries().size(), is(1));
         assertThat(query.getSubModelQueries().get(0).getFullName(), is("field"));

@@ -79,7 +79,7 @@
                 label-field-id="labelId"
                 icon-field-id="iconId"
                 description-field-id="descriptionId"
-                target="newWindow"/>
+                new-window="true"/>
     </header>
 
     <sidebars>

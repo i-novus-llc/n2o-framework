@@ -6,7 +6,7 @@
                 <open-page page-id="emptyPage"/>
             </button>
             <button id="id2">
-                <open-page page-id="emptyPage" target="newWindow" route="/view"/>
+                <open-page page-id="emptyPage" new-window="true" route="/view"/>
             </button>
         </toolbar>
     </form>

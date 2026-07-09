@@ -67,17 +67,17 @@ class SimpleMenuCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getBadge().getText(), is("2"));
         assertThat(menuItem.getBadge().getColor(), is("warning"));
         assertThat(menuItem.getDatasource(), is("ds1"));
-        assertThat(menuItem.getHref(), is("/login"));
+        assertThat(menuItem.getHref(), is("/login/"));
         assertThat(menuItem.getVisible(), is("`a == b`"));
         assertThat(menuItem.getEnabled(), is("`type == 1`"));
-        Page page = routeAndGet("/login", Page.class);
+        Page page = routeAndGet("/login/", Page.class);
         assertThat(page, notNullValue());
 
         menuItem = menu.getItems().get(1);
         assertThat(menuItem.getTitle(), nullValue());
         assertThat(menuItem.getImageSrc(), is("/static/users/ivan90.png"));
         assertThat(menuItem.getImageShape(), is(ShapeTypeEnum.SQUARE));
-        assertThat(menuItem.getHref(), is("/logout"));
+        assertThat(menuItem.getHref(), is("/logout/"));
     }
 
     @Test

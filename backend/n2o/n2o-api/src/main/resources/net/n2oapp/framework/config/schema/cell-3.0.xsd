@@ -152,9 +152,18 @@
                         <xs:documentation>Адрес URL открываемой страницы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target" type="acn:targetType">
+                <xs:attribute name="target" type="acn:targetType" default="application">
                     <xs:annotation>
-                        <xs:documentation>Сценарий открытия ссылки.</xs:documentation>
+                        <xs:documentation>
+                            Сценарий открытия ссылки
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="new-window" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Открыть ссылку в новой вкладке
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">
@@ -177,9 +186,18 @@
                         <xs:documentation>Адрес URL открываемой страницы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target" type="acn:targetType">
+                <xs:attribute name="target" type="acn:targetType" default="application">
                     <xs:annotation>
-                        <xs:documentation>Сценарий открытия ссылки.</xs:documentation>
+                        <xs:documentation>
+                            Сценарий открытия ссылки
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="new-window" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Открыть ссылку в новой вкладке
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string">

@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.header;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.header.N2oSearchBar;
 import net.n2oapp.framework.api.metadata.header.SearchBar;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -42,7 +41,7 @@ public class SearchBarCompiler implements BaseSourceCompiler<SearchBar, N2oSearc
 
     private SearchBar.SearchPageLocation initPageLocation(N2oSearchBar source) {
         SearchBar.SearchPageLocation pageLocation = new SearchBar.SearchPageLocation();
-        pageLocation.setLinkType(source.getTarget() == TargetEnum.NEW_WINDOW
+        pageLocation.setLinkType(Boolean.TRUE.equals(source.getNewWindow())
                 ? SearchBar.LinkTypeEnum.OUTER
                 : SearchBar.LinkTypeEnum.INNER);
         return pageLocation;

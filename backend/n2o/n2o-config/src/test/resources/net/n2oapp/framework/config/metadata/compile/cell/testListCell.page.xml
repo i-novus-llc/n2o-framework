@@ -16,7 +16,7 @@
             </column>
             <column text-field-id="links">
                 <list size="5" label-field-id="linkField">
-                    <link url="/test" target="newWindow"/>
+                    <link url="/test" target="self" new-window="true"/>
                 </list>
             </column>
             <column text-field-id="badges">

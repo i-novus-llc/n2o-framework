@@ -20,7 +20,6 @@ export interface SearchBarLinkProps {
     description?: string
     icon?: string | JSX.Element
     href?: string
-    linkType?: string
     disabled?: boolean
     directionIconsInPopUp?: Directions
 }
@@ -33,7 +32,6 @@ export interface SearchBarPopUpListProps {
     menu?: Array<{
         id?: string
         disabled?: boolean
-        linkType?: SearchBarLinkProps['linkType']
         separateLink?: string
     }>
     directionIconsInPopUp?: Directions

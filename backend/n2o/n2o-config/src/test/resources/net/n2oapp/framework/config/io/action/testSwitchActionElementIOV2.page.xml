@@ -5,13 +5,13 @@
             <switch datasource="ds1" model="multi" value-field-id="test1">
                 <case value="A">
                     <invoke operation-id="op1"/>
-                    <a href="/test1"/>
+                    <a href="/test1" target="self"/>
                 </case>
                 <case value="B">
                     <switch datasource="ds2" model="edit" value-field-id="test2">
                         <case value="BA">
                             <invoke operation-id="op1"/>
-                            <a href="/test1"/>
+                            <a href="/test1" target="self"/>
                         </case>
                         <default>
                             <invoke operation-id="op1"/>

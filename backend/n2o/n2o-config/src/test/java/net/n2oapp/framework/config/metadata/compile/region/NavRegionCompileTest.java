@@ -129,7 +129,8 @@ class NavRegionCompileTest extends SourceCompileTestBase {
                 hasProperty("url", is("/person/:person_id/docs")),
                 hasProperty("icon", is("fa fa-home")),
                 hasProperty("iconPosition", is(PositionEnum.LEFT)),
-                hasProperty("target", is(TargetEnum.NEW_WINDOW)),
+                hasProperty("target", is(TargetEnum.SELF)),
+                hasProperty("newWindow", is(true)),
                 hasProperty("visible", is(false)),
                 hasProperty("enabled", nullValue()),
                 hasProperty("model", is(ReduxModelEnum.DATASOURCE)),
@@ -259,7 +260,7 @@ class NavRegionCompileTest extends SourceCompileTestBase {
                 hasProperty("text", is("2")),
                 hasProperty("color", is("warning"))
         ));
-        assertThat(((LinkAction) item.getAction()).getUrl(), is("/testNavRegionMenuItem/login"));
+        assertThat(((LinkAction) item.getAction()).getUrl(), is("/testNavRegionMenuItem/login/"));
 
         menuItem = (BaseMenuItem) nav.getContent().get(1);
         assertThat(menuItem, instanceOf(MenuItem.class));
@@ -269,7 +270,7 @@ class NavRegionCompileTest extends SourceCompileTestBase {
                 hasProperty("imageSrc", is("/static/users/ivan90.png")),
                 hasProperty("imageShape", is(ShapeTypeEnum.SQUARE))
         ));
-        assertThat(((LinkAction) item.getAction()).getUrl(), is("/testNavRegionMenuItem/logout"));
+        assertThat(((LinkAction) item.getAction()).getUrl(), is("/testNavRegionMenuItem/logout/"));
 
         menuItem = (BaseMenuItem) nav.getContent().get(2);
         assertThat(menuItem, instanceOf(MenuItem.class));
@@ -291,14 +292,14 @@ class NavRegionCompileTest extends SourceCompileTestBase {
         ));
         assertThat(actions.get(1), instanceOf(LinkActionImpl.class));
         assertThat((LinkActionImpl) actions.get(1), allOf(
-                hasProperty("url", is("/testNavRegionMenuItem/logout")),
+                hasProperty("url", is("/testNavRegionMenuItem/logout/")),
                 hasProperty("target", is(TargetEnum.APPLICATION)),
                 hasProperty("pageId", is("testMenu"))
         ));
         assertThat(actions.get(2), instanceOf(LinkAction.class));
         assertThat((LinkActionImpl) actions.get(2), allOf(
                 hasProperty("url", is("/test2")),
-                hasProperty("target", is(TargetEnum.NEW_WINDOW))
+                hasProperty("target", is(TargetEnum.SELF))
         ));
         item = (MenuItem) nav.getContent().get(3);
         assertThat(item, allOf(

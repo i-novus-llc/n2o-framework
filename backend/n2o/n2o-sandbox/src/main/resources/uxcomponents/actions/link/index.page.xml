@@ -4,7 +4,7 @@
     <form>
         <toolbar place="bottomLeft">
             <button label="Google" disable-on-empty-model="false">
-                <a href="https://google.com/" target="newWindow"/>
+                <a href="https://google.com/" target="self" new-window="true"/>
             </button>
         </toolbar>
     </form>

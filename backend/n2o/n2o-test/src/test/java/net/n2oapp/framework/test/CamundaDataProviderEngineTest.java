@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.*;
 
@@ -30,16 +30,16 @@ import static org.mockito.Mockito.when;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class CamundaDataProviderEngineTest {
 
-    @MockBean
+    @MockitoBean
     ProcessEngine processEngine;
 
-    @MockBean
+    @MockitoBean
     TaskService taskService;
 
-    @MockBean
+    @MockitoBean
     TaskQuery taskQuery;
 
-    @MockBean
+    @MockitoBean
     RuntimeService runtimeService;
 
     @Autowired
@@ -48,7 +48,7 @@ class CamundaDataProviderEngineTest {
     private N2oCamundaDataProvider invocation;
 
     @BeforeEach
-    public void config() {
+    void config() {
         invocation = new N2oCamundaDataProvider();
         when(processEngine.getTaskService()).thenReturn(taskService);
         when(processEngine.getRuntimeService()).thenReturn(runtimeService);

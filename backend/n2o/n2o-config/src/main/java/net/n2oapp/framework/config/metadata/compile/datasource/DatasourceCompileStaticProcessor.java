@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.redux.Redux.dispatchRoutableSortingLink;
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeRoute;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 
@@ -108,7 +108,7 @@ public class DatasourceCompileStaticProcessor {
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setMethod(RequestMethodEnum.POST);
-        dataProvider.setUrl(RouteUtil.normalize(submit.getRoute()));
+        dataProvider.setUrl(RouteUtil.normalizeRoute(submit.getRoute()));
         dataProvider.setTargetModel(ReduxModelEnum.RESOLVE);
         dataProvider.setPathParams(submit.getPathParams());
         dataProvider.setHeaderParams(submit.getHeaderParams());
@@ -118,7 +118,7 @@ public class DatasourceCompileStaticProcessor {
         N2oClientDataProvider.ActionContextData actionContextData = new N2oClientDataProvider.ActionContextData();
         actionContextData.setObjectId(object.getId());
         actionContextData.setOperationId(submit.getOperationId());
-        actionContextData.setRoute(RouteUtil.normalize(submit.getRoute()));
+        actionContextData.setRoute(RouteUtil.normalizeRoute(submit.getRoute()));
         actionContextData.setMessageOnSuccess(castDefault(submit.getMessageOnSuccess(),
                 () -> p.resolve(property("n2o.api.datasource.submit.message_on_success"), Boolean.class)));
         actionContextData.setMessageOnFail(castDefault(submit.getMessageOnFail(),
@@ -157,7 +157,7 @@ public class DatasourceCompileStaticProcessor {
         if (context.getPathRouteMapping() != null) {
             pathMapping.putAll(context.getPathRouteMapping());
         }
-        path = normalize(path + normalize(castDefault(source.getUrl(), source.getDatasourceId())));
+        path = normalizeRoute(path + normalizeRoute(castDefault(source.getUrl(), source.getDatasourceId())));
         submit.setPathMapping(pathMapping);
         submit.setMethod(source.getMethod());
         submit.setOptimistic(source.getOptimistic());
@@ -214,9 +214,9 @@ public class DatasourceCompileStaticProcessor {
         String datasourceRoute = parentRouteScope != null && "/".equals(parentRouteScope.getUrl())
                 ? compiledId
                 : sourceId;
-        String route = castDefault(RouteUtil.normalize(sourceRoute), () -> normalize(datasourceRoute));
+        String route = castDefault(RouteUtil.normalizeRoute(sourceRoute), () -> normalizeRoute(datasourceRoute));
         return parentRouteScope != null
-                ? RouteUtil.normalize(parentRouteScope.getUrl() + route)
+                ? RouteUtil.normalizeRoute(parentRouteScope.getUrl() + route)
                 : route;
     }
 

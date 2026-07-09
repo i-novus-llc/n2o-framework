@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -32,9 +33,9 @@ public class LinkCellCompiler extends AbstractCellCompiler<LinkCell, N2oLinkCell
         } else {
             cell.setUrl(StringUtils.hasLink(source.getUrl())
                     ? p.resolveJS(source.getUrl())
-                    : RouteUtil.normalize(source.getUrl()));
-            TargetEnum defaultTarget = RouteUtil.isApplicationUrl(source.getUrl()) ? TargetEnum.APPLICATION : TargetEnum.SELF;
-            cell.setTarget(castDefault(source.getTarget(), defaultTarget));
+                    : RouteUtil.normalizeUrl(source.getUrl(), p.resolve(property("n2o.config.routing_mode"), RoutingModeEnum.class)));
+            cell.setTarget(castDefault(source.getTarget(), () -> p.resolve(property("n2o.api.cell.link.target"), TargetEnum.class)));
+            cell.setNewWindow(castDefault(source.getNewWindow(), () -> p.resolve(property("n2o.api.cell.link.new_window"), Boolean.class)));
         }
 
             cell.setIcon(p.resolveJS(source.getIcon()));

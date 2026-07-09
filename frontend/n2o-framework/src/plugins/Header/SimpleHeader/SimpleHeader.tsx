@@ -24,7 +24,6 @@ interface MenuItem {
     id: string
     title: string
     href?: string
-    linkType?: 'inner' | 'outer'
     type: 'dropdown' | 'link' | 'text'
     items?: MenuItem[]
     badge?: string

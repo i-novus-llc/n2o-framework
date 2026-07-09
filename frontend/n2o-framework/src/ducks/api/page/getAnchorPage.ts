@@ -1,6 +1,6 @@
 import { State as GlobalState } from '../../State'
 import { makePageByIdSelector } from '../../pages/selectors'
-import { resolvePath } from '../../../components/core/router/resolvePath'
+import { resolvePath } from '../../../components/core/router/utils/resolvePath'
 
 export function getAnchorPage(url: string, state: GlobalState, pageId?: string): string | null {
     if (!pageId) { return null }

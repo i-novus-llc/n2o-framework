@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAlertAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -65,7 +66,7 @@ public class AlertActionCompiler extends AbstractActionCompiler<AlertAction, N2o
         message.setClassName(source.getCssClass());
         message.setHref(StringUtils.hasLink(source.getHref())
                 ? p.resolveJS(source.getHref())
-                : RouteUtil.normalize(source.getHref()));
+                : RouteUtil.normalizeUrl(source.getHref(), p.resolve(property("n2o.config.routing_mode"), RoutingModeEnum.class)));
         message.setSeverity(castDefault(source.getColor(),
                 () -> p.resolve(property("n2o.api.action.alert.color"), String.class)));
         message.setCloseButton(castDefault(source.getCloseButton(),

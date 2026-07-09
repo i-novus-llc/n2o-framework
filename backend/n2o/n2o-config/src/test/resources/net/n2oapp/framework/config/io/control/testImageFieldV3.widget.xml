@@ -19,7 +19,7 @@
             </statuses>
             <actions>
                 <invoke operation-id="op1"/>
-                <a href="/test"/>
+                <a href="/test" target="self"/>
             </actions>
         </image>
     </fields>

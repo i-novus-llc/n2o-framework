@@ -3,7 +3,7 @@
              name="Информация">
     <regions>
         <nav>
-            <link href="../friends" label="Друзья" target="application"/>
+            <link href="../friends/" label="Друзья" target="application"/>
         </nav>
         <form>
             <fields>

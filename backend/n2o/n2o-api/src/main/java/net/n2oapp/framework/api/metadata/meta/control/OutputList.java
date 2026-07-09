@@ -20,6 +20,8 @@ public class OutputList extends Control {
     @JsonProperty
     private TargetEnum target;
     @JsonProperty
+    private Boolean newWindow;
+    @JsonProperty
     private DirectionEnum direction;
     @JsonProperty
     private String separator;

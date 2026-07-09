@@ -18,6 +18,7 @@ public class LinkCellElementIOv3 extends AbstractActionCellElementIOv3<N2oLinkCe
         p.attribute(e, "icon", c::getIcon, c::setIcon);
         p.attribute(e, "url", c::getUrl, c::setUrl);
         p.attributeEnum(e, "target", c::getTarget, c::setTarget, TargetEnum.class);
+        p.attributeBoolean(e, "new-window", c::getNewWindow, c::setNewWindow);
     }
 
     @Override

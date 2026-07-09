@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/application-3.0"
            xmlns:menu="http://n2oapp.net/framework/config/schema/menu-3.0"
-           xmlns:act="http://n2oapp.net/framework/config/schema/action-2.0"
            xmlns:ds="http://n2oapp.net/framework/config/schema/datasource-1.0"
            xmlns:sb="http://n2oapp.net/framework/config/schema/sidebar-3.0"
            xmlns:ev="http://n2oapp.net/framework/config/schema/event-3.0"
@@ -238,10 +237,10 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="target" type="act:openPageType" default="application">
+        <xs:attribute name="new-window" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>
-                    Сценарий открытия страницы
+                    Открыть результат поиска в новой вкладке
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

@@ -18,7 +18,7 @@
         </body>
         <right-top>
             <link>
-                <a href="test"/>
+                <a href="test" target="self"/>
             </link>
         </right-top>
         <right-bottom>
@@ -32,7 +32,7 @@
                  show-count="never"/>
     <rows>
         <click enabled="true">
-            <a href="https://www.google.com/"/>
+            <a href="https://www.google.com/" target="self"/>
         </click>
     </rows>
 </list>

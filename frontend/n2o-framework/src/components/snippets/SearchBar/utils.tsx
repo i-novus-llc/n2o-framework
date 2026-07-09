@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import { NavLink, NavItem } from 'reactstrap'
-import { BrowserRouter } from 'react-router-dom'
 
 import { type SearchBarLinkProps } from './types'
 
@@ -36,42 +35,24 @@ export const Description = ({ description, disabled }: SearchBarLinkProps) => {
     )
 }
 
-export const RenderLink = ({ label, description, icon, href, linkType, disabled, directionIconsInPopUp }: SearchBarLinkProps) => {
-    if (linkType === 'inner') {
-        return (
-            <div className="n2o-search-bar__link-container">
-                <Icon icon={icon} directionIconsInPopUp={directionIconsInPopUp} />
-                <div>
-                    <BrowserRouter>
-                        <NavItem>
-                            <NavLink
-                                exact
-                                className="nav-link"
-                                to={href}
-                                title={description}
-                                activeClassName="active"
-                                disabled={disabled}
-                            >
-                                {label}
-                                <Description description={description} disabled={disabled} />
-                            </NavLink>
-                        </NavItem>
-                    </BrowserRouter>
-                </div>
-            </div>
-        )
-    }
-
+export const RenderLink = ({ label, description, icon, href, disabled, directionIconsInPopUp }: SearchBarLinkProps) => {
     return (
         <div className="n2o-search-bar__link-container">
             <Icon icon={icon} directionIconsInPopUp={directionIconsInPopUp} />
             <div>
-                <BrowserRouter>
-                    <NavLink href={href} title={description} disabled={disabled}>
+                <NavItem>
+                    <NavLink
+                        exact
+                        className="nav-link"
+                        href={href}
+                        title={description}
+                        activeClassName="active"
+                        disabled={disabled}
+                    >
                         {label}
                         <Description description={description} disabled={disabled} />
                     </NavLink>
-                </BrowserRouter>
+                </NavItem>
             </div>
         </div>
     )

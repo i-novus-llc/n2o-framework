@@ -15,7 +15,7 @@
                         </a>
                     </button>
                     <button id="id3">
-                        <a href="http://google.com"/>
+                        <a href="http://google.com" new-window="true" target="self"/>
                     </button>
                     <button id="id4">
                         <show-modal page-id="testAnchorAction2"/>
@@ -27,12 +27,12 @@
             <table id="secondWgt">
                 <toolbar>
                     <button id="secWgt" model="filter" datasource="test">
-                        <a href="/test/:minPrice/" target="newWindow">
+                        <a href="/test/:minPrice/" target="self" new-window="true">
                             <path-param name="minPrice" value="{minPrice}"/>
                         </a>
                     </button>
                     <button id="withParam" model="filter" datasource="test">
-                        <a href="{url}" target="newWindow"/>
+                        <a href="{url}" target="self" new-window="true"/>
                     </button>
                 </toolbar>
             </table>

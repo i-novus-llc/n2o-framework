@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.menu;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -22,6 +23,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMappings;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initParentRoutePathMappings;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeUrl;
 
 /**
  * Компиляция элемента меню {@code <link>}
@@ -39,14 +41,19 @@ public class LinkMenuItemCompiler extends AbstractMenuItemCompiler<N2oLinkMenuIt
         initMenuItem(source, compiled, p);
         compiled.setSrc(castDefault(source.getSrc(),
                 () -> p.resolve(property("n2o.api.menu.link.src"), String.class)));
-        compiled.setTarget(castDefault(source.getTarget(), TargetEnum.NEW_WINDOW));
+        compiled.setTarget(castDefault(source.getTarget(), () -> p.resolve(property("n2o.api.menu.link.target"), TargetEnum.class)));
+        compiled.setNewWindow(castDefault(source.getNewWindow(), () -> p.resolve(property("n2o.api.menu.link.new_window"), Boolean.class)));
         compileHref(compiled, source, p);
         return compiled;
     }
 
     private void compileHref(LinkMenuItem compiled, N2oLinkMenuItem source, CompileProcessor p) {
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-        String resolvedPath = p.resolveJS(source.getHref());
+        String path = source.getHref();
+        if (!StringUtils.isLink(source.getHref())) {
+            path = normalizeUrl(path, p.resolve(property("n2o.config.routing_mode"), RoutingModeEnum.class));
+        }
+        String resolvedPath = p.resolveJS(path);
         compiled.setUrl(resolvedPath);
         if (StringUtils.isJs(resolvedPath)) {
             if (compiled.getDatasource() == null) {

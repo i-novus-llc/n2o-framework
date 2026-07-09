@@ -1,6 +1,8 @@
 package net.n2oapp.framework.config.io.action;
 
 import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
+import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,6 +10,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class OpenPageElementIOV2 extends AbstractOpenPageElementIOV2<N2oOpenPage> {
+    @Override
+    public void io(Element e, N2oOpenPage op, IOProcessor p) {
+        super.io(e, op, p);
+        p.attributeBoolean(e, "new-window", op::getNewWindow, op::setNewWindow);
+    }
+
     @Override
     public String getElementName() {
         return "open-page";

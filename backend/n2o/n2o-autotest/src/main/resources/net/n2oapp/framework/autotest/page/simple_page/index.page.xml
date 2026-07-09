@@ -8,7 +8,7 @@
         </toolbar>
         <actions>
             <action id="redirect">
-                <a href="https://i-novus.ru/"/>
+                <a href="https://i-novus.ru/" target="self"/>
             </action>
         </actions>
     </form>

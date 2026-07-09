@@ -6,34 +6,34 @@
         <sidebar logo-src="static/logoWhite.png" home-page-url="#" default-state="maxi">
             <nav>
                 <menu-item name="Пункт 1">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Пункт 2">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Пункт 3">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Пункт 4">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Пункт 5">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Пункт 6">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Пункт 7">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Пункт 8">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
             </nav>
 
             <extra-menu>
                 <menu-item name="" icon="fa fa-user-circle-o">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
             </extra-menu>
         </sidebar>

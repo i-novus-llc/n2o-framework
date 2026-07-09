@@ -15,7 +15,7 @@
                     message-placement="top"
                     use-fail-out="false"
                     redirect-url="/testUrl"
-                    redirect-target="newWindow"
+                    redirect-target="self"
                     refresh-datasources="testWidget,ds2"
                     optimistic="true"
                     clear-on-success="false"

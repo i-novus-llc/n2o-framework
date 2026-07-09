@@ -28,7 +28,7 @@
             <else>
                 <invoke operation-id="op2" object-id="testBind"/>
                 <if test="type == 3">
-                    <a href="http://i-novus.ru"/>
+                    <a href="http://i-novus.ru" target="self"/>
                 </if>
             </else>
         </button>

@@ -9,4 +9,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oOpenPage extends N2oAbstractPageAction {
+    private Boolean newWindow;
 }

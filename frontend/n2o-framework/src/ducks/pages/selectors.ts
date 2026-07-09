@@ -24,16 +24,12 @@ export const pagesSelector = (state: State) => state.pages || EMPTY_OBJECT
  * Селектор-генератор для получения страницы по ID
  */
 export const makePageByIdSelector = (pageId: string) => createSelector(
-    [
-        pagesSelector,
-    ],
+    pagesSelector,
     pagesState => pagesState[pageId],
 )
 
 export const makeRootPageSelector = () => createSelector(
-    [
-        pagesSelector,
-    ],
+    pagesSelector,
     pagesState => Object.values(pagesState).find(page => page.rootPage),
 )
 

@@ -18,10 +18,10 @@ interface LinkProps {
 }
 
 export function Link({ item, sidebarOpen, isMiniView, isStaticView, showContent }: LinkProps) {
-    const { url: href, title, disabled, target, visible } = useLinkPropsResolver({ ...item, url: item.href })
+    const { url: href, title, disabled, target, visible, newWindow } = useLinkPropsResolver({ ...item, url: item.href })
 
     const hint = isMiniView ? title : null
-    const { active, ...linkProps } = useLink({ href, disabled, target })
+    const { active, ...linkProps } = useLink({ href, disabled, target, newWindow })
 
     if (!visible) { return null }
 

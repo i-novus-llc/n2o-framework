@@ -17,5 +17,7 @@ public class N2oSearchBar implements Source {
     private String labelFieldId;
     private String iconFieldId;
     private String descriptionFieldId;
+    @Deprecated
     private TargetEnum target;
+    private Boolean newWindow;
 }

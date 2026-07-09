@@ -18,15 +18,15 @@
                                trigger="hover"
                                position="left">
                     <menu-item label="Отдел разработки">
-                        <a href="/developers" target="application"/>
+                        <a href="/developers"/>
                     </menu-item>
                     <menu-item label="Отдел тестирования">
-                        <a href="/testers" target="application"/>
+                        <a href="/testers"/>
                     </menu-item>
                 </dropdown-menu>
                 <menu-item label="Профиль"
                            icon="fa fa-user" icon-position="right">
-                    <a href="/profile" target="application"/>
+                    <a href="/profile"/>
                 </menu-item>
             </dropdown-menu>
             <dropdown-menu id="messages"

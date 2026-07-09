@@ -78,7 +78,8 @@ Cells define how table column values are rendered. Placed inside `<column>` elem
 | Attribute | Type | Description |
 |---|---|---|
 | url | String | URL (supports `{field}` placeholders) |
-| target | _self / _blank / application | Link open mode |
+| target | self / application | Link open mode (default `application`) |
+| new-window | boolean | Open the link in a new browser tab (default `false`) |
 | icon | String | FontAwesome icon class |
 | action-id | String | Widget action reference |
 Body: Action element (optional, overrides url)

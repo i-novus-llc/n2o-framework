@@ -4,7 +4,7 @@ import { ImageShape } from '@i-novus/n2o-components/lib/display/NavItemImage'
 
 import { Action } from '../ducks/Action'
 import { Props } from '../components/snippets/Badge/Badge'
-import { LinkTarget } from '../components/core/router/types'
+import { N2OLinkTarget } from '../components/core/router/types'
 import { DataSourceModels, ModelPrefix } from '../core/datasource/const'
 import { Mapping } from '../ducks/datasource/Provider'
 
@@ -38,7 +38,8 @@ export interface Item extends Common {
     href: string
     datasource: string
     model: ModelPrefix
-    target: LinkTarget
+    target: N2OLinkTarget
+    newWindow?: boolean
     style?: React.CSSProperties
     pathMapping?: Mapping
     queryMapping?: Mapping
@@ -46,7 +47,6 @@ export interface Item extends Common {
     items: Item[]
     pathname: string
     badge?: Props
-    linkType: 'outer' | 'inner'
     direction?: string
     activeId?: string
     className?: string

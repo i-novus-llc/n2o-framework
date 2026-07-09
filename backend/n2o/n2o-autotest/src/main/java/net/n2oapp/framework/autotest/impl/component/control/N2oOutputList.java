@@ -53,9 +53,9 @@ public class N2oOutputList extends N2oControl implements OutputList {
         }
 
         should(Condition.text(values[values.length - 1]), elements.last(), duration);
-        // если последний элемент в elements является последним среди всех, то проверяем сепаратор на пустоту
+        // если последний элемент в elements является последним среди всех, то сепаратор не выводится
         if (element().lastChild().text().equals(elements.last().text()))
-            elements.last().parent().$(".white-space-pre").shouldBe(Condition.empty);
+            elements.last().parent().$(".white-space-pre").shouldNot(Condition.exist);
     }
 
     protected ElementsCollection linkedItems() {

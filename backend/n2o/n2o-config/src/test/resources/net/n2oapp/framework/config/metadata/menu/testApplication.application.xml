@@ -29,15 +29,15 @@
                                src="AnySrc"
                 >
                     <menu-item name="Отдел разработки">
-                        <a href="/developers" target="application"/>
+                        <a href="/developers"/>
                     </menu-item>
                     <menu-item name="Отдел тестирования">
-                        <a href="/testers" target="application"/>
+                        <a href="/testers"/>
                     </menu-item>
                 </dropdown-menu>
                 <menu-item name="Профиль"
                            icon="fa fa-user" icon-position="right">
-                    <a href="/profile" target="application"/>
+                    <a href="/profile"/>
                 </menu-item>
             </dropdown-menu>
             <dropdown-menu id="messages"
@@ -52,13 +52,13 @@
                        src="Test"
                        class="class"
                        style="background:blue">
-                <a href="/profile" target="application"/>
+                <a href="/profile"/>
             </menu-item>
             <dropdown-menu name="Дропдаун">
                 <menu-item name="Пункт меню 1"
                            class="class"
                            style="background:blue">
-                    <a href="/profile" target="application"/>
+                    <a href="/profile"/>
                 </menu-item>
                 <menu-item name="Пункт меню 2"
                            class="text-center"

@@ -27,9 +27,10 @@ export function Link({
         target,
         disabled,
         visible,
+        newWindow,
     } = useLinkPropsResolver({ ...item, url: item.href })
 
-    const { active, ...linkProps } = useLink({ href, disabled, target, onClick })
+    const { active, ...linkProps } = useLink({ href, disabled, target, newWindow, onClick })
 
     if (!visible) { return null }
 

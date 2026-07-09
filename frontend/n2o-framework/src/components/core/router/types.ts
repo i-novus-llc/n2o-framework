@@ -1,5 +1,4 @@
-export const enum LinkTarget {
+export const enum N2OLinkTarget {
     application = 'application',
-    blank = '_blank',
-    self = '_self',
+    self = 'self',
 }

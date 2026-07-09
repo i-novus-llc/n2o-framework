@@ -46,7 +46,7 @@ class AnchorCompileTest extends SourceCompileTestBase {
         //Root page
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction.page.xml")
                 .get(new PageContext("testAnchorAction"));
-        Toolbar toolbar = ((Widget<?>) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
+        Toolbar toolbar = ((Widget<?>) page.getRegions().get("single").getFirst().getContent().getFirst()).getToolbar();
         LinkAction link1 = (LinkAction) toolbar.getButton("id1").getAction();
         assertThat(link1.getUrl(), is("/test"));
         assertThat(link1.getTarget(), is(TargetEnum.APPLICATION));
@@ -70,16 +70,17 @@ class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(link3.getUrl(), is("http://google.com"));
         assertThat(link3.getTarget(), is(TargetEnum.SELF));
 
-        LinkActionImpl linkSecond = (LinkActionImpl) ((Widget<?>) page.getRegions().get("single").get(1).getContent().get(0))
+        LinkActionImpl linkSecond = (LinkActionImpl) ((Widget<?>) page.getRegions().get("single").get(1).getContent().getFirst())
                 .getToolbar().getButton("secWgt").getAction();
 
-        assertThat(linkSecond.getUrl(), is("/test/:minPrice"));
-        assertThat(linkSecond.getTarget(), is(TargetEnum.NEW_WINDOW));
+        assertThat(linkSecond.getUrl(), is("/test/:minPrice/"));
+        assertThat(linkSecond.getTarget(), is(TargetEnum.SELF));
+        assertThat(linkSecond.getPayload().getNewWindow(), is(true));
         assertThat(linkSecond.getPathMapping().size(), is(1));
         assertThat(linkSecond.getPathMapping().get("minPrice").getLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
 
-        LinkActionImpl linkWithParam = (LinkActionImpl) ((Widget<?>) page.getRegions().get("single").get(1).getContent().get(0))
+        LinkActionImpl linkWithParam = (LinkActionImpl) ((Widget<?>) page.getRegions().get("single").get(1).getContent().getFirst())
                 .getToolbar().getButton("withParam").getAction();
 
         assertThat(linkWithParam.getUrl(), is("`url`"));
@@ -92,7 +93,7 @@ class AnchorCompileTest extends SourceCompileTestBase {
         LinkActionImpl link2;
         LinkActionImpl link3;
         LinkAction link1;
-        PageContext modalContext = (PageContext) route("/page/id4", Page.class);
+        PageContext modalContext = (PageContext) route("/page/id4/", Page.class);
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         link1 = (LinkActionImpl) modalPage.getWidget().getToolbar().getButton("id1").getAction();
         assertThat(link1.getUrl(), is("/test"));
@@ -124,10 +125,10 @@ class AnchorCompileTest extends SourceCompileTestBase {
         Application application = compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorMenuItem.application.xml")
                 .get(new ApplicationContext("testAnchorMenuItem"));
 
-        MenuItem menuItem = application.getSidebars().get(0).getMenu().getItems().get(0);
+        MenuItem menuItem = application.getSidebars().getFirst().getMenu().getItems().getFirst();
         assertThat(menuItem.getSrc(), is("LinkMenuItem"));
         assertThat(menuItem.getHref(), is("/person/:id/docs"));
-        assertThat(menuItem.getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
+        assertThat(menuItem.getNewWindow(), is(false));
         assertThat(menuItem.getPathMapping().size(), is(1));
         assertThat(menuItem.getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(menuItem.getQueryMapping().size(), is(1));
@@ -136,10 +137,10 @@ class AnchorCompileTest extends SourceCompileTestBase {
         assertThat(menuItem.getQueryMapping().get("name").getLink(), is("models.resolve['doc']"));
         assertThat(menuItem.getQueryMapping().get("name").getValue(), is("`name`"));
 
-        menuItem = application.getSidebars().get(0).getMenu().getItems().get(1);
+        menuItem = application.getSidebars().getFirst().getMenu().getItems().get(1);
         assertThat(menuItem.getSrc(), is("LinkMenuItem"));
         assertThat(menuItem.getHref(), is("/person/:id/profile"));
-        assertThat(menuItem.getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
+        assertThat(menuItem.getNewWindow(), is(false));
         assertThat(menuItem.getPathMapping().size(), is(1));
         assertThat(menuItem.getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(menuItem.getQueryMapping().size(), is(1));
@@ -154,7 +155,7 @@ class AnchorCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testLinkedHref.page.xml")
                 .get(new PageContext("testLinkedHref"));
 
-        Toolbar toolbar = ((Widget<?>) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar();
+        Toolbar toolbar = ((Widget<?>) page.getRegions().get("single").getFirst().getContent().getFirst()).getToolbar();
         LinkActionImpl link1 = (LinkActionImpl) toolbar.getButton("b1").getAction();
         assertThat(link1.getUrl(), is("`url`"));
         assertThat(link1.getPayload().getModelLink(), is("models.filter['testLinkedHref_ds1']"));

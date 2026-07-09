@@ -39,7 +39,7 @@
                         <text class="font-weight-bold"/>
                     </block>
                     <block text-field-id="link">
-                        <link icon="fa fa-desktop" target="newWindow" url="{link}"/>
+                        <link icon="fa fa-desktop" target="self" new-window="true" url="{link}"/>
                     </block>
                 </col>
                 <col size="7">

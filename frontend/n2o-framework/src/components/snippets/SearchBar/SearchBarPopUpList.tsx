@@ -18,7 +18,7 @@ export function SearchBarPopUpList({
     return (
         <DropdownMenu className="n2o-search-bar__popup_list">
             {menu?.map((item) => {
-                const { id, disabled = false, linkType, separateLink } = item
+                const { id, disabled = false, separateLink } = item
 
                 const description = get(item, descriptionFieldId || '')
                 const label = get(item, labelFieldId || '')
@@ -41,7 +41,6 @@ export function SearchBarPopUpList({
                                 icon={icon}
                                 href={href}
                                 directionIconsInPopUp={directionIconsInPopUp}
-                                linkType={linkType}
                                 disabled={disabled}
                             />
                         </DropdownItem>

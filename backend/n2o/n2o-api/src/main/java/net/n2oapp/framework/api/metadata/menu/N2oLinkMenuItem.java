@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 public class N2oLinkMenuItem extends N2oAbstractMenuItem {
     private String href;
     private TargetEnum target;
+    private Boolean newWindow;
     private N2oParam[] pathParams;
     private N2oParam[] queryParams;
 }

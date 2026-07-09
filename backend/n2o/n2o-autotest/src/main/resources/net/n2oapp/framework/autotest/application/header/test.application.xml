@@ -25,7 +25,7 @@
         </nav>
         <extra-menu>
             <menu-item name="ссылка из extra-menu">
-                <a href="/" target="newWindow"/>
+                <a href="/" target="self" new-window="true"/>
             </menu-item>
         </extra-menu>
     </header>

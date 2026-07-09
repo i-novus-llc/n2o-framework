@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.aware.DatasourceIdAware;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.action.control.TargetEnum;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ShapeTypeEnum;
 import net.n2oapp.framework.api.metadata.header.MenuItem;
@@ -123,10 +122,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
                 compiled.setPathMapping(linkAction.getPathMapping());
                 compiled.setQueryMapping(linkAction.getQueryMapping());
                 compiled.setTarget(linkAction.getTarget());
-                if (linkAction.getTarget().equals(TargetEnum.APPLICATION))
-                    compiled.setLinkType(MenuItem.LinkTypeEnum.INNER);
-                else
-                    compiled.setLinkType(MenuItem.LinkTypeEnum.OUTER);
+                compiled.setNewWindow(linkAction.getNewWindow());
             } else {
                 compiled.setAction(action);
             }

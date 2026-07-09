@@ -65,15 +65,16 @@ class ButtonFieldBinderTest extends SourceCompileTestBase {
         Form form = (Form) page.getRegions().get("single").getFirst().getContent().getFirst();
         CustomField field = (CustomField) form.getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
         assertThat(((InvokeAction) ((ButtonField) field.getControl()).getAction()).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/p/w/1/form/greeting"));
+                is("n2o/data/p/w/1/form/greeting/"));
         ButtonField field1 = (ButtonField) form.getComponent().getFieldsets().getFirst().getRows().get(2).getCols().getFirst().getFields().getFirst();
-        assertThat(((InvokeAction) field1.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
+        assertThat(((InvokeAction) field1.getAction()).getPayload().getDataProvider().getUrl(),
+                is("n2o/data/p/w/1/form/greeting/"));
         InvokeAction invokeAction = (InvokeAction) form.getComponent().getFieldsets().getFirst().getRows().get(3).getCols().getFirst()
                 .getFields().getFirst().getToolbar()[0].getButtons().getFirst().getAction();
-        assertThat(invokeAction.getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
+        assertThat(invokeAction.getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting/"));
         Table<?> table = (Table<?>) page.getRegions().get("single").getFirst().getContent().get(1);
         assertThat(((InvokeAction) ((ToolbarCell) table.getComponent().getBody().getCells().getFirst()).getToolbar().getFirst().getButtons().getFirst().getAction())
-                .getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
+                .getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting/"));
     }
 
     /**

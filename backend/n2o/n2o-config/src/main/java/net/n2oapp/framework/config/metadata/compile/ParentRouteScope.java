@@ -32,7 +32,7 @@ public class ParentRouteScope {
     }
 
     public ParentRouteScope(String route, ParentRouteScope parent) {
-        this(RouteUtil.normalize(parent.getUrl() + route), parent.getPathMapping(), parent.getQueryMapping());
+        this(RouteUtil.normalizeRoute(parent.getUrl() + route), parent.getPathMapping(), parent.getQueryMapping());
     }
 
     public ParentRouteScope(String route,

@@ -20,7 +20,7 @@
                     <action type="t1"/>
                 </if>
                 <else>
-                    <a href="/test1"/>
+                    <a href="/test1" target="self"/>
                 </else>
             </if>
             <else>
@@ -35,10 +35,10 @@
                 <action type="t1"/>
                 <if datasource="ds1" test="name == 'test1'">
                     <action type="t1"/>
-                    <a href="/test1"/>
+                    <a href="/test1" target="self"/>
                 </if>
                 <else>
-                    <a href="/test1"/>
+                    <a href="/test1" target="self"/>
                 </else>
             </if>
             <else-if test="code == 'A' &amp;&amp; type == 2">
@@ -46,7 +46,7 @@
                     <action type="t1"/>
                 </if>
                 <else>
-                    <a href="/test1"/>
+                    <a href="/test1" target="self"/>
                 </else>
                 <show-modal page-id="card"/>
             </else-if>

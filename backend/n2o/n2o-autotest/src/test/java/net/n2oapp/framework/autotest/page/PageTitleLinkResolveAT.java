@@ -291,7 +291,7 @@ class PageTitleLinkResolveAT extends AutoTestBase {
         else
             page.shouldNotHaveTitle();
 
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/201/open\\?number=202");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/201/open/\\?number=202");
     }
 
     @Test

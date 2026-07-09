@@ -123,10 +123,9 @@ class TableGeneratorsTest extends SourceCompileTestBase {
         ));
         assertThat(exportBtn.getAction(), Matchers.instanceOf(ShowModal.class));
         assertThat(((ShowModal) exportBtn.getAction()).getPageId(), is("exportModal?formatId=csv&formatName=CSV&charsetId=utf-8&charsetName=UTF-8&sizeId=all"));
-        assertThat(((ShowModal) exportBtn.getAction()).getPayload().getPageUrl(), is("/table_settings/exportModal_table_settings_tb1"));
+        assertThat(((ShowModal) exportBtn.getAction()).getPayload().getPageUrl(), is("/table_settings/exportModal_table_settings_tb1/"));
 
-
-        PageContext modalPageContext = (PageContext) route("/table_settings/exportModal_table_settings_tb1", Page.class);
+        PageContext modalPageContext = (PageContext) route("/table_settings/exportModal_table_settings_tb1/", Page.class);
         assertThat(modalPageContext.getParentDatasourceIdsMap().size(), is(1));
         assertThat(modalPageContext.getParentDatasourceIdsMap().get("ds1"), is("table_settings_ds1"));
 
@@ -297,7 +296,7 @@ class TableGeneratorsTest extends SourceCompileTestBase {
 
         assertThat(button.getAction(), Matchers.instanceOf(ShowModal.class));
         assertThat(((ShowModal) button.getAction()).getPageId(), Matchers.is("exportModal?formatId=xlsx&formatName=XLSX&charsetId=utf-8&charsetName=UTF-8&sizeId=all"));
-        assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/exportModal_export_w1"));
+        assertThat(((ShowModal) button.getAction()).getPayload().getPageUrl(), Matchers.is("/export/exportModal_export_w1/"));
         assertThat(button, allOf(
                 hasProperty("hint", is("Экспортировать")),
                 hasProperty("icon", is("fa fa-share-square-o"))
@@ -307,7 +306,7 @@ class TableGeneratorsTest extends SourceCompileTestBase {
         assertThat(button.getConditions().get(ValidationTypeEnum.ENABLED).getFirst().getModelLink(), is("models.datasource['export_ds1']"));
         assertThat(button.getConditions().get(ValidationTypeEnum.ENABLED).getFirst().getMessage(), is("Недоступно при пустых данных"));
 
-        PageContext modalPageContext = (PageContext) route("/export/exportModal_export_w1", Page.class);
+        PageContext modalPageContext = (PageContext) route("/export/exportModal_export_w1/", Page.class);
         assertThat(modalPageContext.getParentDatasourceIdsMap().size(), is(1));
         assertThat(modalPageContext.getParentDatasourceIdsMap().get("ds1"), is("export_ds1"));
 

@@ -15,10 +15,10 @@
         </toolbar>
         <actions>
             <action id="action1">
-                <a href="http://example.com"/>
+                <a href="http://example.com" target="self"/>
             </action>
             <action id="action2">
-                <a href="http://example.com"/>
+                <a href="http://example.com" target="self"/>
             </action>
         </actions>
     </form>

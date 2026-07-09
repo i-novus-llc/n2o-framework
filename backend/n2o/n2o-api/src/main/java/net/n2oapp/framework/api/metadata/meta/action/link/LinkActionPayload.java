@@ -25,6 +25,8 @@ public class LinkActionPayload implements ActionPayload, UrlAware {
     @JsonProperty
     private TargetEnum target;
     @JsonProperty
+    private Boolean newWindow;
+    @JsonProperty
     private Map<String, ModelLink> pathMapping = new HashMap<>();
     @JsonProperty
     private Map<String, ModelLink> queryMapping = new LinkedHashMap<>();

@@ -220,7 +220,8 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 |---|---|---|
 | label-field-id | String | name |
 | href-field-id | String | href |
-| target | String | newWindow |
+| target | self / application | application |
+| new-window | boolean | false |
 | separator | String | (space) |
 | direction | String | column |
 

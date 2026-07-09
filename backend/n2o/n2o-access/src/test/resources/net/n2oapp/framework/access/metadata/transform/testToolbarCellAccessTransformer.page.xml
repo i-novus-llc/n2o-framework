@@ -15,7 +15,7 @@
                     </button>
                     <button action-id="update"/>
                     <button>
-                        <a href="/test/access"/>
+                        <a href="/test/access" target="self"/>
                     </button>
                 </toolbar>
             </column>

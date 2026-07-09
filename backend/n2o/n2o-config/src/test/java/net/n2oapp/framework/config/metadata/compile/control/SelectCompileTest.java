@@ -92,7 +92,7 @@ class SelectCompileTest extends SourceCompileTestBase {
         assertThat(select.getQuickSearchParam(), is("test_name"));
         assertThat(select.getData(), nullValue());
 
-        QueryContext queryCtx = ((QueryContext)route("/test", CompiledQuery.class));
+        QueryContext queryCtx = ((QueryContext)route("/test/", CompiledQuery.class));
         assertThat(queryCtx, notNullValue());
         assertThat(queryCtx.getSortingMap().get("sorting.name"), is("name"));
     }

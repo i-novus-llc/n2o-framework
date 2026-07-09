@@ -1136,10 +1136,17 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target" type="act:targetType" default="newWindow">
+                <xs:attribute name="target" type="act:targetType" default="application">
                     <xs:annotation>
                         <xs:documentation>
                             Сценарий открытия ссылки
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="new-window" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Открыть ссылку в новой вкладке
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

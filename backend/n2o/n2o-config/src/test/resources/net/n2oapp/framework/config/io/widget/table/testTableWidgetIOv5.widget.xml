@@ -21,12 +21,12 @@
                 <sub-menu style="margin-left:10px;width:300px" show-toggle-icon="false">
                     <menu-item style="margin-left:10px;width:300px">
                         <invoke operation-id="testId" route="route" src="src"
-                                redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
+                                redirect-url="/url" redirect-target="self" close-on-success="true"/>
                     </menu-item>
                 </sub-menu>
                 <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass">
                     <invoke operation-id="testId" route="route" src="src"
-                            redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
+                            redirect-url="/url" redirect-target="self" close-on-success="true"/>
                 </button>
                 <sub-menu generate="update2" class="testClass" icon="testIcon">
                     <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"/>

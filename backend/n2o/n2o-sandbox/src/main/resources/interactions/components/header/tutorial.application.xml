@@ -11,7 +11,7 @@
         </nav>
         <extra-menu>
             <menu-item name="Внешняя ссылка">
-                <a href="http://example.com"/>
+                <a href="http://example.com" target="self"/>
             </menu-item>
         </extra-menu>
     </header>

@@ -100,7 +100,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getBody().getRow().getElementAttributes().get("className"), is("red"));
         assertThat(((Map<String, String>) table.getComponent().getBody().getRow().getElementAttributes().get("style")).get("color"), is("blue"));
 
-        QueryContext queryContext = (QueryContext) route("/testTable5Compile/w1", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testTable5Compile/w1/", CompiledQuery.class);
         assertThat(queryContext.getValidations(), notNullValue());
         assertThat(queryContext.getValidations().size(), is(1));
         assertThat(queryContext.getValidations().getFirst(), instanceOf(MandatoryValidation.class));
@@ -254,7 +254,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(columns.get(4).getId(), is("notInQuery"));
         assertThat(((BaseColumn) columns.get(4)).getLabel(), is("notInQueryLabel"));
 
-        QueryContext context = (QueryContext) route("/testTable4SortableCompile/w1", CompiledQuery.class);
+        QueryContext context = (QueryContext) route("/testTable4SortableCompile/w1/", CompiledQuery.class);
         assertThat(context.getSortingMap().get("sorting.id"), is("id"));
         assertThat(context.getSortingMap().get("sorting.name"), is("name"));
 
@@ -266,7 +266,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
     void testFilters() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4FiltersCompile.page.xml")
                 .get(new PageContext("testTable4FiltersCompile", "/page"));
-        QueryContext queryCtx = (QueryContext) route("/page/main", CompiledQuery.class);
+        QueryContext queryCtx = (QueryContext) route("/page/main/", CompiledQuery.class);
 
         //pre-filter name
         ModelLink nameLink = ((StandardDatasource) page.getDatasources().get("page_main")).getProvider().getQueryMapping().get("nameParam");
@@ -341,7 +341,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
     void testRequiredPrefilters() {
         compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableRequiredPrefilters.page.xml")
                 .get(new PageContext("testTableRequiredPrefilters"));
-        QueryContext queryContext = ((QueryContext) route("/testTableRequiredPrefilters/w1", CompiledQuery.class));
+        QueryContext queryContext = ((QueryContext) route("/testTableRequiredPrefilters/w1/", CompiledQuery.class));
 
         assertThat(queryContext.getValidations().getFirst().getId(), is("genders*.id"));
         assertThat(queryContext.getValidations().getFirst().getFieldId(), is("genders*.id"));
@@ -500,7 +500,7 @@ class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(pagination.getClassName(), is("class"));
         assertThat(pagination.getStyle(), is(Map.of("width", "15", "height", "10")));
         assertThat(pagination.getPlace(), is(PlaceEnum.TOP_LEFT));
-        assertThat(pagination.getCountDataProvider().getUrl(), is("n2o/count/testTable4PaginationNonDefault"));
+        assertThat(pagination.getCountDataProvider().getUrl(), is("n2o/count/testTable4PaginationNonDefault/"));
     }
 
     @Test

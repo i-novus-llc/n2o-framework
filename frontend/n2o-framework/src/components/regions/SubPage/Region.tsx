@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import { Page } from '../../core/Page'
 import { PageContext } from '../../core/router/context'
-import { resolvePath } from '../../core/router/resolvePath'
+import { resolvePath } from '../../core/router/utils/resolvePath'
 import { useLocation } from '../../core/router/useLocation'
 import { Redirect } from '../../core/router/Redirect'
 import { makePageUrlByIdSelector } from '../../../ducks/pages/selectors'
@@ -45,36 +45,39 @@ export function SubPage({
     const baseUrl = useSelector(makePageUrlByIdSelector(currentPageId))
     const defaultPage = defaultPageId && routes.find(({ id }) => id === defaultPageId)
     const { search = '' } = location
+    const resolvedRoutes = useMemo(() => routes.map(({ route, ...page }) => ({
+        route: resolvePath(baseUrl, route),
+        ...page,
+    })), [baseUrl, routes])
 
     const pages = useMemo(() => {
         /**
          * Сортировка элементов в порядке от самого длинного route к самому короткому
          * т.к. react-router рисует первый, а не наиболее подходящий
          */
-        return [...routes]
+        return [...resolvedRoutes]
             .sort((a, b) => b.route.length - a.route.length)
             .map(({ route, ...page }) => {
                 const { id, url } = page
-                const path = resolvePath(baseUrl, route)
 
                 return (
                     <Route
                         key={id}
-                        path={path}
+                        path={route}
                         render={() => (
                             <Page
                                 {...page}
                                 pageId={id}
                                 pageUrl={url}
                                 parentId={currentPageId}
-                                baseUrl={path}
+                                baseUrl={route}
                                 className="n2o-sub-page-body"
                             />
                         )}
                     />
                 )
             })
-    }, [routes, baseUrl, currentPageId])
+    }, [resolvedRoutes, currentPageId])
 
     /*
      * скрываем весь регион, если базовый роут страницы не совпадает с адресом

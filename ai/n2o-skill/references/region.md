@@ -145,7 +145,7 @@ Body: `<menu-item>`, `<dropdown-menu>`, `<link>`, `<divider>`, `<button>`, `<gro
         <open-page page-id="profile"/>
     </menu-item>
     <divider/>
-    <link label="Documentation" icon="fa fa-book" target="newWindow">
+    <link label="Documentation" icon="fa fa-book" new-window="true">
         <a href="https://n2o.i-novus.ru/docs/"/>
     </link>
     <button label="Logout" icon="fa fa-sign-out">
@@ -247,7 +247,8 @@ A hyperlink to an external URL.
 | label | String | | Link text (supports placeholders) |
 | icon | String | | FontAwesome icon |
 | icon-position | left / right | left | Icon position |
-| target | application / newWindow / self | newWindow | How to open the link |
+| target | self / application | application | How to open the link|
+| new-window | boolean | false | Open the link in a new browser tab |
 | visible | boolean / String | true | Visibility condition |
 | enabled | boolean / String | true | Availability condition |
 | class | String | | CSS class |
@@ -256,7 +257,7 @@ A hyperlink to an external URL.
 Body: `<a href="..."/>` action element.
 
 ```xml
-<link label="Documentation" icon="fa fa-book" target="newWindow">
+<link label="Documentation" icon="fa fa-book" new-window="true">
     <a href="https://n2o.i-novus.ru/docs/"/>
 </link>
 ```

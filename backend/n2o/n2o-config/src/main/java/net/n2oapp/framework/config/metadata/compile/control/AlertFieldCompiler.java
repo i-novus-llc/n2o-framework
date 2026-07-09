@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -34,7 +35,7 @@ public class AlertFieldCompiler extends FieldCompiler<AlertField, N2oAlertField>
                 () -> p.resolve(property("n2o.api.control.alert.color"), String.class)));
         alert.setHref(StringUtils.hasLink(source.getHref())
                 ? p.resolveJS(source.getHref())
-                : RouteUtil.normalize(source.getHref()));
+                : RouteUtil.normalizeUrl(source.getHref(), p.resolve(property("n2o.config.routing_mode"), RoutingModeEnum.class)));
         compileField(alert, source, context, p);
         return alert;
     }

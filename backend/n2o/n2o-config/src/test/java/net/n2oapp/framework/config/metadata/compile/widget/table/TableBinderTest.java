@@ -52,7 +52,7 @@ class TableBinderTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testTableRowClick", "/p/w/:param/row");
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("param", "1"));
         RowClick rowClick = ((TableWidgetComponent) page.getWidget().getComponent()).getBody().getRow().getClick();
-        assertThat(((LinkAction) rowClick.getAction()).getUrl(), is("/p/w/1/row/p_w_row_w1_row"));
+        assertThat(((LinkAction) rowClick.getAction()).getUrl(), is("/p/w/1/row/p_w_row_w1_row/"));
     }
 
     /**

@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.is;
  * Тестирование компиляции условного оператора
  */
 class ConditionActionCompileTest extends SourceCompileTestBase {
-    
+
     @Override
     @BeforeEach
     public void setUp() {
@@ -138,31 +138,31 @@ class ConditionActionCompileTest extends SourceCompileTestBase {
         //Все урлы должны быть уникальными
         ConditionAction ifAction = (ConditionAction) button.getAction();
         String invokeUrl1 = ((InvokeAction) ifAction.getPayload().getSuccess()).getPayload().getDataProvider().getUrl();
-        assertThat(invokeUrl1, is("n2o/data/p/w/123/modal/condition_2"));
+        assertThat(invokeUrl1, is("n2o/data/p/w/123/modal/condition_2/"));
 
         ConditionAction elseIfAction1 = (ConditionAction) ifAction.getPayload().getFail();
         String invokeUrl2 = ((InvokeAction) elseIfAction1.getPayload().getSuccess()).getPayload().getDataProvider().getUrl();
-        assertThat(invokeUrl2, is("n2o/data/p/w/123/modal/condition_3"));
+        assertThat(invokeUrl2, is("n2o/data/p/w/123/modal/condition_3/"));
 
         ConditionAction elseIfAction2 = (ConditionAction) elseIfAction1.getPayload().getFail();
         String invokeUrl3 = ((InvokeAction) ((ConditionAction) elseIfAction2.getPayload().getSuccess()).getPayload().getSuccess())
                 .getPayload().getDataProvider().getUrl();
-        assertThat(invokeUrl3, is("n2o/data/p/w/123/modal/condition_5"));
+        assertThat(invokeUrl3, is("n2o/data/p/w/123/modal/condition_5/"));
 
         String invokeUrl4 = ((InvokeAction) elseIfAction2.getPayload().getFail()).getPayload().getDataProvider().getUrl();
-        assertThat(invokeUrl4, is("n2o/data/p/w/123/modal/condition_6"));
+        assertThat(invokeUrl4, is("n2o/data/p/w/123/modal/condition_6/"));
 
         //проверка кейса когда мультиэкшен внутри if или else
         PerformButton button2 = (PerformButton) page.getToolbar().getButton("b2");
         InvokeAction but2Action = (InvokeAction) ((MultiAction) button2.getAction()).getPayload().getActions().getFirst();
         String but2invokeUrl = but2Action.getPayload().getDataProvider().getUrl();
-        assertThat(but2invokeUrl, is("n2o/data/p/w/123/modal/multi8"));
+        assertThat(but2invokeUrl, is("n2o/data/p/w/123/modal/multi8/"));
         ConditionAction but2ifAction = (ConditionAction) ((MultiAction) button2.getAction()).getPayload().getActions().get(1);
         String but2invokeUrl1 = ((InvokeAction) but2ifAction.getPayload().getSuccess()).getPayload().getDataProvider().getUrl();
-        assertThat(but2invokeUrl1, is("n2o/data/p/w/123/modal/condition_10"));
+        assertThat(but2invokeUrl1, is("n2o/data/p/w/123/modal/condition_10/"));
 
         InvokeAction but2elseIfAction1 = (InvokeAction) ((MultiAction) but2ifAction.getPayload().getFail()).getPayload().getActions().getFirst();
         String but2invokeUrl2 = but2elseIfAction1.getPayload().getDataProvider().getUrl();
-        assertThat(but2invokeUrl2, is("n2o/data/p/w/123/modal/multi12"));
+        assertThat(but2invokeUrl2, is("n2o/data/p/w/123/modal/multi12/"));
     }
 }

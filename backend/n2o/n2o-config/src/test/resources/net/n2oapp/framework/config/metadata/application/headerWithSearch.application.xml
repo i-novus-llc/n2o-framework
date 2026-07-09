@@ -9,14 +9,14 @@
                     <open-page test:testAttr="testAttribute" page-id="pageWithoutLabel" route="/page1"/>
                 </menu-item>
                 <menu-item>
-                    <a label="hrefLabel" href="http://test.com"/>
+                    <a label="hrefLabel" href="http://test.com" target="self"/>
                 </menu-item>
             </dropdown-menu>
             <menu-item>
                 <open-page page-id="pageWithoutLabel" label="headerLabel"/>
             </menu-item>
             <menu-item>
-                <a label="hrefLabel" href="http://test.com"/>
+                <a label="hrefLabel" href="http://test.com" target="self"/>
             </menu-item>
         </nav>
 
@@ -25,8 +25,7 @@
                 url-field-id="urlId"
                 label-field-id="labelId"
                 icon-field-id="iconId"
-                description-field-id="descriptionId"
-                target="application"/>
+                description-field-id="descriptionId"/>
 
     </header>
 </application>

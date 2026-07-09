@@ -9,7 +9,7 @@
         </columns>
         <toolbar>
             <button label="Открыть">
-                <open-page page-id="test" route="/open/:id">
+                <open-page page-id="test" route="/open/:id/">
                     <params>
                         <path-param name="id" value="{id}"/>
                     </params>

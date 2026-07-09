@@ -235,7 +235,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 hasProperty("severity", is(SeverityTypeEnum.WARNING)),
                 hasProperty("side", is("client,server"))));
 
-        ActionContext actionContext = (ActionContext) route("/testStandardField/submit", CompiledObject.class);
+        ActionContext actionContext = (ActionContext) route("/testStandardField/submit/", CompiledObject.class);
         List<Validation> serverValidations = actionContext.getValidations();
         assertThat(serverValidations.size(), is(4));
         assertThat(serverValidations.getFirst().getFieldId(), is("test1"));
@@ -270,7 +270,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(clientValidations.getFirst().getMoment(), is(N2oValidation.ServerMomentEnum.BEFORE_OPERATION));
         assertThat(((ConditionValidation) clientValidations.getFirst()).getExpression(), is("city=='Казань'"));
 
-        ActionContext actionContext = (ActionContext) route("/testStandardFieldInlineValidations/submit", CompiledObject.class);
+        ActionContext actionContext = (ActionContext) route("/testStandardFieldInlineValidations/submit/", CompiledObject.class);
         List<Validation> serverValidations = actionContext.getValidations();
         assertThat(serverValidations.size(), is(1));
         assertThat(serverValidations.getFirst().getSeverity(), is(SeverityTypeEnum.DANGER));
@@ -287,7 +287,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testStandardFieldSubmit"));
         Field field = ((Form) page.getRegions().get("single").getFirst().getContent().get(3)).getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
 
-        ActionContext context = (ActionContext) route("/testStandardFieldSubmit/a/b/c", CompiledObject.class);
+        ActionContext context = (ActionContext) route("/testStandardFieldSubmit/a/b/c/", CompiledObject.class);
         assertThat(context, allOf(
                 notNullValue(),
                 hasProperty("operationId", is("update")),
@@ -301,7 +301,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         ClientDataProvider dataProvider = ((StandardField<?>) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethodEnum.POST));
         assertThat(dataProvider.getSubmitForm(), is(false));
-        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmit/a/b/c"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmit/a/b/c/"));
 
         assertThat(dataProvider.getPathMapping().size(), is(2));
         ModelLink link = dataProvider.getPathMapping().get("name1");
@@ -339,14 +339,14 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         StandardField<?> field = (StandardField<?>) ((Form) page.getRegions().get("single").getFirst().getContent().getFirst())
                 .getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
         assertThat(field.getDataProvider(), notNullValue());
-        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/form_availability"));
+        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/form_availability/"));
         assertThat(field.getDataProvider().getPathMapping().size(), is(0));
         assertThat(field.getDataProvider().getQueryMapping().size(), is(0));
         // поле из второй формы
         field = (StandardField<?>) ((Form) page.getRegions().get("single").getFirst().getContent().get(2))
                 .getComponent().getFieldsets().getFirst().getRows().get(1).getCols().getFirst().getFields().getFirst();
         assertThat(field.getDataProvider(), notNullValue());
-        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/w1_availability"));
+        assertThat(field.getDataProvider().getUrl(), is("n2o/data/testSubmitInDependentWidget/w1_availability/"));
         assertThat(field.getDataProvider().getPathMapping().size(), is(0));
         assertThat(field.getDataProvider().getQueryMapping().size(), is(0));
     }
@@ -359,7 +359,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         Field field = ((Form) page.getRegions().get("single").getFirst().getContent().getFirst()).getComponent().getFieldsets()
                 .getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
 
-        ActionContext context = (ActionContext) route("/testStandardFieldSubmitWithoutRoute/form_test", CompiledObject.class);
+        ActionContext context = (ActionContext) route("/testStandardFieldSubmitWithoutRoute/form_test/", CompiledObject.class);
         assertThat(context, allOf(
                 notNullValue(),
                 hasProperty("operationId", is("update")),
@@ -372,7 +372,7 @@ class StandardFieldCompileTest extends SourceCompileTestBase {
         ClientDataProvider dataProvider = ((StandardField<?>) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethodEnum.POST));
         assertThat(dataProvider.getSubmitForm(), is(false));
-        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmitWithoutRoute/form_test"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmitWithoutRoute/form_test/"));
 
         assertThat(dataProvider.getPathMapping().size(), is(2));
         ModelLink link = dataProvider.getPathMapping().get("name1");

@@ -4,10 +4,10 @@
     <form>
         <toolbar place="bottomLeft">
             <button label="Назад">
-                <a href="../friends" target="application"/>
+                <a href="../friends"/>
             </button>
             <button label="Вперед" color="primary">
-                <a href="../video" target="application"/>
+                <a href="../video"/>
             </button>
         </toolbar>
         <fields>

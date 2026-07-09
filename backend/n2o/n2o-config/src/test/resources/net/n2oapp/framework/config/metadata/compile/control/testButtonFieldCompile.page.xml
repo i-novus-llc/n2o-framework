@@ -7,14 +7,14 @@
         <form>
             <actions>
                 <action id="act1">
-                    <a href="http://ya.ru"/>
+                    <a href="http://ya.ru" target="self"/>
                 </action>
             </actions>
             <fields>
                 <hidden id="url" default-value="https://example.com"/>
                 <button id="btn1" badge="{badge}" badge-color="{color}" label="delete"
                         color="{name}" datasource="ds">
-                    <a href="/test2/:param1/:param2?param3=:param3" target="application">
+                    <a href="/test2/:param1/:param2?param3=:param3">
                         <path-param name="param1" value="{field1}"/>
                         <path-param name="param2" value="1"/>
                         <query-param name="param3" value="{field3}"/>
@@ -35,7 +35,7 @@
                     </show-modal>
                 </button>
                 <button id="btn5">
-                    <a href="{url}"/>
+                    <a href="{url}" target="self"/>
                 </button>
                 <button
                         id="btn6"
@@ -43,7 +43,7 @@
                 </button>
                 <button id="btn7" datasource="table">
                     <confirm/>
-                    <a href="http://ya.ru"/>
+                    <a href="http://ya.ru" target="self"/>
                 </button>
                 <button id="btn8">
                     <confirm title="Предупреждение" text="Подтвердите действие" type="popover">

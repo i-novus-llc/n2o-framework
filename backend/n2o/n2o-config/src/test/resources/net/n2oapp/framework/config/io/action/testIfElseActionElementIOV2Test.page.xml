@@ -6,19 +6,19 @@
                 <invoke operation-id="save"/>
                 <if test="condition">
                     <invoke operation-id="save"/>
-                    <a href="/test1"/>
+                    <a href="/test1" target="self"/>
                 </if>
                 <else>
-                    <a href="/test1"/>
+                    <a href="/test1" target="self"/>
                 </else>
             </if>
             <else-if test="code == 'A' &amp;&amp; type == 2">
                 <if test="condition">
                     <invoke operation-id="save"/>
-                    <a href="/test1"/>
+                    <a href="/test1" target="self"/>
                 </if>
                 <else>
-                    <a href="/test1"/>
+                    <a href="/test1" target="self"/>
                 </else>
                 <show-modal page-id="card"/>
             </else-if>

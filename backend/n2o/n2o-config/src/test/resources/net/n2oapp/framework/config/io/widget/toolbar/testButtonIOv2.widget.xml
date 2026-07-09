@@ -15,7 +15,7 @@
                   target-model="resolve" target-datasource="form" target-field-id="dictionary.id"
                   mode="replace"/>
             <set-value to="field"/>
-            <a href="/test"/>
+            <a href="/test" target="self"/>
         </button>
     </toolbar>
 </table>

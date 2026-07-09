@@ -46,7 +46,7 @@ class CheckboxGroupCompileTest extends SourceCompileTestBase {
         ClientDataProvider cdp = ((ListControl) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
 
-        assertThat(cdp.getUrl(), is("n2o/data/test"));
+        assertThat(cdp.getUrl(), is("n2o/data/test/"));
         assertThat(cdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
         assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
 

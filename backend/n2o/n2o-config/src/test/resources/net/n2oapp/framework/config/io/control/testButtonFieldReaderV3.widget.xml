@@ -9,7 +9,7 @@
                 badge-image-position="right" badge-image-shape="square" help="Подсказка" help-trigger="hover">
             <set-value to="field"/>
             <submit datasource="ds1"/>
-            <a href="https://google.com?q={name}"/>
+            <a href="https://google.com?q={name}" target="self"/>
         </button>
     </fields>
 </form>

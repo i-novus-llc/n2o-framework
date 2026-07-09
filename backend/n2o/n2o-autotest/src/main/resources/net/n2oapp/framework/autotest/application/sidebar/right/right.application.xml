@@ -4,7 +4,7 @@
     <header sidebar-icon="fa fa-bars" sidebar-toggled-icon="fa fa-bars">
         <extra-menu>
             <menu-item name="Меню 1">
-                <a href="i-novus.ru"/>
+                <a href="i-novus.ru" target="self"/>
             </menu-item>
         </extra-menu>
     </header>

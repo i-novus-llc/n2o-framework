@@ -14,6 +14,7 @@ public class N2oOutputList extends N2oPlainField {
     private String labelFieldId;
     private String hrefFieldId;
     private TargetEnum target;
+    private Boolean newWindow;
     private OutputList.DirectionEnum direction;
     private String separator;
 }

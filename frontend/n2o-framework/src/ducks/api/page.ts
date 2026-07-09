@@ -1,6 +1,6 @@
 import { put, select, takeEvery, call } from 'redux-saga/effects'
 import { createAction } from '@reduxjs/toolkit'
-import { push } from 'connected-react-router'
+import { push, getLocation } from 'connected-react-router'
 import get from 'lodash/get'
 import isUndefined from 'lodash/isUndefined'
 import i18next from 'i18next'
@@ -11,6 +11,9 @@ import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { executeExpression } from '../../core/Expression/execute'
 import { parseExpression } from '../../core/Expression/parse'
 import { setLocation, showPagePrompt } from '../pages/store'
+import { N2OLinkTarget } from '../../components/core/router/types'
+import { prepareLink } from '../../components/core/router/utils/prepareLink'
+import { makePageUrlByIdSelector } from '../pages/selectors'
 
 import { AsyncEffectWrapper } from './utils/effectWrapper'
 import { PAGE_PREFIX, INVALID_URL_MESSAGE } from './constants'
@@ -23,7 +26,8 @@ export type OpenPagePayload = {
     modelLink?: string
     pathMapping: object
     queryMapping: object
-    target?: '_blank' | 'application' | '_self'
+    target: N2OLinkTarget
+    newWindow?: boolean
     restore?: boolean
 }
 
@@ -36,37 +40,39 @@ export const openPageCreator = createAction(
 )
 
 function* openPage(
-    url: string,
-    target: OpenPagePayload['target'],
+    { href, path }: { href: string, path?: string },
+    newWindow?: boolean,
     pageId?: string,
 ) {
-    if (target === '_blank') {
-        window.open(url)
+    if (newWindow) {
+        window.open(href)
 
         return
     }
-    if (target === '_self') {
-        window.location = url as string & Location
+    if (!path) {
+        window.location.href = href
 
         return
     }
 
     const state: GlobalState = yield select()
-    const anchorPageId = getAnchorPage(url, state, pageId)
+    const anchorPageId = getAnchorPage(path, state, pageId)
 
     if (anchorPageId) {
-        yield put(setLocation(pageId, url))
+        yield put(setLocation(pageId, path))
     } else {
-        yield put(push(url))
+        yield put(push(path))
     }
 }
 
 export function* openPageEffect(action: Action<string, OpenPagePayload>) {
     const { payload, meta = {} } = action
     const state: GlobalState = yield select()
-
-    const { url, pathMapping, queryMapping, target, modelLink, restore = false } = payload
+    const { pathname }: Location = yield select(getLocation)
+    const { url, pathMapping, queryMapping, target, modelLink, restore = false, newWindow } = payload
     const { evalContext, pageId } = meta
+    const pageUrl = pageId ? makePageUrlByIdSelector(pageId)(state) : undefined
+    const baseUrl = pageUrl || pathname
 
     let compiledUrl = ''
 
@@ -92,13 +98,11 @@ export function* openPageEffect(action: Action<string, OpenPagePayload>) {
         compiledUrl = `${compiledUrl}${query}`
     }
 
-    if (typeof compiledUrl !== 'string') {
-        throw new Error('Compiled URL must be a string')
-    }
+    if (typeof compiledUrl !== 'string') { throw new Error('Compiled URL must be a string') }
 
-    const openingUrl = restore ? compiledUrl : encodeURI(compiledUrl)
+    const openingUrl = prepareLink(restore ? compiledUrl : encodeURI(compiledUrl), target, baseUrl)
 
-    yield openPage(openingUrl, target, pageId)
+    yield openPage(openingUrl, newWindow, pageId)
 
     stopTheSequence(action)
 }

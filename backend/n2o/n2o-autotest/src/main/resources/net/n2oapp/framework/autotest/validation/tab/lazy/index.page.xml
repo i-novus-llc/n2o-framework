@@ -23,7 +23,7 @@
                 </columns>
                 <rows>
                     <click>
-                        <a href="/:reportId/update" target="application">
+                        <a href="/:reportId/update">
                             <path-param name="reportId" value="{id}"/>
                         </a>
                     </click>

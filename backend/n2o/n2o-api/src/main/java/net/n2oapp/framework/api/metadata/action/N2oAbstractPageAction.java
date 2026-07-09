@@ -27,6 +27,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
     private String pageId;
     private String pageName;
     private String route;
+    @Deprecated
     private TargetEnum target;
     private String objectId;
     //on close

@@ -4,7 +4,7 @@
     <form>
         <toolbar>
             <button label="Открыть страницу в новой вкладке" disable-on-empty-model="false">
-                <open-page page-id="page" target="newWindow"/>
+                <open-page page-id="page" new-window="true"/>
             </button>
         </toolbar>
     </form>

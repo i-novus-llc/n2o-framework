@@ -13,7 +13,7 @@
                 <icon icon="fa fa-plus"/>
             </column>
             <column text-field-id="url" label="Ссылка">
-                <link target="newWindow" url="{url}"/>
+                <link target="self" new-window="true" url="{url}"/>
             </column>
             <column text-field-id="isCapital" label="Столица">
                 <checkbox />

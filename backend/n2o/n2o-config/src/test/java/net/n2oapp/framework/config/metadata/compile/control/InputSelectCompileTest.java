@@ -99,7 +99,7 @@ class InputSelectCompileTest extends SourceCompileTestBase {
                 hasProperty("throttleDelay", is(300))));
 
         assertThat(cdp, allOf(
-                hasProperty("url", is("n2o/data/test")),
+                hasProperty("url", is("n2o/data/test/")),
                 hasProperty("quickSearchParam", is("search"))));
         assertThat(cdp.getQueryMapping().get("noRef").getValue(), is(1));
         assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
@@ -133,12 +133,12 @@ class InputSelectCompileTest extends SourceCompileTestBase {
                 hasProperty("type", is(ValidationTypeEnum.FETCH_VALUE)),
                 hasProperty("enabled", is("`id==2 || id==3`"))
         ));
-        assertThat(fetchValueDependency.getDataProvider().getUrl(), is("n2o/data/selectFetch"));
+        assertThat(fetchValueDependency.getDataProvider().getUrl(), is("n2o/data/selectFetch/"));
         assertThat(fetchValueDependency.getDataProvider().getQueryMapping().get("ref").getLink(), is("models.resolve['testInputSelect_main']"));
         assertThat(fetchValueDependency.getDataProvider().getQueryMapping().get("ref").getValue(), is("`testId2`"));
         assertThat(fetchValueDependency.getDataProvider().getSize(), is(7));
 
-        CompiledQuery compiledQuery = routeAndGet("/selectFetch", CompiledQuery.class);
+        CompiledQuery compiledQuery = routeAndGet("/selectFetch/", CompiledQuery.class);
         assertThat(compiledQuery.getId(), is("testSelectFetch"));
 
         checkInputSelectInTableFilters(page, models);
@@ -153,7 +153,7 @@ class InputSelectCompileTest extends SourceCompileTestBase {
                 hasProperty("inputLabelFieldId", is("fullName"))
         ));
         ClientDataProvider cdp = inputSelect.getDataProvider();
-        assertThat(cdp.getUrl(), is("n2o/data/test"));
+        assertThat(cdp.getUrl(), is("n2o/data/test/"));
         assertThat(cdp.getQuickSearchParam(), is("search"));
         assertThat(cdp.getQueryMapping().get("noRef").getLink(), is("models.filter['testInputSelect_main']"));
         assertThat(cdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));

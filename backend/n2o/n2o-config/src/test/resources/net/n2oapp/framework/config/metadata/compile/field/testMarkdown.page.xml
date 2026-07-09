@@ -2,10 +2,10 @@
     <form id="main">
         <actions>
             <action id="act1">
-                <a href="http://yandex.ru"/>
+                <a href="http://yandex.ru" target="self"/>
             </action>
             <action id="act2">
-                <a href="http://i-novus.ru"/>
+                <a href="http://i-novus.ru" target="self"/>
             </action>
         </actions>
         <fields>

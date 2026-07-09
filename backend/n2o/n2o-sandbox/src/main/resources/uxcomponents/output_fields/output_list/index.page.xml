@@ -4,10 +4,10 @@
     <form>
         <datasource query-id="test"/>
         <fields>
-            <output-list id="info" label="В столбец" separator=","/>
+            <output-list id="info" label="В столбец" separator="," new-window="true"/>
 
             <output-list id="info2" label="В строку"
-                         separator="; " direction="row"/>
+                         separator="; " direction="row" new-window="true"/>
         </fields>
     </form>
 </simple-page>

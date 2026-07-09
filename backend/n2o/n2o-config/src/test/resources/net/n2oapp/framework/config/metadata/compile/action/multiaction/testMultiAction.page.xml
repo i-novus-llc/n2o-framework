@@ -7,14 +7,14 @@
         <action id="ac1">
             <alert text="alert"/>
             <set-value to="val" target-datasource="ds"/>
-            <a href="/test1" target="application"/>
+            <a href="/test1"/>
         </action>
     </actions>
     <toolbar>
         <button id="test1" action-id="ac1"/>
         <button id="test2">
             <action type="perform"/>
-            <a href="/test2" target="application"/>
+            <a href="/test2"/>
         </button>
     </toolbar>
 </page>

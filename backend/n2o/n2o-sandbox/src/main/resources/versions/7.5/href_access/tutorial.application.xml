@@ -3,21 +3,21 @@
     <header title="Хедер">
         <nav>
             <menu-item name="Доступно всем">
-                <a href="/menu1"/>
+                <a href="/menu1" target="self"/>
             </menu-item>
             <menu-item name="Требуется роль admin">
-                <a href="/menu2"/>
+                <a href="/menu2" target="self"/>
             </menu-item>
             <menu-item name="Требуется право edit">
-                <a href="/menu3"/>
+                <a href="/menu3" target="self"/>
             </menu-item>
             <menu-item name="Только анонимам">
-                <a href="/menu4"/>
+                <a href="/menu4" target="self"/>
             </menu-item>
         </nav>
         <extra-menu>
             <menu-item name="#{username}">
-                <a href="#"/>
+                <a href="#" target="self"/>
             </menu-item>
         </extra-menu>
     </header>

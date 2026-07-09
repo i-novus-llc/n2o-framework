@@ -25,6 +25,7 @@
             <button label="Прикрепить к мед. организации"
                     sec:roles="admin"/>
             <link label="О компании" href="http://example.com"
+                  new-window="true" target="self"
                   sec:permissions="edit"/>
 
             <group label="Основная информация">

@@ -23,7 +23,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import java.util.Collections;
 import java.util.List;
 
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeRoute;
 
 public abstract class AbstractButtonGenerator implements ButtonGenerator {
 
@@ -44,7 +44,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 invokeAction.setOperationId(action.getId());
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
                 String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
-                invokeAction.setRoute(normalize("/" + widgetId + "/delete"));
+                invokeAction.setRoute(normalizeRoute("/" + widgetId + "/delete"));
                 button.setActions(new N2oAbstractAction[]{confirmAction, invokeAction});
             }
             break;
@@ -61,7 +61,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 modal.setCloseAfterSubmit(true);
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
                 String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
-                modal.setRoute(normalize("/" + widgetId + "/create"));
+                modal.setRoute(normalizeRoute("/" + widgetId + "/create"));
                 button.setActions(new N2oShowModal[]{modal});
             }
             break;
@@ -74,7 +74,7 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
                 WidgetScope widgetScope = p.getScope(WidgetScope.class);
                 String widgetId = (widgetScope != null && widgetScope.getWidgetId() != null) ? widgetScope.getWidgetId() : "";
                 String paramName = widgetId + "_" + QuerySimpleField.PK;
-                modal.setRoute(normalize("/" + widgetId + "/:" + paramName + "/update"));
+                modal.setRoute(normalizeRoute("/" + widgetId + "/:" + paramName + "/update"));
                 N2oPathParam pathParam = new N2oPathParam();
                 pathParam.setName(paramName);
                 pathParam.setValue(Placeholders.ref(QuerySimpleField.PK));

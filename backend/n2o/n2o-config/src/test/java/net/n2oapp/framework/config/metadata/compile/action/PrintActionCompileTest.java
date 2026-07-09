@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.is;
  * Тестирование компиляции действия печати
  */
 class PrintActionCompileTest extends SourceCompileTestBase {
-    
+
     @Override
     @BeforeEach
     public void setUp() {
@@ -71,7 +71,7 @@ class PrintActionCompileTest extends SourceCompileTestBase {
         PrintAction linkSecond = (PrintAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().getButton("secWgt").getAction();
 
-        assertThat(linkSecond.getPayload().getUrl(), is("/test/:minPrice"));
+        assertThat(linkSecond.getPayload().getUrl(), is("/test/:minPrice/"));
         assertThat(linkSecond.getPayload().getPathMapping().size(), is(1));
         assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getLink(), is("models.filter['page_test']"));
         assertThat(linkSecond.getPayload().getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
@@ -84,7 +84,7 @@ class PrintActionCompileTest extends SourceCompileTestBase {
         PrintAction print3;
         PrintAction print2;
         PrintAction print;
-        PageContext modalContext = (PageContext) route("/page/id4", Page.class);
+        PageContext modalContext = (PageContext) route("/page/id4/", Page.class);
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         print = (PrintAction) modalPage.getWidget().getToolbar().getButton("id1").getAction();
         assertThat(print.getPayload().getUrl(), is("/page/id4/test"));

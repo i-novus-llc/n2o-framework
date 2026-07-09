@@ -406,6 +406,6 @@ class PageBinderTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml");
         PageContext context = new PageContext("testEventActionBinder", "/p/w/:id/view");
         StandardPage page = (StandardPage) pipeline.get(context, new DataSet().add("id", "3"));
-        assertThat(((ShowModal) ((OnChangeEvent) page.getEvents().getFirst()).getAction()).getPayload().getPageUrl(), is("/p/w/3/view/modal"));
+        assertThat(((ShowModal) ((OnChangeEvent) page.getEvents().getFirst()).getAction()).getPayload().getPageUrl(), is("/p/w/3/view/modal/"));
     }
 }

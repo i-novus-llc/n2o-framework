@@ -113,19 +113,24 @@ public class N2oRouter implements MetadataRouter {
     private void tryToFindDeep(String url, Map<String, String[]> params) {
         if (url.length() > 1) {
             String subUrl;
-            int idx = url.lastIndexOf(ROOT_ROUTE);
+            int idx = url.endsWith(ROOT_ROUTE) ? url.substring(0, url.length() - 1).lastIndexOf(ROOT_ROUTE)
+                    : url.lastIndexOf(ROOT_ROUTE);
             if (idx > 0)
-                subUrl = url.substring(0, idx);
+                subUrl = url.substring(0, idx + 1);
             else
                 subUrl = ROOT_ROUTE;
 
             CompileContext<Page, ?> result = findRoute(subUrl, Page.class);
+            if (result == null && !subUrl.endsWith(ROOT_ROUTE))
+                result = findRoute(subUrl + ROOT_ROUTE, Page.class);
             if (result == null) {
                 tryToFindDeep(subUrl, params);
                 result = findRoute(subUrl, Page.class);
+                if (result == null && !subUrl.endsWith(ROOT_ROUTE))
+                    result = findRoute(subUrl + ROOT_ROUTE, Page.class);
             }
             if (result != null) {
-                if (result instanceof  PageContext pageContext && pageContext.getSubRoutes() != null && ((PageContext) result).getSubRoutes().containsKey(subUrl)) {
+                if (result instanceof PageContext pageContext && pageContext.getSubRoutes() != null && ((PageContext) result).getSubRoutes().containsKey(subUrl)) {
                     CompileContext<Page, ?> subPageMetadataContext = findRoute(((PageContext) result).getSubRoutes().get(subUrl), Page.class);
                     pipeline.get(subPageMetadataContext, new N2oCompileProcessor(environment, subPageMetadataContext, subPageMetadataContext.getParams(url, params))); //warm up subPage
                 } else {

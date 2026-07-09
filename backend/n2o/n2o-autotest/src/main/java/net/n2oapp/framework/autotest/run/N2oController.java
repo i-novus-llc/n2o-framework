@@ -227,7 +227,7 @@ public class N2oController {
 
     private String getPath(HttpServletRequest request, String prefix) {
         String path = request.getRequestURI().substring(request.getRequestURI().indexOf(prefix) + prefix.length());
-        return RouteUtil.normalize(!path.isEmpty() ? path : "/");
+        return RouteUtil.normalizeRoute(!path.isEmpty() ? path : "/");
     }
 
     private Map<String, String[]> getHeaders(HttpServletRequest req) {
