@@ -23,6 +23,8 @@ import {
 import linkResolver from '../../../utils/linkResolver'
 import { INDEX_REGEXP } from '../../../core/validation/const'
 import { getFieldPath, getFullModelPath } from '../../../core/models/getModelPath'
+import { logger } from '../../../utils/logger'
+import { Model } from '../../../core/models/types'
 
 const createContext = (fieldName: string) => {
     const match = fieldName.match(/\b\d+\b/g)
@@ -76,6 +78,27 @@ export function compareAndResolve(
     return { combine, observable, arrayFields }
 }
 
+function splitPath(input: string): { pathToModel: string; tail: string } {
+    const safeRegex = new RegExp(INDEX_REGEXP.source, INDEX_REGEXP.flags.replace('g', ''))
+
+    const pos = input.search(safeRegex)
+
+    if (pos === -1) {
+        logger.warn(`No key matching ${INDEX_REGEXP.source} found in the input string`)
+    }
+
+    return {
+        pathToModel: input.substring(0, pos),
+        tail: input.substring(pos),
+    }
+}
+
+function replaceIndexKey(tail: string, value: number | string): string {
+    const safeRegex = new RegExp(INDEX_REGEXP.source, INDEX_REGEXP.flags.replace('g', ''))
+
+    return tail.replace(safeRegex, `[${value}]`)
+}
+
 /**
  * Сага для первоначальной установки моделей по умолчанию
  * и подписка на изменения через канал
@@ -102,19 +125,50 @@ export function* flowDefaultModels(config: DefaultModels) {
         ]
         let oldState = {}
 
-        yield takeEvery(modelsChan, function* watcher() {
+        yield takeEvery(modelsChan, function* watcher(action) {
             const newState: State = yield select()
             const changedModels = pickBy(
                 observable,
                 cfg => !isEqual(get(oldState, cfg.link), get(newState, cfg.link)),
             )
-            const newModels = compareAndResolve(
-                changedModels,
-                newState,
-            ).combine
 
-            if (!isEmpty(newModels)) {
-                yield put(combineModels(newModels))
+            const modelsToCombine = compareAndResolve(changedModels, newState).combine
+            const modelsToArrayFields = compareAndResolve(changedModels, newState).arrayFields
+
+            let defaultArrayModels = {} as DefaultModels
+
+            if (
+                isEmpty(modelsToCombine) &&
+                isEmpty(modelsToArrayFields) &&
+                // @ts-ignore FIXME temp
+                action.type === setModel.type && action?.payload?.isDefault) {
+                defaultArrayModels = compareAndResolve(observable, newState).arrayFields
+            }
+
+            const arrayFields = isEmpty(modelsToArrayFields) ? defaultArrayModels : modelsToArrayFields
+
+            if (!isEmpty(modelsToCombine)) {
+                yield put(combineModels(modelsToCombine))
+            } else if (!isEmpty(arrayFields)) {
+                const [[path, { link }]] = Object.entries(arrayFields)
+
+                const { pathToModel, tail } = splitPath(path)
+
+                const { models } = newState
+                const value = get(newState, link)
+                const combine = {}
+                const targetModel = get(models, pathToModel)
+
+                targetModel.forEach((_model: Model, index: number) => {
+                    const resolvedTail = replaceIndexKey(tail, index)
+                    const fullPath = `${pathToModel}${resolvedTail}`
+
+                    set(combine, fullPath, value)
+                })
+
+                if (!isEmpty(combine)) {
+                    yield put(combineModels(combine))
+                }
             }
 
             oldState = newState
