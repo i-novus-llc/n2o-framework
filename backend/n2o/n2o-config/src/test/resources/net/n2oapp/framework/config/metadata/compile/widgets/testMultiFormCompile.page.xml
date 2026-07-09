@@ -47,6 +47,9 @@
                 <button label="Copy">
                     <copy source-field-id="firstName" target-field-id="lastName"/>
                 </button>
+                <button label="Copy (во внешнюю форму)">
+                    <copy source-field-id="[index]" target-datasource="ds1" target-field-id="lastName"/>
+                </button>
                 <button label="EditList">
                     <edit-list operation="create" list-field-id="groups" item-field-id="items" primary-key="id"/>
                 </button>
@@ -54,7 +57,10 @@
                     <invoke operation-id="test"/>
                 </button>
                 <button label="SetValue">
-                    <set-value to="lastName" expression="firstName"/>
+                    <set-value to="lastName" expression="firstName" />
+                </button>
+                <button label="SetValue (во внешнюю форму)">
+                    <set-value expression="firstName" target-datasource="ds1"/>
                 </button>
                 <button label="Switch">
                     <switch value-field-id="status">
@@ -96,6 +102,9 @@
                     <button label="Кнопка с copy">
                         <copy source-field-id="firstName" target-field-id="lastName"/>
                     </button>
+                    <button label="Copy (во внешнюю форму)">
+                        <copy target-datasource="ds1" target-field-id="lastName"/>
+                    </button>
                     <button label="Кнопка с edit-list">
                         <edit-list operation="create" list-field-id="groups" item-field-id="items" primary-key="id"/>
                     </button>
@@ -104,6 +113,9 @@
                     </button>
                     <button label="Кнопка с set-value">
                         <set-value to="lastName" expression="firstName"/>
+                    </button>
+                    <button label="Кнопка с set-value (во внешнюю форму)">
+                        <set-value expression="firstName" target-datasource="ds1"/>
                     </button>
                     <button label="Кнопка с switch">
                         <switch value-field-id="status">

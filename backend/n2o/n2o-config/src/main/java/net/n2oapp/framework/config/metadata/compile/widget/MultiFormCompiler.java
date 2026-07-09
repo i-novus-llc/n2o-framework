@@ -59,14 +59,14 @@ public class MultiFormCompiler extends BaseListWidgetCompiler<MultiForm, N2oMult
                     new WidgetParamScope(),
                     new ComponentScope(source),
                     castDefault(p.getScope(ValidationScope.class), ValidationScope::new),
-                    new MultiFormScope(true));
+                    new MultiFormScope(true, datasource.getId()));
             multiForm.getForm().setFieldsets(fieldSets);
             multiForm.getForm().setModelPrefix("datasource");
         }
         compileMetaActions(source, context, p, p.getScope(PageIndexScope.class), widgetActions, widgetScope,
-                object, null, new MultiFormScope(false));
+                object, null, new MultiFormScope(false, datasource.getId()));
         multiForm.setToolbar(compileToolbar(source, "n2o.api.widget.toolbar.place", context, p, object,
-                widgetActions, widgetScope, null, new MultiFormScope(false)));
+                widgetActions, widgetScope, null, new MultiFormScope(false, datasource.getId())));
         multiForm.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.list.size"), Integer.class), p, widgetScope));
         return multiForm;
     }
