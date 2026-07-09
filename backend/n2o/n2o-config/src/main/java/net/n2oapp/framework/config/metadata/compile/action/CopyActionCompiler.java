@@ -63,11 +63,8 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         source.setTargetDatasourceId(castDefault(source.getTargetDatasourceId(), source.getSourceDatasourceId()));
         source.setSourceModel(castDefault(source.getSourceModel(), getLocalModel(p)));
         source.setTargetModel(castDefault(source.getTargetModel(), getLocalModel(p)));
-        String field = ModelLinkUtil.getField(p);
-        if (field != null && source.getSourceFieldId() != null)
-            source.setSourceFieldId(field.concat(".").concat(source.getSourceFieldId()));
-        if (field != null && source.getTargetFieldId() != null)
-            source.setTargetFieldId(field.concat(".").concat(source.getTargetFieldId()));
+        source.setSourceFieldId(ModelLinkUtil.getField(source.getSourceFieldId(), source.getSourceDatasourceId(), p));
+        source.setTargetFieldId(ModelLinkUtil.getField(source.getTargetFieldId(), source.getTargetDatasourceId(), p));
     }
 
     private MetaSaga compileMeta(N2oCopyAction source, CompileProcessor p) {

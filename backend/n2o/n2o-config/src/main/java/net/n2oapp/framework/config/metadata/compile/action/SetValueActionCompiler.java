@@ -38,25 +38,20 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         setValueAction.setValidate(castDefault(source.getValidate(),
                 () -> p.resolve(property("n2o.api.action.set_value.validate"), Boolean.class)));
 
-        String defaultDatasource = getClientDatasourceId(getLocalDatasourceId(p), p);
+        String sourceDatasourceId = castDefault(source.getSourceDatasourceId(), () -> getLocalDatasourceId(p));
+        String targetDatasourceId = castDefault(source.getTargetDatasourceId(), () -> getLocalDatasourceId(p));
         ReduxModelEnum model = getLocalModel(p);
 
-        String sourceDatasourceId = source.getSourceDatasourceId() == null ? defaultDatasource :
-                getClientDatasourceId(source.getSourceDatasourceId(), p);
-        SetValueActionPayload.ClientModel sourceModel = new SetValueActionPayload.ClientModel(sourceDatasourceId,
+        String clientSourceDatasourceId = getClientDatasourceId(sourceDatasourceId, p);
+        SetValueActionPayload.ClientModel sourceModel = new SetValueActionPayload.ClientModel(clientSourceDatasourceId,
                 castDefault(source.getSourceModel(), model.getId()));
-        String targetDatasourceId = source.getTargetDatasourceId() == null ? defaultDatasource :
-                getClientDatasourceId(source.getTargetDatasourceId(), p);
-        if (targetDatasourceId == null) {
+        String clientTargetDatasourceId = getClientDatasourceId(targetDatasourceId, p);
+        if (clientTargetDatasourceId == null) {
             throw new N2oException("В действии \"<set-value>\" не задан атрибут 'target-datasource'");
         }
-        SetValueActionPayload.ClientModel targetModel = new SetValueActionPayload.ClientModel(targetDatasourceId,
+        SetValueActionPayload.ClientModel targetModel = new SetValueActionPayload.ClientModel(clientTargetDatasourceId,
                 castDefault(source.getTargetModel(), model.getId()));
-        String field = ModelLinkUtil.getField(p);
-        if (source.getTo() != null)
-            targetModel.setField(field != null
-                    ? field.concat(".").concat(source.getTo())
-                    : source.getTo());
+        targetModel.setField(ModelLinkUtil.getField(source.getTo(), targetDatasourceId, p));
         setValueAction.getPayload().setSource(sourceModel);
         setValueAction.getPayload().setTarget(targetModel);
 

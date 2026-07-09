@@ -5,15 +5,15 @@ import net.n2oapp.framework.api.metadata.ReduxModelEnum;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertAction;
 import net.n2oapp.framework.api.metadata.meta.action.alert.AlertActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
+import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
+import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.editlist.EditListAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
 import net.n2oapp.framework.api.metadata.meta.action.switchaction.SwitchAction;
-import net.n2oapp.framework.api.metadata.meta.action.condition.ConditionAction;
 import net.n2oapp.framework.api.metadata.meta.action.validate.ValidateAction;
-import net.n2oapp.framework.api.metadata.meta.action.confirm.ConfirmAction;
-import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationTypeEnum;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
@@ -78,7 +78,7 @@ class MultiFormCompileTest extends SourceCompileTestBase {
         assertThat(formComponent.getPrompt(), is(true));
 
         List<FieldSet.Row> rowList = formComponent.getFieldsets().getFirst().getRows();
-        assertThat(rowList.size(), is(15));
+        assertThat(rowList.size(), is(17));
         assertThat(rowList.getFirst().getCols().getFirst().getFields().getFirst().getLabel(), is("Имя"));
         assertThat(rowList.get(1).getCols().getFirst().getFields().getFirst().getLabel(), is("Фамилия"));
 
@@ -93,7 +93,7 @@ class MultiFormCompileTest extends SourceCompileTestBase {
 
         assertThat(multiForm.getToolbar().get("bottomRight"), notNullValue());
         List<AbstractButton> buttons = multiForm.getToolbar().get("bottomRight").getFirst().getButtons();
-        assertThat(buttons.size(), is(14));
+        assertThat(buttons.size(), is(16));
 
         AbstractButton openButton = buttons.getFirst();
         assertThat(openButton.getLabel(), is("Открыть"));
@@ -164,66 +164,82 @@ class MultiFormCompileTest extends SourceCompileTestBase {
         CopyAction copyFieldAction = (CopyAction) copyFieldButton.getAction();
         assertThat(copyFieldAction.getPayload().getSource().getField(), is("[index].firstName"));
         assertThat(copyFieldAction.getPayload().getTarget().getField(), is("[index].lastName"));
+        // кнопка с copy (во внешнюю форму) внутри fields: sourceFieldId содержит [index], targetFieldId - null .
+        copyFieldButton = (ButtonField) rowList.get(9).getCols().getFirst().getFields().getFirst();
+        copyFieldAction = (CopyAction) copyFieldButton.getAction();
+        assertThat(copyFieldAction.getPayload().getSource().getField(), is("[index]"));
+        assertThat(copyFieldAction.getPayload().getTarget().getField(), is("lastName"));
 
         // кнопка с copy в toolbar: sourceFieldId и targetFieldId без [index]
         CopyAction copyToolbarAction = (CopyAction) buttons.get(7).getAction();
         assertThat(copyToolbarAction.getPayload().getSource().getField(), is("firstName"));
         assertThat(copyToolbarAction.getPayload().getTarget().getField(), is("lastName"));
+        // кнопка с copy (во внешнюю форму) в toolbar: sourceFieldId и targetFieldId - null
+        copyToolbarAction = (CopyAction) buttons.get(8).getAction();
+        assertThat(copyToolbarAction.getPayload().getSource().getField(), nullValue());
+        assertThat(copyToolbarAction.getPayload().getTarget().getField(), is("lastName"));
 
         // кнопка с edit-list внутри fields: list.field и item.field содержат [index].
-        ButtonField editListFieldButton = (ButtonField) rowList.get(9).getCols().getFirst().getFields().getFirst();
+        ButtonField editListFieldButton = (ButtonField) rowList.get(10).getCols().getFirst().getFields().getFirst();
         EditListAction editListFieldAction = (EditListAction) editListFieldButton.getAction();
         assertThat(editListFieldAction.getPayload().getList().getField(), is("[index].groups"));
         assertThat(editListFieldAction.getPayload().getItem().getField(), is("[index].items"));
 
         // кнопка с edit-list в toolbar: list.field и item.field без [index]
-        EditListAction editListToolbarAction = (EditListAction) buttons.get(8).getAction();
+        EditListAction editListToolbarAction = (EditListAction) buttons.get(9).getAction();
         assertThat(editListToolbarAction.getPayload().getList().getField(), is("groups"));
         assertThat(editListToolbarAction.getPayload().getItem().getField(), is("items"));
 
         // кнопка с invoke внутри fields: field=[index]
-        ButtonField invokeFieldButton = (ButtonField) rowList.get(10).getCols().getFirst().getFields().getFirst();
+        ButtonField invokeFieldButton = (ButtonField) rowList.get(11).getCols().getFirst().getFields().getFirst();
         InvokeAction invokeFieldAction = (InvokeAction) invokeFieldButton.getAction();
         assertThat(invokeFieldAction.getPayload().getField(), is("[index]"));
 
         // кнопка с invoke в toolbar: field=null
-        InvokeAction invokeToolbarAction = (InvokeAction) buttons.get(9).getAction();
+        InvokeAction invokeToolbarAction = (InvokeAction) buttons.get(10).getAction();
         assertThat(invokeToolbarAction.getPayload().getField(), nullValue());
 
         // кнопка с set-value внутри fields: target.field содержит [index]
-        ButtonField setValueFieldButton = (ButtonField) rowList.get(11).getCols().getFirst().getFields().getFirst();
+        ButtonField setValueFieldButton = (ButtonField) rowList.get(12).getCols().getFirst().getFields().getFirst();
         SetValueAction setValueFieldAction = (SetValueAction) setValueFieldButton.getAction();
         assertThat(setValueFieldAction.getPayload().getTarget().getField(), is("[index].lastName"));
+        // кнопка с set-value (во внешнюю форму) внутри fields: target.field - null
+        setValueFieldButton = (ButtonField) rowList.get(13).getCols().getFirst().getFields().getFirst();
+        setValueFieldAction = (SetValueAction) setValueFieldButton.getAction();
+        assertThat(setValueFieldAction.getPayload().getTarget().getField(), nullValue());
 
         // кнопка с set-value в toolbar: target.field без [index]
-        SetValueAction setValueToolbarAction = (SetValueAction) buttons.get(10).getAction();
+        SetValueAction setValueToolbarAction = (SetValueAction) buttons.get(11).getAction();
         assertThat(setValueToolbarAction.getPayload().getTarget().getField(), is("lastName"));
+        // кнопка с set-value (во внешнюю форму) в toolbar: target.field - null
+        setValueToolbarAction = (SetValueAction) buttons.get(12).getAction();
+        assertThat(setValueToolbarAction.getPayload().getTarget().getField(), nullValue());
 
         // кнопка с switch внутри fields: valueFieldId содержит [index]
-        ButtonField switchFieldButton = (ButtonField) rowList.get(12).getCols().getFirst().getFields().getFirst();
+        ButtonField switchFieldButton = (ButtonField) rowList.get(14).getCols().getFirst().getFields().getFirst();
         SwitchAction switchFieldAction = (SwitchAction) switchFieldButton.getAction();
         assertThat(switchFieldAction.getPayload().getValueFieldId(), is("[index].status"));
 
         // кнопка с switch в toolbar: valueFieldId без [index]
-        SwitchAction switchToolbarAction = (SwitchAction) buttons.get(11).getAction();
+        SwitchAction switchToolbarAction = (SwitchAction) buttons.get(13).getAction();
         assertThat(switchToolbarAction.getPayload().getValueFieldId(), is("status"));
 
         // кнопка с if-else внутри fields: field=[index]
-        ButtonField ifElseFieldButton = (ButtonField) rowList.get(13).getCols().getFirst().getFields().getFirst();
+        ButtonField ifElseFieldButton = (ButtonField) rowList.get(15).getCols().getFirst().getFields().getFirst();
         ConditionAction ifElseFieldAction = (ConditionAction) ifElseFieldButton.getAction();
         assertThat(ifElseFieldAction.getPayload().getField(), is("[index]"));
 
         // кнопка с if-else в toolbar: field=null
-        ConditionAction ifElseToolbarAction = (ConditionAction) buttons.get(12).getAction();
+        ConditionAction ifElseToolbarAction = (ConditionAction) buttons.get(14).getAction();
         assertThat(ifElseToolbarAction.getPayload().getField(), nullValue());
 
         // кнопка с validate внутри fields: field=[index]
-        ButtonField validateFieldButton = (ButtonField) rowList.get(14).getCols().getFirst().getFields().getFirst();
+        ButtonField validateFieldButton = (ButtonField) rowList.get(16).getCols().getFirst().getFields().getFirst();
         ValidateAction validateFieldAction = (ValidateAction) validateFieldButton.getAction();
         assertThat(validateFieldAction.getPayload().getField(), is("[index]"));
 
         // кнопка с validate в toolbar: field=null
-        ValidateAction validateToolbarAction = (ValidateAction) buttons.get(13).getAction();
+        ValidateAction validateToolbarAction = (ValidateAction) buttons.get(15).getAction();
         assertThat(validateToolbarAction.getPayload().getField(), nullValue());
     }
 }

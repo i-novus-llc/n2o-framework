@@ -9,10 +9,10 @@
                 <input-text id="surname" label="Фамилия">
                     <validations>
                         <condition id="test" message="Сработала валидация">
-                           return surname.length &gt; 3
+                            return surname.length &gt; 3
                         </condition>
                     </validations>
-                </input-text>>
+                </input-text>
             </row>
             <row>
                 <col>
