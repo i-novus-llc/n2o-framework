@@ -145,6 +145,6 @@ export function* copyAction({ payload, meta = {}, validate = true }: CopyAction)
 }
 
 export const modelSagas = [
-    takeEvery(copyModel, AsyncEffectWrapper(copyAction)),
+    takeEvery([copyModel], AsyncEffectWrapper(copyAction)),
     ...sagas,
 ]
