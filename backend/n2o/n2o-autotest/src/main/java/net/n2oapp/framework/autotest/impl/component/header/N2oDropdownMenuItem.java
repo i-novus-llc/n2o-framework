@@ -36,5 +36,15 @@ public class N2oDropdownMenuItem extends N2oMenuItem implements DropdownMenuItem
     public void shouldBeEnabled() {
         element().$(".dropdown-toggle").shouldNotBe(Condition.disabled);
     }
+
+    @Override
+    public void shouldBeOpened() {
+        element().$(".dropdown-menu").shouldHave(Condition.attribute("aria-hidden", "false"));
+    }
+
+    @Override
+    public void shouldBeClosed() {
+        element().$(".dropdown-menu").shouldHave(Condition.attribute("aria-hidden", "true"));
+    }
 }
 

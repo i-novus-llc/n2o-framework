@@ -7,6 +7,7 @@ public interface DropdownMenuItem extends MenuItem {
 
     /**
      * Возвращает кнопку из выпадающего списка
+     *
      * @param index номер возвращаемой кнопки
      * @return Кнопка с ссылкой для автотестирования
      */
@@ -14,7 +15,8 @@ public interface DropdownMenuItem extends MenuItem {
 
     /**
      * Возвращает элемент из выпадающего списка
-     * @param index номер элемента
+     *
+     * @param index          номер элемента
      * @param componentClass тип возвращаемого элемента
      * @return кнопка меню
      */
@@ -22,7 +24,18 @@ public interface DropdownMenuItem extends MenuItem {
 
     /**
      * Проверка количества элементов внутри выпадающего списка
+     *
      * @param size ожидаемое количество элементов
      */
     void shouldHaveSize(int size);
+
+    /**
+     * Проверяет, что выпадающий список открыт
+     */
+    void shouldBeOpened();
+
+    /**
+     * Проверяет, что выпадающий список закрыт
+     */
+    void shouldBeClosed();
 }
