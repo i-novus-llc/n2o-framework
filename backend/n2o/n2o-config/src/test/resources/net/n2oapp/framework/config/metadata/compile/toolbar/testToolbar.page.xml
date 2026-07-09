@@ -18,7 +18,7 @@
         <toolbar place="bottomLeft">
             <button id="testId2" action-id="testActionId1" label="Label1" model="filter"/>
             <button id="testId3">
-                <a href="http://example.com"/>
+                <a href="http://example.com" target="self" new-window="true"/>
             </button>
             <sub-menu>
                 <menu-item id="tesId10">

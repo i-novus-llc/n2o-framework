@@ -11,7 +11,7 @@
             </open-page>
         </button>
         <button label="Открыть страницу через ссылку">
-            <a href="./#/sub/subpage" application="target">
+            <a href="./sub/subpage/" target="application">
                 <query-param name="w1_name" value="test3"/>
                 <query-param name="param" value="link"/>
             </a>

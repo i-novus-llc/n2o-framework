@@ -12,13 +12,13 @@
                     <switch value-field-id="test1" model="multi">
                         <case value="A">
                             <action type="t1"/>
-                            <a href="/test1"/>
+                            <a href="/test1" target="self"/>
                         </case>
                         <case value="B">
                             <switch datasource="ds2" value-field-id="test2">
                                 <case value="BA">
                                     <action type="t1"/>
-                                    <a href="/test1"/>
+                                    <a href="/test1" target="self"/>
                                 </case>
                                 <default>
                                     <action type="t1"/>

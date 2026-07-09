@@ -22,9 +22,7 @@ import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileMetaActions;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileToolbar;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 
 @Component
 public class MultiFormCompiler extends BaseListWidgetCompiler<MultiForm, N2oMultiForm> {

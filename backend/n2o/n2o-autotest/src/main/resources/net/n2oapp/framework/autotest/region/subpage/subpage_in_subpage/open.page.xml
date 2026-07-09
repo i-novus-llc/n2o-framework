@@ -7,10 +7,10 @@
                 <row>
                     <text>Текст должен оставаться всегда видимым и не моргать при переходах</text>
                     <button label="=> видеозаписи">
-                        <a href="./user/video" target="application"/>
+                        <a href="./user/video/" target="application"/>
                     </button>
                     <button label="=> видеозаписи2">
-                        <a href="./user2/video" target="application"/>
+                        <a href="./user2/video/" target="application"/>
                     </button>
                 </row>
             </fields>

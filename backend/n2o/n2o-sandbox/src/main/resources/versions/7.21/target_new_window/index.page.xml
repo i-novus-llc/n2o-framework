@@ -4,7 +4,7 @@
     <table>
         <toolbar>
             <button label="Открыть">
-                <open-page page-id="page" target="newWindow" route="/:id/open">
+                <open-page page-id="page" new-window="true" route="/:id/open">
                     <params>
                         <path-param name="id" value="{id}"/>
                     </params>

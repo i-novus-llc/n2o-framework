@@ -4,16 +4,16 @@
         <nav>
             <dropdown-menu name="Пункт меню 1">
                 <menu-item name="Подпункт 1">
-                    <a href="http://example.com"/>
+                    <a href="http://example.com" target="self"/>
                 </menu-item>
                 <menu-item name="Подпункт 2">
-                    <a href="http://example.com"/>
+                    <a href="http://example.com" target="self"/>
                 </menu-item>
                 <menu-item name="Подпункт 3">
-                    <a href="http://i-novus.ru"/>
+                    <a href="http://i-novus.ru" target="self"/>
                 </menu-item>
                 <menu-item name="Подпункт 4">
-                    <a href="http://i-novus.ru"/>
+                    <a href="http://i-novus.ru" target="self"/>
                 </menu-item>
             </dropdown-menu>
         </nav>

@@ -4,12 +4,12 @@
     <columns>
         <column text-field-id="id">
             <link>
-                <a href="test1"/>
+                <a href="test1" target="self"/>
             </link>
         </column>
         <column text-field-id="id">
             <link>
-                <a href="test2"/>
+                <a href="test2" target="self"/>
             </link>
         </column>
     </columns>

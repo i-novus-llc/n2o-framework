@@ -175,7 +175,7 @@
                                         <toolbar>
                                             <button label="Сохранить">
                                                 <invoke operation-id="create"/>
-                                                <a href="/clients/:id/update2" target="application">
+                                                <a href="/clients/:id/update2">
                                                     <path-param name="id" value="{id}" datasource="protoClient"/>
                                                 </a>
                                             </button>

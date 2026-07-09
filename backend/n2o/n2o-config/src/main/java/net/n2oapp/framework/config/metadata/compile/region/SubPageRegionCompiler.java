@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeRoute;
 import static net.n2oapp.framework.config.util.PageContextCompileUtil.initParentDatasourceIdsMap;
 
 /**
@@ -56,7 +56,7 @@ public class SubPageRegionCompiler extends ComponentCompiler<SubPageRegion, N2oS
         List<SubPageRegion.Page> pages = new ArrayList<>();
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
         // route для получения метаданных
-        String parentRoute = normalize(castDefault(
+        String parentRoute = normalizeRoute(castDefault(
                 parentRouteScope != null ? parentRouteScope.getUrl() : null,
                 () -> context.getRoute((N2oCompileProcessor) p),
                 () -> ""));
@@ -67,12 +67,12 @@ public class SubPageRegionCompiler extends ComponentCompiler<SubPageRegion, N2oS
         int subpageIndex = 1;
         for (N2oSubPageRegion.Page sourcePage : source.getPages()) {
             SubPageRegion.Page page = new SubPageRegion.Page();
-            String route = normalize(sourcePage.getRoute());
+            String route = normalizeRoute(sourcePage.getRoute());
             page.setRoute(route.startsWith(".") ? route : "." + route);
-            String metadataRoute = normalize(parentRoute + "/sp_" + getLastSegment(route) + subpageIndex++);
+            String metadataRoute = normalizeRoute(parentRoute + "sp_" + getLastSegment(route) + subpageIndex++);
             page.setUrl(metadataRoute);
             page.setId(RouteUtil.convertPathToId(page.getUrl()));
-            subRoutes.put(SUBROUTE_ANT_PATTERN.matcher(subPageRoute + page.getRoute().substring(1))
+            subRoutes.put(SUBROUTE_ANT_PATTERN.matcher(subPageRoute + page.getRoute().substring(2))
                     .replaceAll("*"), metadataRoute);
             initPageContext(sourcePage, page, parentRoute, context, p);
             pages.add(page);
@@ -125,7 +125,7 @@ public class SubPageRegionCompiler extends ComponentCompiler<SubPageRegion, N2oS
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
 
         SubPageContext pageContext = new SubPageContext(sourcePage.getPageId(), page.getUrl());
-        pageContext.setSubPageRoute(parentRoute + page.getRoute().substring(1));
+        pageContext.setSubPageRoute(parentRoute + page.getRoute().substring(2));
 
         if (context instanceof PageContext ctx) {
             String ctxRoute = ctx.getRoute((N2oCompileProcessor) p);

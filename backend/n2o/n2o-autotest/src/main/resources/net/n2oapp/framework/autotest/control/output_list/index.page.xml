@@ -3,9 +3,9 @@
     <form>
         <datasource size="1" query-id="test"/>
         <fields>
-            <output-list id="output1" separator=","/>
-            <output-list id="output2" direction="row" separator="; "/>
-            <output-list id="output3"/>
+            <output-list id="output1" separator="," new-window="true"/>
+            <output-list id="output2" direction="row" separator="; " new-window="true"/>
+            <output-list id="output3" new-window="true"/>
         </fields>
     </form>
 </simple-page>

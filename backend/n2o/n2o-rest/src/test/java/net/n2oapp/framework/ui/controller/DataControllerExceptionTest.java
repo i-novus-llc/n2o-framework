@@ -1,7 +1,6 @@
 package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.N2oValidationException;
@@ -50,19 +49,19 @@ class DataControllerExceptionTest extends DataControllerTestBase {
 
         doThrow(e).when(dataProcessingStack).processAction(any(ActionRequestInfo.class), any(ActionResponseInfo.class), any(DataSet.class));
         DataController controller = buildController(dataProcessingStack);
-        SetDataResponse response = controller.setData("/page/create", null, null, new DataSet(), null);
+        SetDataResponse response = controller.setData("/page/create/", null, null, new DataSet(), null);
 
         assertThat(response.getMeta().getAlert().getAlertKey(), is("page_w1"));
         assertThat(response.getMeta().getRefresh(), nullValue());
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), is("danger"));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("net.n2oapp.framework.api.exception.N2oException: Message"));
+        assertThat(response.getMeta().getAlert().getMessages().getFirst().getSeverity(), is("danger"));
+        assertThat(response.getMeta().getAlert().getMessages().getFirst().getPayload().getFirst(), is("net.n2oapp.framework.api.exception.N2oException: Message"));
 
         List<ValidationMessage> messages = new ArrayList<>();
         messages.add(new ValidationMessage("message1", "field1", "validation1"));
         messages.add(new ValidationMessage("message2", "field2", "validation2"));
         e = new N2oValidationException("Validation exception", messages);
         doThrow(e).when(dataProcessingStack).processAction(any(ActionRequestInfo.class), any(ActionResponseInfo.class), any(DataSet.class));
-        response = controller.setData("/page/create", null, null, new DataSet(), null);
+        response = controller.setData("/page/create/", null, null, new DataSet(), null);
 
         assertThat(response.getMeta().getRefresh(), nullValue());
 
@@ -83,9 +82,9 @@ class DataControllerExceptionTest extends DataControllerTestBase {
         Exception e = new N2oException("Message");
         doThrow(e).when(dataProcessingStack).processQuery(any(QueryRequestInfo.class), any(QueryResponseInfo.class));
         DataController controller = buildController(dataProcessingStack);
-        GetDataResponse response = controller.getData("/page/w1", null, null);
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), is(SeverityTypeEnum.DANGER.getId()));
-        assertThat(response.getMeta().getAlert().getMessages().get(0).getPayload().get(0), is("net.n2oapp.framework.api.exception.N2oException: Message"));
+        GetDataResponse response = controller.getData("/page/w1/", null, null);
+        assertThat(response.getMeta().getAlert().getMessages().getFirst().getSeverity(), is(SeverityTypeEnum.DANGER.getId()));
+        assertThat(response.getMeta().getAlert().getMessages().getFirst().getPayload().getFirst(), is("net.n2oapp.framework.api.exception.N2oException: Message"));
 
         List<ValidationMessage> messages = new ArrayList<>();
         messages.add(new ValidationMessage("message1", "field1", "validation1"));
@@ -93,7 +92,7 @@ class DataControllerExceptionTest extends DataControllerTestBase {
         e = new N2oValidationException("Validation exception", messages);
         doThrow(e).when(dataProcessingStack).processQuery(any(QueryRequestInfo.class), any(QueryResponseInfo.class));
         controller = buildController(dataProcessingStack);
-        response = controller.getData("/page/w1", null, null);
+        response = controller.getData("/page/w1/", null, null);
 
         assertThat(response.getMeta().getMessages().getForm(), is("page_w1"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(2));
@@ -133,7 +132,6 @@ class DataControllerExceptionTest extends DataControllerTestBase {
         );
         pipeline.get(new PageContext("testPage"));
         N2oRouter router = new N2oRouter(builder.getEnvironment(), pipeline);
-        ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
 
         QueryProcessor queryProcessor = mock(QueryProcessor.class);
         Map<String, Object> map = new HashMap<>();
@@ -149,7 +147,6 @@ class DataControllerExceptionTest extends DataControllerTestBase {
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
 
-        DataController controller = new DataController(factory, builder.getEnvironment(), router);
-        return controller;
+        return new DataController(factory, builder.getEnvironment(), router);
     }
 }

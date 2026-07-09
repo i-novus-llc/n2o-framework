@@ -14,4 +14,5 @@ public class N2oLinkCell extends N2oActionCell {
     private String icon;
     private String url;
     private TargetEnum target;
+    private Boolean newWindow;
 }

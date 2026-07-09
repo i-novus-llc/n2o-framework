@@ -26,6 +26,10 @@ public interface UrlAware {
 
     void setTarget(TargetEnum target);
 
+    void setNewWindow(Boolean newWindow);
+
+    Boolean getNewWindow();
+
     Map<String, ModelLink> getPathMapping();
     void setPathMapping(Map<String, ModelLink> pathMapping);
 

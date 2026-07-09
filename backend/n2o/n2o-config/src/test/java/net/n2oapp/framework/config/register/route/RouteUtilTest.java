@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.register.route;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModelEnum;
+import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +33,32 @@ class RouteUtilTest {
         assertThat(RouteUtil.normalize("test///test2//"), is("/test/test2"));
         assertThat(RouteUtil.normalize("./users"), is("./users"));
         assertThat(RouteUtil.normalize("../users"), is("../users"));
+    }
+
+    @Test
+    void normalizeRoute() {
+        assertThat(RouteUtil.normalizeRoute("test"), is("/test/"));
+        assertThat(RouteUtil.normalizeRoute("/test/"), is("/test/"));
+        assertThat(RouteUtil.normalizeRoute("//test"), is("/test/"));
+        assertThat(RouteUtil.normalizeRoute(null), nullValue());
+    }
+
+    @Test
+    void normalizeUserUrl() {
+        // OLD mode: same as normalize() + /
+        assertThat(RouteUtil.normalizeUrl("test", RoutingModeEnum.OLD), is("/test/"));
+        assertThat(RouteUtil.normalizeUrl("/test/", RoutingModeEnum.OLD), is("/test/"));
+        assertThat(RouteUtil.normalizeUrl(null, RoutingModeEnum.OLD), nullValue());
+
+        // NEW mode: user url with trailing slash
+        assertThat(RouteUtil.normalizeUrl("test", RoutingModeEnum.NEW), is("test"));
+        assertThat(RouteUtil.normalizeUrl("/test/", RoutingModeEnum.NEW), is("/test/"));
+        assertThat(RouteUtil.normalizeUrl("//test", RoutingModeEnum.NEW), is("//test"));
+        assertThat(RouteUtil.normalizeUrl(null, RoutingModeEnum.NEW), nullValue());
+
+        // External URLs unchanged in both modes
+        assertThat(RouteUtil.normalizeUrl("https://google.com", RoutingModeEnum.NEW), is("https://google.com"));
+        assertThat(RouteUtil.normalizeUrl("http://google.com", RoutingModeEnum.OLD), is("http://google.com"));
     }
 
     @Test
@@ -121,56 +148,52 @@ class RouteUtilTest {
 
     @Test
     void join() {
-        assertThat(RouteUtil.join("/", "/test"), is("/test"));
-        assertThat(RouteUtil.join("/parent", "/child"), is("/parent/child"));
-        assertThat(RouteUtil.join("/parent", "../child"), is("/child"));
-        assertThat(RouteUtil.join("/parent1/parent2", "../child"), is("/parent1/child"));
-        assertThat(RouteUtil.join("/parent1/parent2", "../../child"), is("/child"));
+        assertThat(RouteUtil.join("/", "/test", RoutingModeEnum.NEW), is("//test"));
+        assertThat(RouteUtil.join("/parent", "/child", RoutingModeEnum.NEW), is("/parent/child"));
+        assertThat(RouteUtil.join("/parent", "../child", RoutingModeEnum.NEW), is("/child"));
+        assertThat(RouteUtil.join("/parent1/parent2", "../child", RoutingModeEnum.NEW), is("/parent1/child"));
+        assertThat(RouteUtil.join("/parent1/parent2", "../../child", RoutingModeEnum.NEW), is("/child"));
         try {
-            RouteUtil.join("/", "../child");
+            RouteUtil.join("/", "../child", RoutingModeEnum.NEW);
             fail();
         } catch (IncorrectRouteException e) {
         }
         try {
-            RouteUtil.join("/parent", "../../child");
+            RouteUtil.join("/parent", "../../child", RoutingModeEnum.NEW);
             fail();
         } catch (IncorrectRouteException e) {
         }
-        assertThat(RouteUtil.join(null, "/test"), is("/test"));
-        assertThat(RouteUtil.join("/parent/child", "../"), is("/parent"));
-        assertThat(RouteUtil.join("/parent", "../"), is("/"));
+        assertThat(RouteUtil.join(null, "/test", RoutingModeEnum.NEW), is("/test"));
+        assertThat(RouteUtil.join("/parent/child", "../", RoutingModeEnum.NEW), is("/parent/"));
+        assertThat(RouteUtil.join("/parent", "../", RoutingModeEnum.NEW), is("/"));
     }
 
     @Test
     void absolute() {
         //domain relative
-        assertThat(RouteUtil.absolute("/test", null), is("/test"));
-        assertThat(RouteUtil.absolute("/test", ""), is("/test"));
-        assertThat(RouteUtil.absolute("/test", "/"), is("/test"));
-        assertThat(RouteUtil.absolute("/child", "/parent"), is("/child"));
-        //path relative
-        assertThat(RouteUtil.absolute("test", null), is("/test"));
-        assertThat(RouteUtil.absolute("test", ""), is("/test"));
-        assertThat(RouteUtil.absolute("test", "/"), is("/test"));
-        assertThat(RouteUtil.absolute("test", "/parent"), is("/test"));
+        assertThat(RouteUtil.absolute("/test", null, RoutingModeEnum.NEW), is("/test"));
+        assertThat(RouteUtil.absolute("/test", "", RoutingModeEnum.NEW), is("/test"));
+        assertThat(RouteUtil.absolute("/test", "/", RoutingModeEnum.NEW), is("/test"));
+        assertThat(RouteUtil.absolute("/child", "/parent", RoutingModeEnum.NEW), is("/child"));
+        assertThat(RouteUtil.absolute("/child", "/parent/", RoutingModeEnum.NEW), is("/child"));
         //parent path relative
-        assertThat(RouteUtil.absolute("../child", "/parent"), is("/child"));
-        assertThat(RouteUtil.absolute("../child", "/parent1/parent2"), is("/parent1/child"));
-        assertThat(RouteUtil.absolute("../../child", "/parent1/parent2"), is("/child"));
+        assertThat(RouteUtil.absolute("../child", "/parent/", RoutingModeEnum.NEW), is("/child"));
+        assertThat(RouteUtil.absolute("../child", "/parent1/parent2/", RoutingModeEnum.NEW), is("/parent1/child"));
+        assertThat(RouteUtil.absolute("../../child", "/parent1/parent2/", RoutingModeEnum.NEW), is("/child"));
         try {
-            RouteUtil.absolute("../child", "/");
+            RouteUtil.absolute("../child", "/", RoutingModeEnum.NEW);
             fail();
         } catch (IncorrectRouteException e) {
         }
         try {
-            RouteUtil.absolute("../../child", "/parent");
+            RouteUtil.absolute("../../child", "/parent", RoutingModeEnum.NEW);
             fail();
         } catch (IncorrectRouteException e) {
         }
-        assertThat(RouteUtil.absolute("../", "/parent/child"), is("/parent"));
-        assertThat(RouteUtil.absolute("../../", "/parent/child"), is("/"));
-        assertThat(RouteUtil.absolute("../", "/parent"), is("/"));
-        assertThat(RouteUtil.absolute("./test", "/parent"), is("/parent/test"));
+        assertThat(RouteUtil.absolute("../", "/parent/child", RoutingModeEnum.NEW), is("/parent/"));
+        assertThat(RouteUtil.absolute("../../", "/parent/child", RoutingModeEnum.NEW), is("/"));
+        assertThat(RouteUtil.absolute("../", "/parent", RoutingModeEnum.NEW), is("/"));
+        assertThat(RouteUtil.absolute("./test", "/parent", RoutingModeEnum.NEW), is("/parent/test"));
     }
 
     @Test

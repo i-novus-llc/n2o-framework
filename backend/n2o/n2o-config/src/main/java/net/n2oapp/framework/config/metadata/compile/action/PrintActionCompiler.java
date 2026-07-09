@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.PrintTypeEnum;
+import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oPrintAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -44,11 +45,12 @@ public class PrintActionCompiler extends AbstractActionCompiler<PrintAction, N2o
         if (source.getUrl().startsWith(":")) {
             path = source.getUrl();
         } else {
-            path = RouteUtil.absolute(source.getUrl(), routeScope != null ? routeScope.getUrl() : null);
+            path = RouteUtil.absolute(source.getUrl(), routeScope != null ? routeScope.getUrl() : null,
+                    p.resolve(property("n2o.config.routing_mode"), RoutingModeEnum.class));
         }
         print.getPayload().setUrl(StringUtils.hasLink(path)
                 ? p.resolveJS(path)
-                : RouteUtil.normalize(path));
+                : RouteUtil.normalizeUrl(path, p.resolve(property("n2o.config.routing_mode"), RoutingModeEnum.class)));
         print.getPayload().setType(castDefault(source.getType(),
                 () -> p.resolve(property("n2o.api.action.print.document_type"), PrintTypeEnum.class)));
         print.getPayload().setKeepIndent(castDefault(source.getKeepIndent(),

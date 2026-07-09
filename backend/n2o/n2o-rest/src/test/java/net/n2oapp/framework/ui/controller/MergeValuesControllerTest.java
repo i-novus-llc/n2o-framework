@@ -109,7 +109,7 @@ class MergeValuesControllerTest {
     @Test
     void testMergeValuesForSeveralRecords() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipelineForQuery("testMergeSeveral");
-        GetDataResponse response = testQuery(pipeline, "/testMergeSeveral/main", new HashMap<>());
+        GetDataResponse response = testQuery(pipeline, "/testMergeSeveral/main/", new HashMap<>());
         assertThat(response.getList().size(), is(2));
 
         assertThat(response.getList().getFirst().get("id"), is(1L));
@@ -123,7 +123,7 @@ class MergeValuesControllerTest {
 
     private GetDataResponse testQuery(ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline,
                                       Map<String, String[]> params) {
-        return testQuery(pipeline, "/testMerge/main", params);
+        return testQuery(pipeline, "/testMerge/main/", params);
     }
 
     private GetDataResponse testQuery(ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline,

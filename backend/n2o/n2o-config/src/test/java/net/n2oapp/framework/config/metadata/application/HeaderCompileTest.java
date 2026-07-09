@@ -57,16 +57,16 @@ class HeaderCompileTest extends SourceCompileTestBase {
         // page
         assertThat(menuItems.get(1).getTitle(), is("headerLabel"));
         assertThat(menuItems.get(1).getDatasource(), is("ds1"));
-        assertThat(menuItems.get(1).getHref(), is("/mi4"));
+        assertThat(menuItems.get(1).getHref(), is("/mi4/"));
         assertThat(menuItems.get(1).getPageId(), is("pageWithoutLabel"));
-        assertThat(menuItems.get(1).getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
+        assertThat(menuItems.get(1).getNewWindow(), is(false));
         assertThat(menuItems.get(1).getSubItems(), nullValue());
         assertThat(menuItems.get(1).getSrc(), is("LinkMenuItem"));
         // a
         assertThat(menuItems.get(2).getTitle(), is("hrefLabel"));
         assertThat(menuItems.get(2).getDatasource(), is("ds2"));
         assertThat(menuItems.get(2).getHref(), is("http://test.com"));
-        assertThat(menuItems.get(2).getLinkType(), is(MenuItem.LinkTypeEnum.OUTER));
+        assertThat(menuItems.get(2).getNewWindow(), is(false));
         assertThat(menuItems.get(2).getSubItems(), nullValue());
         assertThat(menuItems.get(2).getSrc(), is("LinkMenuItem"));
         // sub-menu with ds
@@ -92,9 +92,9 @@ class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(subItems.getFirst().getTitle(), is("test2"));
         assertThat(subItems.getFirst().getDatasource(), is("ds2"));
         assertThat(subItems.getFirst().getModel(), is(ReduxModelEnum.DATASOURCE));
-        assertThat(subItems.getFirst().getHref(), is("/page1"));
+        assertThat(subItems.getFirst().getHref(), is("/page1/"));
         assertThat(subItems.getFirst().getPageId(), is("pageWithoutLabel"));
-        assertThat(subItems.getFirst().getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
+        assertThat(subItems.getFirst().getNewWindow(), is(false));
         assertThat(subItems.getFirst().getSubItems(), nullValue());
         assertThat(subItems.getFirst().getSrc(), is("LinkMenuItem"));
         assertThat(subItems.getFirst().getProperties().size(), is(1));
@@ -103,7 +103,7 @@ class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(subItems.get(1).getTitle(), is("hrefLabel"));
         assertThat(subItems.get(1).getDatasource(), is("ds1"));
         assertThat(subItems.get(1).getHref(), is("http://test.com"));
-        assertThat(subItems.get(1).getLinkType(), is(MenuItem.LinkTypeEnum.OUTER));
+        assertThat(subItems.get(1).getNewWindow(), is(true));
         assertThat(subItems.get(1).getSubItems(), nullValue());
         assertThat(subItems.get(1).getSrc(), is("LinkMenuItem"));
         assertThat(header.getExtraMenu().getItems().size(), is(1));
@@ -116,7 +116,7 @@ class HeaderCompileTest extends SourceCompileTestBase {
         // sub-menu a
         assertThat(subItems.getFirst().getTitle(), is("Test"));
         assertThat(subItems.getFirst().getHref(), is("https://ya.ru/"));
-        assertThat(subItems.getFirst().getLinkType(), is(MenuItem.LinkTypeEnum.OUTER));
+        assertThat(subItems.getFirst().getNewWindow(), is(true));
         assertThat(subItems.getFirst().getIcon(), is("test-icon"));
         assertThat(subItems.getFirst().getSubItems(), nullValue());
         assertThat(subItems.getFirst().getSrc(), is("LinkMenuItem"));
@@ -140,7 +140,7 @@ class HeaderCompileTest extends SourceCompileTestBase {
         assertThat(SearchBar.LinkTypeEnum.INNER, is(searchBar.getSearchPageLocation().getLinkType()));
 
         assertThat(searchBar.getDataProvider(), notNullValue());
-        assertThat("n2o/data/search", is(searchBar.getDataProvider().getUrl()));
+        assertThat("n2o/data/search/", is(searchBar.getDataProvider().getUrl()));
         assertThat("filterId", is(searchBar.getDataProvider().getQuickSearchParam()));
     }
 

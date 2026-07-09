@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -37,7 +38,7 @@ public class ImageFieldCompiler extends ActionFieldCompiler<ImageField, N2oImage
         imageField.setData(castDefault(p.resolveJS(source.getData()),
                 () -> StringUtils.hasLink(source.getUrl())
                         ? p.resolveJS(source.getUrl())
-                        : RouteUtil.normalize(source.getUrl())
+                        : RouteUtil.normalizeUrl(source.getUrl(), p.resolve(property("n2o.config.routing_mode"), RoutingModeEnum.class))
         ));
         imageField.setTitle(p.resolveJS(source.getTitle()));
         imageField.setDescription(p.resolveJS(source.getDescription()));

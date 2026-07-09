@@ -82,17 +82,17 @@ class SwitchActionCompileTest extends SourceCompileTestBase {
 
         SwitchAction action = (SwitchAction) button.getAction();
         assertThat(((InvokeAction) action.getPayload().getCases().get("A")).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/p/w/123/modal/A_case1"));
+                is("n2o/data/p/w/123/modal/A_case1/"));
         assertThat(((InvokeAction) action.getPayload().getCases().get("B")).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/p/w/123/modal/B_case1"));
+                is("n2o/data/p/w/123/modal/B_case1/"));
         assertThat(((InvokeAction) action.getPayload().getCases().get("B")).getMeta().getSuccess().getRedirect().getPath(),
                 is("/123/redirect"));
         assertThat(((InvokeAction) action.getPayload().getDefaultCase()).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/p/w/123/modal/default_case_1"));
+                is("n2o/data/p/w/123/modal/default_case_1/"));
         assertThat(((InvokeAction) ((SwitchAction) action.getPayload().getCases().get("C")).getPayload().getCases().get("A")).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/p/w/123/modal/A_case2"));
+                is("n2o/data/p/w/123/modal/A_case2/"));
         assertThat(((InvokeAction) ((SwitchAction) action.getPayload().getCases().get("C")).getPayload().getDefaultCase()).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/p/w/123/modal/default_case_2"));
+                is("n2o/data/p/w/123/modal/default_case_2/"));
     }
 
     @Test

@@ -5,7 +5,7 @@
         <overlay class="top">
             <toolbar>
                 <button id="id1">
-                    <a href="/test" target="application"/>
+                    <a href="/test"/>
                 </button>
             </toolbar>
         </overlay>

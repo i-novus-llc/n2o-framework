@@ -10,7 +10,7 @@ import {
 
 import { type Mapping } from '../../ducks/datasource/Provider'
 import { type DataSourceModels, ModelPrefix } from '../../core/datasource/const'
-import { LinkTarget } from '../core/router/types'
+import { N2OLinkTarget } from '../core/router/types'
 
 export type Content = Array<{
     src: string
@@ -52,7 +52,8 @@ type NavigationLinkPropsEnhancer = BaseNavigationItem & WithDataSourceFeatures
 
 export interface NavigationLinkProps extends NavigationLinkPropsEnhancer {
     url: string
-    target: LinkTarget
+    target: N2OLinkTarget
+    newWindow?: boolean
     queryMapping: Mapping
     pathMapping: Mapping
 }

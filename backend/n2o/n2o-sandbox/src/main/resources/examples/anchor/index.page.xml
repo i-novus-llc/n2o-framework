@@ -7,7 +7,7 @@
         </fields>
         <toolbar place="bottomLeft">
             <button label="Найти">
-                <a href="https://yandex.ru/search/" target="newWindow">
+                <a href="https://yandex.ru/search/" target="self" new-window="true">
                     <query-param name="text" value="{id}"/>
                 </a>
             </button>

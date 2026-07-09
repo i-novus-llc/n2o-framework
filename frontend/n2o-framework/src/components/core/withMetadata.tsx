@@ -13,7 +13,7 @@ import { Mapping } from '../../ducks/datasource/Provider'
 import { Metadata } from '../../ducks/pages/Pages'
 import { type ErrorContainerError } from '../../core/error/types'
 
-import { resolvePath } from './router/resolvePath'
+import { resolvePath } from './router/utils/resolvePath'
 import { PageContext } from './router/context'
 
 export interface WithMetadataProps {
@@ -23,7 +23,7 @@ export interface WithMetadataProps {
     pageMapping: Mapping
     rootPage: string
     parentId: string
-    metadata: Metadata
+    metadata?: Metadata
     loading: boolean
     error: ErrorContainerError
     getMetadata(
@@ -40,6 +40,8 @@ export interface WithMetadataProps {
 
 export const WithMetadata = <P extends WithMetadataProps>(Component: ComponentType<P & WithMetadataProps>) => {
     class ComponentWithMetadata extends React.Component<P & WithMetadataProps> {
+        state: { metadata?: Metadata } = {}
+
         componentDidMount() { this.fetchMetadata() }
 
         componentWillUnmount() {
@@ -51,6 +53,11 @@ export const WithMetadata = <P extends WithMetadataProps>(Component: ComponentTy
         componentDidUpdate(prevProps: WithMetadataProps) {
             const { metadata, error, reset, pageUrl } = this.props
 
+            if (!isEqual(metadata, prevProps.metadata)) {
+                this.setState({ metadata })
+
+                return
+            }
             if (
                 isEqual(metadata, prevProps.metadata) &&
                 !isEmpty(metadata) &&
@@ -80,6 +87,7 @@ export const WithMetadata = <P extends WithMetadataProps>(Component: ComponentTy
             } = this.props
 
             getMetadata(pageId, pageUrl, pageMapping, rootPage, parentId, baseUrl)
+            this.setState({ metadata: undefined })
         }
 
         shouldGetPageMetadata(prevProps: WithMetadataProps) {
@@ -118,11 +126,12 @@ export const WithMetadata = <P extends WithMetadataProps>(Component: ComponentTy
 
         render() {
             const { pageId } = this.props
+            const { metadata } = this.state
             const context = { pageId }
 
             return (
                 <PageContext.Provider value={context}>
-                    <Component {...this.props} />
+                    <Component {...this.props} metadata={metadata} />
                 </PageContext.Provider>
             )
         }

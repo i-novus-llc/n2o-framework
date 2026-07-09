@@ -2,10 +2,10 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-4.0" name="Базовая">
     <regions>
         <nav>
-            <link href="./open" label="./open (subpage)" target="application"/>
-            <link href="./open1" label="./open1 (subpage)" target="application"/>
-            <link href="./open11" label="./open11 (not subpage)" target="application"/>
-            <link href="./open2" label="./open2 (not subpage)" target="application"/>
+            <link href="./open/" label="./open (subpage)" target="application"/>
+            <link href="./open1/" label="./open1 (subpage)" target="application"/>
+            <link href="./open11/" label="./open11 (not subpage)" target="application"/>
+            <link href="./open2/" label="./open2 (not subpage)" target="application"/>
         </nav>
         <sub-page default-page-id="open">
             <page page-id="open" route="/open"/>

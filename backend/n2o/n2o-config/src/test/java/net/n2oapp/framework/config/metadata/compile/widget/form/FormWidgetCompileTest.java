@@ -89,7 +89,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         StandardDatasource datasource = (StandardDatasource) page.getDatasources().get(page.getWidget().getDatasource());
         assertThat(datasource.getDefaultValuesMode(), is(DefaultValuesModeEnum.QUERY));
         assertThat(datasource.getPaging().getSize(), is(1));
-        QueryContext queryContext = (QueryContext) route("/testFormCompile2/w1", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testFormCompile2/w1/", CompiledQuery.class);
         assertThat(queryContext, notNullValue());
     }
 
@@ -144,7 +144,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormPreFilterValidation.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.object.xml")
                 .get(new PageContext("testFormPreFilterValidation"));
-        QueryContext queryContext = (QueryContext) route("/testFormPreFilterValidation/form", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testFormPreFilterValidation/form/", CompiledQuery.class);
         List<Validation> validations = queryContext.getValidations();
         assertThat(validations.size(), is(1));
         MandatoryValidation validation = (MandatoryValidation) validations.getFirst();
@@ -176,7 +176,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testFormSubmit"));
         Form form = (Form) page.getWidget();
 
-        ActionContext context = (ActionContext) route("/testFormSubmit/a/b/c", CompiledObject.class);
+        ActionContext context = (ActionContext) route("/testFormSubmit/a/b/c/", CompiledObject.class);
         assertThat(context, allOf(
                 notNullValue(),
                 hasProperty("operationId", is("test")),
@@ -189,7 +189,7 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
         ClientDataProvider dataProvider = ((StandardDatasource) page.getDatasources().get(form.getDatasource())).getSubmit();
         assertThat(dataProvider.getMethod(), is(RequestMethodEnum.POST));
         assertThat(dataProvider.getSubmitForm(), is(true));
-        assertThat(dataProvider.getUrl(), is("n2o/data/testFormSubmit/a/b/c"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/testFormSubmit/a/b/c/"));
 
         assertThat(dataProvider.getPathMapping().size(), is(2));
         ModelLink link = dataProvider.getPathMapping().get("name1");
@@ -224,14 +224,14 @@ class FormWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModal.page.xml"
         ).get(new PageContext("testSubmitInModalIndex"));
 
-        PageContext detailContext = (PageContext) route("/testSubmitInModalIndex/:id/open", Page.class);
+        PageContext detailContext = (PageContext) route("/testSubmitInModalIndex/:id/open/", Page.class);
         DataSet data = new DataSet();
         data.put("id", 1);
         SimplePage detailPage = (SimplePage) read().compile().bind().get(detailContext, data);
         Form form = (Form) detailPage.getWidget();
         assertThat(((StandardDatasource) detailPage.getDatasources().get(form.getDatasource())).getSubmit().getPathMapping().size(), is(1));
-        assertThat(((StandardDatasource) detailPage.getDatasources().get(form.getDatasource())).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/w1"));
-        AbstractButton closeBtn = detailPage.getWidget().getToolbar().get("bottomRight").getFirst().getButtons().getFirst();
+        assertThat(((StandardDatasource) detailPage.getDatasources().get(form.getDatasource())).getSubmit().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open/w1/"));
+        AbstractButton closeBtn = detailPage.getWidget().getToolbar().get("bottomRight").get(0).getButtons().get(0);
         assertThat(closeBtn, notNullValue());
         assertThat(closeBtn.getAction(), instanceOf(CloseAction.class));
         assertThat(closeBtn.getValidate(), nullValue());

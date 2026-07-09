@@ -42,10 +42,10 @@ class RegionBinderTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testSubPageRegionBinder", "/user/:parentId");
         Region region = (((StandardPage) pipeline.get(context, new DataSet("parentId", 2)))
                 .getRegions().get("single").getFirst());
-        assertThat(((SubPageRegion) region).getPages().getFirst().getUrl(), is("/user/2/sp_route11"));
+        assertThat(((SubPageRegion) region).getPages().getFirst().getUrl(), is("/user/2/sp_1/"));
         region = (((StandardPage) pipeline.get(context, new DataSet("parentId", 2)))
                 .getRegions().get("single").get(1));
-        assertThat(((SubPageRegion) region.getContent().getFirst()).getPages().getFirst().getUrl(), is("/user/2/sp_route11"));
+        assertThat(((SubPageRegion) region.getContent().getFirst()).getPages().getFirst().getUrl(), is("/user/2/sp_1/"));
     }
 
     @Test
@@ -57,6 +57,6 @@ class RegionBinderTest extends SourceCompileTestBase {
         ScrollspyRegion region = (ScrollspyRegion) ((StandardPage) pipeline.get(context, new DataSet("parentId", 2)))
                 .getRegions().get("single").getFirst();
         SingleScrollspyElement element = (SingleScrollspyElement) ((MenuScrollspyElement)((GroupScrollspyElement) region.getMenu().getFirst()).getGroup().getFirst()).getMenu().getFirst();
-        assertThat(((SubPageRegion) element.getContent().getFirst()).getPages().getFirst().getUrl(), is("/user/2/sp_route11"));
+        assertThat(((SubPageRegion) element.getContent().getFirst()).getPages().getFirst().getUrl(), is("/user/2/sp_1/"));
     }
 }

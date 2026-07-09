@@ -66,7 +66,7 @@ class SandboxExportTest {
         ExportRequest request = new ExportRequest();
         request.setFormat("csv");
         request.setCharset("UTF-8");
-        request.setUrl("/n2o/data/_w1?main_minPrice=5000&page=1&size=10&sorting.name=DESC");
+        request.setUrl("/n2o/data/_w1/?main_minPrice=5000&page=1&size=10&sorting.name=DESC");
         List<ExportRequest.ExportField> requestHeaders = new ArrayList<>();
         ExportRequest.ExportField idField = new ExportRequest.ExportField();
         idField.setId("id");

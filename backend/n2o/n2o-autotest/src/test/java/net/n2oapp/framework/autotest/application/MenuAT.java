@@ -58,7 +58,7 @@ class MenuAT extends AutoTestBase {
         menuItem.shouldHaveIconCssClass("fa fa-bell");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("2");
-        menuItem.shouldHaveUrl(getBaseUrl() + "/#/test");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/test/");
 
         menuItem.click();
         page.shouldExists();
@@ -83,7 +83,7 @@ class MenuAT extends AutoTestBase {
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");
-        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif/");
 
         menuItem.click();
         page.shouldExists();
@@ -108,7 +108,7 @@ class MenuAT extends AutoTestBase {
         menuItem.imageShouldHaveShape(ShapeTypeEnum.CIRCLE);
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");
-        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile/");
 
         menuItem.click();
         page.shouldExists();
@@ -134,7 +134,7 @@ class MenuAT extends AutoTestBase {
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("2");
-        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif/");
 
         menuItem.click();
         page.shouldExists();
@@ -165,7 +165,7 @@ class MenuAT extends AutoTestBase {
         menuItem.shouldHaveIconCssClass("fa fa-bell");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("2");
-        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif/");
 
         menuItem.click();
         page.shouldExists();
@@ -190,7 +190,7 @@ class MenuAT extends AutoTestBase {
         menuItem.shouldHaveIconCssClass("fa fa-user");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");
-        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif/");
         sidebar.clickToggleBtn();
 
         menuItem.shouldHaveIcon();
@@ -198,7 +198,7 @@ class MenuAT extends AutoTestBase {
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");
-        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/notif/");
 
         menuItem.click();
         page.shouldExists();
@@ -222,13 +222,13 @@ class MenuAT extends AutoTestBase {
         menuItem.shouldHaveImage();
         menuItem.imageShouldHaveSrc(getBaseUrl() + "/images/candidate2.jpg");
         menuItem.imageShouldHaveShape(ShapeTypeEnum.ROUNDED);
-        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile/");
 
         sidebar.clickToggleBtn();
         menuItem.shouldHaveImage();
         menuItem.imageShouldHaveSrc(getBaseUrl() + "/images/candidate2.jpg");
         menuItem.imageShouldHaveShape(ShapeTypeEnum.ROUNDED);
-        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile/");
         menuItem.shouldHaveLabel("Профиль");
 
         menuItem.click();
@@ -255,7 +255,7 @@ class MenuAT extends AutoTestBase {
         menuItem.imageShouldHaveShape(ShapeTypeEnum.SQUARE);
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");
-        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile/");
         sidebar.clickToggleBtn();
 
         menuItem.shouldHaveImage();
@@ -264,7 +264,7 @@ class MenuAT extends AutoTestBase {
         menuItem.shouldHaveLabel("Профиль");
         menuItem.shouldHaveBadge();
         menuItem.shouldHaveBadgeText("3");
-        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile");
+        menuItem.shouldHaveUrl(getBaseUrl() + "/#/profile/");
 
         menuItem.click();
         page.shouldExists();

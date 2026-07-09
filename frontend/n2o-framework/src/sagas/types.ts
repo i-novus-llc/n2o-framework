@@ -1,6 +1,6 @@
 // TODO пока тут оставил, в будущем, наверно, вся meta переедет вместе с типами
 import { Meta as N2OMeta } from '../ducks/Action'
-import { LinkTarget } from '../components/core/router/types'
+import { N2OLinkTarget } from '../components/core/router/types'
 import { ValidationResult } from '../core/validation/types'
 
 export enum MetaType {
@@ -32,7 +32,7 @@ export interface RefreshMeta {
 
 export interface RedirectMeta {
     path: string
-    target: LinkTarget
+    target: N2OLinkTarget
     // TODO сюда тоже закинуть тип IMapping
     pathMapping?: Record<string, unknown>
     queryMapping?: Record<string, unknown>

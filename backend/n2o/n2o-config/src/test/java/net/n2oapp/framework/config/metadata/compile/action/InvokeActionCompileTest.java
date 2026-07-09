@@ -69,7 +69,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         InvokeAction testAction = (InvokeAction) table.getToolbar().getButton("test2").getAction();
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethodEnum.POST));
-        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/test"));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/test/"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
         assertThat(testAction.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("w_testW"));
@@ -83,10 +83,10 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(menuItem0action.getMeta().getSuccess().getRefresh().getDatasources(), hasItem("w_w1"));
         ClientDataProvider dataProvider = menuItem0action.getPayload().getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethodEnum.POST));
-        assertThat(dataProvider.getUrl(), is("n2o/data/w/test1"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/w/test1/"));
         assertThat(dataProvider.getQueryMapping().size(), is(0));
         assertThat(dataProvider.getOptimistic(), is(true));
-        assertThat(route("/w/test1", CompiledObject.class), notNullValue());
+        assertThat(route("/w/test1/", CompiledObject.class), notNullValue());
     }
 
     @Test
@@ -100,7 +100,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.DATASOURCE));
         assertThat(testAction.getPayload().getDatasource(), is("w_ds1"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethodEnum.POST));
-        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDefault"));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDefault/"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getPayload().getDataProvider().getPathMapping().size(), is(0));
 
@@ -109,7 +109,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(testAction.getPayload().getDatasource(), is("w_w1"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethodEnum.PUT));
-        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/:id"));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/:id/"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         Map<String, ModelLink> pathMapping = testAction.getPayload().getDataProvider().getPathMapping();
         assertThat(pathMapping.size(), is(1));
@@ -121,7 +121,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(testAction.getPayload().getDatasource(), is("w_w1"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethodEnum.DELETE));
-        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDelete"));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDelete/"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getPayload().getDataProvider().getPathMapping().size(), is(0));
     }
@@ -142,7 +142,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
     void validations() {
         compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.page.xml")
                 .get(new PageContext("testRegisterActionContext", "/"));
-        ActionContext context = (ActionContext) route("/:test", CompiledObject.class);
+        ActionContext context = (ActionContext) route("/:test/", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("create"));
         assertThat(context.getValidations().size(), is(3));
@@ -152,7 +152,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
 
         compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContextForPageAction.page.xml")
                 .get(new PageContext("testRegisterActionContextForPageAction", "/route"));
-        context = (ActionContext) route("/route/test", CompiledObject.class);
+        context = (ActionContext) route("/route/test/", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("create"));
         assertThat(context.getValidations().size(), is(3));
@@ -162,7 +162,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
 
         compile("net/n2oapp/framework/config/metadata/compile/action/testNotValidateAction.page.xml")
                 .get(new PageContext("testNotValidateAction", "/p"));
-        context = (ActionContext) route("/p/create", CompiledObject.class);
+        context = (ActionContext) route("/p/create/", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("create"));
         assertThat(context.getValidations(), nullValue());//validate none
@@ -175,9 +175,9 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testInvokeActionBind", "/p/:parent_id/create"), data);
         InvokeAction a1 = (InvokeAction) ((Form)page.getRegions().get("single").get(0).getContent().get(0)).getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getAction();
-        assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a1"));
+        assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a1/"));
         InvokeAction a2 = (InvokeAction) ((Widget) page.getRegions().get("single").get(1).getContent().get(0)).getToolbar().getButton("a2").getAction();
-        assertThat(a2.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a2"));
+        assertThat(a2.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a2/"));
     }
 
     @Test
@@ -207,9 +207,9 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         Table table = (Table) page.getWidget();
         // operationMapping should not contains form params from corresponding invoke
         // but could contains from other
-        ActionContext actionContext1 = (ActionContext) route("/w/123/create", CompiledObject.class);
+        ActionContext actionContext1 = (ActionContext) route("/w/123/create/", CompiledObject.class);
         assertThat(actionContext1.getOperationMapping().containsKey("fpName1"), is(false));
-        ActionContext actionContext2 = (ActionContext) route("/w/123/update", CompiledObject.class);
+        ActionContext actionContext2 = (ActionContext) route("/w/123/update/", CompiledObject.class);
         assertThat(actionContext2.getOperationMapping().containsKey("fpGender.id"), is(false));
 
         //filter model
@@ -248,13 +248,13 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/routeAndPath.page.xml")
                 .get(new PageContext("routeAndPath"), data);
         InvokeAction action = (InvokeAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("b1").getAction();
-        assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/:main_id"));
+        assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/:main_id/"));
         assertThat(action.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(action.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(action.getPayload().getDatasource(), is("routeAndPath_w2"));
 
         action = (InvokeAction) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("b2").getAction();
-        assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/b2"));
+        assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/b2/"));
         assertThat(action.getType(), is("n2o/actionImpl/START_INVOKE"));
         assertThat(action.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(action.getPayload().getDatasource(), is("routeAndPath_w2"));
@@ -276,7 +276,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
                 () -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyPath.page.xml")
                         .get(new PageContext("emptyPath"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("Параметр пути '/:main_id' для маршрута 'main_id' не установлен"))
+                e -> assertThat(e.getMessage(), is("Параметр пути '/:main_id/' для маршрута 'main_id' не установлен"))
         );
     }
 
@@ -296,7 +296,7 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
                 () -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/multiplyPath.page.xml")
                         .get(new PageContext("multiplyPath"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("Маршрут '/:main_id' не содержит параметр пути 't_id'"))
+                e -> assertThat(e.getMessage(), is("Маршрут '/:main_id/' не содержит параметр пути 't_id'"))
         );
     }
 
@@ -307,9 +307,9 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testInvokeActionObject", "/p/:parent_id/create"), data);
         InvokeAction a1 = (InvokeAction) ((Form)page.getRegions().get("single").get(0).getContent().get(0)).getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getAction();
-        assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a1"));
+        assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a1/"));
         InvokeAction a2 = (InvokeAction) ((Widget) page.getRegions().get("single").get(1).getContent().get(0)).getToolbar().getButton("a2").getAction();
-        assertThat(a2.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a2"));
+        assertThat(a2.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/a2/"));
     }
 
     @Test
@@ -322,17 +322,17 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction1.getPayload().getModel(), is(ReduxModelEnum.FILTER));
         assertThat(testAction1.getPayload().getDatasource(), is("testInvokeActionDatasource_main"));
         assertThat(testAction1.getPayload().getDataProvider().getMethod(), is(RequestMethodEnum.POST));
-        assertThat(testAction1.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test1"));
+        assertThat(testAction1.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test1/"));
 
         InvokeAction testAction2 = (InvokeAction) widget.getToolbar().getButton("test2").getAction();
         assertThat(testAction2.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(testAction2.getPayload().getDatasource(), is("testInvokeActionDatasource_outer"));
-        assertThat(testAction2.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test2"));
+        assertThat(testAction2.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test2/"));
 
         InvokeAction testAction = (InvokeAction) page.getToolbar().getButton("test").getAction();
         assertThat(testAction.getPayload().getModel(), is(ReduxModelEnum.RESOLVE));
         assertThat(testAction.getPayload().getDatasource(), is("testInvokeActionDatasource_outer"));
-        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test"));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/testInvokeActionDatasource/test/"));
     }
 
     @Test
@@ -341,10 +341,10 @@ class InvokeActionCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testInvokeActionClearOnSuccess"));
 
         assertThat(((InvokeAction) page.getToolbar().getButton("b1").getAction()).getMeta().getSuccess().getClear(), nullValue());
-        assertThat(((ActionContext) route("/testInvokeActionClearOnSuccess/b1", CompiledObject.class)).getClearDatasource(), nullValue());
+        assertThat(((ActionContext) route("/testInvokeActionClearOnSuccess/b1/", CompiledObject.class)).getClearDatasource(), nullValue());
         assertThat(((InvokeAction) page.getToolbar().getButton("b2").getAction()).getMeta().getSuccess().getClear(),
                 is("testInvokeActionClearOnSuccess_ds1"));
-        assertThat(((ActionContext) route("/testInvokeActionClearOnSuccess/b2", CompiledObject.class)).getClearDatasource(),
+        assertThat(((ActionContext) route("/testInvokeActionClearOnSuccess/b2/", CompiledObject.class)).getClearDatasource(),
                 is("testInvokeActionClearOnSuccess_ds1"));
     }
 

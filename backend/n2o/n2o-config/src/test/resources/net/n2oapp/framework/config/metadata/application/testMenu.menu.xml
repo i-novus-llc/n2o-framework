@@ -6,13 +6,13 @@
             <open-page page-id="pageWithoutLabel" route="/page1"/>
         </menu-item>
         <menu-item name="hrefLabel">
-            <a href="http://test.com"/>
+            <a href="http://test.com" target="self"/>
         </menu-item>
     </dropdown-menu>
     <menu-item name="headerLabel">
         <open-page page-id="pageWithoutLabel"/>
     </menu-item>
     <menu-item name="hrefLabel">
-        <a href="http://test.com"/>
+        <a href="http://test.com" target="self"/>
     </menu-item>
 </nav>

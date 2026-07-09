@@ -55,7 +55,7 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
                 .getCols().getFirst().getFields().getFirst();
         AutoComplete autoComplete = (AutoComplete) field.getControl();
         assertThat(autoComplete.getSrc(), is("AutoComplete"));
-        assertThat(autoComplete.getDataProvider().getUrl(), is("n2o/data/test"));
+        assertThat(autoComplete.getDataProvider().getUrl(), is("n2o/data/test/"));
         assertThat(autoComplete.getDataProvider().getQuickSearchParam(), is("search"));
         assertThat(autoComplete, allOf(
                 hasProperty("placeholder", is("`message`")),

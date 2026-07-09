@@ -2,7 +2,8 @@ package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.*;
-import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -42,19 +43,28 @@ class AllFieldsCleanableAT extends AutoTestBase {
 
     @Test
     void allFieldsAreCleanable() {
+        setResourcePath("net/n2oapp/framework/autotest/control/all_cleanable");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/all_cleanable/index.page.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/all_cleanable/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/all_cleanable/test.query.xml")
         );
 
-        SimplePage page = open(SimplePage.class);
+        StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        Fields fields = page.widget(FormWidget.class).fields();
 
-        checkFields(fields);
+        SimpleRegion region = page.regions().region(0, SimpleRegion.class);
+        FormWidget mainForm = region.content().widget(0, FormWidget.class);
+        FormWidget outputListForm = region.content().widget(1, FormWidget.class);
 
-        page.widget(FormWidget.class).toolbar().topLeft().button("Clear").click();
+        Fields mainFields = mainForm.fields();
+        checkFields(mainFields);
+        mainForm.toolbar().topLeft().button("Clear").click();
+        checkFieldsAfterClear(mainFields);
 
-        checkFieldsAfterClear(fields);
+        OutputList outputList = outputListForm.fields().field("outputList").control(OutputList.class);
+        checkOutputList(outputList);
+        outputListForm.toolbar().topLeft().button("Clear").click();
+        outputList.shouldBeEmpty();
     }
 
     private static void checkFields(Fields fields) {
@@ -86,7 +96,6 @@ class AllFieldsCleanableAT extends AutoTestBase {
         fields.field("timePicker").control(TimePicker.class).shouldHaveValue("02 ч 03 мин 05 сек");
         fields.field("autoComplete").control(AutoComplete.class).setValue("value");
         fields.field("autoComplete").control(AutoComplete.class).shouldHaveValue("value");
-        fields.field("outputList").control(OutputList.class).shouldHaveValues(" ", new String[]{"outputList", "outputList", "outputList", "outputList", "outputList"});
         fields.field("outputText").control(OutputText.class).shouldHaveValue("value");
     }
 
@@ -113,8 +122,15 @@ class AllFieldsCleanableAT extends AutoTestBase {
         fields.field("textEditor").control(TextEditor.class).shouldBeEmpty();
         fields.field("timePicker").control(TimePicker.class).shouldBeEmpty();
         fields.field("autoComplete").control(AutoComplete.class).shouldBeEmpty();
-        fields.field("outputList").control(OutputList.class).shouldBeEmpty();
         fields.field("outputText").control(OutputText.class).shouldBeEmpty();
     }
-}
 
+    private static void checkOutputList(OutputList outputList) {
+        String separator = ",";
+        outputList.shouldExists();
+        outputList.shouldHaveLinkValues(separator, new String[]{"test1", "test3"});
+        outputList.shouldHaveValues(separator, new String[]{"test2", "test4"});
+        outputList.shouldHaveLink("test1", "http://example.com/1");
+        outputList.shouldHaveLink("test3", "http://example.com/2");
+    }
+}

@@ -133,8 +133,8 @@ class ApplicationCompileTest extends SourceCompileTestBase {
         MenuItem menuItem = sidebar.getMenu().getItems().getFirst();
         assertThat(menuItem.getId(), is("mi1"));
         assertThat(menuItem.getTitle(), is("Документы"));
-        assertThat(menuItem.getHref(), is("/person/:person_id/docs"));
-        assertThat(menuItem.getLinkType(), is(MenuItem.LinkTypeEnum.INNER));
+        assertThat(menuItem.getHref(), is("/person/:person_id/docs/"));
+        assertThat(menuItem.getNewWindow(), is(false));
         assertThat(menuItem.getSrc(), is("LinkMenuItem"));
         assertThat(menuItem.getPathMapping().get("person_id").getValue(), is("`person_id`"));
         assertThat(menuItem.getQueryMapping().get("fio").getLink(), is("models.resolve['person']"));
@@ -142,7 +142,7 @@ class ApplicationCompileTest extends SourceCompileTestBase {
 
         StandardDatasource datasource = (StandardDatasource) application.getDatasources().get("person");
         assertThat(datasource.getId(), is("person"));
-        assertThat(datasource.getProvider().getUrl(), is("n2o/data/person"));
+        assertThat(datasource.getProvider().getUrl(), is("n2o/data/person/"));
         assertThat(datasource.getProvider().getQueryMapping().get("person_id").getValue(), is(":person_id"));
     }
 
@@ -154,7 +154,7 @@ class ApplicationCompileTest extends SourceCompileTestBase {
 
         StandardDatasource datasource = (StandardDatasource) application.getDatasources().get("person");
         assertThat(datasource.getId(), is("person"));
-        assertThat(datasource.getProvider().getUrl(), is("n2o/data/person"));
+        assertThat(datasource.getProvider().getUrl(), is("n2o/data/person/"));
         assertThat(datasource.getProvider().getQueryMapping().get("person_id").getValue(), is(":person_id"));
 
         datasource = (StandardDatasource) application.getDatasources().get("home");

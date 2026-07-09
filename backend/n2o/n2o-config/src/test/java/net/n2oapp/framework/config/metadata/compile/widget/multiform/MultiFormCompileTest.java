@@ -126,7 +126,7 @@ class MultiFormCompileTest extends SourceCompileTestBase {
         assertThat(enableCondition.getExpression(), is("firstName != null"));
         assertThat(secondOpenButton.getAction(), notNullValue());
         LinkActionImpl action = (LinkActionImpl) secondOpenButton.getAction();
-        assertThat(action.getUrl(), is("/testMultiFormCompile/open2"));
+        assertThat(action.getUrl(), is("/testMultiFormCompile/open2/"));
 
         // кнопка с confirm внутри fields: model=datasource, field=[index]
         ButtonField confirmFieldButton = (ButtonField) rowList.get(3).getCols().getFirst().getFields().getFirst();

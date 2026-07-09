@@ -16,6 +16,7 @@ public class N2oAnchor extends N2oAbstractAction implements N2oAction {
     private String datasourceId;
     private ReduxModelEnum model;
     private TargetEnum target;
+    private Boolean newWindow;
     private N2oParam[] pathParams;
     private N2oParam[] queryParams;
 

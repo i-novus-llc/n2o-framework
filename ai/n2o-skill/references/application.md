@@ -42,7 +42,7 @@ File: `application.xml`
 | label-field-id | String | Query field for result label | |
 | icon-field-id | String | Query field for result icon | |
 | description-field-id | String | Query field for result description | |
-| target | application / newWindow / self | How to open search result | application |
+| new-window | boolean | Open the search result in a new browser tab | false |
 
 ## `<sidebars>` — Multiple sidebars with URL-based switching
 Contains `<sidebar>` elements. The sidebar whose `path` matches current page URL is displayed.

@@ -6,13 +6,13 @@
         <sidebar default-state="mini" home-page-url="#">
             <nav>
                 <menu-item name="Раздел 1" icon="fa fa-envelope-o">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Раздел 2" icon="fa fa-user-circle-o">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Раздел 3" icon="fa fa-cog">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
             </nav>
         </sidebar>

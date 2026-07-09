@@ -134,6 +134,153 @@
 
 ---
 
+## `target` → `new-window` (link open behavior. Since 7.30.x version!)
+The `target` attribute is unified across all components. The `newWindow` value is **deprecated** and no longer supported — opening a link in a new browser tab is now a separate boolean attribute `new-window`. The `self` value is now emitted as `self` (previously `_self`), and `application` remains the default.
+
+| Component | Attribute change | New default |
+|---|---|---|
+| `<open-page>` action | `target` **removed**, `new-window` added | `new-window="false"` |
+| `<search>` (header) action | `target` **removed**, `new-window` added | `new-window="false"` |
+| `<a>` action | `target` default `self` → `application`; `new-window` added; `newWindow` unsupported | `target="application"` |
+| `<output-list>` field | `target` default `newWindow` → `application`; `new-window` added | `target="application"` |
+| `<link>` cell / `<list>` cell link | `new-window` added; `newWindow` for `target` unsupported | `target="application"` |
+| `<link>` menu item (`<nav>`) | `target` default `newWindow` → `application`; `new-window` added | `target="application"` |
+
+**How to migrate any `target="newWindow"`:**
+
+| Before | After |
+|---|---|
+| `target="newWindow"` (on `<open-page>` / `<search>`) | `new-window="true"` |
+| `target="newWindow"` (on `<a>` / `<output-list>` / cell `<link>` / menu `<link>`) | `new-window="true" target="self"` |
+| `target="application"` (was explicit default) | *(remove — it is the default)* |
+
+> On components where `application` was **not** the previous default (`<a>`, `<output-list>`, menu `<link>`), add `target="self"` alongside `new-window="true"` to preserve the old open-in-same-tab behavior.
+
+### 1. `<open-page>` — `target` removed, `new-window` added
+
+| Before | After |
+|---|---|
+| `target="newWindow"` | `new-window="true"` |
+| `target="application"` *(default)* | *(default — remove)* |
+
+```xml
+<!-- Before -->                         
+<open-page page-id="report" target="newWindow"/>
+<!-- After -->
+<open-page page-id="report" new-window="true"/>
+```
+
+### 2. `<a>` — default `self` → `application`; `newWindow` unsupported
+
+| Before | After |
+|---|---|
+| `target="newWindow"` | `new-window="true" target="self"` |
+| `target="self"` *(default)* | `target="self"` |
+| `target="application"` | *(default — remove)* |
+
+```xml
+<!-- Before -->
+<a href="/api/document/{id}" target="newWindow"/>
+<!-- After -->
+<a href="/api/document/{id}" new-window="true" target="self"/>
+```
+
+### 3. `<output-list>` (field) — default `newWindow` → `application`; `newWindow` unsupported
+
+| Before | After |
+|---|---|
+| `target="newWindow"` *(default)* | `new-window="true" target="self"` |
+| `target="self"` | `target="self"` |
+| `target="application"` | *(default — remove)* |
+
+```xml
+<!-- Before -->
+<output-list id="links" target="newWindow"/>
+<!-- After -->
+<output-list id="links" new-window="true" target="self"/>
+```
+
+### 4. `<search>` (header search panel) — `target` removed, `new-window` added
+
+| Before | After |
+|---|---|
+| `target="newWindow"` | `new-window="true"` |
+| `target="application"` *(default)* | *(must be removed)* |
+
+```xml
+<!-- Before -->
+<search query-id="global" target="newWindow"/>
+<!-- After -->
+<search query-id="global" new-window="true"/>
+```
+
+### 5. `<link>` cell / `<link>` inside a `<list>` cell — `new-window` added
+
+| Before | After |
+|---|---|
+| `target="newWindow"` | `new-window="true" target="self"` |
+| `target="self"` | `target="self"` |
+| `target="application"` *(default)* | *(default — remove)* |
+
+```xml
+<!-- Before -->
+<link url="/doc/{id}" target="newWindow"/>
+<!-- After -->
+<link url="/doc/{id}" new-window="true" target="self"/>
+```
+
+### 6. `<link>` menu item in a `<nav>` region — default `newWindow` → `application`
+
+| Before | After |
+|---|---|
+| `target="newWindow"` *(default)* | `new-window="true" target="self"` |
+| `target="self"` | `target="self"` |
+| `target="application"` | *(default — remove)* |
+
+```xml
+<!-- Before -->
+<link label="Docs" target="newWindow">
+    <a href="https://n2o.i-novus.ru/docs/"/>
+</link>
+<!-- After -->
+<link label="Docs" new-window="true" target="self">
+    <a href="https://n2o.i-novus.ru/docs/"/>
+</link>
+```
+
+Default properties: `n2o.api.action.link.new_window`, `n2o.api.action.open_page.new_window`, `n2o.api.cell.link.new_window`, `n2o.api.menu.link.new_window`, `n2o.api.control.output_list.new_window` (all `false`); `*.target` defaults are `application`.
+
+---
+
+## Relative URL resolution (routing mode. Since 7.30.x version!)
+The way relative `url`/`href` values are resolved changed for elements carrying a `url`/`href` (e.g. `<a>`, `<link>`, `<alert>`, `<print>`, `<image>`, `<html>`). Relative paths now follow standard web semantics instead of always being appended to the current page path.
+
+For a page with `url="/page1"` (directory `/page1/`… note: no trailing slash means the last segment is dropped):
+
+| Before | After |
+|---|---|
+| `href="./open"` on `url="/page1"` → `/page1/open` | → `/open` |
+| To keep `/page1/open` | page must declare `url="/page1/"` (trailing slash) |
+
+Resolution examples for `baseUrl=/page1/page2/page3` (no slash, directory `/page1/page2/`):
+
+| href/url | Result |
+|---|---|
+| `page4` | `/page1/page2/page4` |
+| `/page4` | `/page4` |
+| `./page4` | `/page1/page2/page4` |
+| `../page4` | `/page1/page4` |
+
+**Compatibility:** set `n2o.config.routing_mode=old` to keep the previous behavior (will be removed in 7.31 — migrate before then).
+
+**Access schema impact:** `<url-access>` patterns now need the exact path. Routes for `open-page`/`show-modal`/`open-drawer` still always end with a slash.
+
+| Before | After |
+|---|---|
+| `<url-access pattern="/path/create*"/>` | `<url-access pattern="/path/create/*"/>` |
+
+---
+
 ## Key Namespace Changes
 Always update `xmlns` when migrating:
 ```

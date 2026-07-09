@@ -19,6 +19,7 @@ public class OutputListIOv3 extends PlainFieldIOv3<N2oOutputList> {
         p.attribute(e, "label-field-id", m::getLabelFieldId, m::setLabelFieldId);
         p.attribute(e, "href-field-id", m::getHrefFieldId, m::setHrefFieldId);
         p.attributeEnum(e, "target", m::getTarget, m::setTarget, TargetEnum.class);
+        p.attributeBoolean(e, "new-window", m::getNewWindow, m::setNewWindow);
         p.attributeEnum(e, "direction", m::getDirection, m::setDirection, OutputList.DirectionEnum.class);
         p.attribute(e, "separator", m::getSeparator, m::setSeparator);
     }

@@ -7,11 +7,11 @@
                     <open-page page-id="index"/>
                 </menu-item>
                 <menu-item name="Раздел 2" icon="fa fa-coffee">
-                    <a href="i-novus.ru"/>
+                    <a href="i-novus.ru" target="self"/>
                 </menu-item>
                 <dropdown-menu name="Настройки">
                     <menu-item name="Раздел 3" icon="fa fa-gavel">
-                        <a href="i-novus.ru"/>
+                        <a href="i-novus.ru" target="self"/>
                     </menu-item>
                     <menu-item icon="fa fa-key" name="Раздел 4">
                         <open-page page-id="index"/>

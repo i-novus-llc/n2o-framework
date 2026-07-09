@@ -6,7 +6,7 @@
             <input-text id="id">
                 <toolbar>
                     <button label="Ссылка">
-                        <a href="https://yandex.ru/search" target="newWindow">
+                        <a href="https://yandex.ru/search" target="self" new-window="true">
                             <query-param name="text" value="{id}"/>
                         </a>
                     </button>
@@ -25,7 +25,7 @@
                 <toolbar>
                     <sub-menu>
                         <menu-item label="Ссылка">
-                            <a href="https://yandex.ru/search" target="newWindow">
+                            <a href="https://yandex.ru/search" target="self" new-window="true">
                                 <query-param name="text" value="{id}"/>
                             </a>
                         </menu-item>

@@ -65,7 +65,6 @@
     "react-i18next": "14.1.2",
     "react-onclickoutside": "^6.13.2",
     "react-popper": "2.3.0",
-    "react-router-dom": "5.2.0",
     "react-syntax-highlighter": "^15.5.0",
     "reactstrap": "8.10.1-popper2-beta.0",
     "scroll-into-view-if-needed": "2.2.26"
@@ -89,7 +88,6 @@
     "@types/react-dom": "18.3.0",
     "@types/react-draft-wysiwyg": "1.13.7",
     "@types/react-onclickoutside": "^6.7.10",
-    "@types/react-router-dom": "5.3.3",
     "@types/react-scroll-into-view-if-needed": "2.1.1",
     "@types/react-syntax-highlighter": "15.5.6",
     "@typescript-eslint/eslint-plugin": "^5.28.0",

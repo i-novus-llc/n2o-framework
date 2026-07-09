@@ -37,6 +37,8 @@ public class OutputListCompiler extends StandardFieldCompiler<OutputList, N2oOut
                 () -> p.resolve(property("n2o.api.control.output_list.href_field_id"), String.class)));
         outputList.setTarget(castDefault(source.getTarget(),
                 () -> p.resolve(property("n2o.api.control.output_list.target"), TargetEnum.class)));
+        outputList.setNewWindow(castDefault(source.getNewWindow(),
+                () -> p.resolve(property("n2o.api.control.output_list.new_window"), Boolean.class)));
         outputList.setDirection(castDefault(source.getDirection(),
                 () -> p.resolve(property("n2o.api.control.output_list.direction"), OutputList.DirectionEnum.class)));
         outputList.setSeparator(castDefault(source.getSeparator(),

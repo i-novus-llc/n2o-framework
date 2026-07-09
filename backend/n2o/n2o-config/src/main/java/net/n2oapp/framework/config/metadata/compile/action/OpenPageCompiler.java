@@ -33,7 +33,9 @@ public class OpenPageCompiler extends AbstractOpenPageCompiler<LinkAction, N2oOp
                 () -> p.resolve(property("n2o.api.action.link.src"), String.class)));
         openPage.setType(p.resolve(property("n2o.api.action.link.type"), String.class));
         openPage.setObjectId(source.getObjectId());
-        openPage.setTarget(castDefault(source.getTarget(), TargetEnum.APPLICATION));
+        openPage.setTarget(TargetEnum.APPLICATION);
+        openPage.getPayload().setNewWindow(castDefault(source.getNewWindow(),
+                () -> p.resolve(property("n2o.api.action.open_page.new_window"), Boolean.class)));
         openPage.setOperationId(source.getOperationId());
         openPage.setPageId(source.getPageId());
         compileAction(openPage, source, p);
@@ -46,10 +48,7 @@ public class OpenPageCompiler extends AbstractOpenPageCompiler<LinkAction, N2oOp
     protected void initPageRoute(LinkAction compiled, String route,
                                  Map<String, ModelLink> pathMapping,
                                  Map<String, ModelLink> queryMapping) {
-        if (TargetEnum.APPLICATION.equals(compiled.getTarget()))
-            compiled.setUrl(route);
-        else
-            compiled.setUrl("#" + route);
+        compiled.setUrl(route);
         compiled.setPathMapping(pathMapping);
         compiled.setQueryMapping(queryMapping);
     }

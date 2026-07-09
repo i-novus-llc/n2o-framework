@@ -13,8 +13,8 @@
             <!--<page page-id="ProtoLine" route="/line"/>-->
             <!--<page page-id="CustomFieldset" route="/custom/route/fieldset"/>-->
             <!--<sub-menu label="Кастомные страницы">-->
-            <!--<a label="Древовидная таблица" href="#/table-tree" />-->
-            <!--<a label="Выпадающий список" href="#/select" />-->
+            <!--<a label="Древовидная таблица" href="#/table-tree" target="self"/>-->
+            <!--<a label="Выпадающий список" href="#/select" target="self"/>-->
             <!--</sub-menu>-->
             <!--<page page-id="refbooks" route="/refbooks"/>-->
         </nav>

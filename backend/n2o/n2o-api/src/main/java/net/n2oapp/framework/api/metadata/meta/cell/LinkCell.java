@@ -22,6 +22,8 @@ public class LinkCell extends ActionCell implements UrlAware {
     @JsonProperty
     private TargetEnum target;
     @JsonProperty
+    private Boolean newWindow;
+    @JsonProperty
     private Map<String, ModelLink> pathMapping;
     @JsonProperty
     private Map<String, ModelLink> queryMapping;

@@ -5,7 +5,7 @@
             <datasource query-id="readers"/>
             <toolbar>
                 <button label="Open">
-                    <a href="/:reader_id/reader" target="application">
+                    <a href="/:reader_id/reader">
                         <path-param name="reader_id" value="{id}"/>
                     </a>
                 </button>

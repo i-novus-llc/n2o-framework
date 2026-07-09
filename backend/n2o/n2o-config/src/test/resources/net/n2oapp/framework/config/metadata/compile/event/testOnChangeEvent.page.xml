@@ -6,7 +6,7 @@
 
     <actions>
         <action id="multi1">
-            <a href="/test"/>
+            <a href="/test" target="self"/>
             <alert/>
         </action>
     </actions>

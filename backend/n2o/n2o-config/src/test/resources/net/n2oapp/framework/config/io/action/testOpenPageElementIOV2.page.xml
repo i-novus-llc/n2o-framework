@@ -4,7 +4,7 @@
         <action id="filter">
             <open-page src="test"
                        page-id="test"
-                       target="newWindow"
+                       new-window="true"
                        submit-operation-id="create"
                        submit-model="resolve"
                        submit-label="Отправить"

@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.is;
  * Тестирование биндинга ячейки таблицы с чекбоксом
  */
 class CheckboxCellBinderTest extends SourceCompileTestBase {
-    
+
     @Override
     @BeforeEach
     public void setUp() {
@@ -43,6 +43,6 @@ class CheckboxCellBinderTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("id", "2"));
         CheckboxCell checkboxCell = (CheckboxCell) ((Table) page.getWidget()).getComponent().getBody().getCells().get(0);
         ClientDataProvider dataProvider = ((InvokeAction) checkboxCell.getAction()).getPayload().getDataProvider();
-        assertThat(dataProvider.getUrl(), is("n2o/data/p/w/2/modal/vip"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/p/w/2/modal/vip/"));
     }
 }

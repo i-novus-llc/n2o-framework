@@ -90,7 +90,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         ShowModalPayload payload = ((ShowModal) table.getToolbar().getButton("create").getAction()).getPayload();
         checkModalPayload(payload);
 
-        PageContext modalContext = (PageContext) route("/p/create", Page.class);
+        PageContext modalContext = (PageContext) route("/p/create/", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
         assertThat(modalContext.getDatasources().get(0).getId(),
                 is("parent_second"));
@@ -117,7 +117,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
 
         InvokeAction submit = (InvokeAction) ((MultiAction) modalPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
         InvokeActionPayload submitPayload = submit.getPayload();
-        assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/create/multi1"));
+        assertThat(submitPayload.getDataProvider().getUrl(), is("n2o/data/p/create/multi1/"));
         assertThat(submitPayload.getDataProvider().getMethod(), is(RequestMethodEnum.POST));
         assertThat(submitPayload.getDatasource(), is("p_create_modal"));
         assertThat(submitPayload.getModel(), is(ReduxModelEnum.EDIT));
@@ -127,14 +127,14 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(close.getMeta().getModalsToClose(), is(1));
         assertThat(((CloseActionPayload) close.getPayload()).getPrompt(), is(false));
 
-        ActionContext submitContext = (ActionContext) route("/p/create/multi1", CompiledObject.class);
+        ActionContext submitContext = (ActionContext) route("/p/create/multi1/", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
         assertThat(submitContext.getOperationId(), is("create"));
     }
 
     private void checkModalPayload(ShowModalPayload payload) {
         //create
-        assertThat(payload.getPageUrl(), is("/p/create"));
+        assertThat(payload.getPageUrl(), is("/p/create/"));
         assertThat(payload.getSize(), is(ModalSizeEnum.SM));
         assertThat(payload.getScrollable(), is(true));
         assertThat(payload.getPageId(), is("p_create"));
@@ -156,13 +156,13 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         ShowModalPayload payload = ((ShowModal) table.getToolbar().getButton("update").getAction()).getPayload();
 
         //update
-        assertThat(payload.getPageUrl(), is("/p/:id/update"));
+        assertThat(payload.getPageUrl(), is("/p/:id/update/"));
         assertThat(payload.getSize(), is(ModalSizeEnum.LG));
         assertThat(payload.getPrompt(), is(false));
         assertThat(payload.getHasHeader(), is(true));
         assertThat(payload.getBackdrop(), is("static"));
 
-        PageContext modalContext = (PageContext) route("/p/123/update", Page.class);
+        PageContext modalContext = (PageContext) route("/p/123/update/", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPageSecondFlow"));
         assertThat(modalContext.getDatasources().get(0).getId(),
                 is("parent_main"));
@@ -189,8 +189,8 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         data.put("id", 222);
         modalPage = (SimplePage) read().compile().bind().get(modalContext, data);
         ShowModal showModal = (ShowModal) modalPage.getWidget().getToolbar().getButton("p_update_mi0").getAction();
-        assertThat(showModal.getPayload().getPageUrl(), is("/p/222/update/p_update_mi0"));
-        assertThat(((StandardDatasource) modalPage.getDatasources().get(modalPage.getWidget().getDatasource())).getProvider().getUrl(), is("n2o/data/p/222/update/w1"));
+        assertThat(showModal.getPayload().getPageUrl(), is("/p/222/update/p_update_mi0/"));
+        assertThat(((StandardDatasource) modalPage.getDatasources().get(modalPage.getWidget().getDatasource())).getProvider().getUrl(), is("n2o/data/p/222/update/w1/"));
     }
 
     @Test
@@ -198,7 +198,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
-        SimplePage showModal = (SimplePage) routeAndGet("/p/createFocus", Page.class);
+        SimplePage showModal = (SimplePage) routeAndGet("/p/createFocus/", Page.class);
         RefreshAction refresh = (RefreshAction) ((MultiAction) showModal.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
         assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("p_main"));
         CloseAction close = (CloseAction) ((MultiAction) showModal.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
@@ -214,7 +214,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
-        StandardPage showModal = (StandardPage) routeAndGet("/p/123/updateFocus", Page.class);
+        StandardPage showModal = (StandardPage) routeAndGet("/p/123/updateFocus/", Page.class);
         RefreshAction refresh = (RefreshAction) ((MultiAction) showModal.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
         assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("p_main"));
         CloseAction close = (CloseAction) ((MultiAction) showModal.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
@@ -233,7 +233,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
-        StandardPage showModal = (StandardPage) routeAndGet("/p/123/updateByPathParams", Page.class);
+        StandardPage showModal = (StandardPage) routeAndGet("/p/123/updateByPathParams/", Page.class);
         RefreshAction refresh = (RefreshAction) ((MultiAction) showModal.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
         assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("p_main"));
         CloseAction close = (CloseAction) ((MultiAction) showModal.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(2);
@@ -250,10 +250,10 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
-        SimplePage showModal = (SimplePage) routeAndGet("/p/createUpdate", Page.class);
+        SimplePage showModal = (SimplePage) routeAndGet("/p/createUpdate/", Page.class);
         InvokeAction submit = (InvokeAction) ((MultiAction) showModal.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
-        assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id/update"));
+        assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("../:id/update"));
         //Есть обновление, потому что по умолчанию true. Обновится родительский виджет, потому что close-after-submit=true
         RefreshAction refresh = (RefreshAction) ((MultiAction) showModal.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(1);
         assertThat(((RefreshPayload) refresh.getPayload()).getDatasource(), is("p_main"));
@@ -268,14 +268,14 @@ class ShowModalCompileTest extends SourceCompileTestBase {
     void dynamicPage() {
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalDynamicPage.page.xml")
                 .get(new PageContext("testShowModalDynamicPage", "/page"));
-        PageContext context = (PageContext) route("/page/testOpenPageSimplePageAction1/id1", Page.class);
+        PageContext context = (PageContext) route("/page/testOpenPageSimplePageAction1/id1/", Page.class);
         DataSet data = new DataSet();
         data.put("page_test_id", "testOpenPageSimplePageAction1");
         SimplePage showModal = (SimplePage) read().compile().bind().get(context, data);
         assertThat(showModal.getId(), is("page_id1"));
         assertThat(showModal.getWidget(), instanceOf(Form.class));
 
-        context = (PageContext) route("/page/testOpenPageSimplePageAction2/id1", Page.class);
+        context = (PageContext) route("/page/testOpenPageSimplePageAction2/id1/", Page.class);
         data = new DataSet();
         data.put("page_test_id", "testOpenPageSimplePageAction2");
         showModal = (SimplePage) read().compile().bind().get(context, data);
@@ -289,7 +289,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
 
-        PageContext modalContext = (PageContext) route("/p/123/updateWithPrefilters", Page.class);
+        PageContext modalContext = (PageContext) route("/p/123/updateWithPrefilters/", Page.class);
         checkModalContextAndFilters(modalContext);
 
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
@@ -309,8 +309,8 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(buttons.get(1).getId(), is("close"));
         assertThat(buttons.get(1).getAction(), notNullValue());
         InvokeAction submit = (InvokeAction) ((MultiAction) modalPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
-        assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/multi1"));
-        ActionContext submitContext = (ActionContext) route("/p/:id/updateWithPrefilters/multi1", CompiledObject.class);
+        assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/multi1/"));
+        ActionContext submitContext = (ActionContext) route("/p/:id/updateWithPrefilters/multi1/", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
         assertThat(submitContext.getOperationId(), is("update"));
         assertThat(submitContext.getOperationId(), is("update"));
@@ -323,7 +323,8 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("id", 222);
         modalPage = (SimplePage) read().compile().bind().get(modalContext, data);
-        assertThat(((StandardDatasource) modalPage.getDatasources().get(modalPage.getWidget().getDatasource())).getProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters/modal"));
+        assertThat(((StandardDatasource) modalPage.getDatasources().get(modalPage.getWidget().getDatasource())).getProvider().getUrl(),
+                is("n2o/data/p/222/updateWithPrefilters/modal/"));
         submit = (InvokeAction) ((MultiAction) modalPage.getToolbar().getButton("submit").getAction()).getPayload().getActions().get(0);
         assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("p_main_id")));
     }
@@ -354,16 +355,16 @@ class ShowModalCompileTest extends SourceCompileTestBase {
                 .getToolbar().getButton("updateEditWithPrefilters").getAction();
         assertThat(showModal.getPayload().getQueryMapping().get("id").getLink(), is("models.edit['p_main']"));
 
-        Page showModalPage = routeAndGet("/p/updateEditWithPrefilters", Page.class);
+        Page showModalPage = routeAndGet("/p/updateEditWithPrefilters/", Page.class);
         assertThat(showModalPage.getId(), is("p_updateEditWithPrefilters"));
     }
 
     @Test
     void copyAction() {
-        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyAction.page.xml")
+        compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyAction.page.xml")
                 .get(new PageContext("testShowModalCopyAction"));
 
-        PageContext modalContext = (PageContext) route("/testShowModalCopyAction/123/update", Page.class);
+        PageContext modalContext = (PageContext) route("/testShowModalCopyAction/123/update/", Page.class);
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
@@ -384,10 +385,10 @@ class ShowModalCompileTest extends SourceCompileTestBase {
 
     @Test
     void copyActionWithTwoWidget() {
-        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidget.page.xml")
+        compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidget.page.xml")
                 .get(new PageContext("testShowModalCopyActionWithTwoWidget"));
 
-        PageContext modalContext = (PageContext) route("/testShowModalCopyActionWithTwoWidget/123/update", Page.class);
+        PageContext modalContext = (PageContext) route("/testShowModalCopyActionWithTwoWidget/123/update/", Page.class);
         StandardPage modalPage = (StandardPage) read().compile().get(modalContext);
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
@@ -408,10 +409,10 @@ class ShowModalCompileTest extends SourceCompileTestBase {
 
     @Test
     void copyActionWithTwoWidgetWithoutCopyAttributes() {
-        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidgetDefault.page.xml")
+        compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidgetDefault.page.xml")
                 .get(new PageContext("testShowModalCopyActionWithTwoWidgetDefault"));
 
-        PageContext modalContext = (PageContext) route("/testShowModalCopyActionWithTwoWidgetDefault/123/update", Page.class);
+        PageContext modalContext = (PageContext) route("/testShowModalCopyActionWithTwoWidgetDefault/123/update/", Page.class);
         StandardPage modalPage = (StandardPage) read().compile().get(modalContext);
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
@@ -455,17 +456,17 @@ class ShowModalCompileTest extends SourceCompileTestBase {
     void createUploadDefaults() {
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalDefaults.page.xml")
                 .get(new PageContext("testShowModalDefaults", "/p"));
-        PageContext modalCtx = (PageContext) route("/p/update", Page.class);
+        PageContext modalCtx = (PageContext) route("/p/update/", Page.class);
         assertThat(modalCtx.getDatasources().size(), is(1));
         assertThat(((N2oStandardDatasource) modalCtx.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesModeEnum.DEFAULTS));
-        SimplePage modalPage = (SimplePage) routeAndGet("/p/update", Page.class);
+        SimplePage modalPage = (SimplePage) routeAndGet("/p/update/", Page.class);
         StandardDatasource datasource = (StandardDatasource) modalPage.getDatasources().get("p_update_modal");
         assertThat(datasource.getProvider(), nullValue());
 
-        modalCtx = (PageContext) route("/p/update2", Page.class);
+        modalCtx = (PageContext) route("/p/update2/", Page.class);
         assertThat(modalCtx.getDatasources().size(), is(1));
         assertThat(((N2oStandardDatasource) modalCtx.getDatasources().get(0)).getDefaultValuesMode(), is(DefaultValuesModeEnum.DEFAULTS));
-        StandardPage modalPage2 = (StandardPage) routeAndGet("/p/update2", Page.class);
+        StandardPage modalPage2 = (StandardPage) routeAndGet("/p/update2/", Page.class);
         StandardDatasource datasource1 = (StandardDatasource) modalPage2.getDatasources().get("p_update2_main");
         assertThat(datasource1.getProvider(), nullValue());
     }
@@ -479,7 +480,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalPreFilters.page.xml")
                 .get(pageContext);
 
-        SimplePage page = (SimplePage) routeAndGet("/p/create", Page.class);
+        SimplePage page = (SimplePage) routeAndGet("/p/create/", Page.class);
         ClientDataProvider provider = ((StandardDatasource) page.getDatasources().get("p_create_modal")).getProvider();
         assertThat(provider, notNullValue());
         assertThat(provider.getQueryMapping().get("modal_id").normalizeLink(), is("models.resolve['p_form'].id"));
@@ -495,14 +496,14 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalToolbarAndAction.page.xml")
                 .get(pageContext);
 
-        StandardPage page = (StandardPage) routeAndGet("/p/create", Page.class);
+        StandardPage page = (StandardPage) routeAndGet("/p/create/", Page.class);
         List<Group> toolbar = page.getToolbar().get("bottomCenter");
         assertThat(toolbar.get(0).getButtons().size(), is(1));
         assertThat(toolbar.get(0).getButtons().get(0).getLabel(), is("Button in center"));
         assertThat(toolbar.get(0).getButtons().get(0).getAction(), instanceOf(LinkAction.class));
         assertThat(((LinkAction) toolbar.get(0).getButtons().get(0).getAction()).getUrl(), is("http://i-novus.ru"));
 
-        page = (StandardPage) routeAndGet("/p/update", Page.class);
+        page = (StandardPage) routeAndGet("/p/update/", Page.class);
         toolbar = page.getToolbar().get("bottomCenter");
         assertThat(toolbar.get(0).getButtons().size(), is(1));
         assertThat(toolbar.get(0).getButtons().get(0).getLabel(), is("Button in center"));

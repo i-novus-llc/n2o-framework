@@ -86,6 +86,7 @@ public class NavRegionIOv3 extends AbstractRegionIOv3<N2oNavRegion> implements B
         abstractMenuItem(e, m, p);
         p.attribute(e, "href", m::getHref, m::setHref);
         p.attributeEnum(e, "target", m::getTarget, m::setTarget, TargetEnum.class);
+        p.attributeBoolean(e, "new-window", m::getNewWindow, m::setNewWindow);
         p.children(e, null, "path-param", m::getPathParams, m::setPathParams, N2oParam::new, this::param);
         p.children(e, null, "query-param", m::getQueryParams, m::setQueryParams, N2oParam::new, this::param);
     }

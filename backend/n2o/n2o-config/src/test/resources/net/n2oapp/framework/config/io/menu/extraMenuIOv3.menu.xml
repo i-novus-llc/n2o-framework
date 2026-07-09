@@ -33,10 +33,10 @@
                    image-shape="circle" datasource="test">
         <dropdown-menu name="Отделы">
             <menu-item name="Отдел разработки">
-                <a href="/developers" target="application"/>
+                <a href="/developers"/>
             </menu-item>
             <menu-item name="Отдел тестирования" datasource="test">
-                <a href="/testers" target="application"/>
+                <a href="/testers"/>
             </menu-item>
         </dropdown-menu>
         <menu-item name="Профиль"
@@ -44,7 +44,7 @@
                    class="class"
                    style="background-color: blue"
                    icon="fa fa-user">
-            <a href="/profile" target="application"/>
+            <a href="/profile"/>
         </menu-item>
         <menu-item name="Сообщения"
                    image="/static/users/ivan90.png"

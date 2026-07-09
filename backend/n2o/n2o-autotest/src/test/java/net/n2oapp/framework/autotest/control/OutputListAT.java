@@ -51,8 +51,9 @@ class OutputListAT extends AutoTestBase {
 
         OutputList outputList = fields.field("output1").control(OutputList.class);
         String separator = ",";
-        outputList.shouldHaveValues(separator, new String[]{"test2", "test4"});
+        outputList.shouldExists();
         outputList.shouldHaveLinkValues(separator, new String[]{"test1", "test3"});
+        outputList.shouldHaveValues(separator, new String[]{"test2", "test4"});
         outputList.shouldHaveLink("test1", "http://example.com/1");
         outputList.shouldHaveLink("test3", "http://example.com/2");
         outputList.shouldHaveDirection(DirectionEnum.COLUMN);

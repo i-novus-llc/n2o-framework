@@ -20,6 +20,7 @@ public class AnchorElementIOV2 extends AbstractActionElementIOV2<N2oAnchor> {
         p.attribute(e,"datasource", a::getDatasourceId, a::setDatasourceId);
         p.attributeEnum(e,"model", a::getModel, a::setModel, ReduxModelEnum.class);
         p.attributeEnum(e,"target",a::getTarget,a::setTarget, TargetEnum.class);
+        p.attributeBoolean(e, "new-window", a::getNewWindow, a::setNewWindow);
         p.children(e, null, "path-param", a::getPathParams, a::setPathParams, N2oParam::new, this::param);
         p.children(e, null, "query-param", a::getQueryParams, a::setQueryParams, N2oParam::new, this::param);
     }

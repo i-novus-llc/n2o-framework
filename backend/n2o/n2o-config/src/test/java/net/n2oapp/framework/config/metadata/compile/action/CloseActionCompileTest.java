@@ -64,11 +64,11 @@ class CloseActionCompileTest extends SourceCompileTestBase {
         LinkActionImpl testAction = (LinkActionImpl) page.getWidget().getToolbar().getButton("test").getAction();
         assertThat(testAction.getUrl(), is("/p/w"));
 
-        PageContext openPageContext = (PageContext) route("/p/w/a/b/c", Page.class);
-        assertThat(openPageContext.getParentRoute(), is("/p/w/a"));
+        PageContext openPageContext = (PageContext) route("/p/w/a/b/c/", Page.class);
+        assertThat(openPageContext.getParentRoute(), is("/p/w/a/"));
         SimplePage openPage = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageCloseAction.page.xml")
                 .get(openPageContext);
-        assertThat(((LinkActionImpl) openPage.getWidget().getToolbar().getButton("close").getAction()).getUrl(), is("/p/w/a"));
+        assertThat(((LinkActionImpl) openPage.getWidget().getToolbar().getButton("close").getAction()).getUrl(), is("/p/w/a/"));
         assertThat(((LinkActionImpl) openPage.getWidget().getToolbar().getButton("close").getAction()).getRestore(), is(true));
     }
 

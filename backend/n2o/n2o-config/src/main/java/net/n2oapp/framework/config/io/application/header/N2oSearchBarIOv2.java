@@ -28,5 +28,6 @@ public class N2oSearchBarIOv2 implements TypedElementIO<N2oSearchBar> {
         p.attribute(e, "icon-field-id", m::getIconFieldId, m::setIconFieldId);
         p.attribute(e, "description-field-id", m::getDescriptionFieldId, m::setDescriptionFieldId);
         p.attributeEnum(e, "target", m::getTarget, m::setTarget, TargetEnum.class);
+        p.attributeBoolean(e, "new-window", m::getNewWindow, m::setNewWindow);
     }
 }

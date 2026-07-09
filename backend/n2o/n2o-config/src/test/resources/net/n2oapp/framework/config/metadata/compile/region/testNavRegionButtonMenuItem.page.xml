@@ -20,7 +20,7 @@
                     class="class"
                     style="background-color: blue">
                 <action type="perform"/>
-                <a href="/test2" target="application"/>
+                <a href="/test2"/>
             </button>
             <group>
                 <button>
@@ -38,7 +38,7 @@
         <action id="act2">
             <alert text="alert2"/>
             <set-value to="val" target-datasource="ds"/>
-            <a href="/test1" target="application"/>
+            <a href="/test1"/>
         </action>
     </actions>
 </page>

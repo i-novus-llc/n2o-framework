@@ -1,7 +1,8 @@
-import React, { useMemo, Fragment, ExoticComponent, ReactNode, ComponentType, memo } from 'react'
+import React, { Fragment, ExoticComponent, ReactNode, ComponentType, memo } from 'react'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
 import flowRight from 'lodash/flowRight'
+import isEmpty from 'lodash/isEmpty'
 
 import { Spinner, SpinnerType } from '../../factoryComponents/Spinner'
 import { Factory } from '../../core/factory/Factory'
@@ -14,13 +15,13 @@ import { State } from '../../ducks/State'
 import { WithMetadata, type WithMetadataProps } from './withMetadata'
 import OverlayPages from './OverlayPages'
 import { type PageProps } from './Page'
+import { useLocation } from './router/useLocation'
 
 export interface RootPageProps extends WithMetadataProps {
     spinner: Record<string, unknown>
     disabled: boolean
     defaultTemplate: ExoticComponent<{ children?: ReactNode }>
     rootPageId: string
-    match: { params: { pageUrl: string } }
 }
 
 function RootPageBody(props: RootPageProps) {
@@ -30,7 +31,6 @@ function RootPageBody(props: RootPageProps) {
         defaultTemplate: Template = Fragment,
         error,
         pageUrl,
-        match,
         rootPageId,
         pageId,
     } = props
@@ -43,19 +43,20 @@ function RootPageBody(props: RootPageProps) {
             <Template>
                 <Spinner type={SpinnerType.cover} loading={loading}>
                     <ErrorContainer error={error}>
-                        <Factory
-                            id={get(metadata, 'id')}
-                            src={src}
-                            level={PAGES}
-                            regions={regions}
-                            toolbar={toolbar}
-                            {...props}
-                            match={match}
-                            rootPageId={rootPageId}
-                            pageId={pageId}
-                            pageUrl={pageUrl}
-                            rootPage
-                        />
+                        {!isEmpty(metadata) && (
+                            <Factory
+                                id={get(metadata, 'id')}
+                                src={src}
+                                level={PAGES}
+                                regions={regions}
+                                toolbar={toolbar}
+                                {...props}
+                                rootPageId={rootPageId}
+                                pageId={pageId}
+                                pageUrl={pageUrl}
+                                rootPage
+                            />
+                        )}
                     </ErrorContainer>
                 </Spinner>
             </Template>
@@ -72,15 +73,10 @@ const mapStateToProps = (state: State, { pageId }: PageProps) => ({
 
 function WithComputedProps(Component: ComponentType<RootPageProps>) {
     return memo((props: RootPageProps) => {
-        const { pageUrl, match, rootPageId, pageId } = props
-
-        const computedPageUrl = useMemo(() => {
-            return pageUrl || `/${get(match, 'params.pageUrl', '')}` || '/'
-        }, [pageUrl, match])
-
-        const computedPageId = useMemo(() => {
-            return rootPageId || pageId || computedPageUrl || ''
-        }, [rootPageId, pageId, computedPageUrl])
+        const { pageUrl, rootPageId, pageId } = props
+        const { pathname } = useLocation()
+        const computedPageUrl = pageUrl || pathname || '/'
+        const computedPageId = rootPageId || pageId || computedPageUrl || ''
 
         return <Component {...props} pageId={computedPageId} pageUrl={computedPageUrl} />
     })

@@ -6,16 +6,16 @@
         <sidebar>
             <nav>
                 <menu-item name="Пункт 1">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Пункт 2">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Пункт 3">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
                 <menu-item name="Пункт 4">
-                    <a href="#"/>
+                    <a href="#" target="self"/>
                 </menu-item>
             </nav>
         </sidebar>

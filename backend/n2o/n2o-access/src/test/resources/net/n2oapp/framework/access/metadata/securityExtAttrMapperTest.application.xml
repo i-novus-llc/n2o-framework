@@ -10,7 +10,7 @@
                 <open-page page-id="securityExtAttrMapperTest"/>
             </menu-item>
             <menu-item name="hrefLabel">
-                <a href="http://test.com"/>
+                <a href="http://test.com" target="self"/>
             </menu-item>
         </nav>
 

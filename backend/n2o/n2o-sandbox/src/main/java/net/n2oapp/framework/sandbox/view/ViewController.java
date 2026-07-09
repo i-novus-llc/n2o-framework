@@ -469,7 +469,7 @@ public class ViewController {
 
     private String getPath(HttpServletRequest request, String prefix) {
         String path = request.getRequestURI().substring(request.getRequestURI().indexOf(prefix) + prefix.length());
-        return RouteUtil.normalize(!path.isEmpty() ? path : "/");
+        return RouteUtil.normalizeRoute(!path.isEmpty() ? path : "/");
     }
 
     /**

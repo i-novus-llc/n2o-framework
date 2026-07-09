@@ -43,7 +43,7 @@ class  SimpleHeaderAT extends AutoTestBase {
 
     @Test
     void simpleHeader() {
-                String rootUrl = getBaseUrl();
+        String rootUrl = getBaseUrl();
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().shouldHaveBrandName("Лого");
@@ -56,13 +56,13 @@ class  SimpleHeaderAT extends AutoTestBase {
         dropdown.shouldHaveLabel("список");
         dropdown.click();
         dropdown.item(0).shouldHaveLabel("Название страницы");
-        dropdown.item(0).shouldHaveUrl(rootUrl + "/#/pageRoute");
+        dropdown.item(0).shouldHaveUrl(rootUrl + "/#/pageRoute/");
         dropdown.item(0).click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Название страницы");
 
         dropdown.click();
         dropdown.item(1).shouldHaveLabel("элемент списка №2");
-        dropdown.item(1).shouldHaveUrl(rootUrl + "/#/pageRoute1");
+        dropdown.item(1).shouldHaveUrl(rootUrl + "/#/pageRoute1/");
         dropdown.item(1).click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Вторая страница");
 
@@ -93,14 +93,14 @@ class  SimpleHeaderAT extends AutoTestBase {
         page.breadcrumb().crumb(0).shouldHaveLabel("Название страницы");
 
         dropdownLevelTwo.item(0).shouldHaveLabel("Название страницы");
-        dropdownLevelTwo.item(0).shouldHaveUrl(rootUrl + "/#/pageRoute");
+        dropdownLevelTwo.item(0).shouldHaveUrl(rootUrl + "/#/pageRoute/");
         dropdownLevelTwo.item(0).click();
         dropdown.shouldBeClosed();
 
         dropdown.click();
         dropdownLevelTwo.click();
         dropdownLevelTwo.item(1).shouldHaveLabel("элемент многоуровнегосписка №2");
-        dropdownLevelTwo.item(1).shouldHaveUrl(rootUrl + "/#/pageRoute1");
+        dropdownLevelTwo.item(1).shouldHaveUrl(rootUrl + "/#/pageRoute1/");
         dropdownLevelTwo.item(1).click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Вторая страница");
         dropdown.shouldBeClosed();

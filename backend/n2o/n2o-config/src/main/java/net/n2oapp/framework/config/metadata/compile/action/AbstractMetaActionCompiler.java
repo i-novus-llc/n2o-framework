@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.action.N2oAbstractMetaAction;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -15,9 +16,11 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import java.util.Arrays;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalDatasourceId;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeUrl;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceIds;
 
 /**
@@ -89,7 +92,13 @@ public abstract class AbstractMetaActionCompiler<D extends Action, S extends N2o
                 meta.setModalsToClose(doubleCloseOnSuccess ? 2 : 1);
             meta.setRedirect(new RedirectSaga());
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-            meta.getRedirect().setPath(absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null));
+            RoutingModeEnum mode = p.resolve(property("n2o.config.routing_mode"), RoutingModeEnum.class);
+            if (RoutingModeEnum.NEW.equals(mode)) {
+                meta.getRedirect().setPath(normalizeUrl(source.getRedirectUrl(), mode));
+            } else {
+                String redirectPath = absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null, mode);
+                meta.getRedirect().setPath(normalizeUrl(redirectPath, mode));
+            }
             meta.getRedirect().setTarget(source.getRedirectTarget());
             meta.getRedirect().setServer(true);
         }

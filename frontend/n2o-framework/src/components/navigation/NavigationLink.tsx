@@ -9,6 +9,7 @@ import { type NavigationLinkProps } from './types'
 
 export function NavigationLink({
     target,
+    newWindow,
     ...props
 }: NavigationLinkProps) {
     const {
@@ -18,7 +19,7 @@ export function NavigationLink({
         className,
         ...resolved
     } = useLinkPropsResolver(props)
-    const { active, ...linkProps } = useLink({ href, disabled, target })
+    const { active, ...linkProps } = useLink({ href, disabled, target, newWindow })
 
     if (!visible) { return null }
 

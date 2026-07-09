@@ -157,7 +157,7 @@ class OpenPageAT extends AutoTestBase {
 
         page.shouldExists();
         page.breadcrumb().crumb(1).shouldHaveLabel("Вторая страница");
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open/1/testNewWindow");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/open/1/testNewWindow/");
 
         page.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("1");
         page.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test1");
@@ -184,7 +184,7 @@ class OpenPageAT extends AutoTestBase {
         table.toolbar().topLeft().button("Open").click();
 
         page.breadcrumb().crumb(1).shouldHaveLabel("Первая вложенная страница");
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/1/reader");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/1/reader/");
 
         table = page.widget(TableWidget.class);
         table.shouldExists();
@@ -192,6 +192,6 @@ class OpenPageAT extends AutoTestBase {
         table.toolbar().topLeft().button("Open").click();
 
         page.breadcrumb().crumb(2).shouldHaveLabel("Вторая вложенная страница");
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/1/reader/2/book");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/1/reader/2/book/");
     }
 }

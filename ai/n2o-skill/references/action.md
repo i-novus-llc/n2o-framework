@@ -11,11 +11,12 @@ Actions are placed inside `<toolbar>` buttons or defined in `<actions>` at page/
 | href | String | URL address (required). Supports placeholders | |
 | datasource | Reference | Datasource for placeholder values | parent's datasource |
 | model | resolve/edit/filter/multi/datasource | Model for placeholder values | parent's model |
-| target | newWindow / self / application | Link open scenario | self |
+| target | self / application | Link open scenario. `self` — relative path appended after host; `application` — appended after `#`. | application |
+| new-window | boolean | Open the link in a new browser tab | false |
 
 Body: `<path-param>`, `<query-param>`
 ```xml
-<a href="/api/document/{id}" target="newWindow">
+<a href="/api/document/{id}" new-window="true">
     <path-param name="id" value="{id}"/>
 </a>
 ```
@@ -26,7 +27,7 @@ Body: `<path-param>`, `<query-param>`
 | page-id | Reference | Target page file id (required) | |
 | page-name | String | Page name | |
 | route | String | URL route | auto-generated |
-| target | newWindow / application | Open scenario | application |
+| new-window | boolean | Open the page in a new browser tab | false |
 | refresh-on-close | boolean | Refresh parent datasource on close | false |
 | refresh-datasources | String (comma-sep) | Datasources to refresh | parent's datasource |
 | unsaved-data-prompt-on-close | boolean | Warn on unsaved data when closing | false |
@@ -95,7 +96,7 @@ Same as `<open-page>` plus:
 | refresh-on-success | boolean | Refresh datasource | true |
 | refresh-datasources | String (comma-sep) | Extra datasources to refresh | parent's datasource |
 | redirect-url | String | Redirect URL after success | |
-| redirect-target | newWindow / self / application | Redirect target | self |
+| redirect-target | self / application | Redirect target| self |
 | clear-on-success | boolean | Clear after success | false |
 | optimistic | boolean | Optimistic UI update | false |
 | submit-all | boolean | Submit all form fields | true |
@@ -123,7 +124,7 @@ Body: `<path-param>`, `<form-param>`, `<header-param>`
 | refresh-on-success | boolean | Refresh datasource | true |
 | refresh-datasources | String (comma-sep) | Datasources to refresh | parent's datasource |
 | redirect-url | String | Redirect URL after success | |
-| redirect-target | newWindow / self / application | Redirect target | self |
+| redirect-target | self / application | Redirect target | self |
 
 Body: `<payload>` with any attributes (supports placeholders)
 ```xml

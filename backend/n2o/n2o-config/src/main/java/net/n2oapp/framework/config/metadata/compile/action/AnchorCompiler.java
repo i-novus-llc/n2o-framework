@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -22,6 +23,7 @@ import java.util.Map;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeUrl;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 
@@ -47,16 +49,20 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
 
         String path = source.getHref();
-        TargetEnum target = castDefault(source.getTarget(), TargetEnum.SELF);
+        TargetEnum target = castDefault(source.getTarget(), () -> p.resolve(property("n2o.api.action.link.target"), TargetEnum.class));
         if (!StringUtils.isLink(source.getHref())) {
+            RoutingModeEnum routingMode = p.resolve(property("n2o.config.routing_mode"), RoutingModeEnum.class);
             if (TargetEnum.APPLICATION.equals(target)) {
-                path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null);
+                path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null,
+                        routingMode);
             }
-            path = RouteUtil.normalize(path);
+            path = normalizeUrl(path, routingMode);
         }
 
         initUrl(linkAction, path, source, routeScope, p);
         linkAction.setTarget(target);
+        linkAction.getPayload().setNewWindow(castDefault(source.getNewWindow(),
+                () -> p.resolve(property("n2o.api.action.link.new_window"), Boolean.class)));
         return linkAction;
     }
 

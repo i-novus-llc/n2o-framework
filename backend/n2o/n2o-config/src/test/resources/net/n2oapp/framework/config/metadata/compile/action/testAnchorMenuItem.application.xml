@@ -17,13 +17,13 @@
         <sidebar path="/person/:id/**" datasource="person">
             <nav>
                 <menu-item name="Documents">
-                    <a href="/person/:id/docs" target="application">
+                    <a href="/person/:id/docs">
                         <path-param name="id" value="{id}" datasource="doc"/>
                         <query-param name="name" value="{name}" datasource="doc"/>
                     </a>
                 </menu-item>
                 <menu-item name="Profile">
-                    <a href="/person/:id/profile" target="application">
+                    <a href="/person/:id/profile">
                         <path-param name="id" value="{id}"/>
                         <query-param name="name" value="{name}"/>
                     </a>

@@ -60,14 +60,14 @@ class CachedDataSourceCompileTest extends SourceCompileTestBase {
                 hasProperty("key", is("test_key")),
                 hasProperty("storage", is(BrowserStorageTypeEnum.SESSION_STORAGE)),
                 hasProperty("cacheExpires", is("1d")),
-                hasProperty("url", is("n2o/data/testCachedDatasource/test"))
+                hasProperty("url", is("n2o/data/testCachedDatasource/test/"))
         ));
 
         assertThat(datasource.getSubmit(), Matchers.notNullValue());
-        assertThat(datasource.getSubmit().getUrl(), is("n2o/data/testCachedDatasource/sub"));
+        assertThat(datasource.getSubmit().getUrl(), is("n2o/data/testCachedDatasource/sub/"));
         assertThat(datasource.getSubmit().getSubmitForm(), is(false));
         assertThat(datasource.getSubmit().getMethod(), is(RequestMethodEnum.POST));
-        ActionContext opCtx = ((ActionContext) route("/testCachedDatasource/sub", CompiledObject.class));
+        ActionContext opCtx = ((ActionContext) route("/testCachedDatasource/sub/", CompiledObject.class));
         assertThat(opCtx.getOperationId(), is("update"));
         assertThat(opCtx.isMessageOnSuccess(), is(true));
         assertThat(opCtx.isMessageOnFail(), is(false));

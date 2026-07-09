@@ -3,10 +3,10 @@
     <form>
         <toolbar place="bottomLeft">
             <button label="Назад">
-                <a href="../info" target="application"/>
+                <a href="../info"/>
             </button>
             <button label="Вперед" color="primary">
-                <a href="../audio" target="application"/>
+                <a href="../audio"/>
             </button>
         </toolbar>
         <fields>

@@ -2,7 +2,10 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.page.*;
+import net.n2oapp.framework.config.metadata.compile.page.SimplePageBinder;
+import net.n2oapp.framework.config.metadata.compile.page.SimplePageCompiler;
+import net.n2oapp.framework.config.metadata.compile.page.StandardPageBinder;
+import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
 
 /**
  * Набор для сборки стандартных страниц

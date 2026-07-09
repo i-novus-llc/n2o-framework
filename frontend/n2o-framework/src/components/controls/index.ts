@@ -7,7 +7,6 @@ import { InputMoney } from '@i-novus/n2o-components/lib/inputs/InputMoney'
 import { InputPassword as PasswordInput } from '@i-novus/n2o-components/lib/inputs/InputPassword'
 import { NumberPicker } from '@i-novus/n2o-components/lib/inputs/NumberPicker'
 import { InputNumber } from '@i-novus/n2o-components/lib/inputs/InputNumber'
-import { OutputList } from '@i-novus/n2o-components/lib/display/OutputList'
 import { OutputText } from '@i-novus/n2o-components/lib/display/OutputText'
 import { ProgressControl } from '@i-novus/n2o-components/lib/display/ProgressControl'
 import { Slider } from '@i-novus/n2o-components/lib/display/Slider'
@@ -33,6 +32,7 @@ import ButtonUploader from './FileUploader/ButtonUploader'
 import DropZone from './FileUploader/DropZone'
 import AutoComplete from './AutoComplete/AutoComplete'
 import ImageUploader from './ImageUploader/ImageUploader'
+import { OutputList } from './OutputList'
 
 export default {
     InputText,

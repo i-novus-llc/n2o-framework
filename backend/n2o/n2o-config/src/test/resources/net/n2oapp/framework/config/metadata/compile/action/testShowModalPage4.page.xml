@@ -6,7 +6,7 @@
             <clear model="resolve"/>
         </action>
         <action id="act2">
-            <a href="yandex.ru"/>
+            <a href="yandex.ru" target="self"/>
         </action>
     </actions>
     <toolbar place="bottomCenter">

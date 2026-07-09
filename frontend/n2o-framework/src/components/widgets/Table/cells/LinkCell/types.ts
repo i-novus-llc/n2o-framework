@@ -1,6 +1,6 @@
 import { RefObject } from 'react'
 
-import { LinkTarget } from '../../../../core/router/types'
+import { N2OLinkTarget } from '../../../../core/router/types'
 
 export enum CELL_TYPE {
     ICON = 'icon',
@@ -24,5 +24,6 @@ export interface Props {
     model: LinkCellModel
     forwardedRef: RefObject<HTMLElement>
     tooltipFieldId: string
-    target: LinkTarget
+    target: N2OLinkTarget
+    newWindow?: boolean
 }

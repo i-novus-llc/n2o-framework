@@ -23,7 +23,7 @@
                        label="Menu-item с алертом">
                 <alert text="Алерт" color="success"/>
                 <open-page page-id="testMenu" route="/logout"/>
-                <a href="/test2" target="newWindow"/>
+                <a href="/test2" target="self" new-window="true"/>
             </menu-item>
             <menu-item label="Пункт меню" action-id="act1"/>
             <menu-item label="Пункт меню c MultiAction" action-id="act2"/>

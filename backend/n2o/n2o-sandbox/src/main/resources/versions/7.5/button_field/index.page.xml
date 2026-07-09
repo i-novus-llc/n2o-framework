@@ -5,7 +5,7 @@
         <form id="main">
             <actions>
                 <action id="act1">
-                    <a href="http://ya.ru"/>
+                    <a href="http://ya.ru" target="self"/>
                 </action>
             </actions>
             <datasource object-id="greeting"/>
@@ -14,7 +14,7 @@
                     <row>
                         <input-text id="location" label="Search in maps:" default-value="Казань"/>
                         <button id="g1" label="Goo">
-                            <a href="https://google.com/:param1">
+                            <a href="https://google.com/:param1" target="self">
                                 <path-param name="param1" value="maps"/>
                                 <query-param name="q" value="{location}"/>
                             </a>

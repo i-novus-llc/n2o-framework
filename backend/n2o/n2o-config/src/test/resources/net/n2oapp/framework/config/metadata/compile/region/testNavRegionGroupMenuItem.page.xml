@@ -15,14 +15,14 @@
                     enabled="{a==b}"
                     class="class"
                     style="background-color: blue">
-                <link label="link label" href="/logout"/>
+                <link label="link label" href="/logout" new-window="true" target="self"/>
                 <group
                         label="sublabel"
                         icon="fa fa-home"
                         visible="false"
                         class="class1"
                         style="color: red">
-                    <link label="link label" href="/logout"/>
+                    <link label="link label" href="/logout" new-window="true" target="self"/>
                     <menu-item>
                         <alert/>
                     </menu-item>

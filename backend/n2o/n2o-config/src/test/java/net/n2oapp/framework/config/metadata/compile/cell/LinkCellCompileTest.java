@@ -57,7 +57,8 @@ class LinkCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getId(), is("test3"));
         assertThat(cell.getAction(), nullValue());
         assertThat(cell.getUrl(), is("`'/test/'+uid`"));
-        assertThat(cell.getTarget(), is(TargetEnum.NEW_WINDOW));
+        assertThat(cell.getTarget(), is(TargetEnum.SELF));
+        assertThat(cell.getNewWindow(), is(true));
 
         cell = (LinkCell) table.getComponent().getBody().getCells().get(4);
         assertThat(cell.getId(), is("test4"));

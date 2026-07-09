@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { removeSearch } from '../../components/core/router/resolvePath'
+import { removeSearch } from '../../components/core/router/utils/removeSearch'
 
 import PageResolver from './PageResolver'
 import { State } from './Pages'

@@ -6,16 +6,16 @@
         <sidebar title="Боковая панель во всю высоту">
             <nav>
                 <menu-item name="Меню 1">
-                    <a href="https://i-novus.ru"/>
+                    <a href="https://i-novus.ru" target="self"/>
                 </menu-item>
                 <menu-item name="Меню 2">
-                    <a href="https://i-novus.ru"/>
+                    <a href="https://i-novus.ru" target="self"/>
                 </menu-item>
                 <menu-item name="Меню 3">
-                    <a href="https://i-novus.ru"/>
+                    <a href="https://i-novus.ru" target="self"/>
                 </menu-item>
                 <menu-item name="Меню 4">
-                    <a href="https://i-novus.ru"/>
+                    <a href="https://i-novus.ru" target="self"/>
                 </menu-item>
             </nav>
         </sidebar>

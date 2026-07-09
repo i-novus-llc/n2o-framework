@@ -63,19 +63,19 @@ class HeaderAccessAT extends AutoTestBase {
 
         AnchorMenuItem menuItem0 = page.header().nav().anchor(0);
         menuItem0.shouldHaveLabel("Доступно всем");
-        menuItem0.shouldHaveUrl(getBaseUrl() + "/#/mi1");
+        menuItem0.shouldHaveUrl(getBaseUrl() + "/#/mi1/");
         menuItem0.click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная всем");
 
         AnchorMenuItem menuItem1 = page.header().nav().anchor(1);
         menuItem1.shouldHaveLabel("Требуется роль admin");
-        menuItem1.shouldHaveUrl(getBaseUrl() + "/#/mi2");
+        menuItem1.shouldHaveUrl(getBaseUrl() + "/#/mi2/");
         menuItem1.click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная с ролью admin");
 
         AnchorMenuItem menuItem2 = page.header().nav().anchor(2);
         menuItem2.shouldHaveLabel("Требуется право edit");
-        menuItem2.shouldHaveUrl(getBaseUrl() + "/#/mi3");
+        menuItem2.shouldHaveUrl(getBaseUrl() + "/#/mi3/");
         menuItem2.click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная с правом edit");
 
@@ -106,13 +106,13 @@ class HeaderAccessAT extends AutoTestBase {
 
         AnchorMenuItem menuItem0 = page.header().nav().anchor(0);
         menuItem0.shouldHaveLabel("Доступно всем");
-        menuItem0.shouldHaveUrl(getBaseUrl() + "/#/mi1");
+        menuItem0.shouldHaveUrl(getBaseUrl() + "/#/mi1/");
         menuItem0.click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная всем");
 
         AnchorMenuItem menuItem3 = page.header().nav().anchor(1);
         menuItem3.shouldHaveLabel("Только анонимам");
-        menuItem3.shouldHaveUrl(getBaseUrl() + "/#/mi4");
+        menuItem3.shouldHaveUrl(getBaseUrl() + "/#/mi4/");
         menuItem3.click();
         page.breadcrumb().crumb(0).shouldHaveLabel("Страница доступная только анонимам");
     }

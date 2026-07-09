@@ -37,6 +37,6 @@ class ListWidgetBinderTest extends SourceCompileTestBase {
         ListWidget listWidget = (ListWidget) ((StandardPage) pipeline.get(context, new DataSet().add("param", "1")))
                 .getRegions().get("single").get(0).getContent().get(8);
         RowClick rowClick = listWidget.getRowClick();
-        assertThat(((LinkAction) rowClick.getAction()).getUrl(), is("/p/w/1/row/p_w_row_panel9_row"));
+        assertThat(((LinkAction) rowClick.getAction()).getUrl(), is("/p/w/1/row/p_w_row_panel9_row/"));
     }
 }

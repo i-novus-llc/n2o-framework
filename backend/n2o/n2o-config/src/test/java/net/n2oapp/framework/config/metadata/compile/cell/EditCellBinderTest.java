@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.is;
  * Тестирование связывания с данными редактируемой ячейки таблицы
  */
 class EditCellBinderTest extends SourceCompileTestBase {
-    
+
     @Override
     @BeforeEach
     public void setUp() {
@@ -43,6 +43,6 @@ class EditCellBinderTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) pipeline.get(context, new DataSet().add("id", "2"));
         EditCell editCell = (EditCell) ((Table) page.getWidget()).getComponent().getBody().getCells().get(0);
         ClientDataProvider dataProvider = ((InvokeAction) editCell.getAction()).getPayload().getDataProvider();
-        assertThat(dataProvider.getUrl(), is("n2o/data/p/w/2/modal/actionTest"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/p/w/2/modal/actionTest/"));
     }
 }

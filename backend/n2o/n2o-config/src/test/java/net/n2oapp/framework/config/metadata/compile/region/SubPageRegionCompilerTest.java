@@ -55,50 +55,50 @@ class SubPageRegionCompilerTest extends SourceCompileTestBase {
                 .get(parentPageContext);
 
         List<String> subRoutes = page.getRoutes().getSubRoutes();
-        assertThat(subRoutes, is(List.of("./route1", "./route2", "./route3/subroute", "./route4")));
-        assertThat(page.getRoutes().getPath(), is("/user/:parentId"));
+        assertThat(subRoutes, is(List.of("./route1/", "./route2/", "./route3/subroute/", "./route4/")));
+        assertThat(page.getRoutes().getPath(), is("/user/:parentId/"));
 
         SubPageRegion region = (SubPageRegion) page.getRegions().get("single").getFirst();
         assertThat(region.getSrc(), is("SubPage"));
-        assertThat(region.getDefaultPageId(), is("user_sp_route22"));
+        assertThat(region.getDefaultPageId(), is("user_sp_2"));
         assertThat(region.getClassName(), is("test"));
         assertThat(region.getStyle(), is(Map.of("color", "red")));
 
         checkPage(region);
         // Проверка построения контекста первой подстраницы
         checkPageContext();
-        assertThat(parentPageContext.getSubRoutes().get("/user/*/route1"), is("/user/:parentId/sp_route11"));
-        assertThat(parentPageContext.getSubRoutes().get("/user/*/route2"), is("/user/:parentId/sp_route22"));
-        assertThat(parentPageContext.getSubRoutes().get("/user/*/route4"), is("/user/:parentId/sp_route44"));
-        assertThat(parentPageContext.getSubRoutes().get("/user/*/route3/subroute"), is("/user/:parentId/sp_subroute3"));
+        assertThat(parentPageContext.getSubRoutes().get("/user/*/route1/"), is("/user/:parentId/sp_1/"));
+        assertThat(parentPageContext.getSubRoutes().get("/user/*/route2/"), is("/user/:parentId/sp_2/"));
+        assertThat(parentPageContext.getSubRoutes().get("/user/*/route4/"), is("/user/:parentId/sp_4/"));
+        assertThat(parentPageContext.getSubRoutes().get("/user/*/route3/subroute/"), is("/user/:parentId/sp_3/"));
     }
 
     private static void checkPage(SubPageRegion region) {
         List<SubPageRegion.Page> pages = region.getPages();
         assertThat(pages.size(), is(4));
-        assertThat(pages.getFirst().getId(), is("user_sp_route11"));
-        assertThat(pages.getFirst().getRoute(), is("./route1"));
-        assertThat(pages.getFirst().getUrl(), is("/user/:parentId/sp_route11"));
+        assertThat(pages.getFirst().getId(), is("user_sp_1"));
+        assertThat(pages.getFirst().getRoute(), is("./route1/"));
+        assertThat(pages.getFirst().getUrl(), is("/user/:parentId/sp_1/"));
 
-        assertThat(pages.get(1).getId(), is("user_sp_route22"));
-        assertThat(pages.get(1).getRoute(), is("./route2"));
-        assertThat(pages.get(1).getUrl(), is("/user/:parentId/sp_route22"));
+        assertThat(pages.get(1).getId(), is("user_sp_2"));
+        assertThat(pages.get(1).getRoute(), is("./route2/"));
+        assertThat(pages.get(1).getUrl(), is("/user/:parentId/sp_2/"));
 
-        assertThat(pages.get(2).getId(), is("user_sp_subroute3"));
-        assertThat(pages.get(2).getRoute(), is("./route3/subroute"));
-        assertThat(pages.get(2).getUrl(), is("/user/:parentId/sp_subroute3"));
+        assertThat(pages.get(2).getId(), is("user_sp_3"));
+        assertThat(pages.get(2).getRoute(), is("./route3/subroute/"));
+        assertThat(pages.get(2).getUrl(), is("/user/:parentId/sp_3/"));
 
-        assertThat(pages.get(3).getId(), is("user_sp_route44"));
-        assertThat(pages.get(3).getRoute(), is("./route4"));
-        assertThat(pages.get(3).getUrl(), is("/user/:parentId/sp_route44"));
+        assertThat(pages.get(3).getId(), is("user_sp_4"));
+        assertThat(pages.get(3).getRoute(), is("./route4/"));
+        assertThat(pages.get(3).getUrl(), is("/user/:parentId/sp_4/"));
     }
 
     private void checkPageContext() {
-        PageContext pageContext = (SubPageContext) route("/user/:parentId/sp_route11", Page.class);
-        assertThat(pageContext.getParentRoute(), is("/user/:parentId"));
+        PageContext pageContext = (SubPageContext) route("/user/:parentId/sp_1/", Page.class);
+        assertThat(pageContext.getParentRoute(), is("/user/:parentId/"));
         assertThat(pageContext.getParentClientPageId(), is("user"));
         assertThat(pageContext.getParentRoutes().size(), is(1));
-        assertThat(pageContext.getParentRoutes().getFirst(), is("/user/:parentId"));
+        assertThat(pageContext.getParentRoutes().getFirst(), is("/user/:parentId/"));
 
         Map<String, ModelLink> pathMappings = pageContext.getPathRouteMapping();
         assertThat(pathMappings.size(), is(1));

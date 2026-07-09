@@ -46,14 +46,14 @@
                 </open-page>
             </button>
             <button label="OpenPage с подтверждением в новой вкладке">
-                <open-page page-id="pageWithPrompt" route="/:id/open" target="newWindow">
+                <open-page page-id="pageWithPrompt" route="/:id/open" new-window="true">
                     <params>
                         <path-param name="id" value="{id}"/>
                     </params>
                 </open-page>
             </button>
             <button label="OpenPage без подтверждения в новой вкладке">
-                <open-page page-id="page" route="/:id/open2" target="newWindow">
+                <open-page page-id="page" route="/:id/open2" new-window="true">
                     <params>
                         <path-param name="id" value="{id}"/>
                     </params>

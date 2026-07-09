@@ -59,14 +59,14 @@ class SwitchCaseActionAT extends AutoTestBase {
         table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(1).click();
         button.click();
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/type1");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/type1/");
         page.breadcrumb().crumb(0).click();
 
         table.shouldExists();
         table.columns().rows().shouldHaveSize(4);
         table.columns().rows().row(3).click();
         button.click();
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/type2");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/type2/");
         page.breadcrumb().crumb(0).click();
 
         table.shouldExists();
@@ -98,7 +98,7 @@ class SwitchCaseActionAT extends AutoTestBase {
 
         table.columns().rows().row(1).cell(1).shouldHaveText("1");
         table.columns().rows().row(1).click();
-        page.shouldHaveUrlMatches(getBaseUrl() + "/#/type1");
+        page.shouldHaveUrlMatches(getBaseUrl() + "/#/type1/");
         page.breadcrumb().crumb(1).shouldHaveLabel("Страница с type 1");
     }
 }

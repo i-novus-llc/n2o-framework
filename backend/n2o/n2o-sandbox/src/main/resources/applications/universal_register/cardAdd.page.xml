@@ -31,7 +31,7 @@
         </invoke>
     </button>
      <button label="Отменить" icon="fa fa-close">
-        <a href="/" target="application"/>
+        <a href="/"/>
     </button>
 </toolbar>
 <regions>

@@ -6,21 +6,22 @@ import { Icon } from '../display/Icon'
 import { type LinkProps, Position } from './types'
 
 export function Link({
-    label,
-    url,
-    icon,
-    target,
+    children,
     className,
-    style,
-    onClick,
-    iconPosition = Position.LEFT,
     disabled = false,
+    icon,
+    iconPosition = Position.LEFT,
+    label = children,
+    onClick,
+    style,
+    target,
+    url,
 }: LinkProps) {
     const content = (
         <>
-            {iconPosition === Position.LEFT && <Icon name={icon} />}
+            {icon && iconPosition === Position.LEFT && <Icon name={icon} />}
             {label && <span>{label}</span>}
-            {iconPosition === Position.RIGHT && <Icon name={icon} />}
+            {icon && iconPosition === Position.RIGHT && <Icon name={icon} />}
         </>
     )
 
@@ -31,7 +32,7 @@ export function Link({
         target,
     }
 
-    if (disabled) { return <span {...props} aria-disabled>{content}</span> }
+    if (!url || disabled) { return <span {...props} aria-disabled>{content}</span> }
 
     return <a {...props} href={url} onClick={onClick}>{content}</a>
 }

@@ -6,7 +6,7 @@
     <header>
         <nav>
             <menu-item name="Test">
-                <a href="i-novus.ru"/>
+                <a href="i-novus.ru" target="self"/>
             </menu-item>
         </nav>
     </header>

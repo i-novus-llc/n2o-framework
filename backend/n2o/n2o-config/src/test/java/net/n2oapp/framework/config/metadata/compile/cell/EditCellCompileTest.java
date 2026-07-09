@@ -62,7 +62,7 @@ class EditCellCompileTest extends SourceCompileTestBase {
         assertThat(((InputText) cell.getControl()).getId(), is("test1"));
         assertThat(cell.getAction(), notNullValue());
         assertThat(((InvokeAction) cell.getAction()).getPayload().getDataProvider().getUrl(),
-                is("n2o/data/main/:id/open/actionTest"));
+                is("n2o/data/main/:id/open/actionTest/"));
         assertThat(((InvokeAction) cell.getAction()).getPayload().getDataProvider().getPathMapping().get("id"),
                 is(new ModelLink(ReduxModelEnum.RESOLVE, "main", "id")));
 

@@ -71,7 +71,7 @@
             <table>
                 <rows>
                     <click>
-                        <a href="https://www.google.com/?q=:q">
+                        <a href="https://www.google.com/?q=:q" target="self">
                             <query-param name="q" value="{id}"/>
                         </a>
                     </click>

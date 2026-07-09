@@ -7,21 +7,21 @@
     <regions>
         <nav>
             <button>
-                <a href="./route1" target="application"/>
+                <a href="./route1"/>
             </button>
             <link href="./route2" target="application"/>
             <menu-item>
-                <a href="./route3" target="application"/>
+                <a href="./route3"/>
             </menu-item>
 
             <dropdown-menu>
                 <button>
-                    <a href="./route4" target="application"/>
+                    <a href="./route4"/>
                 </button>
                 <group>
                     <link href="./route5" target="application"/>
                     <menu-item>
-                        <a href="./route6" target="application"/>
+                        <a href="./route6"/>
                     </menu-item>
                 </group>
             </dropdown-menu>

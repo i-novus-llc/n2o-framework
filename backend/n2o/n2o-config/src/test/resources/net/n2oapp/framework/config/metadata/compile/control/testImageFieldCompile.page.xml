@@ -3,7 +3,7 @@
     <form>
         <actions>
             <action id="test">
-                <a href="http://example.com"/>
+                <a href="http://example.com" target="self"/>
             </action>
         </actions>
         <fields>

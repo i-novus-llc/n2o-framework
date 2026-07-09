@@ -49,9 +49,9 @@ class ToolbarCrudCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testToolbarCrudCompile.page.xml");
         SimplePage page = (SimplePage) pipeline.get(new PageContext("testToolbarCrudCompile"));
         Form form = (Form) page.getWidget();
-        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/w1/create", Page.class, null))
+        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/w1/create/", Page.class, null))
                 .getPageName(), is("Пустой объект для unit тестов - Создание"));
-        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/w1/1/update", Page.class, null))
+        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/w1/1/update/", Page.class, null))
                 .getPageName(), is("Пустой объект для unit тестов - Изменение"));
 
         assertThat(form.getToolbar().size(), is(2));
@@ -64,7 +64,6 @@ class ToolbarCrudCompileTest extends SourceCompileTestBase {
                 .getButtons().stream().map(AbstractButton::getLabel).toList();
         List<Action> buttonsAction = form.getToolbar().get("topLeft").get(1)
                 .getButtons().stream().map(AbstractButton::getAction).toList();
-
 
         assertThat(buttonsId.contains("create"), is(true));
         assertThat(buttonsId.contains("update"), is(true));
@@ -88,6 +87,5 @@ class ToolbarCrudCompileTest extends SourceCompileTestBase {
         assertThat(confirmAction.getPayload().getCancel().getLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.api.action.confirm.cancel_label")));
         assertThat(confirmAction.getPayload().getCloseButton(), is(false));
         assertThat(((InvokeAction)multiAction.getPayload().getActions().get(1)).getOperationId(), is("delete"));
-
     }
 }

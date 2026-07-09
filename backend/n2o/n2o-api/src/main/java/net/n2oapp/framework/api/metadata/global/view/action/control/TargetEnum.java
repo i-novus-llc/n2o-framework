@@ -14,7 +14,8 @@ import net.n2oapp.framework.api.metadata.aware.N2oEnum;
 @JsonSerialize(using = TargetEnumSerializer.class)
 @JsonDeserialize(using = TargetEnumDeserializer.class)
 public enum TargetEnum implements N2oEnum {
-    SELF("self", "_self"),
+    SELF("self", "self"),
+    @Deprecated
     NEW_WINDOW("newWindow", "_blank"),
     APPLICATION("application", "application");
 

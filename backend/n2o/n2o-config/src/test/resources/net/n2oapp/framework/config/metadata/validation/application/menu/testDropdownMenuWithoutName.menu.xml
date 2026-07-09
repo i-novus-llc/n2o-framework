@@ -2,7 +2,7 @@
 <nav xmlns="http://n2oapp.net/framework/config/schema/menu-3.0">
     <dropdown-menu>
         <menu-item name="item">
-            <a href="/users"/>
+            <a href="/users" target="self"/>
         </menu-item>
     </dropdown-menu>
 </nav>

@@ -15,7 +15,7 @@
                 <link test:codeVerified="{emailSender.status=='send'}" icon="{id}"/>
             </column>
             <column text-field-id="test3">
-                <link url="/test/{uid}" target="newWindow"/>
+                <link url="/test/{uid}" target="self" new-window="true"/>
             </column>
             <column text-field-id="test4">
                 <link action-id="update"/>

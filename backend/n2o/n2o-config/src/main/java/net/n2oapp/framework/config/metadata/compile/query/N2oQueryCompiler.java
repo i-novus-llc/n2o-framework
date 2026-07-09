@@ -30,8 +30,8 @@ import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.spel;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeParam;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeRoute;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
@@ -62,10 +62,10 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             query.setObject(p.getCompiled(new ObjectContext(source.getObjectId())));
         }
 
-        String route = normalize(castDefault(source.getRoute(), queryId));
-        query.setRoute(isDynamic(route)
+        String route = castDefault(source.getRoute(), queryId);
+        query.setRoute(normalizeRoute(isDynamic(route)
                 ? route.replaceAll("[?=&]", "_")
-                : route);
+                : route));
         query.setLists(initSeparators(source.getLists(), p));
         query.setUniques(initSeparators(source.getUniques(), p));
         query.setCounts(initSeparators(source.getCounts(), p));
@@ -297,7 +297,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         for (AbstractField field : fields) {
             field.setIsSelected(castDefault(field.getIsSelected(), defaultSelected));
 
-            if (field.getIsSelected()) {
+            if (Boolean.TRUE.equals(field.getIsSelected())) {
                 field.setMapping(castDefault(field.getMapping(), () -> spel(field.getId())));
             }
             if (field instanceof QueryReferenceField referenceField) {
@@ -317,7 +317,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                 castDefault(field.getIsSorted(), !isBlank(field.getSortingExpression()), defaultSorted)
         );
 
-        if (field.getIsSorted()) {
+        if (Boolean.TRUE.equals(field.getIsSorted())) {
             field.setSortingMapping(
                     castDefault(field.getSortingMapping(), () -> spel(field.getId() + "Direction"))
             );
@@ -346,7 +346,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     private static List<QuerySimpleField> initSortingFields(List<QuerySimpleField> fields) {
         List<QuerySimpleField> result = new ArrayList<>();
         for (QuerySimpleField field : fields)
-            if (field.getIsSorted())
+            if (Boolean.TRUE.equals(field.getIsSorted()))
                 result.add(field);
 
         return result;

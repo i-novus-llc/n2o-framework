@@ -11,12 +11,12 @@
                 <link label="Новости" href="/news" target="self"/>
 
                 <button label="Поиск">
-                    <a href="/search"/>
+                    <a href="/search" target="self"/>
                 </button>
 
                 <group label="Пользователь">
                     <menu-item label="Профиль">
-                        <a href="/profile"/>
+                        <a href="/profile" target="self"/>
                     </menu-item>
 
                     <link label="Сообщения" href="/messages"/>
@@ -28,7 +28,7 @@
                     <dropdown-menu label="Настройки">
                         <menu-item label="Безопасность" action-id="security"/>
 
-                        <link label="Конфиденциальность" href="/privacy"/>
+                        <link label="Конфиденциальность" href="/privacy" new-window="true" target="self"/>
 
                         <button label="Сброс">
                             <refresh/>
@@ -36,7 +36,7 @@
 
                         <group label="Внешний вид">
                             <menu-item label="Тема">
-                                <a href="/theme"/>
+                                <a href="/theme" target="self"/>
                             </menu-item>
                         </group>
 
@@ -56,10 +56,10 @@
 
                 <dropdown-menu label="Магазин">
                     <menu-item label="Каталог">
-                        <a href="/catalog"/>
+                        <a href="/catalog" target="self"/>
                     </menu-item>
 
-                    <link label="Акции" href="/promo"/>
+                    <link label="Акции" href="/promo" target="self" new-window="true"/>
 
                     <button label="Корзина">
                         <alert text="cart"/>
@@ -78,13 +78,13 @@
 
                         <dropdown-menu label="Бренды">
                             <menu-item label="Lime">
-                                <a href="/brands/lime"/>
+                                <a href="/brands/lime" target="self"/>
                             </menu-item>
                         </dropdown-menu>
 
                         <group label="Ценовые диапазоны">
                             <menu-item label="До 1000">
-                                <a href="/price-low"/>
+                                <a href="/price-low" target="self"/>
                             </menu-item>
                         </group>
                     </group>
@@ -98,7 +98,7 @@
 
                 <group label="Справка">
                     <menu-item label="FAQ">
-                        <a href="/faq"/>
+                        <a href="/faq" target="self"/>
                     </menu-item>
                 </group>
 

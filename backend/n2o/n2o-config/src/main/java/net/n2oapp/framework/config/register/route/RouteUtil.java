@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.register.route;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.RoutingModeEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.*;
@@ -35,6 +36,7 @@ public abstract class RouteUtil {
      * @param url Адрес URL
      * @return Нормализованный адрес URL
      */
+    @Deprecated(since = "7.30", forRemoval = true)
     public static String normalize(String url) {
         if (url == null || !isApplicationUrl(url))
             return url;
@@ -42,6 +44,31 @@ public abstract class RouteUtil {
         url = url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
         url = !url.startsWith("/") && !url.startsWith("../") && !url.startsWith("./") ? "/" + url : url;
         return url;
+    }
+
+    /**
+     * Нормализация маршрута.
+     * Убирает двойные слеши. Ставит слеш в начало и в конец.
+     * Используется для атрибута route (для формирования полного пути).
+     */
+    public static String normalizeRoute(String url) {
+        if (url == null || !isApplicationUrl(url))
+            return url;
+        String normalized = url.replaceAll("/+", "/");
+        normalized = !normalized.startsWith("/") && !normalized.startsWith("../") && !normalized.startsWith("./") ? "/" + normalized : normalized;
+        return normalized.endsWith("/") || normalized.contains("?") ? normalized : normalized + "/";
+    }
+
+    /**
+     * Нормализация пользовательского URL с учётом режима маршрутизации.
+     * Для режима NEW возвращает URL как написал пользователь + trailing slash.
+     * Для режима OLD возвращает полный URL = как строится route
+     * Для внешних URL (http/https) возвращает без изменений.
+     * Используется для атрибутов href, url, redirect-url.
+     */
+    public static String normalizeUrl(String url, RoutingModeEnum mode) {
+        if (url == null || !isApplicationUrl(url) || RoutingModeEnum.NEW.equals(mode)) return url;
+        return normalizeRoute(url);
     }
 
     /**
@@ -77,9 +104,9 @@ public abstract class RouteUtil {
             return route;
         }
         if (route.contains("?")) {
-            return String.format("%s&%s", route, params.toString());
+            return String.format("%s&%s", route, params);
         } else {
-            return String.format("%s?%s", route, params.toString());
+            return String.format("%s?%s", route, params);
         }
     }
 
@@ -242,7 +269,7 @@ public abstract class RouteUtil {
      * @return true внутри, false снаружи
      */
     public static boolean isApplicationUrl(String url) {
-        // target self or newWindow
+        // target self
         return !(url.startsWith("http:") || url.startsWith("https:"));
     }
 
@@ -253,10 +280,10 @@ public abstract class RouteUtil {
      * @param relativeRoute Относительный маршрут
      * @return Абсолютный маршрут
      */
-    public static String absolute(String relativeRoute, String baseRoute) {
+    public static String absolute(String relativeRoute, String baseRoute, RoutingModeEnum mode) {
         if (startsWithAny(relativeRoute, "./", "../"))
-            return join(baseRoute, relativeRoute);
-        return normalize(relativeRoute);
+            return join(baseRoute, relativeRoute, mode);
+        return normalizeUrl(relativeRoute, mode);
     }
 
     /**
@@ -266,13 +293,18 @@ public abstract class RouteUtil {
      * @param childRoute  Относительный маршрут
      * @return Соединенный маршрут
      */
-    public static String join(String parentRoute, String childRoute) {
+    public static String join(String parentRoute, String childRoute, RoutingModeEnum mode) {
         if (!isApplicationUrl(childRoute))
             return childRoute;
         if (parentRoute == null)
-            return normalize(childRoute);
-        if (childRoute.startsWith("./"))
-            return normalize(parentRoute + childRoute.substring(1));
+            return normalizeUrl(childRoute, mode);
+        if (childRoute.startsWith("./")) {
+            if (parentRoute.endsWith("/"))
+                return normalizeUrl(parentRoute + childRoute.substring(2), mode);
+            else
+                return normalizeUrl(parentRoute + childRoute.substring(1), mode);
+        }
+
 
         int k = 0;
         String child = childRoute;
@@ -288,13 +320,14 @@ public abstract class RouteUtil {
                 throw new IncorrectRouteException(childRoute);
             }
             for (int i = 0; i < parent.length - k; i++) {
-                result.append("/").append(parent[i]);
+                if (!parent[i].isEmpty())
+                    result.append("/").append(parent[i]);
             }
             result.append(child);
         } else {
-            result.append(parentRoute).append(normalize(childRoute));
+            result.append(parentRoute).append(normalizeUrl(childRoute, mode));
         }
-        return normalize(result.toString());
+        return normalizeUrl(result.toString(), mode);
     }
 
     /**

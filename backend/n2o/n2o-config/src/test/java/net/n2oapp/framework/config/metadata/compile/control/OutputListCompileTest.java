@@ -50,7 +50,8 @@ class OutputListCompileTest extends SourceCompileTestBase {
                 .get(1).getCols().get(0).getFields().get(0))).getControl();
         assertThat(outputList.getLabelFieldId(), is("name"));
         assertThat(outputList.getHrefFieldId(), is("href"));
-        assertThat(outputList.getTarget(), is(TargetEnum.NEW_WINDOW));
+        assertThat(outputList.getTarget(), is(TargetEnum.APPLICATION));
+        assertThat(outputList.getNewWindow(), is(false));
         assertThat(outputList.getDirection(), is(OutputList.DirectionEnum.COLUMN));
         assertThat(outputList.getSeparator(), is(" "));
     }

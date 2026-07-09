@@ -28,6 +28,7 @@ function LinkCellBody({
     resolveWidget,
     model = EMPTY_OBJECT,
     target,
+    newWindow,
     ...rest
 }: Props) {
     const modelUrl = get(model, 'url', '') as string
@@ -68,7 +69,7 @@ function LinkCellBody({
 
         onResolve(e)
     }
-    const { active, ...linkProps } = useLink({ href, disabled, target })
+    const { active, ...linkProps } = useLink({ href, disabled, target, newWindow })
 
     return (
         <DefaultCell

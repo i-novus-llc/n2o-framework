@@ -9,7 +9,7 @@
             <column text-field-id="population" label="Население"/>
             <column text-field-id="area" label="Площадь"/>
             <column text-field-id="link" label="Ссылка">
-                <link target="newWindow" url="{link}"/>
+                <link target="self" new-window="true" url="{link}"/>
             </column>
         </columns>
     </table>

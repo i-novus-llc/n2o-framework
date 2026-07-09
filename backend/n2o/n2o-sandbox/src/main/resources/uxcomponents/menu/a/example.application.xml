@@ -3,7 +3,7 @@
     <header title="Sandbox">
         <nav>
             <menu-item name="Внешняя ссылка">
-                <a href="http://example.com"/>
+                <a href="http://example.com" target="self"/>
             </menu-item>
         </nav>
     </header>

@@ -13,6 +13,56 @@ description: ""
 - Удален компонент `<calendar>`.
 - Полностью прекращена поддержка старых схем: `query-4.0`, `application-2.0`, `page-3.0`, `n2o-widget-4.0`, `region-2.0`,
 `fieldset-4.0`, `toolbar-base-1.0`, `button-1.0`, `action-1.0`, `control-2.0`, `n2o-cell-2.0`, `properties-base-1.0`.
+- В связи с приведением атрибута `target` в разных компонентах к единому виду, были внесены следующие изменения:
+1) В `<open-page>` удалён атрибут `target`, добавлен новый атрибут `new-window`.
+
+| Было                               | Стало               |
+|------------------------------------|---------------------|
+| `target="newWindow"`               | `new-window="true"` |
+| `target="application"` *(default)* | *(default)*         |
+
+2) В `<a>` изменено значение по умолчанию атрибута `target` с `self` на `application`, значение `newWindow` больше не поддерживается.
+Добавлен новый атрибут `new-window`.
+
+| Было                        | Стало                                 |
+|-----------------------------|---------------------------------------|
+| `target="newWindow"`        | `new-window="true"` + `target="self"` |
+| `target="self"` *(default)* | `target="self"`                       |
+| `target="application"`      | *(default)*                           |
+
+3) В `<output-list>` изменено значение по умолчанию атрибута `target` с `newWindow` на `application`, значение `newWindow` больше не поддерживается.
+Добавлен новый атрибут `new-window`.
+
+| Было                             | Стало                                 |
+|----------------------------------|---------------------------------------|
+| `target="newWindow"` *(default)* | `new-window="true"` + `target="self"` |
+| `target="self"`                  | `target="self"`                       |
+| `target="application"`           | *(default)*                           |
+
+4) В `<search>` (панель поиска в хедере) удалён атрибут `target`, добавлен новый атрибут `new-window`.
+
+| Было                               | Стало                |
+|------------------------------------|----------------------|
+| `target="newWindow"`               | `new-window="true"`  |
+| `target="application"` *(default)* | *необходимо удалить* |
+
+5) В ячейке `<link>` и ссылке `<link>` внутри ячейки `<list>` добавлен атрибут `new-window`.
+Значение `newWindow` для `target` больше не поддерживается.
+
+| Было                               | Стало                                 |
+|------------------------------------|---------------------------------------|
+| `target="newWindow"`               | `new-window="true"` + `target="self"` |
+| `target="self"`                    | `target="self"`                       |
+| `target="application"` *(default)* | *(default)*                           |
+
+6) В элементе меню `<link>` региона `<nav>` изменено значение по умолчанию атрибута `target` с `newWindow` на `application`,
+значение `newWindow` больше не поддерживается. Добавлен атрибут `new-window`.
+
+| Было                             | Стало                                 |
+|----------------------------------|---------------------------------------|
+| `target="newWindow"` *(default)* | `new-window="true"` + `target="self"` |
+| `target="self"`                  | `target="self"`                       |
+| `target="application"`           | *(default)*                           |
 
 ### Изменения поведения {#changes-behavior}
 
@@ -26,8 +76,51 @@ description: ""
   Зависимости `org.mozilla:rhino` и `org.openjdk.nashorn:nashorn-core` удалены из classpath фреймворка.
   Если в вашем проекте они использовались напрямую, их необходимо добавить в `pom.xml` явно.
 
+### Изменения маршрутизации {#changes-routing}
+
+Изменилась логика построения url перехода по ссылке в элементах где имеется атрибут `url` или `href`
+(например `<a>`, `<link>`, `<alert>`, `<print>`, `<image>`, `<html>`).
+Ранее, если на странице с **url="/page1"** в атрибуте было указано **href="./open"**, то страница открывалась по ссылке **/page1/open**.
+Теперь же относительные пути будут работать по общепринятым мировым стандартам и страница будет открываться по ссылке **/open**.
+Если вы хотите, чтобы она открывалась по ссылке **/page1/open**, то текущая страница должна иметь **url="/page1/"**.
+
+#### Итоговые URL:
+
+Для **baseUrl=/page1/page2/page3** (без слэша, директория = **/page1/page2/**):
+| href/url | Результат          |
+|----------|--------------------|
+| page4    | /page1/page2/page4 |
+| /page4   | /page4             |
+| ./page4  | /page1/page2/page4 |
+| ../page4 | /page1/page4       |
+
+Для **baseUrl=/page1/page2/page3/** (со слэшем, директория = **/page1/page2/page3/**):
+| href/url | Результат                |
+|----------|--------------------------|
+| page4    | /page1/page2/page3/page4 |
+| /page4   | /page4                   |
+| ./page4  | /page1/page2/page3/page4 |
+| ../page4 | /page1/page2/page4       |
+
+
+Если вы не готовы перейти на новый режим, то можете воспользоваться настройкой
+`n2o.config.routing_mode=old`. НО в версии 7.31 старый режим больше не будет поддерживаться и настройка будет удалена.
+
+В route для `open-page`, `show-modal`, `open-drawer`, как и раньше, в конце всегда добавляется слэш (это необходимо для корректного функционирования RouteRegister).
+Особое внимание при миграции обратите на access схему. В `url-access` теперь необходимо доступ к страницам прописывать с указанием точного пути.
+
+Пример для страницы открываемой действием open-page:
+**Было:**
+```xml
+<url-access pattern="/path/create*"/>
+```
+**Стало:**
+```xml
+<url-access pattern="/path/create/*"/>
+```
+
 ### Расширенная поддержка JS в XML {#changes-js-expressions}
 
 Ранее JS выражения в XML файлах исполнялись движком Nashorn, который поддерживал только стандарт ES5.
-Начиная с версии 7.30 используется GraalJS с поддержкой **ECMAScript 2020**. О том, какие возможности доступны
-можете прочитать в [официальной документации](https://www.graalvm.org/latest/reference-manual/js/JavaScriptCompatibility/).
+Начиная с версии 7.30 используется GraalJS с поддержкой **ECMAScript 2020**.
+С его возможностями можете ознакомиться в [официальной документации](https://www.graalvm.org/latest/reference-manual/js/JavaScriptCompatibility/).

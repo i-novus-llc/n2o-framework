@@ -48,7 +48,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.co
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalDatasourceId;
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeRoute;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 import static net.n2oapp.framework.config.util.PageContextCompileUtil.initMapping;
 import static net.n2oapp.framework.config.util.PageContextCompileUtil.initParentDatasourceIdsMap;
@@ -152,8 +152,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         initMapping(source.getPathParams(), pathMapping, pathMapping, p);
 
         String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
-        String parentRoute = normalize(route);
-        route = normalize(route + actionRoute);
+        String parentRoute = route;
+        route = normalizeRoute(route + actionRoute);
         PageContext pageContext = constructContext(source, route, p);
         if (pageScope != null && pageScope.getTabIds() != null)
             pageContext.setParentTabIds(new HashSet<>(pageScope.getTabIds()));
@@ -287,14 +287,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String actionRoute = source.getRoute();
 
         if (actionRoute != null)
-            return normalize(actionRoute);
+            return normalizeRoute(actionRoute);
 
-        actionRoute = normalize(source.getId());
+        actionRoute = normalizeRoute(source.getId());
         // генерация маршрута для динамической страницы с моделью resolve
         boolean isDynamicPage = hasRefs(source.getPageId()) || isDynamic(source.getPageId());
         if (isDynamicPage && actionModelLink != null && ReduxModelEnum.RESOLVE.equals(actionModelLink.getModel())) {
             String masterIdParam = actionModelLink.getDatasource() + "_id";
-            String dynamicPageActionRoute = normalize(colon(masterIdParam)) + actionRoute;
+            String dynamicPageActionRoute = normalizeRoute(colon(masterIdParam)) + actionRoute;
             pathMapping.put(masterIdParam, actionModelLink);
 
             return dynamicPageActionRoute;

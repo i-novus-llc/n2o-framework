@@ -57,8 +57,8 @@ class StandardPageCompileTest extends SourceCompileTestBase {
                 .get(context);
         assertThat(page.getId(), is("page"));
         assertThat(page.getRoutes().getSet().size(), is(1));
-        assertThat(page.getRoutes().getSet().iterator().next(), is("/page"));
-        assertThat(((PageContext) route("/page", Page.class)).getClientPageId(), is(context.getClientPageId()));
+        assertThat(page.getRoutes().getSet().iterator().next(), is("/page/"));
+        assertThat(((PageContext) route("/page/", Page.class)).getClientPageId(), is(context.getClientPageId()));
     }
 
     @Test
@@ -75,23 +75,23 @@ class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(detail, notNullValue());
         assertThat(panel, notNullValue());
         ClientDataProvider masterProvider = ((StandardDatasource) page.getDatasources().get(master.getDatasource())).getProvider();
-        assertThat(masterProvider.getUrl(), is("n2o/data/testStandardPageDependency/master"));
+        assertThat(masterProvider.getUrl(), is("n2o/data/testStandardPageDependency/master/"));
         ClientDataProvider detailProvider = ((StandardDatasource) page.getDatasources().get(detail.getDatasource())).getProvider();
-        assertThat(detailProvider.getUrl(), is("n2o/data/testStandardPageDependency/detail"));
+        assertThat(detailProvider.getUrl(), is("n2o/data/testStandardPageDependency/detail/"));
         Map<String, ModelLink> detailQueryMapping = ((StandardDatasource) page.getDatasources().get(detail.getDatasource())).getProvider().getQueryMapping();
         assertThat(detailQueryMapping.get("detail_parent_id").getParam(), is("detail_parent_id"));
         assertThat(detailQueryMapping.get("detail_parent_id").getLink(), is("models.resolve['testStandardPageDependency_master']"));
         assertThat(detailQueryMapping.get("detail_parent_id").getValue(), is("`id`"));
         ClientDataProvider panelProvider = ((StandardDatasource) page.getDatasources().get(panel.getDatasource())).getProvider();
-        assertThat(panelProvider.getUrl(), is("n2o/data/testStandardPageDependency/panel1"));
+        assertThat(panelProvider.getUrl(), is("n2o/data/testStandardPageDependency/panel1/"));
         Map<String, ModelLink> panelQueryMapping = ((StandardDatasource) page.getDatasources().get(panel.getDatasource())).getProvider().getQueryMapping();
         assertThat(panelQueryMapping.get("panel1_parent_id").getParam(), is("panel1_parent_id"));
         assertThat(panelQueryMapping.get("panel1_parent_id").getLink(), is("models.resolve['testStandardPageDependency_detail']"));
         assertThat(panelQueryMapping.get("panel1_parent_id").getValue(), is("`parent.id`"));
 
-        assertThat(((QueryContext) route("/testStandardPageDependency/detail", CompiledQuery.class))
+        assertThat(((QueryContext) route("/testStandardPageDependency/detail/", CompiledQuery.class))
                 .getFilters().size(), is(1));
-        assertThat(((QueryContext) route("/testStandardPageDependency/panel1", CompiledQuery.class))
+        assertThat(((QueryContext) route("/testStandardPageDependency/panel1/", CompiledQuery.class))
                 .getFilters().size(), is(1));
 
         //Условия видимости виджетов
@@ -112,7 +112,7 @@ class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(detail1Ds.getQueryMapping().get("nameParam").getLink(), nullValue());
         assertThat(detail1Ds.getQueryMapping().get("nameParam").getValue(), is("test"));
 
-        QueryContext detail1QueryCtx = (QueryContext) route("/testWidgetPrefilters/detail1", CompiledQuery.class);
+        QueryContext detail1QueryCtx = (QueryContext) route("/testWidgetPrefilters/detail1/", CompiledQuery.class);
         assertThat(detail1QueryCtx.getFilters().size(), is(3));
         assertThat(detail1QueryCtx.getFilters().stream().map(Filter::getParam).toList(), hasItems("nameParam", "detail1_parent_id", "detail1_genders_id"));
 
@@ -122,7 +122,7 @@ class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(detail2Ds.getQueryMapping().get("detail2_genders_id").getLink(), is("models.filter['testWidgetPrefilters_master2']"));
         assertThat(detail2Ds.getQueryMapping().get("detail2_genders_id").getValue(), is("`genders.map(function(t){return t.id})`"));
 
-        QueryContext detail2QueryCtx = (QueryContext) route("/testWidgetPrefilters/detail2", CompiledQuery.class);
+        QueryContext detail2QueryCtx = (QueryContext) route("/testWidgetPrefilters/detail2/", CompiledQuery.class);
         assertThat(detail2QueryCtx.getFilters().size(), is(2));
         assertThat(detail2QueryCtx.getFilters().stream().map(Filter::getParam).toList(), hasItems("detail2_name", "detail2_genders_id"));
     }
@@ -207,27 +207,27 @@ class StandardPageCompileTest extends SourceCompileTestBase {
         compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/second.page.xml")
                 .get(route("/", Page.class));
         compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/third.page.xml")
-                .get(route("/second", Page.class));
+                .get(route("/second/", Page.class));
         compile("net/n2oapp/framework/config/metadata/compile/page/relative_breadcrumb/fourth.page.xml")
-                .get(route("/second/third", Page.class));
+                .get(route("/second/third/", Page.class));
 
-        Page third = routeAndGet("/second/third", Page.class);
+        Page third = routeAndGet("/second/third/", Page.class);
         assertThat(third.getBreadcrumb().size(), is(3));
         assertThat(third.getBreadcrumb().get(0).getLabel(), is("first"));
         assertThat(third.getBreadcrumb().get(0).getPath(), is("/"));
         assertThat(third.getBreadcrumb().get(1).getLabel(), is("second"));
-        assertThat(third.getBreadcrumb().get(1).getPath(), is("/second"));
+        assertThat(third.getBreadcrumb().get(1).getPath(), is("/second/"));
         assertThat(third.getBreadcrumb().get(2).getLabel(), is("third"));
         assertThat(third.getBreadcrumb().get(2).getPath(), nullValue());
 
-        Page fourth = routeAndGet("/second/third/fourth", Page.class);
+        Page fourth = routeAndGet("/second/third/fourth/", Page.class);
         assertThat(fourth.getBreadcrumb().size(), is(4));
         assertThat(fourth.getBreadcrumb().get(0).getLabel(), is("openPageCrumb1"));
         assertThat(fourth.getBreadcrumb().get(0).getPath(), is("/"));
         assertThat(fourth.getBreadcrumb().get(1).getLabel(), is("openPageCrumb2"));
-        assertThat(fourth.getBreadcrumb().get(1).getPath(), is("/second"));
+        assertThat(fourth.getBreadcrumb().get(1).getPath(), is("/second/"));
         assertThat(fourth.getBreadcrumb().get(2).getLabel(), is("openPageCrumb3"));
-        assertThat(fourth.getBreadcrumb().get(2).getPath(), is("/second/third"));
+        assertThat(fourth.getBreadcrumb().get(2).getPath(), is("/second/third/"));
         assertThat(fourth.getBreadcrumb().get(3).getLabel(), is("openPageCrumb4"));
         assertThat(fourth.getBreadcrumb().get(3).getPath(), nullValue());
     }

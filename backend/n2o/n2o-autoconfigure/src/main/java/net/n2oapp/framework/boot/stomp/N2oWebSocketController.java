@@ -65,14 +65,14 @@ public class N2oWebSocketController implements WebSocketController {
 
     @Override
     public void convertAndSend(String destination, Object message, String pageRoute) {
-        destination = RouteUtil.normalize(destination);
+        destination = RouteUtil.normalizeRoute(destination);
         messagingTemplate.convertAndSend(destination, initAction(destination, message, pageRoute));
     }
 
 
     @Override
     public void convertAndSendToUser(String user, String destination, Object message, String pageRoute) {
-        destination = RouteUtil.normalize(destination);
+        destination = RouteUtil.normalizeRoute(destination);
         messagingTemplate.convertAndSendToUser(user, destination, initAction(destination, message, pageRoute));
     }
 

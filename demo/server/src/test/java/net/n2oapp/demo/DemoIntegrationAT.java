@@ -56,7 +56,7 @@ class DemoIntegrationAT {
 
     @BeforeEach
     void openProtoPage() {
-        N2oSelenide.open("http://localhost:" + port, StandardPage.class);
+        N2oSelenide.open("http://localhost:" + port + "/", StandardPage.class);
         protoPage = new ProtoPage();
         protoPage.shouldBeClientsPage();
     }

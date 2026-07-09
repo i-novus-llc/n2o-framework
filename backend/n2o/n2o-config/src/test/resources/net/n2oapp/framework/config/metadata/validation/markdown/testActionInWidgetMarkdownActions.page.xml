@@ -3,7 +3,7 @@
     <form>
         <actions>
             <action id="action1">
-                <a href="i-novus.ru"/>
+                <a href="i-novus.ru" target="self"/>
             </action>
         </actions>
         <fields>

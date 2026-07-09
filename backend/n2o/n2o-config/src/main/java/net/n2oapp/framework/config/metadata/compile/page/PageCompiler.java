@@ -36,7 +36,7 @@ import java.util.Map;
 import static java.util.Objects.requireNonNullElseGet;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeRoute;
 
 /**
  * Базовая компиляция страницы
@@ -69,7 +69,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> extends Co
      * @return Маршрут
      */
     protected String initPageRoute(N2oPage source, PageContext context, CompileProcessor p) {
-        return normalize(castDefault(context.getRoute((N2oCompileProcessor) p), source.getRoute(), normalize(source.getId())));
+        return normalizeRoute(castDefault(context.getRoute((N2oCompileProcessor) p), source.getRoute(), normalizeRoute(source.getId())));
     }
 
     /**

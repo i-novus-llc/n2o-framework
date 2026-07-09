@@ -3,10 +3,10 @@
       name="Страница пользователя">
     <regions>
         <nav>
-            <link href="./info" label="Инфо" target="application"/>
-            <link href="./friends" label="Друзья" target="application"/>
-            <link href="./audio" label="Аудиозаписи" target="application"/>
-            <link href="./video" label="Видеозаписи" target="application"/>
+            <link href="./info/" label="Инфо" target="application"/>
+            <link href="./friends/" label="Друзья" target="application"/>
+            <link href="./audio/" label="Аудиозаписи" target="application"/>
+            <link href="./video/" label="Видеозаписи" target="application"/>
         </nav>
         <form>
             <fields>

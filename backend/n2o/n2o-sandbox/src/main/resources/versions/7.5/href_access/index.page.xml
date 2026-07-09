@@ -4,16 +4,16 @@
     <form>
         <toolbar>
             <button id="btn1" label="Доступно всем">
-                <a href="/menu1"/>
+                <a href="/menu1" target="self"/>
             </button>
             <button id="btn2" label="Только с ролью admin">
-                <a href="/menu2"/>
+                <a href="/menu2" target="self"/>
             </button>
             <button id="btn3" label="Только с правом edit">
-                <a href="/menu3"/>
+                <a href="/menu3" target="self"/>
             </button>
             <button id="btn4" label="Только анонимам">
-                <a href="/menu4"/>
+                <a href="/menu4" target="self"/>
             </button>
         </toolbar>
         <toolbar place="bottomLeft">

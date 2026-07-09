@@ -147,15 +147,15 @@ class RouterTest {
         MockBindPipeline pipeline = new MockBindPipeline(env);
         N2oRouter router = new N2oRouter(env, pipeline);
         pipeline.mock("p", (r, p) -> {
-            r.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
+            r.getRouteRegister().addRoute("/p/w/", new MockCompileContext<>("/p/w", "pw", null, Page.class));
         });
         pipeline.mock("pw", (r, p) -> {
-            r.getRouteRegister().addRoute("/p/w/:id", new MockCompileContext<>("/p/w/:id", "pw", null, CompiledQuery.class));
-            r.getRouteRegister().addRoute("/p/w/:id/a", new MockCompileContext<>("/p/w/:id/a", "pwa", null, Page.class));
+            r.getRouteRegister().addRoute("/p/w/:id/", new MockCompileContext<>("/p/w/:id", "pw", null, CompiledQuery.class));
+            r.getRouteRegister().addRoute("/p/w/:id/a/", new MockCompileContext<>("/p/w/:id/a", "pwa", null, Page.class));
         });
         CompileContext<Page, ?> res;
 
-        res = router.get("/p/w/123/a", Page.class, null);
+        res = router.get("/p/w/123/a/", Page.class, null);
         assertThat(res, notNullValue());
         assertThat(res.getSourceId(null), is("pwa"));
     }
@@ -183,30 +183,30 @@ class RouterTest {
         MockBindPipeline pipeline = new MockBindPipeline(env);
         N2oRouter router = new N2oRouter(env, pipeline);
         pipeline.mock("p", (r, p) -> {
-            r.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
+            r.getRouteRegister().addRoute("/p/w/", new MockCompileContext<>("/p/w", "pw", null, Page.class));
         });
         pipeline.mock("pw", (r, p) -> {
-            r.getRouteRegister().addRoute("/p/w/1/a", new MockCompileContext<>("/p/w/1/a", "pwa1", null, Page.class));
-            r.getRouteRegister().addRoute("/p/w/1/a", new MockCompileContext<>("/p/w/1/a", "pwa1", null, CompiledQuery.class));
-            r.getRouteRegister().addRoute("/p/w/2/a", new MockCompileContext<>("/p/w/2/a", "pwa2", null, Page.class));
-            r.getRouteRegister().addRoute("/p/w/2/a", new MockCompileContext<>("/p/w/2/a", "pwa2", null, CompiledQuery.class));
+            r.getRouteRegister().addRoute("/p/w/1/a/", new MockCompileContext<>("/p/w/1/a", "pwa1", null, Page.class));
+            r.getRouteRegister().addRoute("/p/w/1/a/", new MockCompileContext<>("/p/w/1/a", "pwa1", null, CompiledQuery.class));
+            r.getRouteRegister().addRoute("/p/w/2/a/", new MockCompileContext<>("/p/w/2/a", "pwa2", null, Page.class));
+            r.getRouteRegister().addRoute("/p/w/2/a/", new MockCompileContext<>("/p/w/2/a", "pwa2", null, CompiledQuery.class));
 
         });
         CompileContext<Page, ?> res;
         HashMap<String, String[]> params = new HashMap<>();
         params.put("id", new String[]{"1"});
-        res = router.get("/p/w/1/a", Page.class, params);
+        res = router.get("/p/w/1/a/", Page.class, params);
         assertThat(res, notNullValue());
         assertThat(res.getSourceId(null), is("pwa1"));
-        CompileContext<CompiledQuery, ?> resQuery = router.get("/p/w/1/a", CompiledQuery.class, params);
+        CompileContext<CompiledQuery, ?> resQuery = router.get("/p/w/1/a/", CompiledQuery.class, params);
         assertThat(resQuery, notNullValue());
         assertThat(resQuery.getSourceId(null), is("pwa1"));
 
         params.put("id", new String[]{"2"});
-        res = router.get("/p/w/2/a", Page.class, params);
+        res = router.get("/p/w/2/a/", Page.class, params);
         assertThat(res, notNullValue());
         assertThat(res.getSourceId(null), is("pwa2"));
-        resQuery = router.get("/p/w/2/a", CompiledQuery.class, params);
+        resQuery = router.get("/p/w/2/a/", CompiledQuery.class, params);
         assertThat(resQuery, notNullValue());
         assertThat(resQuery.getSourceId(null), is("pwa2"));
     }
