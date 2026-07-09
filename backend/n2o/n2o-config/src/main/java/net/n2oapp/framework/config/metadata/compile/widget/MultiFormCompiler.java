@@ -22,9 +22,7 @@ import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileMetaActions;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.compileToolbar;
-import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.initMetaActions;
+import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.*;
 
 @Component
 public class MultiFormCompiler extends BaseListWidgetCompiler<MultiForm, N2oMultiForm> {
@@ -61,14 +59,14 @@ public class MultiFormCompiler extends BaseListWidgetCompiler<MultiForm, N2oMult
                     new WidgetParamScope(),
                     new ComponentScope(source),
                     castDefault(p.getScope(ValidationScope.class), ValidationScope::new),
-                    new MultiFormScope(true));
+                    new MultiFormScope(true, datasource.getId()));
             multiForm.getForm().setFieldsets(fieldSets);
             multiForm.getForm().setModelPrefix("datasource");
         }
         compileMetaActions(source, context, p, p.getScope(PageIndexScope.class), widgetActions, widgetScope,
-                object, null, new MultiFormScope(false));
+                object, null, new MultiFormScope(false, datasource.getId()));
         multiForm.setToolbar(compileToolbar(source, "n2o.api.widget.toolbar.place", context, p, object,
-                widgetActions, widgetScope, null, new MultiFormScope(false)));
+                widgetActions, widgetScope, null, new MultiFormScope(false, datasource.getId())));
         multiForm.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.list.size"), Integer.class), p, widgetScope));
         return multiForm;
     }

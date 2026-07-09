@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.switchaction.SwitchAction;
 import net.n2oapp.framework.api.metadata.meta.action.switchaction.SwitchActionPayload;
 import net.n2oapp.framework.config.metadata.compile.PageIndexScope;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -19,7 +20,6 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalDatasourceId;
 import static net.n2oapp.framework.config.metadata.compile.action.ActionCompileStaticProcessor.getLocalModel;
-import static net.n2oapp.framework.config.metadata.compile.widget.ModelLinkUtil.getField;
 import static net.n2oapp.framework.config.util.DatasourceUtil.getClientDatasourceId;
 
 /**
@@ -43,12 +43,9 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
     }
 
     private void compilePayload(N2oSwitchAction source, SwitchActionPayload payload, CompileContext<?, ?> context, CompileProcessor p) {
-        String field = getField(p);
-        if (source.getValueFieldId() != null)
-            payload.setValueFieldId(field != null
-                    ? field.concat(".").concat(source.getValueFieldId())
-                    : source.getValueFieldId());
-        initDatasource(payload, source.getDatasourceId(), p);
+        String datasourceId = castDefault(source.getDatasourceId(), () -> getLocalDatasourceId(p));
+        payload.setValueFieldId(ModelLinkUtil.getField(source.getValueFieldId(), datasourceId, p));
+        initDatasource(payload, datasourceId, p);
         payload.setModel(castDefault(source.getModel(), () -> getLocalModel(p)));
 
         PageIndexScope indexScope = p.getScope(PageIndexScope.class);
@@ -86,7 +83,7 @@ public class SwitchActionCompiler extends AbstractActionCompiler<SwitchAction, N
     }
 
     private void initDatasource(SwitchActionPayload payload, String datasourceId, CompileProcessor p) {
-        payload.setDatasource(getClientDatasourceId(castDefault(datasourceId, () -> getLocalDatasourceId(p)), p));
+        payload.setDatasource(getClientDatasourceId(datasourceId, p));
         if (payload.getDatasource() == null) {
             throw new N2oException(String.format("Источник данных не определен для действия \"<switch>\" с атрибутом 'value-field-id = %s'",
                     payload.getValueFieldId()));

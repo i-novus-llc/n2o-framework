@@ -50,14 +50,42 @@ public class ModelLinkUtil {
     }
 
     /**
-     * Получение значения для field
-     * @param p
-     * @return
+     * Получение значения для field атрибута
+     *
+     * @param p Процессор сборки метаданных
+     * @return Значение, если компонент в мультиформе, иначе - null
      */
     public static String getField(CompileProcessor p) {
         MultiFormScope multiFormScope = p.getScope(MultiFormScope.class);
         if (multiFormScope != null && multiFormScope.isInner())
             return INDEX;
+        return null;
+    }
+
+    /**
+     * Получение значения для field атрибута
+     *
+     * @param fieldId      - Идентификатор поля
+     * @param datasourceId - Источник, в котором находится поле
+     * @param p            Процессор сборки метаданных
+     * @return Значение атрибута в зависимости от того находится он в мультиформе или нет
+     */
+    public static String getField(String fieldId, String datasourceId, CompileProcessor p) {
+        MultiFormScope multiFormScope = p.getScope(MultiFormScope.class);
+
+        String prefix = getField(p);
+        if (multiFormScope != null && multiFormScope.isInner())
+            prefix = INDEX;
+
+        if (prefix == null || multiFormScope == null || !datasourceId.equals(multiFormScope.getDatasourceId()))
+            return fieldId;
+
+        if (fieldId != null) {
+            if (fieldId.startsWith(INDEX))
+                return fieldId;
+            else
+                return prefix.concat(".").concat(fieldId);
+        }
         return null;
     }
 }
