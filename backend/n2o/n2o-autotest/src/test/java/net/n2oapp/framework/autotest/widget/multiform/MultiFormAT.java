@@ -163,6 +163,7 @@ class MultiFormAT extends AutoTestBase {
         setResourcePath("net/n2oapp/framework/autotest/widget/multiform/validations/");
         builder.sources(
                 new CompileInfo("net/n2oapp/framework/autotest/widget/multiform/validations/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/multiform/validations/test.object.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/multiform/validations/test.query.xml")
         );
         SimplePage page = open(SimplePage.class);
@@ -205,5 +206,10 @@ class MultiFormAT extends AutoTestBase {
         multiForm.paging().shouldHaveActivePage("2");
         multiForm.form(0).fields().field("Имя").shouldHaveValidationMessage(Condition.empty);
         multiForm.form(0).fields().field("Фамилия").shouldHaveValidationMessage(Condition.empty);
+
+        multiForm.toolbar().topLeft().button("Добавить").click();
+        multiForm.form(0).fields().field("update", ButtonField.class).click();
+        multiForm.form(0).fields().field("Имя").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
+
     }
 }
