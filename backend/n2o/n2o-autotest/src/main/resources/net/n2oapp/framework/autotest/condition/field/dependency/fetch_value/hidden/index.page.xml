@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+             name="Срабатывание fetch-value для невидимых полей">
+    <form>
+        <fields>
+            <input-text id="inputValue" default-value="1" domain="integer"/>
+            <hidden id="hiddenField">
+                <dependencies>
+                    <fetch-value on="inputValue" query-id="test" value-field-id="name" size="1">
+                        <filters>
+                            <eq field-id="id" value="{inputValue}"/>
+                        </filters>
+                    </fetch-value>
+                </dependencies>
+            </hidden>
+            <input-text id="dependOnHidden">
+                <dependencies>
+                    <set-value on="hiddenField">
+                        hiddenField
+                    </set-value>
+                </dependencies>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>

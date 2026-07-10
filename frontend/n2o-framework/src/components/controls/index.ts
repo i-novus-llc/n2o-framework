@@ -21,7 +21,6 @@ import { InputSNILS } from '@i-novus/n2o-components/lib/inputs/InputSNILS'
 import { defineAsync } from '../../core/factory/defineAsync'
 
 import { Html } from './Html/Html'
-import { InputHidden } from './InputHidden/InputHidden'
 import { Rating } from './Rating/Rating'
 import { InputSelectTreeContainer } from './InputSelectTree/InputSelectTreeContainer'
 import { N2OSelectContainer } from './N2OSelect/N2OSelectContainer'
@@ -56,7 +55,6 @@ export default {
     TextEditor: defineAsync(() => import('@i-novus/n2o-components/lib/inputs/TextEditor')
         .then(({ TextEditor }) => TextEditor)),
     TextArea,
-    InputHidden,
     ButtonUploader,
     DropZone,
     Switch,

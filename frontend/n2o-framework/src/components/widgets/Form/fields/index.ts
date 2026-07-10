@@ -10,6 +10,7 @@ import { HtmlField as Html } from './HtmlField/HtmlField'
 import { FilterSearchButton } from './FilterButtons/FilterSearchButton/FilterSearchButton'
 import { FilterClearButton } from './FilterButtons/FilterClearButton/FilterClearButton'
 import { FilterButtons } from './FilterButtons/FilterButtons'
+import { HiddenField } from './HiddenField'
 
 export default {
     StandardField,
@@ -24,4 +25,5 @@ export default {
     FilterSearchButton,
     FilterClearButton,
     FilterButtons,
+    HiddenField,
 }

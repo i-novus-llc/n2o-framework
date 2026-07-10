@@ -8,6 +8,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Hidden extends Control {
+public class Hidden extends Field {
 
 }
