@@ -4,7 +4,7 @@
     <form>
         <fields>
             <input-text id="status" label="Введите id" domain="integer"/>
-            <input-text id="name" label="Должно появиться имя">
+            <input-text id="name" label="Должно появиться имя" visible="{!hide_inputs}">
                 <dependencies>
                     <fetch-value query-id="test" on="status" value-field-id="name" apply-on-init="false">
                         <filters>
@@ -13,7 +13,7 @@
                     </fetch-value>
                 </dependencies>
             </input-text>
-            <input-text id="sn" label="Должно появиться имя при id больше 1">
+            <input-text id="sn" label="Должно появиться имя при id больше 1" visible="{!hide_inputs}">
                 <dependencies>
                     <fetch-value on="status" apply-on-init="false" query-id="test"
                      value-field-id="name" enabled="{status &gt; 1}">
@@ -23,6 +23,7 @@
                     </fetch-value>
                 </dependencies>
             </input-text>
+            <checkbox id="hide_inputs" label="Скрыть зависимые поля"/>
         </fields>
     </form>
 </simple-page>

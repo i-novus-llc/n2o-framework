@@ -1969,6 +1969,10 @@
           "name": "FieldFetchValueDependencyAT. testRequired"
         },
         {
+          "templateId": "net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/hidden",
+          "name": "FieldFetchValueDependencyAT. testHiddenField"
+        },
+        {
           "templateId": "net/n2oapp/framework/autotest/validation/dialog",
           "name": "DialogValidationAT. testDialog"
         },

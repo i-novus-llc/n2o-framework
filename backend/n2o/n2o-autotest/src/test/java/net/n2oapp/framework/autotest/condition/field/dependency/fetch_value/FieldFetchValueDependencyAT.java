@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.condition.field.dependency.fetch_value;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
@@ -84,6 +85,24 @@ class FieldFetchValueDependencyAT extends AutoTestBase {
         inputText1.shouldHaveValue("1");
         inputText2.shouldHaveValue("test1");
         inputText3.shouldHaveValue("test2");
+
+        // проверка, что для скрытых полей fetch-value не срабатывает
+        Checkbox hide_inputs = page.widget(FormWidget.class).fields().field("Скрыть зависимые поля").control(Checkbox.class);
+        hide_inputs.setChecked(true);
+        inputText2.shouldBeHidden();
+        inputText3.shouldBeHidden();
+
+        inputText1.setValue("3");
+        hide_inputs.setChecked(false);
+        inputText2.shouldBeVisible();
+        inputText3.shouldBeVisible();
+        inputText2.shouldHaveValue("test1");
+        inputText3.shouldHaveValue("test2");
+
+        inputText1.setValue("4");
+        inputText2.shouldBeEmpty();
+        inputText3.shouldBeEmpty();
+
     }
 
     @Test
@@ -120,5 +139,30 @@ class FieldFetchValueDependencyAT extends AutoTestBase {
         field2.control(InputText.class).shouldHaveValue("test2");
         field1.shouldHaveValidationMessage(Condition.empty);
         field2.shouldHaveValidationMessage(Condition.empty);
+    }
+
+    @Test
+    void testHiddenField() {
+        setResourcePath("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/hidden");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/hidden/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/condition/field/dependency/fetch_value/hidden/test.query.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Fields fields = page.widget(FormWidget.class).fieldsets().fieldset(0, SimpleFieldSet.class).fields();
+
+        StandardField valueField = fields.field("inputValue");
+        InputText valueInput = valueField.control(InputText.class);
+        valueInput.shouldHaveValue("1");
+
+        StandardField dependOnHidden = fields.field("dependOnHidden");
+        InputText visibleField = dependOnHidden.control(InputText.class);
+        visibleField.shouldHaveValue("orgs1");
+
+        valueInput.setValue("2");
+        visibleField.shouldHaveValue("orgs2");
     }
 }

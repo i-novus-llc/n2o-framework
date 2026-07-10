@@ -1,17 +1,17 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.Hidden;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -36,13 +36,13 @@ class HiddenFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testHiddenFieldCompile.page.xml")
                 .get(new PageContext("testHiddenFieldCompile"));
         Form form = (Form) page.getWidget();
-        StandardField<?> hidden = (StandardField<?>) form.getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
-
-        assertThat(hidden.getControl().getId(), is("testId"));
-        assertThat(hidden.getControl().getSrc(), is("InputHidden"));
-        assertThat(hidden.getDependencies().size(), is(0));
-        assertThat(hidden.getVisible(), Matchers.is(false));
-        assertThat(hidden.getEnabled(), Matchers.is(true));
-        assertThat(hidden.getRequired(), Matchers.is(false));
+        Hidden hidden = (Hidden) form.getComponent().getFieldsets().getFirst().getRows().getFirst().getCols().getFirst().getFields().getFirst();
+        assertThat(hidden.getId(), is("testId"));
+        assertThat(hidden.getSrc(), is("HiddenField"));
+        assertThat(hidden.getVisible(), is((true)));
+        assertThat(hidden.getEnabled(), is((true)));
+        assertThat(hidden.getRequired(), is((false)));
+        assertThat(hidden.getDependencies().isEmpty(), is(true));
+        assertThat(hidden.getLabel(), nullValue());
     }
 }
