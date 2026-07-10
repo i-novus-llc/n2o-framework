@@ -20,6 +20,6 @@ public class FileGeneratorFactory {
         String lowerFormat = format.toLowerCase();
         Optional<FileGenerator> generator = generators.stream().filter(g -> g.getFormat().equals(lowerFormat)).findFirst();
 
-        return generator.orElseThrow(() -> new N2oException(String.format("Не найден генератор файла для '%s' формата", lowerFormat)));
+        return generator.orElseThrow(() -> new N2oException(String.format("Генератор файлов для формата '%s' не найден", lowerFormat)));
     }
 }

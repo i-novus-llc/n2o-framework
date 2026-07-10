@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class FormatUtil {
 
     private FormatUtil() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("Это утилитный класс, создание его экземпляра невозможно");
     }
 
     private static final Pattern NON_DIGIT_PATTERN = Pattern.compile("\\D");

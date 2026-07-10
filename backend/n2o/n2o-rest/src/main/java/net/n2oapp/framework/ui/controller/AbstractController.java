@@ -100,9 +100,9 @@ public abstract class AbstractController {
         String datasourceId = (String) data.get("datasourceId");
         String validationId = (String) data.get("validationId");
         if (datasourceId == null || validationId == null)
-            throw new IllegalArgumentException("For validation you should set datasourceId and validationId");
+            throw new IllegalArgumentException("Для валидации необходимо указать идентификаторы 'datasourceId' и 'validationId'");
         if (page.getDatasources() == null || page.getDatasources().get(datasourceId) == null)
-            throw new IllegalArgumentException(String.format("Datasource by id=%s not found", datasourceId));
+            throw new IllegalArgumentException(String.format("Источник данных с идентификатором '%s' не найден", datasourceId));
         requestInfo.setValidation(getValidationById(page.getDatasources().get(datasourceId), validationId));
         requestInfo.setData(data.getDataSet("data"));
         return requestInfo;

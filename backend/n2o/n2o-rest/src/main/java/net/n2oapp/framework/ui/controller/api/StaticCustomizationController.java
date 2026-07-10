@@ -21,7 +21,7 @@ public abstract class StaticCustomizationController {
             InputStream is = new ClassPathResource(faviconPath()).getInputStream();
             return StreamUtils.copyToByteArray(is);
         } catch (IOException e) {
-            throw new N2oException("Wrong favicon path: " + faviconPath());
+            throw new N2oException(String.format("Файл иконки не найден по указанному пути '%s'", faviconPath()));
         }
     }
 
