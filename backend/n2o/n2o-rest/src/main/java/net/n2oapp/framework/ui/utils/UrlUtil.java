@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 
 public class UrlUtil {
     private UrlUtil() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("Это утилитный класс, создание его экземпляра невозможно");
     }
 
     /**
@@ -28,7 +28,7 @@ public class UrlUtil {
                 return url;
             }
         } catch (URISyntaxException e) {
-            throw new N2oException(String.format("Неверный формат URL: %s", url));
+            throw new N2oException(String.format("Некорректный формат URL: '%s'", url));
         }
 
         String scheme = httpRequest.getScheme();
