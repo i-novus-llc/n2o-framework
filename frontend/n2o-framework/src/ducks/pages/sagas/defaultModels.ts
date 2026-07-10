@@ -133,14 +133,19 @@ export function* flowDefaultModels(config: DefaultModels) {
             )
 
             const modelsToCombine = compareAndResolve(changedModels, newState).combine
+
+            // @INFO установка default элементам спиковой модели
             const modelsToArrayFields = compareAndResolve(changedModels, newState).arrayFields
 
+            // FIXME (удалить) временный костыль, нужно для установки default поля элементам спиковой модели
+            //  Кейс: После получения данных datasource модель установит сервер, при этом ожидается что
+            //   проставятся default поля, но source модель не изменятся (changedModels)
             let defaultArrayModels = {} as DefaultModels
 
             if (
                 isEmpty(modelsToCombine) &&
                 isEmpty(modelsToArrayFields) &&
-                // @ts-ignore FIXME temp
+                // @ts-ignore FIXME (удалить) временно зашился на конкретный случай
                 action.type === setModel.type && action?.payload?.isDefault) {
                 defaultArrayModels = compareAndResolve(observable, newState).arrayFields
             }
@@ -159,7 +164,7 @@ export function* flowDefaultModels(config: DefaultModels) {
                 const combine = {}
                 const targetModel = get(models, pathToModel)
 
-                targetModel.forEach((_model: Model, index: number) => {
+                targetModel?.forEach((_model: Model, index: number) => {
                     const resolvedTail = replaceIndexKey(tail, index)
                     const fullPath = `${pathToModel}${resolvedTail}`
 
