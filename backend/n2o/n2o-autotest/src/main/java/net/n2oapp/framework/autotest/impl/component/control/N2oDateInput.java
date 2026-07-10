@@ -170,7 +170,7 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void closePopup() {
-        throw new UnsupportedOperationException("Date pop-up cannot be closed without choosing the date");
+        throw new UnsupportedOperationException("Закрытие календаря невозможно без выбора даты");
     }
 
     @Override

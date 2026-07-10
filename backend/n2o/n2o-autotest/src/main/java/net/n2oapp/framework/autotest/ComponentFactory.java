@@ -55,7 +55,7 @@ public class ComponentFactory {
     private Object findAndProduce(Class<?> targetClass, Set<Class<?>> candidates) {
         Optional<Class<?>> found = find(targetClass, candidates);
         if (!found.isPresent())
-            throw new IllegalArgumentException("Implementation not found for " + targetClass);
+            throw new IllegalArgumentException(String.format("Реализация для компонента '%s' не найдена", targetClass));
         try {
             return found.get().getConstructor().newInstance();
         } catch (Exception e) {
