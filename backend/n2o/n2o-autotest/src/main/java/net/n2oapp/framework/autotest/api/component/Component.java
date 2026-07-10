@@ -48,7 +48,7 @@ public interface Component extends Element {
 
     default SelenideElement should(WebElementCondition condition, Duration... duration) {
         if (duration.length > 1) {
-            throw new N2oException("Expected duration length 1 or less, but received %d" + duration.length);
+            throw new N2oException(String.format("Максимальное количество параметров таймаута — 1, получено %d", duration.length));
         }
         if (duration.length == 1) {
             return element().should(condition, duration[0]);
@@ -59,7 +59,7 @@ public interface Component extends Element {
 
     default SelenideElement should(WebElementCondition condition, SelenideElement element, Duration... duration) {
         if (duration.length > 1) {
-            throw new N2oException("Expected duration length 1 or less, but received %d" + duration.length);
+            throw new N2oException(String.format("Максимальное количество параметров таймаута — 1, получено %d", duration.length));
         }
         if (duration.length == 1) {
             return element.should(condition, duration[0]);

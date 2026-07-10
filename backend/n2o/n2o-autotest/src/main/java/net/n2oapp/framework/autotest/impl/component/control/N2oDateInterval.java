@@ -166,7 +166,7 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
     public void closePopup() {
-        throw new UnsupportedOperationException("Date pop-up cannot be closed without choosing the date");
+        throw new UnsupportedOperationException("Закрытие календаря невозможно без выбора даты");
     }
 
     @Override

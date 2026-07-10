@@ -133,7 +133,7 @@ class AutotestMetadataValidationTest extends N2oTestBase {
                     uriId.id.equals(parsedPath) && uriId.metadataClass.isAssignableFrom(sourceClass)).findFirst();
             if (first.isPresent())
                 return first.get().uuid;
-            else throw new N2oMetadataValidationException("Metadata not found: " + id);
+            else throw new N2oMetadataValidationException(String.format("Метаданные с идентификатором '%s' не найдены", id));
         }
     }
 }
