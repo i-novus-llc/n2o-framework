@@ -259,31 +259,31 @@ class PageBinderTest extends SourceCompileTestBase {
         //single фильтр по умолчанию
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test1"));
         //multi фильтр по умолчанию
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).getFirst()).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List<?>) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).getFirst()).getValues().get("name"), is("test1"));
         //single фильтр c options(значение test1 из Mock)
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w1'].testSingleOptions").getValue()).getValues().get("name"), is("test1"));
         //single фильтр по URL
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w1'].testSingleUrl").getValue()).getValues().get("name"), is("test1"));
         //multi фильтр по URL
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).getFirst()).getValues().get("name"), is("test1"));
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).get(1)).getValues().get("name"), is("test2"));
+        assertThat(((DefaultValues) ((List<?>) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).getFirst()).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List<?>) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).get(1)).getValues().get("name"), is("test2"));
         //single поле по умолчанию
         assertThat(((DefaultValues) page.getModels().get("resolve['testSubModels_w2'].testSingle").getValue()).getValues().get("name"), is("test1"));
         //multi поле по умолчанию
-        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w2'].testMulti").getValue()).getFirst()).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List<?>) page.getModels().get("resolve['testSubModels_w2'].testMulti").getValue()).getFirst()).getValues().get("name"), is("test1"));
         data.put("w0_testSingleDefault_id", "2");
-        data.put("w0_testMultiDefault_id", Arrays.asList("2"));
+        data.put("w0_testMultiDefault_id", List.of("2"));
         //single поле из параметров
         assertThat(((DefaultValues) page.getModels().get("resolve['testSubModels_w3'].testSingleOptionsForm").getValue()).getValues().get("name"), is("test1"));
         //single поле с options из параметров
         assertThat(((DefaultValues) page.getModels().get("resolve['testSubModels_w3'].testSingleUrlForm").getValue()).getValues().get("name"), is("test1"));
         //multi поле из параметров
-        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w3'].testMultiUrlForm").getValue()).getFirst()).getValues().get("name"), is("test1"));
-        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w3'].testMultiUrlForm").getValue()).get(1)).getValues().get("name"), is("test2"));
+        assertThat(((DefaultValues) ((List<?>) page.getModels().get("resolve['testSubModels_w3'].testMultiUrlForm").getValue()).getFirst()).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List<?>) page.getModels().get("resolve['testSubModels_w3'].testMultiUrlForm").getValue()).get(1)).getValues().get("name"), is("test2"));
 
 
         data.put("w0_testSingleDefault_id", "2");
-        data.put("w0_testMultiDefault_id", Arrays.asList("2"));
+        data.put("w0_testMultiDefault_id", List.of("2"));
         page = bind("net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModels.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testModel.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml")
@@ -291,8 +291,8 @@ class PageBinderTest extends SourceCompileTestBase {
 
         //Фильтры из URL перекрывают дефолтные значения
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test2"));
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).getFirst()).getValues().get("name"), is("test2"));
-        assertThat(((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).size(), is(1));
+        assertThat(((DefaultValues) ((List<?>) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).getFirst()).getValues().get("name"), is("test2"));
+        assertThat(((List<?>) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).size(), is(1));
     }
 
     /**

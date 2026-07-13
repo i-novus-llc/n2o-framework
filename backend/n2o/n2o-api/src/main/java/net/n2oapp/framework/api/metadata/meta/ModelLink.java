@@ -26,6 +26,7 @@ public class ModelLink extends BindLink {
     /**
      * Клиентский идентификатор источника данных
      */
+    @Setter
     private String datasource;
     /**
      * Суффикс к источнику данных (используется для указания [index])
