@@ -99,9 +99,10 @@ export const N2OPagination = (props: Props) => {
         <section className="pagination-container">
             <Count
                 count={count}
-                visible={showCount && !loading}
+                visible={showCount}
                 onClick={onClick}
                 showCountButton={propShowCount === COUNT_BY_REQUEST}
+                loading={loading}
             />
             <Pagination
                 {...props}
