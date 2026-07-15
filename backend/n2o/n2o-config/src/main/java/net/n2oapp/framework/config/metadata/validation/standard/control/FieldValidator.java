@@ -32,7 +32,7 @@ public class FieldValidator implements SourceValidator<N2oField>, SourceClassAwa
     public void validate(N2oField source, SourceProcessor p) {
         checkId(source, p);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (p.getScope(FieldsScope.class) != null) {
+        if (p.getScope(FieldsScope.class) != null && source.getId() != null) {
             FieldsScope scope = p.getScope(FieldsScope.class);
             Boolean sameFieldIdHasDependency = scope.get(source.getId());
             if (sameFieldIdHasDependency != null && (sameFieldIdHasDependency || source.getDependencies() != null))
