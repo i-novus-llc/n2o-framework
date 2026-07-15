@@ -6,11 +6,47 @@ import isEqual from 'lodash/isEqual'
 import { AsyncEffectWrapper } from '../api/utils/effectWrapper'
 import { executeExpression } from '../../core/Expression/execute'
 import { logger } from '../../utils/logger'
+import { ModelLink, ModelPrefix } from '../../core/models/types'
 
 import { appendToArray, copyModel, removeFromArray, setModel, updateModel } from './store'
 import { getModelByPrefixAndNameSelector, Model } from './selectors'
 import { CopyAction, FieldPathOld } from './Actions'
 import { sagas } from './sagas/watcher'
+
+/**
+ * Разбирает строку на имя поля и индекс (если строка начинается с паттерна [число].)
+ * @param input - входная строка, например "[0].enabled" или "enabled"
+ * @returns объект с полями fieldName (строка) и index (число или undefined)
+ */
+function parseIndexedField(input: string): { fieldName: string; index: number | undefined } {
+    const match = input.match(/^\[(\d+)]\.(.+)/)
+
+    if (match) {
+        const index = parseInt(match[1], 10)
+        const fieldName = match[2]
+
+        return { fieldName, index }
+    }
+
+    // Если паттерн не найден, вся строка считается именем поля
+    return { fieldName: input, index: undefined }
+}
+
+/**
+ * Подготавливает модель связи и имя поля на основе строки с возможным индексом.
+ * @param field - строка вида "[0].enabled" или просто "enabled"
+ * @param prefix - префикс для ModelLink
+ * @param id - идентификатор для ModelLink
+ * @returns объект с полями modelLink (тип ModelLink) и fieldName (строка)
+ */
+function prepareModelLink(field: string, prefix: ModelPrefix, id: string): { modelLink: ModelLink; fieldName: string } {
+    const modelLink: ModelLink = { prefix, id }
+    const { fieldName, index } = parseIndexedField(field)
+
+    if (index !== undefined) { modelLink.index = index }
+
+    return { modelLink, fieldName }
+}
 
 function getAction<T extends Model | Model[]>({
     model,
@@ -88,7 +124,9 @@ function getAction<T extends Model | Model[]>({
     }
 
     if (target.field) {
-        return updateModel({ prefix: target.prefix, id: target.key }, target.field, newModel, validate)
+        const { modelLink, fieldName } = prepareModelLink(target.field, target.prefix, target.key)
+
+        return updateModel(modelLink, fieldName, newModel, validate)
     }
 
     return setModel({ prefix: target.prefix, id: target.key }, newModel, undefined, validate)
