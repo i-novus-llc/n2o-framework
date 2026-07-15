@@ -13,5 +13,11 @@
 
     <pagination class="childPagination"/>
 
+    <actions>
+        <action id="view">
+            <invoke operation-id="view"/>
+        </action>
+    </actions>
+
 </cards>
 
