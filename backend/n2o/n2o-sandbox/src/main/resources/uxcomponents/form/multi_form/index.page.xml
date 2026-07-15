@@ -20,7 +20,16 @@
                             </else>
                         </button>
                         <button icon="fa fa-trash" color="link" validate="false">
-                            <invoke operation-id="delete"/>
+                            <if test="id != null">
+                                <invoke operation-id="delete"/>
+                            </if>
+                            <else>
+                                <set-value source-model="datasource" target-model="datasource">
+                                    const result = this.slice()
+                                    result.splice(index, 1)
+                                    return result
+                                </set-value>
+                            </else>
                         </button>
                     </col>
                 </row>
