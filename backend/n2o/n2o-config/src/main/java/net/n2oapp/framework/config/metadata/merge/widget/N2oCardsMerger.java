@@ -12,7 +12,6 @@ public class N2oCardsMerger extends N2oWidgetMerger<N2oCards> {
 
     @Override
     public N2oCards merge(N2oCards ref, N2oCards source) {
-        super.merge(ref, source);
         setIfNotNull(source::setVerticalAlign, source::getVerticalAlign, ref::getVerticalAlign);
         setIfNotNull(source::setHeight, source::getHeight, ref::getHeight);
         setIfNotNull(source::setPagination, source::getPagination, ref::getPagination);

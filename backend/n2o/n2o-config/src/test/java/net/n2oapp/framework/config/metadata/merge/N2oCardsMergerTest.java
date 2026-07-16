@@ -4,6 +4,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.CardsWidgetIOV5;
 import net.n2oapp.framework.config.metadata.merge.widget.N2oCardsMerger;
+import net.n2oapp.framework.config.metadata.merge.widget.N2oWidgetMerger;
+import net.n2oapp.framework.config.metadata.pack.N2oActionsIOV2Pack;
 import net.n2oapp.framework.config.metadata.pack.N2oCellsPack;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,9 +29,9 @@ class N2oCardsMergerTest extends SourceMergerTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oCellsPack())
+        builder.packs(new N2oCellsPack(), new N2oActionsIOV2Pack())
                 .ios(new CardsWidgetIOV5())
-                .mergers(new N2oCardsMerger());
+                .mergers(new N2oWidgetMerger<>(), new N2oCardsMerger());
     }
 
     @Test
@@ -46,6 +48,9 @@ class N2oCardsMergerTest extends SourceMergerTestBase {
         assertThat(cards.getContent().length, is(2));
         assertThat(cards.getContent()[0].getBlocks()[0].getId(), is("childBlock"));
         assertThat(cards.getContent()[1].getBlocks()[0].getId(), is("parentBlock"));
+        // действия ref-виджета не должны дублироваться при последовательном применении N2oWidgetMerger и N2oCardsMerger
+        assertThat(cards.getActions().length, is(1));
+        assertThat(cards.getActions()[0].getId(), is("view"));
     }
 }
 
