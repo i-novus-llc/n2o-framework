@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useRef, useState, useEffect } from 'react'
 import { useSelector, useStore } from 'react-redux'
 import get from 'lodash/get'
 import i18next from 'i18next'
@@ -52,6 +52,7 @@ const Widget = ({
     const { prompt } = form
     const store = useStore()
     const models = useSelector(getModelByPrefixAndNameSelector(ModelPrefix.source, datasource))
+
     const forms = useMemo(() => models?.map((model, index) => {
         return ({
             name: `${formName}[${getKey(model)}]`,
@@ -72,9 +73,52 @@ const Widget = ({
         if (hasDirty && !window.confirm(i18next.t('defaultPromptMessage'))) {
             return
         }
-
         setPage(page)
     }
+
+    // TODO часто меняются keys (при set value еще чаще)
+    //  keys RowProvider всегда новые getKey(model),
+    //  react временами начинает полностью ререндерить список. Что приводит к скачкам на ui.
+    //   ниже ui фикс - смотрит на изменение длины модели и устанавливает min-height
+    //    чтобы избежать визуального коллапса списка.
+    //    Это работает потому что меняются ключи, но не длина.
+    const length = models?.length || 0
+
+    const outerRef = useRef<HTMLDivElement>(null)
+    const innerRef = useRef<HTMLDivElement>(null)
+    const [minHeight, setMinHeight] = useState<number | undefined>(undefined)
+    const prevLengthRef = useRef<number>(0)
+
+    useEffect(() => {
+        if (loading || !innerRef.current || length === 0) { return }
+
+        const height = innerRef.current.scrollHeight
+
+        if (height > 0) {
+            setMinHeight(height)
+            prevLengthRef.current = length
+        }
+    }, [length, loading])
+
+    useEffect(() => {
+        if (!innerRef.current) { return }
+
+        const observer = new ResizeObserver(() => {
+            if (innerRef.current) {
+                const height = innerRef.current.scrollHeight
+
+                if (height > 0) {
+                    setMinHeight(height)
+                }
+            }
+        })
+
+        observer.observe(innerRef.current)
+
+        // eslint-disable-next-line consistent-return
+        return () => observer.disconnect()
+    }, [])
+
     const pagination = {
         [place]: (
             <N2OPagination
@@ -101,18 +145,25 @@ const Widget = ({
             toolbar={toolbar}
             widgetId={formName}
         >
-            <ArrayFieldProvider>
-                {forms.map(form => (
-                    <RowProvider index={form.modelLink.index} key={form.name}>
-                        <ReduxForm
-                            {...form}
-                            dirty={isDirtyForm(formName)(store.getState())}
-                            fieldsets={fieldsets}
-                            prompt={prompt}
-                        />
-                    </RowProvider>
-                ))}
-            </ArrayFieldProvider>
+            <div
+                ref={outerRef}
+                style={{ minHeight: minHeight ? `${minHeight}px` : 'auto' }}
+            >
+                <div ref={innerRef}>
+                    <ArrayFieldProvider>
+                        {forms.map(form => (
+                            <RowProvider index={form.modelLink.index} key={form.name}>
+                                <ReduxForm
+                                    {...form}
+                                    dirty={isDirtyForm(formName)(store.getState())}
+                                    fieldsets={fieldsets}
+                                    prompt={prompt}
+                                />
+                            </RowProvider>
+                        ))}
+                    </ArrayFieldProvider>
+                </div>
+            </div>
         </StandardWidget>
     )
 }
