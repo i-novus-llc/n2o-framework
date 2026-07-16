@@ -54,7 +54,7 @@ export function Pagination({
         if (!nextDisabled) { onSelect(activePage + 1) }
     }
 
-    const multiplePages = pages.length > 1
+    const multiplePages = pages.length > 1 || (!showLast && !hasNext && loading)
     const pagesVisible = showSinglePage ? pages.length > 0 : multiplePages
 
     if (!visible || !pagesVisible) { return null }

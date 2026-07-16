@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Spinner, SpinnerType } from '../../../factoryComponents/Spinner'
 import { usePrevious } from '../../../utils/usePrevious'
+import { FactoryStandardButton } from '../../buttons/FactoryStandardButton'
 
 export interface CountProps {
     count?: string | number | null
@@ -38,8 +39,8 @@ export function Count({ onClick, count, visible, loading, showCountButton }: Cou
     if (!showCountButton) { return null }
 
     return (
-        <button type="button" onClick={onClick} className="pagination__total">
+        <FactoryStandardButton onClick={onClick} className="pagination__total">
             <span className="title">Узнать количество записей</span>
-        </button>
+        </FactoryStandardButton>
     )
 }
