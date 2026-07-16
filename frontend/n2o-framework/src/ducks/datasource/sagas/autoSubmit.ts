@@ -105,14 +105,14 @@ function* submitSaga() {
 }
 
 const updatePattern = [
-    updateModel,
     appendToArray,
     removeFromArray,
     copyFieldArray,
 ]
 
 export const autoSubmit = [
-    takeEvery(updatePattern, collectFormUpdates),
+    takeEvery([...updatePattern, updateModel.type], collectFormUpdates),
     takeEvery(setModel.type, collectSetModel),
     debounce(400, [...updatePattern, setModel.type], submitSaga),
+    debounce(60, updateModel, submitSaga),
 ]
