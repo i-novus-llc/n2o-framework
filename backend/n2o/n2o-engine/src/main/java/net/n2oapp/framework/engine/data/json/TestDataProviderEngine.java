@@ -182,7 +182,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             case ECHO:
                 return inParams;
         }
-        throw new N2oException("Unsupported invocation's operation");
+        throw new N2oException(String.format("Операция '%s' не поддерживается", invocation.getOperation()));
     }
 
     private List<DataSet> findAll(Map<String, Object> inParams, List<DataSet> data) {
@@ -235,13 +235,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                           List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList<>(data);
         if (inParams.get(getPrimaryKey(invocation)) == null)
-            throw new N2oException("Id is required for operation \"update\"");
+            throw new N2oException("Для операции 'update' обязателен идентификатор 'id'");
 
         DataSet element = modifiableData
                 .stream()
                 .filter(buildPredicate(getPrimaryKeyType(invocation), getPrimaryKey(invocation), inParams))
                 .findFirst()
-                .orElseThrow(() -> new N2oException("No such element"));
+                .orElseThrow(() -> new N2oException(String.format("Элемент с идентификатором '%s' не найден", inParams.get(getPrimaryKey(invocation)))));
 
         updateElement(element, inParams.entrySet());
         updateRepository(invocation.getFile(), modifiableData);
@@ -255,7 +255,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                               List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList<>(data);
         if (inParams.get(getPrimaryKeys(invocation)) == null)
-            throw new N2oException(getPrimaryKeys(invocation) + " is required for operation \"updateMany\"");
+            throw new N2oException(String.format("Идентификатор '%s' обязателен для операции 'updateMany'", getPrimaryKeys(invocation)));
         List<DataSet> elements = modifiableData.stream()
                 .filter(buildListPredicate(getPrimaryKeyType(invocation), getPrimaryKey(invocation),
                         getPrimaryKeys(invocation), inParams))
@@ -275,15 +275,15 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                                List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList<>(data);
         if (inParams.get(getPrimaryKey(invocation)) == null)
-            throw new N2oException("Id is required for operation \"updateField\"");
+            throw new N2oException("Идентификатор 'id' обязателен для операции 'updateField'");
         if (!inParams.containsKey("key") || !inParams.containsKey("value"))
-            throw new N2oException("Should contains parameters \"key\", \"value\" for operation \"updateField\"");
+            throw new N2oException("Для операции 'updateField' необходимо указать параметры 'key' и 'value'");
 
         DataSet element = modifiableData
                 .stream()
                 .filter(buildPredicate(getPrimaryKeyType(invocation), getPrimaryKey(invocation), inParams))
                 .findFirst()
-                .orElseThrow(() -> new N2oException("No such element"));
+                .orElseThrow(() -> new N2oException(String.format("Элемент с идентификатором '%s' не найден", inParams.get(getPrimaryKey(invocation)))));
 
         Map<String, Object> fieldData = new HashMap<>();
         fieldData.put(getPrimaryKey(invocation), inParams.get(getPrimaryKey(invocation)));
@@ -303,7 +303,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                           List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList(data);
         if (inParams.get(getPrimaryKey(invocation)) == null)
-            throw new N2oException("Id is required for operation \"delete\"");
+            throw new N2oException("Идентификатор 'id' обязателен для операции 'delete'");
 
         modifiableData.removeIf(buildPredicate(getPrimaryKeyType(invocation), getPrimaryKey(invocation), inParams));
         updateRepository(invocation.getFile(), modifiableData);
@@ -317,7 +317,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                               List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList(data);
         if (inParams.get(getPrimaryKeys(invocation)) == null)
-            throw new N2oException(getPrimaryKeys(invocation) + " is required for operation \"deleteMany\"");
+            throw new N2oException(String.format("Идентификатор '%s' обязателен для операции 'deleteMany'", getPrimaryKeys(invocation)));
         modifiableData.removeIf(buildListPredicate(getPrimaryKeyType(invocation), getPrimaryKey(invocation),
                 getPrimaryKeys(invocation), inParams));
         updateRepository(invocation.getFile(), modifiableData);
@@ -419,7 +419,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                     data = containsFilterData(field, pattern, data);
                     break;
                 default:
-                    throw new N2oException("Wrong filter type!");
+                    throw new N2oException(String.format("Некорректный тип фильтра: '%s'", splittedFilter[1]));
             }
         }
         return data;

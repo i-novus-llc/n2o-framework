@@ -83,9 +83,9 @@ public class MappingProcessor {
             result = (T) target;
         }
         if (clazz != null && result == null)
-            throw new N2oException("Expected is " + clazz + ", but actual is null");
+            throw new N2oException(String.format("Ожидался тип '%s', но получено null", clazz.getSimpleName()));
         if (clazz != null && !clazz.isAssignableFrom(result.getClass()))
-            throw new N2oException("Expected is " + clazz + ", but actual is " + result.getClass());
+            throw new N2oException(String.format("Ожидался тип '%s', но получен '%s'", clazz.getSimpleName(), result.getClass().getSimpleName()));
         return result;
     }
 

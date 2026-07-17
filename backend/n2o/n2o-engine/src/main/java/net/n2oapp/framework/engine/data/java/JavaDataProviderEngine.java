@@ -45,7 +45,7 @@ public class JavaDataProviderEngine implements ArgumentsInvocationEngine<N2oJava
 
     private <T extends DIProvider> ObjectLocator<T> match(T provider) {
         return locators.stream().filter(l -> l.match(provider))
-                .findAny().orElseThrow(() -> new IllegalArgumentException("No such data provider " + provider));
+                .findAny().orElseThrow(() -> new IllegalArgumentException(String.format("Провайдер данных '%s' не найден", provider)));
     }
 
     public void setLocators(List<ObjectLocator> locators) {

@@ -79,7 +79,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     public Object invoke(N2oRestDataProvider invocation, Map<String, Object> data) {
         String query = invocation.getQuery();
         if (query == null)
-            throw new N2oException("query mustn't be null");
+            throw new N2oException("Запрос не может быть null");
         query = query.trim();
         final HttpMethod method = invocation.getMethod() != null ?
                 HttpMethod.valueOf(invocation.getMethod().name()) :
@@ -132,7 +132,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
             ResponseEntity<Object> result = switch (method.name()) {
                 case "GET" -> exchange(finalQuery, method, headers);
                 case "DELETE", "POST", "PUT", "PATCH" -> exchange(finalQuery, method, args, headers);
-                default -> throw new UnsupportedOperationException("Method " + method.name() + " unsupported");
+                default -> throw new UnsupportedOperationException(String.format("Метод '%s' не поддерживается", method.name()));
             };
             if (result == null)
                 return null;

@@ -132,13 +132,15 @@ public class NamedParameterUtils {
                     while (j < statement.length && '}' != statement[j]) {
                         j++;
                         if (':' == statement[j] || '{' == statement[j]) {
-                            throw new IllegalStateException("Parameter name contains invalid character '" +
-                                    statement[j] + "' at position " + i + " in statement: " + sql);
+                            throw new IllegalStateException(String.format(
+                                    "Имя параметра содержит недопустимый символ '%s' в позиции %d в запросе: %s",
+                                    statement[j], i, sql));
                         }
                     }
                     if (j >= statement.length) {
-                        throw new IllegalStateException(
-                                "Non-terminated named IllegalStateException declaration at position " + i + " in statement: " + sql);
+                        throw new IllegalStateException(String.format(
+                                "Незакрытое объявление именованного параметра IllegalStateException в позиции %d в запросе: %s",
+                                i, sql));
                     }
                     if (j - i > 3) {
                         parameter = sql.substring(i + 2, j);

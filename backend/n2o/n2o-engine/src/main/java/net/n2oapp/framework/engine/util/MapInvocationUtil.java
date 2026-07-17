@@ -73,6 +73,6 @@ public class MapInvocationUtil {
                 .collect(Collectors.joining(", "));
 
         if (!errorMapping.isEmpty())
-            throw new IllegalArgumentException("Not valid mapping: " + errorMapping);
+            throw new IllegalArgumentException(String.format("Некорректный маппинг: %s", errorMapping));
     }
 }
