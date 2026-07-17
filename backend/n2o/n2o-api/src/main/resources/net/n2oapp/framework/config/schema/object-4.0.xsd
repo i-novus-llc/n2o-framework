@@ -429,11 +429,6 @@
                         <xs:documentation>Параметр содержащий url.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="validation-fail-key" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Код ошибки валидации с сервера.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="enabled" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>

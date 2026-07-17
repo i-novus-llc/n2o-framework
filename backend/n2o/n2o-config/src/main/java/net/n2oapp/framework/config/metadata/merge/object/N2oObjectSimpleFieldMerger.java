@@ -13,7 +13,6 @@ public class N2oObjectSimpleFieldMerger extends N2oObjectFieldMerger<ObjectSimpl
         setIfNotNull(source::setDefaultValue, source::getDefaultValue, ref::getDefaultValue);
         setIfNotNull(source::setDomain, source::getDomain, ref::getDomain);
         setIfNotNull(source::setParam, source::getParam, ref::getParam);
-        setIfNotNull(source::setValidationFailKey, source::getValidationFailKey, ref::getValidationFailKey);
         return source;
     }
 

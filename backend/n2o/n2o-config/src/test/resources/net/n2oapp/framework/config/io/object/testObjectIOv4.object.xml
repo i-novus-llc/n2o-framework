@@ -41,7 +41,7 @@
             </invocation>
             <in>
                 <field id="id" mapping="mapping" default-value="val1" normalize="norm" domain="string" ext:extAttr="extAttr"/>
-                <field id="testSet" param="param" validation-fail-key="update.person.id" enabled="type=='type1'"/>
+                <field id="testSet" param="param" enabled="type=='type1'"/>
                 <reference id="ref" object-id="utBlank" mapping="ref2" normalize="norm"
                            entity-class="ref" required="true" enabled="type=='type1'" ext:extAttr="extAttr">
                     <field id="id"/>
