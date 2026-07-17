@@ -74,7 +74,7 @@ public class Validator implements Iterable<Validation> {
                             }
                         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                                  NoSuchMethodException e) {
-                            throw new N2oException("Failed copy validation", e);
+                            throw new N2oException("Ошибка при копировании валидации", e);
                         }
                     }
                     dataSet.remove(MULTISET_INDEX_KEY);
@@ -121,7 +121,7 @@ public class Validator implements Iterable<Validation> {
                     validateByIndex(copiedValidation, level + 1, maxLevel, (DataSet) ((DataList) currentDs.get(multiSetId)).get(i));
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                          NoSuchMethodException e) {
-                    throw new N2oException("Failed copy validation", e);
+                    throw new N2oException("Ошибка при копировании валидации", e);
                 }
             }
         }

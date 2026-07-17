@@ -49,7 +49,7 @@ public class ArgumentsInvocationUtil {
 
         if (Arrays.stream(invocation.getArguments()).filter(arg -> (Argument.TypeEnum.ENTITY.equals(arg.getType()) ||
                 Argument.TypeEnum.CRITERIA.equals(arg.getType()))).toList().size() > 1)
-            throw new IllegalArgumentException("There must be only one argument with Criteria or Entity type ");
+            throw new IllegalArgumentException("Должен быть только один аргумент типа 'Criteria' или 'Entity'");
 
         int idx = 0;
         for (Restriction r : criteria.getRestrictions()) {
@@ -170,7 +170,7 @@ public class ArgumentsInvocationUtil {
                     argumentClass = ClassHash.getClass(className);
                     argumentInstances[k] = argumentClass.newInstance();
                 } catch (Exception e) {
-                    throw new N2oException("Can't create instance of class " + className, e);
+                    throw new N2oException(String.format("Не удалось создать экземпляр класса '%s'", className), e);
                 }
             }
         }

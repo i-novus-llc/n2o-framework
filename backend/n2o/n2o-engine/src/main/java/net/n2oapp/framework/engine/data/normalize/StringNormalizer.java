@@ -23,7 +23,7 @@ public class StringNormalizer {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private StringNormalizer() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("Это утилитный класс, создание его экземпляра невозможно");
     }
 
     /**
@@ -47,7 +47,7 @@ public class StringNormalizer {
             return new DataSet(objectMapper.readValue(json, new TypeReference<>() {
             }));
         } catch (JsonProcessingException e) {
-            throw new N2oException("Unable to apply function \"#jsonToMap\"", e);
+            throw new N2oException("Ошибка при применении функции '#jsonToMap'", e);
         }
     }
 
@@ -72,7 +72,7 @@ public class StringNormalizer {
         try {
             return objectMapper.writeValueAsString(map);
         } catch (JsonProcessingException e) {
-            throw new N2oException("Unable to apply function \"#mapToJson\"", e);
+            throw new N2oException("Ошибка при применении функции '#mapToJson'", e);
         }
     }
 
@@ -124,7 +124,7 @@ public class StringNormalizer {
             formatter.setValueContainsLiteralCharacters(false);
             return formatter.valueToString(value);
         } catch (ParseException e) {
-            throw new N2oException(String.format("Unable to format %s by mask %s", value, mask), e);
+            throw new N2oException(String.format("Ошибка форматирования значения '%s' по маске '%s'", value, mask), e);
         }
     }
 

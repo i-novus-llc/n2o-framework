@@ -148,7 +148,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getCounts(), filterFields, query.getId());
         if (selection == null)
-            throw new N2oException(String.format("В %s.query.xml не найден <count> запрос необходимый для пагинации", query.getId()));
+            throw new N2oException(String.format("В файле '%s.query.xml' не найден запрос \"<count>\", необходимый для пагинации", query.getId()));
         return selection;
     }
 
@@ -172,7 +172,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getLists(), filterFields, query.getId());
         if (selection == null)
-            throw new N2oException(String.format("В %s.query.xml не найден <list> запрос", query.getId()));
+            throw new N2oException(String.format("В файле '%s.query.xml' не найден \"<list>\" запрос", query.getId()));
         return selection;
     }
 
@@ -207,7 +207,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 throw exceptionHandler.handle(query, criteria, e);
             }
         } else
-            throw new UnsupportedOperationException("InvocationEngine должен быть наследован от `ArgumentsInvocationEngine` или `MapInvocationEngine`");
+            throw new UnsupportedOperationException("'InvocationEngine' должен быть наследован от 'ArgumentsInvocationEngine' или 'MapInvocationEngine'");
 
         return result;
     }
@@ -347,7 +347,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         }
         result = normalizeValue(result, selection.getResultNormalize(), null, parser, applicationContext);
         if (result instanceof Iterable)
-            throw new N2oException(String.format("Результатом <unique> запроса в \"%s.query.xml\" является список элементов, а не один", query.getId()));
+            throw new N2oException(String.format("Результатом \"<unique>\" запроса в '%s.query.xml' является список элементов, а не один", query.getId()));
         return mapFields(result, query.getDisplayFields(), null);
     }
 
@@ -362,7 +362,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
             result = (Collection<?>) normalizeValue(
                     result, selection.getResultNormalize(), null, parser, applicationContext);
         } catch (ClassCastException e) {
-            throw new N2oException("В результате нормализации через `result-normalize` получилась не коллекция");
+            throw new N2oException("В результате нормализации через 'result-normalize' получилась не коллекция");
         }
 
         List<DataSet> content = new ArrayList<>(result.stream()
@@ -397,7 +397,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
         if (filterFields == null) {
             N2oQuery.Selection result = findBaseSelection(selections);
             if (result == null) {
-                throw new N2oException(String.format("В %s.query.xml не найден запрос без фильтров", queryId));
+                throw new N2oException(String.format("В '%s.query.xml' не найден запрос без фильтров", queryId));
             }
             return result;
         }
@@ -546,7 +546,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 result = (Collection<?>) normalizeValue(
                         result, selection.getResultNormalize(), null, parser, applicationContext);
             } catch (ClassCastException e) {
-                throw new N2oException("В результате нормализации через `result-normalize` получилась не коллекция");
+                throw new N2oException("В результате нормализации через 'result-normalize' получилась не коллекция");
             }
             return !result.isEmpty();
         }

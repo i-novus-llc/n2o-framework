@@ -32,7 +32,7 @@ public class DateFormatNormalizer {
     }
 
     private DateFormatNormalizer() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("Это утилитный класс, создание его экземпляра невозможно");
     }
 
     /**

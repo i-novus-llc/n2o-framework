@@ -228,9 +228,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
 
     private void prepareComplexInValues(AbstractParameter parameter, Object dataSet, String parameterType) {
         if (!(dataSet instanceof DataSet)) {
-            throw new N2oException(
-                    String.format("Значение поля '%s' не предназначено для использования с %s",
-                            parameter.getId(), parameterType));
+            throw new N2oException(String.format("Значение поля '%s' не предназначено для использования с '%s'",parameter.getId(), parameterType));
         }
         AbstractParameter[] fields = ((ObjectReferenceField) parameter).getFields();
         if (fields != null)
