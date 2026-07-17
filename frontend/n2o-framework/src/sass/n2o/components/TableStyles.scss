@@ -209,11 +209,6 @@
                 &:not(.table-success, .table-warning, .table-danger, .table-info, .table-secondary, .table-primary) .sticky-cell {
                     background-color: inherit;
                 }
-
-                td {
-                    background-color: #dfdfdf;
-                    border-color: #dfdfdf;
-                }
             }
 
             &[data-has-click="true"] {
