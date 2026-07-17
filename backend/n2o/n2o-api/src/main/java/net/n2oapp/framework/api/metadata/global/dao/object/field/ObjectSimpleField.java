@@ -16,7 +16,6 @@ public class ObjectSimpleField extends AbstractParameter {
     private String domain;
     private String defaultValue;
     private String param;
-    private String validationFailKey;
     private N2oSwitch n2oSwitch;
 
     public ObjectSimpleField(ObjectSimpleField field) {
@@ -24,7 +23,6 @@ public class ObjectSimpleField extends AbstractParameter {
         this.setDomain(field.getDomain());
         this.setDefaultValue(field.getDefaultValue());
         this.setParam(field.getParam());
-        this.setValidationFailKey(field.getValidationFailKey());
         this.setN2oSwitch(field.getN2oSwitch());
     }
 }

@@ -89,7 +89,7 @@ Contains exactly one data provider element: `<sql>`, `<rest>`, `<java>`, `<test>
 ```
 
 ### `<in>` — Input Parameters
-Contains: `<field>`, `<reference>`, `<list>`, `<set>`
+Contains: `<field>`, `<reference>`, `<list>`
 
 #### `<field>` in Operations (Input)
 | Attribute | Type | Description |
@@ -102,7 +102,6 @@ Contains: `<field>`, `<reference>`, `<list>`, `<set>`
 | required | boolean | Required field |
 | enabled | String | Condition for mapping execution |
 | param | String | URL parameter name |
-| validation-fail-key | String | Server validation error code |
 
 Body: `<switch>` (optional)
 

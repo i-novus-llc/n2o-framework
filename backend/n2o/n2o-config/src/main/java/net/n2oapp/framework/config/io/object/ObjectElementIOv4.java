@@ -121,7 +121,6 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         field(e, t, p);
         p.attribute(e, ENABLED, t::getEnabled, t::setEnabled);
         p.attribute(e, "param", t::getParam, t::setParam);
-        p.attribute(e, "validation-fail-key", t::getValidationFailKey, t::setValidationFailKey);
         p.child(e, null, "switch", t::getN2oSwitch, t::setN2oSwitch, new SwitchIO());
     }
 
