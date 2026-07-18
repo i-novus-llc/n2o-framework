@@ -4,14 +4,13 @@ import isEqual from 'lodash/isEqual'
 import unionWith from 'lodash/unionWith'
 import isNaN from 'lodash/isNaN'
 import get from 'lodash/get'
-import { type Props } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/types'
+import { type Props, type idField, type Option, type parentIdField } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/types'
 import { InputSelectTreeComponent } from '@i-novus/n2o-components/lib/inputs/InputSelectTree/InputSelectTree'
-import { type TOption } from '@i-novus/n2o-components/lib/inputs/InputSelect/types'
 
 import listContainer from '../listContainer'
 import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../../utils/emptyTypes'
 
-function optionsHasValue(options: TOption[], selectedValueId: string | number | null) {
+function optionsHasValue(options: Option[], selectedValueId: string | number | null) {
     if (!options.length) {
         return false
     }
@@ -25,10 +24,10 @@ function createValue(value: string | number) {
     return isNaN(numberValue) ? value : numberValue
 }
 
-function mapIds(options: TOption[], valueFieldId: keyof TOption, parentFieldId: keyof TOption) {
+function mapIds(options: Option[], valueFieldId: idField, parentFieldId: parentIdField) {
     return options.map((option) => {
-        const id: string | number = option[valueFieldId]
-        const parent: string | number | undefined = option[parentFieldId]
+        const id = option[valueFieldId]
+        const parent = option[parentFieldId]
 
         return { ...option, [valueFieldId]: createValue(id), [parentFieldId]: parent ? createValue(parent) : null }
     })
@@ -93,7 +92,7 @@ function InputSelectTreeContainerBody({
             const selectedValueId: string | number | null = get(selectedValue, valueFieldId, null)
 
             if (!optionsHasValue(options, selectedValueId)) {
-                newOptions.push(selectedValue as TOption)
+                newOptions.push(selectedValue as Option)
             }
         }
 

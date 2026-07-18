@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.metadata.control.list.SearchSideEnum;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -83,9 +84,11 @@ class InputSelectCompileTest extends SourceCompileTestBase {
                 hasProperty("searchMinLength", is(2)),
                 hasProperty("throttleDelay", is(200)),
                 hasProperty("resetOnBlur", is(true)),
+                hasProperty("searchSide", is(SearchSideEnum.CLIENT)),
                 hasProperty("labelFieldId", is("fullName")),
                 hasProperty("inputLabelFieldId", is("shortName"))
         ));
+
         ClientDataProvider cdp = inputSelect.getDataProvider();
 
         field = (StandardField<?>) rowList.get(1).getCols().getFirst().getFields().getFirst();
@@ -96,7 +99,9 @@ class InputSelectCompileTest extends SourceCompileTestBase {
                 hasProperty("maxTagCount", is(10)),
                 hasProperty("maxTagTextLength", is(5)),
                 hasProperty("searchMinLength", is(0)),
-                hasProperty("throttleDelay", is(300))));
+                hasProperty("throttleDelay", is(300)),
+                hasProperty("searchSide", is(SearchSideEnum.SERVER))
+        ));
 
         assertThat(cdp, allOf(
                 hasProperty("url", is("n2o/data/test/")),

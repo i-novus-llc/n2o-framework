@@ -89,13 +89,14 @@ class AllFieldsCleanableAT extends AutoTestBase {
         fields.field("codeEditor").control(CodeEditor.class).shouldHaveValue("value", 0);
         fields.field("password").control(PasswordControl.class).clickEyeButton();
         fields.field("password").control(PasswordControl.class).shouldHaveValue("value");
-        fields.field("slider").control(Slider.class).setValue("30");
-        fields.field("slider").control(Slider.class).shouldHaveValue("30");
+        fields.field("slider").control(Slider.class).setValue("10");
+        fields.field("slider").control(Slider.class).shouldHaveValue("10");
         fields.field("textarea").control(TextArea.class).shouldHaveValue("value");
         fields.field("textEditor").control(TextEditor.class).shouldHaveValue("value");
         fields.field("timePicker").control(TimePicker.class).shouldHaveValue("02 ч 03 мин 05 сек");
         fields.field("autoComplete").control(AutoComplete.class).setValue("value");
-        fields.field("autoComplete").control(AutoComplete.class).shouldHaveValue("value");
+        fields.field("autoComplete").control(AutoComplete.class).enter();
+        fields.field("autoComplete").control(AutoComplete.class).shouldHaveTags(new String[]{"value"});
         fields.field("outputText").control(OutputText.class).shouldHaveValue("value");
     }
 

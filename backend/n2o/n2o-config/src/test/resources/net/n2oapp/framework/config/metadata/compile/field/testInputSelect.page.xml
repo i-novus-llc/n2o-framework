@@ -8,7 +8,7 @@
                                   icon-field-id="icon" image-field-id="image" group-field-id="country"
                                   badge-field-id="badgeFieldId" badge-color-field-id="badgeColorFieldId"
                                   format="`id+' '+id`" sort-field-id="sortName"
-                                  description-field-id="descFieldId"
+                                  description-field-id="descFieldId" search-side="client"
                                   search-min-length="2" throttle-delay="200"
                                   enabled-field-id="isEnabled" status-field-id="testStatus" size="20">
                         <default-value id="1" name="test" isTest="true"/>

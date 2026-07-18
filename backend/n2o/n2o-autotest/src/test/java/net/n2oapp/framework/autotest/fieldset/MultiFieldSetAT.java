@@ -745,8 +745,9 @@ class MultiFieldSetAT extends AutoTestBase {
 
         FormWidget formWidget = standardPage.regions().region(0, N2oSimpleRegion.class).content().widget(FormWidget.class);
         InputSelect inputSelect = formWidget.fields().field("items").control(InputSelect.class);
-        inputSelect.click();
+        inputSelect.shouldExists();
         inputSelect.openPopup();
+        inputSelect.dropdown().shouldHaveOptions(4);
         inputSelect.dropdown().selectMulti(2, 3);
         modal.toolbar().bottomRight().button("Добавить").click();
 

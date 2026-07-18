@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.list.CheckingStrategyEnum;
 import net.n2oapp.framework.api.metadata.control.list.N2oInputSelectTree;
+import net.n2oapp.framework.api.metadata.control.list.SearchSideEnum;
 import net.n2oapp.framework.api.metadata.meta.control.InputSelectTree;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
@@ -54,6 +55,8 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
                     () -> p.resolve(property("n2o.api.control.input_select_tree.max_tag_text_length"), Integer.class)));
         source.setQueryId(p.resolveJS(source.getQueryId()));
         source.setIconFieldId(p.resolveJS(source.getIconFieldId()));
+        control.setSearchSide(castDefault(source.getSearchSide(),
+                () -> p.resolve(property("n2o.api.control.input_select_tree.search_side"), SearchSideEnum.class)));
 
         StandardField<InputSelectTree> inputSelectTreeStandardField = compileListControl(control, source, context, p);
         control.setInputLabelFieldId(castDefault(source.getInputLabelFieldId(), control.getLabelFieldId()));

@@ -11,18 +11,25 @@ import isEmpty from 'lodash/isEmpty'
 
 import { State as Store } from '../../ducks/State'
 import cachingStore from '../../utils/cacher'
-import { fetchInputSelectData, FETCH_CONTROL_VALUE } from '../../core/api'
+import { fetchInputSelectData } from '../../core/api'
 import { addAlert } from '../../ducks/alerts/store'
 import { dataProviderResolver } from '../../core/dataProviderResolver'
 import { WithDataSource } from '../../core/widget/WithDataSource'
 import { getModelByPrefixAndNameSelector } from '../../ducks/models/selectors'
-import { ModelPrefix } from '../../core/datasource/const'
+import { ModelPrefix } from '../../core/models/types'
 import { Alert } from '../../ducks/alerts/Alerts'
 import { FETCH_TYPE } from '../../core/widget/const'
 import { GLOBAL_KEY } from '../../ducks/alerts/constants'
 
+enum SearchSide {
+    CLIENT = 'client',
+    SERVER = 'server',
+}
+
+type DataItem = Record<string, string | number>
+
 export interface Props {
-    data: unknown[]
+    data: DataItem[]
     dataProvider: { quickSearchParam: string }
     quickSearchParam?: string
     datasource: string
@@ -37,6 +44,9 @@ export interface Props {
     value: Record<string, string> | null
     page: number
     count: number
+    searchSide: SearchSide
+    labelFieldId: string
+    parentFieldId?: string
     addAlert(obj: object): void
     fetchData(obj: object): void
     setFilter(obj: object): void
@@ -47,6 +57,8 @@ export type SearchMinLengthHint = false | true
 
 interface State {
     data: Props['data']
+    clientFilteredData: null | Props['data']
+    clientFilteredCount: null | number
     loading: boolean
     count: number
     size: Props['size']
@@ -96,21 +108,16 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
 
             this.state = {
                 data: [],
+                clientFilteredData: null,
                 loading: false,
                 count: 0,
+                clientFilteredCount: null,
                 size,
                 page: 1,
                 searchMinLengthHint: false,
                 quickSearchParam: dataProvider?.quickSearchParam || quickSearchParam,
                 merge: false,
             }
-
-            this.fetchData = this.fetchData.bind(this)
-            this.findResponseInCache = this.findResponseInCache.bind(this)
-            this.fetchDataProvider = this.fetchDataProvider.bind(this)
-            this.addAlertMessage = this.addAlertMessage.bind(this)
-            this.setErrorMessage = this.setErrorMessage.bind(this)
-            this.setResponseToData = this.setResponseToData.bind(this)
         }
 
         componentDidMount() {
@@ -146,7 +153,6 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             }
 
             if (datasourceModel && !isEqual(datasourceModel, prevDatasourceModel)) {
-                // @INFO данные полученные datasource fetchData
                 this.setState({
                     data: merge ? [...prevDatasourceModel, ...datasourceModel] : datasourceModel,
                 })
@@ -167,7 +173,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
          * @returns {*}
          * @private
          */
-        findResponseInCache(params: object) {
+        findResponseInCache = (params: object) => {
             const { caching = false } = this.props
 
             if (caching && cachingStore.find(params)) {
@@ -182,7 +188,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
          * @param messages
          * @private
          */
-        addAlertMessage(messages: object) {
+        addAlertMessage = (messages: object) => {
             const { addAlert } = this.props
 
             if (isArray(messages)) {
@@ -198,7 +204,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
          * @param body
          * @private
          */
-        async setErrorMessage({ response, body }: Error) {
+        setErrorMessage = async ({ response, body }: Error) => {
             let errorMessage
 
             if (response) {
@@ -221,7 +227,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
          * @returns {Promise<void>}
          * @private
          */
-        fetchDataProvider(dataProvider: object, extraParams = {}, cacheReset = false) {
+        fetchDataProvider = (dataProvider: object, extraParams = {}, cacheReset = false) => {
             const { store } = this.context
             const { abortController } = this.state
             const { caching = false } = this.props
@@ -265,7 +271,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
         /**
          *  Обновить данные если запрос успешен
          */
-        setResponseToData(
+        setResponseToData = (
             {
                 list,
                 count,
@@ -279,7 +285,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 page: Paging['page'],
                 paging: Paging },
             merge = false,
-        ) {
+        ) => {
             const { valueFieldId } = this.props
             const { data } = this.state
             const { count: pagingCount, size: pagingSize, page: pagingPage } = paging || {}
@@ -331,13 +337,26 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
          * @returns {Promise<void>}
          * @private
          */
-        async fetchData(extraParams: Record<string, string> = {}, merge = false, cacheReset = false): Promise<void> {
-            const { dataProvider, datasource, searchMinLength } = this.props
+        fetchData = async (
+            extraParams: Record<string, string> = {},
+            merge = false,
+            cacheReset = false,
+            // TODO рефакторинг
+            // eslint-disable-next-line sonarjs/cognitive-complexity
+        ): Promise<void> => {
+            const {
+                dataProvider,
+                datasource,
+                searchMinLength,
+                searchSide,
+                labelFieldId,
+                valueFieldId,
+                parentFieldId,
+            } = this.props
             const { data, quickSearchParam } = this.state
+            const value = extraParams[quickSearchParam]
 
             if (searchMinLength) {
-                const value = extraParams[quickSearchParam]
-
                 if (!value || value?.length < searchMinLength) {
                     this.setState({ searchMinLengthHint: true })
 
@@ -349,6 +368,70 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
 
             this.setState({ merge })
 
+            if (searchSide === SearchSide.CLIENT && !isEmpty(data)) {
+                if (!value) {
+                    this.setState({
+                        clientFilteredData: null,
+                        clientFilteredCount: null,
+                    })
+                } else {
+                    const idMap = new Map()
+
+                    data.forEach((item) => {
+                        const id = item[valueFieldId]
+
+                        if (id != null) { idMap.set(id, item) }
+                    })
+
+                    // поиск по labelFieldId
+                    const matchedItems = data.filter((item) => {
+                        const itemValue = item[labelFieldId]
+
+                        if (!itemValue) { return false }
+
+                        return String(itemValue).toLowerCase().includes(String(value).toLowerCase())
+                    })
+
+                    const resultIds = new Set()
+
+                    matchedItems.forEach((item) => {
+                        let current = item
+                        const visited = new Set()
+
+                        while (current) {
+                            const currentId = current[valueFieldId]
+
+                            if (currentId != null) {
+                                if (visited.has(currentId)) { break }
+                                visited.add(currentId)
+                                resultIds.add(currentId)
+                            }
+
+                            // поиск по parentFieldId
+                            if (parentFieldId) {
+                                const parentId = current[parentFieldId]
+
+                                if (parentId && idMap.has(parentId)) {
+                                    current = idMap.get(parentId)
+                                } else {
+                                    break
+                                }
+                            } else {
+                                break
+                            }
+                        }
+                    })
+
+                    const clientFilteredData = data.filter(item => resultIds.has(item[valueFieldId]))
+
+                    this.setState({
+                        clientFilteredData,
+                        clientFilteredCount: clientFilteredData.length,
+                    })
+
+                    return
+                }
+            }
             if (datasource) {
                 const { search } = extraParams
                 const { sortFieldId, setFilter, fetchData } = this.props
@@ -366,6 +449,10 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
             try {
                 if (!merge && !data) { this.setState({ data: [] }) }
 
+                if (Number(extraParams.page) === 1) {
+                    this.setState({ clientFilteredData: [], clientFilteredCount: 0 })
+                }
+
                 const response = await this.fetchDataProvider(
                     dataProvider,
                     extraParams,
@@ -379,6 +466,7 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
                 await this.setErrorMessage(err as Error)
             } finally {
                 this.setState({ loading: false })
+                this.setState({ clientFilteredData: null, clientFilteredCount: null })
             }
         }
 
@@ -389,16 +477,16 @@ export function withFetchData(WrappedComponent: FC<WrappedComponentProps>, apiCa
         }
 
         render() {
-            const { valueFieldId, sortFieldId, setRef } = this.props
-            const { data, loading, count, size, page, quickSearchParam } = this.state
+            const { valueFieldId, sortFieldId, setRef, searchSide } = this.props
+            const { data, clientFilteredData, loading, count, clientFilteredCount, size, page, quickSearchParam } = this.state
 
             return (
                 <WrappedComponent
                     {...this.props}
                     {...this.state}
-                    options={data}
+                    options={searchSide === SearchSide.CLIENT && clientFilteredData ? clientFilteredData : data}
                     loading={loading}
-                    count={count}
+                    count={searchSide === SearchSide.CLIENT && typeof clientFilteredCount === 'number' ? clientFilteredCount : count}
                     size={size}
                     page={page}
                     valueFieldId={valueFieldId}

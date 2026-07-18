@@ -113,7 +113,7 @@ export const Spinner = ({
 
     const renderLineSpinner = () => {
         if (showSpinner) {
-            return <ReactstrapSpinner className="spinner" color={color} size={size} type={type} {...rest} />
+            return <ReactstrapSpinner className={classNames('spinner', className)} color={color} size={size} type={type} {...rest} />
         }
 
         // eslint-disable-next-line react/jsx-no-useless-fragment

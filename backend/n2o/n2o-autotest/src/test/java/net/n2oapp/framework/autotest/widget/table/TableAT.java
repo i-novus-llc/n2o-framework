@@ -427,7 +427,8 @@ class TableAT extends AutoTestBase {
         button.shouldBeDisabled();
         select.dropdown().selectItem(1);
         button.shouldBeEnabled();
-        select.clear();
+        select.clearUsingIcon();
+        select.shouldBeEmpty();
         button.shouldBeDisabled();
     }
 }

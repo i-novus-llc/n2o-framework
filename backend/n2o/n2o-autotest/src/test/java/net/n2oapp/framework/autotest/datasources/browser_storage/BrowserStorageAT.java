@@ -116,7 +116,7 @@ class BrowserStorageAT extends AutoTestBase {
 
         input.shouldBeEmpty();
         inputDef.shouldHaveValue("text");
-        select.shouldHaveValue("Введите значение");
+        select.shouldBeEmpty();
         checkboxGroup.shouldBeEmpty();
 
         input.click();
@@ -152,7 +152,7 @@ class BrowserStorageAT extends AutoTestBase {
 
         input.shouldBeEmpty();
         inputDef.shouldHaveValue("text");
-        select.shouldHaveValue("Введите значение");
+        select.shouldBeEmpty();
         checkboxGroup.shouldBeEmpty();
     }
 

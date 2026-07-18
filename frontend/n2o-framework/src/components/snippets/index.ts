@@ -8,6 +8,8 @@ import { Status } from '@i-novus/n2o-components/lib/display/Status'
 import { StatusText } from '@i-novus/n2o-components/lib/display/StatusText/StatusText'
 import { Tabs } from '@i-novus/n2o-components/lib/display/Tabs/Tabs'
 import { Tooltip } from '@i-novus/n2o-components/lib/display/Tooltip/Tooltip'
+import { Tag } from '@i-novus/n2o-components/lib/display/Tag'
+import { SelectControls } from '@i-novus/n2o-components/lib/inputs/Input/SelectControls'
 
 import Alert from './Alerts/Alert'
 import { Collapse } from './Collapse/Collapse'
@@ -31,4 +33,6 @@ export default {
     Tooltip,
     Pagination,
     Tabs,
+    Tag,
+    SelectControls,
 }

@@ -42,7 +42,9 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void removeTag(String value) {
-        selectedItems().findBy(Condition.text(value)).$("button").click();
+        selectedItemsContainer().findBy(Condition.text(value)).$("button")
+                .should(Condition.exist)
+                .click();
     }
 
     @Override
@@ -52,8 +54,9 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
     public void shouldHaveTags(String[] tags, Duration... duration) {
-        should(CollectionCondition.size(tags.length), selectedItems(), duration);
-        should(CollectionCondition.texts(tags), selectedItems(), duration);
+        ElementsCollection selectedItemsValue = selectedItemsValue();
+        should(CollectionCondition.size(tags.length), selectedItemsValue, duration);
+        should(CollectionCondition.texts(tags), selectedItemsValue, duration);
     }
 
     @Override
@@ -77,14 +80,18 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     }
 
     protected SelenideElement inputElement() {
-        return element().$(".n2o-inp");
+        return element().$(".input-multiple");
     }
 
-    protected ElementsCollection selectedItems() {
-        return element().$$(".selected-item");
+    protected ElementsCollection selectedItemsContainer() {
+        return element().$$(".input-tags .tag");
+    }
+
+    protected ElementsCollection selectedItemsValue() {
+        return element().$$(".input-tags .tag-value");
     }
 
     protected ElementsCollection dropdownOptions() {
-        return element().parent().$$(".n2o-dropdown-control button");
+        return element().parent().parent().$$(".n2o-dropdown-control button");
     }
 }

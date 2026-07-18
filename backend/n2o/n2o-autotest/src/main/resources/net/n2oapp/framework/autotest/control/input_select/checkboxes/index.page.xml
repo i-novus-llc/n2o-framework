@@ -9,12 +9,12 @@
                     <option name="Three" id="three"/>
                 </options>
             </input-select>
-            <input-select id="select3" label="InputSelect3" enabled-field-id="isDisabled" type="checkboxes">
+            <input-select id="select3" label="InputSelect3" enabled-field-id="enabled" type="checkboxes">
                 <options>
                     <option name="One" id="one"/>
                     <option name="Two" id="two"/>
-                    <option name="Three" id="three" isDisabled="false"/>
-                    <option name="Four" id="four" isDisabled="true"/>
+                    <option name="Three" id="three" enabled="false"/>
+                    <option name="Four" id="four" enabled="true"/>
                 </options>
                 <default-values>
                     <value id="three"/>

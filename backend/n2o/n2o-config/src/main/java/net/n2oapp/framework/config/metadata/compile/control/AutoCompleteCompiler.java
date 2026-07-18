@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
+import net.n2oapp.framework.api.metadata.control.list.SearchSideEnum;
 import net.n2oapp.framework.api.metadata.control.plain.N2oAutoComplete;
 import net.n2oapp.framework.api.metadata.meta.control.AutoComplete;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -31,14 +32,17 @@ public class AutoCompleteCompiler extends ListControlCompiler<AutoComplete, N2oA
     @Override
     public StandardField<AutoComplete> compile(N2oAutoComplete source, CompileContext<?, ?> context, CompileProcessor p) {
         AutoComplete autoComplete = new AutoComplete();
+        autoComplete.setResetOnBlur(castDefault(source.getResetOnBlur(),
+                () -> p.resolve(property("n2o.api.control.auto_complete.reset_on_blur"), Boolean.class)));
         autoComplete.setValueFieldId(castDefault(source.getValueFieldId(),
                 () -> p.resolve(property("n2o.api.control.auto_complete.value_field_id"), String.class)));
         autoComplete.setLabelFieldId(castDefault(source.getLabelFieldId(), autoComplete.getValueFieldId(), "name"));
         autoComplete.setInputLabelFieldId(castDefault(source.getInputLabelFieldId(), autoComplete.getLabelFieldId()));
-        autoComplete.setTags(castDefault(source.getTags(),
-                () -> p.resolve(property("n2o.api.control.auto_complete.tags"), Boolean.class)));
+        autoComplete.setTags(true);
         autoComplete.setMaxTagTextLength(castDefault(source.getMaxTagTextLength(),
                 () -> p.resolve(property("n2o.api.control.auto_complete.max_tag_text_length"), Integer.class)));
+        autoComplete.setSearchSide(castDefault(source.getSearchSide(),
+                () -> p.resolve(property("n2o.api.control.auto_complete.search_side"), SearchSideEnum.class)));
         compileData(source, autoComplete, context, p);
 
         return compileStandardField(autoComplete, source, context, p);

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.metadata.control.list.SearchSideEnum;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.AutoComplete;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
@@ -62,7 +63,9 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
                 hasProperty("valueFieldId", is("id")),
                 hasProperty("tags", is(true)),
                 hasProperty("labelFieldId", is("fullName")),
-                hasProperty("inputLabelFieldId", is("shortName"))
+                hasProperty("searchSide", is(SearchSideEnum.CLIENT)),
+                hasProperty("inputLabelFieldId", is("shortName")),
+                hasProperty("resetOnBlur", is(false))
         ));
 
         Map<String, ModelLink> queryMapping = autoComplete.getDataProvider().getQueryMapping();
@@ -89,12 +92,14 @@ class AutoCompleteCompileTest extends SourceCompileTestBase {
         assertThat(autoComplete.getData().getFirst().get("name"), is("`test1`"));
         assertThat(autoComplete.getData().get(1).get("name"), is("test2"));
         assertThat(autoComplete.getValueFieldId(), is("name"));
-        assertThat(autoComplete.getTags(), is(false));
+        assertThat(autoComplete.getTags(), is(true));
+        assertThat(autoComplete.getResetOnBlur(), is(true));
         assertThat(autoComplete.getMaxTagTextLength(), is(15));
         assertThat(autoComplete, allOf(
                 hasProperty("labelFieldId", is("name")),
                 hasProperty("inputLabelFieldId", is("name"))
         ));
+        assertThat(autoComplete.getSearchSide(), is(SearchSideEnum.SERVER));
 
         dependencies = field.getDependencies();
         assertThat(dependencies.getFirst(), allOf(

@@ -1,12 +1,12 @@
 import React from 'react'
 import { get } from 'lodash'
 
-import { Icon } from '../../display/Icon'
+import { Icon } from '../Icon'
 
-import { TOption } from './types'
+import { Option } from './types'
 
 export function PopupImage({ item, imageFieldId }: {
-    item: TOption,
+    item: Option,
     imageFieldId?: string
 }) {
     if (!imageFieldId) { return null }
@@ -17,7 +17,7 @@ export function PopupImage({ item, imageFieldId }: {
 }
 
 export function PopupIcon({ item, iconFieldId }: {
-    item: TOption,
+    item: Option,
     iconFieldId?: string
 }) {
     if (!iconFieldId) { return null }

@@ -1,4 +1,4 @@
-import { BadgeType } from '@i-novus/n2o-components/lib/inputs/InputSelect/PopupList'
+import { type PopUpListProps } from '@i-novus/n2o-components/lib/display/PopupList/types'
 import { Action, Dispatch } from 'redux'
 
 import { type Model } from '../../../ducks/models/selectors'
@@ -17,7 +17,7 @@ export interface BaseNodeProps {
     prefixCls: string
     imageFieldId: string
     labelFieldId: string
-    badge: BadgeType
+    badge: PopUpListProps['badge']
     valueFieldId: string
     searchValue: string
     searchKeys: string

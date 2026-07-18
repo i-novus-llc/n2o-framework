@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.control.list.CheckingStrategyEnum;
+import net.n2oapp.framework.api.metadata.control.list.SearchSideEnum;
 import net.n2oapp.framework.api.metadata.meta.control.InputSelectTree;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -55,6 +56,7 @@ class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.getPlaceholder(), is("`select`"));
         assertThat(ist.getSearchMinLength(), is(2));
         assertThat(ist.getThrottleDelay(), is(100));
+        assertThat(ist.getSearchSide(), is(SearchSideEnum.CLIENT));
         assertThat(ist, allOf(
                 hasProperty("labelFieldId", is("fullName")),
                 hasProperty("inputLabelFieldId", is("shortName"))
@@ -69,6 +71,7 @@ class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.isAjax(), is(false));
         assertThat(ist.isHasCheckboxes(), is(false));
         assertThat(ist.getCheckingStrategy(), is(CheckingStrategyEnum.ALL));
+        assertThat(ist.getSearchSide(), is(SearchSideEnum.SERVER));
         assertThat(ist, allOf(
                 hasProperty("labelFieldId", is("name")),
                 hasProperty("inputLabelFieldId", is("name"))

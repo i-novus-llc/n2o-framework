@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.control;
 
-import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.ColorsEnum;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.DropDown;
@@ -73,6 +72,12 @@ class InputSelectAT extends AutoTestBase {
         input.closePopup();
         input.shouldBeClosed();
 
+        // close popup by click on input area
+        input.click();
+        input.shouldBeOpened();
+        input.click();
+        input.shouldBeClosed();
+
         input.shouldBeEmpty();
         input.openPopup();
         input.dropdown().shouldHaveOptions(new String[]{"One", "Two", "Three"});
@@ -138,6 +143,22 @@ class InputSelectAT extends AutoTestBase {
     }
 
     @Test
+    void testSearchSide() {
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/search_side/index.page.xml")
+        );
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        InputSelect input = page.widget(FormWidget.class).fields().field("InputSelect").control(InputSelect.class);
+        input.shouldBeVisible();
+        input.shouldBeEmpty();
+        input.openPopup();
+        input.dropdown().shouldHaveOptions(new String[]{"Алексей Иванов", "Иван Алексеев", "Павел Афанасьев", "Петр Сергеев"});
+        input.setValue("Алек");
+        input.dropdown().shouldHaveOptions(new String[]{"Алексей Иванов", "Иван Алексеев"});
+    }
+
+    @Test
     void testMulti() {
         setResourcePath("net/n2oapp/framework/autotest/control/input_select/multi");
         builder.sources(
@@ -192,20 +213,21 @@ class InputSelectAT extends AutoTestBase {
         // Проверка сохранения фильтра при выборе нескольких значений
         input = fields.field("InputSelect1").control(InputSelect.class);
         input.openPopup();
-        input.dropdown().shouldHaveOptions(new String[]{"1","2","11","100","101"});
+        input.dropdown().shouldHaveOptions(new String[]{"1", "2", "11", "100", "101"});
 
         input.setValue("1");
-        input.dropdown().shouldHaveOptions(new String[]{"1","11","100","101"});
+        input.dropdown().shouldHaveOptions(new String[]{"1", "11", "100", "101"});
 
         input.dropdown().selectMulti(0);
-        input.dropdown().shouldHaveOptions(new String[]{"1","11","100","101"});
+        input.dropdown().shouldHaveOptions(new String[]{"1", "11", "100", "101"});
         input.shouldSelectedMulti(new String[]{"1"});
         input.shouldHaveValue("1");
 
         input.dropdown().selectMulti(2);
-        input.dropdown().shouldHaveOptions(new String[]{"1","11","100","101"});
-        input.shouldSelectedMulti(new String[]{"1","100"});
+        input.dropdown().shouldHaveOptions(new String[]{"1", "11", "100", "101"});
+        input.shouldSelectedMulti(new String[]{"1", "100"});
         input.shouldHaveValue("1");
+
         page.element().click();
         input.shouldHaveValue("");
     }
@@ -262,7 +284,6 @@ class InputSelectAT extends AutoTestBase {
 
         input.clearUsingIcon();
         input.shouldSelectedMulti(new String[]{"Three"});
-        input.click();
         input.dropdown().item("One").shouldBeEnabled();
         input.dropdown().item("Two").shouldBeEnabled();
         input.dropdown().item("Three").shouldBeDisabled();
@@ -332,12 +353,14 @@ class InputSelectAT extends AutoTestBase {
         input3.shouldBeEmpty();
         input3.openPopup();
         DropDown dropdown = input3.dropdown();
+        dropdown.shouldHaveOptions(new String[]{"name1", "name2", "name3"});
         dropdown.selectItem(1);
         input3.shouldHaveValue("desc2");
         input3.clear();
         input3.shouldBeEmpty();
         input3.setValue("name3");
-        input3.pressEnter();
+        dropdown.shouldHaveOptions(new String[]{"name3"});
+        dropdown.selectItem(0);
         input3.shouldHaveValue("desc3");
         input3.closePopup();
 
@@ -454,10 +477,10 @@ class InputSelectAT extends AutoTestBase {
 
     @Test
     void dropdownOptionsPermanent() {
-        setResourcePath("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent");
+        setResourcePath("net/n2oapp/framework/autotest/control/input_select/dropdown_options_permanent");
         builder.sources(
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent/test.query.xml")
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/dropdown_options_permanent/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/dropdown_options_permanent/test.query.xml")
         );
 
         StandardPage page = open(StandardPage.class);
@@ -479,7 +502,7 @@ class InputSelectAT extends AutoTestBase {
         inputSelect.openPopup();
         DropDown dropdown = inputSelect.dropdown();
         dropdown.shouldHaveOptions(new String[]{"Новая", "Средняя", "Старая"});
-        dropdown.selectItemBy(Condition.text("Средняя"));
+        dropdown.selectItem(1);
         inputSelect.shouldHaveValue("Средняя");
 
         inputSelect.openPopup();
@@ -529,6 +552,7 @@ class InputSelectAT extends AutoTestBase {
                 .fields().field("multi").control(InputSelect.class);
 
 
+        inputSelectUnlCheck.shouldExists();
         inputSelectUnlCheck.click();
         inputSelectUnlCheck.dropdown().selectMulti(2, 3, 4, 5, 6, 7, 8, 9);
         inputSelectUnlCheck.shouldSelectedMultiSize(8);
@@ -545,9 +569,9 @@ class InputSelectAT extends AutoTestBase {
         inputSelectSingleCheck.shouldSelectedMulti(new String[]{"Выбрано: 8"});
 
         inputSelectFewCheck.shouldSelectedMultiSize(4);
-        inputSelectFewCheck.shouldSelectedMulti(new String[]{"test3", "test4", "test5", "+ 5..."});
+        inputSelectFewCheck.shouldSelectedMulti(new String[]{"test3", "test4", "test5", "+5..."});
         inputSelectFewMulti.shouldSelectedMultiSize(4);
-        inputSelectFewCheck.shouldSelectedMulti(new String[]{"test3", "test4", "test5", "+ 5..."});
+        inputSelectFewCheck.shouldSelectedMulti(new String[]{"test3", "test4", "test5", "+5..."});
     }
 
     @Test

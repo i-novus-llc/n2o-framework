@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.list.ListTypeEnum;
 import net.n2oapp.framework.api.metadata.control.list.N2oInputSelect;
+import net.n2oapp.framework.api.metadata.control.list.SearchSideEnum;
 import net.n2oapp.framework.api.metadata.meta.control.InputSelect;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
@@ -52,6 +53,8 @@ public class InputSelectCompiler extends ListControlCompiler<InputSelect, N2oInp
                 inputSelect.setMultiSelect(false);
                 break;
         }
+        inputSelect.setSearchSide(castDefault(source.getSearchSide(),
+                () -> p.resolve(property("n2o.api.control.input_select.search_side"), SearchSideEnum.class)));
 
         StandardField<InputSelect> standardField = compileListControl(inputSelect, source, context, p);
         inputSelect.setInputLabelFieldId(castDefault(source.getInputLabelFieldId(), inputSelect.getLabelFieldId()));

@@ -105,6 +105,7 @@ class ListFieldAT extends AutoTestBase {
         RadioGroup radioGroup = fields.field("rdg").control(RadioGroup.class);
         CheckboxGroup checkboxGroup = fields.field("chg").control(CheckboxGroup.class);
 
+        select.shouldExists();
         select.shouldSelected("test1");
         select.openPopup();
         select.dropdown().shouldHaveOptions(new String[]{"test1", "test2", "test3", "test4"});

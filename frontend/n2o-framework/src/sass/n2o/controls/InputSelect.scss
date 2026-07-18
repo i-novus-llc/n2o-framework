@@ -1,418 +1,256 @@
-.show-clear-trigger-hover,
-.show-clear-trigger-focus {
-    display: none;
-}
-
-.show-clear-trigger-always {
-    display: block;
-    opacity: 1;
-}
-
-.n2o-input-container.form-control.focus {
-    .show-clear-trigger-focus {
-        display: block;
-    }
-}
-
+// Базовый контейнер (общий для single и multi)
 .n2o-input-select {
     display: inline-block;
-    position: relative;
-    white-space: nowrap;
+    width: 100%;
+    min-width: 200px;
 
-    > button {
-        position: relative;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        border: none;
-
-        &:disabled {
-            pointer-events: none;
-        }
-    }
-
-    .selected-item {
-        display: flex;
-        padding: 2px 4px 2px 6px;
-        justify-content: center;
-        align-items: center;
-
-        > button {
-            font-size: inherit;
-            padding: inherit;
-        }
-
-        > img {
-            height: $image-selected-height !important;
-            padding-right: 5px;
-        }
-
-        > i {
-            display: flex;
-            padding-right: 5px;
-        }
-
-        max-width: $selected-item-width;
-        margin: $selected-item-margin-y $selected-item-margin-x;
-    }
-
-    .n2o-dropdown-control {
-        top: auto;
-        left: auto;
-        width: 100%;
-        max-height: $popup-height;
-        min-width: 38px;
-        border: 1px solid #cfd8dc;
-        overflow: auto;
-
-        > ul {
-            display: block;
-        }
-
-        > div > {
-            .dropdown-item {
-                padding: $input-select-item-padding;
-
-                &:focus {
-                    color: inherit;
-                    background-color: inherit;
-                }
-
-                &:hover,
-                &.active,
-                &:active {
-                    color: #1c2429;
-                    background-color: $gray-100;
-                }
-
-                &.selected {
-                    color: #1c2429;
-                    background-color: $gray-300 !important;
-                }
-            }
-        }
-
-        button > * {
-            margin-right: 10px;
-        }
-
-        > .dropdown-item > img {
-            height: $image-height;
-        }
-
-        .dropdown-divider:last-child {
-            display: none;
-        }
-
-        .custom-control {
-            min-height: 1.2rem;
-        }
-
-        .dropdown-header {
-            white-space: normal;
-            padding: $input-select-control-dropdown-header-padding;
-        }
-
-        &.n2o-pop-up {
-            user-select: none;
-        }
-    }
-
-    .n2o-dropdown-control.btn-sm {
-        height: 31px;
-        min-width: 31px;
-    }
-
-    .n2o-dropdown-control.btn-md {
-        height: 38px;
-        min-width: 38px;
-    }
-
-    .n2o-dropdown-control.btn-lg {
-        height: 48px;
-        min-width: 48px;
-    }
-
-    .n2o-select-pop-up {
-        width: 100%;
-        max-width: 600px;
-        padding: 0;
-        left: auto;
-        top: auto;
-
-        .n2o-dropdown-control {
-            height: auto;
-        }
-    }
-
-    .expandPopUp {
-        min-width: 100%;
-        width: auto;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .n2o-input-left {
-        border-left: 0;
-        padding-left: 0;
-    }
-
-    .n2o-eclipse-content {
+    .input, .input.form-control {
         display: flex;
         align-items: center;
-        width: 100%;
-        cursor: pointer;
-        outline: none;
-
-        .n2o-input-select__label {
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        &:disabled {
-            cursor: not-allowed;
-        }
-    }
-
-    .n2o-eclipse-content.with-status,
-    .n2o-eclipse-content.with-description {
-        display: flex;
-    }
-
-    .n2o-eclipse-content.with-description {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .n2o-dropdown-control .n2o-eclipse-content__description {
+        min-width: fit-content;
+        background: #fff;
+        cursor: text;
         padding: 0;
-    }
-
-    .n2o-dropdown-control .n2o-eclipse-content__description-with-icon {
-        padding: 0 0 0 2.2rem;
-    }
-
-    .n2o-dropdown-control .n2o-eclipse-content__description-with-checkbox {
-        padding: 0 0 0 1.5rem;
-    }
-
-    .n2o-dropdown-control .n2o-eclipse-content__description-with-icon-checkbox {
-        padding: 0 0 0 3.7rem;
-    }
-
-    .n2o-input-select__toggle {
-        width: 100%;
-        padding: 0;
-        border: none;
-    }
-
-    .n2o-input-select__menu {
-        max-width: 100%;
-        padding: 0;
-        margin: 0;
-
-        .n2o-input-select__menu--autosize {
-            max-width: none;
-        }
-    }
-
-    .n2o-inp.n2o-inp--multi {
-        resize: none;
-        overflow: hidden;
-        border: none;
-    }
-
-    .n2o-input-items > .valueText,
-    input {
-        padding: $input-select-padding;
-        padding-right: 30px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-
-    .n2o-input-items > .valueText,
-    input[disabled] {
-        padding-right: $input-padding-x;
-    }
-
-    .n2o-input-items > textarea,
-    input {
-        width: auto;
-        flex: 1;
-        min-width: 30%;
-    }
-
-    .n2o-input-items > input,
-    .n2o-input-items > textarea {
-        font-size: $input-select-font-size;
-        line-height: $input-line-height;
-        color: $input-select-font-color;
-        border-radius: $input-select-border-radius;
-        height: $input-min-height;
-        min-width: 10px;
-        border: none;
-        outline: none;
-        background: transparent;
-        text-overflow: ellipsis;
-        width: 100%;
-    }
-
-    .n2o-input-container {
-        background-color: #fff;
-        border-spacing: 0;
-        border-collapse: separate;
         height: auto;
-        outline: none;
-        position: relative;
-        width: 100%;
+        min-height: 38px;
+    }
+
+    .input.form-control:focus-within {
+        color: #263238;
+        background-color: #fff;
+        border-color: #317db5;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(22, 56, 81, 0.25);
+    }
+
+    .input-content {
         display: flex;
-        flex: 1 100%;
-        flex-direction: row;
-        min-height: $input-min-height;
-        border: $input-select-border;
+        flex-wrap: wrap;
+        align-items: center;
+        flex: 1;
+        gap: 4px;
+        padding: 0.375rem 0.75rem;
+        min-height: 32px;
+
+        .input-single, .input-multiple  {
+            // общий плейсхолдер
+            &::placeholder {
+                color: #546e7a;
+                font-size: 16px;
+            }
+        }
+    }
+
+    // Блок тегов (используется только в multi)
+    .input-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin: 0;
         padding: 0;
+        list-style: none;
+    }
 
-        &:hover {
-            border-color: $input-select-hover-border-color;
-        }
+    .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 8px;
+        line-height: 20px;
+        margin: 2px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        border-radius: 0;
+        background: transparent;
 
-        &.is-invalid,
-        &.is-invalid:hover {
-            border-color: $red;
-        }
-
-        &.disabled {
-            background-color: $input-disabled-bg;
-        }
-
-        > .n2o-input-items {
-            min-width: 10px;
+        .tag-remove {
             display: inline-flex;
-            flex-wrap: wrap;
-            width: 100%;
-        }
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0;
 
-        &.focus {
-            // Хак, для обводки всего контейнера, когда input внутри в фокусе
-            // скопировано из @mixin form-control-focus()
-            color: $input-focus-color;
-            background-color: $input-focus-bg;
-            border-color: $input-focus-border-color;
-            outline: 0;
-
-            @if $enable-shadows {
-                box-shadow: $input-box-shadow, $input-focus-box-shadow;
-            }
-
-            @else {
-                box-shadow: $input-focus-box-shadow;
+            &:focus {
+                outline: none;
             }
         }
+    }
 
-        input,
-        textarea:focus {
+    // инпут – прозрачный
+    input {
+        flex: 1 1 auto;
+        width: auto;
+        background: transparent !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 16px;
+        line-height: 20px;
+
+        &:focus {
+            border: none;
+            outline: none;
             box-shadow: none;
         }
-
-        @include form-control-focus();
     }
 
-    span > .n2o-item-delete {
-        margin-left: 4px;
-        display: flex;
-
-        > i {
-            font-size: 10px;
-        }
-    }
-
-    .n2o-multiselect {
-        background: $multiselect-item-color;
-        border: 1px solid #ccc;
-        z-index: 3;
-    }
-
-    .n2o-input-control {
-        height: auto;
+    // Блок с иконками-кнопками (постфикс)
+    .input-postfix {
         display: flex;
         align-items: center;
-        margin-left: auto;
         justify-content: center;
-        padding: 0 10px;
-        cursor: $input-cursor;
-        z-index: 3;
+        padding-right: 11px;
+        flex-shrink: 0;
+    }
 
-        .input-select-loader {
-            .n2o-spinner-container {
-                transform: translate(-115%, -50%);
+    .select-controls {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
 
-                .spinner-border {
-                    width: 1rem;
-                    height: 1rem;
-                    border-width: 0.15em;
-                }
+        i {
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s;
+
+            &:hover {
+                opacity: 0.7;
             }
-        }
-
-        > div {
-            margin: $input-control-padding;
-
-            > i {
-                font-size: $input-select-control-icon-size;
-                border-radius: 50%;
-                padding: 5px;
-                transition: all $tree-animation-speed linear;
-
-                &:hover {
-                    background-color: $icon-tree-hover-color;
-                }
-            }
-        }
-
-        > div.isExpanded {
-            > i {
-                transform: rotate(180deg);
-                transition: all $tree-animation-speed linear;
-            }
-        }
-
-        > .n2o-input-clear {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-
-            &.input-in-focus {
-                visibility: visible;
-            }
-        }
-
-        > .n2o-popup-control {
-            display: flex;
-            justify-content: start;
-            text-align: center;
-            margin: 0;
         }
     }
 
-    &:hover {
-        .n2o-input-clear {
-            visibility: visible !important;
-        }
-
-        .show-clear-trigger-hover {
-            display: block;
+    .select-controls.open {
+        .toggle {
+            transform: rotate(180deg);
         }
     }
 
-    .dropdown.computing {
-        .n2o-input-select__menu {
+    .select-controls.read-only {
+        .clear {
             opacity: 0;
+            cursor: default;
+        }
+    }
+
+    .n2o-spinner-container {
+        transform: translate(-115%, -50%);
+
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            border-width: 0.15em;
+        }
+    }
+
+    // Ширина search-controls когда есть кнопка очистки
+    // Иначе появятся дергания при загрузке т.к. лоадер имеет меньший размер
+    .select-loader.extended {
+        min-width: 54px;
+
+        .n2o-spinner-container {
+            left: 100%;
         }
     }
 }
 
-.n2o-input-select__menu.dropdown-menu.full-size {
-    min-width: 100%;
+.n2o-input-select.disabled {
+    .form-control {
+        background-color: #dce3e7;
+        cursor: default;
+    }
+}
+
+// readonly input
+.n2o-input-select.read-only {
+    .n2o-input {
+        cursor: pointer;
+    }
+}
+
+// single режим
+.n2o-input-select.single {
+    .input-content {
+        gap: 0;
+    }
+
+    input.n2o-input.single {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .input-tags {
+        display: none;
+    }
+}
+
+// multi режим
+.n2o-input-select.multi {
+    input.multi {
+        min-width: 80px;
+    }
+
+    .input-tags:empty {
+        display: none;
+    }
+
+    .input-tags:empty + input.n2o-input.multi {
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+// Тултип
+.n2o-input-select__menu {
+    padding: 0;
+
+    .n2o-pop-up__wrapper {
+        width: max-content;
+
+        .n2o-dropdown-control.n2o-pop-up {
+            overflow: auto;
+        }
+
+        .dropdown-item {
+            min-height: 40px;
+
+            div {
+                max-width: min-content;
+            }
+        }
+
+        .dropdown-item.selected {
+            background: #f5f5f5;
+        }
+
+        .dropdown-item.with-description {
+            display: flex;
+            flex-flow: column;
+            align-items: flex-start;
+
+            .n2o-eclipse-content__description {
+                padding: 0;
+            }
+
+            // TODO, поддержка сущесвующей верстки, нужно рефакторить pop up list и его компоненты
+            .n2o-eclipse-content__description-with-checkbox {
+                padding-left: 24px;
+            }
+        }
+    }
 }

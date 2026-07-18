@@ -11,6 +11,12 @@ import java.time.Duration;
 public interface Select extends Control, PopupControl {
 
     /**
+     * Проверка соответствия текста подсказки для ввода
+     * @param value ожидаемый текст
+     */
+    void shouldHavePlaceholder(String value);
+
+    /**
      * Клик по полю
      */
     void click();

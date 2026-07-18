@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-// TODO временное решение для изменения ui элементов внутри input
+// TODO временное решение для изменения ui элементов внутри input select tree
 export interface InputElementsProps {
     spinner?: ReactNode | {
         color?: string
