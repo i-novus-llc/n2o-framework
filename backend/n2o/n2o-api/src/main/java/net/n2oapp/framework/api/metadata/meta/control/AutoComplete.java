@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.control.list.SearchSideEnum;
 
 
 /**
@@ -16,5 +17,9 @@ public class AutoComplete extends ListControl {
     @JsonProperty
     private Integer maxTagTextLength;
     @JsonProperty
+    private SearchSideEnum searchSide;
+    @JsonProperty
     private String inputLabelFieldId;
+    @JsonProperty
+    private Boolean resetOnBlur;
 }

@@ -1581,16 +1581,21 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="tags" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Отображение выбранных элементов тегами.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
                     <xs:annotation>
                         <xs:documentation>Максимальная длина текста элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="search-side" type="searchSideType" default="server">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Сторона фильтрации
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="reset-on-blur" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Стирание значения при потере фокуса</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -2105,6 +2110,20 @@
                         <xs:documentation>Минимальное число символов для начала поиска</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="search-side" type="searchSideType" default="server">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Сторона фильтрации
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="search-filter-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -2179,6 +2198,20 @@
                 <xs:attribute name="search-min-length" type="xs:integer" default="0">
                     <xs:annotation>
                         <xs:documentation>Минимальное число символов для начала поиска</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="search-side" type="searchSideType" default="server">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Сторона фильтрации
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="search-filter-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор фильтра, отвечающего за поиск вариантов выбора при вводе
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -2601,6 +2634,18 @@
             <xs:enumeration value="square"/>
             <xs:enumeration value="circle"/>
             <xs:enumeration value="rounded"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="searchSideType">
+        <xs:annotation>
+            <xs:documentation>
+                Сторона фильтрации
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction>
+            <xs:enumeration value="client"/>
+            <xs:enumeration value="server"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

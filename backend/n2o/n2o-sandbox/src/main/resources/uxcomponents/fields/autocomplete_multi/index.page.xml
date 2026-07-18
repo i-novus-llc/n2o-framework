@@ -3,7 +3,7 @@
              name="Поле с автозаполнением и множественным выбором">
     <form>
         <fields>
-            <auto-complete id="name" query-id="test" value-field-id="fio" tags="true"
+            <auto-complete id="name" query-id="test" value-field-id="fio"
                            placeholder="Введите имена" no-label-block="true"/>
         </fields>
     </form>

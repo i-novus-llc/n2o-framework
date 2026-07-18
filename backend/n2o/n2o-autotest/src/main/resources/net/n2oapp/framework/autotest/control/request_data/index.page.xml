@@ -14,7 +14,7 @@
                 </col>
                 <col>
                     <input-select id="input_select_multi" query-id="select" type="multi" search="false"/>
-                    <auto-complete id="auto_multi" query-id="select" tags="true"/>
+                    <auto-complete id="auto_multi" query-id="select"/>
                 </col>
             </row>
         </fields>

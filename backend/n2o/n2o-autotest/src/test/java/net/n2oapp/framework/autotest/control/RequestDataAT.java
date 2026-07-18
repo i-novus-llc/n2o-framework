@@ -93,7 +93,7 @@ class RequestDataAT extends AutoTestBase {
     private static void checkFieldsAfterRefresh(Select select, InputSelect inputSelect, AutoComplete autoComplete, InputSelect inputSelectMulti, AutoComplete autoCompleteMulti) {
         select.shouldSelected("test5");
         inputSelect.shouldHaveValue("test6");
-        autoComplete.shouldHaveValue("test5");
+        autoComplete.shouldHaveTags(new String[]{"test5"});
         inputSelectMulti.shouldSelectedMulti(new String[]{"test3", "test5"});
         autoCompleteMulti.shouldHaveTags(new String[]{"test1", "test6"});
 
@@ -122,6 +122,7 @@ class RequestDataAT extends AutoTestBase {
     }
 
     private static void checkFields(Select select, InputSelect inputSelect, AutoComplete autoComplete, InputSelect inputSelectMulti, AutoComplete autoCompleteMulti) {
+        select.shouldExists();
         select.shouldSelected("test4");
         inputSelect.shouldHaveValue("test4");
         autoComplete.shouldBeEmpty();
@@ -145,7 +146,8 @@ class RequestDataAT extends AutoTestBase {
 
         autoComplete.click();
         autoComplete.setValue("test5");
-        autoComplete.shouldHaveValue("test5");
+        autoComplete.chooseDropdownOption("test5");
+        autoComplete.shouldHaveTags(new String[]{"test5"});
 
         inputSelectMulti.openPopup();
         inputSelectMulti.dropdown().selectMulti(2, 4);

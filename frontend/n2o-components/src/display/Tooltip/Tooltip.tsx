@@ -4,13 +4,13 @@ import { TooltipTheme, TooltipComponent } from './TooltipComponent'
 import { useTooltipFloating, Container, type TooltipFloating } from './useTooltipFloating'
 import { useTooltipTrigger, Trigger, type TooltipTrigger } from './useTooltipTrigger'
 
-export interface Props extends TooltipFloating {
+export interface TooltipProps extends TooltipFloating {
     hint: ReactNode | string | number
     className?: string
     trigger?: Trigger
     children: TooltipTrigger['children']
-    closeOnClickOutside: boolean
     theme?: TooltipTheme,
+    open?: boolean
 }
 
 export function Tooltip({
@@ -18,12 +18,13 @@ export function Tooltip({
     className,
     children,
     theme,
+    open: propsOpen,
     closeOnClickOutside = true,
     placement = 'top',
     delay = 0,
     trigger = Trigger.HOVER,
     container = Container.TARGET,
-}: Props) {
+}: TooltipProps) {
     const {
         open,
         handleOpen,
@@ -56,7 +57,7 @@ export function Tooltip({
                 floatingRef={floatingRef}
                 style={floatingStyles}
                 className={className}
-                visible={open}
+                visible={typeof propsOpen === 'boolean' ? propsOpen : open}
                 portal={portal}
                 theme={theme}
             >

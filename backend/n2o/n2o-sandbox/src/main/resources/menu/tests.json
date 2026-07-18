@@ -1072,7 +1072,7 @@
           "name": "InputSelectAT. testSearchMinLength"
         },
         {
-          "templateId": "net/n2oapp/framework/autotest/control/input_select/dropdwon_options_permanent",
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/dropdown_options_permanent",
           "name": "InputSelectAT. dropdownOptionsPermanent"
         },
         {
@@ -1098,6 +1098,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/control/input_select/multiple_default_values",
           "name": "InputSelectAT. testMultipleDefaultValues"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/input_select/search_side",
+          "name": "InputSelectAT. testSearchSide"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/input_text/simple",
@@ -1226,6 +1230,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/control/select_tree/enabled_field_id",
           "name": "InputSelectTreeAT. testEnabledFieldId"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/control/select_tree/search_side",
+          "name": "InputSelectTreeAT. testSearchSide"
         },
         {
           "templateId": "net/n2oapp/framework/autotest/control/slider",

@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.submodels;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
@@ -83,8 +82,10 @@ class ResolveFormFieldSubModelsAT extends AutoTestBase {
         simplePage.shouldExists();
 
         TableWidget table = simplePage.widget(TableWidget.class);
-        Cells row = table.columns().rows().row(2);
-        row.click();
+        table.shouldExists();
+        TableWidget.Rows rows = table.columns().rows();
+        rows.shouldHaveSize(4);
+        rows.row(2).click();
 
         table.toolbar().topLeft().button("Изменить").click();
 
@@ -95,7 +96,11 @@ class ResolveFormFieldSubModelsAT extends AutoTestBase {
         FormWidget firstForm = region.content().widget(0, FormWidget.class);
         FormWidget secondForm = region.content().widget(1, FormWidget.class);
 
-        firstForm.fields().field("gender").control(Select.class).shouldSelected("female");
-        secondForm.fields().field("gender").control(Select.class).shouldSelected("female");
+        Select field1 = firstForm.fields().field("gender").control(Select.class);
+        Select field2 = secondForm.fields().field("gender").control(Select.class);
+        field1.shouldExists();
+        field2.shouldExists();
+        field1.shouldSelected("female");
+        field2.shouldSelected("female");
     }
 }

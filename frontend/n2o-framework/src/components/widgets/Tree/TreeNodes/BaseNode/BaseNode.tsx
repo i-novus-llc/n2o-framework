@@ -49,7 +49,7 @@ export function BaseNode({
                             : data[labelFieldId]}
                     </span>
                 ),
-                (badge && has(data, badgeFieldId)) && (
+                (badge && has(data, badgeFieldId as string)) && (
                     <Badge
                         {...badge}
                         {...resolveBadgeProps(badge, data)}

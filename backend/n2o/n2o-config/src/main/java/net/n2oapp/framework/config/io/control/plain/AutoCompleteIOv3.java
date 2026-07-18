@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.control.plain;
 
+import net.n2oapp.framework.api.metadata.control.list.SearchSideEnum;
 import net.n2oapp.framework.api.metadata.control.plain.N2oAutoComplete;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.control.list.ListFieldIOv3;
@@ -15,9 +16,10 @@ public class AutoCompleteIOv3 extends ListFieldIOv3<N2oAutoComplete> {
     @Override
     public void io(Element e, N2oAutoComplete m, IOProcessor p) {
         super.io(e, m, p);
-        p.attributeBoolean(e, "tags", m::getTags, m::setTags);
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
+        p.attributeEnum(e, "search-side", m::getSearchSide, m::setSearchSide, SearchSideEnum.class);
         p.attribute(e, "input-label-field-id", m::getInputLabelFieldId, m::setInputLabelFieldId);
+        p.attributeBoolean(e, "reset-on-blur", m::getResetOnBlur, m::setResetOnBlur);
     }
 
     @Override

@@ -50,10 +50,8 @@ public interface Badge extends Component {
      * @param position ожидаемая позиция баджа
      */
     default void badgeShouldHavePosition(BadgePositionEnum position) {
-        if (position.equals(BadgePositionEnum.LEFT))
-            element().$$("span").get(0).shouldHave(Condition.cssClass("badge"));
-        else
-            element().$$("span").get(1).shouldHave(Condition.cssClass("badge"));
+        int idx = position.equals(BadgePositionEnum.LEFT) ? 0 : 1;
+        element().$(".n2o-badge").parent().$$("span").get(idx).shouldHave(Condition.cssClass("badge"));
     }
 
     /**

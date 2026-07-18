@@ -66,6 +66,7 @@ class SelectAT extends AutoTestBase {
         dropdown.selectItem(1);
         input.shouldSelected("Two");
         // Выбранная строка в выпадающем списке не должна быть кликабельной
+        input.openPopup();
         input.dropdown().item(1).shouldBeSelected();
         input.dropdown().item(1).shouldBeDisabled();
 
@@ -81,8 +82,10 @@ class SelectAT extends AutoTestBase {
         dropdown2.selectItem(1);
         input2.shouldNotBeCleanable();
         // Выбранная строка в выпадающем списке не должна быть кликабельной
+        input2.openPopup();
         dropdown2.item(1).shouldBeSelected();
         dropdown2.item(1).shouldBeDisabled();
+        input2.closePopup();
 
         // close popup by click on outside area
         input2.click();
@@ -109,14 +112,14 @@ class SelectAT extends AutoTestBase {
         dropdown.selectMulti(0);
         dropdown.shouldBeChecked(0);
         dropdown.item(0).shouldBeEnabled();
-        input.shouldSelected("Объектов 1 шт");
+        input.shouldSelected("Выбрано: 1");
 
         dropdown.selectMulti(1, 2);
         dropdown.shouldBeChecked(0, 1, 2);
         dropdown.item(0).shouldBeEnabled();
         dropdown.item(1).shouldBeEnabled();
         dropdown.item(2).shouldBeEnabled();
-        input.shouldSelected("Объектов 3 шт");
+        input.shouldSelected("Выбрано: 3");
 
         input.clear();
         dropdown.shouldNotBeChecked(0, 1, 2);
@@ -211,7 +214,7 @@ class SelectAT extends AutoTestBase {
         dropdown2.item("name3").shouldHaveDescription("desc3");
         dropdown2.selectMulti(1, 2);
         dropdown2.shouldBeChecked(1, 2);
-        input2.shouldSelected("Объектов 2 шт");
+        input2.shouldSelected("Выбрано: 2");
         input2.clear();
         input2.shouldBeEmpty();
 

@@ -45,6 +45,10 @@
           "name": "Выбор нескольких значений по умолчанию в списковых полях"
         },
         {
+          "templateId": "uxcomponents/select/client_search_side",
+          "name": "Выпадающий список с фильтрацией данных на клиенте"
+        },
+        {
           "templateId": "uxcomponents/tables/scroll_h_position",
           "name": "Расположение горизонтального скролла"
         },

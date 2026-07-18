@@ -14,6 +14,11 @@ import java.time.Duration;
 public class N2oSelect extends N2oControl implements Select {
 
     @Override
+    public void shouldHavePlaceholder(String value) {
+        selectedItem().shouldHave(Condition.attribute("placeholder", value));
+    }
+
+    @Override
     public void shouldHaveValue(String value, Duration... duration) {
         shouldSelected(value, duration);
     }
@@ -25,27 +30,31 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void setValue(String value) {
-        selectedItemsContainer().$(".input").setValue(value);
+        selectedItem().$(".input").setValue(value);
     }
 
     @Override
     public void pressEnter() {
-        element().parent().pressEnter();
+        selectedItem().pressEnter();
     }
 
     @Override
     public void click() {
-        selectedItemsContainer().click();
+        selectedItem().click();
     }
 
     @Override
     public void shouldSelected(String value, Duration... duration) {
-        should(Condition.value(value), selectedItemsContainer().$(".valueText"), duration);
+        if (selectedItem().exists()) {
+            should(Condition.attribute("value", value), selectedItem(), duration);
+        } else {
+            should(Condition.text(value), selectedItemsContainer(), duration);
+        }
     }
 
     @Override
     public void shouldSelected(int count, Duration... duration) {
-        should(Condition.value(String.format("Объектов %d шт", count)), selectedItemsContainer().$(".valueText"), duration);
+        should(Condition.text(String.format("Выбрано: %d", count)), selectedItemsContainer(), duration);
     }
 
     @Override
@@ -55,24 +64,24 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void shouldBeCleanable() {
-        clearIcon().shouldBe(Condition.exist);
+        clearIcon().parent().shouldNotHave(Condition.cssClass("read-only"));
     }
 
     @Override
     public void shouldNotBeCleanable() {
-        clearIcon().shouldNotBe(Condition.exist);
+        clearIcon().parent().shouldHave(Condition.cssClass("read-only"));
     }
 
     @Override
     public void shouldBeDisabled() {
-        element().shouldHave(Condition.cssClass("disabled"));
+        selectedItem().shouldBe(Condition.disabled);
     }
 
     @Override
     public void openPopup() {
         SelenideElement popupIcon = popupIcon();
 
-        if (!popupIcon.is(Condition.cssClass("isExpanded")))
+        if (!popupIcon.is(Condition.cssClass("open")))
             popupIcon.click();
     }
 
@@ -80,7 +89,7 @@ public class N2oSelect extends N2oControl implements Select {
     public void closePopup() {
         SelenideElement popupIcon = popupIcon();
 
-        if (popupIcon.is(Condition.cssClass("isExpanded")))
+        if (popupIcon.is(Condition.cssClass("open")))
             popupIcon.click();
     }
 
@@ -100,18 +109,22 @@ public class N2oSelect extends N2oControl implements Select {
     }
 
     protected SelenideElement selectPopUp() {
-        return element().parent().parent().$(".n2o-select-pop-up");
+        return element().parent().parent().$(".n2o-pop-up");
     }
 
     protected SelenideElement popupIcon() {
-        return element().$(".n2o-popup-control");
+        return element().$(".select-controls");
     }
 
     protected SelenideElement clearIcon() {
-        return element().$(".n2o-input-clear");
+        return element().$(".clear");
     }
 
     protected SelenideElement selectedItemsContainer() {
-        return element().$(".n2o-input-items");
+        return element().$(".input-tags");
+    }
+
+    protected SelenideElement selectedItem() {
+        return element().$(".input-single");
     }
 }

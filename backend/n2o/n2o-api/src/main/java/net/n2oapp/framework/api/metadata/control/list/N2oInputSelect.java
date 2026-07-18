@@ -17,6 +17,7 @@ public class N2oInputSelect extends N2oListField {
     private Integer maxTagTextLength;
     private Integer throttleDelay;
     private Integer searchMinLength;
+    private SearchSideEnum searchSide;
     private String inputLabelFieldId;
 
     @Override

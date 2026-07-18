@@ -297,36 +297,38 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 ```
 
 ### `<input-select>` — Searchable Dropdown
-| Attribute | Type | Default |
-|---|---|---|
-| type | single / multi / checkboxes | |
-| reset-on-blur | boolean | true |
-| max-tag-count | Number | |
-| max-tag-text-length | Number | 10 |
-| throttle-delay | Number (ms) | 300 |
-| search-min-length | Number | 0 |
-| description-field-id | String | |
-| input-label-field-id | String | |
+| Attribute            | Type                        | Description | Default |
+|----------------------|-----------------------------|-------------|---------|
+| type                 | single / multi / checkboxes |             |         |
+| reset-on-blur        | boolean                     |             | true    |
+| max-tag-count        | Number                      |             |         |
+| max-tag-text-length  | Number                      |             | 10      |
+| throttle-delay       | Number (ms)                 |             | 300     |
+| search-side          | client / server             | Search side | server  |
+| search-min-length    | Number                      |             | 0       |
+| description-field-id | String                      |             |         |
+| input-label-field-id | String                      |             |         |
 ```xml
 <input-select id="dept" label="Dept" query-id="departments" label-field-id="name" type="single"/>
 <input-select id="skills" label="Skills" query-id="skills" type="multi" max-tag-count="3"/>
 ```
 
 ### `<input-select-tree>` — Tree Dropdown
-| Attribute | Type | Default |
-|---|---|---|
-| parent-field-id | String (required) | |
-| has-children-field-id | String | |
-| value-field-id | String | |
-| input-label-field-id | String | |
-| ajax | boolean | false |
-| checkboxes | boolean | false |
-| checking-strategy | all / parent / child | all |
-| max-tag-count | Number | |
-| max-tag-text-length | Number | 10 |
-| size | Number | 200 |
-| throttle-delay | Number (ms) | 300 |
-| search-min-length | Number | 0 |
+| Attribute             | Type                 | Description  | Default |
+|-----------------------|----------------------|--------------|---------|
+| parent-field-id       | String (required)    |              |         |
+| has-children-field-id | String               |              |         |
+| value-field-id        | String               |              |         |
+| input-label-field-id  | String               |              |         |
+| ajax                  | boolean              |              | false   |
+| checkboxes            | boolean              |              | false   |
+| checking-strategy     | all / parent / child |              | all     |
+| max-tag-count         | Number               |              |         |
+| max-tag-text-length   | Number               |              | 10      |
+| size                  | Number               |              | 200     |
+| throttle-delay        | Number (ms)          |              | 300     |
+| search-side           | client / server      | Search side  | server  |
+| search-min-length     | Number               |              | 0       |
 
 ### `<radio-group>` — Radio Buttons (`type="default/btn/tabs"`, `inline`)
 ```xml
@@ -337,16 +339,16 @@ Fields are placed inside `<fields>` of a form widget, or inside `<filters>` of a
 
 ### `<checkbox-group>` — Checkbox Group (`type="default/btn"`, `inline`)
 ### `<auto-complete>` — Autocomplete
-| Attribute | Type | Default |
-|---|---|---|
-| query-id | String | |
-| datasource | String | |
-| value-field-id | String | name |
-| label-field-id | String | name |
-| input-label-field-id | String | |
-| search-filter-id | String | |
-| tags | boolean | false |
-| max-tag-text-length | Number | 10 |
+| Attribute            | Type            | Description | Default |
+|----------------------|-----------------|-------------|---------|
+| query-id             | String          |             |         |
+| datasource           | String          |             |         |
+| value-field-id       | String          |             | name    |
+| label-field-id       | String          |             | name    |
+| input-label-field-id | String          |             |         |
+| search-side          | client / server | Search side | server  |
+| search-filter-id     | String          |             |         |
+| max-tag-text-length  | Number          |             | 10      |
 
 ### Inline `<options>` (instead of query-id)
 ```xml

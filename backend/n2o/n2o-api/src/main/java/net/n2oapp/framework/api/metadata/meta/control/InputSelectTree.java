@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.list.CheckingStrategyEnum;
+import net.n2oapp.framework.api.metadata.control.list.SearchSideEnum;
 
 /**
  * Клиентская реализация компонента ввода с выбором в выпадающем списке в виде дерева
@@ -33,6 +34,8 @@ public class InputSelectTree extends ListControl {
     private Integer throttleDelay;
     @JsonProperty
     private Integer searchMinLength;
+    @JsonProperty
+    private SearchSideEnum searchSide;
     @JsonProperty
     private String inputLabelFieldId;
 }

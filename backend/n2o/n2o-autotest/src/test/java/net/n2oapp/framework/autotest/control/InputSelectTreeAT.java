@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -115,6 +114,38 @@ class InputSelectTreeAT extends AutoTestBase {
     }
 
     @Test
+    void testSearchSide() {
+        setResourcePath("net/n2oapp/framework/autotest/control/select_tree/search_side");
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/search_side/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/search_side/test.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        InputSelectTree inputSelectTree = page.widget(FormWidget.class).fields().field("InputSelectTree")
+                .control(InputSelectTree.class);
+        inputSelectTree.shouldBeVisible();
+        inputSelectTree.openPopup();
+        DropDownTree dropdown = inputSelectTree.dropdown();
+        dropdown.shouldHaveItems(2);
+        dropdown.shouldHaveOption("one");
+        dropdown.shouldHaveOption("two");
+
+        dropdown.setValue("mess");
+        dropdown.shouldHaveItems(4);
+        dropdown.shouldHaveOption("one");
+        dropdown.shouldHaveOption("message");
+        dropdown.shouldHaveOption("long message");
+        dropdown.shouldHaveOption("very long message");
+        dropdown.clear();
+        inputSelectTree.openPopup();
+        dropdown.setValue("long");
+        dropdown.shouldHaveItems(3);
+        dropdown.shouldHaveOption("one");
+        dropdown.shouldHaveOption("long message");
+        dropdown.shouldHaveOption("very long message");
+    }
+
+    @Test
     void readFromQueryTest() {
         setResourcePath("net/n2oapp/framework/autotest/control/select_tree/nodes");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/index.page.xml"),
@@ -181,7 +212,6 @@ class InputSelectTreeAT extends AutoTestBase {
     }
 
     @Test
-    @Disabled
     void testMaxTagsCount() {
         setResourcePath("net/n2oapp/framework/autotest/control/select_tree/max_count");
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/max_count/index.page.xml"),

@@ -13,14 +13,14 @@ import { withTranslation } from 'react-i18next'
 import onClickOutsideHOC from 'react-onclickoutside'
 import { type ChangeEventExtra } from 'rc-tree-select/lib/interface'
 
-import { type TOption, getSearchMinLengthHintType } from '../InputSelect/types'
 import { Icon } from '../../display/Icon'
 import { InlineSpinner } from '../../layouts/Spinner/InlineSpinner'
 import { Checkbox } from '../Checkbox/Checkbox'
 import { EMPTY_ARRAY, EMPTY_OBJECT, NOOP_FUNCTION } from '../../utils/emptyTypes'
 import { getShowClearTriggerClass, type InputElementsProps, ShowClearTrigger, DefaultIcons } from '../inputElements/inputElements'
-import { sortByAvailability } from '../InputSelect/utils'
+import { sortByAvailability } from '../utils'
 
+import { type Option, getSearchMinLengthHintType, idField } from './types'
 import { type Options, TreeNode } from './TreeSelectNode'
 import { visiblePartPopup, getCheckedStrategy } from './helpers'
 
@@ -32,7 +32,7 @@ const getPopupContainer = (container: HTMLElement) => container
  * @param ids
  * @param valueFieldId
  */
-const getDataByIds = (options: Props['options'], ids: string[], valueFieldId: Props['valueFieldId']) => filterF(options, node => some(ids, v => v === node[valueFieldId as keyof TOption]))
+const getDataByIds = (options: Props['options'], ids: string[], valueFieldId: Props['valueFieldId']) => filterF(options, node => some(ids, v => v === node[valueFieldId as keyof Option]))
 
 const getSingleValue = (options: Props['options'], value: Props['value'], valueFieldId: Props['valueFieldId']) => find(options, [valueFieldId, value])
 const getMultiValue = (options: Props['options'], value: Props['value'], valueFieldId: Props['valueFieldId']) => getDataByIds(options, value, valueFieldId)
@@ -155,18 +155,18 @@ function InputSelectTree({
         const items = options || []
         const itemsByID = [...items].reduce(
             (acc, item) => {
-                const enabled = item[enabledFieldId as keyof TOption]
+                const enabled = item[enabledFieldId as keyof Option]
                 const disabled = typeof enabled === 'boolean' ? !enabled : false
 
                 return ({
                     ...acc,
-                    [item[valueFieldId as keyof TOption]]: {
+                    [item[valueFieldId]]: {
                         ...item,
-                        key: item[valueFieldId as keyof TOption],
-                        value: item[valueFieldId as keyof TOption],
+                        key: item[valueFieldId],
+                        value: item[valueFieldId],
                         disabled,
                         title: item.formattedTitle || visiblePartPopup(item, popupProps as unknown as Options),
-                        ...(ajax && { isLeaf: !item[hasChildrenFieldId as keyof TOption] }),
+                        ...(ajax && { isLeaf: !item[hasChildrenFieldId as keyof Option] }),
                         children: [],
                         /* игнорирование встроенного параметра из rc-tree-select, иконку отрисовывает visiblePartPopup */
                         icon: null,
@@ -414,7 +414,7 @@ export interface Props {
     onKeyDown?(evt: KeyboardEvent<HTMLInputElement>): void
     onSearch(arg: Props['value']): void
     onToggle(arg: boolean): void
-    options: TOption[]
+    options: Option[] | never[]
     parentFieldId: string
     placeholder: string
     showCheckedStrategy: string
@@ -422,7 +422,7 @@ export interface Props {
     t(arg: string): void
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value?: any
-    valueFieldId: keyof TOption
+    valueFieldId: idField
     searchMinLength?: number
     getSearchMinLengthHint: getSearchMinLengthHintType
 }

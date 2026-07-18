@@ -110,7 +110,7 @@ class FilterColumnAT extends AutoTestBase {
         rows.row(1).cell(0).shouldHaveText("4");
     }
 
-    private static void testInputTextFilter(TableWidget.Rows rows, TableFilterHeader header, InputText headerInput, Runnable runnable) {
+    private void testInputTextFilter(TableWidget.Rows rows, TableFilterHeader header, InputText headerInput, Runnable runnable) {
         header.openFilterDropdown();
         headerInput.click();
         headerInput.setValue("1");
@@ -123,7 +123,7 @@ class FilterColumnAT extends AutoTestBase {
         rows.shouldHaveSize(4);
     }
 
-    private static void testSelectFilter(TableWidget.Rows rows, TableFilterHeader header, Select headerInput, Runnable runnable) {
+    private void testSelectFilter(TableWidget.Rows rows, TableFilterHeader header, Select headerInput, Runnable runnable) {
         header.openFilterDropdown();
         headerInput.openPopup();
         headerInput.dropdown().selectItem(0);
@@ -136,7 +136,7 @@ class FilterColumnAT extends AutoTestBase {
         rows.shouldHaveSize(4);
     }
 
-    private static void testDateIntervalFilter(TableWidget.Rows rows, TableFilterHeader header, DateInterval headerInput, Runnable runnable) {
+    private void testDateIntervalFilter(TableWidget.Rows rows, TableFilterHeader header, DateInterval headerInput, Runnable runnable) {
         header.openFilterDropdown();
         headerInput.shouldBeClosed();
         headerInput.setValueInBegin("01.01.2019");

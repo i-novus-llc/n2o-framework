@@ -18,8 +18,13 @@ import java.util.Arrays;
 public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
-    public void click() {
-        element().$(".n2o-input-items").click();
+    public void shouldHaveValue(String value, Duration... duration) {
+        should(Condition.attribute("value", value), inputElement(), duration);
+    }
+
+    @Override
+    public void shouldBeEmpty() {
+        selectedItemsContainer().shouldBe(Condition.empty);
     }
 
     @Override
@@ -38,37 +43,35 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void shouldHaveValue(String value, Duration... duration) {
-        if (inputElement().exists())
-            should(Condition.exactValue(value), inputElement(), duration);
-        else
-            should(Condition.text(value), cellInputElement(), duration);
+    public void backspace() {
+        inputElement().sendKeys(Keys.BACK_SPACE);
+    }
+
+    @Override
+    public void click() {
+        inputElement().click();
     }
 
     @Override
     public void shouldHaveDropdownMessage(String value, Duration... duration) {
-        should(Condition.exactText(value), element().parent().parent().parent().$(".n2o-dropdown-control"), duration);
+        should(Condition.exactText(value), element().parent().parent().$(".n2o-dropdown-control"), duration);
     }
 
-    protected SelenideElement cellInputElement() {
-        return element().$(".n2o-editable-cell .n2o-editable-cell-text");
-    }
     @Override
     public void shouldSelectedMulti(String[] values, Duration... duration) {
-        if (values.length != 0) {
-            should(CollectionCondition.size(values.length), selectedItems(), duration);
-            should(CollectionCondition.textsInAnyOrder(values), selectedItems(), duration);
-        }
+        ElementsCollection selectedItemsValue = selectedItemsValue();
+        should(CollectionCondition.size(values.length), selectedItemsValue, duration);
+        should(CollectionCondition.texts(values), selectedItemsValue, duration);
     }
 
     @Override
     public void shouldSelectedMultiSize(int size) {
-        selectedItems().shouldHave(CollectionCondition.size(size));
+        selectedItemsValue().shouldHave(CollectionCondition.size(size));
     }
 
     @Override
     public void clearUsingIcon() {
-        element().$(".n2o-input-clear").hover().shouldBe(Condition.visible).click();
+        clearIcon().hover().shouldBe(Condition.visible).click();
     }
 
     @Override
@@ -77,15 +80,8 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void shouldBeEmpty() {
-        inputElement().shouldBe(Condition.empty);
-        if (isMulti())
-            inputElement().parent().$(".selected-item").shouldNot(Condition.exist);
-    }
-
-    @Override
     public void clearItems(String... items) {
-        ElementsCollection selectedItems = selectedItems();
+        ElementsCollection selectedItems = selectedItemsContainer().$$(".tags");
         Arrays.stream(items)
                 .forEach(s -> selectedItems.find(Condition.text(s))
                         .$("button")
@@ -104,14 +100,14 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void shouldBeDisabled() {
-        element().shouldHave(Condition.cssClass("disabled"));
+        inputElement().shouldBe(Condition.disabled);
     }
 
     @Override
     public void openPopup() {
         SelenideElement popupIcon = popupIcon();
 
-        if (!popupIcon.is(Condition.cssClass("isExpanded")))
+        if (!popupIcon.is(Condition.cssClass("open")))
             popupIcon.click();
     }
 
@@ -119,7 +115,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     public void closePopup() {
         SelenideElement popupIcon = popupIcon();
 
-        if (popupIcon.is(Condition.cssClass("isExpanded")))
+        if (popupIcon.is(Condition.cssClass("open")))
             popupIcon.click();
     }
 
@@ -135,32 +131,36 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public DropDown dropdown() {
-        return N2oSelenide.component(element().parent()
-                .parent().$(".n2o-dropdown-control"), DropDown.class);
-    }
-
-    @Override
-    public void backspace() {
-        inputElement().sendKeys(Keys.BACK_SPACE);
-    }
-
-    protected SelenideElement popupIcon() {
-        return element().$(".n2o-popup-control");
-    }
-
-    protected ElementsCollection selectedItems() {
-        return element().$$(".selected-item");
+        return N2oSelenide.component(element().parent().parent().$(".n2o-dropdown-control"), DropDown.class);
     }
 
     protected SelenideElement inputElement() {
-        return element().$(".n2o-inp");
+        return element().parent().has(Condition.cssClass("multi"))
+                ? element().$(".input-multiple")
+                : element().$(".input-single");
     }
 
     protected SelenideElement selectPopUp() {
         return element().parent().parent().$(".n2o-pop-up");
     }
 
-    private boolean isMulti() {
-        return inputElement().has(Condition.cssClass("n2o-inp--multi"));
+    protected SelenideElement popupIcon() {
+        return element().$(".select-controls");
+    }
+
+    protected SelenideElement clearIcon() {
+        return element().$(".clear");
+    }
+
+    protected SelenideElement selectedItemsContainer() {
+        return element().$(".input-tags");
+    }
+
+    protected ElementsCollection selectedItemsValue() {
+        return element().$$(".input-tags .tag-value");
+    }
+
+    protected ElementsCollection selectedItems() {
+        return element().$$(".selected-item");
     }
 }

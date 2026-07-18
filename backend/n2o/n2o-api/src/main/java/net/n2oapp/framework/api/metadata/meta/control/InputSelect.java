@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.control.list.SearchSideEnum;
 
 /**
  * Клиентская модель компонента ввода текста с выбором из выпадающего списка
@@ -26,6 +27,8 @@ public class InputSelect extends ListControl {
     private Integer throttleDelay;
     @JsonProperty
     private Integer searchMinLength;
+    @JsonProperty
+    private SearchSideEnum searchSide;
     @JsonProperty
     private String inputLabelFieldId;
 }

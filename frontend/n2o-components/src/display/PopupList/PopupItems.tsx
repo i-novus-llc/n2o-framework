@@ -6,49 +6,20 @@ import { DropdownItem } from 'reactstrap'
 import { findDOMNode } from 'react-dom'
 import scrollIntoView from 'scroll-into-view-if-needed'
 
-import { StatusText } from '../../display/StatusText/StatusText'
-import { Badge } from '../../display/Badge/Badge'
-import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../../display/Badge/utils'
-import { Checkbox } from '../Checkbox/Checkbox'
-import { Shape } from '../../display/Badge/enums'
+import { StatusText } from '../StatusText/StatusText'
+import { Badge } from '../Badge/Badge'
+import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../Badge/utils'
+import { Checkbox } from '../../inputs/Checkbox/Checkbox'
+import { Shape } from '../Badge/enums'
 import { EMPTY_ARRAY, NOOP_FUNCTION } from '../../utils/emptyTypes'
 
-import { PopUpProps, TOption } from './types'
-import { Props as InputContentProps } from './InputContent'
-import { groupData, inArray } from './utils'
+import { Option, type PopUpItemsProps } from './types'
+import { groupData, contains } from './utils'
 import { UNKNOWN_GROUP_FIELD_ID } from './constants'
-import { BadgeType } from './PopupList'
 import { PopupIcon, PopupImage } from './snippets'
 
-type Props = {
-    activeValueId?: string | number | null
-    autocomplete?: boolean
-    badge?: BadgeType
-    descriptionFieldId?: string
-    enabledFieldId?: string
-    format?: string
-    groupFieldId?: string
-    hasCheckboxes?: boolean
-    iconFieldId?: string
-    imageFieldId?: string
-    isExpanded?: boolean
-    labelFieldId?: string
-    loading?: boolean
-    onRemoveItem?: InputContentProps['onRemoveItem']
-    onSelect?: InputContentProps['onSelect']
-    options?: InputContentProps['options']
-    popUpItemRef?: PopUpProps['popUpItemRef']
-    renderIfEmpty?: boolean
-    selected?: InputContentProps['selected']
-    setActiveValueId?: InputContentProps['setActiveValueId']
-    statusFieldId?: string
-    valueFieldId?: string
-    multiSelect?: boolean
-    searchMinLengthHint?: string | null | JSX.Element
-}
-
 /**
- * Компонент попапа для {@link InputSelect}
+ * Компонент попапа
  * @reactProps {array} options - массив данных
  * @reactProps {string} activeLabel - активный лейбел
  * @reactProps {function} setActiveLabel - смена активного лейбла
@@ -75,7 +46,7 @@ export function PopupItems({
     options = EMPTY_ARRAY,
     labelFieldId = 'label',
     iconFieldId = '',
-    valueFieldId = 'value',
+    valueFieldId = 'id',
     imageFieldId = '',
     descriptionFieldId = '',
     statusFieldId = '',
@@ -95,7 +66,7 @@ export function PopupItems({
     multiSelect = false,
     searchMinLengthHint = null,
     isExpanded,
-}: Props) {
+}: PopUpItemsProps) {
     const handleRef = (item: React.ReactInstance | null | undefined) => {
         if (loading || !isExpanded) { return }
 
@@ -109,18 +80,18 @@ export function PopupItems({
         }
     }
 
-    const handleItemClick = ({ target }: MouseEvent<HTMLElement>, item: TOption) => {
+    const handleItemClick = ({ target }: MouseEvent<HTMLElement>, item: Option) => {
         if ((target as HTMLInputElement).nodeName === 'LABEL') { return }
-        if (inArray(selected, item)) {
+        if (contains(selected, item)) {
             onRemoveItem(item)
         } else {
             onSelect(item)
         }
     }
 
-    const withStatus = (item: TOption) => !isNil(get(item, statusFieldId))
+    const withStatus = (item: Option) => !isNil(get(item, statusFieldId))
 
-    const displayTitle = (item: TOption) => {
+    const displayTitle = (item: Option) => {
         if (item.formattedTitle) { return item.formattedTitle }
 
         const text = get(item, labelFieldId)
@@ -134,27 +105,28 @@ export function PopupItems({
         return text
     }
 
-    const getDisabled = (item: TOption, isSelected: boolean) => {
+    const getDisabled = (item: Option, isSelected: boolean) => {
         if (isSelected && !multiSelect && !hasCheckboxes) { return true }
         const enabledField = get(item, enabledFieldId)
 
         return !isNil(enabledField) ? !enabledField : false
     }
 
-    const onMouseOver = (item: TOption) => setActiveValueId?.(get(item, valueFieldId))
+    const onMouseOver = (item: Option) => setActiveValueId?.(get(item, valueFieldId))
 
     const onMouseLeave = useCallback(() => {
         setActiveValueId?.('')
     }, [setActiveValueId])
 
-    const renderLabel = (item: TOption) => (
+    const renderLabel = (item: Option) => (
         <span className="n2o-input-select__label text-cropped">{displayTitle(item)}</span>
     )
 
-    const renderSingleItem = (item: TOption, index: string | number) => {
+    const renderSingleItem = (item: Option, index: string | number) => {
         const { fieldId: badgeFieldId, position: badgePosition } = badge || {}
         const shouldRenderBadge = badgeFieldId && badgePosition && badge
-        const isSelected = inArray(selected, item)
+        const isSelected = contains(selected, item)
+
         const disabled = getDisabled(item, isSelected)
         const description = get(item, descriptionFieldId)
         const withDescription = !isNil(description)
@@ -226,9 +198,9 @@ export function PopupItems({
         )
     }
 
-    const renderSingleItems = (items: TOption[]) => items.map((item, i) => renderSingleItem(item, i))
+    const renderSingleItems = (items: Option[]) => items.map((item, i) => renderSingleItem(item, i))
 
-    const renderGroup = (key: string, value: TOption[]) => (
+    const renderGroup = (key: string, value: Option[]) => (
         <React.Fragment key={key}>
             {key && key !== UNKNOWN_GROUP_FIELD_ID && <DropdownItem key={key} header>{key}</DropdownItem>}
             {renderSingleItems(value)}
@@ -236,17 +208,17 @@ export function PopupItems({
         </React.Fragment>
     )
 
-    const renderGroupedItems = (items: TOption[], fieldId: string) => {
+    const renderGroupedItems = (items: Option[], fieldId: string) => {
         const groupedData = groupData(items, fieldId)
 
         return Object.keys(groupedData).map(key => renderGroup(key, groupedData[key]))
     }
 
-    const renderMenuItems = (items: TOption[]) => (
+    const renderMenuItems = (items: Option[]) => (
         groupFieldId ? renderGroupedItems(items, groupFieldId) : renderSingleItems(items)
     )
 
-    const renderMenu = (items: TOption[]) => {
+    const renderMenu = (items: Option[]) => {
         if (searchMinLengthHint) { return <DropdownItem header>{searchMinLengthHint}</DropdownItem> }
         if (!loading && items.length === 0 && !renderIfEmpty) { return null }
         if (items?.[0] !== null && items.length) { return renderMenuItems(items) }

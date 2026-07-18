@@ -62,13 +62,15 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldHaveValue("c");
         autoComplete.shouldHaveDropdownOptions(new String[]{"abc", "ccc"});
         autoComplete.chooseDropdownOption("ccc");
-        autoComplete.shouldHaveValue("ccc");
+        autoComplete.shouldHaveValue("c");
+        autoComplete.shouldHaveTags(new String[]{"ccc"});
         autoComplete.click();
         autoComplete.clear();
         autoComplete.setValue("AB");
         autoComplete.shouldHaveDropdownOptions(new String[]{"abc"});
         autoComplete.chooseDropdownOption("abc");
-        autoComplete.shouldHaveValue("abc");
+        autoComplete.shouldHaveValue("AB");
+        autoComplete.shouldHaveTags(new String[]{"ccc", "abc"});
         autoComplete.click();
         autoComplete.clear();
         autoComplete.setValue("d");
@@ -78,34 +80,26 @@ class AutoCompleteAT extends AutoTestBase {
                 .control(AutoComplete.class);
         autoComplete.shouldExists();
 
-        autoComplete.click();
-        autoComplete.setValue("ИВАНОВ");
-        autoComplete.chooseDropdownOption("Иванов К.Л.");
-        autoComplete.shouldHaveValue("12");
-        autoComplete.setValue("А.А.");
-        autoComplete.chooseDropdownOption("Соколова А.А.");
-        autoComplete.shouldHaveValue("15");
-
-        autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete5")
+        autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete4")
                 .control(AutoComplete.class);
         autoComplete.click();
         autoComplete.setValue("Иванов");
         autoComplete.chooseDropdownOption("Иванов К.Л.");
-        autoComplete.shouldHaveTags(new String[]{"12"});
+        autoComplete.shouldHaveTags(new String[]{"6"});
         autoComplete.setValue("А.А.");
         autoComplete.chooseDropdownOption("Соколова А.А.");
-        autoComplete.shouldHaveTags(new String[]{"12", "15"});
+        autoComplete.shouldHaveTags(new String[]{"6", "11"});
 
         autoComplete.click();
-        autoComplete.removeTag("12");
-        autoComplete.removeTag("15");
+        autoComplete.removeTag("6");
+        autoComplete.removeTag("11");
         autoComplete.setValue("ВАС");
-        autoComplete.shouldHaveDropdownOptions(new String[]{"Васильев Г.П.", "Васильев Г.П.", "Васильев К.Л."});
+        autoComplete.shouldHaveDropdownOptions(new String[]{"Васильев Г.П.", "Васильев К.Л."});
 
         autoComplete.click();
         autoComplete.clear();
         autoComplete.setValue("вас");
-        autoComplete.shouldHaveDropdownOptions(new String[]{"Васильев Г.П.", "Васильев Г.П.", "Васильев К.Л."});
+        autoComplete.shouldHaveDropdownOptions(new String[]{"Васильев Г.П.", "Васильев К.Л."});
 
     }
 
@@ -127,21 +121,21 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.click();
         autoComplete.setValue("Item1");
         autoComplete.enter();
-        autoComplete.shouldHaveTags(new String[]{"item1"});
+        autoComplete.shouldHaveTags(new String[]{"Item1"});
 
         autoComplete.click();
         autoComplete.setValue("ab");
         autoComplete.shouldHaveDropdownOptions(new String[]{"abc"});
         autoComplete.chooseDropdownOption("abc");
-        autoComplete.shouldHaveTags(new String[]{"item1", "abc"});
+        autoComplete.shouldHaveTags(new String[]{"Item1", "abc"});
 
         autoComplete.click();
         autoComplete.setValue("Item2");
         autoComplete.enter();
-        autoComplete.shouldHaveTags(new String[]{"item1", "abc", "item2"});
+        autoComplete.shouldHaveTags(new String[]{"Item1", "abc", "Item2"});
 
-        autoComplete.removeTag("item1");
-        autoComplete.removeTag("item2");
+        autoComplete.removeTag("Item1");
+        autoComplete.removeTag("Item2");
         autoComplete.shouldHaveTags(new String[]{"abc"});
         autoComplete.removeTag("abc");
         autoComplete.shouldBeEmpty();
@@ -157,13 +151,13 @@ class AutoCompleteAT extends AutoTestBase {
         autoComplete.click();
         autoComplete.setValue("Иванов К.Л.");
         autoComplete.chooseDropdownOption("Иванов К.Л.");
-        autoComplete.shouldHaveTags(new String[]{"Иванов П.И...", "Иванченко ...", "Иванов К.Л..."});
+        autoComplete.shouldHaveTags(new String[]{"Иванов П.И...", "Иванченко ...", "Селиванов ..."});
 
         // проверяем, что нажатие Enter не создает пустой тэг
         autoComplete.clear();
         autoComplete.click();
         autoComplete.enter();
-        autoComplete.shouldHaveTags(new String[]{"Иванов П.И...", "Иванченко ...", "Иванов К.Л..."});
+        autoComplete.shouldHaveTags(new String[]{"Иванов П.И...", "Иванченко ...", "Селиванов ..."});
     }
 
     @Test

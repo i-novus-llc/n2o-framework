@@ -5,8 +5,9 @@ import { FloatingPortal } from '@floating-ui/react'
 import { Text } from '../../Typography/Text'
 
 export enum TooltipTheme {
-    DARK = 'DARK',
+    DARK = 'dark',
     LIGHT = 'light',
+    NONE = 'none',
 }
 
 export interface TooltipContentProps {
@@ -37,11 +38,11 @@ export const TooltipComponent = ({
             className={classNames(
                 'tooltip-container',
                 'tooltip-inner',
-                'py-1 px-2 rounded text-sm',
                 className,
                 {
                     'bg-dark text-white': theme === TooltipTheme.DARK,
                     'bg-white text-dark border border-gray-200 shadow-sm': theme === TooltipTheme.LIGHT,
+                    'py-1 px-2 rounded text-sm': theme !== TooltipTheme.NONE,
                 },
             )}
         >

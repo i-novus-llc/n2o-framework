@@ -8,17 +8,19 @@ export enum Container {
     TARGET = 'target',
 }
 
+export type TooltipFloatingPlacement = Placement
+
 export interface TooltipFloating {
-    delay: number
-    placement: Placement
+    delay?: number
+    placement: TooltipFloatingPlacement
     container?: Container
-    closeOnClickOutside: boolean
+    closeOnClickOutside?: boolean
 }
 
 /**
  * Хук для управления состоянием тултипа
  */
-export function useTooltipFloating({ delay, placement, container, closeOnClickOutside }: TooltipFloating) {
+export function useTooltipFloating({ delay, placement, container, closeOnClickOutside = true }: TooltipFloating) {
     const [open, onOpenChange] = useState(false)
     const timeoutRef = useRef<number | undefined>()
     const isMountedRef = useRef(false)

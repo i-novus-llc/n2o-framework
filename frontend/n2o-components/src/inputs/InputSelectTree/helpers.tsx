@@ -5,13 +5,13 @@ import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select'
 
-import { BadgeType } from '../InputSelect/PopupList'
 import { Icon } from '../../display/Icon'
 import { Badge } from '../../display/Badge/Badge'
 import { isBadgeLeftPosition, isBadgeRightPosition, resolveBadgeProps } from '../../display/Badge/utils'
 import { Shape } from '../../display/Badge/enums'
 
-import { Options } from './TreeSelectNode'
+import { BadgeType } from './types'
+import { type Options } from './TreeSelectNode'
 
 export const visiblePartPopup = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

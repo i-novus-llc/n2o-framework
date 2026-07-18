@@ -113,3 +113,14 @@ export function removeAllSpaces(value: string | null) {
 
     return value.replace(/\s/g, '')
 }
+
+export function sortByAvailability<T, K extends keyof T>(
+    value: T[],
+    enableFieldId?: K,
+): T[] {
+    if (!enableFieldId) { return value }
+
+    return [...value].sort((a, b) => {
+        return Number(a[enableFieldId]) - Number(b[enableFieldId])
+    })
+}

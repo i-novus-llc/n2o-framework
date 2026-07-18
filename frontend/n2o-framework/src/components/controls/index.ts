@@ -17,19 +17,20 @@ import { InputUUID } from '@i-novus/n2o-components/lib/inputs/InputUUID'
 import { InputEmail } from '@i-novus/n2o-components/lib/inputs/InputEmail'
 import { InputPhone } from '@i-novus/n2o-components/lib/inputs/InputPhone'
 import { InputSNILS } from '@i-novus/n2o-components/lib/inputs/InputSNILS'
+import { Input } from '@i-novus/n2o-components/lib/inputs/Input/Input'
 
 import { defineAsync } from '../../core/factory/defineAsync'
 
 import { Html } from './Html/Html'
 import { Rating } from './Rating/Rating'
 import { InputSelectTreeContainer } from './InputSelectTree/InputSelectTreeContainer'
-import { N2OSelectContainer } from './N2OSelect/N2OSelectContainer'
+import { N2OSelect } from './N2OSelect/N2OSelect'
 import CheckboxGroup from './CheckboxGroup/CheckboxGroup'
-import InputSelectContainer from './InputSelect/InputSelectContainer'
+import { InputSelect } from './InputSelect/InputSelect'
 import RadioGroup from './RadioGroup/RadioGroup'
 import ButtonUploader from './FileUploader/ButtonUploader'
 import DropZone from './FileUploader/DropZone'
-import AutoComplete from './AutoComplete/AutoComplete'
+import { AutoComplete } from './AutoComplete/AutoComplete'
 import ImageUploader from './ImageUploader/ImageUploader'
 import { OutputList } from './OutputList'
 
@@ -48,9 +49,9 @@ export default {
     Html,
     InputMask,
     InputNumber,
-    InputSelect: InputSelectContainer,
+    InputSelect,
     InputSelectTree: InputSelectTreeContainer,
-    N2OSelect: N2OSelectContainer,
+    N2OSelect,
     RadioGroup,
     TextEditor: defineAsync(() => import('@i-novus/n2o-components/lib/inputs/TextEditor')
         .then(({ TextEditor }) => TextEditor)),
@@ -71,4 +72,5 @@ export default {
     'Inputs/Email': InputEmail,
     'Inputs/Phone': InputPhone,
     'Inputs/SNILS': InputSNILS,
+    'Inputs/Input': Input,
 }

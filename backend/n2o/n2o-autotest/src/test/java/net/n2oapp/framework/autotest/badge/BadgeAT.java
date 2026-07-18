@@ -113,7 +113,7 @@ class BadgeAT extends AutoTestBase {
         fourthTreeItem.badgeShouldHaveText("Проект 1.1.1");
         fourthTreeItem.badgeShouldExists();
         fourthTreeItem.badgeShouldHaveShape(BadgeShapeEnum.CIRCLE);
-        itemDropDownSelect.badgeShouldHavePosition(BadgePositionEnum.LEFT);
+        fourthTreeItem.badgeShouldHavePosition(BadgePositionEnum.LEFT);
         fourthTreeItem.badgeShouldHaveImage("static/hamburg-3846525__340.jpg");
         fourthTreeItem.badgeShouldHaveImageShape(BadgeShapeEnum.SQUARE);
         fourthTreeItem.badgeShouldHaveImagePosition(BadgePositionEnum.RIGHT);
