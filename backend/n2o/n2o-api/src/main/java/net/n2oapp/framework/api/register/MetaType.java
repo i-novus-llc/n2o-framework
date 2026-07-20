@@ -10,9 +10,9 @@ public class MetaType {
 
     public MetaType(String sourceType, Class<? extends SourceMetadata> baseSourceClass) {
         if (sourceType == null)
-            throw new IllegalArgumentException("SourceType must not be null");
+            throw new IllegalArgumentException("Тип источника не может быть null");
         if (baseSourceClass == null)
-            throw new IllegalArgumentException("BaseSourceClass must not be null");
+            throw new IllegalArgumentException("Базовый класс источника не может быть null");
         this.sourceType = sourceType;
         this.baseSourceClass = baseSourceClass;
     }

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.script;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
@@ -10,9 +11,11 @@ import org.apache.commons.io.IOUtils;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Engine;
 import org.graalvm.polyglot.HostAccess;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.script.*;
+import javax.script.Bindings;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -348,7 +351,7 @@ public class ScriptProcessor {
 
         if (!(value.contains("?") && value.contains(":")))
             return value.substring(0, spreadPos) + SPREAD_TO_MAP_TEMPLATE +
-                   value.substring(spreadPos + 2) + "})";
+                    value.substring(spreadPos + 2) + "})";
 
         // Если выражение содержит тернарный оператор
         StringBuilder result = new StringBuilder();
@@ -424,8 +427,8 @@ public class ScriptProcessor {
 
     public static String buildSwitchExpression(N2oSwitch n2oSwitch) {
         if (n2oSwitch == null
-            || (n2oSwitch.getCases() == null && n2oSwitch.getResolvedCases() == null && n2oSwitch.getDefaultCase() == null)
-            || (n2oSwitch.getValueFieldId() == null || n2oSwitch.getValueFieldId().isEmpty()))
+                || (n2oSwitch.getCases() == null && n2oSwitch.getResolvedCases() == null && n2oSwitch.getDefaultCase() == null)
+                || (n2oSwitch.getValueFieldId() == null || n2oSwitch.getValueFieldId().isEmpty()))
             return null;
         Map<Object, String> cases = resolveSwitchCases(n2oSwitch.getResolvedCases() != null ? n2oSwitch.getResolvedCases() : n2oSwitch.getCases());
         StringBuilder b = new StringBuilder("`");
@@ -820,7 +823,7 @@ public class ScriptProcessor {
         try {
             ScriptEngine engine = ENGINE_POOL.poll(30, TimeUnit.SECONDS);
             if (engine == null) {
-                throw new N2oException("Script engine pool exhausted: no engine available after 30 seconds");
+                throw new N2oException("Пул движков скриптов исчерпан: не удалось получить за 30 секунд ожидания");
             }
             return engine;
         } catch (InterruptedException e) {

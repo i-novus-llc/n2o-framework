@@ -20,9 +20,9 @@ public abstract class SourceInfo implements Serializable {
     protected SourceInfo(String id,
                       Class<? extends SourceMetadata> baseSourceClass) {
         if (id == null)
-            throw new IllegalArgumentException("Id must not be null");
+            throw new IllegalArgumentException("Идентификатор не может быть null");
         if (baseSourceClass == null)
-            throw new IllegalArgumentException("BaseSourceClass must not be null");
+            throw new IllegalArgumentException("Базовый класс источника не может быть null");
         this.id = id;
         this.baseSourceClass = baseSourceClass;
     }

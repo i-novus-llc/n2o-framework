@@ -42,7 +42,7 @@ public class PageRoutes implements Compiled {
         query.setOnGet(onGet);
         query.setOnSet(onSet);
         if (queryMapping.containsKey(queryParam) && !queryMapping.get(queryParam).equals(query)) {
-            throw new N2oException(String.format("Page already contains query mapping %s!", queryParam));
+            throw new N2oException(String.format("Страница уже содержит queryMapping (сопоставление для параметра запроса) '%s'", queryParam));
         }
         queryMapping.put(queryParam, query);
     }

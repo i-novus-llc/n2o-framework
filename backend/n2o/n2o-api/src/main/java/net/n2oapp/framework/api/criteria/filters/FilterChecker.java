@@ -52,7 +52,7 @@ public class FilterChecker {
             case CONTAINS:
                 return contains((List) filter.getValue(), value);
             default:
-                throw new IllegalArgumentException(String.format("Unknown filter-type '%s'", filter.getType()));
+                throw new IllegalArgumentException(String.format("Некорректный тип фильтра '%s'", filter.getType()));
         }
     }
 
