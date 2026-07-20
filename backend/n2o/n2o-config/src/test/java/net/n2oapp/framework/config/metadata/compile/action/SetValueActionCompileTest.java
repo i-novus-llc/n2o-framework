@@ -46,7 +46,7 @@ class SetValueActionCompileTest extends SourceCompileTestBase {
 
         Form table = (Form) page.getRegions().get("single").get(0).getContent().get(0);
         SetValueAction testAction = (SetValueAction) table.getToolbar().getButton("test_0").getAction();
-        assertThat(testAction.getType(), is("n2o/models/COPY"));
+        assertThat(testAction.getType(), is("n2o/api/models/copy"));
         assertThat(testAction.getValidate(), is(true));
         assertThat(testAction.getPayload().getSource().getKey(), is("w_list"));
         assertThat(testAction.getPayload().getSource().getPrefix(), is("edit"));
@@ -57,7 +57,7 @@ class SetValueActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getSourceMapper(), is("(function(){return false;}).call(this)"));
 
         SetValueAction menuItem0action = (SetValueAction) table.getToolbar().getButton("test2").getAction();
-        assertThat(menuItem0action.getType(), is("n2o/models/COPY"));
+        assertThat(menuItem0action.getType(), is("n2o/api/models/copy"));
         assertThat(menuItem0action.getValidate(), is(false));
         assertThat(menuItem0action.getPayload().getSource().getKey(), is("w_table"));
         assertThat(menuItem0action.getPayload().getSource().getPrefix(), is("resolve"));

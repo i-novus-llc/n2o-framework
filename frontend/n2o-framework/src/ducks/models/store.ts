@@ -13,7 +13,7 @@ import { N2OMeta } from '../Action'
 
 import type { State } from './Models'
 import type {
-    ClearModelAction, CopyAction, MergeModelAction,
+    ClearModelAction, MergeModelAction,
     RemoveAllModelAction, RemoveModelAction, SetModelAction,
     UpdateModelAction, AppendToArrayAction, CopyFieldArrayAction,
     RemoveFromArrayAction,
@@ -122,30 +122,6 @@ export const modelsSlice = createSlice({
             },
         },
 
-        /**
-         * Копирование модели по префиксу и ключу в другую модель, по префиксу и ключу
-         */
-        COPY: {
-            prepare(
-                source: CopyAction['payload']['source'],
-                target: CopyAction['payload']['target'],
-                { mode, sourceMapper }: Pick<CopyAction['payload'], 'mode' | 'sourceMapper'>,
-            ) {
-                return {
-                    payload: {
-                        sourceMapper,
-                        source,
-                        target,
-                        mode,
-                    },
-                }
-            },
-
-            reducer() {
-
-            },
-        },
-
         REMOVE_ALL: {
             // eslint-disable-next-line sonarjs/no-identical-functions
             prepare(key: string) {
@@ -232,7 +208,6 @@ export const {
     updateModel,
     CLEAR: clearModel,
     MERGE: combineModels,
-    COPY: copyModel,
     REMOVE_ALL: removeAllModel,
     appendToArray,
     removeFromArray,

@@ -14,7 +14,6 @@ import { State } from '../../State'
 import {
     appendToArray,
     combineModels,
-    copyModel,
     removeModel,
     setModel,
     updateModel,
@@ -119,7 +118,6 @@ export function* flowDefaultModels(config: DefaultModels) {
     if (!isEmpty(observable)) {
         const modelsChan = [
             setModel.type,
-            copyModel.type,
             removeModel.type,
             updateModel.type,
         ]
