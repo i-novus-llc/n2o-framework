@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-4.0"
+      name="Проверка зависимостей полей в мульти-форме">
+    <datasources>
+        <datasource id="ds" query-id="data"
+                    size="4"/>
+    </datasources>
+
+    <regions>
+
+        <multi-form datasource="ds">
+            <fields>
+                <set>
+                    <row>
+                        <input-text id="firstname" label="Имя" required="true"/>
+                        <checkbox id="enabled" default-value="false"
+                                  unchecked="false"/>
+                    </row>
+                    <row>
+                        <button label="Редактировать" style="color: red">
+                            <set-value to="enabled">
+                                true
+                            </set-value>
+                            <dependencies>
+                                <visibility on="enabled">
+                                    !enabled
+                                </visibility>
+                            </dependencies>
+                        </button>
+                        <input-text id="f1" style="color: red">
+                            <dependencies>
+                                <visibility on="enabled">
+                                    !enabled
+                                </visibility>
+                            </dependencies>
+                        </input-text>
+
+
+                        <button id="b2" label="Сохранить" style="color: green">
+                            <set-value to="enabled">
+                                false
+                            </set-value>
+                            <dependencies>
+                                <visibility on="enabled">
+                                    enabled
+                                </visibility>
+                            </dependencies>
+                        </button>
+                        <input-text id="f2" style="color: green">
+                            <dependencies>
+                                <visibility on="enabled">
+                                    enabled
+                                </visibility>
+                            </dependencies>
+                        </input-text>
+                    </row>
+                </set>
+            </fields>
+        </multi-form>
+    </regions>
+</page>

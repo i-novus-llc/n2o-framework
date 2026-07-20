@@ -719,6 +719,10 @@
         {
           "templateId": "net/n2oapp/framework/autotest/widget/multiform/validations",
           "name": "MultiFormAT .testValidations"
+        },
+        {
+          "templateId": "net/n2oapp/framework/autotest/widget/multiform/dependencies",
+          "name": "MultiFormAT .testDependencies"
         }
       ]
     },
