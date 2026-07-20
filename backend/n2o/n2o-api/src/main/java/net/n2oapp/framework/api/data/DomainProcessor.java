@@ -111,7 +111,7 @@ public class DomainProcessor {
         if (result != null
                 && !StringUtils.isDynamicValue(result)
                 && !clazz.isAssignableFrom(result.getClass())) {
-            throw new ClassCastException(String.format("Value [%s] is not a %s", value, clazz));
+            throw new ClassCastException(String.format("Значение '%s' не является экземпляром класса '%s'", value, clazz.getSimpleName()));
         }
 
         return result;
@@ -196,7 +196,7 @@ public class DomainProcessor {
             try {
                 return toObject(domain, value.toString());
             } catch (ParseException | IOException e) {
-                throw new IllegalStateException(String.format("failed to cast to type [%s] value [%s]", domain, value), e);
+                throw new IllegalStateException(String.format("Ошибка приведения значения '%s' к типу '%s'", value, domain), e);
             }
         }
 
@@ -238,7 +238,7 @@ public class DomainProcessor {
                 begin = mapValue.getOrDefault("begin", mapValue.get("from"));
                 end = mapValue.getOrDefault("end", mapValue.get("to"));
             }
-            default -> throw new IllegalStateException("Value " + value + " is not an interval");
+            default -> throw new IllegalStateException(String.format("Значение '%s' не является интервалом", value));
 
         }
         res.setBegin(deserialize(begin, domainElement));
@@ -279,8 +279,7 @@ public class DomainProcessor {
                     resultList.add(deserialize(element, domainElement));
                 }
             }
-            default ->
-                throw new IllegalStateException("Value " + value + " is not a collection");
+            default -> throw new IllegalStateException(String.format("Значение '%s' не является коллекцией", value));
 
         }
         return resultList;
@@ -313,7 +312,7 @@ public class DomainProcessor {
                 try {
                     Integer.parseInt(val);
                 } catch (NumberFormatException e) {
-                    throw new N2oException("Value is not Integer [" + val + "]. Set domain explicitly!", e);
+                    throw new N2oException(String.format("Значение '%s' не является целым числом. Укажите атрибут 'domain' явно!", val), e);
                 }
                 return DomainEnum.INTEGER.getName();
             }
@@ -368,7 +367,7 @@ public class DomainProcessor {
             case NULLARY:
                 return "boolean";
         }
-        throw new IllegalStateException(String.format("arity '%s' for filter-type '%s' is unknown", type.arity, type));
+        throw new IllegalStateException(String.format("Неизвестное количество аргументов для типа фильтра '%s'", type));
     }
 
 }

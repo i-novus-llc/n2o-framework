@@ -19,6 +19,6 @@ public class TargetEnumDeserializer extends StdDeserializer<TargetEnum> {
                 return e;
             }
         }
-        throw new IllegalArgumentException("Unknown value: " + value);
+        throw new IllegalArgumentException(String.format("Неизвестное значение: '%s'", value));
     }
 }

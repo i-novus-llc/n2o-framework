@@ -69,7 +69,7 @@ public class ConditionValidation extends Validation {
             if (e.getLocalizedMessage().contains("ReferenceError:") && e.getLocalizedMessage().contains("is not defined in <eval>")) {
                 String message = e.getLocalizedMessage().split("\"")[1];
                 throw new N2oException(String.format(
-                        "Ошибка серверной валидации. Поле \"%s\"  используется в выражении, но при этом отсутствует в атрибуте 'on' \"<condition>\" валидации.",
+                        "Ошибка серверной валидации. Поле '%s' используется в выражении, но при этом отсутствует в атрибуте 'on' \"<condition>\" валидации.",
                         message));
             } else
                 throw new IllegalStateException(e);

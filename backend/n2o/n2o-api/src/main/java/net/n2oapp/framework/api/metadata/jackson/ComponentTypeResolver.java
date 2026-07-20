@@ -33,7 +33,7 @@ public class ComponentTypeResolver implements TypeIdResolver {
             if (type != null)
                 return type;
         }
-        throw new IllegalStateException("Class " + aClass + " is not assignable a Source class");
+        throw new IllegalStateException(String.format("Класс '%s' не реализует интерфейс 'Source'", aClass.getSimpleName()));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ComponentTypeResolver implements TypeIdResolver {
     public JavaType typeFromId(DatabindContext databindContext, String type) {
         Class<? extends Source> clazz = register.getByType(type);
         if (clazz == null)
-            throw new IllegalStateException("Class for type " + type + " not found");
+            throw new IllegalStateException(String.format("Класс для типа '%s' не найден", type));
         return TypeFactory.defaultInstance().constructType(clazz);
     }
 

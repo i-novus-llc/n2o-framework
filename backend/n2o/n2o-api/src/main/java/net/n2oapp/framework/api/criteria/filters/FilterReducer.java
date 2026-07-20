@@ -46,7 +46,7 @@ public class FilterReducer {
         for (Rule rule : ruleList) {
             Rule prev = rulesMap.put(rule.getType(), rule);
             if (prev != null)
-                throw new IllegalStateException(format("more then one reduce-rule for [%s]", rule.getType()));
+                throw new IllegalStateException(format("Обнаружено более одного правила сокращения для типа '%s'", rule.getType()));
         }
     }
 

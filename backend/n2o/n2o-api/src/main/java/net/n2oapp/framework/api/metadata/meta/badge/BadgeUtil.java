@@ -18,7 +18,7 @@ public class BadgeUtil {
     public static final String IMAGE_SHAPE = ".badge.image_shape";
 
     private BadgeUtil() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("Это утилитный класс, создание его экземпляра невозможно");
     }
 
     /**
