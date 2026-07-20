@@ -1,5 +1,5 @@
 import { Action } from '../Action'
-import type { FormModelPrefix, Model, ModelLink, ModelPrefix } from '../../core/models/types'
+import type { Model, ModelLink, ModelPrefix } from '../../core/models/types'
 
 import { State } from './Models'
 
@@ -29,12 +29,6 @@ export type SetModelAction<Prefix extends ModelPrefix = ModelPrefix> = Action<st
 
 export type RemoveModelAction = Action<string, ModelsPayloadOld>
 
-export type SyncModelAction = Action<string, {
-    prefix: ModelPrefix
-    keys: string[]
-    model: object
-}>
-
 export type UpdateModelAction = Action<
     string,
     FieldPath & {
@@ -52,13 +46,6 @@ export type ClearModelAction = Action<string, {
 
 export type MergeModelAction = Action<string, {
     combine: Partial<State>
-}>
-
-export type CopyAction = Action<string, {
-    source: FieldPathOld
-    target: FieldPathOld
-    mode: 'replace' | 'merge' | 'add'
-    sourceMapper?: string
 }>
 
 export type AppendToArrayAction = Action<string, FieldPath & {

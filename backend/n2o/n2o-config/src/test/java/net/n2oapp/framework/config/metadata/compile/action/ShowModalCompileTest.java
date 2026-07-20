@@ -368,7 +368,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
-        assertThat(submit.getType(), is("n2o/models/COPY"));
+        assertThat(submit.getType(), is("n2o/api/models/copy"));
         assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModelEnum.RESOLVE.getId()));
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyAction_update_modal"));
         assertThat(submit.getPayload().getSource().getField(), nullValue());
@@ -392,7 +392,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         StandardPage modalPage = (StandardPage) read().compile().get(modalContext);
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
-        assertThat(submit.getType(), is("n2o/models/COPY"));
+        assertThat(submit.getType(), is("n2o/api/models/copy"));
         assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModelEnum.MULTI.getId()));
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidget_update_table2"));
         assertThat(submit.getPayload().getSource().getField(), is("id"));
@@ -416,7 +416,7 @@ class ShowModalCompileTest extends SourceCompileTestBase {
         StandardPage modalPage = (StandardPage) read().compile().get(modalContext);
 
         CopyAction submit = (CopyAction) modalPage.getToolbar().getButton("submit").getAction();
-        assertThat(submit.getType(), is("n2o/models/COPY"));
+        assertThat(submit.getType(), is("n2o/api/models/copy"));
         assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModelEnum.RESOLVE.getId()));
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_update_master"));
         assertThat(submit.getPayload().getSource().getField(), nullValue());

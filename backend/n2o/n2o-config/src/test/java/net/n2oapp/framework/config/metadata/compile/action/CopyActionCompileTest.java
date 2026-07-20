@@ -53,7 +53,7 @@ class CopyActionCompileTest extends SourceCompileTestBase {
         Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
         CopyAction action = (CopyAction) ((Submenu)table.getToolbar().getGroup(0).getButtons().get(0)).getContent().get(0).getAction();
-        assertThat(action.getType(), is("n2o/models/COPY"));
+        assertThat(action.getType(), is("n2o/api/models/copy"));
         assertThat(action.getValidate(), is(true));
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
         assertThat(action.getPayload().getSource().getField(), nullValue());
@@ -65,7 +65,7 @@ class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getMeta().getModalsToClose(), is(0));
 
         action = (CopyAction) table.getToolbar().getButton("btn").getAction();
-        assertThat(action.getType(), is("n2o/models/COPY"));
+        assertThat(action.getType(), is("n2o/api/models/copy"));
         assertThat(action.getValidate(), is(false));
         assertThat(action.getPayload().getSource().getPrefix(), is(ReduxModelEnum.EDIT.getId()));
         assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
@@ -89,7 +89,7 @@ class CopyActionCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
 
         CopyAction copyInPage = (CopyAction) page.findButton("copyInPage").getAction();
-        assertThat(copyInPage.getType(), is("n2o/models/COPY"));
+        assertThat(copyInPage.getType(), is("n2o/api/models/copy"));
         assertThat(copyInPage.getPayload().getSource().getKey(), is("p_ds1"));
         assertThat(copyInPage.getPayload().getSource().getField(), nullValue());
         assertThat(copyInPage.getPayload().getSource().getPrefix(), is("resolve"));
@@ -100,7 +100,7 @@ class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(copyInPage.getMeta().getModalsToClose(), is(0));
 
         CopyAction copyInPage2 = (CopyAction) page.findButton("copyInPage2").getAction();
-        assertThat(copyInPage2.getType(), is("n2o/models/COPY"));
+        assertThat(copyInPage2.getType(), is("n2o/api/models/copy"));
         assertThat(copyInPage2.getPayload().getSource().getKey(), is("p_ds1"));
         assertThat(copyInPage2.getPayload().getSource().getField(), is("sourceId"));
         assertThat(copyInPage2.getPayload().getSource().getPrefix(), is("filter"));
