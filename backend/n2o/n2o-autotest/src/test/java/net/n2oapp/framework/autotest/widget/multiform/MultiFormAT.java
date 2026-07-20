@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.widget.multiform;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -210,6 +211,54 @@ class MultiFormAT extends AutoTestBase {
         multiForm.toolbar().topLeft().button("Добавить").click();
         multiForm.form(0).fields().field("update", ButtonField.class).click();
         multiForm.form(0).fields().field("Имя").shouldHaveValidationMessage(Condition.text(REQUIRED_VALIDATION_MESSAGE));
+    }
 
+    @Test
+    void testDependencies() {
+        setResourcePath("net/n2oapp/framework/autotest/widget/multiform/dependencies/");
+        builder.sources(
+                new CompileInfo("net/n2oapp/framework/autotest/widget/multiform/dependencies/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/multiform/dependencies/data.query.xml")
+        );
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        MultiFormWidget multiForm = page.widget(MultiFormWidget.class);
+        multiForm.shouldHaveSize(4);
+        checkFormInitialState(multiForm, 0);
+        checkFormInitialState(multiForm, 1);
+
+        // Изменение по кнопке Редактировать в 1 форме
+        multiForm.form(0).fields().field("Редактировать", ButtonField.class).click();
+        checkFormChange(multiForm, 0);
+        checkFormInitialState(multiForm, 1);
+        multiForm.form(0).fields().field("Сохранить", ButtonField.class).click();
+        checkFormInitialState(multiForm, 0);
+        checkFormInitialState(multiForm, 1);
+
+        // Изменение по чекбоксу во 1 форме
+        multiForm.form(0).fields().field("enabled").control(Checkbox.class).setChecked(true);
+        checkFormChange(multiForm, 0);
+        checkFormInitialState(multiForm, 1);
+        multiForm.form(0).fields().field("enabled").control(Checkbox.class).setChecked(false);
+        checkFormInitialState(multiForm, 0);
+        checkFormInitialState(multiForm, 1);
+    }
+
+    private static void checkFormInitialState(MultiFormWidget multiForm, int index) {
+        multiForm.form(index).fields().field("Редактировать", ButtonField.class).shouldBeVisible();
+        multiForm.form(index).fields().field("f1").shouldBeVisible();
+        multiForm.form(index).fields().field("Сохранить", ButtonField.class).shouldBeHidden();
+        multiForm.form(index).fields().field("f2").shouldBeHidden();
+        multiForm.form(index).fields().field("enabled").control(Checkbox.class).shouldNotBeChecked();
+    }
+
+    private static void checkFormChange(MultiFormWidget multiForm, int index) {
+        multiForm.form(index).fields().field("Редактировать", ButtonField.class).shouldBeHidden();
+        multiForm.form(index).fields().field("f1").shouldBeHidden();
+        multiForm.form(index).fields().field("Сохранить", ButtonField.class).shouldBeVisible();
+        multiForm.form(index).fields().field("f2").shouldBeVisible();
+        multiForm.form(index).fields().field("enabled").control(Checkbox.class).shouldBeChecked();
     }
 }
