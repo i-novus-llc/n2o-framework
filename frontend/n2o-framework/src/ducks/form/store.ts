@@ -45,6 +45,10 @@ const warnNonExistent = (field: string, property: string) => logger.warn(`Attemp
 
 const createFieldPath = (formName: string, fieldName: string) => ([formName, 'fields', fieldName])
 
+const prepareFieldAction = (formName: string, fieldName: string) => {
+    return ({ payload: { formName, fieldName } })
+}
+
 const updateDirty = (
     modelLink: ModelLink,
     dirty: boolean,
@@ -100,13 +104,7 @@ export const formSlice = createSlice({
         },
         REGISTER_FIELD_EXTRA: {
             prepare(formName, fieldName, initialState) {
-                return ({
-                    payload: {
-                        formName,
-                        fieldName,
-                        initialState,
-                    },
-                })
+                return ({ payload: { formName, fieldName, initialState } })
             },
 
             reducer(state, { payload, meta = {} }: RegisterFieldAction) {
@@ -126,9 +124,7 @@ export const formSlice = createSlice({
 
         unRegisterExtraFields: {
             prepare(formName: string, rowId: string | null) {
-                return ({
-                    payload: { formName, rowId },
-                })
+                return ({ payload: { formName, rowId } })
             },
 
             reducer(state, action: UnregisterFieldAction) {
@@ -136,11 +132,7 @@ export const formSlice = createSlice({
 
                 if (!rowId) { return }
 
-                const formState = state[formName]
-
-                if (!formState || !formState.fields) { return }
-
-                Object.entries(formState.fields)
+                Object.entries(state[formName]?.fields || {})
                     .filter(([_, field]) => field.rowId === rowId || field.rowId?.startsWith(`${rowId}/`))
                     .forEach(([fieldName]) => {
                         delete state[formName]?.fields[fieldName]
@@ -150,9 +142,7 @@ export const formSlice = createSlice({
 
         setFieldDisabled: {
             prepare(formName: string, fieldName: string, disabled: boolean) {
-                return ({
-                    payload: { formName, fieldName, disabled },
-                })
+                return ({ payload: { formName, fieldName, disabled } })
             },
 
             reducer(state, action: SetFieldDisabledAction) {
@@ -168,9 +158,7 @@ export const formSlice = createSlice({
 
         setFieldVisible: {
             prepare(formName: string, fieldName: string, visible: boolean) {
-                return ({
-                    payload: { formName, fieldName, visible },
-                })
+                return ({ payload: { formName, fieldName, visible } })
             },
 
             reducer(state, action: SetFieldVisibleAction) {
@@ -186,9 +174,7 @@ export const formSlice = createSlice({
 
         setFieldTooltip: {
             prepare(formName: string, fieldName: string, tooltip: string | null) {
-                return ({
-                    payload: { formName, fieldName, tooltip },
-                })
+                return ({ payload: { formName, fieldName, tooltip } })
             },
 
             reducer(state, action: SetFieldTooltipAction) {
@@ -217,8 +203,11 @@ export const formSlice = createSlice({
 
             reducer(state, action: SetFieldRequiredAction) {
                 const { formName, fieldName, required } = action.payload
+                const field = get(state, createFieldPath(formName, fieldName))
 
-                set(state, [formName, 'fields', fieldName, 'required'], required)
+                if (!field) { return warnNonExistent(fieldName, 'required') }
+
+                field.required = required
             },
         },
 
@@ -235,30 +224,32 @@ export const formSlice = createSlice({
 
             reducer(state, action: DangerouslySetFieldValue) {
                 const { formName, fieldName, key, value } = action.payload
+                const field = get(state, createFieldPath(formName, fieldName))
 
-                set(state, [formName, 'fields', fieldName, key], value)
+                if (!field) { return warnNonExistent(fieldName, key) }
+
+                set(field, [key], value)
             },
         },
 
         setFieldLoading: {
             prepare(formName: string, fieldName: string, loading: boolean) {
-                return ({
-                    payload: { formName, fieldName, loading },
-                })
+                return ({ payload: { formName, fieldName, loading } })
             },
 
             reducer(state, action: SetFieldLoadingAction) {
                 const { formName, fieldName, loading } = action.payload
+                const field = get(state, createFieldPath(formName, fieldName))
 
-                set(state, [formName, 'fields', fieldName, 'loading'], loading)
+                if (!field) { return warnNonExistent(fieldName, 'loading') }
+
+                field.loading = loading
             },
         },
 
         setMultiFieldVisible: {
             prepare(formName: string, fields: string[], visible: boolean) {
-                return ({
-                    payload: { formName, fields, visible },
-                })
+                return ({ payload: { formName, fields, visible } })
             },
 
             reducer(state, action: SetMultiFieldVisibleAction) {
@@ -319,48 +310,33 @@ export const formSlice = createSlice({
         },
 
         BLUR: {
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(formName: string, fieldName: string) {
-                return ({
-                    payload: { formName, fieldName },
-                })
-            },
-
+            prepare: prepareFieldAction,
             reducer(state, action: BlurFieldAction) {
                 const { formName, fieldName } = action.payload
-                const field = state[formName]?.fields[fieldName]
+                const field = get(state, createFieldPath(formName, fieldName))
 
-                if (field) {
-                    field.touched = true
-                    field.isActive = false
-                }
+                if (!field) { return warnNonExistent(fieldName, 'isActive') }
+
+                field.touched = true
+                field.isActive = false
             },
         },
 
         FOCUS: {
-            // eslint-disable-next-line sonarjs/no-identical-functions
-            prepare(formName: string, fieldName: string) {
-                return ({
-                    payload: { formName, fieldName },
-                })
-            },
-
+            prepare: prepareFieldAction,
             reducer(state, action: FocusFieldAction) {
                 const { formName, fieldName } = action.payload
+                const field = get(state, createFieldPath(formName, fieldName))
 
-                const field = state[formName]?.fields[fieldName]
+                if (!field) { return warnNonExistent(fieldName, 'isActive') }
 
-                if (field) {
-                    field.isActive = true
-                }
+                field.isActive = true
             },
         },
 
         TOUCH: {
             prepare(formName: string, fields: string[]) {
-                return ({
-                    payload: { formName, fields },
-                })
+                return ({ payload: { formName, fields } })
             },
 
             reducer(state, action: TouchFieldsAction) {
@@ -386,9 +362,7 @@ export const formSlice = createSlice({
 
         setDirty: {
             prepare(formName: string, data: boolean) {
-                return ({
-                    payload: { formName, data },
-                })
+                return ({ payload: { formName, data } })
             },
 
             reducer(state, action: SetDirtyPayload) {
@@ -400,16 +374,16 @@ export const formSlice = createSlice({
 
         setMessage: {
             prepare(formName: string, fieldName: string, message: ValidationResult | null) {
-                return ({
-                    payload: { formName, fieldName, message },
-                })
+                return ({ payload: { formName, fieldName, message } })
             },
 
             reducer(state, action: SetMessagePayload) {
                 const { formName, fieldName, message } = action.payload
-                const field = state[formName]?.fields[fieldName]
+                const field = get(state, createFieldPath(formName, fieldName))
 
-                if (field) { field.message = message }
+                if (!field) { return warnNonExistent(fieldName, 'message') }
+
+                field.message = message
             },
         },
     },

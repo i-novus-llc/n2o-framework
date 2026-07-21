@@ -7,12 +7,15 @@ import {
     takeEvery,
     delay,
     debounce,
+    take,
+    race,
 } from 'redux-saga/effects'
 import { createAction } from '@reduxjs/toolkit'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import set from 'lodash/set'
+import { Action } from 'redux-saga'
 
 import { executeExpression } from '../core/Expression/execute'
 import { parseExpression } from '../core/Expression/parse'
@@ -25,6 +28,8 @@ import {
     registerFieldExtra,
     dangerouslySetFieldValue,
     setFieldTooltip,
+    remove,
+    unRegisterExtraFields,
 } from '../ducks/form/store'
 import { FETCH_VALUE } from '../core/api'
 import { dataProviderResolver } from '../core/dataProviderResolver'
@@ -44,7 +49,7 @@ import { getFieldPath } from '../core/models/getModelPath'
 import { FETCH_TRIGGER } from '../core/dependencies/constants'
 import { State as GlobalState } from '../ducks/State'
 import { Form, Field, FieldDependency } from '../ducks/form/types'
-import { RegisterFieldAction } from '../ducks/form/Actions'
+import { RegisterFieldAction, UnregisterFieldAction, RemoveAction } from '../ducks/form/Actions'
 import type {
     AppendToArrayAction, CopyFieldArrayAction,
     MergeModelAction, RemoveFromArrayAction,
@@ -108,6 +113,9 @@ export function* fetchValue(
         if (!isEqual(prevFieldValue, nextFieldValue)) {
             yield put(updateModel(modelLink, field, nextFieldValue, validate))
         }
+
+        yield put(setFieldLoading(formName, field, false))
+        FetchValueCache.delete(fetchValueKey)
     } catch (error) {
         if (get(model, field)) {
             yield put(updateModel(modelLink, field, null, validate))
@@ -123,7 +131,7 @@ export function* fetchValue(
         }
 
         logger.error(error)
-    } finally {
+
         yield put(setFieldLoading(formName, field, false))
         FetchValueCache.delete(fetchValueKey)
     }
@@ -142,6 +150,24 @@ function checkCondition(
     }
 
     return condition
+}
+
+function getPredicate(form: string, field: string) {
+    return (action: Action) => {
+        if (action.type === remove.type) {
+            const { formName } = (action as RemoveAction).payload
+
+            return (formName === form)
+        }
+
+        if (action.type === unRegisterExtraFields.type) {
+            const { formName, fieldName } = (action as UnregisterFieldAction).payload
+
+            return (formName === form) && (field === fieldName)
+        }
+
+        return false
+    }
 }
 
 const ResolveDependencyAction = createAction('n2o/form/resolveDependency')
@@ -224,7 +250,10 @@ export function* resolveDependency(
             const { ctx = {}, visible } = field
 
             if (visible) {
-                yield fetchValue(model, form, fieldName, dependency, ctx, !isInit && validate)
+                yield race([
+                    call(fetchValue, model, form, fieldName, dependency, ctx, !isInit && validate),
+                    take(getPredicate(formName, fieldName)),
+                ])
             }
 
             break
