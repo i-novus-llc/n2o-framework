@@ -3,9 +3,21 @@ let iterator = 0
 const map = new WeakMap<object, string>()
 
 type Unique = { [keySymbol]: string }
+type Id = { id: string | number }
 
-function hasKey(item: unknown): item is Unique {
+function hasUnique(item: unknown): item is Unique {
     return typeof item === 'object' && item !== null && (keySymbol in item)
+}
+
+function hasIdField(item: unknown): item is { id: unknown } {
+    return (typeof item === 'object') && (item !== null) && ('id' in item)
+}
+
+function hasId(item: unknown): item is Id {
+    return hasIdField(item) && (
+        (typeof item.id === 'string' && item.id.length > 0) ||
+        typeof item.id === 'number'
+    )
 }
 
 function generateKey() {
@@ -26,14 +38,16 @@ export function setKey<T>(item: T): T {
         ? item.map(setKey)
         : Object.fromEntries(Object.entries(item).map(([k, v]) => [k, setKey(v)]))
 
-    return Object.defineProperty(newItem, keySymbol, {
-        value: hasKey(item) ? item[keySymbol] : generateKey(),
-    }) as T & Unique
+    if (hasUnique(item)) { return item }
+    if (hasId(item)) { return item }
+
+    return Object.defineProperty(newItem, keySymbol, { value: generateKey() }) as T & Unique
 }
 
 export function getKey(item: unknown): string | null {
     if (!item || typeof item !== 'object') { return null }
-    if (hasKey(item)) { return item[keySymbol] }
+    if (hasUnique(item)) { return item[keySymbol] }
+    if (hasId(item)) { return `${item.id}` }
     if (map.has(item)) { return map.get(item) as string }
 
     const key = generateKey()

@@ -3,7 +3,10 @@
     <form>
         <datasource size="1" query-id="test"/>
         <fields>
-            <multi-set id="members" children-label="Участник {(index + 1)}" can-add="false" can-remove-first="true" can-copy="true">
+            <multi-set id="members" children-label="Участник {(index + 1)}"
+                can-add="false" can-remove-first="true" can-copy="true"
+                generate-primary-key="true"
+            >
                 <row>
                     <input-text id="name" label="1.2.({(index + 1)}) name"/>
                     <input-text id="age" label="1.2.({(index + 1)}) age"/>
