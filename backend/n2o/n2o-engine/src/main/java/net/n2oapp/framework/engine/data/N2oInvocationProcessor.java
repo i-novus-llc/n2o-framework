@@ -18,7 +18,6 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.engine.exception.N2oSpelException;
 import net.n2oapp.framework.engine.util.MappingProcessor;
@@ -175,7 +174,7 @@ public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvi
 
     private void normalizeInnerFields(ObjectReferenceField field, DataSet dataSet) {
         List<AbstractParameter> innerParams = Arrays.asList(field.getFields());
-        if (field instanceof ObjectListField || field instanceof ObjectSetField) {
+        if (field instanceof ObjectListField) {
             DataList list = new DataList(dataSet.getList(field.getId()));
             for (int i = 0; i < list.size(); i++)
                 list.set(i, normalizeAndMapFields(innerParams, (DataSet) dataSet.getList(field.getId()).get(i), dataSet));

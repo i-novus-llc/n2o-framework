@@ -19,7 +19,7 @@ Objects define server-side operations and validations on data entities.
 Body: `<fields>`, `<operations>`, `<validations>`
 
 ## `<fields>` — Object Fields Definition
-Contains: `<field>`, `<reference>`, `<list>`, `<set>`
+Contains: `<field>`, `<reference>`, `<list>`
 
 ### `<field>` in Fields
 | Attribute | Type | Description |
@@ -32,7 +32,7 @@ Contains: `<field>`, `<reference>`, `<list>`, `<set>`
 | required | boolean | Required field (default: false) |
 | enabled | String | Condition for mapping execution |
 
-### `<reference>`, `<list>`, `<set>` — Composite Fields
+### `<reference>`, `<list>` — Composite Fields
 | Attribute | Type | Description |
 |---|---|---|
 | id | String | Reference identifier (required) |
@@ -43,7 +43,7 @@ Contains: `<field>`, `<reference>`, `<list>`, `<set>`
 | enabled | String | Condition for mapping execution |
 | normalize | String | SpEL expression applied before mapping |
 
-Body: `<field>`, `<reference>`, `<list>`, `<set>` (nested)
+Body: `<field>`, `<reference>`, `<list>` (nested)
 
 ```xml
 <fields>
@@ -56,9 +56,6 @@ Body: `<field>`, `<reference>`, `<list>`, `<set>` (nested)
     <list id="contacts" object-id="contact">
         <field id="phone" domain="string"/>
     </list>
-    <set id="tags" object-id="tag">
-        <field id="name" domain="string"/>
-    </set>
 </fields>
 ```
 

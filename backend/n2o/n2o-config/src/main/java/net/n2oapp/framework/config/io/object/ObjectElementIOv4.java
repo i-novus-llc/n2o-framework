@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.global.dao.validation.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -45,7 +44,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
                 .add(FIELD, ObjectSimpleField.class, this::inField)
                 .add(REFERENCE, ObjectReferenceField.class, this::inReference)
                 .add("list", ObjectListField.class, this::inReference)
-                .add("set", ObjectSetField.class, this::inReference));
+        );
         p.anyChildren(e, "validations", t::getN2oValidations, t::setN2oValidations, p.oneOf(N2oValidation.class)
                 .add("constraint", N2oConstraintValidation.class, this::constraint)
                 .add("condition", N2oConditionValidation.class, this::condition)
@@ -66,8 +65,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChildren(e, "in", t::getInFields, t::setInFields, p.oneOf(AbstractParameter.class)
                 .add(FIELD, ObjectSimpleField.class, this::inField)
                 .add(REFERENCE, ObjectReferenceField.class, this::inReference)
-                .add("list", ObjectListField.class, this::inReference)
-                .add("set", ObjectSetField.class, this::inReference));
+                .add("list", ObjectListField.class, this::inReference));
         p.anyChildren(e, "out", t::getOutFields, t::setOutFields, p.oneOf(AbstractParameter.class)
                 .add(FIELD, ObjectSimpleField.class, this::outField)
                 .add(REFERENCE, ObjectReferenceField.class, this::outReference)
@@ -132,7 +130,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
                 .add(FIELD, ObjectSimpleField.class, this::inField)
                 .add(REFERENCE, ObjectReferenceField.class, this::inReference)
                 .add("list", ObjectListField.class, this::inReference)
-                .add("set", ObjectSetField.class, this::inReference));
+        );
         p.attribute(e, ENABLED, t::getEnabled, t::setEnabled);
         p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
     }
@@ -164,7 +162,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
                 .add(FIELD, ObjectSimpleField.class, this::inField)
                 .add(REFERENCE, ObjectReferenceField.class, this::inReference)
                 .add("list", ObjectListField.class, this::inReference)
-                .add("set", ObjectSetField.class, this::inReference));
+        );
         p.children(e, "out", FIELD, t::getOutFields, t::setOutFields, ObjectSimpleField.class, this::outField);
         p.anyChild(e, INVOCATION, t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
         if (nonNull(t.getN2oInvocation()))

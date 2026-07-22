@@ -51,8 +51,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 &lt;field&gt; - [Простое поле объекта](#field2)<br/>
 &lt;reference&gt; - [Составное поле](#reference)<br/>
 &lt;list&gt; - [Поле - список объектов](#list)<br/>
-&lt;set&gt; - [Поле - множество объектов](#set)
-
 
 #### &lt;field&gt; {#field2}
 
@@ -144,8 +142,7 @@ http://n2oapp.net/framework/config/schema/object-4.0
 **Тело**<br/>
 &lt;field&gt; - [Простое поле](#field2)<br/>
 &lt;reference&gt; - [Составное поле](#reference)<br/>
-&lt;list&gt; - [Поле - список](#list)<br/>
-&lt;set&gt; - [Поле - множество](#set)
+&lt;list&gt; - [Поле - список](#list)
 
 :::note
 
@@ -161,7 +158,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
   <reference id="person" mapping="['person']">
     <field id="id" mapping="['id']"/>
     <field id="name" mapping="['name']"/>
-    <set id="phones" mapping="['phones']" object-id="phone"/>
     <list id="addresses" mapping="['addresses']" object-id="address"/>
   </reference>
 </fields>
@@ -182,24 +178,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
     <field id="name" mapping="['name']"/>
     <list id="codes" mapping="['codes']" object-id="code"/>
   </list>
-</fields>
-```
-
-#### &lt;set&gt;
-Поле - множество объектов.
-
-**Атрибуты и Тело**<br/>
-Аналогичны [&lt;reference&gt;](#reference).
-
-**Пример**
-
-```xml
-<fields>
-  <set id="statuses" mapping="['statusSet']">
-    <field id="id" mapping="['id]'"/>
-    <field id="name" mapping="['name']"/>
-    <list id="codes" mapping="['codes']" object-id="code"/>
-  </set>
 </fields>
 ```
 
@@ -335,7 +313,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 &lt;field&gt; - [Входящий простой параметр операции](#in_field)<br/>
 &lt;reference&gt; - [Входящий составной параметр операции](#in_reference)<br/>
 &lt;list&gt; - [Входящий составной параметр операции](#in_list)<br/>
-&lt;set&gt; - [Входящий составной параметр операции](#in_set)
 
 #### &lt;field&gt; {#in_field}
 Входящий простой параметр операции.
@@ -356,7 +333,7 @@ http://n2oapp.net/framework/config/schema/object-4.0
 
 #### &lt;reference&gt; {#in_reference}
 #### &lt;list&gt; {#in_list}
-#### &lt;set&gt; {#in_set}
+
 Входящий составной параметр операции.
 
 **Атрибуты**
@@ -369,7 +346,6 @@ http://n2oapp.net/framework/config/schema/object-4.0
 &lt;field&gt; - [Простое поле объекта](#field2)<br/>
 &lt;reference&gt; - [Составное поле](#reference)<br/>
 &lt;list&gt; - [Поле - список объектов](#list)<br/>
-&lt;set&gt; - [Поле - множество объектов](#set)
 
 **Пример**
 

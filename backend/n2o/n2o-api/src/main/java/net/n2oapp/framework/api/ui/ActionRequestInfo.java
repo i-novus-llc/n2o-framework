@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
-import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSimpleField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.saga.LoadingSaga;
@@ -59,7 +58,6 @@ public class ActionRequestInfo<D> extends RequestInfo {
             switch (sourceParam) {
                 case ObjectSimpleField o -> param = new ObjectSimpleField(o);
                 case ObjectListField o -> param = new ObjectListField(o);
-                case ObjectSetField o -> param = new ObjectSetField(o);
                 default -> param = new ObjectReferenceField((ObjectReferenceField) sourceParam);
             }
             result.put(entry.getKey(), param);
